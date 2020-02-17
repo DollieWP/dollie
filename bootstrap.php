@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * PSR4 autoloader using Composer
+ * PSR4 autoloader using Composer + fallback
  *
  * @since 1.0.0
  */

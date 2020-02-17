@@ -14,9 +14,6 @@ class Plugin extends Singleton {
 
 	public function __construct() {
 		parent::__construct();
-		if ( ! current_user_can( 'manage_options' ) ) {
-			add_filter( 'show_admin_bar', '__return_false' );
-		}
 	}
-	
+
 }

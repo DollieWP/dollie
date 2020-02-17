@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
+use Dollie\Core\Helpers;
 
 /**
  * Class AccessControl
@@ -15,48 +16,55 @@ use Dollie\Core\Singleton;
 class AccessControl extends Singleton {
 
 	/**
+	 * @var mixed
+	 */
+	private $helpers;
+
+	/**
 	 * AccessControl constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'template_redirect', [ $this, 'wpd_logged_in_only' ] );
-		add_action( 'template_redirect', [ $this, 'wpd_protect_launch_site' ] );
-		add_action( 'template_redirect', [ $this, 'wpd_protect_container_access' ], 1 );
-		add_filter( 'wp_dropdown_users_args', [ $this, 'wpd_allow_all_authors' ], 10, 2 );
-		add_action( 'admin_init', [ $this, 'wpd_no_admin_access' ], 100 );
-		add_action( 'admin_init', [ $this, 'wpd_restrict_gravity_form_edit' ] );
-		add_action( 'admin_init', [ $this, 'wpd_add_hidden_fields' ] );
-		add_action( 'wp', [ $this, 'wpd_block_access' ] );
+		$this->helpers = Helpers::instance();
+
+		add_action( 'template_redirect', [ $this, 'logged_in_only' ] );
+		add_action( 'template_redirect', [ $this, 'protect_launch_site' ] );
+		add_action( 'template_redirect', [ $this, 'protect_container_access' ], 1 );
+		add_filter( 'wp_dropdown_users_args', [ $this, 'allow_all_authors' ], 10, 2 );
+		add_action( 'admin_init', [ $this, 'no_admin_access' ], 100 );
+		add_action( 'admin_init', [ $this, 'restrict_gravity_form_edit' ] );
+		add_action( 'admin_init', [ $this, 'add_hidden_fields' ] );
+		add_action( 'wp', [ $this, 'block_access' ] );
 	}
 
-	public function wpd_get_available_sections() {
+	public function get_available_sections() {
 		$available_sections_array = get_field( 'available_sections', 'option' );
 
 		$access = $available_sections_array;
 		if ( get_field( 'wpd_enable_blueprints_for', 'option' ) === 'all' && ! current_user_can( 'manage_options' ) ) {
-			$access = removeElementWithValue( $available_sections_array, 'value', 'blueprint' );
+			$access = $this->helpers->removeElementWithValue( $available_sections_array, 'value', 'blueprint' );
 		}
 
 		return $access;
 
 	}
 
-	public function wpd_logged_in_only() {
+	public function logged_in_only() {
 		if ( ! is_user_logged_in() && ( is_singular( 'container' ) || is_page( 'dashboard' ) ) ) {
 			wp_redirect( get_site_url() . '/customer-login' );
 			exit;
 		}
 	}
 
-	public function wpd_protect_launch_site() {
+	public function protect_launch_site() {
 		if ( ! is_user_logged_in() && is_page_template( 'launch-site.php' ) ) {
 			wp_redirect( get_site_url() . '/dashboard' );
 			exit();
 		}
 	}
 
-	public function wpd_protect_container_access() {
+	public function protect_container_access() {
 		global $wp_query;
 		$post_id = $wp_query->get_queried_object_id();
 
@@ -83,28 +91,28 @@ class AccessControl extends Singleton {
 				}
 			}
 
-			if ( isset( $_GET['page'] ) && is_singular( 'container' ) && ! in_array_r( $_GET['page'], $this->wpd_get_available_sections() ) ) {
+			if ( isset( $_GET['page'] ) && is_singular( 'container' ) && ! $this->helpers->in_array_r( $_GET['page'], $this->get_available_sections() ) ) {
 				wp_redirect( get_permalink() );
 				exit();
 			}
 		}
 	}
 
-	public function wpd_allow_all_authors( $query_args, $r ) {
+	public function allow_all_authors( $query_args, $r ) {
 		$query_args['who'] = '';
 
 		return $query_args;
 	}
 
-	public function wpd_no_admin_access() {
+	public function no_admin_access() {
 		$redirect = home_url( '/dashboard' );
 		if ( ! current_user_can( 'manage_options' ) && ! wp_doing_ajax() ) {
 			exit( wp_redirect( $redirect ) );
 		}
 	}
 
-	public function wpd_restrict_gravity_form_edit() {
-		$dollie_form_ids = wpd_get_dollie_gravity_form_ids();
+	public function restrict_gravity_form_edit() {
+		$dollie_form_ids = $this->helpers->get_dollie_gravity_form_ids();
 
 		$restrictions = [];
 		foreach ( $dollie_form_ids as $id ) {
@@ -139,7 +147,7 @@ class AccessControl extends Singleton {
 		}
 	}
 
-	public function wpd_add_hidden_fields() {
+	public function add_hidden_fields() {
 		if ( ! class_exists( 'GFAPI' ) ) {
 			return;
 		}
@@ -191,7 +199,7 @@ class AccessControl extends Singleton {
 		}
 	}
 
-	public function wpd_block_access() {
+	public function block_access() {
 		if ( function_exists( 'bp_is_active' ) && ! current_user_can( 'edit_published_posts' ) ) {
 			if ( bp_is_members_directory() || bp_is_groups_directory() || bp_is_current_action( 'members' ) ) {
 				wp_redirect( get_site_url() );

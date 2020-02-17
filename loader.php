@@ -42,6 +42,25 @@ if ( ! defined( 'DOLLIE_MEMORY' ) ) {
 define( 'DOLLIE_S5_USER', get_option( 'options_wpd_api_email' ) );
 define( 'DOLLIE_S5_PASSWORD', get_option( 'options_wpd_api_password' ) );
 
+$domain     = get_option( 'options_wpd_api_domain' );
+$subdomain  = preg_replace( '#^https?://#', '', rtrim( $domain, '/' ) );
+$enterprise = get_option( 'options_wpd_api_dashboard_url' );
+
+if ( $enterprise === '' ) {
+	$install = $domain;
+} else {
+	$install = $enterprise;
+}
+
+if ( substr_count( $subdomain, "." ) === 2 ) {
+	define( 'DOLLIE_DOMAIN', '-' . $subdomain );
+} else {
+	define( 'DOLLIE_DOMAIN', '.' . $subdomain );
+}
+
+define( 'DOLLIE_INSTALL', $install );
+define( 'DOLLIE_RUNDECK_KEY', get_option( 'wpd_rundeck_key' ) );
+
 // Autoload
 require_once 'bootstrap.php';
 
