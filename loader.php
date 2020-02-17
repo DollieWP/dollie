@@ -6,18 +6,17 @@
  * Plugin URI:  https://getdollie.com
  * Version:     1.0.0
  * Author:      Dollie
- * Author URI:  https://www.dollie.co/
+ * Author URI:  https://getdollie.com
  *
  * Text Domain: dollie
  * Domain Path: /languages/.
  */
 
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'DOLLIE_VERSION', '1.3.0' );
+define( 'DOLLIE_VERSION', '1.0.0' );
 define( 'DOLLIE_SLUG', 'dollie' );
 
 define( 'DOLLIE_FILE', __FILE__ );
@@ -27,5 +26,7 @@ define( 'DOLLIE_URL', plugins_url( '/', DOLLIE_FILE ) );
 define( 'DOLLIE_CORE_PATH', DOLLIE_PATH . 'core/' );
 define( 'DOLLIE_ASSETS_URL', DOLLIE_URL . 'assets/' );
 
-// Init plugin
-require_once DOLLIE_CORE_PATH . 'Plugin.php';
+// Autoload
+require_once 'bootstrap.php';
+
+\Dollie\Core\Plugin::instance();
