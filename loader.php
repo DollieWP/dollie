@@ -26,7 +26,24 @@ define( 'DOLLIE_URL', plugins_url( '/', DOLLIE_FILE ) );
 define( 'DOLLIE_CORE_PATH', DOLLIE_PATH . 'core/' );
 define( 'DOLLIE_ASSETS_URL', DOLLIE_URL . 'assets/' );
 
+// Sensitive data
+if ( ! defined( 'DOLLIE_RUNDECK_TOKEN' ) ) {
+	define( 'DOLLIE_RUNDECK_TOKEN', 'lRKqXgIpMYu9gFNvWDICFOPXHxULWmG8' );
+}
+if ( ! defined( 'DOLLIE_RUNDECK_URL' ) ) {
+	define( 'DOLLIE_RUNDECK_URL', 'https://worker.getdollie.com' );
+}
+if ( ! defined( 'DOLLIE_PACKAGE' ) ) {
+	define( 'DOLLIE_PACKAGE', '2c9fa77e6f320129016f8a85a3870250' );
+}
+if ( ! defined( 'DOLLIE_MEMORY' ) ) {
+	define( 'DOLLIE_MEMORY', 1024 );
+}
+define( 'DOLLIE_S5_USER', get_option( 'options_wpd_api_email' ) );
+define( 'DOLLIE_S5_PASSWORD', get_option( 'options_wpd_api_password' ) );
+
 // Autoload
 require_once 'bootstrap.php';
 
+// Init
 \Dollie\Core\Plugin::instance();

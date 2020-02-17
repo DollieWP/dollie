@@ -1,0 +1,64 @@
+// The Welcome Header Message
+#acf-Dollie_DBlicenses_introduction {
+  border-width: 0 0 5px;
+  border-style: none none solid;
+  border-radius: 4px;
+  border-image: none;
+  color: #545454;
+  background: #fff none repeat scroll 0 0;
+  font-weight: bold;
+
+  .inside {
+    font-size: 110%;
+    font-weight: 400;
+    line-height: 1.4em;
+  }
+
+  .acf-input {
+    margin-top: -10px;
+    line-height: 170%;
+  }
+
+  // Only show our custom content
+  .hndle,
+  label,
+  .handlediv {
+    display: none;
+  }
+}
+
+//Verified Licenses
+.expiration-date,
+.domains {
+  font-weight: bold;
+}
+
+.acf-field-license-key-field-dollie-builder {
+  .acf-input-wrap {
+    font-family: "Courier", sans-serif;
+  }
+
+  //Active licenses
+  &.active {
+    .acf-input-prepend {
+      color: #fff;
+      background: #47bb9e;
+    }
+
+    input.acf-is-prepended {
+      background: #f2fffc none repeat scroll 0 0;
+    }
+  }
+
+  &.expired,
+  &.invalid {
+    .acf-input-prepend {
+      color: #fff;
+      background: #d52121;
+    }
+
+    input.acf-is-prepended {
+      background: rgba(213, 78, 33, 0.2) none repeat scroll 0 0;
+    }
+  }
+}

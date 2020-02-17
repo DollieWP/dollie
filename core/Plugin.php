@@ -10,22 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class Plugin
  * @package Dollie\Core
  */
-class Plugin {
+class Plugin extends Singleton {
 
-	/**
-	 * @var null
-	 */
-	public static $instance;
-
-	/**
-	 * @return Plugin|null
-	 */
-	public static function instance() {
-		if ( self::$instance === null ) {
-			self::$instance = new self();
+	public function __construct() {
+		parent::__construct();
+		if ( ! current_user_can( 'manage_options' ) ) {
+			add_filter( 'show_admin_bar', '__return_false' );
 		}
-
-		return self::$instance;
 	}
-
+	
 }

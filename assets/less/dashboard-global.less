@@ -1,0 +1,231 @@
+.dollie_is_staging {
+
+	.notice,
+	div.error,
+	div.updated {
+		display: none !important;
+	}
+}
+
+.toplevel_page_wpd_platform_setup {
+
+	@media only screen and (min-width: 768px) {
+
+		.postbox {
+			border: 0;
+			background: #fff;
+			-webkit-box-shadow: inherit;
+			box-shadow: inherit;
+		}
+
+		.acf-tab-group li a {
+			display: block;
+			padding: 10px 26px;
+			border: #ccc solid 1px;
+			border-bottom: 0 none;
+			border-radius: 3px 3px 0 0;
+			color: #555;
+			background: #f1f1f1;
+			font-size: 13px;
+			font-weight: 800;
+			line-height: 27px;
+			text-decoration: none;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+			transition: none;
+		}
+
+		.acf-fields > .acf-tab-wrap {
+			margin: 0;
+			margin-bottom: 20px;
+			background: #f9f9f9;
+		}
+
+		#wpwrap {
+
+			#wpcontent {
+				background: #fff;
+			}
+
+			.hndle,
+			.handlediv {
+				display: none;
+			}
+			// Custom Fixed Header on Desktops
+			.acf-settings-wrap h1 {
+				position: fixed;
+				z-index: 100;
+				top: 42px;
+				width: 100%;
+				margin-top: -10px;
+				margin-right: -20px;
+				margin-left: -22px;
+				padding-top: 20px !important;
+				padding-right: 20px !important;
+				padding-bottom: 20px !important;
+				padding-left: 68px;
+				border-top: 1px solid #383f46;
+				color: #fff;
+				background: url(../img/bg.svg) no-repeat center bottom, linear-gradient(to bottom right, darken(@brand-secondary, 25%) 0, lighten(@brand-secondary, 1%) 50%, darken(@brand-secondary, 20%) 100%);
+
+				&::before {
+					display: inline-block;
+					position: absolute;
+					top: 21px;
+					left: 25px;
+					width: 32px;
+					height: 32px;
+					background-image: url("../img/active.png");
+					background-size: cover;
+					content: "";
+				}
+			}
+
+			#submitdiv {
+				border: 0;
+				box-shadow: none;
+
+				.hndle,
+				.spinner {
+					display: none;
+				}
+			}
+
+			#major-publishing-actions {
+				clear: both;
+				position: fixed;
+				z-index: 100000000;
+				top: 32px;
+				width: 17%;
+				margin-right: -39px;
+				padding: 10px;
+				border-top: 0 none;
+				background: transparent none repeat scroll 0 0;
+			}
+
+			#side-sortables {
+				margin-top: -20px;
+			}
+
+			#publishing-action {
+				float: none;
+				width: 115%;
+				margin-top: 2px;
+				margin-left: -9px;
+
+				&::before {
+					position: absolute;
+					top: 24px;
+					left: 51px;
+					color: rgba(255, 255, 255, 0.44);
+					font-family: dashicons;
+					font-size: 36px;
+					font-weight: normal !important;
+					content: "\f147";
+				}
+			}
+
+			#major-publishing-actions input,
+			#minor-publishing-actions .preview,
+			#minor-publishing-actions input {
+				width: 100%;
+				height: 45px;
+				padding: 0 18px;
+				background: #545454;
+				text-shadow: none;
+				font-weight: bold;
+				text-align: center;
+
+				&:hover {
+					background: #333;
+					text-shadow: none;
+				}
+			}
+
+			.wp-core-ui .notice.is-dismissible {
+				top: 79px !important;
+			}
+			// The Actual Content Area
+			#poststuff {
+				padding-top: 85px;
+			}
+		}
+
+		.acf-fields > .acf-tab-wrap .acf-tab-group {
+			background: #fff !important;
+		}
+	}
+}
+
+#acf-group_5afc7b8e22840 {
+	top: -32px;
+
+	.hndle {
+		padding-top: 12px;
+		padding-bottom: 12px;
+		padding-left: 45px;
+		color: #fff;
+		background: @brand-primary;
+
+		&::before {
+			display: inline-block;
+			position: absolute;
+			top: 10px;
+			left: 16px;
+			width: 24px;
+			height: 24px;
+			background-image: url("../img/active.png");
+			background-size: cover;
+			content: "";
+		}
+	}
+
+	#poststuff h3 {
+		padding: 12px 20px;
+	}
+
+	.acf-fields > .acf-field {
+		padding: 20px !important;
+	}
+
+	#side-sortables {
+
+		.hndle {
+			display: none;
+			background: #222;
+		}
+	}
+
+	.update-nag {
+		display: none;
+	}
+}
+
+.dollie-notice {
+	position: relative;
+	z-index: -1;
+	width: auto;
+	margin-top: 30px; /* max-width: 70%; */
+	margin-top: 0;
+	margin-left: -20px;
+	padding: 20px;
+	color: #fff;
+	background: url(../img/bg.svg) no-repeat center bottom, linear-gradient(to bottom right, darken(@brand-secondary, 25%) 0, lighten(@brand-secondary, 1%) 50%, darken(@brand-secondary, 20%) 100%);
+
+	svg {
+		position: absolute; /* z-index: -1000; */
+		right: 20px;
+		bottom: 12px;
+		height: 70%; /* width: 100%; */
+		opacity: 0.9; /* top: 0; */
+	}
+
+	p {
+		padding-right: 20%;
+		font-size: 120%;
+	}
+
+	* {
+		color: #fff;
+	}
+}

@@ -1,0 +1,23 @@
+#adminmenuwrap {
+	.toplevel_page_wefoster-dashboard {
+		.wp-menu-image {
+			background: url( "../img/logo-dashboard.png" ) no-repeat scroll center center / 60% auto rgba(0, 0, 0, 0);
+
+			img {
+				display: none;
+			}
+		}
+
+		&.wp-menu-open {
+			background: #2c8770 !important;
+
+			.wp-menu-image {
+				background-image: url( "../img/logo-dashboard-active.png" );
+
+				img {
+					display: none;
+				}
+			}
+		}
+	}
+}
