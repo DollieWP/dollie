@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Helpers;
+use Dollie\Core\Log;
 
 /**
  * Class Blueprints
@@ -37,7 +38,7 @@ class Blueprints extends Singleton {
 
 		// Only apply to Form ID 11.
 		add_filter( 'gform_pre_render', [ $this, 'list_blueprints' ] );
-		add_action( 'init', [ $this, 'register_shortcode' ] );
+		add_action( 'init', [ $this, 'register_blueprint_shortcode' ] );
 		add_action( 'init', [ $this, 'register_site_shortcode' ] );
 		add_action( 'template_redirect', [ $this, 'set_blueprint_cookie' ], - 99999 );
 	}
@@ -111,7 +112,7 @@ class Blueprints extends Singleton {
 		update_post_meta( $post_id, 'wpd_blueprint_created', 'yes' );
 		update_post_meta( $post_id, 'wpd_blueprint_time', $time );
 
-		WDS_Log_Post::log_message( 'dollie-logs', $post_slug . ' updated/deployed a new Blueprint', '', 'blueprint' );
+		Log::add( $post_slug . ' updated/deployed a new Blueprint', '', 'blueprint' );
 		?>
 		<?php
 	}
@@ -249,8 +250,8 @@ class Blueprints extends Singleton {
 		return ob_get_clean();
 	}
 
-	public function register_shortcode() {
-		add_shortcode( 'dollie-blueprints', [ $this, 'wpd_blueprint_shortcode' ] );
+	public function register_blueprint_shortcode() {
+		add_shortcode( 'dollie-blueprints', [ $this, 'blueprint_shortcode' ] );
 	}
 
 	public function sites_shortcode( $atts ) {
@@ -329,7 +330,7 @@ class Blueprints extends Singleton {
 	}
 
 	public function register_site_shortcode() {
-		add_shortcode( 'dollie-sites', [ $this, 'wpd_sites_shortcode' ] );
+		add_shortcode( 'dollie-sites', [ $this, 'sites_shortcode' ] );
 	}
 
 	public function set_blueprint_cookie() {

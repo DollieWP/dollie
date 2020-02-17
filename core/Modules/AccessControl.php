@@ -148,7 +148,7 @@ class AccessControl extends Singleton {
 	}
 
 	public function add_hidden_fields() {
-		if ( ! class_exists( 'GFAPI' ) ) {
+		if ( ! class_exists( \GFAPI::class ) ) {
 			return;
 		}
 
@@ -164,9 +164,8 @@ class AccessControl extends Singleton {
 		];
 
 		foreach ( $hidden_fields as $form_id => $field_label ) {
-
 			// Get the form object.
-			$form = GFAPI::get_form( $form_id );
+			$form = \GFAPI::get_form( $form_id );
 
 			// Get next available field ID.
 			$new_field_id = 0;
@@ -191,11 +190,11 @@ class AccessControl extends Singleton {
 			$properties['type']  = 'hidden';
 			$properties['id']    = $new_field_id;
 			$properties['label'] = $field_label;
-			$field               = GF_Fields::create( $properties );
+			$field               = \GF_Fields::create( $properties );
 
 			// Add the new field to the form and update form.
 			$form['fields'][] = $field;
-			GFAPI::update_form( $form );
+			\GFAPI::update_form( $form );
 		}
 	}
 

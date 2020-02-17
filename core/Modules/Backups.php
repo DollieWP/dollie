@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Helpers;
+use Dollie\Core\Log;
 
 /**
  * Class Backups
@@ -237,7 +238,8 @@ class Backups extends Singleton {
 				'body'    => $post_body,
 			)
 		);
-		WDS_Log_Post::log_message( 'dollie-logs', $post_slug . ' has triggered a backup', '', 'action' );
+
+		Log::add( $post_slug . ' has triggered a backup', '', 'action' );
 	}
 
 	public function list_site_restores() {

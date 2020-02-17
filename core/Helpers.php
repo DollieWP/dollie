@@ -402,17 +402,16 @@ class Helpers extends Singleton {
 	}
 
 	public function get_dollie_gravity_form_ids( $label = 'dollie-' ) {
-		if ( ! class_exists( 'GFAPI' ) ) {
+		if ( ! class_exists( \GFAPI::class ) ) {
 			return [];
 		}
 
-		$forms           = GFAPI::get_forms();
+		$forms           = \GFAPI::get_forms();
 		$dollie_form_ids = [];
 
 		foreach ( $forms as $form ) {
 			$dollie = false;
 
-			// If 'dollie-launch' field is present then it's dollie form.
 			foreach ( $form['fields'] as $fields ) {
 				if ( strpos( $fields->label, $label ) !== false ) {
 					$dollie = true;
