@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dollie\Core\Singleton;
 use Dollie\Core\Helpers;
 use Dollie\Core\Log;
+use WP_Query;
 
 /**
  * Class Blueprints
@@ -38,13 +39,11 @@ class Blueprints extends Singleton {
 
 		// Only apply to Form ID 11.
 		add_filter( 'gform_pre_render', [ $this, 'list_blueprints' ] );
-		add_action( 'init', [ $this, 'register_blueprint_shortcode' ] );
-		add_action( 'init', [ $this, 'register_site_shortcode' ] );
 		add_action( 'template_redirect', [ $this, 'set_blueprint_cookie' ], - 99999 );
 	}
 
 	public function get_available_blueprints() {
-		if ( isset( $_GET['page'] ) && is_singular( 'container' ) && $_GET['page'] == 'blueprint' ) {
+		if ( isset( $_GET['page'] ) && is_singular( 'container' ) && $_GET['page'] === 'blueprint' ) {
 			global $wp_query;
 			if ( ob_get_length() > 0 ) {
 				@ob_end_flush();
@@ -56,22 +55,19 @@ class Blueprints extends Singleton {
 			$secret    = get_post_meta( $post_id, 'wpd_container_secret', true );
 			$url       = $this->helpers->get_container_url( $post_id ) . '/' . $secret . '/codiad/backups/blueprints.php';
 
-			$args     = array(
-				'timeout' => 20,
-			);
-			$response = wp_remote_get( $url, $args );
+			$response = wp_remote_get( $url, [ 'timeout' => 20 ] );
 
 			if ( is_wp_error( $response ) ) {
-				return array();
+				return [];
 			}
 
 			$blueprints = json_decode( wp_remote_retrieve_body( $response ), true );
 
 			if ( empty( $blueprints ) ) {
-				return array();
+				return [];
 			}
 
-			$total_blueprints = array_filter( $blueprints, function ( $value ) {
+			$total_blueprints = array_filter( $blueprints, static function ( $value ) {
 				return ! ( strpos( $value, 'restore' ) !== false );
 			} );
 
@@ -86,9 +82,7 @@ class Blueprints extends Singleton {
 		global $wp_query;
 		$post_id   = $wp_query->get_queried_object_id();
 		$post_slug = get_queried_object()->post_name;
-		//Grab the customer installation.
-		$install = $post_name;
-		$time    = @date( 'd/M/Y:H:i' );
+		$time      = @date( 'd/M/Y:H:i' );
 
 		//Only run the job on the container of the customer.
 		$post_body = '
@@ -98,7 +92,7 @@ class Blueprints extends Singleton {
 			  ';
 
 		//Set up the request
-		$update = wp_remote_post(
+		wp_remote_post(
 			DOLLIE_RUNDECK_URL . '/api/1/job/b2fcd68d-3dab-4faf-95d8-6958c5811bae/run/',
 			array(
 				'headers' => array(
@@ -131,42 +125,36 @@ class Blueprints extends Singleton {
 			}
 
 			// Get our available blueprints
+			// Instantiate custom query
 
-			// Define custom query parameters
-			$custom_query_args = array(
+			$query = new WP_Query( [
 				'post_type'      => 'container',
 				'posts_per_page' => 1000,
-				//Se the meta query
-				'meta_query'     => array(
-					//comparison between the inner meta fields conditionals
+				'meta_query'     => [
 					'relation' => 'AND',
-					//meta field condition one
-					array(
+					[
 						'key'   => 'wpd_blueprint_created',
 						'value' => 'yes',
-					),
-					array(
+					],
+					[
 						'key'   => 'wpd_is_blueprint',
 						'value' => 'yes',
-					),
-					//meta
-					//meta field condition one
-					array(
+					],
+					[
 						'key'     => 'wpd_installation_blueprint_title',
-						//I think you really want != instead of NOT LIKE, fix me if I'm wrong
-						//'compare'      => 'NOT LIKE',
 						'compare' => 'EXISTS',
-					),
-				),
-				'p'              => $blueprint, // ID of a page, post, or custom type
-			);
+					]
+				],
+				'p'              => $blueprint,
+			] );
 
-			// Instantiate custom query
-			$custom_query = new WP_Query( $custom_query_args );
+			$choices = [];
+
 			// Output custom query loop
-			if ( $custom_query->have_posts() ) {
-				while ( $custom_query->have_posts() ) {
-					$custom_query->the_post();
+			if ( $query->have_posts() ) {
+				while ( $query->have_posts() ) {
+					$query->the_post();
+
 					$private = get_field( 'wpd_private_blueprint' );
 
 					if ( $private === 'yes' && ! current_user_can( 'manage_options' ) ) {
@@ -195,142 +183,6 @@ class Blueprints extends Singleton {
 		}
 
 		return $form;
-	}
-
-	public function blueprint_shortcode( $atts ) {
-		ob_start();
-		$a = shortcode_atts(
-			array(
-				'amount'  => '999999',
-				'columns' => 1,
-			),
-			$atts
-		);
-
-		$gp_args = array(
-			'post_type'     => 'container',
-			//Se the meta query
-			'meta_query'    => array(
-				//comparison between the inner meta fields conditionals
-				'relation' => 'AND',
-				//meta field condition one
-				array(
-					'key'   => 'wpd_blueprint_created',
-					'value' => 'yes',
-				),
-				//meta field condition one
-				array(
-					'key'     => 'wpd_installation_blueprint_title',
-					//I think you really want != instead of NOT LIKE, fix me if I'm wrong
-					//'compare'      => 'NOT LIKE',
-					'compare' => 'EXISTS',
-				),
-			),
-			'post_per_page' => $a['amount'],
-		);
-
-		$posts = query_posts( $gp_args );
-
-		if ( have_posts() ) :
-			echo '<div class="row fw-blueprint-listing">';
-
-			while ( have_posts() ) :
-				the_post();
-
-				include( locate_template( '/loop-templates/blueprints.php' ) );
-
-			endwhile;
-
-			echo '</div>';
-
-		endif;
-
-		wp_reset_query();
-
-		return ob_get_clean();
-	}
-
-	public function register_blueprint_shortcode() {
-		add_shortcode( 'dollie-blueprints', [ $this, 'blueprint_shortcode' ] );
-	}
-
-	public function sites_shortcode( $atts ) {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-		ob_start();
-		$a = shortcode_atts(
-			array(
-				'amount'  => $a['amount'],
-				'columns' => 1,
-			),
-			$atts
-		);
-
-		if ( empty( $a['amount'] ) ) {
-			$amount = '15';
-		} else {
-			$amount = $a['amount'];
-		}
-		wp_reset_query();
-		$gp_args = array(
-			'post_type'      => 'container',
-			//'meta_key' => 'wpd_blueprint_created', // (string) - Custom field key.
-			//'meta_value' => 'yes', // (string) - Custom field value.
-			'posts_per_page' => $amount,
-			'paged'          => $paged,
-		);
-
-		$gp_args['paged'] = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
-		//$sites = query_posts($gp_args);
-		$sites = new WP_Query( $gp_args );
-
-		// Pagination fix
-		$temp_query = $wp_query;
-		$wp_query   = null;
-		$wp_query   = $sites;
-
-
-		if ( $sites->have_posts() ) :
-			echo '<div class="row fw-blueprint-listing">';
-
-			while ( $sites->have_posts() ) :
-				$sites->the_post();
-				include( locate_template( '/loop-templates/sites.php' ) );
-			endwhile;
-
-			echo '</div>';
-
-		endif; ?>
-		<?php if ( function_exists( 'wp_pagenavi' ) ) : ?>
-			<?php
-			wp_pagenavi( array( 'query' => $custom_query ) );
-			?>
-		<?php else : ?>
-            <div class="alignleft">
-				<?php
-				next_posts_link( __( '&laquo; Older Entries' ) );
-				?>
-            </div>
-            <div class="alignright">
-				<?php
-				previous_posts_link( __( 'Newer Entries &raquo;' ) );
-				?>
-            </div>
-		<?php
-		endif;
-		?>
-		<?php
-		// Reset main query object
-		$wp_query = null;
-		$wp_query = $temp_query;
-		wp_reset_query();
-
-		return ob_get_clean();
-	}
-
-	public function register_site_shortcode() {
-		add_shortcode( 'dollie-sites', [ $this, 'sites_shortcode' ] );
 	}
 
 	public function set_blueprint_cookie() {
