@@ -34,17 +34,36 @@ class CheckSubscription extends Singleton {
 		$this->helpers = Helpers::instance();
 
 		add_action( 'init', [ $this, 'create_daily_customer_status_cron' ] );
-		add_action( 'wpd_check_customer_status_cron', [ $this, 'daily_subscription_check' ] );
 		add_action( 'init', [ $this, 'create_daily_customer_removal_cron' ] );
-		add_action( 'admin_init', [ $this, 'create_daily_container_stop_cron' ] );
-		add_action( 'wpd_check_customer_removal_cron', [ $this, 'daily_removal_check' ] );
 		add_action( 'init', [ $this, 'wcreate_daily_undeployment_cron' ] );
-		add_action( 'wpd_check_undeployment_cron', [ $this, 'daily_undeployment_check' ] );
-		add_action( 'trashed_post', [ $this, 'do_not_schedule_post_types' ] );
 		add_action( 'init', [ $this, 'create_daily_email_notification' ] );
+
+		add_action( 'admin_init', [ $this, 'create_daily_container_stop_cron' ] );
+
+		add_action( 'wpd_check_customer_status_cron', [ $this, 'daily_subscription_check' ] );
+		add_action( 'wpd_check_customer_removal_cron', [ $this, 'daily_removal_check' ] );
+		add_action( 'wpd_check_undeployment_cron', [ $this, 'daily_undeployment_check' ] );
 		add_action( 'wpd_check_email_cron', [ $this, 'send_out_daily_email' ] );
 
+		add_action( 'trashed_post', [ $this, 'do_not_schedule_post_types' ] );
+	}
 
+	public function wpd_has_bought_product( $user_id = 0 ) {
+		global $wpdb;
+		$customer_id         = $user_id == 0 ? get_current_user_id() : $user_id;
+		$paid_order_statuses = array_map( 'esc_sql', wc_get_is_paid_statuses() );
+
+		$results = $wpdb->get_col( "
+        SELECT p.ID FROM {$wpdb->prefix}posts AS p
+        INNER JOIN {$wpdb->prefix}postmeta AS pm ON p.ID = pm.post_id
+        WHERE p.post_status IN ( 'wc-" . implode( "','wc-", $paid_order_statuses ) . "' )
+        AND p.post_type LIKE 'shop_order'
+        AND pm.meta_key = '_customer_user'
+        AND pm.meta_value = $customer_id
+    " );
+
+		// Count number of orders and return a boolean value depending if higher than 0
+		return count( $results ) > 0 ? true : false;
 	}
 
 	public function get_customer_subscriptions( $customer_id, $status = 'any', $resources = 0 ) {
@@ -68,11 +87,7 @@ class CheckSubscription extends Singleton {
 
 			// Iterating through each item in the order
 			foreach ( $order_items as $item_id => $item_data ) {
-
-				// Get the product name
-				$product_id   = $item_data['product_id'];
-				$product_name = $item_data['name'];
-				$id           = $item_data['product_id'];
+				$id = $item_data['product_id'];
 
 				// Filter out non Dollie subscriptions by checking custom meta field.
 				if ( ! get_field( '_wpd_installs', $id ) ) {

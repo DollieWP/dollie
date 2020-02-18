@@ -48,7 +48,7 @@ final class Blueprints extends Singleton implements Base {
 			$atts
 		);
 
-		$query = WP_Query( [
+		$query = new WP_Query( [
 			'post_type'     => 'container',
 			'meta_query'    => [
 				'relation' => 'AND',

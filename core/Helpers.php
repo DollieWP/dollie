@@ -18,7 +18,6 @@ class Helpers extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		add_filter( 'body_class', [ $this, 'add_timestamp_body' ] );
 		add_action( 'template_redirect', [ $this, 'remove_customer_domain' ] );
 		add_action( 'template_redirect', [ $this, 'redirect_to_new_container' ] );
 		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
@@ -142,20 +141,6 @@ class Helpers extends Singleton {
 		update_post_meta( $post_id, 'wpd_site_screenshot', $query_url );
 
 		return $screenshot;
-	}
-
-	public function add_timestamp_body( $classes ) {
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-		$details   = get_transient( 'dollie_container_api_request_' . $post_slug . '_get_container_wp_info' );
-		$timestamp = get_transient( 'dollie_site_screenshot_' . $this->get_container_url( $post_id, $post_slug ) );
-
-		if ( empty( $timestamp ) ) {
-			$classes[] = 'wf-site-screenshot-not-set';
-		}
-
-		return $classes;
 	}
 
 	public function flush_container_details() {
@@ -444,6 +429,24 @@ class Helpers extends Singleton {
 		}
 
 		return $array;
+	}
+
+	public function formatSizeUnits( $bytes ) {
+		if ( $bytes >= 1073741824 ) {
+			$bytes = number_format( $bytes / 1073741824, 2 );
+		} elseif ( $bytes >= 1048576 ) {
+			$bytes = '0.' . number_format( $bytes / 1048576 );
+		} elseif ( $bytes >= 1024 ) {
+			$bytes = number_format( $bytes / 1024, 2 );
+		} elseif ( $bytes > 1 ) {
+			$bytes = $bytes;
+		} elseif ( $bytes == 1 ) {
+			$bytes = $bytes;
+		} else {
+			$bytes = '0 bytes';
+		}
+
+		return $bytes;
 	}
 
 }
