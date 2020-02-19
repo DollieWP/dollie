@@ -38,8 +38,6 @@ class ContainerManagement extends Singleton {
 		add_action( 'untrashed_post', [ $this, 'run_container_untrash_action' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_scripts' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_script' ] );
-
-
 	}
 
 	public function register_container() {
@@ -174,7 +172,6 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function container_api_request( $url, $transient_id, $user_auth, $user_pass ) {
-		global $wp_query;
 		if ( ob_get_length() > 0 ) {
 			@ob_end_flush();
 			@flush();
@@ -217,7 +214,6 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function start_rundeck_job( $job_id ) {
-		global $wp_query;
 		$post_slug = get_queried_object()->post_name;
 
 		//Only run the job on the container of the customer.
@@ -273,11 +269,8 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function show_rundeck_output( $entry, $form ) {
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
 		$post_slug = get_queried_object()->post_name;
 		$type      = rgar( $entry, '2' );
-		//Grab the customer installation.
 
 		//Only run the job on the container of the customer.
 		$post_body = '
