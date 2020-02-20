@@ -48,9 +48,9 @@ class CheckSubscription extends Singleton {
 		add_action( 'trashed_post', [ $this, 'do_not_schedule_post_types' ] );
 	}
 
-	public function wpd_has_bought_product( $user_id = 0 ) {
+	public function has_bought_product( $user_id = 0 ) {
 		global $wpdb;
-		$customer_id         = $user_id == 0 ? get_current_user_id() : $user_id;
+		$customer_id         = ! $user_id ? get_current_user_id() : $user_id;
 		$paid_order_statuses = array_map( 'esc_sql', wc_get_is_paid_statuses() );
 
 		$results = $wpdb->get_col( "
@@ -63,7 +63,7 @@ class CheckSubscription extends Singleton {
     " );
 
 		// Count number of orders and return a boolean value depending if higher than 0
-		return count( $results ) > 0 ? true : false;
+		return count( $results ) > 0;
 	}
 
 	public function get_customer_subscriptions( $customer_id, $status = 'any', $resources = 0 ) {

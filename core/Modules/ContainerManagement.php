@@ -402,7 +402,7 @@ class ContainerManagement extends Singleton {
 				delete_post_meta( $post_id, 'wpd_scheduled_for_removal' );
 				delete_post_meta( $post_id, 'wpd_undeploy_container_at' );
 				delete_post_meta( $post_id, 'wpd_scheduled_for_undeployment' );
-				wpd_remove_rundeck_node( $post_id );
+				ContainerRegistration::instance()->remove_rundeck_node( $post_id );
 				wp_trash_post( $post_id );
 				Log::add( $site . ' was undeployed', '', 'undeploy' );
 			}

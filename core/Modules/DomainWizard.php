@@ -430,13 +430,19 @@ class DomainWizard extends Singleton {
 			if ( $has_cloudflare && ! $has_analytics ) {
 				wp_redirect( get_site_url() . '/site/' . $post_slug . '?page=domain&form_page=3' );
 				exit;
-			} elseif ( $has_domain && $has_le ) {
+			}
+
+			if ( $has_domain && $has_le ) {
 				wp_redirect( get_site_url() . '/site/' . $post_slug . '?page=domain&form_page=4' );
 				exit;
-			} elseif ( $has_domain && ! $has_analytics ) {
+			}
+
+			if ( $has_domain && ! $has_analytics ) {
 				wp_redirect( get_site_url() . '/site/' . $post_slug . '?page=domain&form_page=2' );
 				exit;
-			} elseif ( $has_analytics ) {
+			}
+
+			if ( $has_analytics ) {
 				wp_redirect( get_site_url() . '/site/' . $post_slug . '?page=domain&form_page=4' );
 				exit;
 			}

@@ -54,7 +54,7 @@ class Backups extends Singleton {
 			$post_slug = get_queried_object()->post_name;
 			$install   = $post_slug;
 			$secret    = get_post_meta( $post_id, 'wpd_container_secret', true );
-			$url       = $this->helpers->wpd_get_container_url( $post_id ) . '/' . $secret . '/codiad/backups/';
+			$url       = $this->helpers->get_container_url( $post_id ) . '/' . $secret . '/codiad/backups/';
 
 			$args     = array(
 				'timeout' => 20,

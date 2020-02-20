@@ -36,7 +36,7 @@ class ContainerRegistration extends Singleton {
 	private function get_string_between( $string, $start, $end ) {
 		$string = ' ' . $string;
 		$ini    = strpos( $string, $start );
-		if ( $ini == 0 ) {
+		if ( $ini === 0 ) {
 			return '';
 		}
 		$ini += strlen( $start );
@@ -47,7 +47,7 @@ class ContainerRegistration extends Singleton {
 
 	public function add_rundeck_key() {
 		if ( get_option( 'wpd_rundeck_key' ) === false ) {
-			update_option( 'wpd_rundeck_key', wpd_random_string( 12 ) );
+			update_option( 'wpd_rundeck_key', $this->helpers->random_string( 12 ) );
 		}
 	}
 
@@ -55,7 +55,7 @@ class ContainerRegistration extends Singleton {
 		global $wp_query;
 		$post_id = $wp_query->get_queried_object_id();
 		if ( did_action( 'template_redirect' ) === 1 && is_singular( 'container' ) ) {
-			wpd_register_rundeck_node( $post_id );
+			$this->register_rundeck_node( $post_id );
 		}
 	}
 
@@ -82,7 +82,7 @@ class ContainerRegistration extends Singleton {
 		} else {
 			$post_id = $id;
 		}
-		$url = wpd_get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
+		$url = $this->helpers->get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
 
 		$post_slug     = get_queried_object()->post_name;
 		$is_node_added = get_post_meta( $post_id, 'wpd_node_added', true );
@@ -91,7 +91,7 @@ class ContainerRegistration extends Singleton {
 		$email         = get_post_meta( $post_id, 'wpd_container_launched_by', true );
 
 		//Only run if the node has not been added.
-		if ( $is_node_added != 'yes' ) {
+		if ( $is_node_added !== 'yes' ) {
 
 			// Don't do anything if the transient is empty.
 			//Output buffer our Node details
@@ -109,11 +109,6 @@ class ContainerRegistration extends Singleton {
 
 			$update_nodes = str_replace( '</project>', $new_node, $all_nodes );
 
-			//print(print_r($update_nodes,true));
-			//die();
-
-			//echo $update_nodes;
-
 			//Take output buffer for our body in our POST request
 			$request_body = $update_nodes;
 
@@ -127,6 +122,7 @@ class ContainerRegistration extends Singleton {
 					'body'    => $request_body,
 				)
 			);
+
 			//Parse the JSON request
 			$answer = wp_remote_retrieve_body( $update );
 
@@ -150,11 +146,10 @@ class ContainerRegistration extends Singleton {
 
 		$url = wpd_get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
 
-
 		$post_slug = get_queried_object()->post_name;
 
 		// Don't do anything if the transient is empty.
-		//Output buffer our Node details
+		// Output buffer our Node details
 		ob_start();
 		?>
         <node name="<?php echo $url; ?>
@@ -186,7 +181,7 @@ class ContainerRegistration extends Singleton {
 				'body'    => $request_body,
 			)
 		);
-		
+
 		//Parse the JSON request
 		$answer = wp_remote_retrieve_body( $update );
 

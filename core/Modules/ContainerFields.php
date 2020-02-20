@@ -7,8 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Helpers;
-use MyProject\Container;
 
 /**
  * Class ContainerFields
@@ -17,58 +15,16 @@ use MyProject\Container;
 class ContainerFields extends Singleton {
 
 	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
-	/**
 	 * ContainerFields constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->helpers = Helpers::instance();
-
-		add_action( 'cmb2_save_post_fields', [ $this, 'stop_container_action' ], 10, 3 );
-		add_action( 'cmb2_save_post_fields', [ $this, 'run_container_support_action' ], 10, 3 );
 
 		add_filter( 'add_meta_boxes', [ $this, 'hide_meta_boxes_container' ] );
 		add_filter( 'acf/input/meta_box_priority', [ $this, 'km_set_acf_metabox_priority' ], 10, 2 );
 		add_filter( 'manage_container_posts_columns', [ $this, 'add_acf_columns' ] );
 		add_action( 'manage_container_posts_custom_column', [ $this, 'custom_column' ], 10, 2 );
 		add_filter( 'acf/update_value/name=wpd_container_status', [ $this, 'my_check_for_change' ], 10, 3 );
-	}
-
-	public function stop_container_action( $post_id, $updated, $cmb ) {
-		if ( did_action( 'cmb2_save_post_fields' ) === 1 ) {
-			if ( 'restart' === get_post_meta( $post_id, 'wpd_container_status', 1 ) ) {
-				ContainerManagement::instance()->container_action( 'restart', $post_id );
-				update_post_meta( $post_id, 'wpd_container_status', 'start' );
-			}
-			if ( 'stop' === get_post_meta( $post_id, 'wpd_container_status', 1 ) ) {
-				ContainerManagement::instance()->container_action( 'stop', $post_id );
-			}
-			if ( 'start' === get_post_meta( $post_id, 'wpd_container_status', 1 ) ) {
-				ContainerManagement::instance()->container_action( 'start', $post_id );
-			}
-		}
-	}
-
-	public function run_container_support_action( $post_id, $updated, $cmb ) {
-		if ( did_action( 'cmb2_save_post_fields' ) === 1 ) {
-
-			// hardcoded jobs?
-			if ( 'reset-permissions' === get_post_meta( $post_id, 'wpd_container_support', 1 ) ) {
-				ContainerManagement::instance()->start_rundeck_job( '7a95dfb4-fbbc-49bc-a5cb-509d2cff72de' );
-			}
-			if ( 'stop' === get_post_meta( $post_id, 'wpd_container_status', 1 ) ) {
-				ContainerManagement::instance()->start_rundeck_job( '7a95dfb4-fbbc-49bc-a5cb-509d2cff72de' );
-			}
-			if ( 'start' === get_post_meta( $post_id, 'wpd_container_status', 1 ) ) {
-				ContainerManagement::instance()->start_rundeck_job( '7a95dfb4-fbbc-49bc-a5cb-509d2cff72de' );
-			}
-			update_post_meta( $post_id, 'wpd_container_support', '' );
-		}
 	}
 
 	public function hide_meta_boxes_container() {
