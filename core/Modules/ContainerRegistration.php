@@ -105,7 +105,7 @@ class ContainerRegistration extends Singleton {
 			$new_node = ob_get_clean();
 
 			//Grab our existing node details
-			$all_nodes = wpd_get_rundeck_nodes();
+			$all_nodes = $this->get_rundeck_nodes();
 
 			$update_nodes = str_replace( '</project>', $new_node, $all_nodes );
 
@@ -163,7 +163,7 @@ class ContainerRegistration extends Singleton {
 		$new_node = ob_get_clean();
 
 		//Grab our existing node details
-		$all_nodes = wpd_get_rundeck_nodes();
+		$all_nodes = $this->get_rundeck_nodes();
 
 		//Find the node we want to remove
 		$parsed = get_string_between( $all_nodes, $new_node, '/>' );

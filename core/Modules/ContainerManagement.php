@@ -31,7 +31,7 @@ class ContainerManagement extends Singleton {
 
 		add_action( 'init', [ $this, 'register_container' ], 0 );
 		add_action( 'template_redirect', [ $this, 'bypass_output_caching' ] );
-		add_action( 'template_redirect', [ $this, 'wf_run_container_actions' ] );
+		add_action( 'template_redirect', [ $this, 'run_container_actions' ] );
 		add_action( 'gform_after_submission_3', [ $this, 'show_rundeck_output' ], 10, 2 );
 		add_action( 'template_redirect', [ $this, 'fetch_container_details' ] );
 		add_action( 'template_redirect', [ $this, 'update_container_details' ] );
@@ -236,7 +236,7 @@ class ContainerManagement extends Singleton {
 		);
 	}
 
-	public function wf_run_container_actions() {
+	public function run_container_actions() {
 		//Only fire on our site management page
 		if ( ! isset( $_GET['update-site-action'] ) ) {
 			return;
@@ -244,27 +244,27 @@ class ContainerManagement extends Singleton {
 
 		//Trigger the right Rundeck Action
 		if ( isset( $_POST['install-plugin'] ) ) {
-			wpd_start_rundeck_job( '1fcf1bdb-95a4-4ecb-bc46-78382f5a930b' );
+			$this->start_rundeck_job( '1fcf1bdb-95a4-4ecb-bc46-78382f5a930b' );
 		}
 
 		//Trigger the right Rundeck Action
 		if ( isset( $_POST['switch-to-php-5'] ) ) {
-			wpd_start_rundeck_job( 'a98ea708-f42e-418c-bc35-1066fb533e8e' );
+			$this->start_rundeck_job( 'a98ea708-f42e-418c-bc35-1066fb533e8e' );
 		}
 
 		//Trigger the right Rundeck Action
 		if ( isset( $_POST['create-new-backup'] ) ) {
-			wpd_start_rundeck_job( '5b51b1a4-bcc7-4c2c-a799-b024e561c87f' );
+			$this->start_rundeck_job( '5b51b1a4-bcc7-4c2c-a799-b024e561c87f' );
 		}
 
 		//Trigger the right Rundeck Action
 		if ( isset( $_POST['switch-to-php-7'] ) ) {
-			wpd_start_rundeck_job( 'cf9d0568-e150-4f59-b014-b7c7d9ca5e46' );
+			$this->start_rundeck_job( 'cf9d0568-e150-4f59-b014-b7c7d9ca5e46' );
 		}
 
 		//Caching Method = Super Cache
 		if ( isset( $_POST['caching-wpsc'] ) ) {
-			wpd_start_rundeck_job( '00beea1e-fe15-436b-872e-43ead65c8c51' );
+			$this->start_rundeck_job( '00beea1e-fe15-436b-872e-43ead65c8c51' );
 		}
 	}
 
@@ -332,7 +332,7 @@ class ContainerManagement extends Singleton {
 
 	public function update_container_details() {
 		if ( isset( $_GET['update-details'] ) ) {
-			wpd_flush_container_details();
+			$this->helpers->flush_container_details();
 		}
 	}
 
@@ -414,7 +414,7 @@ class ContainerManagement extends Singleton {
 	public function run_container_untrash_action( $post_id ) {
 		$post_type = get_post( $post_id )->post_type;
 		if ( $post_type === 'container' ) {
-			wpd_container_action( 'start', $post_id );
+			$this->container_action( 'start', $post_id );
 		}
 	}
 

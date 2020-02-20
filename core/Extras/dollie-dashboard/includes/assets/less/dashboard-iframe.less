@@ -1,0 +1,92 @@
+.toplevel_page_wefoster-dashboard,
+.wefoster-dashboard-iframe {
+	ul#adminmenu > li.current > a.current:after,
+	ul#adminmenu a.wp-has-current-submenu:after {
+		border-right-color: transparent;
+	}
+	#wpbody-content {
+		margin-left: -20px;
+		margin-right: -20px;
+		padding-bottom: 0;
+		width: 100%;
+		overflow-x: hidden !important;
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	.the-loading-message {
+		color: rgba(153, 153, 153, 0.34);
+		margin-top: 47px;
+		position: relative;
+		text-align: center;
+		z-index: 0;
+	}
+	.iframe-wrapper {
+		display: inline;
+		left: -20px;
+		overflow: hidden;
+		position: absolute;
+		right: 0;
+		z-index: 1;
+	}
+	iframe {
+		overflow-x: hidden !important;
+		min-height: 95vh;
+		width: 100%;
+		-moz-box-sizing: border-box;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		transition: opacity 1s linear;
+		opacity: 1;
+		-webkit-animation-delay: 0.7s;
+		-moz-animation-delay: 0.7s;
+		animation-delay: 0.7s;
+	}
+	.pre-loader {
+		visibility: visible;
+	}
+	.show-loader {
+		position: relative;
+		display: block;
+		height: 95vh;
+		width: 100%;
+		visibility: hidden;
+		opacity: 0;
+	}
+	.loading-message {
+		visibility: visible;
+	}
+	.done-loading {
+		display: none;
+	}
+	.pre-loader-message {
+		border-radius: 4px;
+		left: 50%;
+		position: absolute;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+	.pre-loader-message h3 {
+		bottom: -23px;
+		color: #c2c2c2;
+		left: 8px;
+		position: relative;
+		text-align: center;
+	}
+	.pre-loader-message img {
+		display: block;
+		height: 60px;
+		left: 0;
+		margin: auto auto 69px;
+		position: relative;
+		text-align: center;
+		top: 51px;
+		width: 60px;
+		z-index: 1;
+	}
+	#wpfooter,
+	.update-nag,
+	.updated {
+		display: none;
+	}
+}

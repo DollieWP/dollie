@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dollie\Core\Singleton;
 use Dollie\Core\Helpers;
 use Dollie\Core\Log;
+use GFFormsModel;
 
 /**
  * Class DomainWizard
@@ -31,31 +32,35 @@ class DomainWizard extends Singleton {
 
 		$domain_forms = $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' );
 		foreach ( $domain_forms as $form_id ) {
-			add_filter( 'gform_validation_' . $form_id, 'wpd_domain_wizard_add_domain', 20 );
-			add_filter( 'gform_validation_' . $form_id, 'wpd_domain_wizard_add_cloudflare', 20 );
-			add_filter( 'gform_validation_' . $form_id, 'wpd_domain_wizard_add_cloudflare_zone', 30 );
-			add_filter( 'gform_validation_' . $form_id, 'wpd_search_and_replace_domain', 30 );
-			add_action( 'gform_post_paging_' . $form_id, 'wpd_complete_migration_wizard', 10, 3 );
+			add_filter( 'gform_validation_' . $form_id, [ $this, 'domain_wizard_add_domain' ], 20 );
+			add_filter( 'gform_validation_' . $form_id, [ $this, 'domain_wizard_add_cloudflare' ], 20 );
+			add_filter( 'gform_validation_' . $form_id, [ $this, 'domain_wizard_add_cloudflare_zone' ], 30 );
+			add_filter( 'gform_validation_' . $form_id, [ $this, 'search_and_replace_domain' ], 30 );
+			add_action( 'gform_post_paging_' . $form_id, [ $this, 'complete_migration_wizard' ], 10, 3 );
 		}
 
-		add_action( 'template_redirect', 'wpd_continue_domain_setup' );
-		add_filter( 'gform_pre_render', 'gform_skip_page' );
-		add_filter( 'gform_validation_message', 'change_message', $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' )[0], 2 );
-		add_filter( 'gform_field_input', 'wpd_populate_instruction_fields', 10, 5 );
+		add_action( 'template_redirect', [ $this, 'continue_domain_setup' ] );
+		add_filter( 'gform_pre_render', [ $this, 'gform_skip_page' ] );
+		add_filter( 'gform_validation_message', [
+			$this,
+			'change_message'
+		], $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' )[0], 2 );
+
+		add_filter( 'gform_field_input', [ $this, 'populate_instruction_fields' ], 10, 5 );
 
 		$this->register_confirmation_fields( $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' ), array(
 			55,
 			60
 		) );
-		add_filter( 'gform_validation', 'gfcf_validation' );
+		add_filter( 'gform_validation', [ $this, 'gfcf_validation' ] );
 	}
 
-	public function wpd_domain_wizard_add_domain( $validation_result ) {
+	public function domain_wizard_add_domain( $validation_result ) {
 		global $wp_query;
 		$post_id   = $wp_query->get_queried_object_id();
 		$post_slug = get_queried_object()->post_name;
 
-		$user      = wp_get_current_user();
+		$user = wp_get_current_user();
 
 		$request   = get_transient( 'dollie_s5_container_details_' . $post_slug . '' );
 		$user_auth = DOLLIE_S5_USER;
@@ -66,7 +71,7 @@ class DomainWizard extends Singleton {
 		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ? rgpost( 'gform_source_page_number_' . $form['id'] ) : 1;
 
 		//Our form field ID + User meta fields
-		$domain   = rgar( $entry, '55' );
+		$domain = rgar( $entry, '55' );
 
 		//Are we on the first page?
 		if ( $current_page == 1 ) {
@@ -135,27 +140,26 @@ class DomainWizard extends Singleton {
 
 				//Also save the WWW Domain data.
 				update_post_meta( $post_id, 'wpd_www_domain_id', $update_response['id'] );
-				WDS_Log_Post::log_message( 'dollie-logs', $post_slug . ' linked up domain ' . $domain . '' );
+				Log::add( $post_slug . ' linked up domain ' . $domain . '' );
 			}
 			//Assign modified $form object back to the validation result
 			$validation_result['form'] = $form;
 
 			return $validation_result;
 
-		} else {
-			//Just return the form
-			$validation_result['form'] = $form;
-
-			return $validation_result;
 		}
+
+		//Just return the form
+		$validation_result['form'] = $form;
+
+		return $validation_result;
 	}
 
-	public function wpd_domain_wizard_add_cloudflare( $validation_result ) {
+	public function domain_wizard_add_cloudflare( $validation_result ) {
 		//User Meta
 		global $wp_query;
 		$post_id   = $wp_query->get_queried_object_id();
 		$post_slug = get_queried_object()->post_name;
-
 
 
 		$form         = $validation_result['form'];
@@ -163,13 +167,13 @@ class DomainWizard extends Singleton {
 		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ? rgpost( 'gform_source_page_number_' . $form['id'] ) : 1;
 
 		//Are the on the CloudFlare Setup Page?
-		if ( $current_page == 2 ) {
+		if ( $current_page === 2 ) {
 			//Our form field ID + User meta fields
 			$ssl_type = rgar( $entry, '11' );
 			$email    = rgar( $entry, '50' );
 			$api_key  = rgar( $entry, '27' );
 
-			if ( $ssl_type == 'cloudflare' ) {
+			if ( $ssl_type === 'cloudflare' ) {
 
 				//Set up the request to CloudFlare to verify
 				$update = wp_remote_post( 'https://api.cloudflare.com/client/v4/user', array(
@@ -190,7 +194,7 @@ class DomainWizard extends Singleton {
 					//finding Field with ID of 1 and marking it as failed validation
 					foreach ( $form['fields'] as &$field ) {
 
-						if ( $field->id == '27' ) {
+						if ( $field->id === '27' ) {
 							$field_page = $field->pageNumber;
 
 							// validation failed
@@ -225,7 +229,7 @@ class DomainWizard extends Singleton {
 					update_post_meta( $post_id, 'wpd_cloudflare_active', 'yes' );
 					update_post_meta( $post_id, 'wpd_cloudflare_id', $response['result']['id'] );
 					update_post_meta( $post_id, 'wpd_cloudflare_api', $api_key );
-					WDS_Log_Post::log_message( 'dollie-logs', $post_slug . ' linked up CloudFlare account' );
+					Log::add( $post_slug . ' linked up CloudFlare account' );
 				}
 
 			} else {
@@ -245,14 +249,14 @@ class DomainWizard extends Singleton {
 		}
 	}
 
-	public function wpd_domain_wizard_add_cloudflare_zone( $validation_result ) {
+	public function domain_wizard_add_cloudflare_zone( $validation_result ) {
 		//User Meta
 		global $wp_query;
 		$post_id   = $wp_query->get_queried_object_id();
 		$post_slug = get_queried_object()->post_name;
 
 		//Setup the Form
-		$entry   = GFFormsModel::get_current_lead();
+		$entry = GFFormsModel::get_current_lead();
 
 		//Form Variables
 		$form         = $validation_result['form'];
@@ -297,7 +301,7 @@ class DomainWizard extends Singleton {
 			} else {
 				//Save our CloudFlare Zone ID to user meta.
 				update_post_meta( $post_id, 'wpd_cloudflare_zone_id', $zone );
-				WDS_Log_Post::log_message( 'dollie-logs', 'Cloudflare Zone ID ' . $zone . ' is used for analytics for ' . $post_slug );
+				Log::add( 'Cloudflare Zone ID ' . $zone . ' is used for analytics for ' . $post_slug );
 			}
 			//Assign modified $form object back to the validation result
 			$validation_result['form'] = $form;
@@ -313,7 +317,7 @@ class DomainWizard extends Singleton {
 		}
 	}
 
-	public function wpd_search_and_replace_domain( $validation_result ) {
+	public function search_and_replace_domain( $validation_result ) {
 		//User Meta
 		global $wp_query;
 		$post_id   = $wp_query->get_queried_object_id();
@@ -339,7 +343,7 @@ class DomainWizard extends Singleton {
 		if ( isset( $current_page ) && $current_page == 5 ) {
 			$www = rgpost( 'input_81' );
 
-			if ( $www == 'yes' ) {
+			if ( $www === 'yes' ) {
 				$domain = 'www.' . get_post_meta( $post_id, 'wpd_domains', true );
 			} else {
 				$domain = get_post_meta( $post_id, 'wpd_domains', true );
@@ -362,11 +366,11 @@ class DomainWizard extends Singleton {
 
 			$answer = wp_remote_retrieve_body( $update );
 
-			WDS_Log_Post::log_message( 'dollie-logs', 'Search and replace ' . $post_slug . ' to update URL to ' . $domain . ' has started', $answer );
+			Log::add( 'Search and replace ' . $post_slug . ' to update URL to ' . $domain . ' has started', $answer );
 
 
 			$le = get_post_meta( $post_id, 'wpd_letsencrypt_enabled', true );
-			if ( $le == 'yes' ) {
+			if ( $le === 'yes' ) {
 				//Set up the request
 				$le_update = wp_remote_post( DOLLIE_INSTALL . '/s5Api/v1/sites/' . $container . '/routes/' . $le_domain . '/autoCert', array(
 					'method'  => 'POST',
@@ -412,7 +416,7 @@ class DomainWizard extends Singleton {
 		return $validation_result;
 	}
 
-	public function wpd_continue_domain_setup() {
+	public function continue_domain_setup() {
 		if ( is_singular( 'container' ) && $_GET['page'] == 'domain' && ! isset( $_GET['form_page'] ) ) {
 			global $wp_query;
 			$post_id   = $wp_query->get_queried_object_id();
@@ -462,7 +466,7 @@ class DomainWizard extends Singleton {
 ';
 	}
 
-	public function wpd_populate_instruction_fields( $input, $field, $value, $lead_id, $form_id ) {
+	public function populate_instruction_fields( $input, $field, $value, $lead_id, $form_id ) {
 		global $wp_query;
 		$post_id   = $wp_query->get_queried_object_id();
 		$post_slug = get_queried_object()->post_name;
@@ -472,7 +476,7 @@ class DomainWizard extends Singleton {
 		$ip           = get_post_meta( $post_id, 'wpd_container_ip', true );
 		$platform_url = get_post_meta( $post_id, 'wpd_url', true );
 
-		if ( $form_id == wpd_get_dollie_gravity_form_ids( 'dollie-domain' )[0] && $field->id == 40 ) {
+		if ( $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' )[0] && $field->id === 40 ) {
 			$input = '<h3>Linking Your Custom Domain to your Site!</h3>
           <p>
           In order to get your custom domain to work we need to make a change to your DNS configuration, so please make sure you have accesss to the control panel of where you registered your domain. Usually making a DNS change is very easy to do and your registrar will have documentation available on how to do this (or simply ask support to do this for you.) Here are the instructions on the changes you need to make.
@@ -492,7 +496,7 @@ Your domain might have multiple DNS records set up. For example if you also have
           ';
 		}
 
-		if ( $form_id == wpd_get_dollie_gravity_form_ids( 'dollie-domain' )[0] && $field->id == 43 ) {
+		if ( $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' )[0] && $field->id === 43 ) {
 			$input = '
           <div class="blockquote-box blockquote-success clearfix">
    <div class="square pull-left">
@@ -507,7 +511,7 @@ Your domain might have multiple DNS records set up. For example if you also have
             ';
 		}
 
-		if ( $form_id == wpd_get_dollie_gravity_form_ids( 'dollie-domain' ) && $field->id == 57 ) {
+		if ( $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' ) && $field->id === 57 ) {
 			$input = '
             <div class="blockquote-box blockquote-warning clearfix">
      <div class="square pull-left">
@@ -523,7 +527,7 @@ Your domain might have multiple DNS records set up. For example if you also have
 		return $input;
 	}
 
-	public function wpd_complete_migration_wizard( $form, $source_page_number, $current_page_number ) {
+	public function complete_migration_wizard( $form, $source_page_number, $current_page_number ) {
 		global $wp_query;
 		$post_id   = $wp_query->get_queried_object_id();
 		$post_slug = get_queried_object()->post_name;
@@ -534,13 +538,13 @@ Your domain might have multiple DNS records set up. For example if you also have
 			update_post_meta( $post_id, 'wpd_domain_migration_complete', 'yes' );
 
 			//Log our success
-			WDS_Log_Post::log_message( 'dollie-logs', $post_slug . ' domain setup completed. Using live real domain from this point onwards.' );
+			Log::add( $post_slug . ' domain setup completed. Using live real domain from this point onwards.' );
 
 			//Make a backup.
-			wpd_trigger_backup();
+			Backups::instance()->trigger_backup();
 
 			//Update our container details so that the new domain will be used to make container HTTP requests.
-			wpd_flush_container_details();
+			$this->helpers->flush_container_details();
 		}
 	}
 

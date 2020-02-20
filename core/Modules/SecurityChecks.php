@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Helpers;
-use Dollie\Core\Log;
+use WP_Http;
 
 /**
  * Class SecurityChecks
@@ -30,23 +30,22 @@ class SecurityChecks extends Singleton {
 		$this->helpers = Helpers::instance();
 
 		if ( get_option( 'options_wpd_wpvulndb_token' ) ) {
-			add_action( 'template_redirect', 'plugin_security_scanner_do_this_daily', 99 );
-			add_action( 'template_redirect', 'wpd_run_security_check', 1 );
+			add_action( 'template_redirect', [ $this, 'plugin_security_scanner_do_this_daily' ], 99 );
+			add_action( 'template_redirect', [ $this, 'run_security_check' ], 1 );
 		}
 	}
 
-	public function wpd_get_vulnerable_plugins() {
+	public function get_vulnerable_plugins() {
 		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-		$token     = get_option( 'options_wpd_wpvulndb_token' );
+		$post_id = $wp_query->get_queried_object_id();
+		$token   = get_option( 'options_wpd_wpvulndb_token' );
 
 		// Now that we have our container details get our secret key
-		$details_url          = wpd_get_container_url( $post_id ) . '/wp-content/mu-plugins/platform/container/details/stats.php';
+		$details_url          = $this->helpers->get_container_url( $post_id ) . '/wp-content/mu-plugins/platform/container/details/stats.php';
 		$details_transient_id = 'get_container_site_info';
 		$details_username     = 'container';
 		//Make the request
-		$details_request = wpd_container_api_request( $details_url, $details_transient_id, $details_username, $details_pass );
+		$details_request = $this->helpers->container_api_request( $details_url, $details_transient_id, $details_username, $details_pass );
 		//Encode to JSON (not used yet)
 		$container_data = json_encode( $details_request );
 
@@ -94,24 +93,16 @@ class SecurityChecks extends Singleton {
 
 	public function plugin_security_scanner_do_this_daily() {
 		if ( is_singular( 'container' ) ) {
-			global $wp_query;
-			$post_id   = $wp_query->get_queried_object_id();
 			$post_slug = get_queried_object()->post_name;
-
-			$user = wp_get_current_user();
-
-			$install = $post_slug;
-
 			$transient = get_transient( 'dollie_security_check_' . $post_slug );
-			$check     = get_transient( 'dollie_security_check_failed_' . $post_slug );
 
-			if ( $transient != 'done' ) {
+			if ( $transient !== 'done' ) {
 				set_transient( 'dollie_security_check_' . $post_slug, 'done', MINUTE_IN_SECONDS * 3600 );
 				$mail_body = '';
 
 				// run scan
 				$vulnerability_count = 0;
-				$vulnerabilities     = wpd_get_vulnerable_plugins();
+				$vulnerabilities     = $this->get_vulnerable_plugins();
 
 				foreach ( $vulnerabilities as $plugin_name => $plugin_vulnerabilities ) {
 					foreach ( $plugin_vulnerabilities as $vuln ) {
@@ -122,7 +113,6 @@ class SecurityChecks extends Singleton {
 
 				// if vulns, email admin
 				if ( $vulnerability_count ) {
-					//Something is wrong
 					set_transient( 'dollie_security_check_failed_' . $post_slug, 'failed', MINUTE_IN_SECONDS * 3600 );
 					$mail_body .= '' . sprintf(
 							_n(
@@ -137,21 +127,16 @@ class SecurityChecks extends Singleton {
 		}
 	}
 
-	public function wpd_run_security_check() {
+	public function run_security_check() {
 		if ( isset( $_GET['run-security-check'] ) ) {
-			global $current_user;
-			global $wp_query;
-			$post_id   = $wp_query->get_queried_object_id();
 			$post_slug = get_queried_object()->post_name;
 
-			$user      = wp_get_current_user();
-			$install   = $post_slug;
-			$user_name = $user->user_login;
 			delete_transient( 'dollie_security_check_' . $post_slug );
 			delete_transient( 'dollie_security_check_failed_' . $post_slug );
 			delete_transient( 'dollie_security_check_failed_' . $post_slug );
 			delete_transient( 'dollie_container_api_request_' . $post_slug . '_get_customer_site_info' );
 			wp_redirect( get_permalink() . '#plugins' );
+
 			exit;
 		}
 	}

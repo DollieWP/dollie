@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Helpers;
+use MyProject\Container;
 
 /**
  * Class ContainerFields
@@ -41,14 +42,14 @@ class ContainerFields extends Singleton {
 	public function stop_container_action( $post_id, $updated, $cmb ) {
 		if ( did_action( 'cmb2_save_post_fields' ) === 1 ) {
 			if ( 'restart' === get_post_meta( $post_id, 'wpd_container_status', 1 ) ) {
-				wpd_container_action( 'restart', $post_id );
+				ContainerManagement::instance()->container_action( 'restart', $post_id );
 				update_post_meta( $post_id, 'wpd_container_status', 'start' );
 			}
 			if ( 'stop' === get_post_meta( $post_id, 'wpd_container_status', 1 ) ) {
-				wpd_container_action( 'stop', $post_id );
+				ContainerManagement::instance()->container_action( 'stop', $post_id );
 			}
 			if ( 'start' === get_post_meta( $post_id, 'wpd_container_status', 1 ) ) {
-				wpd_container_action( 'start', $post_id );
+				ContainerManagement::instance()->container_action( 'start', $post_id );
 			}
 		}
 	}
@@ -58,13 +59,13 @@ class ContainerFields extends Singleton {
 
 			// hardcoded jobs?
 			if ( 'reset-permissions' === get_post_meta( $post_id, 'wpd_container_support', 1 ) ) {
-				wpd_start_rundeck_job( '7a95dfb4-fbbc-49bc-a5cb-509d2cff72de' );
+				ContainerManagement::instance()->start_rundeck_job( '7a95dfb4-fbbc-49bc-a5cb-509d2cff72de' );
 			}
 			if ( 'stop' === get_post_meta( $post_id, 'wpd_container_status', 1 ) ) {
-				wpd_start_rundeck_job( '7a95dfb4-fbbc-49bc-a5cb-509d2cff72de' );
+				ContainerManagement::instance()->start_rundeck_job( '7a95dfb4-fbbc-49bc-a5cb-509d2cff72de' );
 			}
 			if ( 'start' === get_post_meta( $post_id, 'wpd_container_status', 1 ) ) {
-				wpd_start_rundeck_job( '7a95dfb4-fbbc-49bc-a5cb-509d2cff72de' );
+				ContainerManagement::instance()->start_rundeck_job( '7a95dfb4-fbbc-49bc-a5cb-509d2cff72de' );
 			}
 			update_post_meta( $post_id, 'wpd_container_support', '' );
 		}
@@ -128,7 +129,7 @@ class ContainerFields extends Singleton {
 	public function my_check_for_change( $value, $post_id, $field ) {
 		$old_value = get_post_meta( $post_id, 'wpd_container_status', true );
 		if ( $old_value !== $value ) {
-			wpd_container_action( $value, $post_id );
+			ContainerManagement::instance()->container_action( $value, $post_id );
 		}
 
 		return $value;

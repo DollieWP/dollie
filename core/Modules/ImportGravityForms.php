@@ -7,8 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Helpers;
-use Dollie\Core\Log;
+use GFAPI;
 
 /**
  * Class ImportGravityForms
@@ -17,17 +16,10 @@ use Dollie\Core\Log;
 class ImportGravityForms extends Singleton {
 
 	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
-	/**
 	 * ImportGravityForms constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->helpers = Helpers::instance();
 
 		add_action( 'admin_init', [ $this, 'import_gravity_form' ] );
 
@@ -37,6 +29,7 @@ class ImportGravityForms extends Singleton {
 		if ( ! class_exists( 'GFAPI' ) ) {
 			return;
 		}
+		
 		$delete_form = wpd_get_dollie_gravity_form_ids( 'dollie-delete' );
 
 		if ( ! $delete_form ) {

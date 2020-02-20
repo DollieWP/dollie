@@ -29,7 +29,7 @@ class LaunchSite extends Singleton {
 
 		$this->helpers = Helpers::instance();
 
-		$launch_forms = wpd_get_dollie_gravity_form_ids( 'dollie-launch' );
+		$launch_forms = $this->helpers->get_dollie_gravity_form_ids( 'dollie-launch' );
 		foreach ( $launch_forms as &$form_id ) {
 			add_action( 'gform_field_validation_' . $form_id, [ $this, 'add_new_site' ], 10, 4 );
 		}
@@ -94,9 +94,9 @@ class LaunchSite extends Singleton {
 		$answer = wp_remote_retrieve_body( $register );
 
 		if ( is_wp_error( $answer ) ) {
-			WDS_Log_Post::log_message( 'dollie-logs', $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $answer, true ), 'deploy' );
+			Log::add( $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $answer, true ), 'deploy' );
 
-			if ( $field->id == '1' ) {
+			if ( $field->id === '1' ) {
 				$field_page = $field->pageNumber;
 				// validation failed
 				$validation_result['is_valid'] = false;
@@ -105,14 +105,14 @@ class LaunchSite extends Singleton {
 			}
 		}
 
-		WDS_Log_Post::log_message( 'dollie-logs', $domain . ' API request made to Dollie install ' . DOLLIE_INSTALL . ' (see log)', print_r( $answer, true ), 'deploy' );
+		Log::add( $domain . ' API request made to Dollie install ' . DOLLIE_INSTALL . ' (see log)', print_r( $answer, true ), 'deploy' );
 
 		$response = json_decode( $answer, true );
 
 		// Show an error of S5 API can't add the Route.
 		if ( ! array_key_exists( 'id', $response ) ) {
 
-			if ( $field->id == '1' ) {
+			if ( $field->id === '1' ) {
 				$field_page = $field->pageNumber;
 				// validation failed
 				$validation_result['is_valid'] = false;
@@ -134,16 +134,15 @@ class LaunchSite extends Singleton {
 				'body'    => $update_post_body,
 			) );
 
-			WDS_Log_Post::log_message( 'dollie-logs', $domain . ' Creating Site Dollie (see log)' . $post_slug, print_r( $deploy, true ), 'deploy' );
+			Log::add( $domain . ' Creating Site Dollie (see log)' . $post_slug, print_r( $deploy, true ), 'deploy' );
 
 			sleep( 20 );
 
-			//$status = wpd_test_site_deployment('https://'. $domain . DOLLIE_DOMAIN);
 			$status = false;
 
-			while ( $status == false ) {
+			while ( $status === false ) {
 				sleep( 5 );
-				if ( wpd_test_site_deployment( 'https://' . $domain . DOLLIE_DOMAIN ) == 200 ) {
+				if ( $this->test_site_deployment( 'https://' . $domain . DOLLIE_DOMAIN ) === 200 ) {
 					$status = true;
 				}
 			}
@@ -157,9 +156,10 @@ class LaunchSite extends Singleton {
 					'Content-Type'  => 'application/json',
 				),
 			) );
-			$update           = wp_remote_retrieve_body( $update_container );
 
-			WDS_Log_Post::log_message( 'dollie-logs', $domain . 'Deploying created site ' . $post_slug, print_r( $update_container, true ), 'deploy' );
+			$update = wp_remote_retrieve_body( $update_container );
+
+			Log::add( $domain . 'Deploying created site ' . $post_slug, print_r( $update_container, true ), 'deploy' );
 
 			sleep( 3 );
 
@@ -170,15 +170,12 @@ class LaunchSite extends Singleton {
 
 			// Show an error of S5 API has not completed the setup.
 			if ( ! array_key_exists( 'id', $update_response ) ) {
-				if ( $field->id == '1' ) {
-					// validation failed
-					$field_page                    = $field->pageNumber;
+				if ( $field->id === '1' ) {
 					$validation_result['is_valid'] = false;
 					$field->failed_validation      = true;
 					$field->validation_message     = 'Sorry, It seems like there was an issue with launching your new site. Our support team has been notified';
 				}
 			} else {
-
 				// Set the post ID so that we know the post was created successfully
 				$my_post = array(
 					'comment_status' => 'closed',
@@ -189,9 +186,10 @@ class LaunchSite extends Singleton {
 					'post_status'    => 'publish',
 					'post_type'      => 'container',
 				);
+
 				$post_id = wp_insert_post( $my_post );
 
-				WDS_Log_Post::log_message( 'New Site ' . $domain . ' has container ID of ' . $update_response['id'], '', 'deploy' );
+				Log::add( 'New Site ' . $domain . ' has container ID of ' . $update_response['id'], '', 'deploy' );
 
 				add_post_meta( $post_id, 'wpd_container_id', $update_response['id'], true );
 				add_post_meta( $post_id, 'wpd_container_ssh', $update_response['containerSshPort'], true );
@@ -205,7 +203,7 @@ class LaunchSite extends Singleton {
 				add_post_meta( $post_id, 'wpd_container_launched_by', $email, true );
 
 				//Set Flag if Demo
-				if ( $demo == 'yes' ) {
+				if ( $demo === 'yes' ) {
 					add_post_meta( $post_id, 'wpd_container_is_demo', 'yes', true );
 				}
 
@@ -223,7 +221,7 @@ class LaunchSite extends Singleton {
 				$new_node = ob_get_clean();
 
 				//Grab our existing node details
-				$all_nodes = wpd_get_rundeck_nodes();
+				$all_nodes = ContainerRegistration::instance()->get_rundeck_nodes();
 
 				$update_nodes = str_replace( '</project>', $new_node, $all_nodes );
 
@@ -240,20 +238,19 @@ class LaunchSite extends Singleton {
 					),
 					'body'    => $request_body,
 				) );
+
 				//Parse the JSON request
 				$answer = wp_remote_retrieve_body( $rundeck_update );
 
 				if ( is_wp_error( $rundeck_update ) ) {
-					WDS_Log_Post::log_message( 'dollie-logs', 'Node could not be registered for ' . $domain, print_r( $rundeck_update, true ), 'error' );
+					Log::add( 'Node could not be registered for ' . $domain, print_r( $rundeck_update, true ), 'error' );
 				} else {
 					add_post_meta( $post_id, 'wpd_node_added', 'yes', true );
-					WDS_Log_Post::log_message( 'dollie-logs', $domain . ' was added as a Rundeck node' );
+					Log::add( $domain . ' was added as a Rundeck node' );
 				}
 
-				//add_post_meta($post_id, 'wpd_container_deploy_time', $update_response['deployedAt'], true);
-
 				//Set Flag if Blueprint
-				if ( $blueprint != '' ) {
+				if ( $blueprint !== '' ) {
 					sleep( 6 );
 					add_post_meta( $post_id, 'wpd_container_based_on_blueprint', 'yes', true );
 					add_post_meta( $post_id, 'wpd_container_based_on_blueprint_id', $blueprint, true );
@@ -276,27 +273,21 @@ class LaunchSite extends Singleton {
 						),
 						'body'    => $blueprint_body,
 					) );
-					WDS_Log_Post::log_message( 'dollie-logs', $domain . ' will use blueprint' . $blueprint_install, '', 'deploy' );
+					Log::add( $domain . ' will use blueprint' . $blueprint_install, '', 'deploy' );
 					update_post_meta( $post_id, 'wpd_blueprint_deployment_complete', 'yes' );
 				}
 
-				if ( $demo == 'yes' && is_page( 'get-started' ) ) {
-					if ( function_exists( 'wpd_apply_partner_template' ) ) {
-						WDS_Log_Post::log_message( 'dollie-logs', $domain . ' starts partner deploy', '', 'deploy' );
-						wpd_apply_partner_template( $post_id, $domain, rgar( $entry, '6' ), rgar( $entry, '8' ), rgar( $entry, '9' ) );
-					}
+				if ( $demo === 'yes' && is_page( 'get-started' ) && function_exists( 'wpd_apply_partner_template' ) ) {
+					Log::add( $domain . ' starts partner deploy', '', 'deploy' );
+					wpd_apply_partner_template( $post_id, $domain, rgar( $entry, '6' ), rgar( $entry, '8' ), rgar( $entry, '9' ) );
 				}
 
-				if ( $demo == 'yes' && is_page( 'demo-deploy' ) ) {
-					if ( function_exists( 'wpd_apply_demo_template' ) ) {
-						WDS_Log_Post::log_message( 'dollie-logs', $domain . ' starts partner deploy', '', 'deploy' );
-						wpd_apply_demo_template( $post_id, $domain, rgar( $entry, '6' ), rgar( $entry, '8' ), rgar( $entry, '9' ), rgar( $entry, '12' ), rgar( $entry, '13' ) );
-					}
+				if ( $demo === 'yes' && is_page( 'demo-deploy' ) && function_exists( 'wpd_apply_demo_template' ) ) {
+					Log::add( $domain . ' starts partner deploy', '', 'deploy' );
+					wpd_apply_demo_template( $post_id, $domain, rgar( $entry, '6' ), rgar( $entry, '8' ), rgar( $entry, '9' ), rgar( $entry, '12' ), rgar( $entry, '13' ) );
 				}
 
 				$validation_result['is_valid'] = true;
-
-				//wpd_register_rundeck_node();
 			}
 		}
 
@@ -312,10 +303,10 @@ class LaunchSite extends Singleton {
             <script type="text/javascript">
                 jQuery(document).ready(function ($) {
 					<?php if (isset( $_COOKIE['dollie_blueprint_id'] )) { ?>
-                    jQuery("#field_14_4").addClass("hidden");
+                    $("#field_14_4").addClass("hidden");
 					<?php } ?>
-                    if (jQuery('#input_14_4 li').length == 0) {
-                        jQuery("#field_14_4").addClass("hidden");
+                    if ($('#input_14_4 li').length === 0) {
+                        $("#field_14_4").addClass("hidden");
                     }
 
                     jQuery("#field_14_1 .ginput_container").append("<span class='domain-suffix'><strong><?php echo DOLLIE_DOMAIN; ?></strong></span>");
@@ -404,21 +395,20 @@ class LaunchSite extends Singleton {
 	}
 
 	public function test_site_deployment( $url ) {
-		$response      = wp_remote_get( $url );
-		$response_code = wp_remote_retrieve_response_code( $response );
+		$response = wp_remote_get( $url );
 
-		return $response_code;
+		return wp_remote_retrieve_response_code( $response );
 	}
 
 	public function redirect_to_container_launch() {
-		if ( wpd_count_total_containers() == 0 && ! is_page( 'launch-site' ) && current_user_can( 'manage_options' ) ) {
+		if ( $this->helpers->count_total_containers() === 0 && ! is_page( 'launch-site' ) && current_user_can( 'manage_options' ) ) {
 			wp_redirect( get_site_url() . '/launch-site' );
 			exit;
 		}
 	}
 
 	public function staging_limit_reached() {
-		return wpd_count_total_containers() >= 3 && ! wpd_is_live();
+		return $this->helpers->count_total_containers() >= 3 && ! Options::instance()->is_live();
 	}
 
 }

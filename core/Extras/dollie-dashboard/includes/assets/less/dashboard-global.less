@@ -1,0 +1,203 @@
+@media only screen and (min-width: 768px) {
+  #wpwrap {
+
+    // Custom Fixed Header on Desktops
+    .acf-settings-wrap h2 {
+      background: #414951 none repeat scroll 0 0;
+      border-top: 1px solid #383f46;
+      color: #fff;
+      margin-left: -22px;
+      margin-right: -20px;
+      margin-top: -10px;
+      padding-bottom: 20px !important;
+      padding-left: 68px;
+      padding-right: 20px !important;
+      padding-top: 20px !important;
+      position: fixed;
+      top: 42px;
+      width: 100%;
+      z-index: 100;
+
+      &:before {
+        background-image: url( "../img/logo-dashboard-active.png" );
+        background-size: cover;
+        content: "";
+        display: inline-block;
+        height: 29px;
+        left: 25px;
+        position: absolute;
+        top: 21px;
+        width: 32px;
+      }
+    }
+
+    #submitdiv {
+      border: 0;
+      box-shadow: none;
+
+      .hndle,
+      .spinner {
+        display: none;
+      }
+    }
+
+    #major-publishing-actions {
+      background: transparent none repeat scroll 0 0;
+      border-top: 0 none;
+      clear: both;
+      margin-right: -39px;
+      padding: 10px;
+      position: fixed;
+      top: 32px;
+      width: 17%;
+      z-index: 100;
+    }
+
+    #side-sortables {
+      margin-top: -20px;
+    }
+
+    #publishing-action {
+      float: none;
+      margin-left: -9px;
+      margin-top: 2px;
+      width: 115%;
+
+      &:before {
+        font-family: dashicons;
+        content: "\f147";
+        color: rgba(255, 255, 255, 0.44);
+        position: absolute;
+        font-size: 36px;
+        top: 24px;
+        font-weight: normal !important;
+        left: 51px;
+      }
+    }
+
+    #major-publishing-actions input,
+    #minor-publishing-actions .preview,
+    #minor-publishing-actions input {
+      text-align: center;
+      width: 100%;
+      padding: 0 18px;
+      height: 45px;
+      background: darken(@brand-secondary, 10%);
+      font-weight: bold;
+
+      &:hover {
+        background: @brand-secondary;
+      }
+    }
+
+    .wp-core-ui .notice.is-dismissible {
+      top: 79px !important;
+    }
+
+    // The Actual Content Area
+    #poststuff {
+      padding-top: 85px;
+    }
+  }
+}
+
+#wpwrap {
+  .hndle {
+    background: @brand-primary;
+    color: #fff;
+  }
+
+  #poststuff h3 {
+    padding: 12px 20px;
+  }
+
+  .acf-fields > .acf-field {
+    padding: 20px !important;
+  }
+
+  #side-sortables {
+    .hndle {
+      display: none;
+      background: #222;
+    }
+  }
+
+  .update-nag {
+    display: none;
+  }
+
+  // Pretty Notices Box
+  #setting-error-tgmpa {
+    background: url( "http://cdn.wefoster.co/dashboard/background.png" ) no-repeat;
+    background-size: cover;
+    background-position: right 0 bottom 0;
+    border-left: 0;
+    border-top: 4px darken lighten(@brand-complimentary, 1%);
+    border-bottom: 10px solid darken(@brand-complimentary, 1.5%);
+    color: lighten(@brand-complimentary, 40%);
+    font-weight: normal;
+    font-size: 120%;
+    padding: 20px;
+    border-radius: 4px;
+    padding-bottom: 60px;
+
+    strong {
+      color: #afb5be;
+      font-style: italic;
+      font-weight: 200;
+    }
+
+    em {
+      display: block;
+    }
+
+    span:first-child {
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+      font-style: normal;
+      margin-bottom: 30px !important;
+    }
+
+    .notice-dismiss {
+      display: none;
+    }
+
+    span:last-child {
+      background: none repeat scroll 0 0 #44c0a9;
+          border-radius: 4px 4px 0 0;
+          bottom: 0;
+          display: inline-block;
+          font-size: 80%;
+          letter-spacing: .5px;
+          margin-top: 0;
+          padding: 12px 15px;
+          text-transform: uppercase;
+          display: inline !important;
+          position: relative;
+          top: 45px;
+          border-radius: 0;
+          left: -14px;
+
+      a {
+        display: inline;
+      }
+
+      a:before {
+
+      }
+    }
+
+    a {
+      color: #fff;
+      display: block;
+      font-weight: bold;
+      font-style: normal;
+      margin-top: 7px;
+
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}

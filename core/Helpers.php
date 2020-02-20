@@ -191,7 +191,7 @@ class Helpers extends Singleton {
 				)
 			);
 
-			wpd_flush_container_details();
+			$this->flush_container_details();
 
 			delete_post_meta( $post_id, 'wpd_domain_migration_complete' );
 			delete_post_meta( $post_id, 'wpd_cloudflare_zone_id' );

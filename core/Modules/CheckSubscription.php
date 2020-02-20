@@ -201,7 +201,7 @@ class CheckSubscription extends Singleton {
 					Log::add( get_the_title( get_the_ID() ) . ' has been scheduled for removal' );
 				} else {
 					//Start the containers that were stopped via S5 API
-					wpd_container_action( 'start', get_the_ID() );
+					ContainerManagement::instance()->container_action( 'start', get_the_ID() );
 					Log::add( get_the_title( get_the_ID() ) . ' has been started because the customer has re-activated their subscription' );
 					sleep( 3 );
 				}
@@ -242,7 +242,7 @@ class CheckSubscription extends Singleton {
 
 				//If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
 				if ( $trigger_date < $today ) {
-					wpd_container_action( 'stop', get_the_ID() );
+					ContainerManagement::instance()->container_action( 'stop', get_the_ID() );
 					Log::add( get_the_title( get_the_ID() ) . ' has been stopped because the customer has no active subscription' );
 					sleep( 3 );
 				}
@@ -274,7 +274,7 @@ class CheckSubscription extends Singleton {
 				$trigger_date = get_post_meta( get_the_ID(), 'wpd_undeploy_container_at', true );
 				//If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
 				if ( $trigger_date < $today ) {
-					wpd_container_action( 'undeploy', get_the_ID() );
+					ContainerManagement::instance()->container_action( 'undeploy', get_the_ID() );
 					Log::add( get_the_title( get_the_ID() ) . ' has been undeployed' );
 				}
 			}

@@ -1,0 +1,29 @@
+/**
+ * WDS Log Post
+ * http://webdevstudios.com
+ *
+ * Copyright (c) 2015 WebDevStudios
+ * Licensed under the GPLv2+ license.
+ */
+.wds-log-tag {
+    padding: 3px 9px;
+    border-radius: 8px;
+    color: #FFF;
+    font-size: 80%;
+    text-transform: uppercase;
+    font-weight: bold;
+    position: relative;
+    text-shadow: 0px 1px 0px #22222240;
+    top: 0px;
+    margin-right: 5px;
+}
+.wp-editor-area {
+    margin-top: 0;
+    color: #000 !important;
+    padding: 10px;
+}
+.wds-log-tag.debug {
+    background-color: #EE8F00;
+}
+
+/*# sourceMappingURL=wds-log-post.css.map */

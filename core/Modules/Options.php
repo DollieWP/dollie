@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Helpers;
-use Dollie\Core\Log;
 
 /**
  * Class Options
@@ -29,17 +28,15 @@ class Options extends Singleton {
 
 		$this->helpers = Helpers::instance();
 
-		add_filter( 'acf/settings/save_json', function () {
+		add_filter( 'acf/settings/save_json', static function () {
 			return get_template_directory() . '/acf-json';
 		} );
 
-		add_filter( 'acf/settings/load_json', function ( $paths ) {
-			$paths = array( get_template_directory() . '/acf-json' );
-
-			return $paths;
+		add_filter( 'acf/settings/load_json', static function () {
+			return [ get_template_directory() . '/acf-json' ];
 		} );
 
-		add_action( 'admin_init', 'wpd_deactivate_admin_menu_editor' );
+		add_action( 'admin_init', [ $this, 'deactivate_admin_menu_editor' ] );
 
 		if ( function_exists( 'acf_add_options_page' ) ) {
 
@@ -60,15 +57,15 @@ class Options extends Singleton {
 		add_action( 'admin_menu', 'remove_duplicate_admin_menu', 100 );
 		add_action( 'admin_menu', 'remove_duplicate_integration_menu', 100 );
 		add_action( 'admin_menu', 'add_theme_menu_item', 11 );
-		add_action( 'wp_before_admin_bar_render', 'wpd_dollie_adminbar_menu', 2000 );
+		add_action( 'wp_before_admin_bar_render', [ $this, 'dollie_adminbar_menu' ], 2000 );
 
 		add_action(
-			'load-edit.php', function () {
+			'load-edit.php', static function () {
 			$screen = get_current_screen();
 			// Only edit post screen:
 			if ( 'edit-container' === $screen->id ) {
 				add_action(
-					'all_admin_notices', function () {
+					'all_admin_notices', static function () {
 					?>
                     <div class="dollie-notice">
                         <h3>
@@ -95,7 +92,7 @@ class Options extends Singleton {
 			// Only edit post screen:
 			if ( 'edit-dollie-logs' === $screen->id ) {
 				add_action(
-					'all_admin_notices', function () {
+					'all_admin_notices', static function () {
 					?>
                     <div class="dollie-notice">
                         <h3>
@@ -118,27 +115,21 @@ class Options extends Singleton {
 				}
 				);
 			}
-
 		}
 		);
 
-		add_action( 'admin_menu', 'wpd_dollie_tools', 99 );
-		add_action( 'admin_menu', 'wpd_dollie_integrations', 99 );
-		add_filter( 'admin_body_class', 'wpd_add_staging_body_class' );
+		add_action( 'admin_menu', [ $this, 'dollie_tools' ], 99 );
+		add_action( 'admin_menu', [ $this, 'dollie_integrations' ], 99 );
+		add_filter( 'admin_body_class', [ $this, 'add_staging_body_class' ] );
 	}
 
-	public function wpd_is_live() {
-		if ( get_option( 'options_wpd_dollie_status' ) ) {
-			return true;
-		} else {
-			return false;
-		}
-
+	public function is_live() {
+		return (bool) get_option( 'options_wpd_dollie_status' );
 	}
 
-	public function wpd_deactivate_admin_menu_editor() {
+	public function deactivate_admin_menu_editor() {
 		$url = get_option( 'siteurl' );
-		if ( wpd_is_live() && strpos( $url, 'dollie.io' ) ) {
+		if ( $this->is_live() && strpos( $url, 'dollie.io' ) ) {
 			deactivate_plugins( 'admin-menu-editor-pro/menu-editor.php' );
 		}
 	}
@@ -148,22 +139,17 @@ class Options extends Singleton {
 			return;
 		}
 
-		if ( wpd_is_live() ) {
-			$title = "Dollie (Live)";
+		if ( $this->is_live() ) {
+			$title = 'Dollie (Live)';
 		} else {
-			$title = "Dollie (Staging)";
+			$title = 'Dollie (Staging)';
 		}
 
-		// all of these arguments are identical to the arguments
-		// used to create in the function add_menu_page()
 		$args = array(
 			'page_title'  => 'Settings',
 			'menu_title'  => $title,
-			// set the page slug, do not let it be generated
-			// or you may not be able to find it to remove
 			'menu_slug'   => 'wpd_platform_setup',
 			'capability'  => 'manage_options',
-			// choose a menu postion that you know will not be changed
 			'position'    => '-4.374981',
 			'parent_slug' => '',
 			'icon_url'    => false,
@@ -175,31 +161,34 @@ class Options extends Singleton {
 
 	public function add_a_test_menu_page() {
 
-		if ( wpd_is_live() ) {
-			$title = "Dollie (Live)";
+		if ( $this->is_live() ) {
+			$title = 'Dollie (Live)';
 		} else {
-			$title = "Dollie (Staging)";
+			$title = 'Dollie (Staging)';
 		}
 
-		// all of these arguments are identical to the arguments
-		// used to create in the function acf_add_options_page()
-		$page_title = $title;
 		$menu_title = 'Settings';
 		$capability = 'manage_options';
 		$position   = '75.374981';
 		$menu_slug  = 'wpd_platform_setup';
 		$callback   = '';
 		$icon       = '';
-		add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $callback, $icon, $position );
+
+		add_menu_page(
+			$title,
+			$menu_title,
+			$capability,
+			$menu_slug,
+			$callback,
+			$icon,
+			$position
+		);
 	}
 
 	public function remove_duplicate_admin_menu() {
 		global $menu;
-		// loop trrough the menu and remove one of the duplicates
-		// this loop is looking for the page slug
 		foreach ( $menu as $key => $values ) {
-			if ( $values[2] == 'wpd_platform_setup' ) {
-				// found our slug, unset the menu item and exit
+			if ( $values[2] === 'wpd_platform_setup' ) {
 				unset( $menu[ $key ] );
 				break;
 			}
@@ -208,11 +197,8 @@ class Options extends Singleton {
 
 	public function remove_duplicate_integration_menu() {
 		global $menu;
-		// loop trrough the menu and remove one of the duplicates
-		// this loop is looking for the page slug
 		foreach ( $menu as $key => $values ) {
-			if ( $values[2] == 'dollie-integrations' ) {
-				// found our slug, unset the menu item and exit
+			if ( $values[2] === 'dollie-integrations' ) {
 				unset( $menu[ $key ] );
 				break;
 			}
@@ -230,15 +216,15 @@ class Options extends Singleton {
 		);
 	}
 
-	public function wpd_dollie_adminbar_menu() {
+	public function dollie_adminbar_menu() {
 		global $wp_admin_bar;
 
 		$iconurl = DOLLIE_PLUGIN_URL . 'assets/img/active.png';
 
-		if ( wpd_is_live() ) {
-			$menu_title = "Dollie (Live)";
+		if ( $this->is_live() ) {
+			$menu_title = 'Dollie (Live)';
 		} else {
-			$menu_title = "Dollie (Staging)";
+			$menu_title = 'Dollie (Staging)';
 		}
 
 		$iconspan = '<span class="custom-icon" style="
@@ -251,11 +237,12 @@ class Options extends Singleton {
         margin-right: 4px;
         position: relative;
         top: 0px;
-        background-image:url(\'' . $iconurl . '\');"></span>';
+        background-image:url("' . $iconurl . '");"></span>';
 
 		$title = $menu_title;
 
 		$menu_id = 'dab';
+
 		$wp_admin_bar->add_menu(
 			array(
 				'id'    => $menu_id,
@@ -263,7 +250,8 @@ class Options extends Singleton {
 				'href'  => '/',
 			)
 		);
-		if ( ! wpd_is_live() ) {
+
+		if ( ! $this->is_live() ) {
 			$wp_admin_bar->add_menu(
 				array(
 					'parent' => $menu_id,
@@ -273,6 +261,7 @@ class Options extends Singleton {
 				)
 			);
 		}
+
 		$wp_admin_bar->add_menu(
 			array(
 				'parent' => $menu_id,
@@ -282,6 +271,7 @@ class Options extends Singleton {
 				'meta'   => array( 'target' => '' ),
 			)
 		);
+
 		$wp_admin_bar->add_menu(
 			array(
 				'parent' => $menu_id,
@@ -291,6 +281,7 @@ class Options extends Singleton {
 				'meta'   => array( 'target' => '' ),
 			)
 		);
+
 		$wp_admin_bar->add_menu(
 			array(
 				'parent' => $menu_id,
@@ -299,6 +290,7 @@ class Options extends Singleton {
 				'href'   => 'https://partners.getdollie.com',
 			)
 		);
+
 		$wp_admin_bar->add_menu(
 			array(
 				'parent' => $menu_id,
@@ -307,6 +299,7 @@ class Options extends Singleton {
 				'href'   => 'https://dollie-hub.herokuapp.com/',
 			)
 		);
+
 		$wp_admin_bar->add_menu(
 			array(
 				'parent' => $menu_id,
@@ -316,6 +309,7 @@ class Options extends Singleton {
 				'meta'   => array( 'target' => '' ),
 			)
 		);
+
 		$wp_admin_bar->add_menu(
 			array(
 				'parent' => $menu_id,
@@ -325,6 +319,7 @@ class Options extends Singleton {
 				'meta'   => array( 'target' => '' ),
 			)
 		);
+
 		$wp_admin_bar->add_menu(
 			array(
 				'parent' => $menu_id,
@@ -335,16 +330,29 @@ class Options extends Singleton {
 		);
 	}
 
-	public function wpd_dollie_tools() {
-		add_submenu_page( 'wpd_platform_setup', 'Tools', 'Tools', 'manage_options', 'wpd_tools', 'wpd_dollie_tools_content' );
+	public function dollie_tools() {
+		add_submenu_page(
+			'wpd_platform_setup',
+			'Tools',
+			'Tools',
+			'manage_options',
+			'wpd_tools',
+			'wpd_dollie_tools_content'
+		);
 	}
 
-	public function wpd_dollie_integrations() {
-		add_submenu_page( 'wpd_platform_setup', '<span class="breaking-news-toggle">Integrations</span>', '<span class="dashicons dashicons-awards"></span> Integrations', 'manage_options', 'dollie-integrations', 'dollie-integrations' );
+	public function dollie_integrations() {
+		add_submenu_page(
+			'wpd_platform_setup',
+			'<span class="breaking-news-toggle">Integrations</span>',
+			'<span class="dashicons dashicons-awards"></span> Integrations',
+			'manage_options',
+			'dollie-integrations',
+			'dollie-integrations'
+		);
 	}
 
-	public function wpd_dollie_tools_content() {
-
+	public function dollie_tools_content() {
 		// Markup for synchronize button.
 		echo '<div class="dollie-notice">
 				<h1><span class="dashicons dashicons-admin-tools"></span>Dollie Tools</h1>
@@ -358,9 +366,9 @@ class Options extends Singleton {
 
 		// If synchronize button is clicked then call the function to perform task.
 		if ( array_key_exists( 'synchronize', $_POST ) ) {
-			$containers = wpd_sync_containers();
+			$containers = ContainerManagement::instance()->sync_containers();
 
-			if ( isset( $containers ) && count( $containers ) ) {
+			if ( ! empty( $containers ) ) {
 
 				// Display Synchronized container's details.
 				echo 'Synchronized ' . count( $containers ) . ' containers<br><br><br>';
@@ -391,11 +399,12 @@ class Options extends Singleton {
 		}
 	}
 
-	public function wpd_add_staging_body_class( $classes ) {
-		if ( ! wpd_is_live() ) {
-			return "$classes dollie_is_staging";
+	public function add_staging_body_class( $classes ) {
+		if ( ! $this->is_live() ) {
+			$classes .= ' dollie_is_staging';
 		}
-		// Or: return "$classes my_class_1 my_class_2 my_class_3";
+
+		return $classes;
 	}
 
 }
