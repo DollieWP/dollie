@@ -43,12 +43,12 @@ class ContainerFields extends Singleton {
 		return array_merge(
 			$columns,
 			[
-				'status'       => __( 'Status', DOLLIE_SLUG ),
-				'active_theme' => __( 'Theme', DOLLIE_SLUG ),
-				'domain'       => __( 'Domain', DOLLIE_SLUG ),
-				'blueprint'    => __( 'Blueprint', DOLLIE_SLUG ),
-				'users'        => __( 'Users', DOLLIE_SLUG ),
-				'size'         => __( 'Size', DOLLIE_SLUG ),
+				'status'       => esc_html__( 'Status', 'dollie' ),
+				'active_theme' => esc_html__( 'Theme', 'dollie' ),
+				'domain'       => esc_html__( 'Domain', 'dollie' ),
+				'blueprint'    => esc_html__( 'Blueprint', 'dollie' ),
+				'users'        => esc_html__( 'Users', 'dollie' ),
+				'size'         => esc_html__( 'Size', 'dollie' ),
 			]
 		);
 	}

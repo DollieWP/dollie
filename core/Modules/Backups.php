@@ -294,7 +294,7 @@ class Backups extends Singleton {
 		$this->trigger_backup();
 		?>
         <div class="box-brand-secondary padding-full box-full margin-top-full create-backup-notice">
-			<?php _e( 'We\'re building your backup! You\'ll see it appear in the backup list on the left once it\'s done! If you have a large site this might take a while!', DOLLIE_SLUG ); ?>
+			<?php esc_html_e( 'We\'re building your backup! You\'ll see it appear in the backup list on the left once it\'s done! If you have a large site this might take a while!', 'dollie' ); ?>
         </div>
 		<?php
 	}
