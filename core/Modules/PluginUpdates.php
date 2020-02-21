@@ -94,13 +94,15 @@ class PluginUpdates extends Singleton {
                 </div>
 				<?php
 			} else {
-
 				foreach ( $plugins as $plugin ) {
-
 					if ( $plugin['status'] === 'must-use' || $plugin['update'] === 'none' ) {
 						continue;
 					}
-					$choices[] = array( 'text' => $plugin['title'] . $plugin['version'], 'value' => $plugin['name'] );
+
+					$choices[] = [
+						'text'  => $plugin['title'] . $plugin['version'],
+						'value' => $plugin['name']
+					];
 				}
 			}
 

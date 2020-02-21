@@ -41,14 +41,14 @@ class Options extends Singleton {
 		if ( function_exists( 'acf_add_options_page' ) ) {
 
 			acf_add_options_page(
-				array(
+				[
 					'page_title' => 'Dollie Setup',
 					'menu_title' => 'Dollie',
 					'menu_slug'  => 'wpd_platform_setup',
 					'capability' => 'manage_options',
 					'redirect'   => true,
 					'position'   => 2,
-				)
+				]
 			);
 		}
 
@@ -145,7 +145,7 @@ class Options extends Singleton {
 			$title = 'Dollie (Staging)';
 		}
 
-		$args = array(
+		$args = [
 			'page_title'  => 'Settings',
 			'menu_title'  => $title,
 			'menu_slug'   => 'wpd_platform_setup',
@@ -155,7 +155,7 @@ class Options extends Singleton {
 			'icon_url'    => false,
 			'redirect'    => true,
 			'autoload'    => true,
-		);
+		];
 		acf_add_options_page( $args );
 	}
 
@@ -244,89 +244,89 @@ class Options extends Singleton {
 		$menu_id = 'dab';
 
 		$wp_admin_bar->add_menu(
-			array(
+			[
 				'id'    => $menu_id,
 				'title' => $iconspan . $title,
 				'href'  => '/',
-			)
+			]
 		);
 
 		if ( ! $this->is_live() ) {
 			$wp_admin_bar->add_menu(
-				array(
+				[
 					'parent' => $menu_id,
 					'title'  => __( 'Apply to go Live' ),
 					'id'     => 'dwb-go-live',
 					'href'   => 'https://partners.getdollie.com/go-live',
-				)
+				]
 			);
 		}
 
 		$wp_admin_bar->add_menu(
-			array(
+			[
 				'parent' => $menu_id,
 				'title'  => __( 'View Containers' ),
 				'id'     => 'dab-site',
 				'href'   => get_admin_url() . 'edit.php?post_type=container',
-				'meta'   => array( 'target' => '' ),
-			)
+				'meta'   => [ 'target' => '' ],
+			]
 		);
 
 		$wp_admin_bar->add_menu(
-			array(
+			[
 				'parent' => $menu_id,
 				'title'  => __( 'Integrations' ),
 				'id'     => 'dab-integrations',
 				'href'   => get_admin_url() . 'admin.php?page=dollie-integrations',
-				'meta'   => array( 'target' => '' ),
-			)
+				'meta'   => [ 'target' => '' ],
+			]
 		);
 
 		$wp_admin_bar->add_menu(
-			array(
+			[
 				'parent' => $menu_id,
 				'title'  => __( 'Visit Partner Dashboard' ),
 				'id'     => 'dwb-partner',
 				'href'   => 'https://partners.getdollie.com',
-			)
+			]
 		);
 
 		$wp_admin_bar->add_menu(
-			array(
+			[
 				'parent' => $menu_id,
 				'title'  => __( 'Join us on Slack' ),
 				'id'     => 'dwb-slack',
 				'href'   => 'https://dollie-hub.herokuapp.com/',
-			)
+			]
 		);
 
 		$wp_admin_bar->add_menu(
-			array(
+			[
 				'parent' => $menu_id,
 				'title'  => __( 'Settings' ),
 				'id'     => 'dab-settings',
 				'href'   => get_admin_url() . 'admin.php?page=wpd_platform_setup',
-				'meta'   => array( 'target' => '' ),
-			)
+				'meta'   => [ 'target' => '' ],
+			]
 		);
 
 		$wp_admin_bar->add_menu(
-			array(
+			[
 				'parent' => $menu_id,
 				'title'  => __( 'View Logs' ),
 				'id'     => 'dab-logs',
 				'href'   => get_admin_url() . 'edit.php?post_type=dollie-logs',
-				'meta'   => array( 'target' => '' ),
-			)
+				'meta'   => [ 'target' => '' ],
+			]
 		);
 
 		$wp_admin_bar->add_menu(
-			array(
+			[
 				'parent' => $menu_id,
 				'title'  => __( 'Launch Site' ),
 				'id'     => 'dwb-launch',
 				'href'   => '/launch-site',
-			)
+			]
 		);
 	}
 

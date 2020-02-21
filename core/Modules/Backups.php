@@ -57,13 +57,12 @@ class Backups extends Singleton {
 			$secret    = get_post_meta( $post_id, 'wpd_container_secret', true );
 			$url       = $this->helpers->get_container_url( $post_id ) . '/' . $secret . '/codiad/backups/';
 
-			$args     = array(
-				'timeout' => 20,
-			);
-			$response = wp_remote_get( $url, $args );
+			$response = wp_remote_get( $url, [
+				'timeout' => 20
+			] );
 
 			if ( is_wp_error( $response ) ) {
-				return array();
+				return [];
 			}
 
 			$backups = json_decode( wp_remote_retrieve_body( $response ), true );
@@ -141,10 +140,10 @@ class Backups extends Singleton {
 					$format_time    = str_replace( '-', ':', $backup_date[1] );
 					$duplicity_time = $backup_date[0] . 'T' . $format_time . ':00';
 
-					$choices[] = array(
+					$choices[] = [
 						'text'  => "<i class='fa fa-calendar-o'></i>" . date( 'd F y', $date ) . $time . $size,
 						'value' => $duplicity_time
-					);
+					];
 				}
 			}
 

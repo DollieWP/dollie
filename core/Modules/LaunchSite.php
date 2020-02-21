@@ -141,7 +141,7 @@ class LaunchSite extends Singleton {
 				}
 			} else {
 				// Set the post ID so that we know the post was created successfully
-				$my_post = array(
+				$my_post = [
 					'comment_status' => 'closed',
 					'ping_status'    => 'closed',
 					'post_author'    => $user->id,
@@ -149,7 +149,7 @@ class LaunchSite extends Singleton {
 					'post_title'     => $domain,
 					'post_status'    => 'publish',
 					'post_type'      => 'container',
-				);
+				];
 
 				$post_id = wp_insert_post( $my_post );
 
@@ -190,13 +190,13 @@ class LaunchSite extends Singleton {
 				$request_body = str_replace( '</project>', $new_node, $all_nodes );
 
 				//Set up the request
-				$rundeck_update = wp_remote_post( DOLLIE_RUNDECK_URL . '/api/23/project/Dollie-Containers/source/1/resources?format=xml', array(
-					'headers' => array(
+				$rundeck_update = wp_remote_post( DOLLIE_RUNDECK_URL . '/api/23/project/Dollie-Containers/source/1/resources?format=xml', [
+					'headers' => [
 						'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
 						'Content-Type'         => 'text/xml',
-					),
+					],
 					'body'    => $request_body,
-				) );
+				] );
 
 				if ( is_wp_error( $rundeck_update ) ) {
 					Log::add( 'Node could not be registered for ' . $domain, print_r( $rundeck_update, true ), 'error' );

@@ -44,7 +44,7 @@ class Scripts extends Singleton {
 		$script = get_template_directory_uri() . '/assets/js/scripts.min.js';
 
 		wp_enqueue_style( 'wff_child', get_template_directory_uri() . '/assets/css/main.min.css', false, '1' );
-		wp_register_script( 'wff_child_script', $script, array(), '1', true );
+		wp_register_script( 'wff_child_script', $script, [], '1', true );
 		wp_enqueue_script( 'wff_child_script' );
 	}
 

@@ -38,13 +38,13 @@ class SiteInsights extends Singleton {
 			$response = wp_remote_get( $slug . '/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=6&_embed' );
 
 			if ( is_wp_error( $response ) ) {
-				return array();
+				return [];
 			}
 
 			$data = set_transient( 'dollie_site_news_' . $slug, $response, 3600 );
 
 			if ( empty( $data ) ) {
-				return array();
+				return [];
 			}
 		}
 
@@ -88,13 +88,13 @@ class SiteInsights extends Singleton {
 			$response = wp_remote_get( $this->helpers->get_container_url( $post_id ) . '/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=6&_embed' );
 
 			if ( is_wp_error( $response ) ) {
-				return array();
+				return [];
 			}
 
 			$data = set_transient( 'dollie_recent_posts_' . $post_slug, $response, 3600 );
 
 			if ( empty( $data ) ) {
-				return array();
+				return [];
 			}
 		}
 

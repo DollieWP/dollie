@@ -49,10 +49,10 @@ class DomainWizard extends Singleton {
 
 		add_filter( 'gform_field_input', [ $this, 'populate_instruction_fields' ], 10, 5 );
 
-		$this->register_confirmation_fields( $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' ), array(
+		$this->register_confirmation_fields( $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' ), [
 			55,
 			60
-		) );
+		] );
 		add_filter( 'gform_validation', [ $this, 'gfcf_validation' ] );
 	}
 
@@ -140,15 +140,15 @@ class DomainWizard extends Singleton {
 			if ( $ssl_type === 'cloudflare' ) {
 
 				//Set up the request to CloudFlare to verify
-				$update = wp_remote_post( 'https://api.cloudflare.com/client/v4/user', array(
+				$update = wp_remote_post( 'https://api.cloudflare.com/client/v4/user', [
 					'method'  => 'GET',
 					'timeout' => 45,
-					'headers' => array(
+					'headers' => [
 						'X-Auth-Email' => $email,
 						'X-Auth-Key'   => $api_key,
 						'Content-Type' => 'application/json',
-					),
-				) );
+					],
+				] );
 				//Parse the JSON request
 				$answer   = wp_remote_retrieve_body( $update );
 				$response = json_decode( $answer, true );
@@ -225,15 +225,15 @@ class DomainWizard extends Singleton {
 			$zone    = rgar( $entry, '66' );
 
 			//Set up the request to CloudFlare to verify
-			$update = wp_remote_post( 'https://api.cloudflare.com/client/v4/zones/' . $zone, array(
+			$update = wp_remote_post( 'https://api.cloudflare.com/client/v4/zones/' . $zone, [
 				'method'  => 'GET',
 				'timeout' => 45,
-				'headers' => array(
+				'headers' => [
 					'X-Auth-Email' => $email,
 					'X-Auth-Key'   => $api_key,
 					'Content-Type' => 'application/json',
-				),
-			) );
+				],
+			] );
 			//Parse the JSON request
 			$answer   = wp_remote_retrieve_body( $update );
 			$response = json_decode( $answer, true );
@@ -303,7 +303,7 @@ class DomainWizard extends Singleton {
 			} else {
 				$domain = get_post_meta( $post_id, 'wpd_domains', true );
 			}
-			
+
 			$post_body = [
 				'filter'    => 'name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
 				'argString' => '-install ' . $post_slug . DOLLIE_DOMAIN . ' -domain ' . $domain
@@ -500,7 +500,7 @@ Your domain might have multiple DNS records set up. For example if you also have
 
 		foreach ( $gfcf_fields[ $form['id'] ] as $confirm_fields ) {
 
-			$values = array();
+			$values = [];
 
 			// loop through form fields and gather all field values for current set of confirm fields
 			foreach ( $form['fields'] as $field ) {
@@ -546,11 +546,11 @@ Your domain might have multiple DNS records set up. For example if you also have
 		$form_id = $form_id[0];
 
 		if ( ! $gfcf_fields ) {
-			$gfcf_fields = array();
+			$gfcf_fields = [];
 		}
 
 		if ( ! isset( $gfcf_fields[ $form_id ] ) ) {
-			$gfcf_fields[ $form_id ] = array();
+			$gfcf_fields[ $form_id ] = [];
 		}
 
 		$gfcf_fields[ $form_id ][] = $fields;

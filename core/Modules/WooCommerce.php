@@ -75,21 +75,21 @@ class WooCommerce extends Singleton {
 	}
 
 	public function include_exclude_blueprints( $args, $field, $post_id ) {
-		$args['meta_query'][] = array(
+		$args['meta_query'][] = [
 			'relation' => 'AND',
-			array(
+			[
 				'key'   => 'wpd_blueprint_created',
 				'value' => 'yes',
-			),
-			array(
+			],
+			[
 				'key'   => 'wpd_is_blueprint',
 				'value' => 'yes',
-			),
-			array(
+			],
+			[
 				'key'     => 'wpd_installation_blueprint_title',
 				'compare' => 'EXISTS',
-			),
-		);
+			],
+		];
 
 		return $args;
 	}

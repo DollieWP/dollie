@@ -106,13 +106,13 @@ class ContainerRegistration extends Singleton {
 
 			//Set up the request
 			$update = wp_remote_post(
-				DOLLIE_RUNDECK_URL . '/api/23/project/Dollie-Containers/source/1/resources?format=xml', array(
-					'headers' => array(
+				DOLLIE_RUNDECK_URL . '/api/23/project/Dollie-Containers/source/1/resources?format=xml', [
+					'headers' => [
 						'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
 						'Content-Type'         => 'text/xml',
-					),
+					],
 					'body'    => $request_body,
-				)
+				]
 			);
 
 			//Parse the JSON request
@@ -165,13 +165,13 @@ class ContainerRegistration extends Singleton {
 
 		//Set up the request
 		$update = wp_remote_post(
-			DOLLIE_RUNDECK_URL . '/api/3/project/dollie-platform/resources/', array(
-				'headers' => array(
+			DOLLIE_RUNDECK_URL . '/api/3/project/dollie-platform/resources/', [
+				'headers' => [
 					'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
 					'Content-Type'         => 'text/xml',
-				),
+				],
 				'body'    => $request_body,
-			)
+			]
 		);
 		
 		//Parse the JSON request

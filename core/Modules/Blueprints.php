@@ -91,7 +91,7 @@ class Blueprints extends Singleton {
 		];
 
 		Api::postRequestRundeck( '1/job/b2fcd68d-3dab-4faf-95d8-6958c5811bae/run/', $post_body );
-		
+
 		update_post_meta( $post_id, 'wpd_blueprint_created', 'yes' );
 		update_post_meta( $post_id, 'wpd_blueprint_time', $time );
 
@@ -156,10 +156,10 @@ class Blueprints extends Singleton {
 						$image = get_post_meta( get_the_ID(), 'wpd_site_screenshot', true );
 					}
 
-					$choices[] = array(
+					$choices[] = [
 						'text'  => '<img data-toggle="tooltip" data-placement="bottom" title="' . get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ) . '" class="fw-blueprint-screenshot" src=' . $image . '>' . get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true ),
 						'value' => get_the_ID(),
-					);
+                    ];
 				}
 			}
 

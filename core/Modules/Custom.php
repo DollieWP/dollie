@@ -33,34 +33,34 @@ class Custom extends Singleton {
 
 		add_filter( 'wds_log_post_log_types', static function ( $terms ) {
 			if ( ! isset( $terms['Cron'] ) ) {
-				$terms['Cron'] = array(
+				$terms['Cron'] = [
 					'slug'        => 'cron',
 					'description' => 'background-color: #FDCB6E',
-				);
+				];
 			}
 			if ( ! isset( $terms['Undeploy'] ) ) {
-				$terms['Undeploy'] = array(
+				$terms['Undeploy'] = [
 					'slug'        => 'undeploy',
 					'description' => 'background-color: #D63031',
-				);
+				];
 			}
 			if ( ! isset( $terms['Deploy'] ) ) {
-				$terms['Deploy'] = array(
+				$terms['Deploy'] = [
 					'slug'        => 'deploy',
 					'description' => 'background-color: #2ECD71',
-				);
+				];
 			}
 			if ( ! isset( $terms['Setup'] ) ) {
-				$terms['Setup'] = array(
+				$terms['Setup'] = [
 					'slug'        => 'setup',
 					'description' => 'background-color: #0984E3',
-				);
+				];
 			}
 			if ( ! isset( $terms['Action'] ) ) {
-				$terms['Action'] = array(
+				$terms['Action'] = [
 					'slug'        => 'action',
 					'description' => 'background-color: #F39C12',
-				);
+				];
 			}
 
 			return $terms;

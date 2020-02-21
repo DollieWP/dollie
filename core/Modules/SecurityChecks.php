@@ -54,7 +54,7 @@ class SecurityChecks extends Singleton {
 
 		$all_plugins = $container_details['Plugin Details'];
 
-		$vulnerabilities = array();
+		$vulnerabilities = [];
 
 		$args['headers'] = [
 			'Authorization' => 'Token token=' . $token,
