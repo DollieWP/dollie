@@ -5,8 +5,9 @@
     <h4>
         <strong>Ready for the easiest migration ever?</strong>
     </h4>
-    <p>We are going make an exact copy of your current WordPress install to <strong>' . $post_slug . DOLLIE_DOMAIN .
-            '</strong></p>
+    <p>We are going make an exact copy of your current WordPress install to
+        <strong><?php echo $post_slug . DOLLIE_DOMAIN; ?></strong>
+    </p>
 </div>
 <p>
     <strong>Do not worry; your live site will not be touched or modified in any way!</strong>
@@ -14,14 +15,14 @@
 
 <h4>Step 1 - Install the Easy Migration Plugin</h4>
 <ol>
-	<li><a href="<?php echo DOLLIE_PLUGIN_URL; ?>/setup/easy-migration.zip">Click here to download our Easy Migration
-			Plugin</a></li>
-	<li>Login to the WordPress Admin of your <strong>current</strong> WordPress site (yoursite.com)</li>
-	<li>Go to <strong>Plugins > Add New > Upload Plugin</strong> and select the zip file of the Easy Migration plugin
-		you just downloaded.
-	</li>
-	<li>Press the <strong>Install Now</strong> button.</li>
-	<li>Activate the plugin!</li>
+    <li><a href="<?php echo DOLLIE_PLUGIN_URL; ?>/setup/easy-migration.zip">Click here to download our Easy Migration
+            Plugin</a></li>
+    <li>Login to the WordPress Admin of your <strong>current</strong> WordPress site (yoursite.com)</li>
+    <li>Go to <strong>Plugins > Add New > Upload Plugin</strong> and select the zip file of the Easy Migration plugin
+        you just downloaded.
+    </li>
+    <li>Press the <strong>Install Now</strong> button.</li>
+    <li>Activate the plugin!</li>
 </ol>
 
 <h4>Step 2 - Fill in the Migration Details</h4>
@@ -32,20 +33,20 @@ Copy and paste the values displayed below into the migration fields.
 <div class="clearfix"></div>
 <div class="col-sm-10 p-30 alert-info alert">
     <div class="col-sm-6 margin-bottom-half">
-        Email<br> <strong>' . $user->user_email . '</strong>
+        Email<br> <strong><?php echo $user->user_email; ?></strong>
     </div>
     <div class="col-sm-6 margin-bottom-half">
-        Platform Site URL<br><strong>' . $hostname . '</strong>
+        Platform Site URL<br><strong><?php echo $hostname; ?></strong>
     </div>
     <div class="clearfix"></div>
     <div class="col-sm-4 margin-bottom-half">
-        SFTP Username: <br><strong>' . $request->containerSshUsername . '</strong>
+        SFTP Username: <br><strong><?php echo $request->containerSshUsername; ?></strong>
     </div>
     <div class="col-sm-4 margin-bottom-half">
-        Password:<br> <strong>' . $request->containerSshPassword . '</strong><br>
+        Password:<br> <strong><?php echo $request->containerSshPassword; ?></strong><br>
     </div>
     <div class="col-sm-4 margin-bottom-half">
-        Port: <br><strong>' . $request->containerSshPort . '</strong>
+        Port: <br><strong><?php echo $request->containerSshPort; ?></strong>
     </div>
     <div class="clearfix"></div>
 </div>

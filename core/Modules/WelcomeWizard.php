@@ -10,6 +10,7 @@ use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Log;
+use Dollie\Core\Utils\Tpl;
 
 /**
  * Class WelcomeWizard
@@ -128,7 +129,12 @@ class WelcomeWizard extends Singleton {
 		$hostname  = preg_replace( '#^https?://#', '', $request->uri );
 
 		if ( $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-wizard' )[0] && $field->id === 7 ) {
-			$input = 'migration-instructions.php';
+			$input = Tpl::load( DOLLIE_MODULE_TPL_PATH . 'migration-instructions', [
+				'post_slug' => $post_slug,
+				'request'   => $request,
+				'user'      => $user,
+				'hostname'  => $hostname
+			] );
 		}
 
 		return $input;
