@@ -99,7 +99,7 @@ class Blueprints extends Singleton {
 	}
 
 	public function list_blueprints( $form ) {
-		foreach ( $form['fields'] as &$field ) {
+		foreach ( $form['fields'] as $field ) {
 			if ( $field['type'] !== 'radio' || strpos( $field['cssClass'], 'site-blueprints' ) === false ) {
 				continue;
 			}

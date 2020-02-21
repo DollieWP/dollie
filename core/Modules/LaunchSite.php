@@ -32,7 +32,7 @@ class LaunchSite extends Singleton {
 		$this->helpers = Helpers::instance();
 
 		$launch_forms = $this->helpers->get_dollie_gravity_form_ids( 'dollie-launch' );
-		foreach ( $launch_forms as &$form_id ) {
+		foreach ( $launch_forms as $form_id ) {
 			add_action( 'gform_field_validation_' . $form_id, [ $this, 'add_new_site' ], 10, 4 );
 		}
 

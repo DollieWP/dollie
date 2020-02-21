@@ -7,8 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Helpers;
-use Dollie\Core\Log;
 use WC_Order;
 
 /**
@@ -18,37 +16,38 @@ use WC_Order;
 class WooCommerce extends Singleton {
 
 	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
-	/**
 	 * WooCommerce constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
 
-		$this->helpers = Helpers::instance();
+		add_action( 'after_setup_theme', [ $this, 'add_theme_support' ] );
 
-		add_action( 'after_setup_theme', [ $this, 'woocommerce_support' ] );
+		// Todo: move next line to theme
 		add_action( 'wf_before_container', [ $this, 'my_account_header' ] );
-		add_filter( 'woocommerce_payment_complete_order_status', [ $this, 'mark_all_orders_as_complete' ], 10, 2 );
-		add_action( 'woocommerce_thankyou', [ $this, 'checkout_redirect' ] );
-		add_filter( 'acf/fields/relationship/query/key=field_5e2c1adcc1543', [
-			$this,
-			'include_exclude_blueprints'
-		], 10, 3 );
-		add_filter( 'acf/fields/relationship/query/key=field_5e2c1b94c1544', [
-			$this,
-			'include_exclude_blueprints'
-		], 10, 3 );
+
+		add_filter( 'woocommerce_payment_complete_order_status', [ $this, 'mark_order_as_complete' ], 10, 2 );
+		add_action( 'woocommerce_thankyou', [ $this, 'redirect_to_blueprint' ] );
+		add_filter( 'acf/fields/relationship/query/key=field_5e2c1adcc1543', [ $this, 'modify_query' ], 10, 3 );
+		add_filter( 'acf/fields/relationship/query/key=field_5e2c1b94c1544', [ $this, 'modify_query' ], 10, 3 );
 	}
 
-	public function woocommerce_support() {
+	/**
+	 * Add theme support
+	 */
+	public function add_theme_support() {
 		add_theme_support( 'woocommerce' );
 	}
 
-	public function mark_all_orders_as_complete( $order_status, $order_id ) {
+	/**
+	 * Mark order as complete if payment went through
+	 *
+	 * @param $order_status
+	 * @param $order_id
+	 *
+	 * @return string
+	 */
+	public function mark_order_as_complete( $order_status, $order_id ) {
 		$order = new WC_Order( $order_id );
 		if ( $order_status === 'processing' && ( $order->status === 'on-hold' || $order->status === 'pending' || $order->status === 'failed' ) ) {
 			return 'completed';
@@ -57,24 +56,38 @@ class WooCommerce extends Singleton {
 		return $order_status;
 	}
 
+	// Todo: move next funciton to theme
 	public function my_account_header() {
 		if ( is_page( 'my-account' ) ) {
 			include_once get_template_directory() . '/templates/site-manager/my-account-header.php';
 		}
 	}
 
-	public function checkout_redirect( $order_id ) {
+	/**
+	 * Redirect to payment success + blueprint if blueprint cookie is set
+	 *
+	 * @param $order_id
+	 */
+	public function redirect_to_blueprint( $order_id ) {
 		if ( isset( $_COOKIE['dollie_blueprint_id'] ) && $_COOKIE['dollie_blueprint_id'] ) {
 			$order = new WC_Order( $order_id );
-			$url   = get_site_url() . '/launch-site/?payment-status=success&blueprint_id=' . $_COOKIE['dollie_blueprint_id'];
 			if ( $order->status !== 'failed' ) {
-				wp_redirect( $url );
+				wp_redirect( get_site_url() . '/launch-site/?payment-status=success&blueprint_id=' . $_COOKIE['dollie_blueprint_id'] );
 				exit;
 			}
 		}
 	}
 
-	public function include_exclude_blueprints( $args, $field, $post_id ) {
+	/**
+	 * Modify query to include/exclude blueprints
+	 *
+	 * @param $args
+	 * @param $field
+	 * @param $post_id
+	 *
+	 * @return mixed
+	 */
+	public function modify_query( $args, $field, $post_id ) {
 		$args['meta_query'][] = [
 			'relation' => 'AND',
 			[

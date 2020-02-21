@@ -39,7 +39,7 @@ class Backups extends Singleton {
 			add_action( 'gform_after_submission_' . $form_id, [ $this, 'restore_site' ], 10, 2 );
 		}
 
-		foreach ( $this->helpers->get_dollie_gravity_form_ids( 'dollie-create-backup' ) as &$backup_id ) {
+		foreach ( $this->helpers->get_dollie_gravity_form_ids( 'dollie-create-backup' ) as $backup_id ) {
 			add_action( 'gform_after_submission_' . $backup_id, [ $this, 'create_backup' ], 10, 2 );
 		}
 	}
@@ -85,7 +85,7 @@ class Backups extends Singleton {
 	}
 
 	public function list_site_backups( $form ) {
-		foreach ( $form['fields'] as &$field ) {
+		foreach ( $form['fields'] as $field ) {
 			if ( $field['type'] !== 'radio' || strpos( $field['cssClass'], 'site-backups' ) === false ) {
 				continue;
 			}

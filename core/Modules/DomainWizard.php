@@ -80,7 +80,7 @@ class DomainWizard extends Singleton {
 			// Show an error of S5 API can't add the Route.
 			if ( ! array_key_exists( 'path', $response ) ) {
 				//finding Field with ID of 1 and marking it as failed validation
-				foreach ( $form['fields'] as &$field ) {
+				foreach ( $form['fields'] as $field ) {
 
 					if ( $field->id == '55' ) {
 						$field_page = $field->pageNumber;
@@ -156,7 +156,7 @@ class DomainWizard extends Singleton {
 				//Throw an error if CloudFlare Details are incorrect.
 				if ( ! isset( $response['result']['id'] ) ) {
 					//finding Field with ID of 1 and marking it as failed validation
-					foreach ( $form['fields'] as &$field ) {
+					foreach ( $form['fields'] as $field ) {
 
 						if ( $field->id === '27' ) {
 							$field_page = $field->pageNumber;
@@ -241,7 +241,7 @@ class DomainWizard extends Singleton {
 			//Throw an error if the Zone ID is not found.
 			if ( ! isset( $response['result']['id'] ) ) {
 				//finding Field with ID of 1 and marking it as failed validation
-				foreach ( $form['fields'] as &$field ) {
+				foreach ( $form['fields'] as $field ) {
 
 					if ( $field->id == '66' ) {
 						$field_page = $field->pageNumber;
@@ -323,7 +323,7 @@ class DomainWizard extends Singleton {
 				// Show an error of S5 API can't add the Route.
 				if ( is_wp_error( $le_answer ) ) {
 					//finding Field with ID of 1 and marking it as failed validation
-					foreach ( $form['fields'] as &$field ) {
+					foreach ( $form['fields'] as $field ) {
 
 						if ( $field->id == '72' ) {
 							$field_page = $field->pageNumber;
@@ -519,7 +519,7 @@ Your domain might have multiple DNS records set up. For example if you also have
 
 			$confirm_error = true;
 
-			foreach ( $form['fields'] as &$field ) {
+			foreach ( $form['fields'] as $field ) {
 				if ( ! in_array( $field['id'], $confirm_fields ) ) {
 					continue;
 				}

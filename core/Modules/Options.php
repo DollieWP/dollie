@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Helpers;
 
 /**
  * Class Options
@@ -16,17 +15,10 @@ use Dollie\Core\Utils\Helpers;
 class Options extends Singleton {
 
 	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
-	/**
 	 * Options constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->helpers = Helpers::instance();
 
 		add_filter( 'acf/settings/save_json', static function () {
 			return get_template_directory() . '/acf-json';

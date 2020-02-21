@@ -143,7 +143,7 @@ abstract class Base_UnitTestCase extends WP_UnitTestCase {
 	 *
 	 * @return mixed Method return.
 	 */
-	public function invoke_private_method( &$object, $method_name, $parameters = array() ) {
+	public function invoke_private_method( $object, $method_name, $parameters = array() ) {
 		$reflection = new \ReflectionClass( get_class( $object ) );
 	    $reflection_method = $reflection->getMethod( $method_name );
 	    $reflection_method->setAccessible( true );

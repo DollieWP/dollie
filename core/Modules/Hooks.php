@@ -22,7 +22,6 @@ class Hooks extends Singleton {
 
 		add_action( 'wf_before_container', [ $this, 'load_container_headers' ] );
 		add_filter( 'document_title_parts', [ $this, 'update_page_title' ], 10, 1 );
-
 	}
 
 	public function load_container_headers() {

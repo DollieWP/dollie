@@ -63,7 +63,7 @@ class PluginUpdates extends Singleton {
 	}
 
 	public function list_plugin_updates( $form ) {
-		foreach ( $form['fields'] as &$field ) {
+		foreach ( $form['fields'] as $field ) {
 			if ( $field['type'] !== 'checkbox' || strpos( $field['cssClass'], 'plugin-updates' ) === false ) {
 				continue;
 			}

@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Log;
 
 use WC_Email;
@@ -21,17 +20,10 @@ use WP_User_Query;
 class CheckSubscription extends Singleton {
 
 	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
-	/**
 	 * CheckSubscription constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->helpers = Helpers::instance();
 
 		add_action( 'init', [ $this, 'create_daily_customer_status_cron' ] );
 		add_action( 'init', [ $this, 'create_daily_customer_removal_cron' ] );

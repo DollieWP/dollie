@@ -7,8 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Helpers;
-use Dollie\Core\Log;
 
 /**
  * Class Custom
@@ -17,17 +15,10 @@ use Dollie\Core\Log;
 class Custom extends Singleton {
 
 	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
-	/**
 	 * Custom constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->helpers = Helpers::instance();
 
 		add_filter( 'wds_log_post_types', 'add_my_post_type_to_logs' );
 
