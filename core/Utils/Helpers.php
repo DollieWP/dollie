@@ -354,15 +354,15 @@ class Helpers extends Singleton {
                         <i class="fal fa-exclamation-circle"></i>
                     </div>
                     <h4>
-						<?php _e( 'Sorry, we could not retrieve your site details.', DOLLIE_SLUG ); ?>
+						<?php esc_html_e( 'Sorry, we could not retrieve your site details.', 'dollie' ); ?>
                     </h4>
                     <p>
-						<?php _e( 'We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error.', DOLLIE_SLUG ); ?>
-                        <a href="<?php echo esc_url( get_permalink() . '?get-details' ); ?>"><?php _e( 'Click here to try retrieving your site details again.', DOLLIE_SLUG ); ?></a>
+						<?php esc_html_e( 'We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error.', 'dollie' ); ?>
+                        <a href="<?php echo esc_url( get_permalink() . '?get-details' ); ?>"><?php esc_html_e( 'Click here to try retrieving your site details again.', 'dollie' ); ?></a>
                     </p>
                     <p>
-						<?php _e( 'Still no success?', DOLLIE_SLUG ); ?>
-                        <a href="<?php echo esc_url( get_site_url() . '/support' ); ?>"><?php _e( 'Create a support ticket', DOLLIE_SLUG ); ?></a>
+						<?php esc_html_e( 'Still no success?', 'dollie' ); ?>
+                        <a href="<?php echo esc_url( get_site_url() . '/support' ); ?>"><?php esc_html_e( 'Create a support ticket', 'dollie' ); ?></a>
                     </p>
                 </div>
             </div>

@@ -1,0 +1,178 @@
+# Copyright (C) 2020 Dollie
+# This file is distributed under the same license as the Dollie package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Dollie\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: Dollie\n"
+"Report-Msgid-Bugs-To: Dollie\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: core/Helpers.php:353
+msgid "Sorry, we could not retrieve your site details."
+msgstr ""
+
+#: core/Helpers.php:356
+msgid "We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error."
+msgstr ""
+
+#: core/Helpers.php:357
+msgid "Click here to try retrieving your site details again."
+msgstr ""
+
+#: core/Helpers.php:360
+msgid "Still no success?"
+msgstr ""
+
+#: core/Helpers.php:361
+msgid "Create a support ticket"
+msgstr ""
+
+#: core/Modules/Backups.php:297
+msgid "We're building your backup! You'll see it appear in the backup list on the left once it's done! If you have a large site this might take a while!"
+msgstr ""
+
+#: core/Modules/ContainerFields.php:46
+msgid "Status"
+msgstr ""
+
+#: core/Modules/ContainerFields.php:47
+msgid "Theme"
+msgstr ""
+
+#: core/Modules/ContainerFields.php:48
+msgid "Domain"
+msgstr ""
+
+#: core/Modules/ContainerFields.php:49
+msgid "Blueprint"
+msgstr ""
+
+#: core/Modules/ContainerFields.php:50
+msgid "Users"
+msgstr ""
+
+#: core/Modules/ContainerFields.php:51
+msgid "Size"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:45
+msgctxt "DOLLIE_SLUG"
+msgid "Containers"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:46
+msgctxt "DOLLIE_SLUG"
+msgid "Container"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:47
+msgid "Containers"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:48
+msgid "Post Type"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:49
+msgid "Container Archives"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:50
+msgid "Container Attributes"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:51
+msgid "Parent Container:"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:52, core/Modules/ContainerManagement.php:59
+msgid "View Containers"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:53
+msgid "Add New Container"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:54
+msgid "Add New"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:55
+msgid "New Container"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:56
+msgid "Edit Container"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:57
+msgid "Update Container"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:58
+msgid "View Container"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:60
+msgid "Search Containers"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:61
+msgid "Not found"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:62
+msgid "Not found in Trash"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:63
+msgid "Featured Image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:64
+msgid "Set featured image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:65
+msgid "Remove featured image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:66
+msgid "Use as featured image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:67
+msgid "Insert into item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:68
+msgid "Uploaded to this item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:69
+msgid "Containers list"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:70
+msgid "Containers list navigation"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:71
+msgid "Filter items list"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:75
+msgid "Container"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:76
+msgid "Platform Containers"
+msgstr ""

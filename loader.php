@@ -9,7 +9,7 @@
  * Author URI:  https://getdollie.com
  *
  * Text Domain: dollie
- * Domain Path: /languages/.
+ * Domain Path: /languages
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -60,6 +60,15 @@ if ( substr_count( $subdomain, "." ) === 2 ) {
 
 define( 'DOLLIE_INSTALL', $install );
 define( 'DOLLIE_RUNDECK_KEY', get_option( 'wpd_rundeck_key' ) );
+
+/*
+ * Localization
+ */
+function dollie_load_plugin_textdomain() {
+	load_plugin_textdomain( 'dollie', false, basename( __DIR__ ) . '/languages/' );
+}
+
+add_action( 'plugins_loaded', 'dollie_load_plugin_textdomain' );
 
 // Autoload
 require_once 'bootstrap.php';
