@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Helpers;
+use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Log;
 use WP_Query;
 

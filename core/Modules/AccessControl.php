@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Helpers;
+use Dollie\Core\UtilsHelpers;
 
 /**
  * Class AccessControl

@@ -7,7 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Helpers;
+use Dollie\Core\Utils\Api;
+use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Log;
 
 /**
@@ -57,58 +58,28 @@ class WelcomeWizard extends Singleton {
 			if ( $value === 'setup' ) {
 
 				if ( $demo !== 'yes' && $is_partner_lead === 'yes' && $partner_blueprint === 'yes' && $blueprint_deployed !== 'yes' ) {
-					//TODO ADD PARTNER FUNCTIONALITY
-					$rundeck_job = DOLLIE_RUNDECK_URL . '/api/1/job/85783830-a89d-439f-b4db-4a5e0e0fd6a9/run/';
-					//Output buffer our Node details
-					ob_start(); ?>
-                    {
-                    "filter": "name: https://<?php echo $install . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY; ?>",
-                    "argString": "-url '<?php echo $partner_install . DOLLIE_DOMAIN; ?>' -domain '<?php echo $install . DOLLIE_DOMAIN; ?>'"
-                    }
-					<?php
-					//Create our new node details
-					$post_body = ob_get_clean();
+					$post_body = [
+						'filter'    => 'name: https://' . $install . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+						'argString' => '-url ' . $partner_install . DOLLIE_DOMAIN . ' -domain ' . $install . DOLLIE_DOMAIN
+					];
 
-					//Set up the request
-					$update = wp_remote_post(
-						$rundeck_job, array(
-							'headers' => array(
-								'X-Rundeck-Auth-Token' => WF_RUNDECK_TOKEN,
-								'Content-Type'         => 'application/json',
-							),
-							'body'    => $post_body,
-						)
-					);
+					Api::postRequestRundeck( '1/job/85783830-a89d-439f-b4db-4a5e0e0fd6a9/run/', $post_body );
+
 					update_post_meta( $post_id, 'wpd_partner_blueprint_deployed', 'yes' );
 					sleep( 5 );
 				} else if ( $demo !== 'yes' ) {
-					$rundeck_job = DOLLIE_RUNDECK_URL . '/api/1/job/f0b8f078-fb6d-47e7-ac8b-2962fe8b0241/run/';
 					$email       = rgpost( 'input_5' );
 					$name        = rgpost( 'input_4' );
 					$username    = rgpost( 'input_26' );
 					$password    = rgpost( 'input_27' );
 					$description = rgpost( 'input_11' );
-					//Output buffer our Node details
-					ob_start();
-					?>
-                    {
-                    "filter": "name: https://<?php echo $install . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY; ?>",
-                    "argString": "-email <?php echo $email; ?> -name '<?php echo $name; ?>' -description '<?php echo $description; ?>' -password '<?php echo $password; ?>' -username '<?php echo $username; ?>'"
-                    }
-					<?php
-					//Create our new node details
-					$post_body = ob_get_clean();
 
-					//Set up the request
-					wp_remote_post(
-						$rundeck_job, array(
-							'headers' => array(
-								'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
-								'Content-Type'         => 'application/json',
-							),
-							'body'    => $post_body,
-						)
-					);
+					$post_body = [
+						'filter'    => 'name: https://' . $install . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+						'argString' => '-email ' . $email . ' -name ' . $name . ' -description ' . $description . ' -password ' . $password . ' -username ' . $username
+					];
+
+					Api::postRequestRundeck( '1/job/f0b8f078-fb6d-47e7-ac8b-2962fe8b0241/run/', $post_body );
 				}
 
 				$this->helpers->flush_container_details();

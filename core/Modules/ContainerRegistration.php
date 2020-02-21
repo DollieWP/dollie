@@ -7,7 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Helpers;
+use Dollie\Core\Utils\Api;
+use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Log;
 
 /**
@@ -60,17 +61,8 @@ class ContainerRegistration extends Singleton {
 	}
 
 	public function get_rundeck_nodes() {
-		//Set up the request
-		$update = wp_remote_get(
-			DOLLIE_RUNDECK_URL . '/api/23/project/Dollie-Containers/source/1/resources?format=xml', array(
-				'headers' => array(
-					'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
-					'Content-Type'         => 'application/json',
-				),
-			)
-		);
+		$update = Api::postRequestRundeck( '23/project/Dollie-Containers/source/1/resources?format=xml' );
 
-		//Parse the JSON request
 		return wp_remote_retrieve_body( $update );
 	}
 
@@ -181,7 +173,7 @@ class ContainerRegistration extends Singleton {
 				'body'    => $request_body,
 			)
 		);
-
+		
 		//Parse the JSON request
 		$answer = wp_remote_retrieve_body( $update );
 

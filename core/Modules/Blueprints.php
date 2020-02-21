@@ -7,7 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Helpers;
+use Dollie\Core\Utils\Api;
+use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Log;
 use WP_Query;
 
@@ -85,30 +86,16 @@ class Blueprints extends Singleton {
 		$time      = @date( 'd/M/Y:H:i' );
 
 		//Only run the job on the container of the customer.
-		$post_body = '
-			  {
-			    "filter":"name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY . '",
-			  }
-			  ';
+		$post_body = [
+			'filter' => 'name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
+		];
 
-		//Set up the request
-		wp_remote_post(
-			DOLLIE_RUNDECK_URL . '/api/1/job/b2fcd68d-3dab-4faf-95d8-6958c5811bae/run/',
-			array(
-				'headers' => array(
-					'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
-					'Content-Type'         => 'application/json',
-				),
-				'body'    => $post_body,
-			)
-		);
-
+		Api::postRequestRundeck( '1/job/b2fcd68d-3dab-4faf-95d8-6958c5811bae/run/', $post_body );
+		
 		update_post_meta( $post_id, 'wpd_blueprint_created', 'yes' );
 		update_post_meta( $post_id, 'wpd_blueprint_time', $time );
 
 		Log::add( $post_slug . ' updated/deployed a new Blueprint', '', 'blueprint' );
-		?>
-		<?php
 	}
 
 	public function list_blueprints( $form ) {

@@ -7,7 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Helpers;
+use Dollie\Core\Utils\Helpers;
+use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
 use GFFormsModel;
 
@@ -60,39 +61,19 @@ class DomainWizard extends Singleton {
 		$post_id   = $wp_query->get_queried_object_id();
 		$post_slug = get_queried_object()->post_name;
 
-		$user = wp_get_current_user();
-
-		$request   = get_transient( 'dollie_s5_container_details_' . $post_slug . '' );
-		$user_auth = DOLLIE_S5_USER;
-		$user_pass = DOLLIE_S5_PASSWORD;
+		$request = get_transient( 'dollie_s5_container_details_' . $post_slug . '' );
 
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
-		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ? rgpost( 'gform_source_page_number_' . $form['id'] ) : 1;
+		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
 
 		//Our form field ID + User meta fields
 		$domain = rgar( $entry, '55' );
 
 		//Are we on the first page?
-		if ( $current_page == 1 ) {
+		if ( $current_page === 1 ) {
 
-			//Take output buffer for our body in our POST request
-			$post_body = '{
-      "domain": "' . $domain . '"
-    }';
-
-			//Set up the request
-			$update = wp_remote_post( DOLLIE_INSTALL . '/s5Api/v1/sites/' . $request->id . '/routes', array(
-				'method'  => 'POST',
-				'timeout' => 45,
-				'headers' => array(
-					'Authorization' => 'Basic ' . base64_encode( $user_auth . ':' . $user_pass ),
-					'Content-Type'  => 'application/json',
-				),
-				'body'    => $post_body,
-			) );
-			//Parse the JSON request
-			$answer = wp_remote_retrieve_body( $update );
+			$answer = Api::postRequestDollie( $request->id . '/routes', [ 'domain' => $domain ], 45 );
 
 			$response = json_decode( $answer, true );
 
@@ -117,24 +98,7 @@ class DomainWizard extends Singleton {
 				update_post_meta( $post_id, 'wpd_domain_id', $response['id'] );
 				update_post_meta( $post_id, 'wpd_domains', $domain );
 
-				//Take output buffer for our body in our POST request
-				$update_post_body = '{
-								        "domain": "www.' . $domain . '"
-								      }';
-
-				//Set up the request
-				$update_domain = wp_remote_post( DOLLIE_INSTALL . '/s5Api/v1/sites/' . $request->id . '/routes', array(
-					'method'  => 'POST',
-					'timeout' => 45,
-					'headers' => array(
-						'Authorization' => 'Basic ' . base64_encode( $user_auth . ':' . $user_pass ),
-						'Content-Type'  => 'application/json',
-					),
-					'body'    => $update_post_body,
-				) );
-
-				//Parse the JSON request
-				$update_answer = wp_remote_retrieve_body( $update_domain );
+				$update_answer = Api::postRequestDollie( $request->id . '/routes', [ 'domain' => 'www.' . $domain ], 45 );
 
 				$update_response = json_decode( $update_answer, true );
 
@@ -208,21 +172,12 @@ class DomainWizard extends Singleton {
 				if ( isset( $response['result']['id'] ) ) {
 					//Success now send the Rundeck request
 					//This job will install + activate the CloudFlare plugin and populate the email + API key fields for the CloudFlare Options.
-					$post_body = '
-                {
-                  "filter":"name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY . '",
-                  "argString":"-email ' . $email . ' -key ' . $api_key . '"
-                }
-                ';
+					$post_body = [
+						'filter'    => 'name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+						'argString' => '-email ' . $email . ' -key ' . $api_key
+					];
 
-					//Set up the request
-					$update = wp_remote_post( DOLLIE_RUNDECK_URL . '/api/1/job/3725d807-435e-400c-8679-2a438f765002/run/', array(
-						'headers' => array(
-							'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
-							'Content-Type'         => 'application/json',
-						),
-						'body'    => $post_body,
-					) );
+					Api::postRequestRundeck( '1/job/3725d807-435e-400c-8679-2a438f765002/run/', $post_body );
 
 					//All done, update user meta!
 					update_post_meta( $post_id, 'wpd_cloudflare_email', $email );
@@ -348,21 +303,13 @@ class DomainWizard extends Singleton {
 			} else {
 				$domain = get_post_meta( $post_id, 'wpd_domains', true );
 			}
-			//Get out customer domains.
-			$install = $post_slug;
-			//Output buffer our Node details
-			ob_start(); ?>
-            { "filter": "name: https://<?php echo $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY; ?>", "argString": "-install <?php echo $post_slug . DOLLIE_DOMAIN; ?> -domain '<?php echo $domain; ?>'" }<?php
-//Create our new node details
-			$post_body = ob_get_clean();
-			//Set up the request
-			$update = wp_remote_post( DOLLIE_RUNDECK_URL . '/api/1/job/ba12c626-a9aa-4abc-b239-278238f1b2a9/run/', array(
-				'headers' => array(
-					'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
-					'Content-Type'         => 'application/json',
-				),
-				'body'    => $post_body,
-			) );
+			
+			$post_body = [
+				'filter'    => 'name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+				'argString' => '-install ' . $post_slug . DOLLIE_DOMAIN . ' -domain ' . $domain
+			];
+
+			$update = Api::postRequestRundeck( '1/job/ba12c626-a9aa-4abc-b239-278238f1b2a9/run/', $post_body );
 
 			$answer = wp_remote_retrieve_body( $update );
 
@@ -371,20 +318,7 @@ class DomainWizard extends Singleton {
 
 			$le = get_post_meta( $post_id, 'wpd_letsencrypt_enabled', true );
 			if ( $le === 'yes' ) {
-				//Set up the request
-				$le_update = wp_remote_post( DOLLIE_INSTALL . '/s5Api/v1/sites/' . $container . '/routes/' . $le_domain . '/autoCert', array(
-					'method'  => 'POST',
-					'timeout' => 90,
-					'headers' => array(
-						'Authorization' => 'Basic ' . base64_encode( $user_auth . ':' . $user_pass ),
-						'Content-Type'  => 'application/json',
-					)
-				) );
-				//Parse the JSON request
-				$le_answer = wp_remote_retrieve_body( $le_update );
-
-				$le_response = json_decode( $le_answer, true );
-				//$response_code = wp_remote_retrieve_response_code( $le_update );
+				$le_answer = Api::postRequestDollie( $container . '/routes/' . $le_domain . '/autoCert', [], 90 );
 
 				// Show an error of S5 API can't add the Route.
 				if ( is_wp_error( $le_answer ) ) {

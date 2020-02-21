@@ -7,7 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Helpers;
+use Dollie\Core\Utils\Api;
+use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Log;
 
 /**
@@ -116,29 +117,13 @@ class ContainerManagement extends Singleton {
 		$post_slug    = get_queried_object()->post_name;
 		$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
 
-		$user_auth = DOLLIE_S5_USER;
-		$user_pass = DOLLIE_S5_PASSWORD;
-
-		$url = DOLLIE_INSTALL . '/s5Api/v1/sites/' . $container_id;
-
 		$request = get_transient( 'dollie_s5_container_details_' . $post_slug );
-
-		//Only run the job on the container of the customer.
 
 		//Only make request if it's not cached in a transient.
 		if ( empty( $request ) ) {
 
 			//Set up the request
-			$response = wp_remote_get(
-				$url,
-				[
-					'timeout' => 20,
-					'headers' => [
-						'Authorization' => 'Basic ' . base64_encode( $user_auth . ':' . $user_pass ),
-						'Content-Type'  => 'application/json',
-					]
-				]
-			);
+			$response = Api::getRequestDollie( $container_id, 30 );
 
 			if ( is_wp_error( $response ) ) {
 				Log::add( 'Container details could not be fetched. for' . $post_slug, print_r( $response, true ), 'error' );
@@ -152,7 +137,7 @@ class ContainerManagement extends Singleton {
 			$update_response = json_decode( $update_answer, true );
 
 			if ( empty( $request ) ) {
-				WDS_Log_Post::log_message( 'dollie-logs', 'Container details could not be fetched. for' . $post_slug, print_r( $response, true ), 'error' );
+				Log::add( 'Container details could not be fetched. for' . $post_slug, print_r( $response, true ), 'error' );
 
 				return [];
 			}
@@ -216,24 +201,11 @@ class ContainerManagement extends Singleton {
 	public function start_rundeck_job( $job_id ) {
 		$post_slug = get_queried_object()->post_name;
 
-		//Only run the job on the container of the customer.
-		$post_body = '
-			  {
-			    "filter":"name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY . '",
-			  }
-			  ';
+		$post_body = [
+			'filter' => 'name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
+		];
 
-		//Set up the request
-		wp_remote_post(
-			DOLLIE_RUNDECK_URL . '/api/1/job/' . $job_id . '/run/',
-			[
-				'headers' => [
-					'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
-					'Content-Type'         => 'application/json',
-				],
-				'body'    => $post_body,
-			]
-		);
+		Api::postRequestRundeck( '1/job/' . $job_id . '/run/', $post_body );
 	}
 
 	public function run_container_actions() {
@@ -273,24 +245,11 @@ class ContainerManagement extends Singleton {
 		$type      = rgar( $entry, '2' );
 
 		//Only run the job on the container of the customer.
-		$post_body = '
-			  {
-			    "filter":"name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY . '",
-			    "argString":"-type ' . $type . '"
-			  }
-			  ';
+		$post_body = [
+			'filter' => 'name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
+		];
 
-		//Set up the request
-		$update = wp_remote_post(
-			DOLLIE_RUNDECK_URL . '/api/1/job/6f757271-a39e-4eb2-8f89-f6668033a262/run/',
-			[
-				'headers' => [
-					'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
-					'Content-Type'         => 'application/json',
-				],
-				'body'    => $post_body,
-			]
-		);
+		$update = Api::postRequestRundeck( '1/job/6f757271-a39e-4eb2-8f89-f6668033a262/run/', $post_body );
 
 		//Parse the JSON request
 		$answer = wp_remote_retrieve_body( $update );
@@ -303,15 +262,7 @@ class ContainerManagement extends Singleton {
 		sleep( 6 );
 
 		//Set up the request
-		$update = wp_remote_post(
-			DOLLIE_RUNDECK_URL . '/api/5/execution/' . $execution_id . '/output?format=text',
-			[
-				'headers' => [
-					'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
-					'Content-Type'         => 'application/json',
-				],
-			]
-		);
+		$update = Api::postRequestRundeck( '5/execution/' . $execution_id . '/output?format=text' );
 
 		//Parse the JSON request
 		$answer = wp_remote_retrieve_body( $update ); ?>
@@ -356,21 +307,7 @@ class ContainerManagement extends Singleton {
 
 		$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
 
-		$user_auth = DOLLIE_S5_USER;
-		$user_pass = DOLLIE_S5_PASSWORD;
-
-		//Set up the request
-		$update = wp_remote_post(
-			DOLLIE_INSTALL . '/s5Api/v1/sites/' . $container_id . '/' . $action,
-			[
-				'method'  => 'POST',
-				'timeout' => 45,
-				'headers' => [
-					'Authorization' => 'Basic ' . base64_encode( $user_auth . ':' . $user_pass ),
-					'Content-Type'  => 'application/json',
-				],
-			]
-		);
+		$update = Api::postRequestDollie( $container_id . '/' . $action, [], 45 );
 
 		if ( is_wp_error( $update ) ) {
 			Log::add( 'container action could not be completed for ' . $post_slug, print_r( $update, true ), 'error' );
@@ -432,15 +369,10 @@ class ContainerManagement extends Singleton {
 		$site_url = get_site_url();
 
 		// Get list of container from remote API
-		$server_containers = wp_remote_get( DOLLIE_INSTALL . '/s5Api/v1/sites/', [
-			'timeout' => 30,
-			'headers' => [
-				'Authorization' => 'Basic ' . base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD )
-			]
-		] );
+		$server_containers = Api::getRequestDollie( '', 30 );
 
 		// Convert JSON into array.
-		$server_containers = json_decode( $server_containers['body'], true );
+		$server_containers = json_decode( wp_remote_retrieve_body( $server_containers ), true );
 
 		foreach ( $server_containers as $key => $server_container ) {
 			// Filter out only the containers having given site url in description.

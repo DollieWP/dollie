@@ -1,12 +1,13 @@
 <?php
 
-namespace Dollie\Core;
+namespace Dollie\Core\Utils;
 
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Singleton;
 use WP_Query;
 
 /**
@@ -15,6 +16,9 @@ use WP_Query;
  */
 class Helpers extends Singleton {
 
+	/**
+	 * Helpers constructor.
+	 */
 	public function __construct() {
 		parent::__construct();
 

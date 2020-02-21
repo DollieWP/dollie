@@ -7,7 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Helpers;
+use Dollie\Core\Utils\Api;
+use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Log;
 
 /**
@@ -173,6 +174,7 @@ class Backups extends Singleton {
 		$type   = rgar( $entry, '2' );
 
 
+		$backup_type = '';
 		if ( $type === 'full' ) {
 			$backup_type = 'a32bf123-fe75-4664-962f-b6901e28b5da';
 		}
@@ -183,23 +185,15 @@ class Backups extends Singleton {
 			$backup_type = '4b766076-2dfd-475b-bc18-c4eb1407cc5d';
 		}
 
-		//Only run the job on the container of the customer.
-		$post_body = '
-        {
-          "filter":"name: ' . $install . '-' . DOLLIE_RUNDECK_KEY . '",
-          "argString":"-backup ' . $backup . '"
-        }
-        ';
-		//Set up the request
-		$update = wp_remote_post(
-			DOLLIE_RUNDECK_URL . '/api/1/job/' . $backup_type . '/run/', array(
-				'headers' => array(
-					'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
-					'Content-Type'         => 'application/json',
-				),
-				'body'    => $post_body,
-			)
-		);
+		if ( $backup_type ) {
+			// Only run the job on the container of the customer.
+			$post_body = [
+				'filter'    => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY,
+				'argString' => '-backup ' . $backup
+			];
+
+			Api::postRequestRundeck( '1/job/' . $backup_type . '/run/', $post_body );
+		}
 
 		?>
         <div class="alert alert-success">
@@ -222,22 +216,11 @@ class Backups extends Singleton {
 
 		//Success now send the Rundeck request
 		//Only run the job on the container of the customer.
-		$post_body = '
-        {
-          "filter":"name: ' . $install . '-' . DOLLIE_RUNDECK_KEY . '"
-        }
-        ';
+		$post_body = [
+			'filter' => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY
+		];
 
-		//Set up the request
-		$update = wp_remote_post(
-			DOLLIE_RUNDECK_URL . '/api/1/job/6b51b1a4-bcc7-4c2c-a799-b024e561c87f/run/', array(
-				'headers' => array(
-					'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
-					'Content-Type'         => 'application/json',
-				),
-				'body'    => $post_body,
-			)
-		);
+		Api::postRequestRundeck( '1/job/6b51b1a4-bcc7-4c2c-a799-b024e561c87f/run/', $post_body );
 
 		Log::add( $post_slug . ' has triggered a backup', '', 'action' );
 	}

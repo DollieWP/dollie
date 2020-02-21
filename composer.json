@@ -3,5 +3,8 @@
     "psr-4": {
       "Dollie\\Core\\": "core/"
     }
+  },
+  "require": {
+    "ext-json": "*"
   }
 }

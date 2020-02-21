@@ -7,8 +7,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Helpers;
+use Dollie\Core\Utils\Api;
+use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Log;
+use GFFormsModel;
 
 /**
  * Class LaunchSite
@@ -42,11 +44,6 @@ class LaunchSite extends Singleton {
 	}
 
 	public function add_new_site( $validation_result ) {
-		$form = $validation_result['form'];
-
-		$user_auth = DOLLIE_S5_USER;
-		$user_pass = DOLLIE_S5_PASSWORD;
-
 		$form  = $validation_result['form'];
 		$entry = GFFormsModel::get_current_lead();
 
@@ -60,38 +57,24 @@ class LaunchSite extends Singleton {
 			$blueprint = rgar( $entry, '4' );
 		}
 
-		//Take output buffer for our body in our POST request
-		$post_body = '
-			{
-			"domain": "' . $domain . DOLLIE_DOMAIN . '",
-			"package": "' . DOLLIE_PACKAGE . '",
-			"containerMemory": ' . DOLLIE_MEMORY . ',
-			"username": "siteadmin",
-			"password": "1234567890",
-			"description": "' . $email . ' | ' . get_site_url() . '",
-			"envVars": {
-				"S5_DEPLOYMENT_URL": "' . get_site_url() . '",
-				"S5_EMAIL_DELIVERY_USERNAME": "' . get_option( 'options_wpd_delivery_username' ) . '",
-				"S5_EMAIL_DELIVERY_PORT": "' . get_option( 'options_wpd_delivery_smtp' ) . '",
-				"S5_EMAIL_DELIVERY_HOST": "' . get_option( 'options_wpd_delivery_smtp_host' ) . '",
-				"S5_EMAIL_DELIVERY_EMAIL": "' . get_option( 'options_wpd_delivery_email' ) . '",
-				"S5_EMAIL_DELIVERY_PASSWORD": "' . get_option( 'options_wpd_delivery_password' ) . '"
-			}
-		}
-		';
+		$post_body = [
+			'domain'          => $domain . DOLLIE_DOMAIN,
+			'package'         => DOLLIE_PACKAGE,
+			'containerMemory' => DOLLIE_MEMORY,
+			'username'        => 'sideadmin',
+			'password'        => '1234567890',
+			'description'     => $email . ' | ' . get_site_url(),
+			'envVars'         => [
+				'S5_DEPLOYMENT_URL'          => get_site_url(),
+				'S5_EMAIL_DELIVERY_USERNAME' => get_option( 'options_wpd_delivery_username' ),
+				'S5_EMAIL_DELIVERY_PORT'     => get_option( 'options_wpd_delivery_smtp' ),
+				'S5_EMAIL_DELIVERY_HOST'     => get_option( 'options_wpd_delivery_smtp_host' ),
+				'S5_EMAIL_DELIVERY_EMAIL'    => get_option( 'options_wpd_delivery_email' ),
+				'S5_EMAIL_DELIVERY_PASSWORD' => get_option( 'options_wpd_delivery_password' )
+			]
+		];
 
-		//Set up the request
-		$register = wp_remote_post( DOLLIE_INSTALL . '/s5Api/v1/sites/', array(
-			'method'  => 'POST',
-			'timeout' => 45,
-			'headers' => array(
-				'Authorization' => 'Basic ' . base64_encode( $user_auth . ':' . $user_pass ),
-				'Content-Type'  => 'application/json',
-			),
-			'body'    => $post_body,
-		) );
-		//Parse the JSON request
-		$answer = wp_remote_retrieve_body( $register );
+		$answer = Api::postRequestDollie( '', $post_body, 45 );
 
 		if ( is_wp_error( $answer ) ) {
 			Log::add( $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $answer, true ), 'deploy' );
@@ -123,18 +106,10 @@ class LaunchSite extends Singleton {
 
 			sleep( 5 );
 
-			//Set up the request
-			$deploy = wp_remote_post( DOLLIE_INSTALL . '/s5Api/v1/sites/' . $response['id'] . '/deploy', array(
-				'method'  => 'POST',
-				'timeout' => 120,
-				'headers' => array(
-					'Authorization' => 'Basic ' . base64_encode( $user_auth . ':' . $user_pass ),
-					'Content-Type'  => 'application/json',
-				),
-				'body'    => $update_post_body,
-			) );
+			// $deploy = Api::postRequestDollie( $response['id'] . '/deploy', $update_post_body, 120 );
 
-			Log::add( $domain . ' Creating Site Dollie (see log)' . $post_slug, print_r( $deploy, true ), 'deploy' );
+			// Todo: check this log
+			// Log::add( $domain . ' Creating Site Dollie (see log)' . $post_slug, print_r( $deploy, true ), 'deploy' );
 
 			sleep( 20 );
 
@@ -147,24 +122,13 @@ class LaunchSite extends Singleton {
 				}
 			}
 
-			//Set up the request
-			$update_container = wp_remote_post( DOLLIE_INSTALL . '/s5Api/v1/sites/' . $response['id'] . '/', array(
-				'method'  => 'GET',
-				'timeout' => 120,
-				'headers' => array(
-					'Authorization' => 'Basic ' . base64_encode( $user_auth . ':' . $user_pass ),
-					'Content-Type'  => 'application/json',
-				),
-			) );
+			$update_container = Api::getRequestDollie( $response['id'] . '/', 120 );
 
-			$update = wp_remote_retrieve_body( $update_container );
+			$update_answer = wp_remote_retrieve_body( $update_container );
 
-			Log::add( $domain . 'Deploying created site ' . $post_slug, print_r( $update_container, true ), 'deploy' );
+			//Log::add( $domain . 'Deploying created site ' . $post_slug, print_r( $update_container, true ), 'deploy' );
 
 			sleep( 3 );
-
-			//Parse the JSON request
-			$update_answer = wp_remote_retrieve_body( $update_container );
 
 			$update_response = json_decode( $update_answer, true );
 
@@ -223,12 +187,7 @@ class LaunchSite extends Singleton {
 				//Grab our existing node details
 				$all_nodes = ContainerRegistration::instance()->get_rundeck_nodes();
 
-				$update_nodes = str_replace( '</project>', $new_node, $all_nodes );
-
-				//echo $update_nodes;
-
-				//Take output buffer for our body in our POST request
-				$request_body = $update_nodes;
+				$request_body = str_replace( '</project>', $new_node, $all_nodes );
 
 				//Set up the request
 				$rundeck_update = wp_remote_post( DOLLIE_RUNDECK_URL . '/api/23/project/Dollie-Containers/source/1/resources?format=xml', array(
@@ -238,9 +197,6 @@ class LaunchSite extends Singleton {
 					),
 					'body'    => $request_body,
 				) );
-
-				//Parse the JSON request
-				$answer = wp_remote_retrieve_body( $rundeck_update );
 
 				if ( is_wp_error( $rundeck_update ) ) {
 					Log::add( 'Node could not be registered for ' . $domain, print_r( $rundeck_update, true ), 'error' );
@@ -254,25 +210,18 @@ class LaunchSite extends Singleton {
 					sleep( 6 );
 					add_post_meta( $post_id, 'wpd_container_based_on_blueprint', 'yes', true );
 					add_post_meta( $post_id, 'wpd_container_based_on_blueprint_id', $blueprint, true );
-					$blueprint_url     = get_post_meta( $blueprint, "wpd_container_uri", true );
+
+					$blueprint_url     = get_post_meta( $blueprint, 'wpd_container_uri', true );
 					$blueprint_install = str_replace( 'https://', '', $blueprint_url );
-					//Output buffer our Node details
-					ob_start(); ?>
-                    {
-                    "filter": "name: https://<?php echo $domain . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY; ?>",
-                    "argString": "-url '<?php echo $blueprint_install; ?>' -domain '<?php echo $domain . DOLLIE_DOMAIN; ?>'"
-                    }<?php
-					//Create our new node details
-					$blueprint_body = ob_get_clean();
+
+					$blueprint_body = [
+						'filter'    => 'name: https://' . $domain . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+						'argString' => '-url ' . $blueprint_install . ' -domain ' . $domain . DOLLIE_DOMAIN
+					];
 
 					//Set up the request
-					$blueprint_update = wp_remote_post( DOLLIE_RUNDECK_URL . '/api/1/job/a1a56354-a08e-4e7c-9dc5-bb72bb571dbe/run/', array(
-						'headers' => array(
-							'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
-							'Content-Type'         => 'application/json',
-						),
-						'body'    => $blueprint_body,
-					) );
+					Api::postRequestRundeck( '1/job/a1a56354-a08e-4e7c-9dc5-bb72bb571dbe/run/', $blueprint_body );
+
 					Log::add( $domain . ' will use blueprint' . $blueprint_install, '', 'deploy' );
 					update_post_meta( $post_id, 'wpd_blueprint_deployment_complete', 'yes' );
 				}
