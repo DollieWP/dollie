@@ -49,7 +49,7 @@ class Scripts extends Singleton {
 	}
 
 	public function dequeue_buddypress() {
-		if ( ! is_buddypress() ) {
+		if ( function_exists( 'is_buddypress' ) && ! is_buddypress() ) {
 			wp_dequeue_style( 'bp-legacy-css' );
 			wp_deregister_script( 'bp-jquery-query' );
 			wp_deregister_script( 'bp-confirm' );

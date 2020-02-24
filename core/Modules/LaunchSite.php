@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
+use Dollie\Core\Utils\Tpl;
 use Dollie\Core\Log;
 use GFFormsModel;
 
@@ -16,7 +17,7 @@ use GFFormsModel;
  * @package Dollie\Core\Modules
  */
 class LaunchSite extends Singleton {
-    
+
 
 	/**
 	 * LaunchSite constructor.
@@ -240,96 +241,11 @@ class LaunchSite extends Singleton {
 
 	public function launch_splash() {
 		if ( is_page_template( 'launch-site.php' ) ) {
-			?>
-            <script type="text/javascript">
-                jQuery(document).ready(function ($) {
-					<?php if (isset( $_COOKIE['dollie_blueprint_id'] )) { ?>
-                    $("#field_14_4").addClass("hidden");
-					<?php } ?>
-                    if ($('#input_14_4 li').length === 0) {
-                        $("#field_14_4").addClass("hidden");
-                    }
-
-                    jQuery("#field_14_1 .ginput_container").append("<span class='domain-suffix'><strong><?php echo DOLLIE_DOMAIN; ?></strong></span>");
-                });
-            </script>
-            <div data-backdrop="static" data-keyboard="false" class="modal" id="modal-large" tabindex="-1" role="dialog"
-                 aria-labelledby="modal-large" style="display: none;" aria-hidden="true">
-                <div class="modal-dialog modal-lg text-center" role="document">
-                    <div class="modal-content mt-100">
-                        <div class="block block-themed block-transparent mb-0">
-                            <div class="loader-wrap bg-primary">
-
-                                <div class="cube-wrapper">
-                                    <div class="cube-folding">
-                                        <span class="leaf1"></span>
-                                        <span class="leaf2"></span>
-                                        <span class="leaf3"></span>
-                                        <span class="leaf4"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="block-content mt-50 text-align-center pb-30 pl-50 pr-50 nice-copy-story">
-                                <div id="content-1">
-									<?php if ( get_field( 'wpd_launch_step_1', 'option' ) ) : ?>
-										<?php the_field( 'wpd_launch_step_1', 'option' ); ?>
-									<?php else : ?>
-                                        <h4 class="mt-0"><i class="fab fa-docker"></i> Launching New Cloud Container
-                                            <span class="dots"></span></h4>
-                                        <p> We use state-of-the-art technology like PHP7, Nginx, Redis, Memcached and
-                                            MariaDB inside isolated cloud containers to guarantee excellent performance
-                                            and security for each and every site on our platform.</p>
-									<?php endif; ?>
-                                </div>
-                                <div id="content-2">
-									<?php if ( get_field( 'wpd_launch_step_2', 'option' ) ) : ?>
-										<?php the_field( 'wpd_launch_step_2', 'option' ); ?>
-									<?php else : ?>
-                                        <h4 class="mt-0"><i class="fab fa-wordpress-simple"></i> Setting up WordPress
-                                            <span class="dots"></span></h4>
-                                        <p>
-                                            We manage important WordPress security updates for you, and notify you when
-                                            compromised plugins and themes with security issues are found. And of course
-                                            free SSL certificates for your site are set up automatically..
-                                        </p>
-									<?php endif; ?>
-                                </div>
-
-                                <div id="content-3">
-									<?php if ( get_field( 'wpd_launch_step_3', 'option' ) ) : ?>
-										<?php the_field( 'wpd_launch_step_3', 'option' ); ?>
-									<?php else : ?>
-                                        <h4 class="mt-0"><i class="fal fa-gem"></i> Testing & Verifying
-                                            Installation<span class="dots"></span></h4>
-                                        <p>
-                                            We're running some automated tests to make sure everything is set up and
-                                            ready to go before you start building your brand new site!
-                                        </p>
-									<?php endif; ?>
-                                </div>
-                                <div id="content-4">
-									<?php if ( get_field( 'wpd_launch_step_4', 'option' ) ) : ?>
-										<?php the_field( 'wpd_launch_step_4', 'option' ); ?>
-									<?php else : ?>
-                                        <h4 class="mt-0"><i class="fal fa-box-check"></i> Site Setup Complete <span
-                                                    class="dots"></span></h4>
-                                        <p>
-                                            Your new site Wordpress site is deployed to our cloud! You'll be redirected
-                                            to the site setup wizard in just a couple of seconds...
-                                        </p>
-									<?php endif; ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-			<?php
+			Tpl::load( DOLLIE_MODULE_TPL_PATH . 'launch-splash', [], true );
 		}
 	}
 
-	public function wdp_populate_site_url( $form ) {
+	public function populate_site_url( $form ) {
 		// Grab URL from HTTP Server Var and put it into a variable
 		// Return that value to the form
 		return esc_url_raw( get_site_url() );
@@ -342,7 +258,7 @@ class LaunchSite extends Singleton {
 	}
 
 	public function redirect_to_container_launch() {
-		if ( dollie()->helpers()->count_total_containers() === 0 && ! is_page( 'launch-site' ) && current_user_can( 'manage_options' ) ) {
+		if ( ! is_page( 'launch-site' ) && current_user_can( 'manage_options' ) && dollie()->helpers()->count_total_containers() === 0 ) {
 			wp_redirect( get_site_url() . '/launch-site' );
 			exit;
 		}

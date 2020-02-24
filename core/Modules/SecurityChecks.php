@@ -35,7 +35,7 @@ class SecurityChecks extends Singleton {
 		$details_transient_id = 'get_container_site_info';
 		$details_username     = 'container';
 		//Make the request
-		$details_request = dollie()->helpers()->container_api_request( $details_url, $details_transient_id, $details_username, $details_pass );
+		$details_request = dollie()->container()->container_api_request( $details_url, $details_transient_id, $details_username, $details_pass );
 		//Encode to JSON (not used yet)
 		$container_data = json_encode( $details_request );
 

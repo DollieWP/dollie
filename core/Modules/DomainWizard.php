@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
+use Dollie\Core\Utils\Tpl;
 use GFFormDisplay;
 use GFFormsModel;
 use RGFormsModel;
@@ -51,8 +52,8 @@ class DomainWizard extends Singleton {
 	}
 
 	public function domain_wizard_add_domain( $validation_result ) {
-        $currentQuery = dollie()->helpers()->get_current_object();
-		$request = get_transient( 'dollie_s5_container_details_' . $currentQuery->slug . '' );
+		$currentQuery = dollie()->helpers()->get_current_object();
+		$request      = get_transient( 'dollie_s5_container_details_' . $currentQuery->slug . '' );
 
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
@@ -109,7 +110,7 @@ class DomainWizard extends Singleton {
 	}
 
 	public function domain_wizard_add_cloudflare( $validation_result ) {
-        $currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->helpers()->get_current_object();
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
 		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
@@ -181,7 +182,7 @@ class DomainWizard extends Singleton {
 	}
 
 	public function domain_wizard_add_cloudflare_zone( $validation_result ) {
-        $currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->helpers()->get_current_object();
 
 		// Setup the Form
 		$entry = GFFormsModel::get_current_lead();
@@ -236,9 +237,9 @@ class DomainWizard extends Singleton {
 	}
 
 	public function search_and_replace_domain( $validation_result ) {
-        $currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->helpers()->get_current_object();
 
-	    // Domain
+		// Domain
 		$container = get_post_meta( $currentQuery->id, 'wpd_container_id', true );
 		$le_domain = get_post_meta( $currentQuery->id, 'wpd_domain_id', true );
 
@@ -302,7 +303,7 @@ class DomainWizard extends Singleton {
 
 	public function continue_domain_setup() {
 		if ( isset( $_GET['page'] ) && ! isset( $_GET['form_page'] ) && $_GET['page'] === 'domain' && is_singular( 'container' ) ) {
-            $currentQuery = dollie()->helpers()->get_current_object();
+			$currentQuery = dollie()->helpers()->get_current_object();
 
 			$has_domain     = get_post_meta( $currentQuery->id, 'wpd_domains', true );
 			$has_cloudflare = get_post_meta( $currentQuery->id, 'wpd_cloudflare_email', true );
@@ -355,95 +356,40 @@ class DomainWizard extends Singleton {
 	}
 
 	public function populate_instruction_fields( $input, $field, $value, $lead_id, $form_id ) {
-        $currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->helpers()->get_current_object();
+		$form_ids     = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' );
 
+		if ( $form_id !== $form_ids[0] ) {
+			return $input;
+		}
+
+		$tpl          = '';
 		$has_domain   = get_post_meta( $currentQuery->id, 'wpd_domains', true );
 		$ip           = get_post_meta( $currentQuery->id, 'wpd_container_ip', true );
 		$platform_url = get_post_meta( $currentQuery->id, 'wpd_url', true );
 
-		if ( $field->id === 40 && $form_id === dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' )[0] ) {
-			ob_start();
-			?>
-            <h3>Linking Your Custom Domain to your Site!</h3>
-            <p>
-                In order to get your custom domain to work we need to make a change to your DNS configuration, so please
-                make sure you have accesss to the control panel of where you registered your domain. Usually making a
-                DNS change is very easy to do and your registrar will have documentation available on how to do this (or
-                simply ask support to do this for you.) Here are the instructions on the changes you need to make.
-            </p>
-            <ul>
-                <li>
-                    <a href="https://www.cloudflare.com/a/login" target="_blank">Login to Your Domain Management
-                        account</a>
-                </li>
-                <li>Go to your Domain name <strong><?php echo $has_domain; ?></strong> and go to the DNS Manager
-                <li>Replace the IP address for the <strong>"A"</strong> <strong><?php echo $has_domain; ?></strong>
-                    record with
-                    the following IP address: <strong><?php echo $ip; ?></strong>
-                </li>
-            </ul>
-            <img src="https://s3.amazonaws.com/helpscout.net/docs/assets/5742f232c697917290ddb900/images/574ef6b89033604d43daab48/file-D4wzErhF62.jpg"
-                 alt="" width="60%" height="auto"/>
-            <div class="alert alert-info col-sm-9">
-                <strong>Important Note: You only need to change the A and WWW records</strong><br>
-                Your domain might have multiple DNS records set up. For example if you also have your own email address
-                (yourname@yourdomain.com) or subdomains (anothersite.yourdomain.com). For the migration to work you only
-                need to make a change to the A and (if existing) WWW record. Do not change the other records unless
-                specified by our support team or in unique domain setups configured by you or your developer.
-            </div>
-			<?php
-
-			$input = ob_get_clean();
+		if ( $field->id === 40 ) {
+			$tpl = 'wizard/link-domain';
 		}
 
-		if ( $field->id === 43 && $form_id === dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' )[0] ) {
-			ob_start();
-			?>
-            <div class="blockquote-box blockquote-success clearfix">
-            <div class="square pull-left">
-                <i class="fal fa-wordpress"></i>
-            </div>
-            <h4>
-                Final Step: Updating Your WordPress URL!
-            </h4>
-            <p>
-                We have almost completed setting up your domain! The last step is updating the temporary site URL
-                <strong><?php echo $platform_url . DOLLIE_DOMAIN; ?> to your live
-                    domain <?php echo $has_domain; ?></strong>. <br><br>Just
-                click on "Update My Domain" and our migration minions will do all the heavy lifting behind the
-                scenes.
-            </p>
-			<?php
-
-            $input = ob_get_clean();
-        }
-
-        if ( $field->id === 57 && $form_id === dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' ) ) {
-        	ob_start();
-            ?>
-              <div class="blockquote-box blockquote-warning clearfix">
-                <div class="square pull-left">
-                    <i class="fal fa-warning"></i>
-                </div>
-                <h5>
-                    <strong>Have your completed the content migration via our Easy Site Migration plugin?</strong>
-                </h5>
-                <p class="font-size-smaller">Because you are migrating your "Live Site" to our platform it is
-                    important that you have migrated all of your files and your database via our "WeFoster Automated
-                    Site Migration" plugin at least once before you continue this wizard. <br></p>
-            </div>
-
-			<?php
-
-			$input = ob_get_clean();
+		if ( $field->id === 43 ) {
+			$tpl = 'wizard/update-url';
 		}
 
-		return $input;
+		if ( $field->id === 57 ) {
+			$tpl = 'wizard/completed';
+		}
+
+		return Tpl::load( DOLLIE_MODULE_TPL_PATH . $tpl, [
+			'has_domain'   => $has_domain,
+			'ip'           => $ip,
+			'platform_url' => $platform_url
+		] );
 	}
 
 	public function complete_migration_wizard( $form, $source_page_number, $current_page_number ) {
 		if ( $current_page_number > 6 ) {
-            $currentQuery = dollie()->helpers()->get_current_object();
+			$currentQuery = dollie()->helpers()->get_current_object();
 
 			// Update user meta used to show/hide specific Dashboard areas/tabs
 			update_post_meta( $currentQuery->id, 'wpd_cloudflare_active', 'yes' );
