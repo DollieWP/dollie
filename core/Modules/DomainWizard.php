@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
 use GFFormDisplay;
@@ -20,12 +19,18 @@ use RGFormsModel;
  */
 class DomainWizard extends Singleton {
 
+    /**
+    * @var \stdClass
+    */
+    protected $currentQuery;
 
 	/**
 	 * DomainWizard constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
+
+		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		$domain_forms = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' );
 		foreach ( $domain_forms as $form_id ) {
@@ -53,11 +58,7 @@ class DomainWizard extends Singleton {
 	}
 
 	public function domain_wizard_add_domain( $validation_result ) {
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-
-		$request = get_transient( 'dollie_s5_container_details_' . $post_slug . '' );
+		$request = get_transient( 'dollie_s5_container_details_' . $this->currentQuery->slug . '' );
 
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
@@ -89,15 +90,15 @@ class DomainWizard extends Singleton {
 			}
 			if ( array_key_exists( 'path', $response ) ) {
 				// Save the Domain Data and make another S5 Request for the WWW domain.
-				update_post_meta( $post_id, 'wpd_domain_id', $response['id'] );
-				update_post_meta( $post_id, 'wpd_domains', $domain );
+				update_post_meta( $this->currentQuery->id, 'wpd_domain_id', $response['id'] );
+				update_post_meta( $this->currentQuery->id, 'wpd_domains', $domain );
 
 				$update_answer   = Api::postRequestDollie( $request->id . '/routes', [ 'domain' => 'www.' . $domain ], 45 );
 				$update_response = json_decode( $update_answer, true );
 
 				// Also save the WWW Domain data.
-				update_post_meta( $post_id, 'wpd_www_domain_id', $update_response['id'] );
-				Log::add( $post_slug . ' linked up domain ' . $domain . '' );
+				update_post_meta( $this->currentQuery->id, 'wpd_www_domain_id', $update_response['id'] );
+				Log::add( $this->currentQuery->slug . ' linked up domain ' . $domain . '' );
 			}
 
 			// Assign modified $form object back to the validation result
@@ -114,12 +115,6 @@ class DomainWizard extends Singleton {
 	}
 
 	public function domain_wizard_add_cloudflare( $validation_result ) {
-		//User Meta
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-
-
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
 		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
@@ -166,22 +161,22 @@ class DomainWizard extends Singleton {
 					// Success now send the Rundeck request
 					// This job will install + activate the CloudFlare plugin and populate the email + API key fields for the CloudFlare Options.
 					$post_body = [
-						'filter'    => 'name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+						'filter'    => 'name: https://' . $this->currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
 						'argString' => '-email ' . $email . ' -key ' . $api_key
 					];
 
 					Api::postRequestRundeck( '1/job/3725d807-435e-400c-8679-2a438f765002/run/', $post_body );
 
 					// All done, update user meta!
-					update_post_meta( $post_id, 'wpd_cloudflare_email', $email );
-					update_post_meta( $post_id, 'wpd_cloudflare_active', 'yes' );
-					update_post_meta( $post_id, 'wpd_cloudflare_id', $response['result']['id'] );
-					update_post_meta( $post_id, 'wpd_cloudflare_api', $api_key );
-					Log::add( $post_slug . ' linked up CloudFlare account' );
+					update_post_meta( $this->currentQuery->id, 'wpd_cloudflare_email', $email );
+					update_post_meta( $this->currentQuery->id, 'wpd_cloudflare_active', 'yes' );
+					update_post_meta( $this->currentQuery->id, 'wpd_cloudflare_id', $response['result']['id'] );
+					update_post_meta( $this->currentQuery->id, 'wpd_cloudflare_api', $api_key );
+					Log::add( $this->currentQuery->slug . ' linked up CloudFlare account' );
 				}
 
 			} else {
-				update_post_meta( $post_id, 'wpd_letsencrypt_enabled', 'yes' );
+				update_post_meta( $this->currentQuery->id, 'wpd_letsencrypt_enabled', 'yes' );
 			}
 		}
 
@@ -191,11 +186,6 @@ class DomainWizard extends Singleton {
 	}
 
 	public function domain_wizard_add_cloudflare_zone( $validation_result ) {
-		// User Meta
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-
 		// Setup the Form
 		$entry = GFFormsModel::get_current_lead();
 
@@ -206,8 +196,8 @@ class DomainWizard extends Singleton {
 		// Are the on the right page?
 		if ( $current_page === 3 ) {
 			// Our form field ID + User meta fields
-			$email   = get_post_meta( $post_id, 'wpd_cloudflare_email', true );
-			$api_key = get_post_meta( $post_id, 'wpd_cloudflare_api', true );
+			$email   = get_post_meta( $this->currentQuery->id, 'wpd_cloudflare_email', true );
+			$api_key = get_post_meta( $this->currentQuery->id, 'wpd_cloudflare_api', true );
 			$zone    = rgar( $entry, '66' );
 
 			// Set up the request to CloudFlare to verify
@@ -240,8 +230,8 @@ class DomainWizard extends Singleton {
 				}
 			} else {
 				// Save our CloudFlare Zone ID to user meta.
-				update_post_meta( $post_id, 'wpd_cloudflare_zone_id', $zone );
-				Log::add( 'Cloudflare Zone ID ' . $zone . ' is used for analytics for ' . $post_slug );
+				update_post_meta( $this->currentQuery->id, 'wpd_cloudflare_zone_id', $zone );
+				Log::add( 'Cloudflare Zone ID ' . $zone . ' is used for analytics for ' . $this->currentQuery->slug );
 			}
 		}
 
@@ -249,14 +239,9 @@ class DomainWizard extends Singleton {
 	}
 
 	public function search_and_replace_domain( $validation_result ) {
-		// User Meta
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-
-		// Domain
-		$container = get_post_meta( $post_id, 'wpd_container_id', true );
-		$le_domain = get_post_meta( $post_id, 'wpd_domain_id', true );
+	    // Domain
+		$container = get_post_meta( $this->currentQuery->id, 'wpd_container_id', true );
+		$le_domain = get_post_meta( $this->currentQuery->id, 'wpd_domain_id', true );
 
 		$form = $validation_result['form'];
 
@@ -270,24 +255,24 @@ class DomainWizard extends Singleton {
 			$www = rgpost( 'input_81' );
 
 			if ( $www === 'yes' ) {
-				$domain = 'www.' . get_post_meta( $post_id, 'wpd_domains', true );
+				$domain = 'www.' . get_post_meta( $this->currentQuery->id, 'wpd_domains', true );
 			} else {
-				$domain = get_post_meta( $post_id, 'wpd_domains', true );
+				$domain = get_post_meta( $this->currentQuery->id, 'wpd_domains', true );
 			}
 
 			$post_body = [
-				'filter'    => 'name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
-				'argString' => '-install ' . $post_slug . DOLLIE_DOMAIN . ' -domain ' . $domain
+				'filter'    => 'name: https://' . $this->currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+				'argString' => '-install ' . $this->currentQuery->slug . DOLLIE_DOMAIN . ' -domain ' . $domain
 			];
 
 			$update = Api::postRequestRundeck( '1/job/ba12c626-a9aa-4abc-b239-278238f1b2a9/run/', $post_body );
 
 			$answer = wp_remote_retrieve_body( $update );
 
-			Log::add( 'Search and replace ' . $post_slug . ' to update URL to ' . $domain . ' has started', $answer );
+			Log::add( 'Search and replace ' . $this->currentQuery->slug . ' to update URL to ' . $domain . ' has started', $answer );
 
 
-			$le = get_post_meta( $post_id, 'wpd_letsencrypt_enabled', true );
+			$le = get_post_meta( $this->currentQuery->id, 'wpd_letsencrypt_enabled', true );
 			if ( $le === 'yes' ) {
 				$le_answer = Api::postRequestDollie( $container . '/routes/' . $le_domain . '/autoCert', [], 90 );
 
@@ -305,7 +290,7 @@ class DomainWizard extends Singleton {
 
 					}
 				} else {
-					update_post_meta( $post_id, 'wpd_letsencrypt_setup_complete', 'yes' );
+					update_post_meta( $this->currentQuery->id, 'wpd_letsencrypt_setup_complete', 'yes' );
 				}
 			}
 
@@ -318,32 +303,28 @@ class DomainWizard extends Singleton {
 
 	public function continue_domain_setup() {
 		if ( isset( $_GET['page'] ) && ! isset( $_GET['form_page'] ) && $_GET['page'] === 'domain' && is_singular( 'container' ) ) {
-			global $wp_query;
-			$post_id   = $wp_query->get_queried_object_id();
-			$post_slug = get_queried_object()->post_name;
-
-			$has_domain     = get_post_meta( $post_id, 'wpd_domains', true );
-			$has_cloudflare = get_post_meta( $post_id, 'wpd_cloudflare_email', true );
-			$has_analytics  = get_post_meta( $post_id, 'wpd_cloudflare_zone_id', true );
-			$has_le         = get_post_meta( $post_id, 'wpd_letsencrypt_enabled', true );
+			$has_domain     = get_post_meta( $this->currentQuery->id, 'wpd_domains', true );
+			$has_cloudflare = get_post_meta( $this->currentQuery->id, 'wpd_cloudflare_email', true );
+			$has_analytics  = get_post_meta( $this->currentQuery->id, 'wpd_cloudflare_zone_id', true );
+			$has_le         = get_post_meta( $this->currentQuery->id, 'wpd_letsencrypt_enabled', true );
 
 			if ( $has_cloudflare && ! $has_analytics ) {
-				wp_redirect( get_site_url() . '/site/' . $post_slug . '?page=domain&form_page=3' );
+				wp_redirect( get_site_url() . '/site/' . $this->currentQuery->slug . '?page=domain&form_page=3' );
 				exit;
 			}
 
 			if ( $has_domain && $has_le ) {
-				wp_redirect( get_site_url() . '/site/' . $post_slug . '?page=domain&form_page=4' );
+				wp_redirect( get_site_url() . '/site/' . $this->currentQuery->slug . '?page=domain&form_page=4' );
 				exit;
 			}
 
 			if ( $has_domain && ! $has_analytics ) {
-				wp_redirect( get_site_url() . '/site/' . $post_slug . '?page=domain&form_page=2' );
+				wp_redirect( get_site_url() . '/site/' . $this->currentQuery->slug . '?page=domain&form_page=2' );
 				exit;
 			}
 
 			if ( $has_analytics ) {
-				wp_redirect( get_site_url() . '/site/' . $post_slug . '?page=domain&form_page=4' );
+				wp_redirect( get_site_url() . '/site/' . $this->currentQuery->slug . '?page=domain&form_page=4' );
 				exit;
 			}
 		}
@@ -373,12 +354,9 @@ class DomainWizard extends Singleton {
 	}
 
 	public function populate_instruction_fields( $input, $field, $value, $lead_id, $form_id ) {
-		global $wp_query;
-		$post_id = $wp_query->get_queried_object_id();
-
-		$has_domain   = get_post_meta( $post_id, 'wpd_domains', true );
-		$ip           = get_post_meta( $post_id, 'wpd_container_ip', true );
-		$platform_url = get_post_meta( $post_id, 'wpd_url', true );
+		$has_domain   = get_post_meta( $this->currentQuery->id, 'wpd_domains', true );
+		$ip           = get_post_meta( $this->currentQuery->id, 'wpd_container_ip', true );
+		$platform_url = get_post_meta( $this->currentQuery->id, 'wpd_url', true );
 
 		if ( $field->id === 40 && $form_id === dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' )[0] ) {
 			ob_start();
@@ -461,17 +439,13 @@ class DomainWizard extends Singleton {
 	}
 
 	public function complete_migration_wizard( $form, $source_page_number, $current_page_number ) {
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-
 		if ( $current_page_number > 6 ) {
 			// Update user meta used to show/hide specific Dashboard areas/tabs
-			update_post_meta( $post_id, 'wpd_cloudflare_active', 'yes' );
-			update_post_meta( $post_id, 'wpd_domain_migration_complete', 'yes' );
+			update_post_meta( $this->currentQuery->id, 'wpd_cloudflare_active', 'yes' );
+			update_post_meta( $this->currentQuery->id, 'wpd_domain_migration_complete', 'yes' );
 
 			// Log our success
-			Log::add( $post_slug . ' domain setup completed. Using live real domain from this point onwards.' );
+			Log::add( $this->currentQuery->slug . ' domain setup completed. Using live real domain from this point onwards.' );
 
 			// Make a backup.
 			Backups::instance()->trigger_backup();

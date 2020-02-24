@@ -17,10 +17,17 @@ use WP_Http;
 class SecurityChecks extends Singleton {
 
 	/**
+	 * @var \stdClass
+	 */
+	protected $currentQuery;
+
+	/**
 	 * SecurityChecks constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
+
+		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		if ( get_option( 'options_wpd_wpvulndb_token' ) ) {
 			add_action( 'template_redirect', [ $this, 'plugin_security_scanner_do_this_daily' ], 99 );
@@ -29,12 +36,10 @@ class SecurityChecks extends Singleton {
 	}
 
 	public function get_vulnerable_plugins() {
-		global $wp_query;
-		$post_id = $wp_query->get_queried_object_id();
-		$token   = get_option( 'options_wpd_wpvulndb_token' );
+		$token = get_option( 'options_wpd_wpvulndb_token' );
 
 		// Now that we have our container details get our secret key
-		$details_url          = dollie()->helpers()->get_container_url( $post_id ) . '/wp-content/mu-plugins/platform/container/details/stats.php';
+		$details_url          = dollie()->helpers()->get_container_url() . '/wp-content/mu-plugins/platform/container/details/stats.php';
 		$details_transient_id = 'get_container_site_info';
 		$details_username     = 'container';
 		//Make the request
@@ -86,11 +91,10 @@ class SecurityChecks extends Singleton {
 
 	public function plugin_security_scanner_do_this_daily() {
 		if ( is_singular( 'container' ) ) {
-			$post_slug = get_queried_object()->post_name;
-			$transient = get_transient( 'dollie_security_check_' . $post_slug );
+			$transient = get_transient( 'dollie_security_check_' . $this->currentQuery->slug );
 
 			if ( $transient !== 'done' ) {
-				set_transient( 'dollie_security_check_' . $post_slug, 'done', MINUTE_IN_SECONDS * 3600 );
+				set_transient( 'dollie_security_check_' . $this->currentQuery->slug, 'done', MINUTE_IN_SECONDS * 3600 );
 				$mail_body = '';
 
 				// run scan
@@ -106,7 +110,7 @@ class SecurityChecks extends Singleton {
 
 				// if vulns, email admin
 				if ( $vulnerability_count ) {
-					set_transient( 'dollie_security_check_failed_' . $post_slug, 'failed', MINUTE_IN_SECONDS * 3600 );
+					set_transient( 'dollie_security_check_failed_' . $this->currentQuery->slug, 'failed', MINUTE_IN_SECONDS * 3600 );
 					$mail_body .= '' . sprintf(
 							_n(
 								'%s vulnerability found.',
@@ -114,7 +118,7 @@ class SecurityChecks extends Singleton {
 								$vulnerability_count, 'plugin-security-scanner'
 							), $vulnerability_count
 						) . "\n";
-					set_transient( 'dollie_security_check_message_' . $post_slug, $mail_body, MINUTE_IN_SECONDS * 3600 );
+					set_transient( 'dollie_security_check_message_' . $this->currentQuery->slug, $mail_body, MINUTE_IN_SECONDS * 3600 );
 				}
 			}
 		}
@@ -122,12 +126,10 @@ class SecurityChecks extends Singleton {
 
 	public function run_security_check() {
 		if ( isset( $_GET['run-security-check'] ) ) {
-			$post_slug = get_queried_object()->post_name;
-
-			delete_transient( 'dollie_security_check_' . $post_slug );
-			delete_transient( 'dollie_security_check_failed_' . $post_slug );
-			delete_transient( 'dollie_security_check_failed_' . $post_slug );
-			delete_transient( 'dollie_container_api_request_' . $post_slug . '_get_customer_site_info' );
+			delete_transient( 'dollie_security_check_' . $this->currentQuery->slug );
+			delete_transient( 'dollie_security_check_failed_' . $this->currentQuery->slug );
+			delete_transient( 'dollie_security_check_failed_' . $this->currentQuery->slug );
+			delete_transient( 'dollie_container_api_request_' . $this->currentQuery->slug . '_get_customer_site_info' );
 			wp_redirect( get_permalink() . '#plugins' );
 
 			exit;

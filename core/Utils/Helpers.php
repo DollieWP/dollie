@@ -17,10 +17,17 @@ use WP_Query;
 class Helpers extends Singleton {
 
 	/**
+	 * @var \stdClass
+	 */
+	public $currentQuery;
+
+	/**
 	 * Helpers constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
+
+		$this->currentQuery = $this->get_current_object();
 
 		add_action( 'template_redirect', [ $this, 'remove_customer_domain' ] );
 		add_action( 'template_redirect', [ $this, 'redirect_to_new_container' ] );
@@ -28,14 +35,32 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * Get current queried object data
+	 *
+	 * @return \stdClass
+	 */
+	public function get_current_object() {
+		$object = get_queried_object();
+
+		$response       = new \stdClass();
+		$response->id   = $object->ID;
+		$response->slug = $object->post_name;
+
+		return $response;
+	}
+
+	/**
 	 * Get container URL
 	 *
 	 * @param null $container_id
-	 * @param null $container_slug
 	 *
 	 * @return mixed|string
 	 */
-	public function get_container_url( $container_id = null, $container_slug = null ) {
+	public function get_container_url( $container_id = null ) {
+		if ( $container_id === null ) {
+			$container_id = $this->currentQuery->id;
+		}
+
 		$domain     = get_post_meta( $container_id, 'wpd_domains', true );
 		$cloudflare = get_post_meta( $container_id, 'wpd_domain_migration_complete', true );
 
@@ -49,15 +74,8 @@ class Helpers extends Singleton {
 	}
 
 	public function get_customer_login_url( $container_id = null, $container_slug = null, $container_location = null ) {
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-
-		if ( $container_id === null ) {
-			$container_id = $post_id;
-		}
 		if ( $container_slug === null ) {
-			$container_slug = $post_slug;
+			$container_slug = $this->currentQuery->slug;
 		}
 
 		if ( $container_location !== null ) {
@@ -68,24 +86,17 @@ class Helpers extends Singleton {
 
 		$details = get_transient( 'dollie_container_api_request_' . $container_slug . '_get_container_wp_info' );
 
-		return $this->get_container_url( $container_id, $container_slug ) . '/wp-login.php?s5token=' . $details->Token . '&string=' . $details->{'Customer ID'} . '&user=' . $details->Admin . $location;
+		return $this->get_container_url( $container_id ) . '/wp-login.php?s5token=' . $details->Token . '&string=' . $details->{'Customer ID'} . '&user=' . $details->Admin . $location;
 	}
 
 	public function get_customer_admin_url() {
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-
-		return $this->get_container_url( $post_id, $post_slug ) . '/wp-admin/';
+		return $this->get_container_url() . '/wp-admin/';
 	}
 
 	public function get_customer_secret_url() {
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-		$secret    = get_post_meta( $post_id, 'wpd_container_secret', true );
+		$secret = get_post_meta( $this->currentQuery->id, 'wpd_container_secret', true );
 
-		return $this->get_container_url( $post_id, $post_slug ) . '/' . $secret;
+		return $this->get_container_url() . '/' . $secret;
 	}
 
 	public function get_container_id_by_string() {
@@ -97,21 +108,13 @@ class Helpers extends Singleton {
 	}
 
 	public function get_site_screenshot( $container_id = null ) {
-		global $wp_query;
+		$post_id = $container_id ?: $this->currentQuery->id;
 
-		if ( $container_id === null ) {
-			$post_id   = $wp_query->get_queried_object_id();
-			$post_slug = get_queried_object()->post_name;
+		if ( false === ( get_transient( 'dollie_site_screenshot_' . $this->get_container_url( $post_id ) ) ) ) {
+			$site = $this->get_container_url( $post_id ) . '/?time=' . $this->random_string( 10 );
+			set_transient( 'dollie_site_screenshot_' . $this->get_container_url( $post_id ), $site, HOUR_IN_SECONDS * 24 );
 		} else {
-			$post_id   = $container_id;
-			$post_slug = get_post_field( 'post_name', $post_id );
-		}
-
-		if ( false === ( get_transient( 'dollie_site_screenshot_' . $this->get_container_url( $post_id, $post_slug ) ) ) ) {
-			$site = $this->get_container_url( $post_id, $post_slug ) . '/?time=' . $this->random_string( 10 );
-			set_transient( 'dollie_site_screenshot_' . $this->get_container_url( $post_id, $post_slug ), $site, HOUR_IN_SECONDS * 24 );
-		} else {
-			$site = get_transient( 'dollie_site_screenshot_' . $this->get_container_url( $post_id, $post_slug ) );
+			$site = get_transient( 'dollie_site_screenshot_' . $this->get_container_url( $post_id ) );
 		}
 
 		$width      = '700';
@@ -124,21 +127,16 @@ class Helpers extends Singleton {
 	}
 
 	public function flush_container_details() {
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-		delete_transient( 'dollie_container_api_request_' . $post_slug . '_get_container_wp_info' );
-		delete_transient( 'dollie_container_api_request_' . $post_slug . '_get_container_site_info' );
-		delete_transient( 'dollie_site_users_' . $post_slug );
-		delete_transient( 'dollie_site_news_' . $post_slug );
-		delete_transient( 'dollie_site_screenshot_' . $this->get_container_url( $post_id, $post_slug ) );
+		delete_transient( 'dollie_container_api_request_' . $this->currentQuery->slug . '_get_container_wp_info' );
+		delete_transient( 'dollie_container_api_request_' . $this->currentQuery->slug . '_get_container_site_info' );
+		delete_transient( 'dollie_site_users_' . $this->currentQuery->slug );
+		delete_transient( 'dollie_site_news_' . $this->currentQuery->slug );
+		delete_transient( 'dollie_site_screenshot_' . $this->get_container_url() );
 	}
 
 	public function remove_customer_domain() {
 		if ( isset( $_POST['remove_customer_domain'] ) ) {
-			global $wp_query;
-			$post_id      = $wp_query->get_queried_object_id();
-			$post_slug    = get_queried_object()->post_name;
+			$post_id      = $this->currentQuery->id;
 			$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
 			$route_id     = get_post_meta( $post_id, 'wpd_domain_id', true );
 			$www_route_id = get_post_meta( $post_id, 'wpd_www_domain_id', true );
@@ -185,7 +183,7 @@ class Helpers extends Singleton {
 			delete_post_meta( $post_id, 'wpd_www_domain_id' );
 			delete_post_meta( $post_id, 'wpd_cloudflare_email' );
 
-			wp_redirect( get_site_url() . '/site/' . $post_slug . '/?get-details' );
+			wp_redirect( get_site_url() . '/site/' . $this->currentQuery->slug . '/?get-details' );
 			exit();
 		}
 	}

@@ -16,10 +16,17 @@ use Dollie\Core\Log;
 class DeleteSite extends Singleton {
 
 	/**
+	 * @var \stdClass
+	 */
+	protected $currentQuery;
+
+	/**
 	 * DeleteSite constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
+
+		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		$delete_form = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-delete' );
 		add_action( 'gform_after_submission_' . $delete_form[0], [ $this, 'delete_site' ], 10, 2 );
@@ -27,21 +34,18 @@ class DeleteSite extends Singleton {
 	}
 
 	public function delete_site( $entry, $form ) {
-		global $wp_query;
-		$post_id = $wp_query->get_queried_object_id();
 		Log::add( 'Customer manually deleted site' );
 
 		$trigger_date = mktime( 0, 0, 0, date( 'm' ), date( 'd' ) + - 2, date( 'Y' ) );
-		update_post_meta( $post_id, 'wpd_stop_container_at', $trigger_date, true );
-		ContainerManagement::instance()->container_action( 'stop', $post_id );
+		update_post_meta( $this->currentQuery->id, 'wpd_stop_container_at', $trigger_date, true );
+		ContainerManagement::instance()->container_action( 'stop', $this->currentQuery->id );
 	}
 
 	public function confirm_site_delete( $validation_result ) {
-		$post_slug = get_queried_object()->post_name;
-		$form      = $validation_result['form'];
+		$form = $validation_result['form'];
 
 		// supposing we don't want input 1 to be a value of 86
-		if ( rgpost( 'input_1' ) !== $post_slug ) {
+		if ( rgpost( 'input_1' ) !== $this->currentQuery->slug ) {
 
 			// set the form validation to false
 			$validation_result['is_valid'] = false;

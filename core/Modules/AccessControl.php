@@ -56,8 +56,8 @@ class AccessControl extends Singleton {
 	}
 
 	public function protect_container_access() {
-		global $wp_query;
-		$post_id = $wp_query->get_queried_object_id();
+		$currentQuery = dollie()->helpers()->get_current_object();
+		$post_id      = $currentQuery->id;
 
 		$demo   = get_post_meta( $post_id, 'wpd_container_is_demo', true );
 		$access = get_post_meta( $post_id, 'wpd_demo_access_granted', true );

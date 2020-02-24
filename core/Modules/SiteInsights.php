@@ -63,19 +63,17 @@ class SiteInsights extends Singleton {
 	}
 
 	public function get_latest_container_posts() {
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-		$data      = get_transient( 'dollie_recent_posts_' . $post_slug );
+		$currentQuery = dollie()->helpers()->get_current_object();
+		$data         = get_transient( 'dollie_recent_posts_' . $currentQuery->slug );
 
 		if ( empty( $data ) ) {
-			$response = wp_remote_get( dollie()->helpers()->get_container_url( $post_id ) . '/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=6&_embed' );
+			$response = wp_remote_get( dollie()->helpers()->get_container_url() . '/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=6&_embed' );
 
 			if ( is_wp_error( $response ) ) {
 				return [];
 			}
 
-			$data = set_transient( 'dollie_recent_posts_' . $post_slug, $response, 3600 );
+			$data = set_transient( 'dollie_recent_posts_' . $currentQuery->slug, $response, 3600 );
 
 			if ( empty( $data ) ) {
 				return [];
