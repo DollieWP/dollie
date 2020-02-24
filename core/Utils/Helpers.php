@@ -344,6 +344,10 @@ class Helpers extends Singleton {
 		return (bool) get_option( 'options_wpd_dollie_status' );
 	}
 
+	public function staging_limit_reached() {
+		return $this->count_total_containers() >= 3 && ! $this->is_live();
+	}
+
 
 	public function could_not_connect_message() {
 		?>

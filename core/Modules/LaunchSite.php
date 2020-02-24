@@ -348,8 +348,4 @@ class LaunchSite extends Singleton {
 		}
 	}
 
-	public function staging_limit_reached() {
-		return dollie()->helpers()->count_total_containers() >= 3 && ! Options::instance()->is_live();
-	}
-
 }
