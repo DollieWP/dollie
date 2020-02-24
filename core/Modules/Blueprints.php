@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
-use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Log;
 use WP_Query;
 
@@ -19,22 +18,15 @@ use WP_Query;
 class Blueprints extends Singleton {
 
 	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
-	/**
 	 * Backups constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
 
-		$this->helpers = Helpers::instance();
-
 		add_action( 'wf_before_container', [ $this, 'get_available_blueprints' ], 11 );
 
 
-		foreach ( $this->helpers->get_dollie_gravity_form_ids( 'dollie-blueprint' ) as $form_id ) {
+		foreach ( dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-blueprint' ) as $form_id ) {
 			add_action( 'gform_after_submission_' . $form_id, [ $this, 'deploy_new_blueprint' ], 10, 2 );
 		}
 
@@ -54,7 +46,7 @@ class Blueprints extends Singleton {
 			$post_slug = get_queried_object()->post_name;
 			$install   = $post_slug;
 			$secret    = get_post_meta( $post_id, 'wpd_container_secret', true );
-			$url       = $this->helpers->get_container_url( $post_id ) . '/' . $secret . '/codiad/backups/blueprints.php';
+			$url       = dollie()->helpers()->get_container_url( $post_id ) . '/' . $secret . '/codiad/backups/blueprints.php';
 
 			$response = wp_remote_get( $url, [ 'timeout' => 20 ] );
 

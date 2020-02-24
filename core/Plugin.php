@@ -2,6 +2,8 @@
 
 namespace Dollie\Core;
 
+use Dollie\Core\Utils\Helpers;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -16,6 +18,15 @@ class Plugin extends Singleton {
 		parent::__construct();
 
 		add_filter( 'body_class', [ $this, 'add_timestamp_body' ] );
+	}
+
+	/**
+	 * Access Helpers class instance
+	 *
+	 * @return Helpers
+	 */
+	public function helpers() {
+		return Helpers::instance();
 	}
 
 	public function add_timestamp_body( $classes ) {

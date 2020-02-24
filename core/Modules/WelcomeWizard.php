@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
-use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Log;
 use Dollie\Core\Utils\Tpl;
 
@@ -19,19 +18,12 @@ use Dollie\Core\Utils\Tpl;
 class WelcomeWizard extends Singleton {
 
 	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
-	/**
 	 * WelcomeWizard constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->helpers = Helpers::instance();
-
-		$setup_forms = $this->helpers->get_dollie_gravity_form_ids( 'dollie-wizard' );
+		
+		$setup_forms = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-wizard' );
 		foreach ( $setup_forms as $form_id ) {
 			add_action( 'gform_post_paging_' . $form_id, [ $this, 'update_site_details' ], 10, 3 );
 			add_action( 'gform_after_submission_' . $form_id, [ $this, 'complete_setup_wizard' ], 10, 2 );
@@ -92,7 +84,7 @@ class WelcomeWizard extends Singleton {
 					}
 				}
 
-				$this->helpers->flush_container_details();
+				dollie()->helpers()->flush_container_details();
 			}
 		}
 	}
@@ -128,7 +120,7 @@ class WelcomeWizard extends Singleton {
 		$request   = get_transient( 'dollie_s5_container_details_' . $post_slug );
 		$hostname  = preg_replace( '#^https?://#', '', $request->uri );
 
-		if ( $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-wizard' )[0] && $field->id === 7 ) {
+		if ( $form_id === dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-wizard' )[0] && $field->id === 7 ) {
 			$input = Tpl::load( DOLLIE_MODULE_TPL_PATH . 'migration-instructions', [
 				'post_slug' => $post_slug,
 				'request'   => $request,

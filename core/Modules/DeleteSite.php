@@ -21,7 +21,7 @@ class DeleteSite extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$delete_form = $this->helpers->get_dollie_gravity_form_ids( 'dollie-delete' );
+		$delete_form = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-delete' );
 		add_action( 'gform_after_submission_' . $delete_form[0], [ $this, 'delete_site' ], 10, 2 );
 		add_filter( 'gform_validation_' . $delete_form[0], [ $this, 'confirm_site_delete' ] );
 	}

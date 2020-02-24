@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
-use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Log;
 use GFFormsModel;
 
@@ -17,11 +16,7 @@ use GFFormsModel;
  * @package Dollie\Core\Modules
  */
 class LaunchSite extends Singleton {
-
-	/**
-	 * @var mixed
-	 */
-	private $helpers;
+    
 
 	/**
 	 * LaunchSite constructor.
@@ -29,9 +24,7 @@ class LaunchSite extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$this->helpers = Helpers::instance();
-
-		$launch_forms = $this->helpers->get_dollie_gravity_form_ids( 'dollie-launch' );
+		$launch_forms = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-launch' );
 		foreach ( $launch_forms as $form_id ) {
 			add_action( 'gform_field_validation_' . $form_id, [ $this, 'add_new_site' ], 10, 4 );
 		}
@@ -350,14 +343,14 @@ class LaunchSite extends Singleton {
 	}
 
 	public function redirect_to_container_launch() {
-		if ( $this->helpers->count_total_containers() === 0 && ! is_page( 'launch-site' ) && current_user_can( 'manage_options' ) ) {
+		if ( dollie()->helpers()->count_total_containers() === 0 && ! is_page( 'launch-site' ) && current_user_can( 'manage_options' ) ) {
 			wp_redirect( get_site_url() . '/launch-site' );
 			exit;
 		}
 	}
 
 	public function staging_limit_reached() {
-		return $this->helpers->count_total_containers() >= 3 && ! Options::instance()->is_live();
+		return dollie()->helpers()->count_total_containers() >= 3 && ! Options::instance()->is_live();
 	}
 
 }

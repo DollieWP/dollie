@@ -17,17 +17,10 @@ use WP_Http;
 class SecurityChecks extends Singleton {
 
 	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
-	/**
 	 * SecurityChecks constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->helpers = Helpers::instance();
 
 		if ( get_option( 'options_wpd_wpvulndb_token' ) ) {
 			add_action( 'template_redirect', [ $this, 'plugin_security_scanner_do_this_daily' ], 99 );
@@ -41,11 +34,11 @@ class SecurityChecks extends Singleton {
 		$token   = get_option( 'options_wpd_wpvulndb_token' );
 
 		// Now that we have our container details get our secret key
-		$details_url          = $this->helpers->get_container_url( $post_id ) . '/wp-content/mu-plugins/platform/container/details/stats.php';
+		$details_url          = dollie()->helpers()->get_container_url( $post_id ) . '/wp-content/mu-plugins/platform/container/details/stats.php';
 		$details_transient_id = 'get_container_site_info';
 		$details_username     = 'container';
 		//Make the request
-		$details_request = $this->helpers->container_api_request( $details_url, $details_transient_id, $details_username, $details_pass );
+		$details_request = dollie()->helpers()->container_api_request( $details_url, $details_transient_id, $details_username, $details_pass );
 		//Encode to JSON (not used yet)
 		$container_data = json_encode( $details_request );
 

@@ -18,10 +18,6 @@ use GFFormsModel;
  */
 class DomainWizard extends Singleton {
 
-	/**
-	 * @var mixed
-	 */
-	private $helpers;
 
 	/**
 	 * DomainWizard constructor.
@@ -29,9 +25,7 @@ class DomainWizard extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$this->helpers = Helpers::instance();
-
-		$domain_forms = $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' );
+		$domain_forms = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' );
 		foreach ( $domain_forms as $form_id ) {
 			add_filter( 'gform_validation_' . $form_id, [ $this, 'domain_wizard_add_domain' ], 20 );
 			add_filter( 'gform_validation_' . $form_id, [ $this, 'domain_wizard_add_cloudflare' ], 20 );
@@ -45,11 +39,11 @@ class DomainWizard extends Singleton {
 		add_filter( 'gform_validation_message', [
 			$this,
 			'change_message'
-		], $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' )[0], 2 );
+		], dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' )[0], 2 );
 
 		add_filter( 'gform_field_input', [ $this, 'populate_instruction_fields' ], 10, 5 );
 
-		$this->register_confirmation_fields( $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' ), [
+		$this->register_confirmation_fields( dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' ), [
 			55,
 			60
 		] );
@@ -416,7 +410,7 @@ class DomainWizard extends Singleton {
 		$ip           = get_post_meta( $post_id, 'wpd_container_ip', true );
 		$platform_url = get_post_meta( $post_id, 'wpd_url', true );
 
-		if ( $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' )[0] && $field->id === 40 ) {
+		if ( $form_id === dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' )[0] && $field->id === 40 ) {
 			$input = '<h3>Linking Your Custom Domain to your Site!</h3>
           <p>
           In order to get your custom domain to work we need to make a change to your DNS configuration, so please make sure you have accesss to the control panel of where you registered your domain. Usually making a DNS change is very easy to do and your registrar will have documentation available on how to do this (or simply ask support to do this for you.) Here are the instructions on the changes you need to make.
@@ -436,7 +430,7 @@ Your domain might have multiple DNS records set up. For example if you also have
           ';
 		}
 
-		if ( $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' )[0] && $field->id === 43 ) {
+		if ( $form_id === dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' )[0] && $field->id === 43 ) {
 			$input = '
           <div class="blockquote-box blockquote-success clearfix">
    <div class="square pull-left">
@@ -451,7 +445,7 @@ Your domain might have multiple DNS records set up. For example if you also have
             ';
 		}
 
-		if ( $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' ) && $field->id === 57 ) {
+		if ( $form_id === dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' ) && $field->id === 57 ) {
 			$input = '
             <div class="blockquote-box blockquote-warning clearfix">
      <div class="square pull-left">
@@ -484,7 +478,7 @@ Your domain might have multiple DNS records set up. For example if you also have
 			Backups::instance()->trigger_backup();
 
 			//Update our container details so that the new domain will be used to make container HTTP requests.
-			$this->helpers->flush_container_details();
+			dollie()->helpers()->flush_container_details();
 		}
 	}
 

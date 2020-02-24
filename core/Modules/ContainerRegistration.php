@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
-use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Log;
 
 /**
@@ -16,19 +15,12 @@ use Dollie\Core\Log;
  * @package Dollie\Core\Modules
  */
 class ContainerRegistration extends Singleton {
-
-	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
+    
 	/**
 	 * ContainerRegistration constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->helpers = Helpers::instance();
 
 		add_action( 'wp', [ $this, 'add_rundeck_key' ] );
 		add_action( 'template_redirect', [ $this, 'add_rundeck_node' ], 10000 );
@@ -48,7 +40,7 @@ class ContainerRegistration extends Singleton {
 
 	public function add_rundeck_key() {
 		if ( get_option( 'wpd_rundeck_key' ) === false ) {
-			update_option( 'wpd_rundeck_key', $this->helpers->random_string( 12 ) );
+			update_option( 'wpd_rundeck_key', dollie()->helpers()->random_string( 12 ) );
 		}
 	}
 
@@ -74,7 +66,7 @@ class ContainerRegistration extends Singleton {
 		} else {
 			$post_id = $id;
 		}
-		$url = $this->helpers->get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
+		$url = dollie()->helpers()->get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
 
 		$post_slug     = get_queried_object()->post_name;
 		$is_node_added = get_post_meta( $post_id, 'wpd_node_added', true );

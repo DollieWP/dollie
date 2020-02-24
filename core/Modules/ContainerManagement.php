@@ -18,17 +18,10 @@ use Dollie\Core\Log;
 class ContainerManagement extends Singleton {
 
 	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
-	/**
 	 * ContainerManagement constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->helpers = Helpers::instance();
 
 		add_action( 'init', [ $this, 'register_container' ], 0 );
 		add_action( 'template_redirect', [ $this, 'bypass_output_caching' ] );
@@ -283,7 +276,7 @@ class ContainerManagement extends Singleton {
 
 	public function update_container_details() {
 		if ( isset( $_GET['update-details'] ) ) {
-			$this->helpers->flush_container_details();
+			dollie()->helpers()->flush_container_details();
 		}
 	}
 
@@ -332,7 +325,7 @@ class ContainerManagement extends Singleton {
 					update_post_meta( $post_id, 'wpd_scheduled_for_undeployment', 'yes' );
 					update_post_meta( $post_id, 'wpd_undeploy_container_at', $triggerdate );
 				}
-				WDS_Log_Post::log_message( 'dollie-logs', $site . ' scheduled to be removed', '', 'undeploy' );
+				\WDS_Log_Post::log_message( 'dollie-logs', $site . ' scheduled to be removed', '', 'undeploy' );
 			}
 			if ( $action === 'undeploy' ) {
 				delete_post_meta( $post_id, 'wpd_stop_container_at' );

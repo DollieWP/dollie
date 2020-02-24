@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
-use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Log;
 
 /**
@@ -18,28 +17,21 @@ use Dollie\Core\Log;
 class Backups extends Singleton {
 
 	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
-	/**
 	 * Backups constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->helpers = Helpers::instance();
 
 //		add_filter( 'widget_text', 'do_shortcode' );
 
 		add_action( 'wf_before_container', [ $this, 'get_site_backups' ], 11 );
 		add_filter( 'gform_pre_render', [ $this, 'list_site_backups' ] );
 
-		foreach ( $this->helpers->get_dollie_gravity_form_ids( 'dollie-list-backups' ) as $form_id ) {
+		foreach ( dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-list-backups' ) as $form_id ) {
 			add_action( 'gform_after_submission_' . $form_id, [ $this, 'restore_site' ], 10, 2 );
 		}
 
-		foreach ( $this->helpers->get_dollie_gravity_form_ids( 'dollie-create-backup' ) as $backup_id ) {
+		foreach ( dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-create-backup' ) as $backup_id ) {
 			add_action( 'gform_after_submission_' . $backup_id, [ $this, 'create_backup' ], 10, 2 );
 		}
 	}
@@ -55,7 +47,7 @@ class Backups extends Singleton {
 			$post_slug = get_queried_object()->post_name;
 			$install   = $post_slug;
 			$secret    = get_post_meta( $post_id, 'wpd_container_secret', true );
-			$url       = $this->helpers->get_container_url( $post_id ) . '/' . $secret . '/codiad/backups/';
+			$url       = dollie()->helpers()->get_container_url( $post_id ) . '/' . $secret . '/codiad/backups/';
 
 			$response = wp_remote_get( $url, [
 				'timeout' => 20
@@ -166,7 +158,7 @@ class Backups extends Singleton {
 		global $wp_query;
 		$post_id   = $wp_query->get_queried_object_id();
 		$post_slug = get_queried_object()->post_name;
-		$install   = $this->helpers->get_container_url( $post_id );
+		$install   = dollie()->helpers()->get_container_url( $post_id );
 
 		//Our form field ID + User meta fields
 		$backup = rgar( $entry, '1' );
@@ -198,9 +190,9 @@ class Backups extends Singleton {
         <div class="alert alert-success">
             Your site is being restored! Depending on the size of your installation this could take a while. Once your
             site is restored you'll see a message in your <a
-                    href="<?php echo $this->helpers->get_customer_login_url(); ?>">WordPress
+                    href="<?php echo dollie()->helpers()->get_customer_login_url(); ?>">WordPress
                 Admin</a><br>
-            Note: In some cases you might have to <a href="<?php echo $this->helpers->get_customer_login_url(); ?>">login</a>
+            Note: In some cases you might have to <a href="<?php echo dollie()->helpers()->get_customer_login_url(); ?>">login</a>
             to
             your site again after a restoration.
         </div>
@@ -211,7 +203,7 @@ class Backups extends Singleton {
 		global $wp_query;
 		$post_id   = $wp_query->get_queried_object_id();
 		$post_slug = get_queried_object()->post_name;
-		$install   = $this->helpers->get_container_url( $post_id );
+		$install   = dollie()->helpers()->get_container_url( $post_id );
 
 		//Success now send the Rundeck request
 		//Only run the job on the container of the customer.
