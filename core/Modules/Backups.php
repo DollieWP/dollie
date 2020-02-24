@@ -22,7 +22,7 @@ class Backups extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-//		add_filter( 'widget_text', 'do_shortcode' );
+        // add_filter( 'widget_text', 'do_shortcode' );
 
 		add_action( 'wf_before_container', [ $this, 'get_site_backups' ], 11 );
 		add_filter( 'gform_pre_render', [ $this, 'list_site_backups' ] );

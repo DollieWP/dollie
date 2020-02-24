@@ -116,7 +116,7 @@ class Options extends Singleton {
 	}
 
 	public function is_live() {
-		return (bool) get_option( 'options_wpd_dollie_status' );
+		return dollie()->helpers()->is_live();
 	}
 
 	public function deactivate_admin_menu_editor() {
