@@ -6,6 +6,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Modules\AccessControl;
+use Dollie\Core\Modules\Backups;
+use Dollie\Core\Modules\Blueprints;
+use Dollie\Core\Modules\CheckSubscription;
+use Dollie\Core\Modules\ContainerFields;
+use Dollie\Core\Modules\ContainerManagement;
+use Dollie\Core\Modules\ContainerRegistration;
+use Dollie\Core\Modules\Custom;
+use Dollie\Core\Modules\DeleteSite;
+use Dollie\Core\Modules\DomainWizard;
+use Dollie\Core\Modules\Hooks;
+use Dollie\Core\Modules\ImportGravityForms;
+use Dollie\Core\Modules\LaunchSite;
+use Dollie\Core\Modules\Options;
+use Dollie\Core\Modules\PluginUpdates;
+use Dollie\Core\Modules\Scripts;
+use Dollie\Core\Modules\SecurityChecks;
+use Dollie\Core\Modules\Tools;
+use Dollie\Core\Modules\WelcomeWizard;
+use Dollie\Core\Modules\WooCommerce;
 use Dollie\Core\Utils\Helpers;
 use WP_Query;
 
@@ -22,6 +42,8 @@ class Plugin extends Singleton {
 		add_action( 'template_redirect', [ $this, 'remove_customer_domain' ] );
 		add_action( 'template_redirect', [ $this, 'redirect_to_new_container' ] );
 		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
+
+		add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ] );
 	}
 
 	/**
@@ -85,6 +107,37 @@ class Plugin extends Singleton {
 	 */
 	public function insights() {
 		return \Dollie\Core\Modules\SiteInsights::instance();
+	}
+
+	public function plugins_loaded() {
+
+		// Load modules
+		AccessControl::instance();
+		Backups::instance();
+		Blueprints::instance();
+		CheckSubscription::instance();
+		ContainerFields::instance();
+		ContainerManagement::instance();
+		ContainerRegistration::instance();
+		Custom::instance();
+		DeleteSite::instance();
+		DomainWizard::instance();
+		Hooks::instance();
+		ImportGravityForms::instance();
+		LaunchSite::instance();
+		Options::instance();
+		PluginUpdates::instance();
+		Scripts::instance();
+		SecurityChecks::instance();
+		Tools::instance();
+		WelcomeWizard::instance();
+		WooCommerce::instance();
+
+		// Shortcodes
+		Shortcodes\Blueprints::instance();
+		Shortcodes\Orders::instance();
+		Shortcodes\Sites::instance();
+
 	}
 
 
@@ -187,6 +240,5 @@ class Plugin extends Singleton {
 		wp_reset_postdata();
 		wp_reset_query();
 	}
-
 
 }
