@@ -18,17 +18,10 @@ use Dollie\Core\Utils\Tpl;
 class WelcomeWizard extends Singleton {
 
 	/**
-	 * @var \stdClass
-	 */
-	protected $currentQuery;
-
-	/**
 	 * WelcomeWizard constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		$setup_forms = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-wizard' );
 		foreach ( $setup_forms as $form_id ) {
@@ -47,29 +40,30 @@ class WelcomeWizard extends Singleton {
 	 */
 	public function update_site_details( $form, $source_page_number, $current_page_number ) {
 		if ( $current_page_number > 1 ) {
-			$value = rgpost( 'input_1' );
+			$value        = rgpost( 'input_1' );
+			$currentQuery = dollie()->helpers()->get_current_object();
 
 			if ( $value === 'setup' ) {
-				$demo    = get_post_meta( $this->currentQuery->id, 'wpd_container_is_demo', true );
-				$partner = get_userdatabylogin( get_post_meta( $this->currentQuery->id, 'wpd_partner_ref', true ) );
+				$demo    = get_post_meta( $currentQuery->id, 'wpd_container_is_demo', true );
+				$partner = get_userdatabylogin( get_post_meta( $currentQuery->id, 'wpd_partner_ref', true ) );
 
 				$partner_blueprint  = get_post_meta( $partner->ID, 'wpd_partner_blueprint_created', true );
-				$blueprint_deployed = get_post_meta( $this->currentQuery->id, 'wpd_blueprint_deployment_complete', true );
+				$blueprint_deployed = get_post_meta( $currentQuery->id, 'wpd_blueprint_deployment_complete', true );
 
 				if ( $demo !== 'yes' ) {
-					$is_partner_lead = get_post_meta( $this->currentQuery->id, 'wpd_is_partner_lead', true );
+					$is_partner_lead = get_post_meta( $currentQuery->id, 'wpd_is_partner_lead', true );
 
 					if ( $is_partner_lead === 'yes' && $partner_blueprint === 'yes' && $blueprint_deployed !== 'yes' ) {
 						$partner_install = get_post_meta( $partner->ID, 'wpd_url', true );
 
 						$post_body = [
-							'filter'    => 'name: https://' . $this->currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
-							'argString' => '-url ' . $partner_install . DOLLIE_DOMAIN . ' -domain ' . $this->currentQuery->slug . DOLLIE_DOMAIN
+							'filter'    => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+							'argString' => '-url ' . $partner_install . DOLLIE_DOMAIN . ' -domain ' . $currentQuery->slug . DOLLIE_DOMAIN
 						];
 
 						Api::postRequestRundeck( '1/job/85783830-a89d-439f-b4db-4a5e0e0fd6a9/run/', $post_body );
 
-						update_post_meta( $this->currentQuery->id, 'wpd_partner_blueprint_deployed', 'yes' );
+						update_post_meta( $currentQuery->id, 'wpd_partner_blueprint_deployed', 'yes' );
 						sleep( 5 );
 					} else {
 						$email       = rgpost( 'input_5' );
@@ -79,7 +73,7 @@ class WelcomeWizard extends Singleton {
 						$description = rgpost( 'input_11' );
 
 						$post_body = [
-							'filter'    => 'name: https://' . $this->currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+							'filter'    => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
 							'argString' => '-email ' . $email . ' -name ' . $name . ' -description ' . $description . ' -password ' . $password . ' -username ' . $username
 						];
 
@@ -99,8 +93,10 @@ class WelcomeWizard extends Singleton {
 	 * @param $form
 	 */
 	public function complete_setup_wizard( $entry, $form ) {
-		update_post_meta( $this->currentQuery->id, 'wpd_setup_complete', 'yes' );
-		Log::add( $this->currentQuery->slug . ' has completed the initial site setup', '', 'setup' );
+		$currentQuery = dollie()->helpers()->get_current_object();
+
+		update_post_meta( $currentQuery->id, 'wpd_setup_complete', 'yes' );
+		Log::add( $currentQuery->slug . ' has completed the initial site setup', '', 'setup' );
 		Backups::instance()->trigger_backup();
 	}
 
@@ -116,13 +112,15 @@ class WelcomeWizard extends Singleton {
 	 * @return string
 	 */
 	public function inject_migration_instructions( $input, $field, $value, $lead_id, $form_id ) {
+		$currentQuery = dollie()->helpers()->get_current_object();
+
 		$user     = wp_get_current_user();
-		$request  = get_transient( 'dollie_s5_container_details_' . $this->currentQuery->slug );
+		$request  = get_transient( 'dollie_s5_container_details_' . $currentQuery->slug );
 		$hostname = preg_replace( '#^https?://#', '', $request->uri );
 
-		if ( $form_id === dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-wizard' )[0] && $field->id === 7 ) {
+		if ( $field->id === 7 && $form_id === dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-wizard' )[0] ) {
 			$input = Tpl::load( DOLLIE_MODULE_TPL_PATH . 'migration-instructions', [
-				'post_slug' => $this->currentQuery->slug,
+				'post_slug' => $currentQuery->slug,
 				'request'   => $request,
 				'user'      => $user,
 				'hostname'  => $hostname

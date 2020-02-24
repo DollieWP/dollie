@@ -17,17 +17,10 @@ use Dollie\Core\Log;
 class Backups extends Singleton {
 
 	/**
-	 * @var \stdClass
-	 */
-	protected $currentQuery;
-
-	/**
 	 * Backups constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		add_action( 'wf_before_container', [ $this, 'get_site_backups' ], 11 );
 		add_filter( 'gform_pre_render', [ $this, 'list_site_backups' ] );
@@ -48,8 +41,9 @@ class Backups extends Singleton {
 				@flush();
 			}
 
-			$secret = get_post_meta( $this->currentQuery->id, 'wpd_container_secret', true );
-			$url    = dollie()->helpers()->get_container_url() . '/' . $secret . '/codiad/backups/';
+			$currentQuery = dollie()->helpers()->get_current_object();
+			$secret       = get_post_meta( $currentQuery->id, 'wpd_container_secret', true );
+			$url          = dollie()->helpers()->get_container_url() . '/' . $secret . '/codiad/backups/';
 
 			$response = wp_remote_get( $url, [
 				'timeout' => 20
@@ -69,8 +63,8 @@ class Backups extends Singleton {
 				return ! ( strpos( $value, 'restore' ) !== false );
 			} );
 
-			set_transient( 'dollie_' . $this->currentQuery->slug . '_total_backups', count( $total_backups ), MINUTE_IN_SECONDS * 1 );
-			update_post_meta( $this->currentQuery->id, 'wpd_installation_backups_available', count( $total_backups ) );
+			set_transient( 'dollie_' . $currentQuery->slug . '_total_backups', count( $total_backups ), MINUTE_IN_SECONDS * 1 );
+			update_post_meta( $currentQuery->id, 'wpd_installation_backups_available', count( $total_backups ) );
 
 			return $backups;
 		}
@@ -148,7 +142,9 @@ class Backups extends Singleton {
 	}
 
 	public function get_customer_total_backups() {
-		return get_transient( 'dollie_' . $this->currentQuery->slug . '_total_backups' );
+		$currentQuery = dollie()->helpers()->get_current_object();
+
+		return get_transient( 'dollie_' . $currentQuery->slug . '_total_backups' );
 	}
 
 	public function restore_site( $entry, $form ) {
@@ -195,7 +191,8 @@ class Backups extends Singleton {
 	}
 
 	public function trigger_backup() {
-		$install = dollie()->helpers()->get_container_url();
+		$currentQuery = dollie()->helpers()->get_current_object();
+		$install      = dollie()->helpers()->get_container_url();
 
 		// Success now send the Rundeck request
 		// Only run the job on the container of the customer.
@@ -204,7 +201,7 @@ class Backups extends Singleton {
 		];
 
 		Api::postRequestRundeck( '1/job/6b51b1a4-bcc7-4c2c-a799-b024e561c87f/run/', $post_body );
-		Log::add( $this->currentQuery->slug . ' has triggered a backup', '', 'action' );
+		Log::add( $currentQuery->slug . ' has triggered a backup', '', 'action' );
 	}
 
 	public function list_site_restores() {

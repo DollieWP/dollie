@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Helpers;
 use WP_Http;
 
 /**
@@ -17,17 +16,10 @@ use WP_Http;
 class SecurityChecks extends Singleton {
 
 	/**
-	 * @var \stdClass
-	 */
-	protected $currentQuery;
-
-	/**
 	 * SecurityChecks constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		if ( get_option( 'options_wpd_wpvulndb_token' ) ) {
 			add_action( 'template_redirect', [ $this, 'plugin_security_scanner_do_this_daily' ], 99 );
@@ -91,10 +83,12 @@ class SecurityChecks extends Singleton {
 
 	public function plugin_security_scanner_do_this_daily() {
 		if ( is_singular( 'container' ) ) {
-			$transient = get_transient( 'dollie_security_check_' . $this->currentQuery->slug );
+			$currentQuery = dollie()->helpers()->get_current_object();
+
+			$transient = get_transient( 'dollie_security_check_' . $currentQuery->slug );
 
 			if ( $transient !== 'done' ) {
-				set_transient( 'dollie_security_check_' . $this->currentQuery->slug, 'done', MINUTE_IN_SECONDS * 3600 );
+				set_transient( 'dollie_security_check_' . $currentQuery->slug, 'done', MINUTE_IN_SECONDS * 3600 );
 				$mail_body = '';
 
 				// run scan
@@ -110,7 +104,7 @@ class SecurityChecks extends Singleton {
 
 				// if vulns, email admin
 				if ( $vulnerability_count ) {
-					set_transient( 'dollie_security_check_failed_' . $this->currentQuery->slug, 'failed', MINUTE_IN_SECONDS * 3600 );
+					set_transient( 'dollie_security_check_failed_' . $currentQuery->slug, 'failed', MINUTE_IN_SECONDS * 3600 );
 					$mail_body .= '' . sprintf(
 							_n(
 								'%s vulnerability found.',
@@ -118,7 +112,7 @@ class SecurityChecks extends Singleton {
 								$vulnerability_count, 'plugin-security-scanner'
 							), $vulnerability_count
 						) . "\n";
-					set_transient( 'dollie_security_check_message_' . $this->currentQuery->slug, $mail_body, MINUTE_IN_SECONDS * 3600 );
+					set_transient( 'dollie_security_check_message_' . $currentQuery->slug, $mail_body, MINUTE_IN_SECONDS * 3600 );
 				}
 			}
 		}
@@ -126,10 +120,12 @@ class SecurityChecks extends Singleton {
 
 	public function run_security_check() {
 		if ( isset( $_GET['run-security-check'] ) ) {
-			delete_transient( 'dollie_security_check_' . $this->currentQuery->slug );
-			delete_transient( 'dollie_security_check_failed_' . $this->currentQuery->slug );
-			delete_transient( 'dollie_security_check_failed_' . $this->currentQuery->slug );
-			delete_transient( 'dollie_container_api_request_' . $this->currentQuery->slug . '_get_customer_site_info' );
+			$currentQuery = dollie()->helpers()->get_current_object();
+
+			delete_transient( 'dollie_security_check_' . $currentQuery->slug );
+			delete_transient( 'dollie_security_check_failed_' . $currentQuery->slug );
+			delete_transient( 'dollie_security_check_failed_' . $currentQuery->slug );
+			delete_transient( 'dollie_container_api_request_' . $currentQuery->slug . '_get_customer_site_info' );
 			wp_redirect( get_permalink() . '#plugins' );
 
 			exit;

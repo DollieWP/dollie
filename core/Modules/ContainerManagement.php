@@ -17,17 +17,10 @@ use Dollie\Core\Log;
 class ContainerManagement extends Singleton {
 
 	/**
-	 * @var \stdClass
-	 */
-	protected $currentQuery;
-
-	/**
 	 * ContainerManagement constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		add_action( 'init', [ $this, 'register_container' ], 0 );
 		add_action( 'template_redirect', [ $this, 'bypass_output_caching' ] );
@@ -112,9 +105,10 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function get_customer_container_details() {
-		$container_id = get_post_meta( $this->currentQuery->id, 'wpd_container_id', true );
+		$currentQuery = dollie()->helpers()->get_current_object();
+		$container_id = get_post_meta( $currentQuery->id, 'wpd_container_id', true );
 
-		$request = get_transient( 'dollie_s5_container_details_' . $this->currentQuery->slug );
+		$request = get_transient( 'dollie_s5_container_details_' . $currentQuery->slug );
 
 		// Only make request if it's not cached in a transient.
 		if ( empty( $request ) ) {
@@ -123,7 +117,7 @@ class ContainerManagement extends Singleton {
 			$response = Api::getRequestDollie( $container_id, 30 );
 
 			if ( is_wp_error( $response ) ) {
-				Log::add( 'Container details could not be fetched. for' . $this->currentQuery->slug, print_r( $response, true ), 'error' );
+				Log::add( 'Container details could not be fetched. for' . $currentQuery->slug, print_r( $response, true ), 'error' );
 
 				return [];
 			}
@@ -134,20 +128,20 @@ class ContainerManagement extends Singleton {
 			$update_response = json_decode( $update_answer, true );
 
 			if ( empty( $request ) ) {
-				Log::add( 'Container details could not be fetched. for' . $this->currentQuery->slug, print_r( $response, true ), 'error' );
+				Log::add( 'Container details could not be fetched. for' . $currentQuery->slug, print_r( $response, true ), 'error' );
 
 				return [];
 			}
 			// Set Transient and Update Post Meta
-			set_transient( 'dollie_s5_container_details_' . $this->currentQuery->slug, $request, MINUTE_IN_SECONDS * 150000 );
-			update_post_meta( $this->currentQuery->id, 'wpd_container_id', $update_response['id'], true );
-			update_post_meta( $this->currentQuery->id, 'wpd_container_ssh', $update_response['containerSshPort'] );
-			update_post_meta( $this->currentQuery->id, 'wpd_container_user', $update_response['containerSshUsername'] );
-			update_post_meta( $this->currentQuery->id, 'wpd_container_port', $update_response['containerSshPort'] );
-			update_post_meta( $this->currentQuery->id, 'wpd_container_password', $update_response['containerSshPassword'] );
-			update_post_meta( $this->currentQuery->id, 'wpd_container_ip', preg_replace( '/\s+/', '', $update_response['containerHostIpAddress'] ) );
-			update_post_meta( $this->currentQuery->id, 'wpd_container_deploy_time', $update_response['deployedAt'] );
-			update_post_meta( $this->currentQuery->id, 'wpd_container_uri', $update_response['uri'] );
+			set_transient( 'dollie_s5_container_details_' . $currentQuery->slug, $request, MINUTE_IN_SECONDS * 150000 );
+			update_post_meta( $currentQuery->id, 'wpd_container_id', $update_response['id'], true );
+			update_post_meta( $currentQuery->id, 'wpd_container_ssh', $update_response['containerSshPort'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_user', $update_response['containerSshUsername'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_port', $update_response['containerSshPort'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_password', $update_response['containerSshPassword'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_ip', preg_replace( '/\s+/', '', $update_response['containerHostIpAddress'] ) );
+			update_post_meta( $currentQuery->id, 'wpd_container_deploy_time', $update_response['deployedAt'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_uri', $update_response['uri'] );
 		}
 
 		return $request;
@@ -159,7 +153,8 @@ class ContainerManagement extends Singleton {
 			@flush();
 		}
 
-		$request = get_transient( 'dollie_container_api_request_' . $this->currentQuery->slug . '_' . $transient_id );
+		$currentQuery = dollie()->helpers()->get_current_object();
+		$request      = get_transient( 'dollie_container_api_request_' . $currentQuery->slug . '_' . $transient_id );
 
 		if ( $user_auth === null ) {
 			$user_auth = DOLLIE_S5_USER;
@@ -188,15 +183,17 @@ class ContainerManagement extends Singleton {
 				return [];
 			}
 
-			set_transient( 'dollie_container_api_request_' . $this->currentQuery->slug . '_' . $transient_id, $request, MINUTE_IN_SECONDS * 30 );
+			set_transient( 'dollie_container_api_request_' . $currentQuery->slug . '_' . $transient_id, $request, MINUTE_IN_SECONDS * 30 );
 		}
 
 		return $request;
 	}
 
 	public function start_rundeck_job( $job_id ) {
+		$currentQuery = dollie()->helpers()->get_current_object();
+
 		$post_body = [
-			'filter' => 'name: https://' . $this->currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
+			'filter' => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
 		];
 
 		Api::postRequestRundeck( '1/job/' . $job_id . '/run/', $post_body );
@@ -235,8 +232,10 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function show_rundeck_output( $entry, $form ) {
+		$currentQuery = dollie()->helpers()->get_current_object();
+
 		$post_body = [
-			'filter' => 'name: https://' . $this->currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
+			'filter' => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
 		];
 
 		$update = Api::postRequestRundeck( '1/job/6f757271-a39e-4eb2-8f89-f6668033a262/run/', $post_body );
@@ -266,9 +265,11 @@ class ContainerManagement extends Singleton {
 
 	public function fetch_container_details() {
 		if ( isset( $_GET['get-details'] ) ) {
-			delete_transient( 'dollie_s5_container_details_' . $this->currentQuery->slug );
-			delete_transient( 'dollie_site_users_' . $this->currentQuery->slug );
-			delete_transient( 'dollie_site_news_' . $this->currentQuery->slug );
+			$currentQuery = dollie()->helpers()->get_current_object();
+
+			delete_transient( 'dollie_s5_container_details_' . $currentQuery->slug );
+			delete_transient( 'dollie_site_users_' . $currentQuery->slug );
+			delete_transient( 'dollie_site_news_' . $currentQuery->slug );
 		}
 	}
 
@@ -279,7 +280,9 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function container_action( $action, $container_post_id ) {
-		$post_id = $container_post_id === null ? $this->currentQuery->id : $container_post_id;
+		$currentQuery = dollie()->helpers()->get_current_object();
+
+		$post_id = $container_post_id === null ? $currentQuery->id : $container_post_id;
 		$site    = get_post_field( 'post_name', $post_id );
 		$status  = get_post_meta( $post_id, 'wpd_container_status', true );
 
@@ -293,7 +296,7 @@ class ContainerManagement extends Singleton {
 		$update = Api::postRequestDollie( $container_id . '/' . $action, [], 45 );
 
 		if ( is_wp_error( $update ) ) {
-			Log::add( 'container action could not be completed for ' . $this->currentQuery->slug, print_r( $update, true ), 'error' );
+			Log::add( 'container action could not be completed for ' . $currentQuery->slug, print_r( $update, true ), 'error' );
 		} else {
 			if ( $action === 'start' ) {
 				delete_post_meta( $post_id, 'wpd_stop_container_at' );
