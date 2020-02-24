@@ -67,7 +67,7 @@ class SiteInsights extends Singleton {
 		$data         = get_transient( 'dollie_recent_posts_' . $currentQuery->slug );
 
 		if ( empty( $data ) ) {
-			$response = wp_remote_get( dollie()->helpers()->get_container_url( $currentQuery->id ) . '/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=6&_embed' );
+			$response = wp_remote_get( dollie()->helpers()->get_container_url() . '/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=6&_embed' );
 
 			if ( is_wp_error( $response ) ) {
 				return [];

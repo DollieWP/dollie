@@ -27,7 +27,7 @@ class Backups extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$this->currentQuery = dollie()->helpers()->get_current_object();
+		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		add_action( 'wf_before_container', [ $this, 'get_site_backups' ], 11 );
 		add_filter( 'gform_pre_render', [ $this, 'list_site_backups' ] );
@@ -49,7 +49,7 @@ class Backups extends Singleton {
 			}
 
 			$secret = get_post_meta( $this->currentQuery->id, 'wpd_container_secret', true );
-			$url    = dollie()->helpers()->get_container_url( $this->currentQuery->id ) . '/' . $secret . '/codiad/backups/';
+			$url    = dollie()->helpers()->get_container_url() . '/' . $secret . '/codiad/backups/';
 
 			$response = wp_remote_get( $url, [
 				'timeout' => 20
@@ -152,7 +152,7 @@ class Backups extends Singleton {
 	}
 
 	public function restore_site( $entry, $form ) {
-		$install = dollie()->helpers()->get_container_url( $this->currentQuery->id );
+		$install = dollie()->helpers()->get_container_url();
 
 		// Our form field ID + User meta fields
 		$backup = rgar( $entry, '1' );
@@ -195,7 +195,7 @@ class Backups extends Singleton {
 	}
 
 	public function trigger_backup() {
-		$install = dollie()->helpers()->get_container_url( $this->currentQuery->id );
+		$install = dollie()->helpers()->get_container_url();
 
 		// Success now send the Rundeck request
 		// Only run the job on the container of the customer.

@@ -28,7 +28,7 @@ class Blueprints extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$this->currentQuery = dollie()->helpers()->get_current_object();
+		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		add_action( 'wf_before_container', [ $this, 'get_available_blueprints' ], 11 );
 
@@ -49,7 +49,7 @@ class Blueprints extends Singleton {
 			}
 
 			$secret = get_post_meta( $this->currentQuery->id, 'wpd_container_secret', true );
-			$url    = dollie()->helpers()->get_container_url( $this->currentQuery->id ) . '/' . $secret . '/codiad/backups/blueprints.php';
+			$url    = dollie()->helpers()->get_container_url() . '/' . $secret . '/codiad/backups/blueprints.php';
 
 			$response = wp_remote_get( $url, [ 'timeout' => 20 ] );
 

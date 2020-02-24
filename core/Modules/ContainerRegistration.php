@@ -27,7 +27,7 @@ class ContainerRegistration extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$this->currentQuery = dollie()->helpers()->get_current_object();
+		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		add_action( 'wp', [ $this, 'add_rundeck_key' ] );
 		add_action( 'template_redirect', [ $this, 'add_rundeck_node' ], 10000 );

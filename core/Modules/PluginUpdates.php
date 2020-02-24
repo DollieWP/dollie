@@ -28,7 +28,7 @@ class PluginUpdates extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$this->currentQuery = dollie()->helpers()->get_current_object();
+		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		$update_forms = Helpers::instance()->get_dollie_gravity_form_ids( 'dollie-updates' );
 		foreach ( $update_forms as $form_id ) {

@@ -28,7 +28,7 @@ class WelcomeWizard extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$this->currentQuery = dollie()->helpers()->get_current_object();
+		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		$setup_forms = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-wizard' );
 		foreach ( $setup_forms as $form_id ) {

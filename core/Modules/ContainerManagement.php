@@ -27,7 +27,7 @@ class ContainerManagement extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$this->currentQuery = dollie()->helpers()->get_current_object();
+		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		add_action( 'init', [ $this, 'register_container' ], 0 );
 		add_action( 'template_redirect', [ $this, 'bypass_output_caching' ] );

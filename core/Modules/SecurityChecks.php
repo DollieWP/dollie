@@ -27,7 +27,7 @@ class SecurityChecks extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$this->currentQuery = dollie()->helpers()->get_current_object();
+		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		if ( get_option( 'options_wpd_wpvulndb_token' ) ) {
 			add_action( 'template_redirect', [ $this, 'plugin_security_scanner_do_this_daily' ], 99 );
@@ -39,7 +39,7 @@ class SecurityChecks extends Singleton {
 		$token = get_option( 'options_wpd_wpvulndb_token' );
 
 		// Now that we have our container details get our secret key
-		$details_url          = dollie()->helpers()->get_container_url( $this->currentQuery->id ) . '/wp-content/mu-plugins/platform/container/details/stats.php';
+		$details_url          = dollie()->helpers()->get_container_url() . '/wp-content/mu-plugins/platform/container/details/stats.php';
 		$details_transient_id = 'get_container_site_info';
 		$details_username     = 'container';
 		//Make the request

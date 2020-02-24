@@ -30,7 +30,7 @@ class DomainWizard extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$this->currentQuery = dollie()->helpers()->get_current_object();
+		$this->currentQuery = dollie()->helpers()->currentQuery;
 
 		$domain_forms = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' );
 		foreach ( $domain_forms as $form_id ) {
