@@ -13,9 +13,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Singleton {
 
 	/**
-	 * @var
+	 * @var array
 	 */
-	protected static $instances;
+	public static $instances = [];
 
 	/**
 	 * Singleton constructor.
@@ -27,6 +27,9 @@ class Singleton {
 	 * Don't allow clone
 	 */
 	final private function __clone() {
+	}
+
+	final private function __wakeup() {
 	}
 
 	/**

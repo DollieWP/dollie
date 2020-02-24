@@ -18,17 +18,10 @@ use Dollie\Core\Log;
 class ContainerManagement extends Singleton {
 
 	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
-	/**
 	 * ContainerManagement constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->helpers = Helpers::instance();
 
 		add_action( 'init', [ $this, 'register_container' ], 0 );
 		add_action( 'template_redirect', [ $this, 'bypass_output_caching' ] );
@@ -285,7 +278,7 @@ class ContainerManagement extends Singleton {
 
 	public function update_container_details() {
 		if ( isset( $_GET['update-details'] ) ) {
-			$this->helpers->flush_container_details();
+			dollie()->helpers()->flush_container_details();
 		}
 	}
 

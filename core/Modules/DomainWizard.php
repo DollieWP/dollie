@@ -11,7 +11,8 @@ use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
 use GFFormDisplay;
-use GFFormsModel;use RGFormsModel;
+use GFFormsModel;
+use RGFormsModel;
 
 /**
  * Class DomainWizard
@@ -19,10 +20,6 @@ use GFFormsModel;use RGFormsModel;
  */
 class DomainWizard extends Singleton {
 
-	/**
-	 * @var mixed
-	 */
-	private $helpers;
 
 	/**
 	 * DomainWizard constructor.
@@ -30,9 +27,7 @@ class DomainWizard extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$this->helpers = Helpers::instance();
-
-		$domain_forms = $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' );
+		$domain_forms = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' );
 		foreach ( $domain_forms as $form_id ) {
 			add_filter( 'gform_validation_' . $form_id, [ $this, 'domain_wizard_add_domain' ], 20 );
 			add_filter( 'gform_validation_' . $form_id, [ $this, 'domain_wizard_add_cloudflare' ], 20 );
@@ -46,11 +41,11 @@ class DomainWizard extends Singleton {
 		add_filter( 'gform_validation_message', [
 			$this,
 			'change_message'
-		], $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' )[0], 2 );
+		], dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' )[0], 2 );
 
 		add_filter( 'gform_field_input', [ $this, 'populate_instruction_fields' ], 10, 5 );
 
-		$this->register_confirmation_fields( $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' ), [
+		$this->register_confirmation_fields( dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' ), [
 			55,
 			60
 		] );
@@ -385,7 +380,7 @@ class DomainWizard extends Singleton {
 		$ip           = get_post_meta( $post_id, 'wpd_container_ip', true );
 		$platform_url = get_post_meta( $post_id, 'wpd_url', true );
 
-		if ( $field->id === 40 && $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' )[0] ) {
+		if ( $field->id === 40 && $form_id === dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' )[0] ) {
 			ob_start();
 			?>
             <h3>Linking Your Custom Domain to your Site!</h3>
@@ -420,7 +415,7 @@ class DomainWizard extends Singleton {
 			$input = ob_get_clean();
 		}
 
-		if ( $field->id === 43 && $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' )[0] ) {
+		if ( $field->id === 43 && $form_id === dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' )[0] ) {
 			ob_start();
 			?>
             <div class="blockquote-box blockquote-success clearfix">
@@ -442,7 +437,7 @@ class DomainWizard extends Singleton {
             $input = ob_get_clean();
         }
 
-        if ( $field->id === 57 && $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' ) ) {
+        if ( $field->id === 57 && $form_id === dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' ) ) {
         	ob_start();
             ?>
               <div class="blockquote-box blockquote-warning clearfix">
@@ -482,7 +477,7 @@ class DomainWizard extends Singleton {
 			Backups::instance()->trigger_backup();
 
 			// Update our container details so that the new domain will be used to make container HTTP requests.
-			$this->helpers->flush_container_details();
+			dollie()->helpers()->flush_container_details();
 		}
 	}
 

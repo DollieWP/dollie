@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Helpers;
 use WP_Query;
 
 /**
@@ -15,20 +14,6 @@ use WP_Query;
  * @package Dollie\Core\Modules
  */
 class SiteInsights extends Singleton {
-
-	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
-	/**
-	 * SiteInsights constructor.
-	 */
-	public function __construct() {
-		parent::__construct();
-
-		$this->helpers = Helpers::instance();
-	}
 
 	public function get_site_posts() {
 		$slug = get_option( 'options_wpd_feed_url' );
@@ -84,7 +69,7 @@ class SiteInsights extends Singleton {
 		$data      = get_transient( 'dollie_recent_posts_' . $post_slug );
 
 		if ( empty( $data ) ) {
-			$response = wp_remote_get( $this->helpers->get_container_url( $post_id ) . '/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=6&_embed' );
+			$response = wp_remote_get( dollie()->helpers()->get_container_url( $post_id ) . '/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=6&_embed' );
 
 			if ( is_wp_error( $response ) ) {
 				return [];

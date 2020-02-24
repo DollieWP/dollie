@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Helpers;
 
 /**
  * Class AccessControl
@@ -16,17 +15,10 @@ use Dollie\Core\Utils\Helpers;
 class AccessControl extends Singleton {
 
 	/**
-	 * @var mixed
-	 */
-	private $helpers;
-
-	/**
 	 * AccessControl constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
-
-		$this->helpers = Helpers::instance();
 
 		add_action( 'template_redirect', [ $this, 'logged_in_only' ] );
 		add_action( 'template_redirect', [ $this, 'protect_launch_site' ] );
@@ -43,7 +35,7 @@ class AccessControl extends Singleton {
 		$available_sections_array = get_field( 'available_sections', 'option' );
 
 		if ( get_field( 'wpd_enable_blueprints_for', 'option' ) === 'all' && ! current_user_can( 'manage_options' ) ) {
-			$available_sections_array = $this->helpers->removeElementWithValue( $available_sections_array, 'value', 'blueprint' );
+			$available_sections_array = dollie()->helpers()->removeElementWithValue( $available_sections_array, 'value', 'blueprint' );
 		}
 
 		return $available_sections_array;
@@ -90,7 +82,7 @@ class AccessControl extends Singleton {
 				}
 			}
 
-			if ( isset( $_GET['page'] ) && is_singular( 'container' ) && ! $this->helpers->in_array_r( $_GET['page'], $this->get_available_sections() ) ) {
+			if ( isset( $_GET['page'] ) && is_singular( 'container' ) && ! dollie()->helpers()->in_array_r( $_GET['page'], $this->get_available_sections() ) ) {
 				wp_redirect( get_permalink() );
 				exit();
 			}
@@ -112,7 +104,7 @@ class AccessControl extends Singleton {
 	}
 
 	public function restrict_gravity_form_edit() {
-		$dollie_form_ids = $this->helpers->get_dollie_gravity_form_ids();
+		$dollie_form_ids = dollie()->helpers()->get_dollie_gravity_form_ids();
 
 		$restrictions = [];
 		foreach ( $dollie_form_ids as $id ) {
