@@ -94,7 +94,7 @@ class CheckSubscription extends Singleton {
 			}
 
 			if ( $resources ) {
-				//Add up individual plan's max values to obtain total max values of allowed installs and size.
+				// Add up individual plan's max values to obtain total max values of allowed installs and size.
 				$resources_allocated['max_allowed_installs'] += $active_plans['products'][ $id ]['installs'];
 				$resources_allocated['max_allowed_size']     += $active_plans['products'][ $id ]['max_size'];
 				$resources_allocated['name']                 = $active_plans['products'][ $id ]['name'];
@@ -141,12 +141,12 @@ class CheckSubscription extends Singleton {
 	}
 
 	public function create_daily_customer_status_cron() {
-		//Use wp_next_scheduled to check if the event is already scheduled
+		// Use wp_next_scheduled to check if the event is already scheduled
 		$timestamp = wp_next_scheduled( 'wpd_check_customer_status_cron' );
 
-		//Not scheduled yet? Schedule it
+		// Not scheduled yet? Schedule it
 		if ( $timestamp === false ) {
-			//Schedule the event for right now, then to repeat daily using the hook 'wi_create_daily_backup'
+			// Schedule the event for right now, then to repeat daily using the hook 'wi_create_daily_backup'
 			wp_schedule_event( time(), 'hourly', 'wpd_check_customer_status_cron' );
 		}
 	}
@@ -166,7 +166,7 @@ class CheckSubscription extends Singleton {
 		// Calculate the "stop" date and set it 7 days into the future.
 		$trigger_date = mktime( 0, 0, 0, date( 'm' ), date( 'd' ) + $delay_in_days, date( 'Y' ) );
 
-		//Set "stop" date and save as user meta.
+		// Set "stop" date and save as user meta.
 		update_user_meta( $customer_id, 'wpd_stop_container_at', $trigger_date );
 
 		// Instantiate custom query
@@ -183,14 +183,14 @@ class CheckSubscription extends Singleton {
 				$stop_time = get_post_meta( get_the_ID(), 'wpd_stop_container_at', true );
 
 				if ( $type === 'schedule' ) {
-					//Set a stop time for the container if customer subscription(s) are cancelled.
+					// Set a stop time for the container if customer subscription(s) are cancelled.
 					if ( empty( $stop_time ) ) {
 						update_post_meta( get_the_ID(), 'wpd_stop_container_at', $trigger_date, true );
 					}
 					update_post_meta( get_the_ID(), 'wpd_scheduled_for_removal', 'yes' );
 					Log::add( get_the_title( get_the_ID() ) . ' has been scheduled for removal' );
 				} else {
-					//Start the containers that were stopped via S5 API
+					// Start the containers that were stopped via S5 API
 					ContainerManagement::instance()->container_action( 'start', get_the_ID() );
 					Log::add( get_the_title( get_the_ID() ) . ' has been started because the customer has re-activated their subscription' );
 					sleep( 3 );
@@ -219,6 +219,7 @@ class CheckSubscription extends Singleton {
 				'p'         => $id,
 			];
 		}
+
 		// Instantiate custom query
 		$query = new WP_Query( $query_args );
 
@@ -277,20 +278,20 @@ class CheckSubscription extends Singleton {
 	}
 
 	public function create_daily_customer_removal_cron() {
-		//Set our daily time cron.
+		// Set our daily time cron.
 		$timestamp = wp_next_scheduled( 'wpd_check_undeployment_cron' );
 
-		//If $timestamp == false schedule daily backups since it hasn't been done previously
+		// If $timestamp == false schedule daily backups since it hasn't been done previously
 		if ( $timestamp === false ) {
 			wp_schedule_event( time(), 'hourly', 'wpd_check_undeployment_cron' );
 		}
 	}
 
 	public function create_daily_container_stop_cron() {
-		//Set our daily time cron.
+		// Set our daily time cron.
 		$timestamp = wp_next_scheduled( 'wpd_check_customer_removal_cron' );
 
-		//If $timestamp == false schedule daily backups since it hasn't been done previously
+		// If $timestamp == false schedule daily backups since it hasn't been done previously
 		if ( $timestamp === false ) {
 			wp_schedule_event( time(), 'hourly', 'wpd_check_customer_removal_cron' );
 		}
@@ -301,10 +302,10 @@ class CheckSubscription extends Singleton {
 	}
 
 	public function create_daily_undeployment_cron() {
-		//Set our daily time cron.
+		// Set our daily time cron.
 		$timestamp = wp_next_scheduled( 'wpd_check_undeployment_cron' );
 
-		//If $timestamp == false schedule daily backups since it hasn't been done previously
+		// If $timestamp == false schedule daily backups since it hasn't been done previously
 		if ( $timestamp === false ) {
 			wp_schedule_event( time(), 'twicedaily', 'wpd_check_undeployment_cron' );
 		}
@@ -488,6 +489,7 @@ class CheckSubscription extends Singleton {
 		if ( ! class_exists( \WooCommerce::class ) ) {
 			return false;
 		}
+
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
 		$total_site   = wpd_count_customer_containers();
 

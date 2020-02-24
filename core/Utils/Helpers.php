@@ -27,21 +27,15 @@ class Helpers extends Singleton {
 		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
 	}
 
+	/**
+	 * Get container URL
+	 *
+	 * @param null $container_id
+	 * @param null $container_slug
+	 *
+	 * @return mixed|string
+	 */
 	public function get_container_url( $container_id = null, $container_slug = null ) {
-		global $wp_query;
-
-		if ( $container_id === null ) {
-			$post_id   = $wp_query->get_queried_object_id();
-			$post_slug = get_post_field( 'post_name', $post_id );
-		} else {
-			$post_id   = $container_id;
-			$post_slug = get_post_field( 'post_name', $post_id );
-		}
-
-		if ( $container_slug === null ) {
-			$container_slug = $post_slug;
-		}
-
 		$domain     = get_post_meta( $container_id, 'wpd_domains', true );
 		$cloudflare = get_post_meta( $container_id, 'wpd_domain_migration_complete', true );
 
@@ -72,13 +66,7 @@ class Helpers extends Singleton {
 			$location = '';
 		}
 
-		$token = get_post_meta( $container_id, 'wpd_container_secret', true );
-
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-		$container = get_transient( 'dollie_s5_container_details_' . $container_id );
-		$details   = get_transient( 'dollie_container_api_request_' . $container_slug . '_get_container_wp_info' );
-		$domain    = $details->Url;
+		$details = get_transient( 'dollie_container_api_request_' . $container_slug . '_get_container_wp_info' );
 
 		return $this->get_container_url( $container_id, $container_slug ) . '/wp-login.php?s5token=' . $details->Token . '&string=' . $details->{'Customer ID'} . '&user=' . $details->Admin . $location;
 	}
@@ -87,8 +75,6 @@ class Helpers extends Singleton {
 		global $wp_query;
 		$post_id   = $wp_query->get_queried_object_id();
 		$post_slug = get_queried_object()->post_name;
-		$details   = get_transient( 'dollie_container_api_request_' . $post_slug . '_get_container_wp_info' );
-		$domain    = $details->Url;
 
 		return $this->get_container_url( $post_id, $post_slug ) . '/wp-admin/';
 	}
@@ -103,9 +89,7 @@ class Helpers extends Singleton {
 	}
 
 	public function get_container_id_by_string() {
-		$page = get_page_by_path( $_GET['site'], OBJECT, 'container' );
-
-		return $page->ID;
+		return get_page_by_path( $_GET['site'], OBJECT, 'container' )->ID;
 	}
 
 	public function get_container_slug_by_string() {
@@ -122,14 +106,6 @@ class Helpers extends Singleton {
 			$post_id   = $container_id;
 			$post_slug = get_post_field( 'post_name', $post_id );
 		}
-
-
-		$time            = time();
-		$user            = wp_get_current_user();
-		$user_name       = $user->user_login;
-		$details         = get_transient( 'dollie_container_api_request_' . $post_slug . '_get_container_wp_info' );
-		$timestamp       = $this->get_container_url( $post_id, $post_slug );
-		$screenshot_time = get_transient( 'dollie_site_screenshot_' . $this->get_container_url( $post_id, $post_slug ) );
 
 		if ( false === ( get_transient( 'dollie_site_screenshot_' . $this->get_container_url( $post_id, $post_slug ) ) ) ) {
 			$site = $this->get_container_url( $post_id, $post_slug ) . '/?time=' . $this->random_string( 10 );
@@ -167,11 +143,11 @@ class Helpers extends Singleton {
 			$route_id     = get_post_meta( $post_id, 'wpd_domain_id', true );
 			$www_route_id = get_post_meta( $post_id, 'wpd_www_domain_id', true );
 
-			//Take output buffer for our body in our POST request
+			// Take output buffer for our body in our POST request
 			$url     = DOLLIE_INSTALL . '/s5Api/v1/sites/' . $container_id . '/routes/' . $route_id;
 			$www_url = DOLLIE_INSTALL . '/s5Api/v1/sites/' . $container_id . '/routes/' . $www_route_id;
 
-			//Set up the request
+			// Set up the request
 			wp_remote_post(
 				$url,
 				array(
@@ -183,7 +159,7 @@ class Helpers extends Singleton {
 				)
 			);
 
-			//Set up the request
+			// Set up the request
 			wp_remote_post(
 				$www_url,
 				array(
@@ -468,7 +444,7 @@ class Helpers extends Singleton {
 			$bytes = number_format( $bytes / 1024, 2 );
 		} elseif ( $bytes > 1 ) {
 			$bytes = $bytes;
-		} elseif ( $bytes == 1 ) {
+		} elseif ( $bytes === 1 ) {
 			$bytes = $bytes;
 		} else {
 			$bytes = '0 bytes';

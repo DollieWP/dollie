@@ -22,8 +22,6 @@ class Backups extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-        // add_filter( 'widget_text', 'do_shortcode' );
-
 		add_action( 'wf_before_container', [ $this, 'get_site_backups' ], 11 );
 		add_filter( 'gform_pre_render', [ $this, 'list_site_backups' ] );
 
@@ -42,6 +40,7 @@ class Backups extends Singleton {
 				@ob_end_flush();
 				@flush();
 			}
+
 			global $wp_query;
 			$post_id   = $wp_query->get_queried_object_id();
 			$post_slug = get_queried_object()->post_name;
@@ -83,30 +82,30 @@ class Backups extends Singleton {
 			}
 
 			// Grab our array of available backups
-			$backups_array = $this->get_site_backups();
-			$backups       = $backups_array;
+			$backups = $this->get_site_backups();
+			$choices = [];
+
 			if ( empty( $backups ) ) {
-				$choices = '';
 				?>
+
                 <div id="no-backups-created" class="blockquote-box blockquote-info clearfix">
                     <div class="square pull-left">
                         <i class="fal fa-hdd"></i>
                     </div>
                     <h4 class="padding-bottom-none margin-top-none">
-                        We could not retrieve your backups.
+						<?php _e( 'We could not retrieve your backups.', DOLLIE_SLUG ); ?>
                     </h4>
                     <p>
-                        This usually means we have trouble reaching your WordPress installation. Please get in touch
-                        with our support of you keep seeing this message.
+						<?php _e( 'This usually means we have trouble reaching your WordPress installation. Please get in touch with our support of you keep seeing this message.', DOLLIE_SLUG ); ?>
                     </p>
                 </div>
 
 				<?php
 			} else {
 				foreach ( $backups as $backup ) {
-					//Split info via pipe
+					// Split info via pipe
 					$info = explode( '|', $backup );
-					if ( $info[1] == 'restore' ) {
+					if ( $info[1] === 'restore' ) {
 						continue;
 					}
 
@@ -118,17 +117,17 @@ class Backups extends Singleton {
 					}
 
 					$size = '<span class="pull-right"><i class="fal fa-hdd-o"></i>' . $real_size . '</span>';
-					//Time is firt part but needs to be split
+					// Time is first part but needs to be split
 					$backup_date = explode( '_', $info[0] );
-					//Date of backup
+					// Date of backup
 					$date        = strtotime( $backup_date[0] );
 					$raw_time    = str_replace( '-', ':', $backup_date[1] );
 					$pretty_time = date( 'g:i a', strtotime( $raw_time ) );
 
-					//Time of backup
+					// Time of backup
 					$time = ' at ' . $pretty_time . '';
-					//Size of backup
-					//Format for compat with duplicity.
+					// Size of backup
+					// Format for compat with duplicity.
 					$format_time    = str_replace( '-', ':', $backup_date[1] );
 					$duplicity_time = $backup_date[0] . 'T' . $format_time . ':00';
 
@@ -146,21 +145,14 @@ class Backups extends Singleton {
 	}
 
 	public function get_customer_total_backups() {
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-		$install   = $post_slug;
-
-		return get_transient( 'dollie_' . $install . '_total_backups' );
+		return get_transient( 'dollie_' . get_queried_object()->post_name . '_total_backups' );
 	}
 
 	function restore_site( $entry, $form ) {
 		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-		$install   = dollie()->helpers()->get_container_url( $post_id );
+		$install = dollie()->helpers()->get_container_url( $wp_query->get_queried_object_id() );
 
-		//Our form field ID + User meta fields
+		// Our form field ID + User meta fields
 		$backup = rgar( $entry, '1' );
 		$type   = rgar( $entry, '2' );
 
@@ -188,32 +180,31 @@ class Backups extends Singleton {
 
 		?>
         <div class="alert alert-success">
-            Your site is being restored! Depending on the size of your installation this could take a while. Once your
-            site is restored you'll see a message in your <a
-                    href="<?php echo dollie()->helpers()->get_customer_login_url(); ?>">WordPress
-                Admin</a><br>
-            Note: In some cases you might have to <a href="<?php echo dollie()->helpers()->get_customer_login_url(); ?>">login</a>
-            to
-            your site again after a restoration.
+			<?php printf(
+				__( 'Your site is being restored! Depending on the size of your installation this could take a while. Once your site is restored you\'ll see a message in your <a href="%s">WordPress Admin</a>', DOLLIE_SLUG ),
+				esc_url( dollie()->helpers()->get_customer_login_url() )
+			); ?>
+            <br>
+			<?php printf(
+				__( 'Note: In some cases you might have to <a href="%s">login</a> to your site again after a restoration.', DOLLIE_SLUG ),
+				esc_url( dollie()->helpers()->get_customer_login_url() )
+			); ?>
         </div>
 		<?php
 	}
 
 	public function trigger_backup() {
 		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-		$install   = dollie()->helpers()->get_container_url( $post_id );
+		$install = dollie()->helpers()->get_container_url( $wp_query->get_queried_object_id() );
 
-		//Success now send the Rundeck request
-		//Only run the job on the container of the customer.
+		// Success now send the Rundeck request
+		// Only run the job on the container of the customer.
 		$post_body = [
 			'filter' => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY
 		];
 
 		Api::postRequestRundeck( '1/job/6b51b1a4-bcc7-4c2c-a799-b024e561c87f/run/', $post_body );
-
-		Log::add( $post_slug . ' has triggered a backup', '', 'action' );
+		Log::add( get_queried_object()->post_name . ' has triggered a backup', '', 'action' );
 	}
 
 	public function list_site_restores() {
@@ -224,7 +215,7 @@ class Backups extends Singleton {
 			?>
 
             <div class="history">
-                You have not restored your site yet.
+				<?php _e( 'You have not restored your site yet.', DOLLIE_SLUG ); ?>
             </div>
 
 			<?php
@@ -232,33 +223,30 @@ class Backups extends Singleton {
 			echo '<ul class="list-group list-unstyled box-full font-size-smaller">';
 			$count = 0;
 			foreach ( $backups as $backup ) {
-				//Split info via pipe
+				// Split info via pipe
 				$info = explode( '|', $backup );
+
 				if ( $info[1] !== 'restore' ) {
 					continue;
 				}
 
-				$count ++;
-				$size = '<span class="pull-right"><i class="fal fa-hdd-o"></i>' . $info[1] . '</span>';
-
-				//Time is firts part but needs to be split
+				// Time is firsts part but needs to be split
 				$backup_date = explode( '_', $info[0] );
-				//Date of backup
+
+				// Date of backup
 				$date        = strtotime( $backup_date[0] );
 				$raw_time    = str_replace( '-', ':', $backup_date[1] );
 				$pretty_time = date( 'g:i a', strtotime( $raw_time ) );
 
-				//Time of backup
+				// Time of backup
 				$time = ' at ' . $pretty_time . '';
 
-				//Size of backup
-				//Format for compat with duplicity.
-				$format_time    = str_replace( '-', ':', $backup_date[1] );
-				$duplicity_time = $backup_date[0] . 'T' . $format_time . ':00';
 				echo "<li class='list-group-item'>" . date( 'd F y', $date ) . $time . '</li>';
+
+				$count ++;
 			}
 			if ( $count === 0 ) {
-				echo '<p class="padding-half">You have never restored your site.</p>';
+				echo '<p class="padding-half">' . __( 'You have never restored your site.', DOLLIE_SLUG ) . '</p>';
 			}
 			echo '</ul>';
 		}
@@ -268,7 +256,7 @@ class Backups extends Singleton {
 		$this->trigger_backup();
 		?>
         <div class="box-brand-secondary padding-full box-full margin-top-full create-backup-notice">
-			<?php esc_html_e( 'We\'re building your backup! You\'ll see it appear in the backup list on the left once it\'s done! If you have a large site this might take a while!', 'dollie' ); ?>
+			<?php esc_html_e( 'We\'re building your backup! You\'ll see it appear in the backup list on the left once it\'s done! If you have a large site this might take a while!', DOLLIE_SLUG ); ?>
         </div>
 		<?php
 	}

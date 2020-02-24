@@ -74,29 +74,29 @@ class ContainerRegistration extends Singleton {
 		$port          = get_post_meta( $post_id, 'wpd_container_port', true );
 		$email         = get_post_meta( $post_id, 'wpd_container_launched_by', true );
 
-		//Only run if the node has not been added.
+		// Only run if the node has not been added.
 		if ( $is_node_added !== 'yes' ) {
 
 			// Don't do anything if the transient is empty.
-			//Output buffer our Node details
+			// Output buffer our Node details
 			ob_start();
 			?>
             <node name="<?php echo $url; ?>" description="Deployed via <?php echo get_site_url(); ?>"
                   tags="<?php echo DOLLIE_RUNDECK_KEY; ?>,<?php echo get_site_url(); ?>,<?php echo $email; ?>"
                   hostname="<?php echo $ip; ?>:<?php echo $port; ?>" username="root"/></project>
 			<?php
-			//Create our new node details
+			// Create our new node details
 			$new_node = ob_get_clean();
 
-			//Grab our existing node details
+			// Grab our existing node details
 			$all_nodes = $this->get_rundeck_nodes();
 
 			$update_nodes = str_replace( '</project>', $new_node, $all_nodes );
 
-			//Take output buffer for our body in our POST request
+			// Take output buffer for our body in our POST request
 			$request_body = $update_nodes;
 
-			//Set up the request
+			// Set up the request
 			$update = wp_remote_post(
 				DOLLIE_RUNDECK_URL . '/api/23/project/Dollie-Containers/source/1/resources?format=xml', [
 					'headers' => [
@@ -107,26 +107,18 @@ class ContainerRegistration extends Singleton {
 				]
 			);
 
-			//Parse the JSON request
-			$answer = wp_remote_retrieve_body( $update );
-
 			if ( is_wp_error( $update ) ) {
 				Log::add( 'Node could not be registered for ' . $post_slug, print_r( $update, true ), 'error' );
 			} else {
 				update_post_meta( $post_id, 'wpd_node_added', 'yes' );
 				Log::add( $post_slug . ' was added as a Rundeck node' );
 			}
-
 		}
 	}
 
 	public function remove_rundeck_node( $id = null ) {
 		global $wp_query;
-		if ( $id === null ) {
-			$post_id = $wp_query->get_queried_object_id();
-		} else {
-			$post_id = $id;
-		}
+		$post_id = $id === null ? $wp_query->get_queried_object_id() : $id;
 
 		$url = wpd_get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
 
@@ -138,24 +130,24 @@ class ContainerRegistration extends Singleton {
 		?>
         <node name="<?php echo $url; ?>
 			  <?php
-		//Create our new node details
+		// Create our new node details
 		$new_node = ob_get_clean();
 
-		//Grab our existing node details
+		// Grab our existing node details
 		$all_nodes = $this->get_rundeck_nodes();
 
-		//Find the node we want to remove
-		$parsed = get_string_between( $all_nodes, $new_node, '/>' );
+		// Find the node we want to remove
+		$parsed = $this->get_string_between( $all_nodes, $new_node, '/>' );
 
-		//Create string of the node we want to remove.
+		// Create string of the node we want to remove.
 		$container_node = $new_node . $parsed . '/>';
 
 		$update_nodes = str_replace( $container_node, '', $all_nodes );
 
-		//Take output buffer for our body in our POST request
+		// Take output buffer for our body in our POST request
 		$request_body = $update_nodes;
 
-		//Set up the request
+		// Set up the request
 		$update = wp_remote_post(
 			DOLLIE_RUNDECK_URL . '/api/3/project/dollie-platform/resources/', [
 				'headers' => [
@@ -165,12 +157,10 @@ class ContainerRegistration extends Singleton {
 				'body'    => $request_body,
 			]
 		);
-		
-		//Parse the JSON request
-		$answer = wp_remote_retrieve_body( $update );
 
 		Log::add( $post_slug . ' was removed as a Rundeck node', '', 'undeploy' );
-		//Let's give Rundeck some time to complete
+
+		// Let's give Rundeck some time to complete
 		add_post_meta( $post_id, 'wpd_node_removed', 'yes', true );
 		delete_post_meta( $post_id, 'wpd_node_added' );
 	}
