@@ -43,38 +43,38 @@ class ContainerManagement extends Singleton {
 
 	public function register_container() {
 		$labels = [
-			'name'                  => _x( 'Containers', DOLLIE_SLUG, 'dollie' ),
-			'singular_name'         => _x( 'Container', DOLLIE_SLUG, 'dollie' ),
-			'menu_name'             => esc_html__( 'Containers', 'dollie' ),
-			'name_admin_bar'        => esc_html__( 'Post Type', 'dollie' ),
-			'archives'              => esc_html__( 'Container Archives', 'dollie' ),
-			'attributes'            => esc_html__( 'Container Attributes', 'dollie' ),
-			'parent_item_colon'     => esc_html__( 'Parent Container:', 'dollie' ),
-			'all_items'             => esc_html__( 'View Containers', 'dollie' ),
-			'add_new_item'          => esc_html__( 'Add New Container', 'dollie' ),
-			'add_new'               => esc_html__( 'Add New', 'dollie' ),
-			'new_item'              => esc_html__( 'New Container', 'dollie' ),
-			'edit_item'             => esc_html__( 'Edit Container', 'dollie' ),
-			'update_item'           => esc_html__( 'Update Container', 'dollie' ),
-			'view_item'             => esc_html__( 'View Container', 'dollie' ),
-			'view_items'            => esc_html__( 'View Containers', 'dollie' ),
-			'search_items'          => esc_html__( 'Search Containers', 'dollie' ),
-			'not_found'             => esc_html__( 'Not found', 'dollie' ),
-			'not_found_in_trash'    => esc_html__( 'Not found in Trash', 'dollie' ),
-			'featured_image'        => esc_html__( 'Featured Image', 'dollie' ),
-			'set_featured_image'    => esc_html__( 'Set featured image', 'dollie' ),
-			'remove_featured_image' => esc_html__( 'Remove featured image', 'dollie' ),
-			'use_featured_image'    => esc_html__( 'Use as featured image', 'dollie' ),
-			'insert_into_item'      => esc_html__( 'Insert into item', 'dollie' ),
-			'uploaded_to_this_item' => esc_html__( 'Uploaded to this item', 'dollie' ),
-			'items_list'            => esc_html__( 'Containers list', 'dollie' ),
-			'items_list_navigation' => esc_html__( 'Containers list navigation', 'dollie' ),
-			'filter_items_list'     => esc_html__( 'Filter items list', 'dollie' ),
+			'name'                  => _x( 'Containers', DOLLIE_SLUG, DOLLIE_SLUG ),
+			'singular_name'         => _x( 'Container', DOLLIE_SLUG, DOLLIE_SLUG ),
+			'menu_name'             => esc_html__( 'Containers', DOLLIE_SLUG ),
+			'name_admin_bar'        => esc_html__( 'Post Type', DOLLIE_SLUG ),
+			'archives'              => esc_html__( 'Container Archives', DOLLIE_SLUG ),
+			'attributes'            => esc_html__( 'Container Attributes', DOLLIE_SLUG ),
+			'parent_item_colon'     => esc_html__( 'Parent Container:', DOLLIE_SLUG ),
+			'all_items'             => esc_html__( 'View Containers', DOLLIE_SLUG ),
+			'add_new_item'          => esc_html__( 'Add New Container', DOLLIE_SLUG ),
+			'add_new'               => esc_html__( 'Add New', DOLLIE_SLUG ),
+			'new_item'              => esc_html__( 'New Container', DOLLIE_SLUG ),
+			'edit_item'             => esc_html__( 'Edit Container', DOLLIE_SLUG ),
+			'update_item'           => esc_html__( 'Update Container', DOLLIE_SLUG ),
+			'view_item'             => esc_html__( 'View Container', DOLLIE_SLUG ),
+			'view_items'            => esc_html__( 'View Containers', DOLLIE_SLUG ),
+			'search_items'          => esc_html__( 'Search Containers', DOLLIE_SLUG ),
+			'not_found'             => esc_html__( 'Not found', DOLLIE_SLUG ),
+			'not_found_in_trash'    => esc_html__( 'Not found in Trash', DOLLIE_SLUG ),
+			'featured_image'        => esc_html__( 'Featured Image', DOLLIE_SLUG ),
+			'set_featured_image'    => esc_html__( 'Set featured image', DOLLIE_SLUG ),
+			'remove_featured_image' => esc_html__( 'Remove featured image', DOLLIE_SLUG ),
+			'use_featured_image'    => esc_html__( 'Use as featured image', DOLLIE_SLUG ),
+			'insert_into_item'      => esc_html__( 'Insert into item', DOLLIE_SLUG ),
+			'uploaded_to_this_item' => esc_html__( 'Uploaded to this item', DOLLIE_SLUG ),
+			'items_list'            => esc_html__( 'Containers list', DOLLIE_SLUG ),
+			'items_list_navigation' => esc_html__( 'Containers list navigation', DOLLIE_SLUG ),
+			'filter_items_list'     => esc_html__( 'Filter items list', DOLLIE_SLUG ),
 		];
 
 		$args = [
-			'label'              => esc_html__( 'Container', 'dollie' ),
-			'description'        => esc_html__( 'Platform Containers', 'dollie' ),
+			'label'              => esc_html__( 'Container', DOLLIE_SLUG ),
+			'description'        => esc_html__( 'Platform Containers', DOLLIE_SLUG ),
 			'labels'             => $labels,
 			'supports'           => [ 'title', 'content', 'author', 'custom-fields', 'thumbnail' ],
 			'taxonomies'         => [ 'container_category', 'container_tag' ],
@@ -105,6 +105,7 @@ class ContainerManagement extends Singleton {
 	public function bypass_output_caching() {
 		if ( is_singular( 'container' ) ) {
 			header( 'Content-Encoding: none' );
+
 			// Explicitly disable caching so NGINX and other upstreams won't cache.
 			header( 'Cache-Control: no-cache, must-revalidate' );
 			header( 'X-Accel-Buffering: no' );
@@ -119,10 +120,10 @@ class ContainerManagement extends Singleton {
 
 		$request = get_transient( 'dollie_s5_container_details_' . $post_slug );
 
-		//Only make request if it's not cached in a transient.
+		// Only make request if it's not cached in a transient.
 		if ( empty( $request ) ) {
 
-			//Set up the request
+			// Set up the request
 			$response = Api::getRequestDollie( $container_id, 30 );
 
 			if ( is_wp_error( $response ) ) {
@@ -132,7 +133,7 @@ class ContainerManagement extends Singleton {
 			}
 
 			$request = json_decode( wp_remote_retrieve_body( $response ) );
-			//Parse the JSON request
+			// Parse the JSON request
 			$update_answer   = wp_remote_retrieve_body( $response );
 			$update_response = json_decode( $update_answer, true );
 
@@ -141,7 +142,7 @@ class ContainerManagement extends Singleton {
 
 				return [];
 			}
-			//Set Transient and Update Post Meta
+			// Set Transient and Update Post Meta
 			set_transient( 'dollie_s5_container_details_' . $post_slug, $request, MINUTE_IN_SECONDS * 150000 );
 			update_post_meta( $post_id, 'wpd_container_id', $update_response['id'], true );
 			update_post_meta( $post_id, 'wpd_container_ssh', $update_response['containerSshPort'] );
@@ -173,7 +174,7 @@ class ContainerManagement extends Singleton {
 			$user_pass = DOLLIE_S5_PASSWORD;
 		}
 
-		//Only make request if it's not cached in a transient.
+		// Only make request if it's not cached in a transient.
 		if ( empty( $request ) ) {
 			$response = wp_remote_request( $url, [
 				'method'  => 'GET',
@@ -209,32 +210,32 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function run_container_actions() {
-		//Only fire on our site management page
+		// Only fire on our site management page
 		if ( ! isset( $_GET['update-site-action'] ) ) {
 			return;
 		}
 
-		//Trigger the right Rundeck Action
+		// Trigger the right Rundeck Action
 		if ( isset( $_POST['install-plugin'] ) ) {
 			$this->start_rundeck_job( '1fcf1bdb-95a4-4ecb-bc46-78382f5a930b' );
 		}
 
-		//Trigger the right Rundeck Action
+		// Trigger the right Rundeck Action
 		if ( isset( $_POST['switch-to-php-5'] ) ) {
 			$this->start_rundeck_job( 'a98ea708-f42e-418c-bc35-1066fb533e8e' );
 		}
 
-		//Trigger the right Rundeck Action
+		// Trigger the right Rundeck Action
 		if ( isset( $_POST['create-new-backup'] ) ) {
 			$this->start_rundeck_job( '5b51b1a4-bcc7-4c2c-a799-b024e561c87f' );
 		}
 
-		//Trigger the right Rundeck Action
+		// Trigger the right Rundeck Action
 		if ( isset( $_POST['switch-to-php-7'] ) ) {
 			$this->start_rundeck_job( 'cf9d0568-e150-4f59-b014-b7c7d9ca5e46' );
 		}
 
-		//Caching Method = Super Cache
+		// Caching Method = Super Cache
 		if ( isset( $_POST['caching-wpsc'] ) ) {
 			$this->start_rundeck_job( '00beea1e-fe15-436b-872e-43ead65c8c51' );
 		}
@@ -242,16 +243,15 @@ class ContainerManagement extends Singleton {
 
 	public function show_rundeck_output( $entry, $form ) {
 		$post_slug = get_queried_object()->post_name;
-		$type      = rgar( $entry, '2' );
 
-		//Only run the job on the container of the customer.
+		// Only run the job on the container of the customer.
 		$post_body = [
 			'filter' => 'name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
 		];
 
 		$update = Api::postRequestRundeck( '1/job/6f757271-a39e-4eb2-8f89-f6668033a262/run/', $post_body );
 
-		//Parse the JSON request
+		// Parse the JSON request
 		$answer = wp_remote_retrieve_body( $update );
 		$xml    = simplexml_load_string( $answer, 'SimpleXMLElement', LIBXML_NOCDATA );
 		$json   = json_encode( $xml );
@@ -261,11 +261,13 @@ class ContainerManagement extends Singleton {
 
 		sleep( 6 );
 
-		//Set up the request
+		// Set up the request
 		$update = Api::postRequestRundeck( '5/execution/' . $execution_id . '/output?format=text' );
 
-		//Parse the JSON request
-		$answer = wp_remote_retrieve_body( $update ); ?>
+		// Parse the JSON request
+		$answer = wp_remote_retrieve_body( $update );
+
+		?>
         <div class="box-light padding-full ">
 			<?php echo $answer; ?>
         </div>
@@ -290,17 +292,11 @@ class ContainerManagement extends Singleton {
 	public function container_action( $action, $container_post_id ) {
 		global $wp_query;
 		$post_slug = get_queried_object()->post_name;
+		$post_id   = $container_post_id === null ? $wp_query->get_queried_object_id() : $container_post_id;
+		$site      = get_post_field( 'post_name', $post_id );
+		$status    = get_post_meta( $post_id, 'wpd_container_status', true );
 
-		if ( $container_post_id === null ) {
-			$post_id = $wp_query->get_queried_object_id();
-		} else {
-			$post_id = $container_post_id;
-		}
-
-		$site   = get_post_field( 'post_name', $post_id );
-		$status = get_post_meta( $post_id, 'wpd_container_status', true );
-
-		//No need to continue if the status is unchanged.
+		// No need to continue if the status is unchanged.
 		if ( $action === $status ) {
 			return;
 		}
@@ -320,19 +316,20 @@ class ContainerManagement extends Singleton {
 			}
 			if ( $action === 'stop' ) {
 				// Get today's timestamp.
-				$today       = mktime( 0, 0, 0, date( 'm' ), date( 'd' ), date( 'Y' ) );
-				$triggerdate = get_post_meta( $post_id, 'wpd_stop_container_at', true );
+				$today        = mktime( 0, 0, 0, date( 'm' ), date( 'd' ), date( 'Y' ) );
+				$trigger_date = get_post_meta( $post_id, 'wpd_stop_container_at', true );
 
 				//If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
-				if ( $triggerdate < $today ) {
-					$delayindays = 14;
+				if ( $trigger_date < $today ) {
+					$delay_in_days = 14;
 					// Calculate the "stop" date and set it 3 days into the future.
-					$triggerdate = mktime( 0, 0, 0, date( 'm' ), date( 'd' ) + $delayindays, date( 'Y' ) );
+					$trigger_date = mktime( 0, 0, 0, date( 'm' ), date( 'd' ) + $delay_in_days, date( 'Y' ) );
 					update_post_meta( $post_id, 'wpd_container_status', 'stopped' );
 					update_post_meta( $post_id, 'wpd_scheduled_for_undeployment', 'yes' );
-					update_post_meta( $post_id, 'wpd_undeploy_container_at', $triggerdate );
+					update_post_meta( $post_id, 'wpd_undeploy_container_at', $trigger_date );
 				}
-				WDS_Log_Post::log_message( 'dollie-logs', $site . ' scheduled to be removed', '', 'undeploy' );
+
+				Log::add( $site . ' scheduled to be removed', '', 'undeploy' );
 			}
 			if ( $action === 'undeploy' ) {
 				delete_post_meta( $post_id, 'wpd_stop_container_at' );
@@ -341,8 +338,10 @@ class ContainerManagement extends Singleton {
 				delete_post_meta( $post_id, 'wpd_scheduled_for_undeployment' );
 				ContainerRegistration::instance()->remove_rundeck_node( $post_id );
 				wp_trash_post( $post_id );
+
 				Log::add( $site . ' was undeployed', '', 'undeploy' );
 			}
+
 			update_post_meta( $post_id, 'wpd_container_status', $action );
 			Log::add( $site . ' status changed to: ' . $action );
 		}
@@ -410,9 +409,9 @@ class ContainerManagement extends Singleton {
 							'post_title'  => $domain,
 						] );
 					}
-				} // If no such container found, create one with deatils from server's container.
-				else {
-					//Add new container post to client's WP
+				} else {
+					// If no such container found, create one with deatils from server's container.
+					// Add new container post to client's WP
 					wp_insert_post( [
 						'post_type'   => 'container',
 						'post_status' => 'publish',

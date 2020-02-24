@@ -96,7 +96,6 @@ class LaunchSite extends Singleton {
 		if ( ! array_key_exists( 'id', $response ) ) {
 
 			if ( $field->id === '1' ) {
-				$field_page = $field->pageNumber;
 				// validation failed
 				$validation_result['is_valid'] = false;
 				$field->failed_validation      = true;

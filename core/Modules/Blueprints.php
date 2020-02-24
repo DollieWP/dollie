@@ -44,17 +44,16 @@ class Blueprints extends Singleton {
 	}
 
 	public function get_available_blueprints() {
-		if ( isset( $_GET['page'] ) && is_singular( 'container' ) && $_GET['page'] === 'blueprint' ) {
+		if ( isset( $_GET['page'] ) && $_GET['page'] === 'blueprint' && is_singular( 'container' ) ) {
 			global $wp_query;
 			if ( ob_get_length() > 0 ) {
 				@ob_end_flush();
 				@flush();
 			}
-			$post_id   = $wp_query->get_queried_object_id();
-			$post_slug = get_queried_object()->post_name;
-			$install   = $post_slug;
-			$secret    = get_post_meta( $post_id, 'wpd_container_secret', true );
-			$url       = $this->helpers->get_container_url( $post_id ) . '/' . $secret . '/codiad/backups/blueprints.php';
+			$post_id = $wp_query->get_queried_object_id();
+			$install = get_queried_object()->post_name;
+			$secret  = get_post_meta( $post_id, 'wpd_container_secret', true );
+			$url     = $this->helpers->get_container_url( $post_id ) . '/' . $secret . '/codiad/backups/blueprints.php';
 
 			$response = wp_remote_get( $url, [ 'timeout' => 20 ] );
 
@@ -85,7 +84,7 @@ class Blueprints extends Singleton {
 		$post_slug = get_queried_object()->post_name;
 		$time      = @date( 'd/M/Y:H:i' );
 
-		//Only run the job on the container of the customer.
+		// Only run the job on the container of the customer.
 		$post_body = [
 			'filter' => 'name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
 		];
@@ -159,7 +158,7 @@ class Blueprints extends Singleton {
 					$choices[] = [
 						'text'  => '<img data-toggle="tooltip" data-placement="bottom" title="' . get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ) . '" class="fw-blueprint-screenshot" src=' . $image . '>' . get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true ),
 						'value' => get_the_ID(),
-                    ];
+					];
 				}
 			}
 
@@ -178,14 +177,14 @@ class Blueprints extends Singleton {
 		}
 
 		global $wp_query;
-		$post_id        = $wp_query->get_queried_object_id();
-		$setup_complete = get_post_meta( $post_id, 'wpd_container_based_on_blueprint', true );
+		$setup_complete = get_post_meta( $wp_query->get_queried_object_id(), 'wpd_container_based_on_blueprint', true );
 
-		//No Cookies set? Check is parameter are valid
+		// No Cookies set? Check is parameter are valid
 		if ( isset( $cookie_id ) ) {
 			setcookie( 'dollie_blueprint_id', $cookie_id, time() + ( 86400 * 30 ), '/' );
 		}
-		if ( is_singular( 'container' ) && $setup_complete == 'yes' ) {
+
+		if ( $setup_complete === 'yes' && is_singular( 'container' ) ) {
 			setcookie( 'dollie_blueprint_id', '', time() - 3600, '/' );
 		}
 	}
@@ -200,7 +199,7 @@ class Blueprints extends Singleton {
             <ul class="list-unstyled">
 			<?php foreach ( $blueprints as $blueprint ) : ?>
 				<?php
-				//Split info via pipe
+				// Split info via pipe
 				$info = explode( '|', $blueprint );
 				if ( $info[1] === 'restore' ) {
 					continue;
@@ -214,20 +213,17 @@ class Blueprints extends Singleton {
 				}
 
 				$size = '<br><span class="pull-right mt-2"><i class="fal fa-hdd"></i> Size ' . $real_size . '</span>';
-				//Time is firt part but needs to be split
+
+				// Time is first part but needs to be split
 				$backup_date = explode( '_', $info[0] );
-				//Date of backup
+
+				// Date of backup
 				$date        = strtotime( $backup_date[0] );
 				$raw_time    = str_replace( '-', ':', $backup_date[1] );
 				$pretty_time = date( 'g:i a', strtotime( $raw_time ) );
 
-				//Time of backup
+				// Time of backup
 				$time = ' at ' . $pretty_time . '';
-				//Size of backup
-				//Format for compat with duplicity.
-				$format_time    = str_replace( '-', ':', $backup_date[1] );
-				$duplicity_time = $backup_date[0] . 'T' . $format_time . ':00';
-
 				?>
                 <li>
                     <i class='fal fa-calendar'></i> Created on <?php echo date( 'd F y', $date ) . $time . $size; ?>

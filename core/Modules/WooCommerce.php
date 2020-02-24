@@ -28,6 +28,7 @@ class WooCommerce extends Singleton {
 
 		add_filter( 'woocommerce_payment_complete_order_status', [ $this, 'mark_order_as_complete' ], 10, 2 );
 		add_action( 'woocommerce_thankyou', [ $this, 'redirect_to_blueprint' ] );
+
 		add_filter( 'acf/fields/relationship/query/key=field_5e2c1adcc1543', [ $this, 'modify_query' ], 10, 3 );
 		add_filter( 'acf/fields/relationship/query/key=field_5e2c1b94c1544', [ $this, 'modify_query' ], 10, 3 );
 	}
@@ -56,7 +57,7 @@ class WooCommerce extends Singleton {
 		return $order_status;
 	}
 
-	// Todo: move next funciton to theme
+	// Todo: move next function to theme
 	public function my_account_header() {
 		if ( is_page( 'my-account' ) ) {
 			include_once get_template_directory() . '/templates/site-manager/my-account-header.php';

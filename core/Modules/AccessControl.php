@@ -31,6 +31,7 @@ class AccessControl extends Singleton {
 		add_action( 'template_redirect', [ $this, 'logged_in_only' ] );
 		add_action( 'template_redirect', [ $this, 'protect_launch_site' ] );
 		add_action( 'template_redirect', [ $this, 'protect_container_access' ], 1 );
+
 		add_filter( 'wp_dropdown_users_args', [ $this, 'allow_all_authors' ], 10, 2 );
 		add_action( 'admin_init', [ $this, 'no_admin_access' ], 100 );
 		add_action( 'admin_init', [ $this, 'restrict_gravity_form_edit' ] );
@@ -41,13 +42,11 @@ class AccessControl extends Singleton {
 	public function get_available_sections() {
 		$available_sections_array = get_field( 'available_sections', 'option' );
 
-		$access = $available_sections_array;
 		if ( get_field( 'wpd_enable_blueprints_for', 'option' ) === 'all' && ! current_user_can( 'manage_options' ) ) {
-			$access = $this->helpers->removeElementWithValue( $available_sections_array, 'value', 'blueprint' );
+			$available_sections_array = $this->helpers->removeElementWithValue( $available_sections_array, 'value', 'blueprint' );
 		}
 
-		return $access;
-
+		return $available_sections_array;
 	}
 
 	public function logged_in_only() {
@@ -107,7 +106,8 @@ class AccessControl extends Singleton {
 	public function no_admin_access() {
 		$redirect = home_url( '/dashboard' );
 		if ( ! current_user_can( 'manage_options' ) && ! wp_doing_ajax() ) {
-			exit( wp_redirect( $redirect ) );
+			wp_redirect( $redirect );
+			exit();
 		}
 	}
 

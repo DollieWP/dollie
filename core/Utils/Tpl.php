@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Tpl {
 
 	/**
-	 * Output or returns template
+	 * Outputs or returns a template
 	 *
 	 * @param $path
 	 * @param array $args

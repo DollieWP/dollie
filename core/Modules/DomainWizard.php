@@ -10,7 +10,8 @@ use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
-use GFFormsModel;
+use GFFormDisplay;
+use GFFormsModel;use RGFormsModel;
 
 /**
  * Class DomainWizard
@@ -67,10 +68,10 @@ class DomainWizard extends Singleton {
 		$entry        = GFFormsModel::get_current_lead();
 		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
 
-		//Our form field ID + User meta fields
+		// Our form field ID + User meta fields
 		$domain = rgar( $entry, '55' );
 
-		//Are we on the first page?
+		// Are we on the first page?
 		if ( $current_page === 1 ) {
 
 			$answer = Api::postRequestDollie( $request->id . '/routes', [ 'domain' => $domain ], 45 );
@@ -79,11 +80,10 @@ class DomainWizard extends Singleton {
 
 			// Show an error of S5 API can't add the Route.
 			if ( ! array_key_exists( 'path', $response ) ) {
-				//finding Field with ID of 1 and marking it as failed validation
+				// finding Field with ID of 1 and marking it as failed validation
 				foreach ( $form['fields'] as $field ) {
 
-					if ( $field->id == '55' ) {
-						$field_page = $field->pageNumber;
+					if ( $field->id === '55' ) {
 						// validation failed
 						$validation_result['is_valid'] = false;
 						$field->failed_validation      = true;
@@ -93,27 +93,26 @@ class DomainWizard extends Singleton {
 				}
 			}
 			if ( array_key_exists( 'path', $response ) ) {
-
-				//Save the Domain Data and make another S5 Request for the WWW domain.
+				// Save the Domain Data and make another S5 Request for the WWW domain.
 				update_post_meta( $post_id, 'wpd_domain_id', $response['id'] );
 				update_post_meta( $post_id, 'wpd_domains', $domain );
 
-				$update_answer = Api::postRequestDollie( $request->id . '/routes', [ 'domain' => 'www.' . $domain ], 45 );
-
+				$update_answer   = Api::postRequestDollie( $request->id . '/routes', [ 'domain' => 'www.' . $domain ], 45 );
 				$update_response = json_decode( $update_answer, true );
 
-				//Also save the WWW Domain data.
+				// Also save the WWW Domain data.
 				update_post_meta( $post_id, 'wpd_www_domain_id', $update_response['id'] );
 				Log::add( $post_slug . ' linked up domain ' . $domain . '' );
 			}
-			//Assign modified $form object back to the validation result
+
+			// Assign modified $form object back to the validation result
 			$validation_result['form'] = $form;
 
 			return $validation_result;
 
 		}
 
-		//Just return the form
+		// Just return the form
 		$validation_result['form'] = $form;
 
 		return $validation_result;
@@ -128,18 +127,18 @@ class DomainWizard extends Singleton {
 
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
-		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ? rgpost( 'gform_source_page_number_' . $form['id'] ) : 1;
+		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
 
-		//Are the on the CloudFlare Setup Page?
+		// Are the on the CloudFlare Setup Page?
 		if ( $current_page === 2 ) {
-			//Our form field ID + User meta fields
+			// Our form field ID + User meta fields
 			$ssl_type = rgar( $entry, '11' );
 			$email    = rgar( $entry, '50' );
 			$api_key  = rgar( $entry, '27' );
 
 			if ( $ssl_type === 'cloudflare' ) {
 
-				//Set up the request to CloudFlare to verify
+				// Set up the request to CloudFlare to verify
 				$update = wp_remote_post( 'https://api.cloudflare.com/client/v4/user', [
 					'method'  => 'GET',
 					'timeout' => 45,
@@ -149,18 +148,17 @@ class DomainWizard extends Singleton {
 						'Content-Type' => 'application/json',
 					],
 				] );
-				//Parse the JSON request
+
+				// Parse the JSON request
 				$answer   = wp_remote_retrieve_body( $update );
 				$response = json_decode( $answer, true );
 
-				//Throw an error if CloudFlare Details are incorrect.
+				// Throw an error if CloudFlare Details are incorrect.
 				if ( ! isset( $response['result']['id'] ) ) {
-					//finding Field with ID of 1 and marking it as failed validation
+					// finding Field with ID of 1 and marking it as failed validation
 					foreach ( $form['fields'] as $field ) {
 
 						if ( $field->id === '27' ) {
-							$field_page = $field->pageNumber;
-
 							// validation failed
 							$validation_result['is_valid'] = false;
 							$field->failed_validation      = true;
@@ -170,8 +168,8 @@ class DomainWizard extends Singleton {
 					}
 				}
 				if ( isset( $response['result']['id'] ) ) {
-					//Success now send the Rundeck request
-					//This job will install + activate the CloudFlare plugin and populate the email + API key fields for the CloudFlare Options.
+					// Success now send the Rundeck request
+					// This job will install + activate the CloudFlare plugin and populate the email + API key fields for the CloudFlare Options.
 					$post_body = [
 						'filter'    => 'name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
 						'argString' => '-email ' . $email . ' -key ' . $api_key
@@ -179,7 +177,7 @@ class DomainWizard extends Singleton {
 
 					Api::postRequestRundeck( '1/job/3725d807-435e-400c-8679-2a438f765002/run/', $post_body );
 
-					//All done, update user meta!
+					// All done, update user meta!
 					update_post_meta( $post_id, 'wpd_cloudflare_email', $email );
 					update_post_meta( $post_id, 'wpd_cloudflare_active', 'yes' );
 					update_post_meta( $post_id, 'wpd_cloudflare_id', $response['result']['id'] );
@@ -190,41 +188,34 @@ class DomainWizard extends Singleton {
 			} else {
 				update_post_meta( $post_id, 'wpd_letsencrypt_enabled', 'yes' );
 			}
-
-			//Assign modified $form object back to the validation result
-			$validation_result['form'] = $form;
-
-			return $validation_result;
-
-		} else {
-			$validation_result['form'] = $form;
-
-			return $validation_result;
-
 		}
+
+		$validation_result['form'] = $form;
+
+		return $validation_result;
 	}
 
 	public function domain_wizard_add_cloudflare_zone( $validation_result ) {
-		//User Meta
+		// User Meta
 		global $wp_query;
 		$post_id   = $wp_query->get_queried_object_id();
 		$post_slug = get_queried_object()->post_name;
 
-		//Setup the Form
+		// Setup the Form
 		$entry = GFFormsModel::get_current_lead();
 
-		//Form Variables
+		// Form Variables
 		$form         = $validation_result['form'];
-		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ? rgpost( 'gform_source_page_number_' . $form['id'] ) : 1;
+		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
 
-		//Are the on the rigt page?
-		if ( $current_page == 3 ) {
-			//Our form field ID + User meta fields
+		// Are the on the right page?
+		if ( $current_page === 3 ) {
+			// Our form field ID + User meta fields
 			$email   = get_post_meta( $post_id, 'wpd_cloudflare_email', true );
 			$api_key = get_post_meta( $post_id, 'wpd_cloudflare_api', true );
 			$zone    = rgar( $entry, '66' );
 
-			//Set up the request to CloudFlare to verify
+			// Set up the request to CloudFlare to verify
 			$update = wp_remote_post( 'https://api.cloudflare.com/client/v4/zones/' . $zone, [
 				'method'  => 'GET',
 				'timeout' => 45,
@@ -234,18 +225,17 @@ class DomainWizard extends Singleton {
 					'Content-Type' => 'application/json',
 				],
 			] );
-			//Parse the JSON request
+
+			// Parse the JSON request
 			$answer   = wp_remote_retrieve_body( $update );
 			$response = json_decode( $answer, true );
 
-			//Throw an error if the Zone ID is not found.
+			// Throw an error if the Zone ID is not found.
 			if ( ! isset( $response['result']['id'] ) ) {
-				//finding Field with ID of 1 and marking it as failed validation
+				// finding Field with ID of 1 and marking it as failed validation
 				foreach ( $form['fields'] as $field ) {
 
-					if ( $field->id == '66' ) {
-						$field_page = $field->pageNumber;
-
+					if ( $field->id === '66' ) {
 						// validation failed
 						$validation_result['is_valid'] = false;
 						$field->failed_validation      = true;
@@ -254,48 +244,34 @@ class DomainWizard extends Singleton {
 
 				}
 			} else {
-				//Save our CloudFlare Zone ID to user meta.
+				// Save our CloudFlare Zone ID to user meta.
 				update_post_meta( $post_id, 'wpd_cloudflare_zone_id', $zone );
 				Log::add( 'Cloudflare Zone ID ' . $zone . ' is used for analytics for ' . $post_slug );
 			}
-			//Assign modified $form object back to the validation result
-			$validation_result['form'] = $form;
-
-			return $validation_result;
-
-		} else {
-			//Just return the form
-			$validation_result['form'] = $form;
-
-			return $validation_result;
-
 		}
+
+		return $validation_result;
 	}
 
 	public function search_and_replace_domain( $validation_result ) {
-		//User Meta
+		// User Meta
 		global $wp_query;
 		$post_id   = $wp_query->get_queried_object_id();
 		$post_slug = get_queried_object()->post_name;
 
-		$user_auth = DOLLIE_S5_USER;
-		$user_pass = DOLLIE_S5_PASSWORD;
-
-		//Domain
+		// Domain
 		$container = get_post_meta( $post_id, 'wpd_container_id', true );
 		$le_domain = get_post_meta( $post_id, 'wpd_domain_id', true );
 
-		//Setup the Form
+		$form = $validation_result['form'];
 
-		$entry = GFFormsModel::get_current_lead();
-		//Form Variables
+		// Form Variables
 		if ( isset( $validation_result['form'] ) ) {
-			$form         = $validation_result['form'];
 			$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ? rgpost( 'gform_source_page_number_' . $form['id'] ) : 1;
 		}
 
-		//Are the on the Domain Replace page?
-		if ( isset( $current_page ) && $current_page == 5 ) {
+		// Are the on the Domain Replace page?
+		if ( isset( $current_page ) && $current_page === 5 ) {
 			$www = rgpost( 'input_81' );
 
 			if ( $www === 'yes' ) {
@@ -322,11 +298,10 @@ class DomainWizard extends Singleton {
 
 				// Show an error of S5 API can't add the Route.
 				if ( is_wp_error( $le_answer ) ) {
-					//finding Field with ID of 1 and marking it as failed validation
+					// finding Field with ID of 1 and marking it as failed validation
 					foreach ( $form['fields'] as $field ) {
 
-						if ( $field->id == '72' ) {
-							$field_page = $field->pageNumber;
+						if ( $field->id === '72' ) {
 							// validation failed
 							$validation_result['is_valid'] = false;
 							$field->failed_validation      = true;
@@ -337,21 +312,17 @@ class DomainWizard extends Singleton {
 				} else {
 					update_post_meta( $post_id, 'wpd_letsencrypt_setup_complete', 'yes' );
 				}
-
 			}
 
-			//We will add an artificial delay because if we're dealing with a big database it could take a bit of time to run the search and replace via the Rundeck/WP-CLI command.
+			// We will add an artificial delay because if we're dealing with a big database it could take a bit of time to run the search and replace via the Rundeck/WP-CLI command.
 			sleep( 20 );
-
-			//Assign modified $form object back to the validation result
-			$validation_result['form'] = $form;
 		}
 
 		return $validation_result;
 	}
 
 	public function continue_domain_setup() {
-		if ( is_singular( 'container' ) && $_GET['page'] == 'domain' && ! isset( $_GET['form_page'] ) ) {
+		if ( isset( $_GET['page'] ) && ! isset( $_GET['form_page'] ) && $_GET['page'] === 'domain' && is_singular( 'container' ) ) {
 			global $wp_query;
 			$post_id   = $wp_query->get_queried_object_id();
 			$post_slug = get_queried_object()->post_name;
@@ -385,83 +356,110 @@ class DomainWizard extends Singleton {
 
 	public function gform_skip_page( $form ) {
 		if ( ! rgpost( "is_submit_{$form['id']}" ) && rgget( 'form_page' ) && is_user_logged_in() ) {
-			GFFormDisplay::$submission[ $form['id'] ]["page_number"] = rgget( 'form_page' );
+			GFFormDisplay::$submission[ $form['id'] ]['page_number'] = rgget( 'form_page' );
 		}
 
 		return $form;
 	}
 
 	public function change_message( $message, $form ) {
-		return '
-<div class="blockquote-box blockquote-danger clearfix">
-     <div class="square pull-left">
-         <i class="fal fa-warning"></i>
-     </div>
-     <h4>
-     Woops, something is not right! Please see the highlighted fields below!
-    </h4>
-     <p>
-     </p>
- </div>
-';
+		?>
+        <div class="blockquote-box blockquote-danger clearfix">
+            <div class="square pull-left">
+                <i class="fal fa-warning"></i>
+            </div>
+            <h4>
+				<?php _e( 'Woops, something is not right! Please see the highlighted fields below!', DOLLIE_SLUG ); ?>
+            </h4>
+            <p>
+            </p>
+        </div>
+		<?php
 	}
 
 	public function populate_instruction_fields( $input, $field, $value, $lead_id, $form_id ) {
 		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
+		$post_id = $wp_query->get_queried_object_id();
 
-		$user         = wp_get_current_user();
 		$has_domain   = get_post_meta( $post_id, 'wpd_domains', true );
 		$ip           = get_post_meta( $post_id, 'wpd_container_ip', true );
 		$platform_url = get_post_meta( $post_id, 'wpd_url', true );
 
-		if ( $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' )[0] && $field->id === 40 ) {
-			$input = '<h3>Linking Your Custom Domain to your Site!</h3>
-          <p>
-          In order to get your custom domain to work we need to make a change to your DNS configuration, so please make sure you have accesss to the control panel of where you registered your domain. Usually making a DNS change is very easy to do and your registrar will have documentation available on how to do this (or simply ask support to do this for you.) Here are the instructions on the changes you need to make.
-          </p>
-          <ul>
-            <li><a href="https://www.cloudflare.com/a/login" target="_blank">Login to Your Domain Management account</a><br>
-            </li>
-            <li>Go to your Domain name <strong>' . $has_domain . '</strong> and go to the DNS Manager
-            <li>Replace the IP address for the <strong>"A"</strong> <strong>' . $has_domain . '</strong> record with the following IP address: <strong>' . $ip . '</strong>
-            </li>
-          </ul>
-                      <img src="https://s3.amazonaws.com/helpscout.net/docs/assets/5742f232c697917290ddb900/images/574ef6b89033604d43daab48/file-D4wzErhF62.jpg" alt="" width="60%" height="auto" />
-          <div class="alert alert-info col-sm-9">
-          <strong>Important Note: You only need to change the A and WWW records</strong><br>
-Your domain might have multiple DNS records set up. For example if you also have your own email address (yourname@yourdomain.com) or subdomains (anothersite.yourdomain.com). For the migration to work you only need to make a change to the A and (if existing) WWW record. Do not change the other records unless specified by our support team or in unique domain setups configured by you or your developer.
-          </div>
-          ';
-		}
-
-		if ( $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' )[0] && $field->id === 43 ) {
-			$input = '
-          <div class="blockquote-box blockquote-success clearfix">
-   <div class="square pull-left">
-       <i class="fal fa-wordpress"></i>
-   </div>
-   <h4>
-  Final Step: Updating Your WordPress URL!
-  </h4>
+		if ( $field->id === 40 && $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' )[0] ) {
+			ob_start();
+			?>
+            <h3>Linking Your Custom Domain to your Site!</h3>
             <p>
-          We have almost completed setting up your domain! The last step is updating the temporary site URL <strong>' . $platform_url . DOLLIE_DOMAIN . ' to your live domain ' . $has_domain . '</strong>. <br><br>Just click on "Update My Domain" and our migration minions will do all the heavy lifting behind the scenes.
+                In order to get your custom domain to work we need to make a change to your DNS configuration, so please
+                make sure you have accesss to the control panel of where you registered your domain. Usually making a
+                DNS change is very easy to do and your registrar will have documentation available on how to do this (or
+                simply ask support to do this for you.) Here are the instructions on the changes you need to make.
             </p>
-            ';
+            <ul>
+                <li>
+                    <a href="https://www.cloudflare.com/a/login" target="_blank">Login to Your Domain Management
+                        account</a>
+                </li>
+                <li>Go to your Domain name <strong><?php echo $has_domain; ?></strong> and go to the DNS Manager
+                <li>Replace the IP address for the <strong>"A"</strong> <strong><?php echo $has_domain; ?></strong>
+                    record with
+                    the following IP address: <strong><?php echo $ip; ?></strong>
+                </li>
+            </ul>
+            <img src="https://s3.amazonaws.com/helpscout.net/docs/assets/5742f232c697917290ddb900/images/574ef6b89033604d43daab48/file-D4wzErhF62.jpg"
+                 alt="" width="60%" height="auto"/>
+            <div class="alert alert-info col-sm-9">
+                <strong>Important Note: You only need to change the A and WWW records</strong><br>
+                Your domain might have multiple DNS records set up. For example if you also have your own email address
+                (yourname@yourdomain.com) or subdomains (anothersite.yourdomain.com). For the migration to work you only
+                need to make a change to the A and (if existing) WWW record. Do not change the other records unless
+                specified by our support team or in unique domain setups configured by you or your developer.
+            </div>
+			<?php
+
+			$input = ob_get_clean();
 		}
 
-		if ( $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' ) && $field->id === 57 ) {
-			$input = '
-            <div class="blockquote-box blockquote-warning clearfix">
-     <div class="square pull-left">
-         <i class="fal fa-warning"></i>
-     </div>
-     <h5>
-    <strong>Have your completed the content migration via our Easy Site Migration plugin?</strong>
-    </h5>
-       <p class="font-size-smaller">Because you are migrating your "Live Site" to our platform it is important that you have migrated all of your files and your database via our "WeFoster Automated Site Migration" plugin at least once before you continue this wizard. <br></p>
- </div>';
+		if ( $field->id === 43 && $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' )[0] ) {
+			ob_start();
+			?>
+            <div class="blockquote-box blockquote-success clearfix">
+            <div class="square pull-left">
+                <i class="fal fa-wordpress"></i>
+            </div>
+            <h4>
+                Final Step: Updating Your WordPress URL!
+            </h4>
+            <p>
+                We have almost completed setting up your domain! The last step is updating the temporary site URL
+                <strong><?php echo $platform_url . DOLLIE_DOMAIN; ?> to your live
+                    domain <?php echo $has_domain; ?></strong>. <br><br>Just
+                click on "Update My Domain" and our migration minions will do all the heavy lifting behind the
+                scenes.
+            </p>
+			<?php
+
+            $input = ob_get_clean();
+        }
+
+        if ( $field->id === 57 && $form_id === $this->helpers->get_dollie_gravity_form_ids( 'dollie-domain' ) ) {
+        	ob_start();
+            ?>
+              <div class="blockquote-box blockquote-warning clearfix">
+                <div class="square pull-left">
+                    <i class="fal fa-warning"></i>
+                </div>
+                <h5>
+                    <strong>Have your completed the content migration via our Easy Site Migration plugin?</strong>
+                </h5>
+                <p class="font-size-smaller">Because you are migrating your "Live Site" to our platform it is
+                    important that you have migrated all of your files and your database via our "WeFoster Automated
+                    Site Migration" plugin at least once before you continue this wizard. <br></p>
+            </div>
+
+			<?php
+
+			$input = ob_get_clean();
 		}
 
 		return $input;
@@ -473,17 +471,17 @@ Your domain might have multiple DNS records set up. For example if you also have
 		$post_slug = get_queried_object()->post_name;
 
 		if ( $current_page_number > 6 ) {
-			//Update user meta used to show/hide specific Dashboard areas/tabs
+			// Update user meta used to show/hide specific Dashboard areas/tabs
 			update_post_meta( $post_id, 'wpd_cloudflare_active', 'yes' );
 			update_post_meta( $post_id, 'wpd_domain_migration_complete', 'yes' );
 
-			//Log our success
+			// Log our success
 			Log::add( $post_slug . ' domain setup completed. Using live real domain from this point onwards.' );
 
-			//Make a backup.
+			// Make a backup.
 			Backups::instance()->trigger_backup();
 
-			//Update our container details so that the new domain will be used to make container HTTP requests.
+			// Update our container details so that the new domain will be used to make container HTTP requests.
 			$this->helpers->flush_container_details();
 		}
 	}
@@ -499,7 +497,6 @@ Your domain might have multiple DNS records set up. For example if you also have
 		}
 
 		foreach ( $gfcf_fields[ $form['id'] ] as $confirm_fields ) {
-
 			$values = [];
 
 			// loop through form fields and gather all field values for current set of confirm fields
@@ -509,7 +506,6 @@ Your domain might have multiple DNS records set up. For example if you also have
 				}
 
 				$values[] = rgpost( "input_{$field['id']}" );
-
 			}
 
 			// filter out unique values, if greater than 1, a value was different
@@ -525,14 +521,13 @@ Your domain might have multiple DNS records set up. For example if you also have
 				}
 
 				// fix to remove phone format instruction
-				if ( RGFormsModel::get_input_type( $field ) == 'phone' ) {
+				if ( RGFormsModel::get_input_type( $field ) === 'phone' ) {
 					$field['phoneFormat'] = '';
 				}
 
 				$field['failed_validation']  = true;
 				$field['validation_message'] = 'Your domain names do not match.';
 			}
-
 		}
 
 		$validation_result['form']     = $form;
