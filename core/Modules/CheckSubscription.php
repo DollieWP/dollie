@@ -45,14 +45,12 @@ class CheckSubscription extends Singleton {
 		$customer_id         = ! $user_id ? get_current_user_id() : $user_id;
 		$paid_order_statuses = array_map( 'esc_sql', wc_get_is_paid_statuses() );
 
-		$results = $wpdb->get_col( "
-        SELECT p.ID FROM {$wpdb->prefix}posts AS p
+		$results = $wpdb->get_col( "SELECT p.ID FROM {$wpdb->prefix}posts AS p
         INNER JOIN {$wpdb->prefix}postmeta AS pm ON p.ID = pm.post_id
         WHERE p.post_status IN ( 'wc-" . implode( "','wc-", $paid_order_statuses ) . "' )
         AND p.post_type LIKE 'shop_order'
         AND pm.meta_key = '_customer_user'
-        AND pm.meta_value = $customer_id
-    " );
+        AND pm.meta_value = $customer_id" );
 
 		// Count number of orders and return a boolean value depending if higher than 0
 		return count( $results ) > 0;

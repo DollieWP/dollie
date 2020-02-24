@@ -29,6 +29,61 @@ class Plugin extends Singleton {
 		return Helpers::instance();
 	}
 
+	/**
+	 * Access AccessControl class instance
+	 *
+	 * @return \Dollie\Core\Modules\AccessControl
+	 */
+	public function access_control() {
+		return \Dollie\Core\Modules\AccessControl::instance();
+	}
+
+	/**
+	 * Access Backups class instance
+	 *
+	 * @return \Dollie\Core\Modules\Backups
+	 */
+	public function backups() {
+		return \Dollie\Core\Modules\Backups::instance();
+	}
+
+	/**
+	 * Access Blueprints class instance
+	 *
+	 * @return \Dollie\Core\Modules\Blueprints
+	 */
+	public function blueprints() {
+		return \Dollie\Core\Modules\Blueprints::instance();
+	}
+
+	/**
+	 * Access CheckSubscription class instance
+	 *
+	 * @return \Dollie\Core\Modules\CheckSubscription
+	 */
+	public function subscription() {
+		return \Dollie\Core\Modules\CheckSubscription::instance();
+	}
+
+	/**
+	 * Access ContainerManagement class instance
+	 *
+	 * @return \Dollie\Core\Modules\ContainerManagement
+	 */
+	public function container() {
+		return \Dollie\Core\Modules\ContainerManagement::instance();
+	}
+
+	/**
+	 * Access Blueprints class instance
+	 *
+	 * @return \Dollie\Core\Modules\SiteInsights
+	 */
+	public function insights() {
+		return \Dollie\Core\Modules\SiteInsights::instance();
+	}
+
+
 	public function add_timestamp_body( $classes ) {
 		$currentQuery = $this->helpers()->get_current_object();
 		$timestamp    = get_transient( 'dollie_site_screenshot_' . $this->helpers()->get_container_url( $currentQuery->id, $currentQuery->slug ) );

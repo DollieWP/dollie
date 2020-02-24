@@ -251,12 +251,31 @@ class Helpers extends Singleton {
 		return '';
 	}
 
-	public function convertToReadableSize( $size ) {
+
+	/**
+	 * @param $size
+	 *
+	 * @return string
+	 */
+	public function convert_to_readable_size( $size ) {
 		$base   = log( $size ) / log( 1024 );
 		$suffix = [ '', 'KB', 'MB', 'GB', 'TB' ];
 		$f_base = floor( $base );
 
 		return round( 1024 ** ( $base - floor( $base ) ), 1 ) . $suffix[ $f_base ];
+	}
+
+
+	/**
+	 * @param $size
+	 *
+	 * @return string
+	 * @deprecated use convert_to_readable_size()
+	 * @uses convert_to_readable_size()
+	 */
+	public function convertToReadableSize( $size ) {
+
+		return $this->convert_to_readable_size( $size );
 	}
 
 	public function count_customer_containers() {
@@ -334,6 +353,11 @@ class Helpers extends Singleton {
 		return $total;
 	}
 
+	public function is_live() {
+		return (bool) get_option( 'options_wpd_dollie_status' );
+	}
+
+
 	public function could_not_connect_message() {
 		?>
         <div class="container">
@@ -406,7 +430,7 @@ class Helpers extends Singleton {
 
 	public function in_array_r( $needle, $haystack, $strict = false ) {
 		foreach ( $haystack as $item ) {
-			if ( ( $strict ? $item === $needle : $item == $needle ) || ( is_array( $item ) && in_array_r( $needle, $item, $strict ) ) ) {
+			if ( ( $strict ? $item === $needle : $item == $needle ) || ( is_array( $item ) && $this->in_array_r( $needle, $item, $strict ) ) ) {
 				return true;
 			}
 		}
