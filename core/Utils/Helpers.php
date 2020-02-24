@@ -28,6 +28,21 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * Get current queried object data
+	 *
+	 * @return \stdClass
+	 */
+	public function get_current_object() {
+		$object = get_queried_object();
+
+		$response       = new \stdClass();
+		$response->id   = $object->ID;
+		$response->slug = $object->post_name;
+
+		return $response;
+	}
+
+	/**
 	 * Get container URL
 	 *
 	 * @param null $container_id
@@ -49,15 +64,13 @@ class Helpers extends Singleton {
 	}
 
 	public function get_customer_login_url( $container_id = null, $container_slug = null, $container_location = null ) {
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
+		$currentQuery = $this->get_current_object();
 
 		if ( $container_id === null ) {
-			$container_id = $post_id;
+			$container_id = $currentQuery->id;
 		}
 		if ( $container_slug === null ) {
-			$container_slug = $post_slug;
+			$container_slug = $currentQuery->slug;
 		}
 
 		if ( $container_location !== null ) {

@@ -18,10 +18,17 @@ use RGFormsModel;
 class PluginUpdates extends Singleton {
 
 	/**
+	 * @var \stdClass
+	 */
+	protected $currentQuery;
+
+	/**
 	 * PluginUpdates constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
+
+		$this->currentQuery = dollie()->helpers()->get_current_object();
 
 		$update_forms = Helpers::instance()->get_dollie_gravity_form_ids( 'dollie-updates' );
 		foreach ( $update_forms as $form_id ) {
@@ -39,7 +46,7 @@ class PluginUpdates extends Singleton {
 		//Only run the job on the container of the customer.
 
 		$post_body = [
-			'filter' => 'name: https://' . get_queried_object()->post_name . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
+			'filter' => 'name: https://' . $this->currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
 		];
 
 		//Set up the request
@@ -119,7 +126,7 @@ class PluginUpdates extends Singleton {
 		$update_plugins = str_replace( ',', ' ', $value );
 
 		$post_body = [
-			'filter'    => 'https://' . get_queried_object()->post_name . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+			'filter'    => 'https://' . $this->currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
 			'argString' => '-plugins ' . $update_plugins
 		];
 

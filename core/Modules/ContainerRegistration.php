@@ -15,12 +15,19 @@ use Dollie\Core\Log;
  * @package Dollie\Core\Modules
  */
 class ContainerRegistration extends Singleton {
-    
+
+	/**
+	 * @var \stdClass
+	 */
+	protected $currentQuery;
+
 	/**
 	 * ContainerRegistration constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
+
+		$this->currentQuery = dollie()->helpers()->get_current_object();
 
 		add_action( 'wp', [ $this, 'add_rundeck_key' ] );
 		add_action( 'template_redirect', [ $this, 'add_rundeck_node' ], 10000 );
@@ -45,10 +52,8 @@ class ContainerRegistration extends Singleton {
 	}
 
 	public function add_rundeck_node() {
-		global $wp_query;
-		$post_id = $wp_query->get_queried_object_id();
 		if ( did_action( 'template_redirect' ) === 1 && is_singular( 'container' ) ) {
-			$this->register_rundeck_node( $post_id );
+			$this->register_rundeck_node( $this->currentQuery->id );
 		}
 	}
 
@@ -59,16 +64,13 @@ class ContainerRegistration extends Singleton {
 	}
 
 	public function register_rundeck_node( $id = null ) {
-		global $wp_query;
-
 		if ( $id === null ) {
-			$post_id = $wp_query->get_queried_object_id();
+			$post_id = $this->currentQuery->id;
 		} else {
 			$post_id = $id;
 		}
 		$url = dollie()->helpers()->get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
 
-		$post_slug     = get_queried_object()->post_name;
 		$is_node_added = get_post_meta( $post_id, 'wpd_node_added', true );
 		$ip            = get_post_meta( $post_id, 'wpd_container_ip', true );
 		$port          = get_post_meta( $post_id, 'wpd_container_port', true );
@@ -108,21 +110,17 @@ class ContainerRegistration extends Singleton {
 			);
 
 			if ( is_wp_error( $update ) ) {
-				Log::add( 'Node could not be registered for ' . $post_slug, print_r( $update, true ), 'error' );
+				Log::add( 'Node could not be registered for ' . $this->currentQuery->slug, print_r( $update, true ), 'error' );
 			} else {
 				update_post_meta( $post_id, 'wpd_node_added', 'yes' );
-				Log::add( $post_slug . ' was added as a Rundeck node' );
+				Log::add( $this->currentQuery->slug . ' was added as a Rundeck node' );
 			}
 		}
 	}
 
 	public function remove_rundeck_node( $id = null ) {
-		global $wp_query;
-		$post_id = $id === null ? $wp_query->get_queried_object_id() : $id;
-
-		$url = wpd_get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
-
-		$post_slug = get_queried_object()->post_name;
+		$post_id = $id === null ? $this->currentQuery->id : $id;
+		$url     = dollie()->helpers()->get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
 
 		// Don't do anything if the transient is empty.
 		// Output buffer our Node details
@@ -148,7 +146,7 @@ class ContainerRegistration extends Singleton {
 		$request_body = $update_nodes;
 
 		// Set up the request
-		$update = wp_remote_post(
+		wp_remote_post(
 			DOLLIE_RUNDECK_URL . '/api/3/project/dollie-platform/resources/', [
 				'headers' => [
 					'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
@@ -158,7 +156,7 @@ class ContainerRegistration extends Singleton {
 			]
 		);
 
-		Log::add( $post_slug . ' was removed as a Rundeck node', '', 'undeploy' );
+		Log::add( $this->currentQuery->slug . ' was removed as a Rundeck node', '', 'undeploy' );
 
 		// Let's give Rundeck some time to complete
 		add_post_meta( $post_id, 'wpd_node_removed', 'yes', true );

@@ -18,13 +18,19 @@ use WP_Query;
 class Blueprints extends Singleton {
 
 	/**
+	 * @var \stdClass
+	 */
+	protected $currentQuery;
+
+	/**
 	 * Backups constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'wf_before_container', [ $this, 'get_available_blueprints' ], 11 );
+		$this->currentQuery = dollie()->helpers()->get_current_object();
 
+		add_action( 'wf_before_container', [ $this, 'get_available_blueprints' ], 11 );
 
 		foreach ( dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-blueprint' ) as $form_id ) {
 			add_action( 'gform_after_submission_' . $form_id, [ $this, 'deploy_new_blueprint' ], 10, 2 );
@@ -37,15 +43,13 @@ class Blueprints extends Singleton {
 
 	public function get_available_blueprints() {
 		if ( isset( $_GET['page'] ) && $_GET['page'] === 'blueprint' && is_singular( 'container' ) ) {
-			global $wp_query;
 			if ( ob_get_length() > 0 ) {
 				@ob_end_flush();
 				@flush();
 			}
-			$post_id = $wp_query->get_queried_object_id();
-			$install = get_queried_object()->post_name;
-			$secret  = get_post_meta( $post_id, 'wpd_container_secret', true );
-			$url     = dollie()->helpers()->get_container_url( $post_id ) . '/' . $secret . '/codiad/backups/blueprints.php';
+
+			$secret = get_post_meta( $this->currentQuery->id, 'wpd_container_secret', true );
+			$url    = dollie()->helpers()->get_container_url( $this->currentQuery->id ) . '/' . $secret . '/codiad/backups/blueprints.php';
 
 			$response = wp_remote_get( $url, [ 'timeout' => 20 ] );
 
@@ -63,30 +67,24 @@ class Blueprints extends Singleton {
 				return ! ( strpos( $value, 'restore' ) !== false );
 			} );
 
-			set_transient( 'dollie_' . $install . '_total_blueprints', count( $total_blueprints ), MINUTE_IN_SECONDS * 1 );
-			update_post_meta( $post_id, 'wpd_installation_blueprints_available', count( $total_blueprints ) );
+			set_transient( 'dollie_' . $this->currentQuery->slug . '_total_blueprints', count( $total_blueprints ), MINUTE_IN_SECONDS * 1 );
+			update_post_meta( $this->currentQuery->id, 'wpd_installation_blueprints_available', count( $total_blueprints ) );
 
 			return $blueprints;
 		}
 	}
 
 	public function deploy_new_blueprint( $entry, $form ) {
-		global $wp_query;
-		$post_id   = $wp_query->get_queried_object_id();
-		$post_slug = get_queried_object()->post_name;
-		$time      = @date( 'd/M/Y:H:i' );
-
-		// Only run the job on the container of the customer.
 		$post_body = [
-			'filter' => 'name: https://' . $post_slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
+			'filter' => 'name: https://' . $this->currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
 		];
 
 		Api::postRequestRundeck( '1/job/b2fcd68d-3dab-4faf-95d8-6958c5811bae/run/', $post_body );
 
-		update_post_meta( $post_id, 'wpd_blueprint_created', 'yes' );
-		update_post_meta( $post_id, 'wpd_blueprint_time', $time );
+		update_post_meta( $this->currentQuery->id, 'wpd_blueprint_created', 'yes' );
+		update_post_meta( $this->currentQuery->id, 'wpd_blueprint_time', @date( 'd/M/Y:H:i' ) );
 
-		Log::add( $post_slug . ' updated/deployed a new Blueprint', '', 'blueprint' );
+		Log::add( $this->currentQuery->slug . ' updated/deployed a new Blueprint', '', 'blueprint' );
 	}
 
 	public function list_blueprints( $form ) {
@@ -168,8 +166,7 @@ class Blueprints extends Singleton {
 			$cookie_id = $_GET['blueprint_id'];
 		}
 
-		global $wp_query;
-		$setup_complete = get_post_meta( $wp_query->get_queried_object_id(), 'wpd_container_based_on_blueprint', true );
+		$setup_complete = get_post_meta( $this->currentQuery->id, 'wpd_container_based_on_blueprint', true );
 
 		// No Cookies set? Check is parameter are valid
 		if ( isset( $cookie_id ) ) {
