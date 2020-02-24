@@ -28,10 +28,6 @@ class Helpers extends Singleton {
 		parent::__construct();
 
 		$this->currentQuery = $this->get_current_object();
-
-		add_action( 'template_redirect', [ $this, 'remove_customer_domain' ] );
-		add_action( 'template_redirect', [ $this, 'redirect_to_new_container' ] );
-		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
 	}
 
 	/**
@@ -134,60 +130,6 @@ class Helpers extends Singleton {
 		delete_transient( 'dollie_site_screenshot_' . $this->get_container_url() );
 	}
 
-	public function remove_customer_domain() {
-		if ( isset( $_POST['remove_customer_domain'] ) ) {
-			$post_id      = $this->currentQuery->id;
-			$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
-			$route_id     = get_post_meta( $post_id, 'wpd_domain_id', true );
-			$www_route_id = get_post_meta( $post_id, 'wpd_www_domain_id', true );
-
-			// Take output buffer for our body in our POST request
-			$url     = DOLLIE_INSTALL . '/s5Api/v1/sites/' . $container_id . '/routes/' . $route_id;
-			$www_url = DOLLIE_INSTALL . '/s5Api/v1/sites/' . $container_id . '/routes/' . $www_route_id;
-
-			// Set up the request
-			wp_remote_post(
-				$url,
-				array(
-					'method'  => 'DELETE',
-					'headers' => array(
-						'Authorization' => 'Basic ' . base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD ),
-						'Content-Type'  => 'application/json',
-					),
-				)
-			);
-
-			// Set up the request
-			wp_remote_post(
-				$www_url,
-				array(
-					'method'  => 'DELETE',
-					'headers' => array(
-						'Authorization' => 'Basic ' . base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD ),
-						'Content-Type'  => 'application/json',
-					),
-				)
-			);
-
-			$this->flush_container_details();
-
-			delete_post_meta( $post_id, 'wpd_domain_migration_complete' );
-			delete_post_meta( $post_id, 'wpd_cloudflare_zone_id' );
-			delete_post_meta( $post_id, 'wpd_cloudflare_id' );
-			delete_post_meta( $post_id, 'wpd_cloudflare_active' );
-			delete_post_meta( $post_id, 'wpd_cloudflare_api' );
-			delete_post_meta( $post_id, 'wpd_domain_id' );
-			delete_post_meta( $post_id, 'wpd_letsencrypt_setup_complete' );
-			delete_post_meta( $post_id, 'wpd_letsencrypt_enabled' );
-			delete_post_meta( $post_id, 'wpd_domains' );
-			delete_post_meta( $post_id, 'wpd_www_domain_id' );
-			delete_post_meta( $post_id, 'wpd_cloudflare_email' );
-
-			wp_redirect( get_site_url() . '/site/' . $this->currentQuery->slug . '/?get-details' );
-			exit();
-		}
-	}
-
 	public function get_latest_container_url() {
 		$query = new WP_Query( [
 			'author'         => get_current_user_id(),
@@ -205,17 +147,6 @@ class Helpers extends Singleton {
 		wp_reset_postdata();
 
 		return $output ?: false;
-	}
-
-	public function redirect_to_new_container() {
-		if ( isset( $_GET['site'] ) && $_GET['site'] === 'new' ) {
-			$url = $this->get_latest_container_url();
-
-			if ( $url ) {
-				wp_redirect( $url );
-				exit();
-			}
-		}
 	}
 
 	public function random_string( $length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' ) {
@@ -288,30 +219,6 @@ class Helpers extends Singleton {
 		wp_reset_postdata();
 
 		return $total;
-	}
-
-	public function set_default_view_time_total_containers() {
-		$query = new WP_Query( [
-			'post_type'     => 'container',
-			'post_status'   => 'publish',
-			'post_per_page' => 9999999,
-			'meta_query'    => [
-				[
-					'key'     => 'wpd_last_viewed',
-					'compare' => 'NOT EXISTS'
-				]
-			]
-		] );
-
-		if ( $query->have_posts() ) {
-			while ( $query->have_posts() ) {
-				$query->the_post();
-				update_post_meta( get_the_ID(), 'wpd_last_viewed', '1' );
-			}
-		}
-
-		wp_reset_postdata();
-		wp_reset_query();
 	}
 
 	public function count_total_blueprints() {
