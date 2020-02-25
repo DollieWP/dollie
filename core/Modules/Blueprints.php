@@ -71,9 +71,10 @@ class Blueprints extends Singleton {
 
 	public function deploy_new_blueprint( $entry, $form ) {
 		$currentQuery = dollie()->get_current_object();
+		$install = dollie()->get_container_url();
 
 		$post_body = [
-			'filter' => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
+			'filter'    => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY,
 		];
 
 		Api::postRequestRundeck( '1/job/b2fcd68d-3dab-4faf-95d8-6958c5811bae/run/', $post_body );
