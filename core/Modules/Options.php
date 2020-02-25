@@ -210,7 +210,7 @@ class Options extends Singleton {
 
 	public function dollie_adminbar_menu() {
 		global $wp_admin_bar;
-		$launch_site = dollie()->get_launch_id();
+		$launch_site = dollie()->get_launch_page_id();
 
 		$iconurl = DOLLIE_URL . 'assets/img/active.png';
 

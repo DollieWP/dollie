@@ -232,7 +232,7 @@ class LaunchSite extends Singleton {
 	}
 
 	public function launch_splash() {
-		if ( is_page( dollie()->get_launch_id() ) ) {
+		if ( is_page( dollie()->get_launch_page_id() ) ) {
 			Tpl::load( DOLLIE_MODULE_TPL_PATH . 'launch-splash', [], true );
 		}
 	}
@@ -250,8 +250,8 @@ class LaunchSite extends Singleton {
 	}
 
 	public function redirect_to_container_launch() {
-		if ( ! is_page( dollie()->get_launch_id() ) && current_user_can( 'manage_options' ) && dollie()->count_total_containers() === 0 ) {
-			wp_redirect( get_permalink( dollie()->get_launch_id() ) );
+		if ( ! is_page( dollie()->get_launch_page_id() ) && current_user_can( 'manage_options' ) && dollie()->count_total_containers() === 0 ) {
+			wp_redirect( get_permalink( dollie()->get_launch_page_id() ) );
 			exit;
 		}
 	}
