@@ -27,7 +27,7 @@ class CheckSubscription extends Singleton {
 
 		add_action( 'init', [ $this, 'create_daily_customer_status_cron' ] );
 		add_action( 'init', [ $this, 'create_daily_customer_removal_cron' ] );
-		add_action( 'init', [ $this, 'wcreate_daily_undeployment_cron' ] );
+		add_action( 'init', [ $this, 'create_daily_undeployment_cron' ] );
 		add_action( 'init', [ $this, 'create_daily_email_notification' ] );
 
 		add_action( 'admin_init', [ $this, 'create_daily_container_stop_cron' ] );

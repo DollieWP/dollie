@@ -345,13 +345,13 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function load_scripts( $hook ) {
-		wp_register_style( 'dollie-custom-css', DOLLIE_PLUGIN_URL . 'assets/css/admin.css' );
+		wp_register_style( 'dollie-custom-css', DOLLIE_URL . 'assets/css/admin.css' );
 		wp_enqueue_style( 'dollie-custom-css' );
-		wp_enqueue_script( 'dollie-custom-js', DOLLIE_PLUGIN_URL . 'assets/js/admin.js' );
+		wp_enqueue_script( 'dollie-custom-js', DOLLIE_URL . 'assets/js/admin.js' );
 	}
 
 	public function enqueue_admin_script( $hook ) {
-		wp_enqueue_script( 'my_custom_script', DOLLIE_PLUGIN_URL . 'assets/js/admin.js', [], '1.0' );
+		wp_enqueue_script( 'my_custom_script', DOLLIE_URL . 'assets/js/admin.js', [], '1.0' );
 	}
 
 	public function sync_containers() {

@@ -44,11 +44,11 @@ class Options extends Singleton {
 			);
 		}
 
-		add_action( 'init', 'add_a_test_acf_options_page' );
-		add_action( 'admin_menu', 'add_a_test_menu_page', 9 );
-		add_action( 'admin_menu', 'remove_duplicate_admin_menu', 100 );
-		add_action( 'admin_menu', 'remove_duplicate_integration_menu', 100 );
-		add_action( 'admin_menu', 'add_theme_menu_item', 11 );
+		add_action( 'init', [ $this, 'add_a_test_acf_options_page' ] );
+		add_action( 'admin_menu', [ $this, 'add_a_test_menu_page' ], 9 );
+		add_action( 'admin_menu', [ $this, 'remove_duplicate_admin_menu' ], 100 );
+		add_action( 'admin_menu', [ $this, 'remove_duplicate_integration_menu' ], 100 );
+		add_action( 'admin_menu', [ $this, 'add_theme_menu_item' ], 11 );
 		add_action( 'wp_before_admin_bar_render', [ $this, 'dollie_adminbar_menu' ], 2000 );
 
 		add_action(
@@ -211,7 +211,7 @@ class Options extends Singleton {
 	public function dollie_adminbar_menu() {
 		global $wp_admin_bar;
 
-		$iconurl = DOLLIE_PLUGIN_URL . 'assets/img/active.png';
+		$iconurl = DOLLIE_URL . 'assets/img/active.png';
 
 		if ( $this->is_live() ) {
 			$menu_title = 'Dollie (Live)';

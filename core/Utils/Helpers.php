@@ -15,21 +15,7 @@ use WP_Query;
  * @package Dollie\Core
  */
 class Helpers extends Singleton {
-
-	/**
-	 * @var \stdClass
-	 */
-	public $currentQuery;
-
-	/**
-	 * Helpers constructor.
-	 */
-	public function __construct() {
-		parent::__construct();
-
-		$this->currentQuery = $this->get_current_object();
-	}
-
+    
 	/**
 	 * Get current queried object data
 	 *
@@ -54,7 +40,7 @@ class Helpers extends Singleton {
 	 */
 	public function get_container_url( $container_id = null ) {
 		if ( $container_id === null ) {
-			$container_id = $this->currentQuery->id;
+			$container_id = $this->get_current_object()->id;
 		}
 
 		$domain     = get_post_meta( $container_id, 'wpd_domains', true );
@@ -71,7 +57,7 @@ class Helpers extends Singleton {
 
 	public function get_customer_login_url( $container_id = null, $container_slug = null, $container_location = null ) {
 		if ( $container_slug === null ) {
-			$container_slug = $this->currentQuery->slug;
+			$container_slug = $this->get_current_object()->slug;
 		}
 
 		if ( $container_location !== null ) {
@@ -90,7 +76,7 @@ class Helpers extends Singleton {
 	}
 
 	public function get_customer_secret_url() {
-		$secret = get_post_meta( $this->currentQuery->id, 'wpd_container_secret', true );
+		$secret = get_post_meta( $this->get_current_object()->id, 'wpd_container_secret', true );
 
 		return $this->get_container_url() . '/' . $secret;
 	}
@@ -104,7 +90,7 @@ class Helpers extends Singleton {
 	}
 
 	public function get_site_screenshot( $container_id = null ) {
-		$post_id = $container_id ?: $this->currentQuery->id;
+		$post_id = $container_id ?: $this->get_current_object()->id;
 
 		if ( false === ( get_transient( 'dollie_site_screenshot_' . $this->get_container_url( $post_id ) ) ) ) {
 			$site = $this->get_container_url( $post_id ) . '/?time=' . $this->random_string( 10 );
@@ -123,10 +109,10 @@ class Helpers extends Singleton {
 	}
 
 	public function flush_container_details() {
-		delete_transient( 'dollie_container_api_request_' . $this->currentQuery->slug . '_get_container_wp_info' );
-		delete_transient( 'dollie_container_api_request_' . $this->currentQuery->slug . '_get_container_site_info' );
-		delete_transient( 'dollie_site_users_' . $this->currentQuery->slug );
-		delete_transient( 'dollie_site_news_' . $this->currentQuery->slug );
+		delete_transient( 'dollie_container_api_request_' . $this->get_current_object()->slug . '_get_container_wp_info' );
+		delete_transient( 'dollie_container_api_request_' . $this->get_current_object()->slug . '_get_container_site_info' );
+		delete_transient( 'dollie_site_users_' . $this->get_current_object()->slug );
+		delete_transient( 'dollie_site_news_' . $this->get_current_object()->slug );
 		delete_transient( 'dollie_site_screenshot_' . $this->get_container_url() );
 	}
 

@@ -19,7 +19,7 @@
 <h4><?php _e( 'Step 1 - Install the Easy Migration Plugin', DOLLIE_SLUG ); ?></h4>
 <ol>
     <li>
-        <a href="<?php echo DOLLIE_PLUGIN_URL; ?>/setup/easy-migration.zip">
+        <a href="<?php echo DOLLIE_URL; ?>/setup/easy-migration.zip">
 			<?php _e( 'Click here to download our Easy Migration Plugin', DOLLIE_SLUG ); ?>
         </a>
     </li>
