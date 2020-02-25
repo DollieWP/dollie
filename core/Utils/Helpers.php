@@ -270,6 +270,22 @@ class Helpers extends Singleton {
 		return (bool) get_option( 'options_wpd_dollie_status' );
 	}
 
+	public function get_launch_id()
+	{
+		return get_option('options_wpd_launch_page_id');
+	}
+
+	public function get_dashboard_id()
+	{
+		return get_option('options_wpd_dashboard_page_id');
+	}
+
+	public function get_login_id()
+	{
+		return get_option('options_wpd_login_page_id');
+	}
+
+
 
 	public function could_not_connect_message() {
 		?>

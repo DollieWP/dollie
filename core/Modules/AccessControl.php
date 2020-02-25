@@ -49,12 +49,13 @@ class AccessControl extends Singleton {
 	}
 
 	public function protect_launch_site() {
-		if ( ! is_user_logged_in() && is_page_template( 'launch-site.php' ) ) {
-			wp_redirect( get_site_url() . '/dashboard' );
+		if ( ! is_user_logged_in() && is_page(dollie()->get_launch_id() ) ) {
+			wp_redirect( get_site_url() . '?page_id=' . dollie()->get_dashboard_id() );
 			exit();
 		}
 	}
 
+	//Todo - Demo functionality can be removed
 	public function protect_container_access() {
 		$currentQuery = dollie()->get_current_object();
 		$post_id      = $currentQuery->id;
