@@ -43,14 +43,14 @@ class AccessControl extends Singleton {
 
 	public function logged_in_only() {
 		if ( ! is_user_logged_in() && ( is_singular( 'container' ) || is_page( 'dashboard' ) ) ) {
-			wp_redirect( get_site_url() . '/customer-login' );
+			wp_redirect(get_permalink(dollie()->get_login_id()));
 			exit;
 		}
 	}
 
 	public function protect_launch_site() {
 		if ( ! is_user_logged_in() && is_page(dollie()->get_launch_id() ) ) {
-			wp_redirect( get_site_url() . '?page_id=' . dollie()->get_dashboard_id() );
+			wp_redirect( get_permalink( dollie()->get_dashboard_id() ) );
 			exit();
 		}
 	}
