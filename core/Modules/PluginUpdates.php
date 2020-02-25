@@ -147,7 +147,8 @@ class PluginUpdates extends Singleton {
 
 		$headers = wp_remote_retrieve_headers( $plugin_update );
 
-		if ( $headers['x-worker-execoutput-completed'] === 'false' ) {
+		//TODO - Add a looping completion request here.
+		if ( $headers['x-rundeck-execoutput-completed'] === 'false' ) {
 			echo 'Plugin update is still running... please hold on<br>';
 
 			sleep( 4 );
@@ -158,7 +159,7 @@ class PluginUpdates extends Singleton {
 			//Parse the JSON request
 			$new_headers = wp_remote_retrieve_headers( $new_plugin_update );
 
-			if ( $new_headers['x-worker-execoutput-completed'] === 'true' ) {
+			if ( $new_headers['x-rundeck-execoutput-completed'] === 'true' ) {
 				echo 'Plugin updates completed.<br>';
 				echo '<pre>' . wp_remote_retrieve_body( $new_plugin_update ) . '<pre>';
 			} else {
@@ -169,7 +170,7 @@ class PluginUpdates extends Singleton {
 
 				//Parse the JSON request
 				$final_headers = wp_remote_retrieve_headers( $final_plugin_update );
-				if ( $final_headers['x-worker-execoutput-completed'] === 'false' ) {
+				if ( $final_headers['x-rundeck-execoutput-completed'] === 'false' ) {
 					echo 'Sadly we can not complete updating your plugins. Please login to your WordPress admin and update your plugins from there.';
 				} else {
 					echo 'All Your Plugins are updated!<br>';
