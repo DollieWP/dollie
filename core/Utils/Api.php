@@ -71,7 +71,7 @@ class Api extends Singleton {
 	}
 
 	/**
-	 * Post request Rundeck API
+	 * Post request Worker API
 	 *
 	 * @param string $endpoint
 	 * @param array $data
@@ -80,11 +80,11 @@ class Api extends Singleton {
 	 *
 	 * @return array|\WP_Error
 	 */
-	public static function postRequestRundeck( $endpoint, $data = [], $method = 'POST', $timeout = null ) {
+	public static function postRequestWorker( $endpoint, $data = [], $method = 'POST', $timeout = null ) {
 		$requestData = [
 			'method'  => $method,
 			'headers' => [
-				'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
+				'X-Rundeck-Auth-Token' => DOLLIE_WORKER_TOKEN,
 				'Content-Type'         => 'application/json',
 			],
 			'body'    => json_encode( $data )
@@ -94,7 +94,7 @@ class Api extends Singleton {
 			$requestData['timeout'] = abs( $timeout );
 		}
 
-		return wp_remote_post( DOLLIE_RUNDECK_URL . '/api/' . $endpoint, $requestData );
+		return wp_remote_post( DOLLIE_WORKER_URL . '/api/' . $endpoint, $requestData );
 	}
 
 }

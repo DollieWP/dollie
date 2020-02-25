@@ -28,11 +28,11 @@ define( 'DOLLIE_MODULE_TPL_PATH', DOLLIE_CORE_PATH . 'Modules/templates/' );
 define( 'DOLLIE_ASSETS_URL', DOLLIE_URL . 'assets/' );
 
 // Sensitive data
-if ( ! defined( 'DOLLIE_RUNDECK_TOKEN' ) ) {
-	define( 'DOLLIE_RUNDECK_TOKEN', 'lRKqXgIpMYu9gFNvWDICFOPXHxULWmG8' );
+if ( ! defined( 'DOLLIE_WORKER_TOKEN' ) ) {
+	define( 'DOLLIE_WORKER_TOKEN', 'lRKqXgIpMYu9gFNvWDICFOPXHxULWmG8' );
 }
-if ( ! defined( 'DOLLIE_RUNDECK_URL' ) ) {
-	define( 'DOLLIE_RUNDECK_URL', 'https://worker.getdollie.com' );
+if ( ! defined( 'DOLLIE_WORKER_URL' ) ) {
+	define( 'DOLLIE_WORKER_URL', 'https://worker.getdollie.com' );
 }
 if ( ! defined( 'DOLLIE_PACKAGE' ) ) {
 	define( 'DOLLIE_PACKAGE', '2c9fa77e6f320129016f8a85a3870250' );
@@ -60,7 +60,7 @@ if ( substr_count( $subdomain, "." ) === 2 ) {
 }
 
 define( 'DOLLIE_INSTALL', $install );
-define( 'DOLLIE_RUNDECK_KEY', get_option( 'wpd_rundeck_key' ) );
+define( 'DOLLIE_WORKER_KEY', get_option('wpd_rundeck_key' ) );
 
 /*
  * Localization

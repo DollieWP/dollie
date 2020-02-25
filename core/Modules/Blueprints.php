@@ -74,10 +74,10 @@ class Blueprints extends Singleton {
 		$install = dollie()->get_container_url();
 
 		$post_body = [
-			'filter'    => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY,
+			'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
 		];
 
-		Api::postRequestRundeck( '1/job/b2fcd68d-3dab-4faf-95d8-6958c5811bae/run/', $post_body );
+		Api::postRequestWorker( '1/job/b2fcd68d-3dab-4faf-95d8-6958c5811bae/run/', $post_body );
 
 		update_post_meta( $currentQuery->id, 'wpd_blueprint_created', 'yes' );
 		update_post_meta( $currentQuery->id, 'wpd_blueprint_time', @date( 'd/M/Y:H:i' ) );

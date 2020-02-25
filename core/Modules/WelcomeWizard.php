@@ -58,11 +58,11 @@ class WelcomeWizard extends Singleton {
 						$partner_install = get_post_meta( $partner->ID, 'wpd_url', true );
 
 						$post_body = [
-							'filter'    => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY,
+							'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
 							'argString' => '-url ' . $partner_install . DOLLIE_DOMAIN . ' -domain ' . $currentQuery->slug . DOLLIE_DOMAIN
 						];
 
-						Api::postRequestRundeck( '1/job/85783830-a89d-439f-b4db-4a5e0e0fd6a9/run/', $post_body );
+						Api::postRequestWorker( '1/job/85783830-a89d-439f-b4db-4a5e0e0fd6a9/run/', $post_body );
 
 						update_post_meta( $currentQuery->id, 'wpd_partner_blueprint_deployed', 'yes' );
 						sleep( 5 );
@@ -74,11 +74,11 @@ class WelcomeWizard extends Singleton {
 						$description = rgpost( 'input_11' );
 
 						$post_body = [
-							'filter'    => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+							'filter'    => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_WORKER_KEY,
 							'argString' => '-email ' . $email . ' -name ' . $name . ' -description ' . $description . ' -password ' . $password . ' -username ' . $username
 						];
 
-						Api::postRequestRundeck( '1/job/f0b8f078-fb6d-47e7-ac8b-2962fe8b0241/run/', $post_body );
+						Api::postRequestWorker( '1/job/f0b8f078-fb6d-47e7-ac8b-2962fe8b0241/run/', $post_body );
 					}
 				}
 

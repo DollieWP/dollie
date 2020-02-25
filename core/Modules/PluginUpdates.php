@@ -41,11 +41,11 @@ class PluginUpdates extends Singleton {
 		// Only run the job on the container of the customer.
 
 		$post_body = [
-			'filter'    => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY,
+			'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
 		];
 
 		//Set up the request
-		$update = Api::postRequestRundeck( '1/job/0a74013f-1180-45bf-aacd-42455dc5c338/run/', $post_body );
+		$update = Api::postRequestWorker( '1/job/0a74013f-1180-45bf-aacd-42455dc5c338/run/', $post_body );
 
 		//Parse the JSON request
 		$answer = wp_remote_retrieve_body( $update );
@@ -58,7 +58,7 @@ class PluginUpdates extends Singleton {
 		sleep( 6 );
 
 		//Set up the request
-		$update = Api::postRequestRundeck( '5/execution/' . $execution_id . '/output?format=text/' );
+		$update = Api::postRequestWorker( '5/execution/' . $execution_id . '/output?format=text/' );
 
 		//Parse the JSON request
 		return wp_remote_retrieve_body( $update );
@@ -123,12 +123,12 @@ class PluginUpdates extends Singleton {
 		$update_plugins = str_replace( ',', ' ', $value );
 
 		$post_body = [
-			'filter'    => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY,
+			'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
 			'argString' => '-plugins ' . $update_plugins
 		];
 
 		//Set up the request
-		$update = Api::postRequestRundeck( '1/job/7976ab1f-23d7-460b-aa24-6222ce17c2f9/run/', $post_body );
+		$update = Api::postRequestWorker( '1/job/7976ab1f-23d7-460b-aa24-6222ce17c2f9/run/', $post_body );
 
 		// Parse the JSON request
 		$answer = wp_remote_retrieve_body( $update );
@@ -143,33 +143,33 @@ class PluginUpdates extends Singleton {
 		sleep( 4 );
 
 		//Set up the request
-		$plugin_update = Api::postRequestRundeck( '5/execution/' . $execution_id . '/output?format=text/' );
+		$plugin_update = Api::postRequestWorker( '5/execution/' . $execution_id . '/output?format=text/' );
 
 		$headers = wp_remote_retrieve_headers( $plugin_update );
 
-		if ( $headers['x-rundeck-execoutput-completed'] === 'false' ) {
+		if ( $headers['x-worker-execoutput-completed'] === 'false' ) {
 			echo 'Plugin update is still running... please hold on<br>';
 
 			sleep( 4 );
 
 			//Set up the request
-			$new_plugin_update = Api::postRequestRundeck( '5/execution/' . $execution_id . '/output?format=text/' );
+			$new_plugin_update = Api::postRequestWorker( '5/execution/' . $execution_id . '/output?format=text/' );
 
 			//Parse the JSON request
 			$new_headers = wp_remote_retrieve_headers( $new_plugin_update );
 
-			if ( $new_headers['x-rundeck-execoutput-completed'] === 'true' ) {
+			if ( $new_headers['x-worker-execoutput-completed'] === 'true' ) {
 				echo 'Plugin updates completed.<br>';
 				echo '<pre>' . wp_remote_retrieve_body( $new_plugin_update ) . '<pre>';
 			} else {
 				sleep( 4 );
 
 				//Set up the request
-				$final_plugin_update = Api::postRequestRundeck( '5/execution/' . $execution_id . '/output?format=text/' );
+				$final_plugin_update = Api::postRequestWorker( '5/execution/' . $execution_id . '/output?format=text/' );
 
 				//Parse the JSON request
 				$final_headers = wp_remote_retrieve_headers( $final_plugin_update );
-				if ( $final_headers['x-rundeck-execoutput-completed'] === 'false' ) {
+				if ( $final_headers['x-worker-execoutput-completed'] === 'false' ) {
 					echo 'Sadly we can not complete updating your plugins. Please login to your WordPress admin and update your plugins from there.';
 				} else {
 					echo 'All Your Plugins are updated!<br>';
