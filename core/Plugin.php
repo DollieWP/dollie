@@ -157,7 +157,7 @@ class Plugin extends Singleton {
 
 	public function remove_customer_domain() {
 		if ( isset( $_POST['remove_customer_domain'] ) ) {
-			$currentQuery = $this->helpers()->currentQuery;
+			$currentQuery = $this->helpers()->get_current_object();
 			$post_id      = $currentQuery->id;
 			$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
 			$route_id     = get_post_meta( $post_id, 'wpd_domain_id', true );
