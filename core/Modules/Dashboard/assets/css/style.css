@@ -141,7 +141,7 @@
 #wpwrap .select2-container.fa-select2-field {
   float: right;
   position: relative;
-  top: -1;
+  top: -1px;
   width: 75% !important;
 }
 #wpwrap .acf-field-564b368a3f51c {

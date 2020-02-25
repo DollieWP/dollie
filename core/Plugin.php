@@ -111,6 +111,9 @@ class Plugin extends Singleton {
 
 	public function plugins_loaded() {
 
+		//Load extras
+		require_once DOLLIE_PATH . 'core/Extras/wds-log-post/wds-log-post.php';
+
 		// Load modules
 		AccessControl::instance();
 		Backups::instance();
@@ -132,6 +135,7 @@ class Plugin extends Singleton {
 		Tools::instance();
 		WelcomeWizard::instance();
 		WooCommerce::instance();
+		Modules\Dashboard\Setup::instance();
 
 		// Shortcodes
 		Shortcodes\Blueprints::instance();

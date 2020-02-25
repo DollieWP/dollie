@@ -20,7 +20,7 @@ class Custom extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		add_filter( 'wds_log_post_types', 'add_my_post_type_to_logs' );
+		add_filter( 'wds_log_post_types', [ $this, 'add_my_post_type_to_logs' ] );
 
 		add_filter( 'wds_log_post_log_types', static function ( $terms ) {
 			if ( ! isset( $terms['Cron'] ) ) {
@@ -59,10 +59,10 @@ class Custom extends Singleton {
 		);
 	}
 
-	public function add_my_post_type_to_logs( $posttypes ) {
-		$posttypes['dollie-logs'] = 'Dollie';
+	public function add_my_post_type_to_logs( $post_types = [] ) {
+		$post_types['dollie-logs'] = 'Dollie';
 
-		return $posttypes;
+		return $post_types;
 	}
 
 }
