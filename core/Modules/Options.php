@@ -329,7 +329,7 @@ class Options extends Singleton {
 			'Tools',
 			'manage_options',
 			'wpd_tools',
-			'wpd_dollie_tools_content'
+			[ $this, 'dollie_tools_content' ]
 		);
 	}
 

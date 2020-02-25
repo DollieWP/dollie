@@ -15,7 +15,7 @@ use WP_Query;
  * @package Dollie\Core
  */
 class Helpers extends Singleton {
-    
+
 	/**
 	 * Get current queried object data
 	 *
@@ -29,6 +29,35 @@ class Helpers extends Singleton {
 		$response->slug = $object->post_name;
 
 		return $response;
+	}
+
+	/**
+	 * An array of Supported Plugins
+	 *
+	 * @return array
+	 */
+	public function supported_plugins() {
+		$supported_plugins = array(
+			'Cloudflare'       => array(
+				'reason' => esc_html__( 'We strongly recommend to keep this plugin active and installed at all times.', 'dollie' ),
+				'info'   => 'foo',
+			),
+			'WP Fastest Cache' => array(
+				'reason' => esc_html__( 'Our SiteCache solution is powered partly by the WP Fastest Cache plugin. We recommend to keep this plugin activated.', 'dollie' ),
+				'info'   => 'foo',
+			),
+		);
+
+		return $supported_plugins;
+	}
+
+	/**
+	 * An array of Unsupported Plugins
+	 *
+	 * @return array
+	 */
+	public function unsupported_plugins() {
+		return [];
 	}
 
 	/**
