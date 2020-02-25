@@ -469,7 +469,7 @@ class CheckSubscription extends Singleton {
 
 	public function sites_available() {
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
-		$total_site   = dollie()->helpers()->count_customer_containers();
+		$total_site   = dollie()->count_customer_containers();
 
 		return $subscription['max_allowed_installs'] - $total_site;
 	}
@@ -492,7 +492,7 @@ class CheckSubscription extends Singleton {
 		}
 
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
-		$total_site   = dollie()->helpers()->count_customer_containers();
+		$total_site   = dollie()->count_customer_containers();
 
 		return $this->has_subscription() && $subscription['max_allowed_installs'] - $total_site <= 0 && ! current_user_can( 'manage_options' ) && get_option( 'options_wpd_charge_for_deployments' ) === '1';
 	}
@@ -522,7 +522,7 @@ class CheckSubscription extends Singleton {
 		}
 
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
-		$total_size   = dollie()->insights()->get_total_container_size();
+		$total_size   = dollie()->get_total_container_size();
 		$allowed_size = $subscription['max_allowed_size'] * 1024 * 1024 * 1024;
 
 		return $this->has_subscription() && $total_size >= $allowed_size && ! current_user_can( 'manage_options' ) && get_option( 'options_wpd_charge_for_deployments' ) === '1';

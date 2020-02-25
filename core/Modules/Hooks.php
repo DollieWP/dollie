@@ -26,7 +26,7 @@ class Hooks extends Singleton {
 
 	public function load_container_headers() {
 		if ( is_singular( 'container' ) ) {
-			$post_id        = dollie()->helpers()->get_current_object()->id;
+			$post_id        = dollie()->get_current_object()->id;
 			$setup_complete = get_post_meta( $post_id, 'wpd_setup_complete', true );
 			$status         = get_post_meta( $post_id, 'wpd_container_status', true );
 

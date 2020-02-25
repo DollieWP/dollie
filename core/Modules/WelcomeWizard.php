@@ -23,7 +23,7 @@ class WelcomeWizard extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$setup_forms = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-wizard' );
+		$setup_forms = dollie()->get_dollie_gravity_form_ids( 'dollie-wizard' );
 		foreach ( $setup_forms as $form_id ) {
 			add_action( 'gform_post_paging_' . $form_id, [ $this, 'update_site_details' ], 10, 3 );
 			add_action( 'gform_after_submission_' . $form_id, [ $this, 'complete_setup_wizard' ], 10, 2 );
@@ -41,7 +41,7 @@ class WelcomeWizard extends Singleton {
 	public function update_site_details( $form, $source_page_number, $current_page_number ) {
 		if ( $current_page_number > 1 ) {
 			$value        = rgpost( 'input_1' );
-			$currentQuery = dollie()->helpers()->get_current_object();
+			$currentQuery = dollie()->get_current_object();
 
 			if ( $value === 'setup' ) {
 				$demo    = get_post_meta( $currentQuery->id, 'wpd_container_is_demo', true );
@@ -81,7 +81,7 @@ class WelcomeWizard extends Singleton {
 					}
 				}
 
-				dollie()->helpers()->flush_container_details();
+				dollie()->flush_container_details();
 			}
 		}
 	}
@@ -93,7 +93,7 @@ class WelcomeWizard extends Singleton {
 	 * @param $form
 	 */
 	public function complete_setup_wizard( $entry, $form ) {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 
 		update_post_meta( $currentQuery->id, 'wpd_setup_complete', 'yes' );
 		Log::add( $currentQuery->slug . ' has completed the initial site setup', '', 'setup' );
@@ -112,13 +112,13 @@ class WelcomeWizard extends Singleton {
 	 * @return string
 	 */
 	public function inject_migration_instructions( $input, $field, $value, $lead_id, $form_id ) {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 
 		$user     = wp_get_current_user();
 		$request  = get_transient( 'dollie_s5_container_details_' . $currentQuery->slug );
 		$hostname = preg_replace( '#^https?://#', '', $request->uri );
 
-		if ( $field->id === 7 && $form_id === dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-wizard' )[0] ) {
+		if ( $field->id === 7 && $form_id === dollie()->get_dollie_gravity_form_ids( 'dollie-wizard' )[0] ) {
 			$input = Tpl::load( DOLLIE_MODULE_TPL_PATH . 'migration-instructions', [
 				'post_slug' => $currentQuery->slug,
 				'request'   => $request,

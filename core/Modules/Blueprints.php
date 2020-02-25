@@ -25,7 +25,7 @@ class Blueprints extends Singleton {
 
 		add_action( 'wf_before_container', [ $this, 'get_available_blueprints' ], 11 );
 
-		foreach ( dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-blueprint' ) as $form_id ) {
+		foreach ( dollie()->get_dollie_gravity_form_ids( 'dollie-blueprint' ) as $form_id ) {
 			add_action( 'gform_after_submission_' . $form_id, [ $this, 'deploy_new_blueprint' ], 10, 2 );
 		}
 
@@ -41,10 +41,10 @@ class Blueprints extends Singleton {
 				@flush();
 			}
 
-			$currentQuery = dollie()->helpers()->get_current_object();
+			$currentQuery = dollie()->get_current_object();
 
 			$secret = get_post_meta( $currentQuery->id, 'wpd_container_secret', true );
-			$url    = dollie()->helpers()->get_container_url() . '/' . $secret . '/codiad/backups/blueprints.php';
+			$url    = dollie()->get_container_url() . '/' . $secret . '/codiad/backups/blueprints.php';
 
 			$response = wp_remote_get( $url, [ 'timeout' => 20 ] );
 
@@ -70,7 +70,7 @@ class Blueprints extends Singleton {
 	}
 
 	public function deploy_new_blueprint( $entry, $form ) {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 
 		$post_body = [
 			'filter' => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
@@ -163,7 +163,7 @@ class Blueprints extends Singleton {
 			$cookie_id = $_GET['blueprint_id'];
 		}
 
-		$currentQuery   = dollie()->helpers()->get_current_object();
+		$currentQuery   = dollie()->get_current_object();
 		$setup_complete = get_post_meta( $currentQuery->id, 'wpd_container_based_on_blueprint', true );
 
 		// No Cookies set? Check is parameter are valid

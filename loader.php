@@ -74,14 +74,16 @@ add_action( 'plugins_loaded', 'dollie_load_plugin_textdomain' );
 // Autoload
 require_once 'bootstrap.php';
 
+\Dollie\Core\Plugin::instance();
+
 /**
- * Returns the main instance of Dollie.
+ * Returns the helpers instance of Dollie.
  *
- * @return Dollie\Core\Plugin
+ * @return Dollie\Core\Utils\Helpers
  * @since  2.0
  */
 function dollie() {
-	return \Dollie\Core\Plugin::instance();
+	return \Dollie\Core\Utils\Helpers::instance();
 }
 
 // Init Dollie

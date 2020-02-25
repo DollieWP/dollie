@@ -46,50 +46,6 @@ class Plugin extends Singleton {
 		add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ] );
 	}
 
-	/**
-	 * Access Helpers class instance
-	 *
-	 * @return Helpers
-	 */
-	public function helpers() {
-		return Helpers::instance();
-	}
-
-	/**
-	 * Access AccessControl class instance
-	 *
-	 * @return \Dollie\Core\Modules\AccessControl
-	 */
-	public function access_control() {
-		return \Dollie\Core\Modules\AccessControl::instance();
-	}
-
-	/**
-	 * Access Backups class instance
-	 *
-	 * @return \Dollie\Core\Modules\Backups
-	 */
-	public function backups() {
-		return \Dollie\Core\Modules\Backups::instance();
-	}
-
-	/**
-	 * Access Blueprints class instance
-	 *
-	 * @return \Dollie\Core\Modules\Blueprints
-	 */
-	public function blueprints() {
-		return \Dollie\Core\Modules\Blueprints::instance();
-	}
-
-	/**
-	 * Access CheckSubscription class instance
-	 *
-	 * @return \Dollie\Core\Modules\CheckSubscription
-	 */
-	public function subscription() {
-		return \Dollie\Core\Modules\CheckSubscription::instance();
-	}
 
 	/**
 	 * Access ContainerManagement class instance
@@ -98,15 +54,6 @@ class Plugin extends Singleton {
 	 */
 	public function container() {
 		return \Dollie\Core\Modules\ContainerManagement::instance();
-	}
-
-	/**
-	 * Access Blueprints class instance
-	 *
-	 * @return \Dollie\Core\Modules\SiteInsights
-	 */
-	public function insights() {
-		return \Dollie\Core\Modules\SiteInsights::instance();
 	}
 
 	public function plugins_loaded() {
@@ -146,7 +93,7 @@ class Plugin extends Singleton {
 
 
 	public function add_timestamp_body( $classes ) {
-		$timestamp = get_transient( 'dollie_site_screenshot_' . $this->helpers()->get_container_url() );
+		$timestamp = get_transient( 'dollie_site_screenshot_' . dollie()->get_container_url() );
 
 		if ( empty( $timestamp ) ) {
 			$classes[] = 'wf-site-screenshot-not-set';
@@ -157,7 +104,7 @@ class Plugin extends Singleton {
 
 	public function remove_customer_domain() {
 		if ( isset( $_POST['remove_customer_domain'] ) ) {
-			$currentQuery = $this->helpers()->get_current_object();
+			$currentQuery = dollie()->get_current_object();
 			$post_id      = $currentQuery->id;
 			$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
 			$route_id     = get_post_meta( $post_id, 'wpd_domain_id', true );
@@ -191,7 +138,7 @@ class Plugin extends Singleton {
 				)
 			);
 
-			$this->helpers()->flush_container_details();
+			dollie()->flush_container_details();
 
 			delete_post_meta( $post_id, 'wpd_domain_migration_complete' );
 			delete_post_meta( $post_id, 'wpd_cloudflare_zone_id' );
@@ -212,7 +159,7 @@ class Plugin extends Singleton {
 
 	public function redirect_to_new_container() {
 		if ( isset( $_GET['site'] ) && $_GET['site'] === 'new' ) {
-			$url = $this->helpers()->get_latest_container_url();
+			$url = dollie()->get_latest_container_url();
 
 			if ( $url ) {
 				wp_redirect( $url );

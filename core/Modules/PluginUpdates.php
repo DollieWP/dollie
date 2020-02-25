@@ -36,7 +36,7 @@ class PluginUpdates extends Singleton {
 			@flush();
 		}
 
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 
 		// Only run the job on the container of the customer.
 
@@ -115,7 +115,7 @@ class PluginUpdates extends Singleton {
 	}
 
 	public function update_plugins( $entry, $form ) {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 
 		$field_id       = 5; // Update this number to your field id number
 		$field          = RGFormsModel::get_field( $form, $field_id );

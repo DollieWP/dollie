@@ -31,11 +31,11 @@ class SecurityChecks extends Singleton {
 		$token = get_option( 'options_wpd_wpvulndb_token' );
 
 		// Now that we have our container details get our secret key
-		$details_url          = dollie()->helpers()->get_container_url() . '/wp-content/mu-plugins/platform/container/details/stats.php';
+		$details_url          = dollie()->get_container_url() . '/wp-content/mu-plugins/platform/container/details/stats.php';
 		$details_transient_id = 'get_container_site_info';
 		$details_username     = 'container';
 		//Make the request
-		$details_request = dollie()->container()->container_api_request( $details_url, $details_transient_id, $details_username, $details_pass );
+		$details_request = dollie()->container_api_request( $details_url, $details_transient_id, $details_username, $details_pass );
 		//Encode to JSON (not used yet)
 		$container_data = json_encode( $details_request );
 
@@ -83,7 +83,7 @@ class SecurityChecks extends Singleton {
 
 	public function plugin_security_scanner_do_this_daily() {
 		if ( is_singular( 'container' ) ) {
-			$currentQuery = dollie()->helpers()->get_current_object();
+			$currentQuery = dollie()->get_current_object();
 
 			$transient = get_transient( 'dollie_security_check_' . $currentQuery->slug );
 
@@ -120,7 +120,7 @@ class SecurityChecks extends Singleton {
 
 	public function run_security_check() {
 		if ( isset( $_GET['run-security-check'] ) ) {
-			$currentQuery = dollie()->helpers()->get_current_object();
+			$currentQuery = dollie()->get_current_object();
 
 			delete_transient( 'dollie_security_check_' . $currentQuery->slug );
 			delete_transient( 'dollie_security_check_failed_' . $currentQuery->slug );

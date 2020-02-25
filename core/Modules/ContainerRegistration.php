@@ -40,13 +40,13 @@ class ContainerRegistration extends Singleton {
 
 	public function add_rundeck_key() {
 		if ( get_option( 'wpd_rundeck_key' ) === false ) {
-			update_option( 'wpd_rundeck_key', dollie()->helpers()->random_string( 12 ) );
+			update_option( 'wpd_rundeck_key', dollie()->random_string( 12 ) );
 		}
 	}
 
 	public function add_rundeck_node() {
 		if ( did_action( 'template_redirect' ) === 1 && is_singular( 'container' ) ) {
-			$currentQuery = dollie()->helpers()->get_current_object();
+			$currentQuery = dollie()->get_current_object();
 			$this->register_rundeck_node( $currentQuery->id );
 		}
 	}
@@ -59,12 +59,12 @@ class ContainerRegistration extends Singleton {
 
 	public function register_rundeck_node( $id = null ) {
 		if ( $id === null ) {
-			$currentQuery = dollie()->helpers()->get_current_object();
+			$currentQuery = dollie()->get_current_object();
 			$post_id      = $currentQuery->id;
 		} else {
 			$post_id = $id;
 		}
-		$url = dollie()->helpers()->get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
+		$url = dollie()->get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
 
 		$is_node_added = get_post_meta( $post_id, 'wpd_node_added', true );
 		$ip            = get_post_meta( $post_id, 'wpd_container_ip', true );
@@ -114,9 +114,9 @@ class ContainerRegistration extends Singleton {
 	}
 
 	public function remove_rundeck_node( $id = null ) {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 		$post_id      = $id === null ? $currentQuery->id : $id;
-		$url          = dollie()->helpers()->get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
+		$url          = dollie()->get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
 
 		// Don't do anything if the transient is empty.
 		// Output buffer our Node details

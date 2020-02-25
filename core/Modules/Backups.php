@@ -25,11 +25,11 @@ class Backups extends Singleton {
 		add_action( 'wf_before_container', [ $this, 'get_site_backups' ], 11 );
 		add_filter( 'gform_pre_render', [ $this, 'list_site_backups' ] );
 
-		foreach ( dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-list-backups' ) as $form_id ) {
+		foreach ( dollie()->get_dollie_gravity_form_ids( 'dollie-list-backups' ) as $form_id ) {
 			add_action( 'gform_after_submission_' . $form_id, [ $this, 'restore_site' ], 10, 2 );
 		}
 
-		foreach ( dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-create-backup' ) as $backup_id ) {
+		foreach ( dollie()->get_dollie_gravity_form_ids( 'dollie-create-backup' ) as $backup_id ) {
 			add_action( 'gform_after_submission_' . $backup_id, [ $this, 'create_backup' ], 10, 2 );
 		}
 	}
@@ -41,9 +41,9 @@ class Backups extends Singleton {
 				@flush();
 			}
 
-			$currentQuery = dollie()->helpers()->get_current_object();
+			$currentQuery = dollie()->get_current_object();
 			$secret       = get_post_meta( $currentQuery->id, 'wpd_container_secret', true );
-			$url          = dollie()->helpers()->get_container_url() . '/' . $secret . '/codiad/backups/';
+			$url          = dollie()->get_container_url() . '/' . $secret . '/codiad/backups/';
 
 			$response = wp_remote_get( $url, [
 				'timeout' => 20
@@ -142,13 +142,13 @@ class Backups extends Singleton {
 	}
 
 	public function get_customer_total_backups() {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 
 		return get_transient( 'dollie_' . $currentQuery->slug . '_total_backups' );
 	}
 
 	public function restore_site( $entry, $form ) {
-		$install = dollie()->helpers()->get_container_url();
+		$install = dollie()->get_container_url();
 
 		// Our form field ID + User meta fields
 		$backup = rgar( $entry, '1' );
@@ -179,20 +179,20 @@ class Backups extends Singleton {
         <div class="alert alert-success">
 			<?php printf(
 				__( 'Your site is being restored! Depending on the size of your installation this could take a while. Once your site is restored you\'ll see a message in your <a href="%s">WordPress Admin</a>', DOLLIE_SLUG ),
-				esc_url( dollie()->helpers()->get_customer_login_url() )
+				esc_url( dollie()->get_customer_login_url() )
 			); ?>
             <br>
 			<?php printf(
 				__( 'Note: In some cases you might have to <a href="%s">login</a> to your site again after a restoration.', DOLLIE_SLUG ),
-				esc_url( dollie()->helpers()->get_customer_login_url() )
+				esc_url( dollie()->get_customer_login_url() )
 			); ?>
         </div>
 		<?php
 	}
 
 	public function trigger_backup() {
-		$currentQuery = dollie()->helpers()->get_current_object();
-		$install      = dollie()->helpers()->get_container_url();
+		$currentQuery = dollie()->get_current_object();
+		$install      = dollie()->get_container_url();
 
 		// Success now send the Rundeck request
 		// Only run the job on the container of the customer.

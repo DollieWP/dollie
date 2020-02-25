@@ -105,7 +105,7 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function get_customer_container_details() {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 		$container_id = get_post_meta( $currentQuery->id, 'wpd_container_id', true );
 
 		$request = get_transient( 'dollie_s5_container_details_' . $currentQuery->slug );
@@ -153,7 +153,7 @@ class ContainerManagement extends Singleton {
 			@flush();
 		}
 
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 		$request      = get_transient( 'dollie_container_api_request_' . $currentQuery->slug . '_' . $transient_id );
 
 		if ( $user_auth === null ) {
@@ -190,7 +190,7 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function start_rundeck_job( $job_id ) {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 
 		$post_body = [
 			'filter' => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
@@ -232,7 +232,7 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function show_rundeck_output( $entry, $form ) {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 
 		$post_body = [
 			'filter' => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
@@ -265,7 +265,7 @@ class ContainerManagement extends Singleton {
 
 	public function fetch_container_details() {
 		if ( isset( $_GET['get-details'] ) ) {
-			$currentQuery = dollie()->helpers()->get_current_object();
+			$currentQuery = dollie()->get_current_object();
 
 			delete_transient( 'dollie_s5_container_details_' . $currentQuery->slug );
 			delete_transient( 'dollie_site_users_' . $currentQuery->slug );
@@ -275,12 +275,12 @@ class ContainerManagement extends Singleton {
 
 	public function update_container_details() {
 		if ( isset( $_GET['update-details'] ) ) {
-			dollie()->helpers()->flush_container_details();
+			dollie()->flush_container_details();
 		}
 	}
 
 	public function container_action( $action, $container_post_id ) {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 
 		$post_id = $container_post_id === null ? $currentQuery->id : $container_post_id;
 		$site    = get_post_field( 'post_name', $post_id );

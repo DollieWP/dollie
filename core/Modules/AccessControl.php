@@ -35,7 +35,7 @@ class AccessControl extends Singleton {
 		$available_sections_array = get_field( 'available_sections', 'option' );
 
 		if ( get_field( 'wpd_enable_blueprints_for', 'option' ) === 'all' && ! current_user_can( 'manage_options' ) ) {
-			$available_sections_array = dollie()->helpers()->removeElementWithValue( $available_sections_array, 'value', 'blueprint' );
+			$available_sections_array = dollie()->removeElementWithValue( $available_sections_array, 'value', 'blueprint' );
 		}
 
 		return $available_sections_array;
@@ -56,7 +56,7 @@ class AccessControl extends Singleton {
 	}
 
 	public function protect_container_access() {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 		$post_id      = $currentQuery->id;
 
 		$demo   = get_post_meta( $post_id, 'wpd_container_is_demo', true );
@@ -82,7 +82,7 @@ class AccessControl extends Singleton {
 				}
 			}
 
-			if ( isset( $_GET['page'] ) && is_singular( 'container' ) && ! dollie()->helpers()->in_array_r( $_GET['page'], $this->get_available_sections() ) ) {
+			if ( isset( $_GET['page'] ) && is_singular( 'container' ) && ! dollie()->in_array_r( $_GET['page'], $this->get_available_sections() ) ) {
 				wp_redirect( get_permalink() );
 				exit();
 			}
@@ -104,7 +104,7 @@ class AccessControl extends Singleton {
 	}
 
 	public function restrict_gravity_form_edit() {
-		$dollie_form_ids = dollie()->helpers()->get_dollie_gravity_form_ids();
+		$dollie_form_ids = dollie()->get_dollie_gravity_form_ids();
 
 		$restrictions = [];
 		foreach ( $dollie_form_ids as $id ) {

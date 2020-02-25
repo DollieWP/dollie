@@ -7,6 +7,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Modules\AccessControl;
+use Dollie\Core\Modules\Backups;
+use Dollie\Core\Modules\Blueprints;
+use Dollie\Core\Modules\CheckSubscription;
+use Dollie\Core\Modules\ContainerManagement;
+use Dollie\Core\Modules\SiteInsights;
 use Dollie\Core\Singleton;
 use WP_Query;
 
@@ -264,10 +270,6 @@ class Helpers extends Singleton {
 		return (bool) get_option( 'options_wpd_dollie_status' );
 	}
 
-	public function staging_limit_reached() {
-		return $this->count_total_containers() >= 3 && ! $this->is_live();
-	}
-
 
 	public function could_not_connect_message() {
 		?>
@@ -337,6 +339,108 @@ class Helpers extends Singleton {
 		}
 
 		return $dollie_form_ids;
+	}
+
+	/**
+	 * Get available sections
+	 * @return mixed
+	 */
+	public function get_available_sections() {
+		return AccessControl::instance()->get_available_sections();
+	}
+
+	/**
+	 * Get customer total backups
+	 * @return mixed
+	 */
+	public function get_customer_total_backups() {
+		return Backups::instance()->get_customer_total_backups();
+	}
+
+	/**
+	 * Get restored sites
+	 *
+	 * @return void
+	 */
+	public function list_site_restores() {
+		Backups::instance()->list_site_restores();
+	}
+
+	/**
+	 * List available blueprints
+	 *
+	 * @return void
+	 */
+	public function list_available_blueprints() {
+		Blueprints::instance()->list_available_blueprints();
+	}
+
+	/**
+	 * Return subscription name
+	 *
+	 * @return string
+	 */
+	public function subscription_name() {
+		return CheckSubscription::instance()->subscription_name();
+	}
+
+	/**
+	 * Return sites available to install
+	 * @return integer
+	 */
+	public function sites_available() {
+		return CheckSubscription::instance()->sites_available();
+	}
+
+	/**
+	 * Return storage available based on the subscription
+	 *
+	 * @return string
+	 */
+	public function storage_available() {
+		return CheckSubscription::instance()->storage_available();
+	}
+
+	public function size_limit_reached() {
+		return CheckSubscription::instance()->size_limit_reached();
+	}
+
+	public function site_limit_reached() {
+		return CheckSubscription::instance()->site_limit_reached();
+	}
+
+	public function staging_limit_reached() {
+		return $this->count_total_containers() >= 3 && ! $this->is_live();
+	}
+
+	public function has_subscription() {
+		return CheckSubscription::instance()->has_subscription();
+	}
+
+	public function has_bought_product( $user_id = 0 ) {
+		return CheckSubscription::instance()->has_bought_product( $user_id );
+	}
+
+	public function get_customer_container_details() {
+	    return ContainerManagement::instance()->get_customer_container_details();
+    }
+
+	public function container_api_request( $url, $transient_id, $user_auth, $user_pass ) {
+		return ContainerManagement::instance()->container_api_request( $url, $transient_id, $user_auth, $user_pass );
+	}
+
+
+
+	public function get_total_container_size() {
+		return SiteInsights::instance()->get_total_container_size();
+	}
+
+	public function get_site_posts() {
+		return SiteInsights::instance()->get_site_posts();
+	}
+
+	public function get_latest_container_posts() {
+		return SiteInsights::instance()->get_latest_container_posts();
 	}
 
 	public function in_array_r( $needle, $haystack, $strict = false ) {

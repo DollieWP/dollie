@@ -25,7 +25,7 @@ class LaunchSite extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$launch_forms = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-launch' );
+		$launch_forms = dollie()->get_dollie_gravity_form_ids( 'dollie-launch' );
 		foreach ( $launch_forms as $form_id ) {
 			add_action( 'gform_field_validation_' . $form_id, [ $this, 'add_new_site' ], 10, 4 );
 		}
@@ -258,7 +258,7 @@ class LaunchSite extends Singleton {
 	}
 
 	public function redirect_to_container_launch() {
-		if ( ! is_page( 'launch-site' ) && current_user_can( 'manage_options' ) && dollie()->helpers()->count_total_containers() === 0 ) {
+		if ( ! is_page( 'launch-site' ) && current_user_can( 'manage_options' ) && dollie()->count_total_containers() === 0 ) {
 			wp_redirect( get_site_url() . '/launch-site' );
 			exit;
 		}

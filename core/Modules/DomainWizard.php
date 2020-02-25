@@ -26,7 +26,7 @@ class DomainWizard extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$domain_forms = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' );
+		$domain_forms = dollie()->get_dollie_gravity_form_ids( 'dollie-domain' );
 		foreach ( $domain_forms as $form_id ) {
 			add_filter( 'gform_validation_' . $form_id, [ $this, 'domain_wizard_add_domain' ], 20 );
 			add_filter( 'gform_validation_' . $form_id, [ $this, 'domain_wizard_add_cloudflare' ], 20 );
@@ -40,11 +40,11 @@ class DomainWizard extends Singleton {
 		add_filter( 'gform_validation_message', [
 			$this,
 			'change_message'
-		], dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' )[0], 2 );
+		], dollie()->get_dollie_gravity_form_ids( 'dollie-domain' )[0], 2 );
 
 		add_filter( 'gform_field_input', [ $this, 'populate_instruction_fields' ], 10, 5 );
 
-		$this->register_confirmation_fields( dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' ), [
+		$this->register_confirmation_fields( dollie()->get_dollie_gravity_form_ids( 'dollie-domain' ), [
 			55,
 			60
 		] );
@@ -52,7 +52,7 @@ class DomainWizard extends Singleton {
 	}
 
 	public function domain_wizard_add_domain( $validation_result ) {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 		$request      = get_transient( 'dollie_s5_container_details_' . $currentQuery->slug . '' );
 
 		$form         = $validation_result['form'];
@@ -110,7 +110,7 @@ class DomainWizard extends Singleton {
 	}
 
 	public function domain_wizard_add_cloudflare( $validation_result ) {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
 		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
@@ -182,7 +182,7 @@ class DomainWizard extends Singleton {
 	}
 
 	public function domain_wizard_add_cloudflare_zone( $validation_result ) {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 
 		// Setup the Form
 		$entry = GFFormsModel::get_current_lead();
@@ -237,7 +237,7 @@ class DomainWizard extends Singleton {
 	}
 
 	public function search_and_replace_domain( $validation_result ) {
-		$currentQuery = dollie()->helpers()->get_current_object();
+		$currentQuery = dollie()->get_current_object();
 
 		// Domain
 		$container = get_post_meta( $currentQuery->id, 'wpd_container_id', true );
@@ -303,7 +303,7 @@ class DomainWizard extends Singleton {
 
 	public function continue_domain_setup() {
 		if ( isset( $_GET['page'] ) && ! isset( $_GET['form_page'] ) && $_GET['page'] === 'domain' && is_singular( 'container' ) ) {
-			$currentQuery = dollie()->helpers()->get_current_object();
+			$currentQuery = dollie()->get_current_object();
 
 			$has_domain     = get_post_meta( $currentQuery->id, 'wpd_domains', true );
 			$has_cloudflare = get_post_meta( $currentQuery->id, 'wpd_cloudflare_email', true );
@@ -356,8 +356,8 @@ class DomainWizard extends Singleton {
 	}
 
 	public function populate_instruction_fields( $input, $field, $value, $lead_id, $form_id ) {
-		$currentQuery = dollie()->helpers()->get_current_object();
-		$form_ids     = dollie()->helpers()->get_dollie_gravity_form_ids( 'dollie-domain' );
+		$currentQuery = dollie()->get_current_object();
+		$form_ids     = dollie()->get_dollie_gravity_form_ids( 'dollie-domain' );
 
 		if ( $form_id !== $form_ids[0] ) {
 			return $input;
@@ -389,7 +389,7 @@ class DomainWizard extends Singleton {
 
 	public function complete_migration_wizard( $form, $source_page_number, $current_page_number ) {
 		if ( $current_page_number > 6 ) {
-			$currentQuery = dollie()->helpers()->get_current_object();
+			$currentQuery = dollie()->get_current_object();
 
 			// Update user meta used to show/hide specific Dashboard areas/tabs
 			update_post_meta( $currentQuery->id, 'wpd_cloudflare_active', 'yes' );
@@ -402,7 +402,7 @@ class DomainWizard extends Singleton {
 			Backups::instance()->trigger_backup();
 
 			// Update our container details so that the new domain will be used to make container HTTP requests.
-			dollie()->helpers()->flush_container_details();
+			dollie()->flush_container_details();
 		}
 	}
 
