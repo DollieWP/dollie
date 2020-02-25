@@ -42,6 +42,7 @@ class WelcomeWizard extends Singleton {
 		if ( $current_page_number > 1 ) {
 			$value        = rgpost( 'input_1' );
 			$currentQuery = dollie()->get_current_object();
+			$install = dollie()->get_container_url();
 
 			if ( $value === 'setup' ) {
 				$demo    = get_post_meta( $currentQuery->id, 'wpd_container_is_demo', true );
@@ -57,7 +58,7 @@ class WelcomeWizard extends Singleton {
 						$partner_install = get_post_meta( $partner->ID, 'wpd_url', true );
 
 						$post_body = [
-							'filter'    => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+							'filter'    => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY,
 							'argString' => '-url ' . $partner_install . DOLLIE_DOMAIN . ' -domain ' . $currentQuery->slug . DOLLIE_DOMAIN
 						];
 

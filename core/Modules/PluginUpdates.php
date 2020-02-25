@@ -36,12 +36,12 @@ class PluginUpdates extends Singleton {
 			@flush();
 		}
 
-		$currentQuery = dollie()->get_current_object();
+		$install = dollie()->get_container_url();
 
 		// Only run the job on the container of the customer.
 
 		$post_body = [
-			'filter' => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
+			'filter'    => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY,
 		];
 
 		//Set up the request
@@ -115,7 +115,7 @@ class PluginUpdates extends Singleton {
 	}
 
 	public function update_plugins( $entry, $form ) {
-		$currentQuery = dollie()->get_current_object();
+		$install = dollie()->get_container_url();
 
 		$field_id       = 5; // Update this number to your field id number
 		$field          = RGFormsModel::get_field( $form, $field_id );
@@ -123,7 +123,7 @@ class PluginUpdates extends Singleton {
 		$update_plugins = str_replace( ',', ' ', $value );
 
 		$post_body = [
-			'filter'    => 'https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+			'filter'    => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY,
 			'argString' => '-plugins ' . $update_plugins
 		];
 

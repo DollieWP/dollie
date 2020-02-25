@@ -111,6 +111,7 @@ class DomainWizard extends Singleton {
 
 	public function domain_wizard_add_cloudflare( $validation_result ) {
 		$currentQuery = dollie()->get_current_object();
+		$install = dollie()->get_container_url();
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
 		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
@@ -157,7 +158,7 @@ class DomainWizard extends Singleton {
 					// Success now send the Rundeck request
 					// This job will install + activate the CloudFlare plugin and populate the email + API key fields for the CloudFlare Options.
 					$post_body = [
-						'filter'    => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+						'filter'    => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY,
 						'argString' => '-email ' . $email . ' -key ' . $api_key
 					];
 
