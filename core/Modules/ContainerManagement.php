@@ -233,10 +233,10 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function show_rundeck_output( $entry, $form ) {
-		$currentQuery = dollie()->get_current_object();
+		$install = dollie()->get_container_url();
 
 		$post_body = [
-			'filter' => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
+			'filter'    => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY,
 		];
 
 		$update = Api::postRequestRundeck( '1/job/6f757271-a39e-4eb2-8f89-f6668033a262/run/', $post_body );
