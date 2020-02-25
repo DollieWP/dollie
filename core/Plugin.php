@@ -57,7 +57,6 @@ class Plugin extends Singleton {
 	}
 
 	public function plugins_loaded() {
-
 		//Load extras
 		require_once DOLLIE_PATH . 'core/Extras/wds-log-post/wds-log-post.php';
 
@@ -77,7 +76,6 @@ class Plugin extends Singleton {
 		LaunchSite::instance();
 		Options::instance();
 		PluginUpdates::instance();
-		Scripts::instance();
 		SecurityChecks::instance();
 		Tools::instance();
 		WelcomeWizard::instance();
