@@ -19,18 +19,18 @@ class Tools extends Singleton {
 	 */
 	public function __construct() {
 		parent::__construct();
-		add_action( 'gform_after_submission_1', [ $this, 'run_rundeck_tools_job' ], 10, 2 );
+		add_action( 'gform_after_submission_1', [ $this, 'run_worker_tools_job' ], 10, 2 );
 	}
 
-	public function run_rundeck_tools_job( $entry, $form ) {
+	public function run_worker_tools_job( $entry, $form ) {
 		$php = rgar( $entry, '2' );
 
 		if ( $php === 'php-5' ) {
-			ContainerManagement::instance()->start_rundeck_job( 'a98ea708-f42e-418c-bc35-1066fb533e8e' );
+			ContainerManagement::instance()->start_worker_job( 'a98ea708-f42e-418c-bc35-1066fb533e8e' );
 		}
 
 		if ( $php === 'php-7' ) {
-			ContainerManagement::instance()->start_rundeck_job( 'cf9d0568-e150-4f59-b014-b7c7d9ca5e46' );
+			ContainerManagement::instance()->start_worker_job( 'cf9d0568-e150-4f59-b014-b7c7d9ca5e46' );
 		}
 
 		?>

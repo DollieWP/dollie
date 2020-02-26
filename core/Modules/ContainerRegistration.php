@@ -22,8 +22,8 @@ class ContainerRegistration extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'wp', [ $this, 'add_rundeck_key' ] );
-		add_action( 'template_redirect', [ $this, 'add_rundeck_node' ], 10000 );
+		add_action( 'wp', [ $this, 'add_worker_key' ] );
+		add_action( 'template_redirect', [ $this, 'add_worker_node' ], 10000 );
 	}
 
 	private function get_string_between( $string, $start, $end ) {
@@ -38,33 +38,33 @@ class ContainerRegistration extends Singleton {
 		return substr( $string, $ini, $len );
 	}
 
-	public function add_rundeck_key() {
-		if ( get_option( 'wpd_rundeck_key' ) === false ) {
+	public function add_worker_key() {
+		if ( get_option( 'wpd_rundeck_key' ) === false  ) {
 			update_option( 'wpd_rundeck_key', dollie()->random_string( 12 ) );
 		}
 	}
 
-	public function add_rundeck_node() {
+	public function add_worker_node() {
 		if ( did_action( 'template_redirect' ) === 1 && is_singular( 'container' ) ) {
 			$currentQuery = dollie()->get_current_object();
-			$this->register_rundeck_node( $currentQuery->id );
+			$this->register_worker_node( $currentQuery->id );
 		}
 	}
 
-	public function get_rundeck_nodes() {
-		$update = Api::postRequestRundeck( '23/project/Dollie-Containers/source/1/resources?format=xml' );
+	public function get_worker_nodes() {
+		$update = Api::postRequestWorker( '23/project/Dollie-Containers/source/1/resources?format=xml' );
 
 		return wp_remote_retrieve_body( $update );
 	}
 
-	public function register_rundeck_node( $id = null ) {
+	public function register_worker_node( $id = null ) {
 		if ( $id === null ) {
 			$currentQuery = dollie()->get_current_object();
 			$post_id      = $currentQuery->id;
 		} else {
 			$post_id = $id;
 		}
-		$url = dollie()->get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
+		$url = dollie()->get_container_url( $post_id ) . '-' . DOLLIE_WORKER_KEY;
 
 		$is_node_added = get_post_meta( $post_id, 'wpd_node_added', true );
 		$ip            = get_post_meta( $post_id, 'wpd_container_ip', true );
@@ -79,14 +79,14 @@ class ContainerRegistration extends Singleton {
 			ob_start();
 			?>
             <node name="<?php echo $url; ?>" description="Deployed via <?php echo get_site_url(); ?>"
-                  tags="<?php echo DOLLIE_RUNDECK_KEY; ?>,<?php echo get_site_url(); ?>,<?php echo $email; ?>"
+                  tags="<?php echo DOLLIE_WORKER_KEY; ?>,<?php echo get_site_url(); ?>,<?php echo $email; ?>"
                   hostname="<?php echo $ip; ?>:<?php echo $port; ?>" username="root"/></project>
 			<?php
 			// Create our new node details
 			$new_node = ob_get_clean();
 
 			// Grab our existing node details
-			$all_nodes = $this->get_rundeck_nodes();
+			$all_nodes = $this->get_worker_nodes();
 
 			$update_nodes = str_replace( '</project>', $new_node, $all_nodes );
 
@@ -95,9 +95,9 @@ class ContainerRegistration extends Singleton {
 
 			// Set up the request
 			$update = wp_remote_post(
-				DOLLIE_RUNDECK_URL . '/api/23/project/Dollie-Containers/source/1/resources?format=xml', [
+				DOLLIE_WORKER_URL . '/api/23/project/Dollie-Containers/source/1/resources?format=xml', [
 					'headers' => [
-						'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
+						'X-Rundeck-Auth-Token' => DOLLIE_WORKER_TOKEN,
 						'Content-Type'         => 'text/xml',
 					],
 					'body'    => $request_body,
@@ -108,15 +108,15 @@ class ContainerRegistration extends Singleton {
 				Log::add( 'Node could not be registered for ' . $currentQuery->slug, print_r( $update, true ), 'error' );
 			} else {
 				update_post_meta( $post_id, 'wpd_node_added', 'yes' );
-				Log::add( $currentQuery->slug . ' was added as a Rundeck node' );
+				Log::add( $currentQuery->slug . ' was added as a Worker node' );
 			}
 		}
 	}
 
-	public function remove_rundeck_node( $id = null ) {
+	public function remove_worker_node( $id = null ) {
 		$currentQuery = dollie()->get_current_object();
 		$post_id      = $id === null ? $currentQuery->id : $id;
-		$url          = dollie()->get_container_url( $post_id ) . '-' . DOLLIE_RUNDECK_KEY;
+		$url          = dollie()->get_container_url( $post_id ) . '-' . DOLLIE_WORKER_KEY;
 
 		// Don't do anything if the transient is empty.
 		// Output buffer our Node details
@@ -128,7 +128,7 @@ class ContainerRegistration extends Singleton {
 		$new_node = ob_get_clean();
 
 		// Grab our existing node details
-		$all_nodes = $this->get_rundeck_nodes();
+		$all_nodes = $this->get_worker_nodes();
 
 		// Find the node we want to remove
 		$parsed = $this->get_string_between( $all_nodes, $new_node, '/>' );
@@ -143,18 +143,18 @@ class ContainerRegistration extends Singleton {
 
 		// Set up the request
 		wp_remote_post(
-			DOLLIE_RUNDECK_URL . '/api/3/project/dollie-platform/resources/', [
+			DOLLIE_WORKER_URL . '/api/3/project/dollie-platform/resources/', [
 				'headers' => [
-					'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
+					'X-Rundeck-Auth-Token' => DOLLIE_WORKER_TOKEN,
 					'Content-Type'         => 'text/xml',
 				],
 				'body'    => $request_body,
 			]
 		);
 
-		Log::add( $currentQuery->slug . ' was removed as a Rundeck node', '', 'undeploy' );
+		Log::add( $currentQuery->slug . ' was removed as a Worker node', '', 'undeploy' );
 
-		// Let's give Rundeck some time to complete
+		// Let's give Worker some time to complete
 		add_post_meta( $post_id, 'wpd_node_removed', 'yes', true );
 		delete_post_meta( $post_id, 'wpd_node_added' );
 	}

@@ -33,8 +33,6 @@ class LaunchSite extends Singleton {
 		add_action( 'wp_footer', [ $this, 'launch_splash' ] );
 		add_filter( 'gform_field_value_siteurl', [ $this, 'populate_site_url' ] );
 		add_action( 'template_redirect', [ $this, 'redirect_to_container_launch' ] );
-
-
 	}
 
 	public function add_new_site( $validation_result ) {
@@ -73,13 +71,11 @@ class LaunchSite extends Singleton {
 		if ( is_wp_error( $answer ) ) {
 			Log::add( $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $answer, true ), 'deploy' );
 
-			if ( $field->id === '1' ) {
-				$field_page = $field->pageNumber;
-				// validation failed
-				$validation_result['is_valid'] = false;
-				$field->failed_validation      = true;
-				$field->validation_message     = 'Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!';
-			}
+//			if ( $field->id === '1' ) {
+//				$validation_result['is_valid'] = false;
+//				$field->failed_validation      = true;
+//				$field->validation_message     = 'Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!';
+//			}
 		}
 
 		Log::add( $domain . ' API request made to Dollie install ' . DOLLIE_INSTALL . ' (see log)', print_r( $answer, true ), 'deploy' );
@@ -88,21 +84,17 @@ class LaunchSite extends Singleton {
 
 		// Show an error of S5 API can't add the Route.
 		if ( ! array_key_exists( 'id', $response ) ) {
-
-			if ( $field->id === '1' ) {
-				// validation failed
-				$validation_result['is_valid'] = false;
-				$field->failed_validation      = true;
-				$field->validation_message     = 'Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!';
-			}
+//			if ( $field->id === '1' ) {
+//				$validation_result['is_valid'] = false;
+//				$field->failed_validation      = true;
+//				$field->validation_message     = 'Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!';
+//			}
 		} else {
-
 			sleep( 5 );
 
-			// $deploy = Api::postRequestDollie( $response['id'] . '/deploy', $update_post_body, 120 );
+			$deploy = Api::postRequestDollie( $response['id'] . '/deploy', [], 120 );
 
-			// Todo: check this log
-			// Log::add( $domain . ' Creating Site Dollie (see log)' . $post_slug, print_r( $deploy, true ), 'deploy' );
+			//Log::add( $domain . ' Creating Site Dollie (see log)' . $post_slug, print_r( $deploy, true ), 'deploy' );
 
 			sleep( 20 );
 
@@ -127,17 +119,17 @@ class LaunchSite extends Singleton {
 
 			// Show an error of S5 API has not completed the setup.
 			if ( ! array_key_exists( 'id', $update_response ) ) {
-				if ( $field->id === '1' ) {
-					$validation_result['is_valid'] = false;
-					$field->failed_validation      = true;
-					$field->validation_message     = 'Sorry, It seems like there was an issue with launching your new site. Our support team has been notified';
-				}
+//				if ( $field->id === '1' ) {
+//					$validation_result['is_valid'] = false;
+//					$field->failed_validation      = true;
+//					$field->validation_message     = 'Sorry, It seems like there was an issue with launching your new site. Our support team has been notified';
+//				}
 			} else {
 				// Set the post ID so that we know the post was created successfully
 				$my_post = [
 					'comment_status' => 'closed',
 					'ping_status'    => 'closed',
-					'post_author'    => $user->id,
+					'post_author'    => get_current_user_id(),
 					'post_name'      => $domain,
 					'post_title'     => $domain,
 					'post_status'    => 'publish',
@@ -240,7 +232,7 @@ class LaunchSite extends Singleton {
 	}
 
 	public function launch_splash() {
-		if ( is_page_template( 'launch-site.php' ) ) {
+		if ( is_page( dollie()->get_launch_page_id() ) ) {
 			Tpl::load( DOLLIE_MODULE_TPL_PATH . 'launch-splash', [], true );
 		}
 	}
@@ -258,8 +250,8 @@ class LaunchSite extends Singleton {
 	}
 
 	public function redirect_to_container_launch() {
-		if ( ! is_page( 'launch-site' ) && current_user_can( 'manage_options' ) && dollie()->count_total_containers() === 0 ) {
-			wp_redirect( get_site_url() . '/launch-site' );
+		if ( ! is_page( dollie()->get_launch_page_id() ) && current_user_can( 'manage_options' ) && dollie()->count_total_containers() === 0 ) {
+			wp_redirect( get_permalink( dollie()->get_launch_page_id() ) );
 			exit;
 		}
 	}

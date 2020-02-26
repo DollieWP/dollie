@@ -168,11 +168,11 @@ class Backups extends Singleton {
 		if ( $backup_type ) {
 			// Only run the job on the container of the customer.
 			$post_body = [
-				'filter'    => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY,
+				'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
 				'argString' => '-backup ' . $backup
 			];
 
-			Api::postRequestRundeck( '1/job/' . $backup_type . '/run/', $post_body );
+			Api::postRequestWorker( '1/job/' . $backup_type . '/run/', $post_body );
 		}
 
 		?>
@@ -194,13 +194,13 @@ class Backups extends Singleton {
 		$currentQuery = dollie()->get_current_object();
 		$install      = dollie()->get_container_url();
 
-		// Success now send the Rundeck request
+		// Success now send the Worker request
 		// Only run the job on the container of the customer.
 		$post_body = [
-			'filter' => 'name: ' . $install . '-' . DOLLIE_RUNDECK_KEY
+			'filter' => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY
 		];
 
-		Api::postRequestRundeck( '1/job/6b51b1a4-bcc7-4c2c-a799-b024e561c87f/run/', $post_body );
+		Api::postRequestWorker( '1/job/6b51b1a4-bcc7-4c2c-a799-b024e561c87f/run/', $post_body );
 		Log::add( $currentQuery->slug . ' has triggered a backup', '', 'action' );
 	}
 

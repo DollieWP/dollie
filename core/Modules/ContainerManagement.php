@@ -25,7 +25,7 @@ class ContainerManagement extends Singleton {
 		add_action( 'init', [ $this, 'register_container' ], 0 );
 		add_action( 'template_redirect', [ $this, 'bypass_output_caching' ] );
 		add_action( 'template_redirect', [ $this, 'run_container_actions' ] );
-		add_action( 'gform_after_submission_3', [ $this, 'show_rundeck_output' ], 10, 2 );
+		add_action( 'gform_after_submission_3', [ $this, 'show_worker_output' ], 10, 2 );
 		add_action( 'template_redirect', [ $this, 'fetch_container_details' ] );
 		add_action( 'template_redirect', [ $this, 'update_container_details' ] );
 		add_action( 'untrashed_post', [ $this, 'run_container_untrash_action' ] );
@@ -189,14 +189,15 @@ class ContainerManagement extends Singleton {
 		return $request;
 	}
 
-	public function start_rundeck_job( $job_id ) {
+	public function start_worker_job( $job_id ) {
 		$currentQuery = dollie()->get_current_object();
+		$install = dollie()->get_container_url();
 
 		$post_body = [
-			'filter' => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
+			'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
 		];
 
-		Api::postRequestRundeck( '1/job/' . $job_id . '/run/', $post_body );
+		Api::postRequestWorker( '1/job/' . $job_id . '/run/', $post_body );
 	}
 
 	public function run_container_actions() {
@@ -205,40 +206,40 @@ class ContainerManagement extends Singleton {
 			return;
 		}
 
-		// Trigger the right Rundeck Action
+		// Trigger the right Worker Action
 		if ( isset( $_POST['install-plugin'] ) ) {
-			$this->start_rundeck_job( '1fcf1bdb-95a4-4ecb-bc46-78382f5a930b' );
+			$this->start_worker_job( '1fcf1bdb-95a4-4ecb-bc46-78382f5a930b' );
 		}
 
-		// Trigger the right Rundeck Action
+		// Trigger the right Worker Action
 		if ( isset( $_POST['switch-to-php-5'] ) ) {
-			$this->start_rundeck_job( 'a98ea708-f42e-418c-bc35-1066fb533e8e' );
+			$this->start_worker_job( 'a98ea708-f42e-418c-bc35-1066fb533e8e' );
 		}
 
-		// Trigger the right Rundeck Action
+		// Trigger the right Worker Action
 		if ( isset( $_POST['create-new-backup'] ) ) {
-			$this->start_rundeck_job( '5b51b1a4-bcc7-4c2c-a799-b024e561c87f' );
+			$this->start_worker_job( '5b51b1a4-bcc7-4c2c-a799-b024e561c87f' );
 		}
 
-		// Trigger the right Rundeck Action
+		// Trigger the right Worker Action
 		if ( isset( $_POST['switch-to-php-7'] ) ) {
-			$this->start_rundeck_job( 'cf9d0568-e150-4f59-b014-b7c7d9ca5e46' );
+			$this->start_worker_job( 'cf9d0568-e150-4f59-b014-b7c7d9ca5e46' );
 		}
 
 		// Caching Method = Super Cache
 		if ( isset( $_POST['caching-wpsc'] ) ) {
-			$this->start_rundeck_job( '00beea1e-fe15-436b-872e-43ead65c8c51' );
+			$this->start_worker_job( '00beea1e-fe15-436b-872e-43ead65c8c51' );
 		}
 	}
 
-	public function show_rundeck_output( $entry, $form ) {
-		$currentQuery = dollie()->get_current_object();
+	public function show_worker_output( $entry, $form ) {
+		$install = dollie()->get_container_url();
 
 		$post_body = [
-			'filter' => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY
+			'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
 		];
 
-		$update = Api::postRequestRundeck( '1/job/6f757271-a39e-4eb2-8f89-f6668033a262/run/', $post_body );
+		$update = Api::postRequestWorker( '1/job/6f757271-a39e-4eb2-8f89-f6668033a262/run/', $post_body );
 
 		// Parse the JSON request
 		$answer = wp_remote_retrieve_body( $update );
@@ -251,7 +252,7 @@ class ContainerManagement extends Singleton {
 		sleep( 6 );
 
 		// Set up the request
-		$update = Api::postRequestRundeck( '5/execution/' . $execution_id . '/output?format=text' );
+		$update = Api::postRequestWorker( '5/execution/' . $execution_id . '/output?format=text' );
 
 		// Parse the JSON request
 		$answer = wp_remote_retrieve_body( $update );
@@ -326,7 +327,7 @@ class ContainerManagement extends Singleton {
 				delete_post_meta( $post_id, 'wpd_scheduled_for_removal' );
 				delete_post_meta( $post_id, 'wpd_undeploy_container_at' );
 				delete_post_meta( $post_id, 'wpd_scheduled_for_undeployment' );
-				ContainerRegistration::instance()->remove_rundeck_node( $post_id );
+				ContainerRegistration::instance()->remove_worker_node( $post_id );
 				wp_trash_post( $post_id );
 
 				Log::add( $site . ' was undeployed', '', 'undeploy' );

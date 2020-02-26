@@ -111,6 +111,7 @@ class DomainWizard extends Singleton {
 
 	public function domain_wizard_add_cloudflare( $validation_result ) {
 		$currentQuery = dollie()->get_current_object();
+		$install = dollie()->get_container_url();
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
 		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
@@ -154,14 +155,14 @@ class DomainWizard extends Singleton {
 					}
 				}
 				if ( isset( $response['result']['id'] ) ) {
-					// Success now send the Rundeck request
+					// Success now send the Worker request
 					// This job will install + activate the CloudFlare plugin and populate the email + API key fields for the CloudFlare Options.
 					$post_body = [
-						'filter'    => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+						'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
 						'argString' => '-email ' . $email . ' -key ' . $api_key
 					];
 
-					Api::postRequestRundeck( '1/job/3725d807-435e-400c-8679-2a438f765002/run/', $post_body );
+					Api::postRequestWorker( '1/job/3725d807-435e-400c-8679-2a438f765002/run/', $post_body );
 
 					// All done, update user meta!
 					update_post_meta( $currentQuery->id, 'wpd_cloudflare_email', $email );
@@ -261,11 +262,11 @@ class DomainWizard extends Singleton {
 			}
 
 			$post_body = [
-				'filter'    => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
+				'filter'    => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_WORKER_KEY,
 				'argString' => '-install ' . $currentQuery->slug . DOLLIE_DOMAIN . ' -domain ' . $domain
 			];
 
-			$update = Api::postRequestRundeck( '1/job/ba12c626-a9aa-4abc-b239-278238f1b2a9/run/', $post_body );
+			$update = Api::postRequestWorker( '1/job/ba12c626-a9aa-4abc-b239-278238f1b2a9/run/', $post_body );
 
 			$answer = wp_remote_retrieve_body( $update );
 
@@ -294,7 +295,7 @@ class DomainWizard extends Singleton {
 				}
 			}
 
-			// We will add an artificial delay because if we're dealing with a big database it could take a bit of time to run the search and replace via the Rundeck/WP-CLI command.
+			// We will add an artificial delay because if we're dealing with a big database it could take a bit of time to run the search and replace via the Worker/WP-CLI command.
 			sleep( 20 );
 		}
 
