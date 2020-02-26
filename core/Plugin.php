@@ -44,6 +44,8 @@ class Plugin extends Singleton {
 		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
 
 		add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ] );
+
+		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
 	}
 
 
@@ -87,6 +89,10 @@ class Plugin extends Singleton {
 		Shortcodes\Orders::instance();
 		Shortcodes\Sites::instance();
 
+	}
+
+	public function acf_add_local_field_groups() {
+		require DOLLIE_PATH . 'core/Extras/ACF-fields.php';
 	}
 
 
