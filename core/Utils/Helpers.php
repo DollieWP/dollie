@@ -463,7 +463,7 @@ class Helpers extends Singleton {
 		return $array;
 	}
 
-	public function formatSizeUnits( $bytes ) {
+	public function format_size_units( $bytes ) {
 		if ( $bytes >= 1073741824 ) {
 			$bytes = number_format( $bytes / 1073741824, 2 );
 		} elseif ( $bytes >= 1048576 ) {
