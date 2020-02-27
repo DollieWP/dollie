@@ -356,13 +356,11 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function sync_containers() {
-		$site_url = get_site_url();
-
 		// Get list of container from remote API
-		$server_containers = Api::getRequestDollie( '', 30 );
+		$api_result = Api::getRequestDollie( '', 30 );
 
 		// Convert JSON into array.
-		$server_containers = json_decode( wp_remote_retrieve_body( $server_containers ), true );
+		$server_containers = json_decode( wp_remote_retrieve_body( $api_result ), true );
 
 		foreach ( $server_containers as $key => $server_container ) {
 
@@ -379,18 +377,24 @@ class ContainerManagement extends Singleton {
 			] );
 
 			// Get email from the description field and then find author ID based on email.
-			$description     = explode( '|', $server_container['description'], 2 );
-			$email           = trim( $description[0] );
-			$author          = get_user_by( 'email', $email );
+			$description = explode( '|', $server_container['description'], 2 );
+			$email       = trim( $description[0] );
+			$author      = get_user_by( 'email', $email );
+
+			if ( ! $author ) {
+				$author = wp_get_current_user();
+			}
+
 			$full_url        = parse_url( $server_container['uri'] );
 			$stripped_domain = explode( '.', $full_url['host'] );
 			$domain          = $stripped_domain[0];
 
+			$container_post_id = false;
+
 			// If any such container found, update the container author ID based on the email in the "description" field from server's container.
 			if ( $client_containers ) {
 				foreach ( $client_containers as $client_container ) {
-
-				    $container_post_id = $client_container->ID;
+					$container_post_id = $client_container->ID;
 
 					// Update author field of all containers.
 					wp_update_post( [
@@ -427,8 +431,8 @@ class ContainerManagement extends Singleton {
 			}
 
 			// If the container is not deployed -> trash it.
-			if ( $server_container['status'] !== 'Running' ) {
-			    wp_trash_post( $container_post_id );
+			if ( $server_container['status'] !== 'Running' && $container_post_id ) {
+				wp_trash_post( $container_post_id );
 			}
 
 		}

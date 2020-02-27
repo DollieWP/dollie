@@ -71,10 +71,10 @@ class Blueprints extends Singleton {
 
 	public function deploy_new_blueprint( $entry, $form ) {
 		$currentQuery = dollie()->get_current_object();
-		$install = dollie()->get_container_url();
+		$install      = dollie()->get_container_url();
 
 		$post_body = [
-			'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
+			'filter' => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
 		];
 
 		Api::postRequestWorker( '1/job/b2fcd68d-3dab-4faf-95d8-6958c5811bae/run/', $post_body );
@@ -89,13 +89,6 @@ class Blueprints extends Singleton {
 		foreach ( $form['fields'] as $field ) {
 			if ( $field['type'] !== 'radio' || strpos( $field['cssClass'], 'site-blueprints' ) === false ) {
 				continue;
-			}
-
-			$blueprint_cookie = $_COOKIE['dollie_blueprint_id'];
-			if ( $blueprint_cookie ) {
-				$blueprint = $blueprint_cookie;
-			} else {
-				$blueprint = '';
 			}
 
 			// Get our available blueprints
@@ -119,7 +112,7 @@ class Blueprints extends Singleton {
 						'compare' => 'EXISTS',
 					]
 				],
-				'p'              => $blueprint,
+				'p'              => isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : '',
 			] );
 
 			$choices = [];
