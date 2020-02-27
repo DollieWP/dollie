@@ -57,14 +57,32 @@ class CheckSubscription extends Singleton {
 		return count( $results ) > 0;
 	}
 
+	/**
+	 * Get subscriptions for customer
+	 *
+	 * @param $customer_id
+	 * @param string $status
+	 * @param int $resources
+	 *
+	 * @return array|bool
+	 */
 	public function get_customer_subscriptions( $customer_id, $status = 'any', $resources = 0 ) {
+
+		$resources_allocated = [];
+		$active_plans        = [];
+
+		if ( ! function_exists( 'wcs_get_subscriptions' ) ) {
+			return false;
+		}
+
 		$subscriptions = wcs_get_subscriptions( [
 			'customer_id'         => $customer_id,
 			'subscription_status' => $status
 		] );
 
-		$resources_allocated = [];
-		$active_plans        = [];
+		if ( ! $subscriptions ) {
+			return false;
+		}
 
 		foreach ( $subscriptions as $subscription_id => $subscription ) {
 			// Getting the related Order ID
@@ -469,7 +487,12 @@ class CheckSubscription extends Singleton {
 
 	public function sites_available() {
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
-		$total_site   = dollie()->count_customer_containers();
+
+		if ( ! $subscription ) {
+			return 0;
+		}
+
+		$total_site = dollie()->count_customer_containers();
 
 		return $subscription['max_allowed_installs'] - $total_site;
 	}
@@ -477,11 +500,20 @@ class CheckSubscription extends Singleton {
 	public function storage_available() {
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
 
+
+		if ( ! $subscription ) {
+			return 0;
+		}
+
 		return $subscription['max_allowed_size'];
 	}
 
 	public function subscription_name() {
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
+
+		if ( ! $subscription ) {
+			return esc_html__( 'None', 'dollie' );
+		}
 
 		return $subscription['name'];
 	}
@@ -492,13 +524,22 @@ class CheckSubscription extends Singleton {
 		}
 
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
-		$total_site   = dollie()->count_customer_containers();
+
+		if ( ! $subscription ) {
+			return false;
+		}
+
+		$total_site = dollie()->count_customer_containers();
 
 		return $this->has_subscription() && $subscription['max_allowed_installs'] - $total_site <= 0 && ! current_user_can( 'manage_options' ) && get_option( 'options_wpd_charge_for_deployments' ) === '1';
 	}
 
 	public function get_excluded_blueprints() {
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 0 );
+
+		if ( ! $subscription ) {
+			return false;
+		}
 
 		$get_first = $subscription['products'];
 		$product   = reset( $get_first );
@@ -509,6 +550,9 @@ class CheckSubscription extends Singleton {
 	public function get_included_blueprints() {
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 0 );
 
+		if ( ! $subscription ) {
+			return false;
+		}
 
 		$get_first = $subscription['products'];
 		$product   = reset( $get_first );
@@ -522,6 +566,11 @@ class CheckSubscription extends Singleton {
 		}
 
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
+
+		if ( ! $subscription ) {
+			return true;
+		}
+
 		$total_size   = dollie()->get_total_container_size();
 		$allowed_size = $subscription['max_allowed_size'] * 1024 * 1024 * 1024;
 
