@@ -191,10 +191,10 @@ class ContainerManagement extends Singleton {
 
 	public function start_worker_job( $job_id ) {
 		$currentQuery = dollie()->get_current_object();
-		$install = dollie()->get_container_url();
+		$install      = dollie()->get_container_url();
 
 		$post_body = [
-			'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
+			'filter' => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
 		];
 
 		Api::postRequestWorker( '1/job/' . $job_id . '/run/', $post_body );
@@ -236,7 +236,7 @@ class ContainerManagement extends Singleton {
 		$install = dollie()->get_container_url();
 
 		$post_body = [
-			'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
+			'filter' => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
 		];
 
 		$update = Api::postRequestWorker( '1/job/6f757271-a39e-4eb2-8f89-f6668033a262/run/', $post_body );
@@ -365,69 +365,72 @@ class ContainerManagement extends Singleton {
 		$server_containers = json_decode( wp_remote_retrieve_body( $server_containers ), true );
 
 		foreach ( $server_containers as $key => $server_container ) {
-			// Filter out only the containers having given site url in description.
-			if ( strpos( $server_container['description'], $site_url ) ) {
 
-				// Get container from client's WP install with the server's container ID
-				$client_containers = get_posts( [
-					'post_type'  => 'container',
-					'meta_query' => [
-						[
-							'key'     => 'wpd_container_id',
-							'value'   => $server_container['id'],
-							'compare' => '=',
-						],
-					]
-				] );
+			// Get container from client's WP install with the server's container ID
+			$client_containers = get_posts( [
+				'post_type'  => 'container',
+				'meta_query' => [
+					[
+						'key'     => 'wpd_container_id',
+						'value'   => $server_container['id'],
+						'compare' => '=',
+					],
+				]
+			] );
 
-				// Get email from the description field and then find author ID based on email.
-				$description     = explode( '|', $server_container['description'], 2 );
-				$email           = trim( $description[0] );
-				$author          = get_user_by( 'email', $email );
-				$full_url        = parse_url( $server_container['uri'] );
-				$stripped_domain = explode( '.', $full_url['host'] );
-				$domain          = $stripped_domain[0];
+			// Get email from the description field and then find author ID based on email.
+			$description     = explode( '|', $server_container['description'], 2 );
+			$email           = trim( $description[0] );
+			$author          = get_user_by( 'email', $email );
+			$full_url        = parse_url( $server_container['uri'] );
+			$stripped_domain = explode( '.', $full_url['host'] );
+			$domain          = $stripped_domain[0];
 
-				// If any such container found, update the container author ID based on the email in the "description" field from server's container.
-				if ( $client_containers ) {
-					foreach ( $client_containers as $client_container ) {
+			// If any such container found, update the container author ID based on the email in the "description" field from server's container.
+			if ( $client_containers ) {
+				foreach ( $client_containers as $client_container ) {
 
-						// Update author field of all containers.
-						wp_update_post( [
-							'ID'          => $client_container->ID,
-							'post_author' => $author->ID,
-							'post_name'   => $domain,
-							'post_title'  => $domain,
-						] );
-					}
-				} else {
-					// If no such container found, create one with deatils from server's container.
-					// Add new container post to client's WP
-					wp_insert_post( [
-						'post_type'   => 'container',
-						'post_status' => 'publish',
+				    $container_post_id = $client_container->ID;
+
+					// Update author field of all containers.
+					wp_update_post( [
+						'ID'          => $client_container->ID,
+						'post_author' => $author->ID,
 						'post_name'   => $domain,
 						'post_title'  => $domain,
-						'post_author' => $author->ID,
-						'meta_input'  => [
-							'wpd_container_id'          => $server_container['id'],
-							'wpd_container_user'        => $server_container['containerSshUsername'],
-							'wpd_container_port'        => $server_container['containerSshPort'],
-							'wpd_container_password'    => $server_container['containerSshPassword'],
-							'wpd_container_ip'          => $server_container['containerHostIpAddress'],
-							'wpd_container_status'      => $server_container['status'],
-							'wpd_container_launched_by' => $email,
-							'wpd_container_deploy_time' => $server_container['deployedAt'],
-							'wpd_container_uri'         => $server_container['uri'],
-							'wpd_node_added'            => 'yes',
-							'wpd_setup_complete'        => 'yes',
-							'wpd_refetch_secret_key'    => 'yes',
-						],
 					] );
 				}
 			} else {
-				unset( $server_containers[ $key ] );
+				// If no such container found, create one with deatils from server's container.
+				// Add new container post to client's WP
+				$container_post_id = wp_insert_post( [
+					'post_type'   => 'container',
+					'post_status' => 'publish',
+					'post_name'   => $domain,
+					'post_title'  => $domain,
+					'post_author' => $author->ID,
+					'meta_input'  => [
+						'wpd_container_id'          => $server_container['id'],
+						'wpd_container_user'        => $server_container['containerSshUsername'],
+						'wpd_container_port'        => $server_container['containerSshPort'],
+						'wpd_container_password'    => $server_container['containerSshPassword'],
+						'wpd_container_ip'          => $server_container['containerHostIpAddress'],
+						'wpd_container_status'      => $server_container['status'],
+						'wpd_container_launched_by' => $email,
+						'wpd_container_deploy_time' => $server_container['deployedAt'],
+						'wpd_container_uri'         => $server_container['uri'],
+						'wpd_node_added'            => 'yes',
+						'wpd_setup_complete'        => 'yes',
+						'wpd_refetch_secret_key'    => 'yes',
+					],
+				] );
 			}
+
+			// If the container is not deployed -> trash it.
+			if ( $server_container['status'] !== 'Running' ) {
+			    wp_trash_post( $container_post_id );
+			}
+
 		}
 
 		return $server_containers;
