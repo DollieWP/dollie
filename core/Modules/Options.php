@@ -341,7 +341,9 @@ class Options extends Singleton {
 			'<span class="dashicons dashicons-awards"></span> Integrations',
 			'manage_options',
 			'dollie-integrations',
-			'dollie-integrations'
+			static function () {
+				return false;
+			}
 		);
 	}
 
