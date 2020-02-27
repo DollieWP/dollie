@@ -13,7 +13,7 @@
     </li>
     <li>
 		<?php
-		sprintf(
+		printf(
 			__( 'Go to your Domain name <strong>%s</strong> and go to the DNS Manager', DOLLIE_SLUG ),
 			$has_domain
 		);
@@ -21,7 +21,7 @@
     </li>
     <li>
 		<?php
-		sprintf(
+		printf(
 			__( 'Replace the IP address for the <strong>"A"</strong> <strong>%s</strong> record with the following IP address: <strong>%s</strong>', DOLLIE_SLUG ),
 			$has_domain,
 			$ip
