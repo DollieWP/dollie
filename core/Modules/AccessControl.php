@@ -55,7 +55,7 @@ class AccessControl extends Singleton {
 		}
 	}
 
-	//Todo - Demo functionality can be removed
+	// Todo - Demo functionality can be removed
 	public function protect_container_access() {
 		$currentQuery = dollie()->get_current_object();
 		$post_id      = $currentQuery->id;
@@ -65,7 +65,6 @@ class AccessControl extends Singleton {
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			global $post, $current_user;
-			get_currentuserinfo();
 
 			if ( $post->post_author !== $current_user->ID && is_singular( 'container' ) ) {
 
