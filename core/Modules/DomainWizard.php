@@ -111,7 +111,7 @@ class DomainWizard extends Singleton {
 
 	public function domain_wizard_add_cloudflare( $validation_result ) {
 		$currentQuery = dollie()->get_current_object();
-		$install = dollie()->get_container_url();
+		$install      = dollie()->get_container_url();
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
 		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
@@ -369,16 +369,20 @@ class DomainWizard extends Singleton {
 		$ip           = get_post_meta( $currentQuery->id, 'wpd_container_ip', true );
 		$platform_url = get_post_meta( $currentQuery->id, 'wpd_url', true );
 
-		if ( $field->id === 40 ) {
+		if ( $field->id === 40 || $field->label === 'DNS Instructions' ) {
 			$tpl = 'wizard/link-domain';
 		}
 
-		if ( $field->id === 43 ) {
+		if ( $field->id === 43 || $field->label === 'Replace Rundeck' ) {
 			$tpl = 'wizard/update-url';
 		}
 
-		if ( $field->id === 57 ) {
+		if ( $field->id === 57 || $field->label === 'Migration completed' ) {
 			$tpl = 'wizard/completed';
+		}
+
+		if ( $tpl === '' ) {
+			return '';
 		}
 
 		return Tpl::load( DOLLIE_MODULE_TPL_PATH . $tpl, [

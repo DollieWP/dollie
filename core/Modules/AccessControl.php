@@ -43,13 +43,13 @@ class AccessControl extends Singleton {
 
 	public function logged_in_only() {
 		if ( ! is_user_logged_in() && ( is_singular( 'container' ) || is_page( 'dashboard' ) ) ) {
-			wp_redirect(get_permalink(dollie()->get_login_page_id()));
+			wp_redirect( get_permalink( dollie()->get_login_page_id() ) );
 			exit;
 		}
 	}
 
 	public function protect_launch_site() {
-		if ( ! is_user_logged_in() && is_page(dollie()->get_launch_page_id() ) ) {
+		if ( ! is_user_logged_in() && is_page( dollie()->get_launch_page_id() ) ) {
 			wp_redirect( get_permalink( dollie()->get_dashboard_page_id() ) );
 			exit();
 		}
@@ -105,6 +105,8 @@ class AccessControl extends Singleton {
 	}
 
 	public function restrict_gravity_form_edit() {
+
+		return;
 		$dollie_form_ids = dollie()->get_dollie_gravity_form_ids();
 
 		$restrictions = [];
@@ -155,10 +157,16 @@ class AccessControl extends Singleton {
 			'6'  => 'dollie-wizard',
 			'10' => 'dollie-domain',
 		];
+		/* TODO MAP existing form IDS from Panel */
+		$hidden_fields = apply_filters( 'dollie_gravity_forms_hidden_fields', $hidden_fields );
 
 		foreach ( $hidden_fields as $form_id => $field_label ) {
 			// Get the form object.
 			$form = \GFAPI::get_form( $form_id );
+
+			if ( ! $form ) {
+				continue;
+			}
 
 			// Get next available field ID.
 			$new_field_id = 0;

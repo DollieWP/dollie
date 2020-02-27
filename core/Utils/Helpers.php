@@ -28,11 +28,16 @@ class Helpers extends Singleton {
 	 * @return \stdClass
 	 */
 	public function get_current_object() {
-		$object = get_queried_object();
+		$object   = get_queried_object();
+		$response = new \stdClass();
 
-		$response       = new \stdClass();
-		$response->id   = $object->ID;
-		$response->slug = $object->post_name;
+		if ( isset( $object->ID ) ) {
+			$response->id   = $object->ID;
+			$response->slug = $object->post_name;
+		} else {
+			$response->id   = 0;
+			$response->slug = '';
+		}
 
 		return $response;
 	}
@@ -270,21 +275,17 @@ class Helpers extends Singleton {
 		return (bool) get_option( 'options_wpd_dollie_status' );
 	}
 
-	public function get_launch_page_id()
-	{
-		return get_option('options_wpd_launch_page_id');
+	public function get_launch_page_id() {
+		return get_option( 'options_wpd_launch_page_id' );
 	}
 
-	public function get_dashboard_page_id()
-	{
-		return get_option('options_wpd_dashboard_page_id');
+	public function get_dashboard_page_id() {
+		return get_option( 'options_wpd_dashboard_page_id' );
 	}
 
-	public function get_login_page_id()
-	{
-		return get_option('options_wpd_login_page_id');
+	public function get_login_page_id() {
+		return get_option( 'options_wpd_login_page_id' );
 	}
-
 
 
 	public function could_not_connect_message() {
@@ -438,13 +439,12 @@ class Helpers extends Singleton {
 	}
 
 	public function get_customer_container_details() {
-	    return ContainerManagement::instance()->get_customer_container_details();
-    }
+		return ContainerManagement::instance()->get_customer_container_details();
+	}
 
 	public function container_api_request( $url, $transient_id, $user_auth, $user_pass ) {
 		return ContainerManagement::instance()->container_api_request( $url, $transient_id, $user_auth, $user_pass );
 	}
-
 
 
 	public function get_total_container_size() {
