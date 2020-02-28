@@ -568,7 +568,7 @@ class CheckSubscription extends Singleton {
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
 
 		if ( ! $subscription ) {
-			return true;
+			return false;
 		}
 
 		$total_size   = dollie()->get_total_container_size();
