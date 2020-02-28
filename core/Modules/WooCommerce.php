@@ -73,7 +73,7 @@ class WooCommerce extends Singleton {
 		if ( isset( $_COOKIE['dollie_blueprint_id'] ) && $_COOKIE['dollie_blueprint_id'] ) {
 			$order = new WC_Order( $order_id );
 			if ( $order->status !== 'failed' ) {
-				wp_redirect( get_permalink(dollie()->get_launch_page_id()) . '?payment-status=success&blueprint_id=' . $_COOKIE['dollie_blueprint_id'] );
+				wp_redirect( dollie()->get_launch_page_url() . '?payment-status=success&blueprint_id=' . $_COOKIE['dollie_blueprint_id'] );
 				exit;
 			}
 		}

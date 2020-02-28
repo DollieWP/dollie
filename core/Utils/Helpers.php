@@ -279,6 +279,10 @@ class Helpers extends Singleton {
 		return get_option( 'options_wpd_launch_page_id' );
 	}
 
+	public function get_launch_page_url() {
+		return get_permalink( $this->get_launch_page_id() );
+	}
+
 	public function get_dashboard_page_id() {
 		return get_option( 'options_wpd_dashboard_page_id' );
 	}
@@ -286,7 +290,6 @@ class Helpers extends Singleton {
 	public function get_login_page_id() {
 		return get_option( 'options_wpd_login_page_id' );
 	}
-
 
 	public function could_not_connect_message() {
 		?>
