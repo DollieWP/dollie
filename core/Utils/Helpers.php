@@ -336,9 +336,16 @@ class Helpers extends Singleton {
 		return $keys;
 	}
 
-	public function get_dollie_gravity_form_ids( $label = 'dollie-' ) {
+	public function get_dollie_gravity_form_ids( $label = 'dollie-', $cached = true ) {
 		if ( ! class_exists( \GFAPI::class ) ) {
 			return [];
+		}
+
+		// Get cached data
+		$transient = get_transient( 'dollie_gform_ids' ) ?: [];
+
+		if ( $cached && isset( $transient[ $label ] ) ) {
+			return $transient[ $label ];
 		}
 
 		$forms           = \GFAPI::get_forms();
@@ -357,6 +364,9 @@ class Helpers extends Singleton {
 				$dollie_form_ids[] = $form['id'];
 			}
 		}
+
+		$transient[ $label ] = $dollie_form_ids;
+		set_transient( 'dollie_gform_ids', $transient );
 
 		return $dollie_form_ids;
 	}
