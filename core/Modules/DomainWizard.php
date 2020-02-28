@@ -42,7 +42,8 @@ class DomainWizard extends Singleton {
 			'change_message'
 		], dollie()->get_dollie_gravity_form_ids( 'dollie-domain' )[0], 2 );
 
-		add_filter( 'gform_field_input', [ $this, 'populate_instruction_fields' ], 10, 5 );
+		add_action( 'gform_admin_pre_render', [ $this, 'gform_add_merge_tags' ] );
+		add_filter( 'gform_replace_merge_tags', [ $this, 'gform_replace_tags' ], 10, 7 );
 
 		$this->register_confirmation_fields( dollie()->get_dollie_gravity_form_ids( 'dollie-domain' ), [
 			55,
@@ -356,41 +357,106 @@ class DomainWizard extends Singleton {
 		<?php
 	}
 
-	public function populate_instruction_fields( $input, $field, $value, $lead_id, $form_id ) {
-		$currentQuery = dollie()->get_current_object();
-		$form_ids     = dollie()->get_dollie_gravity_form_ids( 'dollie-domain' );
+	/**
+	 * Register our own tags for Gravity forms
+	 *
+	 * @param $form
+	 *
+	 * @return mixed
+	 */
+	public function gform_add_merge_tags( $form ) { ?>
+        <script type="text/javascript">
+            gform.addFilter('gform_merge_tags', 'dollie_add_merge_tags');
 
-		if ( $form_id !== $form_ids[0] ) {
-			return $input;
-		}
+            function dollie_add_merge_tags(mergeTags, elementId, hideAllFields, excludeFieldTypes, isPrepop, option) {
+                mergeTags["custom"].tags.push(
+                    {
+                        tag: '{dollie_tpl_migrate_completed}',
+                        label: 'Dollie Template Migration Complete?'
+                    },
+                    {
+                        tag: '{dollie_tpl_link_domain}',
+                        label: 'Dollie Template Link Domain'
+                    },
+                    {
+                        tag: '{dollie_tpl_update_url}',
+                        label: 'Dollie Template Update URL'
+                    },
+                    {
+                        tag: '{dollie_container_ip}',
+                        label: 'Dollie Container IP'
+                    },
+                    {
+                        tag: '{dollie_container_url}',
+                        label: 'Dollie Container URL'
+                    },
+                    {
+                        tag: '{dollie_container_domain}',
+                        label: 'Dollie Container Domain'
+                    }
+                );
+                return mergeTags;
+            }
 
-		$tpl          = '';
-		$has_domain   = get_post_meta( $currentQuery->id, 'wpd_domains', true );
-		$ip           = get_post_meta( $currentQuery->id, 'wpd_container_ip', true );
-		$platform_url = get_post_meta( $currentQuery->id, 'wpd_url', true );
-
-		if ( $field->id === 40 || $field->label === 'DNS Instructions' ) {
-			$tpl = 'wizard/link-domain';
-		}
-
-		if ( $field->id === 43 || $field->label === 'Replace Rundeck' ) {
-			$tpl = 'wizard/update-url';
-		}
-
-		if ( $field->id === 57 || $field->label === 'Migration completed' ) {
-			$tpl = 'wizard/completed';
-		}
-
-		if ( $tpl === '' ) {
-			return '';
-		}
-
-		return Tpl::load( DOLLIE_MODULE_TPL_PATH . $tpl, [
-			'has_domain'   => $has_domain,
-			'ip'           => $ip,
-			'platform_url' => $platform_url
-		] );
+        </script>
+		<?php
+		return $form;
 	}
+
+	/**
+	 * Replace gravity forms custom tags
+	 *
+	 * @param string $text
+	 * @param $form
+	 * @param $entry
+	 * @param $url_encode
+	 * @param $esc_html
+	 * @param $nl2br
+	 * @param $format
+	 *
+	 * @return string
+	 */
+	function gform_replace_tags( $text, $form, $entry, $url_encode, $esc_html, $nl2br, $format ) {
+
+		$currentQuery = dollie()->get_current_object();
+		if ( ! $currentQuery->id ) {
+			return $text;
+		}
+		$ip     = get_post_meta( $currentQuery->id, 'wpd_container_ip', true ) ?: '';
+		$domain = get_post_meta( $currentQuery->id, 'wpd_domains', true ) ?: '';
+		$url    = get_post_meta( $currentQuery->id, 'wpd_url', true ) ?: '';
+
+		$tags = [
+			'{dollie_container_ip}'     => $ip,
+			'{dollie_container_url}'    => $url,
+			'{dollie_container_domain}' => $domain,
+			'{dollie_tpl_migrate_completed}' => Tpl::load( DOLLIE_MODULE_TPL_PATH . 'wizard/completed', [
+				'has_domain'   => $domain,
+				'ip'           => $ip,
+				'platform_url' => $url
+			] ),
+			'{dollie_tpl_link_domain}' => Tpl::load( DOLLIE_MODULE_TPL_PATH . 'wizard/link-domain', [
+				'has_domain'   => $domain,
+				'ip'           => $ip,
+				'platform_url' => $url
+			] ),
+			'{dollie_tpl_update_url}' => Tpl::load( DOLLIE_MODULE_TPL_PATH . 'wizard/update-url', [
+				'has_domain'   => $domain,
+				'ip'           => $ip,
+				'platform_url' => $url
+			] ),
+
+		];
+
+		foreach ( $tags as $tag_name => $tag_value ) {
+			if ( strpos( $text, $tag_name ) !== false ) {
+				$text = str_replace( $tag_name, $tag_value, $text );
+			}
+		}
+
+		return $text;
+	}
+
 
 	public function complete_migration_wizard( $form, $source_page_number, $current_page_number ) {
 		if ( $current_page_number > 6 ) {

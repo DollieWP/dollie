@@ -26,9 +26,13 @@ class AccessControl extends Singleton {
 
 		add_filter( 'wp_dropdown_users_args', [ $this, 'allow_all_authors' ], 10, 2 );
 		add_action( 'admin_init', [ $this, 'no_admin_access' ], 100 );
-		add_action( 'admin_init', [ $this, 'restrict_gravity_form_edit' ] );
 		add_action( 'admin_init', [ $this, 'add_hidden_fields' ] );
 		add_action( 'wp', [ $this, 'block_access' ] );
+
+		if ( ! defined( 'DOLLIE_DEV' ) || ! DOLLIE_DEV ) {
+			add_action( 'admin_init', [ $this, 'restrict_gravity_form_edit' ] );
+		}
+
 	}
 
 	public function get_available_sections() {
@@ -106,7 +110,6 @@ class AccessControl extends Singleton {
 
 	public function restrict_gravity_form_edit() {
 
-		return;
 		$dollie_form_ids = dollie()->get_dollie_gravity_form_ids();
 
 		$restrictions = [];
