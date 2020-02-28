@@ -75,7 +75,7 @@ class LaunchSite extends Singleton {
 
 		Log::add( $domain . ' API request made to Dollie install ' . DOLLIE_INSTALL . ' (see log)', print_r( $answer, true ), 'deploy' );
 
-		$response = json_decode( $answer, true );
+		$response = json_decode( wp_remote_retrieve_body( $answer ), true );
 
 		// Show an error of S5 API can't add the Route.
 		if ( ! array_key_exists( 'id', $response ) ) {
@@ -104,13 +104,11 @@ class LaunchSite extends Singleton {
 
 			$update_container = Api::getRequestDollie( $response['id'] . '/', 120 );
 
-			$update_answer = wp_remote_retrieve_body( $update_container );
-
 			//Log::add( $domain . 'Deploying created site ' . $post_slug, print_r( $update_container, true ), 'deploy' );
 
 			sleep( 3 );
 
-			$update_response = json_decode( $update_answer, true );
+			$update_response = json_decode( wp_remote_retrieve_body( $update_container ), true );
 
 			// Show an error of S5 API has not completed the setup.
 			if ( ! array_key_exists( 'id', $update_response ) ) {
@@ -170,9 +168,9 @@ class LaunchSite extends Singleton {
 				$request_body = str_replace( '</project>', $new_node, $all_nodes );
 
 				//Set up the request
-				$rundeck_update = wp_remote_post( DOLLIE_RUNDECK_URL . '/api/23/project/Dollie-Containers/source/1/resources?format=xml', [
+				$rundeck_update = wp_remote_post( DOLLIE_WORKER_URL . '/api/23/project/Dollie-Containers/source/1/resources?format=xml', [
 					'headers' => [
-						'X-Rundeck-Auth-Token' => DOLLIE_RUNDECK_TOKEN,
+						'X-Rundeck-Auth-Token' => DOLLIE_WORKER_TOKEN,
 						'Content-Type'         => 'text/xml',
 					],
 					'body'    => $request_body,
@@ -200,7 +198,7 @@ class LaunchSite extends Singleton {
 					];
 
 					//Set up the request
-					Api::postRequestRundeck( '1/job/a1a56354-a08e-4e7c-9dc5-bb72bb571dbe/run/', $blueprint_body );
+					Api::postRequestWorker( '1/job/a1a56354-a08e-4e7c-9dc5-bb72bb571dbe/run/', $blueprint_body );
 
 					Log::add( $domain . ' will use blueprint' . $blueprint_install, '', 'deploy' );
 					update_post_meta( $post_id, 'wpd_blueprint_deployment_complete', 'yes' );

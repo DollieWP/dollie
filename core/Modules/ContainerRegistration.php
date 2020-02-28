@@ -39,7 +39,7 @@ class ContainerRegistration extends Singleton {
 	}
 
 	public function add_worker_key() {
-		if ( get_option( 'wpd_rundeck_key' ) === false  ) {
+		if ( get_option( 'wpd_rundeck_key' ) === false ) {
 			update_option( 'wpd_rundeck_key', dollie()->random_string( 12 ) );
 		}
 	}
@@ -58,13 +58,10 @@ class ContainerRegistration extends Singleton {
 	}
 
 	public function register_worker_node( $id = null ) {
-		if ( $id === null ) {
-			$currentQuery = dollie()->get_current_object();
-			$post_id      = $currentQuery->id;
-		} else {
-			$post_id = $id;
-		}
-		$url = dollie()->get_container_url( $post_id ) . '-' . DOLLIE_WORKER_KEY;
+		$currentQuery = dollie()->get_current_object();
+
+		$post_id = $id === null ? $currentQuery->id : $id;
+		$url     = dollie()->get_container_url( $post_id ) . '-' . DOLLIE_WORKER_KEY;
 
 		$is_node_added = get_post_meta( $post_id, 'wpd_node_added', true );
 		$ip            = get_post_meta( $post_id, 'wpd_container_ip', true );
