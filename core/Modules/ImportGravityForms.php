@@ -52,6 +52,7 @@ class ImportGravityForms extends Singleton {
 		parent::__construct();
 
 		add_action( 'admin_notices', [ $this, 'admin_notice' ] );
+		add_action( 'gform_after_save_form', [ $this, 'remove_forms_ids_transient' ] );
 
 	}
 
@@ -122,11 +123,11 @@ class ImportGravityForms extends Singleton {
 				$url = wp_nonce_url( add_query_arg( 'dollie_gforms_update', '' ), 'action' );
 
 				echo '<div class="notice notice-warning"><p>';
-             		echo wp_kses_post( sprintf(
-             			__( '<strong>Dollie</strong> plugin needs to update existing forms. <a href="%s">Update now</a>', 'dollie' ),
-		                esc_url( $url )
-	                ) );
-         		echo '</p></div>';
+				echo wp_kses_post( sprintf(
+					__( '<strong>Dollie</strong> plugin needs to update existing forms. <a href="%s">Update now</a>', 'dollie' ),
+					esc_url( $url )
+				) );
+				echo '</p></div>';
 			}
 		}
 	}
@@ -153,5 +154,12 @@ class ImportGravityForms extends Singleton {
          		</div>';
 			}
 		}
+	}
+
+	/**
+	 * Remove cached data for gravity form ids mapping
+	 */
+	public function remove_forms_ids_transient() {
+		delete_transient( 'dollie_gform_ids' );
 	}
 }
