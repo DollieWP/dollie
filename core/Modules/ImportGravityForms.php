@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Log;
 use Dollie\Core\Singleton;
 use GFAPI;
 
@@ -16,27 +17,141 @@ use GFAPI;
 class ImportGravityForms extends Singleton {
 
 	/**
+	 * Current plugin forms version
+	 * @var string
+	 */
+	private $forms_version = '2.0.0';
+
+	/**
+	 * Keep track if the forms were updated during current request
+	 * @var bool
+	 */
+	private $forms_updated = false;
+
+	/**
+	 * Current plugin forms
+	 * @var array
+	 */
+	private $forms = [
+		'dollie-blueprint',
+		'dollie-create-backup',
+		'dollie-delete',
+		'dollie-domain',
+		'dollie-launch',
+		'dollie-list-backups',
+		'dollie-performance',
+		'dollie-support',
+		'dollie-updates',
+		'dollie-wizard',
+	];
+
+	/**
 	 * ImportGravityForms constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'admin_init', [ $this, 'import_gravity_form' ] );
+		add_action( 'admin_notices', [ $this, 'admin_notice' ] );
+
 	}
 
-	public function import_gravity_form() {
+	/**
+	 * Create or update all forms with the new data
+	 *
+	 * @return bool
+	 */
+	private function import_gravity_forms() {
 		if ( ! class_exists( 'GFAPI' ) ) {
+			return false;
+		}
+
+		$success = true;
+
+		foreach ( $this->forms as $form_slug ) {
+			$current_form = dollie()->get_dollie_gravity_form_ids( $form_slug );
+			$path         = DOLLIE_CORE_PATH . 'Extras/gravity/' . $form_slug . '.json';
+
+			if ( file_exists( $path ) ) {
+				$form = file_get_contents( $path );
+
+				if ( $form ) {
+					$form = json_decode( $form, true );
+					if ( ! empty( $form ) ) {
+						$form = $form[0];
+
+						// Add the form
+						if ( empty( $current_form ) ) {
+							$result = GFAPI::add_form( $form );
+						} else {
+
+							//Update the form
+							$result = GFAPI::update_form( $form, $current_form[0] );
+						}
+
+						if ( is_wp_error( $result ) ) {
+							$success = false;
+							Log::add( 'Form import error', $result->get_error_message() );
+						}
+					}
+				}
+			}
+		}
+
+		return $success;
+	}
+
+	/**
+	 * Show admin notice to update Dollie forms
+	 */
+	public function admin_notice() {
+
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
-		$delete_form = dollie()->get_dollie_gravity_form_ids( 'dollie-delete' );
+		// Check for database version
+		$db_version = get_option( 'dollie_forms_version' ) ?: '1.0';
 
-		if ( ! $delete_form ) {
-			$form = '{"title":"Delete Site","description":"Delete a site","labelPlacement":"top_label","descriptionPlacement":"below","button":{"type":"text","text":"Delete","imageUrl":""},"fields":[{"type":"text","id":1,"label":"Site Name","adminLabel":"","isRequired":true,"size":"medium","errorMessage":"","visibility":"visible","inputs":null,"formId":18,"description":"Please type the name of the site to confirm deletion, this can not be undone.","allowsPrepopulate":false,"inputMask":false,"inputMaskValue":"","inputType":"","labelPlacement":"","descriptionPlacement":"","subLabelPlacement":"","placeholder":"","cssClass":"","inputName":"","noDuplicates":false,"defaultValue":"","choices":"","conditionalLogic":"","productField":"","enablePasswordInput":"","maxLength":"","multipleFiles":false,"maxFiles":"","calculationFormula":"","calculationRounding":"","enableCalculation":"","disableQuantity":false,"displayAllCategories":false,"useRichTextEditor":false,"pageNumber":1,"displayOnly":""},{"type":"hidden","id":2,"label":"dollie-delete","adminLabel":"","isRequired":false,"size":"medium","errorMessage":"","visibility":"visible","inputs":null,"formId":18,"description":"","allowsPrepopulate":false,"inputMask":false,"inputMaskValue":"","inputType":"","labelPlacement":"","descriptionPlacement":"","subLabelPlacement":"","placeholder":"","cssClass":"","inputName":"","noDuplicates":false,"defaultValue":"","choices":"","conditionalLogic":"","productField":"","multipleFiles":false,"maxFiles":"","calculationFormula":"","calculationRounding":"","enableCalculation":"","disableQuantity":false,"displayAllCategories":false,"useRichTextEditor":false,"pageNumber":1,"displayOnly":""}],"version":"2.3.0.2","id":18,"useCurrentUserAsAuthor":true,"postContentTemplateEnabled":false,"postTitleTemplateEnabled":false,"postTitleTemplate":"","postContentTemplate":"","lastPageButton":null,"pagination":null,"firstPageCssClass":null,"notifications":{"5dc1035a71a68":{"id":"5dc1035a71a68","to":"{admin_email}","name":"Admin Notification","event":"form_submission","toType":"email","subject":"New submission from {form_title}","message":"{all_fields}"}},"confirmations":{"5dc1035a77fe3":{"id":"5dc1035a77fe3","name":"Default Confirmation","isDefault":true,"type":"message","message":"The given site has been submitted for deletion.","url":"","pageId":0,"queryString":"","disableAutoformat":false,"conditionalLogic":[]}},"subLabelPlacement":"below","cssClass":"","enableHoneypot":false,"enableAnimation":false,"save":{"enabled":false,"button":{"type":"link","text":"Save and Continue Later"}},"limitEntries":false,"limitEntriesCount":"","limitEntriesPeriod":"","limitEntriesMessage":"","scheduleForm":false,"scheduleStart":"","scheduleStartHour":"","scheduleStartMinute":"","scheduleStartAmpm":"","scheduleEnd":"","scheduleEndHour":"","scheduleEndMinute":"","scheduleEndAmpm":"","schedulePendingMessage":"","scheduleMessage":"","requireLogin":true,"requireLoginMessage":"","is_active":"1","date_created":"2019-11-05 05:06:34","is_trash":"0"}';
+		// If we need to update
+		if ( version_compare( $this->forms_version, $db_version, '>' ) ) {
 
-			$form   = json_decode( $form, true );
-			GFAPI::add_form( $form );
+			$this->process_update_action();
+
+			// If we still need to show the message
+			if ( ! $this->forms_updated ) {
+				$url = wp_nonce_url( add_query_arg( 'dollie_gforms_update', '' ), 'action' );
+
+				echo '<div class="notice notice-warning"><p>';
+             		echo wp_kses_post( sprintf(
+             			__( '<strong>Dollie</strong> plugin needs to update existing forms. <a href="%s">Update now</a>', 'dollie' ),
+		                esc_url( $url )
+	                ) );
+         		echo '</p></div>';
+			}
 		}
 	}
 
+	/**
+	 * Update the database with the new forms
+	 */
+	private function process_update_action() {
+		if ( isset( $_REQUEST['dollie_gforms_update'] ) ) {
+			$nonce = $_REQUEST['_wpnonce'];
+
+			if ( wp_verify_nonce( $nonce, 'action' ) && $this->import_gravity_forms() ) {
+				update_option( 'dollie_forms_version', $this->forms_version );
+				$this->forms_updated = true;
+			}
+
+			if ( $this->forms_updated === true ) {
+				echo '<div class="notice notice-success">
+            		 <p>Awesome, forms are now at the latest version!</p>
+         		</div>';
+			} else {
+				echo '<div class="notice notice-warning">
+            		 <p>Something went wrong, please try again.</p>
+         		</div>';
+			}
+		}
+	}
 }
