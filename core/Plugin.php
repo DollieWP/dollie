@@ -165,10 +165,10 @@ class Plugin extends Singleton {
 		if ( isset( $_GET['site'] ) && $_GET['site'] === 'new' ) {
 			$url = dollie()->get_latest_container_url();
 
-//			if ( $url ) {
-//				wp_redirect( $url );
-//				exit();
-//			}
+			if ( $url ) {
+				wp_redirect( $url );
+				exit();
+			}
 		}
 	}
 
