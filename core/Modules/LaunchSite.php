@@ -35,19 +35,14 @@ class LaunchSite extends Singleton {
 		add_action( 'template_redirect', [ $this, 'redirect_to_container_launch' ] );
 	}
 
-	public function add_new_site( $validation_result ) {
-		$form  = $validation_result['form'];
+	public function add_new_site( $result, $value, $form, $field ) {
 		$entry = GFFormsModel::get_current_lead();
 
-		$domain           = rgar( $entry, '1' );
-		$email            = rgar( $entry, '2' );
-		$demo             = rgar( $entry, '3' );
-		$blueprint_cookie = $_COOKIE['dollie_blueprint_id'];
-		if ( $blueprint_cookie ) {
-			$blueprint = $blueprint_cookie;
-		} else {
-			$blueprint = rgar( $entry, '4' );
-		}
+		$domain = rgar( $entry, '1' );
+		$email  = rgar( $entry, '2' );
+		$demo   = rgar( $entry, '3' );
+
+		$blueprint = isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : rgar( $entry, '4' );
 
 		$post_body = [
 			'domain'          => $domain . DOLLIE_DOMAIN,
@@ -72,7 +67,7 @@ class LaunchSite extends Singleton {
 			Log::add( $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $answer, true ), 'deploy' );
 
 //			if ( $field->id === '1' ) {
-//				$validation_result['is_valid'] = false;
+//				$result['is_valid'] = false;
 //				$field->failed_validation      = true;
 //				$field->validation_message     = 'Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!';
 //			}
@@ -85,7 +80,7 @@ class LaunchSite extends Singleton {
 		// Show an error of S5 API can't add the Route.
 		if ( ! array_key_exists( 'id', $response ) ) {
 //			if ( $field->id === '1' ) {
-//				$validation_result['is_valid'] = false;
+//				$result['is_valid'] = false;
 //				$field->failed_validation      = true;
 //				$field->validation_message     = 'Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!';
 //			}
@@ -120,7 +115,7 @@ class LaunchSite extends Singleton {
 			// Show an error of S5 API has not completed the setup.
 			if ( ! array_key_exists( 'id', $update_response ) ) {
 //				if ( $field->id === '1' ) {
-//					$validation_result['is_valid'] = false;
+//					$result['is_valid'] = false;
 //					$field->failed_validation      = true;
 //					$field->validation_message     = 'Sorry, It seems like there was an issue with launching your new site. Our support team has been notified';
 //				}
@@ -191,7 +186,7 @@ class LaunchSite extends Singleton {
 				}
 
 				//Set Flag if Blueprint
-				if ( $blueprint !== '' ) {
+				if ( $blueprint ) {
 					sleep( 6 );
 					add_post_meta( $post_id, 'wpd_container_based_on_blueprint', 'yes', true );
 					add_post_meta( $post_id, 'wpd_container_based_on_blueprint_id', $blueprint, true );
@@ -221,14 +216,11 @@ class LaunchSite extends Singleton {
 					wpd_apply_demo_template( $post_id, $domain, rgar( $entry, '6' ), rgar( $entry, '8' ), rgar( $entry, '9' ), rgar( $entry, '12' ), rgar( $entry, '13' ) );
 				}
 
-				$validation_result['is_valid'] = true;
+				$result['is_valid'] = true;
 			}
 		}
 
-		//Assign modified $form object back to the validation result
-		$validation_result['form'] = $form;
-
-		return $validation_result;
+		return $result;
 	}
 
 	public function launch_splash() {
@@ -250,8 +242,8 @@ class LaunchSite extends Singleton {
 	}
 
 	public function redirect_to_container_launch() {
-		if ( ! is_page( dollie()->get_launch_page_id() ) && current_user_can( 'manage_options' ) && dollie()->count_total_containers() === 0 ) {
-			wp_redirect( get_permalink( dollie()->get_launch_page_id() ) );
+		if ( current_user_can( 'manage_options' ) && dollie()->count_total_containers() === 0 && ! is_page( dollie()->get_launch_page_id() ) ) {
+			wp_redirect( dollie()->get_launch_page_url() );
 			exit;
 		}
 	}

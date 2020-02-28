@@ -318,7 +318,7 @@ class Options extends Singleton {
 				'parent' => $menu_id,
 				'title'  => __( 'Launch Site' ),
 				'id'     => 'dwb-launch',
-				'href'   => '?page_id' . $launch_site,
+				'href'   => '?page_id=' . $launch_site,
 			]
 		);
 	}
