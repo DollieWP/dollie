@@ -152,36 +152,11 @@ class LaunchSite extends Singleton {
 				sleep( 3 );
 
 				//Register Node via Rundeck
-				ob_start(); ?><node name="<?php echo $update_response['uri'] . '-' . DOLLIE_WORKER_KEY; ?>"description="Deployed via <?php echo get_site_url(); ?>" tags="<?php echo $update_response['id']; ?>,<?php echo get_site_url(); ?>,<?php echo $email; ?>,<?php echo DOLLIE_MEMORY; ?>,<?php echo $email; ?>,<?php echo DOLLIE_WORKER_KEY; ?>,blueprint-id-<?php echo $blueprint; ?>" hostname="<?php echo $update_response['containerHostIpAddress']; ?>:<?php echo $update_response['containerSshPort']; ?>"username="root"/></project><?php
-				//Create our new node details
-				$new_node = ob_get_clean();
-
-				//Grab our existing node details
-				$all_nodes = ContainerRegistration::instance()->get_worker_nodes();
-
-
-
-				$request_body = str_replace( '</project>', $new_node, $all_nodes );
-
-				//Set up the request
-				$rundeck_update = wp_remote_post( DOLLIE_WORKER_URL . '/api/23/project/Dollie-Containers/source/1/resources?format=xml', [
-					'headers' => [
-						'X-Rundeck-Auth-Token' => DOLLIE_WORKER_TOKEN,
-						'Content-Type'         => 'text/xml',
-					],
-					'body'    => $request_body,
-				] );
-
-				if ( is_wp_error( $rundeck_update ) ) {
-					Log::add( 'Node could not be registered for ' . $domain, print_r( $rundeck_update, true ), 'error' );
-				} else {
-					add_post_meta( $post_id, 'wpd_node_added', 'yes', true );
-					Log::add( $domain . ' was added as a Rundeck node' );
-				}
+				ContainerRegistration::instance()->register_worker_node($post_id);
 
 				//Set Flag if Blueprint
 				if ( $blueprint ) {
-					sleep( 6 );
+					sleep( 2 );
 					add_post_meta( $post_id, 'wpd_container_based_on_blueprint', 'yes', true );
 					add_post_meta( $post_id, 'wpd_container_based_on_blueprint_id', $blueprint, true );
 
@@ -200,14 +175,9 @@ class LaunchSite extends Singleton {
 					update_post_meta( $post_id, 'wpd_blueprint_deployment_complete', 'yes' );
 				}
 
-				if ( $demo === 'yes' && is_page( 'get-started' ) && function_exists( 'wpd_apply_partner_template' ) ) {
+				if ( $demo === 'yes' && is_page( 'get-started' ) && is_plugin_active('get-dollie-extension/dollie.php') ) {
 					Log::add( $domain . ' starts partner deploy', '', 'deploy' );
 					wpd_apply_partner_template( $post_id, $domain, rgar( $entry, '6' ), rgar( $entry, '8' ), rgar( $entry, '9' ) );
-				}
-
-				if ( $demo === 'yes' && is_page( 'demo-deploy' ) && function_exists( 'wpd_apply_demo_template' ) ) {
-					Log::add( $domain . ' starts partner deploy', '', 'deploy' );
-					wpd_apply_demo_template( $post_id, $domain, rgar( $entry, '6' ), rgar( $entry, '8' ), rgar( $entry, '9' ), rgar( $entry, '12' ), rgar( $entry, '13' ) );
 				}
 
 				$result['is_valid'] = true;
