@@ -152,13 +152,7 @@ class LaunchSite extends Singleton {
 				sleep( 3 );
 
 				//Register Node via Rundeck
-				ob_start(); ?>
-                <node name="<?php echo $update_response['uri'] . '-' . DOLLIE_RUNDECK_KEY; ?>"
-                      description="Deployed via <?php echo get_site_url(); ?>"
-                      tags="<?php echo $update_response['id']; ?>,<?php echo get_site_url(); ?>,<?php echo $email; ?>,<?php echo DOLLIE_MEMORY; ?>,<?php echo $email; ?>,<?php echo DOLLIE_RUNDECK_KEY; ?>,blueprint-id-<?php echo $blueprint; ?>"
-                      hostname="<?php echo $update_response['containerHostIpAddress']; ?>:<?php echo $update_response['containerSshPort']; ?>"
-                      username="root"/>
-                </project><?php
+				ob_start(); ?><node name="<?php echo $update_response['uri'] . '-' . DOLLIE_RUNDECK_KEY; ?>"description="Deployed via <?php echo get_site_url(); ?>" tags="<?php echo $update_response['id']; ?>,<?php echo get_site_url(); ?>,<?php echo $email; ?>,<?php echo DOLLIE_MEMORY; ?>,<?php echo $email; ?>,<?php echo DOLLIE_RUNDECK_KEY; ?>,blueprint-id-<?php echo $blueprint; ?>" hostname="<?php echo $update_response['containerHostIpAddress']; ?>:<?php echo $update_response['containerSshPort']; ?>"username="root"/></project><?php
 				//Create our new node details
 				$new_node = ob_get_clean();
 
