@@ -63,29 +63,24 @@ class AccessControl extends Singleton {
 	public function protect_container_access() {
 		$currentQuery = dollie()->get_current_object();
 		$post_id      = $currentQuery->id;
-
-		$demo   = get_post_meta( $post_id, 'wpd_container_is_demo', true );
-		$access = get_post_meta( $post_id, 'wpd_demo_access_granted', true );
+		$current_user = wp_get_current_user();
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			global $post, $current_user;
 
-			if ( $post->post_author !== $current_user->ID && is_singular( 'container' ) ) {
-
-				if ( $demo === 'yes' && $access !== 'yes' ) {
-					add_post_meta( $post_id, 'wpd_demo_access_granted', 'yes', true );
-					$arg = [
-						'ID'          => $post_id,
-						'post_author' => get_post_field( 'post_author', $post_id ),
-					];
-
-					wp_update_post( $arg );
-				} else {
-					wp_redirect( get_site_url() . '/' );
-					exit();
-				}
+			if ( is_post_type_archive('container') ) {
+				wp_redirect(get_site_url() . '/');
+				exit();
 			}
 
+			global $post, $current_user;
+
+			//Is site owner?
+			if ( $post->post_author != $current_user->ID && is_singular( 'container' ) ) {
+					wp_redirect( get_site_url() . '/' );
+					exit();
+			}
+
+			//Has access to the specific section?
 			if ( isset( $_GET['page'] ) && is_singular( 'container' ) && ! dollie()->in_array_r( $_GET['page'], $this->get_available_sections() ) ) {
 				wp_redirect( get_permalink() );
 				exit();
