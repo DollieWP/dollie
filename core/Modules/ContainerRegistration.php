@@ -73,9 +73,7 @@ class ContainerRegistration extends Singleton {
 
 			// Don't do anything if the transient is empty.
 			// Output buffer our Node details
-			ob_start();?><node name="<?php echo $url; ?>" description="Deployed via <?php echo get_site_url(); ?>"
-                  tags="<?php echo DOLLIE_WORKER_KEY; ?>,<?php echo get_site_url(); ?>,<?php echo $email; ?>"
-				  hostname="<?php echo $ip; ?>:<?php echo $port; ?>" username="root"/></project><?php
+			ob_start();?><node name="<?php echo $url; ?>" description="Deployed via <?php echo get_site_url(); ?>" tags="<?php echo DOLLIE_WORKER_KEY; ?>,<?php echo get_site_url(); ?>,<?php echo $email; ?>" hostname="<?php echo $ip; ?>:<?php echo $port; ?>" username="root"/></project><?php
 			$new_node = ob_get_clean();
 
 			// Grab our existing node details

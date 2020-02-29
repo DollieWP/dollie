@@ -157,7 +157,9 @@ class LaunchSite extends Singleton {
 				$new_node = ob_get_clean();
 
 				//Grab our existing node details
-				$all_nodes = ContainerRegistration::instance()->get_rundeck_nodes();
+				$all_nodes = ContainerRegistration::instance()->get_worker_nodes();
+
+
 
 				$request_body = str_replace( '</project>', $new_node, $all_nodes );
 
