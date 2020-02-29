@@ -324,14 +324,16 @@ class Options extends Singleton {
 	}
 
 	public function dollie_tools() {
-		add_submenu_page(
-			'wpd_platform_setup',
-			'Tools',
-			'Tools',
-			'manage_options',
-			'wpd_tools',
-			[ $this, 'dollie_tools_content' ]
-		);
+		if ( $this->is_live()) {
+			add_submenu_page(
+				'wpd_platform_setup',
+				'Tools',
+				'Tools',
+				'manage_options',
+				'wpd_tools',
+				[ $this, 'dollie_tools_content' ]
+			);
+		}
 	}
 
 	public function dollie_integrations() {
