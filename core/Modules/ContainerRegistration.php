@@ -115,8 +115,7 @@ class ContainerRegistration extends Singleton {
 		// Output buffer our Node details
 		ob_start();
 		?>
-        <node name="<?php echo $url; ?>
-			  <?php
+        <node name="<?php echo $url; ?><?php
 		// Create our new node details
 		$new_node = ob_get_clean();
 
