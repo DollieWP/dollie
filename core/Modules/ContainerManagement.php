@@ -79,6 +79,7 @@ class ContainerManagement extends Singleton {
 			'show_in_nav_menus'  => true,
 			'can_export'         => true,
 			'has_archive'        => false,
+			'exclude_from_search' => true,
 			'publicly_queryable' => true,
 			'menu_icon'          => 'dashicons-image-filter',
 			'query_var'          => 'site',
