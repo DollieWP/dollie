@@ -107,13 +107,14 @@ class Backups extends Singleton {
 					}
 
 					if ( strpos( $info[1], 'MB' ) !== false ) {
-						$get_mb_size = str_replace( 'MB', '', $info[1] );
-						$real_size   = $get_mb_size - 0 . ' MB';
+						$get_mb_size = (float) str_replace( 'MB', '', $info[1] );
+
+						$real_size   = $get_mb_size . ' MB';
 					} else {
 						$real_size = $info[1];
 					}
 
-					$size = '<span class="pull-right"><i class="fal fa-hdd-o"></i>' . $real_size . '</span>';
+					$size = '&nbsp; <span class="pull-right"><i class="fal fa-hdd"></i> ' . $real_size . '</span>';
 					// Time is first part but needs to be split
 					$backup_date = explode( '_', $info[0] );
 					// Date of backup

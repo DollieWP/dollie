@@ -74,11 +74,13 @@ class PluginUpdates extends Singleton {
 			$plugins = json_decode( $this->get_all_plugin_updates(), true );
 
 			$needs_upgrade = false;
-			foreach ( $plugins as $plugin ) {
-				if ( $plugin['update'] === 'available' ) {
-					$needs_upgrade = true;
+			if ( $plugins ) {
+				foreach ( $plugins as $plugin ) {
+					if ( $plugin['update'] === 'available' ) {
+						$needs_upgrade = true;
+					}
 				}
-			}
+            }
 
 			$choices = [];
 			if ( $needs_upgrade === false ) {

@@ -28,7 +28,7 @@ class AccessControl extends Singleton {
 		add_action( 'admin_init', [ $this, 'no_admin_access' ], 100 );
 
 		// TODO Maybe remove it completly
-		add_action( 'admin_init', [ $this, 'add_hidden_fields' ] );
+		// add_action( 'admin_init', [ $this, 'add_hidden_fields' ] );
 
 		add_action( 'wp', [ $this, 'block_access' ] );
 
