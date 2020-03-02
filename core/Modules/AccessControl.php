@@ -26,7 +26,10 @@ class AccessControl extends Singleton {
 
 		add_filter( 'wp_dropdown_users_args', [ $this, 'allow_all_authors' ], 10, 2 );
 		add_action( 'admin_init', [ $this, 'no_admin_access' ], 100 );
+
+		// TODO Maybe remove it completly
 		add_action( 'admin_init', [ $this, 'add_hidden_fields' ] );
+
 		add_action( 'wp', [ $this, 'block_access' ] );
 
 		if ( ! defined( 'DOLLIE_DEV' ) || ! DOLLIE_DEV ) {

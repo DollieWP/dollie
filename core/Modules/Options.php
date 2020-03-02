@@ -230,7 +230,7 @@ class Options extends Singleton {
         margin-right: 4px;
         position: relative;
         top: 0px;
-        background-image:url("' . $iconurl . '");"></span>';
+        background-image:url(\''. $iconurl .'\');"></span>';
 
 		$title = $menu_title;
 
