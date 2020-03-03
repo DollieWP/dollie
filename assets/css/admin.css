@@ -269,6 +269,7 @@
   margin-right: 10px;
   font-size: 18px;
   text-decoration: none;
+  border-radius: 3px;
 }
 .dollie-msg-button-right a:hover,
 .dollie-msg-button-right a:focus,

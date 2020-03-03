@@ -68,27 +68,32 @@ class Upgrades extends Singleton {
 			// If we still need to show the message
 			if ( ! $this->updated ) {
 				$url = wp_nonce_url( add_query_arg( 'dollie_db_update', '' ), 'action' );
+				?>
 
-				echo '<div class="notice dollie-notice">' .
-				     '<div class="dollie-inner-message">';
+                <div class="notice dollie-notice">
 
-				echo '<img width="60" src="' . DOLLIE_URL . 'assets/img/active.png">';
-				echo '<div class="dollie-message-center"><h3>Database update required</h3><p>';
-				echo wp_kses_post( sprintf(
-					__( '<strong>Dollie</strong> needs to update your database to the latest version. Please make sure to create a backup first.', 'dollie' ),
-					esc_url( $url )
-				) );
+                    <div class="dollie-inner-message">
 
-				echo '</p></div>';
-				echo '<div class="dollie-msg-button-right">';
-				echo wp_kses_post( sprintf( __( '<a href="%s">Update now</a>', 'dollie' ), esc_url( $url ) ) );
+                        <img width="60" src="<?php echo esc_url( DOLLIE_URL . 'assets/img/active.png' ); ?>">
+                        <div class="dollie-message-center">
+                            <h3><?php esc_html_e( 'Database update required', 'dollie' ); ?></h3>
+                            <p>
+								<?php
+								echo wp_kses_post( sprintf(
+									__( '<strong>Dollie</strong> needs to update your database to the latest version. Please make sure to create a backup first.', 'dollie' ),
+									esc_url( $url )
+								) ); ?>
+                            </p>
+                        </div>
+                        <div class="dollie-msg-button-right">
+							<?php echo wp_kses_post( sprintf( __( '<a href="%s">Update now</a>', 'dollie' ), esc_url( $url ) ) ); ?>
+                        </div>
 
-				echo '</div>';
-				echo '</div>' .
-				     '</div>';
+                    </div>
+                </div>
+				<?php
 			}
 		}
-
 	}
 
 	/**
