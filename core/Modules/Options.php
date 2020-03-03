@@ -210,6 +210,12 @@ class Options extends Singleton {
 
 	public function dollie_adminbar_menu() {
 		global $wp_admin_bar;
+
+		// Admin only
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		$launch_site = dollie()->get_launch_page_id();
 
 		$iconurl = DOLLIE_URL . 'assets/img/active.png';
@@ -230,7 +236,7 @@ class Options extends Singleton {
         margin-right: 4px;
         position: relative;
         top: 0px;
-        background-image:url(\''. $iconurl .'\');"></span>';
+        background-image:url(\'' . $iconurl . '\');"></span>';
 
 		$title = $menu_title;
 
@@ -319,15 +325,15 @@ class Options extends Singleton {
 					'parent' => $menu_id,
 					'title'  => __( 'Launch Site' ),
 					'id'     => 'dwb-launch',
-					'href'   => get_permalink( $launch_site ) ,
+					'href'   => get_permalink( $launch_site ),
 				]
 			);
-        }
+		}
 
 	}
 
 	public function dollie_tools() {
-		if ( $this->is_live()) {
+		if ( $this->is_live() ) {
 			add_submenu_page(
 				'wpd_platform_setup',
 				'Tools',
