@@ -24,6 +24,7 @@ use Dollie\Core\Modules\PluginUpdates;
 use Dollie\Core\Modules\Scripts;
 use Dollie\Core\Modules\SecurityChecks;
 use Dollie\Core\Modules\Tools;
+use Dollie\Core\Modules\Upgrades;
 use Dollie\Core\Modules\WelcomeWizard;
 use Dollie\Core\Modules\WooCommerce;
 use WP_Query;
@@ -84,7 +85,6 @@ class Plugin extends Singleton {
 		DeleteSite::instance();
 		DomainWizard::instance();
 		Hooks::instance();
-		ImportGravityForms::instance();
 		LaunchSite::instance();
 		Options::instance();
 		PluginUpdates::instance();
@@ -93,6 +93,7 @@ class Plugin extends Singleton {
 		WelcomeWizard::instance();
 		WooCommerce::instance();
 		Modules\Dashboard\Setup::instance();
+		Upgrades::instance();
 
 		// Shortcodes
 		Shortcodes\Blueprints::instance();

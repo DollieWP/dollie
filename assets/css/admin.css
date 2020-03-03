@@ -247,6 +247,38 @@
 .dollie-notice * {
   color: #fff;
 }
+
+.dollie-inner-message {
+  display: flex;
+  align-items: center;
+}
+.dollie-inner-message h3 {
+  margin-bottom: 0;
+}
+.dollie-inner-message img {
+  padding-right: 10px;
+  width: 50px;
+  height: auto;
+}
+.dollie-message-center {
+  flex: 1;
+}
+.dollie-msg-button-right a {
+  border: 1px solid #fff;
+  padding: 5px 20px;
+  margin-right: 10px;
+  font-size: 18px;
+  text-decoration: none;
+}
+.dollie-msg-button-right a:hover,
+.dollie-msg-button-right a:focus,
+.dollie-msg-button-right a:active {
+  color: rgba(255,255,255, 0.8)
+}
+.notice.dollie-notice {
+  z-index: initial;
+}
+
 #wpwrap #acf-group_561b880e8cfb0 {
   border: 0;
 }

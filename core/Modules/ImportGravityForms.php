@@ -23,10 +23,11 @@ class ImportGravityForms extends Singleton {
 	private $forms_version = '2.0.0';
 
 	/**
-	 * Keep track if the forms were updated during current request
-	 * @var bool
+	 * Option name that gets saved in the options database table
+	 *
+	 * @var string
 	 */
-	private $forms_updated = false;
+	private $option_name = 'dollie_forms_version';
 
 	/**
 	 * Current plugin forms
@@ -45,15 +46,17 @@ class ImportGravityForms extends Singleton {
 		'dollie-wizard',
 	];
 
-	/**
-	 * ImportGravityForms constructor.
-	 */
-	public function __construct() {
-		parent::__construct();
+	public function needs_update() {
 
-		add_action( 'admin_notices', [ $this, 'admin_notice' ] );
-		add_action( 'gform_after_save_form', [ $this, 'remove_forms_ids_transient' ] );
+		// Check for database version
+		$db_version = get_option( $this->option_name ) ?: '1.0.0';
 
+		// If we need an update
+		if ( version_compare( $this->forms_version, $db_version, '>' ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -61,15 +64,24 @@ class ImportGravityForms extends Singleton {
 	 *
 	 * @return bool
 	 */
-	private function import_gravity_forms() {
+	public function import_gravity_forms() {
 		if ( ! class_exists( 'GFAPI' ) ) {
 			return false;
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}
+
+		// If we don't need to update.
+		if( ! $this->needs_update() ) {
+			return true;
 		}
 
 		$success = true;
 
 		foreach ( $this->forms as $form_slug ) {
-			$current_form = dollie()->get_dollie_gravity_form_ids( $form_slug );
+			$current_form = dollie()->get_dollie_gravity_form_ids( $form_slug, false );
 			$path         = DOLLIE_CORE_PATH . 'Extras/gravity/' . $form_slug . '.json';
 
 			if ( file_exists( $path ) ) {
@@ -84,7 +96,6 @@ class ImportGravityForms extends Singleton {
 						if ( empty( $current_form ) ) {
 							$result = GFAPI::add_form( $form );
 						} else {
-
 							//Update the form
 							$result = GFAPI::update_form( $form, $current_form[0] );
 						}
@@ -98,68 +109,13 @@ class ImportGravityForms extends Singleton {
 			}
 		}
 
+		if ( $success === true ) {
+			Log::add( 'Forms successfully imported' );
+			update_option( $this->option_name, $this->forms_version );
+
+			Tools::instance()->remove_forms_ids_transient();
+		}
+
 		return $success;
-	}
-
-	/**
-	 * Show admin notice to update Dollie forms
-	 */
-	public function admin_notice() {
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		// Check for database version
-		$db_version = get_option( 'dollie_forms_version' ) ?: '1.0';
-
-		// If we need to update
-		if ( version_compare( $this->forms_version, $db_version, '>' ) ) {
-
-			$this->process_update_action();
-
-			// If we still need to show the message
-			if ( ! $this->forms_updated ) {
-				$url = wp_nonce_url( add_query_arg( 'dollie_gforms_update', '' ), 'action' );
-
-				echo '<div class="notice notice-warning"><p>';
-				echo wp_kses_post( sprintf(
-					__( '<strong>Dollie</strong> plugin needs to update existing forms. <a href="%s">Update now</a>', 'dollie' ),
-					esc_url( $url )
-				) );
-				echo '</p></div>';
-			}
-		}
-	}
-
-	/**
-	 * Update the database with the new forms
-	 */
-	private function process_update_action() {
-		if ( isset( $_REQUEST['dollie_gforms_update'] ) ) {
-			$nonce = $_REQUEST['_wpnonce'];
-
-			if ( wp_verify_nonce( $nonce, 'action' ) && $this->import_gravity_forms() ) {
-				update_option( 'dollie_forms_version', $this->forms_version );
-				$this->forms_updated = true;
-			}
-
-			if ( $this->forms_updated === true ) {
-				echo '<div class="notice notice-success">
-            		 <p>Awesome, forms are now at the latest version!</p>
-         		</div>';
-			} else {
-				echo '<div class="notice notice-warning">
-            		 <p>Something went wrong, please try again.</p>
-         		</div>';
-			}
-		}
-	}
-
-	/**
-	 * Remove cached data for gravity form ids mapping
-	 */
-	public function remove_forms_ids_transient() {
-		delete_transient( 'dollie_gform_ids' );
 	}
 }

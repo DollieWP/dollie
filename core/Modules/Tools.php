@@ -19,7 +19,14 @@ class Tools extends Singleton {
 	 */
 	public function __construct() {
 		parent::__construct();
-		add_action( 'gform_after_submission_1', [ $this, 'run_worker_tools_job' ], 10, 2 );
+
+		$performance_form = dollie()->get_dollie_gravity_form_ids( 'dollie-performance' );
+		if ( ! empty( $performance_form ) ) {
+			add_action( 'gform_after_submission_' . $performance_form[0], [ $this, 'run_worker_tools_job' ], 10, 2 );
+
+		}
+
+		add_action( 'gform_after_save_form', [ $this, 'remove_forms_ids_transient' ] );
 	}
 
 	public function run_worker_tools_job( $entry, $form ) {
@@ -44,6 +51,13 @@ class Tools extends Singleton {
             });
         </script>
 		<?php
+	}
+
+	/**
+	 * Remove cached data for gravity form ids mapping
+	 */
+	public function remove_forms_ids_transient() {
+		delete_transient( 'dollie_gform_ids' );
 	}
 
 }
