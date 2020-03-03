@@ -313,14 +313,17 @@ class Options extends Singleton {
 			]
 		);
 
-		$wp_admin_bar->add_menu(
-			[
-				'parent' => $menu_id,
-				'title'  => __( 'Launch Site' ),
-				'id'     => 'dwb-launch',
-				'href'   => '?page_id=' . $launch_site,
-			]
-		);
+		if ( $launch_site ) {
+			$wp_admin_bar->add_menu(
+				[
+					'parent' => $menu_id,
+					'title'  => __( 'Launch Site' ),
+					'id'     => 'dwb-launch',
+					'href'   => get_permalink( $launch_site ) ,
+				]
+			);
+        }
+
 	}
 
 	public function dollie_tools() {
