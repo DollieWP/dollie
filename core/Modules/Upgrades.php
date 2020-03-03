@@ -240,6 +240,7 @@ class Upgrades extends Singleton {
 						'post_title'   => $page_data['title'],
 						'post_content' => '',
 						'post_type'    => 'page',
+						'post_status'  => 'publish',
 						'meta_input'   => array(
 							'_wp_page_template' => $page_data['template'],
 						),
