@@ -455,7 +455,7 @@ class DomainWizard extends Singleton {
 		}
 		$ip     = get_post_meta( $currentQuery->id, 'wpd_container_ip', true ) ?: '';
 		$domain = get_post_meta( $currentQuery->id, 'wpd_domains', true ) ?: '';
-		$url    = get_post_meta( $currentQuery->id, 'wpd_url', true ) ?: '';
+		$url    = get_post_meta( $currentQuery->id, 'wpd_container_uri', true ) ?: '';
 
 		$tags = [
 			'{dollie_container_ip}'          => $ip,

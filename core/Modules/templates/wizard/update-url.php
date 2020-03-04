@@ -8,8 +8,8 @@
     <p>
 		<?php
 		printf( __( 'We have almost completed setting up your domain! The last step is updating the temporary site URL <strong>%s to your live domain %s</strong>.', 'dollie' ),
-			$platform_url . DOLLIE_DOMAIN,
-			$has_domain
+			$platform_url,
+			'https://'.$has_domain
 		);
 		?>
         <br><br>
