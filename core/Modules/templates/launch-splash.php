@@ -35,12 +35,12 @@
                         <?php else : ?>
                             <h4 class="mt-0">
                                 <i class="fab fa-docker"></i>
-                                <?php _e('Launching New Cloud Container', DOLLIE_SLUG); ?>
+                                <?php _e('Launching New Cloud Container', 'dollie'); ?>
                                 <span class="dots"></span>
                             </h4>
                             <p><?php _e('We use state-of-the-art technology like PHP7, Nginx, Redis, Memcached and
                                 MariaDB inside isolated cloud containers to guarantee excellent performance
-                                and security for each and every site on our platform.', DOLLIE_SLUG); ?></p>
+                                and security for each and every site on our platform.', 'dollie'); ?></p>
                         <?php endif; ?>
                     </div>
                     <div id="content-2">
@@ -49,13 +49,13 @@
                         <?php else : ?>
                             <h4 class="mt-0">
                                 <i class="fab fa-wordpress-simple"></i>
-                                <?php _e('Setting up WordPress', DOLLIE_SLUG); ?>
+                                <?php _e('Setting up WordPress', 'dollie'); ?>
                                 <span class="dots"></span>
                             </h4>
                             <p>
                                 <?php _e('We manage important WordPress security updates for you, and notify you when
                                 compromised plugins and themes with security issues are found. And of course
-                                free SSL certificates for your site are set up automatically.', DOLLIE_SLUG); ?>
+                                free SSL certificates for your site are set up automatically.', 'dollie'); ?>
                             </p>
                         <?php endif; ?>
                     </div>
@@ -66,12 +66,12 @@
                         <?php else : ?>
                             <h4 class="mt-0">
                                 <i class="fal fa-gem"></i>
-                                <?php _e('Testing & Verifying Installation', DOLLIE_SLUG); ?>
+                                <?php _e('Testing & Verifying Installation', 'dollie'); ?>
                                 <span class="dots"></span>
                             </h4>
                             <p>
                                 <?php _e('We\'re running some automated tests to make sure everything is set up and
-                                ready to go before you start building your brand new site!', DOLLIE_SLUG); ?>
+                                ready to go before you start building your brand new site!', 'dollie'); ?>
                             </p>
                         <?php endif; ?>
                     </div>
@@ -81,12 +81,12 @@
                         <?php else : ?>
                             <h4 class="mt-0">
                                 <i class="fal fa-box-check"></i>
-                                <?php _e('Site Setup Complete', DOLLIE_SLUG); ?>
+                                <?php _e('Site Setup Complete', 'dollie'); ?>
                                 <span class="dots"></span>
                             </h4>
                             <p>
                                 <?php _e('Your new site Wordpress site is deployed to our cloud! You\'ll be redirected
-                                to the site setup wizard in just a couple of seconds...', DOLLIE_SLUG); ?>
+                                to the site setup wizard in just a couple of seconds...', 'dollie'); ?>
                             </p>
                         <?php endif; ?>
                     </div>
