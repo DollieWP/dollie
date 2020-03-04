@@ -90,10 +90,10 @@ class Backups extends Singleton {
                         <i class="fal fa-hdd"></i>
                     </div>
                     <h4 class="padding-bottom-none margin-top-none">
-						<?php _e( 'We could not retrieve your backups.', DOLLIE_SLUG ); ?>
+						<?php _e( 'We could not retrieve your backups.', 'dollie' ); ?>
                     </h4>
                     <p>
-						<?php _e( 'This usually means we have trouble reaching your WordPress installation. Please get in touch with our support of you keep seeing this message.', DOLLIE_SLUG ); ?>
+						<?php _e( 'This usually means we have trouble reaching your WordPress installation. Please get in touch with our support of you keep seeing this message.', 'dollie' ); ?>
                     </p>
                 </div>
 
@@ -179,12 +179,12 @@ class Backups extends Singleton {
 		?>
         <div class="alert alert-success">
 			<?php printf(
-				__( 'Your site is being restored! Depending on the size of your installation this could take a while. Once your site is restored you\'ll see a message in your <a href="%s">WordPress Admin</a>', DOLLIE_SLUG ),
+				__( 'Your site is being restored! Depending on the size of your installation this could take a while. Once your site is restored you\'ll see a message in your <a href="%s">WordPress Admin</a>', 'dollie' ),
 				esc_url( dollie()->get_customer_login_url() )
 			); ?>
             <br>
 			<?php printf(
-				__( 'Note: In some cases you might have to <a href="%s">login</a> to your site again after a restoration.', DOLLIE_SLUG ),
+				__( 'Note: In some cases you might have to <a href="%s">login</a> to your site again after a restoration.', 'dollie' ),
 				esc_url( dollie()->get_customer_login_url() )
 			); ?>
         </div>
@@ -213,7 +213,7 @@ class Backups extends Singleton {
 			?>
 
             <div class="history">
-				<?php _e( 'You have not restored your site yet.', DOLLIE_SLUG ); ?>
+				<?php _e( 'You have not restored your site yet.', 'dollie' ); ?>
             </div>
 
 			<?php
@@ -244,7 +244,7 @@ class Backups extends Singleton {
 				$count ++;
 			}
 			if ( $count === 0 ) {
-				echo '<p class="padding-half">' . __( 'You have never restored your site.', DOLLIE_SLUG ) . '</p>';
+				echo '<p class="padding-half">' . __( 'You have never restored your site.', 'dollie' ) . '</p>';
 			}
 			echo '</ul>';
 		}
@@ -254,7 +254,7 @@ class Backups extends Singleton {
 		$this->trigger_backup();
 		?>
         <div class="box-brand-secondary padding-full box-full margin-top-full create-backup-notice">
-			<?php esc_html_e( 'We\'re building your backup! You\'ll see it appear in the backup list on the left once it\'s done! If you have a large site this might take a while!', DOLLIE_SLUG ); ?>
+			<?php esc_html_e( 'We\'re building your backup! You\'ll see it appear in the backup list on the left once it\'s done! If you have a large site this might take a while!', 'dollie' ); ?>
         </div>
 		<?php
 	}
