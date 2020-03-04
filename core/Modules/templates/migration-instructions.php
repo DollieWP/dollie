@@ -19,7 +19,7 @@
 <h4><?php _e('Step 1 - Install the Migrate Guru Plugin', DOLLIE_SLUG); ?></h4>
 <ol>
   <li>
-  <?php _e('Login to the WordPress Admin of the <strong>site you would like to migration</strong> (i.e yoursite.com)', DOLLIE_SLUG); ?>
+  <?php _e('Login to the WordPress Admin of the <strong>site you would like to migrate</strong> (i.e yoursite.com)', DOLLIE_SLUG); ?>
   </li>
   <li>
     <?php _e('Go to <strong>Plugins > Add New </strong> and search for "Migrate Guru"', DOLLIE_SLUG); ?>
