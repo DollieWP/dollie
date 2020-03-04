@@ -27,6 +27,9 @@ class Tools extends Singleton {
 		}
 
 		add_action( 'gform_after_save_form', [ $this, 'remove_forms_ids_transient' ] );
+
+		add_action( 'admin_init', [ $this, 'last_admin_activity' ], 10 );
+
 	}
 
 	public function run_worker_tools_job( $entry, $form ) {
@@ -60,4 +63,12 @@ class Tools extends Singleton {
 		delete_transient( 'dollie_gform_ids' );
 	}
 
+	/**
+	 * Save last admin activity when on staging
+	 */
+	public function last_admin_activity() {
+	    if( is_user_logged_in() && ! dollie()->is_live() ) {
+		    update_option( 'wpd_staging_last_seen', time() );
+        }
+	}
 }

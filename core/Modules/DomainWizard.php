@@ -55,7 +55,7 @@ class DomainWizard extends Singleton {
 
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
-		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
+		$current_page = (int) ( rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1 );
 
 		// Our form field ID + User meta fields
 		$domain = rgar( $entry, '55' );
@@ -69,17 +69,23 @@ class DomainWizard extends Singleton {
 
 			// Show an error of S5 API can't add the Route.
 			if ( ! array_key_exists( 'path', $response ) ) {
+
+
 				// finding Field with ID of 1 and marking it as failed validation
-				foreach ( $form['fields'] as $field ) {
+				foreach ( $form['fields'] as &$field ) {
 
 					if ( $field->id === '55' ) {
 						// validation failed
 						$validation_result['is_valid'] = false;
 						$field->failed_validation      = true;
-						$field->validation_message     = 'Sorry, We could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href="https://dollie.co/support-redirect">Contact Support</a>';
+						$field->validation_message = wp_kses_post( sprintf(
+							__( 'Sorry, We could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href="%s">Contact Support</a>', 'dollie' ),
+							'https://dollie.co/support-redirect'
+						) );
 					}
 
 				}
+				unset($field);
 			}
 			if ( array_key_exists( 'path', $response ) ) {
 				// Save the Domain Data and make another S5 Request for the WWW domain.
@@ -112,10 +118,11 @@ class DomainWizard extends Singleton {
 		$install      = dollie()->get_container_url();
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
-		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
+		$current_page = (int) ( rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1 );
 
 		// Are the on the CloudFlare Setup Page?
 		if ( $current_page === 2 ) {
+
 			// Our form field ID + User meta fields
 			$ssl_type = rgar( $entry, '11' );
 			$email    = rgar( $entry, '50' );
@@ -124,7 +131,7 @@ class DomainWizard extends Singleton {
 			if ( $ssl_type === 'cloudflare' ) {
 
 				// Set up the request to CloudFlare to verify
-				$update = wp_remote_post( 'https://api.cloudflare.com/client/v4/user', [
+				$args   = [
 					'method'  => 'GET',
 					'timeout' => 45,
 					'headers' => [
@@ -132,27 +139,36 @@ class DomainWizard extends Singleton {
 						'X-Auth-Key'   => $api_key,
 						'Content-Type' => 'application/json',
 					],
-				] );
+				];
+				$update = wp_remote_post( 'https://api.cloudflare.com/client/v4/user', $args );
 
 				// Parse the JSON request
 				$answer   = wp_remote_retrieve_body( $update );
 				$response = json_decode( $answer, true );
 
 				// Throw an error if CloudFlare Details are incorrect.
-				if ( ! isset( $response['result']['id'] ) ) {
-					// finding Field with ID of 1 and marking it as failed validation
-					foreach ( $form['fields'] as $field ) {
+				if ( $response['success'] === false ) {
 
-						if ( $field->id === '27' ) {
-							// validation failed
-							$validation_result['is_valid'] = false;
-							$field->failed_validation      = true;
-							$field->validation_message     = 'Your CloudFlare Email or API key is incorrect. Please try again or <a href="https://dollie.co/support-redirect">Contact Support</a>';
+					// Validation failed.
+					$validation_result['is_valid'] = false;
+
+					// Finding Field with ID of 27 and marking it as failed validation
+					foreach ( $form['fields'] as &$field ) {
+
+						// API key field = 27
+						if ( $field->id == '27' ) {
+							$field->failed_validation  = true;
+							$field->validation_message = wp_kses_post( sprintf(
+								__( 'Your CloudFlare Email or API key is incorrect. Please try again or <a href="%s">Contact Support</a>', 'dollie' ),
+								'https://dollie.co/support-redirect'
+							) );
 						}
 
 					}
-				}
-				if ( isset( $response['result']['id'] ) ) {
+					unset( $field );
+
+				} elseif ( isset( $response['result']['id'] ) ) {
+
 					// Success now send the Worker request
 					// This job will install + activate the CloudFlare plugin and populate the email + API key fields for the CloudFlare Options.
 					$post_body = [
@@ -175,6 +191,7 @@ class DomainWizard extends Singleton {
 			}
 		}
 
+		//Assign modified $form object back to the validation result
 		$validation_result['form'] = $form;
 
 		return $validation_result;
@@ -188,7 +205,7 @@ class DomainWizard extends Singleton {
 
 		// Form Variables
 		$form         = $validation_result['form'];
-		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
+		$current_page = (int) ( rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1 );
 
 		// Are the on the right page?
 		if ( $current_page === 3 ) {
@@ -212,25 +229,35 @@ class DomainWizard extends Singleton {
 			$answer   = wp_remote_retrieve_body( $update );
 			$response = json_decode( $answer, true );
 
-			// Throw an error if the Zone ID is not found.
-			if ( ! isset( $response['result']['id'] ) ) {
-				// finding Field with ID of 1 and marking it as failed validation
-				foreach ( $form['fields'] as $field ) {
+			// Throw an error if CloudFlare Details are incorrect.
+			if ( $response['success'] === false ) {
 
+				// Validation failed.
+				$validation_result['is_valid'] = false;
+
+				foreach ( $form['fields'] as &$field ) {
+
+					// Zone ID = 66
 					if ( $field->id === '66' ) {
 						// validation failed
-						$validation_result['is_valid'] = false;
-						$field->failed_validation      = true;
-						$field->validation_message     = 'Your CloudFlare Zone ID is incorrect. Please make sure you copy and pasted the right ID without extra spaces. Need help? <a href="https://dollie.co/support-redirect">Contact Support</a>';
+						$field->failed_validation  = true;
+						$field->validation_message = wp_kses_post( sprintf(
+							__( 'Your CloudFlare Zone ID is incorrect. Please make sure you copy and pasted the right ID without extra spaces. Need help? <a href="%s">Contact Support</a>', 'dollie' ),
+							'https://dollie.co/support-redirect'
+						) );
 					}
 
 				}
+				unset( $field );
 			} else {
 				// Save our CloudFlare Zone ID to user meta.
 				update_post_meta( $currentQuery->id, 'wpd_cloudflare_zone_id', $zone );
 				Log::add( 'Cloudflare Zone ID ' . $zone . ' is used for analytics for ' . $currentQuery->slug );
 			}
 		}
+
+		//Assign modified $form object back to the validation result
+		$validation_result['form'] = $form;
 
 		return $validation_result;
 	}
@@ -246,7 +273,7 @@ class DomainWizard extends Singleton {
 
 		// Form Variables
 		if ( isset( $validation_result['form'] ) ) {
-			$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ? rgpost( 'gform_source_page_number_' . $form['id'] ) : 1;
+			$current_page = (int) ( rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1 );
 		}
 
 		// Are the on the Domain Replace page?
@@ -277,17 +304,21 @@ class DomainWizard extends Singleton {
 
 				// Show an error of S5 API can't add the Route.
 				if ( is_wp_error( $le_answer ) ) {
+
+					$validation_result['is_valid'] = false;
+
 					// finding Field with ID of 1 and marking it as failed validation
-					foreach ( $form['fields'] as $field ) {
+					foreach ( $form['fields'] as &$field ) {
 
 						if ( $field->id === '72' ) {
 							// validation failed
-							$validation_result['is_valid'] = false;
-							$field->failed_validation      = true;
-							$field->validation_message     = 'Sorry, We could not generate a SSL certificate for this domain. Please contact support so we can look into why this has happened.';
+							$field->failed_validation  = true;
+							$field->validation_message = esc_html__( 'Sorry, We could not generate a SSL certificate for this domain. Please contact support so we can look into why this has happened.', 'dollie' );
 						}
 
 					}
+					unset( $field );
+
 				} else {
 					update_post_meta( $currentQuery->id, 'wpd_letsencrypt_setup_complete', 'yes' );
 				}
@@ -296,6 +327,9 @@ class DomainWizard extends Singleton {
 			// We will add an artificial delay because if we're dealing with a big database it could take a bit of time to run the search and replace via the Worker/WP-CLI command.
 			sleep( 20 );
 		}
+
+		//Assign modified $form object back to the validation result
+		$validation_result['form'] = $form;
 
 		return $validation_result;
 	}
@@ -346,7 +380,7 @@ class DomainWizard extends Singleton {
                 <i class="fal fa-warning"></i>
             </div>
             <h4>
-				<?php _e( 'Woops, something is not right! Please see the highlighted fields below!', DOLLIE_SLUG ); ?>
+				<?php esc_html_e( 'Woops, something is not right! Please see the highlighted fields below!', 'dollie' ); ?>
             </h4>
             <p>
             </p>
@@ -488,13 +522,14 @@ class DomainWizard extends Singleton {
 			$values = [];
 
 			// loop through form fields and gather all field values for current set of confirm fields
-			foreach ( $form['fields'] as $field ) {
+			foreach ( $form['fields'] as &$field ) {
 				if ( ! in_array( $field['id'], $confirm_fields ) ) {
 					continue;
 				}
 
 				$values[] = rgpost( "input_{$field['id']}" );
 			}
+			unset($field);
 
 			// filter out unique values, if greater than 1, a value was different
 			if ( count( array_unique( $values ) ) <= 1 ) {
@@ -503,7 +538,7 @@ class DomainWizard extends Singleton {
 
 			$confirm_error = true;
 
-			foreach ( $form['fields'] as $field ) {
+			foreach ( $form['fields'] as &$field ) {
 				if ( ! in_array( $field['id'], $confirm_fields ) ) {
 					continue;
 				}
@@ -516,6 +551,7 @@ class DomainWizard extends Singleton {
 				$field['failed_validation']  = true;
 				$field['validation_message'] = 'Your domain names do not match.';
 			}
+			unset($field);
 		}
 
 		$validation_result['form']     = $form;
