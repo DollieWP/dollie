@@ -91,6 +91,10 @@ class CheckSubscription extends Singleton {
 			// Getting the order object "$order"
 			$order = wc_get_order( $order_id );
 
+			if ( ! $order ) {
+				continue;
+			}
+
 			// Getting the items in the order
 			$order_items = $order->get_items();
 

@@ -27,6 +27,7 @@ class DomainWizard extends Singleton {
 		parent::__construct();
 
 		$domain_forms = dollie()->get_dollie_gravity_form_ids( 'dollie-domain' );
+
 		foreach ( $domain_forms as $form_id ) {
 			add_filter( 'gform_validation_' . $form_id, [ $this, 'domain_wizard_add_domain' ], 20 );
 			add_filter( 'gform_validation_' . $form_id, [ $this, 'domain_wizard_add_cloudflare' ], 20 );
@@ -35,21 +36,17 @@ class DomainWizard extends Singleton {
 			add_action( 'gform_post_paging_' . $form_id, [ $this, 'complete_migration_wizard' ], 10, 3 );
 		}
 
+		if ( ! empty( $domain_forms ) ) {
+			add_filter( 'gform_validation_message', [ $this, 'change_message' ], 10, 2 );
+		}
+
 		add_action( 'template_redirect', [ $this, 'continue_domain_setup' ] );
 		add_filter( 'gform_pre_render', [ $this, 'gform_skip_page' ] );
-		add_filter( 'gform_validation_message', [
-			$this,
-			'change_message'
-		], dollie()->get_dollie_gravity_form_ids( 'dollie-domain' )[0], 2 );
-
 		add_action( 'gform_admin_pre_render', [ $this, 'gform_add_merge_tags' ] );
 		add_filter( 'gform_replace_merge_tags', [ $this, 'gform_replace_tags' ], 10, 7 );
-
-		$this->register_confirmation_fields( dollie()->get_dollie_gravity_form_ids( 'dollie-domain' ), [
-			55,
-			60
-		] );
 		add_filter( 'gform_validation', [ $this, 'gfcf_validation' ] );
+
+		$this->register_confirmation_fields( $domain_forms, [ 55, 60 ] );
 	}
 
 	public function domain_wizard_add_domain( $validation_result ) {
@@ -427,20 +424,20 @@ class DomainWizard extends Singleton {
 		$url    = get_post_meta( $currentQuery->id, 'wpd_url', true ) ?: '';
 
 		$tags = [
-			'{dollie_container_ip}'     => $ip,
-			'{dollie_container_url}'    => $url,
-			'{dollie_container_domain}' => $domain,
+			'{dollie_container_ip}'          => $ip,
+			'{dollie_container_url}'         => $url,
+			'{dollie_container_domain}'      => $domain,
 			'{dollie_tpl_migrate_completed}' => Tpl::load( DOLLIE_MODULE_TPL_PATH . 'wizard/completed', [
 				'has_domain'   => $domain,
 				'ip'           => $ip,
 				'platform_url' => $url
 			] ),
-			'{dollie_tpl_link_domain}' => Tpl::load( DOLLIE_MODULE_TPL_PATH . 'wizard/link-domain', [
+			'{dollie_tpl_link_domain}'       => Tpl::load( DOLLIE_MODULE_TPL_PATH . 'wizard/link-domain', [
 				'has_domain'   => $domain,
 				'ip'           => $ip,
 				'platform_url' => $url
 			] ),
-			'{dollie_tpl_update_url}' => Tpl::load( DOLLIE_MODULE_TPL_PATH . 'wizard/update-url', [
+			'{dollie_tpl_update_url}'        => Tpl::load( DOLLIE_MODULE_TPL_PATH . 'wizard/update-url', [
 				'has_domain'   => $domain,
 				'ip'           => $ip,
 				'platform_url' => $url

@@ -316,21 +316,17 @@ class Helpers extends Singleton {
 		<?php
 	}
 
+	/**
+     * Get all registered settings groups by name and key
+	 * @return array
+	 */
 	public function acf_get_database_field_group_keys() {
-		$keys         = [];
-		$field_groups = get_posts( [
-			'post_type'              => 'acf-field-group',
-			'posts_per_page'         => 99,
-			'orderby'                => 'menu_order title',
-			'order'                  => 'asc',
-			'suppress_filters'       => false,
-			'post_status'            => [ 'publish', 'acf-disabled' ],
-			'update_post_meta_cache' => false,
-		] );
 
-		if ( ! empty( $field_groups ) ) {
-			// Build array for the post name and IDs.
-			$keys = wp_list_pluck( $field_groups, 'ID', 'post_title' );
+		$keys   = [];
+		$groups = apply_filters( 'acf/get_field_groups', [] );
+
+		foreach ( $groups as $group ) {
+			$keys[ $group['title'] ] = $group['key'];
 		}
 
 		return $keys;

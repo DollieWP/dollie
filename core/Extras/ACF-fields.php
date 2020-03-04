@@ -1514,7 +1514,7 @@ This is the default screenshot image shown on the site details header. It is onl
 				'label'             => 'Disk Space',
 				'name'              => '_wpd_max_size',
 				'type'              => 'number',
-				'instructions'      => 'How many sites can a customer deploy when subscribed to this product?',
+				'instructions'      => 'How much space can a customer use?',
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(

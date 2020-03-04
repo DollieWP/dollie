@@ -24,9 +24,9 @@ use Dollie\Core\Modules\PluginUpdates;
 use Dollie\Core\Modules\Scripts;
 use Dollie\Core\Modules\SecurityChecks;
 use Dollie\Core\Modules\Tools;
+use Dollie\Core\Modules\Upgrades;
 use Dollie\Core\Modules\WelcomeWizard;
 use Dollie\Core\Modules\WooCommerce;
-use Dollie\Core\Utils\Helpers;
 use WP_Query;
 
 /**
@@ -35,6 +35,9 @@ use WP_Query;
  */
 class Plugin extends Singleton {
 
+	/**
+	 * Plugin constructor.
+	 */
 	public function __construct() {
 		parent::__construct();
 
@@ -43,24 +46,32 @@ class Plugin extends Singleton {
 		add_action( 'template_redirect', [ $this, 'redirect_to_new_container' ] );
 		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
 
-		add_action( 'plugins_loaded', [ $this, 'plugins_loaded' ] );
+
+		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 9 );
+
+		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
 
 		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
 	}
 
-
 	/**
-	 * Access ContainerManagement class instance
-	 *
-	 * @return \Dollie\Core\Modules\ContainerManagement
+	 * Load Dollie dependencies. Make sure to call them on plugins_loaded
 	 */
-	public function container() {
-		return \Dollie\Core\Modules\ContainerManagement::instance();
+	public function load_dependencies() {
+
+		// Load logger.
+		if ( ! class_exists( '\WDS_Log_Post' ) ) {
+			require_once DOLLIE_PATH . 'core/Extras/wds-log-post/wds-log-post.php';
+		}
+
+		// Load customizer framework.
+		require_once DOLLIE_PATH . 'core/Extras/kirki/kirki.php';
 	}
 
-	public function plugins_loaded() {
-		//Load extras
-		require_once DOLLIE_PATH . 'core/Extras/wds-log-post/wds-log-post.php';
+	/**
+	 * Initialize modules and shortcodes
+	 */
+	public function initialize() {
 
 		// Load modules
 		AccessControl::instance();
@@ -74,7 +85,6 @@ class Plugin extends Singleton {
 		DeleteSite::instance();
 		DomainWizard::instance();
 		Hooks::instance();
-		ImportGravityForms::instance();
 		LaunchSite::instance();
 		Options::instance();
 		PluginUpdates::instance();
@@ -83,6 +93,7 @@ class Plugin extends Singleton {
 		WelcomeWizard::instance();
 		WooCommerce::instance();
 		Modules\Dashboard\Setup::instance();
+		Upgrades::instance();
 
 		// Shortcodes
 		Shortcodes\Blueprints::instance();
@@ -91,6 +102,9 @@ class Plugin extends Singleton {
 
 	}
 
+	/**
+	 * Register ACF fields
+	 */
 	public function acf_add_local_field_groups() {
 		require DOLLIE_PATH . 'core/Extras/ACF-fields.php';
 	}
