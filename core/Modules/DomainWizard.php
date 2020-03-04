@@ -112,10 +112,11 @@ class DomainWizard extends Singleton {
 		$install      = dollie()->get_container_url();
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
-		$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
+		$current_page  = (int) ( rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1 );
 
 		// Are the on the CloudFlare Setup Page?
 		if ( $current_page === 2 ) {
+
 			// Our form field ID + User meta fields
 			$ssl_type = rgar( $entry, '11' );
 			$email    = rgar( $entry, '50' );
@@ -124,15 +125,16 @@ class DomainWizard extends Singleton {
 			if ( $ssl_type === 'cloudflare' ) {
 
 				// Set up the request to CloudFlare to verify
-				$update = wp_remote_post( 'https://api.cloudflare.com/client/v4/user', [
-					'method'  => 'GET',
-					'timeout' => 45,
-					'headers' => [
-						'X-Auth-Email' => $email,
-						'X-Auth-Key'   => $api_key,
-						'Content-Type' => 'application/json',
-					],
-				] );
+                $args = [
+	                'method'  => 'GET',
+	                'timeout' => 45,
+	                'headers' => [
+		                'X-Auth-Email' => $email,
+		                'X-Auth-Key'   => $api_key,
+		                'Content-Type' => 'application/json',
+	                ],
+                ];
+				$update = wp_remote_post( 'https://api.cloudflare.com/client/v4/user', $args );
 
 				// Parse the JSON request
 				$answer   = wp_remote_retrieve_body( $update );
