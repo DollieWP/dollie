@@ -20,7 +20,7 @@ class ImportGravityForms extends Singleton {
 	 * Current plugin forms version
 	 * @var string
 	 */
-	private $forms_version = '2.0.0';
+	private $forms_version = '2.0.1';
 
 	/**
 	 * Option name that gets saved in the options database table

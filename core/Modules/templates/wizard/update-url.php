@@ -7,7 +7,7 @@
     </h4>
     <p>
 		<?php
-		sprintf( __( 'We have almost completed setting up your domain! The last step is updating the temporary site URL <strong>%s to your live domain %s</strong>.', DOLLIE_SLUG ),
+		printf( __( 'We have almost completed setting up your domain! The last step is updating the temporary site URL <strong>%s to your live domain %s</strong>.', DOLLIE_SLUG ),
 			$platform_url . DOLLIE_DOMAIN,
 			$has_domain
 		);

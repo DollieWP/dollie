@@ -246,7 +246,7 @@ class DomainWizard extends Singleton {
 
 		// Form Variables
 		if ( isset( $validation_result['form'] ) ) {
-			$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ? rgpost( 'gform_source_page_number_' . $form['id'] ) : 1;
+			$current_page = rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1;
 		}
 
 		// Are the on the Domain Replace page?
