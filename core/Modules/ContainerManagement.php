@@ -347,7 +347,7 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function load_scripts( $hook ) {
-		wp_register_style( 'dollie-custom-css', DOLLIE_URL . 'assets/css/admin.css' );
+		wp_register_style( 'dollie-custom-css', DOLLIE_URL . 'assets/css/admin.css', [], DOLLIE_VERSION );
 		wp_enqueue_style( 'dollie-custom-css' );
 		wp_enqueue_script( 'dollie-custom-js', DOLLIE_URL . 'assets/js/admin.js' );
 	}
