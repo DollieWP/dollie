@@ -16,8 +16,8 @@ use Dollie\Core\Modules\ContainerRegistration;
 use Dollie\Core\Modules\Custom;
 use Dollie\Core\Modules\DeleteSite;
 use Dollie\Core\Modules\DomainWizard;
+use Dollie\Core\Modules\Forms;
 use Dollie\Core\Modules\Hooks;
-use Dollie\Core\Modules\ImportGravityForms;
 use Dollie\Core\Modules\LaunchSite;
 use Dollie\Core\Modules\Options;
 use Dollie\Core\Modules\PluginUpdates;
@@ -47,7 +47,7 @@ class Plugin extends Singleton {
 		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
 
 
-		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 9 );
+		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 0 );
 
 		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
 
@@ -66,6 +66,11 @@ class Plugin extends Singleton {
 
 		// Load customizer framework.
 		require_once DOLLIE_PATH . 'core/Extras/kirki/kirki.php';
+
+		// Load logger.
+		if ( ! class_exists( '\AF' ) ) {
+			require_once DOLLIE_PATH . 'core/Extras/advanced-forms/advanced-forms.php';
+		}
 	}
 
 	/**
@@ -74,6 +79,7 @@ class Plugin extends Singleton {
 	public function initialize() {
 
 		// Load modules
+		Forms::instance();
 		AccessControl::instance();
 		Backups::instance();
 		Blueprints::instance();
