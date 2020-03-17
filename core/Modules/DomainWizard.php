@@ -175,15 +175,11 @@ class DomainWizard extends Singleton {
 					unset( $field );
 
 				} elseif ( isset( $response['result']['id'] ) ) {
-
-					// Success now send the Worker request
-					// This job will install + activate the CloudFlare plugin and populate the email + API key fields for the CloudFlare Options.
-					$post_body = [
-						'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
-						'argString' => '-email ' . $email . ' -key ' . $api_key
-					];
-
-					Api::postRequestWorker( '1/job/3725d807-435e-400c-8679-2a438f765002/run/', $post_body );
+					Api::post( Api::ROUTE_DOMAIN_INSTALL_CLOUDFLARE, [
+						'container_url'  => $install,
+						'email'          => $email,
+						'cloudflare_key' => $api_key
+					] );
 
 					// All done, update user meta!
 					update_post_meta( $currentQuery->id, 'wpd_cloudflare_email', $email );
@@ -293,17 +289,14 @@ class DomainWizard extends Singleton {
 				$domain = get_post_meta( $currentQuery->id, 'wpd_domains', true );
 			}
 
-			$post_body = [
-				'filter'    => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_WORKER_KEY,
-				'argString' => '-install ' . $currentQuery->slug . DOLLIE_DOMAIN . ' -domain ' . $domain
-			];
-
-			$update = Api::postRequestWorker( '1/job/ba12c626-a9aa-4abc-b239-278238f1b2a9/run/', $post_body );
+			$update = Api::post( Api::ROUTE_DOMAIN_UPDATE, [
+				'container_url'  => $currentQuery->slug,
+				'domain'         => $domain
+			] );
 
 			$answer = wp_remote_retrieve_body( $update );
 
 			Log::add( 'Search and replace ' . $currentQuery->slug . ' to update URL to ' . $domain . ' has started', $answer );
-
 
 			$le = get_post_meta( $currentQuery->id, 'wpd_letsencrypt_enabled', true );
 			if ( $le === 'yes' ) {

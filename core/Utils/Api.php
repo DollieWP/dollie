@@ -23,6 +23,7 @@ class Api extends Singleton {
 		ROUTE_DOMAIN_ROUTES_ADD = 'domain/routes/add',
 		ROUTE_DOMAIN_ROUTES_GET = 'domain/routes/get',
 		ROUTE_DOMAIN_ROUTES_DELETE = 'domain/routes/delete',
+		ROUTE_DOMAIN_UPDATE = 'domain/update',
 		ROUTE_DOMAIN_INSTALL_LETSENCRYPT = 'domain/install/letsencrypt',
 		ROUTE_DOMAIN_INSTALL_CLOUDFLARE = 'domain/instlal/cloudflare',
 

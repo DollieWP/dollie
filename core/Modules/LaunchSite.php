@@ -166,13 +166,10 @@ class LaunchSite extends Singleton {
 					$blueprint_url     = get_post_meta( $blueprint, 'wpd_container_uri', true );
 					$blueprint_install = str_replace( 'https://', '', $blueprint_url );
 
-					$blueprint_body = [
-						'filter'    => 'name: https://' . $domain . DOLLIE_DOMAIN . '-' . DOLLIE_RUNDECK_KEY,
-						'argString' => '-url ' . $blueprint_install . ' -domain ' . $domain . DOLLIE_DOMAIN
-					];
-
-					//Set up the request
-					Api::postRequestWorker( '1/job/a1a56354-a08e-4e7c-9dc5-bb72bb571dbe/run/', $blueprint_body );
+					Api::post( Api::ROUTE_BLUEPRINT_DEPLOY, [
+						'container_url' => $domain,
+						'blueprint_url' => $blueprint_install
+					] );
 
 					Log::add( $domain . ' will use blueprint' . $blueprint_install, '', 'deploy' );
 					update_post_meta( $post_id, 'wpd_blueprint_deployment_complete', 'yes' );
