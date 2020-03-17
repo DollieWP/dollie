@@ -63,7 +63,10 @@ class DomainWizard extends Singleton {
 		// Are we on the first page?
 		if ( $current_page === 1 ) {
 
-			$answer = Api::postRequestDollie( $request->id . '/routes', [ 'domain' => $domain ], 45 );
+			$answer = Api::post( Api::ROUTE_DOMAIN_ROUTES_ADD, [
+				'container_id' => $request->id,
+				'domain'       => $domain
+			] );
 
 			$response = json_decode( $answer, true );
 
@@ -78,21 +81,25 @@ class DomainWizard extends Singleton {
 						// validation failed
 						$validation_result['is_valid'] = false;
 						$field->failed_validation      = true;
-						$field->validation_message = wp_kses_post( sprintf(
+						$field->validation_message     = wp_kses_post( sprintf(
 							__( 'Sorry, We could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href="%s">Contact Support</a>', 'dollie' ),
 							'https://dollie.co/support-redirect'
 						) );
 					}
 
 				}
-				unset($field);
+				unset( $field );
 			}
 			if ( array_key_exists( 'path', $response ) ) {
 				// Save the Domain Data and make another S5 Request for the WWW domain.
 				update_post_meta( $currentQuery->id, 'wpd_domain_id', $response['id'] );
 				update_post_meta( $currentQuery->id, 'wpd_domains', $domain );
 
-				$update_answer   = Api::postRequestDollie( $request->id . '/routes', [ 'domain' => 'www.' . $domain ], 45 );
+				$update_answer = Api::post( Api::ROUTE_DOMAIN_ROUTES_ADD, [
+					'container_id' => $request->id,
+					'domain'       => 'www.' . $domain
+				] );
+
 				$update_response = json_decode( $update_answer, true );
 
 				// Also save the WWW Domain data.
@@ -300,7 +307,10 @@ class DomainWizard extends Singleton {
 
 			$le = get_post_meta( $currentQuery->id, 'wpd_letsencrypt_enabled', true );
 			if ( $le === 'yes' ) {
-				$le_answer = Api::postRequestDollie( $container . '/routes/' . $le_domain . '/autoCert', [], 90 );
+				$le_answer = Api::post( Api::ROUTE_DOMAIN_INSTALL_LETSENCRYPT, [
+					'container_id' => $container,
+					'route_id'     => $le_domain
+				] );
 
 				// Show an error of S5 API can't add the Route.
 				if ( is_wp_error( $le_answer ) ) {
@@ -529,7 +539,7 @@ class DomainWizard extends Singleton {
 
 				$values[] = rgpost( "input_{$field['id']}" );
 			}
-			unset($field);
+			unset( $field );
 
 			// filter out unique values, if greater than 1, a value was different
 			if ( count( array_unique( $values ) ) <= 1 ) {
@@ -551,7 +561,7 @@ class DomainWizard extends Singleton {
 				$field['failed_validation']  = true;
 				$field['validation_message'] = 'Your domain names do not match.';
 			}
-			unset($field);
+			unset( $field );
 		}
 
 		$validation_result['form']     = $form;

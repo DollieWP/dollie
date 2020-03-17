@@ -49,60 +49,16 @@ class Api extends Singleton {
 		parent::__construct();
 	}
 
-	public function get( $endpoint ) {
-		return wp_remote_get( $endpoint );
+	public static function get( $endpoint ) {
+		// todo: add route to constant
+		return wp_remote_get( 'http://127.0.0.1:8000/api/' . $endpoint );
 	}
 
-	public function post( $endpoint, $data = [] ) {
-
-	}
-
-	/**
-	 * Post request Dollie API
-	 *
-	 * @param string $endpoint
-	 * @param array $data
-	 * @param null $timeout
-	 *
-	 * @return array|\WP_Error
-	 */
-	public static function postRequestDollie( $endpoint, $data = [], $timeout = null ) {
-		$requestData = [
-			'method'  => 'POST',
-			'headers' => [
-				'Authorization' => 'Basic ' . base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD ),
-				'Content-Type'  => 'application/json',
-			],
-			'body'    => json_encode( $data )
-		];
-
-		if ( $timeout !== null && is_numeric( $timeout ) ) {
-			$requestData['timeout'] = abs( $timeout );
-		}
-
-		return wp_remote_post( DOLLIE_INSTALL . '/s5Api/v1/sites/' . $endpoint, $requestData );
-	}
-
-	/**
-	 * Get request Dollie API
-	 *
-	 * @param string $endpoint
-	 * @param null $timeout
-	 *
-	 * @return array|\WP_Error
-	 */
-	public static function getRequestDollie( $endpoint = '', $timeout = null ) {
-		$requestData = [
-			'headers' => [
-				'Authorization' => 'Basic ' . base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD )
-			]
-		];
-
-		if ( $timeout !== null && is_numeric( $timeout ) ) {
-			$requestData['timeout'] = abs( $timeout );
-		}
-
-		return wp_remote_get( DOLLIE_INSTALL . '/s5Api/v1/sites/' . $endpoint, $requestData );
+	public static function post( $endpoint, $data = [] ) {
+		return wp_remote_post( 'http://127.0.0.1:8000/api/' . $endpoint, [
+			'method' => 'POST',
+			'body'   => json_encode( $data )
+		] );
 	}
 
 	/**

@@ -61,7 +61,7 @@ class LaunchSite extends Singleton {
 			]
 		];
 
-		$answer = Api::postRequestDollie( '', $post_body, 45 );
+		$answer = Api::post( Api::ROUTE_CONTAINER_CREATE, $post_body );
 
 		if ( is_wp_error( $answer ) ) {
 			Log::add( $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $answer, true ), 'deploy' );
@@ -87,7 +87,10 @@ class LaunchSite extends Singleton {
 		} else {
 			sleep( 5 );
 
-			$deploy = Api::postRequestDollie( $response['id'] . '/deploy', [], 120 );
+			$deploy = Api::post( Api::ROUTE_CONTAINER_TRIGGER, [
+				'container_id' => $response['id'],
+				'action'       => 'deploy'
+			] );
 
 			//Log::add( $domain . ' Creating Site Dollie (see log)' . $post_slug, print_r( $deploy, true ), 'deploy' );
 
@@ -102,7 +105,7 @@ class LaunchSite extends Singleton {
 				}
 			}
 
-			$update_container = Api::getRequestDollie( $response['id'] . '/', 120 );
+			$update_container = Api::post( Api::ROUTE_CONTAINER_GET, [ 'container_id' => $response['id'] ] );
 
 			//Log::add( $domain . 'Deploying created site ' . $post_slug, print_r( $update_container, true ), 'deploy' );
 
@@ -152,7 +155,7 @@ class LaunchSite extends Singleton {
 				sleep( 3 );
 
 				//Register Node via Rundeck
-				ContainerRegistration::instance()->register_worker_node($post_id);
+				ContainerRegistration::instance()->register_worker_node( $post_id );
 
 				//Set Flag if Blueprint
 				if ( $blueprint ) {
@@ -175,7 +178,7 @@ class LaunchSite extends Singleton {
 					update_post_meta( $post_id, 'wpd_blueprint_deployment_complete', 'yes' );
 				}
 
-				if ( $demo === 'yes' && is_page( 'get-started' ) && is_plugin_active('get-dollie-extension/dollie.php') ) {
+				if ( $demo === 'yes' && is_page( 'get-started' ) && is_plugin_active( 'get-dollie-extension/dollie.php' ) ) {
 					Log::add( $domain . ' starts partner deploy', '', 'deploy' );
 					wpd_apply_partner_template( $post_id, $domain, rgar( $entry, '6' ), rgar( $entry, '8' ), rgar( $entry, '9' ) );
 				}
