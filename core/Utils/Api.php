@@ -30,7 +30,7 @@ class Api extends Singleton {
 		ROUTE_BACKUP_CREATE = 'backup/create',
 		ROUTE_BACKUP_RESTORE = 'backup/restore',
 
-		ROUTE_BLUEPRINT_GEt = 'blueprint',
+		ROUTE_BLUEPRINT_GET = 'blueprint',
 		ROUTE_BLUEPRINT_CREATE_OR_UPDATE = 'blueprint/create-or-update',
 		ROUTE_BLUEPRINT_DEPLOY = 'blueprint/deploy',
 		ROUTE_BLUEPRINT_DEPLOY_FOR_PARTNER = 'blueprint/deploy-partner',
