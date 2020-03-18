@@ -36,11 +36,33 @@ class LaunchSite extends Singleton {
 	}
 
 	public function add_new_site( $result, $value, $form, $field ) {
+
+
+
 		$entry = GFFormsModel::get_current_lead();
 
 		$domain = rgar( $entry, '1' );
 		$email  = rgar( $entry, '2' );
 		$demo   = rgar( $entry, '3' );
+
+		$action = did_action('wp_insert_post');
+		if (0 === $action) {
+			// Set the post ID so that we know the post was created successfully
+			$my_post = [
+				'comment_status' => 'closed',
+				'ping_status'    => 'closed',
+				'post_author'    => get_current_user_id(),
+				'post_name'      => $domain . '-failed',
+				'post_title'     => $domain. ' [deploy failed]',
+				'post_status'    => 'draft',
+				'post_type'      => 'container',
+			];
+		}
+
+		$post_id = wp_insert_post($my_post);
+
+		add_post_meta($post_id, 'wpd_container_status', 'failed', true);
+
 
 		$blueprint = isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : rgar( $entry, '4' );
 
@@ -74,6 +96,7 @@ class LaunchSite extends Singleton {
 		}
 
 		Log::add( $domain . ' API request made to Dollie install ' . DOLLIE_INSTALL . ' (see log)', print_r( $answer, true ), 'deploy' );
+
 
 		$response = json_decode( wp_remote_retrieve_body( $answer ), true );
 
@@ -118,18 +141,14 @@ class LaunchSite extends Singleton {
 //					$field->validation_message     = 'Sorry, It seems like there was an issue with launching your new site. Our support team has been notified';
 //				}
 			} else {
-				// Set the post ID so that we know the post was created successfully
-				$my_post = [
-					'comment_status' => 'closed',
-					'ping_status'    => 'closed',
-					'post_author'    => get_current_user_id(),
+
+				wp_update_post(array(
+					'ID'    =>  $post_id,
+					'post_status'   =>  'publish',
 					'post_name'      => $domain,
 					'post_title'     => $domain,
-					'post_status'    => 'publish',
-					'post_type'      => 'container',
-				];
+				));
 
-				$post_id = wp_insert_post( $my_post );
 
 				Log::add( 'New Site ' . $domain . ' has container ID of ' . $update_response['id'], '', 'deploy' );
 
@@ -141,7 +160,7 @@ class LaunchSite extends Singleton {
 				add_post_meta( $post_id, 'wpd_container_ip', $update_response['containerHostIpAddress'], true );
 				add_post_meta( $post_id, 'wpd_container_deploy_time', $update_response['deployedAt'], true );
 				add_post_meta( $post_id, 'wpd_container_uri', $update_response['uri'], true );
-				add_post_meta( $post_id, 'wpd_container_status', 'start', true );
+				update_post_meta( $post_id, 'wpd_container_status', 'start', true );
 				add_post_meta( $post_id, 'wpd_container_launched_by', $email, true );
 
 				//Set Flag if Demo
