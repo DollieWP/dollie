@@ -36,16 +36,7 @@ class PluginUpdates extends Singleton {
 			@flush();
 		}
 
-		$install = dollie()->get_container_url();
-
-		// Only run the job on the container of the customer.
-
-		$post_body = [
-			'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
-		];
-
-		//Set up the request
-		$update = Api::postRequestWorker( '1/job/0a74013f-1180-45bf-aacd-42455dc5c338/run/', $post_body );
+		$update = Api::post( Api::ROUTE_PLUGINS_UPDATES_GET, [ 'container_url' => dollie()->get_container_url() ] );
 
 		//Parse the JSON request
 		$answer = wp_remote_retrieve_body( $update );
@@ -80,7 +71,7 @@ class PluginUpdates extends Singleton {
 						$needs_upgrade = true;
 					}
 				}
-            }
+			}
 
 			$choices = [];
 			if ( $needs_upgrade === false ) {
@@ -124,13 +115,10 @@ class PluginUpdates extends Singleton {
 		$value          = is_object( $field ) ? $field->get_value_export( $entry ) : '';
 		$update_plugins = str_replace( ',', ' ', $value );
 
-		$post_body = [
-			'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
-			'argString' => '-plugins ' . $update_plugins
-		];
-
-		//Set up the request
-		$update = Api::postRequestWorker( '1/job/7976ab1f-23d7-460b-aa24-6222ce17c2f9/run/', $post_body );
+		$update = Api::post( Api::ROUTE_PLUGINS_UPDATES_APPLY, [
+			'container_url' => $install,
+			'plugins'       => $update_plugins
+		] );
 
 		// Parse the JSON request
 		$answer = wp_remote_retrieve_body( $update );

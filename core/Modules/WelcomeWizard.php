@@ -42,7 +42,6 @@ class WelcomeWizard extends Singleton {
 		if ( $current_page_number > 1 ) {
 			$value        = rgpost( 'input_1' );
 			$currentQuery = dollie()->get_current_object();
-			$install = dollie()->get_container_url();
 
 			if ( $value === 'setup' ) {
 				$demo    = get_post_meta( $currentQuery->id, 'wpd_container_is_demo', true );
@@ -57,28 +56,23 @@ class WelcomeWizard extends Singleton {
 					if ( $is_partner_lead === 'yes' && $partner_blueprint === 'yes' && $blueprint_deployed !== 'yes' ) {
 						$partner_install = get_post_meta( $partner->ID, 'wpd_url', true );
 
-						$post_body = [
-							'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
-							'argString' => '-url ' . $partner_install . DOLLIE_DOMAIN . ' -domain ' . $currentQuery->slug . DOLLIE_DOMAIN
-						];
-
-						Api::postRequestWorker( '1/job/85783830-a89d-439f-b4db-4a5e0e0fd6a9/run/', $post_body );
+						Api::post( Api::ROUTE_BLUEPRINT_DEPLOY_FOR_PARTNER, [
+							'container_url' => dollie()->get_container_url(),
+							'partner_url'   => $partner_install,
+							'domain'        => $currentQuery->slug
+						] );
 
 						update_post_meta( $currentQuery->id, 'wpd_partner_blueprint_deployed', 'yes' );
 						sleep( 5 );
 					} else {
-						$email       = rgpost( 'input_5' );
-						$name        = rgpost( 'input_4' );
-						$username    = rgpost( 'input_26' );
-						$password    = rgpost( 'input_27' );
-						$description = rgpost( 'input_11' );
-
-						$post_body = [
-							'filter'    => 'name: https://' . $currentQuery->slug . DOLLIE_DOMAIN . '-' . DOLLIE_WORKER_KEY,
-							'argString' => '-email ' . $email . ' -name ' . $name . ' -description ' . $description . ' -password ' . $password . ' -username ' . $username
-						];
-
-						Api::postRequestWorker( '1/job/f0b8f078-fb6d-47e7-ac8b-2962fe8b0241/run/', $post_body );
+						Api::post( Api::ROUTE_WIZARD_SETUP, [
+							'container_url' => $currentQuery->slug,
+							'email'         => rgpost( 'input_5' ),
+							'name'          => rgpost( 'input_4' ),
+							'description'   => rgpost( 'input_11' ),
+							'username'      => rgpost( 'input_26' ),
+							'password'      => rgpost( 'input_27' )
+						] );
 					}
 				}
 

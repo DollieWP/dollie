@@ -65,31 +65,31 @@ class ContainerManagement extends Singleton {
 		];
 
 		$args = [
-			'label'              => esc_html__( 'Container', 'dollie' ),
-			'description'        => esc_html__( 'Platform Containers', 'dollie' ),
-			'labels'             => $labels,
-			'supports'           => [ 'title', 'content', 'author', 'custom-fields', 'thumbnail' ],
-			'taxonomies'         => [ 'container_category', 'container_tag' ],
-			'hierarchical'       => false,
-			'public'             => true,
-			'show_ui'            => true,
-			'show_in_menu'       => 'wpd_platform_setup',
-			'menu_position'      => - 10,
-			'show_in_admin_bar'  => true,
-			'show_in_nav_menus'  => true,
-			'can_export'         => true,
-			'has_archive'        => false,
+			'label'               => esc_html__( 'Container', 'dollie' ),
+			'description'         => esc_html__( 'Platform Containers', 'dollie' ),
+			'labels'              => $labels,
+			'supports'            => [ 'title', 'content', 'author', 'custom-fields', 'thumbnail' ],
+			'taxonomies'          => [ 'container_category', 'container_tag' ],
+			'hierarchical'        => false,
+			'public'              => true,
+			'show_ui'             => true,
+			'show_in_menu'        => 'wpd_platform_setup',
+			'menu_position'       => - 10,
+			'show_in_admin_bar'   => true,
+			'show_in_nav_menus'   => true,
+			'can_export'          => true,
+			'has_archive'         => false,
 			'exclude_from_search' => true,
-			'publicly_queryable' => true,
-			'menu_icon'          => 'dashicons-image-filter',
-			'query_var'          => 'site',
-			'rewrite'            => [
+			'publicly_queryable'  => true,
+			'menu_icon'           => 'dashicons-image-filter',
+			'query_var'           => 'site',
+			'rewrite'             => [
 				'slug'       => 'site',
 				'with_front' => true,
 				'pages'      => true,
 				'feeds'      => false,
 			],
-			'show_in_rest'       => false,
+			'show_in_rest'        => false,
 		];
 
 		register_post_type( 'container', $args );
@@ -115,7 +115,7 @@ class ContainerManagement extends Singleton {
 		if ( empty( $request ) ) {
 
 			// Set up the request
-			$response = Api::getRequestDollie( $container_id, 30 );
+			$response = Api::post( API::ROUTE_CONTAINER_GET, [ 'container_id' => $container_id ] );
 
 			if ( is_wp_error( $response ) ) {
 				Log::add( 'Container details could not be fetched. for' . $currentQuery->slug, print_r( $response, true ), 'error' );
@@ -190,46 +190,37 @@ class ContainerManagement extends Singleton {
 		return $request;
 	}
 
-	public function start_worker_job( $job_id ) {
-		$currentQuery = dollie()->get_current_object();
-		$install      = dollie()->get_container_url();
-
-		$post_body = [
-			'filter' => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
-		];
-
-		Api::postRequestWorker( '1/job/' . $job_id . '/run/', $post_body );
-	}
-
 	public function run_container_actions() {
 		// Only fire on our site management page
 		if ( ! isset( $_GET['update-site-action'] ) ) {
 			return;
 		}
 
+		$install = dollie()->get_container_url();
+
 		// Trigger the right Worker Action
 		if ( isset( $_POST['install-plugin'] ) ) {
-			$this->start_worker_job( '1fcf1bdb-95a4-4ecb-bc46-78382f5a930b' );
+			//Api::post( Api::ROUTE_PLUGINS_INSTALL, [ 'container_url' => $install ] );
 		}
 
 		// Trigger the right Worker Action
 		if ( isset( $_POST['switch-to-php-5'] ) ) {
-			$this->start_worker_job( 'a98ea708-f42e-418c-bc35-1066fb533e8e' );
+			//Api::post( Api::ROUTE_PLUGINS_INSTALL, [ 'container_url' => $install ] );
 		}
 
 		// Trigger the right Worker Action
 		if ( isset( $_POST['create-new-backup'] ) ) {
-			$this->start_worker_job( '5b51b1a4-bcc7-4c2c-a799-b024e561c87f' );
+			Api::post( Api::ROUTE_BACKUP_CREATE, [ 'container_url' => $install ] );
 		}
 
 		// Trigger the right Worker Action
 		if ( isset( $_POST['switch-to-php-7'] ) ) {
-			$this->start_worker_job( 'cf9d0568-e150-4f59-b014-b7c7d9ca5e46' );
+			//$this->start_worker_job( 'cf9d0568-e150-4f59-b014-b7c7d9ca5e46' );
 		}
 
 		// Caching Method = Super Cache
 		if ( isset( $_POST['caching-wpsc'] ) ) {
-			$this->start_worker_job( '00beea1e-fe15-436b-872e-43ead65c8c51' );
+			//$this->start_worker_job( '00beea1e-fe15-436b-872e-43ead65c8c51' );
 		}
 	}
 
@@ -240,6 +231,7 @@ class ContainerManagement extends Singleton {
 			'filter' => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
 		];
 
+		// todo: 6f757271-a39e-4eb2-8f89-f6668033a262 is not found
 		$update = Api::postRequestWorker( '1/job/6f757271-a39e-4eb2-8f89-f6668033a262/run/', $post_body );
 
 		// Parse the JSON request
@@ -295,7 +287,7 @@ class ContainerManagement extends Singleton {
 
 		$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
 
-		$update = Api::postRequestDollie( $container_id . '/' . $action, [], 45 );
+		$update = Api::post( Api::ROUTE_CONTAINER_TRIGGER, [ 'container_id' => $container_id, 'action' => $action ] );
 
 		if ( is_wp_error( $update ) ) {
 			Log::add( 'container action could not be completed for ' . $currentQuery->slug, print_r( $update, true ), 'error' );
@@ -358,7 +350,7 @@ class ContainerManagement extends Singleton {
 
 	public function sync_containers() {
 		// Get list of container from remote API
-		$api_result = Api::getRequestDollie( '', 30 );
+		$api_result = Api::post( Api::ROUTE_CONTAINER_GET );
 
 		// Convert JSON into array.
 		$server_containers = json_decode( wp_remote_retrieve_body( $api_result ), true );

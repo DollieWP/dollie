@@ -109,7 +109,7 @@ class Backups extends Singleton {
 					if ( strpos( $info[1], 'MB' ) !== false ) {
 						$get_mb_size = (float) str_replace( 'MB', '', $info[1] );
 
-						$real_size   = $get_mb_size . ' MB';
+						$real_size = $get_mb_size . ' MB';
 					} else {
 						$real_size = $info[1];
 					}
@@ -149,32 +149,11 @@ class Backups extends Singleton {
 	}
 
 	public function restore_site( $entry, $form ) {
-		$install = dollie()->get_container_url();
-
-		// Our form field ID + User meta fields
-		$backup = rgar( $entry, '1' );
-		$type   = rgar( $entry, '2' );
-
-		$backup_type = '';
-		if ( $type === 'full' ) {
-			$backup_type = 'a32bf123-fe75-4664-962f-b6901e28b5da';
-		}
-		if ( $type === 'files-only' ) {
-			$backup_type = '40b2af3e-eaab-4469-8001-24c43186fa40';
-		}
-		if ( $type === 'database-only' ) {
-			$backup_type = '4b766076-2dfd-475b-bc18-c4eb1407cc5d';
-		}
-
-		if ( $backup_type ) {
-			// Only run the job on the container of the customer.
-			$post_body = [
-				'filter'    => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
-				'argString' => '-backup ' . $backup
-			];
-
-			Api::postRequestWorker( '1/job/' . $backup_type . '/run/', $post_body );
-		}
+		Api::post( Api::ROUTE_BACKUP_RESTORE, [
+			'container_url' => dollie()->get_container_url(),
+			'backup'        => rgar( $entry, '1' ),
+			'backup_type'   => rgar( $entry, '2' )
+		] );
 
 		?>
         <div class="alert alert-success">
@@ -193,15 +172,8 @@ class Backups extends Singleton {
 
 	public function trigger_backup() {
 		$currentQuery = dollie()->get_current_object();
-		$install      = dollie()->get_container_url();
 
-		// Success now send the Worker request
-		// Only run the job on the container of the customer.
-		$post_body = [
-			'filter' => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY
-		];
-
-		Api::postRequestWorker( '1/job/6b51b1a4-bcc7-4c2c-a799-b024e561c87f/run/', $post_body );
+		Api::post( Api::ROUTE_BACKUP_CREATE, [ 'container_url' => dollie()->get_container_url() ] );
 		Log::add( $currentQuery->slug . ' has triggered a backup', '', 'action' );
 	}
 

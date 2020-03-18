@@ -52,9 +52,7 @@ class ContainerRegistration extends Singleton {
 	}
 
 	public function get_worker_nodes() {
-		$update = Api::postRequestWorker( '23/project/Dollie-Containers/source/1/resources?format=xml', [], 'GET' );
-
-		return wp_remote_retrieve_body( $update );
+		return Api::post( Api::ROUTE_NODES_GET );
 	}
 
 	public function register_worker_node( $id = null ) {
