@@ -23,7 +23,7 @@ class Forms extends Singleton {
 		add_filter( 'acf/load_field', [ $this, 'localize_strings' ] );
 
 		add_action( 'af/register_forms', [ $this, 'register_forms' ] );
-		
+
 		//add_filter( 'af/merge_tags/resolve', 'add_hello_merge_tag', 10, 2 );
 		//add_filter( 'af/merge_tags/custom', 'register_hello_merge_tag', 10, 2 );
 		/*

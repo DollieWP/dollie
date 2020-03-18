@@ -87,7 +87,7 @@ class DomainWizard extends Singleton {
 				}
 				unset($field);
 			}
-			if ( array_key_exists( 'path', $response ) ) {
+			//if ( array_key_exists( 'path', $response ) ) {
 				// Save the Domain Data and make another S5 Request for the WWW domain.
 				update_post_meta( $currentQuery->id, 'wpd_domain_id', $response['id'] );
 				update_post_meta( $currentQuery->id, 'wpd_domains', $domain );
@@ -98,7 +98,7 @@ class DomainWizard extends Singleton {
 				// Also save the WWW Domain data.
 				update_post_meta( $currentQuery->id, 'wpd_www_domain_id', $update_response['id'] );
 				Log::add( $currentQuery->slug . ' linked up domain ' . $domain . '' );
-			}
+			//}
 
 			// Assign modified $form object back to the validation result
 			$validation_result['form'] = $form;
