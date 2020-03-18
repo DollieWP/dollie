@@ -158,10 +158,12 @@ class Helpers extends Singleton {
 
 	public function get_latest_container_url() {
 		$query = new WP_Query( [
+			'post_status'    => array('publish', 'draft'),
 			'author'         => get_current_user_id(),
 			'post_type'      => 'container',
 			'posts_per_page' => 1,
 		] );
+
 
 		$output = '';
 

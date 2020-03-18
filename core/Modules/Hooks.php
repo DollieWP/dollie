@@ -30,7 +30,7 @@ class Hooks extends Singleton {
 			$setup_complete = get_post_meta( $post_id, 'wpd_setup_complete', true );
 			$status         = get_post_meta( $post_id, 'wpd_container_status', true );
 
-			if ( $status !== 'stop' ) {
+			if ( $status !== 'stop' && $status !== 'failed' ) {
 
 				//Include our API requests so they are available across our templates.
 				include get_template_directory() . '/lib/get-container-details.php';
