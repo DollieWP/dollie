@@ -40,6 +40,7 @@ class Api extends Singleton {
 		ROUTE_PLUGINS_UPDATES_GET = 'plugins/updates/get',
 		ROUTE_PLUGINS_UPDATES_APPLY = 'plugins/updates/apply',
 
+		ROUTE_EXECUTE_JOB = 'execute/job',
 		ROUTE_NODES_GET = 'nodes',
 		ROUTE_WIZARD_SETUP = 'setup';
 
@@ -60,33 +61,6 @@ class Api extends Singleton {
 			'method' => 'POST',
 			'body'   => json_encode( $data )
 		] );
-	}
-
-	/**
-	 * Post request Worker API
-	 *
-	 * @param string $endpoint
-	 * @param array $data
-	 * @param string $method
-	 * @param null $timeout
-	 *
-	 * @return array|\WP_Error
-	 */
-	public static function postRequestWorker( $endpoint, $data = [], $method = 'POST', $timeout = null ) {
-		$requestData = [
-			'method'  => $method,
-			'headers' => [
-				'X-Rundeck-Auth-Token' => DOLLIE_WORKER_TOKEN,
-				'Content-Type'         => 'application/json',
-			],
-			'body'    => json_encode( $data )
-		];
-
-		if ( $timeout !== null && is_numeric( $timeout ) ) {
-			$requestData['timeout'] = abs( $timeout );
-		}
-
-		return wp_remote_post( DOLLIE_WORKER_URL . '/api/' . $endpoint, $requestData );
 	}
 
 }

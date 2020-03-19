@@ -17,16 +17,16 @@ use Dollie\Core\Modules\Custom;
 use Dollie\Core\Modules\DeleteSite;
 use Dollie\Core\Modules\DomainWizard;
 use Dollie\Core\Modules\Hooks;
-use Dollie\Core\Modules\ImportGravityForms;
 use Dollie\Core\Modules\LaunchSite;
 use Dollie\Core\Modules\Options;
 use Dollie\Core\Modules\PluginUpdates;
-use Dollie\Core\Modules\Scripts;
 use Dollie\Core\Modules\SecurityChecks;
 use Dollie\Core\Modules\Tools;
 use Dollie\Core\Modules\Upgrades;
 use Dollie\Core\Modules\WelcomeWizard;
 use Dollie\Core\Modules\WooCommerce;
+
+use Dollie\Core\Utils\Api;
 use WP_Query;
 
 /**
@@ -128,33 +128,15 @@ class Plugin extends Singleton {
 			$route_id     = get_post_meta( $post_id, 'wpd_domain_id', true );
 			$www_route_id = get_post_meta( $post_id, 'wpd_www_domain_id', true );
 
-			// Take output buffer for our body in our POST request
-			$url     = DOLLIE_INSTALL . '/s5Api/v1/sites/' . $container_id . '/routes/' . $route_id;
-			$www_url = DOLLIE_INSTALL . '/s5Api/v1/sites/' . $container_id . '/routes/' . $www_route_id;
+			Api::post( Api::ROUTE_DOMAIN_ROUTES_DELETE, [
+				'container_id' => $container_id,
+				'route_id'     => $route_id
+			] );
 
-			// Set up the request
-			wp_remote_post(
-				$url,
-				array(
-					'method'  => 'DELETE',
-					'headers' => array(
-						'Authorization' => 'Basic ' . base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD ),
-						'Content-Type'  => 'application/json',
-					),
-				)
-			);
-
-			// Set up the request
-			wp_remote_post(
-				$www_url,
-				array(
-					'method'  => 'DELETE',
-					'headers' => array(
-						'Authorization' => 'Basic ' . base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD ),
-						'Content-Type'  => 'application/json',
-					),
-				)
-			);
+			Api::post( Api::ROUTE_DOMAIN_ROUTES_DELETE, [
+				'container_id' => $container_id,
+				'route_id'     => $www_route_id
+			] );
 
 			dollie()->flush_container_details();
 
