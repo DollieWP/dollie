@@ -48,7 +48,8 @@ class PluginUpdates extends Singleton {
 
 		sleep( 6 );
 
-		//Set up the request
+		// Set up the request
+        // $execution_id is job_id
 		$update = Api::postRequestWorker( '5/execution/' . $execution_id . '/output?format=text/' );
 
 		//Parse the JSON request

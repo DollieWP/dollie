@@ -18,7 +18,6 @@ use GFFormsModel;
  */
 class LaunchSite extends Singleton {
 
-
 	/**
 	 * LaunchSite constructor.
 	 */
