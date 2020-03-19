@@ -74,11 +74,6 @@ class AF_Core_Forms_Rendering {
      *
      */
     acf_enqueue_scripts();
-
-    // ACF fails to include all translations when running "acf_enqueue_scripts", hence we need to do it manually.
-    $acf_l10n = acf_get_instance('ACF_Assets')->text;
-    wp_localize_script( 'acf-input', 'acfL10n', $acf_l10n );
-
     wp_enqueue_script( 'af-forms-script', AF()->url . 'assets/dist/js/forms.js', array( 'jquery', 'acf-input' ), AF()->version, true );
     
     // Check if ACF version is < 5.7
@@ -447,13 +442,8 @@ class AF_Core_Forms_Rendering {
     $attributes = apply_filters( 'af/form/field_attributes/key=' . $form['key'], $attributes, $field, $form, $args );
     
     // Field instructions
-    $instruction_placement = $args['instruction_placement'];
-    $instruction_placement = apply_filters( 'af/field/instruction_placement', $instruction_placement, $field, $form, $args );
-    $instruction_placement = apply_filters( 'af/field/instruction_placement/name=' . $field['name'], $instruction_placement, $field, $form, $args );
-    $instruction_placement = apply_filters( 'af/field/instruction_placement/key=' . $field['key'], $instruction_placement, $field, $form, $args );
-    
     if ( ! empty( $field['instructions'] ) ) {
-      $instructions = sprintf( '<p class="af-field-instructions -placement-%s">%s</p>', $instruction_placement, $field['instructions'] );
+      $instructions = sprintf( '<p class="af-field-instructions -placement-%s">%s</p>', $args['instruction_placement'], $field['instructions'] );
     } else {
       $instructions = '';
     }
@@ -469,7 +459,7 @@ class AF_Core_Forms_Rendering {
       
       echo sprintf( '<label for="acf-%s">%s</label>', $field['key'], $label );
 
-      if ( 'label' == $instruction_placement ) {
+      if ( 'label' == $args['instruction_placement'] ) {
         echo $instructions;
       }
       
@@ -486,7 +476,7 @@ class AF_Core_Forms_Rendering {
 
     echo '</div>';
 
-    if ( 'field' == $instruction_placement ) {
+    if ( 'field' == $args['instruction_placement'] ) {
       echo $instructions;
     }
     

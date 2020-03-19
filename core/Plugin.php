@@ -21,11 +21,9 @@ use Dollie\Core\Modules\Hooks;
 use Dollie\Core\Modules\LaunchSite;
 use Dollie\Core\Modules\Options;
 use Dollie\Core\Modules\PluginUpdates;
-use Dollie\Core\Modules\Scripts;
 use Dollie\Core\Modules\SecurityChecks;
 use Dollie\Core\Modules\Tools;
 use Dollie\Core\Modules\Upgrades;
-use Dollie\Core\Modules\WelcomeWizard;
 use Dollie\Core\Modules\WooCommerce;
 use WP_Query;
 
@@ -43,9 +41,7 @@ class Plugin extends Singleton {
 
 		add_filter( 'body_class', [ $this, 'add_timestamp_body' ] );
 		add_action( 'template_redirect', [ $this, 'remove_customer_domain' ] );
-		add_action( 'template_redirect', [ $this, 'redirect_to_new_container' ] );
 		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
-
 
 		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 0 );
 
@@ -68,7 +64,7 @@ class Plugin extends Singleton {
 		require_once DOLLIE_PATH . 'core/Extras/kirki/kirki.php';
 
 		// Load logger.
-		if ( ! class_exists( '\AF' ) ) {
+		if ( ! class_exists( '\AF' ) && ! ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'activate' ) ) {
 			require_once DOLLIE_PATH . 'core/Extras/advanced-forms/advanced-forms.php';
 		}
 	}
@@ -96,7 +92,6 @@ class Plugin extends Singleton {
 		PluginUpdates::instance();
 		SecurityChecks::instance();
 		Tools::instance();
-		WelcomeWizard::instance();
 		WooCommerce::instance();
 		Modules\Dashboard\Setup::instance();
 		Upgrades::instance();
@@ -105,6 +100,12 @@ class Plugin extends Singleton {
 		Shortcodes\Blueprints::instance();
 		Shortcodes\Orders::instance();
 		Shortcodes\Sites::instance();
+
+
+		/**
+		 * Allow developers to hook after dollie finished initialization
+		 */
+		do_action( 'dollie/initialized' );
 
 	}
 
@@ -178,17 +179,6 @@ class Plugin extends Singleton {
 
 			wp_redirect( get_site_url() . '/site/' . $currentQuery->slug . '/?get-details' );
 			exit();
-		}
-	}
-
-	public function redirect_to_new_container() {
-		if ( isset( $_GET['site'] ) && $_GET['site'] === 'new' ) {
-			$url = dollie()->get_latest_container_url();
-
-			if ( $url ) {
-				wp_redirect( $url );
-				exit();
-			}
 		}
 	}
 

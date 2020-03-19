@@ -37,34 +37,42 @@ class LaunchSite extends Singleton {
 
 	public function add_new_site( $result, $value, $form, $field ) {
 
-
-
 		$entry = GFFormsModel::get_current_lead();
 
 		$domain = rgar( $entry, '1' );
 		$email  = rgar( $entry, '2' );
 		$demo   = rgar( $entry, '3' );
 
-		$action = did_action('wp_insert_post');
-		if (0 === $action) {
+		$action = did_action( 'wp_insert_post' );
+		if ( 0 === $action ) {
 			// Set the post ID so that we know the post was created successfully
 			$my_post = [
 				'comment_status' => 'closed',
 				'ping_status'    => 'closed',
 				'post_author'    => get_current_user_id(),
 				'post_name'      => $domain . '-failed',
-				'post_title'     => $domain. ' [deploy failed]',
+				'post_title'     => $domain . ' [deploy failed]',
 				'post_status'    => 'draft',
 				'post_type'      => 'container',
 			];
 		}
 
-		$post_id = wp_insert_post($my_post);
+		$post_id = wp_insert_post( $my_post );
 
-		add_post_meta($post_id, 'wpd_container_status', 'failed', true);
-
+		add_post_meta( $post_id, 'wpd_container_status', 'failed', true );
 
 		$blueprint = isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : rgar( $entry, '4' );
+
+		$env_vars = [
+			'S5_DEPLOYMENT_URL'          => get_site_url(),
+			'S5_EMAIL_DELIVERY_USERNAME' => get_option( 'options_wpd_delivery_username' ),
+			'S5_EMAIL_DELIVERY_PORT'     => get_option( 'options_wpd_delivery_smtp' ),
+			'S5_EMAIL_DELIVERY_HOST'     => get_option( 'options_wpd_delivery_smtp_host' ),
+			'S5_EMAIL_DELIVERY_EMAIL'    => get_option( 'options_wpd_delivery_email' ),
+			'S5_EMAIL_DELIVERY_PASSWORD' => get_option( 'options_wpd_delivery_password' )
+		];
+
+		$env_vars_extras = apply_filters( 'dollie/launch_site/extras_envvars', [], $domain, get_current_user_id(), $email, $blueprint );
 
 		$post_body = [
 			'domain'          => $domain . DOLLIE_DOMAIN,
@@ -73,14 +81,7 @@ class LaunchSite extends Singleton {
 			'username'        => 'sideadmin',
 			'password'        => '1234567890',
 			'description'     => $email . ' | ' . get_site_url(),
-			'envVars'         => [
-				'S5_DEPLOYMENT_URL'          => get_site_url(),
-				'S5_EMAIL_DELIVERY_USERNAME' => get_option( 'options_wpd_delivery_username' ),
-				'S5_EMAIL_DELIVERY_PORT'     => get_option( 'options_wpd_delivery_smtp' ),
-				'S5_EMAIL_DELIVERY_HOST'     => get_option( 'options_wpd_delivery_smtp_host' ),
-				'S5_EMAIL_DELIVERY_EMAIL'    => get_option( 'options_wpd_delivery_email' ),
-				'S5_EMAIL_DELIVERY_PASSWORD' => get_option( 'options_wpd_delivery_password' )
-			]
+			'envVars'         => array_merge( $env_vars_extras, $env_vars )
 		];
 
 		$answer = Api::post( Api::ROUTE_CONTAINER_CREATE, $post_body );
@@ -145,12 +146,12 @@ class LaunchSite extends Singleton {
 //				}
 			} else {
 
-				wp_update_post(array(
-					'ID'    =>  $post_id,
-					'post_status'   =>  'publish',
-					'post_name'      => $domain,
-					'post_title'     => $domain,
-				));
+				wp_update_post( array(
+					'ID'          => $post_id,
+					'post_status' => 'publish',
+					'post_name'   => $domain,
+					'post_title'  => $domain,
+				) );
 
 
 				Log::add( 'New Site ' . $domain . ' has container ID of ' . $update_response['id'], '', 'deploy' );
@@ -229,6 +230,79 @@ class LaunchSite extends Singleton {
 			wp_redirect( dollie()->get_launch_page_url() );
 			exit;
 		}
+	}
+
+	/**
+	 * Welcome Wizard. Update WP site details.
+	 *
+	 * @param int|null $container_id
+	 * @param array|null $data
+	 *
+	 * @return bool|\WP_Error
+	 */
+	public function update_site_details( $data = null, $container_id = null ) {
+
+		if ( ! isset( $container_id ) ) {
+			$current_query = dollie()->get_current_object();
+
+			$container_id   = $current_query->id;
+			$container_slug = $current_query->slug;
+		} else {
+			$container_slug = get_post( $container_id )->post_name;
+		}
+
+		do_action( 'dollie/launch_site/set_details/before', $container_id, $data );
+
+		$demo = get_post_meta( $container_id, 'wpd_container_is_demo', true );
+
+		if ( $demo !== 'yes' ) {
+			$partner = get_user_by( 'login', get_post_meta( $container_id, 'wpd_partner_ref', true ) );
+
+			$is_partner_lead = $partner_blueprint = $blueprint_deployed = '';
+
+			if ( $partner instanceof \WP_User ) {
+				$partner_blueprint  = get_post_meta( $partner->ID, 'wpd_partner_blueprint_created', true );
+				$blueprint_deployed = get_post_meta( $container_id, 'wpd_blueprint_deployment_complete', true );
+				$is_partner_lead    = get_post_meta( $container_id, 'wpd_is_partner_lead', true );
+			}
+
+			if ( $is_partner_lead === 'yes' && $partner_blueprint === 'yes' && $blueprint_deployed !== 'yes' ) {
+				$partner_install = get_post_meta( $partner->ID, 'wpd_url', true );
+
+				Api::post( Api::ROUTE_BLUEPRINT_DEPLOY_FOR_PARTNER, [
+					'container_url' => dollie()->get_container_url(),
+					'partner_url'   => $partner_install,
+					'domain'        => $container_slug
+				] );
+
+				update_post_meta( $container_id, 'wpd_partner_blueprint_deployed', 'yes' );
+				sleep( 5 );
+			} else {
+
+				if ( ! isset( $data ) || empty( $data ) ) {
+
+					Log::add( $container_slug . ' has invalid site details data', json_encode( $data ), 'setup' );
+
+					return new \WP_Error('dollie_invalid_data', esc_html__( 'Processed site data is invalid', 'dollie' ) );
+
+				}
+
+				Api::post( Api::ROUTE_WIZARD_SETUP, $data );
+			}
+		}
+
+		dollie()->flush_container_details();
+
+		update_post_meta( $container_id, 'wpd_setup_complete', 'yes' );
+
+		Log::add( $container_slug . ' has completed the initial site setup', '', 'setup' );
+
+		Backups::instance()->trigger_backup();
+
+		do_action( 'dollie/launch_site/set_details/after', $container_id, $data );
+
+		return true;
+
 	}
 
 }

@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Modules\Forms\AfterLaunchWizard;
+use Dollie\Core\Modules\Forms\ListBackups;
 use Dollie\Core\Singleton;
 
 /**
@@ -20,31 +22,67 @@ class Forms extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
+		AfterLaunchWizard::instance();
+		ListBackups::instance();
+
+		add_action( 'init', [ $this, 'init' ] );
+		add_action( 'acf/init', [ $this, 'acf_init' ] );
+
 		add_filter( 'acf/load_field', [ $this, 'localize_strings' ] );
 
-		add_action( 'af/register_forms', [ $this, 'register_forms' ] );
+		add_filter( 'acf/load_field/name=site_blueprint', [ $this, 'populate_blueprints' ] );
 
-		//add_filter( 'af/merge_tags/resolve', 'add_hello_merge_tag', 10, 2 );
-		//add_filter( 'af/merge_tags/custom', 'register_hello_merge_tag', 10, 2 );
-		/*
-		 function add_hello_merge_tag( $output, $tag ) {
-			  if ( 'hello' != $tag ) {
-			    return $output;
-			  }
 
-			  return "Hello " . af_get_field( 'first_name' );
+	}
+
+	public function init() {
+		add_shortcode( 'dollie_form', [ $this, 'form_shortcode' ] );
+	}
+
+	public function form_shortcode( $atts = [] ) {
+
+		return do_shortcode( '[advanced_form form="' . esc_attr( $atts['form'] ) . '"]' );
+
+	}
+
+	public function acf_init() {
+
+		add_filter( 'af/merge_tags/resolve', array( $this, 'resolve_fields_tag' ), 9, 3 );
+
+
+	}
+
+	/**
+	 * Add our custom logic to parse placeholders
+	 *
+	 * @param $output
+	 * @param $tag
+	 * @param $fields
+	 *
+	 * @return false|mixed|string
+	 */
+	public function resolve_fields_tag( $output, $tag, $fields ) {
+
+		if ( ! preg_match_all( '/field:(.*)/', $tag, $matches ) ) {
+			return $output;
+		}
+
+		$field_name = $matches[1][0];
+
+		$field = af_get_field_object( $field_name, $fields );
+
+		if ( is_array( $field['value'] ) && $field['return_format'] === 'array'
+		     && ( $field['type'] === 'radio' || $field['type'] === 'select' ) ) {
+
+			$value = $field['value']['label'];
+			if ( strtotime( $value ) ) {
+				$value = date( 'd F y \a\t g:i a', strtotime( $value ) );
 			}
 
-		function register_hello_merge_tag( $tags, $form ) {
-		  $tags[] = array(
-		    'value' => 'hello',
-		    'label' => "Hello!",
-		  );
-
-		  return $tags;
+			return $value;
 		}
-		 */
 
+		return _af_render_field_include( $field );
 
 	}
 
@@ -55,7 +93,7 @@ class Forms extends Singleton {
 			'title'          => 'Launch Site',
 			'display'        => array(
 				'description'     => 'Desc',
-				'success_message' => '<p>test</p>',
+				'success_message' => '<p>' . esc_html__( 'Success message', 'dollie' ) . '</p>',
 			),
 			'create_entries' => true,
 			'restrictions'   => array(
@@ -70,7 +108,6 @@ class Forms extends Singleton {
 
 	public function localize_strings( $field ) {
 
-		// var_dump($field);
 		if ( $field['label'] === 'Choose Your URL' ) {
 			$field['label'] = esc_html__( 'Choose Your URL', 'dollie' );
 		}
@@ -97,4 +134,61 @@ class Forms extends Singleton {
 		return $field;
 	}
 
+	public function populate_blueprints( $field ) {
+		$query = new \WP_Query( [
+			'post_type'      => 'container',
+			'posts_per_page' => 1000,
+			'meta_query'     => [
+				'relation' => 'AND',
+				[
+					'key'   => 'wpd_blueprint_created',
+					'value' => 'yes',
+				],
+				[
+					'key'   => 'wpd_is_blueprint',
+					'value' => 'yes',
+				],
+				[
+					'key'     => 'wpd_installation_blueprint_title',
+					'compare' => 'EXISTS',
+				]
+			],
+			'p'              => isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : '',
+		] );
+
+		$choices = [];
+
+		// Build field options array.
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+
+				$private = get_field( 'wpd_private_blueprint' );
+
+				if ( $private === 'yes' && ! current_user_can( 'manage_options' ) ) {
+					continue;
+				}
+
+				if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
+					$image = get_field( 'wpd_blueprint_custom_image' );
+				} elseif ( get_field( 'wpd_blueprint_image' ) === 'theme' ) {
+					$image = wpthumb( get_post_meta( get_the_ID(), 'wpd_installation_site_theme_screenshot', true ), 'width=900&crop=0' );
+				} else {
+					$image = get_post_meta( get_the_ID(), 'wpd_site_screenshot', true );
+				}
+
+				$choices[ get_the_ID() ] = '<img data-toggle="tooltip" data-placement="bottom" ' .
+				                           'title="' . get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ) . '" ' .
+				                           'class="fw-blueprint-screenshot" src=' . $image . '>' .
+				                           get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true );
+
+			}
+		}
+
+		$field['choices'] = $choices;
+
+		// return the field
+		return $field;
+
+	}
 }

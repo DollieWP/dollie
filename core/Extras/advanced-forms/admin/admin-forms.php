@@ -13,7 +13,6 @@ class AF_Admin_Forms {
 		// Actions
 		add_action( 'admin_init', array( $this, 'add_fields_meta_box' ), 10, 0 );
 		add_action( 'edit_form_after_title', array( $this, 'display_form_key' ), 10, 0 );
-		add_filter( 'acf/prepare_field/name=form_shortcode_message', array( $this, 'display_form_shortcode' ), 10, 1 );
 		add_action( 'save_post', array( $this, 'add_form_key' ), 10, 3 );
 		add_action( 'acf/init', array( $this, 'register_fields' ), 10, 0 );
 		add_action( 'media_buttons', array( $this, 'add_wysiwyg_content_field_inserter' ), 10, 1 );
@@ -21,9 +20,10 @@ class AF_Admin_Forms {
 
 		add_action( 'post_submitbox_start', array( $this, 'add_actions' ), 10, 1 );
 		
+		
+		// Filters
 		add_filter( 'manage_af_form_posts_columns', array( $this, 'manage_columns' ), 10, 1 );
 		add_action( 'manage_af_form_posts_custom_column', array( $this, 'custom_columns_content' ), 10, 2 );
-		add_filter( 'disable_months_dropdown', array( $this, 'disable_months_filter' ), 10, 2 );
 		
 	}
 	
@@ -68,24 +68,6 @@ class AF_Admin_Forms {
 			
 		}
 		
-	}
-
-
-	/**
-	 * Display the form shortcode in the form settings.
-	 *
-	 * @since 1.6.4
-	 *
-	 */
-	function display_form_shortcode( $field ) {
-		global $post;
-
-		if ( $post && $key = get_post_meta( $post->ID, 'form_key', true ) ) {
-			$message = sprintf( '<code>[advanced_form form="%s"]</code>', $key );
-			$field['message'] = $message;
-		}
-
-		return $field;
 	}
 	
 	
@@ -344,21 +326,6 @@ class AF_Admin_Forms {
 
 
 	/**
-	 * Hides the months filter on the forms listing page.
-	 *
-	 * @since 1.6.5
-	 *
-	 */
-	function disable_months_filter( $disabled, $post_type ) {
-    if ( 'af_form' != $post_type ) {
-      return $disabled;
-    }
-
-    return true;
-  }
-
-
-	/**
 	 * Registers the form settings fields
 	 *
 	 * @since 1.0.0
@@ -385,12 +352,6 @@ class AF_Admin_Forms {
 					),
 					'placement' => 'left',
 					'endpoint' => 0,
-				),
-				array(
-					'key' => 'field_form_shortcode_message',
-					'label' => __( 'Shortcode', 'advanced-forms' ),
-					'name' => 'form_shortcode_message',
-					'type' => 'message',
 				),
 				array (
 					'key' => 'field_form_description',

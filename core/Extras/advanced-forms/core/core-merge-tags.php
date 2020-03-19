@@ -86,6 +86,7 @@ class AF_Core_Merge_Tags {
     }
 
     $field_name = $matches[1][0];
+
     $field = af_get_field_object( $field_name, $fields );
     $rendered_value = _af_render_field_include( $field );
 

@@ -1,0 +1,16 @@
+/* Show field inserter button for calculated field configurations */
+.acf-field-form-calculated-fields .af-field-dropdown.button {
+  display: inline-block;
+}
+
+/* Hide unnecessary settings for the calculated field type */
+.acf-field-object-calculated .acf-field-setting-name,
+.acf-field-object-calculated .acf-field-setting-instructions,
+.acf-field-object-calculated .acf-field-setting-required,
+.acf-field-object-calculated .acf-field-setting-hide_admin {
+  display: none;
+}
+
+.acf-field-object-calculated .acf-field-setting-instruction_message .acf-input p {
+  margin: 0;
+}

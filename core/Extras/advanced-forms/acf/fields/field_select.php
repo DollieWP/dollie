@@ -74,7 +74,13 @@ class AF_Form_Field_Picker extends acf_field {
 		
 		if ( $post && $form_key ) {
 			
-			$field['choices']['Fields'] = _af_form_field_choices( $form_key, $field['field_types'] );
+			$field_choices = _af_form_field_choices( $form_key, $field['field_types'] );
+			
+			if ( ! empty( $field_choices ) ) {
+				$field['choices']['Fields'] = _af_form_field_choices( $form_key, $field['field_types'] );
+			} else {
+				$field['choices']['This form has no fields'] = array();
+			}
 			
 		}
 		
@@ -143,6 +149,7 @@ class AF_Form_Field_Picker extends acf_field {
 				'type' => 'text',
 				'name' => $field['name'] . '[format]',
 				'value' => $field['value']['format'] ?: '',
+				'placeholder' => 'Format',
 			);
 			
 			echo '<input ' . acf_esc_atts( $format_atts ) . '/>';
