@@ -113,7 +113,11 @@ class ContainerManagement extends Singleton {
 		if ( empty( $request ) ) {
 
 			// Set up the request
-			$response = Api::post( API::ROUTE_CONTAINER_GET, [ 'container_id' => $container_id ] );
+			$response = Api::post( API::ROUTE_CONTAINER_GET, [
+				'container_id'  => $container_id,
+				'dollie_domain' => DOLLIE_INSTALL,
+				'dollie_token'  => Api::getDollieToken()
+			] );
 
 			if ( is_wp_error( $response ) ) {
 				Log::add( 'Container details could not be fetched. for' . $currentQuery->slug, print_r( $response, true ), 'error' );
@@ -122,6 +126,7 @@ class ContainerManagement extends Singleton {
 			}
 
 			$request = json_decode( wp_remote_retrieve_body( $response ) );
+
 			// Parse the JSON request
 			$update_answer   = wp_remote_retrieve_body( $response );
 			$update_response = json_decode( $update_answer, true );
@@ -218,7 +223,12 @@ class ContainerManagement extends Singleton {
 
 		$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
 
-		$update = Api::post( Api::ROUTE_CONTAINER_TRIGGER, [ 'container_id' => $container_id, 'action' => $action ] );
+		$update = Api::post( Api::ROUTE_CONTAINER_TRIGGER, [
+			'container_id'  => $container_id,
+			'action'        => $action,
+			'dollie_domain' => DOLLIE_INSTALL,
+			'dollie_token'  => Api::getDollieToken(),
+		] );
 
 		if ( is_wp_error( $update ) ) {
 			Log::add( 'container action could not be completed for ' . $currentQuery->slug, print_r( $update, true ), 'error' );
@@ -280,7 +290,10 @@ class ContainerManagement extends Singleton {
 
 	public function sync_containers() {
 		// Get list of container from remote API
-		$api_result = Api::post( Api::ROUTE_CONTAINER_GET );
+		$api_result = Api::post( Api::ROUTE_CONTAINER_GET, [
+			'dollie_domain' => DOLLIE_INSTALL,
+			'dollie_token'  => Api::getDollieToken(),
+		] );
 
 		// Convert JSON into array.
 		$server_containers = json_decode( wp_remote_retrieve_body( $api_result ), true );

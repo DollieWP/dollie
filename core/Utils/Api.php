@@ -44,6 +44,8 @@ class Api extends Singleton {
 		ROUTE_NODES_GET = 'nodes',
 		ROUTE_WIZARD_SETUP = 'setup';
 
+	const API_URL = 'https://api.getdollie.com/api/';
+
 	/**
 	 * Api constructor.
 	 */
@@ -52,15 +54,17 @@ class Api extends Singleton {
 	}
 
 	public static function get( $endpoint ) {
-		// todo: add route to constant
-		return wp_remote_get( 'http://127.0.0.1:8000/api/' . $endpoint );
+		return wp_remote_get( self::API_URL . $endpoint );
 	}
 
 	public static function post( $endpoint, $data = [] ) {
-		return wp_remote_post( 'http://127.0.0.1:8000/api/' . $endpoint, [
+		return wp_remote_post( self::API_URL . $endpoint, [
 			'method' => 'POST',
 			'body'   => json_encode( $data )
 		] );
 	}
 
+	public static function getDollieToken() {
+		return base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD );
+	}
 }
