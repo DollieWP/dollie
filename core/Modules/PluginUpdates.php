@@ -35,8 +35,8 @@ class PluginUpdates extends Singleton {
 			@ob_end_flush();
 			@flush();
 		}
-
-		$install = dollie()->get_container_url();
+		$currentQuery = dollie()->get_current_object();
+		$install  = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
 
 		// Only run the job on the container of the customer.
 
@@ -117,7 +117,8 @@ class PluginUpdates extends Singleton {
 	}
 
 	public function update_plugins( $entry, $form ) {
-		$install = dollie()->get_container_url();
+		$currentQuery = dollie()->get_current_object();
+		$install  = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
 
 		$field_id       = 5; // Update this number to your field id number
 		$field          = RGFormsModel::get_field( $form, $field_id );

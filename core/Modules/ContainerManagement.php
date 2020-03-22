@@ -192,7 +192,7 @@ class ContainerManagement extends Singleton {
 
 	public function start_worker_job( $job_id ) {
 		$currentQuery = dollie()->get_current_object();
-		$install      = dollie()->get_container_url();
+		$install      = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
 
 		$post_body = [
 			'filter' => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
@@ -234,7 +234,8 @@ class ContainerManagement extends Singleton {
 	}
 
 	public function show_worker_output( $entry, $form ) {
-		$install = dollie()->get_container_url();
+		$currentQuery = dollie()->get_current_object();
+		$install  = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
 
 		$post_body = [
 			'filter' => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,

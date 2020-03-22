@@ -42,7 +42,7 @@ class WelcomeWizard extends Singleton {
 		if ( $current_page_number > 1 ) {
 			$value        = rgpost( 'input_1' );
 			$currentQuery = dollie()->get_current_object();
-			$install = dollie()->get_container_url();
+			$install  = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
 
 			if ( $value === 'setup' ) {
 				$demo    = get_post_meta( $currentQuery->id, 'wpd_container_is_demo', true );

@@ -149,7 +149,8 @@ class Backups extends Singleton {
 	}
 
 	public function restore_site( $entry, $form ) {
-		$install = dollie()->get_container_url();
+		$currentQuery = dollie()->get_current_object();
+		$install      = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
 
 		// Our form field ID + User meta fields
 		$backup = rgar( $entry, '1' );
@@ -193,7 +194,7 @@ class Backups extends Singleton {
 
 	public function trigger_backup() {
 		$currentQuery = dollie()->get_current_object();
-		$install      = dollie()->get_container_url();
+		$install  = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
 
 		// Success now send the Worker request
 		// Only run the job on the container of the customer.

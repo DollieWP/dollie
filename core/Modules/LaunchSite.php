@@ -160,7 +160,7 @@ class LaunchSite extends Singleton {
 				add_post_meta( $post_id, 'wpd_container_ip', $update_response['containerHostIpAddress'], true );
 				add_post_meta( $post_id, 'wpd_container_deploy_time', $update_response['deployedAt'], true );
 				add_post_meta( $post_id, 'wpd_container_uri', $update_response['uri'], true );
-				update_post_meta( $post_id, 'wpd_container_status', 'start', true );
+				update_post_meta( $post_id, 'wpd_container_status', 'start' );
 				add_post_meta( $post_id, 'wpd_container_launched_by', $email, true );
 
 				//Set Flag if Demo

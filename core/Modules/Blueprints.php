@@ -71,7 +71,7 @@ class Blueprints extends Singleton {
 
 	public function deploy_new_blueprint( $entry, $form ) {
 		$currentQuery = dollie()->get_current_object();
-		$install      = dollie()->get_container_url();
+		$install      = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
 
 		$post_body = [
 			'filter' => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
