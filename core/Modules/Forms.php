@@ -32,7 +32,6 @@ class Forms extends Singleton {
 
 		add_filter( 'acf/load_field/name=site_blueprint', [ $this, 'populate_blueprints' ] );
 
-
 	}
 
 	public function init() {
@@ -48,8 +47,26 @@ class Forms extends Singleton {
 	public function acf_init() {
 
 		add_filter( 'af/merge_tags/resolve', array( $this, 'resolve_fields_tag' ), 9, 3 );
+		add_filter( 'af/merge_tags/resolve', [ $this, 'add_container_url_merge_tag' ], 10, 2 );
+		add_filter( 'af/merge_tags/custom', [ $this, 'register_container_login_url_tag' ], 10, 2 );
 
+	}
 
+	public function add_container_url_merge_tag( $output, $tag ) {
+		if ( 'dollie_container_login_url' !== $tag ) {
+			return $output;
+		}
+
+		return esc_url( dollie()->get_customer_login_url() );
+	}
+
+	function register_container_login_url_tag( $tags, $form ) {
+		$tags[] = array(
+			'value' => 'dollie_container_login_url',
+			'label' => 'Dollie Container Login URL',
+		);
+
+		return $tags;
 	}
 
 	/**
@@ -190,5 +207,21 @@ class Forms extends Singleton {
 		// return the field
 		return $field;
 
+	}
+
+	/**
+	 * Get value for a form field when processing data
+	 *
+	 * @param $name
+	 *
+	 * @return bool|mixed
+	 */
+	public static function get_field( $name ) {
+		$data = af_get_field( $name );
+		if ( is_array( $data ) && isset( $data['value'] ) ) {
+			$data = $data['value'];
+		}
+
+		return $data;
 	}
 }
