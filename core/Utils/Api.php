@@ -40,8 +40,11 @@ class Api extends Singleton {
 		ROUTE_PLUGINS_UPDATES_GET = 'plugins/updates/get',
 		ROUTE_PLUGINS_UPDATES_APPLY = 'plugins/updates/apply',
 
+		ROUTE_EXECUTE_JOB = 'execute/job',
 		ROUTE_NODES_GET = 'nodes',
 		ROUTE_WIZARD_SETUP = 'setup';
+
+	const API_URL = 'https://api.getdollie.com/api/';
 
 	/**
 	 * Api constructor.
@@ -51,42 +54,17 @@ class Api extends Singleton {
 	}
 
 	public static function get( $endpoint ) {
-		// todo: add route to constant
-		return wp_remote_get( 'http://127.0.0.1:8000/api/' . $endpoint );
+		return wp_remote_get( self::API_URL . $endpoint );
 	}
 
 	public static function post( $endpoint, $data = [] ) {
-		return wp_remote_post( 'http://127.0.0.1:8000/api/' . $endpoint, [
+		return wp_remote_post( self::API_URL . $endpoint, [
 			'method' => 'POST',
 			'body'   => json_encode( $data )
 		] );
 	}
 
-	/**
-	 * Post request Worker API
-	 *
-	 * @param string $endpoint
-	 * @param array $data
-	 * @param string $method
-	 * @param null $timeout
-	 *
-	 * @return array|\WP_Error
-	 */
-	public static function postRequestWorker( $endpoint, $data = [], $method = 'POST', $timeout = null ) {
-		$requestData = [
-			'method'  => $method,
-			'headers' => [
-				'X-Rundeck-Auth-Token' => DOLLIE_WORKER_TOKEN,
-				'Content-Type'         => 'application/json',
-			],
-			'body'    => json_encode( $data )
-		];
-
-		if ( $timeout !== null && is_numeric( $timeout ) ) {
-			$requestData['timeout'] = abs( $timeout );
-		}
-
-		return wp_remote_post( DOLLIE_WORKER_URL . '/api/' . $endpoint, $requestData );
+	public static function getDollieToken() {
+		return base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD );
 	}
-
 }

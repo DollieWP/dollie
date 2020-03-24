@@ -46,7 +46,10 @@ class Blueprints extends Singleton {
 			$secret = get_post_meta( $currentQuery->id, 'wpd_container_secret', true );
 			$url    = dollie()->get_container_url() . '/' . $secret . '/codiad/backups/blueprints.php';
 
-			$response = wp_remote_get( $url, [ 'timeout' => 20 ] );
+			$response = Api::post( Api::ROUTE_BLUEPRINT_GET, [
+				'container_url'    => $url,
+				'container_secret' => $secret
+			] );
 
 			if ( is_wp_error( $response ) ) {
 				return [];

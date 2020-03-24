@@ -55,9 +55,7 @@ class Backups extends Singleton {
 			$secret = get_post_meta( $container_id, 'wpd_container_secret', true );
 			$url    = dollie()->get_container_url() . '/' . $secret . '/codiad/backups/';
 
-			$response = wp_remote_get( $url, [
-				'timeout' => 20
-			] );
+			$response = Api::post( Api::ROUTE_BACKUP_GET, [ 'container_url' => $url, 'container_secret' => $secret ] );
 
 			if ( is_wp_error( $response ) ) {
 				return [];
@@ -95,7 +93,7 @@ class Backups extends Singleton {
 		$currentQuery = dollie()->get_current_object();
 		$install  = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
 
-		Api::post( Api::ROUTE_BACKUP_CREATE, [ 'container_url' => dollie()->get_container_url() ] );
+		Api::post( Api::ROUTE_BACKUP_CREATE, [ 'container_url' => $install ] );
 		Log::add( $currentQuery->slug . ' has triggered a backup', '', 'action' );
 	}
 

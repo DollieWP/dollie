@@ -52,8 +52,8 @@ class PluginUpdates extends Singleton {
 
 		sleep( 6 );
 
-		//Set up the request
-		$update = Api::postRequestWorker( '5/execution/' . $execution_id . '/output?format=text/' );
+		// Set up the request
+		$update = Api::post( Api::ROUTE_EXECUTE_JOB, [ 'job_id' => $execution_id ] );
 
 		//Parse the JSON request
 		return wp_remote_retrieve_body( $update );
@@ -137,21 +137,21 @@ class PluginUpdates extends Singleton {
 
 		sleep( 4 );
 
-		//Set up the request
-		$plugin_update = Api::postRequestWorker( '5/execution/' . $execution_id . '/output?format=text/' );
+		// Set up the request
+		$plugin_update = Api::post( Api::ROUTE_EXECUTE_JOB, [ 'job_id' => $execution_id ] );
 
 		$headers = wp_remote_retrieve_headers( $plugin_update );
 
-		//TODO - Add a looping completion request here.
+		// TODO - Add a looping completion request here.
 		if ( $headers['x-rundeck-execoutput-completed'] === 'false' ) {
 			echo 'Plugin update is still running... please hold on<br>';
 
 			sleep( 4 );
 
-			//Set up the request
-			$new_plugin_update = Api::postRequestWorker( '5/execution/' . $execution_id . '/output?format=text/' );
+			// Set up the request
+			$new_plugin_update = Api::post( Api::ROUTE_EXECUTE_JOB, [ 'job_id' => $execution_id ] );
 
-			//Parse the JSON request
+			// Parse the JSON request
 			$new_headers = wp_remote_retrieve_headers( $new_plugin_update );
 
 			if ( $new_headers['x-rundeck-execoutput-completed'] === 'true' ) {
@@ -160,10 +160,10 @@ class PluginUpdates extends Singleton {
 			} else {
 				sleep( 4 );
 
-				//Set up the request
-				$final_plugin_update = Api::postRequestWorker( '5/execution/' . $execution_id . '/output?format=text/' );
+				// Set up the request
+				$final_plugin_update = Api::post( Api::ROUTE_EXECUTE_JOB, [ 'job_id' => $execution_id ] );
 
-				//Parse the JSON request
+				// Parse the JSON request
 				$final_headers = wp_remote_retrieve_headers( $final_plugin_update );
 				if ( $final_headers['x-rundeck-execoutput-completed'] === 'false' ) {
 					echo 'Sadly we can not complete updating your plugins. Please login to your WordPress admin and update your plugins from there.';

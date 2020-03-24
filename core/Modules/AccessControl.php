@@ -64,26 +64,22 @@ class AccessControl extends Singleton {
 
 	// Todo - Demo functionality can be removed
 	public function protect_container_access() {
-		$currentQuery = dollie()->get_current_object();
-		$post_id      = $currentQuery->id;
-		$current_user = wp_get_current_user();
-
 		if ( ! current_user_can( 'manage_options' ) ) {
 
-			if ( is_post_type_archive('container') ) {
-				wp_redirect(get_site_url() . '/');
+			if ( is_post_type_archive( 'container' ) ) {
+				wp_redirect( get_site_url() . '/' );
 				exit();
 			}
 
 			global $post, $current_user;
 
-			//Is site owner?
-			if ( $post->post_author != $current_user->ID && is_singular( 'container' ) ) {
-					wp_redirect( get_site_url() . '/' );
-					exit();
+			// Is site owner?
+			if ( $post->post_author !== $current_user->ID && is_singular( 'container' ) ) {
+				wp_redirect( get_site_url() . '/' );
+				exit();
 			}
 
-			//Has access to the specific section?
+			// Has access to the specific section?
 			if ( isset( $_GET['page'] ) && is_singular( 'container' ) && ! dollie()->in_array_r( $_GET['page'], $this->get_available_sections() ) ) {
 				wp_redirect( get_permalink() );
 				exit();

@@ -24,8 +24,6 @@ class ContainerManagement extends Singleton {
 
 		add_action( 'init', [ $this, 'register_container' ], 0 );
 		add_action( 'template_redirect', [ $this, 'bypass_output_caching' ] );
-		add_action( 'template_redirect', [ $this, 'run_container_actions' ] );
-		add_action( 'gform_after_submission_3', [ $this, 'show_worker_output' ], 10, 2 );
 		add_action( 'template_redirect', [ $this, 'fetch_container_details' ] );
 		add_action( 'template_redirect', [ $this, 'update_container_details' ] );
 		add_action( 'untrashed_post', [ $this, 'run_container_untrash_action' ] );
@@ -115,7 +113,11 @@ class ContainerManagement extends Singleton {
 		if ( empty( $request ) ) {
 
 			// Set up the request
-			$response = Api::post( API::ROUTE_CONTAINER_GET, [ 'container_id' => $container_id ] );
+			$response = Api::post( API::ROUTE_CONTAINER_GET, [
+				'container_id'  => $container_id,
+				'dollie_domain' => DOLLIE_INSTALL,
+				'dollie_token'  => Api::getDollieToken()
+			] );
 
 			if ( is_wp_error( $response ) ) {
 				Log::add( 'Container details could not be fetched. for' . $currentQuery->slug, print_r( $response, true ), 'error' );
@@ -124,6 +126,7 @@ class ContainerManagement extends Singleton {
 			}
 
 			$request = json_decode( wp_remote_retrieve_body( $response ) );
+
 			// Parse the JSON request
 			$update_answer   = wp_remote_retrieve_body( $response );
 			$update_response = json_decode( $update_answer, true );
@@ -190,75 +193,6 @@ class ContainerManagement extends Singleton {
 		return $request;
 	}
 
-	public function run_container_actions() {
-		// Only fire on our site management page
-		if ( ! isset( $_GET['update-site-action'] ) ) {
-			return;
-		}
-
-		$currentQuery = dollie()->get_current_object();
-		$install      = get_post_meta( $currentQuery->id, 'wpd_container_uri', true );
-
-		// Trigger the right Worker Action
-		if ( isset( $_POST['install-plugin'] ) ) {
-			//Api::post( Api::ROUTE_PLUGINS_INSTALL, [ 'container_url' => $install ] );
-		}
-
-		// Trigger the right Worker Action
-		if ( isset( $_POST['switch-to-php-5'] ) ) {
-			//Api::post( Api::ROUTE_PLUGINS_INSTALL, [ 'container_url' => $install ] );
-		}
-
-		// Trigger the right Worker Action
-		if ( isset( $_POST['create-new-backup'] ) ) {
-			Api::post( Api::ROUTE_BACKUP_CREATE, [ 'container_url' => $install ] );
-		}
-
-		// Trigger the right Worker Action
-		if ( isset( $_POST['switch-to-php-7'] ) ) {
-			//$this->start_worker_job( 'cf9d0568-e150-4f59-b014-b7c7d9ca5e46' );
-		}
-
-		// Caching Method = Super Cache
-		if ( isset( $_POST['caching-wpsc'] ) ) {
-			//$this->start_worker_job( '00beea1e-fe15-436b-872e-43ead65c8c51' );
-		}
-	}
-
-	public function show_worker_output( $entry, $form ) {
-		$currentQuery = dollie()->get_current_object();
-		$install      = get_post_meta( $currentQuery->id, 'wpd_container_uri', true );
-
-		$post_body = [
-			'filter' => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
-		];
-
-		// todo: 6f757271-a39e-4eb2-8f89-f6668033a262 is not found
-		$update = Api::postRequestWorker( '1/job/6f757271-a39e-4eb2-8f89-f6668033a262/run/', $post_body );
-
-		// Parse the JSON request
-		$answer = wp_remote_retrieve_body( $update );
-		$xml    = simplexml_load_string( $answer, 'SimpleXMLElement', LIBXML_NOCDATA );
-		$json   = json_encode( $xml );
-		$array  = json_decode( $json, true );
-
-		$execution_id = $array['executions']['execution']['@attributes']['id'];
-
-		sleep( 6 );
-
-		// Set up the request
-		$update = Api::postRequestWorker( '5/execution/' . $execution_id . '/output?format=text' );
-
-		// Parse the JSON request
-		$answer = wp_remote_retrieve_body( $update );
-
-		?>
-        <div class="box-light padding-full ">
-			<?php echo $answer; ?>
-        </div>
-		<?php
-	}
-
 	public function fetch_container_details() {
 		if ( isset( $_GET['get-details'] ) ) {
 			$currentQuery = dollie()->get_current_object();
@@ -289,7 +223,12 @@ class ContainerManagement extends Singleton {
 
 		$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
 
-		$update = Api::post( Api::ROUTE_CONTAINER_TRIGGER, [ 'container_id' => $container_id, 'action' => $action ] );
+		$update = Api::post( Api::ROUTE_CONTAINER_TRIGGER, [
+			'container_id'  => $container_id,
+			'action'        => $action,
+			'dollie_domain' => DOLLIE_INSTALL,
+			'dollie_token'  => Api::getDollieToken(),
+		] );
 
 		if ( is_wp_error( $update ) ) {
 			Log::add( 'container action could not be completed for ' . $currentQuery->slug, print_r( $update, true ), 'error' );
@@ -322,7 +261,6 @@ class ContainerManagement extends Singleton {
 				delete_post_meta( $post_id, 'wpd_scheduled_for_removal' );
 				delete_post_meta( $post_id, 'wpd_undeploy_container_at' );
 				delete_post_meta( $post_id, 'wpd_scheduled_for_undeployment' );
-				ContainerRegistration::instance()->remove_worker_node( $post_id );
 				wp_trash_post( $post_id );
 
 				Log::add( $site . ' was undeployed', '', 'undeploy' );
@@ -352,7 +290,10 @@ class ContainerManagement extends Singleton {
 
 	public function sync_containers() {
 		// Get list of container from remote API
-		$api_result = Api::post( Api::ROUTE_CONTAINER_GET );
+		$api_result = Api::post( Api::ROUTE_CONTAINER_GET, [
+			'dollie_domain' => DOLLIE_INSTALL,
+			'dollie_token'  => Api::getDollieToken(),
+		] );
 
 		// Convert JSON into array.
 		$server_containers = json_decode( wp_remote_retrieve_body( $api_result ), true );

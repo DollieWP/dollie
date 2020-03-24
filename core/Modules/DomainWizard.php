@@ -64,8 +64,10 @@ class DomainWizard extends Singleton {
 		if ( $current_page === 1 ) {
 
 			$answer = Api::post( Api::ROUTE_DOMAIN_ROUTES_ADD, [
-				'container_id' => $request->id,
-				'domain'       => $domain
+				'container_id'  => $request->id,
+				'domain'        => $domain,
+				'dollie_domain' => DOLLIE_INSTALL,
+				'dollie_token'  => Api::getDollieToken(),
 			] );
 
 			$response = json_decode( $answer, true );
@@ -96,8 +98,10 @@ class DomainWizard extends Singleton {
 				update_post_meta( $currentQuery->id, 'wpd_domains', $domain );
 
 				$update_answer = Api::post( Api::ROUTE_DOMAIN_ROUTES_ADD, [
-					'container_id' => $request->id,
-					'domain'       => 'www.' . $domain
+					'container_id'  => $request->id,
+					'domain'        => 'www.' . $domain,
+					'dollie_domain' => DOLLIE_INSTALL,
+					'dollie_token'  => Api::getDollieToken(),
 				] );
 
 				$update_response = json_decode( $update_answer, true );
@@ -178,7 +182,9 @@ class DomainWizard extends Singleton {
 					Api::post( Api::ROUTE_DOMAIN_INSTALL_CLOUDFLARE, [
 						'container_url'  => $install,
 						'email'          => $email,
-						'cloudflare_key' => $api_key
+						'cloudflare_key' => $api_key,
+						'dollie_domain'  => DOLLIE_INSTALL,
+						'dollie_token'   => Api::getDollieToken(),
 					] );
 
 					// All done, update user meta!
@@ -290,8 +296,10 @@ class DomainWizard extends Singleton {
 			}
 
 			$update = Api::post( Api::ROUTE_DOMAIN_UPDATE, [
-				'container_url'  => $currentQuery->slug,
-				'domain'         => $domain
+				'container_url' => $currentQuery->slug,
+				'domain'        => $domain,
+				'dollie_domain' => DOLLIE_INSTALL,
+				'dollie_token'  => Api::getDollieToken(),
 			] );
 
 			$answer = wp_remote_retrieve_body( $update );
@@ -301,8 +309,10 @@ class DomainWizard extends Singleton {
 			$le = get_post_meta( $currentQuery->id, 'wpd_letsencrypt_enabled', true );
 			if ( $le === 'yes' ) {
 				$le_answer = Api::post( Api::ROUTE_DOMAIN_INSTALL_LETSENCRYPT, [
-					'container_id' => $container,
-					'route_id'     => $le_domain
+					'container_id'  => $container,
+					'route_id'      => $le_domain,
+					'dollie_domain' => DOLLIE_INSTALL,
+					'dollie_token'  => Api::getDollieToken(),
 				] );
 
 				// Show an error of S5 API can't add the Route.

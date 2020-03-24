@@ -18,7 +18,6 @@ use GFFormsModel;
  */
 class LaunchSite extends Singleton {
 
-
 	/**
 	 * LaunchSite constructor.
 	 */
@@ -76,10 +75,9 @@ class LaunchSite extends Singleton {
 
 		$post_body = [
 			'domain'          => $domain . DOLLIE_DOMAIN,
-			'package'         => DOLLIE_PACKAGE,
+			'dollie_domain'   => DOLLIE_INSTALL,
+			'dollie_token'    => Api::getDollieToken(),
 			'containerMemory' => DOLLIE_MEMORY,
-			'username'        => 'sideadmin',
-			'password'        => '1234567890',
 			'description'     => $email . ' | ' . get_site_url(),
 			'envVars'         => array_merge( $env_vars_extras, $env_vars )
 		];
@@ -112,8 +110,10 @@ class LaunchSite extends Singleton {
 			sleep( 5 );
 
 			$deploy = Api::post( Api::ROUTE_CONTAINER_TRIGGER, [
-				'container_id' => $response['id'],
-				'action'       => 'deploy'
+				'container_id'  => $response['id'],
+				'action'        => 'deploy',
+				'dollie_domain' => DOLLIE_INSTALL,
+				'dollie_token'  => Api::getDollieToken(),
 			] );
 
 			//Log::add( $domain . ' Creating Site Dollie (see log)' . $post_slug, print_r( $deploy, true ), 'deploy' );
@@ -129,7 +129,11 @@ class LaunchSite extends Singleton {
 				}
 			}
 
-			$update_container = Api::post( Api::ROUTE_CONTAINER_GET, [ 'container_id' => $response['id'] ] );
+			$update_container = Api::post( Api::ROUTE_CONTAINER_GET, [
+				'container_id'  => $response['id'],
+				'dollie_domain' => DOLLIE_INSTALL,
+				'dollie_token'  => Api::getDollieToken(),
+			] );
 
 			//Log::add( $domain . 'Deploying created site ' . $post_slug, print_r( $update_container, true ), 'deploy' );
 
