@@ -164,7 +164,7 @@ class LaunchSite extends Singleton {
 				add_post_meta( $post_id, 'wpd_container_ip', $update_response['containerHostIpAddress'], true );
 				add_post_meta( $post_id, 'wpd_container_deploy_time', $update_response['deployedAt'], true );
 				add_post_meta( $post_id, 'wpd_container_uri', $update_response['uri'], true );
-				update_post_meta( $post_id, 'wpd_container_status', 'start', true );
+				update_post_meta( $post_id, 'wpd_container_status', 'start' );
 				add_post_meta( $post_id, 'wpd_container_launched_by', $email, true );
 
 				//Set Flag if Demo
@@ -270,7 +270,7 @@ class LaunchSite extends Singleton {
 				$partner_install = get_post_meta( $partner->ID, 'wpd_url', true );
 
 				Api::post( Api::ROUTE_BLUEPRINT_DEPLOY_FOR_PARTNER, [
-					'container_url' => dollie()->get_container_url(),
+					'container_url' => get_post_meta($container_id, 'wpd_container_uri', true),
 					'partner_url'   => $partner_install,
 					'domain'        => $container_slug
 				] );

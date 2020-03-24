@@ -71,6 +71,7 @@ class Blueprints extends Singleton {
 
 	public function deploy_new_blueprint( $entry, $form ) {
 		$currentQuery = dollie()->get_current_object();
+		$install      = get_post_meta( $currentQuery->id, 'wpd_container_uri', true );
 
 		Api::post( Api::ROUTE_BLUEPRINT_CREATE_OR_UPDATE, [ 'container_url' => dollie()->get_container_url() ] );
 

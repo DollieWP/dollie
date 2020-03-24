@@ -122,7 +122,7 @@ class DomainWizard extends Singleton {
 
 	public function domain_wizard_add_cloudflare( $validation_result ) {
 		$currentQuery = dollie()->get_current_object();
-		$install      = dollie()->get_container_url();
+		$install      = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
 		$current_page = (int) ( rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1 );

@@ -36,7 +36,11 @@ class PluginUpdates extends Singleton {
 			@flush();
 		}
 
-		$update = Api::post( Api::ROUTE_PLUGINS_UPDATES_GET, [ 'container_url' => dollie()->get_container_url() ] );
+		$currentQuery = dollie()->get_current_object();
+		$install  = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
+
+
+		$update = Api::post( Api::ROUTE_PLUGINS_UPDATES_GET, [ 'container_url' => $install ] );
 
 		//Parse the JSON request
 		$answer = wp_remote_retrieve_body( $update );
@@ -108,7 +112,8 @@ class PluginUpdates extends Singleton {
 	}
 
 	public function update_plugins( $entry, $form ) {
-		$install = dollie()->get_container_url();
+		$currentQuery = dollie()->get_current_object();
+		$install  = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
 
 		$field_id       = 5; // Update this number to your field id number
 		$field          = RGFormsModel::get_field( $form, $field_id );

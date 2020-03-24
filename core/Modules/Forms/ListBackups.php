@@ -17,7 +17,7 @@ use Dollie\Core\Utils\Api;
  */
 class ListBackups extends Singleton {
 
-    private $form_key = 'form_dollie_list_backups';
+	private $form_key = 'form_dollie_list_backups';
 
 	/**
 	 * ListBackups constructor.
@@ -31,7 +31,7 @@ class ListBackups extends Singleton {
 	public function acf_init() {
 
 
-	    // Restrictions
+		// Restrictions
 		add_filter( 'af/form/restriction/key=form_dollie_list_backups', [ $this, 'restrict_form' ], 10 );
 
 		// Placeholders/Change values.
@@ -44,8 +44,10 @@ class ListBackups extends Singleton {
 
 	public function submission_callback( $form, $fields, $args ) {
 
+		$currentQuery = dollie()->get_current_object();
+
 		Api::post( Api::ROUTE_BACKUP_RESTORE, [
-			'container_url' => dollie()->get_container_url(),
+			'container_url' => get_post_meta( $currentQuery->id, 'wpd_container_uri', true ),
 			'backup'        => Forms::get_field( 'site_backup' ),
 			'backup_type'   => Forms::get_field( 'what_to_restore' ),
 		] );
@@ -54,8 +56,8 @@ class ListBackups extends Singleton {
 
 
 	/**
-     * If no backups, restrict the forms and show a message
-     *
+	 * If no backups, restrict the forms and show a message
+	 *
 	 * @param bool $restriction
 	 *
 	 * @return bool|string
