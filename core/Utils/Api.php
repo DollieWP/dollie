@@ -59,8 +59,11 @@ class Api extends Singleton {
 
 	public static function post( $endpoint, $data = [] ) {
 		return wp_remote_post( self::API_URL . $endpoint, [
-			'method' => 'POST',
-			'body'   => json_encode( $data )
+			'method'  => 'POST',
+			'body'    => $data,
+			'headers' => [
+				'Accept'       => 'application/json'
+			]
 		] );
 	}
 
