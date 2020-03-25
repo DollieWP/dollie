@@ -27,20 +27,20 @@ class Backups extends Singleton {
 		}
 	}
 
-	public function get_site_backups( $container_id = null , $force = false ) {
+	public function get_site_backups( $container_id = null, $force = false ) {
 
 		/*if ( ob_get_length() > 0 ) {
 			@ob_end_flush();
 			@flush();
 		}*/
 
-		if( ! isset( $container_id ) ) {
-		    if( ! is_singular( 'container' ) ) {
-		        return [];
-            }
+		if ( ! isset( $container_id ) ) {
+			if ( ! is_singular( 'container' ) ) {
+				return [];
+			}
 
-			$currentQuery           = dollie()->get_current_object();
-			$container_id = $currentQuery->id;
+			$currentQuery   = dollie()->get_current_object();
+			$container_id   = $currentQuery->id;
 			$container_slug = $currentQuery->slug;
 
 		} else {
@@ -55,14 +55,18 @@ class Backups extends Singleton {
 			$secret = get_post_meta( $container_id, 'wpd_container_secret', true );
 			$url    = dollie()->get_container_url() . '/' . $secret . '/codiad/backups/';
 
-			$response = Api::post( Api::ROUTE_BACKUP_GET, [ 'container_url' => $url, 'container_secret' => $secret ] );
+			$requestGetBackup = Api::post( Api::ROUTE_BACKUP_GET, [
+				'container_url'    => $url,
+				'container_secret' => $secret
+			] );
 
-			if ( is_wp_error( $response ) ) {
+			$responseGetBackup = json_decode( wp_remote_retrieve_body( $requestGetBackup ), true );
+
+			if ( $responseGetBackup['status'] === 500 ) {
 				return [];
 			}
 
-			$backups = json_decode( wp_remote_retrieve_body( $response ), true );
-
+			$backups = json_decode( $responseGetBackup['body'], true );
 		}
 
 		if ( empty( $backups ) ) {
@@ -91,7 +95,7 @@ class Backups extends Singleton {
 
 	public function trigger_backup() {
 		$currentQuery = dollie()->get_current_object();
-		$install  = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
+		$install      = get_post_meta( $currentQuery->id, 'wpd_container_uri', true );
 
 		Api::post( Api::ROUTE_BACKUP_CREATE, [ 'container_url' => $install ] );
 		Log::add( $currentQuery->slug . ' has triggered a backup', '', 'action' );

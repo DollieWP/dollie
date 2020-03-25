@@ -296,13 +296,13 @@ class ContainerManagement extends Singleton {
 		] );
 
 		// Convert JSON into array.
-		$response = json_decode( wp_remote_retrieve_body( $requestGetContainers ), true );
+		$responseGetContainers = json_decode( wp_remote_retrieve_body( $requestGetContainers ), true );
 
-		if ( $response['status'] === 500 ) {
+		if ( $responseGetContainers['status'] === 500 ) {
 			return [];
 		}
 
-		$containers = json_decode( $response['body'], true );
+		$containers = json_decode( $responseGetContainers['body'], true );
 
 		foreach ( $containers as $key => $container ) {
 			// Get container from client's WP install with the server's container ID

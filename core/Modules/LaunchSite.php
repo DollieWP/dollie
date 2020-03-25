@@ -82,12 +82,12 @@ class LaunchSite extends Singleton {
 			'envVars'         => array_merge( $env_vars_extras, $env_vars )
 		];
 
-		$request = Api::post( Api::ROUTE_CONTAINER_CREATE, $post_body );
+		$requestContainerCreate = Api::post( Api::ROUTE_CONTAINER_CREATE, $post_body );
 
-		$response = json_decode( wp_remote_retrieve_body( $request ), true );
-		$data     = json_decode( $response['body'], true );
+		$responseContainerCreate = json_decode( wp_remote_retrieve_body( $requestContainerCreate ), true );
+		$container               = json_decode( $responseContainerCreate['body'], true );
 
-		if ( $response['status'] === 500 ) {
+		if ( $responseContainerCreate['status'] === 500 ) {
 			Log::add( $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $data, true ), 'deploy' );
 
 			if ( $field->id === '1' ) {
@@ -99,7 +99,7 @@ class LaunchSite extends Singleton {
 			return $result;
 		}
 
-		if ( ! array_key_exists( 'id', $data ) ) {
+		if ( ! array_key_exists( 'id', $container ) ) {
 			if ( $field->id === '1' ) {
 				$result['is_valid']        = false;
 				$field->failed_validation  = true;
@@ -109,7 +109,7 @@ class LaunchSite extends Singleton {
 			sleep( 5 );
 
 			$requestTriggerContainer = Api::post( Api::ROUTE_CONTAINER_TRIGGER, [
-				'container_id'  => $data['id'],
+				'container_id'  => $container['id'],
 				'action'        => 'deploy',
 				'dollie_domain' => DOLLIE_INSTALL,
 				'dollie_token'  => Api::getDollieToken(),
@@ -131,7 +131,7 @@ class LaunchSite extends Singleton {
 			}
 
 			$requestGetContainer = Api::post( Api::ROUTE_CONTAINER_GET, [
-				'container_id'  => $data['id'],
+				'container_id'  => $container['id'],
 				'dollie_domain' => DOLLIE_INSTALL,
 				'dollie_token'  => Api::getDollieToken(),
 			] );

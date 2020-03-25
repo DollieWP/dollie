@@ -46,16 +46,18 @@ class Blueprints extends Singleton {
 			$secret = get_post_meta( $currentQuery->id, 'wpd_container_secret', true );
 			$url    = dollie()->get_container_url() . '/' . $secret . '/codiad/backups/blueprints.php';
 
-			$response = Api::post( Api::ROUTE_BLUEPRINT_GET, [
+			$requestGetBlueprint = Api::post( Api::ROUTE_BLUEPRINT_GET, [
 				'container_url'    => $url,
 				'container_secret' => $secret
 			] );
 
-			if ( is_wp_error( $response ) ) {
+			$responseGetBlueprint = json_decode( wp_remote_retrieve_body( $requestGetBlueprint ), true );
+
+			if ( $responseGetBlueprint['status'] === 500 ) {
 				return [];
 			}
 
-			$blueprints = json_decode( wp_remote_retrieve_body( $response ), true );
+			$blueprints = json_decode( $responseGetBlueprint['body'], true );
 
 			if ( empty( $blueprints ) ) {
 				return [];
@@ -74,7 +76,6 @@ class Blueprints extends Singleton {
 
 	public function deploy_new_blueprint( $entry, $form ) {
 		$currentQuery = dollie()->get_current_object();
-		$install      = get_post_meta( $currentQuery->id, 'wpd_container_uri', true );
 
 		Api::post( Api::ROUTE_BLUEPRINT_CREATE_OR_UPDATE, [ 'container_url' => dollie()->get_container_url() ] );
 

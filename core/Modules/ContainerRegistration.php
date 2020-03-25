@@ -52,7 +52,15 @@ class ContainerRegistration extends Singleton {
 	}
 
 	public function get_worker_nodes() {
-		return Api::post( Api::ROUTE_NODES_GET );
+		$requestNodesGet = Api::post( Api::ROUTE_NODES_GET );
+
+		$responseNodesGet = json_decode( wp_remote_retrieve_body( $requestNodesGet ), true );
+
+		if ( $responseNodesGet['status'] === 500 ) {
+			return [];
+		}
+
+		return json_decode( $responseNodesGet['body'], true );
 	}
 
 	public function register_worker_node( $id = null ) {
@@ -71,8 +79,11 @@ class ContainerRegistration extends Singleton {
 
 			// Don't do anything if the transient is empty.
 			// Output buffer our Node details
-            // will stay like this currently
-			ob_start();?><node name="<?php echo $url; ?>" description="Deployed via <?php echo get_site_url(); ?>" tags="<?php echo DOLLIE_WORKER_KEY; ?>,<?php echo get_site_url(); ?>,<?php echo $email; ?>" hostname="<?php echo $ip; ?>:<?php echo $port; ?>" username="root"/></project><?php
+			// will stay like this currently
+			ob_start(); ?>
+            <node name="<?php echo $url; ?>" description="Deployed via <?php echo get_site_url(); ?>"
+                  tags="<?php echo DOLLIE_WORKER_KEY; ?>,<?php echo get_site_url(); ?>,<?php echo $email; ?>"
+                  hostname="<?php echo $ip; ?>:<?php echo $port; ?>" username="root"/></project><?php
 			$new_node = ob_get_clean();
 
 			// Grab our existing node details

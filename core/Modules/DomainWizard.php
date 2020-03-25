@@ -63,19 +63,18 @@ class DomainWizard extends Singleton {
 		// Are we on the first page?
 		if ( $current_page === 1 ) {
 
-			$answer = Api::post( Api::ROUTE_DOMAIN_ROUTES_ADD, [
+			$requestRouteAdd = Api::post( Api::ROUTE_DOMAIN_ROUTES_ADD, [
 				'container_id'  => $request->id,
 				'domain'        => $domain,
 				'dollie_domain' => DOLLIE_INSTALL,
 				'dollie_token'  => Api::getDollieToken(),
 			] );
 
-			$response = json_decode( $answer, true );
+			$responseRouteAdd = json_decode( wp_remote_retrieve_body( $requestRouteAdd ), true );
+			$responseData     = json_decode( $responseRouteAdd['body'], true );
 
 			// Show an error of S5 API can't add the Route.
-			if ( ! array_key_exists( 'path', $response ) ) {
-
-
+			if ( ! array_key_exists( 'path', $responseData ) ) {
 				// finding Field with ID of 1 and marking it as failed validation
 				foreach ( $form['fields'] as &$field ) {
 
@@ -93,32 +92,31 @@ class DomainWizard extends Singleton {
 				unset( $field );
 			}
 			//if ( array_key_exists( 'path', $response ) ) {
-				// Save the Domain Data and make another S5 Request for the WWW domain.
-				update_post_meta( $currentQuery->id, 'wpd_domain_id', $response['id'] );
-				update_post_meta( $currentQuery->id, 'wpd_domains', $domain );
+			// Save the Domain Data and make another S5 Request for the WWW domain.
+			update_post_meta( $currentQuery->id, 'wpd_domain_id', $responseData['id'] );
+			update_post_meta( $currentQuery->id, 'wpd_domains', $domain );
 
-				$update_answer = Api::post( Api::ROUTE_DOMAIN_ROUTES_ADD, [
-					'container_id'  => $request->id,
-					'domain'        => 'www.' . $domain,
-					'dollie_domain' => DOLLIE_INSTALL,
-					'dollie_token'  => Api::getDollieToken(),
-				] );
+			$requestRouteAdd_WWW = Api::post( Api::ROUTE_DOMAIN_ROUTES_ADD, [
+				'container_id'  => $request->id,
+				'domain'        => 'www.' . $domain,
+				'dollie_domain' => DOLLIE_INSTALL,
+				'dollie_token'  => Api::getDollieToken(),
+			] );
 
-				$update_response = json_decode( $update_answer, true );
+			$responseRouteAdd_WWW = json_decode( wp_remote_retrieve_body( $requestRouteAdd_WWW ), true );
+			$responseDataWWW      = json_decode( $responseRouteAdd_WWW['body'], true );
 
-				// Also save the WWW Domain data.
-				update_post_meta( $currentQuery->id, 'wpd_www_domain_id', $update_response['id'] );
-				Log::add( $currentQuery->slug . ' linked up domain ' . $domain . '' );
+			// Also save the WWW Domain data.
+			update_post_meta( $currentQuery->id, 'wpd_www_domain_id', $responseDataWWW['id'] );
+			Log::add( $currentQuery->slug . ' linked up domain ' . $domain . '' );
 			//}
 
 			// Assign modified $form object back to the validation result
 			$validation_result['form'] = $form;
 
 			return $validation_result;
-
 		}
 
-		// Just return the form
 		$validation_result['form'] = $form;
 
 		return $validation_result;
@@ -126,7 +124,7 @@ class DomainWizard extends Singleton {
 
 	public function domain_wizard_add_cloudflare( $validation_result ) {
 		$currentQuery = dollie()->get_current_object();
-		$install      = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
+		$install      = get_post_meta( $currentQuery->id, 'wpd_container_uri', true );
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();
 		$current_page = (int) ( rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1 );
@@ -295,29 +293,31 @@ class DomainWizard extends Singleton {
 				$domain = get_post_meta( $currentQuery->id, 'wpd_domains', true );
 			}
 
-			$update = Api::post( Api::ROUTE_DOMAIN_UPDATE, [
+			$requestDomainUpdate = Api::post( Api::ROUTE_DOMAIN_UPDATE, [
 				'container_url' => $currentQuery->slug,
 				'domain'        => $domain,
 				'dollie_domain' => DOLLIE_INSTALL,
 				'dollie_token'  => Api::getDollieToken(),
 			] );
 
-			$answer = wp_remote_retrieve_body( $update );
+			$responseDomainUpdate = json_decode( wp_remote_retrieve_body( $requestDomainUpdate ), true );
+			$responseData         = json_decode( $responseDomainUpdate, true );
 
-			Log::add( 'Search and replace ' . $currentQuery->slug . ' to update URL to ' . $domain . ' has started', $answer );
+			Log::add( 'Search and replace ' . $currentQuery->slug . ' to update URL to ' . $domain . ' has started', $responseData );
 
 			$le = get_post_meta( $currentQuery->id, 'wpd_letsencrypt_enabled', true );
 			if ( $le === 'yes' ) {
-				$le_answer = Api::post( Api::ROUTE_DOMAIN_INSTALL_LETSENCRYPT, [
+				$requestLetsEncrypt = Api::post( Api::ROUTE_DOMAIN_INSTALL_LETSENCRYPT, [
 					'container_id'  => $container,
 					'route_id'      => $le_domain,
 					'dollie_domain' => DOLLIE_INSTALL,
 					'dollie_token'  => Api::getDollieToken(),
 				] );
 
-				// Show an error of S5 API can't add the Route.
-				if ( is_wp_error( $le_answer ) ) {
+				$responseLetsEncrypt = json_decode( wp_remote_retrieve_body( $requestLetsEncrypt ), true );
 
+				// Show an error of S5 API can't add the Route.
+				if ( $responseLetsEncrypt['status'] === 500 ) {
 					$validation_result['is_valid'] = false;
 
 					// finding Field with ID of 1 and marking it as failed validation
@@ -328,10 +328,9 @@ class DomainWizard extends Singleton {
 							$field->failed_validation  = true;
 							$field->validation_message = esc_html__( 'Sorry, We could not generate a SSL certificate for this domain. Please contact support so we can look into why this has happened.', 'dollie' );
 						}
-
 					}
-					unset( $field );
 
+					unset( $field );
 				} else {
 					update_post_meta( $currentQuery->id, 'wpd_letsencrypt_setup_complete', 'yes' );
 				}
