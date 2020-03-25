@@ -290,30 +290,35 @@ class ContainerManagement extends Singleton {
 
 	public function sync_containers() {
 		// Get list of container from remote API
-		$api_result = Api::post( Api::ROUTE_CONTAINER_GET, [
+		$request = Api::post( Api::ROUTE_CONTAINER_GET, [
 			'dollie_domain' => DOLLIE_INSTALL,
 			'dollie_token'  => Api::getDollieToken(),
 		] );
 
 		// Convert JSON into array.
-		$server_containers = json_decode( wp_remote_retrieve_body( $api_result ), true );
+		$response = json_decode( wp_remote_retrieve_body( $request ), true );
 
-		foreach ( $server_containers as $key => $server_container ) {
+		if ( $response['status'] === 500 ) {
+			return [];
+		}
 
+		$containers = $response['body'];
+
+		foreach ( $containers as $key => $container ) {
 			// Get container from client's WP install with the server's container ID
 			$client_containers = get_posts( [
 				'post_type'  => 'container',
 				'meta_query' => [
 					[
 						'key'     => 'wpd_container_id',
-						'value'   => $server_container['id'],
+						'value'   => $container['id'],
 						'compare' => '=',
 					],
 				]
 			] );
 
 			// Get email from the description field and then find author ID based on email.
-			$description = explode( '|', $server_container['description'], 2 );
+			$description = explode( '|', $container['description'], 2 );
 			$email       = trim( $description[0] );
 			$author      = get_user_by( 'email', $email );
 
@@ -321,7 +326,7 @@ class ContainerManagement extends Singleton {
 				$author = wp_get_current_user();
 			}
 
-			$full_url        = parse_url( $server_container['uri'] );
+			$full_url        = parse_url( $container['uri'] );
 			$stripped_domain = explode( '.', $full_url['host'] );
 			$domain          = $stripped_domain[0];
 
@@ -341,7 +346,7 @@ class ContainerManagement extends Singleton {
 					] );
 				}
 			} else {
-				// If no such container found, create one with deatils from server's container.
+				// If no such container found, create one with details from server's container.
 				// Add new container post to client's WP
 				$container_post_id = wp_insert_post( [
 					'post_type'   => 'container',
@@ -350,15 +355,15 @@ class ContainerManagement extends Singleton {
 					'post_title'  => $domain,
 					'post_author' => $author->ID,
 					'meta_input'  => [
-						'wpd_container_id'          => $server_container['id'],
-						'wpd_container_user'        => $server_container['containerSshUsername'],
-						'wpd_container_port'        => $server_container['containerSshPort'],
-						'wpd_container_password'    => $server_container['containerSshPassword'],
-						'wpd_container_ip'          => $server_container['containerHostIpAddress'],
-						'wpd_container_status'      => $server_container['status'],
+						'wpd_container_id'          => $container['id'],
+						'wpd_container_user'        => $container['containerSshUsername'],
+						'wpd_container_port'        => $container['containerSshPort'],
+						'wpd_container_password'    => $container['containerSshPassword'],
+						'wpd_container_ip'          => $container['containerHostIpAddress'],
+						'wpd_container_status'      => $container['status'],
 						'wpd_container_launched_by' => $email,
-						'wpd_container_deploy_time' => $server_container['deployedAt'],
-						'wpd_container_uri'         => $server_container['uri'],
+						'wpd_container_deploy_time' => $container['deployedAt'],
+						'wpd_container_uri'         => $container['uri'],
 						'wpd_node_added'            => 'yes',
 						'wpd_setup_complete'        => 'yes',
 						'wpd_refetch_secret_key'    => 'yes',
@@ -367,13 +372,12 @@ class ContainerManagement extends Singleton {
 			}
 
 			// If the container is not deployed -> trash it.
-			if ( $server_container['status'] !== 'Running' && $container_post_id ) {
+			if ( $container['status'] !== 'Running' && $container_post_id ) {
 				wp_trash_post( $container_post_id );
 			}
-
 		}
 
-		return $server_containers;
+		return $containers;
 	}
 
 }
