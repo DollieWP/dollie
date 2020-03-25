@@ -82,41 +82,40 @@ class LaunchSite extends Singleton {
 			'envVars'         => array_merge( $env_vars_extras, $env_vars )
 		];
 
-		$answer = Api::post( Api::ROUTE_CONTAINER_CREATE, $post_body );
+		$request = Api::post( Api::ROUTE_CONTAINER_CREATE, $post_body );
 
-		if ( is_wp_error( $answer ) ) {
-			Log::add( $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $answer, true ), 'deploy' );
+		$response = json_decode( wp_remote_retrieve_body( $request ), true );
+		$data     = $response['body'];
 
-//			if ( $field->id === '1' ) {
-//				$result['is_valid'] = false;
-//				$field->failed_validation      = true;
-//				$field->validation_message     = 'Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!';
-//			}
+		if ( $response['status'] === 500 ) {
+			Log::add( $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $data, true ), 'deploy' );
+
+			if ( $field->id === '1' ) {
+				$result['is_valid']        = false;
+				$field->failed_validation  = true;
+				$field->validation_message = 'Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!';
+			}
+
+			return $result;
 		}
 
-		Log::add( $domain . ' API request made to Dollie install ' . DOLLIE_INSTALL . ' (see log)', print_r( $answer, true ), 'deploy' );
-
-
-		$response = json_decode( wp_remote_retrieve_body( $answer ), true );
-
-		// Show an error of S5 API can't add the Route.
-		if ( ! array_key_exists( 'id', $response ) ) {
-//			if ( $field->id === '1' ) {
-//				$result['is_valid'] = false;
-//				$field->failed_validation      = true;
-//				$field->validation_message     = 'Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!';
-//			}
+		if ( ! array_key_exists( 'id', $data ) ) {
+			if ( $field->id === '1' ) {
+				$result['is_valid']        = false;
+				$field->failed_validation  = true;
+				$field->validation_message = 'Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!';
+			}
 		} else {
 			sleep( 5 );
 
 			$deploy = Api::post( Api::ROUTE_CONTAINER_TRIGGER, [
-				'container_id'  => $response['id'],
+				'container_id'  => $data['id'],
 				'action'        => 'deploy',
 				'dollie_domain' => DOLLIE_INSTALL,
 				'dollie_token'  => Api::getDollieToken(),
 			] );
 
-			//Log::add( $domain . ' Creating Site Dollie (see log)' . $post_slug, print_r( $deploy, true ), 'deploy' );
+			Log::add( $domain . ' Creating Site Dollie (see log)', print_r( $deploy['body'], true ), 'deploy' );
 
 			sleep( 20 );
 
@@ -129,59 +128,58 @@ class LaunchSite extends Singleton {
 				}
 			}
 
-			$update_container = Api::post( Api::ROUTE_CONTAINER_GET, [
-				'container_id'  => $response['id'],
+			$requestGetContainer = Api::post( Api::ROUTE_CONTAINER_GET, [
+				'container_id'  => $data['id'],
 				'dollie_domain' => DOLLIE_INSTALL,
 				'dollie_token'  => Api::getDollieToken(),
 			] );
 
-			//Log::add( $domain . 'Deploying created site ' . $post_slug, print_r( $update_container, true ), 'deploy' );
+			// Log::add( $domain . 'Deploying created site ' . $post_slug, print_r( $update_container, true ), 'deploy' );
 
 			sleep( 3 );
 
-			$update_response = json_decode( wp_remote_retrieve_body( $update_container ), true );
+			$responseContainer = json_decode( wp_remote_retrieve_body( $requestGetContainer ), true );
+			$dataContainer     = $responseContainer['body'];
 
 			// Show an error of S5 API has not completed the setup.
-			if ( ! array_key_exists( 'id', $update_response ) ) {
-//				if ( $field->id === '1' ) {
-//					$result['is_valid'] = false;
-//					$field->failed_validation      = true;
-//					$field->validation_message     = 'Sorry, It seems like there was an issue with launching your new site. Our support team has been notified';
-//				}
+			if ( ! array_key_exists( 'id', $dataContainer ) ) {
+				if ( $field->id === '1' ) {
+					$result['is_valid']        = false;
+					$field->failed_validation  = true;
+					$field->validation_message = 'Sorry, It seems like there was an issue with launching your new site. Our support team has been notified';
+				}
 			} else {
-
-				wp_update_post( array(
+				wp_update_post( [
 					'ID'          => $post_id,
 					'post_status' => 'publish',
 					'post_name'   => $domain,
 					'post_title'  => $domain,
-				) );
+				] );
 
+				Log::add( 'New Site ' . $domain . ' has container ID of ' . $dataContainer['id'], '', 'deploy' );
 
-				Log::add( 'New Site ' . $domain . ' has container ID of ' . $update_response['id'], '', 'deploy' );
-
-				add_post_meta( $post_id, 'wpd_container_id', $update_response['id'], true );
-				add_post_meta( $post_id, 'wpd_container_ssh', $update_response['containerSshPort'], true );
-				add_post_meta( $post_id, 'wpd_container_user', $update_response['containerSshUsername'], true );
-				add_post_meta( $post_id, 'wpd_container_port', $update_response['containerSshPort'], true );
-				add_post_meta( $post_id, 'wpd_container_password', $update_response['containerSshPassword'], true );
-				add_post_meta( $post_id, 'wpd_container_ip', $update_response['containerHostIpAddress'], true );
-				add_post_meta( $post_id, 'wpd_container_deploy_time', $update_response['deployedAt'], true );
-				add_post_meta( $post_id, 'wpd_container_uri', $update_response['uri'], true );
+				add_post_meta( $post_id, 'wpd_container_id', $dataContainer['id'], true );
+				add_post_meta( $post_id, 'wpd_container_ssh', $dataContainer['containerSshPort'], true );
+				add_post_meta( $post_id, 'wpd_container_user', $dataContainer['containerSshUsername'], true );
+				add_post_meta( $post_id, 'wpd_container_port', $dataContainer['containerSshPort'], true );
+				add_post_meta( $post_id, 'wpd_container_password', $dataContainer['containerSshPassword'], true );
+				add_post_meta( $post_id, 'wpd_container_ip', $dataContainer['containerHostIpAddress'], true );
+				add_post_meta( $post_id, 'wpd_container_deploy_time', $dataContainer['deployedAt'], true );
+				add_post_meta( $post_id, 'wpd_container_uri', $dataContainer['uri'], true );
 				update_post_meta( $post_id, 'wpd_container_status', 'start' );
 				add_post_meta( $post_id, 'wpd_container_launched_by', $email, true );
 
-				//Set Flag if Demo
+				// Set Flag if Demo
 				if ( $demo === 'yes' ) {
 					add_post_meta( $post_id, 'wpd_container_is_demo', 'yes', true );
 				}
 
 				sleep( 3 );
 
-				//Register Node via Rundeck
+				// Register Node via Worker
 				ContainerRegistration::instance()->register_worker_node( $post_id );
 
-				//Set Flag if Blueprint
+				// Set Flag if Blueprint
 				if ( $blueprint ) {
 					sleep( 2 );
 					add_post_meta( $post_id, 'wpd_container_based_on_blueprint', 'yes', true );
@@ -197,11 +195,6 @@ class LaunchSite extends Singleton {
 
 					Log::add( $domain . ' will use blueprint' . $blueprint_install, '', 'deploy' );
 					update_post_meta( $post_id, 'wpd_blueprint_deployment_complete', 'yes' );
-				}
-
-				if ( $demo === 'yes' && is_page( 'get-started' ) && is_plugin_active( 'get-dollie-extension/dollie.php' ) ) {
-					Log::add( $domain . ' starts partner deploy', '', 'deploy' );
-					wpd_apply_partner_template( $post_id, $domain, rgar( $entry, '6' ), rgar( $entry, '8' ), rgar( $entry, '9' ) );
 				}
 
 				$result['is_valid'] = true;
@@ -274,7 +267,7 @@ class LaunchSite extends Singleton {
 				$partner_install = get_post_meta( $partner->ID, 'wpd_url', true );
 
 				Api::post( Api::ROUTE_BLUEPRINT_DEPLOY_FOR_PARTNER, [
-					'container_url' => get_post_meta($container_id, 'wpd_container_uri', true),
+					'container_url' => get_post_meta( $container_id, 'wpd_container_uri', true ),
 					'partner_url'   => $partner_install,
 					'domain'        => $container_slug
 				] );
@@ -287,7 +280,7 @@ class LaunchSite extends Singleton {
 
 					Log::add( $container_slug . ' has invalid site details data', json_encode( $data ), 'setup' );
 
-					return new \WP_Error('dollie_invalid_data', esc_html__( 'Processed site data is invalid', 'dollie' ) );
+					return new \WP_Error( 'dollie_invalid_data', esc_html__( 'Processed site data is invalid', 'dollie' ) );
 
 				}
 

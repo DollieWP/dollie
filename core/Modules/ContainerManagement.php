@@ -302,7 +302,7 @@ class ContainerManagement extends Singleton {
 			return [];
 		}
 
-		$containers = $response['body'];
+		$containers = json_decode( $response['body'], true );
 
 		foreach ( $containers as $key => $container ) {
 			// Get container from client's WP install with the server's container ID
