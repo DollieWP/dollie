@@ -379,25 +379,25 @@ class Options extends Singleton {
 				// Display Synchronized container's details.
 				echo 'Synchronized ' . count( $containers ) . ' containers<br><br><br>';
 
-				$counter = 0;
+				echo '<table>';
+				echo '<tr>' .
+				     '<th>Name</th>' .
+				     '<th>URL</th>' .
+				     '<th>Status</th>' .
+				     '</tr>';
+
 				foreach ( $containers as $container ) {
 					$full_url        = parse_url( $container['uri'] );
 					$stripped_domain = explode( '.', $full_url['host'] );
 					$name            = $stripped_domain[0];
-					$counter ++;
 
-					if ( $counter % 2 ) {
-						$grid = 'even';
-					} else {
-						$grid = 'odd';
-					}
-
-					echo '<div class="synch-result ' . $grid . '">
-						<div class="row"><div class="left">Name</div><div class="right">' . $name . '</div></div>
-						<div class="row"><div class="left">URL</div><div class="right">' . $container['uri'] . '</div></div>
-						<div class="row"><div class="left">Status</div><div class="right">' . $container['status'] . '</div></div>
-					</div>';
+					echo '<tr>
+						<td>' . $name . '</td>
+						<td>' . $container['uri'] . '</td>
+						<td>' . $container['status'] . '</td>
+					</tr>';
 				}
+				echo '</table>';
 			} else {
 				echo '<p>No containers found to be synchronized.</p>';
 			}
