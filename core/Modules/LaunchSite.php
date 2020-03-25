@@ -108,14 +108,16 @@ class LaunchSite extends Singleton {
 		} else {
 			sleep( 5 );
 
-			$deploy = Api::post( Api::ROUTE_CONTAINER_TRIGGER, [
+			$requestTriggerContainer = Api::post( Api::ROUTE_CONTAINER_TRIGGER, [
 				'container_id'  => $data['id'],
 				'action'        => 'deploy',
 				'dollie_domain' => DOLLIE_INSTALL,
 				'dollie_token'  => Api::getDollieToken(),
 			] );
 
-			Log::add( $domain . ' Creating Site Dollie (see log)', print_r( $deploy['body'], true ), 'deploy' );
+			$responseTriggerContainer = json_decode( wp_remote_retrieve_body( $requestTriggerContainer ), true );
+
+			Log::add( $domain . ' Creating Site Dollie (see log)', print_r( $responseTriggerContainer['body'], true ), 'deploy' );
 
 			sleep( 20 );
 
@@ -134,7 +136,7 @@ class LaunchSite extends Singleton {
 				'dollie_token'  => Api::getDollieToken(),
 			] );
 
-			// Log::add( $domain . 'Deploying created site ' . $post_slug, print_r( $update_container, true ), 'deploy' );
+			Log::add( $domain . 'Deploying created site ', print_r( $requestGetContainer, true ), 'deploy' );
 
 			sleep( 3 );
 

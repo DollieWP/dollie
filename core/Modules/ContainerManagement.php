@@ -113,39 +113,37 @@ class ContainerManagement extends Singleton {
 		if ( empty( $request ) ) {
 
 			// Set up the request
-			$response = Api::post( API::ROUTE_CONTAINER_GET, [
+			$requestGetContainer = Api::post( API::ROUTE_CONTAINER_GET, [
 				'container_id'  => $container_id,
 				'dollie_domain' => DOLLIE_INSTALL,
 				'dollie_token'  => Api::getDollieToken()
 			] );
 
-			if ( is_wp_error( $response ) ) {
-				Log::add( 'Container details could not be fetched. for' . $currentQuery->slug, print_r( $response, true ), 'error' );
+			$responseGetContainer = json_decode( wp_remote_retrieve_body( $requestGetContainer ), true );
+
+			if ( $responseGetContainer['status'] === 500 ) {
+				Log::add( 'Container details could not be fetched. for' . $currentQuery->slug, print_r( $responseGetContainer['body'], true ), 'error' );
 
 				return [];
 			}
 
-			$request = json_decode( wp_remote_retrieve_body( $response ) );
+			$containerData = json_decode( $responseGetContainer['body'], true );
 
-			// Parse the JSON request
-			$update_answer   = wp_remote_retrieve_body( $response );
-			$update_response = json_decode( $update_answer, true );
-
-			if ( empty( $request ) ) {
-				Log::add( 'Container details could not be fetched. for' . $currentQuery->slug, print_r( $response, true ), 'error' );
+			if ( empty( $containerData ) ) {
+				Log::add( 'Container details could not be fetched. for' . $currentQuery->slug, print_r( $containerData, true ), 'error' );
 
 				return [];
 			}
 			// Set Transient and Update Post Meta
 			set_transient( 'dollie_s5_container_details_' . $currentQuery->slug, $request, MINUTE_IN_SECONDS * 150000 );
-			update_post_meta( $currentQuery->id, 'wpd_container_id', $update_response['id'], true );
-			update_post_meta( $currentQuery->id, 'wpd_container_ssh', $update_response['containerSshPort'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_user', $update_response['containerSshUsername'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_port', $update_response['containerSshPort'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_password', $update_response['containerSshPassword'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_ip', preg_replace( '/\s+/', '', $update_response['containerHostIpAddress'] ) );
-			update_post_meta( $currentQuery->id, 'wpd_container_deploy_time', $update_response['deployedAt'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_uri', $update_response['uri'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_id', $containerData['id'], true );
+			update_post_meta( $currentQuery->id, 'wpd_container_ssh', $containerData['containerSshPort'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_user', $containerData['containerSshUsername'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_port', $containerData['containerSshPort'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_password', $containerData['containerSshPassword'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_ip', preg_replace( '/\s+/', '', $containerData['containerHostIpAddress'] ) );
+			update_post_meta( $currentQuery->id, 'wpd_container_deploy_time', $containerData['deployedAt'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_uri', $containerData['uri'] );
 		}
 
 		return $request;
@@ -223,15 +221,17 @@ class ContainerManagement extends Singleton {
 
 		$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
 
-		$update = Api::post( Api::ROUTE_CONTAINER_TRIGGER, [
+		$requestTriggerContainer = Api::post( Api::ROUTE_CONTAINER_TRIGGER, [
 			'container_id'  => $container_id,
 			'action'        => $action,
 			'dollie_domain' => DOLLIE_INSTALL,
 			'dollie_token'  => Api::getDollieToken(),
 		] );
 
-		if ( is_wp_error( $update ) ) {
-			Log::add( 'container action could not be completed for ' . $currentQuery->slug, print_r( $update, true ), 'error' );
+		$requestTriggerResponse = json_decode( wp_remote_retrieve_body( $requestTriggerContainer ), true );
+
+		if ( $requestTriggerResponse['status'] === 500 ) {
+			Log::add( 'container action could not be completed for ' . $currentQuery->slug, print_r( $requestTriggerResponse, true ), 'error' );
 		} else {
 			if ( $action === 'start' ) {
 				delete_post_meta( $post_id, 'wpd_stop_container_at' );
@@ -290,13 +290,13 @@ class ContainerManagement extends Singleton {
 
 	public function sync_containers() {
 		// Get list of container from remote API
-		$request = Api::post( Api::ROUTE_CONTAINER_GET, [
+		$requestGetContainers = Api::post( Api::ROUTE_CONTAINER_GET, [
 			'dollie_domain' => DOLLIE_INSTALL,
 			'dollie_token'  => Api::getDollieToken(),
 		] );
 
 		// Convert JSON into array.
-		$response = json_decode( wp_remote_retrieve_body( $request ), true );
+		$response = json_decode( wp_remote_retrieve_body( $requestGetContainers ), true );
 
 		if ( $response['status'] === 500 ) {
 			return [];
