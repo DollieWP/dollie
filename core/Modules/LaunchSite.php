@@ -85,7 +85,7 @@ class LaunchSite extends Singleton {
 		$request = Api::post( Api::ROUTE_CONTAINER_CREATE, $post_body );
 
 		$response = json_decode( wp_remote_retrieve_body( $request ), true );
-		$data     = $response['body'];
+		$data     = json_decode( $response['body'], true );
 
 		if ( $response['status'] === 500 ) {
 			Log::add( $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $data, true ), 'deploy' );
@@ -139,7 +139,7 @@ class LaunchSite extends Singleton {
 			sleep( 3 );
 
 			$responseContainer = json_decode( wp_remote_retrieve_body( $requestGetContainer ), true );
-			$dataContainer     = $responseContainer['body'];
+			$dataContainer     = json_decode( $responseContainer['body'], true );
 
 			// Show an error of S5 API has not completed the setup.
 			if ( ! array_key_exists( 'id', $dataContainer ) ) {
