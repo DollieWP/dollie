@@ -56,13 +56,13 @@ class Forms extends Singleton {
 			return $output;
 		}
 
-		return esc_url( call_user_func([ dollie(), 'get_customer_login_url' ] ) );
+		return esc_url( call_user_func( [ dollie(), 'get_customer_login_url' ] ) );
 	}
 
 	function register_container_login_url_tag( $tags, $form ) {
 		$tags[] = array(
 			'value' => 'dollie_container_login_url',
-			'label' => 'Dollie Container Login URL',
+			'label' => esc_html__( 'Dollie Container Login URL', 'dollie' ),
 		);
 
 		return $tags;
