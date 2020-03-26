@@ -88,7 +88,7 @@ class LaunchSite extends Singleton {
 		$container               = json_decode( $responseContainerCreate['body'], true );
 
 		if ( $responseContainerCreate['status'] === 500 ) {
-			Log::add( $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $data, true ), 'deploy' );
+			Log::add( $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $container, true ), 'deploy' );
 
 			if ( $field->id === '1' ) {
 				$result['is_valid']        = false;
