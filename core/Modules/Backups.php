@@ -51,6 +51,7 @@ class Backups extends Singleton {
 
 		if ( ! $force && $data = get_transient( $backups_transient_name ) ) {
 			$backups = $data;
+
 		} else {
 			$secret = get_post_meta( $container_id, 'wpd_container_secret', true );
 			$url    = dollie()->get_container_url() . '/' . $secret . '/codiad/backups/';
@@ -59,6 +60,10 @@ class Backups extends Singleton {
 				'container_url'    => $url,
 				'container_secret' => $secret
 			] );
+
+			if ( is_wp_error( $requestGetBackup ) ) {
+				return [];
+			}
 
 			$responseGetBackup = json_decode( wp_remote_retrieve_body( $requestGetBackup ), true );
 

@@ -70,6 +70,7 @@ class ListBackups extends Singleton {
 		}
 
 		$backups = Backups::instance()->get_site_backups();
+
 		if ( empty( $backups ) ) {
 
 			$data = '';
