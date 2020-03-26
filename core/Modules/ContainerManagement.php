@@ -107,10 +107,10 @@ class ContainerManagement extends Singleton {
 		$currentQuery = dollie()->get_current_object();
 		$container_id = get_post_meta( $currentQuery->id, 'wpd_container_id', true );
 
-		$containerData = get_transient( 'dollie_s5_container_details_' . $currentQuery->slug );
+		$request = get_transient( 'dollie_s5_container_details_' . $currentQuery->slug );
 
 		// Only make request if it's not cached in a transient.
-		if ( empty( $containerData ) ) {
+		if ( empty( $request ) ) {
 
 			// Set up the request
 			$requestGetContainer = Api::post( API::ROUTE_CONTAINER_GET, [
@@ -127,26 +127,27 @@ class ContainerManagement extends Singleton {
 				return [];
 			}
 
-			$containerData = json_decode( $responseGetContainer['body'], true );
+			$request = json_decode( $responseGetContainer['body'], true );
 
-			if ( empty( $containerData ) ) {
-				Log::add( 'Container details could not be fetched. for' . $currentQuery->slug, print_r( $containerData, true ), 'error' );
+			if ( empty( $request ) ) {
+				Log::add( 'Container details could not be fetched. for' . $currentQuery->slug, print_r( $request, true ), 'error' );
 
 				return [];
 			}
+
 			// Set Transient and Update Post Meta
-			set_transient( 'dollie_s5_container_details_' . $currentQuery->slug, $containerData, MINUTE_IN_SECONDS * 150000 );
-			update_post_meta( $currentQuery->id, 'wpd_container_id', $containerData['id'], true );
-			update_post_meta( $currentQuery->id, 'wpd_container_ssh', $containerData['containerSshPort'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_user', $containerData['containerSshUsername'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_port', $containerData['containerSshPort'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_password', $containerData['containerSshPassword'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_ip', preg_replace( '/\s+/', '', $containerData['containerHostIpAddress'] ) );
-			update_post_meta( $currentQuery->id, 'wpd_container_deploy_time', $containerData['deployedAt'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_uri', $containerData['uri'] );
+			set_transient( 'dollie_s5_container_details_' . $currentQuery->slug, $request, MINUTE_IN_SECONDS * 150000 );
+			update_post_meta( $currentQuery->id, 'wpd_container_id', $request['id'], true );
+			update_post_meta( $currentQuery->id, 'wpd_container_ssh', $request['containerSshPort'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_user', $request['containerSshUsername'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_port', $request['containerSshPort'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_password', $request['containerSshPassword'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_ip', preg_replace( '/\s+/', '', $request['containerHostIpAddress'] ) );
+			update_post_meta( $currentQuery->id, 'wpd_container_deploy_time', $request['deployedAt'] );
+			update_post_meta( $currentQuery->id, 'wpd_container_uri', $request['uri'] );
 		}
 
-		return $containerData;
+		return $request;
 	}
 
 	public function container_api_request( $url, $transient_id, $user_auth, $user_pass ) {
@@ -155,8 +156,10 @@ class ContainerManagement extends Singleton {
 			@flush();
 		}
 
-		$currentQuery = dollie()->get_current_object();
-		$request      = get_transient( 'dollie_container_api_request_' . $currentQuery->slug . '_' . $transient_id );
+		$currentQuery   = dollie()->get_current_object();
+		$transient_name = 'dollie_container_api_request_' . $currentQuery->slug . '_' . $transient_id;
+
+		$request        = get_transient( $transient_name );
 
 		if ( $user_auth === null ) {
 			$user_auth = DOLLIE_S5_USER;
@@ -174,18 +177,17 @@ class ContainerManagement extends Singleton {
 					'Authorization' => 'Basic ' . base64_encode( $user_auth . ':' . $user_pass ),
 				]
 			] );
-
 			if ( is_wp_error( $response ) ) {
 				return [];
 			}
 
-			$request = json_decode( wp_remote_retrieve_body( $response ) );
+			$request = json_decode( wp_remote_retrieve_body( $response ), false );
 
 			if ( empty( $request ) ) {
 				return [];
 			}
 
-			set_transient( 'dollie_container_api_request_' . $currentQuery->slug . '_' . $transient_id, $request, MINUTE_IN_SECONDS * 30 );
+			set_transient( $transient_name, $request, MINUTE_IN_SECONDS * 30 );
 		}
 
 		return $request;

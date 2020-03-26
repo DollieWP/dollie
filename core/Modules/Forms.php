@@ -29,7 +29,6 @@ class Forms extends Singleton {
 		add_action( 'acf/init', [ $this, 'acf_init' ] );
 
 		add_filter( 'acf/load_field', [ $this, 'localize_strings' ] );
-
 		add_filter( 'acf/load_field/name=site_blueprint', [ $this, 'populate_blueprints' ] );
 
 	}
@@ -57,7 +56,7 @@ class Forms extends Singleton {
 			return $output;
 		}
 
-		return esc_url( dollie()->get_customer_login_url() );
+		return esc_url( call_user_func([ dollie(), 'get_customer_login_url' ] ) );
 	}
 
 	function register_container_login_url_tag( $tags, $form ) {
