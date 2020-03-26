@@ -107,10 +107,10 @@ class ContainerManagement extends Singleton {
 		$currentQuery = dollie()->get_current_object();
 		$container_id = get_post_meta( $currentQuery->id, 'wpd_container_id', true );
 
-		$request = get_transient( 'dollie_s5_container_details_' . $currentQuery->slug );
+		$containerData = get_transient( 'dollie_s5_container_details_' . $currentQuery->slug );
 
 		// Only make request if it's not cached in a transient.
-		if ( empty( $request ) ) {
+		if ( empty( $containerData ) ) {
 
 			// Set up the request
 			$requestGetContainer = Api::post( API::ROUTE_CONTAINER_GET, [
@@ -135,7 +135,7 @@ class ContainerManagement extends Singleton {
 				return [];
 			}
 			// Set Transient and Update Post Meta
-			set_transient( 'dollie_s5_container_details_' . $currentQuery->slug, $request, MINUTE_IN_SECONDS * 150000 );
+			set_transient( 'dollie_s5_container_details_' . $currentQuery->slug, $containerData, MINUTE_IN_SECONDS * 150000 );
 			update_post_meta( $currentQuery->id, 'wpd_container_id', $containerData['id'], true );
 			update_post_meta( $currentQuery->id, 'wpd_container_ssh', $containerData['containerSshPort'] );
 			update_post_meta( $currentQuery->id, 'wpd_container_user', $containerData['containerSshUsername'] );
@@ -146,7 +146,7 @@ class ContainerManagement extends Singleton {
 			update_post_meta( $currentQuery->id, 'wpd_container_uri', $containerData['uri'] );
 		}
 
-		return $request;
+		return $containerData;
 	}
 
 	public function container_api_request( $url, $transient_id, $user_auth, $user_pass ) {
