@@ -53,10 +53,9 @@ class Backups extends Singleton {
 			$backups = $data;
 		} else {
 			$secret = get_post_meta( $container_id, 'wpd_container_secret', true );
-			$url    = dollie()->get_container_url() . '/' . $secret . '/codiad/backups/';
 
 			$requestGetBackup = Api::post( Api::ROUTE_BACKUP_GET, [
-				'container_url'    => $url,
+				'container_url'    => dollie()->get_container_url(),
 				'container_secret' => $secret
 			] );
 
