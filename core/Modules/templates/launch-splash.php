@@ -105,7 +105,7 @@
                         } else {
                             counter++;
                         }
-                    }, 5000);
+                    }, 25000);
 
                 jQuery(modalId).modal("show");
 
@@ -120,7 +120,7 @@
                     divs
                         .eq(i)
                         .fadeIn(500)
-                        .delay(4000)
+                        .delay(24000)
                         .fadeOut(500, launchCycle);
 
                     i = ++i % divs.length;
