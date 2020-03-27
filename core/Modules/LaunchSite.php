@@ -74,12 +74,13 @@ class LaunchSite extends Singleton {
 		$env_vars_extras = apply_filters( 'dollie/launch_site/extras_envvars', [], $domain, get_current_user_id(), $email, $blueprint );
 
 		$post_body = [
-			'domain'          => $domain . DOLLIE_DOMAIN,
-			'dollie_domain'   => DOLLIE_INSTALL,
-			'dollie_token'    => Api::getDollieToken(),
-			'containerMemory' => DOLLIE_MEMORY,
-			'description'     => $email . ' | ' . get_site_url(),
-			'envVars'         => array_merge( $env_vars_extras, $env_vars )
+			'domain'        => $domain . DOLLIE_DOMAIN,
+			'email'         => $email,
+			'memory'        => DOLLIE_MEMORY,
+			'description'   => $email . ' | ' . get_site_url(),
+			'envVars'       => array_merge( $env_vars_extras, $env_vars ),
+			'dollie_domain' => DOLLIE_INSTALL,
+			'dollie_token'  => Api::getDollieToken()
 		];
 
 		$requestContainerCreate = Api::post( Api::ROUTE_CONTAINER_CREATE, $post_body );
