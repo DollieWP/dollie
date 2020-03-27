@@ -33,7 +33,7 @@ class AccessControl extends Singleton {
 		add_action( 'wp', [ $this, 'block_access' ] );
 
 		if ( ! defined( 'DOLLIE_DEV' ) || ! DOLLIE_DEV ) {
-			add_action( 'admin_init', [ $this, 'restrict_gravity_form_edit' ] );
+			add_action( 'admin_init', [ $this, 'restrict_form_delete' ] );
 		}
 
 	}
@@ -101,41 +101,9 @@ class AccessControl extends Singleton {
 		}
 	}
 
-	public function restrict_gravity_form_edit() {
+	public function restrict_form_delete() {
 
-		$dollie_form_ids = dollie()->get_dollie_gravity_form_ids();
-
-		$restrictions = [];
-		foreach ( $dollie_form_ids as $id ) {
-			$restrictions[] = [ 'page' => 'gf_edit_forms', 'id' => $id ];
-			$restrictions[] = [ 'page' => 'gf_edit_forms', 'id' => $id, 'view' => 'settings' ];
-			$restrictions[] = [
-				'page'    => 'gf_edit_forms',
-				'id'      => $id,
-				'view'    => 'settings',
-				'subview' => 'settings'
-			];
-			$restrictions[] = [
-				'page'    => 'gf_edit_forms',
-				'id'      => $id,
-				'view'    => 'settings',
-				'subview' => 'confirmation'
-			];
-			$restrictions[] = [
-				'page'    => 'gf_edit_forms',
-				'id'      => $id,
-				'view'    => 'settings',
-				'subview' => 'gravityformshelpscout'
-			];
-		}
-
-		parse_str( $_SERVER['QUERY_STRING'], $query_string );
-
-		foreach ( $restrictions as $restriction ) {
-			if ( $query_string === $restriction ) {
-				wp_die( '<h1>This Dollie form can not be edited.</h1><p>This Gravity Form controls crucial Dollie functionality and can not be edited directly. If you need to make changes or are looking for a custom solution, please reach out to our Team through our Partner Slack so we can assist you.', 'This Dollie form can not be edited.</p>' );
-			}
-		}
+		// wp_die( '<h1>This Dollie form can not be edited.</h1><p>This Gravity Form controls crucial Dollie functionality and can not be edited directly. If you need to make changes or are looking for a custom solution, please reach out to our Team through our Partner Slack so we can assist you.', 'This Dollie form can not be edited.</p>' );
 	}
 
 	public function add_hidden_fields() {

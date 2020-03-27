@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Modules\Forms\LaunchSite;
 use Dollie\Core\Modules\Forms\AfterLaunchWizard;
 use Dollie\Core\Modules\Forms\ListBackups;
 use Dollie\Core\Singleton;
@@ -22,14 +23,16 @@ class Forms extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
+		LaunchSite::instance();
 		AfterLaunchWizard::instance();
 		ListBackups::instance();
+
+		add_action( 'template_redirect', [ $this, 'redirect_to_new_container' ] );
 
 		add_action( 'init', [ $this, 'init' ] );
 		add_action( 'acf/init', [ $this, 'acf_init' ] );
 
 		add_filter( 'acf/load_field', [ $this, 'localize_strings' ] );
-		add_filter( 'acf/load_field/name=site_blueprint', [ $this, 'populate_blueprints' ] );
 
 	}
 
@@ -102,25 +105,16 @@ class Forms extends Singleton {
 
 	}
 
-	public function register_forms() {
+	public function redirect_to_new_container() {
+		if ( isset( $_GET['site'] ) && $_GET['site'] === 'new' ) {
+			$url = dollie()->get_latest_container_url();
 
-		af_register_form( array(
-			'key'            => 'form_dollie_launch_site',
-			'title'          => 'Launch Site',
-			'display'        => array(
-				'description'     => 'Desc',
-				'success_message' => '<p>' . esc_html__( 'Success message', 'dollie' ) . '</p>',
-			),
-			'create_entries' => true,
-			'restrictions'   => array(
-				'entries'  => false,
-				'user'     => false,
-				'schedule' => false,
-			),
-			'emails'         => false,
-		) );
+			if ( $url ) {
+				wp_redirect( $url );
+				exit();
+			}
+		}
 	}
-
 
 	public function localize_strings( $field ) {
 
@@ -148,64 +142,6 @@ class Forms extends Singleton {
 		}
 
 		return $field;
-	}
-
-	public function populate_blueprints( $field ) {
-		$query = new \WP_Query( [
-			'post_type'      => 'container',
-			'posts_per_page' => 1000,
-			'meta_query'     => [
-				'relation' => 'AND',
-				[
-					'key'   => 'wpd_blueprint_created',
-					'value' => 'yes',
-				],
-				[
-					'key'   => 'wpd_is_blueprint',
-					'value' => 'yes',
-				],
-				[
-					'key'     => 'wpd_installation_blueprint_title',
-					'compare' => 'EXISTS',
-				]
-			],
-			'p'              => isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : '',
-		] );
-
-		$choices = [];
-
-		// Build field options array.
-		if ( $query->have_posts() ) {
-			while ( $query->have_posts() ) {
-				$query->the_post();
-
-				$private = get_field( 'wpd_private_blueprint' );
-
-				if ( $private === 'yes' && ! current_user_can( 'manage_options' ) ) {
-					continue;
-				}
-
-				if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
-					$image = get_field( 'wpd_blueprint_custom_image' );
-				} elseif ( get_field( 'wpd_blueprint_image' ) === 'theme' ) {
-					$image = wpthumb( get_post_meta( get_the_ID(), 'wpd_installation_site_theme_screenshot', true ), 'width=900&crop=0' );
-				} else {
-					$image = get_post_meta( get_the_ID(), 'wpd_site_screenshot', true );
-				}
-
-				$choices[ get_the_ID() ] = '<img data-toggle="tooltip" data-placement="bottom" ' .
-				                           'title="' . get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ) . '" ' .
-				                           'class="fw-blueprint-screenshot" src=' . $image . '>' .
-				                           get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true );
-
-			}
-		}
-
-		$field['choices'] = $choices;
-
-		// return the field
-		return $field;
-
 	}
 
 	/**

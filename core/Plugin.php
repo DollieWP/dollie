@@ -18,7 +18,6 @@ use Dollie\Core\Modules\DeleteSite;
 use Dollie\Core\Modules\DomainWizard;
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Modules\Hooks;
-use Dollie\Core\Modules\LaunchSite;
 use Dollie\Core\Modules\Options;
 use Dollie\Core\Modules\PluginUpdates;
 use Dollie\Core\Modules\SecurityChecks;
@@ -42,11 +41,13 @@ class Plugin extends Singleton {
 		parent::__construct();
 
 		add_filter( 'body_class', [ $this, 'add_timestamp_body' ] );
+
 		add_action( 'template_redirect', [ $this, 'remove_customer_domain' ] );
+		add_action( 'template_redirect', [ $this, 'redirect_to_container_launch' ] );
+
 		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
 
 		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 0 );
-
 		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
 
 		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
@@ -89,7 +90,6 @@ class Plugin extends Singleton {
 		DeleteSite::instance();
 		DomainWizard::instance();
 		Hooks::instance();
-		LaunchSite::instance();
 		Options::instance();
 		PluginUpdates::instance();
 		SecurityChecks::instance();
@@ -163,6 +163,18 @@ class Plugin extends Singleton {
 
 			wp_redirect( get_site_url() . '/site/' . $currentQuery->slug . '/?get-details' );
 			exit();
+		}
+	}
+
+	public function redirect_to_container_launch() {
+
+		if ( !  dollie()->get_launch_page_id() ) {
+			return;
+		}
+
+		if ( current_user_can( 'manage_options' ) && dollie()->count_total_containers() === 0 && ! is_page( dollie()->get_launch_page_id() ) ) {
+			wp_redirect( dollie()->get_launch_page_url() );
+			exit;
 		}
 	}
 

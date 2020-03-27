@@ -53,42 +53,18 @@ class AF_Core_Forms_Rendering {
    *
    */
   function render( $form_id_or_key, $args ) {
-    
     $form = af_get_form( $form_id_or_key );
     
     if ( ! $form ) {
       return;
     }
     
-    
-    /**
-     * Enqueue ACF scripts and styles
-     *
-     * Normally ACF initializes the global JS object in wp_head but we only want to include the scripts when displaying a form.
-     * To work around this we enqueue using the regular ACF function and then immediately include the acf-input.js script and all it's dependencies.
-     * If acf-input.js is not initialized before the fields then conditional logic doesn't work. The remaining scripts/styles will be included in wp_footer.
-     *
-     * From ACF 5.7 and onwards this is no longer necessary. Conditional logic is no longer reliant on inline scripts and a regular enqueue is sufficient.
-     *
-     * @since 1.1.1
-     *
-     */
-    acf_enqueue_scripts();
-    wp_enqueue_script( 'af-forms-script', AF()->url . 'assets/dist/js/forms.js', array( 'jquery', 'acf-input' ), AF()->version, true );
-    
-    // Check if ACF version is < 5.7
-    if ( acf_version_compare( acf()->version, '<', '5.7' ) ) {
-      global $wp_scripts;
-      
-      $wp_scripts->print_scripts( array( 'acf-input', 'acf-pro-input' ) );
-    }
-    
+    $this->enqueue( $form, $args );
     
     // Allow the form to be modified before rendering form
     $form = apply_filters( 'af/form/before_render', $form, $args );
     $form = apply_filters( 'af/form/before_render/id=' . $form['post_id'], $form, $args );
     $form = apply_filters( 'af/form/before_render/key=' . $form['key'], $form, $args );
-    
     
     $args = wp_parse_args($args, array(
       'display_title'       => false,
@@ -107,7 +83,6 @@ class AF_Core_Forms_Rendering {
       'honeypot' => true,
     ));
     
-    
     // Allow the arguments to be modified before rendering form
     $args = apply_filters( 'af/form/args', $args, $form );
     $args = apply_filters( 'af/form/args/id=' . $form['post_id'], $args, $form );
@@ -117,13 +92,13 @@ class AF_Core_Forms_Rendering {
     // Set ACF uploader type setting
     acf_update_setting( 'uploader', $args['uploader'] );
     
-    
     // Form element
     $form_attributes = array(
       'class'   => 'af-form acf-form',
       'method'  => 'POST',
       'action'  => $args['target'],
       'id'    => $args['id'],
+      'data-key' => $form['key'],
     );
     
     $form_attributes = apply_filters( 'af/form/attributes', $form_attributes, $form, $args );
@@ -131,7 +106,6 @@ class AF_Core_Forms_Rendering {
     $form_attributes = apply_filters( 'af/form/attributes/key=' . $form['key'], $form_attributes, $form, $args );
     
     echo sprintf( '<form %s>', acf_esc_atts( $form_attributes ) );
-    
     
     do_action( 'af/form/before_title', $form, $args );
     do_action( 'af/form/before_title/id=' . $form['post_id'], $form, $args );
@@ -171,7 +145,46 @@ class AF_Core_Forms_Rendering {
     
     // End form
     echo '</form>';
+  }
+
+  /**
+   * Enqueues all scripts and styles necessary for a form to work.
+   * 
+   * @since 1.6.7
+   * 
+   */
+  function enqueue( $form, $args ) {
+    /**
+     * Enqueue ACF scripts and styles
+     *
+     * Normally ACF initializes the global JS object in wp_head but we only want to include the scripts when displaying a form.
+     * To work around this we enqueue using the regular ACF function and then immediately include the acf-input.js script and all it's dependencies.
+     * If acf-input.js is not initialized before the fields then conditional logic doesn't work. The remaining scripts/styles will be included in wp_footer.
+     *
+     * From ACF 5.7 and onwards this is no longer necessary. Conditional logic is no longer reliant on inline scripts and a regular enqueue is sufficient.
+     *
+     * @since 1.1.1
+     *
+     */
+    acf_enqueue_scripts();
+
+
+    // ACF fails to include all translations when running "acf_enqueue_scripts", hence we need to do it manually.
+    $acf_l10n = acf_get_instance('ACF_Assets')->text;
+    wp_localize_script( 'acf-input', 'acfL10n', $acf_l10n );
+
+    wp_enqueue_script( 'af-forms-script', AF()->url . 'assets/dist/js/forms.js', array( 'jquery', 'acf-input' ), AF()->version, true );
     
+    // Check if ACF version is < 5.7
+    if ( acf_version_compare( acf()->version, '<', '5.7' ) ) {
+      global $wp_scripts;
+      
+      $wp_scripts->print_scripts( array( 'acf-input', 'acf-pro-input' ) );
+    }
+
+    do_action( 'af/form/enqueue', $form, $args );
+    do_action( 'af/form/enqueue/id=' . $form['post_id'], $form, $args );
+    do_action( 'af/form/enqueue/key=' . $form['key'], $form, $args );
   }
 
 
@@ -240,7 +253,7 @@ class AF_Core_Forms_Rendering {
 
     $success_message = af_resolve_merge_tags( $success_message );
     
-    echo '<div class="af-success">';
+    echo '<div class="af-success" aria-live="assertive" role="alert">';
     
       echo $success_message;
     
@@ -355,6 +368,9 @@ class AF_Core_Forms_Rendering {
    *
    */
   function render_field( $field, $form, $args ) {
+    do_action( 'af/field/before_field', $field, $form, $args );
+    do_action( 'af/field/before_field/name=' . $field['name'], $field, $form, $args );
+    do_action( 'af/field/before_field/key=' . $field['key'], $field, $form, $args );
 
     // Ignore hide from admin value
     $field['hide_admin'] = false;
@@ -388,6 +404,9 @@ class AF_Core_Forms_Rendering {
       $field['value'] = af_get_field( $field['name'] );
     }
     
+    $field = apply_filters( 'af/field/before_render', $field, $form, $args );
+    $field = apply_filters( 'af/field/before_render/id=' . $form['post_id'], $field, $form, $args );
+    $field = apply_filters( 'af/field/before_render/key=' . $form['key'], $field, $form, $args );
     
     // Attributes to be used on the wrapper element
     $attributes = array();
@@ -411,10 +430,8 @@ class AF_Core_Forms_Rendering {
     $width = $field['wrapper']['width'];
     
     if ( $width ) {
-      
       $attributes['data-width'] = $width;
       $attributes['style'] = 'width: ' . $width . '%;';
-      
     }
     
     $attributes['data-name'] = $field['name'];
@@ -442,15 +459,20 @@ class AF_Core_Forms_Rendering {
     $attributes = apply_filters( 'af/form/field_attributes/key=' . $form['key'], $attributes, $field, $form, $args );
     
     // Field instructions
+    $instruction_placement = $args['instruction_placement'];
+    $instruction_placement = apply_filters( 'af/field/instruction_placement', $instruction_placement, $field, $form, $args );
+    $instruction_placement = apply_filters( 'af/field/instruction_placement/name=' . $field['name'], $instruction_placement, $field, $form, $args );
+    $instruction_placement = apply_filters( 'af/field/instruction_placement/key=' . $field['key'], $instruction_placement, $field, $form, $args );
+    
     if ( ! empty( $field['instructions'] ) ) {
-      $instructions = sprintf( '<p class="af-field-instructions -placement-%s">%s</p>', $args['instruction_placement'], $field['instructions'] );
+      $instructions = sprintf( '<p class="af-field-instructions -placement-%s">%s</p>', $instruction_placement, $field['instructions'] );
     } else {
       $instructions = '';
     }
     
     // Field wrapper
     echo sprintf( '<div %s>', acf_esc_atts( $attributes ) );
-    
+
     echo '<div class="af-label acf-label">';
     
       $label = $field['label'];
@@ -459,7 +481,7 @@ class AF_Core_Forms_Rendering {
       
       echo sprintf( '<label for="acf-%s">%s</label>', $field['key'], $label );
 
-      if ( 'label' == $args['instruction_placement'] ) {
+      if ( 'label' == $instruction_placement ) {
         echo $instructions;
       }
       
@@ -467,16 +489,12 @@ class AF_Core_Forms_Rendering {
     
     echo '<div class="af-input acf-input">';
 
-      $field = apply_filters( 'af/field/before_render', $field, $form, $args );
-      $field = apply_filters( 'af/field/before_render/id=' . $form['post_id'], $field, $form, $args );
-      $field = apply_filters( 'af/field/before_render/key=' . $form['key'], $field, $form, $args );
-    
       // Render field with default ACF
       acf_render_field( $field );
 
     echo '</div>';
 
-    if ( 'field' == $args['instruction_placement'] ) {
+    if ( 'field' == $instruction_placement ) {
       echo $instructions;
     }
     
@@ -494,10 +512,12 @@ class AF_Core_Forms_Rendering {
       }
     }
     
-    
     // End field wrapper
     echo '</div>';
 
+    do_action( 'af/field/after_field', $field, $form, $args );
+    do_action( 'af/field/after_field/name=' . $field['name'], $field, $form, $args );
+    do_action( 'af/field/after_field/key=' . $field['key'], $field, $form, $args );
   }
 
 
