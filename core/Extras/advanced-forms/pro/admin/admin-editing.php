@@ -5,17 +5,17 @@ class AF_Pro_Admin_Editing {
 	
 	
 	function __construct() {
-		
 		add_filter( 'af/form/settings_fields', array( $this, 'add_form_settings_fields' ), 10, 1 );
 		
 		add_filter( 'acf/load_field/name=form_editing_custom_fields', array( $this, 'populate_field_mapping_choices' ), 10, 1 );
 		
 		add_filter( 'acf/load_field/name=form_editing_user_role', array( $this, 'populate_field_user_roles' ), 10, 1 );
 		add_filter( 'acf/load_field/name=form_editing_post_type', array( $this, 'populate_field_post_types' ), 10, 1 );
+		add_filter( 'acf/load_field/name=form_editing_post_status', array( $this, 'populate_field_post_statuses' ), 10, 1 );
 		add_filter( 'acf/load_field/name=form_editing_taxonomy', array( $this, 'populate_field_taxonomies' ), 10, 1 );
+		add_filter( 'acf/load_value/name=form_editing_map_all_fields', array( $this, 'populate_field_map_all' ), 10, 3 );
 		
 		add_action( 'acf/render_field/type=text', array( $this, 'add_field_inserter' ), 20, 1 );
-		
 	}
 	
 	
@@ -76,6 +76,21 @@ class AF_Pro_Admin_Editing {
 		
 		return $field;
 	}
+
+
+	function populate_field_post_statuses( $field ) {
+		$statuses = get_post_stati( array(), 'objects' );
+		$choices = array();
+		
+		foreach ( $statuses as $key=>$status ) {
+			$choices[ $key ] = $status->label;
+		}
+		
+		$field['choices'] = $choices;
+
+		return $field;
+	}
+	
 	
 	
 	function populate_field_taxonomies( $field ) {
@@ -127,10 +142,26 @@ class AF_Pro_Admin_Editing {
 		}
 		
 	}
-	
+
+	/**
+	 * The "Map all fields" setting was introduced 1.6.7 and this function handles migrations.
+	 * For new form we default to mapping all fields.
+	 * For existing forms we default to not mapping all fields before users update their settings.
+	 *
+	 * @since 1.6.7
+	 *
+	 */
+	function populate_field_map_all( $value, $post_id, $field ) {
+		$is_custom_fields_set = metadata_exists( 'post', $post_id, 'form_editing_custom_fields' );
+		$is_map_all_fields_set = metadata_exists( 'post', $post_id, 'form_editing_map_all_fields' ); 
+		if ( ! $is_custom_fields_set && ! $is_map_all_fields_set ) {
+			return true;
+		}
+
+		return $value;
+	}
 	
 	function add_form_settings_fields( $field_group ) {
-		
 		$field_group['fields'][] = array(
 			'key' => 'field_form_editing_tab',
 			'label' => '<span class="dashicons dashicons-edit"></span>Editing',
@@ -157,7 +188,7 @@ class AF_Pro_Admin_Editing {
 			'required' => 0,
 			'conditional_logic' => 0,
 			'wrapper' => array (
-				'width' => '50',
+				'width' => '',
 				'class' => '',
 				'id' => '',
 			),
@@ -169,13 +200,12 @@ class AF_Pro_Admin_Editing {
 			'layout' => 'horizontal',
 		);
 		
-		
 		$field_group['fields'][] = array (
 			'key' => 'field_form_editing_post_type',
 			'label' => 'Post type',
 			'name' => 'form_editing_post_type',
 			'type' => 'select',
-			'instructions' => '',
+			'instructions' => 'Only used for new posts',
 			'required' => 1,
 			'conditional_logic' => array (
 				array (
@@ -187,7 +217,7 @@ class AF_Pro_Admin_Editing {
 				),
 			),
 			'wrapper' => array (
-				'width' => '100',
+				'width' => '50',
 				'class' => '',
 				'id' => '',
 			),
@@ -202,14 +232,45 @@ class AF_Pro_Admin_Editing {
 			'return_format' => 'value',
 			'placeholder' => '',
 		);
-		
+
+		$field_group['fields'][] = array (
+			'key' => 'field_form_editing_post_status',
+			'label' => 'Post status',
+			'name' => 'form_editing_post_status',
+			'type' => 'select',
+			'instructions' => 'Only used for new posts',
+			'required' => 1,
+			'conditional_logic' => array (
+				array (
+					array (
+						'field' => 'field_form_editing_type',
+						'operator' => '==',
+						'value' => 'post',
+					),
+				),
+			),
+			'wrapper' => array (
+				'width' => '50',
+				'class' => '',
+				'id' => '',
+			),
+			'choices' => array (
+			),
+			'default_value' => 'publish',
+			'allow_null' => 0,
+			'multiple' => 0,
+			'ui' => 0,
+			'ajax' => 0,
+			'return_format' => 'value',
+			'placeholder' => '',
+		);
 		
 		$field_group['fields'][] = array (
 			'key' => 'field_form_editing_user_role',
 			'label' => 'User role',
 			'name' => 'form_editing_user_role',
 			'type' => 'select',
-			'instructions' => '',
+			'instructions' => 'Only used for new users',
 			'required' => 1,
 			'conditional_logic' => array (
 				array (
@@ -237,7 +298,6 @@ class AF_Pro_Admin_Editing {
 			'return_format' => 'value',
 			'placeholder' => '',
 		);
-		
 		
 		$field_group['fields'][] = array (
 			'key' => 'field_form_editing_taxonomy',
@@ -273,7 +333,6 @@ class AF_Pro_Admin_Editing {
 			'placeholder' => '',
 		);
 		
-		
 		$field_group['fields'][] = array (
 			'key' => 'field_field_mappings_message',
 			'label' => 'Field mappings',
@@ -299,7 +358,6 @@ class AF_Pro_Admin_Editing {
 			'new_lines' => 'wpautop',
 			'esc_html' => 0,
 		);
-		
 		
 		/**
 		 * Users
@@ -469,7 +527,6 @@ class AF_Pro_Admin_Editing {
 			),
 		);
 		
-		
 		/**
 		 * Posts
 		 */
@@ -530,16 +587,33 @@ class AF_Pro_Admin_Editing {
 			'allow_custom' => 1,
 		);
 		
-		
 		/**
 		 * Custom fields
 		 */
+		$field_group['fields'][] = array(
+			'key' => 'field_form_editing_map_all_fields',
+			'label' => 'Map all fields',
+			'name' => 'form_editing_map_all_fields',
+			'type' => 'true_false',
+			'instructions' => 'Check this if you want all form fields to automatically be saved to your post or user',
+			'ui' => true,
+			'conditional_logic' => array (
+				array (
+					array (
+						'field' => 'field_form_editing_type',
+						'operator' => '!=',
+						'value' => '',
+					),
+				),
+			),
+		);
+
 		$field_group['fields'][] = array (
 			'key' => 'field_form_editing_custom_fields',
-			'label' => 'Custom fields',
+			'label' => 'Custom fields to map',
 			'name' => 'form_editing_custom_fields',
 			'type' => 'checkbox',
-			'instructions' => '',
+			'instructions' => 'If new fields are added this setting has to be updated manually. Unchecking a field will not hide it from the form.',
 			'required' => 0,
 			'conditional_logic' => array (
 				array (
@@ -547,6 +621,11 @@ class AF_Pro_Admin_Editing {
 						'field' => 'field_form_editing_type',
 						'operator' => '!=',
 						'value' => '',
+					),
+					array(
+						'field' => 'field_form_editing_map_all_fields',
+						'operator' => '==',
+						'value' => false,
 					),
 				),
 			),
@@ -567,9 +646,7 @@ class AF_Pro_Admin_Editing {
 		);
 		
 		return $field_group;
-		
 	}
-	
 }
 
 return new AF_Pro_Admin_Editing();

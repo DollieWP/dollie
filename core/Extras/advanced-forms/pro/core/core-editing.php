@@ -3,7 +3,6 @@
 class AF_Pro_Core_Editing {
 	
 	function __construct() {
-		
 		add_action( 'af/form/submission', array( $this, 'handle_editing_form' ), 10, 3 );
 		add_action( 'af/form/args', array( $this, 'evaluate_current' ), 10, 2 );
 		
@@ -15,7 +14,7 @@ class AF_Pro_Core_Editing {
 		
 		add_filter( 'af/form/valid_form', array( $this, 'valid_form' ), 10, 1 );
 		add_filter( 'af/form/from_post', array( $this, 'form_from_post' ), 10, 2 );
-		
+		add_action( 'af/form/to_post', array( $this, 'form_to_post' ), 10, 2 );
 	}
 	
 	
@@ -104,19 +103,21 @@ class AF_Pro_Core_Editing {
 		
 		
 		if ( 'new' == $post_id ) {
+			// Get post status for new post
+			$post_status_set = isset( $form['editing']['post']['post_status'] );
+			$post_status = $post_status_set ? $form['editing']['post']['post_status'] : 'publish';
 		
 			// Either title, content, or excerpt must be non-empty.
 			// Hence content defaults to " ".
 			$post_data = wp_parse_args( $post_data, array(
 				'post_content' => ' ',
-				'post_status' => 'publish',
+				'post_status' => $post_status,
 			));
 			
 		} else {
 			
 			$post_data = wp_parse_args( $post_data, array(
 				'ID' => $post_id, 
-				'post_status' => 'publish',
 			));
 			
 		}
@@ -147,16 +148,15 @@ class AF_Pro_Core_Editing {
 		
 		
 		// Transfer custom fields
-		if ( $form['editing']['post']['custom_fields'] ) {
-			
+		$map_all_exists = isset( $form['editing']['post']['map_all_fields'] );
+		$map_all_fields = $map_all_exists ? $form['editing']['post']['map_all_fields'] == true : false;
+		if ( $map_all_fields ) {
+			af_save_all_fields( $post->ID );
+		} else if ( $form['editing']['post']['custom_fields'] ) {
 			foreach ( $form['editing']['post']['custom_fields'] as $field_key ) {
-				
 				af_save_field( $field_key, $post->ID );
-					
 			}
-			
 		}
-
 
 		// Save post ID to submission object
 		AF()->submission['post'] = $post->ID;
@@ -265,19 +265,17 @@ class AF_Pro_Core_Editing {
 			return false;
 		}
 
-
 		// Transfer custom fields
-		if ( $form['editing']['user']['custom_fields'] ) {
-			
+		$map_all_exists = isset( $form['editing']['user']['map_all_fields'] );
+		$map_all_fields = $map_all_exists ? $form['editing']['user']['map_all_fields'] == true : false;
+		if ( $map_all_fields ) {
+			af_save_all_fields( 'user_' . $user->ID );
+		} else if ( $form['editing']['user']['custom_fields'] ) {
 			foreach ( $form['editing']['user']['custom_fields'] as $field_key ) {
-				
 				af_save_field( $field_key, 'user_' . $user->ID );
-					
 			}
-			
 		}
-		
-		
+
 		if ( $form['editing']['user']['send_notification'] && 'new' == $user_id ) {
 			
 			wp_new_user_notification( $user->ID, null, 'both' );
@@ -329,11 +327,14 @@ class AF_Pro_Core_Editing {
 			}
 			
 			
-			// Field is mapped to itself
-			if ( in_array( $field['key'], $form['editing']['post']['custom_fields'] ) ) {
+			// Field is mapped to itself or all fields are mapped.
+			$map_all_exists = isset( $form['editing']['post']['map_all_fields'] );
+			$map_all_fields = $map_all_exists ? $form['editing']['post']['map_all_fields'] == true : false;
+			$is_in_custom_fields = in_array( $field['key'], $form['editing']['post']['custom_fields'] );
+
+			if ( $map_all_fields || $is_in_custom_fields ) {
 				return acf_get_value( $args['post'], $field );
 			}
-			
 		}
 
 		// Check if form edits a user
@@ -360,8 +361,12 @@ class AF_Pro_Core_Editing {
 			}
 			
 			
-			// Field is mapped to itself
-			if ( in_array( $field['key'], $form['editing']['user']['custom_fields'] ) ) {
+			// Field is mapped to itself or all fields are mapped.
+			$map_all_exists = isset( $form['editing']['user']['map_all_fields'] );
+			$map_all_fields = $map_all_exists ? $form['editing']['user']['map_all_fields'] == true : false;
+			$is_in_custom_fields = in_array( $field['key'], $form['editing']['user']['custom_fields'] );
+
+			if ( $map_all_fields || $is_in_custom_fields ) {
 				return acf_get_value( 'user_' . $args['user'], $field );
 			}
 			
@@ -458,30 +463,24 @@ class AF_Pro_Core_Editing {
 	 *
 	 */
 	function form_from_post( $form, $post ) {
-		
 		$form['editing'] = array(
 			'user' => false,
 			'post' => false,
 			'term' => false,
 		);
 		
-		
 		$editing_type = get_field( 'form_editing_type', $post->ID );
-	
+
 		if ( 'post' == $editing_type ) {
-	
 			$form['editing']['post'] = array(
 				'post_type' => get_field( 'form_editing_post_type', $post->ID ),
+				'post_status' => get_field( 'form_editing_post_status', $post->ID ) ?: 'publish',
 				'post_title' => get_field( 'form_editing_post_title', $post->ID ),
 				'post_content' => get_field( 'form_editing_post_content', $post->ID ),
-				'custom_fields' => get_field( 'form_editing_custom_fields', $post->ID ) ?: array(),
 			);
-			
 		}
 		
-		
 		if ( 'user' == $editing_type ) {
-	
 			$form['editing']['user'] = array(
 				'role' => get_field( 'form_editing_user_role', $post->ID ),
 				'email' => get_field( 'form_editing_user_email', $post->ID ),
@@ -490,15 +489,49 @@ class AF_Pro_Core_Editing {
 				'last_name' => get_field( 'form_editing_user_last_name', $post->ID ),
 				'password' => get_field( 'form_editing_user_password', $post->ID ),
 				'send_notification' => get_field( 'form_editing_user_send_notification', $post->ID ),
-				'custom_fields' => get_field( 'form_editing_custom_fields', $post->ID ) ?: array(),
 			);
-			
+		}
+
+		if ( isset( $form['editing'][ $editing_type ] ) && is_array( $form['editing'][ $editing_type ] ) ) {
+			$map_all_fields = get_field( 'form_editing_map_all_fields', $post->ID ) ?: false;
+			$custom_fields = get_field( 'form_editing_custom_fields', $post->ID ) ?: array();
+
+			$form['editing'][ $editing_type ]['map_all_fields'] = $map_all_fields;
+			if ( ! $map_all_fields ) {
+				$form['editing'][ $editing_type ]['custom_fields'] = $custom_fields;
+			}
 		}
 		
 		return $form;
-		
 	}
-	
+
+	function form_to_post( $form, $post ) {
+		$editing_type = '';
+		
+		if ( $form['editing']['post'] ) {
+			$editing_type = 'post';
+
+			update_field( 'field_form_editing_post_type', $form['editing']['post']['post_type'], $post->ID );
+			update_field( 'field_form_editing_post_title', $form['editing']['post']['post_title'], $post->ID );
+			update_field( 'field_form_editing_post_content', $form['editing']['post']['post_content'], $post->ID );
+			update_field( 'field_form_editing_custom_fields', $form['editing']['post']['custom_fields'], $post->ID );
+		}
+
+		if ( $form['editing']['user'] ) {
+			$editing_type = 'user';
+
+			update_field( 'field_form_editing_user_role', $form['editing']['user']['role'], $post->ID );
+			update_field( 'field_form_editing_user_email', $form['editing']['user']['email'], $post->ID );
+			update_field( 'field_form_editing_user_username', $form['editing']['user']['username'], $post->ID );
+			update_field( 'field_form_editing_user_first_name', $form['editing']['user']['first_name'], $post->ID );
+			update_field( 'field_form_editing_user_last_name', $form['editing']['user']['last_name'], $post->ID );
+			update_field( 'field_form_editing_user_password', $form['editing']['user']['password'], $post->ID );
+			update_field( 'field_form_editing_user_send_notification', $form['editing']['user']['send_notification'], $post->ID );
+			update_field( 'field_form_editing_custom_fields', $form['editing']['user']['custom_fields'], $post->ID );
+		}
+
+		update_field( 'field_form_editing_type', $editing_type, $post->ID );
+	}
 }
 
 return new AF_Pro_Core_Editing();

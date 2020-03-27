@@ -33,7 +33,7 @@ class AccessControl extends Singleton {
 		add_action( 'wp', [ $this, 'block_access' ] );
 
 		if ( ! defined( 'DOLLIE_DEV' ) || ! DOLLIE_DEV ) {
-			add_action( 'admin_init', [ $this, 'restrict_form_delete' ] );
+			add_action( 'user_has_cap', [ $this, 'restrict_form_delete' ], 10, 3 );
 		}
 
 	}
@@ -101,9 +101,21 @@ class AccessControl extends Singleton {
 		}
 	}
 
-	public function restrict_form_delete() {
+	public function restrict_form_delete( $allcaps, $caps, $args ) {
 
-		// wp_die( '<h1>This Dollie form can not be edited.</h1><p>This Gravity Form controls crucial Dollie functionality and can not be edited directly. If you need to make changes or are looking for a custom solution, please reach out to our Team through our Partner Slack so we can assist you.', 'This Dollie form can not be edited.</p>' );
+		if ( isset( $args[0], $args[2] ) && $args[0] === 'delete_post'  ) {
+
+			$form = af_get_form( $args[2] );
+
+			if ( $form && isset( $form['key'] ) && strpos( $form['key'], 'form_dollie' ) !== false ) {
+
+				$allcaps[ $caps[0] ] = false;
+			}
+
+		}
+
+		return $allcaps;
+
 	}
 
 	public function add_hidden_fields() {

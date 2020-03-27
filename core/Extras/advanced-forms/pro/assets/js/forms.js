@@ -13,14 +13,29 @@
 
     setupField: function( form, $field ) {
       var self = this;
+      var name = $field.attr( 'data-name' );
+      var key = $field.attr( 'data-key' );
+
+      var refreshHandler = function() {
+        self.refreshField( form, $field );
+      };
 
       // Perform an initial refresh to populate the field with empty data
-      self.refreshField( form, $field );
+      refreshHandler();
 
       // Listen for form changes and refresh the field
-      form.$el.change(function() {
-        self.refreshField( form, $field );
-      });
+      form.$el.change( refreshHandler );
+
+      // Allow triggering of a refresh through an action
+      if ('addAction' in acf) {
+        acf.addAction( 'af/field/calculated/update_value', refreshHandler );
+        acf.addAction( 'af/field/calculated/update_value/name=' + name, refreshHandler );
+        acf.addAction( 'af/field/calculated/update_value/key=' + key, refreshHandler );
+      } else {
+        acf.add_action( 'af/field/calculated/update_value', refreshHandler );
+        acf.add_action( 'af/field/calculated/update_value/name=' + name, refreshHandler );
+        acf.add_action( 'af/field/calculated/update_value/key=' + key, refreshHandler );
+      }
     },
 
     refreshField: function( form, $field ) {
@@ -45,7 +60,7 @@
         type: 'post',
         success: function( data ){
           // Update field contents
-          self.updateField( $field, data );
+          self.updateField( form, $field, data );
         },
         complete: function(){
           // Unlock field again once the request has finished (successfully or not)
@@ -54,8 +69,26 @@
       });
     },
 
-    updateField: function( $field, value ) {
-      $field.find( '.af-input' ).html( value );
+    updateField: function( form, $field, value ) {
+      $field.find( 'input.af-calculated-value' ).val( value );
+      $field.find( '.af-calculated-content' ).html( value );
+
+      var name = $field.attr( 'data-name' );
+      var key = $field.attr( 'data-key' );
+
+      acf.doAction( 'af/field/calculated/value_updated', value, $field, form );
+      acf.doAction( 'af/field/calculated/value_updated/name=' + name, value, $field, form );
+      acf.doAction( 'af/field/calculated/value_updated/key=' + key, value, $field, form );
+
+      if ('doAction' in acf) {
+        acf.doAction( 'af/field/calculated/value_updated', value, $field, form );
+        acf.doAction( 'af/field/calculated/value_updated/name=' + name, value, $field, form );
+        acf.doAction( 'af/field/calculated/value_updated/key=' + key, value, $field, form );
+      } else {
+        acf.do_action( 'af/field/calculated/value_updated', value, $field, form );
+        acf.do_action( 'af/field/calculated/value_updated/name=' + name, value, $field, form );
+        acf.do_action( 'af/field/calculated/value_updated/key=' + key, value, $field, form );
+      }
     },
 
     lockField: function( $field ) {

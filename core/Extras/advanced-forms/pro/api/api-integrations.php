@@ -60,6 +60,9 @@ function _af_mailchimp_lists() {
 	
 	$endpoint = sprintf( 'https://%s.api.mailchimp.com/3.0/lists', $data_center );
 	$auth_header = 'Basic ' . base64_encode( sprintf( 'mailchimp:%s', $api_key ) ); 
+
+	// Fetch as many lists as possible to avoid paging
+	$endpoint = add_query_arg( 'count', 1000, $endpoint );
 	
 	$response = wp_remote_get( $endpoint, array(
 		'headers' => array(

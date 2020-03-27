@@ -18,6 +18,21 @@ class AF_Calculated_Field extends acf_field {
       'hide_admin' => true,
     );
   }
+
+  function render_field( $field ) {
+    echo acf_get_text_input(array(
+      'type' => 'hidden',
+      'class' => 'af-calculated-value',
+      'name' => $field['name'],
+    ));
+
+    echo '<div class="af-calculated-content"></div>';
+  }
+
+  function update_value( $value, $post_id, $field ) {
+    // Never save calculated value to database.
+    return false;
+  }
   
   function render_field_settings( $field ) {
     // Instructions

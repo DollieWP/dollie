@@ -11,18 +11,17 @@ class AF_Pro_Core_Calculated {
   function __construct() {
     add_filter( 'af/form/valid_form', array( $this, 'valid_form' ), 10, 1 );
     add_filter( 'af/form/from_post', array( $this, 'form_from_post' ), 10, 2 );
+    add_filter( 'af/form/to_post', array( $this, 'form_to_post' ), 10, 2 );
 
     add_action( 'wp_ajax_af_calculated_field', array( $this, 'ajax_update_field' ), 10, 0 );
     add_action( 'wp_ajax_nopriv_af_calculated_field', array( $this, 'ajax_update_field' ), 10, 0 );
   }
-
 
   function valid_form( $form ) {
     $form['calculated'] = array();
 
     return $form;
   }
-
 
   function form_from_post( $form, $post ) {
     $calculated_fields = get_field( 'field_form_calculated_fields', $post->ID );
@@ -34,6 +33,9 @@ class AF_Pro_Core_Calculated {
     return $form;
   }
 
+  function form_to_post( $form, $post ) {
+    update_field( 'field_form_calculated_fields', $form['calculated'], $post->ID );
+  }
 
   /**
    * AJAX handler called to update a calculated field.
@@ -70,7 +72,6 @@ class AF_Pro_Core_Calculated {
     echo $value;
     wp_die();
   }
-
 }
 
 new AF_Pro_Core_Calculated();

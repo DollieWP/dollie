@@ -110,7 +110,7 @@ function _af_render_field_include( $field, $value = false ) {
 
 		$output .= sprintf( '<a href="%s">%s</a>', $value['url'], htmlspecialchars( $value['title'] ) );
 
-	} elseif ( 'wysiwyg' == $field['type'] || 'textarea' == $field['type'] ) {
+	} elseif ( in_array( $field['type'], array( 'wysiwyg', 'textarea', 'calculated' ) ) ) {
 
 		// Sanitize input using kses
 		$output .= wp_kses_post( stripslashes( $value ) );
@@ -270,6 +270,36 @@ function _af_form_field_choices( $form_key, $type = 'all' ) {
 	
 	
 	return $choices;
+	
+}
+
+
+/**
+ * Get value of field picker from current form
+ * Either from a picked field or custom format
+ *
+ * @since PRO
+ *
+ */
+function _af_resolve_field_picker_value( $picker_value ) {
+	
+	if ( ! isset( $picker_value['field'] ) || ! isset( $picker_value['format'] ) ) {
+		return false;
+	}
+	
+	
+	if ( $picker_value['field'] == 'custom' ) {
+		
+		return af_resolve_merge_tags( $picker_value['format'] );
+		
+	} elseif ( ! empty( $picker_value['field'] ) ) {
+		
+		return _af_render_field_include( af_get_field_object( $picker_value['field'] ) );
+		
+	}
+	
+	
+	return false;
 	
 }
 

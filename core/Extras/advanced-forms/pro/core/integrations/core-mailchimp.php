@@ -8,7 +8,7 @@ class AF_Pro_Core_Mailchimp {
 		
 		add_filter( 'af/form/valid_form', array( $this, 'valid_form' ), 10, 1 );
 		add_filter( 'af/form/from_post', array( $this, 'form_from_post' ), 10, 2 );
-		
+		add_filter( 'af/form/to_post', array( $this, 'form_to_post' ), 10, 2 );
 	}
 	
 	
@@ -111,6 +111,16 @@ class AF_Pro_Core_Mailchimp {
 		
 	}
 	
+	function form_to_post( $form, $post ) {
+		update_field( 'field_form_mailchimp', $form['mailchimp'], $post->ID );
+
+		if ( $form['mailchimp'] ) {
+			update_field( 'field_form_mailchimp_list', $form['mailchimp']['list'], $post->ID );
+			update_field( 'field_form_mailchimp_email_field', $form['mailchimp']['email'], $post->ID );
+			update_field( 'field_form_mailchimp_first_name', $form['mailchimp']['first_name'], $post->ID );
+			update_field( 'field_form_mailchimp_last_name', $form['mailchimp']['last_name'], $post->ID );			
+		}
+	}
 }
 
 return new AF_Pro_Core_Mailchimp();

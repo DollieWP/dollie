@@ -3,8 +3,8 @@
 	Plugin Name: Advanced Forms Pro
 	Plugin URI: https://hookturn.io/downloads/advanced-forms-pro/
 	Description: Flexible and developer-friendly forms with the power of Advanced Custom Fields.
-	Version: 1.6.4
-	Author: Hookturn ft. Fabian Lindfors
+	Version: 1.6.7
+	Author: Hookturn with Fabian Lindfors
 	Author URI: http://www.hookturn.io
 	Copyright: Fabian Lindfors
 	Text Domain: advanced-forms
@@ -12,7 +12,6 @@
 	License: GPLv3 or later
 */
 
-update_option( 'af_license_status', 'success' );
 
 class AF {
 	
@@ -22,7 +21,7 @@ class AF {
 	 *
 	 * @since 1.2.0
 	 */
-	public $version = '1.6.4';
+	public $version = '1.6.7';
 	
 	
 	/**

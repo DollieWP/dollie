@@ -417,7 +417,7 @@ class AF_Pro_Admin_Integrations {
 			'label' => 'Webhook URL',
 			'name' => 'form_zapier_webhook',
 			'type' => 'url',
-			'instructions' => 'Read our <a href="https://advancedforms.github.io/pro/configuration/setting-up-slack-notifications/">guide</a> on how to connect Zapier.',
+			'instructions' => 'Read our <a href="https://advancedforms.github.io/pro/configuration/connecting-zapier/">guide</a> on how to connect Zapier.',
 			'required' => 1,
 			'conditional_logic' => array(
 				array (

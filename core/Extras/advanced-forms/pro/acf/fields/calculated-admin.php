@@ -88,21 +88,46 @@ class AF_Calculated_Admin extends acf_field {
    * @since 1.6.0
    *
    */
-  function get_calculated_fields() {
+  private function get_calculated_fields() {
     global $post;
-
-    $calculated_fields = array();
     
     if ( $post && $form_key = get_post_meta( $post->ID, 'form_key', true ) ) {
-      
       $fields = af_get_form_fields( $form_key );
+      return $this->find_calculated_fields( $fields ); 
+    }
 
-      foreach ( $fields as $field ) {
-        if ( 'calculated' == $field['type'] ) {
-          $calculated_fields[] = $field;
-        }
+    return array();
+  }
+
+  /**
+   * Recursively find all calculated fields in a list of fields.
+   * Will recurse into all group fields.
+   *
+   * @since 1.6.7
+   *
+   */
+  private function find_calculated_fields( $fields, $parents = array() ) {
+    $calculated_fields = array();
+
+    foreach ( $fields as $field ) {
+      if ( 'calculated' == $field['type'] ) {
+        // Add group hierarchy to label
+        $names = array_merge( $parents, array( $field['label'] ) );
+        $field['label'] = join( ' &rarr; ', $names );
+
+        $calculated_fields[] = $field;
       }
-      
+
+      // Recursively search group subfields
+      if ( 'group' == $field['type'] ) {
+        $new_parents = array_merge( $parents, array( $field['label'] ) );
+        $sub_calculated_fields = $this->find_calculated_fields(
+          $field['sub_fields'],
+          $new_parents,
+        );
+
+        $calculated_fields = array_merge( $calculated_fields, $sub_calculated_fields );
+      }
     }
 
     return $calculated_fields;

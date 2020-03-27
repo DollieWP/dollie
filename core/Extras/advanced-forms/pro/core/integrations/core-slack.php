@@ -8,7 +8,7 @@ class AF_Pro_Core_Slack {
 		
 		add_filter( 'af/form/valid_form', array( $this, 'valid_form' ), 10, 1 );
 		add_filter( 'af/form/from_post', array( $this, 'form_from_post' ), 10, 2 );
-		
+		add_filter( 'af/form/to_post', array( $this, 'form_to_post' ), 10, 2 );
 	}
 	
 	
@@ -50,9 +50,14 @@ class AF_Pro_Core_Slack {
       $request = apply_filters( 'af/form/slack/request', $request, $form, $args );
       $request = apply_filters( 'af/form/slack/request/id=' . $form['post_id'], $request, $form, $args );
       $request = apply_filters( 'af/form/slack/request/key=' . $form['key'], $request, $form, $args );
+
+      $webhook = $form['slack']['webhook_url'];
+      $webhook = apply_filters( 'af/form/slack/webhook', $webhook, $form, $args );
+      $webhook = apply_filters( 'af/form/slack/webhook/id=' . $form['post_id'], $webhook, $form, $args );
+      $webhook = apply_filters( 'af/form/slack/webhook/key=' . $form['key'], $webhook, $form, $args );
 			
 			// Perform API request
-			wp_remote_post( $form['slack']['webhook_url'], $request );
+			wp_remote_post( $webhook, $request );
 			
 		}
 		
@@ -98,6 +103,15 @@ class AF_Pro_Core_Slack {
 		
 	}
 	
+	function form_to_post( $form, $post ) {
+		update_field( 'field_form_slack', $form['slack'], $post->ID );
+
+		if ( $form['slack'] ) {
+			update_field( 'field_form_slack_webhook', $form['slack']['webhook_url'], $post->ID );
+			update_field( 'field_form_slack_message', $form['slack']['message'], $post->ID );
+			update_field( 'field_form_slack_fields', $form['slack']['fields'], $post->ID );
+		}
+	}
 }
 
 return new AF_Pro_Core_Slack();

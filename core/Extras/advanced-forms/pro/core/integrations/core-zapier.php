@@ -8,7 +8,7 @@ class AF_Pro_Zapier {
 
     add_filter( 'af/form/valid_form', array( $this, 'valid_form' ), 10, 1 );
     add_filter( 'af/form/from_post', array( $this, 'form_from_post' ), 10, 2 );
-
+    add_filter( 'af/form/to_post', array( $this, 'form_to_post' ), 10, 2 );
   }
 
 
@@ -61,21 +61,24 @@ class AF_Pro_Zapier {
    *
    */
   function form_from_post( $form, $post ) {
-    
     $zapier_enabled = get_field( 'form_integrations_zapier', $post->ID );
   
     if ( $zapier_enabled ) {
-  
       $form['zapier'] = array(
         'webhook_url' => get_field( 'form_zapier_webhook', $post->ID ),
       );
-      
     }
     
     return $form;
-    
   }
 
+  function form_to_post( $form, $post ) {
+    update_field( 'field_form_integrations_zapier', $form['zapier'], $post->ID );
+
+    if ( $form['zapier'] ) {
+      update_field( 'field_form_zapier_webhook', $form['zapier']['webhook_url'], $post->ID );
+    }
+  }
 }
 
 return new AF_Pro_Zapier();
