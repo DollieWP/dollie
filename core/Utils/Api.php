@@ -62,7 +62,7 @@ class Api extends Singleton {
 			'method'  => 'POST',
 			'body'    => $data,
 			'headers' => [
-				'Accept'       => 'application/json'
+				'Accept' => 'application/json'
 			]
 		] );
 	}

@@ -83,12 +83,11 @@ class LaunchSite extends Singleton {
 
 		$post_body = [
 			'domain'        => $domain . DOLLIE_DOMAIN,
-			'email'         => $email,
 			'memory'        => DOLLIE_MEMORY,
 			'description'   => $email . ' | ' . get_site_url(),
 			'envVars'       => array_merge( $env_vars_extras, $env_vars ),
-			'dollie_token'  => Api::getDollieToken(),
 			'dollie_domain' => DOLLIE_INSTALL,
+			'dollie_token'  => Api::getDollieToken(),
 		];
 
 		$requestContainerCreate = Api::post( Api::ROUTE_CONTAINER_CREATE, $post_body );
@@ -220,28 +219,21 @@ class LaunchSite extends Singleton {
 		return wp_remote_retrieve_response_code( $response ) === 200;
 	}
 
-
 	public function append_site_url( $field ) {
-
 		$field['append'] = DOLLIE_DOMAIN;
 
 		return $field;
 	}
 
-
 	public function add_modal_data() {
-
 		Tpl::load( DOLLIE_MODULE_TPL_PATH . 'launch-splash', [], true );
 	}
 
-
 	public function change_form_args( $args ) {
-
 		$args['redirect']    = add_query_arg( 'site', 'new', $args['redirect'] );
 		$args['submit_text'] = esc_html__( 'Launch New Site', 'dollie' );
 
 		return $args;
-
 	}
 
 	public function populate_blueprints( $field ) {
