@@ -1,0 +1,28 @@
+{
+    "key": "form_dollie_list_backups",
+    "title": "[BACKUPS] List Site Backups",
+    "display": {
+        "description": "List site backups and allow user to restore specific backup",
+        "success_message": "<p>Your site is being restored! Depending on the size of your installation this could take a while. Once your site is restored you&#8217;ll see a message in your <a href=\"{dollie_container_login_url}\" target=\"_blank\" rel=\"noopener\">WordPress Admin<\/a><\/p>\n<p><em>Note:<\/em> In some cases you might have to <a href=\"{dollie_container_login_url}\" target=\"_blank\" rel=\"noopener\">login<\/a> to your site again after a restoration.<\/p>\n"
+    },
+    "create_entries": true,
+    "restrictions": {
+        "entries": false,
+        "user": {
+            "message": ""
+        },
+        "schedule": false
+    },
+    "emails": false,
+    "editing": {
+        "user": false,
+        "post": false,
+        "term": false
+    },
+    "slack": false,
+    "mailchimp": false,
+    "zapier": false,
+    "calculated": {
+        "field_5e729515bb78b": "<p><strong>Date &amp; Time:<\/strong> {field:site_backup}<br \/>\n<strong>Type:<\/strong> {field:what_to_restore}<\/p>\n<p>Please click on the button below to confirm and proceed with the restoration of your site.<\/p>\n"
+    }
+}

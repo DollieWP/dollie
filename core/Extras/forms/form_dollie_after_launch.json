@@ -1,0 +1,26 @@
+{
+    "key": "form_dollie_after_launch",
+    "title": "[SETUP] After Launch Wizard",
+    "display": {
+        "description": "This is the form shown directly after launching a new site.",
+        "success_message": ""
+    },
+    "create_entries": false,
+    "restrictions": {
+        "entries": false,
+        "user": {
+            "message": ""
+        },
+        "schedule": false
+    },
+    "emails": false,
+    "editing": {
+        "user": false,
+        "post": false,
+        "term": false
+    },
+    "slack": false,
+    "mailchimp": false,
+    "zapier": false,
+    "calculated": []
+}

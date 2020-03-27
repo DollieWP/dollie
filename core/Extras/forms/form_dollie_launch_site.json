@@ -1,0 +1,26 @@
+{
+    "key": "form_dollie_launch_site",
+    "title": "[SETUP] Launch Site",
+    "display": {
+        "description": "This launches a new site on the platform.",
+        "success_message": "<p>Deploying site, please wait&#8230;<\/p>\n"
+    },
+    "create_entries": false,
+    "restrictions": {
+        "entries": false,
+        "user": {
+            "message": ""
+        },
+        "schedule": false
+    },
+    "emails": false,
+    "editing": {
+        "user": false,
+        "post": false,
+        "term": false
+    },
+    "slack": false,
+    "mailchimp": false,
+    "zapier": false,
+    "calculated": []
+}

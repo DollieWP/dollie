@@ -115,7 +115,8 @@ class Plugin extends Singleton {
 	 * Register ACF fields
 	 */
 	public function acf_add_local_field_groups() {
-		require DOLLIE_PATH . 'core/Extras/ACF-fields.php';
+		require DOLLIE_PATH . 'core/Extras/AcfFields.php';
+		require DOLLIE_PATH . 'core/Extras/AcfFormFields.php';
 	}
 
 
