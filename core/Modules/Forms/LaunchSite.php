@@ -83,17 +83,18 @@ class LaunchSite extends Singleton {
 
 		$post_body = [
 			'domain'          => $domain . DOLLIE_DOMAIN,
-			'dollie_domain'   => DOLLIE_INSTALL,
-			'dollie_token'    => Api::getDollieToken(),
-			'containerMemory' => DOLLIE_MEMORY,
+			'email'          => $email,
+			'memory' => DOLLIE_MEMORY,
 			'description'     => $email . ' | ' . get_site_url(),
-			'envVars'         => array_merge( $env_vars_extras, $env_vars )
+			'envVars'         => array_merge( $env_vars_extras, $env_vars ),
+			'dollie_token'    => Api::getDollieToken(),
+			'dollie_domain'   => DOLLIE_INSTALL,
 		];
 
 		$requestContainerCreate = Api::post( Api::ROUTE_CONTAINER_CREATE, $post_body );
 
 		if ( is_wp_error( $requestContainerCreate ) ) {
-			Log::add( $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', $requestContainerCreate->get_error_message(), 'deploy' );
+			Log::add( $domain . '1 API error for ' . DOLLIE_INSTALL . ' (see log)', $requestContainerCreate->get_error_message(), 'deploy' );
 
 			af_add_submission_error( $requestContainerCreate->get_error_message() );
 
@@ -106,7 +107,7 @@ class LaunchSite extends Singleton {
 		$error_message = esc_html__( 'Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!', 'dollie' );
 
 		if ( $responseContainerCreate['status'] === 500 ) {
-			Log::add( $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $responseContainerCreate, true ), 'deploy' );
+			Log::add( $domain . '2 API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $requestContainerCreate, true ), 'deploy' );
 
 			af_add_submission_error( $error_message );
 
@@ -114,7 +115,7 @@ class LaunchSite extends Singleton {
 		}
 
 		if ( ! array_key_exists( 'id', $container ) ) {
-			Log::add( $domain . ' API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $container, true ), 'deploy' );
+			Log::add( $domain . '3 API error for ' . DOLLIE_INSTALL . ' (see log)', print_r( $requestContainerCreate, true ), 'deploy' );
 
 			af_add_submission_error( $error_message );
 
