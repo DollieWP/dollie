@@ -60,7 +60,7 @@ class ContainerRegistration extends Singleton {
 			return [];
 		}
 
-		return json_decode( $responseNodesGet['body'], true );
+		return $responseNodesGet['body'];
 	}
 
 	public function register_worker_node( $id = null ) {
