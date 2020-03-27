@@ -41,7 +41,7 @@ class AfterLaunchWizard extends Singleton {
 		add_filter( 'acf/load_field', [ $this, 'migration_instructions_placeholder' ], 10 );
 
 		// Form args
-        add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
+		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
 	}
 
@@ -75,28 +75,29 @@ class AfterLaunchWizard extends Singleton {
 		}
 
 		if ( $what_to_do === 'setup' ) {
-			$currentQuery = dollie()->get_current_object();
 
-			if ( $currentQuery->id !== 0 ) {
+			$container_id = (int) $_POST['dollie_post_id'];
 
-				$data = [
-					'container_url' => $currentQuery->slug,
-					'email'         => af_get_field( 'admin_email' ),
-					'name'          => af_get_field( 'site_name' ),
-					'description'   => af_get_field( 'site_description' ),
-					'username'      => af_get_field( 'admin_username' ),
-					'password'      => af_get_field( 'admin_password' )
-				];
+			if ( $container_id === 0 ) {
+				$this->add_error();
+			}
 
-				$status = $this->update_site_details( $data );
+			$container      = get_post( $container_id );
+			$container_slug = $container->post_name;
 
-				if ( is_wp_error( $status ) ) {
-					af_add_submission_error( $status->get_error_message() );
-				}
+			$data = [
+				'container_url' => $container_slug,
+				'email'         => af_get_field( 'admin_email' ),
+				'name'          => af_get_field( 'site_name' ),
+				'description'   => af_get_field( 'site_description' ),
+				'username'      => af_get_field( 'admin_username' ),
+				'password'      => af_get_field( 'admin_password' )
+			];
 
-			} else {
-				Log::add( 'Form After Launch Wizard error', 'Current query id was not defined' );
-				af_add_submission_error( esc_html__( 'An unknown error occurred. Please contact site administrator.', 'dollie' ) );
+			$status = $this->update_site_details( $data );
+
+			if ( is_wp_error( $status ) ) {
+				af_add_submission_error( $status->get_error_message() );
 			}
 
 			// Remove the redirect on failure.
@@ -104,6 +105,11 @@ class AfterLaunchWizard extends Singleton {
 				AF()->submission['args']['redirect'] = '';
 			}
 		}
+	}
+
+	private function add_error() {
+		Log::add( 'Form After Launch Wizard error', 'Current query id was not defined' );
+		af_add_submission_error( esc_html__( 'An unknown error occurred. Please contact site administrator.', 'dollie' ) );
 	}
 
 	public function change_form_args( $args ) {
@@ -114,7 +120,6 @@ class AfterLaunchWizard extends Singleton {
 		return $args;
 
 	}
-
 
 
 	/**
@@ -172,7 +177,8 @@ class AfterLaunchWizard extends Singleton {
 
 				}
 
-				Api::post( Api::ROUTE_WIZARD_SETUP, $data );
+				$setup_request = Api::post( Api::ROUTE_WIZARD_SETUP, $data );
+				var_dump($setup_request);exit;
 			}
 		}
 
@@ -223,7 +229,7 @@ class AfterLaunchWizard extends Singleton {
 			$currentQuery = dollie()->get_current_object();
 
 			$user    = wp_get_current_user();
-			$request = get_transient( 'dollie_s5_container_details_' . $currentQuery->slug );
+			$request = dollie()->get_customer_container_details();
 
 			if ( ! $request || ! is_object( $request ) ) {
 				return $field;

@@ -51,7 +51,7 @@ class DomainWizard extends Singleton {
 
 	public function domain_wizard_add_domain( $validation_result ) {
 		$currentQuery = dollie()->get_current_object();
-		$request      = get_transient( 'dollie_s5_container_details_' . $currentQuery->slug . '' );
+		$request      = dollie()->get_customer_container_details();
 
 		$form         = $validation_result['form'];
 		$entry        = GFFormsModel::get_current_lead();

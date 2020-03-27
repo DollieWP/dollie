@@ -33,6 +33,8 @@ class Forms extends Singleton {
 		add_action( 'acf/init', [ $this, 'acf_init' ] );
 
 		add_filter( 'acf/load_field', [ $this, 'localize_strings' ] );
+		add_action( 'af/form/hidden_fields', [ $this, 'hidden_fields' ], 10, 2 );
+
 
 	}
 
@@ -114,6 +116,10 @@ class Forms extends Singleton {
 				exit();
 			}
 		}
+	}
+
+	function hidden_fields( $form, $args ) {
+		echo '<input type="hidden" name="dollie_post_id" value="' . get_the_ID() . '">';
 	}
 
 	public function localize_strings( $field ) {
