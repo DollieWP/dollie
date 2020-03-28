@@ -69,7 +69,10 @@ class Plugin extends Singleton {
 		// Load logger.
 		if ( ! class_exists( '\AF' ) && ! ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'activate' ) ) {
 			require_once DOLLIE_PATH . 'core/Extras/advanced-forms/advanced-forms.php';
+			require_once DOLLIE_PATH . 'core/Extras/acf-tooltip/acf-tooltip.php';
 		}
+
+
 	}
 
 	/**
@@ -117,6 +120,7 @@ class Plugin extends Singleton {
 	public function acf_add_local_field_groups() {
 		require DOLLIE_PATH . 'core/Extras/AcfFields.php';
 		require DOLLIE_PATH . 'core/Extras/AcfFormFields.php';
+
 	}
 
 

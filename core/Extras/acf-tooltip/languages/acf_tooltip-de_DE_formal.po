@@ -1,0 +1,57 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ACF Tooltip\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-21 07:21+0000\n"
+"PO-Revision-Date: 2017-03-21 07:23+0000\n"
+"Last-Translator: thomas <thomas.meyer@dreihochzwo.de>\n"
+"Language-Team: German (Formal)\n"
+"Language: de-DE-formal\n"
+"Plural-Forms: nplurals=2; plural=n != 1\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Loco - https://localise.biz/"
+
+#: acf-tooltip.php:85
+#, php-format
+msgid "%1$s requires ACF PRO v%2$s or higher to be installed and activated."
+msgstr ""
+"Für %1$s muss Advanced Custom Fields v%2$s oder höher installiert und "
+"aktiviert sein."
+
+#: acf-tooltip.php:165
+msgid "Plugins by dreihochzwo"
+msgstr "Plugins von dreihochzwo"
+
+#: acf-tooltip.php:185
+msgid "Thank you for using my plugins!"
+msgstr "Danke, dass Sie meine Plugins nutzen!"
+
+#: acf-tooltip.php:194
+msgid "Documentation"
+msgstr "Dokumentation"
+
+#: acf-tooltip.php:203
+msgid "Please consider making a small donation!"
+msgstr "Ich freue mich über eine kleine Spende!"
+
+#. Name of the plugin
+msgid "ACF Tooltip"
+msgstr "ACF Tooltip"
+
+#. Description of the plugin
+msgid "Displays ACF field descriptions as tooltips."
+msgstr "Zeigt ACF Feld-Beschreibungen als Tooltip an."
+
+#. URI of the plugin
+msgid "https://wordpress.org/plugins/acf-tooltip/"
+msgstr "https://wordpress.org/plugins/acf-tooltip/"
+
+#. Author of the plugin
+msgid "Thomas Meyer"
+msgstr "Thomas Meyer"
+
+#. Author URI of the plugin
+msgid "https://dreihochzwo.de"
+msgstr "https://dreihochzwo.de"

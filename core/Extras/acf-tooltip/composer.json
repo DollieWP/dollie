@@ -1,0 +1,14 @@
+{
+    "name": "tmconnect/acf-tooltip",
+    "version": "1.2.2",
+    "description": "Displays ACF field instructions as tooltips.",
+    "authors": [
+      {
+        "name": "Thomas Meyer"
+      }
+    ],
+    "type": "wordpress-plugin",
+    "require": {
+      "composer/installers": "~1.0"
+    }
+  }
