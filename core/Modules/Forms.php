@@ -122,8 +122,8 @@ class Forms extends Singleton {
 			$field['label'] = esc_html__( 'Choose Your URL', 'dollie' );
 		}
 
-		if ( $field['instructions'] === 'Please choose a temporary URL for your site. This will be the place where you can work on your site used until you are ready to go live and connect your own domain.' ) {
-			$field['instructions'] = esc_html__( 'Please choose a temporary URL for your site. This will be the place where you can work on your site used until you are ready to go live and connect your own domain.', 'dollie' );
+		if ( $field['instructions'] === 'Please choose a temporary URL for your site. This will be the place where you can work on your site until you connect your own domain.' ) {
+			$field['instructions'] = esc_html__('Please choose a temporary URL for your site. This will be the place where you can work on your site until you connect your own domain.', 'dollie' );
 		}
 
 		if ( $field['label'] === 'Admin Email' ) {
