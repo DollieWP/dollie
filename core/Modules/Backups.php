@@ -98,10 +98,10 @@ class Backups extends Singleton {
 
 
 	public function trigger_backup() {
-		$currentQuery = dollie()->get_current_object();
-		$install      = get_post_meta( $currentQuery->id, 'wpd_container_uri', true );
+		$currentQuery  = dollie()->get_current_object();
+		$container_uri = get_post_meta( $currentQuery->id, 'wpd_container_uri', true );
 
-		Api::post( Api::ROUTE_BACKUP_CREATE, [ 'container_url' => $install ] );
+		Api::post( Api::ROUTE_BACKUP_CREATE, [ 'container_uri' => $container_uri ] );
 		Log::add( $currentQuery->slug . ' has triggered a backup', '', 'action' );
 	}
 

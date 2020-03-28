@@ -74,9 +74,10 @@ class Blueprints extends Singleton {
 	}
 
 	public function deploy_new_blueprint( $entry, $form ) {
-		$currentQuery = dollie()->get_current_object();
+		$currentQuery  = dollie()->get_current_object();
+		$container_uri = get_post_meta( $currentQuery->id, 'wpd_container_uri', true );
 
-		Api::post( Api::ROUTE_BLUEPRINT_CREATE_OR_UPDATE, [ 'container_url' => dollie()->get_container_url() ] );
+		Api::post( Api::ROUTE_BLUEPRINT_CREATE_OR_UPDATE, [ 'container_uri' => $container_uri ] );
 
 		update_post_meta( $currentQuery->id, 'wpd_blueprint_created', 'yes' );
 		update_post_meta( $currentQuery->id, 'wpd_blueprint_time', @date( 'd/M/Y:H:i' ) );

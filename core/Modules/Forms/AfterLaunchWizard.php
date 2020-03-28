@@ -82,11 +82,8 @@ class AfterLaunchWizard extends Singleton {
 				$this->add_error();
 			}
 
-			$container      = get_post( $container_id );
-			$container_slug = $container->post_name;
-
 			$data = [
-				'container_url' => $container_slug,
+				'container_uri' => get_post_meta( $container_id, 'wpd_container_uri', true ),
 				'email'         => af_get_field( 'admin_email' ),
 				'name'          => af_get_field( 'site_name' ),
 				'description'   => af_get_field( 'site_description' ),
@@ -157,11 +154,11 @@ class AfterLaunchWizard extends Singleton {
 			}
 
 			if ( $is_partner_lead === 'yes' && $partner_blueprint === 'yes' && $blueprint_deployed !== 'yes' ) {
-				$partner_install = get_post_meta( $partner->ID, 'wpd_url', true );
+				$partner_url = get_post_meta( $partner->ID, 'wpd_url', true );
 
 				Api::post( Api::ROUTE_BLUEPRINT_DEPLOY_FOR_PARTNER, [
-					'container_url' => get_post_meta( $container_id, 'wpd_container_uri', true ),
-					'partner_url'   => $partner_install,
+					'container_uri' => get_post_meta( $container_id, 'wpd_container_uri', true ),
+					'partner_url'   => $partner_url,
 					'domain'        => $container_slug
 				] );
 
@@ -178,7 +175,8 @@ class AfterLaunchWizard extends Singleton {
 				}
 
 				$setup_request = Api::post( Api::ROUTE_WIZARD_SETUP, $data );
-				var_dump($setup_request);exit;
+				var_dump( $setup_request );
+				exit;
 			}
 		}
 

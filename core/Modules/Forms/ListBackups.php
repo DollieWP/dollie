@@ -29,8 +29,6 @@ class ListBackups extends Singleton {
 	}
 
 	public function acf_init() {
-
-
 		// Restrictions
 		add_filter( 'af/form/restriction/key=form_dollie_list_backups', [ $this, 'restrict_form' ], 10 );
 
@@ -39,21 +37,18 @@ class ListBackups extends Singleton {
 
 		// Form submission action.
 		add_action( 'af/form/before_submission/key=' . $this->form_key, [ $this, 'submission_callback' ], 10, 3 );
-
 	}
 
 	public function submission_callback( $form, $fields, $args ) {
-
 		$currentQuery = dollie()->get_current_object();
 
 		Api::post( Api::ROUTE_BACKUP_RESTORE, [
-			'container_url' => get_post_meta( $currentQuery->id, 'wpd_container_uri', true ),
+			'container_uri' => get_post_meta( $currentQuery->id, 'wpd_container_uri', true ),
 			'backup'        => Forms::get_field( 'site_backup' ),
 			'backup_type'   => Forms::get_field( 'what_to_restore' ),
 		] );
 
 	}
-
 
 	/**
 	 * If no backups, restrict the forms and show a message
@@ -63,7 +58,6 @@ class ListBackups extends Singleton {
 	 * @return bool|string
 	 */
 	public function restrict_form( $restriction = false ) {
-
 		// Added in case another restriction already applies
 		if ( $restriction ) {
 			return $restriction;
@@ -95,11 +89,9 @@ class ListBackups extends Singleton {
 		}
 
 		return $restriction;
-
 	}
 
 	public function site_backups_populate( $field ) {
-
 		// Grab our array of available backups
 		$backups = Backups::instance()->get_site_backups();
 		$choices = [];

@@ -123,11 +123,11 @@ class DomainWizard extends Singleton {
 	}
 
 	public function domain_wizard_add_cloudflare( $validation_result ) {
-		$currentQuery = dollie()->get_current_object();
-		$install      = get_post_meta( $currentQuery->id, 'wpd_container_uri', true );
-		$form         = $validation_result['form'];
-		$entry        = GFFormsModel::get_current_lead();
-		$current_page = (int) ( rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1 );
+		$currentQuery  = dollie()->get_current_object();
+		$contaienr_uri = get_post_meta( $currentQuery->id, 'wpd_container_uri', true );
+		$form          = $validation_result['form'];
+		$entry         = GFFormsModel::get_current_lead();
+		$current_page  = (int) ( rgpost( 'gform_source_page_number_' . $form['id'] ) ?: 1 );
 
 		// Are the on the CloudFlare Setup Page?
 		if ( $current_page === 2 ) {
@@ -178,7 +178,7 @@ class DomainWizard extends Singleton {
 
 				} elseif ( isset( $response['result']['id'] ) ) {
 					Api::post( Api::ROUTE_DOMAIN_INSTALL_CLOUDFLARE, [
-						'container_url'  => $install,
+						'container_url'  => $contaienr_uri,
 						'email'          => $email,
 						'cloudflare_key' => $api_key,
 						'dollie_domain'  => DOLLIE_INSTALL,
@@ -272,10 +272,6 @@ class DomainWizard extends Singleton {
 	public function search_and_replace_domain( $validation_result ) {
 		$currentQuery = dollie()->get_current_object();
 
-		// Domain
-		$container = get_post_meta( $currentQuery->id, 'wpd_container_id', true );
-		$le_domain = get_post_meta( $currentQuery->id, 'wpd_domain_id', true );
-
 		$form = $validation_result['form'];
 
 		// Form Variables
@@ -294,7 +290,7 @@ class DomainWizard extends Singleton {
 			}
 
 			$requestDomainUpdate = Api::post( Api::ROUTE_DOMAIN_UPDATE, [
-				'container_url' => $currentQuery->slug,
+				'container_uri' => get_post_meta( $currentQuery->id, 'wpd_container_uri', true ),
 				'domain'        => $domain,
 				'dollie_domain' => DOLLIE_INSTALL,
 				'dollie_token'  => Api::getDollieToken(),
@@ -308,8 +304,8 @@ class DomainWizard extends Singleton {
 			$le = get_post_meta( $currentQuery->id, 'wpd_letsencrypt_enabled', true );
 			if ( $le === 'yes' ) {
 				$requestLetsEncrypt = Api::post( Api::ROUTE_DOMAIN_INSTALL_LETSENCRYPT, [
-					'container_id'  => $container,
-					'route_id'      => $le_domain,
+					'container_id'  => get_post_meta( $currentQuery->id, 'wpd_container_id', true ),
+					'route_id'      => get_post_meta( $currentQuery->id, 'wpd_domain_id', true ),
 					'dollie_domain' => DOLLIE_INSTALL,
 					'dollie_token'  => Api::getDollieToken(),
 				] );

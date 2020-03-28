@@ -46,7 +46,6 @@ class LaunchSite extends Singleton {
 	}
 
 	public function submission_callback( $form, $fields, $args ) {
-
 		$domain    = af_get_field( 'site_url' );
 		$email     = af_get_field( 'site_admin_email' );
 		$blueprint = isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : af_get_field( 'site_blueprint' );
@@ -198,11 +197,11 @@ class LaunchSite extends Singleton {
 				add_post_meta( $post_id, 'wpd_container_based_on_blueprint', 'yes', true );
 				add_post_meta( $post_id, 'wpd_container_based_on_blueprint_id', $blueprint, true );
 
-				$blueprint_url     = get_post_meta( $blueprint, 'wpd_container_uri', true );
-				$blueprint_install = str_replace( 'https://', '', $blueprint_url );
+				$container_uri     = get_post_meta( $blueprint, 'wpd_container_uri', true );
+				$blueprint_install = str_replace( 'https://', '', $container_uri );
 
 				Api::post( Api::ROUTE_BLUEPRINT_DEPLOY, [
-					'container_url' => $domain,
+					'container_url' => $dataContainer['uri'],
 					'blueprint_url' => $blueprint_install
 				] );
 
