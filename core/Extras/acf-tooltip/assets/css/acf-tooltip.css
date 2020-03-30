@@ -1,0 +1,39 @@
+/* @override 
+	https://neu.stempeline.de/resources/erweiterungen/acf-tooltip/assets/css/acf-tooltip.css?ver=1.1.0 */
+
+.acf-field .acf-label p.tooltip__hidden,
+.acf-field p.description.tooltip__hidden,
+p.tooltip__hidden {
+	display: none;
+}
+
+.qtip {
+	font-size: 13px;
+	line-height: 1.4;
+}
+
+.qtip-acf {
+	background-color: #000000;
+	border-color: #000000;
+	color: #f3f3f3;
+	font-size: 13px;
+}
+
+.dashicons.dashicons-editor-help.acf__tooltip {
+	color: #0074a2;
+	width: 18px;
+	height: 18px;
+	font-size: 20px;
+	cursor: pointer;
+}
+
+.qtip-acf a {
+	color: #f3f3f3;
+}
+
+.qtip-dark a,
+.qtip-tipsy a,
+.qtip-youtube a,
+.qtip-jtools a {
+	color: #ffffff;
+}

@@ -28,6 +28,7 @@ class ContainerManagement extends Singleton {
 		add_action( 'template_redirect', [ $this, 'update_container_details' ] );
 		add_action( 'untrashed_post', [ $this, 'run_container_untrash_action' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_scripts' ] );
+		add_action('wp_enqueue_scripts', [$this, 'load_styles']);
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_script' ] );
 	}
 
@@ -288,6 +289,13 @@ class ContainerManagement extends Singleton {
 		wp_enqueue_style( 'dollie-custom-css' );
 		wp_enqueue_script( 'dollie-custom-js', DOLLIE_URL . 'assets/js/admin.js' );
 	}
+
+	public function load_styles($hook)
+	{
+		wp_register_style('dollie-front-css', DOLLIE_URL . 'assets/css/front.css', [], DOLLIE_VERSION);
+		wp_enqueue_style('dollie-front-css');
+	}
+
 
 	public function enqueue_admin_script( $hook ) {
 		wp_enqueue_script( 'my_custom_script', DOLLIE_URL . 'assets/js/admin.js', [], '1.0' );

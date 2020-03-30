@@ -83,7 +83,7 @@ if( function_exists('acf_add_local_field_group') ):
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '50',
 					'class' => '',
 					'id' => '',
 				),
@@ -111,7 +111,7 @@ if( function_exists('acf_add_local_field_group') ):
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '50',
 					'class' => '',
 					'id' => '',
 				),
@@ -139,7 +139,7 @@ if( function_exists('acf_add_local_field_group') ):
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '50',
 					'class' => '',
 					'id' => '',
 				),
@@ -166,7 +166,7 @@ if( function_exists('acf_add_local_field_group') ):
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '50',
 					'class' => '',
 					'id' => '',
 				),
@@ -355,7 +355,7 @@ Please create a support ticket so our team can assist you in completing your con
 				'conditional_logic' => 0,
 				'wrapper' => array(
 					'width' => '',
-					'class' => '',
+					'class' => 'hidden',
 					'id' => '',
 				),
 				'hide_admin' => 0,
