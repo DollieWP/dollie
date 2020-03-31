@@ -27,6 +27,7 @@ class PluginUpdates extends Singleton {
 		parent::__construct();
 
 		add_action( 'acf/init', [ $this, 'acf_init' ] );
+
 	}
 
 	public function acf_init() {
@@ -42,9 +43,10 @@ class PluginUpdates extends Singleton {
 
 		// Form submission action.
 		add_action( 'af/form/before_submission/key=' . $this->form_key, [ $this, 'submission_callback' ], 10, 3 );
+		add_action( 'af/form/success_message/key=' . $this->form_key, [ $this, 'success_message' ], 10, 3 );
 	}
 
-	public function submission_callback( $form, $fields, $args ) {
+	public function submission_callback() {
 
 		$container = Forms::get_form_container();
 
@@ -74,52 +76,82 @@ class PluginUpdates extends Singleton {
 		$array = json_decode( $json, true );
 
 		$execution_id = $array['executions']['execution']['@attributes']['id'];
-		echo '<div class="alert alert-info mt-30">';
+
+		AF()->submission['extra']['execution_id'] = $execution_id;
 
 		sleep( 4 );
 
+	}
+
+	public function success_message( $success_message, $form, $args ) {
+
+		if ( ob_get_length() > 0 ) {
+			@ob_end_flush();
+			@flush();
+		}
+
+		$success_message .= '<div class="alert alert-info mt-30">';
+
+		$execution_id = AF()->submission['extra']['execution_id'];
+
 		// Set up the request
 		$plugin_update = Api::post( Api::ROUTE_EXECUTE_JOB, [ 'job_id' => $execution_id ] );
+		$plugin_update = json_decode( wp_remote_retrieve_body( $plugin_update ), true );
 
 		$headers = wp_remote_retrieve_headers( $plugin_update );
 
-		// TODO - Add a looping completion request here.
-		if ( $headers['x-rundeck-execoutput-completed'] === 'false' ) {
-			echo 'Plugin update is still running... please hold on<br>';
+		if ( ! isset( $execution_id ) || empty( $execution_id ) ) {
+		    $success_message .= esc_html__( 'There was a problem sending the update request. Please try again!', 'dollie' );
+        } elseif ( $headers['x-rundeck-execoutput-completed'] === 'false' ) {
 
+			// TODO - Add a looping completion request here.
+
+			$success_message .= esc_html__( 'Plugin update is still running... please hold on', 'dollie' );
+			$success_message .= '<br>';
 			sleep( 4 );
 
 			// Set up the request
 			$new_plugin_update = Api::post( Api::ROUTE_EXECUTE_JOB, [ 'job_id' => $execution_id ] );
+			$new_plugin_update = json_decode( wp_remote_retrieve_body( $new_plugin_update ), true );
 
 			// Parse the JSON request
 			$new_headers = wp_remote_retrieve_headers( $new_plugin_update );
 
 			if ( $new_headers['x-rundeck-execoutput-completed'] === 'true' ) {
-				echo 'Plugin updates completed.<br>';
-				echo '<pre>' . wp_remote_retrieve_body( $new_plugin_update ) . '<pre>';
+
+				$new_plugin_update = API::process_response( $new_plugin_update );
+
+				$success_message .= esc_html__( 'Plugin updates completed.', 'dollie' );
+				$success_message .= '<br><pre>' . $new_plugin_update . '<pre>';
 			} else {
 				sleep( 4 );
 
 				// Set up the request
 				$final_plugin_update = Api::post( Api::ROUTE_EXECUTE_JOB, [ 'job_id' => $execution_id ] );
+				$final_plugin_update = json_decode( wp_remote_retrieve_body( $final_plugin_update ), true );
 
 				// Parse the JSON request
 				$final_headers = wp_remote_retrieve_headers( $final_plugin_update );
 				if ( $final_headers['x-rundeck-execoutput-completed'] === 'false' ) {
-					echo 'Sadly we can not complete updating your plugins. Please login to your WordPress admin and update your plugins from there.';
+					$success_message .= esc_html__( 'Sadly we can not complete updating your plugins. Please login to your WordPress admin and update your plugins from there.', 'dollie' );
 				} else {
-					echo 'All Your Plugins are updated!<br>';
-					echo '<pre>' . wp_remote_retrieve_body( $final_plugin_update ) . '<pre>';
+
+					$final_plugin_update = API::process_response( $final_plugin_update );
+
+					$success_message .= esc_html__( 'All Your Plugins are updated!', 'dollie' );
+					$success_message .= '<br><pre>' . $final_plugin_update . '<pre>';
 				}
 			}
 		} else {
-			echo 'All Done updating your plugins...<br>';
-			echo '<pre>' . wp_remote_retrieve_body( $plugin_update ) . '<pre>';
+			$plugin_update = API::process_response( $plugin_update );
+
+			$success_message .= esc_html__( 'All Done updating your plugins...', 'dollie' );
+			$success_message .= '<br><pre>' . $plugin_update . '<pre>';
 		}
-		?>
-        </div>
-		<?php
+
+		$success_message .= '</div>';
+
+		return $success_message;
 
 	}
 
@@ -191,7 +223,7 @@ class PluginUpdates extends Singleton {
 				continue;
 			}
 
-			$choices[ $plugin['name'] ] = $plugin['title'] . $plugin['version'];
+			$choices[ $plugin['name'] ] = $plugin['title'] . ' ' . $plugin['version'];
 		}
 
 		if ( ! empty( $choices ) ) {
@@ -252,6 +284,5 @@ class PluginUpdates extends Singleton {
 
 		return $args;
 	}
-
 
 }
