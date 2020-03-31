@@ -20,7 +20,7 @@ class ImportForms extends Singleton {
 	 * Current plugin forms version
 	 * @var string
 	 */
-	private $forms_version = '2.9.1';
+	private $forms_version = '2.9.2';
 
 	/**
 	 * Option name that gets saved in the options database table
@@ -37,6 +37,10 @@ class ImportForms extends Singleton {
 		'form_dollie_after_launch',
 		'form_dollie_launch_site',
 		'form_dollie_list_backups',
+		'form_dollie_create_backup',
+		'form_dollie_create_blueprint',
+		'form_dollie_domain_wizard',
+		'form_dollie_plugin_updates',
 	];
 
 	public function needs_update() {

@@ -1,0 +1,26 @@
+{
+    "key": "form_dollie_plugin_updates",
+    "title": "[UPDATES] Plugin Updates",
+    "display": {
+        "description": "",
+        "success_message": ""
+    },
+    "create_entries": false,
+    "restrictions": {
+        "entries": false,
+        "user": {
+            "message": ""
+        },
+        "schedule": false
+    },
+    "emails": false,
+    "editing": {
+        "user": false,
+        "post": false,
+        "term": false
+    },
+    "slack": false,
+    "mailchimp": false,
+    "zapier": false,
+    "calculated": []
+}

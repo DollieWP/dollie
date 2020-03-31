@@ -25,10 +25,17 @@ class Helpers extends Singleton {
 	/**
 	 * Get current queried object data
 	 *
+     * @param int $id
 	 * @return \stdClass
 	 */
-	public function get_current_object() {
-		$object   = get_queried_object();
+	public function get_current_object( $id = null ) {
+
+	    if ( isset( $id ) && $id > 0 ) {
+	        $object = get_post( $id );
+        } else {
+		    $object   = get_queried_object();
+	    }
+
 		$response = new \stdClass();
 
 		if ( isset( $object->ID ) ) {

@@ -29,21 +29,30 @@ class ListBackups extends Singleton {
 	}
 
 	public function acf_init() {
+
 		// Restrictions
-		add_filter( 'af/form/restriction/key=form_dollie_list_backups', [ $this, 'restrict_form' ], 10 );
+		add_filter( 'af/form/restriction/key=' . $this->form_key, [ $this, 'restrict_form' ], 10 );
 
 		// Placeholders/Change values.
 		add_filter( 'acf/load_field/name=site_backup', [ $this, 'site_backups_populate' ] );
+
+		// Form args
+		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
 		// Form submission action.
 		add_action( 'af/form/before_submission/key=' . $this->form_key, [ $this, 'submission_callback' ], 10, 3 );
 	}
 
 	public function submission_callback( $form, $fields, $args ) {
-		$currentQuery = dollie()->get_current_object();
+
+		$container_id = (int) $_POST['dollie_post_id'];
+
+		if ( $container_id <= 0 ) {
+			return;
+		}
 
 		Api::post( Api::ROUTE_BACKUP_RESTORE, [
-			'container_uri' => get_post_meta( $currentQuery->id, 'wpd_container_uri', true ),
+			'container_uri' => get_post_meta( $container_id, 'wpd_container_uri', true ),
 			'backup'        => Forms::get_field( 'site_backup' ),
 			'backup_type'   => Forms::get_field( 'what_to_restore' ),
 		] );
@@ -90,6 +99,13 @@ class ListBackups extends Singleton {
 
 		return $restriction;
 	}
+
+	public function change_form_args( $args ) {
+		$args['submit_text'] = esc_html__( 'Restore Backup', 'dollie' );
+
+		return $args;
+	}
+
 
 	public function site_backups_populate( $field ) {
 		// Grab our array of available backups

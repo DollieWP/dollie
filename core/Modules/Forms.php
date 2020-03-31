@@ -6,10 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Modules\Forms\CreateBackup;
+use Dollie\Core\Modules\Forms\CreateBlueprint;
 use Dollie\Core\Modules\Forms\LaunchSite;
 use Dollie\Core\Modules\Forms\AfterLaunchWizard;
 use Dollie\Core\Modules\Forms\ListBackups;
+use Dollie\Core\Modules\Forms\PluginUpdates;
 use Dollie\Core\Singleton;
+use Dollie\Core\Utils\Tpl;
 
 /**
  * Class Forms
@@ -25,7 +29,10 @@ class Forms extends Singleton {
 
 		LaunchSite::instance();
 		AfterLaunchWizard::instance();
+		CreateBackup::instance();
 		ListBackups::instance();
+		CreateBlueprint::instance();
+		PluginUpdates::instance();
 
 		add_action( 'template_redirect', [ $this, 'redirect_to_new_container' ] );
 
@@ -53,6 +60,9 @@ class Forms extends Singleton {
 		add_filter( 'af/merge_tags/resolve', array( $this, 'resolve_fields_tag' ), 9, 3 );
 		add_filter( 'af/merge_tags/resolve', [ $this, 'add_container_url_merge_tag' ], 10, 2 );
 		add_filter( 'af/merge_tags/custom', [ $this, 'register_container_login_url_tag' ], 10, 2 );
+
+		// Placeholders/Change values
+		add_filter( 'acf/prepare_field/type=message', [ $this, 'add_acf_placeholders' ], 10 );
 
 	}
 
@@ -118,6 +128,54 @@ class Forms extends Singleton {
 		}
 	}
 
+	/**
+	 * Add migration instruction to form
+	 *
+	 * @param $value
+	 * @param $post_id
+	 * @param $field
+	 *
+	 * @return string|string[]
+	 */
+	public function add_acf_placeholders( $field ) {
+
+		if ( isset( $field['message'] ) && $field['message'] ) {
+
+			$currentQuery = dollie()->get_current_object();
+
+			$user    = wp_get_current_user();
+			$request = dollie()->get_customer_container_details();
+
+			if ( ! $request || ! is_object( $request ) ) {
+				return $field;
+			}
+
+			$hostname = preg_replace( '#^https?://#', '', $request->uri );
+
+			$tpl_migration_instructions = Tpl::load( DOLLIE_MODULE_TPL_PATH . 'migration-instructions', [
+				'post_slug' => $currentQuery->slug,
+				'request'   => $request,
+				'user'      => $user,
+				'hostname'  => $hostname
+			] );
+
+			$ip     = get_post_meta( $currentQuery->id, 'wpd_container_ip', true ) ?: '';
+			$domain = get_post_meta( $currentQuery->id, 'wpd_domains', true ) ?: '';
+			$url    = get_post_meta( $currentQuery->id, 'wpd_container_uri', true ) ?: '';
+
+			$tpl_is_migration_complete = Tpl::load( DOLLIE_MODULE_TPL_PATH . 'wizard/completed', [
+				'has_domain'   => $domain,
+				'ip'           => $ip,
+				'platform_url' => $url,
+			] );
+
+			$field['message'] = str_replace( '{dollie_migration_instructions}', $tpl_migration_instructions, $field['message'] );
+			$field['message'] = str_replace( '{dollie_is_migration_complete}', $tpl_is_migration_complete, $field['message'] );
+		}
+
+		return $field;
+	}
+
 	function hidden_fields( $form, $args ) {
 		echo '<input type="hidden" name="dollie_post_id" value="' . get_the_ID() . '">';
 	}
@@ -129,7 +187,7 @@ class Forms extends Singleton {
 		}
 
 		if ( $field['instructions'] === 'Please choose a temporary URL for your site. This will be the place where you can work on your site until you connect your own domain.' ) {
-			$field['instructions'] = esc_html__('Please choose a temporary URL for your site. This will be the place where you can work on your site until you connect your own domain.', 'dollie' );
+			$field['instructions'] = esc_html__( 'Please choose a temporary URL for your site. This will be the place where you can work on your site until you connect your own domain.', 'dollie' );
 		}
 
 		if ( $field['label'] === 'Admin Email' ) {
@@ -164,5 +222,21 @@ class Forms extends Singleton {
 		}
 
 		return $data;
+	}
+
+	public static function get_form_container() {
+
+		if ( ! isset( $_POST['dollie_post_id'] ) ) {
+			return false;
+		}
+
+		$container_id = (int) $_POST['dollie_post_id'];
+		$container    = dollie()->get_current_object( $container_id );
+
+		if ( $container_id === 0 ) {
+			return false;
+		}
+
+		return $container;
 	}
 }

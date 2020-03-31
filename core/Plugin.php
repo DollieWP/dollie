@@ -19,7 +19,6 @@ use Dollie\Core\Modules\DomainWizard;
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Modules\Hooks;
 use Dollie\Core\Modules\Options;
-use Dollie\Core\Modules\PluginUpdates;
 use Dollie\Core\Modules\SecurityChecks;
 use Dollie\Core\Modules\Tools;
 use Dollie\Core\Modules\Upgrades;
@@ -94,7 +93,6 @@ class Plugin extends Singleton {
 		DomainWizard::instance();
 		Hooks::instance();
 		Options::instance();
-		PluginUpdates::instance();
 		SecurityChecks::instance();
 		Tools::instance();
 		WooCommerce::instance();

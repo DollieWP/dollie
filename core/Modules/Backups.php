@@ -16,17 +16,6 @@ use Dollie\Core\Log;
  */
 class Backups extends Singleton {
 
-	/**
-	 * Backups constructor.
-	 */
-	public function __construct() {
-		parent::__construct();
-
-		foreach ( dollie()->get_dollie_gravity_form_ids( 'dollie-create-backup' ) as $backup_id ) {
-			add_action( 'gform_after_submission_' . $backup_id, [ $this, 'create_backup' ], 10, 2 );
-		}
-	}
-
 	public function get_site_backups( $container_id = null, $force = false ) {
 
 		/*if ( ob_get_length() > 0 ) {
@@ -96,15 +85,6 @@ class Backups extends Singleton {
 		return get_transient( 'dollie_' . $currentQuery->slug . '_total_backups' );
 	}
 
-
-	public function trigger_backup() {
-		$currentQuery  = dollie()->get_current_object();
-		$container_uri = get_post_meta( $currentQuery->id, 'wpd_container_uri', true );
-
-		Api::post( Api::ROUTE_BACKUP_CREATE, [ 'container_uri' => $container_uri ] );
-		Log::add( $currentQuery->slug . ' has triggered a backup', '', 'action' );
-	}
-
 	public function list_site_restores() {
 		// Grab Some Recent Posts
 		$backups = $this->get_site_backups();
@@ -148,15 +128,6 @@ class Backups extends Singleton {
 			}
 			echo '</ul>';
 		}
-	}
-
-	public function create_backup( $entry, $form ) {
-		$this->trigger_backup();
-		?>
-        <div class="box-brand-secondary padding-full box-full margin-top-full create-backup-notice">
-			<?php esc_html_e( 'We\'re building your backup! You\'ll see it appear in the backup list on the left once it\'s done! If you have a large site this might take a while!', 'dollie' ); ?>
-        </div>
-		<?php
 	}
 
 }

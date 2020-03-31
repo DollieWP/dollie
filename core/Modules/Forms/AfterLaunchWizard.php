@@ -37,9 +37,6 @@ class AfterLaunchWizard extends Singleton {
 		// After launch form data.
 		add_action( 'af/form/before_fields/key=' . $this->form_key, [ $this, 'add_message_before_fields' ] );
 
-		// Placeholders/Change values
-		add_filter( 'acf/load_field', [ $this, 'migration_instructions_placeholder' ], 10 );
-
 		// Form args
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
@@ -211,41 +208,6 @@ class AfterLaunchWizard extends Singleton {
 		<?php
 	}
 
-	/**
-	 * Add migration instruction to form
-	 *
-	 * @param $value
-	 * @param $post_id
-	 * @param $field
-	 *
-	 * @return string|string[]
-	 */
-	public function migration_instructions_placeholder( $field ) {
 
-		if ( isset( $field['message'] ) && $field['message'] ) {
-
-			$currentQuery = dollie()->get_current_object();
-
-			$user    = wp_get_current_user();
-			$request = dollie()->get_customer_container_details();
-
-			if ( ! $request || ! is_object( $request ) ) {
-				return $field;
-			}
-
-			$hostname = preg_replace( '#^https?://#', '', $request->uri );
-
-			$tpl = Tpl::load( DOLLIE_MODULE_TPL_PATH . 'migration-instructions', [
-				'post_slug' => $currentQuery->slug,
-				'request'   => $request,
-				'user'      => $user,
-				'hostname'  => $hostname
-			] );
-
-			$field['message'] = str_replace( '{dollie_migration_instructions}', $tpl, $field['message'] );
-		}
-
-		return $field;
-	}
 
 }
