@@ -12,6 +12,7 @@ use Dollie\Core\Modules\Forms\LaunchSite;
 use Dollie\Core\Modules\Forms\AfterLaunchWizard;
 use Dollie\Core\Modules\Forms\ListBackups;
 use Dollie\Core\Modules\Forms\PluginUpdates;
+use Dollie\Core\Modules\Forms\DeleteSite;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Tpl;
 
@@ -33,6 +34,7 @@ class Forms extends Singleton {
 		ListBackups::instance();
 		CreateBlueprint::instance();
 		PluginUpdates::instance();
+		DeleteSite::instance();
 
 		add_action( 'template_redirect', [ $this, 'redirect_to_new_container' ] );
 
