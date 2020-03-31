@@ -19,7 +19,6 @@ use Dollie\Core\Modules\Forms;
 use Dollie\Core\Modules\Hooks;
 use Dollie\Core\Modules\Options;
 use Dollie\Core\Modules\SecurityChecks;
-use Dollie\Core\Modules\Tools;
 use Dollie\Core\Modules\Upgrades;
 use Dollie\Core\Modules\WooCommerce;
 
@@ -92,7 +91,6 @@ class Plugin extends Singleton {
 		Hooks::instance();
 		Options::instance();
 		SecurityChecks::instance();
-		Tools::instance();
 		WooCommerce::instance();
 		Modules\Dashboard\Setup::instance();
 		Upgrades::instance();
@@ -169,7 +167,7 @@ class Plugin extends Singleton {
 
 	public function redirect_to_container_launch() {
 
-		if ( !  dollie()->get_launch_page_id() ) {
+		if ( ! dollie()->get_launch_page_id() ) {
 			return;
 		}
 
@@ -202,5 +200,7 @@ class Plugin extends Singleton {
 		wp_reset_postdata();
 		wp_reset_query();
 	}
+
+
 
 }

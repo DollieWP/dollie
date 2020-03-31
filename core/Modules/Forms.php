@@ -8,9 +8,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Modules\Forms\CreateBackup;
 use Dollie\Core\Modules\Forms\CreateBlueprint;
+use Dollie\Core\Modules\Forms\DomainWizard;
 use Dollie\Core\Modules\Forms\LaunchSite;
 use Dollie\Core\Modules\Forms\AfterLaunchWizard;
 use Dollie\Core\Modules\Forms\ListBackups;
+use Dollie\Core\Modules\Forms\Performance;
 use Dollie\Core\Modules\Forms\PluginUpdates;
 use Dollie\Core\Modules\Forms\DeleteSite;
 use Dollie\Core\Singleton;
@@ -33,8 +35,10 @@ class Forms extends Singleton {
 		CreateBackup::instance();
 		ListBackups::instance();
 		CreateBlueprint::instance();
+		DomainWizard::instance();
 		PluginUpdates::instance();
 		DeleteSite::instance();
+		Performance::instance();
 
 		add_action( 'template_redirect', [ $this, 'redirect_to_new_container' ] );
 
@@ -43,7 +47,6 @@ class Forms extends Singleton {
 
 		add_filter( 'acf/load_field', [ $this, 'localize_strings' ] );
 		add_action( 'af/form/hidden_fields', [ $this, 'hidden_fields' ], 10, 2 );
-
 
 	}
 

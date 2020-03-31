@@ -26,7 +26,7 @@ class DomainWizard extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$domain_forms = dollie()->get_dollie_gravity_form_ids( 'dollie-domain' );
+		$domain_forms = [];
 
 		foreach ( $domain_forms as $form_id ) {
 			add_filter( 'gform_validation_' . $form_id, [ $this, 'domain_wizard_add_domain' ], 20 );
