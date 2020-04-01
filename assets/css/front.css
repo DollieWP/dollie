@@ -22,6 +22,12 @@
   margin-top: 20px;
   background: #f9f9f9;
 }
+.af-form .acf-hide-title .acf-label {
+  display: none;
+}
+.af-form .acf-opacity-1 .acf-input {
+  opacity: 1 !important;
+}
 
 .af-field-site-blueprint ul.acf-radio-list li,
 .af-field-site-blueprint ul.acf-checkbox-list li {

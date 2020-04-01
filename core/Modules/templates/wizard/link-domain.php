@@ -1,10 +1,3 @@
-<h3><?php _e('Linking Your Custom Domain to your Site!', 'dollie'); ?></h3>
-<p>
-	<?php _e('In order to get your custom domain to work we need to make a change to your DNS configuration, so please
-    make sure you have accesss to the control panel of where you registered your domain. Usually making a
-    DNS change is very easy to do and your registrar will have documentation available on how to do this (or
-    simply ask support to do this for you.) Here are the instructions on the changes you need to make.', 'dollie'); ?>
-</p>
 <ul>
 	<li>
 		<a href="https://www.cloudflare.com/a/login" target="_blank">
@@ -30,6 +23,9 @@
 	</li>
 </ul>
 <img src="https://s3.amazonaws.com/helpscout.net/docs/assets/5742f232c697917290ddb900/images/574ef6b89033604d43daab48/file-D4wzErhF62.jpg" alt="" width="60%" height="auto" />
+
+<br><br>
+
 <div class="alert alert-info col-sm-9">
 	<strong><?php _e('Important Note: You only need to change the A and WWW records', 'dollie'); ?></strong><br>
 	<?php

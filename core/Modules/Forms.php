@@ -52,7 +52,45 @@ class Forms extends Singleton {
 
 	public function init() {
 		add_shortcode( 'dollie_form', [ $this, 'form_shortcode' ] );
+		add_shortcode( 'dollie_blockquote', [ $this, 'blockquote_shortcode' ] );
 	}
+
+	public function acf_init() {
+
+		add_filter( 'af/merge_tags/resolve', array( $this, 'resolve_fields_tag' ), 9, 3 );
+		add_filter( 'af/merge_tags/resolve', [ $this, 'add_merge_tags' ], 10, 2 );
+		add_filter( 'af/merge_tags/custom', [ $this, 'register_merge_tags' ], 10, 2 );
+
+		// Placeholders/Change values
+		add_filter( 'acf/prepare_field/type=message', [ $this, 'add_acf_placeholders' ], 10 );
+
+	}
+
+	public function add_merge_tags( $output, $tag ) {
+		if ( 'dollie_container_login_url' === $tag ) {
+			return esc_url( call_user_func( [ dollie(), 'get_customer_login_url' ] ) );
+		}
+
+		if ( ( 'dollie_container_url' === $tag ) && isset( $_POST['dollie_post_id'] ) ) {
+			return dollie()->get_container_url( (int) $_POST['dollie_post_id'] );
+		}
+
+		return $output;
+	}
+
+	function register_merge_tags( $tags, $form ) {
+		$tags[] = array(
+			'value' => 'dollie_container_login_url',
+			'label' => esc_html__( 'Dollie Container Login URL', 'dollie' ),
+		);
+		$tags[] = array(
+			'value' => 'dollie_container_url',
+			'label' => esc_html__( 'Dollie Container URL', 'dollie' ),
+		);
+
+		return $tags;
+	}
+
 
 	public function form_shortcode( $atts = [] ) {
 
@@ -60,32 +98,25 @@ class Forms extends Singleton {
 
 	}
 
-	public function acf_init() {
 
-		add_filter( 'af/merge_tags/resolve', array( $this, 'resolve_fields_tag' ), 9, 3 );
-		add_filter( 'af/merge_tags/resolve', [ $this, 'add_container_url_merge_tag' ], 10, 2 );
-		add_filter( 'af/merge_tags/custom', [ $this, 'register_container_login_url_tag' ], 10, 2 );
+	public function blockquote_shortcode( $atts = [], $content = '' ) {
 
-		// Placeholders/Change values
-		add_filter( 'acf/prepare_field/type=message', [ $this, 'add_acf_placeholders' ], 10 );
+		$atts = shortcode_atts( array(
+			'icon'  => 'fa fa-info-circle',
+			'type'  => 'success',
+			'title' => ''
+		), $atts, 'dollie_blockquote' );
 
-	}
+		$data = '<div class="blockquote-box blockquote-' . esc_attr( $atts['type'] ) . ' clearfix">
+   		 <div class="square pull-left">
+   				 <i class="' . esc_attr( $atts['icon'] ) . '"></i>
+   		 </div>
+   		 <h4>' . esc_html( $atts['title'] ) . '</h4>
+   		 <p>' . wp_kses_post( $content ) . '</p>
+    </div>';
 
-	public function add_container_url_merge_tag( $output, $tag ) {
-		if ( 'dollie_container_login_url' !== $tag ) {
-			return $output;
-		}
+		return $data;
 
-		return esc_url( call_user_func( [ dollie(), 'get_customer_login_url' ] ) );
-	}
-
-	function register_container_login_url_tag( $tags, $form ) {
-		$tags[] = array(
-			'value' => 'dollie_container_login_url',
-			'label' => esc_html__( 'Dollie Container Login URL', 'dollie' ),
-		);
-
-		return $tags;
 	}
 
 	/**
@@ -174,8 +205,24 @@ class Forms extends Singleton {
 				'platform_url' => $url,
 			] );
 
+			$tpl_link_domain = Tpl::load( DOLLIE_MODULE_TPL_PATH . 'wizard/link-domain', [
+				'has_domain'   => $domain,
+				'ip'           => $ip,
+				'platform_url' => $url,
+			] );
+
 			$field['message'] = str_replace( '{dollie_migration_instructions}', $tpl_migration_instructions, $field['message'] );
 			$field['message'] = str_replace( '{dollie_is_migration_complete}', $tpl_is_migration_complete, $field['message'] );
+			$field['message'] = str_replace( '{dollie_tpl_link_domain}', $tpl_link_domain, $field['message'] );
+
+			if ( is_user_logged_in() ) {
+				$user             = wp_get_current_user();
+				$field['message'] = str_replace( '{dollie_user_display_name}', $user->display_name, $field['message'] );
+
+			}
+
+			// Allow shortcodes
+			$field['message'] = do_shortcode( $field['message'] );
 		}
 
 		return $field;

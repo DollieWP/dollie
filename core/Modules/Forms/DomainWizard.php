@@ -34,9 +34,6 @@ class DomainWizard extends Singleton {
 		add_filter( 'af/merge_tags/resolve', [ $this, 'add_merge_tags' ], 10, 2 );
 		add_filter( 'af/merge_tags/custom', [ $this, 'register_container_tags' ], 10, 2 );
 
-		// After launch form data.
-		add_action( 'af/form/before_fields/key=' . $this->form_key, [ $this, 'add_message_before_fields' ] );
-
 		// Form args
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
@@ -60,7 +57,7 @@ class DomainWizard extends Singleton {
 	function register_container_tags( $tags, $form ) {
 		$tags[] = array(
 			'value' => 'dollie_tpl_is_migrate_completed',
-			'label' => esc_html__( 'Dollie TPL is ', 'dollie' ),
+			'label' => esc_html__( 'Dollie TPL is Migration complete?', 'dollie' ),
 		);
 
 		return $tags;
@@ -98,29 +95,6 @@ class DomainWizard extends Singleton {
 		$args['submit_text'] = esc_html__( 'Complete Domain Setup', 'dollie' );
 
 		return $args;
-	}
-
-	public function add_message_before_fields() {
-
-		if ( ! is_user_logged_in() ) {
-			return;
-		}
-
-		$user = wp_get_current_user();
-
-		?>
-        <div class="blockquote-box blockquote-success clearfix">
-            <div class="square pull-left">
-                <i class="fa fa-globe"></i>
-            </div>
-            <h4>
-				<?php printf( __( 'Let\'s link up your custom domain %s!', 'dollie' ), $user->display_name ); ?>
-            </h4>
-            <p>
-				<?php esc_html_e( ' We\'ll walk you through all the steps required to link your own domain to your site. Let\'s get started shall we?', 'dollie' ); ?>
-            </p>
-        </div>
-		<?php
 	}
 
 }
