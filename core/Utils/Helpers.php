@@ -103,10 +103,9 @@ class Helpers extends Singleton {
 		return $install;
 	}
 
-	public function get_customer_login_url( $container_id = null, $container_slug = null, $container_location = null ) {
-		if ( $container_slug === null ) {
-			$container_slug = $this->get_current_object()->slug;
-		}
+	public function get_customer_login_url( $container_id = null, $container_location = null ) {
+
+		$container = $this->get_current_object( $container_id );
 
 		if ( $container_location !== null ) {
 			$location = '&location=' . $container_location;
@@ -114,10 +113,11 @@ class Helpers extends Singleton {
 			$location = '';
 		}
 
-		$details = get_transient( 'dollie_container_api_request_' . $container_slug . '_get_container_wp_info' );
+		$details = ContainerManagement::instance()->get_container_wp_info( $container->id );
 
 		return $this->get_container_url( $container_id ) . '/wp-login.php?s5token=' . $details->Token . '&string=' . $details->{'Customer ID'} . '&user=' . $details->Admin . $location;
 	}
+
 
 	public function get_customer_admin_url() {
 		return $this->get_container_url() . '/wp-admin/';
@@ -426,10 +426,9 @@ class Helpers extends Singleton {
 		return ContainerManagement::instance()->get_customer_container_details( $container_id );
 	}
 
-	public function container_api_request( $url, $transient_id, $user_auth, $user_pass ) {
+	public function container_api_request( $url, $transient_id, $user_auth, $user_pass = null ) {
 		return ContainerManagement::instance()->container_api_request( $url, $transient_id, $user_auth, $user_pass );
 	}
-
 
 	public function get_total_container_size() {
 		return SiteInsights::instance()->get_total_container_size();

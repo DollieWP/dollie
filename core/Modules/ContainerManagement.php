@@ -28,7 +28,7 @@ class ContainerManagement extends Singleton {
 		add_action( 'template_redirect', [ $this, 'update_container_details' ] );
 		add_action( 'untrashed_post', [ $this, 'run_container_untrash_action' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_scripts' ] );
-		add_action('wp_enqueue_scripts', [$this, 'load_styles']);
+		add_action( 'wp_enqueue_scripts', [ $this, 'load_styles' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_script' ] );
 	}
 
@@ -155,16 +155,15 @@ class ContainerManagement extends Singleton {
 		return (object) $request;
 	}
 
-	public function container_api_request( $url, $transient_id, $user_auth, $user_pass ) {
+	public function container_api_request( $url, $transient_id, $user_auth, $user_pass = null ) {
 		if ( ob_get_length() > 0 ) {
 			@ob_end_flush();
 			@flush();
 		}
 
-		$currentQuery   = dollie()->get_current_object();
-		$transient_name = 'dollie_container_api_request_' . $currentQuery->slug . '_' . $transient_id;
+		$transient_name = 'dollie_container_api_request_' . $transient_id;
 
-		$request        = get_transient( $transient_name );
+		$request = get_transient( $transient_name );
 
 		if ( $user_auth === null ) {
 			$user_auth = DOLLIE_S5_USER;
@@ -196,6 +195,35 @@ class ContainerManagement extends Singleton {
 		}
 
 		return $request;
+	}
+
+
+	public function get_container_wp_info( $container_id = null ) {
+
+		$container = dollie()->get_current_object( $container_id );
+
+		$transient_id   = $container->slug . '_get_container_wp_info';
+		$transient_name = 'dollie_container_api_request_' . $transient_id;
+
+		$data = get_transient( $transient_name );
+
+		if ( empty( $data ) ) {
+			// Make an API request to get our customer details.
+			$request = dollie()->get_customer_container_details( $container->id );
+
+			// Now that we have our container details get our info
+			$details_url      = dollie()->get_container_url( $container->id ) . '/wp-content/mu-plugins/platform/container/details';
+			$details_username = 'container';
+
+			//Pass on the App ID from our request
+			$details_pass = $request->id;
+
+			//Make the request
+			$data = dollie()->container_api_request( $details_url, $transient_id, $details_username, $details_pass );
+		}
+
+		return $data;
+
 	}
 
 	public function fetch_container_details() {
@@ -291,10 +319,9 @@ class ContainerManagement extends Singleton {
 		wp_enqueue_script( 'dollie-custom-js', DOLLIE_URL . 'assets/js/admin.js' );
 	}
 
-	public function load_styles($hook)
-	{
-		wp_register_style('dollie-front-css', DOLLIE_URL . 'assets/css/front.css', [], DOLLIE_VERSION);
-		wp_enqueue_style('dollie-front-css');
+	public function load_styles( $hook ) {
+		wp_register_style( 'dollie-front-css', DOLLIE_URL . 'assets/css/front.css', [], DOLLIE_VERSION );
+		wp_enqueue_style( 'dollie-front-css' );
 	}
 
 
