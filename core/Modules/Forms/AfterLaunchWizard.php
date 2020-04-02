@@ -172,8 +172,6 @@ class AfterLaunchWizard extends Singleton {
 				}
 
 				$setup_request = Api::post( Api::ROUTE_WIZARD_SETUP, $data );
-				var_dump( $setup_request );
-				exit;
 			}
 		}
 
