@@ -115,7 +115,7 @@ class Api extends Singleton {
 
 		$answer = json_decode( $answer_body, true );
 
-		if ( ! is_array( $answer ) || $answer['status'] !== 200 ) {
+		if ( ! is_array( $answer ) || ! isset( $answer['status'] ) || $answer['status'] !== 200 ) {
 			return false;
 		}
 

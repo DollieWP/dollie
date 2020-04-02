@@ -421,8 +421,8 @@ class Helpers extends Singleton {
 		return CheckSubscription::instance()->has_bought_product( $user_id );
 	}
 
-	public function get_customer_container_details() {
-		return ContainerManagement::instance()->get_customer_container_details();
+	public function get_customer_container_details( $container_id = null ) {
+		return ContainerManagement::instance()->get_customer_container_details( $container_id );
 	}
 
 	public function container_api_request( $url, $transient_id, $user_auth, $user_pass ) {

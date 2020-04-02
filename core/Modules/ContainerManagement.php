@@ -104,15 +104,16 @@ class ContainerManagement extends Singleton {
 		}
 	}
 
-	public function get_customer_container_details() {
+	public function get_customer_container_details( $container_id = null ) {
 
-		$currentQuery = dollie()->get_current_object();
-		$request = get_transient( 'dollie_s5_container_details_' . $currentQuery->slug );
+		$container = dollie()->get_current_object( $container_id );
+
+		$request = get_transient( 'dollie_s5_container_details_' . $container->slug );
 
 		// Only make request if it's not cached in a transient.
 		if ( empty( $request ) ) {
 
-			$container_id = get_post_meta( $currentQuery->id, 'wpd_container_id', true );
+			$container_id = get_post_meta( $container->id, 'wpd_container_id', true );
 
 			// Set up the request
 			$requestGetContainer = Api::post( API::ROUTE_CONTAINER_GET, [
@@ -124,7 +125,7 @@ class ContainerManagement extends Singleton {
 			$responseGetContainer = json_decode( wp_remote_retrieve_body( $requestGetContainer ), true );
 
 			if ( $responseGetContainer['status'] === 500 ) {
-				Log::add( 'Container details could not be fetched. for' . $currentQuery->slug, print_r( $responseGetContainer['body'], true ), 'error' );
+				Log::add( 'Container details could not be fetched. for' . $container->slug, print_r( $responseGetContainer['body'], true ), 'error' );
 
 				return [];
 			}
@@ -132,23 +133,23 @@ class ContainerManagement extends Singleton {
 			$request = json_decode( $responseGetContainer['body'], true );
 
 			if ( empty( $request ) ) {
-				Log::add( 'Container details could not be fetched. for' . $currentQuery->slug, print_r( $request, true ), 'error' );
+				Log::add( 'Container details could not be fetched. for' . $container->slug, print_r( $request, true ), 'error' );
 
 				return [];
 			}
 
 			// Set Transient.
-			set_transient( 'dollie_s5_container_details_' . $currentQuery->slug, $request, MINUTE_IN_SECONDS * 150000 );
+			set_transient( 'dollie_s5_container_details_' . $container->slug, $request, MINUTE_IN_SECONDS * 150000 );
 
 			// Update Post Meta.
-			update_post_meta( $currentQuery->id, 'wpd_container_id', $request['id'], true );
-			update_post_meta( $currentQuery->id, 'wpd_container_ssh', $request['containerSshPort'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_user', $request['containerSshUsername'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_port', $request['containerSshPort'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_password', $request['containerSshPassword'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_ip', preg_replace( '/\s+/', '', $request['containerHostIpAddress'] ) );
-			update_post_meta( $currentQuery->id, 'wpd_container_deploy_time', $request['deployedAt'] );
-			update_post_meta( $currentQuery->id, 'wpd_container_uri', $request['uri'] );
+			update_post_meta( $container->id, 'wpd_container_id', $request['id'], true );
+			update_post_meta( $container->id, 'wpd_container_ssh', $request['containerSshPort'] );
+			update_post_meta( $container->id, 'wpd_container_user', $request['containerSshUsername'] );
+			update_post_meta( $container->id, 'wpd_container_port', $request['containerSshPort'] );
+			update_post_meta( $container->id, 'wpd_container_password', $request['containerSshPassword'] );
+			update_post_meta( $container->id, 'wpd_container_ip', preg_replace( '/\s+/', '', $request['containerHostIpAddress'] ) );
+			update_post_meta( $container->id, 'wpd_container_deploy_time', $request['deployedAt'] );
+			update_post_meta( $container->id, 'wpd_container_uri', $request['uri'] );
 		}
 
 		return (object) $request;
