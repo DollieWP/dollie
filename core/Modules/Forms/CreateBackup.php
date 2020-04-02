@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Log;
+use Dollie\Core\Modules\Backups;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 
@@ -39,16 +40,8 @@ class CreateBackup extends Singleton {
 	public function submission_callback( $form, $fields, $args ) {
 
 		$container_id = (int) $_POST['dollie_post_id'];
-		$container    = dollie()->get_current_object( $container_id );
 
-		if ( $container->id === 0 ) {
-			return;
-		}
-
-		$container_uri = get_post_meta( $container_id, 'wpd_container_uri', true );
-
-		Api::post( Api::ROUTE_BACKUP_CREATE, [ 'container_uri' => $container_uri ] );
-		Log::add( $container->slug . ' has triggered a backup', '', 'action' );
+		Backups::instance()->trigger_backup( $container_id );
 
 	}
 

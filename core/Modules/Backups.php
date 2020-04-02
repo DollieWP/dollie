@@ -130,4 +130,27 @@ class Backups extends Singleton {
 		}
 	}
 
+	/**
+     * Create a backup for the container
+     *
+	 * @param null $container_id
+	 *
+	 * @return bool
+	 */
+	public function trigger_backup( $container_id = null ) {
+
+		$container = dollie()->get_current_object( $container_id );
+
+		if ( $container->id === 0 ) {
+			return false;
+		}
+
+		$container_uri = get_post_meta( $container_id, 'wpd_container_uri', true );
+
+		Api::post( Api::ROUTE_BACKUP_CREATE, [ 'container_uri' => $container_uri ] );
+		Log::add( $container->slug . ' has triggered a backup', '', 'action' );
+
+		return true;
+    }
+
 }

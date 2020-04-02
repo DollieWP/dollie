@@ -25,16 +25,17 @@ class Helpers extends Singleton {
 	/**
 	 * Get current queried object data
 	 *
-     * @param int $id
+	 * @param int $id
+	 *
 	 * @return \stdClass
 	 */
 	public function get_current_object( $id = null ) {
 
-	    if ( isset( $id ) && $id > 0 ) {
-	        $object = get_post( $id );
-        } else {
-		    $object   = get_queried_object();
-	    }
+		if ( isset( $id ) && $id > 0 ) {
+			$object = get_post( $id );
+		} else {
+			$object = get_queried_object();
+		}
 
 		$response = new \stdClass();
 
@@ -165,7 +166,7 @@ class Helpers extends Singleton {
 
 	public function get_latest_container_url() {
 		$query = new WP_Query( [
-			'post_status'    => array('publish', 'draft'),
+			'post_status'    => array( 'publish', 'draft' ),
 			'author'         => get_current_user_id(),
 			'post_type'      => 'container',
 			'posts_per_page' => 1,
@@ -326,7 +327,7 @@ class Helpers extends Singleton {
 	}
 
 	/**
-     * Get all registered settings groups by name and key
+	 * Get all registered settings groups by name and key
 	 * @return array
 	 */
 	public function acf_get_database_field_group_keys() {
