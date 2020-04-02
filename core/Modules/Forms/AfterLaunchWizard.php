@@ -8,6 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Log;
 use Dollie\Core\Modules\Backups;
+use Dollie\Core\Modules\Sites\WP;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Utils\Tpl;
@@ -88,7 +89,7 @@ class AfterLaunchWizard extends Singleton {
 				'password'      => af_get_field( 'admin_password' )
 			];
 
-			$status = $this->update_site_details( $data, $container_id );
+			$status = WP::instance()->update_site_details( $data, $container_id );
 
 			if ( is_wp_error( $status ) ) {
 				af_add_submission_error( $status->get_error_message() );
@@ -115,81 +116,6 @@ class AfterLaunchWizard extends Singleton {
 
 	}
 
-
-	/**
-	 * Welcome Wizard. Update WP site details.
-	 *
-	 * @param int|null $container_id
-	 * @param array|null $data
-	 *
-	 * @return bool|\WP_Error
-	 */
-	public function update_site_details( $data = null, $container_id = null ) {
-
-		if ( ! isset( $container_id ) ) {
-			$current_query = dollie()->get_current_object();
-
-			$container_id   = $current_query->id;
-			$container_slug = $current_query->slug;
-		} else {
-			$container_slug = get_post( $container_id )->post_name;
-		}
-
-		do_action( 'dollie/launch_site/set_details/before', $container_id, $data );
-
-		$demo = get_post_meta( $container_id, 'wpd_container_is_demo', true );
-
-		if ( $demo !== 'yes' ) {
-			$partner = get_user_by( 'login', get_post_meta( $container_id, 'wpd_partner_ref', true ) );
-
-			$is_partner_lead = $partner_blueprint = $blueprint_deployed = '';
-
-			if ( $partner instanceof \WP_User ) {
-				$partner_blueprint  = get_post_meta( $partner->ID, 'wpd_partner_blueprint_created', true );
-				$blueprint_deployed = get_post_meta( $container_id, 'wpd_blueprint_deployment_complete', true );
-				$is_partner_lead    = get_post_meta( $container_id, 'wpd_is_partner_lead', true );
-			}
-
-			if ( $is_partner_lead === 'yes' && $partner_blueprint === 'yes' && $blueprint_deployed !== 'yes' ) {
-				$partner_url = get_post_meta( $partner->ID, 'wpd_url', true );
-
-				Api::post( Api::ROUTE_BLUEPRINT_DEPLOY_FOR_PARTNER, [
-					'container_uri' => get_post_meta( $container_id, 'wpd_container_uri', true ),
-					'partner_url'   => $partner_url,
-					'domain'        => $container_slug
-				] );
-
-				update_post_meta( $container_id, 'wpd_partner_blueprint_deployed', 'yes' );
-				sleep( 5 );
-			} else {
-
-				if ( ! isset( $data ) || empty( $data ) ) {
-
-					Log::add( $container_slug . ' has invalid site details data', json_encode( $data ), 'setup' );
-
-					return new \WP_Error( 'dollie_invalid_data', esc_html__( 'Processed site data is invalid.', 'dollie' ) );
-
-				}
-
-				$setup_request = Api::post( Api::ROUTE_WIZARD_SETUP, $data );
-			}
-		}
-
-		dollie()->flush_container_details();
-
-		update_post_meta( $container_id, 'wpd_setup_complete', 'yes' );
-
-		Log::add( $container_slug . ' has completed the initial site setup', '', 'setup' );
-
-		Backups::instance()->trigger_backup();
-
-		do_action( 'dollie/launch_site/set_details/after', $container_id, $data );
-
-		return true;
-
-	}
-
-
 	public function add_message_before_fields() {
 		?>
         <div class="blockquote-box blockquote-alert clearfix">
@@ -205,7 +131,5 @@ class AfterLaunchWizard extends Singleton {
         </div>
 		<?php
 	}
-
-
 
 }
