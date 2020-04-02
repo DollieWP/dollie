@@ -55,6 +55,8 @@ class Forms extends Singleton {
 	public function init() {
 		add_shortcode( 'dollie_form', [ $this, 'form_shortcode' ] );
 		add_shortcode( 'dollie_blockquote', [ $this, 'blockquote_shortcode' ] );
+		add_filter( 'acf/prepare_field/name=form_shortcode_message', array( $this, 'display_form_shortcode' ), 12, 1 );
+
 	}
 
 	public function acf_init() {
@@ -112,6 +114,25 @@ class Forms extends Singleton {
 
 	}
 
+
+	/**
+	 * Display the form shortcode in the form settings.
+	 *
+	 * @since 1.6.4
+	 *
+	 */
+	function display_form_shortcode( $field ) {
+		global $post;
+
+		if ( $post && $key = get_post_meta( $post->ID, 'form_key', true ) ) {
+			if (strpos( $key, 'form_dollie'  ) !== false) {
+				$message = sprintf( '<code>[dollie_form form="%s"]</code>', $key );
+				$field['message'] = $message;
+			}
+		}
+
+		return $field;
+	}
 
 	public function blockquote_shortcode( $atts = [], $content = '' ) {
 
