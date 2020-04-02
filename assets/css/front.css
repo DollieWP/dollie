@@ -22,11 +22,17 @@
   margin-top: 20px;
   background: #f9f9f9;
 }
-.af-form .acf-hide-title .acf-label {
+.af-form .acf-hide-title > .acf-label {
   display: none;
 }
 .af-form .acf-opacity-1 .acf-input {
   opacity: 1 !important;
+}
+.af-form .acf-border-0 > .acf-label {
+  display: none;
+}
+.af-form .acf-border-0 .acf-input .acf-fields {
+  border: 0;
 }
 
 .af-field-site-blueprint ul.acf-radio-list li,

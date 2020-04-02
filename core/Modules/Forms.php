@@ -15,6 +15,7 @@ use Dollie\Core\Modules\Forms\ListBackups;
 use Dollie\Core\Modules\Forms\Performance;
 use Dollie\Core\Modules\Forms\PluginUpdates;
 use Dollie\Core\Modules\Forms\DeleteSite;
+use Dollie\Core\Modules\Forms\QuickLaunch;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Tpl;
 
@@ -32,6 +33,7 @@ class Forms extends Singleton {
 
 		LaunchSite::instance();
 		AfterLaunchWizard::instance();
+		QuickLaunch::instance();
 		CreateBackup::instance();
 		ListBackups::instance();
 		CreateBlueprint::instance();
@@ -68,14 +70,26 @@ class Forms extends Singleton {
 
 	public function add_merge_tags( $output, $tag ) {
 		if ( 'dollie_container_login_url' === $tag ) {
-			return esc_url( call_user_func( [ dollie(), 'get_customer_login_url' ] ) );
+			return esc_url( call_user_func( [ $this, 'get_container_login_url' ] ) );
 		}
 
 		if ( ( 'dollie_container_url' === $tag ) && isset( $_POST['dollie_post_id'] ) ) {
-			return dollie()->get_container_url( (int) $_POST['dollie_post_id'] );
+			$container = self::get_form_container();
+			if ( $container ) {
+				return dollie()->get_container_url( (int) $container->id );
+			}
 		}
 
 		return $output;
+	}
+
+	public function get_container_login_url() {
+		$container = self::get_form_container();
+		if ( $container ) {
+			return dollie()->get_customer_login_url( (int) $container->id );
+		}
+
+		return '';
 	}
 
 	function register_merge_tags( $tags, $form ) {
@@ -278,12 +292,17 @@ class Forms extends Singleton {
 
 	public static function get_form_container() {
 
-		if ( ! isset( $_POST['dollie_post_id'] ) ) {
+		if ( isset( AF()->submission['extra'], AF()->submission['extra']['dollie_container_id'] ) ) {
+			$container_id = AF()->submission['extra']['dollie_container_id'];
+		} else if ( isset( $_POST['dollie_post_id'] ) ) {
+			$container_id = (int) $_POST['dollie_post_id'];
+		}
+
+		if ( ! isset( $container_id ) ) {
 			return false;
 		}
 
-		$container_id = (int) $_POST['dollie_post_id'];
-		$container    = dollie()->get_current_object( $container_id );
+		$container = dollie()->get_current_object( $container_id );
 
 		if ( $container_id === 0 ) {
 			return false;

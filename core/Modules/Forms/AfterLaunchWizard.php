@@ -88,7 +88,7 @@ class AfterLaunchWizard extends Singleton {
 				'password'      => af_get_field( 'admin_password' )
 			];
 
-			$status = $this->update_site_details( $data );
+			$status = $this->update_site_details( $data, $container_id );
 
 			if ( is_wp_error( $status ) ) {
 				af_add_submission_error( $status->get_error_message() );
@@ -124,7 +124,7 @@ class AfterLaunchWizard extends Singleton {
 	 *
 	 * @return bool|\WP_Error
 	 */
-	private function update_site_details( $data = null, $container_id = null ) {
+	public function update_site_details( $data = null, $container_id = null ) {
 
 		if ( ! isset( $container_id ) ) {
 			$current_query = dollie()->get_current_object();

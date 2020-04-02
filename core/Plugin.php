@@ -14,7 +14,6 @@ use Dollie\Core\Modules\ContainerFields;
 use Dollie\Core\Modules\ContainerManagement;
 use Dollie\Core\Modules\ContainerRegistration;
 use Dollie\Core\Modules\Custom;
-use Dollie\Core\Modules\DomainWizard;
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Modules\Hooks;
 use Dollie\Core\Modules\Options;
@@ -87,7 +86,6 @@ class Plugin extends Singleton {
 		ContainerManagement::instance();
 		ContainerRegistration::instance();
 		Custom::instance();
-		DomainWizard::instance();
 		Hooks::instance();
 		Options::instance();
 		SecurityChecks::instance();

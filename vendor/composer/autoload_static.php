@@ -7,6 +7,10 @@ namespace Composer\Autoload;
 class ComposerStaticInitd74c51878e5e803470637e5220cd7216
 {
     public static $prefixLengthsPsr4 = array (
+        'N' => 
+        array (
+            'Nubs\\RandomNameGenerator\\' => 25,
+        ),
         'D' => 
         array (
             'Dollie\\Core\\' => 12,
@@ -14,6 +18,10 @@ class ComposerStaticInitd74c51878e5e803470637e5220cd7216
     );
 
     public static $prefixDirsPsr4 = array (
+        'Nubs\\RandomNameGenerator\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nubs/random-name-generator/src',
+        ),
         'Dollie\\Core\\' => 
         array (
             0 => __DIR__ . '/../..' . '/core',

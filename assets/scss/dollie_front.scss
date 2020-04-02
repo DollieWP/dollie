@@ -36,7 +36,7 @@
   }
 
   .acf-hide-title {
-    .acf-label {
+     > .acf-label {
       display: none;
     }
   }
@@ -44,6 +44,15 @@
   .acf-opacity-1 {
     .acf-input {
       opacity: 1 !important;
+    }
+  }
+
+  .acf-border-0  {
+    > .acf-label {
+      display: none;
+    }
+    .acf-input .acf-fields {
+      border: 0;
     }
   }
 }
