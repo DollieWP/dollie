@@ -202,21 +202,28 @@ class Plugin extends Singleton {
 			return;
 		}
 
-		if ( Api::get_token() ) {
+		if ( Api::get_auth_token() && Api::get_auth_token_status() ) {
 			return;
 		}
+
+		// todo: set cron for token refresh
 
 		?>
         <div class="notice dollie-notice">
             <div class="dollie-inner-message">
                 <img width="60" src="<?php echo esc_url( DOLLIE_URL . 'assets/img/active.png' ); ?>">
                 <div class="dollie-message-center">
-                    <p><?php _e( 'Dollie is almost ready to go! Please authenticate this installation so that you can start launching your first (customer) sites using Dollie!', DOLLIE_DOMAIN ); ?></p>
+					<?php if ( Api::get_auth_token() && ! Api::get_auth_token_status() ) : ?>
+                        <p><?php _e( 'Your Dollie token has expired! Please reauthenticate this installation to continue using Dollie!', DOLLIE_DOMAIN ); ?></p>
+					<?php else: ?>
+                        <p><?php _e( 'Dollie is almost ready to go! Please authenticate this installation so that you can start launching your first (customer) sites using Dollie!', DOLLIE_DOMAIN ); ?></p>
+					<?php endif; ?>
                 </div>
 
                 <div class="dollie-msg-button-right">
 					<?php
-					printf( '<a href="https://partners.getdollie.com/customer-login/">%s</a>',
+					printf( '<a href="%s">%s</a>',
+						'https://partners.getdollie.com/auth/?redirect_back=' . urlencode( get_admin_url() ),
 						__( 'Click here', DOLLIE_DOMAIN ) );
 					?>
                 </div>

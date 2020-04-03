@@ -122,8 +122,16 @@ class Api extends Singleton {
 		return $answer['body'];
 	}
 
-	public static function get_token() {
+	public static function get_auth_token() {
 		return get_option( 'dollie_auth_token' );
+	}
+
+	public static function get_auth_refresh_token() {
+		return get_option( 'dollie_auth_refresh_token' );
+	}
+
+	public static function get_auth_token_status() {
+		return get_option( 'dollie_auth_token_status', '0' );
 	}
 
 }
