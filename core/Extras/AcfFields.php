@@ -1516,7 +1516,7 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key'               => 'field_5b0eaaa52ec57',
-				'label'             => 'Stop Container at..',
+				'label'             => 'Stop Site at..',
 				'name'              => 'wpd_stop_container_at',
 				'type'              => 'text',
 				'instructions'      => '',
@@ -1535,7 +1535,7 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key'               => 'field_5b0eacb73940a',
-				'label'             => 'Containers undeployed?',
+				'label'             => 'Sites undeployed?',
 				'name'              => 'wpd_all_containers_undeployed',
 				'type'              => 'text',
 				'instructions'      => '',
