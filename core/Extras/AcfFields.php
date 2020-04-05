@@ -6,7 +6,7 @@
 		'fields'                => array(
 			array(
 				'key'               => 'field_5adc6aca0a0b4',
-				'label'             => 'API Setup',
+				'label'             => 'Core',
 				'name'              => '',
 				'type'              => 'tab',
 				'instructions'      => '',
@@ -144,7 +144,7 @@
 			),
 			array(
 				'key'               => 'field_5e5557cda4c7b',
-				'label'             => 'Page Setup',
+				'label'             => 'Pages',
 				'name'              => '',
 				'type'              => 'tab',
 				'instructions'      => '',
@@ -709,33 +709,6 @@ This is the default screenshot image shown on the site details header. It is onl
 				'layout'            => 'vertical',
 				'toggle'            => 0,
 				'return_format'     => 'array',
-			),
-			array(
-				'key'               => 'field_586f9fb413fd3',
-				'label'             => 'Help Scout Beacon ID',
-				'name'              => 'help_scout_beacon_id',
-				'type'              => 'text',
-				'instructions'      => 'If you are using the Help Scout Docs you can enable a Beacon to provide your customers with easy access to your knowledge base articles.',
-				'required'          => 0,
-				'conditional_logic' => array(
-					array(
-						array(
-							'field'    => 'field_586f9f2513fd2',
-							'operator' => '==',
-							'value'    => 'helpscout',
-						),
-					),
-				),
-				'wrapper'           => array(
-					'width' => '',
-					'class' => '',
-					'id'    => '',
-				),
-				'default_value'     => '',
-				'placeholder'       => '',
-				'prepend'           => '',
-				'append'            => '',
-				'maxlength'         => '',
 			),
 			array(
 				'key'               => 'field_5b094d86fe6e8',
