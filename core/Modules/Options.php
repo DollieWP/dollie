@@ -264,7 +264,7 @@ class Options extends Singleton {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => __( 'View Containers' ),
+				'title'  => __( 'View Sites' ),
 				'id'     => 'dab-site',
 				'href'   => get_admin_url() . 'edit.php?post_type=container',
 				'meta'   => [ 'target' => '' ],

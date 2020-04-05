@@ -94,7 +94,7 @@ msgid "Parent Container:"
 msgstr ""
 
 #: core/Modules/ContainerManagement.php:52, core/Modules/ContainerManagement.php:59
-msgid "View Containers"
+msgid "View Sites"
 msgstr ""
 
 #: core/Modules/ContainerManagement.php:53
