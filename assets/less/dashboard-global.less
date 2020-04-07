@@ -6,13 +6,19 @@
   }
 }
 
+.notice.dollie-notice {
+  z-index: initial;
+}
+
 body.toplevel_page_wpd_platform_setup {
   #wpfooter {
     display: none;
   }
+
   .postbox .inside {
     padding: 0 12px 12px;
   }
+
   background: #fff;
   @media only screen and (min-width: 768px) {
     .postbox {
@@ -70,6 +76,7 @@ body.toplevel_page_wpd_platform_setup {
       .handlediv {
         display: none;
       }
+
       // Custom Fixed Header on Desktops
       .acf-settings-wrap h1 {
         position: fixed;
@@ -150,6 +157,7 @@ body.toplevel_page_wpd_platform_setup {
         text-align: center;
         text-transform: uppercase;
         letter-spacing: 3px;
+
         &:hover {
           background: #333;
           text-shadow: none;
@@ -159,6 +167,7 @@ body.toplevel_page_wpd_platform_setup {
       .wp-core-ui .notice.is-dismissible {
         top: 79px !important;
       }
+
       // The Actual Content Area
       #poststuff {
         padding-top: 85px;
