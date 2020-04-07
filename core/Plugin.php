@@ -47,6 +47,8 @@ class Plugin extends Singleton {
 		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
 
 		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
+
+		add_action( 'admin_notices', [ $this, 'check_auth_admin_notice' ] );
 	}
 
 	/**
@@ -75,7 +77,6 @@ class Plugin extends Singleton {
 	 * Initialize modules and shortcodes
 	 */
 	public function initialize() {
-
 		// Load modules
 		Forms::instance();
 		AccessControl::instance();
@@ -98,12 +99,10 @@ class Plugin extends Singleton {
 		Shortcodes\Orders::instance();
 		Shortcodes\Sites::instance();
 
-
 		/**
 		 * Allow developers to hook after dollie finished initialization
 		 */
 		do_action( 'dollie/initialized' );
-
 	}
 
 	/**
@@ -112,7 +111,6 @@ class Plugin extends Singleton {
 	public function acf_add_local_field_groups() {
 		require DOLLIE_PATH . 'core/Extras/AcfFields.php';
 		require DOLLIE_PATH . 'core/Extras/AcfFormFields.php';
-
 	}
 
 
@@ -199,6 +197,39 @@ class Plugin extends Singleton {
 		wp_reset_query();
 	}
 
+	public function check_auth_admin_notice() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
 
+		if ( Api::get_auth_token() && Api::get_auth_token_status() ) {
+			return;
+		}
+
+		// todo: set cron for token refresh
+
+		?>
+        <div class="notice dollie-notice">
+            <div class="dollie-inner-message">
+                <img width="60" src="<?php echo esc_url( DOLLIE_URL . 'assets/img/active.png' ); ?>">
+                <div class="dollie-message-center">
+					<?php if ( Api::get_auth_token() && ! Api::get_auth_token_status() ) : ?>
+                        <p><?php _e( 'Your Dollie token has expired! Please reauthenticate this installation to continue using Dollie!', DOLLIE_DOMAIN ); ?></p>
+					<?php else: ?>
+                        <p><?php _e( 'Dollie is almost ready to go! Please authenticate this installation so that you can start launching your first (customer) sites using Dollie!', DOLLIE_DOMAIN ); ?></p>
+					<?php endif; ?>
+                </div>
+
+                <div class="dollie-msg-button-right">
+					<?php
+					printf( '<a href="%s">%s</a>',
+						'https://partners.getdollie.com/auth/?redirect_back=' . urlencode( get_admin_url() ),
+						__( 'Click here', DOLLIE_DOMAIN ) );
+					?>
+                </div>
+            </div>
+        </div>
+		<?php
+	}
 
 }

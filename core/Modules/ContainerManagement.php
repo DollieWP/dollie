@@ -418,6 +418,8 @@ class ContainerManagement extends Singleton {
 			}
 		}
 
+		flush_rewrite_rules();
+
 		return $containers;
 	}
 
