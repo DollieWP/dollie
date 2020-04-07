@@ -216,8 +216,8 @@ class Plugin extends Singleton {
 					<?php if ( Api::get_auth_token() && ! Api::get_auth_token_status() ) : ?>
                         <p><?php _e( 'Your Dollie token has expired! Please reauthenticate this installation to continue using Dollie!', DOLLIE_DOMAIN ); ?></p>
 					<?php else: ?>
-						<h3>Dollie is almost ready...</h3>
-                        <p><?php _e( 'Dollie is almost ready to go! Please authenticate this installation so that you can start launching your first (customer) sites using Dollie!', DOLLIE_DOMAIN ); ?></p>
+                        <h3><?php esc_html_e( 'Dollie is almost ready...', 'dollie' ); ?> </h3>
+                        <p><?php _e( 'Please authenticate this installation so that you can start launching your first (customer) sites using Dollie!', DOLLIE_DOMAIN ); ?></p>
 					<?php endif; ?>
                 </div>
 
