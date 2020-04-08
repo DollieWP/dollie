@@ -64,7 +64,12 @@ class Api extends Singleton {
 
 		do_action( 'dollie/api/' . $endpoint . '/before', 'get' );
 
-		$call = wp_remote_get( self::API_URL . $endpoint );
+		$call = wp_remote_get( self::API_URL . $endpoint, [
+			'headers' => [
+				'Accept'        => 'application/json',
+				'Authorization' => self::get_auth_token()
+			]
+		] );
 
 		do_action( 'dollie/api/' . $endpoint . '/after', 'get' );
 
@@ -88,7 +93,8 @@ class Api extends Singleton {
 			'method'  => 'POST',
 			'body'    => $data,
 			'headers' => [
-				'Accept' => 'application/json'
+				'Accept'        => 'application/json',
+				'Authorization' => self::get_auth_token()
 			]
 		] );
 
@@ -132,6 +138,11 @@ class Api extends Singleton {
 
 	public static function get_auth_token_status() {
 		return get_option( 'dollie_auth_token_status', '0' );
+	}
+
+	public static function update_auth_token( $token ) {
+		update_option( 'dollie_auth_token', $token );
+		update_option( 'dollie_auth_token_status', '1' );
 	}
 
 }
