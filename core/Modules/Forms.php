@@ -141,7 +141,7 @@ class Forms extends Singleton {
 				$message .= "
 				redirect_to_site=true|false - Redirect to created site after submit
 				site_blueprint=ID - Force a default blueprint for the created site
-				splash_template='path-to-splash-template' - Show a splash template on submit
+				splash_template='path-to-splash-template' - Show a splash template on submit. Theme override location theme-name/dollie/tpl-name
 				display_title=true|false
 				display_description=true|false
 				submit_text='Submit'
