@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
+use Dollie\Core\Utils\Tpl;
 
 /**
  * Class Options
@@ -71,7 +72,9 @@ class Options extends Singleton {
                             The Site Manager
                         </h3>
                         <p>
-                            Below you'll find all of your sites launched by you and your customers. Click on a site for a quick overview of the WordPress installation or to access various management tools and create
+                            Below you'll find all of your sites launched by you and your customers. Click on a site for
+                            a quick overview of the WordPress installation or to access various management tools and
+                            create
                             re-usable Blueprints with the click of a button.
                         </p>
                     </div>
@@ -110,6 +113,7 @@ class Options extends Singleton {
 		);
 
 		add_action( 'admin_menu', [ $this, 'dollie_tools' ], 99 );
+		add_action( 'admin_menu', [ $this, 'dollie_api' ], 99 );
 		add_action( 'admin_menu', [ $this, 'dollie_integrations' ], 99 );
 		add_filter( 'admin_body_class', [ $this, 'add_staging_body_class' ] );
 	}
@@ -344,6 +348,17 @@ class Options extends Singleton {
 		}
 	}
 
+	public function dollie_api() {
+		add_submenu_page(
+			'wpd_platform_setup',
+			'Api',
+			'API',
+			'manage_options',
+			'wpd_api',
+			[ $this, 'dollie_api_content' ]
+		);
+	}
+
 	public function dollie_integrations() {
 		add_submenu_page(
 			'wpd_platform_setup',
@@ -358,50 +373,19 @@ class Options extends Singleton {
 	}
 
 	public function dollie_tools_content() {
-		// Markup for synchronize button.
-		echo '<div class="dollie-notice">
-				<h1><span class="dashicons dashicons-admin-tools"></span>Dollie Tools</h1>
-			</div>
-			<div>
-				<br><br>
-				<label><strong>Synchronize Your Deployed Containers</strong></label><br><br>
-				<form method="post"><input type="submit" name="synchronize" class="button" value="Start Sync!" /></form>
-				<p>By clicking the button below you can synchronize all containers that have been deployed through this installation. This is especially useful if you have accidentally lost data or simply wanted to re-import your deployed containers in a fresh Dollie installation.</p>
-			</div>';
+		$containers = [];
 
-		// If synchronize button is clicked then call the function to perform task.
 		if ( array_key_exists( 'synchronize', $_POST ) ) {
 			$containers = ContainerManagement::instance()->sync_containers();
-
-			if ( ! empty( $containers ) ) {
-
-				// Display Synchronized container's details.
-				echo 'Synchronized ' . count( $containers ) . ' containers<br><br><br>';
-
-				echo '<table>';
-				echo '<tr>' .
-				     '<th>Name</th>' .
-				     '<th>URL</th>' .
-				     '<th>Status</th>' .
-				     '</tr>';
-
-				foreach ( $containers as $container ) {
-					$full_url        = parse_url( $container['uri'] );
-					$stripped_domain = explode( '.', $full_url['host'] );
-					$name            = $stripped_domain[0];
-
-					echo '<tr>
-						<td>' . $name . '</td>
-						<td>' . $container['uri'] . '</td>
-						<td>' . $container['status'] . '</td>
-					</tr>';
-				}
-				echo '</table>';
-			} else {
-				echo '<p>No containers found to be synchronized.</p>';
-			}
-
 		}
+
+		Tpl::load( DOLLIE_MODULE_TPL_PATH . 'admin/tools-page', [ 'containers' => $containers ], true );
+	}
+
+	public function dollie_api_content() {
+		var_dump( $_POST ); die();
+
+		Tpl::load( DOLLIE_MODULE_TPL_PATH . 'admin/api-page', [], true );
 	}
 
 	public function add_staging_body_class( $classes ) {
