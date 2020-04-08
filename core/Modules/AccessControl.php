@@ -27,11 +27,6 @@ class AccessControl extends Singleton {
 		add_filter( 'wp_dropdown_users_args', [ $this, 'allow_all_authors' ], 10, 2 );
 		add_action( 'admin_init', [ $this, 'no_admin_access' ], 100 );
 
-		// TODO Maybe remove it completly
-		// add_action( 'admin_init', [ $this, 'add_hidden_fields' ] );
-
-		add_action( 'wp', [ $this, 'block_access' ] );
-
 		if ( ! defined( 'DOLLIE_DEV' ) || ! DOLLIE_DEV ) {
 			add_action( 'user_has_cap', [ $this, 'restrict_form_delete' ], 10, 3 );
 		}
@@ -49,15 +44,29 @@ class AccessControl extends Singleton {
 	}
 
 	public function logged_in_only() {
-		if ( ! is_user_logged_in() && ( is_singular( 'container' ) || is_page( 'dashboard' ) ) ) {
-			wp_redirect( get_permalink( dollie()->get_login_page_id() ) );
+		$login_id = dollie()->get_login_page_id();
+		$dash_id  = dollie()->get_dashboard_page_id();
+
+		if ( ! $login_id ) {
+			return;
+		}
+
+		if ( ! is_user_logged_in() && ( is_singular( 'container' ) || ( $dash_id && is_page( $dash_id ) ) ) ) {
+			wp_redirect( get_permalink( $login_id ) );
 			exit;
 		}
 	}
 
 	public function protect_launch_site() {
-		if ( ! is_user_logged_in() && is_page( dollie()->get_launch_page_id() ) ) {
-			wp_redirect( get_permalink( dollie()->get_dashboard_page_id() ) );
+		$launch_id = dollie()->get_launch_page_id();
+		$dash_id   = dollie()->get_dashboard_page_id();
+
+		if ( ! $launch_id || ! $dash_id ) {
+			return;
+		}
+
+		if ( ! is_user_logged_in() && is_page( $launch_id ) ) {
+			wp_redirect( get_permalink( $dash_id ) );
 			exit();
 		}
 	}
@@ -67,7 +76,7 @@ class AccessControl extends Singleton {
 		if ( ! current_user_can( 'manage_options' ) ) {
 
 			if ( is_post_type_archive( 'container' ) ) {
-				wp_redirect( get_site_url() . '/' );
+				wp_redirect( get_site_url( null, '/' ) );
 				exit();
 			}
 
@@ -75,7 +84,7 @@ class AccessControl extends Singleton {
 
 			// Is site owner?
 			if ( $post->post_author !== $current_user->ID && is_singular( 'container' ) ) {
-				wp_redirect( get_site_url() . '/' );
+				wp_redirect( get_site_url( null, '/' ) );
 				exit();
 			}
 
@@ -94,16 +103,31 @@ class AccessControl extends Singleton {
 	}
 
 	public function no_admin_access() {
-		$redirect = home_url( '/dashboard' );
+		$dash_id = dollie()->get_dashboard_page_id();
+
+		if ( ! $dash_id ) {
+			return;
+		}
+
 		if ( ! current_user_can( 'manage_options' ) && ! wp_doing_ajax() ) {
+			$redirect = get_permalink( $dash_id );
 			wp_redirect( $redirect );
 			exit();
 		}
 	}
 
+	/**
+	 * Restrict deletion for Dollie forms
+	 *
+	 * @param $allcaps
+	 * @param $caps
+	 * @param $args
+	 *
+	 * @return mixed
+	 */
 	public function restrict_form_delete( $allcaps, $caps, $args ) {
 
-		if ( isset( $args[0], $args[2] ) && $args[0] === 'delete_post'  ) {
+		if ( isset( $args[0], $args[2] ) && $args[0] === 'delete_post' ) {
 
 			$form = af_get_form( $args[2] );
 
@@ -116,72 +140,6 @@ class AccessControl extends Singleton {
 
 		return $allcaps;
 
-	}
-
-	public function add_hidden_fields() {
-		if ( ! class_exists( \GFAPI::class ) ) {
-			return;
-		}
-
-		$hidden_fields = [
-			'14' => 'dollie-launch',
-			'5'  => 'dollie-support',
-			'17' => 'dollie-updates',
-			'11' => 'dollie-list-backups',
-			'12' => 'dollie-create-backup',
-			'13' => 'dollie-blueprint',
-			'6'  => 'dollie-wizard',
-			'10' => 'dollie-domain',
-		];
-		/* TODO MAP existing form IDS from Panel */
-		$hidden_fields = apply_filters( 'dollie_gravity_forms_hidden_fields', $hidden_fields );
-
-		foreach ( $hidden_fields as $form_id => $field_label ) {
-			// Get the form object.
-			$form = \GFAPI::get_form( $form_id );
-
-			if ( ! $form ) {
-				continue;
-			}
-
-			// Get next available field ID.
-			$new_field_id = 0;
-			$field_exists = 0;
-			foreach ( $form['fields'] as $field ) {
-				if ( $field->id > $new_field_id ) {
-					$new_field_id = $field->id;
-				}
-
-				if ( $field->label == $field_label ) {
-					$field_exists = 1;
-				}
-			}
-			$new_field_id ++;
-
-			// Check if the field exist already then don't add again.
-			if ( $field_exists ) {
-				continue;
-			}
-
-			// Create new field object.
-			$properties['type']  = 'hidden';
-			$properties['id']    = $new_field_id;
-			$properties['label'] = $field_label;
-			$field               = \GF_Fields::create( $properties );
-
-			// Add the new field to the form and update form.
-			$form['fields'][] = $field;
-			\GFAPI::update_form( $form );
-		}
-	}
-
-	public function block_access() {
-		if ( function_exists( 'bp_is_active' ) && ! current_user_can( 'edit_published_posts' ) ) {
-			if ( bp_is_members_directory() || bp_is_groups_directory() || bp_is_current_action( 'members' ) ) {
-				wp_redirect( get_site_url() );
-				exit();
-			}
-		}
 	}
 
 }
