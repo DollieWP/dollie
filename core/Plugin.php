@@ -235,7 +235,7 @@ class Plugin extends Singleton {
 	}
 
 	public function save_api_token() {
-		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'save_api_token_nonce' ) ) {
+		if ( $_POST['action'] !== 'save_api_token' ) {
 			return false;
 		}
 
