@@ -383,8 +383,6 @@ class Options extends Singleton {
 	}
 
 	public function dollie_api_content() {
-		var_dump( $_POST ); die();
-
 		Tpl::load( 'admin/api-page', [], true );
 	}
 
