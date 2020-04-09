@@ -380,7 +380,7 @@ class Options extends Singleton {
 			$containers = ContainerManagement::instance()->sync_containers();
 		}
 
-		Tpl::load( DOLLIE_MODULE_TPL_PATH . 'admin/tools-page', [ 'containers' => $containers ], true );
+		Tpl::load( 'admin/tools-page', [ 'containers' => $containers ], true );
 	}
 
 	public function dollie_api_content() {
@@ -395,7 +395,7 @@ class Options extends Singleton {
 			wp_redirect( admin_url( 'admin.php?page=wpd_api' ) );
 		}
 
-		Tpl::load( DOLLIE_MODULE_TPL_PATH . 'admin/api-page', [], true );
+		Tpl::load( 'admin/api-page', [], true );
 	}
 
 	public function add_staging_body_class( $classes ) {

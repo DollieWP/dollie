@@ -109,7 +109,6 @@ class AfterLaunchWizard extends Singleton {
 
 	public function change_form_args( $args ) {
 
-		$args['redirect']    = add_query_arg( 'site', 'new', $args['redirect'] );
 		$args['submit_text'] = esc_html__( 'Complete Setup!', 'dollie' );
 
 		return $args;

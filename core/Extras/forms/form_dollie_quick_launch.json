@@ -6,6 +6,9 @@
         "success_message": "<div class=\"blockquote-box blockquote-success clearfix\">\n   \t\t <div class=\"square pull-left\">\n   \t\t\t\t <i class=\"fa fa-rocket\"><\/i>\n   \t\t <\/div>\n   \t\t <h4>Awesome, your site is launched!<\/h4>\n   \t\t <p><br \/>\nGo ahead and <a href=\"{dollie_container_login_url}\" target=\"_blank\" rel=\"noopener\">check it out<\/a><br \/>\n<\/p>\n    <\/div>\n"
     },
     "create_entries": false,
+    "splash_template": "launch-splash",
+    "site_blueprint": false,
+    "redirect_to_site": false,
     "restrictions": {
         "entries": false,
         "user": false,

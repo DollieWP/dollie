@@ -49,6 +49,15 @@ class Forms extends Singleton {
 
 		add_filter( 'acf/load_field', [ $this, 'localize_strings' ] );
 		add_action( 'af/form/hidden_fields', [ $this, 'hidden_fields' ], 10, 2 );
+		add_filter( 'af/form/settings_fields', array( $this, 'add_form_settings_fields' ), 0, 1 );
+
+		// Custom form fields
+		add_filter( 'af/form/valid_form', array( $this, 'add_custom_field_defaults' ), 10, 1 );
+		add_filter( 'af/form/from_post', array( $this, 'form_from_post' ), 10, 2 );
+		add_filter( 'af/form/to_post', array( $this, 'form_to_post' ), 10, 2 );
+		add_filter( 'af/form/after_fields', [ $this, 'add_splash_template' ], 10, 2 );
+		add_filter( 'af/form/args', [ $this, 'change_form_args' ], 10, 2 );
+
 
 	}
 
@@ -125,13 +134,312 @@ class Forms extends Singleton {
 		global $post;
 
 		if ( $post && $key = get_post_meta( $post->ID, 'form_key', true ) ) {
-			if (strpos( $key, 'form_dollie'  ) !== false) {
+			if ( strpos( $key, 'form_dollie' ) !== false ) {
 				$message = sprintf( '<code>[dollie_form form="%s"]</code>', $key );
+
+				$message .= "<p class='description'>" . esc_html__( 'Possible shortcode attributes: ', 'dollie' ) . '<br>';
+				$message .= "
+				redirect_to_site=true|false - Redirect to created site after submit
+				site_blueprint=ID - Force a default blueprint for the created site
+				splash_template='path-to-splash-template' - Show a splash template on submit. Theme override location theme-name/dollie/tpl-name
+				display_title=true|false
+				display_description=true|false
+				submit_text='Submit'
+				label_placement=top|bottom
+				instruction_placement=label|field</p>";
+
 				$field['message'] = $message;
 			}
 		}
 
 		return $field;
+	}
+
+
+	public function add_custom_field_defaults( $form ) {
+
+		$form['splash_template']  = false;
+		$form['site_blueprint']   = false;
+		$form['redirect_to_site'] = false;
+
+		return $form;
+	}
+
+	/**
+	 * Add any settings to form object for forms loaded from posts
+	 *
+	 */
+	function form_from_post( $form, $post ) {
+		$site_blueprint   = get_field( 'site_blueprint', $post->ID );
+		$redirect_to_site = get_field( 'form_redirect_to_site', $post->ID );
+
+		$splash_template = get_field( 'field_form_splash_template', $post->ID );
+		if ( $splash_template ) {
+			$form['splash_template'] = $splash_template;
+		}
+
+		if ( $site_blueprint ) {
+			$form['site_blueprint'] = $site_blueprint;
+		}
+
+		if ( $redirect_to_site ) {
+			$form['redirect_to_site'] = $redirect_to_site;
+		}
+
+		return $form;
+	}
+
+	function form_to_post( $form, $post ) {
+		update_field( 'field_form_splash_template', $form['splash_template'], $post->ID );
+		update_field( 'field_form_site_blueprint', $form['site_blueprint'], $post->ID );
+		update_field( 'field_form_redirect_to_site', $form['redirect_to_site'], $post->ID );
+	}
+
+	public function add_splash_template( $form, $args ) {
+
+		$splash_template = $this->get_form_arg( 'splash_template', $form, $args );
+
+		if ( $splash_template ) {
+			Tpl::load( $splash_template, [], true );
+		}
+	}
+
+	public function change_form_args( $args, $form ) {
+
+		$redirect = $this->get_form_arg( 'redirect_to_site', $form, $args );
+
+		if ( $redirect == true ) {
+			$args['redirect'] = add_query_arg( 'site', 'new', $args['redirect'] );
+		}
+
+		return $args;
+	}
+
+	public function get_form_arg( $name, $form, $args ) {
+		return isset( $args[ $name ] ) ? $args[ $name ] : $form[ $name ];
+	}
+
+
+	/**
+	 * Add form settings for restrictions
+	 *
+	 * @since 1.0.3
+	 */
+	function add_form_settings_fields() {
+
+		$field_group = array(
+			'key'                   => 'group_form_settings',
+			'title'                 => __( 'Form settings', 'advanced-forms' ),
+			'fields'                => array(
+				array(
+					'key'               => 'field_form_display_tab',
+					'label'             => '<span class="dashicons dashicons-visibility"></span>' . __( 'Display', 'advanced-forms' ),
+					'name'              => '',
+					'type'              => 'tab',
+					'instructions'      => '',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'placement'         => 'left',
+					'endpoint'          => 0,
+				),
+				array(
+					'key'   => 'field_form_shortcode_message',
+					'label' => __( 'Shortcode', 'advanced-forms' ),
+					'name'  => 'form_shortcode_message',
+					'type'  => 'message',
+				),
+				array(
+					'key'               => 'field_form_description',
+					'label'             => __( 'Description', 'advanced-forms' ),
+					'name'              => 'form_description',
+					'type'              => 'textarea',
+					'instructions'      => '',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'default_value'     => '',
+					'tabs'              => 'all',
+					'toolbar'           => 'full',
+					'media_upload'      => 1,
+				),
+
+
+				// Splash template
+				array(
+					'key'               => 'field_form_splash_template',
+					'label'             => __( 'Splash template', 'advanced-forms' ),
+					'name'              => 'form_splash_template',
+					'type'              => 'text',
+					'instructions'      => 'Enter a custom Splash template path',
+					'required'          => 0,
+					'placeholder'       => '',
+					'conditional_logic' => 0,
+					'wrapper'           => array(
+						'width' => '50',
+						'class' => '',
+						'id'    => '',
+					),
+					'ui'                => true,
+				),
+
+				//blueprint
+				array(
+					'key'               => 'field_form_site_blueprint',
+					'label'             => 'Select a Blueprint (optional)',
+					'name'              => 'site_blueprint',
+					'type'              => 'radio',
+					'instructions'      => esc_html__( 'Force a default blueprint to use for the launched site', 'dollie' ),
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'hide_admin'        => 0,
+					'choices'           => array(),
+					'allow_null'        => 0,
+					'other_choice'      => 0,
+					'default_value'     => '',
+					'layout'            => 'vertical',
+					'return_format'     => 'value',
+					'save_other_choice' => 0,
+				),
+
+				//redirect to container YES/NO
+				array(
+					'key'           => 'field_form_redirect_to_site',
+					'label'         => __( 'Redirect to container', 'dollie' ),
+					'name'          => 'form_redirect_to_site',
+					'type'          => 'true_false',
+					'instructions'  => __( 'Redirect to container page on form submit. Success Message will be ignored', 'dollie' ),
+					'required'      => 0,
+					'placeholder'   => '',
+					'wrapper'       => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'ui'            => true,
+					'default_value' => 0,
+				),
+				array(
+					'key'               => 'field_form_success_message',
+					'label'             => __( 'Success message', 'advanced-forms' ),
+					'name'              => 'form_success_message',
+					'type'              => 'wysiwyg',
+					'instructions'      => __( 'The message displayed after a successful submission.', 'advanced-forms' ),
+					'required'          => 0,
+					'conditional_logic' => array(
+						array(
+							array(
+								'field'    => 'field_form_redirect_to_site',
+								'operator' => '==',
+								'value'    => '0',
+							),
+						),
+					),
+					'wrapper'           => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'default_value'     => '',
+					'tabs'              => 'all',
+					'toolbar'           => 'full',
+					'media_upload'      => 1,
+				),
+				array(
+					'key'               => 'field_form_statistics_tab',
+					'label'             => '<span class="dashicons dashicons-chart-bar"></span>' . __( 'Statistics', 'advanced-forms' ),
+					'name'              => '',
+					'type'              => 'tab',
+					'instructions'      => '',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'placement'         => 'left',
+					'endpoint'          => 0,
+				),
+				array(
+					'key'               => 'field_form_num_of_submissions',
+					'label'             => __( 'Number of submissions', 'advanced-forms' ),
+					'name'              => 'form_num_of_submissions',
+					'type'              => 'number',
+					'instructions'      => '',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => array(
+						'width' => '50',
+						'class' => '',
+						'id'    => '',
+					),
+					'default_value'     => 0,
+					'placeholder'       => '',
+					'prepend'           => '',
+					'append'            => '',
+					'min'               => '',
+					'max'               => '',
+					'step'              => '',
+					'readonly'          => true,
+				),
+				array(
+					'key'               => 'field_form_num_of_views',
+					'label'             => __( 'Number of times viewed', 'advanced-forms' ),
+					'name'              => 'form_num_of_views',
+					'type'              => 'number',
+					'instructions'      => '',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => array(
+						'width' => '50',
+						'class' => '',
+						'id'    => '',
+					),
+					'default_value'     => 0,
+					'placeholder'       => '',
+					'prepend'           => '',
+					'append'            => '',
+					'min'               => '',
+					'max'               => '',
+					'step'              => '',
+					'readonly'          => true,
+				),
+			),
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'post_type',
+						'operator' => '==',
+						'value'    => 'af_form',
+					),
+				),
+			),
+			'menu_order'            => 0,
+			'position'              => 'normal',
+			'style'                 => 'default',
+			'label_placement'       => 'top',
+			'instruction_placement' => 'label',
+			'hide_on_screen'        => '',
+			'active'                => 1,
+			'description'           => '',
+		);
+
+		return $field_group;
+
 	}
 
 	public function blockquote_shortcode( $atts = [], $content = '' ) {
@@ -223,7 +531,7 @@ class Forms extends Singleton {
 
 			$hostname = preg_replace( '#^https?://#', '', $request->uri );
 
-			$tpl_migration_instructions = Tpl::load( DOLLIE_MODULE_TPL_PATH . 'migration-instructions', [
+			$tpl_migration_instructions = Tpl::load( 'migration-instructions', [
 				'post_slug' => $currentQuery->slug,
 				'request'   => $request,
 				'user'      => $user,
@@ -234,13 +542,13 @@ class Forms extends Singleton {
 			$domain = get_post_meta( $currentQuery->id, 'wpd_domains', true ) ?: '';
 			$url    = get_post_meta( $currentQuery->id, 'wpd_container_uri', true ) ?: '';
 
-			$tpl_is_migration_complete = Tpl::load( DOLLIE_MODULE_TPL_PATH . 'wizard/completed', [
+			$tpl_is_migration_complete = Tpl::load( 'wizard/completed', [
 				'has_domain'   => $domain,
 				'ip'           => $ip,
 				'platform_url' => $url,
 			] );
 
-			$tpl_link_domain = Tpl::load( DOLLIE_MODULE_TPL_PATH . 'wizard/link-domain', [
+			$tpl_link_domain = Tpl::load( 'wizard/link-domain', [
 				'has_domain'   => $domain,
 				'ip'           => $ip,
 				'platform_url' => $url,

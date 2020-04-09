@@ -20,7 +20,7 @@ class ImportForms extends Singleton {
 	 * Current plugin forms version
 	 * @var string
 	 */
-	private $forms_version = '2.9.5';
+	private $forms_version = '2.9.7';
 
 	/**
 	 * Option name that gets saved in the options database table

@@ -22,15 +22,27 @@ class Tpl {
 	 *
 	 * @return false|string|void
 	 */
-	public static function load( $path, $args = [], $echo = false ) {
-		if ( ! $path ) {
+	public static function load( $path = null, $args = [], $echo = false ) {
+		if ( ! isset( $path ) ) {
 			return;
 		}
 
+		$path = trim( $path );
+
 		extract( $args );
 
+		$template = locate_template( 'dollie/' . $path . '.php' );
+
+		if ( ! $template ) {
+			if ( file_exists( DOLLIE_MODULE_TPL_PATH . $path . '.php' ) ) {
+				$template = DOLLIE_MODULE_TPL_PATH . $path . '.php';
+			} else {
+				return '';
+			}
+		}
+
 		ob_start();
-		include( trim( $path ) . '.php' );
+		include( $template );
 
 		if ( $echo ) {
 			echo ob_get_clean();

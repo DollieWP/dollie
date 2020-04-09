@@ -6,6 +6,9 @@
         "success_message": ""
     },
     "create_entries": false,
+    "splash_template": false,
+    "site_blueprint": false,
+    "redirect_to_site": true,
     "restrictions": {
         "entries": false,
         "user": {

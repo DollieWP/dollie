@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Modules\Forms;
 use Dollie\Core\Modules\Sites\WP;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Tpl;
@@ -33,7 +34,6 @@ class QuickLaunch extends Singleton {
 	public function acf_init() {
 
 		// Form args
-		add_filter( 'af/form/after_fields/key=' . $this->form_key, [ $this, 'add_modal_data' ], 10, 2 );
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
 		add_filter( 'af/field/before_render', [ $this, 'modify_fields' ], 10, 3 );
@@ -48,7 +48,7 @@ class QuickLaunch extends Singleton {
 		$domain    = strtolower( str_replace( ' ', '-', $generator->getName() ) );
 
 		$email     = af_get_field( 'client_email' );
-		$blueprint = isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : false;
+		$blueprint = isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : Forms::instance()->get_form_arg( 'site_blueprint', $form, $args );;
 		$demo      = esc_url_raw( get_site_url() );
 
 		// If we allow registration and not logged in - create account
@@ -101,12 +101,7 @@ class QuickLaunch extends Singleton {
 
 	}
 
-	public function add_modal_data() {
-		Tpl::load( DOLLIE_MODULE_TPL_PATH . 'launch-splash', [], true );
-	}
-
 	public function change_form_args( $args ) {
-		// $args['redirect']    = add_query_arg( 'site', 'new', $args['redirect'] );
 		$args['submit_text'] = esc_html__( 'Launch New Site', 'dollie' );
 
 		return $args;
