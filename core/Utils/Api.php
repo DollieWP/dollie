@@ -140,8 +140,30 @@ class Api extends Singleton {
 		return get_option( 'dollie_auth_token_status', '0' );
 	}
 
-	public static function update_auth_token( $token ) {
-		update_option( 'dollie_auth_token', $token );
+	public static function update_auth_tokens( $data ) {
+		if ( isset( $data['access_token'] ) ) {
+			update_option( 'dollie_auth_token', $data['access_token'] );
+		}
+		if ( isset( $data['id_token'] ) ) {
+			update_option( 'dollie_auth_id_token', $data['id_token'] );
+		}
+
+		if ( isset( $data['refresh_token'] ) ) {
+			update_option( 'dollie_auth_refresh_token', $data['refresh_token'] );
+		}
+
+		if ( isset( $data['scope'] ) ) {
+			update_option( 'dollie_auth_scope', $data['scope'] );
+		}
+
+		if ( isset( $data['token_type'] ) ) {
+			update_option( 'dollie_auth_token_type', $data['token_type'] );
+		}
+
+		if ( isset( $data['expires_in'] ) ) {
+			update_option( 'dollie_auth_expire', $data['expires_in'] );
+		}
+
 		update_option( 'dollie_auth_token_status', '1' );
 	}
 

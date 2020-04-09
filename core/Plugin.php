@@ -49,7 +49,6 @@ class Plugin extends Singleton {
 		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
 
 		add_action( 'admin_notices', [ $this, 'check_auth_admin_notice' ] );
-		add_action( 'wp_ajax_nopriv_save_api_token', [ $this, 'save_api_token' ] );
 	}
 
 	/**
@@ -225,23 +224,13 @@ class Plugin extends Singleton {
                 <div class="dollie-msg-button-right">
 					<?php
 					printf( '<a href="%s">%s</a>',
-						'https://oauth2.staging.str5.net/hydra-public/oauth2/auth?client_id=dollie-wp-plugin&redirect_uri=https%3A%2F%2Fpartners.getdollie.com%2Fcallback&response_type=code&scope=offline+api.read&state=' . substr( md5( uniqid( mt_rand(), true ) ), 0, 10 ) . '&redirect_origin=' . urlencode( admin_url( 'admin.php?page=wpd_api' ) ) . '&api_url=' . urlencode( admin_url( 'admin-ajax.php' ) ),
+						'https://oauth2.staging.str5.net/hydra-public/oauth2/auth?client_id=dollie-wp-plugin&redirect_uri=https%3A%2F%2Fpartners.getdollie.com%2Fcallback&response_type=code&scope=offline+api.read&state=' . substr( md5( uniqid( mt_rand(), true ) ), 0, 10 ) . '&redirect_origin=' . urlencode( admin_url( 'admin.php?page=wpd_api' ) ),
 						__( 'Click here', DOLLIE_DOMAIN ) );
 					?>
                 </div>
             </div>
         </div>
 		<?php
-	}
-
-	public function save_api_token() {
-		if ( $_POST['action'] !== 'save_api_token' ) {
-			return false;
-		}
-
-		Api::update_auth_token( $_POST['access_token'] );
-
-		return true;
 	}
 
 }

@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
+use Dollie\Core\Utils\Api;
 use Dollie\Core\Utils\Tpl;
 
 /**
@@ -383,6 +384,17 @@ class Options extends Singleton {
 	}
 
 	public function dollie_api_content() {
+		if ( isset( $_GET['data'] ) && $_GET['data'] ) {
+			$data = @base64_decode( $_GET['data'] );
+			$data = @json_decode( $data, true );
+
+			if ( is_array( $data ) ) {
+				Api::update_auth_tokens( $data );
+			}
+
+			wp_redirect( admin_url( 'admin.php?page=wpd_api' ) );
+		}
+
 		Tpl::load( DOLLIE_MODULE_TPL_PATH . 'admin/api-page', [], true );
 	}
 
