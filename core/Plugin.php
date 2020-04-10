@@ -224,7 +224,7 @@ class Plugin extends Singleton {
                 <div class="dollie-msg-button-right">
 					<?php
 					printf( '<a href="%s">%s</a>',
-						'https://oauth2.staging.str5.net/hydra-public/oauth2/auth?client_id=dollie-wp-plugin&redirect_uri=https%3A%2F%2Fpartners.getdollie.com%2Fcallback&response_type=code&scope=offline+api.read&state=' . substr( md5( uniqid( mt_rand(), true ) ), 0, 10 ) . '&redirect_origin=' . urlencode( admin_url( 'admin.php?page=wpd_api' ) ),
+						'https://oauth2.staging.str5.net/hydra-public/oauth2/auth?client_id=dollie-wp-plugin&redirect_uri=https%3A%2F%2Fpartners.getdollie.com%2Fcallback&response_type=code&scope=offline_access+api.read&state=' . substr( md5( uniqid( mt_rand(), true ) ), 0, 10 ) . '&redirect_origin=' . urlencode( admin_url( 'admin.php?page=wpd_api' ) ),
 						__( 'Click here', DOLLIE_DOMAIN ) );
 					?>
                 </div>
