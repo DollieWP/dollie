@@ -229,7 +229,7 @@ class Plugin extends Singleton {
 						'response_type'   => 'code',
 						'client_id'       => 'dollie-wp-plugin',
 						'redirect_uri'    => 'https://partners.getdollie.com/callback',
-						'state'           => substr( md5( uniqid( mt_rand(), true ) ), 0, 10 ),
+						'state'           => hash( 'sha256', microtime( true ) . mt_rand() . $_SERVER['REMOTE_ADDR'] ),
 						'redirect_origin' => admin_url( 'admin.php?page=wpd_api' )
 					];
 
