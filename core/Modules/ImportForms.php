@@ -41,6 +41,7 @@ class ImportForms extends Singleton {
 		'form_dollie_create_backup',
 		'form_dollie_create_blueprint',
 		'form_dollie_domain_wizard',
+		'form_dollie_add_domain',
 		'form_dollie_plugin_updates',
 		'form_dollie_delete_site',
 		'form_dollie_performance',

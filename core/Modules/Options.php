@@ -136,13 +136,13 @@ class Options extends Singleton {
 		}
 
 		if ( $this->is_live() ) {
-			$title = 'Dollie (Live)';
+			$title = esc_html__( 'Dollie (Live)', 'dollie' );
 		} else {
-			$title = 'Dollie (Staging)';
+			$title = esc_html__( 'Dollie (Staging)', 'dollie' );
 		}
 
 		$args = [
-			'page_title'  => 'Settings',
+			'page_title'  => esc_html__( 'Settings', 'dollie' ),
 			'menu_title'  => $title,
 			'menu_slug'   => 'wpd_platform_setup',
 			'capability'  => 'manage_options',
@@ -158,12 +158,12 @@ class Options extends Singleton {
 	public function add_a_test_menu_page() {
 
 		if ( $this->is_live() ) {
-			$title = 'Dollie (Live)';
+			$title = esc_html__( 'Dollie (Live)', 'dollie' );
 		} else {
-			$title = 'Dollie (Staging)';
+			$title = esc_html__( 'Dollie (Staging)', 'dollie' );
 		}
 
-		$menu_title = 'Settings';
+		$menu_title = esc_html__( 'Settings', 'dollie' );
 		$capability = 'manage_options';
 		$position   = '75.374981';
 		$menu_slug  = 'wpd_platform_setup';
@@ -225,9 +225,9 @@ class Options extends Singleton {
 		$iconurl = DOLLIE_URL . 'assets/img/active.png';
 
 		if ( $this->is_live() ) {
-			$menu_title = 'Dollie (Live)';
+			$menu_title = esc_html__( 'Dollie (Live)', 'dollie' );
 		} else {
-			$menu_title = 'Dollie (Staging)';
+			$menu_title = esc_html__( 'Dollie (Staging)', 'dollie' );
 		}
 
 		$iconspan = '<span class="custom-icon" style="
@@ -363,8 +363,8 @@ class Options extends Singleton {
 	public function dollie_integrations() {
 		add_submenu_page(
 			'wpd_platform_setup',
-			'<span class="breaking-news-toggle">Integrations</span>',
-			'<span class="dashicons dashicons-awards"></span> Integrations',
+			'<span class="breaking-news-toggle">' . esc_html__( 'Integrations', 'dollie' ) . '</span>',
+			'<span class="dashicons dashicons-awards"></span> ' . esc_html__( 'Integrations', 'dollie' ) . '',
 			'manage_options',
 			'dollie-integrations',
 			static function () {
