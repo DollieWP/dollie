@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Modules\Forms\AddDomain;
 use Dollie\Core\Modules\Forms\CreateBackup;
 use Dollie\Core\Modules\Forms\CreateBlueprint;
 use Dollie\Core\Modules\Forms\DomainWizard;
@@ -38,6 +39,7 @@ class Forms extends Singleton {
 		ListBackups::instance();
 		CreateBlueprint::instance();
 		DomainWizard::instance();
+		AddDomain::instance();
 		PluginUpdates::instance();
 		DeleteSite::instance();
 		Performance::instance();
@@ -139,9 +141,9 @@ class Forms extends Singleton {
 
 				$message .= "<p class='description'>" . esc_html__( 'Possible shortcode attributes: ', 'dollie' ) . '<br>';
 				$message .= "
-				redirect_to_site=true|false - Redirect to created site after submit
-				site_blueprint=ID - Force a default blueprint for the created site
-				splash_template='path-to-splash-template' - Show a splash template on submit. Theme override location theme-name/dollie/tpl-name
+				redirect_to_site=true|false
+				site_blueprint=ID
+				splash_template='path-to-splash-template'
 				display_title=true|false
 				display_description=true|false
 				submit_text='Submit'
@@ -185,6 +187,8 @@ class Forms extends Singleton {
 		if ( $redirect_to_site ) {
 			$form['redirect_to_site'] = $redirect_to_site;
 		}
+
+		$form['display']['success_message'] = get_field( 'form_success_message', $post->ID, false );
 
 		return $form;
 	}
@@ -279,7 +283,7 @@ class Forms extends Singleton {
 					'label'             => __( 'Splash template', 'advanced-forms' ),
 					'name'              => 'form_splash_template',
 					'type'              => 'text',
-					'instructions'      => 'Enter a custom Splash template path',
+					'instructions'      => 'Enter a custom Splash template path to appear on form submit. Theme override location theme-name/dollie/tpl-name',
 					'required'          => 0,
 					'placeholder'       => '',
 					'conditional_logic' => 0,
@@ -291,6 +295,23 @@ class Forms extends Singleton {
 					'ui'                => true,
 				),
 
+				array(
+					'key'           => 'field_form_is_launch_site',
+					'label'         => __( 'Is it a Launch Site form?', 'dollie' ),
+					'name'          => 'form_is_launch_site',
+					'type'          => 'true_false',
+					'instructions'  => __( 'Does this form launches a new site?', 'dollie' ),
+					'required'      => 0,
+					'placeholder'   => '',
+					'wrapper'       => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'ui'            => true,
+					'default_value' => 0,
+				),
+
 				//blueprint
 				array(
 					'key'               => 'field_form_site_blueprint',
@@ -299,7 +320,15 @@ class Forms extends Singleton {
 					'type'              => 'radio',
 					'instructions'      => esc_html__( 'Force a default blueprint to use for the launched site', 'dollie' ),
 					'required'          => 0,
-					'conditional_logic' => 0,
+					'conditional_logic' => array(
+						array(
+							array(
+								'field'    => 'field_form_is_launch_site',
+								'operator' => '==',
+								'value'    => '1',
+							),
+						),
+					),
 					'wrapper'           => array(
 						'width' => '',
 						'class' => '',
@@ -318,10 +347,10 @@ class Forms extends Singleton {
 				//redirect to container YES/NO
 				array(
 					'key'           => 'field_form_redirect_to_site',
-					'label'         => __( 'Redirect to container', 'dollie' ),
+					'label'         => __( 'Redirect to site dashboard', 'dollie' ),
 					'name'          => 'form_redirect_to_site',
 					'type'          => 'true_false',
-					'instructions'  => __( 'Redirect to container page on form submit. Success Message will be ignored', 'dollie' ),
+					'instructions'  => __( 'Redirect to site dashboard page on form submit. Success Message will be ignored', 'dollie' ),
 					'required'      => 0,
 					'placeholder'   => '',
 					'wrapper'       => array(
@@ -454,7 +483,7 @@ class Forms extends Singleton {
    		 <div class="square pull-left">
    				 <i class="' . esc_attr( $atts['icon'] ) . '"></i>
    		 </div>
-   		 <h4>' . esc_html( $atts['title'] ) . '</h4>
+   		 <h4>' . wp_kses_post( $atts['title'] ) . '</h4>
    		 <p>' . wp_kses_post( $content ) . '</p>
     </div>';
 
@@ -525,18 +554,17 @@ class Forms extends Singleton {
 			$user    = wp_get_current_user();
 			$request = dollie()->get_customer_container_details();
 
-			if ( ! $request || ! is_object( $request ) ) {
-				return $field;
+			if ( $request && is_object( $request ) && isset( $request->uri ) ) {
+				$hostname = preg_replace( '#^https?://#', '', $request->uri );
+
+				$tpl_migration_instructions = Tpl::load( 'migration-instructions', [
+					'post_slug' => $currentQuery->slug,
+					'request'   => $request,
+					'user'      => $user,
+					'hostname'  => $hostname
+				] );
+				$field['message']           = str_replace( '{dollie_migration_instructions}', $tpl_migration_instructions, $field['message'] );
 			}
-
-			$hostname = preg_replace( '#^https?://#', '', $request->uri );
-
-			$tpl_migration_instructions = Tpl::load( 'migration-instructions', [
-				'post_slug' => $currentQuery->slug,
-				'request'   => $request,
-				'user'      => $user,
-				'hostname'  => $hostname
-			] );
 
 			$ip     = get_post_meta( $currentQuery->id, 'wpd_container_ip', true ) ?: '';
 			$domain = get_post_meta( $currentQuery->id, 'wpd_domains', true ) ?: '';
@@ -554,7 +582,6 @@ class Forms extends Singleton {
 				'platform_url' => $url,
 			] );
 
-			$field['message'] = str_replace( '{dollie_migration_instructions}', $tpl_migration_instructions, $field['message'] );
 			$field['message'] = str_replace( '{dollie_is_migration_complete}', $tpl_is_migration_complete, $field['message'] );
 			$field['message'] = str_replace( '{dollie_tpl_link_domain}', $tpl_link_domain, $field['message'] );
 
@@ -566,6 +593,7 @@ class Forms extends Singleton {
 
 			// Allow shortcodes
 			$field['message'] = do_shortcode( $field['message'] );
+
 		}
 
 		return $field;

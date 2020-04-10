@@ -28,42 +28,6 @@ class DomainWizard extends Singleton {
 
 		add_action( 'acf/init', [ $this, 'acf_init' ] );
 
-		// TODO hide pages
-		add_filter( 'af/field/before_render', function ( $field, $form, $args ) {
-
-			return $field;
-
-			$container = Forms::get_form_container();
-
-			$has_domain     = get_post_meta( $container->id, 'wpd_domains', true );
-			$has_cloudflare = get_post_meta( $container->id, 'wpd_cloudflare_email', true );
-			$has_analytics  = get_post_meta( $container->id, 'wpd_cloudflare_zone_id', true );
-			$has_le         = get_post_meta( $container->id, 'wpd_letsencrypt_enabled', true );
-
-			if ( $has_cloudflare && ! $has_analytics ) {
-				//form_page=3
-			}
-
-			if ( $has_domain && $has_le ) {
-				// form_page=4
-			}
-
-			if ( $has_domain && ! $has_analytics ) {
-
-				// Force page 2
-				if ( $field['name'] === '' ) {
-					$field['conditional_logic'] = 1;
-				}
-
-			}
-
-			if ( $has_analytics ) {
-				//form_page=4
-			}
-
-			return $field;
-		}, 10, 3 );
-
 	}
 
 	public function acf_init() {

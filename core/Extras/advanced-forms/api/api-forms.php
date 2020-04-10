@@ -295,7 +295,7 @@ function af_form_from_post( $form_post ) {
 		return false;
 	}
 	
-	
+
 	$form = af_get_valid_form(array(
 		'post_id' 		=> $form_post->ID,
 		'title' 		=> $form_post->post_title,

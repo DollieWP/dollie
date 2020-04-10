@@ -2,8 +2,8 @@
     "key": "form_dollie_quick_launch",
     "title": "[Setup] Quick Launch",
     "display": {
-        "description": "Allow clients to launch a site quickly, with less options",
-        "success_message": "<div class=\"blockquote-box blockquote-success clearfix\">\n   \t\t <div class=\"square pull-left\">\n   \t\t\t\t <i class=\"fa fa-rocket\"><\/i>\n   \t\t <\/div>\n   \t\t <h4>Awesome, your site is launched!<\/h4>\n   \t\t <p><br \/>\nGo ahead and <a href=\"{dollie_container_login_url}\" target=\"_blank\" rel=\"noopener\">check it out<\/a><br \/>\n<\/p>\n    <\/div>\n"
+        "description": "Allow clients to launch a site quickly, with less options.",
+        "success_message": "[dollie_blockquote type=\"success\" icon=\"fa fa-rocket\" title=\"Awesome, your site is launched!\"]\r\nGo ahead and <a href=\"{dollie_container_login_url}\" target=\"_blank\" rel=\"noopener\">check it out<\/a>\r\n[\/dollie_blockquote]"
     },
     "create_entries": false,
     "splash_template": "launch-splash",
