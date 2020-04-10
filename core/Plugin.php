@@ -225,7 +225,7 @@ class Plugin extends Singleton {
 					<?php
 
 					$url_data = [
-						'scope'           => 'offline+api.read',
+						'scope'           => 'offline api.read',
 						'response_type'   => 'code',
 						'client_id'       => 'dollie-wp-plugin',
 						'redirect_uri'    => 'https://partners.getdollie.com/callback',

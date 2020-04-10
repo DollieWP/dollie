@@ -144,9 +144,6 @@ class Api extends Singleton {
 		if ( isset( $data['access_token'] ) ) {
 			update_option( 'dollie_auth_token', $data['access_token'] );
 		}
-		if ( isset( $data['id_token'] ) ) {
-			update_option( 'dollie_auth_id_token', $data['id_token'] );
-		}
 
 		if ( isset( $data['refresh_token'] ) ) {
 			update_option( 'dollie_auth_refresh_token', $data['refresh_token'] );
