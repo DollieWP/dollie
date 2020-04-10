@@ -121,11 +121,11 @@ class Api extends Singleton {
 
 		$answer = json_decode( $answer_body, true );
 
-		if ( ! is_array( $answer ) || ! isset( $answer['status'] ) || $answer['status'] !== 200 ) {
+		if ( ! is_array( $answer ) || ! isset( $answer['status'] ) || $answer['status'] === 500 ) {
 			return false;
 		}
 
-		return $answer['body'];
+		return @json_decode( $answer['body'], true );
 	}
 
 	public static function get_auth_token() {

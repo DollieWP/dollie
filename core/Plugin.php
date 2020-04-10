@@ -49,6 +49,10 @@ class Plugin extends Singleton {
 		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
 
 		add_action( 'admin_notices', [ $this, 'check_auth_admin_notice' ] );
+
+		add_filter( 'http_request_timeout', function () {
+			return 10;
+		} );
 	}
 
 	/**
@@ -234,7 +238,7 @@ class Plugin extends Singleton {
 					];
 
 					printf( '<a href="%s">%s</a>',
-						'https://oauth2.staging.str5.net/hydra-public/oauth2/auth?' . http_build_query( $url_data ),
+                        add_query_arg( $url_data, 'https://oauth2.staging.str5.net/hydra-public/oauth2/auth' ),
 						__( 'Click here', DOLLIE_DOMAIN ) );
 					?>
                 </div>

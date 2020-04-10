@@ -74,7 +74,7 @@ class AddDomain extends Singleton {
 		// Show an error if API can't add the Route.
 		if ( ! $response_data || ! array_key_exists( 'path', $response_data ) ) {
 
-			af_add_error( 'domain_name', wp_kses_post( sprintf(
+			af_add_submission_error( wp_kses_post( sprintf(
 				__( 'Sorry, We could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href="%s">Contact Support</a>', 'dollie' ),
 				'https://dollie.co/support-redirect'
 			) ) );
@@ -140,7 +140,7 @@ class AddDomain extends Singleton {
 	}
 
 	public function change_form_args( $args ) {
-		$args['submit_text'] = esc_html__( 'Complete Domain Setup', 'dollie' );
+		$args['submit_text'] = esc_html__( 'Connect Domain', 'dollie' );
 
 		return $args;
 	}
