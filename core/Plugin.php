@@ -137,13 +137,17 @@ class Plugin extends Singleton {
 			$www_route_id = get_post_meta( $post_id, 'wpd_www_domain_id', true );
 
 			Api::post( Api::ROUTE_DOMAIN_ROUTES_DELETE, [
-				'container_id' => $container_id,
-				'route_id'     => $route_id
+				'container_id'  => $container_id,
+				'route_id'      => $route_id,
+				'dollie_domain' => DOLLIE_INSTALL,
+				'dollie_token'  => Api::getDollieToken(),
 			] );
 
 			Api::post( Api::ROUTE_DOMAIN_ROUTES_DELETE, [
-				'container_id' => $container_id,
-				'route_id'     => $www_route_id
+				'container_id'  => $container_id,
+				'route_id'      => $www_route_id,
+				'dollie_domain' => DOLLIE_INSTALL,
+				'dollie_token'  => Api::getDollieToken(),
 			] );
 
 			dollie()->flush_container_details();
@@ -229,7 +233,7 @@ class Plugin extends Singleton {
 					<?php
 
 					$url_data = [
-						'scope'           => 'offline+api.read',
+						'scope'           => 'offline api.read',
 						'response_type'   => 'code',
 						'client_id'       => 'dollie-wp-plugin',
 						'redirect_uri'    => 'https://partners.getdollie.com/callback',
