@@ -333,7 +333,7 @@ class Helpers extends Singleton {
 	public function acf_get_database_field_group_keys() {
 
 		$keys   = [];
-		$groups = apply_filters( 'acf/get_field_groups', [] );
+		$groups = acf_get_field_groups();
 
 		foreach ( $groups as $group ) {
 			$keys[ $group['title'] ] = $group['key'];
