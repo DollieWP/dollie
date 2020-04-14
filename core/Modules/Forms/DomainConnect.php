@@ -13,15 +13,15 @@ use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 
 /**
- * Class AddDomain
+ * Class DomainConnect
  * @package Dollie\Core\Modules\Forms
  */
-class AddDomain extends Singleton {
+class DomainConnect extends Singleton {
 
-	private $form_key = 'form_dollie_add_domain';
+	private $form_key = 'form_dollie_domain_connect';
 
 	/**
-	 * AddDomain constructor.
+	 * DomainConnect constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
@@ -35,9 +35,12 @@ class AddDomain extends Singleton {
 		// Form args
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
+
+		// Restrictions
+		add_filter( 'af/form/restriction/key=' . $this->form_key, [ $this, 'restrict_form' ], 10 );
+
 		// Form submission/validation actions.
 		add_action( 'af/form/validate/key=' . $this->form_key, [ $this, 'validate_form' ], 10, 2 );
-
 		add_action( 'af/form/before_submission/key=' . $this->form_key, [ $this, 'submission_callback' ], 10, 3 );
 
 	}
@@ -120,7 +123,7 @@ class AddDomain extends Singleton {
 		// Update our container details so that the new domain will be used to make container HTTP requests.
 		dollie()->flush_container_details();
 
-		do_action( 'dollie/domain/add_domain/submission/after', $container, $domain );
+		do_action( 'dollie/domain/connect/submission/after', $container, $domain );
 
 	}
 
@@ -136,7 +139,32 @@ class AddDomain extends Singleton {
 			af_add_error( 'confirm_domain_name', esc_html__( 'Your domain names do not match.', 'dollie' ) );
 		}
 
-		do_action( 'dollie/domain/add_domain/validate/after' );
+		do_action( 'dollie/domain/connect/validate/after' );
+	}
+
+
+	/**
+	 * If no updates, restrict the form and show a message
+	 *
+	 * @param bool $restriction
+	 *
+	 * @return bool|string
+	 */
+	public function restrict_form( $restriction = false ) {
+
+		// Added in case another restriction already applies
+		if ( $restriction ) {
+			return $restriction;
+		}
+
+		$container = dollie()->get_current_object();
+
+		// If it already has linked domain and return an empty space as message
+		if ( get_post_meta( $container->id, 'wpd_domains', true ) ) {
+			return ' ';
+		}
+
+		return $restriction;
 	}
 
 	public function change_form_args( $args ) {

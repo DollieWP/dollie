@@ -6,9 +6,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Modules\Forms\AddDomain;
+use Dollie\Core\Modules\Forms\DomainConnect;
 use Dollie\Core\Modules\Forms\CreateBackup;
 use Dollie\Core\Modules\Forms\CreateBlueprint;
+use Dollie\Core\Modules\Forms\DomainDns;
 use Dollie\Core\Modules\Forms\DomainWizard;
 use Dollie\Core\Modules\Forms\LaunchSite;
 use Dollie\Core\Modules\Forms\AfterLaunchWizard;
@@ -39,7 +40,8 @@ class Forms extends Singleton {
 		ListBackups::instance();
 		CreateBlueprint::instance();
 		DomainWizard::instance();
-		AddDomain::instance();
+		DomainConnect::instance();
+		DomainDns::instance();
 		PluginUpdates::instance();
 		DeleteSite::instance();
 		Performance::instance();
@@ -51,7 +53,7 @@ class Forms extends Singleton {
 
 		add_filter( 'acf/load_field', [ $this, 'localize_strings' ] );
 		add_action( 'af/form/hidden_fields', [ $this, 'hidden_fields' ], 10, 2 );
-		add_filter( 'af/form/settings_fields', array( $this, 'add_form_settings_fields' ), 0, 1 );
+		// add_filter( 'af/form/settings_fields', array( $this, 'add_form_settings_fields' ), 0, 1 );
 
 		// Custom form fields
 		add_filter( 'af/form/valid_form', array( $this, 'add_custom_field_defaults' ), 10, 1 );
@@ -188,7 +190,10 @@ class Forms extends Singleton {
 			$form['redirect_to_site'] = $redirect_to_site;
 		}
 
-		$form['display']['success_message'] = get_field( 'form_success_message', $post->ID, false );
+		// Render shortcodes but make sure they are exported as shortcodes
+		if ( isset( $_GET['export_json'] ) ) {
+			$form['display']['success_message'] = get_field( 'form_success_message', $post->ID, false );
+		}
 
 		return $form;
 	}
@@ -229,12 +234,9 @@ class Forms extends Singleton {
 	 *
 	 * @since 1.0.3
 	 */
-	function add_form_settings_fields() {
+	function add_form_settings_fields( $field_group ) {
 
-		$field_group = array(
-			'key'                   => 'group_form_settings',
-			'title'                 => __( 'Form settings', 'advanced-forms' ),
-			'fields'                => array(
+		$field_group['fields'] = array(
 				array(
 					'key'               => 'field_form_display_tab',
 					'label'             => '<span class="dashicons dashicons-visibility"></span>' . __( 'Display', 'advanced-forms' ),
@@ -368,15 +370,6 @@ class Forms extends Singleton {
 					'type'              => 'wysiwyg',
 					'instructions'      => __( 'The message displayed after a successful submission.', 'advanced-forms' ),
 					'required'          => 0,
-					'conditional_logic' => array(
-						array(
-							array(
-								'field'    => 'field_form_redirect_to_site',
-								'operator' => '==',
-								'value'    => '0',
-							),
-						),
-					),
 					'wrapper'           => array(
 						'width' => '',
 						'class' => '',
@@ -447,24 +440,6 @@ class Forms extends Singleton {
 					'step'              => '',
 					'readonly'          => true,
 				),
-			),
-			'location'              => array(
-				array(
-					array(
-						'param'    => 'post_type',
-						'operator' => '==',
-						'value'    => 'af_form',
-					),
-				),
-			),
-			'menu_order'            => 0,
-			'position'              => 'normal',
-			'style'                 => 'default',
-			'label_placement'       => 'top',
-			'instruction_placement' => 'label',
-			'hide_on_screen'        => '',
-			'active'                => 1,
-			'description'           => '',
 		);
 
 		return $field_group;

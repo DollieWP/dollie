@@ -53,6 +53,11 @@ class Api extends Singleton {
 		parent::__construct();
 	}
 
+	public function set_custom_http_timeout() {
+		return 10;
+	}
+
+
 	/**
 	 * Make a GET request to dollie API
 	 *
@@ -61,6 +66,8 @@ class Api extends Singleton {
 	 * @return array|\WP_Error
 	 */
 	public static function get( $endpoint ) {
+
+		add_filter( 'http_request_timeout', [ self::instance(), 'set_custom_http_timeout' ] );
 
 		do_action( 'dollie/api/' . $endpoint . '/before', 'get' );
 
@@ -71,12 +78,13 @@ class Api extends Singleton {
 			]
 		] );
 
+		remove_filter( 'http_request_timeout', [ self::instance(), 'set_custom_http_timeout' ] );
+
 		do_action( 'dollie/api/' . $endpoint . '/after', 'get' );
 
 		return $call;
 
 	}
-
 	/**
 	 * Make a POST request to dollie API
 	 *
@@ -86,6 +94,8 @@ class Api extends Singleton {
 	 * @return array|\WP_Error
 	 */
 	public static function post( $endpoint, $data = [] ) {
+
+		add_filter( 'http_request_timeout', [ self::instance(), 'set_custom_http_timeout' ] );
 
 		do_action( 'dollie/api/' . $endpoint . '/before', 'post', $data );
 
@@ -97,6 +107,8 @@ class Api extends Singleton {
 				'Authorization' => self::get_auth_token()
 			]
 		] );
+
+		remove_filter( 'http_request_timeout', [ self::instance(), 'set_custom_http_timeout' ] );
 
 		do_action( 'dollie/api/' . $endpoint . '/after', 'post', $data );
 

@@ -49,10 +49,6 @@ class Plugin extends Singleton {
 		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
 
 		add_action( 'admin_notices', [ $this, 'check_auth_admin_notice' ] );
-
-		add_filter( 'http_request_timeout', function () {
-			return 10;
-		} );
 	}
 
 	/**
