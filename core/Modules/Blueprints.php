@@ -35,11 +35,16 @@ class Blueprints extends Singleton {
 	 * @return array
 	 */
 	public function get_all_blueprints( $value_format = 'image' ) {
+
 		$data = [];
 
-		$query = new \WP_Query( [
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return $data;
+		}
+
+		$sites = get_posts( [
 			'post_type'      => 'container',
-			'posts_per_page' => 1000,
+			'posts_per_page' => - 1,
 			'meta_query'     => [
 				'relation' => 'AND',
 				[
@@ -58,42 +63,39 @@ class Blueprints extends Singleton {
 			'p'              => isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : '',
 		] );
 
-		if ( $query->have_posts() ) {
-
-			while ( $query->have_posts() ) {
-				$query->the_post();
-
-				$private = get_field( 'wpd_private_blueprint' );
-
-				if ( $private === 'yes' && ! current_user_can( 'manage_options' ) ) {
-					continue;
-				}
-
-				if ( 'image' === $value_format ) {
-
-					if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
-						$image = get_field( 'wpd_blueprint_custom_image' );
-					} elseif ( get_field( 'wpd_blueprint_image' ) === 'theme' ) {
-						$image = wpthumb( get_post_meta( get_the_ID(), 'wpd_installation_site_theme_screenshot', true ), 'width=900&crop=0' );
-					} else {
-						$image = get_post_meta( get_the_ID(), 'wpd_site_screenshot', true );
-					}
-					$value = '<img data-toggle="tooltip" data-placement="bottom" ' .
-					         'title="' . get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ) . '" ' .
-					         'class="fw-blueprint-screenshot" src=' . $image . '>' .
-					         get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true );
-
-                } else {
-					$value = get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true );
-                }
-
-				$data[ get_the_ID() ] = $value;
-
-			}
-
+		if ( empty( $sites ) ) {
+			return $data;
 		}
 
-		wp_reset_postdata();
+		foreach ( $sites as $site ) {
+
+			$private = get_field( 'wpd_private_blueprint', $site->ID );
+
+			if ( $private === 'yes' ) {
+				continue;
+			}
+
+			if ( 'image' === $value_format ) {
+
+				if ( get_field( 'wpd_blueprint_image', $site->ID ) === 'custom' ) {
+					$image = get_field( 'wpd_blueprint_custom_image', $site->ID );
+				} elseif ( get_field( 'wpd_blueprint_image', $site->ID ) === 'theme' ) {
+					$image = wpthumb( get_post_meta( $site->ID, 'wpd_installation_site_theme_screenshot', true ), 'width=900&crop=0' );
+				} else {
+					$image = get_post_meta( $site->ID, 'wpd_site_screenshot', true );
+				}
+				$value = '<img data-toggle="tooltip" data-placement="bottom" ' .
+				         'title="' . get_post_meta( $site->ID, 'wpd_installation_blueprint_description', true ) . '" ' .
+				         'class="fw-blueprint-screenshot" src=' . $image . '>' .
+				         get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true );
+
+			} else {
+				$value = get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true );
+			}
+
+			$data[ $site->ID ] = $value;
+
+		}
 
 		return $data;
 	}

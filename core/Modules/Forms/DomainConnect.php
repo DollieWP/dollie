@@ -35,7 +35,6 @@ class DomainConnect extends Singleton {
 		// Form args
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
-
 		// Restrictions
 		add_filter( 'af/form/restriction/key=' . $this->form_key, [ $this, 'restrict_form' ], 10 );
 
@@ -107,21 +106,6 @@ class DomainConnect extends Singleton {
 		} else {
 			Log::add( $container->slug . ' could not link www domain ' . $domain, print_r( $request_route_add_www, true ) );
 		}
-
-		// TODO Check if is ok to Remove this
-		// update_post_meta( $container->id, 'wpd_cloudflare_active', 'yes' );
-
-		// Update user meta used to show/hide specific Dashboard areas/tabs.
-		update_post_meta( $container->id, 'wpd_domain_migration_complete', 'yes' );
-
-		// Log our success
-		Log::add( $container->slug . ' domain setup completed. Using live real domain from this point onwards.' );
-
-		// Make a backup.
-		Backups::instance()->trigger_backup();
-
-		// Update our container details so that the new domain will be used to make container HTTP requests.
-		dollie()->flush_container_details();
 
 		do_action( 'dollie/domain/connect/submission/after', $container, $domain );
 

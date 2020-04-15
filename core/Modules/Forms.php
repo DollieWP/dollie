@@ -53,7 +53,6 @@ class Forms extends Singleton {
 
 		add_filter( 'acf/load_field', [ $this, 'localize_strings' ] );
 		add_action( 'af/form/hidden_fields', [ $this, 'hidden_fields' ], 10, 2 );
-		// add_filter( 'af/form/settings_fields', array( $this, 'add_form_settings_fields' ), 0, 1 );
 
 		// Custom form fields
 		add_filter( 'af/form/valid_form', array( $this, 'add_custom_field_defaults' ), 10, 1 );
@@ -68,7 +67,11 @@ class Forms extends Singleton {
 	public function init() {
 		add_shortcode( 'dollie_form', [ $this, 'form_shortcode' ] );
 		add_shortcode( 'dollie_blockquote', [ $this, 'blockquote_shortcode' ] );
-		add_filter( 'acf/prepare_field/name=form_shortcode_message', array( $this, 'display_form_shortcode' ), 12, 1 );
+		add_filter( 'acf/prepare_field/name=form_shortcode_message', array( $this, 'hide_af_form_shortcode' ), 12, 1 );
+		add_filter( 'acf/prepare_field/name=form_wpd_shortcode_message', array(
+			$this,
+			'display_form_shortcode'
+		), 12, 1 );
 
 	}
 
@@ -80,6 +83,8 @@ class Forms extends Singleton {
 
 		// Placeholders/Change values
 		add_filter( 'acf/prepare_field/type=message', [ $this, 'add_acf_placeholders' ], 10 );
+
+		add_filter( 'af/form/settings_fields', array( $this, 'add_form_settings_fields' ), 2, 1 );
 
 	}
 
@@ -125,38 +130,6 @@ class Forms extends Singleton {
 
 		return do_shortcode( '[advanced_form form="' . esc_attr( $atts['form'] ) . '"]' );
 
-	}
-
-
-	/**
-	 * Display the form shortcode in the form settings.
-	 *
-	 * @since 1.6.4
-	 *
-	 */
-	function display_form_shortcode( $field ) {
-		global $post;
-
-		if ( $post && $key = get_post_meta( $post->ID, 'form_key', true ) ) {
-			if ( strpos( $key, 'form_dollie' ) !== false ) {
-				$message = sprintf( '<code>[dollie_form form="%s"]</code>', $key );
-
-				$message .= "<p class='description'>" . esc_html__( 'Possible shortcode attributes: ', 'dollie' ) . '<br>';
-				$message .= "
-				redirect_to_site=true|false
-				site_blueprint=ID
-				splash_template='path-to-splash-template'
-				display_title=true|false
-				display_description=true|false
-				submit_text='Submit'
-				label_placement=top|bottom
-				instruction_placement=label|field</p>";
-
-				$field['message'] = $message;
-			}
-		}
-
-		return $field;
 	}
 
 
@@ -228,6 +201,45 @@ class Forms extends Singleton {
 		return isset( $args[ $name ] ) ? $args[ $name ] : $form[ $name ];
 	}
 
+	public function hide_af_form_shortcode( $field ) {
+
+		$field['conditional_logic'] = 1;
+
+		return $field;
+	}
+
+
+	/**
+	 * Display the form shortcode in the form settings.
+	 *
+	 * @since 1.6.4
+	 *
+	 */
+	function display_form_shortcode( $field ) {
+		global $post;
+
+		if ( $post && $key = get_post_meta( $post->ID, 'form_key', true ) ) {
+			if ( strpos( $key, 'form_dollie' ) !== false ) {
+				$message = sprintf( '<code>[dollie_form form="%s"]</code>', $key );
+
+				$message .= "<p class='description'>" . esc_html__( 'Possible shortcode attributes: ', 'dollie' ) . '<br>';
+				$message .= "
+				redirect_to_site=true|false
+				site_blueprint=ID
+				splash_template='path-to-splash-template'
+				display_title=true|false
+				display_description=true|false
+				submit_text='Submit'
+				label_placement=top|bottom
+				instruction_placement=label|field</p>";
+
+				$field['message'] = $message;
+			}
+		}
+
+		return $field;
+	}
+
 
 	/**
 	 * Add form settings for restrictions
@@ -236,210 +248,113 @@ class Forms extends Singleton {
 	 */
 	function add_form_settings_fields( $field_group ) {
 
-		$field_group['fields'] = array(
-				array(
-					'key'               => 'field_form_display_tab',
-					'label'             => '<span class="dashicons dashicons-visibility"></span>' . __( 'Display', 'advanced-forms' ),
-					'name'              => '',
-					'type'              => 'tab',
-					'instructions'      => '',
-					'required'          => 0,
-					'conditional_logic' => 0,
-					'wrapper'           => array(
-						'width' => '',
-						'class' => '',
-						'id'    => '',
-					),
-					'placement'         => 'left',
-					'endpoint'          => 0,
-				),
-				array(
-					'key'   => 'field_form_shortcode_message',
-					'label' => __( 'Shortcode', 'advanced-forms' ),
-					'name'  => 'form_shortcode_message',
-					'type'  => 'message',
-				),
-				array(
-					'key'               => 'field_form_description',
-					'label'             => __( 'Description', 'advanced-forms' ),
-					'name'              => 'form_description',
-					'type'              => 'textarea',
-					'instructions'      => '',
-					'required'          => 0,
-					'conditional_logic' => 0,
-					'wrapper'           => array(
-						'width' => '',
-						'class' => '',
-						'id'    => '',
-					),
-					'default_value'     => '',
-					'tabs'              => 'all',
-					'toolbar'           => 'full',
-					'media_upload'      => 1,
-				),
+		$field_group['fields'][] = array(
+			'key'               => 'field_form_wpd_shortcode_tab',
+			'label'             => '<span class="dashicons dashicons-admin-settings"></span>' . __( 'Settings', 'dollie' ),
+			'name'              => '',
+			'type'              => 'tab',
+			'instructions'      => '',
+			'required'          => 0,
+			'conditional_logic' => 0,
+			'wrapper'           => array(
+				'width' => '',
+				'class' => '',
+				'id'    => '',
+			),
+			'placement'         => 'left',
+			'endpoint'          => 0,
+		);
 
+		$field_group['fields'][] = array(
+			'key'   => 'field_form_wpd_shortcode_message',
+			'label' => __( 'Shortcode', 'dollie' ),
+			'name'  => 'form_wpd_shortcode_message',
+			'type'  => 'message',
+		);
 
-				// Splash template
-				array(
-					'key'               => 'field_form_splash_template',
-					'label'             => __( 'Splash template', 'advanced-forms' ),
-					'name'              => 'form_splash_template',
-					'type'              => 'text',
-					'instructions'      => 'Enter a custom Splash template path to appear on form submit. Theme override location theme-name/dollie/tpl-name',
-					'required'          => 0,
-					'placeholder'       => '',
-					'conditional_logic' => 0,
-					'wrapper'           => array(
-						'width' => '50',
-						'class' => '',
-						'id'    => '',
-					),
-					'ui'                => true,
-				),
+		// Splash template
+		$field_group['fields'][] = array(
+			'key'               => 'field_form_splash_template',
+			'label'             => __( 'Splash template', 'dollie' ),
+			'name'              => 'form_splash_template',
+			'type'              => 'text',
+			'instructions'      => esc_html__( 'Enter a custom Splash template path to appear on form submit. Theme override location theme-name/dollie/tpl-name', 'dollie' ),
+			'required'          => 0,
+			'placeholder'       => '',
+			'conditional_logic' => 0,
+			'wrapper'           => array(
+				'width' => '50',
+				'class' => '',
+				'id'    => '',
+			),
+			'ui'                => true,
+		);
 
-				array(
-					'key'           => 'field_form_is_launch_site',
-					'label'         => __( 'Is it a Launch Site form?', 'dollie' ),
-					'name'          => 'form_is_launch_site',
-					'type'          => 'true_false',
-					'instructions'  => __( 'Does this form launches a new site?', 'dollie' ),
-					'required'      => 0,
-					'placeholder'   => '',
-					'wrapper'       => array(
-						'width' => '',
-						'class' => '',
-						'id'    => '',
-					),
-					'ui'            => true,
-					'default_value' => 0,
-				),
+		$field_group['fields'][] = array(
+			'key'           => 'field_form_is_launch_site',
+			'label'         => esc_html__( 'Is it a Launch Site form?', 'dollie' ),
+			'name'          => 'form_is_launch_site',
+			'type'          => 'true_false',
+			'instructions'  => esc_html__( 'Does this form launches a new site?', 'dollie' ),
+			'required'      => 0,
+			'placeholder'   => '',
+			'wrapper'       => array(
+				'width' => '',
+				'class' => '',
+				'id'    => '',
+			),
+			'ui'            => true,
+			'default_value' => 0,
+		);
 
-				//blueprint
+		//blueprint
+		$field_group['fields'][] = array(
+			'key'               => 'field_form_site_blueprint',
+			'label'             => esc_html__( 'Select a Blueprint (optional)', 'dollie' ),
+			'name'              => 'site_blueprint',
+			'type'              => 'radio',
+			'instructions'      => esc_html__( 'Force a default blueprint to use for the launched site', 'dollie' ),
+			'required'          => 0,
+			'conditional_logic' => array(
 				array(
-					'key'               => 'field_form_site_blueprint',
-					'label'             => 'Select a Blueprint (optional)',
-					'name'              => 'site_blueprint',
-					'type'              => 'radio',
-					'instructions'      => esc_html__( 'Force a default blueprint to use for the launched site', 'dollie' ),
-					'required'          => 0,
-					'conditional_logic' => array(
-						array(
-							array(
-								'field'    => 'field_form_is_launch_site',
-								'operator' => '==',
-								'value'    => '1',
-							),
-						),
+					array(
+						'field'    => 'field_form_is_launch_site',
+						'operator' => '==',
+						'value'    => '1',
 					),
-					'wrapper'           => array(
-						'width' => '',
-						'class' => '',
-						'id'    => '',
-					),
-					'hide_admin'        => 0,
-					'choices'           => array(),
-					'allow_null'        => 0,
-					'other_choice'      => 0,
-					'default_value'     => '',
-					'layout'            => 'vertical',
-					'return_format'     => 'value',
-					'save_other_choice' => 0,
 				),
+			),
+			'wrapper'           => array(
+				'width' => '',
+				'class' => '',
+				'id'    => '',
+			),
+			'hide_admin'        => 0,
+			'choices'           => array(),
+			'allow_null'        => 0,
+			'other_choice'      => 0,
+			'default_value'     => '',
+			'layout'            => 'vertical',
+			'return_format'     => 'value',
+			'save_other_choice' => 0,
+		);
 
-				//redirect to container YES/NO
-				array(
-					'key'           => 'field_form_redirect_to_site',
-					'label'         => __( 'Redirect to site dashboard', 'dollie' ),
-					'name'          => 'form_redirect_to_site',
-					'type'          => 'true_false',
-					'instructions'  => __( 'Redirect to site dashboard page on form submit. Success Message will be ignored', 'dollie' ),
-					'required'      => 0,
-					'placeholder'   => '',
-					'wrapper'       => array(
-						'width' => '',
-						'class' => '',
-						'id'    => '',
-					),
-					'ui'            => true,
-					'default_value' => 0,
-				),
-				array(
-					'key'               => 'field_form_success_message',
-					'label'             => __( 'Success message', 'advanced-forms' ),
-					'name'              => 'form_success_message',
-					'type'              => 'wysiwyg',
-					'instructions'      => __( 'The message displayed after a successful submission.', 'advanced-forms' ),
-					'required'          => 0,
-					'wrapper'           => array(
-						'width' => '',
-						'class' => '',
-						'id'    => '',
-					),
-					'default_value'     => '',
-					'tabs'              => 'all',
-					'toolbar'           => 'full',
-					'media_upload'      => 1,
-				),
-				array(
-					'key'               => 'field_form_statistics_tab',
-					'label'             => '<span class="dashicons dashicons-chart-bar"></span>' . __( 'Statistics', 'advanced-forms' ),
-					'name'              => '',
-					'type'              => 'tab',
-					'instructions'      => '',
-					'required'          => 0,
-					'conditional_logic' => 0,
-					'wrapper'           => array(
-						'width' => '',
-						'class' => '',
-						'id'    => '',
-					),
-					'placement'         => 'left',
-					'endpoint'          => 0,
-				),
-				array(
-					'key'               => 'field_form_num_of_submissions',
-					'label'             => __( 'Number of submissions', 'advanced-forms' ),
-					'name'              => 'form_num_of_submissions',
-					'type'              => 'number',
-					'instructions'      => '',
-					'required'          => 0,
-					'conditional_logic' => 0,
-					'wrapper'           => array(
-						'width' => '50',
-						'class' => '',
-						'id'    => '',
-					),
-					'default_value'     => 0,
-					'placeholder'       => '',
-					'prepend'           => '',
-					'append'            => '',
-					'min'               => '',
-					'max'               => '',
-					'step'              => '',
-					'readonly'          => true,
-				),
-				array(
-					'key'               => 'field_form_num_of_views',
-					'label'             => __( 'Number of times viewed', 'advanced-forms' ),
-					'name'              => 'form_num_of_views',
-					'type'              => 'number',
-					'instructions'      => '',
-					'required'          => 0,
-					'conditional_logic' => 0,
-					'wrapper'           => array(
-						'width' => '50',
-						'class' => '',
-						'id'    => '',
-					),
-					'default_value'     => 0,
-					'placeholder'       => '',
-					'prepend'           => '',
-					'append'            => '',
-					'min'               => '',
-					'max'               => '',
-					'step'              => '',
-					'readonly'          => true,
-				),
+		//redirect to container YES/NO
+		$field_group['fields'][] = array(
+			'key'           => 'field_form_redirect_to_site',
+			'label'         => esc_html__( 'Redirect to site dashboard', 'dollie' ),
+			'name'          => 'form_redirect_to_site',
+			'type'          => 'true_false',
+			'instructions'  => esc_html__( 'Redirect to site dashboard page on form submit. Success Message will be ignored', 'dollie' ),
+			'required'      => 0,
+			'placeholder'   => '',
+			'wrapper'       => array(
+				'width' => '',
+				'class' => '',
+				'id'    => '',
+			),
+			'ui'            => true,
+			'default_value' => 0,
 		);
 
 		return $field_group;
