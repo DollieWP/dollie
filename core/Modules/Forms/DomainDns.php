@@ -34,7 +34,7 @@ class DomainDns extends Singleton {
 
 		// Form args
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
-
+		add_filter( 'af/form/attributes/key=' . $this->form_key, [ $this, 'change_form_attributes' ] );
 
 		// Restrictions
 		add_filter( 'af/form/restriction/key=' . $this->form_key, [ $this, 'restrict_form' ], 10 );
@@ -54,17 +54,170 @@ class DomainDns extends Singleton {
 			return;
 		}
 
-
-
 		do_action( 'dollie/domain/dns/submission/after', $container );
 
 	}
 
 	public function validate_form( $form, $args ) {
 
-		do_action( 'dollie/domain/dns/validate/after' );
-	}
+		$container = Forms::get_form_container();
 
+		if ( $container === false ) {
+			return;
+		}
+
+		$is_dns_changed  = af_get_field( 'is_dns_changed' );
+		$ssl_certificate = af_get_field( 'ssl_certificate_type' );
+
+		$current_page = 1;
+		if ( $ssl_certificate !== false ) {
+			$current_page = 2;
+		}
+
+		$domain = get_post_meta( $container->id, 'wpd_domains', true );
+		$ip     = get_post_meta( $container->id, 'wpd_container_ip', true ) ?: '';
+
+
+		// Validate DNS record.
+		if ( $current_page === 1 ) {
+
+			// Skip if we are using Cloudflare since it will give us a wrong IP address
+			if ( dollie()->is_using_cloudflare( $domain ) ) {
+				return;
+			}
+
+			$dns_valid = false;
+
+			// Check IP record with Google DNS
+			$dns_response = wp_remote_get( 'https://dns.google.com/resolve?name=' . $domain . '&type=A' );
+
+			if ( ! is_wp_error( $dns_response ) ) {
+				$dns_record = wp_remote_retrieve_body( $dns_response );
+				$dns_record = @json_decode( $dns_record, true );
+
+				if ( is_array( $dns_record ) && isset( $dns_record['Answer'][0]['data'] ) && $dns_record['Answer'][0]['data'] == $ip ) {
+					$dns_valid = true;
+				}
+			}
+
+			// Fallback for google DNS query
+			if ( $dns_valid === false ) {
+				$dns_record = dns_get_record( $domain, DNS_A );
+				if ( isset( $dns_record[0]['ip'] ) && $dns_record[0]['ip'] == $ip ) {
+					$dns_valid = true;
+				}
+			}
+
+			if ( $dns_valid === false ) {
+				af_add_error( 'is_dns_changed', esc_html__( 'Your domain DNS A record is not yet pointing to our IP address. Please wait a few minutes and try again.', 'dollie' ) );
+
+				return;
+
+			}
+		} elseif ( $current_page === 2 ) {
+			//Cloudflare setup || LetsEncrypt
+
+			// Our form field ID + User meta fields
+			$email   = af_get_field( 'cloudflare_email' );
+			$api_key = af_get_field( 'cloudflare_api_key' );
+
+			if ( $ssl_certificate === 'cloudflare' ) {
+
+				// Set up the request to CloudFlare to verify
+				$args   = [
+					'method'  => 'GET',
+					'timeout' => 45,
+					'headers' => [
+						'X-Auth-Email' => $email,
+						'X-Auth-Key'   => $api_key,
+						'Content-Type' => 'application/json',
+					],
+				];
+				$update = wp_remote_post( 'https://api.cloudflare.com/client/v4/user', $args );
+
+				// Parse the JSON request
+				$answer   = wp_remote_retrieve_body( $update );
+				$response = json_decode( $answer, true );
+
+				// Throw an error if CloudFlare Details are incorrect.
+				if ( $response['success'] === false ) {
+
+					af_add_error( 'cloudflare_api_key', wp_kses_post( sprintf(
+						__( 'Your CloudFlare Email or API key is incorrect. Please try again or <a href="%s">Contact Support</a>', 'dollie' ),
+						'https://dollie.co/support-redirect'
+					) ) );
+
+					return;
+
+				}
+
+				if ( isset( $response['result']['id'] ) ) {
+
+					$container_uri = get_post_meta( $container->id, 'wpd_container_uri', true );
+
+					Api::post( Api::ROUTE_DOMAIN_INSTALL_CLOUDFLARE, [
+						'container_url'  => $container_uri,
+						'email'          => $email,
+						'cloudflare_key' => $api_key,
+						'dollie_domain'  => DOLLIE_INSTALL,
+						'dollie_token'   => Api::getDollieToken(),
+					] );
+
+					// All done, update user meta!
+					update_post_meta( $container->id, 'wpd_cloudflare_email', $email );
+					update_post_meta( $container->id, 'wpd_cloudflare_active', 'yes' );
+					update_post_meta( $container->id, 'wpd_cloudflare_id', $response['result']['id'] );
+					update_post_meta( $container->id, 'wpd_cloudflare_api', $api_key );
+
+					Log::add( $container->slug . ' linked up CloudFlare account' );
+				}
+
+				//CloudFlare Zone ID
+				$cloudflare_zone_id = af_get_field( 'cloudflare_zone_id' );
+
+				// Set up the request to CloudFlare to verify.
+				$update = wp_remote_post( 'https://api.cloudflare.com/client/v4/zones/' . $cloudflare_zone_id, [
+					'method'  => 'GET',
+					'timeout' => 45,
+					'headers' => [
+						'X-Auth-Email' => $email,
+						'X-Auth-Key'   => $api_key,
+						'Content-Type' => 'application/json',
+					],
+				] );
+
+				// Parse the JSON request
+				$answer   = wp_remote_retrieve_body( $update );
+				$response = json_decode( $answer, true );
+
+				// Throw an error if CloudFlare Details are incorrect.
+				if ( $response['success'] === false ) {
+
+					af_add_error( 'cloudflare_zone_id', wp_kses_post( sprintf(
+						__( 'Your CloudFlare Zone ID is incorrect. Please make sure you copy and pasted the right ID without extra spaces. Need help? <a href="%s">Contact Support</a>', 'dollie' ),
+						dollie()->get_support_link()
+					) ) );
+
+					return;
+
+				}
+
+				// Save our CloudFlare Zone ID to user meta.
+				update_post_meta( $container->id, 'wpd_cloudflare_zone_id', $cloudflare_zone_id );
+				Log::add( 'CloudFlare Zone ID ' . $cloudflare_zone_id . ' is used for analytics for ' . $container->slug );
+
+			} else {
+
+
+				// We use LetsEncrypt
+				update_post_meta( $container->id, 'wpd_letsencrypt_enabled', 'yes' );
+			}
+
+		}
+
+		do_action( 'dollie/domain/dns/validate/after', $domain, $ip );
+
+	}
 
 	/**
 	 * If no updates, restrict the form and show a message
@@ -80,24 +233,37 @@ class DomainDns extends Singleton {
 			return $restriction;
 		}
 
-		$container = dollie()->get_current_object();
-		$has_domain     = get_post_meta( $container->id, 'wpd_domains', true );
-		$has_cloudflare = get_post_meta( $container->id, 'wpd_cloudflare_email', true );
-		$has_analytics  = get_post_meta( $container->id, 'wpd_cloudflare_zone_id', true );
-		$has_le         = get_post_meta( $container->id, 'wpd_letsencrypt_enabled', true );
-
-		// If it already has SSL return an empty space as message
-		if ( ! $has_domain || $has_analytics || $has_le || $has_cloudflare  ) {
-			return ' ';
+		if ( $this->is_form_restricted() ) {
+			return '<div class="acf-hidden"></div>';
 		}
 
 		return $restriction;
 	}
 
 	public function change_form_args( $args ) {
-		$args['submit_text'] = esc_html__( 'Complete DNS Setup', 'dollie' );
+		$args['submit_text'] = esc_html__( 'Complete Domain Setup', 'dollie' );
 
 		return $args;
+	}
+
+	public function change_form_attributes( $atts ) {
+		if ( $this->is_form_restricted() ) {
+			$atts['class'] .= ' acf-hidden';
+		}
+
+		return $atts;
+	}
+
+	private function is_form_restricted() {
+
+		$container      = dollie()->get_current_object();
+		$has_domain     = get_post_meta( $container->id, 'wpd_domains', true );
+		$has_cloudflare = get_post_meta( $container->id, 'wpd_cloudflare_email', true );
+		$has_analytics  = get_post_meta( $container->id, 'wpd_cloudflare_zone_id', true );
+		$has_le         = get_post_meta( $container->id, 'wpd_letsencrypt_enabled', true );
+
+		// If it already has SSL return an empty space as message
+		return ! $has_domain || $has_analytics || $has_le || $has_cloudflare;
 	}
 
 }

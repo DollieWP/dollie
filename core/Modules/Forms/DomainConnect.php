@@ -34,6 +34,8 @@ class DomainConnect extends Singleton {
 
 		// Form args
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
+		add_filter( 'af/form/attributes/key=' . $this->form_key, [ $this, 'change_form_attributes' ] );
+
 
 		// Restrictions
 		add_filter( 'af/form/restriction/key=' . $this->form_key, [ $this, 'restrict_form' ], 10 );
@@ -123,6 +125,11 @@ class DomainConnect extends Singleton {
 			af_add_error( 'confirm_domain_name', esc_html__( 'Your domain names do not match.', 'dollie' ) );
 		}
 
+		// Make sure we don't continue until data is migrated
+		if ( af_get_field( 'has_active_site' ) === 'yes_live' && af_get_field( 'is_data_moved' ) !== 'yes' ) {
+			af_add_error( 'is_data_moved', esc_html__( 'You need to migrate your data before continuing.', 'dollie' ) );
+		}
+
 		do_action( 'dollie/domain/connect/validate/after' );
 	}
 
@@ -141,11 +148,8 @@ class DomainConnect extends Singleton {
 			return $restriction;
 		}
 
-		$container = dollie()->get_current_object();
-
-		// If it already has linked domain and return an empty space as message
-		if ( get_post_meta( $container->id, 'wpd_domains', true ) ) {
-			return ' ';
+		if ( $this->is_form_restricted() ) {
+			return '<div class="acf-hidden"></div>';
 		}
 
 		return $restriction;
@@ -155,6 +159,25 @@ class DomainConnect extends Singleton {
 		$args['submit_text'] = esc_html__( 'Connect Domain', 'dollie' );
 
 		return $args;
+	}
+
+	public function change_form_attributes( $atts ) {
+		if ( $this->is_form_restricted() ) {
+			$atts['class'] .= ' acf-hidden';
+		}
+
+		return $atts;
+	}
+
+	private function is_form_restricted() {
+		$container = dollie()->get_current_object();
+
+		// If it already has linked domain and return an empty space as message
+		if ( get_post_meta( $container->id, 'wpd_domains', true ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 }

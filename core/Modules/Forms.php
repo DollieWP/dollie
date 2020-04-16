@@ -10,6 +10,7 @@ use Dollie\Core\Modules\Forms\DomainConnect;
 use Dollie\Core\Modules\Forms\CreateBackup;
 use Dollie\Core\Modules\Forms\CreateBlueprint;
 use Dollie\Core\Modules\Forms\DomainDns;
+use Dollie\Core\Modules\Forms\DomainUpdateUrl;
 use Dollie\Core\Modules\Forms\DomainWizard;
 use Dollie\Core\Modules\Forms\LaunchSite;
 use Dollie\Core\Modules\Forms\AfterLaunchWizard;
@@ -42,6 +43,7 @@ class Forms extends Singleton {
 		DomainWizard::instance();
 		DomainConnect::instance();
 		DomainDns::instance();
+		DomainUpdateUrl::instance();
 		PluginUpdates::instance();
 		DeleteSite::instance();
 		Performance::instance();
@@ -460,26 +462,21 @@ class Forms extends Singleton {
 			$domain = get_post_meta( $currentQuery->id, 'wpd_domains', true ) ?: '';
 			$url    = get_post_meta( $currentQuery->id, 'wpd_container_uri', true ) ?: '';
 
-			$tpl_is_migration_complete = Tpl::load( 'wizard/completed', [
+			$tpl_link_domain = Tpl::load( 'link-domain', [
 				'has_domain'   => $domain,
 				'ip'           => $ip,
 				'platform_url' => $url,
 			] );
 
-			$tpl_link_domain = Tpl::load( 'wizard/link-domain', [
-				'has_domain'   => $domain,
-				'ip'           => $ip,
-				'platform_url' => $url,
-			] );
-
-			$field['message'] = str_replace( '{dollie_is_migration_complete}', $tpl_is_migration_complete, $field['message'] );
 			$field['message'] = str_replace( '{dollie_tpl_link_domain}', $tpl_link_domain, $field['message'] );
 
 			if ( is_user_logged_in() ) {
 				$user             = wp_get_current_user();
 				$field['message'] = str_replace( '{dollie_user_display_name}', $user->display_name, $field['message'] );
-
 			}
+
+			//Support link
+			$field['message'] = str_replace( '{dollie_support_link}', dollie()->get_support_link(), $field['message'] );
 
 			// Allow shortcodes
 			$field['message'] = do_shortcode( $field['message'] );

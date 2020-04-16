@@ -109,6 +109,11 @@ class Plugin extends Singleton {
 	 * Register ACF fields
 	 */
 	public function acf_add_local_field_groups() {
+
+		if ( defined( 'DOLLIE_DEV' ) ) {
+			return;
+		}
+
 		require DOLLIE_PATH . 'core/Extras/AcfFields.php';
 		require DOLLIE_PATH . 'core/Extras/AcfFormFields.php';
 	}
@@ -238,7 +243,7 @@ class Plugin extends Singleton {
 					];
 
 					printf( '<a href="%s">%s</a>',
-                        add_query_arg( $url_data, 'https://oauth2.staging.str5.net/hydra-public/oauth2/auth' ),
+						add_query_arg( $url_data, 'https://oauth2.staging.str5.net/hydra-public/oauth2/auth' ),
 						__( 'Click here', DOLLIE_DOMAIN ) );
 					?>
                 </div>

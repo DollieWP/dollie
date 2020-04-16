@@ -42,6 +42,7 @@ class ImportForms extends Singleton {
 		'form_dollie_create_blueprint',
 		'form_dollie_domain_connect',
 		'form_dollie_domain_dns_ssl',
+		'form_dollie_domain_update_url',
 		'form_dollie_plugin_updates',
 		'form_dollie_delete_site',
 		'form_dollie_performance',

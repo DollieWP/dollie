@@ -442,6 +442,37 @@ class Helpers extends Singleton {
 		return SiteInsights::instance()->get_latest_container_posts();
 	}
 
+	public function get_support_link() {
+		return get_field( 'wpd_support_link', 'options' );
+	}
+
+	/**
+	 * Check if a domain is using CloudFlare
+	 * @param $domain
+	 *
+	 * @return bool
+	 */
+	public function is_using_cloudflare( $domain ) {
+
+		// Check NS record with Google DNS
+		$ns_response = wp_remote_get( 'https://dns.google.com/resolve?name=' . $domain . '&type=NS' );
+		if ( ! is_wp_error( $ns_response ) ) {
+			$ns_record = wp_remote_retrieve_body( $ns_response );
+			$ns_record = @json_decode( $ns_record, true );
+
+			if ( is_array( $ns_record ) && isset( $ns_record['Answer'] ) ) {
+				foreach ( $ns_record['Answer'] as $item ) {
+					if ( strpos( $item['data'], 'cloudflare' ) !== false ) {
+
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public function in_array_r( $needle, $haystack, $strict = false ) {
 		foreach ( $haystack as $item ) {
 			if ( ( $strict ? $item === $needle : $item == $needle ) || ( is_array( $item ) && $this->in_array_r( $needle, $item, $strict ) ) ) {

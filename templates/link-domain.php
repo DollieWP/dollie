@@ -9,20 +9,18 @@
 		?>
     </h4>
     <p>
-        Let's continue with our domain setup by configuring CloudFlare or LetsEncrypt.
+		<?php esc_html_e( 'Let\'s continue with our domain setup by making your DNS change.', 'dollie' ); ?>
     </p>
 </div>
 
 <ul>
     <li>
-        <a href="https://www.cloudflare.com/a/login" target="_blank">
-			<?php _e( 'Login to Your Domain Management account', 'dollie' ); ?>
-        </a>
+        <?php _e( 'Login to Your Domain Management account. This can be CloudFlare or your domain registrar.', 'dollie' ); ?>
     </li>
     <li>
 		<?php
 		printf(
-			__( 'Go to your Domain name <strong>%s</strong> and go to the DNS Manager', 'dollie' ),
+			__( 'Go to your Domain name <strong>%s</strong> and go to the DNS Manager.', 'dollie' ),
 			$has_domain
 		);
 		?>
