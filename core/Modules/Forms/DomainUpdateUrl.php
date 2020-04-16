@@ -40,7 +40,9 @@ class DomainUpdateUrl extends Singleton {
 
 		// Form submission/validation actions.
 		add_action( 'af/form/validate/key=' . $this->form_key, [ $this, 'validate_form' ], 10, 2 );
-		add_action( 'af/form/before_submission/key=' . $this->form_key, [ $this, 'submission_callback' ], 10, 3 );
+
+		// After successful submission
+		add_action( 'af/form/submission/key=' . $this->form_key, [ $this, 'submission_callback' ], 10, 3 );
 
 	}
 
@@ -52,6 +54,18 @@ class DomainUpdateUrl extends Singleton {
 		if ( $container === false ) {
 			return;
 		}
+
+		// Update user meta used to show/hide specific Dashboard areas/tabs.
+		update_post_meta( $container->id, 'wpd_domain_migration_complete', 'yes' );
+
+		// Log our success
+		Log::add( $container->slug . ' domain setup completed. Using live real domain from this point onwards.' );
+
+		// Make a backup.
+		Backups::instance()->trigger_backup();
+
+		// Update our container details so that the new domain will be used to make container HTTP requests.
+		dollie()->flush_container_details();
 
 		do_action( 'dollie/domain/update_url/submission/after', $container );
 
@@ -65,8 +79,38 @@ class DomainUpdateUrl extends Singleton {
 			return;
 		}
 
+		$domain_with_www = af_get_field( 'domain_with_www' );
+
+		if ( $domain_with_www === 'yes' ) {
+			$domain = 'www.' . get_post_meta( $container->id, 'wpd_domains', true );
+		} else {
+			$domain = get_post_meta( $container->id, 'wpd_domains', true );
+		}
+
+		$request_domain_update = Api::post( Api::ROUTE_DOMAIN_UPDATE, [
+			'container_uri' => get_post_meta( $container->id, 'wpd_container_uri', true ),
+			'domain'        => $domain,
+			'dollie_domain' => DOLLIE_INSTALL,
+			'dollie_token'  => Api::getDollieToken(),
+		] );
+
+		$response_data = API::process_response( $request_domain_update );
+
+		if ( ! $response_data ) {
+			af_add_error( 'domain_with_www', esc_html__( 'There was a problem when performing the request. Please contact support so we can look into why this has happened.', 'dollie' ) );
+
+			Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has failed', print_r( $request_domain_update, true ) );
+
+			return;
+		}
+
+		Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has started', $response_data );
+
+
 		do_action( 'dollie/domain/update_url/validate/after' );
 
+		// We will add an artificial delay because if we're dealing with a big database it could take a bit of time to run the search and replace via the Worker/WP-CLI command.
+		sleep( 20 );
 	}
 
 	/**
@@ -109,8 +153,10 @@ class DomainUpdateUrl extends Singleton {
 		$has_le          = get_post_meta( $container->id, 'wpd_letsencrypt_enabled', true );
 		$setup_completed = get_post_meta( $container->id, 'wpd_domain_migration_complete', true );
 
-		// If it already has SSL return an empty space as message
-		return $setup_completed || ! $has_domain || ! ( $has_le || $has_cloudflare );
+		$is_restricted = $setup_completed || ! $has_domain || ! ( $has_le || $has_cloudflare );
+		$is_restricted = apply_filters( 'dollie/domain/update_url/is_form_restricted', $is_restricted );
+
+		return $is_restricted;
 
 	}
 

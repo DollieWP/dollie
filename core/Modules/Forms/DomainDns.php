@@ -208,9 +208,31 @@ class DomainDns extends Singleton {
 
 			} else {
 
-
-				// We use LetsEncrypt
+				// We use LetsEncrypt.
 				update_post_meta( $container->id, 'wpd_letsencrypt_enabled', 'yes' );
+
+				$request_le = Api::post( Api::ROUTE_DOMAIN_INSTALL_LETSENCRYPT, [
+					'container_id'  => get_post_meta( $container->id, 'wpd_container_id', true ),
+					'route_id'      => get_post_meta( $container->id, 'wpd_domain_id', true ),
+					'dollie_domain' => DOLLIE_INSTALL,
+					'dollie_token'  => Api::getDollieToken(),
+				] );
+
+				$response_le = API::process_response( $request_le );
+
+				// Show an error of S5 API can't add the Route.
+				if ( $response_le === false ) {
+
+					update_post_meta( $container->id, 'wpd_letsencrypt_setup_complete', 'yes' );
+
+					af_add_error( 'domain_with_www', esc_html__( 'Sorry, We could not generate a SSL certificate for this domain. Please contact support so we can look into why this has happened.', 'dollie' ) );
+
+					Log::add( 'Letsencrypt ssl wasn\'t generated for domain ' . $domain, print_r( $request_le, true ) );
+
+					return;
+
+				}
+
 			}
 
 		}
