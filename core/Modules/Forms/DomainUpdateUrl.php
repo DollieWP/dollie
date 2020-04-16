@@ -79,38 +79,53 @@ class DomainUpdateUrl extends Singleton {
 			return;
 		}
 
-		$domain_with_www = af_get_field( 'domain_with_www' );
+		$domain_with_www  = af_get_field( 'domain_with_www' );
+		$is_domain_active = af_get_field( 'is_domain_active' );
 
-		if ( $domain_with_www === 'yes' ) {
-			$domain = 'www.' . get_post_meta( $container->id, 'wpd_domains', true );
-		} else {
-			$domain = get_post_meta( $container->id, 'wpd_domains', true );
+
+		$current_page = 1;
+		if ( $is_domain_active !== false ) {
+			$current_page = 2;
 		}
 
-		$request_domain_update = Api::post( Api::ROUTE_DOMAIN_UPDATE, [
-			'container_uri' => get_post_meta( $container->id, 'wpd_container_uri', true ),
-			'domain'        => $domain,
-			'dollie_domain' => DOLLIE_INSTALL,
-			'dollie_token'  => Api::getDollieToken(),
-		] );
+		// Send the request for search/replace when moving away from page 1.
+		if ( $current_page === 1 ) {
+			if ( $domain_with_www === 'yes' ) {
+				$domain = 'www.' . get_post_meta( $container->id, 'wpd_domains', true );
+			} else {
+				$domain = get_post_meta( $container->id, 'wpd_domains', true );
+			}
 
-		$response_data = API::process_response( $request_domain_update );
+			$old_url = str_replace( [
+				'http://',
+				'https://'
+			], '', dollie()->get_container_url( $container->id ) );
 
-		if ( ! $response_data ) {
-			af_add_error( 'domain_with_www', esc_html__( 'There was a problem when performing the request. Please contact support so we can look into why this has happened.', 'dollie' ) );
+			$request_domain_update = Api::post( Api::ROUTE_DOMAIN_UPDATE, [
+				'container_uri' => get_post_meta( $container->id, 'wpd_container_uri', true ),
+				'domain'        => $domain,
+				'install'       => $old_url,
+				'dollie_domain' => DOLLIE_INSTALL,
+				'dollie_token'  => Api::getDollieToken(),
+			] );
 
-			Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has failed', print_r( $request_domain_update, true ) );
+			$response_data = API::process_response( $request_domain_update );
 
-			return;
+			if ( $response_data === false ) {
+				af_add_error( 'domain_with_www', esc_html__( 'There was a problem when performing the request. Please contact support so we can look into why this has happened.', 'dollie' ) );
+
+				Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has failed', print_r( $request_domain_update, true ) );
+
+				return;
+			}
+
+			Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has started', $response_data );
+
+			// We will add an artificial delay because if we're dealing with a big database it could take a bit of time to run the search and replace via the Worker/WP-CLI command.
+			sleep( 20 );
 		}
-
-		Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has started', $response_data );
-
 
 		do_action( 'dollie/domain/update_url/validate/after' );
-
-		// We will add an artificial delay because if we're dealing with a big database it could take a bit of time to run the search and replace via the Worker/WP-CLI command.
-		sleep( 20 );
 	}
 
 	/**
