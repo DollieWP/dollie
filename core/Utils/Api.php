@@ -74,7 +74,7 @@ class Api extends Singleton {
 		$call = wp_remote_get( self::API_URL . $endpoint, [
 			'headers' => [
 				'Accept'        => 'application/json',
-				'Authorization' => self::get_auth_token()
+				'Authorization' => self::get_auth_data( 'access_token' )
 			]
 		] );
 
@@ -85,6 +85,7 @@ class Api extends Singleton {
 		return $call;
 
 	}
+
 	/**
 	 * Make a POST request to dollie API
 	 *
@@ -104,7 +105,7 @@ class Api extends Singleton {
 			'body'    => $data,
 			'headers' => [
 				'Accept'        => 'application/json',
-				'Authorization' => self::get_auth_token()
+				'Authorization' => self::get_auth_data( 'access_token' )
 			]
 		] );
 
@@ -115,12 +116,19 @@ class Api extends Singleton {
 		return $call;
 	}
 
-	public static function getDollieToken() {
+	/**
+	 * @return string
+	 */
+	public static function get_dollie_token() {
 		return base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD );
 	}
 
+	/**
+	 * @param $response
+	 *
+	 * @return bool|mixed
+	 */
 	public static function process_response( $response ) {
-
 		if ( is_wp_error( $response ) ) {
 			return false;
 		}
@@ -140,40 +148,38 @@ class Api extends Singleton {
 		return @json_decode( $answer['body'], true );
 	}
 
-	public static function get_auth_token() {
-		return get_option( 'dollie_auth_token' );
+	/**
+	 * @return bool
+	 */
+	public static function auth_token_is_active() {
+		return (bool) get_option( 'dollie_auth_token_status', 0 );
 	}
 
-	public static function get_auth_refresh_token() {
-		return get_option( 'dollie_auth_refresh_token' );
+	/**
+	 * @param $data
+	 */
+	public static function update_auth_data( $data ) {
+		update_option( 'dollie_token_data', $data );
+		update_option( 'dollie_auth_token_status', 1 );
 	}
 
-	public static function get_auth_token_status() {
-		return get_option( 'dollie_auth_token_status', '0' );
-	}
+	/**
+	 * @param $type
+	 *
+	 * @return bool
+	 */
+	public static function get_auth_data( $type ) {
+		$data = get_option( 'dollie_token_data', [] );
 
-	public static function update_auth_tokens( $data ) {
-		if ( isset( $data['access_token'] ) ) {
-			update_option( 'dollie_auth_token', $data['access_token'] );
+		if ( empty( $data ) ) {
+			return false;
 		}
 
-		if ( isset( $data['refresh_token'] ) ) {
-			update_option( 'dollie_auth_refresh_token', $data['refresh_token'] );
+		if ( isset( $data[ $type ] ) ) {
+			return $data[ $type ];
 		}
 
-		if ( isset( $data['scope'] ) ) {
-			update_option( 'dollie_auth_scope', $data['scope'] );
-		}
-
-		if ( isset( $data['token_type'] ) ) {
-			update_option( 'dollie_auth_token_type', $data['token_type'] );
-		}
-
-		if ( isset( $data['expires_in'] ) ) {
-			update_option( 'dollie_auth_expire', $data['expires_in'] );
-		}
-
-		update_option( 'dollie_auth_token_status', '1' );
+		return false;
 	}
 
 }

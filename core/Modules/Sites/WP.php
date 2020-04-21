@@ -53,7 +53,7 @@ final class WP extends Singleton {
 			'description'   => $email . ' | ' . get_site_url(),
 			'envVars'       => array_merge( $env_vars_extras, $env_vars ),
 			'dollie_domain' => DOLLIE_INSTALL,
-			'dollie_token'  => Api::getDollieToken(),
+			'dollie_token'  => Api::get_dollie_token(),
 		];
 
 		$requestContainerCreate = Api::post( Api::ROUTE_CONTAINER_CREATE, $post_body );
@@ -85,7 +85,7 @@ final class WP extends Singleton {
 			'container_id'  => $container['id'],
 			'action'        => 'deploy',
 			'dollie_domain' => DOLLIE_INSTALL,
-			'dollie_token'  => Api::getDollieToken(),
+			'dollie_token'  => Api::get_dollie_token(),
 		] );
 
 		$responseTriggerContainer = json_decode( wp_remote_retrieve_body( $requestTriggerContainer ), true );
@@ -106,7 +106,7 @@ final class WP extends Singleton {
 		$requestGetContainer = Api::post( Api::ROUTE_CONTAINER_GET, [
 			'container_id'  => $container['id'],
 			'dollie_domain' => DOLLIE_INSTALL,
-			'dollie_token'  => Api::getDollieToken(),
+			'dollie_token'  => Api::get_dollie_token(),
 		] );
 
 		Log::add( $domain . 'Deploying created site ', print_r( $requestGetContainer, true ), 'deploy' );

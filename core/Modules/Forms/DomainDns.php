@@ -160,7 +160,7 @@ class DomainDns extends Singleton {
 						'email'          => $email,
 						'cloudflare_key' => $api_key,
 						'dollie_domain'  => DOLLIE_INSTALL,
-						'dollie_token'   => Api::getDollieToken(),
+						'dollie_token'   => Api::get_dollie_token(),
 					] );
 
 					// All done, update user meta!
@@ -215,7 +215,7 @@ class DomainDns extends Singleton {
 					'container_id'  => get_post_meta( $container->id, 'wpd_container_id', true ),
 					'route_id'      => get_post_meta( $container->id, 'wpd_domain_id', true ),
 					'dollie_domain' => DOLLIE_INSTALL,
-					'dollie_token'  => Api::getDollieToken(),
+					'dollie_token'  => Api::get_dollie_token(),
 				] );
 
 				$response_le = API::process_response( $request_le );

@@ -106,7 +106,7 @@ class DomainUpdateUrl extends Singleton {
 				'domain'        => $domain,
 				'install'       => $old_url,
 				'dollie_domain' => DOLLIE_INSTALL,
-				'dollie_token'  => Api::getDollieToken(),
+				'dollie_token'  => Api::get_dollie_token(),
 			] );
 
 			$response_data = API::process_response( $request_domain_update );

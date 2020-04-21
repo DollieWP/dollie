@@ -141,14 +141,14 @@ class Plugin extends Singleton {
 				'container_id'  => $container_id,
 				'route_id'      => $route_id,
 				'dollie_domain' => DOLLIE_INSTALL,
-				'dollie_token'  => Api::getDollieToken(),
+				'dollie_token'  => Api::get_dollie_token(),
 			] );
 
 			Api::post( Api::ROUTE_DOMAIN_ROUTES_DELETE, [
 				'container_id'  => $container_id,
 				'route_id'      => $www_route_id,
 				'dollie_domain' => DOLLIE_INSTALL,
-				'dollie_token'  => Api::getDollieToken(),
+				'dollie_token'  => Api::get_dollie_token(),
 			] );
 
 			dollie()->flush_container_details();
@@ -211,7 +211,7 @@ class Plugin extends Singleton {
 			return;
 		}
 
-		if ( Api::get_auth_token() && Api::get_auth_token_status() ) {
+		if ( Api::get_auth_data( 'access_token' ) && Api::auth_token_is_active() ) {
 			return;
 		}
 
@@ -222,7 +222,7 @@ class Plugin extends Singleton {
             <div class="dollie-inner-message">
                 <img width="60" src="<?php echo esc_url( DOLLIE_URL . 'assets/img/active.png' ); ?>">
                 <div class="dollie-message-center">
-					<?php if ( Api::get_auth_token() && ! Api::get_auth_token_status() ) : ?>
+					<?php if ( Api::get_auth_data( 'access_token' ) && ! Api::auth_token_is_active() ) : ?>
                         <p><?php _e( 'Your Dollie token has expired! Please reauthenticate this installation to continue using Dollie!', DOLLIE_DOMAIN ); ?></p>
 					<?php else: ?>
                         <h3><?php esc_html_e( 'Dollie is almost ready...', 'dollie' ); ?> </h3>

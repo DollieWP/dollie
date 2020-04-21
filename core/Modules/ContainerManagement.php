@@ -119,7 +119,7 @@ class ContainerManagement extends Singleton {
 			$requestGetContainer = Api::post( API::ROUTE_CONTAINER_GET, [
 				'container_id'  => $container_id,
 				'dollie_domain' => DOLLIE_INSTALL,
-				'dollie_token'  => Api::getDollieToken()
+				'dollie_token'  => Api::get_dollie_token()
 			] );
 
 			$responseGetContainer = json_decode( wp_remote_retrieve_body( $requestGetContainer ), true );
@@ -260,7 +260,7 @@ class ContainerManagement extends Singleton {
 			'container_id'  => $container_id,
 			'action'        => $action,
 			'dollie_domain' => DOLLIE_INSTALL,
-			'dollie_token'  => Api::getDollieToken(),
+			'dollie_token'  => Api::get_dollie_token(),
 		] );
 
 		$requestTriggerResponse = json_decode( wp_remote_retrieve_body( $requestTriggerContainer ), true );
@@ -333,7 +333,7 @@ class ContainerManagement extends Singleton {
 		// Get list of container from remote API
 		$requestGetContainers = Api::post( Api::ROUTE_CONTAINER_GET, [
 			'dollie_domain' => DOLLIE_INSTALL,
-			'dollie_token'  => Api::getDollieToken(),
+			'dollie_token'  => Api::get_dollie_token(),
 		] );
 
 		// Convert JSON into array.

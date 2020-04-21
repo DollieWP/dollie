@@ -110,7 +110,7 @@ class DomainWizard extends Singleton {
 				'container_id'  => $request->id,
 				'domain'        => $domain,
 				'dollie_domain' => DOLLIE_INSTALL,
-				'dollie_token'  => Api::getDollieToken(),
+				'dollie_token'  => Api::get_dollie_token(),
 			] );
 
 			$response_data = API::process_response( $request_route_add );
@@ -136,7 +136,7 @@ class DomainWizard extends Singleton {
 				'container_id'  => $request->id,
 				'domain'        => 'www.' . $domain,
 				'dollie_domain' => DOLLIE_INSTALL,
-				'dollie_token'  => Api::getDollieToken(),
+				'dollie_token'  => Api::get_dollie_token(),
 			] );
 
 			$response_data_www = API::process_response( $request_route_add_www );
@@ -192,7 +192,7 @@ class DomainWizard extends Singleton {
 						'email'          => $email,
 						'cloudflare_key' => $api_key,
 						'dollie_domain'  => DOLLIE_INSTALL,
-						'dollie_token'   => Api::getDollieToken(),
+						'dollie_token'   => Api::get_dollie_token(),
 					] );
 
 					// All done, update user meta!
@@ -255,7 +255,7 @@ class DomainWizard extends Singleton {
 				'container_uri' => get_post_meta( $container->id, 'wpd_container_uri', true ),
 				'domain'        => $domain,
 				'dollie_domain' => DOLLIE_INSTALL,
-				'dollie_token'  => Api::getDollieToken(),
+				'dollie_token'  => Api::get_dollie_token(),
 			] );
 
 			$responseDomainUpdate = json_decode( wp_remote_retrieve_body( $requestDomainUpdate ), true );
@@ -270,7 +270,7 @@ class DomainWizard extends Singleton {
 					'container_id'  => get_post_meta( $container->id, 'wpd_container_id', true ),
 					'route_id'      => get_post_meta( $container->id, 'wpd_domain_id', true ),
 					'dollie_domain' => DOLLIE_INSTALL,
-					'dollie_token'  => Api::getDollieToken(),
+					'dollie_token'  => Api::get_dollie_token(),
 				] );
 
 				$responseLetsEncrypt = API::process_response( $requestLetsEncrypt );

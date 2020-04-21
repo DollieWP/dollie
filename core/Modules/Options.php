@@ -389,7 +389,7 @@ class Options extends Singleton {
 			$data = @json_decode( $data, true );
 
 			if ( is_array( $data ) ) {
-				Api::update_auth_tokens( $data );
+				Api::update_auth_data( $data );
 			}
 
 			wp_redirect( admin_url( 'admin.php?page=wpd_api' ) );

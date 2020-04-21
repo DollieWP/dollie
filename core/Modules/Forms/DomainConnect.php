@@ -70,7 +70,7 @@ class DomainConnect extends Singleton {
 			'container_id'  => $request->id,
 			'domain'        => $domain,
 			'dollie_domain' => DOLLIE_INSTALL,
-			'dollie_token'  => Api::getDollieToken(),
+			'dollie_token'  => Api::get_dollie_token(),
 		] );
 
 		$response_data = API::process_response( $request_route_add );
@@ -96,7 +96,7 @@ class DomainConnect extends Singleton {
 			'container_id'  => $request->id,
 			'domain'        => 'www.' . $domain,
 			'dollie_domain' => DOLLIE_INSTALL,
-			'dollie_token'  => Api::getDollieToken(),
+			'dollie_token'  => Api::get_dollie_token(),
 		] );
 
 		$response_data_www = API::process_response( $request_route_add_www );
