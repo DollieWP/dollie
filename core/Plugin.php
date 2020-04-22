@@ -121,9 +121,13 @@ class Plugin extends Singleton {
 
 	private function load_routes() {
 
+		if ( function_exists( 'get_field' ) && ! get_field( 'wpd_enable_site_preview', 'options' ) ) {
+			return;
+		}
+
 		$router       = new Router( 'dollie_route_name' );
 		$this->routes = [
-			'dollie_preview' => new Route( '/preview', '', DOLLIE_CORE_PATH . 'Extras/preview/index.php' ),
+			'dollie_preview' => new Route( '/' . dollie()->get_preview_url( 'path' ), '', DOLLIE_CORE_PATH . 'Extras/preview/index.php' ),
 		];
 
 		Processor::init( $router, $this->routes );
@@ -275,29 +279,6 @@ class Plugin extends Singleton {
             </div>
         </div>
 		<?php
-	}
-
-	public function check_token_status( $method, $response ) {
-		if ( is_wp_error( $response ) ) {
-			return false;
-		}
-
-		$code = wp_remote_retrieve_response_code( $response );
-
-		if ( $code === 401 ) {
-			$refresh_token = Api::get_auth_data( 'refresh_token' );
-			Api::update_auth_token_status( 0 );
-
-			if ( ! $refresh_token ) {
-				wp_redirect( admin_url( 'admin.php?page=wpd_api&status=not_connected' ) );
-				die();
-			}
-
-			wp_redirect( admin_url( 'admin.php?page=wpd_api&status=refresh' ) );
-			die();
-		}
-
-		return false;
 	}
 
 }
