@@ -41,6 +41,12 @@ if ( $token_active ) {
 
     <br>
 
-    <form method="post"><input type="submit" name="synchronize" class="button" value="Refresh Token"></form>
+	<?php if ( \Dollie\Core\Utils\Api::get_auth_data( 'refresh_token' ) && ! \Dollie\Core\Utils\Api::auth_token_is_active() ): ?>
+		<?php echo \Dollie\Core\Plugin::instance()->get_api_refresh_link( true ); ?>
+	<?php endif; ?>
+
+	<?php if ( ! \Dollie\Core\Utils\Api::get_auth_data( 'access_token' ) && ! \Dollie\Core\Utils\Api::auth_token_is_active() ): ?>
+		<?php echo \Dollie\Core\Plugin::instance()->get_api_access_link( true ); ?>
+	<?php endif; ?>
 
 </div>
