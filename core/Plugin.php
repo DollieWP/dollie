@@ -49,6 +49,8 @@ class Plugin extends Singleton {
 		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
 
 		add_action( 'admin_notices', [ $this, 'check_auth_admin_notice' ] );
+
+		add_action( 'dollie/api/after', [ $this, 'check_token_status' ], 10, 2 );
 	}
 
 	/**
@@ -250,6 +252,34 @@ class Plugin extends Singleton {
             </div>
         </div>
 		<?php
+	}
+
+	public function check_token_status( $method, $response ) {
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+		$answer_body = wp_remote_retrieve_body( $response );
+
+		if ( empty( $answer_body ) ) {
+			return false;
+		}
+
+		$answer = json_decode( $answer_body, true );
+
+		if ( is_array( $answer ) && isset( $answer['status'] ) && $answer['status'] === 401 ) {
+			$refresh_token = Api::get_auth_data( 'refresh_token' );
+
+			if ( ! $refresh_token ) {
+				wp_redirect( admin_url( 'admin.php?page=wpd_api&status=not_connected' ) );
+				die();
+			}
+
+			wp_redirect( admin_url( 'admin.php?page=wpd_api&status=refresh' ) );
+			die();
+		}
+
+		return false;
 	}
 
 }
