@@ -1,0 +1,27 @@
+/* 
+This class must be the same as the style in the filter
+acf/tooltip/style
+*/
+.qtip-own {
+	background-color: #000000;
+	border-color: red;
+	color: #f3f3f3;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+
+/*
+These classes are optional
+*/
+.qtip {
+	max-width: 500px;
+}
+
+.dashicons.dashicons-editor-help.acf__tooltip {
+	color: #0074a2;
+	width: 18px;
+	height: 18px;
+	font-size: 20px;
+	cursor: pointer;
+}

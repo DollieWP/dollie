@@ -32,10 +32,12 @@ class SecurityChecks extends Singleton {
 
 		// Now that we have our container details get our secret key
 		$details_url          = dollie()->get_container_url() . '/wp-content/mu-plugins/platform/container/details/stats.php';
-		$details_transient_id = 'get_container_site_info';
+		$details_transient_id = dollie()->get_current_object()->slug . '_get_container_site_info';
 		$details_username     = 'container';
-		//Make the request
-		$details_request = dollie()->container_api_request( $details_url, $details_transient_id, $details_username, $details_pass );
+
+		// Make the request.
+		$details_request = dollie()->container_api_request( $details_url, $details_transient_id, $details_username );
+
 		//Encode to JSON (not used yet)
 		$container_data = json_encode( $details_request );
 

@@ -23,36 +23,110 @@ class Blueprints extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'wf_before_container', [ $this, 'get_available_blueprints' ], 11 );
-
-		foreach ( dollie()->get_dollie_gravity_form_ids( 'dollie-blueprint' ) as $form_id ) {
-			add_action( 'gform_after_submission_' . $form_id, [ $this, 'deploy_new_blueprint' ], 10, 2 );
-		}
-
-		// Only apply to Form ID 11.
-		add_filter( 'gform_pre_render', [ $this, 'list_blueprints' ] );
+		add_action( 'wp_head', [ $this, 'get_site_available_blueprints' ], 11 );
 		add_action( 'template_redirect', [ $this, 'set_blueprint_cookie' ], - 99999 );
 	}
 
-	public function get_available_blueprints() {
-		if ( isset( $_GET['page'] ) && $_GET['page'] === 'blueprint' && is_singular( 'container' ) ) {
-			if ( ob_get_length() > 0 ) {
-				@ob_end_flush();
-				@flush();
+	/**
+	 * Get all available blueprints
+	 *
+	 * @param string $value_format image|title
+	 *
+	 * @return array
+	 */
+	public function get_all_blueprints( $value_format = 'image' ) {
+
+		$data = [];
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return $data;
+		}
+
+		$sites = get_posts( [
+			'post_type'      => 'container',
+			'posts_per_page' => - 1,
+			'meta_query'     => [
+				'relation' => 'AND',
+				[
+					'key'   => 'wpd_blueprint_created',
+					'value' => 'yes',
+				],
+				[
+					'key'   => 'wpd_is_blueprint',
+					'value' => 'yes',
+				],
+				[
+					'key'     => 'wpd_installation_blueprint_title',
+					'compare' => 'EXISTS',
+				]
+			],
+			'p'              => isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : '',
+		] );
+
+		if ( empty( $sites ) ) {
+			return $data;
+		}
+
+		foreach ( $sites as $site ) {
+
+			$private = get_field( 'wpd_private_blueprint', $site->ID );
+
+			if ( $private === 'yes' ) {
+				continue;
 			}
 
-			$currentQuery = dollie()->get_current_object();
+			if ( 'image' === $value_format ) {
 
-			$secret = get_post_meta( $currentQuery->id, 'wpd_container_secret', true );
-			$url    = dollie()->get_container_url() . '/' . $secret . '/codiad/backups/blueprints.php';
+				if ( get_field( 'wpd_blueprint_image', $site->ID ) === 'custom' ) {
+					$image = get_field( 'wpd_blueprint_custom_image', $site->ID );
+				} elseif ( get_field( 'wpd_blueprint_image', $site->ID ) === 'theme' ) {
+					$image = wpthumb( get_post_meta( $site->ID, 'wpd_installation_site_theme_screenshot', true ), 'width=900&crop=0' );
+				} else {
+					$image = get_post_meta( $site->ID, 'wpd_site_screenshot', true );
+				}
+				$value = '<img data-toggle="tooltip" data-placement="bottom" ' .
+				         'title="' . get_post_meta( $site->ID, 'wpd_installation_blueprint_description', true ) . '" ' .
+				         'class="fw-blueprint-screenshot" src=' . $image . '>' .
+				         get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true );
 
-			$response = wp_remote_get( $url, [ 'timeout' => 20 ] );
+			} else {
+				$value = get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true );
+			}
 
-			if ( is_wp_error( $response ) ) {
+			$data[ $site->ID ] = $value;
+
+		}
+
+		return $data;
+	}
+
+
+	/**
+	 * Get available blueprints
+	 *
+	 * @param int $site_id
+	 *
+	 * @return array
+	 */
+	public function get_site_available_blueprints( $site_id = null ) {
+		if ( isset( $_GET['page'] ) && $_GET['page'] === 'blueprint' && is_singular( 'container' ) ) {
+
+			$site = dollie()->get_current_object( $site_id );
+
+			$secret = get_post_meta( $site->id, 'wpd_container_secret', true );
+
+			$requestGetBlueprint = Api::post( Api::ROUTE_BLUEPRINT_GET, [
+				'container_url'    => dollie()->get_container_url(),
+				'container_secret' => $secret
+			] );
+
+			$responseGetBlueprint = json_decode( wp_remote_retrieve_body( $requestGetBlueprint ), true );
+
+			if ( $responseGetBlueprint['status'] === 500 ) {
 				return [];
 			}
 
-			$blueprints = json_decode( wp_remote_retrieve_body( $response ), true );
+			$blueprints = json_decode( $responseGetBlueprint['body'], true );
 
 			if ( empty( $blueprints ) ) {
 				return [];
@@ -62,95 +136,15 @@ class Blueprints extends Singleton {
 				return ! ( strpos( $value, 'restore' ) !== false );
 			} );
 
-			set_transient( 'dollie_' . $currentQuery->slug . '_total_blueprints', count( $total_blueprints ), MINUTE_IN_SECONDS * 1 );
-			update_post_meta( $currentQuery->id, 'wpd_installation_blueprints_available', count( $total_blueprints ) );
+			set_transient( 'dollie_' . $site->slug . '_total_blueprints', count( $total_blueprints ), MINUTE_IN_SECONDS * 1 );
+			update_post_meta( $site->id, 'wpd_installation_blueprints_available', count( $total_blueprints ) );
 
 			return $blueprints;
 		}
+
+		return [];
 	}
 
-	public function deploy_new_blueprint( $entry, $form ) {
-		$currentQuery = dollie()->get_current_object();
-		$install      = get_post_meta($currentQuery->id, 'wpd_container_uri', true);
-
-		$post_body = [
-			'filter' => 'name: ' . $install . '-' . DOLLIE_WORKER_KEY,
-		];
-
-		Api::postRequestWorker( '1/job/b2fcd68d-3dab-4faf-95d8-6958c5811bae/run/', $post_body );
-
-		update_post_meta( $currentQuery->id, 'wpd_blueprint_created', 'yes' );
-		update_post_meta( $currentQuery->id, 'wpd_blueprint_time', @date( 'd/M/Y:H:i' ) );
-
-		Log::add( $currentQuery->slug . ' updated/deployed a new Blueprint', '', 'blueprint' );
-	}
-
-	public function list_blueprints( $form ) {
-		foreach ( $form['fields'] as $field ) {
-			if ( $field['type'] !== 'radio' || strpos( $field['cssClass'], 'site-blueprints' ) === false ) {
-				continue;
-			}
-
-			// Get our available blueprints
-			// Instantiate custom query
-
-			$query = new WP_Query( [
-				'post_type'      => 'container',
-				'posts_per_page' => 1000,
-				'meta_query'     => [
-					'relation' => 'AND',
-					[
-						'key'   => 'wpd_blueprint_created',
-						'value' => 'yes',
-					],
-					[
-						'key'   => 'wpd_is_blueprint',
-						'value' => 'yes',
-					],
-					[
-						'key'     => 'wpd_installation_blueprint_title',
-						'compare' => 'EXISTS',
-					]
-				],
-				'p'              => isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : '',
-			] );
-
-			$choices = [];
-
-			// Output custom query loop
-			if ( $query->have_posts() ) {
-				while ( $query->have_posts() ) {
-					$query->the_post();
-
-					$private = get_field( 'wpd_private_blueprint' );
-
-					if ( $private === 'yes' && ! current_user_can( 'manage_options' ) ) {
-						continue;
-					}
-
-					if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
-						$image = get_field( 'wpd_blueprint_custom_image' );
-					} elseif ( get_field( 'wpd_blueprint_image' ) === 'theme' ) {
-						$image = wpthumb( get_post_meta( get_the_ID(), 'wpd_installation_site_theme_screenshot', true ), 'width=900&crop=0' );
-					} else {
-						$image = get_post_meta( get_the_ID(), 'wpd_site_screenshot', true );
-					}
-
-					$choices[] = [
-						'text'  => '<img data-toggle="tooltip" data-placement="bottom" title="' . get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ) . '" class="fw-blueprint-screenshot" src=' . $image . '>' . get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true ),
-						'value' => get_the_ID(),
-					];
-				}
-			}
-
-			$field['choices'] = $choices;
-
-			wp_reset_postdata();
-			wp_reset_query();
-		}
-
-		return $form;
-	}
 
 	public function set_blueprint_cookie() {
 		if ( isset( $_GET['blueprint_id'] ) ) {
@@ -171,7 +165,7 @@ class Blueprints extends Singleton {
 	}
 
 	public function list_available_blueprints() {
-		$blueprints = $this->get_available_blueprints();
+		$blueprints = $this->get_site_available_blueprints();
 
 		if ( empty( $blueprints ) ) {
 			echo 'No Blueprints Created yet';

@@ -24,7 +24,7 @@ define( 'DOLLIE_PLUGIN_BASE', plugin_basename( DOLLIE_FILE ) );
 define( 'DOLLIE_PATH', plugin_dir_path( DOLLIE_FILE ) );
 define( 'DOLLIE_URL', plugins_url( '/', DOLLIE_FILE ) );
 define( 'DOLLIE_CORE_PATH', DOLLIE_PATH . 'core/' );
-define( 'DOLLIE_MODULE_TPL_PATH', DOLLIE_CORE_PATH . 'Modules/templates/' );
+define( 'DOLLIE_MODULE_TPL_PATH', DOLLIE_PATH . 'templates/' );
 define( 'DOLLIE_ASSETS_URL', DOLLIE_URL . 'assets/' );
 
 // Sensitive data
@@ -33,9 +33,6 @@ if ( ! defined( 'DOLLIE_WORKER_TOKEN' ) ) {
 }
 if ( ! defined( 'DOLLIE_WORKER_URL' ) ) {
 	define( 'DOLLIE_WORKER_URL', 'https://worker.getdollie.com' );
-}
-if ( ! defined( 'DOLLIE_PACKAGE' ) ) {
-	define( 'DOLLIE_PACKAGE', '2c9fa77e6f320129016f8a85a3870250' );
 }
 if ( ! defined( 'DOLLIE_MEMORY' ) ) {
 	define( 'DOLLIE_MEMORY', 1024 );

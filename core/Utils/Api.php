@@ -15,6 +15,37 @@ use Dollie\Core\Singleton;
  */
 class Api extends Singleton {
 
+	const
+		ROUTE_CONTAINER_GET = 'containers',
+		ROUTE_CONTAINER_CREATE = 'containers/create',
+		ROUTE_CONTAINER_TRIGGER = 'containers/trigger',
+
+		ROUTE_DOMAIN_ROUTES_ADD = 'domain/routes/add',
+		ROUTE_DOMAIN_ROUTES_GET = 'domain/routes/get',
+		ROUTE_DOMAIN_ROUTES_DELETE = 'domain/routes/delete',
+		ROUTE_DOMAIN_UPDATE = 'domain/update',
+		ROUTE_DOMAIN_INSTALL_LETSENCRYPT = 'domain/install/letsencrypt',
+		ROUTE_DOMAIN_INSTALL_CLOUDFLARE = 'domain/install/cloudflare',
+
+		ROUTE_BACKUP_GET = 'backup',
+		ROUTE_BACKUP_CREATE = 'backup/create',
+		ROUTE_BACKUP_RESTORE = 'backup/restore',
+
+		ROUTE_BLUEPRINT_GET = 'blueprint',
+		ROUTE_BLUEPRINT_CREATE_OR_UPDATE = 'blueprint/create-or-update',
+		ROUTE_BLUEPRINT_DEPLOY = 'blueprint/deploy',
+		ROUTE_BLUEPRINT_DEPLOY_FOR_PARTNER = 'blueprint/deploy-partner',
+
+		ROUTE_PLUGINS_INSTALL = 'plugins/install',
+		ROUTE_PLUGINS_UPDATES_GET = 'plugins/updates/get',
+		ROUTE_PLUGINS_UPDATES_APPLY = 'plugins/updates/apply',
+
+		ROUTE_EXECUTE_JOB = 'execute/job',
+		ROUTE_NODES_GET = 'nodes',
+		ROUTE_WIZARD_SETUP = 'setup';
+
+	const API_URL = 'https://api.getdollie.com/api/';
+
 	/**
 	 * Api constructor.
 	 */
@@ -22,79 +53,133 @@ class Api extends Singleton {
 		parent::__construct();
 	}
 
-	/**
-	 * Post request Dollie API
-	 *
-	 * @param string $endpoint
-	 * @param array $data
-	 * @param null $timeout
-	 *
-	 * @return array|\WP_Error
-	 */
-	public static function postRequestDollie( $endpoint, $data = [], $timeout = null ) {
-		$requestData = [
-			'method'  => 'POST',
-			'headers' => [
-				'Authorization' => 'Basic ' . base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD ),
-				'Content-Type'  => 'application/json',
-			],
-			'body'    => json_encode( $data )
-		];
-
-		if ( $timeout !== null && is_numeric( $timeout ) ) {
-			$requestData['timeout'] = abs( $timeout );
-		}
-
-		return wp_remote_post( DOLLIE_INSTALL . '/s5Api/v1/sites/' . $endpoint, $requestData );
+	public function set_custom_http_timeout() {
+		return 10;
 	}
 
+
 	/**
-	 * Get request Dollie API
+	 * Make a GET request to dollie API
 	 *
-	 * @param string $endpoint
-	 * @param null $timeout
+	 * @param $endpoint
 	 *
 	 * @return array|\WP_Error
 	 */
-	public static function getRequestDollie( $endpoint = '', $timeout = null ) {
-		$requestData = [
+	public static function get( $endpoint ) {
+
+		add_filter( 'http_request_timeout', [ self::instance(), 'set_custom_http_timeout' ] );
+
+		do_action( 'dollie/api/' . $endpoint . '/before', 'get' );
+
+		$call = wp_remote_get( self::API_URL . $endpoint, [
 			'headers' => [
-				'Authorization' => 'Basic ' . base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD )
+				'Accept'        => 'application/json',
+				'Authorization' => self::get_auth_data( 'access_token' )
 			]
-		];
+		] );
 
-		if ( $timeout !== null && is_numeric( $timeout ) ) {
-			$requestData['timeout'] = abs( $timeout );
-		}
+		remove_filter( 'http_request_timeout', [ self::instance(), 'set_custom_http_timeout' ] );
 
-		return wp_remote_get( DOLLIE_INSTALL . '/s5Api/v1/sites/' . $endpoint, $requestData );
+		do_action( 'dollie/api/' . $endpoint . '/after', 'get' );
+
+		return $call;
+
 	}
 
 	/**
-	 * Post request Worker API
+	 * Make a POST request to dollie API
 	 *
-	 * @param string $endpoint
+	 * @param $endpoint
 	 * @param array $data
-	 * @param string $method
-	 * @param null $timeout
 	 *
 	 * @return array|\WP_Error
 	 */
-	public static function postRequestWorker( $endpoint, $data = [], $method = 'POST', $timeout = null ) {
-		$requestData = [
-			'method'  => $method,
-			'headers' => [
-				'X-Rundeck-Auth-Token' => DOLLIE_WORKER_TOKEN,
-				'Content-Type'         => 'application/json',
-			],
-			'body'    => json_encode( $data )
-		];
+	public static function post( $endpoint, $data = [] ) {
 
-		if ( $timeout !== null && is_numeric( $timeout ) ) {
-			$requestData['timeout'] = abs( $timeout );
+		add_filter( 'http_request_timeout', [ self::instance(), 'set_custom_http_timeout' ] );
+
+		do_action( 'dollie/api/' . $endpoint . '/before', 'post', $data );
+
+		$call = wp_remote_post( self::API_URL . $endpoint, [
+			'method'  => 'POST',
+			'body'    => $data,
+			'headers' => [
+				'Accept'        => 'application/json',
+				'Authorization' => self::get_auth_data( 'access_token' )
+			]
+		] );
+
+		remove_filter( 'http_request_timeout', [ self::instance(), 'set_custom_http_timeout' ] );
+
+		do_action( 'dollie/api/' . $endpoint . '/after', 'post', $data );
+
+		return $call;
+	}
+
+	/**
+	 * @return string
+	 */
+	public static function get_dollie_token() {
+		return base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD );
+	}
+
+	/**
+	 * @param $response
+	 *
+	 * @return bool|mixed
+	 */
+	public static function process_response( $response ) {
+		if ( is_wp_error( $response ) ) {
+			return false;
 		}
 
-		return wp_remote_post( DOLLIE_WORKER_URL . '/api/' . $endpoint, $requestData );
+		$answer_body = wp_remote_retrieve_body( $response );
+
+		if ( empty( $answer_body ) ) {
+			return false;
+		}
+
+		$answer = json_decode( $answer_body, true );
+
+		if ( ! is_array( $answer ) || ! isset( $answer['status'] ) || $answer['status'] === 500 ) {
+			return false;
+		}
+
+		return @json_decode( $answer['body'], true );
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function auth_token_is_active() {
+		return (bool) get_option( 'dollie_auth_token_status', 0 );
+	}
+
+	/**
+	 * @param $data
+	 */
+	public static function update_auth_data( $data ) {
+		update_option( 'dollie_token_data', $data );
+		update_option( 'dollie_auth_token_status', 1 );
+	}
+
+	/**
+	 * @param $type
+	 *
+	 * @return bool
+	 */
+	public static function get_auth_data( $type ) {
+		$data = get_option( 'dollie_token_data', [] );
+
+		if ( empty( $data ) ) {
+			return false;
+		}
+
+		if ( isset( $data[ $type ] ) ) {
+			return $data[ $type ];
+		}
+
+		return false;
 	}
 
 }

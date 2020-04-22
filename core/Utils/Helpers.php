@@ -25,10 +25,18 @@ class Helpers extends Singleton {
 	/**
 	 * Get current queried object data
 	 *
+	 * @param int $id
+	 *
 	 * @return \stdClass
 	 */
-	public function get_current_object() {
-		$object   = get_queried_object();
+	public function get_current_object( $id = null ) {
+
+		if ( isset( $id ) && $id > 0 ) {
+			$object = get_post( $id );
+		} else {
+			$object = get_queried_object();
+		}
+
 		$response = new \stdClass();
 
 		if ( isset( $object->ID ) ) {
@@ -95,10 +103,9 @@ class Helpers extends Singleton {
 		return $install;
 	}
 
-	public function get_customer_login_url( $container_id = null, $container_slug = null, $container_location = null ) {
-		if ( $container_slug === null ) {
-			$container_slug = $this->get_current_object()->slug;
-		}
+	public function get_customer_login_url( $container_id = null, $container_location = null ) {
+
+		$container = $this->get_current_object( $container_id );
 
 		if ( $container_location !== null ) {
 			$location = '&location=' . $container_location;
@@ -106,10 +113,11 @@ class Helpers extends Singleton {
 			$location = '';
 		}
 
-		$details = get_transient( 'dollie_container_api_request_' . $container_slug . '_get_container_wp_info' );
+		$details = ContainerManagement::instance()->get_container_wp_info( $container->id );
 
 		return $this->get_container_url( $container_id ) . '/wp-login.php?s5token=' . $details->Token . '&string=' . $details->{'Customer ID'} . '&user=' . $details->Admin . $location;
 	}
+
 
 	public function get_customer_admin_url() {
 		return $this->get_container_url() . '/wp-admin/';
@@ -148,17 +156,20 @@ class Helpers extends Singleton {
 		return $screenshot;
 	}
 
-	public function flush_container_details() {
-		delete_transient( 'dollie_container_api_request_' . $this->get_current_object()->slug . '_get_container_wp_info' );
-		delete_transient( 'dollie_container_api_request_' . $this->get_current_object()->slug . '_get_container_site_info' );
-		delete_transient( 'dollie_site_users_' . $this->get_current_object()->slug );
-		delete_transient( 'dollie_site_news_' . $this->get_current_object()->slug );
+	public function flush_container_details( $container_id = null ) {
+
+		$container = $this->get_current_object( $container_id );
+
+		delete_transient( 'dollie_container_api_request_' . $container->slug . '_get_container_wp_info' );
+		delete_transient( 'dollie_container_api_request_' . $container->slug . '_get_container_site_info' );
+		delete_transient( 'dollie_site_users_' . $container->slug );
+		delete_transient( 'dollie_site_news_' . $container->slug );
 		delete_transient( 'dollie_site_screenshot_' . $this->get_container_url() );
 	}
 
 	public function get_latest_container_url() {
 		$query = new WP_Query( [
-			'post_status'    => array('publish', 'draft'),
+			'post_status'    => array( 'publish', 'draft' ),
 			'author'         => get_current_user_id(),
 			'post_type'      => 'container',
 			'posts_per_page' => 1,
@@ -319,7 +330,7 @@ class Helpers extends Singleton {
 	}
 
 	/**
-     * Get all registered settings groups by name and key
+	 * Get all registered settings groups by name and key
 	 * @return array
 	 */
 	public function acf_get_database_field_group_keys() {
@@ -332,41 +343,6 @@ class Helpers extends Singleton {
 		}
 
 		return $keys;
-	}
-
-	public function get_dollie_gravity_form_ids( $label = 'dollie-', $cached = true ) {
-		if ( ! class_exists( \GFAPI::class ) ) {
-			return [];
-		}
-
-		// Get cached data
-		$transient = get_transient( 'dollie_gform_ids' ) ?: [];
-
-		if ( $cached && isset( $transient[ $label ] ) ) {
-			return $transient[ $label ];
-		}
-
-		$forms           = \GFAPI::get_forms();
-		$dollie_form_ids = [];
-
-		foreach ( $forms as $form ) {
-			$dollie = false;
-
-			foreach ( $form['fields'] as $fields ) {
-				if ( strpos( $fields->label, $label ) !== false ) {
-					$dollie = true;
-				}
-			}
-
-			if ( $dollie ) {
-				$dollie_form_ids[] = $form['id'];
-			}
-		}
-
-		$transient[ $label ] = $dollie_form_ids;
-		set_transient( 'dollie_gform_ids', $transient );
-
-		return $dollie_form_ids;
 	}
 
 	/**
@@ -449,14 +425,13 @@ class Helpers extends Singleton {
 		return CheckSubscription::instance()->has_bought_product( $user_id );
 	}
 
-	public function get_customer_container_details() {
-		return ContainerManagement::instance()->get_customer_container_details();
+	public function get_customer_container_details( $container_id = null ) {
+		return ContainerManagement::instance()->get_customer_container_details( $container_id );
 	}
 
-	public function container_api_request( $url, $transient_id, $user_auth, $user_pass ) {
+	public function container_api_request( $url, $transient_id, $user_auth, $user_pass = null ) {
 		return ContainerManagement::instance()->container_api_request( $url, $transient_id, $user_auth, $user_pass );
 	}
-
 
 	public function get_total_container_size() {
 		return SiteInsights::instance()->get_total_container_size();
@@ -468,6 +443,37 @@ class Helpers extends Singleton {
 
 	public function get_latest_container_posts() {
 		return SiteInsights::instance()->get_latest_container_posts();
+	}
+
+	public function get_support_link() {
+		return get_field( 'wpd_support_link', 'options' );
+	}
+
+	/**
+	 * Check if a domain is using CloudFlare
+	 * @param $domain
+	 *
+	 * @return bool
+	 */
+	public function is_using_cloudflare( $domain ) {
+
+		// Check NS record with Google DNS
+		$ns_response = wp_remote_get( 'https://dns.google.com/resolve?name=' . $domain . '&type=NS' );
+		if ( ! is_wp_error( $ns_response ) ) {
+			$ns_record = wp_remote_retrieve_body( $ns_response );
+			$ns_record = @json_decode( $ns_record, true );
+
+			if ( is_array( $ns_record ) && isset( $ns_record['Answer'] ) ) {
+				foreach ( $ns_record['Answer'] as $item ) {
+					if ( strpos( $item['data'], 'cloudflare' ) !== false ) {
+
+						return true;
+					}
+				}
+			}
+		}
+
+		return false;
 	}
 
 	public function in_array_r( $needle, $haystack, $strict = false ) {

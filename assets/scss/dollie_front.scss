@@ -1,0 +1,170 @@
+// //WeFoster Green & Black
+@import "_variables.scss";
+
+//Global
+.af-form {
+  .acf-fields > .acf-field {
+    border: 0;
+    padding-top: 25px;
+    padding-bottom: 0px;
+  }
+
+  .acf-field[data-width] + .acf-field[data-width] {
+    border: 0;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .af-field-site-url {
+    .acf-input {
+      max-width: 500px;
+    }
+
+    .acf-input-append {
+      min-height: 35px;
+      padding-top: 8px;
+      font-weight: bold;
+      border: 0;
+    }
+  }
+
+  .blockquote-box {
+    margin-top: 20px;
+    background: #f9f9f9;
+  }
+
+  .acf-hide-title {
+     > .acf-label {
+      display: none;
+    }
+  }
+
+  .acf-opacity-1 {
+    .acf-input {
+      opacity: 1 !important;
+    }
+  }
+
+  .acf-border-0  {
+    > .acf-label {
+      display: none;
+    }
+    .acf-input .acf-fields {
+      border: 0;
+    }
+  }
+}
+
+//Blueprints
+.af-field-site-blueprint {
+  ul.acf-radio-list li,
+  ul.acf-checkbox-list li {
+    font-size: 13px;
+    line-height: 22px;
+    margin: 0;
+    position: relative;
+    word-wrap: break-word;
+    display: inline-flex;
+  }
+
+  li {
+    float: left;
+    list-style: none;
+    padding: 5px;
+
+    img.fw-blueprint-screenshot {
+      max-width: 250px;
+      display: block;
+      border-radius: 10px;
+      padding: 5px;
+      margin-right: 0;
+      margin-left: -4px;
+      opacity: 0.8;
+
+      &:hover {
+        opacity: 1;
+        background: rgb(57, 188, 156);
+      }
+    }
+
+    label.selected {
+      font-weight: 700;
+      background: #1ebf73;
+      border-radius: 10px;
+      padding-left: 3px;
+
+      display: inline-block;
+
+      /* border: 1px solid; */
+      img.fw-blueprint-screenshot {
+        opacity: 1;
+      }
+    }
+
+    input {
+      display: none !important;
+    }
+
+    input[type="radio"]:checked + label {
+      font-weight: 700;
+      padding-bottom: 15px;
+    }
+  }
+
+  .gfield_radio {
+    label {
+      text-align: center;
+    }
+  }
+}
+
+//Backups
+.af-field-site-backup {
+  i {
+    margin-left: 2px;
+    margin-right: 2px;
+    opacity: 0.5;
+  }
+
+  .gform_page_footer {
+    padding: 30px;
+  }
+
+  li {
+    border-bottom: 1px solid rgb(239, 239, 239);
+    display: block;
+    margin-bottom: 1px;
+    margin-right: 8px;
+    padding: 15px 15px !important;
+    width: 100%;
+
+    .pull-right {
+      float: right;
+    }
+
+    .fa {
+      font-size: 85%;
+      margin-left: 5px;
+      margin-right: 5px;
+      position: relative;
+      top: 0;
+    }
+
+    &:hover {
+      background: #222;
+      color: #fff;
+
+      .fa {
+        opacity: 1;
+      }
+    }
+
+    label {
+      display: inline-block;
+      max-width: 97%;
+      width: 100%;
+    }
+  }
+}

@@ -14,19 +14,14 @@ use Dollie\Core\Modules\ContainerFields;
 use Dollie\Core\Modules\ContainerManagement;
 use Dollie\Core\Modules\ContainerRegistration;
 use Dollie\Core\Modules\Custom;
-use Dollie\Core\Modules\DeleteSite;
-use Dollie\Core\Modules\DomainWizard;
+use Dollie\Core\Modules\Forms;
 use Dollie\Core\Modules\Hooks;
-use Dollie\Core\Modules\ImportGravityForms;
-use Dollie\Core\Modules\LaunchSite;
 use Dollie\Core\Modules\Options;
-use Dollie\Core\Modules\PluginUpdates;
-use Dollie\Core\Modules\Scripts;
 use Dollie\Core\Modules\SecurityChecks;
-use Dollie\Core\Modules\Tools;
 use Dollie\Core\Modules\Upgrades;
-use Dollie\Core\Modules\WelcomeWizard;
 use Dollie\Core\Modules\WooCommerce;
+
+use Dollie\Core\Utils\Api;
 use WP_Query;
 
 /**
@@ -42,16 +37,18 @@ class Plugin extends Singleton {
 		parent::__construct();
 
 		add_filter( 'body_class', [ $this, 'add_timestamp_body' ] );
+
 		add_action( 'template_redirect', [ $this, 'remove_customer_domain' ] );
-		add_action( 'template_redirect', [ $this, 'redirect_to_new_container' ] );
+		add_action( 'template_redirect', [ $this, 'redirect_to_container_launch' ] );
+
 		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
 
-
-		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 9 );
-
+		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 0 );
 		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
 
 		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
+
+		add_action( 'admin_notices', [ $this, 'check_auth_admin_notice' ] );
 	}
 
 	/**
@@ -66,14 +63,22 @@ class Plugin extends Singleton {
 
 		// Load customizer framework.
 		require_once DOLLIE_PATH . 'core/Extras/kirki/kirki.php';
+
+		// Load logger.
+		if ( ! class_exists( '\AF' ) && ! ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'activate' ) ) {
+			require_once DOLLIE_PATH . 'core/Extras/advanced-forms/advanced-forms.php';
+			require_once DOLLIE_PATH . 'core/Extras/acf-tooltip/acf-tooltip.php';
+		}
+
+
 	}
 
 	/**
 	 * Initialize modules and shortcodes
 	 */
 	public function initialize() {
-
 		// Load modules
+		Forms::instance();
 		AccessControl::instance();
 		Backups::instance();
 		Blueprints::instance();
@@ -82,15 +87,9 @@ class Plugin extends Singleton {
 		ContainerManagement::instance();
 		ContainerRegistration::instance();
 		Custom::instance();
-		DeleteSite::instance();
-		DomainWizard::instance();
 		Hooks::instance();
-		LaunchSite::instance();
 		Options::instance();
-		PluginUpdates::instance();
 		SecurityChecks::instance();
-		Tools::instance();
-		WelcomeWizard::instance();
 		WooCommerce::instance();
 		Modules\Dashboard\Setup::instance();
 		Upgrades::instance();
@@ -100,13 +99,23 @@ class Plugin extends Singleton {
 		Shortcodes\Orders::instance();
 		Shortcodes\Sites::instance();
 
+		/**
+		 * Allow developers to hook after dollie finished initialization
+		 */
+		do_action( 'dollie/initialized' );
 	}
 
 	/**
 	 * Register ACF fields
 	 */
 	public function acf_add_local_field_groups() {
-		require DOLLIE_PATH . 'core/Extras/ACF-fields.php';
+
+		if ( defined( 'DOLLIE_DEV' ) ) {
+			return;
+		}
+
+		require DOLLIE_PATH . 'core/Extras/AcfFields.php';
+		require DOLLIE_PATH . 'core/Extras/AcfFormFields.php';
 	}
 
 
@@ -128,33 +137,19 @@ class Plugin extends Singleton {
 			$route_id     = get_post_meta( $post_id, 'wpd_domain_id', true );
 			$www_route_id = get_post_meta( $post_id, 'wpd_www_domain_id', true );
 
-			// Take output buffer for our body in our POST request
-			$url     = DOLLIE_INSTALL . '/s5Api/v1/sites/' . $container_id . '/routes/' . $route_id;
-			$www_url = DOLLIE_INSTALL . '/s5Api/v1/sites/' . $container_id . '/routes/' . $www_route_id;
+			Api::post( Api::ROUTE_DOMAIN_ROUTES_DELETE, [
+				'container_id'  => $container_id,
+				'route_id'      => $route_id,
+				'dollie_domain' => DOLLIE_INSTALL,
+				'dollie_token'  => Api::get_dollie_token(),
+			] );
 
-			// Set up the request
-			wp_remote_post(
-				$url,
-				array(
-					'method'  => 'DELETE',
-					'headers' => array(
-						'Authorization' => 'Basic ' . base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD ),
-						'Content-Type'  => 'application/json',
-					),
-				)
-			);
-
-			// Set up the request
-			wp_remote_post(
-				$www_url,
-				array(
-					'method'  => 'DELETE',
-					'headers' => array(
-						'Authorization' => 'Basic ' . base64_encode( DOLLIE_S5_USER . ':' . DOLLIE_S5_PASSWORD ),
-						'Content-Type'  => 'application/json',
-					),
-				)
-			);
+			Api::post( Api::ROUTE_DOMAIN_ROUTES_DELETE, [
+				'container_id'  => $container_id,
+				'route_id'      => $www_route_id,
+				'dollie_domain' => DOLLIE_INSTALL,
+				'dollie_token'  => Api::get_dollie_token(),
+			] );
 
 			dollie()->flush_container_details();
 
@@ -175,14 +170,15 @@ class Plugin extends Singleton {
 		}
 	}
 
-	public function redirect_to_new_container() {
-		if ( isset( $_GET['site'] ) && $_GET['site'] === 'new' ) {
-			$url = dollie()->get_latest_container_url();
+	public function redirect_to_container_launch() {
 
-			if ( $url ) {
-				wp_redirect( $url );
-				exit();
-			}
+		if ( ! dollie()->get_launch_page_id() ) {
+			return;
+		}
+
+		if ( current_user_can( 'manage_options' ) && dollie()->count_total_containers() === 0 && ! is_page( dollie()->get_launch_page_id() ) ) {
+			wp_redirect( dollie()->get_launch_page_url() );
+			exit;
 		}
 	}
 
@@ -208,6 +204,52 @@ class Plugin extends Singleton {
 
 		wp_reset_postdata();
 		wp_reset_query();
+	}
+
+	public function check_auth_admin_notice() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( Api::get_auth_data( 'access_token' ) && Api::auth_token_is_active() ) {
+			return;
+		}
+
+		// todo: set cron for token refresh
+
+		?>
+        <div class="notice dollie-notice">
+            <div class="dollie-inner-message">
+                <img width="60" src="<?php echo esc_url( DOLLIE_URL . 'assets/img/active.png' ); ?>">
+                <div class="dollie-message-center">
+					<?php if ( Api::get_auth_data( 'access_token' ) && ! Api::auth_token_is_active() ) : ?>
+                        <p><?php _e( 'Your Dollie token has expired! Please reauthenticate this installation to continue using Dollie!', DOLLIE_DOMAIN ); ?></p>
+					<?php else: ?>
+                        <h3><?php esc_html_e( 'Dollie is almost ready...', 'dollie' ); ?> </h3>
+                        <p><?php _e( 'Please authenticate this installation so that you can start launching your first (customer) sites using Dollie!', DOLLIE_DOMAIN ); ?></p>
+					<?php endif; ?>
+                </div>
+
+                <div class="dollie-msg-button-right">
+					<?php
+
+					$url_data = [
+						'scope'           => 'offline api.read',
+						'response_type'   => 'code',
+						'client_id'       => 'dollie-wp-plugin',
+						'redirect_uri'    => 'https://partners.getdollie.com/callback',
+						'state'           => hash( 'sha256', microtime( true ) . mt_rand() . $_SERVER['REMOTE_ADDR'] ),
+						'redirect_origin' => admin_url( 'admin.php?page=wpd_api' )
+					];
+
+					printf( '<a href="%s">%s</a>',
+						add_query_arg( $url_data, 'https://oauth2.staging.str5.net/hydra-public/oauth2/auth' ),
+						__( 'Click here', DOLLIE_DOMAIN ) );
+					?>
+                </div>
+            </div>
+        </div>
+		<?php
 	}
 
 }

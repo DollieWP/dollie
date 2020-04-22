@@ -7,6 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
+use Dollie\Core\Utils\Api;
+use Dollie\Core\Utils\Tpl;
 
 /**
  * Class Options
@@ -68,11 +70,12 @@ class Options extends Singleton {
                                       d="M349.9 236.3h-66.1v-59.4h66.1v59.4zm0-204.3h-66.1v60.7h66.1V32zm78.2 144.8H362v59.4h66.1v-59.4zm-156.3-72.1h-66.1v60.1h66.1v-60.1zm78.1 0h-66.1v60.1h66.1v-60.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1l-13.3-8.9zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm-78.1-72.1h-66.1v60.1h66.1v-60.1z"
                                       class=""></path>
                             </svg>
-                            The Container Manager
+                            The Site Manager
                         </h3>
                         <p>
-                            Below you'll find all of your site containers. Click on a container for a quick overview of
-                            the WordPress installation running inside of it, access various management tools and create
+                            Below you'll find all of your sites launched by you and your customers. Click on a site for
+                            a quick overview of the WordPress installation or to access various management tools and
+                            create
                             re-usable Blueprints with the click of a button.
                         </p>
                     </div>
@@ -111,6 +114,7 @@ class Options extends Singleton {
 		);
 
 		add_action( 'admin_menu', [ $this, 'dollie_tools' ], 99 );
+		add_action( 'admin_menu', [ $this, 'dollie_api' ], 99 );
 		add_action( 'admin_menu', [ $this, 'dollie_integrations' ], 99 );
 		add_filter( 'admin_body_class', [ $this, 'add_staging_body_class' ] );
 	}
@@ -132,13 +136,13 @@ class Options extends Singleton {
 		}
 
 		if ( $this->is_live() ) {
-			$title = 'Dollie (Live)';
+			$title = esc_html__( 'Dollie (Live)', 'dollie' );
 		} else {
-			$title = 'Dollie (Staging)';
+			$title = esc_html__( 'Dollie (Staging)', 'dollie' );
 		}
 
 		$args = [
-			'page_title'  => 'Settings',
+			'page_title'  => esc_html__( 'Settings', 'dollie' ),
 			'menu_title'  => $title,
 			'menu_slug'   => 'wpd_platform_setup',
 			'capability'  => 'manage_options',
@@ -154,12 +158,12 @@ class Options extends Singleton {
 	public function add_a_test_menu_page() {
 
 		if ( $this->is_live() ) {
-			$title = 'Dollie (Live)';
+			$title = esc_html__( 'Dollie (Live)', 'dollie' );
 		} else {
-			$title = 'Dollie (Staging)';
+			$title = esc_html__( 'Dollie (Staging)', 'dollie' );
 		}
 
-		$menu_title = 'Settings';
+		$menu_title = esc_html__( 'Settings', 'dollie' );
 		$capability = 'manage_options';
 		$position   = '75.374981';
 		$menu_slug  = 'wpd_platform_setup';
@@ -200,8 +204,8 @@ class Options extends Singleton {
 	public function add_theme_menu_item() {
 		add_submenu_page(
 			'wpd_platform_setup',
-			'New Container',
-			'New Container',
+			'Launch New Site',
+			'Launch New Site',
 			'manage_options',
 			'wpd_launch_site',
 			'wpd_launch_site'
@@ -221,9 +225,9 @@ class Options extends Singleton {
 		$iconurl = DOLLIE_URL . 'assets/img/active.png';
 
 		if ( $this->is_live() ) {
-			$menu_title = 'Dollie (Live)';
+			$menu_title = esc_html__( 'Dollie (Live)', 'dollie' );
 		} else {
-			$menu_title = 'Dollie (Staging)';
+			$menu_title = esc_html__( 'Dollie (Staging)', 'dollie' );
 		}
 
 		$iconspan = '<span class="custom-icon" style="
@@ -264,7 +268,7 @@ class Options extends Singleton {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => __( 'View Containers' ),
+				'title'  => __( 'View Sites' ),
 				'id'     => 'dab-site',
 				'href'   => get_admin_url() . 'edit.php?post_type=container',
 				'meta'   => [ 'target' => '' ],
@@ -345,11 +349,22 @@ class Options extends Singleton {
 		}
 	}
 
+	public function dollie_api() {
+		add_submenu_page(
+			'wpd_platform_setup',
+			'Api',
+			'API',
+			'manage_options',
+			'wpd_api',
+			[ $this, 'dollie_api_content' ]
+		);
+	}
+
 	public function dollie_integrations() {
 		add_submenu_page(
 			'wpd_platform_setup',
-			'<span class="breaking-news-toggle">Integrations</span>',
-			'<span class="dashicons dashicons-awards"></span> Integrations',
+			'<span class="breaking-news-toggle">' . esc_html__( 'Integrations', 'dollie' ) . '</span>',
+			'<span class="dashicons dashicons-awards"></span> ' . esc_html__( 'Integrations', 'dollie' ) . '',
 			'manage_options',
 			'dollie-integrations',
 			static function () {
@@ -359,50 +374,28 @@ class Options extends Singleton {
 	}
 
 	public function dollie_tools_content() {
-		// Markup for synchronize button.
-		echo '<div class="dollie-notice">
-				<h1><span class="dashicons dashicons-admin-tools"></span>Dollie Tools</h1>
-			</div>
-			<div>
-				<br><br>
-				<label><strong>Synchronize Your Deployed Containers</strong></label><br><br>
-				<form method="post"><input type="submit" name="synchronize" class="button" value="Start Sync!" /></form>
-				<p>By clicking the button below you can synchronize all containers that have been deployed through this installation. This is especially useful if you have accidentally lost data or simply wanted to re-import your deployed containers in a fresh Dollie installation.</p>
-			</div>';
+		$containers = [];
 
-		// If synchronize button is clicked then call the function to perform task.
 		if ( array_key_exists( 'synchronize', $_POST ) ) {
 			$containers = ContainerManagement::instance()->sync_containers();
+		}
 
-			if ( ! empty( $containers ) ) {
+		Tpl::load( 'admin/tools-page', [ 'containers' => $containers ], true );
+	}
 
-				// Display Synchronized container's details.
-				echo 'Synchronized ' . count( $containers ) . ' containers<br><br><br>';
+	public function dollie_api_content() {
+		if ( isset( $_GET['data'] ) && $_GET['data'] ) {
+			$data = @base64_decode( $_GET['data'] );
+			$data = @json_decode( $data, true );
 
-				$counter = 0;
-				foreach ( $containers as $container ) {
-					$full_url        = parse_url( $container['uri'] );
-					$stripped_domain = explode( '.', $full_url['host'] );
-					$name            = $stripped_domain[0];
-					$counter ++;
-
-					if ( $counter % 2 ) {
-						$grid = 'even';
-					} else {
-						$grid = 'odd';
-					}
-
-					echo '<div class="synch-result ' . $grid . '">
-						<div class="row"><div class="left">Name</div><div class="right">' . $name . '</div></div>
-						<div class="row"><div class="left">URL</div><div class="right">' . $container['uri'] . '</div></div>
-						<div class="row"><div class="left">Status</div><div class="right">' . $container['status'] . '</div></div>
-					</div>';
-				}
-			} else {
-				echo '<p>No containers found to be synchronized.</p>';
+			if ( is_array( $data ) ) {
+				Api::update_auth_data( $data );
 			}
 
+			wp_redirect( admin_url( 'admin.php?page=wpd_api' ) );
 		}
+
+		Tpl::load( 'admin/api-page', [], true );
 	}
 
 	public function add_staging_body_class( $classes ) {

@@ -1,0 +1,126 @@
+.af-form .acf-fields > .acf-field {
+  border: 0;
+  padding-top: 25px;
+  padding-bottom: 0px;
+}
+.af-form .acf-field[data-width] + .acf-field[data-width] {
+  border: 0;
+}
+.af-form .hidden {
+  display: none;
+}
+.af-form .af-field-site-url .acf-input {
+  max-width: 500px;
+}
+.af-form .af-field-site-url .acf-input-append {
+  min-height: 35px;
+  padding-top: 8px;
+  font-weight: bold;
+  border: 0;
+}
+.af-form .blockquote-box {
+  margin-top: 20px;
+  background: #f9f9f9;
+}
+.af-form .acf-hide-title > .acf-label {
+  display: none;
+}
+.af-form .acf-opacity-1 .acf-input {
+  opacity: 1 !important;
+}
+.af-form .acf-border-0 > .acf-label {
+  display: none;
+}
+.af-form .acf-border-0 .acf-input .acf-fields {
+  border: 0;
+}
+
+.af-field-site-blueprint ul.acf-radio-list li,
+.af-field-site-blueprint ul.acf-checkbox-list li {
+  font-size: 13px;
+  line-height: 22px;
+  margin: 0;
+  position: relative;
+  word-wrap: break-word;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+}
+.af-field-site-blueprint li {
+  float: left;
+  list-style: none;
+  padding: 5px;
+}
+.af-field-site-blueprint li img.fw-blueprint-screenshot {
+  max-width: 250px;
+  display: block;
+  border-radius: 10px;
+  padding: 5px;
+  margin-right: 0;
+  margin-left: -4px;
+  opacity: 0.8;
+}
+.af-field-site-blueprint li img.fw-blueprint-screenshot:hover {
+  opacity: 1;
+  background: #39bc9c;
+}
+.af-field-site-blueprint li label.selected {
+  font-weight: 700;
+  background: #1ebf73;
+  border-radius: 10px;
+  padding-left: 3px;
+  display: inline-block;
+  /* border: 1px solid; */
+}
+.af-field-site-blueprint li label.selected img.fw-blueprint-screenshot {
+  opacity: 1;
+}
+.af-field-site-blueprint li input {
+  display: none !important;
+}
+.af-field-site-blueprint li input[type=radio]:checked + label {
+  font-weight: 700;
+  padding-bottom: 15px;
+}
+.af-field-site-blueprint .gfield_radio label {
+  text-align: center;
+}
+
+.af-field-site-backup i {
+  margin-left: 2px;
+  margin-right: 2px;
+  opacity: 0.5;
+}
+.af-field-site-backup .gform_page_footer {
+  padding: 30px;
+}
+.af-field-site-backup li {
+  border-bottom: 1px solid #efefef;
+  display: block;
+  margin-bottom: 1px;
+  margin-right: 8px;
+  padding: 15px 15px !important;
+  width: 100%;
+}
+.af-field-site-backup li .pull-right {
+  float: right;
+}
+.af-field-site-backup li .fa {
+  font-size: 85%;
+  margin-left: 5px;
+  margin-right: 5px;
+  position: relative;
+  top: 0;
+}
+.af-field-site-backup li:hover {
+  background: #222;
+  color: #fff;
+}
+.af-field-site-backup li:hover .fa {
+  opacity: 1;
+}
+.af-field-site-backup li label {
+  display: inline-block;
+  max-width: 97%;
+  width: 100%;
+}

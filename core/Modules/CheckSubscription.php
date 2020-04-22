@@ -179,7 +179,7 @@ class CheckSubscription extends Singleton {
 	}
 
 	public function add_single_customer_action_cron( $customer_id, $type ) {
-		if ( get_option( 'wpd_charge_for_deployments' ) !== '1' ) {
+		if ( get_option( 'wpd_charge_for_deployments' ) != '1' ) {
 			return;
 		}
 
@@ -484,9 +484,12 @@ class CheckSubscription extends Singleton {
 
 		return $total;
 	}
-
 	public function has_subscription() {
-		return (bool) $this->get_customer_subscriptions( get_current_user_id() );
+		if ( get_option('options_wpd_charge_for_deployments') !== '1') {
+			return true;
+		} else {
+			return (bool) $this->get_customer_subscriptions(get_current_user_id());
+		}
 	}
 
 	public function sites_available() {
@@ -523,7 +526,7 @@ class CheckSubscription extends Singleton {
 	}
 
 	public function site_limit_reached() {
-		if ( ! class_exists( \WooCommerce::class ) ) {
+		if ( ! class_exists( \WooCommerce::class ) || get_option('options_wpd_charge_for_deployments') !== '1' ) {
 			return false;
 		}
 
@@ -535,7 +538,7 @@ class CheckSubscription extends Singleton {
 
 		$total_site = dollie()->count_customer_containers();
 
-		return $this->has_subscription() && $subscription['max_allowed_installs'] - $total_site <= 0 && ! current_user_can( 'manage_options' ) && get_option( 'options_wpd_charge_for_deployments' ) === '1';
+		return $this->has_subscription() && $subscription['max_allowed_installs'] - $total_site <= 0 && ! current_user_can( 'manage_options');
 	}
 
 	public function get_excluded_blueprints() {
@@ -565,7 +568,7 @@ class CheckSubscription extends Singleton {
 	}
 
 	public function size_limit_reached() {
-		if ( ! class_exists( \WooCommerce::class ) ) {
+		if ( ! class_exists( \WooCommerce::class ) || get_option('options_wpd_charge_for_deployments') !== '1' ) {
 			return false;
 		}
 
@@ -578,7 +581,7 @@ class CheckSubscription extends Singleton {
 		$total_size   = dollie()->get_total_container_size();
 		$allowed_size = $subscription['max_allowed_size'] * 1024 * 1024 * 1024;
 
-		return $this->has_subscription() && $total_size >= $allowed_size && ! current_user_can( 'manage_options' ) && get_option( 'options_wpd_charge_for_deployments' ) === '1';
+		return $this->has_subscription() && $total_size >= $allowed_size && ! current_user_can( 'manage_options' );
 	}
 
 }

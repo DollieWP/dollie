@@ -1,10 +1,10 @@
 === Kirki Customizer Framework ===
-Contributors: aristath, dannycooper, wplemon, igmoweb
+Contributors: aristath, dannycooper, wplemon, igmoweb, davidvongries
 Tags: customizer, options framework, theme, mods, toolkit, gutenberg
 Donate link: https://aristath.github.io/donate
 Requires at least: 4.9
 Tested up to: 5.3
-Stable tag: 3.1.0
+Stable tag: 3.1.2
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -75,15 +75,12 @@ If you want to integrate Kirki in your theme or plugin, please read the instruct
 
 == Changelog ==
 
-= 3.1.0 - 2020-03-01 =
+= 3.1.2 - 2020-04-20 =
+
+### Fixed
+* Added back `font-display:swap` to Google Fonts.
 
 ### Changed
-* Completely refactored the google-fonts downloader. Fonts now get stored in `wp-content/fonts/{font-family}/{file}`.
 * Updated Google-Fonts lists.
 
-### Removed
-* Removed the `branding` module.
-* Removed the `styling` module.
-* Removed the `telemetry` module.
-
-[See the previous changelogs here](https://github.com/aristath/kirki/blob/master/CHANGELOG.md).
+[See the previous changelogs here](https://github.com/kirki-framework/kirki/blob/master/CHANGELOG.md).

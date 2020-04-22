@@ -1,0 +1,26 @@
+{
+    "key": "form_dollie_create_backup",
+    "title": "[BACKUPS] Create New Backup",
+    "display": {
+        "description": "Creates a backup for the user",
+        "success_message": "<p>We&#8217;re building your backup! You&#8217;ll see it appear in the backup list on the left once it&#8217;s done! If you have a large site this might take a while!<\/p>\n"
+    },
+    "create_entries": true,
+    "restrictions": {
+        "entries": false,
+        "user": {
+            "message": ""
+        },
+        "schedule": false
+    },
+    "emails": false,
+    "editing": {
+        "user": false,
+        "post": false,
+        "term": false
+    },
+    "slack": false,
+    "mailchimp": false,
+    "zapier": false,
+    "calculated": []
+}

@@ -114,7 +114,7 @@ class Upgrades extends Singleton {
 		}
 
 		// Check forms
-		if ( ImportGravityForms::instance()->needs_update() ) {
+		if ( ImportForms::instance()->needs_update() ) {
 			return true;
 		}
 
@@ -176,8 +176,8 @@ class Upgrades extends Singleton {
 		// Save successful upgrades.
 		update_option( $this->option_name, $old_upgrades );
 
-		// Try to update Gravity forms on each plugin update.
-		$forms_result = ImportGravityForms::instance()->import_gravity_forms();
+		// Try to update forms on each plugin update.
+		$forms_result = ImportForms::instance()->import_forms();
 		if ( ! $forms_result ) {
 			$errors = true;
 		}

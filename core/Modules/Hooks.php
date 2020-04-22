@@ -22,6 +22,9 @@ class Hooks extends Singleton {
 
 		add_action( 'wf_before_container', [ $this, 'load_container_headers' ] );
 		add_filter( 'document_title_parts', [ $this, 'update_page_title' ], 10, 1 );
+
+		add_action( 'admin_init', [ $this, 'last_admin_activity' ], 10 );
+
 	}
 
 	public function load_container_headers() {
@@ -74,6 +77,15 @@ class Hooks extends Singleton {
 		}
 
 		return $title;
+	}
+
+	/**
+	 * Save last admin activity when on staging
+	 */
+	public function last_admin_activity() {
+		if ( is_user_logged_in() && ! dollie()->is_live() ) {
+			update_option( 'wpd_staging_last_seen', time() );
+		}
 	}
 
 }
