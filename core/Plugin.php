@@ -119,9 +119,13 @@ class Plugin extends Singleton {
 
 	private function load_routes() {
 
+		if ( function_exists( 'get_field' ) && ! get_field( 'wpd_enable_site_preview', 'options' ) ) {
+			return;
+		}
+
 		$router       = new Router( 'dollie_route_name' );
 		$this->routes = [
-			'dollie_preview'           => new Route( '/preview', '', DOLLIE_CORE_PATH . 'Extras/preview/index.php' ),
+			'dollie_preview' => new Route( '/' . dollie()->get_preview_url( 'path' ), '', DOLLIE_CORE_PATH . 'Extras/preview/index.php' ),
 		];
 
 		Processor::init( $router, $this->routes );

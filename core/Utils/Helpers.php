@@ -451,6 +451,7 @@ class Helpers extends Singleton {
 
 	/**
 	 * Check if a domain is using CloudFlare
+	 *
 	 * @param $domain
 	 *
 	 * @return bool
@@ -474,6 +475,28 @@ class Helpers extends Singleton {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get site preview link.
+	 *
+	 * @param string $type url|path
+	 *
+	 * @return mixed|string
+	 */
+	public function get_preview_url( $type = 'url' ) {
+		$preview_path = 'preview';
+
+		if ( function_exists( 'get_field' ) && get_field( 'wpd_site_preview_path', 'options' ) ) {
+			$preview_path = get_field( 'wpd_site_preview_path', 'options' );
+		}
+
+		if ( $type === 'url' ) {
+			return home_url( $preview_path );
+		}
+
+		return $preview_path;
+
 	}
 
 	public function in_array_r( $needle, $haystack, $strict = false ) {
