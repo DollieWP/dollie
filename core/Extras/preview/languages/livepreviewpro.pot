@@ -1,0 +1,389 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-02 22:25+0300\n"
+"PO-Revision-Date: 2019-09-02 22:25+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Eazy Po 0.9.5.3\n"
+
+#: includes/page-builder.php:16
+msgid "LivePreview Builder"
+msgstr ""
+
+#: includes/page-builder.php:35
+msgid "Buy Pro version"
+msgstr ""
+
+#: includes/page-builder.php:36
+msgid "Pro Version"
+msgstr ""
+
+#: includes/page-builder.php:42
+msgid "Load Config From File"
+msgstr ""
+
+#: includes/page-builder.php:43
+msgid "Save Config To File"
+msgstr ""
+
+#: includes/page-builder.php:52
+msgid "General"
+msgstr ""
+
+#: includes/page-builder.php:53
+msgid "Items"
+msgstr ""
+
+#: includes/page-builder.php:55
+msgid "The config should be saved before preview"
+msgstr ""
+
+#: includes/page-builder.php:55
+msgid "Preview"
+msgstr ""
+
+#: includes/page-builder.php:56
+msgid "Save"
+msgstr ""
+
+#: includes/page-builder.php:65
+msgid "General settings"
+msgstr ""
+
+#: includes/page-builder.php:68
+msgid "Specifies a theme"
+msgstr ""
+
+#: includes/page-builder.php:69
+msgid "Theme"
+msgstr ""
+
+#: includes/page-builder.php:71
+msgid "none"
+msgstr ""
+
+#: includes/page-builder.php:76
+msgid "Sets a logo image (jpeg or png format)"
+msgstr ""
+
+#: includes/page-builder.php:77
+msgid "Logo image"
+msgstr ""
+
+#: includes/page-builder.php:80 includes/page-builder.php:83
+#: includes/page-builder.php:243 includes/page-builder.php:246
+msgid "Select an image"
+msgstr ""
+
+#: includes/page-builder.php:88
+msgid "Sets a logo URL"
+msgstr ""
+
+#: includes/page-builder.php:89
+msgid "Logo URL"
+msgstr ""
+
+#: includes/page-builder.php:92
+msgid "Set a logo URL"
+msgstr ""
+
+#: includes/page-builder.php:100
+msgid "Open in a new window"
+msgstr ""
+
+#: includes/page-builder.php:105
+msgid "Enable/disable the product list"
+msgstr ""
+
+#: includes/page-builder.php:106
+msgid "Product list"
+msgstr ""
+
+#: includes/page-builder.php:110
+msgid "Enable/disable responsive devices"
+msgstr ""
+
+#: includes/page-builder.php:111
+msgid "Responsive devices"
+msgstr ""
+
+#: includes/page-builder.php:115
+msgid "Specifies the default responsive device"
+msgstr ""
+
+#: includes/page-builder.php:116
+msgid "Default responsive device"
+msgstr ""
+
+#: includes/page-builder.php:120
+msgid "Enable/disable buy button"
+msgstr ""
+
+#: includes/page-builder.php:121
+msgid "Buy button"
+msgstr ""
+
+#: includes/page-builder.php:125
+msgid "Set the buy button text"
+msgstr ""
+
+#: includes/page-builder.php:126
+msgid "Buy button text"
+msgstr ""
+
+#: includes/page-builder.php:127
+msgid "Set a buy button text"
+msgstr ""
+
+#: includes/page-builder.php:130
+msgid "Enable/disable close iframe button"
+msgstr ""
+
+#: includes/page-builder.php:131
+msgid "Close iframe button"
+msgstr ""
+
+#: includes/page-builder.php:135
+msgid "Enable/disable the main preload overlay"
+msgstr ""
+
+#: includes/page-builder.php:136
+msgid "Main preload overlay"
+msgstr ""
+
+#: includes/page-builder.php:141
+msgid "Page settings"
+msgstr ""
+
+#: includes/page-builder.php:144
+msgid "Specifies a demo page"
+msgstr ""
+
+#: includes/page-builder.php:145
+msgid "Demo page"
+msgstr ""
+
+#: includes/page-builder.php:147
+msgid "None"
+msgstr ""
+
+#: includes/page-builder.php:152
+msgid "Demo page url"
+msgstr ""
+
+#: includes/page-builder.php:166
+msgid "add item"
+msgstr ""
+
+#: includes/page-builder.php:168
+msgid "copy"
+msgstr ""
+
+#: includes/page-builder.php:169
+msgid "move to the start"
+msgstr ""
+
+#: includes/page-builder.php:170
+msgid "move up"
+msgstr ""
+
+#: includes/page-builder.php:171
+msgid "move down"
+msgstr ""
+
+#: includes/page-builder.php:172
+msgid "move to the end"
+msgstr ""
+
+#: includes/page-builder.php:176
+msgid "delete"
+msgstr ""
+
+#: includes/page-builder.php:190
+msgid "enable/disable"
+msgstr ""
+
+#: includes/page-builder.php:207
+msgid "Please, select an item to view settings"
+msgstr ""
+
+#: includes/page-builder.php:212
+msgid "Enable/disable item"
+msgstr ""
+
+#: includes/page-builder.php:213
+msgid "Enable item"
+msgstr ""
+
+#: includes/page-builder.php:218
+msgid "Sets an item id (allow numbers, chars & specials: \"_\",\"-\")"
+msgstr ""
+
+#: includes/page-builder.php:219
+msgid "Id"
+msgstr ""
+
+#: includes/page-builder.php:225
+msgid "Preview item, the config should be saved before preview"
+msgstr ""
+
+#: includes/page-builder.php:228
+msgid "Generate a new ID"
+msgstr ""
+
+#: includes/page-builder.php:234
+msgid "Sets an item title"
+msgstr ""
+
+#: includes/page-builder.php:235
+msgid "Title"
+msgstr ""
+
+#: includes/page-builder.php:239
+msgid "Sets a thumb image (jpeg or png format)"
+msgstr ""
+
+#: includes/page-builder.php:240
+msgid "Thumb image (590x300 recommend)"
+msgstr ""
+
+#: includes/page-builder.php:251
+msgid "Sets an item url to a demo preview page"
+msgstr ""
+
+#: includes/page-builder.php:252
+msgid "Demo url"
+msgstr ""
+
+#: includes/page-builder.php:256
+msgid "Sets an item buy url"
+msgstr ""
+
+#: includes/page-builder.php:257
+msgid "Buy url"
+msgstr ""
+
+#: includes/page-builder.php:261
+msgid "Sets an item badge text"
+msgstr ""
+
+#: includes/page-builder.php:262
+msgid "Badge"
+msgstr ""
+
+#: includes/page-builder.php:266
+msgid "Sets an item tag text"
+msgstr ""
+
+#: includes/page-builder.php:267
+msgid "Tag"
+msgstr ""
+
+#: includes/page-builder.php:271
+msgid "Sets an item year"
+msgstr ""
+
+#: includes/page-builder.php:272
+msgid "Year"
+msgstr ""
+
+#: includes/page-builder.php:277
+msgid "Enable/disable preload overlay when iframe content is loading"
+msgstr ""
+
+#: includes/page-builder.php:278
+msgid "Preload overlay when iframe loading"
+msgstr ""
+
+#: includes/page-info.php:11
+msgid "This is the <b>LITE version</b> of the plugin."
+msgstr ""
+
+#: includes/page-info.php:12
+msgid "It has two limits:"
+msgstr ""
+
+#: includes/page-info.php:14
+msgid "You can create and use only <b>3 items</b>"
+msgstr ""
+
+#: includes/page-info.php:15
+msgid "You can't <b>save & load config</b> from a json file"
+msgstr ""
+
+#: includes/page-preview.php:45
+msgid "all"
+msgstr ""
+
+#: includes/page-preview.php:58
+msgid "all times"
+msgstr ""
+
+#: includes/page-preview.php:132
+msgid "close iframe"
+msgstr ""
+
+#: includes/page-preview.php:142
+msgid "Tablet Landscape (1024x768)"
+msgstr ""
+
+#: includes/page-preview.php:143
+msgid "Tablet Portrait (768x1024)"
+msgstr ""
+
+#: includes/page-preview.php:144
+msgid "Mobile Landscape (480x320)"
+msgstr ""
+
+#: includes/page-preview.php:145
+msgid "Mobile Portrait (320x480)"
+msgstr ""
+
+#: includes/page-preview.php:174
+msgid "More +"
+msgstr ""
+
+#: includes/page-preview.php:192
+msgid "Search"
+msgstr ""
+
+#: includes/page-preview.php:202
+msgid "Years +"
+msgstr ""
+
+#: includes/plugin.php:123
+msgid "LivePreview"
+msgstr ""
+
+#: includes/plugin.php:147
+msgid "Available only in the pro version"
+msgstr ""
+
+#: includes/plugin.php:155
+msgid "Uncaught Error"
+msgstr ""
+
+#: includes/plugin.php:156
+msgid "You can create and use only 3 items. Buy the pro version."
+msgstr ""
+
+#: includes/plugin.php:187
+msgid "Item updated"
+msgstr ""
+
+#: includes/plugin.php:190 includes/plugin.php:245 includes/plugin.php:251
+msgid "The operation failed"
+msgstr ""

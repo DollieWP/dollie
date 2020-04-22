@@ -1,0 +1,26 @@
+*** LivePreview - Digital Product Demo Bar for WordPress Changelog ***
+
+= 1.2.0 =
+ * New - frontend is independent of WordPress themes and third-party plugins
+ * New - customize the text for the buy button
+ * New - ability to select a "default" responsive device
+
+= 1.1.0 =
+ * New - enable/disable the main preload overlay
+ * New - set logo URL (open in a new or self window)
+ * New - enable/disable the product list
+
+= 1.0.3 =
+ * New - field for the product ID, each item can have a unique URL
+ * New - work with the browser history
+ * New - list navigation with arrow keys (up & down)
+ * New - move a product item to the start or end of the list
+
+= 1.0.2 =
+ * New - light theme
+
+= 1.0.1 =
+ * Fix - can't slide the site up or down on Safari
+
+= 1.0.0 =
+ * Initial release

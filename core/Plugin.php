@@ -22,6 +22,9 @@ use Dollie\Core\Modules\Upgrades;
 use Dollie\Core\Modules\WooCommerce;
 
 use Dollie\Core\Utils\Api;
+use DollieAuth\Core\Routing\Processor;
+use DollieAuth\Core\Routing\Route;
+use DollieAuth\Core\Routing\Router;
 use WP_Query;
 
 /**
@@ -29,6 +32,11 @@ use WP_Query;
  * @package Dollie\Core
  */
 class Plugin extends Singleton {
+
+	/**
+	 * @var array
+	 */
+	public $routes;
 
 	/**
 	 * Plugin constructor.
@@ -77,6 +85,10 @@ class Plugin extends Singleton {
 	 * Initialize modules and shortcodes
 	 */
 	public function initialize() {
+
+		// Custom routes
+		$this->load_routes();
+
 		// Load modules
 		Forms::instance();
 		AccessControl::instance();
@@ -103,6 +115,17 @@ class Plugin extends Singleton {
 		 * Allow developers to hook after dollie finished initialization
 		 */
 		do_action( 'dollie/initialized' );
+	}
+
+	private function load_routes() {
+
+		$router       = new Router( 'dollie_route_name' );
+		$this->routes = [
+			'dollie_preview'           => new Route( '/preview', '', DOLLIE_CORE_PATH . 'Extras/preview/index.php' ),
+		];
+
+		Processor::init( $router, $this->routes );
+
 	}
 
 	/**
