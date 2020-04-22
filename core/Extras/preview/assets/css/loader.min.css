@@ -1,0 +1,6 @@
+/*!
+  LivePreview Responsive Digital Product Demo Bar
+  @name loader.css
+  @author Max Lavrentiev
+  @site http://www.avirtum.com
+*/body,html{margin:0;padding:0;border:0}body{overflow:hidden;background-color:#404040}.page{display:none}.loader-wrap{position:absolute;display:block;top:0;left:0;right:0;bottom:0;z-index:9999}.loader-wrap .loader{position:absolute;display:block;top:50%;left:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border:4px solid #000;-webkit-animation:loader 2s infinite ease;animation:loader 2s infinite ease}.loader-wrap .loader .loader-inner{position:absolute;display:block;width:100%;background-color:#000;-webkit-animation:loader-inner 2s infinite ease-in;animation:loader-inner 2s infinite ease-in}@-webkit-keyframes loader{0%{-webkit-transform:rotate(0);transform:rotate(0)}25%,50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}100%,75%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@keyframes loader{0%{-webkit-transform:rotate(0);transform:rotate(0)}25%,50%{-webkit-transform:rotate(180deg);transform:rotate(180deg)}100%,75%{-webkit-transform:rotate(360deg);transform:rotate(360deg)}}@-webkit-keyframes loader-inner{0%,100%,25%{height:0%}50%,75%{height:100%}}@keyframes loader-inner{0%,100%,25%{height:0%}50%,75%{height:100%}}#wpadminbar{display:none}
