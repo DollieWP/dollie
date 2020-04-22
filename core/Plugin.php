@@ -123,7 +123,7 @@ class Plugin extends Singleton {
 
 		$router       = new Router( 'dollie_route_name' );
 		$this->routes = [
-			'dollie_preview'           => new Route( '/preview', '', DOLLIE_CORE_PATH . 'Extras/preview/index.php' ),
+			'dollie_preview' => new Route( '/preview', '', DOLLIE_CORE_PATH . 'Extras/preview/index.php' ),
 		];
 
 		Processor::init( $router, $this->routes );
@@ -282,16 +282,11 @@ class Plugin extends Singleton {
 			return false;
 		}
 
-		$answer_body = wp_remote_retrieve_body( $response );
+		$code = wp_remote_retrieve_response_code( $response );
 
-		if ( empty( $answer_body ) ) {
-			return false;
-		}
-
-		$answer = json_decode( $answer_body, true );
-
-		if ( is_array( $answer ) && isset( $answer['status'] ) && $answer['status'] === 401 ) {
+		if ( $code === 401 ) {
 			$refresh_token = Api::get_auth_data( 'refresh_token' );
+			Api::update_auth_token_status( 0 );
 
 			if ( ! $refresh_token ) {
 				wp_redirect( admin_url( 'admin.php?page=wpd_api&status=not_connected' ) );

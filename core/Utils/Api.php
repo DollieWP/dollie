@@ -137,6 +137,10 @@ class Api extends Singleton {
 			return false;
 		}
 
+		if ( wp_remote_retrieve_response_code( $response ) === 500 ) {
+			return false;
+		}
+
 		$answer_body = wp_remote_retrieve_body( $response );
 
 		if ( empty( $answer_body ) ) {
@@ -160,11 +164,18 @@ class Api extends Singleton {
 	}
 
 	/**
+	 * @param $status
+	 */
+	public static function update_auth_token_status( $status ) {
+		update_option( 'dollie_auth_token_status', $status );
+	}
+
+	/**
 	 * @param $data
 	 */
 	public static function update_auth_data( $data ) {
 		update_option( 'dollie_token_data', $data );
-		update_option( 'dollie_auth_token_status', 1 );
+		self::update_auth_token_status( 1 );
 	}
 
 	/**
