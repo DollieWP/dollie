@@ -251,7 +251,7 @@ class Plugin extends Singleton {
             <div class="dollie-inner-message">
                 <img width="60" src="<?php echo esc_url( DOLLIE_URL . 'assets/img/active.png' ); ?>">
                 <div class="dollie-message-center">
-					<?php if ( Api::get_auth_data( 'access_token' ) && ! Api::auth_token_is_active() ) : ?>
+					<?php if ( Api::get_auth_data( 'refresh_token' ) && ! Api::auth_token_is_active() ) : ?>
                         <p><?php _e( 'Your Dollie token has expired! Please reauthenticate this installation to continue using Dollie!', DOLLIE_DOMAIN ); ?></p>
 					<?php else: ?>
                         <h3><?php esc_html_e( 'Dollie is almost ready...', 'dollie' ); ?> </h3>
@@ -280,5 +280,29 @@ class Plugin extends Singleton {
         </div>
 		<?php
 	}
+
+	public function check_token_status( $method, $response ) {
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+		$code = wp_remote_retrieve_response_code( $response );
+
+		if ( $code === 401 ) {
+			$refresh_token = Api::get_auth_data( 'refresh_token' );
+			Api::update_auth_token_status( 0 );
+
+			if ( ! $refresh_token ) {
+				wp_redirect( admin_url( 'admin.php?page=wpd_api&status=not_connected' ) );
+				die();
+			}
+
+			wp_redirect( admin_url( 'admin.php?page=wpd_api&status=refresh' ) );
+			die();
+		}
+
+		return false;
+	}
+
 
 }
