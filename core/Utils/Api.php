@@ -71,21 +71,30 @@ class Api extends Singleton {
 
 		do_action( 'dollie/api/' . $endpoint . '/before', 'get' );
 
-		$call = wp_remote_get( self::API_URL . $endpoint, [
-			'headers' => [
-				'Accept'        => 'application/json',
-				'Authorization' => self::get_auth_data( 'access_token' )
-			]
-		] );
+		$call = self::simple_get( $endpoint );
 
 		remove_filter( 'http_request_timeout', [ self::instance(), 'set_custom_http_timeout' ] );
 
-		do_action( 'dollie/api/after', 'get', $call );
+		$call = apply_filters( 'dollie/api/after/get', $call, $endpoint );
 
 		do_action( 'dollie/api/' . $endpoint . '/after', 'get' );
 
 		return $call;
 
+	}
+
+	/**
+	 * @param $endpoint
+	 *
+	 * @return array|\WP_Error
+	 */
+	public static function simple_get( $endpoint ) {
+		return wp_remote_get( self::API_URL . $endpoint, [
+			'headers' => [
+				'Accept'        => 'application/json',
+				'Authorization' => self::get_auth_data( 'access_token' )
+			]
+		] );
 	}
 
 	/**
@@ -102,7 +111,25 @@ class Api extends Singleton {
 
 		do_action( 'dollie/api/' . $endpoint . '/before', 'post', $data );
 
-		$call = wp_remote_post( self::API_URL . $endpoint, [
+		$call = self::simple_post( $endpoint, $data );
+
+		remove_filter( 'http_request_timeout', [ self::instance(), 'set_custom_http_timeout' ] );
+
+		$call = apply_filters( 'dollie/api/after/post', $call, $endpoint, $data );
+
+		do_action( 'dollie/api/' . $endpoint . '/after', 'post', $data );
+
+		return $call;
+	}
+
+	/**
+	 * @param $endpoint
+	 * @param array $data
+	 *
+	 * @return array|\WP_Error
+	 */
+	public static function simple_post( $endpoint, $data = [] ) {
+		return wp_remote_post( self::API_URL . $endpoint, [
 			'method'  => 'POST',
 			'body'    => $data,
 			'headers' => [
@@ -110,14 +137,6 @@ class Api extends Singleton {
 				'Authorization' => self::get_auth_data( 'access_token' )
 			]
 		] );
-
-		remove_filter( 'http_request_timeout', [ self::instance(), 'set_custom_http_timeout' ] );
-
-		do_action( 'dollie/api/after', 'post', $call );
-
-		do_action( 'dollie/api/' . $endpoint . '/after', 'post', $data );
-
-		return $call;
 	}
 
 	/**
@@ -176,6 +195,13 @@ class Api extends Singleton {
 	public static function update_auth_data( $data ) {
 		update_option( 'dollie_token_data', $data );
 		self::update_auth_token_status( 1 );
+	}
+
+	/**
+	 *
+	 */
+	public static function delete_auth_data() {
+		delete_option( 'dollie_token_data' );
 	}
 
 	/**

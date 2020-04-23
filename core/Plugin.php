@@ -58,14 +58,14 @@ class Plugin extends Singleton {
 
 		add_action( 'admin_notices', [ $this, 'check_auth_admin_notice' ] );
 
-		add_action( 'dollie/api/after', [ $this, 'check_token_status' ], 10, 2 );
+		add_filter( 'dollie/api/after/get', [ $this, 'check_token_get_request' ], 10, 2 );
+		add_filter( 'dollie/api/after/post', [ $this, 'check_token_post_request' ], 10, 3 );
 	}
 
 	/**
 	 * Load Dollie dependencies. Make sure to call them on plugins_loaded
 	 */
 	public function load_dependencies() {
-
 		// Load logger.
 		if ( ! class_exists( '\WDS_Log_Post' ) ) {
 			require_once DOLLIE_PATH . 'core/Extras/wds-log-post/wds-log-post.php';
@@ -79,8 +79,6 @@ class Plugin extends Singleton {
 			require_once DOLLIE_PATH . 'core/Extras/advanced-forms/advanced-forms.php';
 			require_once DOLLIE_PATH . 'core/Extras/acf-tooltip/acf-tooltip.php';
 		}
-
-
 	}
 
 	/**
@@ -119,8 +117,10 @@ class Plugin extends Singleton {
 		do_action( 'dollie/initialized' );
 	}
 
+	/**
+	 * Load routes
+	 */
 	private function load_routes() {
-
 		if ( function_exists( 'get_field' ) && ! get_field( 'wpd_enable_site_preview', 'options' ) ) {
 			return;
 		}
@@ -131,14 +131,12 @@ class Plugin extends Singleton {
 		];
 
 		Processor::init( $router, $this->routes );
-
 	}
 
 	/**
 	 * Register ACF fields
 	 */
 	public function acf_add_local_field_groups() {
-
 		if ( defined( 'DOLLIE_DEV' ) ) {
 			return;
 		}
@@ -147,7 +145,13 @@ class Plugin extends Singleton {
 		require DOLLIE_PATH . 'core/Extras/AcfFormFields.php';
 	}
 
-
+	/**
+	 * Add body timestamp
+	 *
+	 * @param $classes
+	 *
+	 * @return array
+	 */
 	public function add_timestamp_body( $classes ) {
 		$timestamp = get_transient( 'dollie_site_screenshot_' . dollie()->get_container_url() );
 
@@ -158,6 +162,9 @@ class Plugin extends Singleton {
 		return $classes;
 	}
 
+	/**
+	 * Remove customer domain
+	 */
 	public function remove_customer_domain() {
 		if ( isset( $_POST['remove_customer_domain'] ) ) {
 			$currentQuery = dollie()->get_current_object();
@@ -199,8 +206,10 @@ class Plugin extends Singleton {
 		}
 	}
 
+	/**
+	 * Redirect to launch
+	 */
 	public function redirect_to_container_launch() {
-
 		if ( ! dollie()->get_launch_page_id() ) {
 			return;
 		}
@@ -211,6 +220,9 @@ class Plugin extends Singleton {
 		}
 	}
 
+	/**
+	 * Default view time total containers
+	 */
 	public function set_default_view_time_total_containers() {
 		$query = new WP_Query( [
 			'post_type'     => 'container',
@@ -235,6 +247,9 @@ class Plugin extends Singleton {
 		wp_reset_query();
 	}
 
+	/**
+	 * Admin notice for token
+	 */
 	public function check_auth_admin_notice() {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
@@ -271,7 +286,7 @@ class Plugin extends Singleton {
 		<?php
 	}
 
-	public function check_token_status( $method, $response ) {
+	public function handle_token_response( $response ) {
 		if ( is_wp_error( $response ) ) {
 			return false;
 		}
@@ -287,13 +302,66 @@ class Plugin extends Singleton {
 				die();
 			}
 
-			wp_redirect( admin_url( 'admin.php?page=wpd_api&status=refresh' ) );
-			die();
+			$request = wp_remote_get( 'https://partners.getdollie.com/refresh-token-api?refresh_token=' . base64_encode( $refresh_token ) );
+
+			if ( is_wp_error( $request ) ) {
+				wp_redirect( admin_url( 'admin.php?page=wpd_api&err' ) );
+				die();
+			}
+
+			$response = json_decode( wp_remote_retrieve_body( $request ), true );
+
+			if ( $response['status'] === 500 ) {
+				Api::delete_auth_data();
+				wp_redirect( admin_url( 'admin.php?page=wpd_api&status=not_connected' ) );
+				die();
+			}
+
+			$data = @base64_decode( $response['body'] );
+			$data = @json_decode( $data, true );
+
+			if ( is_array( $data ) ) {
+				Api::update_auth_data( $data );
+			} else {
+				Api::delete_auth_data();
+				wp_redirect( admin_url( 'admin.php?page=wpd_api&status=not_connected' ) );
+				die();
+			}
 		}
 
-		return false;
+		return true;
 	}
 
+	/**
+	 * @param $response
+	 * @param $endpoint
+	 *
+	 * @return array|\WP_Error
+	 */
+	public function check_token_get_request( $response, $endpoint ) {
+		$this->handle_token_response( $response );
+
+		return Api::simple_get( $endpoint );
+	}
+
+	/**
+	 * @param $response
+	 * @param $endpoint
+	 * @param $body
+	 *
+	 * @return array|\WP_Error
+	 */
+	public function check_token_post_request( $response, $endpoint, $body ) {
+		$this->handle_token_response( $response );
+
+		return Api::simple_post( $endpoint, $body );
+	}
+
+	/**
+	 * @param bool $button
+	 *
+	 * @return string
+	 */
 	public function get_api_access_link( $button = false ) {
 		$url_data = [
 			'scope'           => 'offline api.read',
@@ -312,6 +380,11 @@ class Plugin extends Singleton {
 		return $url;
 	}
 
+	/**
+	 * @param bool $button
+	 *
+	 * @return string
+	 */
 	public function get_api_refresh_link( $button = false ) {
 		$url_data = [
 			'redirect_origin' => admin_url( 'admin.php?page=wpd_api' ),
