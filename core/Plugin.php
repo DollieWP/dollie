@@ -317,11 +317,8 @@ class Plugin extends Singleton {
 				die();
 			}
 
-			$data = @base64_decode( $response['body'] );
-			$data = @json_decode( $data, true );
-
-			if ( is_array( $data ) ) {
-				Api::update_auth_data( $data );
+			if ( is_array( $response['body'] ) ) {
+				Api::update_auth_data( $response['body'] );
 			} else {
 				Api::delete_auth_data();
 				wp_redirect( admin_url( 'admin.php?page=wpd_api&status=not_connected' ) );
