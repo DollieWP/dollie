@@ -1,8 +1,8 @@
 {
-    "key": "form_dollie_domain_wizard",
-    "title": "[SETUP] Domain\/CloudFlare Wizard",
+    "key": "form_dollie_domain_dns_ssl",
+    "title": "[Domain] DNS & SSL",
     "display": {
-        "description": "This form handles migration requests",
+        "description": "",
         "success_message": ""
     },
     "create_entries": false,
@@ -22,5 +22,8 @@
     "slack": false,
     "mailchimp": false,
     "zapier": false,
-    "calculated": []
+    "calculated": [],
+    "splash_template": false,
+    "site_blueprint": false,
+    "redirect_to_site": false
 }

@@ -24,5 +24,8 @@
     "zapier": false,
     "calculated": {
         "field_5e729515bb78b": "<p><strong>Date &amp; Time:<\/strong> {field:site_backup}<br \/>\n<strong>Type:<\/strong> {field:what_to_restore}<\/p>\n<p>Please click on the button below to confirm and proceed with the restoration of your site.<\/p>\n"
-    }
+    },
+    "splash_template": false,
+    "site_blueprint": false,
+    "redirect_to_site": false
 }

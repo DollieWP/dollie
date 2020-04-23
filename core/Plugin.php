@@ -22,9 +22,9 @@ use Dollie\Core\Modules\Upgrades;
 use Dollie\Core\Modules\WooCommerce;
 
 use Dollie\Core\Utils\Api;
-use DollieAuth\Core\Routing\Processor;
-use DollieAuth\Core\Routing\Route;
-use DollieAuth\Core\Routing\Router;
+use Dollie\Core\Routing\Processor;
+use Dollie\Core\Routing\Route;
+use Dollie\Core\Routing\Router;
 use WP_Query;
 
 /**
