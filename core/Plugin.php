@@ -55,7 +55,6 @@ class Plugin extends Singleton {
 		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
 
 		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
-		add_action( 'init', [ $this, 'load_routes' ], 9 );
 
 		add_action( 'admin_notices', [ $this, 'check_auth_admin_notice' ] );
 
@@ -109,6 +108,8 @@ class Plugin extends Singleton {
 		Shortcodes\Orders::instance();
 		Shortcodes\Sites::instance();
 
+		$this->load_routes();
+
 		/**
 		 * Allow developers to hook after dollie finished initialization
 		 */
@@ -118,9 +119,9 @@ class Plugin extends Singleton {
 	/**
 	 * Load routes
 	 */
-	public function load_routes() {
+	private function load_routes() {
 
-		if ( ! function_exists( 'get_field' ) || ! get_field( 'wpd_enable_site_preview', 'options' ) ) {
+		if ( ! get_option( 'options_wpd_enable_site_preview', 1 ) ) {
 			return;
 		}
 

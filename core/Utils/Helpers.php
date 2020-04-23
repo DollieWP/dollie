@@ -485,11 +485,8 @@ class Helpers extends Singleton {
 	 * @return mixed|string
 	 */
 	public function get_preview_url( $type = 'url' ) {
-		$preview_path = 'preview';
 
-		if ( function_exists( 'get_field' ) && get_field( 'wpd_site_preview_path', 'options' ) ) {
-			$preview_path = get_field( 'wpd_site_preview_path', 'options' );
-		}
+		$preview_path = get_option( 'options_wpd_site_preview_path', 'preview' );
 
 		if ( $type === 'url' ) {
 			return home_url( $preview_path );
