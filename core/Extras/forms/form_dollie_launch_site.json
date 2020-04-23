@@ -6,9 +6,6 @@
         "success_message": "<p>Deploying site, please wait&#8230;<\/p>\n"
     },
     "create_entries": false,
-    "splash_template": "launch-splash",
-    "site_blueprint": false,
-    "redirect_to_site": true,
     "restrictions": {
         "entries": false,
         "user": {
@@ -25,5 +22,8 @@
     "slack": false,
     "mailchimp": false,
     "zapier": false,
-    "calculated": []
+    "calculated": [],
+    "splash_template": false,
+    "site_blueprint": false,
+    "redirect_to_site": "1"
 }

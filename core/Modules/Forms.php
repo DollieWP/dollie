@@ -6,12 +6,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Modules\Forms\DomainConnect;
 use Dollie\Core\Modules\Forms\CreateBackup;
 use Dollie\Core\Modules\Forms\CreateBlueprint;
+use Dollie\Core\Modules\Forms\DomainConnect;
 use Dollie\Core\Modules\Forms\DomainDns;
 use Dollie\Core\Modules\Forms\DomainUpdateUrl;
-use Dollie\Core\Modules\Forms\DomainWizard;
 use Dollie\Core\Modules\Forms\LaunchSite;
 use Dollie\Core\Modules\Forms\AfterLaunchWizard;
 use Dollie\Core\Modules\Forms\ListBackups;
@@ -40,7 +39,6 @@ class Forms extends Singleton {
 		CreateBackup::instance();
 		ListBackups::instance();
 		CreateBlueprint::instance();
-		DomainWizard::instance();
 		DomainConnect::instance();
 		DomainDns::instance();
 		DomainUpdateUrl::instance();

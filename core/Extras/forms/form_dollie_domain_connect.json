@@ -1,8 +1,8 @@
 {
-    "key": "form_dollie_plugin_updates",
-    "title": "[UPDATES] Plugin Updates",
+    "key": "form_dollie_domain_connect",
+    "title": "[DOMAIN] Connect domain",
     "display": {
-        "description": "",
+        "description": "This form handles migration requests",
         "success_message": ""
     },
     "create_entries": false,

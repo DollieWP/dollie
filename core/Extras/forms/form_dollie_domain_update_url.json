@@ -1,16 +1,14 @@
 {
-    "key": "form_dollie_plugin_updates",
-    "title": "[UPDATES] Plugin Updates",
+    "key": "form_dollie_domain_update_url",
+    "title": "[Domain] Update URL",
     "display": {
         "description": "",
-        "success_message": ""
+        "success_message": "[dollie_blockquote icon=\"fa fa-globe\" title=\"Your Domain Migration is Complete!\"]\r\nYou're officially a migration expert now. We're incredibly proud of you!\r\n[\/dollie_blockquote]"
     },
     "create_entries": false,
     "restrictions": {
         "entries": false,
-        "user": {
-            "message": ""
-        },
+        "user": false,
         "schedule": false
     },
     "emails": false,
