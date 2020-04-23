@@ -57,6 +57,8 @@ class Plugin extends Singleton {
 		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
 
 		add_action( 'admin_notices', [ $this, 'check_auth_admin_notice' ] );
+
+		add_action( 'dollie/api/after', [ $this, 'check_token_status' ], 10, 2 );
 	}
 
 	/**
@@ -242,14 +244,12 @@ class Plugin extends Singleton {
 			return;
 		}
 
-		// todo: set cron for token refresh
-
 		?>
         <div class="notice dollie-notice">
             <div class="dollie-inner-message">
                 <img width="60" src="<?php echo esc_url( DOLLIE_URL . 'assets/img/active.png' ); ?>">
                 <div class="dollie-message-center">
-					<?php if ( Api::get_auth_data( 'access_token' ) && ! Api::auth_token_is_active() ) : ?>
+					<?php if ( Api::get_auth_data( 'refresh_token' ) && ! Api::auth_token_is_active() ) : ?>
                         <p><?php _e( 'Your Dollie token has expired! Please reauthenticate this installation to continue using Dollie!', DOLLIE_DOMAIN ); ?></p>
 					<?php else: ?>
                         <h3><?php esc_html_e( 'Dollie is almost ready...', 'dollie' ); ?> </h3>
@@ -257,26 +257,73 @@ class Plugin extends Singleton {
 					<?php endif; ?>
                 </div>
 
-                <div class="dollie-msg-button-right">
-					<?php
-
-					$url_data = [
-						'scope'           => 'offline api.read',
-						'response_type'   => 'code',
-						'client_id'       => 'dollie-wp-plugin',
-						'redirect_uri'    => 'https://partners.getdollie.com/callback',
-						'state'           => hash( 'sha256', microtime( true ) . mt_rand() . $_SERVER['REMOTE_ADDR'] ),
-						'redirect_origin' => admin_url( 'admin.php?page=wpd_api' )
-					];
-
-					printf( '<a href="%s">%s</a>',
-						add_query_arg( $url_data, 'https://oauth2.staging.str5.net/hydra-public/oauth2/auth' ),
-						__( 'Click here', DOLLIE_DOMAIN ) );
-					?>
-                </div>
+				<?php if ( Api::get_auth_data( 'refresh_token' ) && ! Api::auth_token_is_active() ) : ?>
+                    <div class="dollie-msg-button-right">
+						<?php echo $this->get_api_refresh_link(); ?>
+                    </div>
+				<?php else: ?>
+                    <div class="dollie-msg-button-right">
+						<?php echo $this->get_api_access_link(); ?>
+                    </div>
+				<?php endif; ?>
             </div>
         </div>
 		<?php
+	}
+
+	public function check_token_status( $method, $response ) {
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+		$code = wp_remote_retrieve_response_code( $response );
+
+		if ( $code === 401 ) {
+			$refresh_token = Api::get_auth_data( 'refresh_token' );
+			Api::update_auth_token_status( 0 );
+
+			if ( ! $refresh_token ) {
+				wp_redirect( admin_url( 'admin.php?page=wpd_api&status=not_connected' ) );
+				die();
+			}
+
+			wp_redirect( admin_url( 'admin.php?page=wpd_api&status=refresh' ) );
+			die();
+		}
+
+		return false;
+	}
+
+	public function get_api_access_link( $button = false ) {
+		$url_data = [
+			'scope'           => 'offline api.read',
+			'response_type'   => 'code',
+			'client_id'       => 'dollie-wp-plugin',
+			'redirect_uri'    => 'https://partners.getdollie.com/callback',
+			'state'           => hash( 'sha256', microtime( true ) . mt_rand() . $_SERVER['REMOTE_ADDR'] ),
+			'redirect_origin' => admin_url( 'admin.php?page=wpd_api' )
+		];
+
+		$url = sprintf( '<a href="%s" class="%s">%s</a>',
+			add_query_arg( $url_data, 'https://oauth2.staging.str5.net/hydra-public/oauth2/auth' ),
+			$button ? 'button' : '',
+			__( 'Gain API Access', DOLLIE_DOMAIN ) );
+
+		return $url;
+	}
+
+	public function get_api_refresh_link( $button = false ) {
+		$url_data = [
+			'redirect_origin' => admin_url( 'admin.php?page=wpd_api' ),
+			'refresh_token'   => base64_encode( Api::get_auth_data( 'refresh_token' ) )
+		];
+
+		$url = sprintf( '<a href="%s" class="%s">%s</a>',
+			add_query_arg( $url_data, 'https://partners.getdollie.com/refresh-token' ),
+			$button ? 'button' : '',
+			__( 'Refresh API Token', DOLLIE_DOMAIN ) );
+
+		return $url;
 	}
 
 }
