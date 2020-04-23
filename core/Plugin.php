@@ -36,7 +36,7 @@ class Plugin extends Singleton {
 	/**
 	 * @var array
 	 */
-	public $routes;
+	private $routes;
 
 	/**
 	 * Plugin constructor.
@@ -55,6 +55,7 @@ class Plugin extends Singleton {
 		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
 
 		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
+		add_action( 'init', [ $this, 'load_routes' ], 9 );
 
 		add_action( 'admin_notices', [ $this, 'check_auth_admin_notice' ] );
 
@@ -85,9 +86,6 @@ class Plugin extends Singleton {
 	 * Initialize modules and shortcodes
 	 */
 	public function initialize() {
-
-		// Custom routes
-		$this->load_routes();
 
 		// Load modules
 		Forms::instance();
@@ -120,8 +118,9 @@ class Plugin extends Singleton {
 	/**
 	 * Load routes
 	 */
-	private function load_routes() {
-		if ( function_exists( 'get_field' ) && ! get_field( 'wpd_enable_site_preview', 'options' ) ) {
+	public function load_routes() {
+
+		if ( ! function_exists( 'get_field' ) || ! get_field( 'wpd_enable_site_preview', 'options' ) ) {
 			return;
 		}
 
