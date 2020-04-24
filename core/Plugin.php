@@ -319,14 +319,16 @@ class Plugin extends Singleton {
 
 			if ( is_array( $response['body'] ) ) {
 				Api::update_auth_data( $response['body'] );
-			} else {
-				Api::delete_auth_data();
-				wp_redirect( admin_url( 'admin.php?page=wpd_api&status=not_connected' ) );
-				die();
+
+				return true;
 			}
+
+			Api::delete_auth_data();
+			wp_redirect( admin_url( 'admin.php?page=wpd_api&status=not_connected' ) );
+			die();
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -336,9 +338,13 @@ class Plugin extends Singleton {
 	 * @return array|\WP_Error
 	 */
 	public function check_token_get_request( $response, $endpoint ) {
-		$this->handle_token_response( $response );
+		$resend_request = $this->handle_token_response( $response );
 
-		return Api::simple_get( $endpoint );
+		if ( $resend_request ) {
+			return Api::simple_get( $endpoint );
+		}
+
+		return $response;
 	}
 
 	/**
@@ -349,9 +355,13 @@ class Plugin extends Singleton {
 	 * @return array|\WP_Error
 	 */
 	public function check_token_post_request( $response, $endpoint, $body ) {
-		$this->handle_token_response( $response );
+		$resend_request = $this->handle_token_response( $response );
 
-		return Api::simple_post( $endpoint, $body );
+		if ( $resend_request ) {
+			return Api::simple_post( $endpoint, $body );
+		}
+
+		return $response;
 	}
 
 	/**

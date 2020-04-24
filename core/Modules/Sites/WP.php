@@ -114,7 +114,7 @@ final class WP extends Singleton {
 		sleep( 3 );
 
 		$responseContainer = json_decode( wp_remote_retrieve_body( $requestGetContainer ), true );
-		$data_container     = json_decode( $responseContainer['body'], true );
+		$data_container    = json_decode( $responseContainer['body'], true );
 
 		// Show an error of S5 API has not completed the setup.
 		if ( ! array_key_exists( 'id', $data_container ) ) {
@@ -173,7 +173,7 @@ final class WP extends Singleton {
 		}
 
 		return [
-			'post_id' => $post_id,
+			'post_id'        => $post_id,
 			'data_container' => $data_container
 		];
 	}
