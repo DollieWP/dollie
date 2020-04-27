@@ -57,7 +57,7 @@ class ContainerRegistration extends Singleton {
 		$responseNodesGet = json_decode( wp_remote_retrieve_body( $requestNodesGet ), true );
 
 		if ( $responseNodesGet['status'] === 500 ) {
-			return [];
+			return '';
 		}
 
 		return $responseNodesGet['body'];
@@ -77,22 +77,19 @@ class ContainerRegistration extends Singleton {
 		// Only run if the node has not been added.
 		if ( $is_node_added !== 'yes' ) {
 
-			// Don't do anything if the transient is empty.
-			// Output buffer our Node details
-			// will stay like this currently
-			ob_start(); ?>
-            <node name="<?php echo $url; ?>" description="Deployed via <?php echo get_site_url(); ?>"
-                  tags="<?php echo DOLLIE_WORKER_KEY; ?>,<?php echo get_site_url(); ?>,<?php echo $email; ?>"
-                  hostname="<?php echo $ip; ?>:<?php echo $port; ?>" username="root"/></project><?php
-			$new_node = ob_get_clean();
+			$new_node = '<node name="'.  $url .'" description="Deployed via '. get_site_url() .'"' .
+                        ' tags="' . DOLLIE_WORKER_KEY . ',' . get_site_url() . ',' . $email . '"' .
+                        ' hostname="' . $ip . ':' . $port . '"' .
+                        ' username="root"/>' .
+                        '</project>';
 
 			// Grab our existing node details
 			$all_nodes = $this->get_worker_nodes();
+			if ( ! $all_nodes ) {
+				return;
+			}
 
-			$update_nodes = str_replace( '</project>', $new_node, $all_nodes );
-
-			// Take output buffer for our body in our POST request
-			$request_body = $update_nodes;
+			$request_body = str_replace( '</project>', $new_node, $all_nodes );
 
 			// Set up the request
 			$update = wp_remote_post(
