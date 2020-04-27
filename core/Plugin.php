@@ -66,6 +66,12 @@ class Plugin extends Singleton {
 	 * Load Dollie dependencies. Make sure to call them on plugins_loaded
 	 */
 	public function load_dependencies() {
+
+	    // load ACF as fallback.
+		if ( ! class_exists( 'ACF' ) ) {
+			require_once DOLLIE_PATH . 'core/Extras/advanced-custom-fields-pro/acf.php';
+		}
+
 		// Load logger.
 		if ( ! class_exists( '\WDS_Log_Post' ) ) {
 			require_once DOLLIE_PATH . 'core/Extras/wds-log-post/wds-log-post.php';

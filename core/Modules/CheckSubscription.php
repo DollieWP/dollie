@@ -57,6 +57,39 @@ class CheckSubscription extends Singleton {
 		return count( $results ) > 0;
 	}
 
+	public function get_checkout_link( $product_id, $blueprint_id ) {
+
+		if ( ! function_exists( 'wc_get_product' ) ) {
+			return '#';
+		}
+
+		$product_obj = wc_get_product( $product_id );
+
+		$link_args = [
+			'add-to-cart'  => $product_id,
+			'blueprint_id' => $blueprint_id,
+		];
+
+		if ( $product_obj->get_type() === 'variable-subscription' ) {
+
+			$default_atts = $product_obj->get_default_attributes();
+
+			if ( isset( $default_atts['pa_subscription'] ) ) {
+
+				$data_store                = \WC_Data_Store::load( 'product' );
+				$default_variation         = $data_store->find_matching_product_variation( $product_obj, [ 'attribute_pa_subscription' => $default_atts['pa_subscription'] ] );
+				$link_args['variation_id'] = $default_variation;
+			}
+
+		}
+
+		$link = add_query_arg(
+			$link_args,
+			wc_get_checkout_url() );
+
+		return apply_filters( 'dollie/woo/checkout_link', $link, $product_id, $blueprint_id );
+	}
+
 	/**
 	 * Get subscriptions for customer
 	 *
@@ -484,11 +517,12 @@ class CheckSubscription extends Singleton {
 
 		return $total;
 	}
+
 	public function has_subscription() {
-		if ( get_option('options_wpd_charge_for_deployments') !== '1') {
+		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return true;
 		} else {
-			return (bool) $this->get_customer_subscriptions(get_current_user_id());
+			return (bool) $this->get_customer_subscriptions( get_current_user_id() );
 		}
 	}
 
@@ -526,7 +560,7 @@ class CheckSubscription extends Singleton {
 	}
 
 	public function site_limit_reached() {
-		if ( ! class_exists( \WooCommerce::class ) || get_option('options_wpd_charge_for_deployments') !== '1' ) {
+		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return false;
 		}
 
@@ -538,7 +572,7 @@ class CheckSubscription extends Singleton {
 
 		$total_site = dollie()->count_customer_containers();
 
-		return $this->has_subscription() && $subscription['max_allowed_installs'] - $total_site <= 0 && ! current_user_can( 'manage_options');
+		return $this->has_subscription() && $subscription['max_allowed_installs'] - $total_site <= 0 && ! current_user_can( 'manage_options' );
 	}
 
 	public function get_excluded_blueprints() {
@@ -568,7 +602,7 @@ class CheckSubscription extends Singleton {
 	}
 
 	public function size_limit_reached() {
-		if ( ! class_exists( \WooCommerce::class ) || get_option('options_wpd_charge_for_deployments') !== '1' ) {
+		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return false;
 		}
 

@@ -4,6 +4,7 @@ namespace Dollie\Core\Modules\Sites;
 
 use Dollie\Core\Log;
 use Dollie\Core\Modules\Backups;
+use Dollie\Core\Modules\Blueprints;
 use Dollie\Core\Modules\ContainerRegistration;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
@@ -160,16 +161,24 @@ final class WP extends Singleton {
 			add_post_meta( $post_id, 'wpd_container_based_on_blueprint', 'yes', true );
 			add_post_meta( $post_id, 'wpd_container_based_on_blueprint_id', $blueprint, true );
 
-			$container_uri     = get_post_meta( $blueprint, 'wpd_container_uri', true );
-			$blueprint_install = str_replace( 'https://', '', $container_uri );
+			$blueprint_install = get_post_meta( $blueprint, 'wpd_container_uri', true );
+			$blueprint_install = str_replace( [ 'https://', 'http://' ], '', $blueprint_install );
+			$container_uri     = str_replace( [ 'https://', 'http://' ], '', $data_container['uri'] );
 
-			Api::post( Api::ROUTE_BLUEPRINT_DEPLOY, [
-				'container_url' => $data_container['uri'],
+			$blueprint_request = Api::post( Api::ROUTE_BLUEPRINT_DEPLOY, [
+				'container_uri' => $container_uri,
 				'blueprint_url' => $blueprint_install
 			] );
 
-			Log::add( $domain . ' will use blueprint' . $blueprint_install, '', 'deploy' );
+			Log::add( $domain . ' will use blueprint ' . $blueprint_install, '', 'deploy' );
+			Log::add( $domain . ' will use blueprint data ' . $blueprint_install, print_r( $blueprint_request, true ), 'deploy' );
 			update_post_meta( $post_id, 'wpd_blueprint_deployment_complete', 'yes' );
+
+			// Remove our cookie
+			setcookie( Blueprints::COOKIE_NAME, '', time() - 3600, '/' );
+
+			do_action( 'dollie/launch_site/deploy/set_blueprint/after', $post_id, $blueprint );
+
 		}
 
 		return [

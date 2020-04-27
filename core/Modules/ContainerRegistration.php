@@ -57,7 +57,7 @@ class ContainerRegistration extends Singleton {
 		$response_nodes_get = json_decode( wp_remote_retrieve_body( $request_nodes_get ), true );
 
 		if ( $response_nodes_get['status'] === 500 ) {
-			return [];
+			return '';
 		}
 
 		return $response_nodes_get['body'];

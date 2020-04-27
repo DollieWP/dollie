@@ -37,7 +37,6 @@ class LaunchSite extends Singleton {
 		add_filter( 'acf/prepare_field/name=site_url', [ $this, 'append_site_url' ] );
 
 		// Form args
-		add_filter( 'af/form/after_fields/key=' . $this->form_key, [ $this, 'add_modal_data' ], 10, 2 );
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
 		// Form submission action.
@@ -49,7 +48,7 @@ class LaunchSite extends Singleton {
 		$domain            = af_get_field( 'site_url' );
 		$email             = af_get_field( 'site_admin_email' );
 		$default_blueprint = af_get_field( 'site_blueprint' ) ?: Forms::instance()->get_form_arg( 'site_blueprint', $form, $args );
-		$blueprint         = isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : $default_blueprint;
+		$blueprint         = isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) ? $_COOKIE[ Blueprints::COOKIE_NAME ] : $default_blueprint;
 		$user_id           = get_current_user_id();
 
 		$deploy_data = WP::instance()->deploy_site( $email, $domain, $user_id, $blueprint );
@@ -65,10 +64,6 @@ class LaunchSite extends Singleton {
 		return $field;
 	}
 
-	public function add_modal_data() {
-		Tpl::load( 'launch-splash', [], true );
-	}
-
 	public function change_form_args( $args ) {
 		$args['submit_text'] = esc_html__( 'Launch New Site', 'dollie' );
 
@@ -80,11 +75,17 @@ class LaunchSite extends Singleton {
 		$blueprints = Blueprints::instance()->get_all_blueprints( 'image' );
 
 		if ( ! empty( $blueprints ) ) {
-			$field['choices'] = [ 0 => 'None' ] + $blueprints;
+			$default_option = [
+				0 =>  '<img data-toggle="tooltip" data-placement="bottom" ' .
+				      ' title="Default Wordpress Site"' .
+				      ' class="fw-blueprint-screenshot" src="' . DOLLIE_ASSETS_URL . 'img/default-blueprint.jpg">' .
+				      'No Blueprint'
+			];
+			$field['choices'] = $default_option + $blueprints;
 		}
 
 		// Hide the blueprints field
-		if ( isset( $_COOKIE['dollie_blueprint_id'] ) || empty( $blueprints ) ) {
+		if ( isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) || empty( $blueprints ) ) {
 			$field['class'] = 'acf-hidden';
 		}
 

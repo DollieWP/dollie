@@ -123,7 +123,7 @@ class AF_Calculated_Admin extends acf_field {
         $new_parents = array_merge( $parents, array( $field['label'] ) );
         $sub_calculated_fields = $this->find_calculated_fields(
           $field['sub_fields'],
-          $new_parents,
+          $new_parents
         );
 
         $calculated_fields = array_merge( $calculated_fields, $sub_calculated_fields );
