@@ -496,6 +496,18 @@ class Helpers extends Singleton {
 
 	}
 
+	/**
+     * Get the link for quick checkout
+     *
+	 * @param $product_id
+	 * @param $blueprint_id
+	 *
+	 * @return mixed
+	 */
+	public function get_woo_checkout_link( $product_id, $blueprint_id ) {
+	    return CheckSubscription::instance()->get_checkout_link( $product_id, $blueprint_id );
+    }
+
 	public function in_array_r( $needle, $haystack, $strict = false ) {
 		foreach ( $haystack as $item ) {
 			if ( ( $strict ? $item === $needle : $item == $needle ) || ( is_array( $item ) && $this->in_array_r( $needle, $item, $strict ) ) ) {

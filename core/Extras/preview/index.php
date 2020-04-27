@@ -66,13 +66,14 @@ if ( isset( $_GET['type'] ) ) {
 }
 $posts = query_posts( $gp_args );
 
-
 $theme_array = array();
 
 if ( have_posts() ) :
 	while ( have_posts() ) : the_post();
 
-		$id = get_post_field( 'post_name', get_the_ID() );
+		$product_id    = get_field( 'wpd_installation_blueprint_hosting_product' );
+		$product_obj   = wc_get_product( $product_id[0] );
+		$checkout_link = dollie()->get_woo_checkout_link( $product_id[0], get_the_ID() );
 
 		if ( isset( $_GET["type"] ) && $_GET["type"] === 'my-sites' ) {
 
@@ -92,9 +93,6 @@ if ( have_posts() ) :
 				$screenshot = $protocol . $_SERVER['SERVER_NAME'] . dirname( $_SERVER['REQUEST_URI'] ) . '/assets/images/no-screenshot.png';
 			}
 
-			$product_id    = get_field( "wpd_installation_blueprint_hosting_product" );
-			$checkout_link = get_site_url() . '/checkout/?add-to-cart=' . $product_id[0] . '&blueprint_id=' . get_the_ID();
-
 			$theme_array[] = array(
 				'active'      => 1,
 				'id'          => get_the_ID(),
@@ -113,9 +111,6 @@ if ( have_posts() ) :
 				'badge'       => 'Pro',
 			);
 		} else {
-
-			$product_id    = get_field( "wpd_installation_blueprint_hosting_product" );
-			$checkout_link = get_site_url() . '/checkout/?add-to-cart=' . $product_id[0] . '&blueprint_id=' . get_the_ID();
 
 			if ( get_field( 'wpd_blueprint_image' ) == 'custom' ) {
 				$image = get_field( 'wpd_blueprint_custom_image' );
