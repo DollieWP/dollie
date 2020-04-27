@@ -64,13 +64,16 @@
   opacity: 1;
   background: #39bc9c;
 }
+.af-field-site-blueprint li label {
+  margin: 5px;
+  text-align: center;
+}
 .af-field-site-blueprint li label.selected {
   font-weight: 700;
   background: #1ebf73;
   border-radius: 10px;
   padding-left: 3px;
   display: inline-block;
-  /* border: 1px solid; */
 }
 .af-field-site-blueprint li label.selected img.fw-blueprint-screenshot {
   opacity: 1;

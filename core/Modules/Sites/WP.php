@@ -4,6 +4,7 @@ namespace Dollie\Core\Modules\Sites;
 
 use Dollie\Core\Log;
 use Dollie\Core\Modules\Backups;
+use Dollie\Core\Modules\Blueprints;
 use Dollie\Core\Modules\ContainerRegistration;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
@@ -170,6 +171,12 @@ final class WP extends Singleton {
 
 			Log::add( $domain . ' will use blueprint' . $blueprint_install, '', 'deploy' );
 			update_post_meta( $post_id, 'wpd_blueprint_deployment_complete', 'yes' );
+
+			// Remove our cookie
+			setcookie( Blueprints::COOKIE_NAME, '', time() - 3600, '/' );
+
+			do_action( 'dollie/launch_site/deploy/set_blueprint/after', $post_id, $blueprint );
+
 		}
 
 		return [

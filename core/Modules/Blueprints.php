@@ -17,6 +17,9 @@ use WP_Query;
  */
 class Blueprints extends Singleton {
 
+	const COOKIE_NAME = 'dollie_blueprint_id';
+	const COOKIE_GET_PARAM = 'blueprint_id';
+
 	/**
 	 * Backups constructor.
 	 */
@@ -60,7 +63,7 @@ class Blueprints extends Singleton {
 					'compare' => 'EXISTS',
 				]
 			],
-			'p'              => isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : '',
+			'p'              => isset( $_COOKIE[ self::COOKIE_NAME ] ) ? $_COOKIE[ self::COOKIE_NAME ] : '',
 		] );
 
 		if ( empty( $sites ) ) {
@@ -85,9 +88,9 @@ class Blueprints extends Singleton {
 					$image = get_post_meta( $site->ID, 'wpd_site_screenshot', true );
 				}
 				$value = '<img data-toggle="tooltip" data-placement="bottom" ' .
-				         'title="' . get_post_meta( $site->ID, 'wpd_installation_blueprint_description', true ) . '" ' .
+				         'title="' . esc_attr( get_post_meta( $site->ID, 'wpd_installation_blueprint_description', true ) ) . '" ' .
 				         'class="fw-blueprint-screenshot" src=' . $image . '>' .
-				         get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true );
+				         esc_html( get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true ) );
 
 			} else {
 				$value = get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true );
@@ -147,8 +150,8 @@ class Blueprints extends Singleton {
 
 
 	public function set_blueprint_cookie() {
-		if ( isset( $_GET['blueprint_id'] ) ) {
-			$cookie_id = $_GET['blueprint_id'];
+		if ( isset( $_GET[ self::COOKIE_GET_PARAM ] ) ) {
+			$cookie_id = $_GET[ self::COOKIE_GET_PARAM ];
 		}
 
 		$currentQuery   = dollie()->get_current_object();
@@ -156,11 +159,7 @@ class Blueprints extends Singleton {
 
 		// No Cookies set? Check is parameter are valid
 		if ( isset( $cookie_id ) ) {
-			setcookie( 'dollie_blueprint_id', $cookie_id, time() + ( 86400 * 30 ), '/' );
-		}
-
-		if ( $setup_complete === 'yes' && is_singular( 'container' ) ) {
-			setcookie( 'dollie_blueprint_id', '', time() - 3600, '/' );
+			setcookie( self::COOKIE_NAME, $cookie_id, time() + ( 86400 * 30 ), '/' );
 		}
 	}
 
@@ -201,7 +200,12 @@ class Blueprints extends Singleton {
 				$time = ' at ' . $pretty_time . '';
 				?>
                 <li>
-                    <i class='fal fa-calendar'></i> Created on <?php echo date( 'd F y', $date ) . $time . $size; ?>
+					<?php
+					printf(
+						esc_html__( '%s Created on %s', 'dollie' ),
+						'<i class="fal fa-calendar"></i>',
+						( date( 'd F y', $date ) . $time . $size )
+					); ?>
                 </li>
 			<?php endforeach; ?>
 			<?php

@@ -89,19 +89,24 @@
       }
     }
 
-    label.selected {
-      font-weight: 700;
-      background: #1ebf73;
-      border-radius: 10px;
-      padding-left: 3px;
+    label {
+      margin: 5px;
+      text-align: center;
 
-      display: inline-block;
+      &.selected {
+        font-weight: 700;
+        background: #1ebf73;
+        border-radius: 10px;
+        padding-left: 3px;
+        display: inline-block;
 
-      /* border: 1px solid; */
-      img.fw-blueprint-screenshot {
-        opacity: 1;
+        img.fw-blueprint-screenshot {
+          opacity: 1;
+        }
       }
     }
+
+
 
     input {
       display: none !important;

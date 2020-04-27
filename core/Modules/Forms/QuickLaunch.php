@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Modules\Blueprints;
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Modules\Sites\WP;
 use Dollie\Core\Singleton;
@@ -48,7 +49,7 @@ class QuickLaunch extends Singleton {
 		$domain    = strtolower( str_replace( ' ', '-', $generator->getName() ) );
 
 		$email     = af_get_field( 'client_email' );
-		$blueprint = isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : Forms::instance()->get_form_arg( 'site_blueprint', $form, $args );;
+		$blueprint = isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) ? $_COOKIE[ Blueprints::COOKIE_NAME ] : Forms::instance()->get_form_arg( 'site_blueprint', $form, $args );
 		$demo      = esc_url_raw( get_site_url() );
 
 		// If we allow registration and not logged in - create account

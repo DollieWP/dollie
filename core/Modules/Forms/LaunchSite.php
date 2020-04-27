@@ -49,7 +49,7 @@ class LaunchSite extends Singleton {
 		$domain            = af_get_field( 'site_url' );
 		$email             = af_get_field( 'site_admin_email' );
 		$default_blueprint = af_get_field( 'site_blueprint' ) ?: Forms::instance()->get_form_arg( 'site_blueprint', $form, $args );
-		$blueprint         = isset( $_COOKIE['dollie_blueprint_id'] ) ? $_COOKIE['dollie_blueprint_id'] : $default_blueprint;
+		$blueprint         = isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) ? $_COOKIE[ Blueprints::COOKIE_NAME ] : $default_blueprint;
 		$user_id           = get_current_user_id();
 
 		$deploy_data = WP::instance()->deploy_site( $email, $domain, $user_id, $blueprint );
@@ -80,11 +80,17 @@ class LaunchSite extends Singleton {
 		$blueprints = Blueprints::instance()->get_all_blueprints( 'image' );
 
 		if ( ! empty( $blueprints ) ) {
-			$field['choices'] = [ 0 => 'None' ] + $blueprints;
+			$default_option = [
+				0 =>  '<img data-toggle="tooltip" data-placement="bottom" ' .
+				      ' title="Default Wordpress Site"' .
+				      ' class="fw-blueprint-screenshot" src="' . DOLLIE_ASSETS_URL . 'img/default-blueprint.jpg">' .
+				      'No Blueprint'
+			];
+			$field['choices'] = $default_option + $blueprints;
 		}
 
 		// Hide the blueprints field
-		if ( isset( $_COOKIE['dollie_blueprint_id'] ) || empty( $blueprints ) ) {
+		if ( isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) || empty( $blueprints ) ) {
 			$field['class'] = 'acf-hidden';
 		}
 
