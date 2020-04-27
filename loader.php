@@ -27,13 +27,6 @@ define( 'DOLLIE_CORE_PATH', DOLLIE_PATH . 'core/' );
 define( 'DOLLIE_MODULE_TPL_PATH', DOLLIE_PATH . 'templates/' );
 define( 'DOLLIE_ASSETS_URL', DOLLIE_URL . 'assets/' );
 
-// Sensitive data
-if ( ! defined( 'DOLLIE_WORKER_TOKEN' ) ) {
-	define( 'DOLLIE_WORKER_TOKEN', 'lRKqXgIpMYu9gFNvWDICFOPXHxULWmG8' );
-}
-if ( ! defined( 'DOLLIE_WORKER_URL' ) ) {
-	define( 'DOLLIE_WORKER_URL', 'https://worker.getdollie.com' );
-}
 if ( ! defined( 'DOLLIE_MEMORY' ) ) {
 	define( 'DOLLIE_MEMORY', 1024 );
 }
@@ -51,7 +44,6 @@ if ( substr_count( $sub_domain, '.' ) === 2 ) {
 }
 
 define( 'DOLLIE_INSTALL', $enterprise === '' ? $domain : $enterprise );
-define( 'DOLLIE_WORKER_KEY', get_option( 'wpd_rundeck_key' ) );
 
 /*
  * Localization

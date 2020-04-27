@@ -52,22 +52,21 @@ class ContainerRegistration extends Singleton {
 	}
 
 	public function get_worker_nodes() {
-		$requestNodesGet = Api::post( Api::ROUTE_NODES_GET );
+		$request_nodes_get = Api::post( Api::ROUTE_NODES_GET );
 
-		$responseNodesGet = json_decode( wp_remote_retrieve_body( $requestNodesGet ), true );
+		$response_nodes_get = json_decode( wp_remote_retrieve_body( $request_nodes_get ), true );
 
-		if ( $responseNodesGet['status'] === 500 ) {
+		if ( $response_nodes_get['status'] === 500 ) {
 			return [];
 		}
 
-		return $responseNodesGet['body'];
+		return $response_nodes_get['body'];
 	}
 
 	public function register_worker_node( $id = null ) {
 		$currentQuery = dollie()->get_current_object();
 
 		$post_id = $id === null ? $currentQuery->id : $id;
-		$url     = dollie()->get_container_url( $post_id ) . '-' . DOLLIE_WORKER_KEY;
 
 		$is_node_added = get_post_meta( $post_id, 'wpd_node_added', true );
 		$ip            = get_post_meta( $post_id, 'wpd_container_ip', true );
@@ -76,37 +75,16 @@ class ContainerRegistration extends Singleton {
 
 		// Only run if the node has not been added.
 		if ( $is_node_added !== 'yes' ) {
+			$request_create_node = Api::post( Api::ROUTE_NODES_CREATE, [
+				'container_url' => dollie()->get_container_url( $post_id ),
+				'site_url'      => get_site_url(),
+				'email'         => $email,
+				'ip'            => $ip,
+				'port'          => $port
+			] );
 
-			// Don't do anything if the transient is empty.
-			// Output buffer our Node details
-			// will stay like this currently
-			ob_start(); ?>
-            <node name="<?php echo $url; ?>" description="Deployed via <?php echo get_site_url(); ?>"
-                  tags="<?php echo DOLLIE_WORKER_KEY; ?>,<?php echo get_site_url(); ?>,<?php echo $email; ?>"
-                  hostname="<?php echo $ip; ?>:<?php echo $port; ?>" username="root"/></project><?php
-			$new_node = ob_get_clean();
-
-			// Grab our existing node details
-			$all_nodes = $this->get_worker_nodes();
-
-			$update_nodes = str_replace( '</project>', $new_node, $all_nodes );
-
-			// Take output buffer for our body in our POST request
-			$request_body = $update_nodes;
-
-			// Set up the request
-			$update = wp_remote_post(
-				DOLLIE_WORKER_URL . '/api/23/project/Dollie-Containers/source/1/resources?format=xml', [
-					'headers' => [
-						'X-Rundeck-Auth-Token' => DOLLIE_WORKER_TOKEN,
-						'Content-Type'         => 'text/xml',
-					],
-					'body'    => $request_body,
-				]
-			);
-
-			if ( is_wp_error( $update ) ) {
-				Log::add( 'Node could not be registered for ' . $currentQuery->slug, print_r( $update, true ), 'error' );
+			if ( is_wp_error( $request_create_node ) ) {
+				Log::add( 'Node could not be registered for ' . $currentQuery->slug, print_r( $request_create_node, true ), 'error' );
 			} else {
 				update_post_meta( $post_id, 'wpd_node_added', 'yes' );
 				Log::add( $currentQuery->slug . ' was added as a Worker node' );
