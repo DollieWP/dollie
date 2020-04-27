@@ -41,6 +41,7 @@ class Api extends Singleton {
 		ROUTE_PLUGINS_UPDATES_APPLY = 'plugins/updates/apply',
 
 		ROUTE_EXECUTE_JOB = 'execute/job',
+		ROUTE_NODES_CREATE = 'nodes/create',
 		ROUTE_NODES_GET = 'nodes',
 		ROUTE_WIZARD_SETUP = 'setup';
 
