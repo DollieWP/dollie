@@ -37,7 +37,6 @@ class LaunchSite extends Singleton {
 		add_filter( 'acf/prepare_field/name=site_url', [ $this, 'append_site_url' ] );
 
 		// Form args
-		add_filter( 'af/form/after_fields/key=' . $this->form_key, [ $this, 'add_modal_data' ], 10, 2 );
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
 		// Form submission action.
@@ -63,10 +62,6 @@ class LaunchSite extends Singleton {
 		$field['append'] = DOLLIE_DOMAIN;
 
 		return $field;
-	}
-
-	public function add_modal_data() {
-		Tpl::load( 'launch-splash', [], true );
 	}
 
 	public function change_form_args( $args ) {

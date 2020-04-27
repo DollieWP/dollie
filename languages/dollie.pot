@@ -15,28 +15,190 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: core/Helpers.php:353
-msgid "Sorry, we could not retrieve your site details."
+#: core/Plugin.php:276
+msgid "Dollie is almost ready..."
 msgstr ""
 
-#: core/Helpers.php:356
-msgid "We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error."
+#: templates/launch-splash.php:26
+msgid "Launching New Cloud Container"
 msgstr ""
 
-#: core/Helpers.php:357
-msgid "Click here to try retrieving your site details again."
+#: templates/launch-splash.php:29
+msgid ""
+"We use state-of-the-art technology like PHP7, Nginx, Redis, Memcached and\n"
+"                                MariaDB inside isolated cloud containers to guarantee excellent performance\n"
+"                                and security for each and every site on our platform."
 msgstr ""
 
-#: core/Helpers.php:360
-msgid "Still no success?"
+#: templates/launch-splash.php:40
+msgid "Setting up WordPress"
 msgstr ""
 
-#: core/Helpers.php:361
-msgid "Create a support ticket"
+#: templates/launch-splash.php:44
+msgid ""
+"We manage important WordPress security updates for you, and notify you when\n"
+"                                compromised plugins and themes with security issues are found. And of course\n"
+"                                free SSL certificates for your site are set up automatically."
 msgstr ""
 
-#: core/Modules/Backups.php:297
-msgid "We're building your backup! You'll see it appear in the backup list on the left once it's done! If you have a large site this might take a while!"
+#: templates/launch-splash.php:57
+msgid "Testing & Verifying Installation"
+msgstr ""
+
+#: templates/launch-splash.php:61
+msgid ""
+"We are running some automated tests to make sure everything is set up and\n"
+"                                ready to go before you start building your brand new site!"
+msgstr ""
+
+#: templates/launch-splash.php:73
+msgid "Site Setup Complete"
+msgstr ""
+
+#: templates/launch-splash.php:77
+msgid ""
+"Your new site Wordpress site is deployed to our cloud! You will be redirected\n"
+"                                to the site setup wizard in just a couple of seconds..."
+msgstr ""
+
+#: templates/link-domain.php:7
+msgid "Your domain <strong>%s</strong> was successfully connected!"
+msgstr ""
+
+#: templates/link-domain.php:12
+msgid "Let's continue with our domain setup by making your DNS change."
+msgstr ""
+
+#: templates/link-domain.php:18
+msgid "Login to Your Domain Management account. This can be CloudFlare or your domain registrar."
+msgstr ""
+
+#: templates/link-domain.php:23
+msgid "Go to your Domain name <strong>%s</strong> and go to the DNS Manager."
+msgstr ""
+
+#: templates/link-domain.php:31
+msgid "Replace the IP address for the <strong>\"A\"</strong> <strong>%s</strong> record with the following IP address: <strong>%s</strong>"
+msgstr ""
+
+#: templates/link-domain.php:44
+msgid "Important Note: You only need to change the A and WWW records"
+msgstr ""
+
+#: templates/link-domain.php:47
+msgid ""
+"Your domain might have multiple DNS records set up. For example if you also have your own email address\n"
+"    (yourname@%s) or subdomains (anothersite.%s). For the migration to work you only\n"
+"    need to make a change to the A and (if existing) WWW record. Do not change the other records unless\n"
+"    specified by our support team or in unique domain setups configured by you or your developer."
+msgstr ""
+
+#: templates/migration-instructions.php:6
+msgid "Ready for the easiest migration ever?"
+msgstr ""
+
+#: templates/migration-instructions.php:10
+msgid "We are going make an exact copy of your current WordPress install to <strong>%s</strong>"
+msgstr ""
+
+#: templates/migration-instructions.php:16
+msgid "Do not worry; your live site will not be touched or modified in any way!"
+msgstr ""
+
+#: templates/migration-instructions.php:19
+msgid "Step 1 - Install the Migrate Guru Plugin"
+msgstr ""
+
+#: templates/migration-instructions.php:22
+msgid "Login to the WordPress Admin of the <strong>site you would like to migrate</strong> (i.e yoursite.com)"
+msgstr ""
+
+#: templates/migration-instructions.php:25
+msgid "Go to <strong>Plugins > Add New </strong> and search for \"Migrate Guru\""
+msgstr ""
+
+#: templates/migration-instructions.php:28
+msgid "Press the <strong>Install Now</strong> button."
+msgstr ""
+
+#: templates/migration-instructions.php:31
+msgid "Activate the plugin"
+msgstr ""
+
+#: templates/migration-instructions.php:34
+msgid "Click on the Migrate Guru menu link in the WordPress Admin"
+msgstr ""
+
+#: templates/migration-instructions.php:38
+msgid "Step 2 - Fill in the Migration Details"
+msgstr ""
+
+#: templates/migration-instructions.php:40
+msgid "On the Settings page you will be asked to first leave your email to keep you up to date about the migration progress."
+msgstr ""
+
+#: templates/migration-instructions.php:42
+msgid "Click on Migrate Site to continue."
+msgstr ""
+
+#: templates/migration-instructions.php:45
+msgid "Now choose <strong>FTP</strong> as your migration method, at the bottom right of the screen."
+msgstr ""
+
+#: templates/migration-instructions.php:48
+msgid "Finally fill in the following settings for your migration."
+msgstr ""
+
+#: templates/migration-instructions.php:54
+msgid "Destination Site URL"
+msgstr ""
+
+#: templates/migration-instructions.php:58
+msgid "FTP Type"
+msgstr ""
+
+#: templates/migration-instructions.php:62
+msgid "Destination Server IP/FTP Address"
+msgstr ""
+
+#: templates/migration-instructions.php:66
+msgid "Port:"
+msgstr ""
+
+#: templates/migration-instructions.php:71
+msgid "FTP Username:"
+msgstr ""
+
+#: templates/migration-instructions.php:75
+msgid "FTP Password:"
+msgstr ""
+
+#: templates/migration-instructions.php:79
+msgid "Directory Path:"
+msgstr ""
+
+#: templates/migration-instructions.php:93
+msgid "Step 3 - Sit back and enjoy the show!"
+msgstr ""
+
+#: templates/migration-instructions.php:96
+msgid "Press <strong>Migrate</strong> and sit back and enjoy the show. Depending on the size of your site and the speed of your current host this process could take up to a couple of hours. Do not worry, this is completely normal! We will send you an email when the migration has completed so you can easily continue to this setup wizard."
+msgstr ""
+
+#: core/Modules/Backups.php:96
+msgid "You have not restored your site yet."
+msgstr ""
+
+#: core/Modules/Backups.php:127
+msgid "You have never restored your site."
+msgstr ""
+
+#: core/Modules/Blueprints.php:205
+msgid "%s Created on %s"
+msgstr ""
+
+#: core/Modules/CheckSubscription.php:556
+msgid "None"
 msgstr ""
 
 #: core/Modules/ContainerFields.php:46
@@ -63,116 +225,424 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:45
-msgctxt "DOLLIE_SLUG"
-msgid "Containers"
+#: core/Modules/ContainerManagement.php:37
+msgctxt "dollie"
+msgid "Sites"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:46
-msgctxt "DOLLIE_SLUG"
-msgid "Container"
+#: core/Modules/ContainerManagement.php:38
+msgctxt "dollie"
+msgid "Site"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:47
-msgid "Containers"
+#: core/Modules/ContainerManagement.php:39
+msgid "Sites"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:48
+#: core/Modules/ContainerManagement.php:40
 msgid "Post Type"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:49
-msgid "Container Archives"
+#: core/Modules/ContainerManagement.php:41
+msgid "Site Archives"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:50
-msgid "Container Attributes"
+#: core/Modules/ContainerManagement.php:42
+msgid "Site Attributes"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:51
-msgid "Parent Container:"
+#: core/Modules/ContainerManagement.php:43
+msgid "Parent Site:"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:52, core/Modules/ContainerManagement.php:59
+#: core/Modules/ContainerManagement.php:44, core/Modules/ContainerManagement.php:51
 msgid "View Sites"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:53
+#: core/Modules/ContainerManagement.php:45
 msgid "Add New Site"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:54
+#: core/Modules/ContainerManagement.php:46
 msgid "Add New"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:55
+#: core/Modules/ContainerManagement.php:47
 msgid "New Site"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:56
-msgid "Edit Container"
+#: core/Modules/ContainerManagement.php:48
+msgid "Edit Site"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:57
-msgid "Update Container"
+#: core/Modules/ContainerManagement.php:49
+msgid "Update Site"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:58
-msgid "View Container"
+#: core/Modules/ContainerManagement.php:50
+msgid "View Site"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:60
-msgid "Search Containers"
+#: core/Modules/ContainerManagement.php:52
+msgid "Search Sites"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:61
+#: core/Modules/ContainerManagement.php:53
 msgid "Not found"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:62
+#: core/Modules/ContainerManagement.php:54
 msgid "Not found in Trash"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:63
+#: core/Modules/ContainerManagement.php:55
 msgid "Featured Image"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:64
+#: core/Modules/ContainerManagement.php:56
 msgid "Set featured image"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:65
+#: core/Modules/ContainerManagement.php:57
 msgid "Remove featured image"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:66
+#: core/Modules/ContainerManagement.php:58
 msgid "Use as featured image"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:67
+#: core/Modules/ContainerManagement.php:59
 msgid "Insert into item"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:68
+#: core/Modules/ContainerManagement.php:60
 msgid "Uploaded to this item"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:69
-msgid "Containers list"
+#: core/Modules/ContainerManagement.php:61
+msgid "Sites list"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:70
-msgid "Containers list navigation"
+#: core/Modules/ContainerManagement.php:62
+msgid "Sites list navigation"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:71
+#: core/Modules/ContainerManagement.php:63
 msgid "Filter items list"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:75
-msgid "Container"
+#: core/Modules/ContainerManagement.php:67
+msgid "Site"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:76
-msgid "Platform Containers"
+#: core/Modules/ContainerManagement.php:68
+msgid "Platform Sites"
+msgstr ""
+
+#: core/Modules/Forms.php:118
+msgid "Dollie Container Login URL"
+msgstr ""
+
+#: core/Modules/Forms.php:122
+msgid "Dollie Container URL"
+msgstr ""
+
+#: core/Modules/Forms.php:225
+msgid "Possible shortcode attributes: "
+msgstr ""
+
+#: core/Modules/Forms.php:253, core/Modules/Options.php:145, core/Modules/Options.php:166
+msgid "Settings"
+msgstr ""
+
+#: core/Modules/Forms.php:270
+msgid "Shortcode"
+msgstr ""
+
+#: core/Modules/Forms.php:278
+msgid "Splash template"
+msgstr ""
+
+#: core/Modules/Forms.php:281
+msgid "Enter a custom Splash template path to appear on form submit. Theme override location theme-name/dollie/tpl-name"
+msgstr ""
+
+#: core/Modules/Forms.php:295
+msgid "Is it a Launch Site form?"
+msgstr ""
+
+#: core/Modules/Forms.php:298
+msgid "Does this form launches a new site?"
+msgstr ""
+
+#: core/Modules/Forms.php:313, core/Modules/Forms.php:510
+msgid "Select a Blueprint (optional)"
+msgstr ""
+
+#: core/Modules/Forms.php:316
+msgid "Force a default blueprint to use for the launched site"
+msgstr ""
+
+#: core/Modules/Forms.php:345
+msgid "Redirect to site dashboard"
+msgstr ""
+
+#: core/Modules/Forms.php:348
+msgid "Redirect to site dashboard page on form submit. Success Message will be ignored"
+msgstr ""
+
+#: core/Modules/Forms.php:494
+msgid "Choose Your URL"
+msgstr ""
+
+#: core/Modules/Forms.php:498
+msgid "Please choose a temporary URL for your site. This will be the place where you can work on your site until you connect your own domain."
+msgstr ""
+
+#: core/Modules/Forms.php:502
+msgid "Admin Email"
+msgstr ""
+
+#: core/Modules/Forms.php:506
+msgid "This is the email address you use to login to your WordPress admin."
+msgstr ""
+
+#: core/Modules/Forms.php:513
+msgid "Carefully crafted site designs made by our team which you can use as a starting point for your new site."
+msgstr ""
+
+#: core/Modules/Options.php:139, core/Modules/Options.php:161, core/Modules/Options.php:228
+msgid "Dollie (Live)"
+msgstr ""
+
+#: core/Modules/Options.php:141, core/Modules/Options.php:163, core/Modules/Options.php:230
+msgid "Dollie (Staging)"
+msgstr ""
+
+#: core/Modules/Options.php:366, core/Modules/Options.php:367, core/Modules/Dashboard/Pages.php:77
+msgid "Integrations"
+msgstr ""
+
+#: core/Modules/Upgrades.php:79
+msgid "Database update required"
+msgstr ""
+
+#: core/Modules/Upgrades.php:83
+msgid "<strong>Dollie</strong> needs to update your database to the latest version. Please make sure to create a backup first."
+msgstr ""
+
+#: core/Modules/Upgrades.php:89
+msgid "<a href=\"%s\">Update now</a>"
+msgstr ""
+
+#: core/Modules/Upgrades.php:137
+msgid "Awesome, database is now at the latest version!"
+msgstr ""
+
+#: core/Modules/Upgrades.php:141
+msgid "Something went wrong, please check logs."
+msgstr ""
+
+#: core/Utils/Helpers.php:61
+msgid "We strongly recommend to keep this plugin active and installed at all times."
+msgstr ""
+
+#: core/Utils/Helpers.php:65
+msgid "Our SiteCache solution is powered partly by the WP Fastest Cache plugin. We recommend to keep this plugin activated."
+msgstr ""
+
+#: core/Utils/Helpers.php:316
+msgid "Sorry, we could not retrieve your site details."
+msgstr ""
+
+#: core/Utils/Helpers.php:319
+msgid "We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error."
+msgstr ""
+
+#: core/Utils/Helpers.php:320
+msgid "Click here to try retrieving your site details again."
+msgstr ""
+
+#: core/Utils/Helpers.php:323
+msgid "Still no success?"
+msgstr ""
+
+#: core/Utils/Helpers.php:324
+msgid "Create a support ticket"
+msgstr ""
+
+#: core/Modules/Dashboard/Pages.php:73
+msgid "Dollie Integrations"
+msgstr ""
+
+#: core/Modules/Dashboard/Pages.php:78
+msgid "Loading Dollie Integrations"
+msgstr ""
+
+#: core/Modules/Dashboard/Pages.php:213
+msgid "Loading %s"
+msgstr ""
+
+#: core/Modules/Forms/AfterLaunchWizard.php:107
+msgid "An unknown error occurred. Please contact site administrator."
+msgstr ""
+
+#: core/Modules/Forms/AfterLaunchWizard.php:112
+msgid "Complete Setup!"
+msgstr ""
+
+#: core/Modules/Forms/AfterLaunchWizard.php:125
+msgid "Let's configure your new WordPress site"
+msgstr ""
+
+#: core/Modules/Forms/AfterLaunchWizard.php:128
+msgid "To help you get started our one-time welcome wizard will guide you through setting up your new WordPress site."
+msgstr ""
+
+#: core/Modules/Forms/CreateBackup.php:49
+msgid "Create New Backup"
+msgstr ""
+
+#: core/Modules/Forms/CreateBlueprint.php:62
+msgid "Please confirm blueprint creation"
+msgstr ""
+
+#: core/Modules/Forms/CreateBlueprint.php:69
+msgid "Deploy Blueprint"
+msgstr ""
+
+#: core/Modules/Forms/DeleteSite.php:57
+msgid "Please type the unique name of your site. Your site name is shown in the sidebar and in your URL address bar."
+msgstr ""
+
+#: core/Modules/Forms/DeleteSite.php:63
+msgid "Delete"
+msgstr ""
+
+#: core/Modules/Forms/DomainConnect.php:82
+msgid "Sorry, We could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href=\"%s\">Contact Support</a>"
+msgstr ""
+
+#: core/Modules/Forms/DomainConnect.php:120
+msgid "You need to have a registered domain before you continue."
+msgstr ""
+
+#: core/Modules/Forms/DomainConnect.php:125
+msgid "Your domain names do not match."
+msgstr ""
+
+#: core/Modules/Forms/DomainConnect.php:130
+msgid "You need to migrate your data before continuing."
+msgstr ""
+
+#: core/Modules/Forms/DomainConnect.php:159
+msgid "Connect Domain"
+msgstr ""
+
+#: core/Modules/Forms/DomainDns.php:112
+msgid "Your domain DNS A record is not yet pointing to our IP address. Please wait a few minutes and try again."
+msgstr ""
+
+#: core/Modules/Forms/DomainDns.php:146
+msgid "Your CloudFlare Email or API key is incorrect. Please try again or <a href=\"%s\">Contact Support</a>"
+msgstr ""
+
+#: core/Modules/Forms/DomainDns.php:197
+msgid "Your CloudFlare Zone ID is incorrect. Please make sure you copy and pasted the right ID without extra spaces. Need help? <a href=\"%s\">Contact Support</a>"
+msgstr ""
+
+#: core/Modules/Forms/DomainDns.php:228
+msgid "Sorry, We could not generate a SSL certificate for this domain. Please contact support so we can look into why this has happened."
+msgstr ""
+
+#: core/Modules/Forms/DomainDns.php:266
+msgid "Complete Domain Setup"
+msgstr ""
+
+#: core/Modules/Forms/DomainUpdateUrl.php:115
+msgid "There was a problem when performing the request. Please contact support so we can look into why this has happened."
+msgstr ""
+
+#: core/Modules/Forms/DomainUpdateUrl.php:158
+msgid "Complete Setup"
+msgstr ""
+
+#: core/Modules/Forms/LaunchSite.php:73, core/Modules/Forms/QuickLaunch.php:106
+msgid "Launch New Site"
+msgstr ""
+
+#: core/Modules/Forms/ListBackups.php:87
+msgid "We could not retrieve your backups."
+msgstr ""
+
+#: core/Modules/Forms/ListBackups.php:90
+msgid "This usually means we have trouble reaching your WordPress installation. Please get in touch with our support of you keep seeing this message."
+msgstr ""
+
+#: core/Modules/Forms/ListBackups.php:104
+msgid "Restore Backup"
+msgstr ""
+
+#: core/Modules/Forms/Performance.php:49
+msgid "Submit"
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:104
+msgid "There was a problem sending the update request. Please try again!"
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:109
+msgid "Plugin update is still running... please hold on"
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:124
+msgid "Plugin updates completed."
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:136
+msgid "Sadly we can not complete updating your plugins. Please login to your WordPress admin and update your plugins from there."
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:141
+msgid "All Your Plugins are updated!"
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:148
+msgid "All Done updating your plugins..."
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:195
+msgid "Everything is up to date!"
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:198
+msgid "There are no plugins available to update. Good job!"
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:283
+msgid "Update Plugins!"
+msgstr ""
+
+#: core/Modules/Forms/QuickLaunch.php:65
+msgid "Email already exists. Please login first"
+msgstr ""
+
+#: core/Modules/Forms/QuickLaunch.php:88
+msgid "My WP"
+msgstr ""
+
+#: core/Modules/Forms/QuickLaunch.php:89
+msgid "My WordPress Install"
+msgstr ""
+
+#: core/Modules/Sites/WP.php:25
+msgid "Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!"
+msgstr ""
+
+#: core/Modules/Sites/WP.php:123
+msgid "Sorry, It seems like there was an issue with launching your new site. Our support team has been notified"
+msgstr ""
+
+#: core/Modules/Sites/WP.php:240
+msgid "Processed site data is invalid."
 msgstr ""

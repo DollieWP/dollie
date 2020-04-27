@@ -115,8 +115,6 @@
                 divs.hide();
 
                 (function launchCycle() {
-                    console.log('cycle running');
-                    console.log(i);
                     divs
                         .eq(i)
                         .fadeIn(500)
