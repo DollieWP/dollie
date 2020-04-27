@@ -77,10 +77,10 @@ class ContainerRegistration extends Singleton {
 		// Only run if the node has not been added.
 		if ( $is_node_added !== 'yes' ) {
 
-			$new_node = '<node name="'.  $url .'" description="Deployed via '. get_site_url() .'"' .
+			$new_node =  '  <node name="'.  $url .'" description="Deployed via '. get_site_url() .'"' .
                         ' tags="' . DOLLIE_WORKER_KEY . ',' . get_site_url() . ',' . $email . '"' .
                         ' hostname="' . $ip . ':' . $port . '"' .
-                        ' username="root"/>' .
+                        ' username="root"/>' . "\n" .
                         '</project>';
 
 			// Grab our existing node details

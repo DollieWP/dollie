@@ -171,7 +171,6 @@ final class WP extends Singleton {
 			] );
 
 			Log::add( $domain . ' will use blueprint ' . $blueprint_install, '', 'deploy' );
-			Log::add( $domain . ' will use blueprint data ' . $blueprint_install, print_r( $blueprint_request, true ), 'deploy' );
 			update_post_meta( $post_id, 'wpd_blueprint_deployment_complete', 'yes' );
 
 			// Remove our cookie
