@@ -89,6 +89,14 @@ class Forms extends Singleton {
 
 		// Placeholders/Change values
 		add_filter( 'acf/prepare_field/type=message', [ $this, 'add_acf_placeholders' ], 10 );
+		add_filter( 'af/field/prefill_value/name=admin_email', [ $this, 'prefill_site_admin_email' ], 10, 4 );
+		add_filter( 'af/field/prefill_value/name=site_admin_email', [ $this, 'prefill_site_admin_email' ], 10, 4 );
+		add_filter( 'af/field/prefill_value/name=site_name', [ $this, 'prefill_site_name' ], 10, 4 );
+		add_filter( 'af/form/button_attributes', [ $this, 'filter_submit_button_attributes' ], 10, 3 );
+		add_filter( 'af/form/next_button_atts', [ $this, 'filter_next_button_attributes' ], 10, 2 );
+		add_filter( 'af/form/previous_button_atts', [ $this, 'filter_previous_button_attributes' ], 10, 2 );
+		add_filter( 'af/field/prefill_value/name=site_description', [ $this, 'prefill_description' ], 10, 4 );
+		add_filter( 'af/field/prefill_value/name=admin_username', [ $this, 'prefill_site_admin_user' ], 10, 4 );
 
 		add_filter( 'af/form/settings_fields', array( $this, 'add_form_settings_fields' ), 2, 1 );
 
@@ -212,6 +220,7 @@ class Forms extends Singleton {
 
 	/**
 	 * Add actions on saving a post
+	 *
 	 * @param $form
 	 * @param $post
 	 */
@@ -628,4 +637,47 @@ class Forms extends Singleton {
 
 		return $container;
 	}
+
+	public function prefill_site_admin_email( $value, $field, $form, $args ) {
+		if ( ! is_user_logged_in() ) {
+			return $value;
+		}
+
+		return get_userdata( get_current_user_id() )->user_email;
+	}
+
+	public function prefill_site_name( $value, $field, $form, $args ) {
+		return esc_html__( 'My New Site', 'dollie' );
+	}
+
+	public function filter_submit_button_attributes( $attributes, $form, $args ) {
+		$attributes['class'] .= ' btn btn-primary btn-lg';
+
+		return $attributes;
+	}
+
+	public function filter_next_button_attributes( $attributes, $field ) {
+		$attributes['class'] .= ' btn btn-primary';
+
+		return $attributes;
+	}
+
+	public function filter_previous_button_attributes( $attributes, $field ) {
+		$attributes['class'] .= ' btn btn-default';
+
+		return $attributes;
+	}
+
+	public function prefill_description( $value, $field, $form, $args ) {
+		return esc_html__( 'The best website in the world?', 'dollie' );
+	}
+
+	public function prefill_site_admin_user( $value, $field, $form, $args ) {
+		if ( ! is_user_logged_in() ) {
+			return $value;
+		}
+
+		return get_userdata( get_current_user_id() )->user_login;
+	}
+
 }
