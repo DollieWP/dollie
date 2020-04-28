@@ -70,7 +70,7 @@ class CheckSubscription extends Singleton {
 			'blueprint_id' => $blueprint_id,
 		];
 
-		if ( $product_obj->get_type() === 'variable-subscription' ) {
+		if ( method_exists( $product_obj, 'get_type' ) && $product_obj->get_type() === 'variable-subscription' ) {
 
 			$default_atts = $product_obj->get_default_attributes();
 
