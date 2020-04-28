@@ -520,18 +520,21 @@ class Forms extends Singleton {
 			$currentQuery = dollie()->get_current_object();
 
 			$user    = wp_get_current_user();
-			$request = dollie()->get_customer_container_details();
 
-			if ( $request && is_object( $request ) && isset( $request->uri ) ) {
-				$hostname = preg_replace( '#^https?://#', '', $request->uri );
+			if (! is_admin() ) {
+				$request = dollie()->get_customer_container_details();
 
-				$tpl_migration_instructions = Tpl::load( 'migration-instructions', [
-					'post_slug' => $currentQuery->slug,
-					'request'   => $request,
-					'user'      => $user,
-					'hostname'  => $hostname
-				] );
-				$field['message']           = str_replace( '{dollie_migration_instructions}', $tpl_migration_instructions, $field['message'] );
+				if ( $request && is_object( $request ) && isset( $request->uri ) ) {
+					$hostname = preg_replace( '#^https?://#', '', $request->uri );
+
+					$tpl_migration_instructions = Tpl::load( 'migration-instructions', [
+						'post_slug' => $currentQuery->slug,
+						'request'   => $request,
+						'user'      => $user,
+						'hostname'  => $hostname
+					] );
+					$field['message']           = str_replace( '{dollie_migration_instructions}', $tpl_migration_instructions, $field['message'] );
+				}
 			}
 
 			$ip     = get_post_meta( $currentQuery->id, 'wpd_container_ip', true ) ?: '';
