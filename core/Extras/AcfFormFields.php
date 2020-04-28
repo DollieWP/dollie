@@ -222,8 +222,8 @@ We\'ll walk you through all the steps required to link your own domain to your s
 				),
 				'hide_admin' => 0,
 				'message' => '<div class="box-light padding-half">
-<p>We are not selling domains directly, all our efforts go to perfecting WordPress site hosting.</p> 
-If you have not registered your own domain yet, this is the time to do so! We recommend <a href="https://wefoster.co/go/namecheap/" target="_blank">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar. 
+<p>We are not selling domains directly, all our efforts go to perfecting WordPress site hosting.</p>
+If you have not registered your own domain yet, this is the time to do so! We recommend <a href="https://wefoster.co/go/namecheap/" target="_blank">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar.
 <strong>Go ahead, register your domain and come back to this form to continue the domain setup!</strong>
 </div>',
 				'new_lines' => '',
@@ -925,7 +925,7 @@ If you have a large database the update might take a while. Please hold on a cou
 		'fields' => array(
 			array(
 				'key' => 'field_5e729d5994745',
-				'label' => 'Page 1',
+				'label' => 'Setup Your Site',
 				'name' => '',
 				'type' => 'page',
 				'instructions' => '',
@@ -968,7 +968,7 @@ If you have a large database the update might take a while. Please hold on a cou
 			),
 			array(
 				'key' => 'field_5e729ebfdbdc2',
-				'label' => 'Page 2',
+				'label' => 'Details',
 				'name' => '',
 				'type' => 'page',
 				'instructions' => '',
@@ -983,62 +983,6 @@ If you have a large database the update might take a while. Please hold on a cou
 				'show_numbering' => 1,
 				'previous_text' => '',
 				'next_text' => '',
-			),
-			array(
-				'key' => 'field_5e729de911000',
-				'label' => 'Site Name',
-				'name' => 'site_name',
-				'type' => 'text',
-				'instructions' => '',
-				'required' => 1,
-				'conditional_logic' => array(
-					array(
-						array(
-							'field' => 'field_5e729cf629ee9',
-							'operator' => '==',
-							'value' => 'setup',
-						),
-					),
-				),
-				'wrapper' => array(
-					'width' => '',
-					'class' => '',
-					'id' => '',
-				),
-				'hide_admin' => 0,
-				'default_value' => '',
-				'placeholder' => '',
-				'prepend' => '',
-				'append' => '',
-				'maxlength' => '',
-			),
-			array(
-				'key' => 'field_5e72a094ba6a8',
-				'label' => 'Site Description',
-				'name' => 'site_description',
-				'type' => 'text',
-				'instructions' => 'Depending on your WordPress theme your description might be shown in several areas across your site. It\'s also shown in the visitors browser window title.',
-				'required' => 1,
-				'conditional_logic' => array(
-					array(
-						array(
-							'field' => 'field_5e729cf629ee9',
-							'operator' => '==',
-							'value' => 'setup',
-						),
-					),
-				),
-				'wrapper' => array(
-					'width' => '',
-					'class' => '',
-					'id' => '',
-				),
-				'hide_admin' => 0,
-				'default_value' => '',
-				'placeholder' => '',
-				'prepend' => '',
-				'append' => '',
-				'maxlength' => '',
 			),
 			array(
 				'key' => 'field_5e7363c04012a',
@@ -1068,6 +1012,62 @@ If you have a large database the update might take a while. Please hold on a cou
 				'append' => '',
 			),
 			array(
+				'key' => 'field_5e729de911000',
+				'label' => 'Site Name',
+				'name' => 'site_name',
+				'type' => 'text',
+				'instructions' => '',
+				'required' => 1,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5e729cf629ee9',
+							'operator' => '==',
+							'value' => 'setup',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '50',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'default_value' => '',
+				'placeholder' => '',
+				'prepend' => '',
+				'append' => '',
+				'maxlength' => '',
+			),
+			array(
+				'key' => 'field_5e72a094ba6a8',
+				'label' => 'Site Description',
+				'name' => 'site_description',
+				'type' => 'text',
+				'instructions' => 'Depending on your WordPress theme your description might be shown in several areas across your site. It\'s also shown in the visitors browser window title.',
+				'required' => 1,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5e729cf629ee9',
+							'operator' => '==',
+							'value' => 'setup',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '50',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'default_value' => '',
+				'placeholder' => '',
+				'prepend' => '',
+				'append' => '',
+				'maxlength' => '',
+			),
+			array(
 				'key' => 'field_5e72a0bbba6a9',
 				'label' => 'Admin Username',
 				'name' => 'admin_username',
@@ -1084,7 +1084,7 @@ If you have a large database the update might take a while. Please hold on a cou
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '50',
 					'class' => '',
 					'id' => '',
 				),
@@ -1099,7 +1099,7 @@ If you have a large database the update might take a while. Please hold on a cou
 				'key' => 'field_5e72a0f6ba6aa',
 				'label' => 'Admin Password',
 				'name' => 'admin_password',
-				'type' => 'text',
+				'type' => 'password',
 				'instructions' => '',
 				'required' => 1,
 				'conditional_logic' => array(
@@ -1112,7 +1112,7 @@ If you have a large database the update might take a while. Please hold on a cou
 					),
 				),
 				'wrapper' => array(
-					'width' => '',
+					'width' => '50',
 					'class' => '',
 					'id' => '',
 				),
