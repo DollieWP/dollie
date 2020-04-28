@@ -45,7 +45,7 @@
 	.select2-container.fa-select2-field {
 		float: right;
 		position: relative;
-		top: -1;
+		top: -1px;
 		width: 75% !important;
 	}
 
@@ -54,5 +54,37 @@
 		width: 77%;
 		margin-top: -60px !important;
 		border-top: 0 !important;
+	}
+}
+
+
+/* Form Blueprints */
+.acf-field-form-site-blueprint {
+	.acf-radio-list {
+		display: flex;
+		flex-wrap: wrap;
+
+		li {
+			width: 25%;
+			text-align: center;
+
+			input[type="radio"] {
+				display: none;
+			}
+
+			img {
+				max-width: 95%;
+				display: block;
+				margin: 0 auto;
+			}
+			label {
+				display: block;
+				padding: 5px;
+
+				&.selected {
+					background: #0e84a6;
+				}
+			}
+		}
 	}
 }
