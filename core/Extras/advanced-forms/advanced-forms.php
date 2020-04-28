@@ -14,16 +14,16 @@
 
 
 class AF {
-	
-	
+
+
 	/**
 	 * Plugin version
 	 *
 	 * @since 1.2.0
 	 */
 	public $version = '1.6.7';
-	
-	
+
+
 	/**
 	 * Array to hold data about the previous submission
 	 *
@@ -39,10 +39,10 @@ class AF {
 	 *
 	 */
 	public $pro;
-	
+
 
 	function __construct() {
-	
+
 		add_action( 'plugins_loaded', array( $this, 'setup_plugin' ), 1, 0 );
 		add_action( 'acf/init', array( $this, 'load_plugin' ), 1, 0 );
 		add_action( 'admin_notices', array( $this, 'missing_acf_notice' ), 10, 0 );
@@ -111,7 +111,7 @@ class AF {
 		$this->classes['admin_restrictions'] = include( $this->path . 'admin/admin-restrictions.php' );
 		$this->classes['admin_entries'] = include( $this->path . 'admin/admin-entries.php' );
 		$this->classes['admin_emails'] = include( $this->path . 'admin/admin-emails.php' );
-		
+
 		if ( file_exists( $this->path . 'pro/advanced-forms-pro.php' ) ) {
 			$this->classes['pro'] = include( $this->path . 'pro/advanced-forms-pro.php' );
 		}
@@ -135,8 +135,8 @@ class AF {
 		do_action( 'af/register_forms' );
 
 	}
-	
-	
+
+
 	/**
 	 * Check if ACF Pro is installed
 	 *
@@ -144,9 +144,9 @@ class AF {
 	 *
 	 */
 	function has_acf() {
-		
+
 		return class_exists( 'acf_pro' );
-		
+
 	}
 
 
@@ -156,11 +156,11 @@ class AF {
 	 * @since 1.0.0
 	 */
 	function missing_acf_notice() {
-		
+
 		if ( ! $this->has_acf() ) {
-			
+
 			echo sprintf( '<div class="notice notice-error is-dismissible"><p>%s</p></div>', 'Couldn\'t find ACF 5 PRO. Advanced Forms requires ACF 5 PRO to function correctly.' );
-			
+
 		}
 
 	}
@@ -176,7 +176,7 @@ class AF {
 
 		wp_enqueue_script( 'jquery' );
 
-		wp_enqueue_script( 'af-admin-script', $this->url .  'assets/dist/js/admin.js', array( 'jquery' ) );
+		wp_enqueue_script( 'af-admin-script', $this->url .  'assets/js/admin.js', array( 'jquery' ) );
 
 	}
 
@@ -189,7 +189,7 @@ class AF {
 	 */
 	function enqueue_admin_styles() {
 
-		wp_enqueue_style( 'af-admin-style', $this->url .  'assets/dist/css/admin.css' );
+		wp_enqueue_style( 'af-admin-style', $this->url .  'assets/css/admin.css' );
 
 	}
 
@@ -202,7 +202,7 @@ class AF {
 	 */
 	function enqueue_styles() {
 
-		wp_enqueue_style( 'af-form-style', $this->url .  'assets/dist/css/form.css' );
+		wp_enqueue_style( 'af-form-style', $this->url .  'assets/css/form.css' );
 
 	}
 
@@ -316,19 +316,19 @@ class AF {
 
 /**
  * Helper function to access the global AF object
- * 
+ *
  * @since 1.1
  */
 function AF() {
-	
+
 	global $af;
-	
+
 	if ( ! isset( $af ) ) {
 		$af = new AF();
 	}
-	
+
 	return $af;
-	
+
 }
 
 // Initalize plugin

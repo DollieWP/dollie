@@ -1,5 +1,5 @@
 <?php
-  
+
 
 /**
  * Handles rendering of forms.
@@ -9,14 +9,14 @@
  *
  */
 class AF_Core_Forms_Rendering {
-  
-  
+
+
   function __construct() {
 
     add_shortcode( 'advanced_form', array( $this, 'form_shortcode' ) );
-    
+
     add_action( 'af/form/render', array( $this, 'render' ), 10, 2 );
-    
+
   }
 
 
@@ -27,25 +27,25 @@ class AF_Core_Forms_Rendering {
    *
    */
   function form_shortcode( $atts ) {
-    
+
     if ( isset( $atts['form'] ) ) {
-      
+
       $form_id_or_key = $atts['form'];
       unset( $atts['form'] );
-      
+
       ob_start();
-      
+
       $this->render( $form_id_or_key, $atts );
-      
+
       $output = ob_get_clean();
-      
+
       return $output;
-      
+
     }
-    
+
   }
-  
-  
+
+
   /**
    * Renders the form specified by ID
    *
@@ -54,18 +54,18 @@ class AF_Core_Forms_Rendering {
    */
   function render( $form_id_or_key, $args ) {
     $form = af_get_form( $form_id_or_key );
-    
+
     if ( ! $form ) {
       return;
     }
-    
+
     $this->enqueue( $form, $args );
-    
+
     // Allow the form to be modified before rendering form
     $form = apply_filters( 'af/form/before_render', $form, $args );
     $form = apply_filters( 'af/form/before_render/id=' . $form['post_id'], $form, $args );
     $form = apply_filters( 'af/form/before_render/key=' . $form['key'], $form, $args );
-    
+
     $args = wp_parse_args($args, array(
       'display_title'       => false,
       'display_description'     => false,
@@ -82,7 +82,7 @@ class AF_Core_Forms_Rendering {
       'instruction_placement' => 'label',
       'honeypot' => true,
     ));
-    
+
     // Allow the arguments to be modified before rendering form
     $args = apply_filters( 'af/form/args', $args, $form );
     $args = apply_filters( 'af/form/args/id=' . $form['post_id'], $args, $form );
@@ -91,7 +91,7 @@ class AF_Core_Forms_Rendering {
 
     // Set ACF uploader type setting
     acf_update_setting( 'uploader', $args['uploader'] );
-    
+
     // Form element
     $form_attributes = array(
       'class'   => 'af-form acf-form',
@@ -100,13 +100,13 @@ class AF_Core_Forms_Rendering {
       'id'    => $args['id'],
       'data-key' => $form['key'],
     );
-    
+
     $form_attributes = apply_filters( 'af/form/attributes', $form_attributes, $form, $args );
     $form_attributes = apply_filters( 'af/form/attributes/id=' . $form['post_id'], $form_attributes, $form, $args );
     $form_attributes = apply_filters( 'af/form/attributes/key=' . $form['key'], $form_attributes, $form, $args );
-    
+
     echo sprintf( '<form %s>', acf_esc_atts( $form_attributes ) );
-    
+
     do_action( 'af/form/before_title', $form, $args );
     do_action( 'af/form/before_title/id=' . $form['post_id'], $form, $args );
     do_action( 'af/form/before_title/key=' . $form['key'], $form, $args );
@@ -116,8 +116,8 @@ class AF_Core_Forms_Rendering {
 
     // Render title and description if they should be visible
     $this->render_title_and_description( $form, $args );
-    
-    
+
+
     /**
      * Check if form should be restricted and not displayed.
      * Filter will return false if no restriction is applied otherwise it will return a string to display.
@@ -134,24 +134,24 @@ class AF_Core_Forms_Rendering {
       $this->render_success_message( $form, $args );
 
     } elseif ( $restriction ) {
-    
+
       $this->render_restriction_message( $restriction );
-    
+
     } else {
 
       $this->render_fields( $form, $args );
 
     }
-    
+
     // End form
     echo '</form>';
   }
 
   /**
    * Enqueues all scripts and styles necessary for a form to work.
-   * 
+   *
    * @since 1.6.7
-   * 
+   *
    */
   function enqueue( $form, $args ) {
     /**
@@ -173,12 +173,12 @@ class AF_Core_Forms_Rendering {
     $acf_l10n = acf_get_instance('ACF_Assets')->text;
     wp_localize_script( 'acf-input', 'acfL10n', $acf_l10n );
 
-    wp_enqueue_script( 'af-forms-script', AF()->url . 'assets/dist/js/forms.js', array( 'jquery', 'acf-input' ), AF()->version, true );
-    
+    wp_enqueue_script( 'af-forms-script', AF()->url . 'assets/js/forms.js', array( 'jquery', 'acf-input' ), AF()->version, true );
+
     // Check if ACF version is < 5.7
     if ( acf_version_compare( acf()->version, '<', '5.7' ) ) {
       global $wp_scripts;
-      
+
       $wp_scripts->print_scripts( array( 'acf-input', 'acf-pro-input' ) );
     }
 
@@ -218,7 +218,7 @@ class AF_Core_Forms_Rendering {
     if ( $args['display_title'] ) {
       echo sprintf( '<h1 class="af-title">%s</h1>', $form['title'] );
     }
-    
+
     // Display description
     if ( $args['display_description'] ) {
       echo sprintf( '<div class="af-description">%s</div>', $form['display']['description'] );
@@ -252,11 +252,11 @@ class AF_Core_Forms_Rendering {
     $success_message = apply_filters( 'af/form/success_message/key=' . $form['key'], $success_message, $form, $args );
 
     $success_message = af_resolve_merge_tags( $success_message );
-    
+
     echo '<div class="af-success" aria-live="assertive" role="alert">';
-    
+
       echo $success_message;
-    
+
     echo '</div>';
   }
 
@@ -274,22 +274,22 @@ class AF_Core_Forms_Rendering {
       $views = $views ? $views + 1 : 1;
       update_post_meta( $form['post_id'], 'form_num_of_views', $views );
     }
-    
-    
+
+
     // Get field groups for the form and display their fields
     $field_groups = af_get_form_field_groups( $form['key'] );
-    
-    
+
+
     echo sprintf( '<div class="af-fields acf-fields acf-form-fields -%s">', $args['label_placement'] );
-    
-    
+
+
     do_action( 'af/form/before_fields', $form, $args );
     do_action( 'af/form/before_fields/id=' . $form['post_id'], $form, $args );
     do_action( 'af/form/before_fields/key=' . $form['key'], $form, $args );
-    
+
 
     // Form data required by ACF for validation to work.
-    acf_form_data(array( 
+    acf_form_data(array(
       'screen'  => 'acf_form',
       'post_id' => false,
       'form'    => false,
@@ -301,7 +301,7 @@ class AF_Core_Forms_Rendering {
       $nonce = wp_create_nonce( 'acf_nonce' );
       echo sprintf( '<input type="hidden" name="_acfnonce" value="%s">', $nonce );
       echo sprintf( '<input type="hidden" name="nonce" value="%s">', $nonce );
-    
+
       echo sprintf( '<input type="hidden" name="af_form" value="%s">', $form['key'] );
       echo sprintf( '<input type="hidden" name="af_form_args" value="%s">', base64_encode( json_encode( $args ) ) );
       echo sprintf( '<input type="hidden" name="_acf_form" value="%s">', base64_encode( json_encode( $args ) ) );
@@ -311,24 +311,24 @@ class AF_Core_Forms_Rendering {
       if ( $args['honeypot'] ) {
         echo '<input type="text" name="email_for_non_humans" tabindex="-1" autocomplete="off" />';
       }
-      
+
       do_action( 'af/form/hidden_fields', $form, $args );
       do_action( 'af/form/hidden_fields/id=' . $form['post_id'], $form, $args );
       do_action( 'af/form/hidden_fields/key=' . $form['key'], $form, $args );
-      
+
     echo '</div>';
-    
-    
+
+
     foreach ( $field_groups as $field_group ) {
       $this->render_field_group( $field_group, $form, $args );
     }
-    
+
     do_action( 'af/form/after_fields', $form, $args );
     do_action( 'af/form/after_fields/id=' . $form['post_id'], $form, $args );
     do_action( 'af/form/after_fields/key=' . $form['key'], $form, $args );
 
     $this->render_submit_button( $form, $args );
-    
+
     // End fields wrapper
     echo '</div>';
   }
@@ -343,27 +343,27 @@ class AF_Core_Forms_Rendering {
   function render_field_group( $field_group, $form, $args ) {
     // Get all fields for field group
     $fields = acf_get_fields( $field_group );
-    
+
     foreach ( $fields as $field ) {
-      
+
       // Skip field if it is in the exluded fields argument
       if ( isset( $args['exclude_fields'] ) && is_array( $args['exclude_fields'] ) ) {
-        
+
         if ( in_array( $field['key'], $args['exclude_fields'] ) || in_array( $field['name'], $args['exclude_fields'] ) ) {
           continue;
         }
-        
+
       }
-      
+
       $this->render_field( $field, $form, $args );
-      
+
     }
   }
 
 
   /**
    * Renders a single field as part of a form.
-   * 
+   *
    * @since 1.5.0
    *
    */
@@ -379,22 +379,22 @@ class AF_Core_Forms_Rendering {
     if ( empty( $field['value'] ) && isset( $field['default_value'] ) ) {
       $field['value'] = $field['default_value'];
     }
-    
-    
+
+
     // Include pre-fill values (either through args or filter)
     if ( isset( $args['values'][ $field['name'] ] ) ) {
       $field['value'] = $args['values'][ $field['name'] ];
     }
-    
+
     if ( isset( $args['values'][ $field['key'] ] ) ) {
       $field['value'] = $args['values'][ $field['key'] ];
     }
-    
+
     $field['value'] = apply_filters( 'af/field/prefill_value', $field['value'], $field, $form, $args );
     $field['value'] = apply_filters( 'af/field/prefill_value/name=' . $field['name'], $field['value'], $field, $form, $args );
     $field['value'] = apply_filters( 'af/field/prefill_value/key=' . $field['key'], $field['value'], $field, $form, $args );
-    
-    
+
+
     // Include any previously submitted value
     if ( isset( $_POST['acf'][ $field['key'] ] ) ) {
       $field['value'] = $_POST['acf'][ $field['key'] ];
@@ -403,37 +403,37 @@ class AF_Core_Forms_Rendering {
     if ( af_has_submission( $form['key'] ) && ( $args['filter_mode'] || af_submission_failed( $form['key'] ) ) ) {
       $field['value'] = af_get_field( $field['name'] );
     }
-    
+
     $field = apply_filters( 'af/field/before_render', $field, $form, $args );
     $field = apply_filters( 'af/field/before_render/id=' . $form['post_id'], $field, $form, $args );
     $field = apply_filters( 'af/field/before_render/key=' . $form['key'], $field, $form, $args );
-    
+
     // Attributes to be used on the wrapper element
     $attributes = array();
-    
+
     $attributes['id'] = $field['wrapper']['id'];
-    
+
     $attributes['class'] = $field['wrapper']['class'];
-    
+
     $attributes['class'] .= sprintf( ' af-field af-field-type-%s af-field-%s acf-field acf-field-%s acf-field-%s', $field['type'], $field['name'], $field['type'], $field['key'] );
-    
+
     if ( $field['required'] ) {
       $attributes['class'] .= ' af-field-required';
     }
 
-    
+
     // This is something ACF needs
     $attributes['class'] = str_replace( '_', '-', $attributes['class'] );
     $attributes['class'] = str_replace( 'field-field-', 'field-', $attributes['class'] );
-    
-    
+
+
     $width = $field['wrapper']['width'];
-    
+
     if ( $width ) {
       $attributes['data-width'] = $width;
       $attributes['style'] = 'width: ' . $width . '%;';
     }
-    
+
     $attributes['data-name'] = $field['name'];
     $attributes['data-key'] = $field['key'];
     $attributes['data-type'] = $field['type'];
@@ -448,45 +448,45 @@ class AF_Core_Forms_Rendering {
     if( ! empty( $field['conditional_logic'] ) ) {
       $field['conditions'] = $field['conditional_logic'];
     }
-    
+
     if( ! empty( $field['conditions'] ) ) {
       $attributes['data-conditions'] = $field['conditions'];
     }
-    
-    
+
+
     $attributes = apply_filters( 'af/form/field_attributes', $attributes, $field, $form, $args );
     $attributes = apply_filters( 'af/form/field_attributes/id=' . $form['post_id'], $attributes, $field, $form, $args );
     $attributes = apply_filters( 'af/form/field_attributes/key=' . $form['key'], $attributes, $field, $form, $args );
-    
+
     // Field instructions
     $instruction_placement = $args['instruction_placement'];
     $instruction_placement = apply_filters( 'af/field/instruction_placement', $instruction_placement, $field, $form, $args );
     $instruction_placement = apply_filters( 'af/field/instruction_placement/name=' . $field['name'], $instruction_placement, $field, $form, $args );
     $instruction_placement = apply_filters( 'af/field/instruction_placement/key=' . $field['key'], $instruction_placement, $field, $form, $args );
-    
+
     if ( ! empty( $field['instructions'] ) ) {
       $instructions = sprintf( '<p class="af-field-instructions -placement-%s">%s</p>', $instruction_placement, $field['instructions'] );
     } else {
       $instructions = '';
     }
-    
+
     // Field wrapper
     echo sprintf( '<div %s>', acf_esc_atts( $attributes ) );
 
     echo '<div class="af-label acf-label">';
-    
+
       $label = $field['label'];
-      
+
       $label .= $field['required'] ? ' <span class="acf-required">*</span>' : '';
-      
+
       echo sprintf( '<label for="acf-%s">%s</label>', $field['key'], $label );
 
       if ( 'label' == $instruction_placement ) {
         echo $instructions;
       }
-      
+
     echo '</div>';
-    
+
     echo '<div class="af-input acf-input">';
 
       // Render field with default ACF
@@ -497,7 +497,7 @@ class AF_Core_Forms_Rendering {
     if ( 'field' == $instruction_placement ) {
       echo $instructions;
     }
-    
+
     /*
      * Conditional logic Javascript for field.
      * This is not needed after ACF 5.7 and won't be included.
@@ -511,7 +511,7 @@ class AF_Core_Forms_Rendering {
         <?php
       }
     }
-    
+
     // End field wrapper
     echo '</div>';
 
@@ -536,8 +536,8 @@ class AF_Core_Forms_Rendering {
       echo '<span class="acf-spinner af-spinner"></span>';
     echo '</div>';
   }
-  
-  
+
+
 }
 
 return new AF_Core_Forms_Rendering();
