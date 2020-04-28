@@ -51,7 +51,7 @@ class Forms extends Singleton {
 		add_action( 'init', [ $this, 'init' ] );
 		add_action( 'acf/init', [ $this, 'acf_init' ] );
 
-		add_filter( 'acf/load_field', [ $this, 'localize_strings' ] );
+		//add_filter( 'acf/load_field', [ $this, 'localize_strings' ] );
 		add_action( 'af/form/hidden_fields', [ $this, 'hidden_fields' ], 10, 2 );
 
 		// Custom form fields
@@ -64,6 +64,9 @@ class Forms extends Singleton {
 
 	}
 
+	/**
+	 * Code that runs at WP init. Hooks and content alterations.
+	 */
 	public function init() {
 		add_shortcode( 'dollie_form', [ $this, 'form_shortcode' ] );
 		add_shortcode( 'dollie_blockquote', [ $this, 'blockquote_shortcode' ] );
@@ -75,6 +78,9 @@ class Forms extends Singleton {
 
 	}
 
+	/**
+	 * ACF/AF specific hooks
+	 */
 	public function acf_init() {
 
 		add_filter( 'af/merge_tags/resolve', array( $this, 'resolve_fields_tag' ), 9, 3 );
@@ -88,6 +94,14 @@ class Forms extends Singleton {
 
 	}
 
+	/**
+	 * Add form merge tags
+	 *
+	 * @param $output
+	 * @param $tag
+	 *
+	 * @return mixed|string
+	 */
 	public function add_merge_tags( $output, $tag ) {
 		if ( 'dollie_container_login_url' === $tag ) {
 			return esc_url( call_user_func( [ $this, 'get_container_login_url' ] ) );
@@ -103,15 +117,14 @@ class Forms extends Singleton {
 		return $output;
 	}
 
-	public function get_container_login_url() {
-		$container = self::get_form_container();
-		if ( $container ) {
-			return dollie()->get_customer_login_url( (int) $container->id );
-		}
-
-		return '';
-	}
-
+	/**
+	 * Register form merge tags
+	 *
+	 * @param $tags
+	 * @param $form
+	 *
+	 * @return array
+	 */
 	function register_merge_tags( $tags, $form ) {
 		$tags[] = array(
 			'value' => 'dollie_container_login_url',
@@ -125,7 +138,26 @@ class Forms extends Singleton {
 		return $tags;
 	}
 
+	/**
+	 * Return the site login url used in site form
+	 * @return string
+	 */
+	public function get_container_login_url() {
+		$container = self::get_form_container();
+		if ( $container ) {
+			return dollie()->get_customer_login_url( (int) $container->id );
+		}
 
+		return '';
+	}
+
+	/**
+	 * Register Dollie form shortcode
+	 *
+	 * @param array $atts
+	 *
+	 * @return string
+	 */
 	public function form_shortcode( $atts = [] ) {
 
 		return do_shortcode( '[advanced_form form="' . esc_attr( $atts['form'] ) . '"]' );
@@ -133,6 +165,13 @@ class Forms extends Singleton {
 	}
 
 
+	/**
+	 * Add default form attributes
+	 *
+	 * @param $form
+	 *
+	 * @return mixed
+	 */
 	public function add_custom_field_defaults( $form ) {
 
 		$form['splash_template']  = false;
@@ -171,12 +210,23 @@ class Forms extends Singleton {
 		return $form;
 	}
 
+	/**
+	 * Add actions on saving a post
+	 * @param $form
+	 * @param $post
+	 */
 	function form_to_post( $form, $post ) {
 		update_field( 'field_form_splash_template', $form['splash_template'], $post->ID );
 		update_field( 'field_form_site_blueprint', $form['site_blueprint'], $post->ID );
 		update_field( 'field_form_redirect_to_site', $form['redirect_to_site'], $post->ID );
 	}
 
+	/**
+	 * Load a template
+	 *
+	 * @param $form
+	 * @param $args
+	 */
 	public function add_splash_template( $form, $args ) {
 
 		$splash_template = $this->get_form_arg( 'splash_template', $form, $args );
@@ -186,6 +236,14 @@ class Forms extends Singleton {
 		}
 	}
 
+	/**
+	 * Change form args based on Form settings
+	 *
+	 * @param $args
+	 * @param $form
+	 *
+	 * @return mixed
+	 */
 	public function change_form_args( $args, $form ) {
 
 		$redirect = $this->get_form_arg( 'redirect_to_site', $form, $args );
@@ -292,10 +350,10 @@ class Forms extends Singleton {
 
 		$field_group['fields'][] = array(
 			'key'           => 'field_form_is_launch_site',
-			'label'         => esc_html__( 'Is it a Launch Site form?', 'dollie' ),
+			'label'         => esc_html__( 'Enable Launch Site options', 'dollie' ),
 			'name'          => 'form_is_launch_site',
 			'type'          => 'true_false',
-			'instructions'  => esc_html__( 'Does this form launches a new site?', 'dollie' ),
+			'instructions'  => esc_html__( 'If this form launches a new site you can enable this option to choose a default blueprint.', 'dollie' ),
 			'required'      => 0,
 			'placeholder'   => '',
 			'wrapper'       => array(
@@ -361,6 +419,14 @@ class Forms extends Singleton {
 
 	}
 
+	/**
+	 * Register blockquote shortcode
+	 *
+	 * @param array $atts
+	 * @param string $content
+	 *
+	 * @return string
+	 */
 	public function blockquote_shortcode( $atts = [], $content = '' ) {
 
 		$atts = shortcode_atts( array(
@@ -415,6 +481,9 @@ class Forms extends Singleton {
 
 	}
 
+	/**
+	 * If set from form settings, make sure to redirect to new container after form submit
+	 */
 	public function redirect_to_new_container() {
 		if ( isset( $_GET['site'] ) && $_GET['site'] === 'new' ) {
 			$url = dollie()->get_latest_container_url();
@@ -484,6 +553,9 @@ class Forms extends Singleton {
 		return $field;
 	}
 
+	/**
+	 * Add form hidden input to save the post we are currently on
+	 */
 	function hidden_fields( $form, $args ) {
 		echo '<input type="hidden" name="dollie_post_id" value="' . get_the_ID() . '">';
 	}
@@ -532,6 +604,10 @@ class Forms extends Singleton {
 		return $data;
 	}
 
+	/**
+	 * Get the container we used the form on
+	 * @return bool|\stdClass
+	 */
 	public static function get_form_container() {
 
 		if ( isset( AF()->submission['extra'], AF()->submission['extra']['dollie_container_id'] ) ) {
