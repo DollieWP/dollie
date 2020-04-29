@@ -30,6 +30,8 @@ class ContainerManagement extends Singleton {
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_scripts' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'load_styles' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_script' ] );
+
+		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
 	}
 
 	public function register_container() {
@@ -421,6 +423,32 @@ class ContainerManagement extends Singleton {
 		flush_rewrite_rules();
 
 		return $containers;
+	}
+
+	public function add_container_manager_notice() {
+
+		if ('container' !== get_post_type()) {
+			return;
+		}
+
+		$container_id  = get_post_meta( $_GET['post'], 'wpd_container_id', true );
+		$dashboard_url = get_option( 'options_wpd_api_dashboard_url' );
+		?>
+        <br><div style="margin-left: 0; z-index: 0" class="dollie-notice">
+            <div class="dollie-inner-message">
+                <img width="60" src="<?php echo esc_url( DOLLIE_URL . 'assets/img/active.png' ); ?>">
+                <div class="dollie-message-center">
+                    <h3><?php esc_html_e( 'Need Advanced Options?', 'dollie' ); ?> </h3>
+                    <p>
+	                    <?php
+	                    printf(
+	                    	'<a href="%s">Visit the Dollie Container Manager</a> to quickly start/stop/restart this site and access other advanced management tools',
+		                    esc_url( $dashboard_url . '/adminUISites/show/' . $container_id ) );
+	                    ?>
+                </div>
+            </div>
+        </div>
+		<?php
 	}
 
 }
