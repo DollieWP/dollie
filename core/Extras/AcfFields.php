@@ -1,5 +1,5 @@
 <?php
-if( function_exists('acf_add_local_field_group') ):
+if (function_exists('acf_add_local_field_group')) :
 
 	acf_add_local_field_group(array(
 		'key' => 'group_5affdcd76c8d1',
@@ -131,8 +131,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'post_type' => array(
 					0 => 'product',
 				),
-				'taxonomy' => array(
-				),
+				'taxonomy' => array(),
 				'filters' => array(
 					0 => 'search',
 					1 => 'taxonomy',
@@ -288,6 +287,49 @@ if( function_exists('acf_add_local_field_group') ):
 		'active' => true,
 		'description' => '',
 	));
+
+	acf_add_local_field_group(array(
+		'key' => 'group_5ea95f80496c8',
+		'title' => 'Dollie Container Manager',
+		'fields' => array(
+			array(
+				'key' => 'field_5ea95fb2a7815',
+				'label' => '',
+				'name' => 'Hello',
+				'type' => 'message',
+				'instructions' => 'HELLO',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'message' => '%dollie_container_message%',
+				'new_lines' => 'wpautop',
+				'esc_html' => 0,
+			),
+		),
+		'location' => array(
+			array(
+				array(
+					'param' => 'post_type',
+					'operator' => '==',
+					'value' => 'container',
+				),
+			),
+		),
+		'menu_order' => -99999,
+		'position' => 'acf_after_title',
+		'style' => 'seamless',
+		'label_placement' => 'top',
+		'instruction_placement' => 'label',
+		'hide_on_screen' => '',
+		'active' => true,
+		'description' => '',
+	));
+
 
 	acf_add_local_field_group(array(
 		'key' => 'group_5af8272e96d48',
