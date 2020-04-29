@@ -73,7 +73,7 @@ class ContainerRegistration extends Singleton {
 		$email         = get_post_meta( $post_id, 'wpd_container_launched_by', true );
 
 		// Only run if the node has not been added.
-		if ( $is_node_added !== 'yess' ) {
+		if ( $is_node_added !== 'yes' ) {
 			$request_create_node = Api::post( Api::ROUTE_NODES_CREATE, [
 				'container_url' => dollie()->get_container_url( $post_id ),
 				'site_url'      => get_site_url(),
