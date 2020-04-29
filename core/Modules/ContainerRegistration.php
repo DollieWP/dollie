@@ -46,8 +46,7 @@ class ContainerRegistration extends Singleton {
 
 	public function add_worker_node() {
 		if ( did_action( 'template_redirect' ) === 1 && is_singular( 'container' ) ) {
-			$currentQuery = dollie()->get_current_object();
-			$this->register_worker_node( $currentQuery->id );
+			$this->register_worker_node();
 		}
 	}
 
@@ -64,9 +63,9 @@ class ContainerRegistration extends Singleton {
 	}
 
 	public function register_worker_node( $id = null ) {
-		$currentQuery = dollie()->get_current_object();
+		$currentQuery = dollie()->get_current_object( $id );
 
-		$post_id = $id === null ? $currentQuery->id : $id;
+		$post_id = $currentQuery->id;
 
 		$is_node_added = get_post_meta( $post_id, 'wpd_node_added', true );
 		$ip            = get_post_meta( $post_id, 'wpd_container_ip', true );
@@ -74,7 +73,7 @@ class ContainerRegistration extends Singleton {
 		$email         = get_post_meta( $post_id, 'wpd_container_launched_by', true );
 
 		// Only run if the node has not been added.
-		if ( $is_node_added !== 'yes' ) {
+		if ( $is_node_added !== 'yess' ) {
 			$request_create_node = Api::post( Api::ROUTE_NODES_CREATE, [
 				'container_url' => dollie()->get_container_url( $post_id ),
 				'site_url'      => get_site_url(),
@@ -83,12 +82,15 @@ class ContainerRegistration extends Singleton {
 				'port'          => $port
 			] );
 
-			if ( is_wp_error( $request_create_node ) ) {
+			if ( Api::process_response( $request_create_node ) === false ) {
 				Log::add( 'Node could not be registered for ' . $currentQuery->slug, print_r( $request_create_node, true ), 'error' );
-			} else {
-				update_post_meta( $post_id, 'wpd_node_added', 'yes' );
-				Log::add( $currentQuery->slug . ' was added as a Worker node' );
+
+				return;
+
 			}
+
+			update_post_meta( $post_id, 'wpd_node_added', 'yes' );
+			Log::add( $currentQuery->slug . ' was added as a Worker node' );
 		}
 	}
 
