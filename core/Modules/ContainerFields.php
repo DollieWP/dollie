@@ -49,6 +49,7 @@ class ContainerFields extends Singleton {
 				'blueprint'    => esc_html__( 'Blueprint', 'dollie' ),
 				'users'        => esc_html__( 'Users', 'dollie' ),
 				'size'         => esc_html__( 'Size', 'dollie' ),
+				'manager'         => esc_html__('Container Manager', 'dollie'),
 			]
 		);
 	}
@@ -75,10 +76,17 @@ class ContainerFields extends Singleton {
 			case 'size':
 				$search_meta = 'wpd_installation_size';
 				break;
+			case 'manager':
+				$search_meta = 'wpd_container_id';
+				break;
 		}
 
 		if ( $search_meta ) {
-			echo get_post_meta( $post_id, $search_meta, true );
+			if ($column == 'manager') {
+				echo '<a href="' . get_option('options_wpd_api_dashboard_url') . '/adminUISites/show/' . get_post_meta( $post_id, $search_meta, true ) . '">Manage</a>';
+			} else {
+				echo get_post_meta($post_id, $search_meta, true);
+			}
 		}
 	}
 

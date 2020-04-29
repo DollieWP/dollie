@@ -288,6 +288,16 @@ class Options extends Singleton {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
+				'title'  => __('Site Manager Dashboard'),
+				'id'     => 'dab-control-panel',
+				'href'   => get_option('options_wpd_api_dashboard_url'),
+				'meta'   => ['target' => ''],
+			]
+		);
+
+		$wp_admin_bar->add_menu(
+			[
+				'parent' => $menu_id,
 				'title'  => __( 'Visit Partner Dashboard' ),
 				'id'     => 'dwb-partner',
 				'href'   => 'https://partners.getdollie.com',
