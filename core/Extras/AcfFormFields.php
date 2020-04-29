@@ -195,7 +195,7 @@ We\'ll walk you through all the steps required to link your own domain to your s
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => 'If you have encounter problems please stop this wizard and reach our <a href="{dollie_support_link}">support team</a> so we can help.',
+				'message' => 'If you encounter problems please stop this wizard and out to our <a href="{dollie_support_link}">support team</a> so we can help.',
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
@@ -221,9 +221,9 @@ We\'ll walk you through all the steps required to link your own domain to your s
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<div class="box-light padding-half">
-<p>We are not selling domains directly, all our efforts go to perfecting WordPress site hosting.</p>
-If you have not registered your own domain yet, this is the time to do so! We recommend <a href="https://wefoster.co/go/namecheap/" target="_blank">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar.
+				'message' => '<div class="box-light padding-half alert alert-info p-3">
+<p>We are not selling domains directly.</p>
+If you have not registered your own domain yet, this is the time to do so! We recommend <a href="https://namecheap.com" target="_blank">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar.
 <strong>Go ahead, register your domain and come back to this form to continue the domain setup!</strong>
 </div>',
 				'new_lines' => '',
@@ -282,7 +282,7 @@ If you have not registered your own domain yet, this is the time to do so! We re
 				),
 				'wrapper' => array(
 					'width' => '50',
-					'class' => '',
+					'class' => 'dollie-domain',
 					'id' => '',
 				),
 				'hide_admin' => 0,
@@ -317,7 +317,7 @@ If you have not registered your own domain yet, this is the time to do so! We re
 				),
 				'wrapper' => array(
 					'width' => '50',
-					'class' => '',
+					'class' => 'dollie-confirm-domain',
 					'id' => '',
 				),
 				'hide_admin' => 0,
@@ -434,9 +434,9 @@ If you have not registered your own domain yet, this is the time to do so! We re
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<div class="box-light padding-half">
+				'message' => '<div class="alert alert-success p-3">
 <h3>Great job!</h3>
- This usually takes anywhere between a couple of minutes to one hour to propagate over the internet. Now please wait a few minutes and you can click to button to complete DNS Setup.
+ It usually takes anywhere between a couple of minutes to one hour before the DNS change takes affect. The quickest way to check if the DNS update has completed is using this handy <a href="https://dnschecker.org">DNS Checker</a>. Once the change has taken affect please click the Next button to complete the DNS Setup.
 </div>',
 				'new_lines' => '',
 				'esc_html' => 0,
@@ -463,7 +463,7 @@ If you have not registered your own domain yet, this is the time to do so! We re
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<div class="box-light padding-half">
+				'message' => '<div class="box-light padding-half alert alert-info p-3">
 <h3>No worries , we\'re here to help!</h3>
 
 Please create a support ticket so our team can assist you in making the required DNS changes. In order for us to do this, you need to give us temporary access to your CloudFlare account. Please include these details with your support ticket.
@@ -593,7 +593,7 @@ Please create a support ticket so our team can assist you in making the required
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<div class="box-light padding-half mt-4">
+				'message' => '<div class="box-light padding-half alert alert-info p-3 mt-4">
 <h4>Finding Your CloudFlare API Key</h4>
 <a target="_blank" href="https://support.cloudflare.com/hc/en-us/articles/200167836-Where-do-I-find-my-Cloudflare-API-key-">Please visit the following page to find instructions on getting your CloudFlare API key</a>
 </div>',
@@ -650,7 +650,7 @@ Please create a support ticket so our team can assist you in making the required
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<div class="box-light padding-half">
+				'message' => '<div class="box-light padding-half alert alert-info p-3">
 <h4>Finding Your Domains Zone ID</h4>
 
 <ol>
@@ -719,8 +719,8 @@ Please create a support ticket so our team can assist you in making the required
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '[dollie_blockquote title="Last step to complete domain setup"]
-Let\'s continue with our domain wizard by changing the url on your new site.
+				'message' => '[dollie_blockquote title="Final Step - Updating the URL for your site."]
+Let\'s continue with our domain wizard by automatically changing the url on your new site.
 [/dollie_blockquote]',
 				'new_lines' => '',
 				'esc_html' => 0,
