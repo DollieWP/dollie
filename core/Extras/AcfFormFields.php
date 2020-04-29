@@ -782,7 +782,7 @@ The recommended domain setup these days is to remove <em>www.</em> from the URL.
 			),
 			array(
 				'key' => 'field_5e982b9628957',
-				'label' => 'Migration',
+				'label' => 'Database Update',
 				'name' => '',
 				'type' => 'page',
 				'instructions' => '',
@@ -800,7 +800,7 @@ The recommended domain setup these days is to remove <em>www.</em> from the URL.
 			),
 			array(
 				'key' => 'field_5e84b2c3cd5d7',
-				'label' => 'Check Your Domain Migration',
+				'label' => 'Verifying Your Site URL Update',
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -812,8 +812,8 @@ The recommended domain setup these days is to remove <em>www.</em> from the URL.
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '[dollie_blockquote title="Check Your Domain Migration"]
-We have now updated your domain!
+				'message' => '[dollie_blockquote title="Please Check Your Site"]
+We have now updated your domain for your site. Please visit it and take a look.
 [/dollie_blockquote]',
 				'new_lines' => '',
 				'esc_html' => 0,
@@ -846,7 +846,7 @@ We have now updated your domain!
 			),
 			array(
 				'key' => 'field_5e84b416b355e',
-				'label' => 'Migration error',
+				'label' => 'Domain Update Issues',
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
