@@ -161,8 +161,10 @@ final class WP extends Singleton {
 			add_post_meta( $post_id, 'wpd_container_based_on_blueprint', 'yes', true );
 			add_post_meta( $post_id, 'wpd_container_based_on_blueprint_id', $blueprint, true );
 
+			// TODO if the site has a domain assign -> send the request with the domain name? @bowe
 			$blueprint_install = get_post_meta( $blueprint, 'wpd_container_uri', true );
 			$blueprint_install = str_replace( [ 'https://', 'http://' ], '', $blueprint_install );
+			
 			$container_uri     = str_replace( [ 'https://', 'http://' ], '', $data_container['uri'] );
 
 			$blueprint_request = Api::post( Api::ROUTE_BLUEPRINT_DEPLOY, [
