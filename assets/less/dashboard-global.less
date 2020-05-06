@@ -2,7 +2,7 @@
   .notice,
   div.error,
   div.updated {
-    display: none !important;
+    //display: none !important;
   }
 }
 
@@ -230,9 +230,9 @@ body.toplevel_page_wpd_platform_setup {
   }
 }
 
-.dollie-notice {
+.dollie-notice,#setting-error-tgmpa {
   position: relative;
-  z-index: -1;
+  //z-index: -1;
   width: auto;
   margin-top: 30px; /* max-width: 70%; */
   margin-top: 0;
@@ -263,5 +263,18 @@ body.toplevel_page_wpd_platform_setup {
 
   svg * {
     color: #fff;
+  }
+}
+
+#setting-error-tgmpa {
+  margin: 0;
+
+  span {
+    font-weight: 400;
+    display: block !important;
+    border-bottom: 1px solid #f1f1f1;
+    line-height: 170%;
+    padding-bottom: 10px;
+    font-size: 94%;
   }
 }
