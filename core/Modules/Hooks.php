@@ -20,7 +20,7 @@ class Hooks extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'wf_before_container', [ $this, 'load_container_headers' ] );
+		add_action( 'dollie_before_container', [ $this, 'load_container_headers' ] );
 		add_filter( 'document_title_parts', [ $this, 'update_page_title' ], 10, 1 );
 
 		add_action( 'admin_init', [ $this, 'last_admin_activity' ], 10 );

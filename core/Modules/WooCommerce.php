@@ -24,7 +24,7 @@ class WooCommerce extends Singleton {
 		add_action( 'after_setup_theme', [ $this, 'add_theme_support' ] );
 
 		// Todo: move next line to theme
-		add_action( 'wf_before_container', [ $this, 'my_account_header' ] );
+		add_action( 'dollie_before_container', [ $this, 'my_account_header' ] );
 
 		add_filter( 'woocommerce_payment_complete_order_status', [ $this, 'mark_order_as_complete' ], 10, 2 );
 		add_action( 'woocommerce_thankyou', [ $this, 'redirect_to_blueprint' ] );

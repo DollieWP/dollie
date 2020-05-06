@@ -243,7 +243,7 @@ class Pages extends Singleton {
 	 * @return string Page url
 	 * @since 1.0.0
 	 *
-	 * @uses wf_get_admin_url()
+	 * @uses dollie_get_admin_url()
 	 *
 	 */
 	public function get_page_url( $slug ) {
