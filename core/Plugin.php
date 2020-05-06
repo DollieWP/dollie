@@ -392,7 +392,7 @@ class Plugin extends Singleton {
 		];
 
 		$url = sprintf( '<a href="%s" class="%s">%s</a>',
-			add_query_arg( $url_data, 'https://oauth2.staging.str5.net/hydra-public/oauth2/auth' ),
+			add_query_arg( $url_data, 'https://oauth2.stratus5.net/hydra-public/oauth2/auth' ),
 			$button ? 'button' : '',
 			__( 'Gain API Access', DOLLIE_DOMAIN ) );
 
