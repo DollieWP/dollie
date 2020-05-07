@@ -230,7 +230,8 @@ body.toplevel_page_wpd_platform_setup {
   }
 }
 
-.dollie-notice,#setting-error-tgmpa {
+.dollie-notice,
+#setting-error-tgmpa {
   position: relative;
   //z-index: -1;
   width: auto;
@@ -264,6 +265,29 @@ body.toplevel_page_wpd_platform_setup {
   svg * {
     color: #fff;
   }
+
+  &.api-active,
+  &.api-inactive {
+    background: transparent;
+    border: 0;
+    padding-top: 20px;
+    padding-bottom: 0;
+    margin-bottom: -45px;
+  }
+  &.api-inactive {
+    background: #ffeaea;
+    margin-bottom: -14px;
+    position: relative;
+    top: 75px !important;
+  }
+}
+
+.api-active-span {
+  color: green;
+}
+
+.api-inactive-span {
+  color: red;
 }
 
 #setting-error-tgmpa {
