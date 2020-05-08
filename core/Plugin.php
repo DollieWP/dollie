@@ -91,6 +91,15 @@ class Plugin extends Singleton {
 			require_once DOLLIE_PATH . 'core/Extras/advanced-forms/advanced-forms.php';
 			require_once DOLLIE_PATH . 'core/Extras/acf-tooltip/acf-tooltip.php';
 		}
+
+		// Plugin updater - TODO update url
+		/*require DOLLIE_PATH . 'core/Extras/plugin-update-checker/plugin-update-checker.php';
+		$myUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
+			'https://updates.getdollie.com?action=get_metadata&slug=dollie',
+			DOLLIE_FILE, //Full path to the main plugin file or functions.php.
+			'dollie'
+		);*/
+
 	}
 
 	/**
