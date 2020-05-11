@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: core/Plugin.php:276
+#: core/Plugin.php:291
 msgid "Dollie is almost ready..."
 msgstr ""
 
@@ -185,12 +185,12 @@ msgstr ""
 msgid "Press <strong>Migrate</strong> and sit back and enjoy the show. Depending on the size of your site and the speed of your current host this process could take up to a couple of hours. Do not worry, this is completely normal! We will send you an email when the migration has completed so you can easily continue to this setup wizard."
 msgstr ""
 
-#: core/Modules/Backups.php:96
-msgid "You have not restored your site yet."
-msgstr ""
-
 #: core/Modules/Backups.php:127
 msgid "You have never restored your site."
+msgstr ""
+
+#: core/Modules/Backups.php:96
+msgid "You have not restored your site yet."
 msgstr ""
 
 #: core/Modules/Blueprints.php:205
@@ -225,201 +225,217 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:37
-msgctxt "dollie"
-msgid "Sites"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:38
-msgctxt "dollie"
-msgid "Site"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:39
-msgid "Sites"
+#: core/Modules/ContainerFields.php:52
+msgid "Container Manager"
 msgstr ""
 
 #: core/Modules/ContainerManagement.php:40
-msgid "Post Type"
+msgctxt "dollie"
+msgid "Sites"
 msgstr ""
 
 #: core/Modules/ContainerManagement.php:41
-msgid "Site Archives"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:42
-msgid "Site Attributes"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:43
-msgid "Parent Site:"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:44, core/Modules/ContainerManagement.php:51
-msgid "View Sites"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:45
-msgid "Add New Site"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:46
-msgid "Add New"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:47
-msgid "New Site"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:48
-msgid "Edit Site"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:49
-msgid "Update Site"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:50
-msgid "View Site"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:52
-msgid "Search Sites"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:53
-msgid "Not found"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:54
-msgid "Not found in Trash"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:55
-msgid "Featured Image"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:56
-msgid "Set featured image"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:57
-msgid "Remove featured image"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:58
-msgid "Use as featured image"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:59
-msgid "Insert into item"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:60
-msgid "Uploaded to this item"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:61
-msgid "Sites list"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:62
-msgid "Sites list navigation"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:63
-msgid "Filter items list"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:67
+msgctxt "dollie"
 msgid "Site"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:68
+#: core/Modules/ContainerManagement.php:42
+msgid "Sites"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:43
+msgid "Post Type"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:44
+msgid "Site Archives"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:45
+msgid "Site Attributes"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:46
+msgid "Parent Site:"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:47, core/Modules/ContainerManagement.php:54
+msgid "View Sites"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:48
+msgid "Add New Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:49
+msgid "Add New"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:50
+msgid "New Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:51
+msgid "Edit Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:52
+msgid "Update Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:53
+msgid "View Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:55
+msgid "Search Sites"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:56
+msgid "Not found"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:57
+msgid "Not found in Trash"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:58
+msgid "Featured Image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:59
+msgid "Set featured image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:60
+msgid "Remove featured image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:61
+msgid "Use as featured image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:62
+msgid "Insert into item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:63
+msgid "Uploaded to this item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:64
+msgid "Sites list"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:65
+msgid "Sites list navigation"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:66
+msgid "Filter items list"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:70
+msgid "Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:71
 msgid "Platform Sites"
 msgstr ""
 
-#: core/Modules/Forms.php:118
+#: core/Modules/ContainerManagement.php:441
+msgid "Need Advanced Options?"
+msgstr ""
+
+#: core/Modules/Forms.php:135
 msgid "Dollie Container Login URL"
 msgstr ""
 
-#: core/Modules/Forms.php:122
+#: core/Modules/Forms.php:139
 msgid "Dollie Container URL"
 msgstr ""
 
-#: core/Modules/Forms.php:225
+#: core/Modules/Forms.php:287
 msgid "Possible shortcode attributes: "
 msgstr ""
 
-#: core/Modules/Forms.php:253, core/Modules/Options.php:145, core/Modules/Options.php:166
+#: core/Modules/Forms.php:315, core/Modules/Options.php:145, core/Modules/Options.php:166
 msgid "Settings"
 msgstr ""
 
-#: core/Modules/Forms.php:270
+#: core/Modules/Forms.php:332
 msgid "Shortcode"
 msgstr ""
 
-#: core/Modules/Forms.php:278
+#: core/Modules/Forms.php:340
 msgid "Splash template"
 msgstr ""
 
-#: core/Modules/Forms.php:281
+#: core/Modules/Forms.php:343
 msgid "Enter a custom Splash template path to appear on form submit. Theme override location theme-name/dollie/tpl-name"
 msgstr ""
 
-#: core/Modules/Forms.php:295
-msgid "Is it a Launch Site form?"
+#: core/Modules/Forms.php:357
+msgid "Enable Launch Site options"
 msgstr ""
 
-#: core/Modules/Forms.php:298
-msgid "Does this form launches a new site?"
+#: core/Modules/Forms.php:360
+msgid "If this form launches a new site you can enable this option to choose a default blueprint."
 msgstr ""
 
-#: core/Modules/Forms.php:313, core/Modules/Forms.php:510
+#: core/Modules/Forms.php:375, core/Modules/Forms.php:587
 msgid "Select a Blueprint (optional)"
 msgstr ""
 
-#: core/Modules/Forms.php:316
+#: core/Modules/Forms.php:378
 msgid "Force a default blueprint to use for the launched site"
 msgstr ""
 
-#: core/Modules/Forms.php:345
+#: core/Modules/Forms.php:407
 msgid "Redirect to site dashboard"
 msgstr ""
 
-#: core/Modules/Forms.php:348
+#: core/Modules/Forms.php:410
 msgid "Redirect to site dashboard page on form submit. Success Message will be ignored"
 msgstr ""
 
-#: core/Modules/Forms.php:494
+#: core/Modules/Forms.php:571
 msgid "Choose Your URL"
 msgstr ""
 
-#: core/Modules/Forms.php:498
+#: core/Modules/Forms.php:575
 msgid "Please choose a temporary URL for your site. This will be the place where you can work on your site until you connect your own domain."
 msgstr ""
 
-#: core/Modules/Forms.php:502
+#: core/Modules/Forms.php:579
 msgid "Admin Email"
 msgstr ""
 
-#: core/Modules/Forms.php:506
+#: core/Modules/Forms.php:583
 msgid "This is the email address you use to login to your WordPress admin."
 msgstr ""
 
-#: core/Modules/Forms.php:513
+#: core/Modules/Forms.php:590
 msgid "Carefully crafted site designs made by our team which you can use as a starting point for your new site."
 msgstr ""
 
-#: core/Modules/Options.php:139, core/Modules/Options.php:161, core/Modules/Options.php:228
-msgid "Dollie (Live)"
+#: core/Modules/Forms.php:646
+msgid "My New Site"
+msgstr ""
+
+#: core/Modules/Forms.php:668
+msgid "The best website in the world?"
 msgstr ""
 
 #: core/Modules/Options.php:141, core/Modules/Options.php:163, core/Modules/Options.php:230
 msgid "Dollie (Staging)"
 msgstr ""
 
-#: core/Modules/Options.php:366, core/Modules/Options.php:367, core/Modules/Dashboard/Pages.php:77
+#: core/Modules/Options.php:139, core/Modules/Options.php:161, core/Modules/Options.php:228
+msgid "Dollie (Live)"
+msgstr ""
+
+#: core/Modules/Options.php:376, core/Modules/Options.php:377, core/Modules/Dashboard/Pages.php:77
 msgid "Integrations"
 msgstr ""
 
@@ -435,12 +451,12 @@ msgstr ""
 msgid "<a href=\"%s\">Update now</a>"
 msgstr ""
 
-#: core/Modules/Upgrades.php:137
-msgid "Awesome, database is now at the latest version!"
-msgstr ""
-
 #: core/Modules/Upgrades.php:141
 msgid "Something went wrong, please check logs."
+msgstr ""
+
+#: core/Modules/Upgrades.php:137
+msgid "Awesome, database is now at the latest version!"
 msgstr ""
 
 #: core/Utils/Helpers.php:61
@@ -469,6 +485,116 @@ msgstr ""
 
 #: core/Utils/Helpers.php:324
 msgid "Create a support ticket"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:116
+msgid "Install Dollie Plugin Suite"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:117
+msgid "Dollie Plugins"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:118
+msgid "Installing Plugin: %s"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:119
+msgid "Updating Plugin: %s"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:120
+msgid "Something went wrong with the plugin API."
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:121
+msgid "Dollie requires the following plugin: %1$s."
+msgid_plural "Dollie requires the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:126
+msgid "Dollie recommends the following plugin: %1$s."
+msgid_plural "Dollie recommends the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:131
+msgid "The following plugin needs to be updated to its latest version to ensure maximum compatibility with Dollie: %1$s."
+msgid_plural "The following plugins need to be updated to their latest version to ensure maximum compatibility with Dollie: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:136
+msgid "There is an update available for: %1$s."
+msgid_plural "There are updates available for the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:141
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:146
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:151
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:156
+msgid "Begin updating plugin"
+msgid_plural "Begin updating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:161
+msgid "Begin activating plugin"
+msgid_plural "Begin activating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:166
+msgid "Return to Dollie Plugin Installer"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:167
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:168
+msgid "The following plugin was activated successfully:"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:169
+msgid "No action taken. Plugin %1$s was already active."
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:170
+msgid "Plugin not activated. A higher version of %s is needed for Dollie. Please update the plugin."
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:171
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:172
+msgid "Dismiss this notice"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:173
+msgid "There are one or more required or recommended plugins to install, update or activate."
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:174
+msgid "Please contact the administrator of this site for help."
 msgstr ""
 
 #: core/Modules/Dashboard/Pages.php:73
@@ -539,8 +665,8 @@ msgstr ""
 msgid "Connect Domain"
 msgstr ""
 
-#: core/Modules/Forms/DomainDns.php:112
-msgid "Your domain DNS A record is not yet pointing to our IP address. Please wait a few minutes and try again."
+#: core/Modules/Forms/DomainDns.php:228
+msgid "Sorry, We could not generate a SSL certificate for this domain. Please contact support so we can look into why this has happened."
 msgstr ""
 
 #: core/Modules/Forms/DomainDns.php:146
@@ -551,8 +677,8 @@ msgstr ""
 msgid "Your CloudFlare Zone ID is incorrect. Please make sure you copy and pasted the right ID without extra spaces. Need help? <a href=\"%s\">Contact Support</a>"
 msgstr ""
 
-#: core/Modules/Forms/DomainDns.php:228
-msgid "Sorry, We could not generate a SSL certificate for this domain. Please contact support so we can look into why this has happened."
+#: core/Modules/Forms/DomainDns.php:112
+msgid "Your domain DNS A record is not yet pointing to our IP address. Please wait a few minutes and try again."
 msgstr ""
 
 #: core/Modules/Forms/DomainDns.php:266
@@ -567,7 +693,7 @@ msgstr ""
 msgid "Complete Setup"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:73, core/Modules/Forms/QuickLaunch.php:106
+#: core/Modules/Forms/LaunchSite.php:68, core/Modules/Forms/QuickLaunch.php:106
 msgid "Launch New Site"
 msgstr ""
 
@@ -587,28 +713,28 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#: core/Modules/Forms/PluginUpdates.php:104
-msgid "There was a problem sending the update request. Please try again!"
+#: core/Modules/Forms/PluginUpdates.php:148
+msgid "All Done updating your plugins..."
 msgstr ""
 
 #: core/Modules/Forms/PluginUpdates.php:109
 msgid "Plugin update is still running... please hold on"
 msgstr ""
 
-#: core/Modules/Forms/PluginUpdates.php:124
-msgid "Plugin updates completed."
+#: core/Modules/Forms/PluginUpdates.php:141
+msgid "All Your Plugins are updated!"
 msgstr ""
 
 #: core/Modules/Forms/PluginUpdates.php:136
 msgid "Sadly we can not complete updating your plugins. Please login to your WordPress admin and update your plugins from there."
 msgstr ""
 
-#: core/Modules/Forms/PluginUpdates.php:141
-msgid "All Your Plugins are updated!"
+#: core/Modules/Forms/PluginUpdates.php:124
+msgid "Plugin updates completed."
 msgstr ""
 
-#: core/Modules/Forms/PluginUpdates.php:148
-msgid "All Done updating your plugins..."
+#: core/Modules/Forms/PluginUpdates.php:104
+msgid "There was a problem sending the update request. Please try again!"
 msgstr ""
 
 #: core/Modules/Forms/PluginUpdates.php:195
@@ -643,6 +769,6 @@ msgstr ""
 msgid "Sorry, It seems like there was an issue with launching your new site. Our support team has been notified"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:240
+#: core/Modules/Sites/WP.php:242
 msgid "Processed site data is invalid."
 msgstr ""

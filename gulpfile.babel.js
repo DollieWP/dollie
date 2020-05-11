@@ -6,5 +6,12 @@ import {parallel, series} from 'gulp';
 
 // Internal dependencies
 import translate from './gulp/translate';
+import build from './gulp/build';
 
-export default translate;
+const release = series( translate, build );
+
+export default release;
+
+export {
+    translate
+}
