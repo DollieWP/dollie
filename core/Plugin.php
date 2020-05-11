@@ -93,12 +93,12 @@ class Plugin extends Singleton {
 		}
 
 		// Plugin updater - TODO update url
-		/*require DOLLIE_PATH . 'core/Extras/plugin-update-checker/plugin-update-checker.php';
+		require DOLLIE_PATH . 'core/Extras/plugin-update-checker/plugin-update-checker.php';
 		$myUpdateChecker = \Puc_v4_Factory::buildUpdateChecker(
-			'https://updates.getdollie.com?action=get_metadata&slug=dollie',
+			'https://api.getdollie.com/releases/?action=get_metadata&slug=dollie',
 			DOLLIE_FILE, //Full path to the main plugin file or functions.php.
 			'dollie'
-		);*/
+		);
 
 	}
 
