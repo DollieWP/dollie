@@ -40,9 +40,30 @@ class LaunchSite extends Singleton {
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
 		// Form submission action.
+		add_action( 'af/form/validate/key=' . $this->form_key, [ $this, 'validate_form' ], 10, 2 );
 		add_action( 'af/form/before_submission/key=' . $this->form_key, [ $this, 'submission_callback' ], 10, 3 );
 
 	}
+
+	public function validate_form( $form, $args ) {
+
+		$domain = af_get_field( 'site_url' );
+
+		// Check if domain does not already exists.
+		$query_args = array(
+			'name'        => $domain,
+			'post_type'   => 'container',
+			'numberposts' => 1
+		);
+		$my_posts   = get_posts( $query_args );
+
+		if ( ! empty( $my_posts ) ) {
+			af_add_error( 'site_url', esc_html__( 'This site is already registered. Please try another name.', 'dollie' ) );
+		}
+
+		do_action( 'dollie/launch/validate/after' );
+	}
+
 
 	public function submission_callback( $form, $fields, $args ) {
 		$domain            = af_get_field( 'site_url' );
@@ -75,18 +96,20 @@ class LaunchSite extends Singleton {
 		$blueprints = Blueprints::instance()->get_all_blueprints( 'image' );
 
 		if ( ! empty( $blueprints ) ) {
-			$default_option = [
-				0 =>  '<img data-toggle="tooltip" data-placement="bottom" ' .
-				      ' title="Default Wordpress Site"' .
-				      ' class="fw-blueprint-screenshot" src="' . DOLLIE_ASSETS_URL . 'img/default-blueprint.jpg">' .
-				      'No Blueprint'
+			$default_option   = [
+				0 => '<img data-toggle="tooltip" data-placement="bottom" ' .
+				     ' title="' . esc_attr__( 'Default Wordpress Site', 'dollie' ) . '"' .
+				     ' class="fw-blueprint-screenshot" src="' . DOLLIE_ASSETS_URL . 'img/default-blueprint.jpg">' .
+				     esc_html__( 'No Blueprint', 'dollie' )
 			];
 			$field['choices'] = $default_option + $blueprints;
 		}
 
-		// Hide the blueprints field
-		if ( isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) || empty( $blueprints ) ) {
+		// Hide the blueprints field or check the value from cookie
+		if ( empty( $blueprints ) ) {
 			$field['class'] = 'acf-hidden';
+		} elseif ( ! is_admin() && isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) ) {
+			$field['value'] = (int) sanitize_text_field( $_COOKIE[ Blueprints::COOKIE_NAME ] );
 		}
 
 		// return the field
