@@ -1010,6 +1010,7 @@ If you have a large database the update might take a while. Please hold on a cou
 				'placeholder' => '',
 				'prepend' => '',
 				'append' => '',
+				'maxlength' => '',
 			),
 			array(
 				'key' => 'field_5e729de911000',
@@ -1065,7 +1066,6 @@ If you have a large database the update might take a while. Please hold on a cou
 				'placeholder' => '',
 				'prepend' => '',
 				'append' => '',
-				'maxlength' => '',
 			),
 			array(
 				'key' => 'field_5e72a0bbba6a9',
@@ -1317,7 +1317,7 @@ Please create a support ticket so our team can assist you in completing your con
 				'conditional_logic' => 0,
 				'wrapper' => array(
 					'width' => '',
-					'class' => '',
+					'class' => 'acf-hidden',
 					'id' => '',
 				),
 				'hide_admin' => 0,
