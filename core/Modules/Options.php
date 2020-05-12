@@ -117,6 +117,11 @@ class Options extends Singleton {
 		add_action( 'admin_menu', [ $this, 'dollie_api' ], 99 );
 		add_action( 'admin_menu', [ $this, 'dollie_integrations' ], 99 );
 		add_filter( 'admin_body_class', [ $this, 'add_staging_body_class' ] );
+
+		if ( is_admin() ) {
+			add_action( 'acf/input/admin_head', [ $this, 'add_api_boxes_before' ], 1 );
+
+		}
 	}
 
 	public function is_live() {
@@ -288,10 +293,10 @@ class Options extends Singleton {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => __('Site Manager Dashboard'),
+				'title'  => __( 'Site Manager Dashboard' ),
 				'id'     => 'dab-control-panel',
-				'href'   => get_option('options_wpd_api_dashboard_url'),
-				'meta'   => ['target' => ''],
+				'href'   => get_option( 'options_wpd_api_dashboard_url' ),
+				'meta'   => [ 'target' => '' ],
 			]
 		);
 
@@ -416,81 +421,71 @@ class Options extends Singleton {
 		return $classes;
 	}
 
-}
-
-new add_api_status_to_dollie_settings();
-
-class add_api_status_to_dollie_settings
-{
-
-	public function __construct()
-	{
-		add_action('acf/input/admin_head', array($this, 'add_boxes_before'), 1);
-	} // end public function __construct
-
-	public function add_boxes_before()
-	{
+	public function add_api_boxes_before() {
 		$screen = get_current_screen();
-		if ($screen->id == 'toplevel_page_wpd_platform_setup') {
-			add_meta_box('custom-mb-before-acf', 'CUSTOM MB BEFORE ACF', array($this, 'callback_top'), 'acf_options_page', 'normal', 'high');
+		if ( $screen->id == 'toplevel_page_wpd_platform_setup' ) {
+			add_meta_box( 'custom-mb-before-acf', 'CUSTOM MB BEFORE ACF', array(
+				$this,
+				'add_api_boxes_callback'
+			), 'acf_options_page', 'normal', 'high' );
 		}
-	} // end public function add_boxes_before
+	}
 
-
-	public function callback_top($post, $args = array())
-	{
+	public function add_api_boxes_callback( $post, $args = array() ) {
 		?>
 		<?php
 
-		$token_active = (bool) get_option('dollie_auth_token_status', 0);
-		$status       = __('Inactive', DOLLIE_SLUG);
-		$class = 'api-inactive';
+		$token_active = (bool) get_option( 'dollie_auth_token_status', 0 );
+		$status       = __( 'Inactive', DOLLIE_SLUG );
+		$class        = 'api-inactive';
 
-		if ($token_active) {
-			$status = __('Active', DOLLIE_SLUG);
-			$class = 'api-active';
+		if ( $token_active ) {
+			$status = __( 'Active', DOLLIE_SLUG );
+			$class  = 'api-active';
 		}
 
 		?>
-		<div class="notice dollie-notice <?php echo $class; ?>">
-			<div class="dollie-inner-message">
-				<h2><span class="dashicons dashicons-rest-api dollie-api-status"></span>
-					API Status: <span class="<?php echo $class; ?>-span"><?php echo $status; ?></span>
-				</h2>
+        <div class="notice dollie-notice <?php echo $class; ?>">
+            <div class="dollie-inner-message">
+                <h2><span class="dashicons dashicons-rest-api dollie-api-status"></span>
+                    API Status: <span class="<?php echo $class; ?>-span"><?php echo $status; ?></span>
+                </h2>
 
-				<div>
-					<?php if (isset($_GET['err'])) : ?>
-						<?php _e('Something went wrong. Please try again later or contact our support.', DOLLIE_SLUG); ?>
-						<br>
-						<br>
+                <div>
+					<?php if ( isset( $_GET['err'] ) ) : ?>
+						<?php _e( 'Something went wrong. Please try again later or contact our support.', DOLLIE_SLUG ); ?>
+                        <br>
+                        <br>
 					<?php endif; ?>
 
-					<?php if (isset($_GET['status']) && $_GET['status'] === 'not_connected') : ?>
-						<?php _e('You are not connected with the Dollie API. Please follow the instructions at the top of the page to continue with the API authentication.', DOLLIE_SLUG); ?>
-						<br>
-						<br>
+					<?php if ( isset( $_GET['status'] ) && $_GET['status'] === 'not_connected' ) : ?>
+						<?php _e( 'You are not connected with the Dollie API. Please follow the instructions at the top of the page to continue with the API authentication.', DOLLIE_SLUG ); ?>
+                        <br>
+                        <br>
 					<?php endif; ?>
 
-					<?php if (isset($_GET['status']) && $_GET['status'] === 'refresh') : ?>
-						<?php _e('Your Dollie API token has expired. Please refresh it to prevent services interruptions for you and your clients.', DOLLIE_SLUG); ?>
-						<br>
-						<br>
+					<?php if ( isset( $_GET['status'] ) && $_GET['status'] === 'refresh' ) : ?>
+						<?php _e( 'Your Dollie API token has expired. Please refresh it to prevent services interruptions for you and your clients.', DOLLIE_SLUG ); ?>
+                        <br>
+                        <br>
 					<?php endif; ?>
-					<div>
-					</div>
-					<br>
-					<?php if (\Dollie\Core\Utils\Api::get_auth_data('refresh_token') && !\Dollie\Core\Utils\Api::auth_token_is_active()) : ?>
-						<?php echo \Dollie\Core\Plugin::instance()->get_api_refresh_link(true); ?>
-					<?php endif; ?>
-
-					<?php if (!\Dollie\Core\Utils\Api::get_auth_data('access_token') && !\Dollie\Core\Utils\Api::auth_token_is_active()) : ?>
-						<?php echo \Dollie\Core\Plugin::instance()->get_api_access_link(true); ?>
+                    <div>
+                    </div>
+                    <br>
+					<?php if ( \Dollie\Core\Utils\Api::get_auth_data( 'refresh_token' ) && ! \Dollie\Core\Utils\Api::auth_token_is_active() ) : ?>
+						<?php echo \Dollie\Core\Plugin::instance()->get_api_refresh_link( true ); ?>
 					<?php endif; ?>
 
-				</div>
-			</div>
-		</div>
+					<?php if ( ! \Dollie\Core\Utils\Api::get_auth_data( 'access_token' ) && ! \Dollie\Core\Utils\Api::auth_token_is_active() ) : ?>
+						<?php echo \Dollie\Core\Plugin::instance()->get_api_access_link( true ); ?>
+					<?php endif; ?>
 
-	<?php
-	} // end public function callback_top
-} // end class add_boxes_to_options_page
+                </div>
+            </div>
+        </div>
+
+		<?php
+	}
+
+}
+

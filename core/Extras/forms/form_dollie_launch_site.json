@@ -3,9 +3,13 @@
     "title": "[SETUP] Launch Site",
     "display": {
         "description": "This launches a new site on the platform.",
-        "success_message": "<p>Deploying site, please wait&#8230;<\/p>\n"
+        "success_message": "Deploying site, please wait\u2026"
     },
     "create_entries": false,
+    "is_launch_site": true,
+    "splash_template": "launch-splash",
+    "site_blueprint": false,
+    "redirect_to_site": true,
     "restrictions": {
         "entries": false,
         "user": {
@@ -22,8 +26,5 @@
     "slack": false,
     "mailchimp": false,
     "zapier": false,
-    "calculated": [],
-    "splash_template": false,
-    "site_blueprint": false,
-    "redirect_to_site": "1"
+    "calculated": []
 }

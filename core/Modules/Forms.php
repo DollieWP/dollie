@@ -177,6 +177,7 @@ class Forms extends Singleton {
 	 */
 	public function add_custom_field_defaults( $form ) {
 
+		$form['is_launch_site']  = false;
 		$form['splash_template']  = false;
 		$form['site_blueprint']   = false;
 		$form['redirect_to_site'] = false;
@@ -189,16 +190,21 @@ class Forms extends Singleton {
 	 *
 	 */
 	function form_from_post( $form, $post ) {
+
+		$is_launch_site   = get_field( 'form_is_launch_site', $post->ID );
 		$site_blueprint   = get_field( 'site_blueprint', $post->ID );
 		$redirect_to_site = get_field( 'form_redirect_to_site', $post->ID );
+		$splash_template = get_field( 'form_splash_template', $post->ID );
 
-		$splash_template = get_field( 'field_form_splash_template', $post->ID );
-		if ( $splash_template ) {
-			$form['splash_template'] = $splash_template;
-		}
+		if( $is_launch_site ) {
+			$form['is_launch_site'] = $is_launch_site;
 
-		if ( $site_blueprint ) {
-			$form['site_blueprint'] = $site_blueprint;
+			if ( $splash_template ) {
+				$form['splash_template'] = $splash_template;
+			}
+			if ( $site_blueprint ) {
+				$form['site_blueprint'] = $site_blueprint;
+			}
 		}
 
 		if ( $redirect_to_site ) {
@@ -220,6 +226,7 @@ class Forms extends Singleton {
 	 * @param $post
 	 */
 	function form_to_post( $form, $post ) {
+		update_field( 'field_form_is_launch_site', $form['is_launch_site'], $post->ID );
 		update_field( 'field_form_splash_template', $form['splash_template'], $post->ID );
 		update_field( 'field_form_site_blueprint', $form['site_blueprint'], $post->ID );
 		update_field( 'field_form_redirect_to_site', $form['redirect_to_site'], $post->ID );
@@ -334,30 +341,12 @@ class Forms extends Singleton {
 			'type'  => 'message',
 		);
 
-		// Splash template
-		$field_group['fields'][] = array(
-			'key'               => 'field_form_splash_template',
-			'label'             => __( 'Splash template', 'dollie' ),
-			'name'              => 'form_splash_template',
-			'type'              => 'text',
-			'instructions'      => esc_html__( 'Enter a custom Splash template path to appear on form submit. Theme override location theme-name/dollie/tpl-name', 'dollie' ),
-			'required'          => 0,
-			'placeholder'       => '',
-			'conditional_logic' => 0,
-			'wrapper'           => array(
-				'width' => '50',
-				'class' => '',
-				'id'    => '',
-			),
-			'ui'                => true,
-		);
-
 		$field_group['fields'][] = array(
 			'key'           => 'field_form_is_launch_site',
 			'label'         => esc_html__( 'Enable Launch Site options', 'dollie' ),
 			'name'          => 'form_is_launch_site',
 			'type'          => 'true_false',
-			'instructions'  => esc_html__( 'If this form launches a new site you can enable this option to choose a default blueprint.', 'dollie' ),
+			'instructions'  => esc_html__( 'If this form launches a new site you can enable this option to enable splash loader on launch and choose a default blueprint.', 'dollie' ),
 			'required'      => 0,
 			'placeholder'   => '',
 			'wrapper'       => array(
@@ -367,6 +356,33 @@ class Forms extends Singleton {
 			),
 			'ui'            => true,
 			'default_value' => 0,
+		);
+
+		// Splash template
+		$field_group['fields'][] = array(
+			'key'               => 'field_form_splash_template',
+			'label'             => __( 'Splash template', 'dollie' ),
+			'name'              => 'form_splash_template',
+			'type'              => 'text',
+			'instructions'      => esc_html__( 'Enter a custom Splash template path to appear on form submit. Theme override location theme-name/dollie/tpl-name', 'dollie' ),
+			'required'          => 0,
+			'placeholder'       => '',
+			'default_value'     => 'launch-splash',
+			'conditional_logic' => array(
+				array(
+					array(
+						'field'    => 'field_form_is_launch_site',
+						'operator' => '==',
+						'value'    => '1',
+					),
+				),
+			),
+			'wrapper'           => array(
+				'width' => '50',
+				'class' => '',
+				'id'    => '',
+			),
+			'ui'                => true,
 		);
 
 		//blueprint

@@ -27,9 +27,9 @@ class AccessControl extends Singleton {
 		add_filter( 'wp_dropdown_users_args', [ $this, 'allow_all_authors' ], 10, 2 );
 		add_action( 'admin_init', [ $this, 'no_admin_access' ], 100 );
 
-		if ( ! defined( 'DOLLIE_DEV' ) || ! DOLLIE_DEV ) {
-			add_action( 'user_has_cap', [ $this, 'restrict_form_delete' ], 10, 3 );
-		}
+
+		add_action( 'user_has_cap', [ $this, 'restrict_form_delete' ], 10, 3 );
+
 
 	}
 
@@ -126,6 +126,9 @@ class AccessControl extends Singleton {
 	 * @return mixed
 	 */
 	public function restrict_form_delete( $allcaps, $caps, $args ) {
+		if ( defined( 'DOLLIE_DEV' ) && DOLLIE_DEV ) {
+			return $allcaps;
+		}
 
 		if ( isset( $args[0], $args[2] ) && $args[0] === 'delete_post' ) {
 
