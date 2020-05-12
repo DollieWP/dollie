@@ -67,7 +67,7 @@ class Plugin extends Singleton {
 	 */
 	public function load_dependencies() {
 
-	    // load ACF as fallback.
+		// load ACF as fallback.
 		if ( ! class_exists( 'ACF' ) ) {
 			require_once DOLLIE_PATH . 'core/Extras/advanced-custom-fields-pro/acf.php';
 		}
@@ -78,7 +78,7 @@ class Plugin extends Singleton {
 		}
 
 		// Load TGM Class
-		if (!class_exists('TGM_Plugin_Activation')) {
+		if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			require_once DOLLIE_PATH . 'core/Extras/tgm-plugin-activation/class-tgm-plugin-activation.php';
 			require_once DOLLIE_PATH . 'core/Extras/tgm-plugin-activation/requirements.php';
 		}
@@ -187,9 +187,21 @@ class Plugin extends Singleton {
 	 * Remove customer domain
 	 */
 	public function remove_customer_domain() {
-		if ( isset( $_POST['remove_customer_domain'] ) ) {
+		if ( isset( $_REQUEST['remove_customer_domain'] ) ) {
+
+			// Prevent unauthorized access
+			if ( ! is_user_logged_in() ) {
+				return;
+			}
+
 			$currentQuery = dollie()->get_current_object();
 			$post_id      = $currentQuery->id;
+
+			// Prevent unauthorized access
+			if ( ! current_user_can('edit_post', $post_id ) ) {
+				return;
+			}
+
 			$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
 			$route_id     = get_post_meta( $post_id, 'wpd_domain_id', true );
 			$www_route_id = get_post_meta( $post_id, 'wpd_www_domain_id', true );

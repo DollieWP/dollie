@@ -142,13 +142,18 @@ class DomainUpdateUrl extends Singleton {
 			return $restriction;
 		}
 
-		if ( $this->is_form_restricted() ) {
+		$container       = dollie()->get_current_object();
+		$setup_completed = get_post_meta( $container->id, 'wpd_domain_migration_complete', true );
+
+		if( $setup_completed ) {
 			return '<p>' .
 			       wp_kses_post( sprintf(
 				       __( 'You already completed the domain wizard. To unlink the domain please go to <a href="%s">this link</a>.' ),
 				       get_permalink() . '#domains'
 			       ) ) .
 			       '</p>';
+		} elseif ( $this->is_form_restricted() ) {
+			return '<div class="acf-hidden"></div>';
 		}
 
 		return $restriction;
@@ -159,6 +164,7 @@ class DomainUpdateUrl extends Singleton {
 
 		return $args;
 	}
+
 
 	private function is_form_restricted() {
 
@@ -171,6 +177,7 @@ class DomainUpdateUrl extends Singleton {
 		$is_restricted = $setup_completed || ! $has_domain || ! ( $has_le || $has_cloudflare );
 		$is_restricted = apply_filters( 'dollie/domain/update_url/is_form_restricted', $is_restricted );
 
+		//
 		return $is_restricted;
 
 	}
