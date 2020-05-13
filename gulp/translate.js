@@ -10,7 +10,6 @@ import wpPot from 'gulp-wp-pot';
 // Internal dependencies
 import {paths, names} from './constants';
 
-
 /**
  * Generate translation files.
  */

@@ -19,8 +19,10 @@
     "@babel/register": "^7.9.0",
     "del": "^5.1.0",
     "gulp": "^4.0.2",
+    "gulp-rsync": "0.0.8",
     "gulp-sort": "^2.0.0",
     "gulp-wp-pot": "^2.4.2",
+    "gulp-zip": "^5.0.1",
     "pump": "^3.0.0"
   }
 }
