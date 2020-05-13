@@ -4,11 +4,14 @@
 // External dependencies
 const gulp = require('gulp');
 const del = require('del');
+const zip = require('gulp-zip');
 
-function cleanDist() {
-    return del('./dist/**/*', {force:true});
+export function cleanFiles(cb) {
+    return del('./dist/dollie.zip', {force: true});
+    cb();
 }
-function copyFiles(cb) {
+
+export function copyFiles(cb) {
     gulp.src([
         './**/*',
         './[^.]*',
@@ -34,13 +37,14 @@ function copyFiles(cb) {
         '!**/*.css.map'
 
     ], {base: '.'})
+        .pipe(zip('dollie.zip'))
         .pipe(gulp.dest('dist'));
     cb();
 }
 
 
 const build = gulp.series(
-    cleanDist, copyFiles
+    cleanFiles, copyFiles
 );
 
 export default build;

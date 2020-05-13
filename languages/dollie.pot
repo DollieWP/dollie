@@ -15,7 +15,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: core/Plugin.php:291
+#: core/Plugin.php:303
 msgid "Dollie is almost ready..."
 msgstr ""
 
@@ -355,87 +355,87 @@ msgstr ""
 msgid "Dollie Container URL"
 msgstr ""
 
-#: core/Modules/Forms.php:287
+#: core/Modules/Forms.php:294
 msgid "Possible shortcode attributes: "
 msgstr ""
 
-#: core/Modules/Forms.php:315, core/Modules/Options.php:145, core/Modules/Options.php:166
+#: core/Modules/Forms.php:322, core/Modules/Options.php:151, core/Modules/Options.php:172
 msgid "Settings"
 msgstr ""
 
-#: core/Modules/Forms.php:332
+#: core/Modules/Forms.php:339
 msgid "Shortcode"
 msgstr ""
 
-#: core/Modules/Forms.php:340
-msgid "Splash template"
-msgstr ""
-
-#: core/Modules/Forms.php:343
-msgid "Enter a custom Splash template path to appear on form submit. Theme override location theme-name/dollie/tpl-name"
-msgstr ""
-
-#: core/Modules/Forms.php:357
+#: core/Modules/Forms.php:346
 msgid "Enable Launch Site options"
 msgstr ""
 
-#: core/Modules/Forms.php:360
-msgid "If this form launches a new site you can enable this option to choose a default blueprint."
+#: core/Modules/Forms.php:349
+msgid "If this form launches a new site you can enable this option to enable splash loader on launch and choose a default blueprint."
 msgstr ""
 
-#: core/Modules/Forms.php:375, core/Modules/Forms.php:587
+#: core/Modules/Forms.php:364
+msgid "Splash template"
+msgstr ""
+
+#: core/Modules/Forms.php:367
+msgid "Enter a custom Splash template path to appear on form submit. Theme override location theme-name/dollie/tpl-name"
+msgstr ""
+
+#: core/Modules/Forms.php:391, core/Modules/Forms.php:603
 msgid "Select a Blueprint (optional)"
 msgstr ""
 
-#: core/Modules/Forms.php:378
+#: core/Modules/Forms.php:394
 msgid "Force a default blueprint to use for the launched site"
 msgstr ""
 
-#: core/Modules/Forms.php:407
+#: core/Modules/Forms.php:423
 msgid "Redirect to site dashboard"
 msgstr ""
 
-#: core/Modules/Forms.php:410
+#: core/Modules/Forms.php:426
 msgid "Redirect to site dashboard page on form submit. Success Message will be ignored"
 msgstr ""
 
-#: core/Modules/Forms.php:571
+#: core/Modules/Forms.php:587
 msgid "Choose Your URL"
 msgstr ""
 
-#: core/Modules/Forms.php:575
+#: core/Modules/Forms.php:591
 msgid "Please choose a temporary URL for your site. This will be the place where you can work on your site until you connect your own domain."
 msgstr ""
 
-#: core/Modules/Forms.php:579
+#: core/Modules/Forms.php:595
 msgid "Admin Email"
 msgstr ""
 
-#: core/Modules/Forms.php:583
+#: core/Modules/Forms.php:599
 msgid "This is the email address you use to login to your WordPress admin."
 msgstr ""
 
-#: core/Modules/Forms.php:590
+#: core/Modules/Forms.php:606
 msgid "Carefully crafted site designs made by our team which you can use as a starting point for your new site."
 msgstr ""
 
-#: core/Modules/Forms.php:646
+#: core/Modules/Forms.php:662
 msgid "My New Site"
 msgstr ""
 
-#: core/Modules/Forms.php:668
+#: core/Modules/Forms.php:684
 msgid "The best website in the world?"
 msgstr ""
 
-#: core/Modules/Options.php:141, core/Modules/Options.php:163, core/Modules/Options.php:230
+#: core/Modules/Options.php:147, core/Modules/Options.php:169, core/Modules/Options.php:236
 msgid "Dollie (Staging)"
 msgstr ""
 
-#: core/Modules/Options.php:139, core/Modules/Options.php:161, core/Modules/Options.php:228
+#: core/Modules/Options.php:145, core/Modules/Options.php:167, core/Modules/Options.php:234
 msgid "Dollie (Live)"
 msgstr ""
 
-#: core/Modules/Options.php:376, core/Modules/Options.php:377, core/Modules/Dashboard/Pages.php:77
+#: core/Modules/Options.php:382, core/Modules/Options.php:383, core/Modules/Dashboard/Pages.php:77
 msgid "Integrations"
 msgstr ""
 
@@ -689,12 +689,24 @@ msgstr ""
 msgid "There was a problem when performing the request. Please contact support so we can look into why this has happened."
 msgstr ""
 
-#: core/Modules/Forms/DomainUpdateUrl.php:158
+#: core/Modules/Forms/DomainUpdateUrl.php:163
 msgid "Complete Setup"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:68, core/Modules/Forms/QuickLaunch.php:106
+#: core/Modules/Forms/LaunchSite.php:61
+msgid "This site is already registered. Please try another name."
+msgstr ""
+
+#: core/Modules/Forms/LaunchSite.php:89, core/Modules/Forms/QuickLaunch.php:106
 msgid "Launch New Site"
+msgstr ""
+
+#: core/Modules/Forms/LaunchSite.php:101
+msgid "Default Wordpress Site"
+msgstr ""
+
+#: core/Modules/Forms/LaunchSite.php:103
+msgid "No Blueprint"
 msgstr ""
 
 #: core/Modules/Forms/ListBackups.php:87
