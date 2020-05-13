@@ -76,14 +76,17 @@ class SiteInsights extends Singleton {
 				return [];
 			}
 
-			$data = set_transient( 'dollie_recent_posts_' . $currentQuery->slug, $response, 3600 );
-
-			if ( empty( $data ) ) {
-				return [];
+			if (empty($data)) {
+				$feed = $response;
 			}
+
+			$data = set_transient('dollie_recent_posts_' . $currentQuery->slug, $response, 3600);
+
+		} else {
+			$feed = $data;
 		}
 
-		return json_decode( wp_remote_retrieve_body( $data ) );
+		return json_decode( wp_remote_retrieve_body($feed ) );
 	}
 
 }
