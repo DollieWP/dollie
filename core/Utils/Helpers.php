@@ -238,6 +238,7 @@ class Helpers extends Singleton {
 			'author'        => get_current_user_id(),
 			'post_type'     => 'container',
 			'post_per_page' => 1000,
+			'post_status' => 'publish'
 		] );
 
 		$total = $query->found_posts;

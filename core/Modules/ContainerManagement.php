@@ -275,6 +275,11 @@ class ContainerManagement extends Singleton {
 				delete_post_meta( $post_id, 'wpd_scheduled_for_removal' );
 				delete_post_meta( $post_id, 'wpd_undeploy_container_at' );
 				delete_post_meta( $post_id, 'wpd_scheduled_for_undeployment' );
+				// Update the site status so it counts as an active site
+				wp_update_post([
+					'ID'          => $post_id,
+					'post_status' => 'publish',
+				]);
 			}
 			if ( $action === 'stop' ) {
 				// Get today's timestamp.
@@ -289,6 +294,11 @@ class ContainerManagement extends Singleton {
 					update_post_meta( $post_id, 'wpd_container_status', 'stopped' );
 					update_post_meta( $post_id, 'wpd_scheduled_for_undeployment', 'yes' );
 					update_post_meta( $post_id, 'wpd_undeploy_container_at', $trigger_date );
+					// Update the site status so it won't count as an active site.
+					wp_update_post([
+						'ID'          => $post_id,
+						'post_status' => 'draft',
+					]);
 				}
 
 				Log::add( $site . ' scheduled to be removed', '', 'undeploy' );
