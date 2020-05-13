@@ -25,14 +25,17 @@ class SiteInsights extends Singleton {
 				return [];
 			}
 
+			if (empty($data)) {
+				$feed = $response;
+			}
+
 			$data = set_transient( 'dollie_site_news_' . $slug, $response, 3600 );
 
-			if ( empty( $data ) ) {
-				return [];
-			}
+		} else {
+			$feed = $data;
 		}
 
-		return json_decode( wp_remote_retrieve_body( $data ) );
+		return json_decode( wp_remote_retrieve_body( $feed ) );
 	}
 
 	public function get_total_container_size() {
