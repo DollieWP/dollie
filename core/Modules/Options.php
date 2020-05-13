@@ -47,6 +47,7 @@ class Options extends Singleton {
 		}
 
 		add_action( 'init', [ $this, 'add_a_test_acf_options_page' ] );
+		add_action('init', [$this, 'set_dollie_page_templates']);
 		add_action( 'admin_menu', [ $this, 'add_a_test_menu_page' ], 9 );
 		add_action( 'admin_menu', [ $this, 'remove_duplicate_admin_menu' ], 100 );
 		add_action( 'admin_menu', [ $this, 'remove_duplicate_integration_menu' ], 100 );
@@ -430,6 +431,26 @@ class Options extends Singleton {
 			), 'acf_options_page', 'normal', 'high' );
 		}
 	}
+
+	public function set_dollie_page_templates()
+	{
+		$theme = wp_get_theme();
+		if ('Dollie Framework' == $theme->name || 'Dollie Framework' == $theme->parent_theme) {
+			$login = dollie()->get_login_page_id();
+			$dashboard = dollie()->get_dashboard_page_id();
+			$launch = dollie()->get_launch_page_id();
+			if (!empty($login)) {
+				update_post_meta($login, '_wp_page_template', 'page-templates/dollie-login.php');
+			}
+			if (!empty($dashboard)) {
+				update_post_meta($dashboard, '_wp_page_template', 'page-templates/dollie-dashboard.php');
+			}
+			if (!empty($launch)) {
+				update_post_meta($launch, '_wp_page_template', 'page-templates/dollie-launch-site.php');
+			}
+		}
+	}
+
 
 	public function add_api_boxes_callback( $post, $args = array() ) {
 		?>
