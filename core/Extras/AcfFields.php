@@ -1,5 +1,5 @@
 <?php
-if (function_exists('acf_add_local_field_group')) :
+if( function_exists('acf_add_local_field_group') ):
 
 	acf_add_local_field_group(array(
 		'key' => 'group_5affdcd76c8d1',
@@ -1620,11 +1620,12 @@ This is the default screenshot image shown on the site details header. It is onl
 					'class' => '',
 					'id' => '',
 				),
-				'default_value' => '',
-				'placeholder' => 1,
+				'hide_admin' => 0,
+				'default_value' => 1,
+				'placeholder' => '',
 				'prepend' => '',
 				'append' => '',
-				'min' => '',
+				'min' => 1,
 				'max' => '',
 				'step' => '',
 			),

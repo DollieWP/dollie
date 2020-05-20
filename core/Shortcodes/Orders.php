@@ -28,7 +28,7 @@ final class Orders extends Singleton implements Base {
 	 * @return mixed|void
 	 */
 	public function register() {
-		add_shortcode( 'dollie-sites', [ $this, 'shortcode' ] );
+		add_shortcode( 'my_orders', [ $this, 'shortcode' ] );
 	}
 
 	/**

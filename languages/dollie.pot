@@ -343,7 +343,7 @@ msgstr ""
 msgid "Platform Sites"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:441
+#: core/Modules/ContainerManagement.php:451
 msgid "Need Advanced Options?"
 msgstr ""
 
@@ -467,23 +467,23 @@ msgstr ""
 msgid "Our SiteCache solution is powered partly by the WP Fastest Cache plugin. We recommend to keep this plugin activated."
 msgstr ""
 
-#: core/Utils/Helpers.php:316
+#: core/Utils/Helpers.php:317
 msgid "Sorry, we could not retrieve your site details."
 msgstr ""
 
-#: core/Utils/Helpers.php:319
+#: core/Utils/Helpers.php:320
 msgid "We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error."
 msgstr ""
 
-#: core/Utils/Helpers.php:320
+#: core/Utils/Helpers.php:321
 msgid "Click here to try retrieving your site details again."
 msgstr ""
 
-#: core/Utils/Helpers.php:323
+#: core/Utils/Helpers.php:324
 msgid "Still no success?"
 msgstr ""
 
-#: core/Utils/Helpers.php:324
+#: core/Utils/Helpers.php:325
 msgid "Create a support ticket"
 msgstr ""
 
