@@ -45,10 +45,13 @@ final class Blueprints extends Singleton implements Base {
 				'amount'  => '999999',
 				'columns' => 1,
 				'category' => '',
+				'template' => 'loop-templates/blueprints',
 				'id' => '',
 				'checkout-url' => '',
 				'launch-button-text' => '',
-				'view-demo-text' => ''
+				'view-demo-text' => '',
+				'grid-class' => 'col-sm-4',
+				'custom-class' => 'blueprint-item'
 			],
 			$atts
 		);
@@ -124,14 +127,17 @@ final class Blueprints extends Singleton implements Base {
 				}
 
 				if (!empty($a['launch-button-text'])) {
-					$checkout_url = $a['launch-button-text'];
+					$launch_button_text = $a['launch-button-text'];
 				}
 
 				if (!empty($a['view-demo-text'])) {
-					$checkout_url = $a['view-demo-text'];
+					$view_demo_text = $a['view-demo-text'];
 				}
 
-				include( locate_template( '/loop-templates/blueprints.php' ) );
+				$grid_class = $a['grid-class'];
+				$custom_class = $a['custom-class'];
+
+				include( locate_template( '/' . $a['template'] .'.php' ) );
 			}
 
 			echo '</div>';
