@@ -40,79 +40,56 @@ final class Blueprints extends Singleton implements Base {
 	 * @return false|mixed|string
 	 */
 	public function shortcode( $atts ) {
+
 		$a = shortcode_atts(
 			[
-				'amount'  => '999999',
-				'columns' => 1,
-				'category' => '',
-				'template' => 'loop-templates/blueprints',
-				'id' => '',
-				'checkout-url' => '',
+				'amount'             => '999999',
+				'columns'            => 1,
+				'category'           => '',
+				'template'           => 'loop-templates/blueprints',
+				'id'                 => '',
+				'checkout-url'       => '',
 				'launch-button-text' => '',
-				'view-demo-text' => '',
-				'grid-class' => 'col-sm-4',
-				'custom-class' => 'blueprint-item'
+				'view-demo-text'     => '',
+				'grid-class'         => 'col-sm-4',
+				'custom-class'       => 'blueprint-item'
 			],
 			$atts
 		);
 
-		if ( ! empty($a['id'])) {
-			$posts = explode(',', $a['id']);
-			$args = array(
-				'post_type'     => 'container',
-				'meta_query'    => [
-					'relation' => 'AND',
-					[
-						'key'   => 'wpd_blueprint_created',
-						'value' => 'yes',
-					],
-					[
-						'key'     => 'wpd_installation_blueprint_title',
-						'compare' => 'EXISTS',
-					],
+		$args = [
+			'post_type'  => 'container',
+			'meta_query' => [
+				'relation' => 'AND',
+				[
+					'key'   => 'wpd_blueprint_created',
+					'value' => 'yes',
 				],
-				'post__in'      => $posts
-			);
-		} elseif (!empty($a['category'])) {
-			$args = array(
-				'post_type'     => 'container',
-				'meta_query'    => [
-					'relation' => 'AND',
-					[
-						'key'   => 'wpd_blueprint_created',
-						'value' => 'yes',
-					],
-					[
-						'key'     => 'wpd_installation_blueprint_title',
-						'compare' => 'EXISTS',
-					],
+				[
+					'key'     => 'wpd_installation_blueprint_title',
+					'compare' => 'EXISTS',
 				],
-				'tax_query' => array(
-					array(
-						'taxonomy' => 'container_category',
-						'field' => 'slug',
-						'terms' => $a['category'],
-					)
-				),
-			);
+			],
+		];
+
+		if ( ! empty( $a['id'] ) ) {
+			$posts            = explode( ',', $a['id'] );
+			$args['post__in'] = $posts;
+
+		} elseif ( ! empty( $a['category'] ) ) {
+			$args['tax_query'] = [
+				[
+					'taxonomy' => 'container_category',
+					'field'    => 'slug',
+					'terms'    => $a['category'],
+				]
+			];
+
 		} else {
-			$args = array(
-				'post_type'     => 'container',
-				'meta_query'    => [
-					'relation' => 'AND',
-					[
-						'key'   => 'wpd_blueprint_created',
-						'value' => 'yes',
-					],
-					[
-						'key'     => 'wpd_installation_blueprint_title',
-						'compare' => 'EXISTS',
-					],
-				],
-				'post_per_page' => $a['amount'],
-			);
+			$args['post_per_page'] = $a['amount'];
 		}
-		$query = new WP_Query($args);
+
+		$query = new WP_Query( $args );
 
 		ob_start();
 
@@ -122,22 +99,25 @@ final class Blueprints extends Singleton implements Base {
 			while ( $query->have_posts() ) {
 				$query->the_post();
 
-				if (!empty($a['checkout-url'])) {
+				if ( ! empty( $a['checkout-url'] ) ) {
 					$checkout_url = $a['checkout-url'];
 				}
 
-				if (!empty($a['launch-button-text'])) {
+				if ( ! empty( $a['launch-button-text'] ) ) {
 					$launch_button_text = $a['launch-button-text'];
 				}
 
-				if (!empty($a['view-demo-text'])) {
+				if ( ! empty( $a['view-demo-text'] ) ) {
 					$view_demo_text = $a['view-demo-text'];
 				}
 
-				$grid_class = $a['grid-class'];
+				$grid_class   = $a['grid-class'];
 				$custom_class = $a['custom-class'];
 
-				include( locate_template( '/' . $a['template'] .'.php' ) );
+				if ( $tpl = locate_template( $a['template'] . '.php' ) ) {
+					include( $tpl );
+				}
+
 			}
 
 			echo '</div>';
