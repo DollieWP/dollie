@@ -23,6 +23,7 @@ class ContainerManagement extends Singleton {
 		parent::__construct();
 
 		add_action( 'init', [ $this, 'register_container' ], 0 );
+		add_action('init', [$this, 'register_container_category'], 0);
 		add_action( 'template_redirect', [ $this, 'bypass_output_caching' ] );
 		add_action( 'template_redirect', [ $this, 'fetch_container_details' ] );
 		add_action( 'template_redirect', [ $this, 'update_container_details' ] );
@@ -72,7 +73,7 @@ class ContainerManagement extends Singleton {
 			'labels'              => $labels,
 			'supports'            => [ 'title', 'content', 'author', 'custom-fields', 'thumbnail' ],
 			'taxonomies'          => [ 'container_category', 'container_tag' ],
-			'hierarchical'        => false,
+			'hierarchical'        => true,
 			'public'              => true,
 			'show_ui'             => true,
 			'show_in_menu'        => 'wpd_platform_setup',
@@ -95,6 +96,43 @@ class ContainerManagement extends Singleton {
 		];
 
 		register_post_type( 'container', $args );
+	}
+
+	public function register_container_category() {
+
+		$labels = array(
+			'name'                       => _x( 'Blueprint Categories', 'Taxonomy General Name', 'dollie' ),
+			'singular_name'              => _x( 'Blueprint Category', 'Taxonomy Singular Name', 'dollie' ),
+			'menu_name'                  => __( 'Taxonomy', 'dollie' ),
+			'all_items'                  => __( 'All Items', 'dollie' ),
+			'parent_item'                => __( 'Parent Item', 'dollie' ),
+			'parent_item_colon'          => __( 'Parent Item:', 'dollie' ),
+			'new_item_name'              => __( 'New Item Name', 'dollie' ),
+			'add_new_item'               => __( 'Add New Item', 'dollie' ),
+			'edit_item'                  => __( 'Edit Item', 'dollie' ),
+			'update_item'                => __( 'Update Item', 'dollie' ),
+			'view_item'                  => __( 'View Item', 'dollie' ),
+			'separate_items_with_commas' => __( 'Separate items with commas', 'dollie' ),
+			'add_or_remove_items'        => __( 'Add or remove items', 'dollie' ),
+			'choose_from_most_used'      => __( 'Choose from the most used', 'dollie' ),
+			'popular_items'              => __( 'Popular Items', 'dollie' ),
+			'search_items'               => __( 'Search Items', 'dollie' ),
+			'not_found'                  => __( 'Not Found', 'dollie' ),
+			'no_terms'                   => __( 'No items', 'dollie' ),
+			'items_list'                 => __( 'Items list', 'dollie' ),
+			'items_list_navigation'      => __( 'Items list navigation', 'dollie' ),
+		);
+		$args = array(
+			'labels'                     => $labels,
+			'hierarchical'               => false,
+			'public'                     => true,
+			'show_ui'                    => true,
+			'show_admin_column'          => true,
+			'show_in_nav_menus'          => true,
+			'show_tagcloud'              => true,
+		);
+		register_taxonomy( 'container_category', array( 'container' ), $args );
+
 	}
 
 	public function bypass_output_caching() {
