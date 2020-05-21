@@ -229,121 +229,203 @@ msgstr ""
 msgid "Container Manager"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:40
-msgctxt "dollie"
-msgid "Sites"
-msgstr ""
-
 #: core/Modules/ContainerManagement.php:41
 msgctxt "dollie"
-msgid "Site"
+msgid "Sites"
 msgstr ""
 
 #: core/Modules/ContainerManagement.php:42
-msgid "Sites"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:43
-msgid "Post Type"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:44
-msgid "Site Archives"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:45
-msgid "Site Attributes"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:46
-msgid "Parent Site:"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:47, core/Modules/ContainerManagement.php:54
-msgid "View Sites"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:48
-msgid "Add New Site"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:49
-msgid "Add New"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:50
-msgid "New Site"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:51
-msgid "Edit Site"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:52
-msgid "Update Site"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:53
-msgid "View Site"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:55
-msgid "Search Sites"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:56
-msgid "Not found"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:57
-msgid "Not found in Trash"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:58
-msgid "Featured Image"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:59
-msgid "Set featured image"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:60
-msgid "Remove featured image"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:61
-msgid "Use as featured image"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:62
-msgid "Insert into item"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:63
-msgid "Uploaded to this item"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:64
-msgid "Sites list"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:65
-msgid "Sites list navigation"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:66
-msgid "Filter items list"
-msgstr ""
-
-#: core/Modules/ContainerManagement.php:70
+msgctxt "dollie"
 msgid "Site"
 msgstr ""
 
+#: core/Modules/ContainerManagement.php:43
+msgid "Sites"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:44
+msgid "Post Type"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:45
+msgid "Site Archives"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:46
+msgid "Site Attributes"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:47
+msgid "Parent Site:"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:48, core/Modules/ContainerManagement.php:55
+msgid "View Sites"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:49
+msgid "Add New Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:50
+msgid "Add New"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:51
+msgid "New Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:52
+msgid "Edit Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:53
+msgid "Update Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:54
+msgid "View Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:56
+msgid "Search Sites"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:57
+msgid "Not found"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:58
+msgid "Not found in Trash"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:59
+msgid "Featured Image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:60
+msgid "Set featured image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:61
+msgid "Remove featured image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:62
+msgid "Use as featured image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:63
+msgid "Insert into item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:64
+msgid "Uploaded to this item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:65
+msgid "Sites list"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:66
+msgid "Sites list navigation"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:67
+msgid "Filter items list"
+msgstr ""
+
 #: core/Modules/ContainerManagement.php:71
+msgid "Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:72
 msgid "Platform Sites"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:451
+#: core/Modules/ContainerManagement.php:104
+msgctxt "Taxonomy General Name"
+msgid "Blueprint Categories"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:105
+msgctxt "Taxonomy Singular Name"
+msgid "Blueprint Category"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:106
+msgid "Taxonomy"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:107
+msgid "All Items"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:108
+msgid "Parent Item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:109
+msgid "Parent Item:"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:110
+msgid "New Item Name"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:111
+msgid "Add New Item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:112
+msgid "Edit Item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:113
+msgid "Update Item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:114
+msgid "View Item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:115
+msgid "Separate items with commas"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:116
+msgid "Add or remove items"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:117
+msgid "Choose from the most used"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:118
+msgid "Popular Items"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:119
+msgid "Search Items"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:120
+msgid "Not Found"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:121
+msgid "No items"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:122
+msgid "Items list"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:123
+msgid "Items list navigation"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:489
 msgid "Need Advanced Options?"
 msgstr ""
 
@@ -359,7 +441,7 @@ msgstr ""
 msgid "Possible shortcode attributes: "
 msgstr ""
 
-#: core/Modules/Forms.php:322, core/Modules/Options.php:151, core/Modules/Options.php:172
+#: core/Modules/Forms.php:322, core/Modules/Options.php:174, core/Modules/Options.php:196
 msgid "Settings"
 msgstr ""
 
@@ -427,15 +509,15 @@ msgstr ""
 msgid "The best website in the world?"
 msgstr ""
 
-#: core/Modules/Options.php:147, core/Modules/Options.php:169, core/Modules/Options.php:236
+#: core/Modules/Options.php:170, core/Modules/Options.php:193, core/Modules/Options.php:277
 msgid "Dollie (Staging)"
 msgstr ""
 
-#: core/Modules/Options.php:145, core/Modules/Options.php:167, core/Modules/Options.php:234
+#: core/Modules/Options.php:168, core/Modules/Options.php:191, core/Modules/Options.php:275
 msgid "Dollie (Live)"
 msgstr ""
 
-#: core/Modules/Options.php:382, core/Modules/Options.php:383, core/Modules/Dashboard/Pages.php:77
+#: core/Modules/Options.php:450, core/Modules/Options.php:451, core/Modules/Dashboard/Pages.php:77
 msgid "Integrations"
 msgstr ""
 

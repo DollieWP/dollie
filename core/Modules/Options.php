@@ -426,7 +426,7 @@ class Options extends Singleton
 			'Forms',
 			'Forms',
 			'manage_options',
-			'edit.php?post_type=af_form',
+			'edit.php?post_type=af_form'
 		);
 		//}
 	}

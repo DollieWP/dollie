@@ -80,7 +80,8 @@ class AccessControl extends Singleton {
 				exit();
 			}
 
-			global $post, $current_user;
+			global $post;
+			$current_user = wp_get_current_user();
 
 			// Is site owner?
 			if ( $post->post_author !== $current_user->ID && is_singular( 'container' ) ) {
