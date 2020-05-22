@@ -27,7 +27,7 @@ class Blueprints extends Singleton {
 		parent::__construct();
 
 		add_action( 'wp_head', [ $this, 'get_site_available_blueprints' ], 11 );
-		add_action( 'template_redirect', [ $this, 'set_blueprint_cookie' ], - 99999 );
+		add_action( 'init', [ $this, 'set_blueprint_cookie' ], - 99999 );
 	}
 
 	/**
@@ -41,9 +41,9 @@ class Blueprints extends Singleton {
 
 		$data = [];
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		/*if ( is_admin && ! current_user_can( 'manage_options' ) ) {
 			return $data;
-		}
+		}*/
 
 		$sites = get_posts( [
 			'post_type'      => 'container',
@@ -63,7 +63,7 @@ class Blueprints extends Singleton {
 					'compare' => 'EXISTS',
 				]
 			],
-			'p'              => isset( $_COOKIE[ self::COOKIE_NAME ] ) ? $_COOKIE[ self::COOKIE_NAME ] : '',
+			// 'p'              => isset( $_COOKIE[ self::COOKIE_NAME ] ) ? $_COOKIE[ self::COOKIE_NAME ] : '',
 		] );
 
 		if ( empty( $sites ) ) {
@@ -155,7 +155,6 @@ class Blueprints extends Singleton {
 		}
 
 		$currentQuery   = dollie()->get_current_object();
-		$setup_complete = get_post_meta( $currentQuery->id, 'wpd_container_based_on_blueprint', true );
 
 		// No Cookies set? Check is parameter are valid
 		if ( isset( $cookie_id ) ) {
