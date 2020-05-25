@@ -14,9 +14,6 @@
   "author": "Dollie",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.9.6",
-    "@babel/preset-env": "^7.9.6",
-    "@babel/register": "^7.9.0",
     "del": "^5.1.0",
     "gulp": "^4.0.2",
     "gulp-rsync": "0.0.8",
@@ -24,5 +21,8 @@
     "gulp-wp-pot": "^2.4.2",
     "gulp-zip": "^5.0.1",
     "pump": "^3.0.0"
+  },
+  "dependencies": {
+    "esm": "^3.2.25"
   }
 }

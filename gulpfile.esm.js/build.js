@@ -11,8 +11,8 @@ export function cleanFiles(cb) {
     cb();
 }
 
-export function copyFiles(cb) {
-    gulp.src([
+export function copyFiles() {
+    return gulp.src([
         './**/*',
         './[^.]*',
         '!./**/composer.json',
@@ -39,7 +39,6 @@ export function copyFiles(cb) {
     ], {base: '.'})
         .pipe(zip('dollie.zip'))
         .pipe(gulp.dest('dist'));
-    cb();
 }
 
 
