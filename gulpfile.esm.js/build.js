@@ -33,6 +33,8 @@ export function copyFiles() {
         '!./dist/**/*',
         '!./gulp',
         '!./gulp/**/*',
+        '!./gulpfile.esm.js',
+        '!./gulpfile.esm.js/**/*',
         '!**/*.scss',
         '!**/*.css.map'
 
