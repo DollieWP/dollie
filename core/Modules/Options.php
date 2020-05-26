@@ -136,7 +136,7 @@ class Options extends Singleton
 
 		add_action('admin_menu', [$this, 'dollie_tools'], 99);
 		add_action('admin_menu', [$this, 'dollie_forms'], 99);
-		//add_action('admin_menu', [$this, 'dollie_api'], 99);
+		add_action('admin_menu', [$this, 'dollie_api'], 99);
 		add_action('admin_menu', [$this, 'dollie_integrations'], 99);
 		add_filter('admin_body_class', [$this, 'add_staging_body_class']);
 
