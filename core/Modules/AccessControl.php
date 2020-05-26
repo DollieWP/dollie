@@ -84,7 +84,7 @@ class AccessControl extends Singleton {
 			$current_user = wp_get_current_user();
 
 			// Is site owner?
-			if ( $post->post_author !== $current_user->ID && is_singular( 'container' ) ) {
+			if ( $post->post_author != $current_user->ID && is_singular( 'container' ) ) {
 				wp_redirect( get_site_url( null, '/' ) );
 				exit();
 			}
