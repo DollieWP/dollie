@@ -1,6 +1,6 @@
 {
   "name": "dollie",
-  "version": "2.0.0",
+  "version": "3.0.1",
   "description": "A turn-key solution for WordPress product vendors, agencies and developers to start offering white-labeled cloud services and SaaS/WaaS to their customers.",
   "main": "loader.php",
   "scripts": {
@@ -16,6 +16,7 @@
   "devDependencies": {
     "del": "^5.1.0",
     "gulp": "^4.0.2",
+    "gulp-rename": "^2.0.0",
     "gulp-rsync": "0.0.8",
     "gulp-sort": "^2.0.0",
     "gulp-wp-pot": "^2.4.2",

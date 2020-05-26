@@ -5,9 +5,10 @@
 const gulp = require('gulp');
 const del = require('del');
 const zip = require('gulp-zip');
+const rename = require('gulp-rename');
 
 export function cleanFiles(cb) {
-    return del('./dist/dollie.zip', {force: true});
+    return del('./dist/**/*', {force: true});
     cb();
 }
 
@@ -39,10 +40,12 @@ export function copyFiles() {
         '!**/*.css.map'
 
     ], {base: '.'})
+        .pipe(rename(function(file) {
+            file.dirname = 'dollie/' + file.dirname;
+        }))
         .pipe(zip('dollie.zip'))
-        .pipe(gulp.dest('dist'));
+        .pipe(gulp.dest('dist/'));
 }
-
 
 const build = gulp.series(
     cleanFiles, copyFiles
