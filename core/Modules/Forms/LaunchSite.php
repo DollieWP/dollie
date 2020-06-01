@@ -69,10 +69,9 @@ class LaunchSite extends Singleton {
 		$domain            = af_get_field( 'site_url' );
 		$email             = af_get_field( 'site_admin_email' );
 		$default_blueprint = af_get_field( 'site_blueprint' ) ?: Forms::instance()->get_form_arg( 'site_blueprint', $form, $args );
-		$blueprint         = isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) ? $_COOKIE[ Blueprints::COOKIE_NAME ] : $default_blueprint;
 		$user_id           = get_current_user_id();
 
-		$deploy_data = WP::instance()->deploy_site( $email, $domain, $user_id, $blueprint );
+		$deploy_data = WP::instance()->deploy_site( $email, $domain, $user_id, $default_blueprint );
 
 		if ( is_wp_error( $deploy_data ) ) {
 			af_add_submission_error( $deploy_data->get_error_message() );
