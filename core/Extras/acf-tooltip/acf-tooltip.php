@@ -43,7 +43,7 @@ class dhz_acf_plugin_tooltip {
 
 		// include field
 		add_action('acf/input/admin_enqueue_scripts', 	array($this, 'acf_tooltip_enqueue_scripts'), 11);
-		add_action('wp_head', 	array($this, 'acf_tooltip_enqueue_scripts'), 11);
+		// add_action('wp_head', 	array($this, 'acf_tooltip_enqueue_scripts'), 11);
 
 		if ( DHZ_SHOW_DONATION_LINK == true ) {
 
@@ -212,5 +212,3 @@ new dhz_acf_plugin_tooltip();
 
 // class_exists check
 endif;
-
-?>

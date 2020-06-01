@@ -14,5 +14,5 @@ const release = series( translate, build, sftp );
 export default release;
 
 export {
-    translate
+    translate, build
 }
