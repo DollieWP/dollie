@@ -64,14 +64,13 @@ class LaunchSite extends Singleton {
 		do_action( 'dollie/launch/validate/after' );
 	}
 
-
 	public function submission_callback( $form, $fields, $args ) {
-		$domain            = af_get_field( 'site_url' );
-		$email             = af_get_field( 'site_admin_email' );
-		$default_blueprint = af_get_field( 'site_blueprint' ) ?: Forms::instance()->get_form_arg( 'site_blueprint', $form, $args );
-		$user_id           = get_current_user_id();
+		$domain    = af_get_field( 'site_url' );
+		$email     = af_get_field( 'site_admin_email' );
+		$blueprint = Forms::instance()->get_form_blueprint( $form, $args );
+		$user_id   = get_current_user_id();
 
-		$deploy_data = WP::instance()->deploy_site( $email, $domain, $user_id, $default_blueprint );
+		$deploy_data = WP::instance()->deploy_site( $email, $domain, $user_id, $blueprint );
 
 		if ( is_wp_error( $deploy_data ) ) {
 			af_add_submission_error( $deploy_data->get_error_message() );

@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class WP extends Singleton {
 
 
-	public function deploy_site( $email, $domain, $user_id, $blueprint ) {
+	public function deploy_site( $email, $domain, $user_id, $blueprint = null ) {
 
 		$error_message = esc_html__( 'Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!', 'dollie' );
 
@@ -156,7 +156,7 @@ final class WP extends Singleton {
 		ContainerRegistration::instance()->register_worker_node( $post_id );
 
 		// Set Flag if Blueprint
-		if ( $blueprint ) {
+		if ( isset( $blueprint ) && $blueprint ) {
 			sleep( 2 );
 			add_post_meta( $post_id, 'wpd_container_based_on_blueprint', 'yes', true );
 			add_post_meta( $post_id, 'wpd_container_based_on_blueprint_id', $blueprint, true );
@@ -164,8 +164,8 @@ final class WP extends Singleton {
 			// TODO if the site has a domain assign -> send the request with the domain name? @bowe
 			$blueprint_install = get_post_meta( $blueprint, 'wpd_container_uri', true );
 			$blueprint_install = str_replace( [ 'https://', 'http://' ], '', $blueprint_install );
-			
-			$container_uri     = str_replace( [ 'https://', 'http://' ], '', $data_container['uri'] );
+
+			$container_uri = str_replace( [ 'https://', 'http://' ], '', $data_container['uri'] );
 
 			$blueprint_request = Api::post( Api::ROUTE_BLUEPRINT_DEPLOY, [
 				'container_uri' => $container_uri,

@@ -177,7 +177,7 @@ class Forms extends Singleton {
 	 */
 	public function add_custom_field_defaults( $form ) {
 
-		$form['is_launch_site']  = false;
+		$form['is_launch_site']   = false;
 		$form['splash_template']  = false;
 		$form['site_blueprint']   = false;
 		$form['redirect_to_site'] = false;
@@ -194,9 +194,9 @@ class Forms extends Singleton {
 		$is_launch_site   = get_field( 'form_is_launch_site', $post->ID );
 		$site_blueprint   = get_field( 'site_blueprint', $post->ID );
 		$redirect_to_site = get_field( 'form_redirect_to_site', $post->ID );
-		$splash_template = get_field( 'form_splash_template', $post->ID );
+		$splash_template  = get_field( 'form_splash_template', $post->ID );
 
-		if( $is_launch_site ) {
+		if ( $is_launch_site ) {
 			$form['is_launch_site'] = $is_launch_site;
 
 			if ( $splash_template ) {
@@ -436,6 +436,26 @@ class Forms extends Singleton {
 		);
 
 		return $field_group;
+	}
+
+	/**
+	 * Get the blueprint to use when launching a site
+	 *
+	 * @param $form
+	 * @param $args
+	 *
+	 * @return bool|mixed
+	 */
+	public function get_form_blueprint( $form, $args ) {
+		if ( af_get_field( 'site_blueprint' ) ) {
+			return af_get_field( 'site_blueprint' );
+		}
+
+		if ( isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) ) {
+			return $_COOKIE[ Blueprints::COOKIE_NAME ];
+		}
+
+		return $this->get_form_arg( 'site_blueprint', $form, $args );
 	}
 
 	/**

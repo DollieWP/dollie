@@ -42,15 +42,13 @@ class QuickLaunch extends Singleton {
 
 	}
 
-
 	public function submission_callback( $form, $fields, $args ) {
 
 		$generator = new NameGenerator();
 		$domain    = strtolower( str_replace( ' ', '-', $generator->getName() ) );
 
 		$email     = af_get_field( 'client_email' );
-		$blueprint = isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) ? $_COOKIE[ Blueprints::COOKIE_NAME ] : Forms::instance()->get_form_arg( 'site_blueprint', $form, $args );
-		$demo      = esc_url_raw( get_site_url() );
+		$blueprint = Forms::instance()->get_form_blueprint( $form, $args );
 
 		// If we allow registration and not logged in - create account
 		if ( ! is_user_logged_in() && get_option( 'users_can_register' ) ) {
