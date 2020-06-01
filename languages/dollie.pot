@@ -779,15 +779,15 @@ msgstr ""
 msgid "This site is already registered. Please try another name."
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:89, core/Modules/Forms/QuickLaunch.php:106
+#: core/Modules/Forms/LaunchSite.php:88, core/Modules/Forms/QuickLaunch.php:106
 msgid "Launch New Site"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:101
+#: core/Modules/Forms/LaunchSite.php:100
 msgid "Default Wordpress Site"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:103
+#: core/Modules/Forms/LaunchSite.php:102
 msgid "No Blueprint"
 msgstr ""
 
