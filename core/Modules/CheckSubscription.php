@@ -95,13 +95,17 @@ class CheckSubscription extends Singleton {
 	 *
 	 * @param $customer_id
 	 * @param string $status
-	 * @param int $resources
+	 * @param int $resources Return max client resource allocation
 	 *
 	 * @return array|bool
 	 */
 	public function get_customer_subscriptions( $customer_id, $status = 'any', $resources = 0 ) {
 
-		$resources_allocated = [];
+		$resources_allocated = [
+		        'max_allowed_installs' => 0,
+		        'max_allowed_size' => 0,
+        ];
+
 		$active_plans        = [];
 
 		if ( ! function_exists( 'wcs_get_subscriptions' ) ) {
@@ -118,43 +122,53 @@ class CheckSubscription extends Singleton {
 		}
 
 		foreach ( $subscriptions as $subscription_id => $subscription ) {
-			// Getting the related Order ID
-			$order_id = method_exists( $subscription, 'get_parent_id' ) ? $subscription->get_parent_id() : $subscription->order->id;
 
-			// Getting the order object "$order"
-			$order = wc_get_order( $order_id );
+			// Getting the subscription Order ID.
+			$the_subscription = wcs_get_subscription( $subscription_id );
 
-			if ( ! $order ) {
+			// Get the right number of items, count also any upgraded/downgraded orders
+			$order_items = $the_subscription->get_items();
+
+			if ( ! $order_items ) {
 				continue;
 			}
 
-			// Getting the items in the order
-			$order_items = $order->get_items();
-
 			// Iterating through each item in the order
 			foreach ( $order_items as $item_id => $item_data ) {
+
 				$id = $item_data['product_id'];
+
+				if ( $id === 0 ) {
+			        continue;
+                }
 
 				// Filter out non Dollie subscriptions by checking custom meta field.
 				if ( ! get_field( '_wpd_installs', $id ) ) {
 					continue;
 				}
 
+				$installs = (int) get_field( '_wpd_installs', $id );
+				$max_size = get_field( '_wpd_max_size', $id );
+
 				$active_plans['products'][ $id ] = [
 					'name'                => $item_data['name'],
-					'installs'            => get_field( '_wpd_installs', $id ),
-					'max_size'            => get_field( '_wpd_max_size', $id ),
+					'installs'            => $installs,
+					'max_size'            => $max_size,
 					'included_blueprints' => get_field( '_wpd_included_blueprints', $id ),
 					'excluded_blueprints' => get_field( '_wpd_excluded_blueprints', $id ),
 				];
+
+				if ( $resources ) {
+				    $quantity = $item_data['quantity'] ?: 1;
+
+					// Add up individual plan's max values to obtain total max values of allowed installs and size.
+					$resources_allocated['max_allowed_installs'] += $installs * $quantity;
+					$resources_allocated['max_allowed_size']     += $max_size * $quantity;
+					$resources_allocated['name']                 = $item_data['name'];
+				}
+
 			}
 
-			if ( $resources ) {
-				// Add up individual plan's max values to obtain total max values of allowed installs and size.
-				$resources_allocated['max_allowed_installs'] += $active_plans['products'][ $id ]['installs'];
-				$resources_allocated['max_allowed_size']     += $active_plans['products'][ $id ]['max_size'];
-				$resources_allocated['name']                 = $active_plans['products'][ $id ]['name'];
-			}
 		}
 
 		if ( $resources ) {
@@ -570,9 +584,9 @@ class CheckSubscription extends Singleton {
 			return false;
 		}
 
-		$total_site = dollie()->count_customer_containers();
+		$total_site = (int) dollie()->count_customer_containers();
 
-		return $this->has_subscription() && $subscription['max_allowed_installs'] - $total_site <= 0 && ! current_user_can( 'manage_options' );
+		return $this->has_subscription() && ( $subscription['max_allowed_installs'] - $total_site ) <= 0 && ! current_user_can( 'manage_options' );
 	}
 
 	public function get_excluded_blueprints() {
