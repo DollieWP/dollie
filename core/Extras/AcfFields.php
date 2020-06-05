@@ -1625,7 +1625,7 @@ This is the default screenshot image shown on the site details header. It is onl
 				'placeholder' => '',
 				'prepend' => '',
 				'append' => '',
-				'min' => 1,
+				'min' => '',
 				'max' => '',
 				'step' => '',
 			),

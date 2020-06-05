@@ -154,7 +154,7 @@ class Upgrades extends Singleton {
 		$current_version = $this->version;
 
 		foreach ( $this->upgrades as $version => $method ) {
-			if ( ! isset( $old_upgrades[ $version ] ) && version_compare( $current_version, $version, '<=' ) ) {
+			if ( ! isset( $old_upgrades[ $version ] ) && version_compare( $current_version, $version, '>=' ) ) {
 
 				// Run the upgrade.
 				$upgrade_result = $this->$method();
@@ -190,7 +190,7 @@ class Upgrades extends Singleton {
 	/**
 	 * @return bool|WP_Error
 	 */
-	private function _upgrade_200() {
+        private function _upgrade_200() {
 
 		// Update Page IDs.
 		$pages_data = [
