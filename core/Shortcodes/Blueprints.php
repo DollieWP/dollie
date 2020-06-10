@@ -43,7 +43,7 @@ final class Blueprints extends Singleton implements Base {
 
 		$a = shortcode_atts(
 			[
-				'amount'             => '999999',
+				'amount'             => - 1,
 				'columns'            => 1,
 				'category'           => '',
 				'template'           => 'loop-templates/blueprints',
@@ -58,8 +58,9 @@ final class Blueprints extends Singleton implements Base {
 		);
 
 		$args = [
-			'post_type'  => 'container',
-			'meta_query' => [
+			'post_type'     => 'container',
+			'post_per_page' => $a['amount'],
+			'meta_query'    => [
 				'relation' => 'AND',
 				[
 					'key'   => 'wpd_blueprint_created',
@@ -85,8 +86,6 @@ final class Blueprints extends Singleton implements Base {
 				]
 			];
 
-		} else {
-			$args['post_per_page'] = $a['amount'];
 		}
 
 		$query = new WP_Query( $args );

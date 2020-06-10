@@ -197,7 +197,7 @@ msgstr ""
 msgid "%s Created on %s"
 msgstr ""
 
-#: core/Modules/CheckSubscription.php:556
+#: core/Modules/CheckSubscription.php:570
 msgid "None"
 msgstr ""
 
@@ -465,7 +465,7 @@ msgstr ""
 msgid "Enter a custom Splash template path to appear on form submit. Theme override location theme-name/dollie/tpl-name"
 msgstr ""
 
-#: core/Modules/Forms.php:391, core/Modules/Forms.php:603
+#: core/Modules/Forms.php:391, core/Modules/Forms.php:623
 msgid "Select a Blueprint (optional)"
 msgstr ""
 
@@ -481,31 +481,31 @@ msgstr ""
 msgid "Redirect to site dashboard page on form submit. Success Message will be ignored"
 msgstr ""
 
-#: core/Modules/Forms.php:587
+#: core/Modules/Forms.php:607
 msgid "Choose Your URL"
 msgstr ""
 
-#: core/Modules/Forms.php:591
+#: core/Modules/Forms.php:611
 msgid "Please choose a temporary URL for your site. This will be the place where you can work on your site until you connect your own domain."
 msgstr ""
 
-#: core/Modules/Forms.php:595
+#: core/Modules/Forms.php:615
 msgid "Admin Email"
 msgstr ""
 
-#: core/Modules/Forms.php:599
+#: core/Modules/Forms.php:619
 msgid "This is the email address you use to login to your WordPress admin."
 msgstr ""
 
-#: core/Modules/Forms.php:606
+#: core/Modules/Forms.php:626
 msgid "Carefully crafted site designs made by our team which you can use as a starting point for your new site."
 msgstr ""
 
-#: core/Modules/Forms.php:662
+#: core/Modules/Forms.php:682
 msgid "My New Site"
 msgstr ""
 
-#: core/Modules/Forms.php:684
+#: core/Modules/Forms.php:704
 msgid "The best website in the world?"
 msgstr ""
 
@@ -779,15 +779,15 @@ msgstr ""
 msgid "This site is already registered. Please try another name."
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:88, core/Modules/Forms/QuickLaunch.php:106
+#: core/Modules/Forms/LaunchSite.php:87, core/Modules/Forms/QuickLaunch.php:104
 msgid "Launch New Site"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:100
+#: core/Modules/Forms/LaunchSite.php:99
 msgid "Default Wordpress Site"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:102
+#: core/Modules/Forms/LaunchSite.php:101
 msgid "No Blueprint"
 msgstr ""
 
@@ -843,15 +843,15 @@ msgstr ""
 msgid "Update Plugins!"
 msgstr ""
 
-#: core/Modules/Forms/QuickLaunch.php:65
+#: core/Modules/Forms/QuickLaunch.php:63
 msgid "Email already exists. Please login first"
 msgstr ""
 
-#: core/Modules/Forms/QuickLaunch.php:88
+#: core/Modules/Forms/QuickLaunch.php:86
 msgid "My WP"
 msgstr ""
 
-#: core/Modules/Forms/QuickLaunch.php:89
+#: core/Modules/Forms/QuickLaunch.php:87
 msgid "My WordPress Install"
 msgstr ""
 
