@@ -13,6 +13,11 @@ A turn-key solution for WordPress product vendors, agencies and developers to st
 
 == Changelog ==
 
+= 3.0.4 =
+* Fix Woocommerce subscription limits when using renewals/upgrades/downgrades
+* Show tooltip for non admins too - dashicons aren't loaded if no admin bar
+* Fix for [dollie-blueprints] shortcode number of items showing
+
 = 3.0.3 =
 * Use the correct blueprint id on launch new site
 
