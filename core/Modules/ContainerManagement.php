@@ -71,7 +71,7 @@ class ContainerManagement extends Singleton {
 			'label'               => esc_html__( 'Site', 'dollie' ),
 			'description'         => esc_html__( 'Platform Sites', 'dollie' ),
 			'labels'              => $labels,
-			'supports'            => [ 'title', 'content', 'author', 'custom-fields', 'thumbnail' ],
+			'supports'            => [ 'title', 'content', 'author', 'custom-fields', 'thumbnail', 'page-attributes' ],
 			'taxonomies'          => [ 'container_category', 'container_tag' ],
 			'hierarchical'        => true,
 			'public'              => true,

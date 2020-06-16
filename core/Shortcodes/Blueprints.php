@@ -45,6 +45,8 @@ final class Blueprints extends Singleton implements Base {
 			[
 				'amount'             => - 1,
 				'columns'            => 1,
+				'orderby'             => 'post_date',
+				'order'             => 'DESC',
 				'category'           => '',
 				'template'           => 'loop-templates/blueprints',
 				'id'                 => '',
@@ -52,14 +54,14 @@ final class Blueprints extends Singleton implements Base {
 				'launch-button-text' => '',
 				'view-demo-text'     => '',
 				'grid-class'         => 'col-sm-4',
-				'custom-class'       => 'blueprint-item'
+				'custom-class'       => 'blueprint-item',
 			],
 			$atts
 		);
 
 		$args = [
 			'post_type'     => 'container',
-			'post_per_page' => $a['amount'],
+			'posts_per_page' => $a['amount'],
 			'meta_query'    => [
 				'relation' => 'AND',
 				[
@@ -71,6 +73,8 @@ final class Blueprints extends Singleton implements Base {
 					'compare' => 'EXISTS',
 				],
 			],
+			'orderby' => $a['orderby'],
+			'order' => $a['order'],
 		];
 
 		if ( ! empty( $a['id'] ) ) {

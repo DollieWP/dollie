@@ -83,10 +83,11 @@ class Helpers extends Singleton {
 	 * Get container URL
 	 *
 	 * @param null $container_id
+	 * @param bool $temp_url
 	 *
 	 * @return mixed|string
 	 */
-	public function get_container_url( $container_id = null ) {
+	public function get_container_url( $container_id = null, $temp_url = false ) {
 		if ( $container_id === null ) {
 			$container_id = $this->get_current_object()->id;
 		}
@@ -94,7 +95,7 @@ class Helpers extends Singleton {
 		$domain     = get_post_meta( $container_id, 'wpd_domains', true );
 		$cloudflare = get_post_meta( $container_id, 'wpd_domain_migration_complete', true );
 
-		if ( $domain !== '' && $cloudflare === 'yes' ) {
+		if ( $domain !== '' && $cloudflare === 'yes' && ! $temp_url ) {
 			$install = 'https://' . get_post_meta( $container_id, 'wpd_domains', true );
 		} else {
 			$install = get_post_meta( $container_id, 'wpd_container_uri', true );
