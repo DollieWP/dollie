@@ -51,7 +51,10 @@ class Forms extends Singleton {
 		add_action( 'init', [ $this, 'init' ] );
 		add_action( 'acf/init', [ $this, 'acf_init' ] );
 
-		//add_filter( 'acf/load_field', [ $this, 'localize_strings' ] );
+		if ( isset( $_GET['page'], $_GET['tool'] ) && $_GET['page'] === 'acf-tools' && $_GET['tool'] === 'export') {
+			add_filter( 'acf/prepare_field_for_export', [ $this, 'localize_strings' ] );
+		}
+
 		add_action( 'af/form/hidden_fields', [ $this, 'hidden_fields' ], 10, 2 );
 
 		// Custom form fields
@@ -603,28 +606,18 @@ class Forms extends Singleton {
 
 	public function localize_strings( $field ) {
 
-		if ( $field['label'] === 'Choose Your URL' ) {
-			$field['label'] = esc_html__( 'Choose Your URL', 'dollie' );
+		if ( $field['label'] ) {
+			$field['label'] = "!!__(!!'" . $field['label'] . "!!', !!'" . 'dollie' . "!!')!!";
 		}
 
-		if ( $field['instructions'] === 'Please choose a temporary URL for your site. This will be the place where you can work on your site until you connect your own domain.' ) {
-			$field['instructions'] = esc_html__( 'Please choose a temporary URL for your site. This will be the place where you can work on your site until you connect your own domain.', 'dollie' );
+		if ( $field['instructions'] ) {
+			$field['instructions'] = "!!__(!!'" . $field['instructions'] . "!!', !!'" . 'dollie' . "!!')!!";
 		}
 
-		if ( $field['label'] === 'Admin Email' ) {
-			$field['label'] = esc_html__( 'Admin Email', 'dollie' );
+		if ( $field['message'] ) {
+			$field['message'] = "!!__(!!'" . $field['message'] . "!!', !!'" . 'dollie' . "!!')!!";
 		}
 
-		if ( $field['instructions'] === 'This is the email address you use to login to your WordPress admin.' ) {
-			$field['instructions'] = esc_html__( 'This is the email address you use to login to your WordPress admin.', 'dollie' );
-		}
-
-		if ( $field['label'] === 'Select a Blueprint (optional)' ) {
-			$field['label'] = esc_html__( 'Select a Blueprint (optional)', 'dollie' );
-		}
-		if ( $field['instructions'] === 'Carefully crafted site designs made by our team which you can use as a starting point for your new site.' ) {
-			$field['instructions'] = esc_html__( 'Carefully crafted site designs made by our team which you can use as a starting point for your new site.', 'dollie' );
-		}
 
 		return $field;
 	}

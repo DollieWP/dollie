@@ -7,7 +7,7 @@ if( function_exists('acf_add_local_field_group') ):
 		'fields' => array(
 			array(
 				'key' => 'field_5e847fa49d718',
-				'label' => 'Intro message',
+				'label' => __('Intro message', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -19,15 +19,15 @@ if( function_exists('acf_add_local_field_group') ):
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '[dollie_blockquote type="success" icon="fa fa-globe" title="Let\'s link up your custom domain {dollie_user_display_name}!"]
+				'message' => __('[dollie_blockquote type="success" icon="fa fa-globe" title="Let\'s link up your custom domain {dollie_user_display_name}!"]
 We\'ll walk you through all the steps required to link your own domain to your site. Let\'s get started shall we?
-[/dollie_blockquote]',
+[/dollie_blockquote]', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
 			array(
 				'key' => 'field_5e824503392c5',
-				'label' => 'Have you registered a domain name?',
+				'label' => __('Have you registered a domain name?', 'dollie'),
 				'name' => 'is_domain_registered',
 				'type' => 'radio',
 				'instructions' => '',
@@ -52,10 +52,10 @@ We\'ll walk you through all the steps required to link your own domain to your s
 			),
 			array(
 				'key' => 'field_5e82459f392c6',
-				'label' => 'Does this domain have an (active) website linked to it?',
+				'label' => __('Does this domain have an (active) website linked to it?', 'dollie'),
 				'name' => 'has_active_site',
 				'type' => 'radio',
-				'instructions' => 'Are you currently using this domain to host a website?',
+				'instructions' => __('Are you currently using this domain to host a website?', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
 					array(
@@ -86,7 +86,7 @@ We\'ll walk you through all the steps required to link your own domain to your s
 			),
 			array(
 				'key' => 'field_5e824686392c8',
-				'label' => 'Migration Instructions',
+				'label' => __('Migration Instructions', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -106,13 +106,13 @@ We\'ll walk you through all the steps required to link your own domain to your s
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '{dollie_migration_instructions}',
+				'message' => __('{dollie_migration_instructions}', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
 			array(
 				'key' => 'field_5e82fbd6e3032',
-				'label' => 'Have you completed the data migration?',
+				'label' => __('Have you completed the data migration?', 'dollie'),
 				'name' => 'is_data_moved',
 				'type' => 'radio',
 				'instructions' => '',
@@ -145,7 +145,7 @@ We\'ll walk you through all the steps required to link your own domain to your s
 			),
 			array(
 				'key' => 'field_5e82fc3ee3033',
-				'label' => 'Great! So here\'s what you need to know',
+				'label' => __('Great! So here\'s what you need to know', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -165,17 +165,17 @@ We\'ll walk you through all the steps required to link your own domain to your s
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<p class="font-size-smaller box-brand-primary lighten padding-small">
+				'message' => __('<p class="font-size-smaller box-brand-primary lighten padding-small">
 				1. Do not worry about new content/files that were added after you have done the migration. We will get to this later.<br>
 				2. Please keep the Migration Plugin installed and active on your current live website.<br>
 				3. At a later stage during this wizard we will sync your existing content/database one final time.
-</p>',
+</p>', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
 			array(
 				'key' => 'field_5e82fcb1e3034',
-				'label' => 'Migration issues',
+				'label' => __('Migration issues', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -195,13 +195,13 @@ We\'ll walk you through all the steps required to link your own domain to your s
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => 'If you encounter problems please stop this wizard and out to our <a href="{dollie_support_link}">support team</a> so we can help.',
+				'message' => __('If you encounter problems please stop this wizard and out to our <a href="{dollie_support_link}">support team</a> so we can help.', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
 			array(
 				'key' => 'field_5e82fd0de3035',
-				'label' => 'Register Your Domain Name',
+				'label' => __('Register Your Domain Name', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -221,17 +221,17 @@ We\'ll walk you through all the steps required to link your own domain to your s
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<div class="box-light padding-half alert alert-info p-3">
-<p>We are not selling domains directly.</p>
-If you have not registered your own domain yet, this is the time to do so! We recommend <a href="https://namecheap.com" target="_blank">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar.
+				'message' => __('<div class="box-light padding-half alert alert-info p-3">
+<p>We are not selling domains directly.</p> 
+If you have not registered your own domain yet, this is the time to do so! We recommend <a href="https://namecheap.com" target="_blank">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar. 
 <strong>Go ahead, register your domain and come back to this form to continue the domain setup!</strong>
-</div>',
+</div>', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
 			array(
 				'key' => 'field_5e82fd44e3036',
-				'label' => 'Registered Your New Domain?',
+				'label' => __('Registered Your New Domain?', 'dollie'),
 				'name' => 'is_new_domain_registered',
 				'type' => 'true_false',
 				'instructions' => '',
@@ -251,7 +251,7 @@ If you have not registered your own domain yet, this is the time to do so! We re
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => 'Yes, I have registered my domain!',
+				'message' => __('Yes, I have registered my domain!', 'dollie'),
 				'default_value' => 0,
 				'ui' => 0,
 				'ui_on_text' => '',
@@ -259,10 +259,10 @@ If you have not registered your own domain yet, this is the time to do so! We re
 			),
 			array(
 				'key' => 'field_5e82fd8ee3037',
-				'label' => 'Your Domain Name',
+				'label' => __('Your Domain Name', 'dollie'),
 				'name' => 'domain_name',
 				'type' => 'text',
-				'instructions' => 'Please type your domain name <strong>without www. or http(s)://</strong>',
+				'instructions' => __('Please type your domain name <strong>without www. or http(s)://</strong>', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
 					array(
@@ -294,10 +294,10 @@ If you have not registered your own domain yet, this is the time to do so! We re
 			),
 			array(
 				'key' => 'field_5e82fdefe303a',
-				'label' => 'Confirm Your Domain',
+				'label' => __('Confirm Your Domain', 'dollie'),
 				'name' => 'confirm_domain_name',
 				'type' => 'text',
-				'instructions' => 'Please retype your domain name.',
+				'instructions' => __('Please retype your domain name.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
 					array(
@@ -353,7 +353,7 @@ If you have not registered your own domain yet, this is the time to do so! We re
 		'fields' => array(
 			array(
 				'key' => 'field_5e9764c6208eb',
-				'label' => 'Domain',
+				'label' => __('Domain', 'dollie'),
 				'name' => '',
 				'type' => 'page',
 				'instructions' => '',
@@ -371,7 +371,7 @@ If you have not registered your own domain yet, this is the time to do so! We re
 			),
 			array(
 				'key' => 'field_5e9066a2e2677',
-				'label' => 'DNS Instructions',
+				'label' => __('DNS Instructions', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -383,13 +383,13 @@ If you have not registered your own domain yet, this is the time to do so! We re
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '{dollie_tpl_link_domain}',
+				'message' => __('{dollie_tpl_link_domain}', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
 			array(
 				'key' => 'field_5e975b2e00edc',
-				'label' => 'Did you make the required DNS change?',
+				'label' => __('Did you make the required DNS change?', 'dollie'),
 				'name' => 'is_dns_changed',
 				'type' => 'radio',
 				'instructions' => '',
@@ -414,7 +414,7 @@ If you have not registered your own domain yet, this is the time to do so! We re
 			),
 			array(
 				'key' => 'field_5e975c5800ede',
-				'label' => 'DNS Check',
+				'label' => __('DNS Check', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -434,16 +434,16 @@ If you have not registered your own domain yet, this is the time to do so! We re
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<div class="alert alert-success p-3">
+				'message' => __('<div class="alert alert-success p-3">
 <h3>Great job!</h3>
  It usually takes anywhere between a couple of minutes to one hour before the DNS change takes affect. The quickest way to check if the DNS update has completed is using this handy <a href="https://dnschecker.org">DNS Checker</a>. Once the change has taken affect please click the Next button to complete the DNS Setup.
-</div>',
+</div>', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
 			array(
 				'key' => 'field_5e975bfe00edd',
-				'label' => 'Support Request',
+				'label' => __('Support Request', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -463,19 +463,19 @@ If you have not registered your own domain yet, this is the time to do so! We re
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<div class="box-light padding-half alert alert-info p-3">
+				'message' => __('<div class="box-light padding-half alert alert-info p-3">
 <h3>No worries , we\'re here to help!</h3>
 
 Please create a support ticket so our team can assist you in making the required DNS changes. In order for us to do this, you need to give us temporary access to your CloudFlare account. Please include these details with your support ticket.
 
 <a href="{dollie_support_link}">Create A Support Ticket</a>
-</div>',
+</div>', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
 			array(
 				'key' => 'field_5e9764d3208ec',
-				'label' => 'SSL',
+				'label' => __('SSL', 'dollie'),
 				'name' => '',
 				'type' => 'page',
 				'instructions' => '',
@@ -493,10 +493,10 @@ Please create a support ticket so our team can assist you in making the required
 			),
 			array(
 				'key' => 'field_5e976050068d4',
-				'label' => 'How would you like to set up your SSL certificate?',
+				'label' => __('How would you like to set up your SSL certificate?', 'dollie'),
 				'name' => 'ssl_certificate_type',
 				'type' => 'radio',
-				'instructions' => 'Having a SSL certificate is crucial for any site for security and SEO. Luckily we make it extremely easy for you!',
+				'instructions' => __('Having a SSL certificate is crucial for any site for security and SEO. Luckily we make it extremely easy for you!', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -518,10 +518,10 @@ Please create a support ticket so our team can assist you in making the required
 			),
 			array(
 				'key' => 'field_5e9760d33619c',
-				'label' => 'CloudFlare Email',
+				'label' => __('CloudFlare Email', 'dollie'),
 				'name' => 'cloudflare_email',
 				'type' => 'email',
-				'instructions' => 'The email you use to login to your CloudFlare account.',
+				'instructions' => __('The email you use to login to your CloudFlare account.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
 					array(
@@ -545,10 +545,10 @@ Please create a support ticket so our team can assist you in making the required
 			),
 			array(
 				'key' => 'field_5e9760fc3619d',
-				'label' => 'CloudFlare API Key',
+				'label' => __('CloudFlare API Key', 'dollie'),
 				'name' => 'cloudflare_api_key',
 				'type' => 'text',
-				'instructions' => 'See the instructions below to see how you can find your CloudFlare API key.',
+				'instructions' => __('See the instructions below to see how you can find your CloudFlare API key.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
 					array(
@@ -573,7 +573,7 @@ Please create a support ticket so our team can assist you in making the required
 			),
 			array(
 				'key' => 'field_5e9761323619e',
-				'label' => 'CloudFlare API Key Instructions',
+				'label' => __('CloudFlare API Key Instructions', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -593,19 +593,19 @@ Please create a support ticket so our team can assist you in making the required
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<div class="box-light padding-half alert alert-info p-3 mt-4">
+				'message' => __('<div class="box-light padding-half mt-4 alert alert-info p-3">
 <h4>Finding Your CloudFlare API Key</h4>
 <a target="_blank" href="https://support.cloudflare.com/hc/en-us/articles/200167836-Where-do-I-find-my-Cloudflare-API-key-">Please visit the following page to find instructions on getting your CloudFlare API key</a>
-</div>',
+</div>', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
 			array(
 				'key' => 'field_5e97635277fcb',
-				'label' => 'Your CloudFlare Zone ID',
+				'label' => __('Your CloudFlare Zone ID', 'dollie'),
 				'name' => 'cloudflare_zone_id',
 				'type' => 'text',
-				'instructions' => 'To enable Site Analytics paste in your Zone ID in the field below. See the instructions below for more info.',
+				'instructions' => __('To enable Site Analytics paste in your Zone ID in the field below. See the instructions below for more info.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => array(
 					array(
@@ -630,7 +630,7 @@ Please create a support ticket so our team can assist you in making the required
 			),
 			array(
 				'key' => 'field_5e97637c77fcd',
-				'label' => 'CloudFlare Zone ID Instructions',
+				'label' => __('CloudFlare Zone ID Instructions', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -650,7 +650,7 @@ Please create a support ticket so our team can assist you in making the required
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<div class="box-light padding-half alert alert-info p-3">
+				'message' => __('<div class="box-light padding-half alert alert-info p-3">
 <h4>Finding Your Domains Zone ID</h4>
 
 <ol>
@@ -659,7 +659,7 @@ Please create a support ticket so our team can assist you in making the required
 <li>Scroll down to the <strong>Domain Summary</strong> section and copy and paste the Zone ID.
 </ol>
 <img class="wysiwyg-text-align-center" src="/wp-content/plugins/dollie/assets/img/cloudflare-zone-id.png" alt="Cloudflare zone id" width="50%" height="auto">
-</div>',
+</div>', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
@@ -689,7 +689,7 @@ Please create a support ticket so our team can assist you in making the required
 		'fields' => array(
 			array(
 				'key' => 'field_5e982b4528956',
-				'label' => 'Site URL',
+				'label' => __('Site URL', 'dollie'),
 				'name' => '',
 				'type' => 'page',
 				'instructions' => '',
@@ -707,7 +707,7 @@ Please create a support ticket so our team can assist you in making the required
 			),
 			array(
 				'key' => 'field_5e84b1a8dd383',
-				'label' => 'Intro Message',
+				'label' => __('Intro Message', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -719,18 +719,18 @@ Please create a support ticket so our team can assist you in making the required
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '[dollie_blockquote title="Final Step - Updating the URL for your site."]
-Let\'s continue with our domain wizard by automatically changing the url on your new site.
-[/dollie_blockquote]',
+				'message' => __('[dollie_blockquote title="Final Step - Updating the URL for your site."]
+Let\'s continue with our domain wizard automatically by changing the url on your new site.
+[/dollie_blockquote]', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
 			array(
 				'key' => 'field_5e84b1d8512de',
-				'label' => 'Do you want to have www. in the URL?',
+				'label' => __('Do you want to have www. in the URL?', 'dollie'),
 				'name' => 'domain_with_www',
 				'type' => 'radio',
-				'instructions' => 'When you visit your domain do you want it to show <strong>www.</strong> in the address bar?',
+				'instructions' => __('When you visit your domain do you want it to show <strong>www.</strong> in the address bar?', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -753,7 +753,7 @@ Let\'s continue with our domain wizard by automatically changing the url on your
 			),
 			array(
 				'key' => 'field_5e84b21d512df',
-				'label' => 'Unsure www domain',
+				'label' => __('Unsure www domain', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -773,16 +773,16 @@ Let\'s continue with our domain wizard by automatically changing the url on your
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<div class="box-light padding-half">
+				'message' => __('<div class="box-light padding-half">
 <h4>No problemo!</h4>
 The recommended domain setup these days is to remove <em>www.</em> from the URL. So we will continue setting up your domain without the www. prefix.
-</div>',
+</div>', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
 			array(
 				'key' => 'field_5e982b9628957',
-				'label' => 'Database Update',
+				'label' => __('Database Update', 'dollie'),
 				'name' => '',
 				'type' => 'page',
 				'instructions' => '',
@@ -800,7 +800,7 @@ The recommended domain setup these days is to remove <em>www.</em> from the URL.
 			),
 			array(
 				'key' => 'field_5e84b2c3cd5d7',
-				'label' => 'Verifying Your Site URL Update',
+				'label' => __('Verifying Your Site URL Update', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -812,15 +812,15 @@ The recommended domain setup these days is to remove <em>www.</em> from the URL.
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '[dollie_blockquote title="Please Check Your Site"]
+				'message' => __('[dollie_blockquote title="Please Check Your Site"]
 We have now updated your domain for your site. Please visit it and take a look.
-[/dollie_blockquote]',
+[/dollie_blockquote]', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
 			array(
 				'key' => 'field_5e84b2dbcd5d8',
-				'label' => 'Is your site now using your custom domain?',
+				'label' => __('Is your site now using your custom domain?', 'dollie'),
 				'name' => 'is_domain_active',
 				'type' => 'radio',
 				'instructions' => '',
@@ -846,7 +846,7 @@ We have now updated your domain for your site. Please visit it and take a look.
 			),
 			array(
 				'key' => 'field_5e84b416b355e',
-				'label' => 'Domain Update Issues',
+				'label' => __('Domain Update Issues', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -866,13 +866,13 @@ We have now updated your domain for your site. Please visit it and take a look.
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => 'Please <a href="{dollie_support_link}">create a support ticket</a> so our migration team can get to the bottom of this!',
+				'message' => __('Please <a href="{dollie_support_link}">create a support ticket</a> so our migration team can get to the bottom of this!', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
 			array(
 				'key' => 'field_5e84b459b355f',
-				'label' => 'Domain not migrated',
+				'label' => __('Domain not migrated', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -892,10 +892,10 @@ We have now updated your domain for your site. Please visit it and take a look.
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<div class="box-light padding-half">
+				'message' => __('<div class="box-light padding-half">
 <h4>Please wait a few more minutes...</h4>
 If you have a large database the update might take a while. Please hold on a couple of minutes and if nothing has changed please <a href="{dollie_support_link}">get in touch </a>with our support team so we can look into the issue.
-</div>',
+</div>', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
@@ -925,7 +925,7 @@ If you have a large database the update might take a while. Please hold on a cou
 		'fields' => array(
 			array(
 				'key' => 'field_5e729d5994745',
-				'label' => 'Setup Your Site',
+				'label' => __('Setup Your Site', 'dollie'),
 				'name' => '',
 				'type' => 'page',
 				'instructions' => '',
@@ -943,7 +943,7 @@ If you have a large database the update might take a while. Please hold on a cou
 			),
 			array(
 				'key' => 'field_5e729cf629ee9',
-				'label' => 'What would you like to do?',
+				'label' => __('What would you like to do?', 'dollie'),
 				'name' => 'what_to_do',
 				'type' => 'radio',
 				'instructions' => '',
@@ -968,7 +968,7 @@ If you have a large database the update might take a while. Please hold on a cou
 			),
 			array(
 				'key' => 'field_5e729ebfdbdc2',
-				'label' => 'Details',
+				'label' => __('Details', 'dollie'),
 				'name' => '',
 				'type' => 'page',
 				'instructions' => '',
@@ -986,10 +986,10 @@ If you have a large database the update might take a while. Please hold on a cou
 			),
 			array(
 				'key' => 'field_5e7363c04012a',
-				'label' => 'Admin Email',
+				'label' => __('Admin Email', 'dollie'),
 				'name' => 'admin_email',
 				'type' => 'email',
-				'instructions' => 'This address is used for admin purposes, like new user notifications. In most cases you probably want to use the same address you used when creating your account.',
+				'instructions' => __('This address is used for admin purposes, like new user notifications. In most cases you probably want to use the same address you used when creating your account.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
 					array(
@@ -1010,11 +1010,10 @@ If you have a large database the update might take a while. Please hold on a cou
 				'placeholder' => '',
 				'prepend' => '',
 				'append' => '',
-				'maxlength' => '',
 			),
 			array(
 				'key' => 'field_5e729de911000',
-				'label' => 'Site Name',
+				'label' => __('Site Name', 'dollie'),
 				'name' => 'site_name',
 				'type' => 'text',
 				'instructions' => '',
@@ -1042,10 +1041,10 @@ If you have a large database the update might take a while. Please hold on a cou
 			),
 			array(
 				'key' => 'field_5e72a094ba6a8',
-				'label' => 'Site Description',
+				'label' => __('Site Description', 'dollie'),
 				'name' => 'site_description',
 				'type' => 'text',
-				'instructions' => 'Depending on your WordPress theme your description might be shown in several areas across your site. It\'s also shown in the visitors browser window title.',
+				'instructions' => __('Depending on your WordPress theme your description might be shown in several areas across your site. It\'s also shown in the visitors browser window title.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
 					array(
@@ -1066,13 +1065,14 @@ If you have a large database the update might take a while. Please hold on a cou
 				'placeholder' => '',
 				'prepend' => '',
 				'append' => '',
+				'maxlength' => '',
 			),
 			array(
 				'key' => 'field_5e72a0bbba6a9',
-				'label' => 'Admin Username',
+				'label' => __('Admin Username', 'dollie'),
 				'name' => 'admin_username',
 				'type' => 'text',
-				'instructions' => 'The username you use to login to your WordPress admin.',
+				'instructions' => __('The username you use to login to your WordPress admin.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
 					array(
@@ -1097,7 +1097,7 @@ If you have a large database the update might take a while. Please hold on a cou
 			),
 			array(
 				'key' => 'field_5e72a0f6ba6aa',
-				'label' => 'Admin Password',
+				'label' => __('Admin Password', 'dollie'),
 				'name' => 'admin_password',
 				'type' => 'password',
 				'instructions' => '',
@@ -1117,15 +1117,13 @@ If you have a large database the update might take a while. Please hold on a cou
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'default_value' => '',
 				'placeholder' => '',
 				'prepend' => '',
 				'append' => '',
-				'maxlength' => '',
 			),
 			array(
 				'key' => 'field_5e7339f6f73f8',
-				'label' => 'Migration Instructions',
+				'label' => __('Migration Instructions', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -1145,13 +1143,13 @@ If you have a large database the update might take a while. Please hold on a cou
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '{dollie_migration_instructions}',
+				'message' => __('{dollie_migration_instructions}', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
 			array(
 				'key' => 'field_5e7348ccc4e8c',
-				'label' => 'How did your migration go?',
+				'label' => __('How did your migration go?', 'dollie'),
 				'name' => 'migration_status',
 				'type' => 'radio',
 				'instructions' => '',
@@ -1185,7 +1183,7 @@ If you have a large database the update might take a while. Please hold on a cou
 			),
 			array(
 				'key' => 'field_5e7349b4c4e8e',
-				'label' => 'Contact Support',
+				'label' => __('Contact Support', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -1210,12 +1208,12 @@ If you have a large database the update might take a while. Please hold on a cou
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<div class="box-light padding-half">
+				'message' => __('<div class="box-light padding-half">
 <h4>No worries , we\'re here to help!</h4>
 
 Please create a support ticket so our team can assist you in completing your content migration.
 
-</div>',
+</div>', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
@@ -1245,10 +1243,10 @@ Please create a support ticket so our team can assist you in completing your con
 		'fields' => array(
 			array(
 				'key' => 'field_5e8358f2d129b',
-				'label' => 'Confirm Site Name',
+				'label' => __('Confirm Site Name', 'dollie'),
 				'name' => 'confirm_site_name',
 				'type' => 'text',
-				'instructions' => 'Please type the name of the site to confirm deletion, this can not be undone.',
+				'instructions' => __('Please type the name of the site to confirm deletion, this can not be undone.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1289,10 +1287,10 @@ Please create a support ticket so our team can assist you in completing your con
 		'fields' => array(
 			array(
 				'key' => 'field_5e6a1773d54c4',
-				'label' => 'Choose Your URL',
+				'label' => __('Choose Your URL', 'dollie'),
 				'name' => 'site_url',
 				'type' => 'text',
-				'instructions' => 'Please choose a temporary URL for your site. This will be the place where you can work on your site used until you are ready to go live and connect your own domain.',
+				'instructions' => __('Please choose a temporary URL for your site. This will be the place where you can work on your site used until you are ready to go live and connect your own domain.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1309,10 +1307,10 @@ Please create a support ticket so our team can assist you in completing your con
 			),
 			array(
 				'key' => 'field_5e6a1861b9025',
-				'label' => 'Admin Email',
+				'label' => __('Admin Email', 'dollie'),
 				'name' => 'site_admin_email',
 				'type' => 'email',
-				'instructions' => 'This is the email address you use to login to your WordPress admin.',
+				'instructions' => __('This is the email address you use to login to your WordPress admin.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1328,10 +1326,10 @@ Please create a support ticket so our team can assist you in completing your con
 			),
 			array(
 				'key' => 'field_5e6a221a065b8',
-				'label' => 'Select a Blueprint (optional)',
+				'label' => __('Select a Blueprint (optional)', 'dollie'),
 				'name' => 'site_blueprint',
 				'type' => 'radio',
-				'instructions' => 'Carefully crafted site designs made by our team which you can use as a starting point for your new site.',
+				'instructions' => __('Carefully crafted site designs made by our team which you can use as a starting point for your new site.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1375,7 +1373,7 @@ Please create a support ticket so our team can assist you in completing your con
 		'fields' => array(
 			array(
 				'key' => 'field_5e72562baf79a',
-				'label' => 'Available Backups',
+				'label' => __('Available Backups', 'dollie'),
 				'name' => 'site_backup',
 				'type' => 'radio',
 				'instructions' => '',
@@ -1398,7 +1396,7 @@ Please create a support ticket so our team can assist you in completing your con
 			),
 			array(
 				'key' => 'field_5e7256abaf79b',
-				'label' => 'What would you like to restore?',
+				'label' => __('What would you like to restore?', 'dollie'),
 				'name' => 'what_to_restore',
 				'type' => 'select',
 				'instructions' => '',
@@ -1426,7 +1424,7 @@ Please create a support ticket so our team can assist you in completing your con
 			),
 			array(
 				'key' => 'field_5e729515bb78b',
-				'label' => 'You are about to restore your site',
+				'label' => __('You are about to restore your site', 'dollie'),
 				'name' => 'final_message',
 				'type' => 'calculated',
 				'instructions' => '',
@@ -1465,11 +1463,11 @@ Please create a support ticket so our team can assist you in completing your con
 		'fields' => array(
 			array(
 				'key' => 'field_5e836164a3819',
-				'label' => 'Choose Your Caching Method',
+				'label' => __('Choose Your Caching Method', 'dollie'),
 				'name' => 'caching_method',
 				'type' => 'radio',
-				'instructions' => '<strong>PoweredCache</strong> - Recommended. Control cache settings on the WordPress level via the PoweredCache page in your WP admin. <br>
-<strong>WPRocket</strong> - Recommended if you\'re using WPRocket.',
+				'instructions' => __('<strong>PoweredCache</strong> - Recommended. Control cache settings on the WordPress level via the PoweredCache page in your WP admin. <br>
+<strong>WPRocket</strong> - Recommended if you\'re using WPRocket.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1491,7 +1489,7 @@ Please create a support ticket so our team can assist you in completing your con
 			),
 			array(
 				'key' => 'field_5e836202a381a',
-				'label' => 'PHP Version',
+				'label' => __('PHP Version', 'dollie'),
 				'name' => 'php_version',
 				'type' => 'radio',
 				'instructions' => '',
@@ -1536,8 +1534,8 @@ Please create a support ticket so our team can assist you in completing your con
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => '<div class="alert alert-danger">
-Whilst PHP7 gives your site a big performance boost not all plugins and themes are yet compatible with PHP7. Please make sure to test your site functionality before you decide to use PHP7 </div>',
+				'message' => __('<div class="alert alert-danger">
+Whilst PHP7 gives your site a big performance boost not all plugins and themes are yet compatible with PHP7. Please make sure to test your site functionality before you decide to use PHP7 </div>', 'dollie'),
 				'new_lines' => '',
 				'esc_html' => 0,
 			),
@@ -1567,7 +1565,7 @@ Whilst PHP7 gives your site a big performance boost not all plugins and themes a
 		'fields' => array(
 			array(
 				'key' => 'field_5e8300e4930f6',
-				'label' => 'Plugins to Update',
+				'label' => __('Plugins to Update', 'dollie'),
 				'name' => 'plugins_to_update',
 				'type' => 'checkbox',
 				'instructions' => '',
@@ -1615,10 +1613,10 @@ Whilst PHP7 gives your site a big performance boost not all plugins and themes a
 		'fields' => array(
 			array(
 				'key' => 'field_5e85d5ab2410b',
-				'label' => 'Your Name',
+				'label' => __('Your Name', 'dollie'),
 				'name' => 'client_name',
 				'type' => 'text',
-				'instructions' => 'Please enter your name',
+				'instructions' => __('Please enter your name', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1635,10 +1633,10 @@ Whilst PHP7 gives your site a big performance boost not all plugins and themes a
 			),
 			array(
 				'key' => 'field_5e85d5b42410c',
-				'label' => 'Email',
+				'label' => __('Email', 'dollie'),
 				'name' => 'client_email',
 				'type' => 'email',
-				'instructions' => 'We need your email to launch the site',
+				'instructions' => __('We need your email to launch the site', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1654,10 +1652,10 @@ Whilst PHP7 gives your site a big performance boost not all plugins and themes a
 			),
 			array(
 				'key' => 'field_5e85d5ec2410d',
-				'label' => 'Password',
+				'label' => __('Password', 'dollie'),
 				'name' => 'client_password',
 				'type' => 'text',
-				'instructions' => 'Set a password to also create an account.',
+				'instructions' => __('Set a password to also create an account.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1698,7 +1696,7 @@ Whilst PHP7 gives your site a big performance boost not all plugins and themes a
 		'fields' => array(
 			array(
 				'key' => 'field_5e821d165e20a',
-				'label' => 'Confirmation',
+				'label' => __('Confirmation', 'dollie'),
 				'name' => 'confirmation',
 				'type' => 'true_false',
 				'instructions' => '',
@@ -1710,7 +1708,7 @@ Whilst PHP7 gives your site a big performance boost not all plugins and themes a
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'message' => 'Yes, create a new blueprint!',
+				'message' => __('Yes, create a new blueprint!', 'dollie'),
 				'default_value' => 0,
 				'ui' => 0,
 				'ui_on_text' => '',

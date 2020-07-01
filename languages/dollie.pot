@@ -185,6 +185,440 @@ msgstr ""
 msgid "Press <strong>Migrate</strong> and sit back and enjoy the show. Depending on the size of your site and the speed of your current host this process could take up to a couple of hours. Do not worry, this is completely normal! We will send you an email when the migration has completed so you can easily continue to this setup wizard."
 msgstr ""
 
+#: core/Extras/AcfFormFields.php:11
+msgid "Intro message"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:23
+msgid ""
+"[dollie_blockquote type=\"success\" icon=\"fa fa-globe\" title=\"Let's link up your custom domain {dollie_user_display_name}!\"]\n"
+"We'll walk you through all the steps required to link your own domain to your site. Let's get started shall we?\n"
+"[/dollie_blockquote]"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:31
+msgid "Have you registered a domain name?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:56
+msgid "Does this domain have an (active) website linked to it?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:59
+msgid "Are you currently using this domain to host a website?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:90, core/Extras/AcfFormFields.php:1127
+msgid "Migration Instructions"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:110, core/Extras/AcfFormFields.php:1147
+msgid "{dollie_migration_instructions}"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:116
+msgid "Have you completed the data migration?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:149
+msgid "Great! So here's what you need to know"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:169
+msgid ""
+"<p class=\"font-size-smaller box-brand-primary lighten padding-small\">\n"
+"				1. Do not worry about new content/files that were added after you have done the migration. We will get to this later.<br>\n"
+"				2. Please keep the Migration Plugin installed and active on your current live website.<br>\n"
+"				3. At a later stage during this wizard we will sync your existing content/database one final time.\n"
+"</p>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:179
+msgid "Migration issues"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:199
+msgid "If you encounter problems please stop this wizard and out to our <a href=\"{dollie_support_link}\">support team</a> so we can help."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:205
+msgid "Register Your Domain Name"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:225
+msgid ""
+"<div class=\"box-light padding-half alert alert-info p-3\">\n"
+"<p>We are not selling domains directly.</p> \n"
+"If you have not registered your own domain yet, this is the time to do so! We recommend <a href=\"https://namecheap.com\" target=\"_blank\">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar. \n"
+"<strong>Go ahead, register your domain and come back to this form to continue the domain setup!</strong>\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:235
+msgid "Registered Your New Domain?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:255
+msgid "Yes, I have registered my domain!"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:263
+msgid "Your Domain Name"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:266
+msgid "Please type your domain name <strong>without www. or http(s)://</strong>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:298
+msgid "Confirm Your Domain"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:301
+msgid "Please retype your domain name."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:357, core/Modules/ContainerFields.php:48
+msgid "Domain"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:375
+msgid "DNS Instructions"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:387
+msgid "{dollie_tpl_link_domain}"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:393
+msgid "Did you make the required DNS change?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:418
+msgid "DNS Check"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:438
+msgid ""
+"<div class=\"alert alert-success p-3\">\n"
+"<h3>Great job!</h3>\n"
+" It usually takes anywhere between a couple of minutes to one hour before the DNS change takes affect. The quickest way to check if the DNS update has completed is using this handy <a href=\"https://dnschecker.org\">DNS Checker</a>. Once the change has taken affect please click the Next button to complete the DNS Setup.\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:447
+msgid "Support Request"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:467
+msgid ""
+"<div class=\"box-light padding-half alert alert-info p-3\">\n"
+"<h3>No worries , we're here to help!</h3>\n"
+"\n"
+"Please create a support ticket so our team can assist you in making the required DNS changes. In order for us to do this, you need to give us temporary access to your CloudFlare account. Please include these details with your support ticket.\n"
+"\n"
+"<a href=\"{dollie_support_link}\">Create A Support Ticket</a>\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:479
+msgid "SSL"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:497
+msgid "How would you like to set up your SSL certificate?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:500
+msgid "Having a SSL certificate is crucial for any site for security and SEO. Luckily we make it extremely easy for you!"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:522
+msgid "CloudFlare Email"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:525
+msgid "The email you use to login to your CloudFlare account."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:549
+msgid "CloudFlare API Key"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:552
+msgid "See the instructions below to see how you can find your CloudFlare API key."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:577
+msgid "CloudFlare API Key Instructions"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:597
+msgid ""
+"<div class=\"box-light padding-half mt-4 alert alert-info p-3\">\n"
+"<h4>Finding Your CloudFlare API Key</h4>\n"
+"<a target=\"_blank\" href=\"https://support.cloudflare.com/hc/en-us/articles/200167836-Where-do-I-find-my-Cloudflare-API-key-\">Please visit the following page to find instructions on getting your CloudFlare API key</a>\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:606
+msgid "Your CloudFlare Zone ID"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:609
+msgid "To enable Site Analytics paste in your Zone ID in the field below. See the instructions below for more info."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:634
+msgid "CloudFlare Zone ID Instructions"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:654
+msgid ""
+"<div class=\"box-light padding-half alert alert-info p-3\">\n"
+"<h4>Finding Your Domains Zone ID</h4>\n"
+"\n"
+"<ol>\n"
+"<li>Login to your CloudFlare account</li>\n"
+"<li>Click on the Domain Name belonging your site</li>\n"
+"<li>Scroll down to the <strong>Domain Summary</strong> section and copy and paste the Zone ID.\n"
+"</ol>\n"
+"<img class=\"wysiwyg-text-align-center\" src=\"/wp-content/plugins/dollie/assets/img/cloudflare-zone-id.png\" alt=\"Cloudflare zone id\" width=\"50%\" height=\"auto\">\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:693
+msgid "Site URL"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:711
+msgid "Intro Message"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:723
+msgid ""
+"[dollie_blockquote title=\"Final Step - Updating the URL for your site.\"]\n"
+"Let's continue with our domain wizard automatically by changing the url on your new site.\n"
+"[/dollie_blockquote]"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:731
+msgid "Do you want to have www. in the URL?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:734
+msgid "When you visit your domain do you want it to show <strong>www.</strong> in the address bar?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:757
+msgid "Unsure www domain"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:777
+msgid ""
+"<div class=\"box-light padding-half\">\n"
+"<h4>No problemo!</h4>\n"
+"The recommended domain setup these days is to remove <em>www.</em> from the URL. So we will continue setting up your domain without the www. prefix.\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:786
+msgid "Database Update"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:804
+msgid "Verifying Your Site URL Update"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:816
+msgid ""
+"[dollie_blockquote title=\"Please Check Your Site\"]\n"
+"We have now updated your domain for your site. Please visit it and take a look.\n"
+"[/dollie_blockquote]"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:824
+msgid "Is your site now using your custom domain?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:850
+msgid "Domain Update Issues"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:870
+msgid "Please <a href=\"{dollie_support_link}\">create a support ticket</a> so our migration team can get to the bottom of this!"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:876
+msgid "Domain not migrated"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:896
+msgid ""
+"<div class=\"box-light padding-half\">\n"
+"<h4>Please wait a few more minutes...</h4>\n"
+"If you have a large database the update might take a while. Please hold on a couple of minutes and if nothing has changed please <a href=\"{dollie_support_link}\">get in touch </a>with our support team so we can look into the issue.\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:929
+msgid "Setup Your Site"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:947
+msgid "What would you like to do?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:972
+msgid "Details"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:990, core/Extras/AcfFormFields.php:1311
+msgid "Admin Email"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:993
+msgid "This address is used for admin purposes, like new user notifications. In most cases you probably want to use the same address you used when creating your account."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1017
+msgid "Site Name"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1045
+msgid "Site Description"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1048
+msgid "Depending on your WordPress theme your description might be shown in several areas across your site. It's also shown in the visitors browser window title."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1073
+msgid "Admin Username"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1076
+msgid "The username you use to login to your WordPress admin."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1101
+msgid "Admin Password"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1153
+msgid "How did your migration go?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1187
+msgid "Contact Support"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1212
+msgid ""
+"<div class=\"box-light padding-half\">\n"
+"<h4>No worries , we're here to help!</h4>\n"
+"\n"
+"Please create a support ticket so our team can assist you in completing your content migration.\n"
+"\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1247
+msgid "Confirm Site Name"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1250
+msgid "Please type the name of the site to confirm deletion, this can not be undone."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1291
+msgid "Choose Your URL"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1294
+msgid "Please choose a temporary URL for your site. This will be the place where you can work on your site used until you are ready to go live and connect your own domain."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1314
+msgid "This is the email address you use to login to your WordPress admin."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1330, core/Modules/Forms.php:391
+msgid "Select a Blueprint (optional)"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1333
+msgid "Carefully crafted site designs made by our team which you can use as a starting point for your new site."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1377
+msgid "Available Backups"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1400
+msgid "What would you like to restore?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1428
+msgid "You are about to restore your site"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1467
+msgid "Choose Your Caching Method"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1470
+msgid ""
+"<strong>PoweredCache</strong> - Recommended. Control cache settings on the WordPress level via the PoweredCache page in your WP admin. <br>\n"
+"<strong>WPRocket</strong> - Recommended if you're using WPRocket."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1493
+msgid "PHP Version"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1538
+msgid ""
+"<div class=\"alert alert-danger\">\n"
+"Whilst PHP7 gives your site a big performance boost not all plugins and themes are yet compatible with PHP7. Please make sure to test your site functionality before you decide to use PHP7 </div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1569
+msgid "Plugins to Update"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1617
+msgid "Your Name"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1620
+msgid "Please enter your name"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1637
+msgid "Email"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1640
+msgid "We need your email to launch the site"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1656
+msgid "Password"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1659
+msgid "Set a password to also create an account."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1700
+msgid "Confirmation"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1712
+msgid "Yes, create a new blueprint!"
+msgstr ""
+
 #: core/Modules/Backups.php:127
 msgid "You have never restored your site."
 msgstr ""
@@ -207,10 +641,6 @@ msgstr ""
 
 #: core/Modules/ContainerFields.php:47
 msgid "Theme"
-msgstr ""
-
-#: core/Modules/ContainerFields.php:48
-msgid "Domain"
 msgstr ""
 
 #: core/Modules/ContainerFields.php:49
@@ -465,10 +895,6 @@ msgstr ""
 msgid "Enter a custom Splash template path to appear on form submit. Theme override location theme-name/dollie/tpl-name"
 msgstr ""
 
-#: core/Modules/Forms.php:391, core/Modules/Forms.php:623
-msgid "Select a Blueprint (optional)"
-msgstr ""
-
 #: core/Modules/Forms.php:394
 msgid "Force a default blueprint to use for the launched site"
 msgstr ""
@@ -481,31 +907,11 @@ msgstr ""
 msgid "Redirect to site dashboard page on form submit. Success Message will be ignored"
 msgstr ""
 
-#: core/Modules/Forms.php:607
-msgid "Choose Your URL"
-msgstr ""
-
-#: core/Modules/Forms.php:611
-msgid "Please choose a temporary URL for your site. This will be the place where you can work on your site until you connect your own domain."
-msgstr ""
-
-#: core/Modules/Forms.php:615
-msgid "Admin Email"
-msgstr ""
-
-#: core/Modules/Forms.php:619
-msgid "This is the email address you use to login to your WordPress admin."
-msgstr ""
-
-#: core/Modules/Forms.php:626
-msgid "Carefully crafted site designs made by our team which you can use as a starting point for your new site."
-msgstr ""
-
-#: core/Modules/Forms.php:682
+#: core/Modules/Forms.php:672
 msgid "My New Site"
 msgstr ""
 
-#: core/Modules/Forms.php:704
+#: core/Modules/Forms.php:694
 msgid "The best website in the world?"
 msgstr ""
 
@@ -549,23 +955,23 @@ msgstr ""
 msgid "Our SiteCache solution is powered partly by the WP Fastest Cache plugin. We recommend to keep this plugin activated."
 msgstr ""
 
-#: core/Utils/Helpers.php:317
+#: core/Utils/Helpers.php:318
 msgid "Sorry, we could not retrieve your site details."
 msgstr ""
 
-#: core/Utils/Helpers.php:320
+#: core/Utils/Helpers.php:321
 msgid "We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error."
 msgstr ""
 
-#: core/Utils/Helpers.php:321
+#: core/Utils/Helpers.php:322
 msgid "Click here to try retrieving your site details again."
 msgstr ""
 
-#: core/Utils/Helpers.php:324
+#: core/Utils/Helpers.php:325
 msgid "Still no success?"
 msgstr ""
 
-#: core/Utils/Helpers.php:325
+#: core/Utils/Helpers.php:326
 msgid "Create a support ticket"
 msgstr ""
 
