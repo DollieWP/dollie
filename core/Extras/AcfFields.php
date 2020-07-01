@@ -7,7 +7,7 @@ if( function_exists('acf_add_local_field_group') ):
 		'fields' => array(
 			array(
 				'key' => 'field_5affdce12d99a',
-				'label' => 'Make this a Product Blueprint?',
+				'label' => __('Make this a Product Blueprint?', 'dollie'),
 				'name' => 'wpd_is_blueprint',
 				'type' => 'radio',
 				'instructions' => '',
@@ -31,10 +31,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5db6f0c97158f',
-				'label' => 'Private Blueprint?',
+				'label' => __('Private Blueprint?', 'dollie'),
 				'name' => 'wpd_private_blueprint',
 				'type' => 'radio',
-				'instructions' => 'Would you like to make this Blueprint only available to users with the admin role?',
+				'instructions' => __('Would you like to make this Blueprint only available to users with the admin role?', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -55,10 +55,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5b05801b71f85',
-				'label' => 'Blueprint Title',
+				'label' => __('Blueprint Title', 'dollie'),
 				'name' => 'wpd_installation_blueprint_title',
 				'type' => 'text',
-				'instructions' => 'This is shown when using the shortcode [dollie-blueprints] on your pages.',
+				'instructions' => __('This is shown when using the shortcode [dollie-blueprints] on your pages.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => array(
 					array(
@@ -82,10 +82,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5b057871639a5',
-				'label' => 'Blueprint Description',
+				'label' => __('Blueprint Description', 'dollie'),
 				'name' => 'wpd_installation_blueprint_description',
 				'type' => 'textarea',
-				'instructions' => 'This is shown when using the shortcode [dollie-blueprints] on your pages.',
+				'instructions' => __('This is shown when using the shortcode [dollie-blueprints] on your pages.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => array(
 					array(
@@ -109,10 +109,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5b0578b4639a6',
-				'label' => 'Link to Hosting Product',
+				'label' => __('Link to Hosting Product', 'dollie'),
 				'name' => 'wpd_installation_blueprint_hosting_product',
 				'type' => 'relationship',
-				'instructions' => 'By linking this blueprint directly to a hosting product you can enable one-click checkout + deployment for your new customers.',
+				'instructions' => __('By linking this blueprint directly to a hosting product you can enable one-click checkout + deployment for your new customers.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => array(
 					array(
@@ -128,10 +128,11 @@ if( function_exists('acf_add_local_field_group') ):
 					'class' => '',
 					'id' => '',
 				),
+				'hide_admin' => 0,
 				'post_type' => array(
 					0 => 'product',
 				),
-				'taxonomy' => array(),
+				'taxonomy' => '',
 				'filters' => array(
 					0 => 'search',
 					1 => 'taxonomy',
@@ -140,12 +141,12 @@ if( function_exists('acf_add_local_field_group') ):
 					0 => 'featured_image',
 				),
 				'min' => '',
-				'max' => '',
+				'max' => 1,
 				'return_format' => 'id',
 			),
 			array(
 				'key' => 'field_5b07d0d9dac66',
-				'label' => 'Blueprint Image',
+				'label' => __('Blueprint Image', 'dollie'),
 				'name' => 'wpd_blueprint_image',
 				'type' => 'radio',
 				'instructions' => '',
@@ -170,10 +171,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5b07d123dac67',
-				'label' => 'Upload Your Custom Image',
+				'label' => __('Upload Your Custom Image', 'dollie'),
 				'name' => 'wpd_blueprint_custom_image',
 				'type' => 'image',
-				'instructions' => 'Ideal dimensions are 700 x 525 PX',
+				'instructions' => __('Ideal dimensions are 700 x 525 PX', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => array(
 					array(
@@ -226,7 +227,7 @@ if( function_exists('acf_add_local_field_group') ):
 		'fields' => array(
 			array(
 				'key' => 'field_5af943727c113',
-				'label' => 'Status',
+				'label' => __('Status', 'dollie'),
 				'name' => 'wpd_container_status',
 				'type' => 'radio',
 				'instructions' => '',
@@ -251,10 +252,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5af9444e7c114',
-				'label' => 'Notes',
+				'label' => __('Notes', 'dollie'),
 				'name' => 'wpd_container_notes',
 				'type' => 'wysiwyg',
-				'instructions' => 'Did something custom for this container? Leave notes here.',
+				'instructions' => __('Did something custom for this container? Leave notes here.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -294,7 +295,7 @@ if( function_exists('acf_add_local_field_group') ):
 		'fields' => array(
 			array(
 				'key' => 'field_5af82852c985c',
-				'label' => 'WP Details',
+				'label' => __('WP Details', 'dollie'),
 				'name' => '',
 				'type' => 'tab',
 				'instructions' => '',
@@ -310,10 +311,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5af8273fc9855',
-				'label' => 'Domain',
+				'label' => __('Domain', 'dollie'),
 				'name' => 'wpd_domains',
 				'type' => 'text',
-				'instructions' => 'The domain connected to this container.',
+				'instructions' => __('The domain connected to this container.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -329,10 +330,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5af82a78c9860',
-				'label' => 'WordPress Version',
+				'label' => __('WordPress Version', 'dollie'),
 				'name' => 'wpd_installation_version',
 				'type' => 'text',
-				'instructions' => 'The domain connected to this container.',
+				'instructions' => __('The domain connected to this container.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -348,7 +349,7 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5af82785c9856',
-				'label' => 'Site Name',
+				'label' => __('Site Name', 'dollie'),
 				'name' => 'wpd_installation_name',
 				'type' => 'text',
 				'instructions' => '',
@@ -367,7 +368,7 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5af827e4c9857',
-				'label' => 'Registered Users',
+				'label' => __('Registered Users', 'dollie'),
 				'name' => 'wpd_installation_users',
 				'type' => 'text',
 				'instructions' => '',
@@ -386,7 +387,7 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5af827f4c9858',
-				'label' => 'WP Admin Email',
+				'label' => __('WP Admin Email', 'dollie'),
 				'name' => 'wpd_installation_admin_email',
 				'type' => 'text',
 				'instructions' => '',
@@ -405,7 +406,7 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5af8280cc9859',
-				'label' => 'Active Theme',
+				'label' => __('Active Theme', 'dollie'),
 				'name' => 'wpd_installation_themes',
 				'type' => 'text',
 				'instructions' => '',
@@ -424,7 +425,7 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5af82814c985a',
-				'label' => 'Installation Size',
+				'label' => __('Installation Size', 'dollie'),
 				'name' => 'wpd_installation_size',
 				'type' => 'text',
 				'instructions' => '',
@@ -443,7 +444,7 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5af82a62c985f',
-				'label' => 'Email Sent',
+				'label' => __('Email Sent', 'dollie'),
 				'name' => 'wpd_installation_emails_sent',
 				'type' => 'text',
 				'instructions' => '',
@@ -462,7 +463,7 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5af8281fc985b',
-				'label' => 'Management',
+				'label' => __('Management', 'dollie'),
 				'name' => '',
 				'type' => 'tab',
 				'instructions' => '',
@@ -478,10 +479,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5af8286dc985d',
-				'label' => 'Connected to Dollie API?',
+				'label' => __('Connected to Dollie API?', 'dollie'),
 				'name' => 'wpd_node_added',
 				'type' => 'text',
-				'instructions' => 'Remove the \'yes\' value to re-register this container with the Dollie Management API. You\'d only want to do this if there are issues with sending commands to this container (for example switching PHP versions or restoring from backups).',
+				'instructions' => __('Remove the \'yes\' value to re-register this container with the Dollie Management API. You\'d only want to do this if there are issues with sending commands to this container (for example switching PHP versions or restoring from backups).', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -497,10 +498,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5af82983c985e',
-				'label' => 'Site Setup Complete?',
+				'label' => __('Site Setup Complete?', 'dollie'),
 				'name' => 'wpd_setup_complete',
 				'type' => 'text',
-				'instructions' => 'Remove the \'yes\' value if you (or your customer) wants to go through the initial site setup/migration again.',
+				'instructions' => __('Remove the \'yes\' value if you (or your customer) wants to go through the initial site setup/migration again.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -516,10 +517,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5af9969177474',
-				'label' => 'Blueprint Setup Complete',
+				'label' => __('Blueprint Setup Complete', 'dollie'),
 				'name' => 'wpd_demo_complete',
 				'type' => 'text',
-				'instructions' => 'If this site is based on a blueprint remove this value if you\'d like to setup the blueprint again.',
+				'instructions' => __('If this site is based on a blueprint remove this value if you\'d like to setup the blueprint again.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -535,10 +536,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5af82c9c2c40a',
-				'label' => 'Backups Available',
+				'label' => __('Backups Available', 'dollie'),
 				'name' => 'wpd_installation_backups_available',
 				'type' => 'text',
-				'instructions' => 'The total amount of backups made.',
+				'instructions' => __('The total amount of backups made.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -570,7 +571,6 @@ if( function_exists('acf_add_local_field_group') ):
 		'hide_on_screen' => '',
 		'active' => true,
 		'description' => '',
-		'modified' => 1527168883,
 	));
 
 	acf_add_local_field_group(array(
@@ -579,7 +579,7 @@ if( function_exists('acf_add_local_field_group') ):
 		'fields' => array(
 			array(
 				'key' => 'field_5adc6aca0a0b4',
-				'label' => 'Core',
+				'label' => __('Core', 'dollie'),
 				'name' => '',
 				'type' => 'tab',
 				'instructions' => '',
@@ -595,10 +595,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5e2eb1ca86e3d',
-				'label' => 'Charge For Launching Sites?',
+				'label' => __('Charge For Launching Sites?', 'dollie'),
 				'name' => 'wpd_charge_for_deployments',
 				'type' => 'true_false',
-				'instructions' => 'Would you like to charge your customers for launching websites? If you have this set to "off" anyone can launch sites on your platform without having a paid (WooCommerce) subscription.',
+				'instructions' => __('Would you like to charge your customers for launching websites? If you have this set to "off" anyone can launch sites on your platform without having a paid (WooCommerce) subscription.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -614,10 +614,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5e2eb1ca86e3c',
-				'label' => 'Status',
+				'label' => __('Status', 'dollie'),
 				'name' => 'wpd_dollie_status',
 				'type' => 'true_false',
-				'instructions' => 'In staging you can test out Dollie as long as you\'d like. <br>Ready to go live with Dollie? Make sure you have completed the <a href="https://partners.getdollie.com/go-live" target="_blank" >partner onboarding process </a> and our white glove onboarding team will provide you with the right settings. <br><strong>Making changes to these settings before you\'ve gone live will lead to failed deployments.</strong>',
+				'instructions' => __('In staging you can test out Dollie as long as you\'d like. <br>Ready to go live with Dollie? Make sure you have completed the <a href="https://partners.getdollie.com/go-live" target="_blank" >partner onboarding process </a> and our white glove onboarding team will provide you with the right settings. <br><strong>Making changes to these settings before you\'ve gone live will lead to failed deployments.</strong>', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -633,10 +633,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5cf62cee6f366',
-				'label' => 'Your Deployment Domain',
+				'label' => __('Your Deployment Domain', 'dollie'),
 				'name' => 'wpd_api_domain',
 				'type' => 'url',
-				'instructions' => 'Which domain are you using for the sites deployed by you or your customers? Make sure you have connected your custom domain by following the video: <a href="https://www.youtube.com/watch?v=1yoUr19iUR4&feature=youtu.be target="_blank"">Connecting Your Own Domain</a>',
+				'instructions' => __('Which domain are you using for the sites deployed by you or your customers? Make sure you have connected your custom domain by following the video: <a href="https://www.youtube.com/watch?v=1yoUr19iUR4&feature=youtu.be target="_blank"">Connecting Your Own Domain</a>', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
 					array(
@@ -657,11 +657,11 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5ada182522c80',
-				'label' => 'Dollie Console URL',
+				'label' => __('Dollie Console URL', 'dollie'),
 				'name' => 'wpd_api_dashboard_url',
 				'type' => 'url',
-				'instructions' => 'The unique URL to your Dollie Console. This is usually something like <yourpartnername-cp.dollie.io> but you might have customized it, so make sure to double check. See:
-<a href="https://youtu.be/1EwJkrJp2-Q" target="_blank"">Setting up API access</a>',
+				'instructions' => __('The unique URL to your Dollie Console. This is usually something like <yourpartnername-cp.dollie.io> but you might have customized it, so make sure to double check. See:
+<a href="https://youtu.be/1EwJkrJp2-Q" target="_blank"">Setting up API access</a>', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
 					array(
@@ -682,11 +682,11 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5ada15d5bc584',
-				'label' => 'Dollie API Email',
+				'label' => __('Dollie API Email', 'dollie'),
 				'name' => 'wpd_api_email',
 				'type' => 'text',
-				'instructions' => 'During the partner onboarding you have created your unique API connection details that you need to fill in here. See:
-<a href="https://youtu.be/1EwJkrJp2-Q" target="_blank"">Setting up API access</a>',
+				'instructions' => __('During the partner onboarding you have created your unique API connection details that you need to fill in here. See:
+<a href="https://youtu.be/1EwJkrJp2-Q" target="_blank"">Setting up API access</a>', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
 					array(
@@ -710,11 +710,11 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5ada1676bc585',
-				'label' => 'Dollie API Password',
+				'label' => __('Dollie API Password', 'dollie'),
 				'name' => 'wpd_api_password',
 				'type' => 'password',
-				'instructions' => 'During the partner onboarding you have created your unique API connection details that you need to fill in here. See:
-<a href="https://youtu.be/1EwJkrJp2-Q" target="_blank"">Setting up API access</a>',
+				'instructions' => __('During the partner onboarding you have created your unique API connection details that you need to fill in here. See:
+<a href="https://youtu.be/1EwJkrJp2-Q" target="_blank"">Setting up API access</a>', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
 					array(
@@ -736,7 +736,7 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5e5557cda4c7b',
-				'label' => 'Pages',
+				'label' => __('Pages', 'dollie'),
 				'name' => '',
 				'type' => 'tab',
 				'instructions' => '',
@@ -752,10 +752,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5e5557eda4c7c',
-				'label' => 'Launch Site Page',
+				'label' => __('Launch Site Page', 'dollie'),
 				'name' => 'wpd_launch_page_id',
 				'type' => 'post_object',
-				'instructions' => 'From which page do your customers launch their sites?',
+				'instructions' => __('From which page do your customers launch their sites?', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -774,10 +774,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5e555885a4c7e',
-				'label' => 'Customer Dashboard Page',
+				'label' => __('Customer Dashboard Page', 'dollie'),
 				'name' => 'wpd_dashboard_page_id',
 				'type' => 'post_object',
-				'instructions' => 'From which page do your customers launch their sites?',
+				'instructions' => __('From which page do your customers launch their sites?', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -796,10 +796,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5e555864a4c7d',
-				'label' => 'Customer Login Page',
+				'label' => __('Customer Login Page', 'dollie'),
 				'name' => 'wpd_login_page_id',
 				'type' => 'post_object',
-				'instructions' => 'From which page do your customers launch their sites?',
+				'instructions' => __('From which page do your customers launch their sites?', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -818,10 +818,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5e9835e40bfb6',
-				'label' => 'Support Link',
+				'label' => __('Support Link', 'dollie'),
 				'name' => 'wpd_support_link',
 				'type' => 'url',
-				'instructions' => 'This is the URL we use when directing users to submit a ticket for support.',
+				'instructions' => __('This is the URL we use when directing users to submit a ticket for support.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -835,7 +835,7 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5adc6af60a0b5',
-				'label' => 'Branding',
+				'label' => __('Branding', 'dollie'),
 				'name' => '',
 				'type' => 'tab',
 				'instructions' => '',
@@ -851,7 +851,7 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5adc7193ac968',
-				'label' => 'Dashboard Logo',
+				'label' => __('Dashboard Logo', 'dollie'),
 				'name' => 'wpd_dashboard_logo',
 				'type' => 'image',
 				'instructions' => '',
@@ -875,7 +875,7 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5afd4d2021885',
-				'label' => 'Dashboard Logo Inversed',
+				'label' => __('Dashboard Logo Inversed', 'dollie'),
 				'name' => 'wpd_dashboard_logo_inversed',
 				'type' => 'image',
 				'instructions' => '',
@@ -899,10 +899,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5adc6e0a0a0b8',
-				'label' => 'Header Style',
+				'label' => __('Header Style', 'dollie'),
 				'name' => 'wpd_header_style',
 				'type' => 'radio',
-				'instructions' => 'Choose a pre-designed theme you\'d like to use',
+				'instructions' => __('Choose a pre-designed theme you\'d like to use', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -925,7 +925,7 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5adc6ce10a0b7',
-				'label' => 'Sidebar Style',
+				'label' => __('Sidebar Style', 'dollie'),
 				'name' => 'wpd_sidebar_style',
 				'type' => 'true_false',
 				'instructions' => '',
@@ -944,10 +944,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5adc6b010a0b6',
-				'label' => 'Theme Preset',
+				'label' => __('Theme Preset', 'dollie'),
 				'name' => 'wpd_theme',
 				'type' => 'radio',
-				'instructions' => 'Choose a pre-designed theme you\'d like to use',
+				'instructions' => __('Choose a pre-designed theme you\'d like to use', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -972,10 +972,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_583b2f85ff318',
-				'label' => 'Brand Color',
+				'label' => __('Brand Color', 'dollie'),
 				'name' => 'brand_color',
 				'type' => 'color_picker',
-				'instructions' => 'You can set a branding color that fits your business or product.',
+				'instructions' => __('You can set a branding color that fits your business or product.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -987,10 +987,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5adf1b015c888',
-				'label' => 'Newsfeed URL',
+				'label' => __('Newsfeed URL', 'dollie'),
 				'name' => 'wpd_feed_url',
 				'type' => 'url',
-				'instructions' => 'The link to the WordPress installation you want to show news from.',
+				'instructions' => __('The link to the WordPress installation you want to show news from.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1003,11 +1003,11 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_583b2eeaf884d',
-				'label' => 'Default Screenshot Placeholder',
+				'label' => __('Default Screenshot Placeholder', 'dollie'),
 				'name' => 'default_screenshot',
 				'type' => 'image',
-				'instructions' => '<strong>Recommended size: 1200x900px</strong><br>
-This is the default screenshot image shown on the site details header. It is only shown when the site owner has not set up their site yet.',
+				'instructions' => __('<strong>Recommended size: 1200x900px</strong><br>
+This is the default screenshot image shown on the site details header. It is only shown when the site owner has not set up their site yet.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1028,10 +1028,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_583b39c4b0648',
-				'label' => 'Header Background Image',
+				'label' => __('Header Background Image', 'dollie'),
 				'name' => 'site_details_bg',
 				'type' => 'image',
-				'instructions' => 'This is the default background image shown inside the headers. We recommend to upload a scalable SVG pattern',
+				'instructions' => __('This is the default background image shown inside the headers. We recommend to upload a scalable SVG pattern', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1052,7 +1052,7 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5db808224473a',
-				'label' => 'Launch Site Wizard',
+				'label' => __('Launch Site Wizard', 'dollie'),
 				'name' => '',
 				'type' => 'message',
 				'instructions' => '',
@@ -1069,10 +1069,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5db73a6b5ba07',
-				'label' => 'Step 1',
+				'label' => __('Step 1', 'dollie'),
 				'name' => 'wpd_launch_step_1',
 				'type' => 'wysiwyg',
-				'instructions' => 'This is the first screen shown as soon as someone presses the "Launch Site" button.',
+				'instructions' => __('This is the first screen shown as soon as someone presses the "Launch Site" button.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1089,10 +1089,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5db73b99d3b4b',
-				'label' => 'Step 2',
+				'label' => __('Step 2', 'dollie'),
 				'name' => 'wpd_launch_step_2',
 				'type' => 'wysiwyg',
-				'instructions' => 'This is the second screen shown as soon as someone presses the "Launch Site" button.',
+				'instructions' => __('This is the second screen shown as soon as someone presses the "Launch Site" button.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1109,10 +1109,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5db73bf2d3b4c',
-				'label' => 'Step 3',
+				'label' => __('Step 3', 'dollie'),
 				'name' => 'wpd_launch_step_3',
 				'type' => 'wysiwyg',
-				'instructions' => 'This is the third screen shown as soon as someone presses the "Launch Site" button.',
+				'instructions' => __('This is the third screen shown as soon as someone presses the "Launch Site" button.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1132,10 +1132,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5db808cb4473b',
-				'label' => 'Step 4',
+				'label' => __('Step 4', 'dollie'),
 				'name' => 'wpd_launch_step_4',
 				'type' => 'wysiwyg',
-				'instructions' => 'This is the final screen shown as soon as someone presses the "Launch Site" button. This only shows if the site deploy takes longer than usual.',
+				'instructions' => __('This is the final screen shown as soon as someone presses the "Launch Site" button. This only shows if the site deploy takes longer than usual.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1154,7 +1154,7 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5b06a979537b3',
-				'label' => 'Access Control',
+				'label' => __('Access Control', 'dollie'),
 				'name' => '',
 				'type' => 'tab',
 				'instructions' => '',
@@ -1170,10 +1170,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5b094ea3fe6ea',
-				'label' => 'Enable Site Management Access?',
+				'label' => __('Enable Site Management Access?', 'dollie'),
 				'name' => 'wpd_allow_site_dashboard_access',
 				'type' => 'true_false',
-				'instructions' => 'Would you like to give your clients/customers the ability to manage their own sites or would you like to restrict this functionality to your team (Administrators) only?',
+				'instructions' => __('Would you like to give your clients/customers the ability to manage their own sites or would you like to restrict this functionality to your team (Administrators) only?', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1189,10 +1189,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5b06c0124f11a',
-				'label' => 'Available Site Management Features',
+				'label' => __('Available Site Management Features', 'dollie'),
 				'name' => 'available_sections',
 				'type' => 'checkbox',
-				'instructions' => 'Depending on the customers you bring in, you can choose to disable certain sections of the customer dashboard.',
+				'instructions' => __('Depending on the customers you bring in, you can choose to disable certain sections of the customer dashboard.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => array(
 					array(
@@ -1234,10 +1234,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_583b2ff20aaad',
-				'label' => 'Available Site Management Tabs',
+				'label' => __('Available Site Management Tabs', 'dollie'),
 				'name' => 'available_features',
 				'type' => 'checkbox',
-				'instructions' => 'Depending on the customers you bring in, you can choose to disable certain sections of the customer dashboard.',
+				'instructions' => __('Depending on the customers you bring in, you can choose to disable certain sections of the customer dashboard.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => array(
 					array(
@@ -1277,10 +1277,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_58861a3cc49b2',
-				'label' => 'Available Developer Tabs',
+				'label' => __('Available Developer Tabs', 'dollie'),
 				'name' => 'available_features_developers',
 				'type' => 'checkbox',
-				'instructions' => 'Depending on the customers you bring in, you can choose to disable certain sections of the developer dashboard.',
+				'instructions' => __('Depending on the customers you bring in, you can choose to disable certain sections of the developer dashboard.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => array(
 					array(
@@ -1320,8 +1320,61 @@ This is the default screenshot image shown on the site details header. It is onl
 				'return_format' => 'array',
 			),
 			array(
+				'key' => 'field_5efc4a49d5752',
+				'label' => __('Client Deployed Site Permissions', 'dollie'),
+				'name' => 'wpd_client_site_permission',
+				'type' => 'radio',
+				'instructions' => __('Choose the user role given to the users when deploying a site. Warning, this will change the user roles for all client sites', 'dollie'),
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'choices' => array(
+					'administrator' => 'Administrator',
+					'editor' => 'Editor',
+				),
+				'allow_null' => 0,
+				'other_choice' => 0,
+				'default_value' => 'administrator',
+				'layout' => 'vertical',
+				'return_format' => 'value',
+				'save_other_choice' => 0,
+			),
+			array(
+				'key' => 'field_5efc4ac9d5754',
+				'label' => __('Administrator User Name', 'dollie'),
+				'name' => 'wpd_admin_user_name',
+				'type' => 'text',
+				'instructions' => __('Choose the username that is created for your own administration access. This won\'t be shared with the client.', 'dollie'),
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5efc4a49d5752',
+							'operator' => '==',
+							'value' => 'editor',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'default_value' => 's_admin',
+				'placeholder' => '',
+				'prepend' => '',
+				'append' => '',
+				'maxlength' => '',
+			),
+			array(
 				'key' => 'field_5b094d86fe6e8',
-				'label' => 'Blueprints',
+				'label' => __('Blueprints', 'dollie'),
 				'name' => '',
 				'type' => 'tab',
 				'instructions' => '',
@@ -1337,10 +1390,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5b097b1dd50cc',
-				'label' => 'Enable Site Preview',
+				'label' => __('Enable Site Preview', 'dollie'),
 				'name' => 'wpd_enable_site_preview',
 				'type' => 'true_false',
-				'instructions' => 'The site preview bar allows you to quickly showcase the available Blueprints you\'ve created. If you\'d like to enable this feature make sure you\'ve uploaded the Site Preview script to your root directory.',
+				'instructions' => __('The site preview bar allows you to quickly showcase the available Blueprints you\'ve created. If you\'d like to enable this feature make sure you\'ve uploaded the Site Preview script to your root directory.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1356,10 +1409,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5b094db7fe6e9',
-				'label' => 'Site Preview Link',
+				'label' => __('Site Preview Link', 'dollie'),
 				'name' => 'wpd_site_preview_path',
 				'type' => 'text',
-				'instructions' => 'The link to where your sites preview will show. By default is set to "preview" and will look like your-site.com/preview',
+				'instructions' => __('The link to where your sites preview will show. By default is set to "preview" and will look like your-site.com/preview', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1376,7 +1429,7 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5cb5cca213aae',
-				'label' => 'Email Delivery',
+				'label' => __('Email Delivery', 'dollie'),
 				'name' => '',
 				'type' => 'tab',
 				'instructions' => '',
@@ -1392,10 +1445,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5cb5cccd13aaf',
-				'label' => 'Email Delivery Address',
+				'label' => __('Email Delivery Address', 'dollie'),
 				'name' => 'wpd_delivery_email',
 				'type' => 'text',
-				'instructions' => 'The default transactional email address that\'s being used by the WordPress installation of your customers. Make sure this is properly set up and tested with SendGrid.',
+				'instructions' => __('The default transactional email address that\'s being used by the WordPress installation of your customers. Make sure this is properly set up and tested with SendGrid.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1411,10 +1464,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5cb5cee44bc8e',
-				'label' => 'SMTP Host',
+				'label' => __('SMTP Host', 'dollie'),
 				'name' => 'wpd_delivery_smtp_host',
 				'type' => 'text',
-				'instructions' => 'The default transactional email address that\'s being used by the WordPress installation of your customers. Make sure this is properly set up and tested with SendGrid.',
+				'instructions' => __('The default transactional email address that\'s being used by the WordPress installation of your customers. Make sure this is properly set up and tested with SendGrid.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1430,10 +1483,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5cb5cd6013ab0',
-				'label' => 'SMTP Port',
+				'label' => __('SMTP Port', 'dollie'),
 				'name' => 'wpd_delivery_smtp',
 				'type' => 'text',
-				'instructions' => 'The port being used for SMTP delivery.',
+				'instructions' => __('The port being used for SMTP delivery.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1449,10 +1502,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5cb5cd9413ab1',
-				'label' => 'SendGrid Username',
+				'label' => __('SendGrid Username', 'dollie'),
 				'name' => 'wpd_delivery_username',
 				'type' => 'text',
-				'instructions' => 'Your SendGrid username',
+				'instructions' => __('Your SendGrid username', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1468,10 +1521,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5cb5cda513ab2',
-				'label' => 'API Key / Password',
+				'label' => __('API Key / Password', 'dollie'),
 				'name' => 'wpd_delivery_password',
 				'type' => 'password',
-				'instructions' => 'The password belonging to your SendGrid API account.',
+				'instructions' => __('The password belonging to your SendGrid API account.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1507,11 +1560,11 @@ This is the default screenshot image shown on the site details header. It is onl
 
 	acf_add_local_field_group(array(
 		'key' => 'group_5b0ea59dbbb22',
-		'title' => 'Dollie Customer Info (Do not edit)',
+		'title' => 'Dollie Customer Data(do not edit)',
 		'fields' => array(
 			array(
 				'key' => 'field_5b0ea5c46ffbb',
-				'label' => 'Active Dollie Subscription',
+				'label' => __('Active Dollie Subscription', 'dollie'),
 				'name' => 'wpd_active_subscription',
 				'type' => 'text',
 				'instructions' => '',
@@ -1522,6 +1575,7 @@ This is the default screenshot image shown on the site details header. It is onl
 					'class' => '',
 					'id' => '',
 				),
+				'hide_admin' => 0,
 				'default_value' => '',
 				'placeholder' => '',
 				'prepend' => '',
@@ -1530,7 +1584,7 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5b0eaaa52ec57',
-				'label' => 'Stop Container at..',
+				'label' => __('Stop Container at..', 'dollie'),
 				'name' => 'wpd_stop_container_at',
 				'type' => 'text',
 				'instructions' => '',
@@ -1549,7 +1603,7 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5b0eacb73940a',
-				'label' => 'Containers undeployed?',
+				'label' => __('Containers undeployed?', 'dollie'),
 				'name' => 'wpd_all_containers_undeployed',
 				'type' => 'text',
 				'instructions' => '',
@@ -1584,7 +1638,54 @@ This is the default screenshot image shown on the site details header. It is onl
 		'hide_on_screen' => '',
 		'active' => true,
 		'description' => '',
-		'modified' => 1527689550,
+	));
+
+	acf_add_local_field_group(array(
+		'key' => 'group_5efc4bbc3849b',
+		'title' => 'Dollie Customer Info',
+		'fields' => array(
+			array(
+				'key' => 'field_5efc4bbc3d814',
+				'label' => __('Client Deployed Site Permissions', 'dollie'),
+				'name' => 'wpd_client_site_permissions',
+				'type' => 'button_group',
+				'instructions' => __('Choose the user role given to the user when deploying a site. Default inherits from Dollie - Settings - Access Control', 'dollie'),
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'choices' => array(
+					'default' => 'Default Dollie Setting',
+					'administrator' => 'Administrator',
+					'editor' => 'Editor',
+				),
+				'allow_null' => 0,
+				'default_value' => 'default',
+				'layout' => 'horizontal',
+				'return_format' => 'value',
+			),
+		),
+		'location' => array(
+			array(
+				array(
+					'param' => 'user_form',
+					'operator' => '==',
+					'value' => 'edit',
+				),
+			),
+		),
+		'menu_order' => 0,
+		'position' => 'normal',
+		'style' => 'default',
+		'label_placement' => 'top',
+		'instruction_placement' => 'label',
+		'hide_on_screen' => '',
+		'active' => true,
+		'description' => '',
 	));
 
 	acf_add_local_field_group(array(
@@ -1593,7 +1694,7 @@ This is the default screenshot image shown on the site details header. It is onl
 		'fields' => array(
 			array(
 				'key' => 'field_5e2c1a97c1541',
-				'label' => 'Basic',
+				'label' => __('Basic', 'dollie'),
 				'name' => '',
 				'type' => 'tab',
 				'instructions' => '',
@@ -1609,10 +1710,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5afc7bad022a8',
-				'label' => 'Number of Sites',
+				'label' => __('Number of Sites', 'dollie'),
 				'name' => '_wpd_installs',
 				'type' => 'number',
-				'instructions' => 'How many sites can a customer deploy when subscribed to this product?',
+				'instructions' => __('How many sites can a customer deploy when subscribed to this product?', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1631,10 +1732,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5afc7c0a022a9',
-				'label' => 'Disk Space',
+				'label' => __('Disk Space', 'dollie'),
 				'name' => '_wpd_max_size',
 				'type' => 'number',
-				'instructions' => 'How many sites can a customer deploy when subscribed to this product?',
+				'instructions' => __('How many sites can a customer deploy when subscribed to this product?', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1652,7 +1753,7 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5e2c1ac7c1542',
-				'label' => 'Blueprints',
+				'label' => __('Blueprints', 'dollie'),
 				'name' => '',
 				'type' => 'tab',
 				'instructions' => '',
@@ -1668,10 +1769,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5e2c1adcc1543',
-				'label' => 'Included Blueprints',
+				'label' => __('Included Blueprints', 'dollie'),
 				'name' => '_wpd_included_blueprints',
 				'type' => 'relationship',
-				'instructions' => 'Select which of your Blueprints are allowed to be deployed when a customer has an active subscription to this product.',
+				'instructions' => __('Select which of your Blueprints are allowed to be deployed when a customer has an active subscription to this product.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1691,10 +1792,10 @@ This is the default screenshot image shown on the site details header. It is onl
 			),
 			array(
 				'key' => 'field_5e2c1b94c1544',
-				'label' => 'Excluded Blueprints',
+				'label' => __('Excluded Blueprints', 'dollie'),
 				'name' => '_wpd_excluded_blueprints',
 				'type' => 'relationship',
-				'instructions' => 'Select which of your Blueprints can not be chosen when a customer has an active subscription to this product. Use this setting if you have a lot of blueprints and only want to restrict access to a couple of them.',
+				'instructions' => __('Select which of your Blueprints can not be chosen when a customer has an active subscription to this product. Use this setting if you have a lot of blueprints and only want to restrict access to a couple of them.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
