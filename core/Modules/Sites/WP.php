@@ -19,9 +19,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 final class WP extends Singleton {
 
-
+	/**
+	 * Deploy site
+	 *
+	 * @param $email
+	 * @param $domain
+	 * @param $user_id
+	 * @param null $blueprint
+	 *
+	 * @return array|\WP_Error
+	 */
 	public function deploy_site( $email, $domain, $user_id, $blueprint = null ) {
-
 		$error_message = esc_html__( 'Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!', 'dollie' );
 
 		// Set the post ID so that we know the post was created successfully.
@@ -119,7 +127,6 @@ final class WP extends Singleton {
 
 		// Show an error of S5 API has not completed the setup.
 		if ( ! array_key_exists( 'id', $data_container ) ) {
-
 			return new \WP_Error( 'dollie_launch', esc_html__( 'Sorry, It seems like there was an issue with launching your new site. Our support team has been notified', 'dollie' ) );
 		}
 
@@ -162,12 +169,13 @@ final class WP extends Singleton {
 			add_post_meta( $post_id, 'wpd_container_based_on_blueprint_id', $blueprint, true );
 
 			// TODO if the site has a domain assign -> send the request with the domain name? @bowe
-			$blueprint_install = get_post_meta( $blueprint, 'wpd_container_uri', true );
-			$blueprint_install = str_replace( [ 'https://', 'http://' ], '', $blueprint_install );
+			$blueprint_install = str_replace( [
+				'https://',
+				'http://'
+			], '', get_post_meta( $blueprint, 'wpd_container_uri', true ) );
+			$container_uri     = str_replace( [ 'https://', 'http://' ], '', $data_container['uri'] );
 
-			$container_uri = str_replace( [ 'https://', 'http://' ], '', $data_container['uri'] );
-
-			$blueprint_request = Api::post( Api::ROUTE_BLUEPRINT_DEPLOY, [
+			Api::post( Api::ROUTE_BLUEPRINT_DEPLOY, [
 				'container_uri' => $container_uri,
 				'blueprint_url' => $blueprint_install
 			] );
@@ -179,7 +187,6 @@ final class WP extends Singleton {
 			setcookie( Blueprints::COOKIE_NAME, '', time() - 3600, '/' );
 
 			do_action( 'dollie/launch_site/deploy/set_blueprint/after', $post_id, $blueprint );
-
 		}
 
 		return [
@@ -197,7 +204,6 @@ final class WP extends Singleton {
 	 * @return bool|\WP_Error
 	 */
 	public function update_site_details( $data = null, $container_id = null ) {
-
 		if ( ! isset( $container_id ) ) {
 			$current_query = dollie()->get_current_object();
 
@@ -234,16 +240,13 @@ final class WP extends Singleton {
 				update_post_meta( $container_id, 'wpd_partner_blueprint_deployed', 'yes' );
 				sleep( 5 );
 			} else {
-
 				if ( ! isset( $data ) || empty( $data ) ) {
-
 					Log::add( $container_slug . ' has invalid site details data', json_encode( $data ), 'setup' );
 
 					return new \WP_Error( 'dollie_launch', esc_html__( 'Processed site data is invalid.', 'dollie' ) );
-
 				}
 
-				$setup_request = Api::post( Api::ROUTE_WIZARD_SETUP, $data );
+				Api::post( Api::ROUTE_WIZARD_SETUP, $data );
 			}
 		}
 
@@ -258,10 +261,15 @@ final class WP extends Singleton {
 		do_action( 'dollie/launch_site/set_details/after', $container_id, $data );
 
 		return true;
-
 	}
 
-
+	/**
+	 * Test if site is online
+	 *
+	 * @param $url
+	 *
+	 * @return bool
+	 */
 	private function test_site_deployment( $url ) {
 		$response = wp_remote_get( $url );
 

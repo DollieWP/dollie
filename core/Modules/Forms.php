@@ -51,7 +51,7 @@ class Forms extends Singleton {
 		add_action( 'init', [ $this, 'init' ] );
 		add_action( 'acf/init', [ $this, 'acf_init' ] );
 
-		if ( isset( $_GET['page'], $_GET['tool'] ) && $_GET['page'] === 'acf-tools' && $_GET['tool'] === 'export') {
+		if ( isset( $_GET['page'], $_GET['tool'] ) && $_GET['page'] === 'acf-tools' && $_GET['tool'] === 'export' ) {
 			add_filter( 'acf/prepare_field_for_export', [ $this, 'localize_strings' ] );
 		}
 
@@ -259,7 +259,6 @@ class Forms extends Singleton {
 	 * @return mixed
 	 */
 	public function change_form_args( $args, $form ) {
-
 		$redirect = $this->get_form_arg( 'redirect_to_site', $form, $args );
 
 		if ( $redirect == true ) {
@@ -269,17 +268,31 @@ class Forms extends Singleton {
 		return $args;
 	}
 
+	/**
+	 * Get form args
+	 *
+	 * @param $name
+	 * @param $form
+	 * @param $args
+	 *
+	 * @return mixed
+	 */
 	public function get_form_arg( $name, $form, $args ) {
 		return isset( $args[ $name ] ) ? $args[ $name ] : $form[ $name ];
 	}
 
+	/**
+	 * Hide form shortcode
+	 *
+	 * @param $field
+	 *
+	 * @return mixed
+	 */
 	public function hide_af_form_shortcode( $field ) {
-
 		$field['conditional_logic'] = 1;
 
 		return $field;
 	}
-
 
 	/**
 	 * Display the form shortcode in the form settings.
@@ -312,14 +325,12 @@ class Forms extends Singleton {
 		return $field;
 	}
 
-
 	/**
 	 * Add form settings for restrictions
 	 *
 	 * @since 1.0.3
 	 */
 	function add_form_settings_fields( $field_group ) {
-
 		$field_group['fields'][] = array(
 			'key'               => 'field_form_wpd_shortcode_tab',
 			'label'             => '<span class="dashicons dashicons-admin-settings"></span>' . __( 'Settings', 'dollie' ),
@@ -470,7 +481,6 @@ class Forms extends Singleton {
 	 * @return string
 	 */
 	public function blockquote_shortcode( $atts = [], $content = '' ) {
-
 		$atts = shortcode_atts( array(
 			'icon'  => 'fa fa-info-circle',
 			'type'  => 'success',
@@ -507,10 +517,8 @@ class Forms extends Singleton {
 
 		$field = af_get_field_object( $field_name, $fields );
 
-		if (
-			is_array( $field['value'] ) && $field['return_format'] === 'array'
-			&& ( $field['type'] === 'radio' || $field['type'] === 'select' )
-		) {
+		if ( is_array( $field['value'] ) && $field['return_format'] === 'array'
+		     && ( $field['type'] === 'radio' || $field['type'] === 'select' ) ) {
 
 			$value = $field['value']['label'];
 			if ( strtotime( $value ) ) {
@@ -540,16 +548,12 @@ class Forms extends Singleton {
 	/**
 	 * Add migration instruction to form
 	 *
-	 * @param $value
-	 * @param $post_id
 	 * @param $field
 	 *
 	 * @return string|string[]
 	 */
 	public function add_acf_placeholders( $field ) {
-
 		if ( isset( $field['message'] ) && $field['message'] ) {
-
 			$currentQuery = dollie()->get_current_object();
 
 			$user = wp_get_current_user();
@@ -600,12 +604,18 @@ class Forms extends Singleton {
 	/**
 	 * Add form hidden input to save the post we are currently on
 	 */
-	function hidden_fields( $form, $args ) {
+	public function hidden_fields( $form, $args ) {
 		echo '<input type="hidden" name="dollie_post_id" value="' . get_the_ID() . '">';
 	}
 
+	/**
+	 * Localize strings
+	 *
+	 * @param $field
+	 *
+	 * @return mixed
+	 */
 	public function localize_strings( $field ) {
-
 		if ( $field['label'] ) {
 			$field['label'] = "!!__(!!'" . $field['label'] . "!!', !!'" . 'dollie' . "!!')!!";
 		}
@@ -617,7 +627,6 @@ class Forms extends Singleton {
 		if ( $field['message'] ) {
 			$field['message'] = "!!__(!!'" . $field['message'] . "!!', !!'" . 'dollie' . "!!')!!";
 		}
-
 
 		return $field;
 	}
@@ -663,6 +672,16 @@ class Forms extends Singleton {
 		return $container;
 	}
 
+	/**
+	 * Prefill site admin email
+	 *
+	 * @param $value
+	 * @param $field
+	 * @param $form
+	 * @param $args
+	 *
+	 * @return string
+	 */
 	public function prefill_site_admin_email( $value, $field, $form, $args ) {
 		if ( ! is_user_logged_in() ) {
 			return $value;
@@ -671,32 +690,87 @@ class Forms extends Singleton {
 		return get_userdata( get_current_user_id() )->user_email;
 	}
 
+	/**
+	 * Prefill site name
+	 *
+	 * @param $value
+	 * @param $field
+	 * @param $form
+	 * @param $args
+	 *
+	 * @return string
+	 */
 	public function prefill_site_name( $value, $field, $form, $args ) {
 		return esc_html__( 'My New Site', 'dollie' );
 	}
 
+	/**
+	 * Submit button attributes
+	 *
+	 * @param $attributes
+	 * @param $form
+	 * @param $args
+	 *
+	 * @return mixed
+	 */
 	public function filter_submit_button_attributes( $attributes, $form, $args ) {
 		$attributes['class'] .= ' btn btn-primary btn-lg';
 
 		return $attributes;
 	}
 
+	/**
+	 * Filter next button attributes
+	 *
+	 * @param $attributes
+	 * @param $field
+	 *
+	 * @return mixed
+	 */
 	public function filter_next_button_attributes( $attributes, $field ) {
 		$attributes['class'] .= ' btn btn-primary';
 
 		return $attributes;
 	}
 
+	/**
+	 * Filter previous button attributes
+	 *
+	 * @param $attributes
+	 * @param $field
+	 *
+	 * @return mixed
+	 */
 	public function filter_previous_button_attributes( $attributes, $field ) {
 		$attributes['class'] .= ' btn btn-default';
 
 		return $attributes;
 	}
 
+	/**
+	 * Prefill description
+	 *
+	 * @param $value
+	 * @param $field
+	 * @param $form
+	 * @param $args
+	 *
+	 * @return string
+	 */
 	public function prefill_description( $value, $field, $form, $args ) {
 		return esc_html__( 'The best website in the world?', 'dollie' );
 	}
 
+	/**
+	 * Prefill site admin username
+	 *
+	 * @param $value
+	 * @param $field
+	 * @param $form
+	 * @param $args
+	 *
+	 * @return string
+	 */
 	public function prefill_site_admin_user( $value, $field, $form, $args ) {
 		if ( ! is_user_logged_in() ) {
 			return $value;
@@ -704,4 +778,5 @@ class Forms extends Singleton {
 
 		return get_userdata( get_current_user_id() )->user_login;
 	}
+
 }

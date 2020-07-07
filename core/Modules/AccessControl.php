@@ -23,16 +23,15 @@ class AccessControl extends Singleton {
 		add_action( 'template_redirect', [ $this, 'logged_in_only' ] );
 		add_action( 'template_redirect', [ $this, 'protect_launch_site' ] );
 		add_action( 'template_redirect', [ $this, 'protect_container_access' ], 1 );
-
-		add_filter( 'wp_dropdown_users_args', [ $this, 'allow_all_authors' ], 10, 2 );
-		add_action( 'admin_init', [ $this, 'no_admin_access' ], 100 );
-
-
+		add_action( 'admin_init', [ $this, 'admin_access_only' ], 100 );
 		add_action( 'user_has_cap', [ $this, 'restrict_form_delete' ], 10, 3 );
 
-
+		add_filter( 'wp_dropdown_users_args', [ $this, 'allow_all_authors' ], 10, 2 );
 	}
 
+	/**
+	 * @return mixed
+	 */
 	public function get_available_sections() {
 		$available_sections_array = get_field( 'available_sections', 'option' );
 
@@ -43,6 +42,9 @@ class AccessControl extends Singleton {
 		return $available_sections_array;
 	}
 
+	/**
+	 * Allow only logged in users
+	 */
 	public function logged_in_only() {
 		$login_id = dollie()->get_login_page_id();
 		$dash_id  = dollie()->get_dashboard_page_id();
@@ -57,6 +59,9 @@ class AccessControl extends Singleton {
 		}
 	}
 
+	/**
+	 * Launch site only for logged in users
+	 */
 	public function protect_launch_site() {
 		$launch_id = dollie()->get_launch_page_id();
 		$dash_id   = dollie()->get_dashboard_page_id();
@@ -97,13 +102,22 @@ class AccessControl extends Singleton {
 		}
 	}
 
+	/**
+	 * @param $query_args
+	 * @param $r
+	 *
+	 * @return mixed
+	 */
 	public function allow_all_authors( $query_args, $r ) {
 		$query_args['who'] = '';
 
 		return $query_args;
 	}
 
-	public function no_admin_access() {
+	/**
+	 * Admin access only for dashboard
+	 */
+	public function admin_access_only() {
 		$dash_id = dollie()->get_dashboard_page_id();
 
 		if ( ! $dash_id ) {
@@ -132,18 +146,14 @@ class AccessControl extends Singleton {
 		}
 
 		if ( isset( $args[0], $args[2] ) && $args[0] === 'delete_post' ) {
-
 			$form = af_get_form( $args[2] );
 
 			if ( $form && isset( $form['key'] ) && strpos( $form['key'], 'form_dollie' ) !== false ) {
-
 				$allcaps[ $caps[0] ] = false;
 			}
-
 		}
 
 		return $allcaps;
-
 	}
 
 }

@@ -43,7 +43,8 @@ class Api extends Singleton {
 		ROUTE_EXECUTE_JOB = 'execute/job',
 		ROUTE_NODES_CREATE = 'nodes/create',
 		ROUTE_NODES_GET = 'nodes',
-		ROUTE_WIZARD_SETUP = 'setup';
+		ROUTE_WIZARD_SETUP = 'setup',
+		ROUTE_CHANGE_USER_ROLES = 'change-user-role';
 
 	const API_URL = 'https://api.getdollie.com/api/';
 

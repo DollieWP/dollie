@@ -16,13 +16,15 @@ use Dollie\Core\Log;
  */
 class Backups extends Singleton {
 
+	/**
+     * Get backups
+     *
+	 * @param null $container_id
+	 * @param bool $force
+	 *
+	 * @return array|mixed
+	 */
 	public function get_site_backups( $container_id = null, $force = false ) {
-
-		/*if ( ob_get_length() > 0 ) {
-			@ob_end_flush();
-			@flush();
-		}*/
-
 		if ( ! isset( $container_id ) ) {
 			if ( ! is_singular( 'container' ) ) {
 				return [];
@@ -31,7 +33,6 @@ class Backups extends Singleton {
 			$currentQuery   = dollie()->get_current_object();
 			$container_id   = $currentQuery->id;
 			$container_slug = $currentQuery->slug;
-
 		} else {
 			$container_slug = get_post( $container_id )->post_name;
 		}
@@ -40,7 +41,6 @@ class Backups extends Singleton {
 
 		if ( ! $force && $data = get_transient( $backups_transient_name ) ) {
 			$backups = $data;
-
 		} else {
 			$secret = get_post_meta( $container_id, 'wpd_container_secret', true );
 
@@ -79,12 +79,20 @@ class Backups extends Singleton {
 
 	}
 
+	/**
+     * Get customer's total backups
+     *
+	 * @return mixed
+	 */
 	public function get_customer_total_backups() {
 		$currentQuery = dollie()->get_current_object();
 
 		return get_transient( 'dollie_' . $currentQuery->slug . '_total_backups' );
 	}
 
+	/**
+	 * List restores
+	 */
 	public function list_site_restores() {
 		// Grab Some Recent Posts
 		$backups = $this->get_site_backups();
@@ -131,7 +139,7 @@ class Backups extends Singleton {
 	}
 
 	/**
-     * Create a backup for the container
+     * Create a backup
      *
 	 * @param null $container_id
 	 *

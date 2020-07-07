@@ -48,6 +48,11 @@ class ImportForms extends Singleton {
 		'form_dollie_performance',
 	];
 
+	/**
+	 * Check if an update is needed
+	 *
+	 * @return bool
+	 */
 	public function needs_update() {
 
 		// Check for database version
@@ -112,4 +117,5 @@ class ImportForms extends Singleton {
 
 		return $success;
 	}
+
 }

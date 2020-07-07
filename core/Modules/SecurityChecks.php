@@ -27,6 +27,11 @@ class SecurityChecks extends Singleton {
 		}
 	}
 
+	/**
+	 * Get vulnerable plugins
+	 *
+	 * @return array
+	 */
 	public function get_vulnerable_plugins() {
 		$token = get_option( 'options_wpd_wpvulndb_token' );
 
@@ -63,16 +68,14 @@ class SecurityChecks extends Singleton {
 
 				if ( is_wp_error( $result ) ) {
 					trigger_error( $result->get_error_message(), E_USER_ERROR );
-				} else {
-					if ( $result['body'] ) {
-						$plugin = json_decode( $result['body'] );
+				} else if ( $result['body'] ) {
+					$plugin = json_decode( $result['body'] );
 
-						if ( isset( $plugin->$plugin_key->vulnerabilities ) ) {
-							foreach ( $plugin->$plugin_key->vulnerabilities as $vuln ) {
-								if ( ! isset( $vuln->fixed_in ) ||
-								     version_compare( $details['Version'], $vuln->fixed_in, '<' ) ) {
-									$vulnerabilities[ $name ][] = $vuln;
-								}
+					if ( isset( $plugin->$plugin_key->vulnerabilities ) ) {
+						foreach ( $plugin->$plugin_key->vulnerabilities as $vuln ) {
+							if ( ! isset( $vuln->fixed_in ) ||
+							     version_compare( $details['Version'], $vuln->fixed_in, '<' ) ) {
+								$vulnerabilities[ $name ][] = $vuln;
 							}
 						}
 					}
@@ -83,6 +86,9 @@ class SecurityChecks extends Singleton {
 		return $vulnerabilities;
 	}
 
+	/**
+	 * Plugin security scanner
+	 */
 	public function plugin_security_scanner_do_this_daily() {
 		if ( is_singular( 'container' ) ) {
 			$currentQuery = dollie()->get_current_object();
@@ -120,6 +126,9 @@ class SecurityChecks extends Singleton {
 		}
 	}
 
+	/**
+	 * Run security check
+	 */
 	public function run_security_check() {
 		if ( isset( $_GET['run-security-check'] ) ) {
 			$currentQuery = dollie()->get_current_object();

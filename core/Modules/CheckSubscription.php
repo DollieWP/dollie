@@ -41,6 +41,13 @@ class CheckSubscription extends Singleton {
 		add_action( 'trashed_post', [ $this, 'do_not_schedule_post_types' ] );
 	}
 
+	/**
+	 * Check if a user has bought any product
+	 *
+	 * @param int $user_id
+	 *
+	 * @return bool
+	 */
 	public function has_bought_product( $user_id = 0 ) {
 		global $wpdb;
 		$customer_id         = ! $user_id ? get_current_user_id() : $user_id;
@@ -57,8 +64,16 @@ class CheckSubscription extends Singleton {
 		return count( $results ) > 0;
 	}
 
+	/**
+	 * Get checkout link
+	 *
+	 * @param $product_id
+	 * @param $blueprint_id
+	 *
+	 * @return mixed|string|void
+	 * @throws \Exception
+	 */
 	public function get_checkout_link( $product_id, $blueprint_id ) {
-
 		if ( ! function_exists( 'wc_get_product' ) ) {
 			return '#';
 		}
@@ -100,13 +115,12 @@ class CheckSubscription extends Singleton {
 	 * @return array|bool
 	 */
 	public function get_customer_subscriptions( $customer_id, $status = 'any', $resources = 0 ) {
-
 		$resources_allocated = [
-		        'max_allowed_installs' => 0,
-		        'max_allowed_size' => 0,
-        ];
+			'max_allowed_installs' => 0,
+			'max_allowed_size'     => 0,
+		];
 
-		$active_plans        = [];
+		$active_plans = [];
 
 		if ( ! function_exists( 'wcs_get_subscriptions' ) ) {
 			return false;
@@ -139,8 +153,8 @@ class CheckSubscription extends Singleton {
 				$id = $item_data['product_id'];
 
 				if ( $id === 0 ) {
-			        continue;
-                }
+					continue;
+				}
 
 				// Filter out non Dollie subscriptions by checking custom meta field.
 				if ( ! get_field( '_wpd_installs', $id ) ) {
@@ -159,7 +173,7 @@ class CheckSubscription extends Singleton {
 				];
 
 				if ( $resources ) {
-				    $quantity = $item_data['quantity'] ?: 1;
+					$quantity = $item_data['quantity'] ?: 1;
 
 					// Add up individual plan's max values to obtain total max values of allowed installs and size.
 					$resources_allocated['max_allowed_installs'] += $installs * $quantity;
@@ -178,6 +192,9 @@ class CheckSubscription extends Singleton {
 		return $active_plans;
 	}
 
+	/**
+	 * Check customer's subscriptions
+	 */
 	public function check_customer_subscriptions() {
 		if ( get_option( 'wpd_charge_for_deployments' ) !== '1' ) {
 			return;
@@ -210,6 +227,9 @@ class CheckSubscription extends Singleton {
 		Log::add( 'Hourly customer subscription cron completed' );
 	}
 
+	/**
+	 * Daily cron for customer status
+	 */
 	public function create_daily_customer_status_cron() {
 		// Use wp_next_scheduled to check if the event is already scheduled
 		$timestamp = wp_next_scheduled( 'wpd_check_customer_status_cron' );
@@ -221,12 +241,21 @@ class CheckSubscription extends Singleton {
 		}
 	}
 
+	/**
+	 * Daily cron check for customer's subscriptions
+	 */
 	public function daily_subscription_check() {
 		$this->check_customer_subscriptions();
 	}
 
+	/**
+	 * Single action cron
+	 *
+	 * @param $customer_id
+	 * @param $type
+	 */
 	public function add_single_customer_action_cron( $customer_id, $type ) {
-		if ( get_option( 'wpd_charge_for_deployments' ) != '1' ) {
+		if ( get_option( 'wpd_charge_for_deployments' ) !== '1' ) {
 			return;
 		}
 
@@ -274,6 +303,11 @@ class CheckSubscription extends Singleton {
 		//TODO = Also trigger a Slack/Email to notify our team. Just so we don't get surprised about unwanted downtime of containers.
 	}
 
+	/**
+	 * Stop customer container if he has no active subscription
+	 *
+	 * @param null $id
+	 */
 	public function stop_customer_container( $id = null ) {
 		if ( $id === null ) {
 			$query_args = [
@@ -316,6 +350,9 @@ class CheckSubscription extends Singleton {
 		Log::add( 'Customer container stop cron completed' );
 	}
 
+	/**
+	 * Undeploy customer's container if he has no active subscription
+	 */
 	public function undeploy_customer_container() {
 		// Instantiate custom query
 		$query = new WP_Query( [
@@ -347,6 +384,9 @@ class CheckSubscription extends Singleton {
 		Log::add( 'Daily container undeploy check completed!' );
 	}
 
+	/**
+	 * Daily remove container cron
+	 */
 	public function create_daily_customer_removal_cron() {
 		// Set our daily time cron.
 		$timestamp = wp_next_scheduled( 'wpd_check_undeployment_cron' );
@@ -357,6 +397,9 @@ class CheckSubscription extends Singleton {
 		}
 	}
 
+	/**
+	 * Daily stop container cron
+	 */
 	public function create_daily_container_stop_cron() {
 		// Set our daily time cron.
 		$timestamp = wp_next_scheduled( 'wpd_check_customer_removal_cron' );
@@ -367,10 +410,16 @@ class CheckSubscription extends Singleton {
 		}
 	}
 
+	/**
+	 * Daily removal check
+	 */
 	public function daily_removal_check() {
 		$this->stop_customer_container();
 	}
 
+	/**
+	 * Daily undeployment cron
+	 */
 	public function create_daily_undeployment_cron() {
 		// Set our daily time cron.
 		$timestamp = wp_next_scheduled( 'wpd_check_undeployment_cron' );
@@ -381,10 +430,18 @@ class CheckSubscription extends Singleton {
 		}
 	}
 
+	/**
+	 * Daily undeployment check
+	 */
 	public function daily_undeployment_check() {
 		$this->undeploy_customer_container();
 	}
 
+	/**
+	 * Don't schedule other post types except container
+	 *
+	 * @param $post_id
+	 */
 	public function do_not_schedule_post_types( $post_id ) {
 		$unscheduled_post_types = [ 'container' ];
 
@@ -393,6 +450,11 @@ class CheckSubscription extends Singleton {
 		}
 	}
 
+	/**
+	 * Get stopped containers list
+	 *
+	 * @return false|string
+	 */
 	public function get_stopped_container_list() {
 		// Instantiate custom query
 		$query = new WP_Query( [
@@ -429,6 +491,11 @@ class CheckSubscription extends Singleton {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Get undeployed containers list
+	 *
+	 * @return false|string
+	 */
 	public function get_undeployed_container_list() {
 		// Instantiate custom query
 		$query = new WP_Query( [
@@ -465,6 +532,9 @@ class CheckSubscription extends Singleton {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Send mail
+	 */
 	public function send_daily_update_email() {
 		if ( $this->count_undeployed_containers() !== 0 || $this->count_stopped_containers() !== 0 ) {
 			$email   = get_option( 'admin_email' );
@@ -488,6 +558,9 @@ class CheckSubscription extends Singleton {
 		Log::add( 'Daily email update cron completed' );
 	}
 
+	/**
+	 * Daily mail cron
+	 */
 	public function create_daily_email_notification() {
 		//Set our daily time cron.
 		$timestamp = wp_next_scheduled( 'wpd_check_email_cron' );
@@ -498,10 +571,18 @@ class CheckSubscription extends Singleton {
 		}
 	}
 
+	/**
+	 * Send daily mail update
+	 */
 	public function send_out_daily_email() {
 		$this->send_daily_update_email();
 	}
 
+	/**
+	 * Count undeployed containers
+	 *
+	 * @return int
+	 */
 	public function count_undeployed_containers() {
 		$query = new WP_Query( [
 			'post_type'      => 'container',
@@ -517,6 +598,11 @@ class CheckSubscription extends Singleton {
 		return $total;
 	}
 
+	/**
+	 * Count stopped containers
+	 *
+	 * @return int
+	 */
 	public function count_stopped_containers() {
 		$query = new WP_Query( [
 			'post_type'      => 'container',
@@ -532,14 +618,24 @@ class CheckSubscription extends Singleton {
 		return $total;
 	}
 
+	/**
+	 * Check if customer has subscription
+	 *
+	 * @return bool
+	 */
 	public function has_subscription() {
 		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return true;
-		} else {
-			return (bool) $this->get_customer_subscriptions( get_current_user_id() );
 		}
+
+		return (bool) $this->get_customer_subscriptions( get_current_user_id() );
 	}
 
+	/**
+     * Get how many sites are left available for customer
+     *
+	 * @return int|mixed
+	 */
 	public function sites_available() {
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
 
@@ -552,6 +648,11 @@ class CheckSubscription extends Singleton {
 		return $subscription['max_allowed_installs'] - $total_site;
 	}
 
+	/**
+     * Get storage available for customer
+     *
+	 * @return int|mixed
+	 */
 	public function storage_available() {
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
 
@@ -563,6 +664,11 @@ class CheckSubscription extends Singleton {
 		return $subscription['max_allowed_size'];
 	}
 
+	/**
+     * Get subscription name
+     *
+	 * @return mixed|string
+	 */
 	public function subscription_name() {
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
 
@@ -573,6 +679,11 @@ class CheckSubscription extends Singleton {
 		return $subscription['name'];
 	}
 
+	/**
+     * Check if site limit has been reached
+     *
+	 * @return bool
+	 */
 	public function site_limit_reached() {
 		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return false;
@@ -589,6 +700,11 @@ class CheckSubscription extends Singleton {
 		return $this->has_subscription() && ( $subscription['max_allowed_installs'] - $total_site ) <= 0 && ! current_user_can( 'manage_options' );
 	}
 
+	/**
+     * Get excluded blueprints
+     *
+	 * @return bool
+	 */
 	public function get_excluded_blueprints() {
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 0 );
 
@@ -602,6 +718,11 @@ class CheckSubscription extends Singleton {
 		return $product['excluded_blueprints'];
 	}
 
+	/**
+     * Get included blueprints
+     *
+	 * @return bool
+	 */
 	public function get_included_blueprints() {
 		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 0 );
 
@@ -615,6 +736,11 @@ class CheckSubscription extends Singleton {
 		return $product['included_blueprints'];
 	}
 
+	/**
+     * Check if the size limit has been reached
+     *
+	 * @return bool
+	 */
 	public function size_limit_reached() {
 		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return false;

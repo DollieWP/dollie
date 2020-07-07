@@ -71,7 +71,6 @@ class Blueprints extends Singleton {
 		}
 
 		foreach ( $sites as $site ) {
-
 			$private = get_field( 'wpd_private_blueprint', $site->ID );
 
 			if ( $private === 'yes' ) {
@@ -79,7 +78,6 @@ class Blueprints extends Singleton {
 			}
 
 			if ( 'image' === $value_format ) {
-
 				if ( get_field( 'wpd_blueprint_image', $site->ID ) === 'custom' ) {
 					$image = get_field( 'wpd_blueprint_custom_image', $site->ID );
 				} elseif ( get_field( 'wpd_blueprint_image', $site->ID ) === 'theme' ) {
@@ -97,12 +95,10 @@ class Blueprints extends Singleton {
 			}
 
 			$data[ $site->ID ] = $value;
-
 		}
 
 		return $data;
 	}
-
 
 	/**
 	 * Get available blueprints
@@ -148,13 +144,13 @@ class Blueprints extends Singleton {
 		return [];
 	}
 
-
+	/**
+	 * Set blueprint cookie
+	 */
 	public function set_blueprint_cookie() {
 		if ( isset( $_GET[ self::COOKIE_GET_PARAM ] ) ) {
 			$cookie_id = $_GET[ self::COOKIE_GET_PARAM ];
 		}
-
-		$currentQuery   = dollie()->get_current_object();
 
 		// No Cookies set? Check is parameter are valid
 		if ( isset( $cookie_id ) ) {
@@ -162,6 +158,9 @@ class Blueprints extends Singleton {
 		}
 	}
 
+	/**
+	 * List available blueprints
+	 */
 	public function list_available_blueprints() {
 		$blueprints = $this->get_site_available_blueprints();
 

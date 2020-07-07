@@ -59,6 +59,13 @@ class Custom extends Singleton {
 		);
 	}
 
+	/**
+	 * Add post type to logs
+	 *
+	 * @param array $post_types
+	 *
+	 * @return array
+	 */
 	public function add_my_post_type_to_logs( $post_types = [] ) {
 		$post_types['dollie-logs'] = 'Dollie';
 

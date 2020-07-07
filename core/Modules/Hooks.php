@@ -27,6 +27,9 @@ class Hooks extends Singleton {
 
 	}
 
+	/**
+	 * Load container headers
+	 */
 	public function load_container_headers() {
 		if ( is_singular( 'container' ) ) {
 			$post_id        = dollie()->get_current_object()->id;
@@ -70,6 +73,13 @@ class Hooks extends Singleton {
 		}
 	}
 
+	/**
+	 * Update page title
+	 *
+	 * @param $title
+	 *
+	 * @return mixed
+	 */
 	public function update_page_title( $title ) {
 		if ( is_singular( 'container' ) ) {
 			// change title parts here

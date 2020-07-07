@@ -21,17 +21,28 @@ class ContainerFields extends Singleton {
 		parent::__construct();
 
 		add_filter( 'add_meta_boxes', [ $this, 'hide_meta_boxes_container' ] );
-		add_filter( 'acf/input/meta_box_priority', [ $this, 'km_set_acf_metabox_priority' ], 10, 2 );
+		add_filter( 'acf/input/meta_box_priority', [ $this, 'set_acf_metabox_priority' ], 10, 2 );
 		add_filter( 'manage_container_posts_columns', [ $this, 'add_acf_columns' ] );
 		add_action( 'manage_container_posts_custom_column', [ $this, 'custom_column' ], 10, 2 );
-		add_filter( 'acf/update_value/name=wpd_container_status', [ $this, 'my_check_for_change' ], 10, 3 );
+		add_filter( 'acf/update_value/name=wpd_container_status', [ $this, 'check_container_status' ], 10, 3 );
 	}
 
+	/**
+	 * Hide meta boxes
+	 */
 	public function hide_meta_boxes_container() {
 		remove_meta_box( 'postcustom', 'container', 'normal' );
 	}
 
-	public function km_set_acf_metabox_priority( $priority, $field_group ) {
+	/**
+	 * Set acf meta box priority
+	 *
+	 * @param $priority
+	 * @param $field_group
+	 *
+	 * @return string
+	 */
+	public function set_acf_metabox_priority( $priority, $field_group ) {
 		if ( 'Blueprints' === $field_group['title'] ) {
 			$priority = 'high';
 		}
@@ -39,6 +50,13 @@ class ContainerFields extends Singleton {
 		return $priority;
 	}
 
+	/**
+	 * Add acf columns
+	 *
+	 * @param $columns
+	 *
+	 * @return array
+	 */
 	public function add_acf_columns( $columns ) {
 		return array_merge(
 			$columns,
@@ -54,6 +72,12 @@ class ContainerFields extends Singleton {
 		);
 	}
 
+	/**
+	 * Add custom column
+	 *
+	 * @param $column
+	 * @param $post_id
+	 */
 	public function custom_column( $column, $post_id ) {
 		$search_meta = '';
 
@@ -82,7 +106,7 @@ class ContainerFields extends Singleton {
 		}
 
 		if ( $search_meta ) {
-			if ($column == 'manager') {
+			if ( $column === 'manager') {
 				echo '<a href="' . get_option('options_wpd_api_dashboard_url') . '/adminUISites/show/' . get_post_meta( $post_id, $search_meta, true ) . '">Manage</a>';
 			} else {
 				echo get_post_meta($post_id, $search_meta, true);
@@ -90,7 +114,16 @@ class ContainerFields extends Singleton {
 		}
 	}
 
-	public function my_check_for_change( $value, $post_id, $field ) {
+	/**
+	 * Change container status
+	 *
+	 * @param $value
+	 * @param $post_id
+	 * @param $field
+	 *
+	 * @return mixed
+	 */
+	public function check_container_status( $value, $post_id, $field ) {
 		$old_value = get_post_meta( $post_id, 'wpd_container_status', true );
 		if ( $old_value !== $value ) {
 			ContainerManagement::instance()->container_action( $value, $post_id );

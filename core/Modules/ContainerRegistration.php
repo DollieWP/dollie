@@ -38,18 +38,29 @@ class ContainerRegistration extends Singleton {
 		return substr( $string, $ini, $len );
 	}
 
+	/**
+	 * Add worker key
+	 */
 	public function add_worker_key() {
 		if ( get_option( 'wpd_rundeck_key' ) === false ) {
 			update_option( 'wpd_rundeck_key', dollie()->random_string( 12 ) );
 		}
 	}
 
+	/**
+	 * Add worker node
+	 */
 	public function add_worker_node() {
 		if ( did_action( 'template_redirect' ) === 1 && is_singular( 'container' ) ) {
 			$this->register_worker_node();
 		}
 	}
 
+	/**
+	 * Get worker nodes
+	 *
+	 * @return string
+	 */
 	public function get_worker_nodes() {
 		$request_nodes_get = Api::post( Api::ROUTE_NODES_GET );
 
@@ -62,6 +73,11 @@ class ContainerRegistration extends Singleton {
 		return $response_nodes_get['body'];
 	}
 
+	/**
+	 * Register worker node
+	 *
+	 * @param null $id
+	 */
 	public function register_worker_node( $id = null ) {
 		$currentQuery = dollie()->get_current_object( $id );
 
@@ -86,7 +102,6 @@ class ContainerRegistration extends Singleton {
 				Log::add( 'Node could not be registered for ' . $currentQuery->slug, print_r( $request_create_node, true ), 'error' );
 
 				return;
-
 			}
 
 			update_post_meta( $post_id, 'wpd_node_added', 'yes' );

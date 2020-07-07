@@ -119,7 +119,6 @@ class Helpers extends Singleton {
 		return $this->get_container_url( $container_id ) . '/wp-login.php?s5token=' . $details->Token . '&string=' . $details->{'Customer ID'} . '&user=' . $details->Admin . $location;
 	}
 
-
 	public function get_customer_admin_url() {
 		return $this->get_container_url() . '/wp-admin/';
 	}

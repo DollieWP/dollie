@@ -144,7 +144,6 @@ class Upgrades extends Singleton {
 		}
 	}
 
-
 	/**
 	 * Handle all the versions upgrades
 	 */
@@ -190,7 +189,7 @@ class Upgrades extends Singleton {
 	/**
 	 * @return bool|WP_Error
 	 */
-        private function _upgrade_200() {
+	private function _upgrade_200() {
 
 		// Update Page IDs.
 		$pages_data = [
@@ -257,4 +256,5 @@ class Upgrades extends Singleton {
 
 		return true;
 	}
+
 }

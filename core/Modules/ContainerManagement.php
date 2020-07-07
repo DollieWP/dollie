@@ -23,19 +23,21 @@ class ContainerManagement extends Singleton {
 		parent::__construct();
 
 		add_action( 'init', [ $this, 'register_container' ], 0 );
-		add_action('init', [$this, 'register_container_category'], 0);
+		add_action( 'init', [ $this, 'register_container_category' ], 0 );
 		add_action( 'template_redirect', [ $this, 'bypass_output_caching' ] );
-		add_action( 'template_redirect', [ $this, 'fetch_container_details' ] );
+		add_action( 'template_redirect', [ $this, 'remove_container_details_transients' ] );
 		add_action( 'template_redirect', [ $this, 'update_container_details' ] );
 		add_action( 'untrashed_post', [ $this, 'run_container_untrash_action' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'load_scripts' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_scripts' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'load_styles' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'enqueue_admin_script' ] );
 
 		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
 		add_action( 'add_meta_boxes', [ $this, 'rename_author_box_title' ] );
 	}
 
+	/**
+	 * Register container post type
+	 */
 	public function register_container() {
 		$labels = [
 			'name'                  => _x( 'Sites', 'dollie', 'dollie' ),
@@ -98,8 +100,10 @@ class ContainerManagement extends Singleton {
 		register_post_type( 'container', $args );
 	}
 
+	/**
+	 * Register container taxonomy
+	 */
 	public function register_container_category() {
-
 		$labels = array(
 			'name'                       => _x( 'Blueprint Categories', 'Taxonomy General Name', 'dollie' ),
 			'singular_name'              => _x( 'Blueprint Category', 'Taxonomy Singular Name', 'dollie' ),
@@ -122,19 +126,22 @@ class ContainerManagement extends Singleton {
 			'items_list'                 => __( 'Items list', 'dollie' ),
 			'items_list_navigation'      => __( 'Items list navigation', 'dollie' ),
 		);
-		$args = array(
-			'labels'                     => $labels,
-			'hierarchical'               => false,
-			'public'                     => true,
-			'show_ui'                    => true,
-			'show_admin_column'          => true,
-			'show_in_nav_menus'          => true,
-			'show_tagcloud'              => true,
+		$args   = array(
+			'labels'            => $labels,
+			'hierarchical'      => false,
+			'public'            => true,
+			'show_ui'           => true,
+			'show_admin_column' => true,
+			'show_in_nav_menus' => true,
+			'show_tagcloud'     => true,
 		);
-		register_taxonomy( 'container_category', array( 'container' ), $args );
 
+		register_taxonomy( 'container_category', array( 'container' ), $args );
 	}
 
+	/**
+	 * Skip caching
+	 */
 	public function bypass_output_caching() {
 		if ( is_singular( 'container' ) ) {
 			header( 'Content-Encoding: none' );
@@ -145,11 +152,16 @@ class ContainerManagement extends Singleton {
 		}
 	}
 
+	/**
+	 * Get container details
+	 *
+	 * @param null $container_id
+	 *
+	 * @return array|object
+	 */
 	public function get_customer_container_details( $container_id = null ) {
-
 		$container = dollie()->get_current_object( $container_id );
-
-		$request = get_transient( 'dollie_s5_container_details_' . $container->slug );
+		$request   = get_transient( 'dollie_s5_container_details_' . $container->slug );
 
 		// Only make request if it's not cached in a transient.
 		if ( empty( $request ) ) {
@@ -196,6 +208,16 @@ class ContainerManagement extends Singleton {
 		return (object) $request;
 	}
 
+	/**
+	 * Do container request
+	 *
+	 * @param $url
+	 * @param $transient_id
+	 * @param $user_auth
+	 * @param null $user_pass
+	 *
+	 * @return array|mixed
+	 */
 	public function container_api_request( $url, $transient_id, $user_auth, $user_pass = null ) {
 		if ( ob_get_length() > 0 ) {
 			@ob_end_flush();
@@ -238,9 +260,14 @@ class ContainerManagement extends Singleton {
 		return $request;
 	}
 
-
+	/**
+	 * Get container wp info
+	 *
+	 * @param null $container_id
+	 *
+	 * @return mixed
+	 */
 	public function get_container_wp_info( $container_id = null ) {
-
 		$container = dollie()->get_current_object( $container_id );
 
 		$transient_id   = $container->slug . '_get_container_wp_info';
@@ -266,7 +293,10 @@ class ContainerManagement extends Singleton {
 		return $data;
 	}
 
-	public function fetch_container_details() {
+	/**
+	 * Remove container details transients
+	 */
+	public function remove_container_details_transients() {
 		if ( isset( $_GET['get-details'] ) ) {
 			$currentQuery = dollie()->get_current_object();
 
@@ -276,12 +306,21 @@ class ContainerManagement extends Singleton {
 		}
 	}
 
+	/**
+	 * Flush container details
+	 */
 	public function update_container_details() {
 		if ( isset( $_GET['update-details'] ) ) {
 			dollie()->flush_container_details();
 		}
 	}
 
+	/**
+	 * Do container action
+	 *
+	 * @param $action
+	 * @param $container_post_id
+	 */
 	public function container_action( $action, $container_post_id ) {
 		$currentQuery = dollie()->get_current_object();
 
@@ -314,10 +353,10 @@ class ContainerManagement extends Singleton {
 				delete_post_meta( $post_id, 'wpd_undeploy_container_at' );
 				delete_post_meta( $post_id, 'wpd_scheduled_for_undeployment' );
 				// Update the site status so it counts as an active site
-				wp_update_post([
+				wp_update_post( [
 					'ID'          => $post_id,
 					'post_status' => 'publish',
-				]);
+				] );
 			}
 			if ( $action === 'stop' ) {
 				// Get today's timestamp.
@@ -333,10 +372,10 @@ class ContainerManagement extends Singleton {
 					update_post_meta( $post_id, 'wpd_scheduled_for_undeployment', 'yes' );
 					update_post_meta( $post_id, 'wpd_undeploy_container_at', $trigger_date );
 					// Update the site status so it won't count as an active site.
-					wp_update_post([
+					wp_update_post( [
 						'ID'          => $post_id,
 						'post_status' => 'draft',
-					]);
+					] );
 				}
 
 				Log::add( $site . ' scheduled to be removed', '', 'undeploy' );
@@ -356,6 +395,11 @@ class ContainerManagement extends Singleton {
 		}
 	}
 
+	/**
+	 * Start container after untrash
+	 *
+	 * @param $post_id
+	 */
 	public function run_container_untrash_action( $post_id ) {
 		$post_type = get_post( $post_id )->post_type;
 		if ( $post_type === 'container' ) {
@@ -363,22 +407,11 @@ class ContainerManagement extends Singleton {
 		}
 	}
 
-	public function load_scripts( $hook ) {
-		wp_register_style( 'dollie-custom-css', DOLLIE_URL . 'assets/css/admin.css', [], DOLLIE_VERSION );
-		wp_enqueue_style( 'dollie-custom-css' );
-		wp_enqueue_script( 'dollie-custom-js', DOLLIE_URL . 'assets/js/admin.js' );
-	}
-
-	public function load_styles( $hook ) {
-		wp_register_style( 'dollie-front-css', DOLLIE_URL . 'assets/css/front.css', [], DOLLIE_VERSION );
-		wp_enqueue_style( 'dollie-front-css' );
-	}
-
-
-	public function enqueue_admin_script( $hook ) {
-		wp_enqueue_script( 'my_custom_script', DOLLIE_URL . 'assets/js/admin.js', [], '1.0' );
-	}
-
+	/**
+	 * Sync containers
+	 *
+	 * @return array|mixed
+	 */
 	public function sync_containers() {
 		// Get list of container from remote API
 		$requestGetContainers = Api::post( Api::ROUTE_CONTAINER_GET, [
@@ -473,6 +506,9 @@ class ContainerManagement extends Singleton {
 		return $containers;
 	}
 
+	/**
+	 * Container manager notice
+	 */
 	public function add_container_manager_notice() {
 		if ( 'container' !== get_post_type() ) {
 			return;
@@ -500,6 +536,30 @@ class ContainerManagement extends Singleton {
 		<?php
 	}
 
+	/**
+	 * Load scripts
+	 *
+	 * @param $hook
+	 */
+	public function load_admin_scripts( $hook ) {
+		wp_register_style( 'dollie-custom-css', DOLLIE_URL . 'assets/css/admin.css', [], DOLLIE_VERSION );
+		wp_enqueue_style( 'dollie-custom-css' );
+		wp_enqueue_script( 'dollie-custom-js', DOLLIE_URL . 'assets/js/admin.js', [], DOLLIE_VERSION  );
+	}
+
+	/**
+	 * Load styles
+	 *
+	 * @param $hook
+	 */
+	public function load_styles( $hook ) {
+		wp_register_style( 'dollie-front-css', DOLLIE_URL . 'assets/css/front.css', [], DOLLIE_VERSION );
+		wp_enqueue_style( 'dollie-front-css' );
+	}
+
+	/**
+	 * Container author box
+	 */
 	public function rename_author_box_title() {
 		remove_meta_box( 'authordiv', 'container', 'core' );
 		add_meta_box( 'authordiv', __( 'Assigned Customer to this Site', 'wpse39446_domain' ), 'post_author_meta_box', 'container', 'advanced', 'high' );
