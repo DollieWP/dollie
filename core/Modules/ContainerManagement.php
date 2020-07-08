@@ -429,6 +429,18 @@ class ContainerManagement extends Singleton {
 		$containers = json_decode( $responseGetContainers['body'], true );
 
 		foreach ( $containers as $key => $container ) {
+			$domain = '';
+			if ( $container['uri'] ) {
+				$full_url        = parse_url( $container['uri'] );
+				$stripped_domain = explode( '.', $full_url['host'] );
+				$domain          = $stripped_domain[0];
+			}
+
+			// Skip if no domain
+			if ( ! $domain ) {
+				continue;
+			}
+
 			// Get container from client's WP install with the server's container ID
 			$client_containers = get_posts( [
 				'post_type'  => 'container',
@@ -449,10 +461,6 @@ class ContainerManagement extends Singleton {
 			if ( ! $author ) {
 				$author = wp_get_current_user();
 			}
-
-			$full_url        = parse_url( $container['uri'] );
-			$stripped_domain = explode( '.', $full_url['host'] );
-			$domain          = $stripped_domain[0];
 
 			$container_post_id = false;
 

@@ -23,6 +23,10 @@
 		<?php foreach ( $containers as $container ): ?>
 			<?php
 
+			if ( ! $container['uri'] ) {
+				continue;
+			}
+
 			$full_url        = parse_url( $container['uri'] );
 			$stripped_domain = explode( '.', $full_url['host'] );
 			$name            = $stripped_domain[0];
