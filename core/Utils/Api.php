@@ -19,6 +19,7 @@ class Api extends Singleton {
 		ROUTE_CONTAINER_GET = 'containers',
 		ROUTE_CONTAINER_CREATE = 'containers/create',
 		ROUTE_CONTAINER_TRIGGER = 'containers/trigger',
+		ROUTE_CHANGE_USER_ROLE = 'containers/change-user-role',
 
 		ROUTE_DOMAIN_ROUTES_ADD = 'domain/routes/add',
 		ROUTE_DOMAIN_ROUTES_GET = 'domain/routes/get',
@@ -43,8 +44,7 @@ class Api extends Singleton {
 		ROUTE_EXECUTE_JOB = 'execute/job',
 		ROUTE_NODES_CREATE = 'nodes/create',
 		ROUTE_NODES_GET = 'nodes',
-		ROUTE_WIZARD_SETUP = 'setup',
-		ROUTE_CHANGE_USER_ROLE = 'change-user-role';
+		ROUTE_WIZARD_SETUP = 'setup';
 
 	const API_URL = 'https://api.getdollie.com/api/';
 
