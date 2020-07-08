@@ -544,7 +544,7 @@ class ContainerManagement extends Singleton {
 	public function load_admin_scripts( $hook ) {
 		wp_register_style( 'dollie-custom-css', DOLLIE_URL . 'assets/css/admin.css', [], DOLLIE_VERSION );
 		wp_enqueue_style( 'dollie-custom-css' );
-		wp_enqueue_script( 'dollie-custom-js', DOLLIE_URL . 'assets/js/admin.js', [], DOLLIE_VERSION  );
+		wp_enqueue_script( 'dollie-custom-js', DOLLIE_URL . 'assets/js/admin.js', [], DOLLIE_VERSION );
 	}
 
 	/**
@@ -563,6 +563,48 @@ class ContainerManagement extends Singleton {
 	public function rename_author_box_title() {
 		remove_meta_box( 'authordiv', 'container', 'core' );
 		add_meta_box( 'authordiv', __( 'Assigned Customer to this Site', 'wpse39446_domain' ), 'post_author_meta_box', 'container', 'advanced', 'high' );
+	}
+
+	/**
+	 * Change user role
+	 *
+	 * @param $container_uri
+	 *
+	 * @return bool
+	 */
+	public function change_user_role( $container_uri ) {
+		$user_role = get_user_meta( get_current_user_id(), 'wpd_client_site_permissions' );
+
+		if ( $user_role === 'default' ) {
+			$user_role = get_option( 'wpd_client_site_permission', '' );
+		}
+
+		if ( ! $user_role ) {
+			return false;
+		}
+
+		$data = [
+			'container_uri'  => $container_uri,
+			'email'          => '',
+			'password'       => '',
+			'username'       => '',
+			'super_email'    => '',
+			'super_password' => '',
+			'super_username' => '',
+			'switch_to'      => $user_role
+		];
+
+		if ( $user_role === 'admin' ) {
+			// set client as admin
+		}
+
+		if ( $user_role === 'editor' ) {
+			// set client as editor
+		}
+
+		Api::post( Api::ROUTE_CHANGE_USER_ROLE, $data );
+
+		return true;
 	}
 
 }
