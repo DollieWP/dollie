@@ -238,7 +238,7 @@ class Helpers extends Singleton {
 			'author'        => get_current_user_id(),
 			'post_type'     => 'container',
 			'post_per_page' => 1000,
-			'post_status' => 'publish'
+			'post_status'   => 'publish'
 		] );
 
 		$total = $query->found_posts;
@@ -498,16 +498,31 @@ class Helpers extends Singleton {
 	}
 
 	/**
-     * Get the link for quick checkout
-     *
+	 * Get the link for quick checkout
+	 *
 	 * @param $product_id
 	 * @param $blueprint_id
 	 *
 	 * @return mixed
 	 */
 	public function get_woo_checkout_link( $product_id, $blueprint_id ) {
-	    return CheckSubscription::instance()->get_checkout_link( $product_id, $blueprint_id );
-    }
+		return CheckSubscription::instance()->get_checkout_link( $product_id, $blueprint_id );
+	}
+
+	/**
+	 * Get client user role
+	 *
+	 * @return mixed|void
+	 */
+	public function get_client_user_role() {
+		$role = get_user_meta( get_current_user_id(), 'wpd_client_site_permissions', true );
+
+		if ( $role === 'default' ) {
+			$role = get_option( 'options_wpd_client_site_permission' );
+		}
+
+		return $role;
+	}
 
 	public function in_array_r( $needle, $haystack, $strict = false ) {
 		foreach ( $haystack as $item ) {

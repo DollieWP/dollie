@@ -986,7 +986,7 @@ If you have a large database the update might take a while. Please hold on a cou
 			),
 			array(
 				'key' => 'field_5e7363c04012a',
-				'label' => __('Admin Email', 'dollie'),
+				'label' => __('Site Email', 'dollie'),
 				'name' => 'admin_email',
 				'type' => 'email',
 				'instructions' => __('This address is used for admin purposes, like new user notifications. In most cases you probably want to use the same address you used when creating your account.', 'dollie'),
@@ -1069,10 +1069,10 @@ If you have a large database the update might take a while. Please hold on a cou
 			),
 			array(
 				'key' => 'field_5e72a0bbba6a9',
-				'label' => __('Admin Username', 'dollie'),
+				'label' => __('Site Username', 'dollie'),
 				'name' => 'admin_username',
 				'type' => 'text',
-				'instructions' => __('The username you use to login to your WordPress admin.', 'dollie'),
+				'instructions' => __('The username you use to login to your WordPress install.', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
 					array(
@@ -1097,7 +1097,7 @@ If you have a large database the update might take a while. Please hold on a cou
 			),
 			array(
 				'key' => 'field_5e72a0f6ba6aa',
-				'label' => __('Admin Password', 'dollie'),
+				'label' => __('Site Password', 'dollie'),
 				'name' => 'admin_password',
 				'type' => 'password',
 				'instructions' => '',

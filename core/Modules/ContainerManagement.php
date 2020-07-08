@@ -574,41 +574,29 @@ class ContainerManagement extends Singleton {
 	}
 
 	/**
-	 * Change user role
+	 * Change client's user role
 	 *
-	 * @param $container_uri
+	 * @param $params
 	 *
 	 * @return bool
 	 */
-	public function change_user_role( $container_uri ) {
-		$user_role = get_user_meta( get_current_user_id(), 'wpd_client_site_permissions' );
+	public function change_client_user_role( $params ) {
+		$role = dollie()->get_client_user_role();
 
-		if ( $user_role === 'default' ) {
-			$user_role = get_option( 'wpd_client_site_permission', '' );
-		}
-
-		if ( ! $user_role ) {
+		if ( ! is_array( $params ) || ! isset( $params['container_uri'], $params['email'], $params['password'], $params['username'] ) || ! $role ) {
 			return false;
 		}
 
 		$data = [
-			'container_uri'  => $container_uri,
-			'email'          => '',
-			'password'       => '',
-			'username'       => '',
-			'super_email'    => '',
-			'super_password' => '',
-			'super_username' => '',
-			'switch_to'      => $user_role
+			'container_uri'  => $params['container_uri'],
+			'email'          => $params['email'],
+			'password'       => $params['password'],
+			'username'       => $params['username'],
+			'super_email'    => get_option( 'admin_email' ),
+			'super_password' => wp_generate_password(),
+			'super_username' => get_option( 'options_wpd_admin_user_name' ),
+			'switch_to'      => $role
 		];
-
-		if ( $user_role === 'admin' ) {
-			// set client as admin
-		}
-
-		if ( $user_role === 'editor' ) {
-			// set client as editor
-		}
 
 		Api::post( Api::ROUTE_CHANGE_USER_ROLE, $data );
 

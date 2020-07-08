@@ -5,6 +5,7 @@ namespace Dollie\Core\Modules\Sites;
 use Dollie\Core\Log;
 use Dollie\Core\Modules\Backups;
 use Dollie\Core\Modules\Blueprints;
+use Dollie\Core\Modules\ContainerManagement;
 use Dollie\Core\Modules\ContainerRegistration;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
@@ -247,6 +248,10 @@ final class WP extends Singleton {
 				}
 
 				Api::post( Api::ROUTE_WIZARD_SETUP, $data );
+
+				if ( dollie()->get_client_user_role() !== 'administrator' ) {
+					ContainerManagement::instance()->change_client_user_role( $data );
+				}
 			}
 		}
 
