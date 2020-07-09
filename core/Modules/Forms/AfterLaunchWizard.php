@@ -89,6 +89,8 @@ class AfterLaunchWizard extends Singleton {
 				'password'      => af_get_field( 'admin_password' )
 			];
 
+			update_post_meta( $container_id, 'wpd_username', af_get_field( 'admin_username' ) );
+
 			$status = WP::instance()->update_site_details( $data, $container_id );
 
 			if ( is_wp_error( $status ) ) {

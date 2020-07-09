@@ -510,12 +510,19 @@ class Helpers extends Singleton {
 	}
 
 	/**
-	 * Get client user role
+     * Get client user role
+     *
+	 * @param null $user_id
 	 *
 	 * @return mixed|void
+     *
 	 */
-	public function get_client_user_role() {
-		$role = get_user_meta( get_current_user_id(), 'wpd_client_site_permissions', true );
+	public function get_client_user_role( $user_id = null ) {
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+
+		$role = get_user_meta( $user_id, 'wpd_client_site_permissions', true );
 
 		if ( $role === 'default' ) {
 			$role = get_option( 'options_wpd_client_site_permission' );

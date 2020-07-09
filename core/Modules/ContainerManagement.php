@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
+use WP_Query;
 
 /**
  * Class ContainerManagement
@@ -33,6 +34,7 @@ class ContainerManagement extends Singleton {
 
 		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
 		add_action( 'add_meta_boxes', [ $this, 'rename_author_box_title' ] );
+		add_action( 'edit_user_profile_update', [ $this, 'update_user_role' ] );
 	}
 
 	/**
@@ -574,14 +576,60 @@ class ContainerManagement extends Singleton {
 	}
 
 	/**
+     * Update user role on container when profile changes
+     *
+	 * @param $user_id
+	 */
+	public function update_user_role( $user_id ) {
+		$fields = get_fields( 'user_' . $user_id );
+
+		if ( isset( $fields['wpd_client_site_permissions'] ) ) {
+			$role = $fields['wpd_client_site_permissions'];
+
+			if ( $role === 'default' ) {
+				$role = get_option( 'options_wpd_client_site_permission' );
+			}
+
+			$query = new WP_Query( [
+				'author'        => $user_id,
+				'post_type'     => 'container',
+				'post_per_page' => - 1,
+				'post_status'   => 'publish'
+			] );
+
+			if ( $query->have_posts() ) {
+				$params = [
+					'email' => get_user_meta( $user_id, 'email' )
+				];
+
+				foreach ( $query->posts as $post ) {
+					$params['container_uri'] = get_post_meta( $post->id, 'wpd_container_uri', true );
+					$params['username']      = get_post_meta( $post->id, 'wpd_username', true );
+					$params['password']      = wp_generate_password();
+
+					$this->change_client_user_role( $params, $user_id, $role );
+				}
+			}
+
+			wp_reset_postdata();
+		}
+	}
+
+	/**
 	 * Change client's user role
 	 *
 	 * @param $params
+	 * @param null $user_id
+	 * @param null $force_role
 	 *
 	 * @return bool
 	 */
-	public function change_client_user_role( $params ) {
-		$role = dollie()->get_client_user_role();
+	public function change_client_user_role( $params, $user_id = null, $force_role = null ) {
+		if ( $force_role ) {
+			$role = $force_role;
+		} else {
+			$role = dollie()->get_client_user_role( $user_id );
+		}
 
 		if ( ! is_array( $params ) || ! isset( $params['container_uri'], $params['email'], $params['password'], $params['username'] ) || ! $role ) {
 			return false;
