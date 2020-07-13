@@ -36,6 +36,7 @@ class ContainerManagement extends Singleton {
 		add_action( 'add_meta_boxes', [ $this, 'rename_author_box_title' ] );
 		add_action( 'edit_user_profile_update', [ $this, 'update_customer_role' ] );
 		//add_action( 'personal_options_update', [ $this, 'update_customer_role' ] );
+		add_action( 'acf/save_post', [ $this, 'update_all_customers_role' ] );
 
 		add_action( 'wpd_check_customer_role', [ $this, 'run_change_customer_role' ], 10, 3 );
 	}
@@ -586,37 +587,58 @@ class ContainerManagement extends Singleton {
 	public function update_customer_role( $user_id ) {
 		$fields = get_fields( 'user_' . $user_id );
 
+		$role = '';
+
 		if ( isset( $fields['wpd_client_site_permissions'] ) ) {
 			$role = $fields['wpd_client_site_permissions'];
+		}
 
-			if ( $role === 'default' ) {
-				$role = get_option( 'options_wpd_client_site_permission' );
+		if ( $role === 'default' ) {
+			$role = get_option( 'options_wpd_client_site_permission' );
+		}
+
+		if ( ! $role ) {
+			return;
+		}
+
+		$query = new WP_Query( [
+			'author'        => $user_id,
+			'post_type'     => 'container',
+			'post_per_page' => - 1,
+			'post_status'   => 'publish'
+		] );
+
+		$user_data = get_userdata( $user_id );
+
+		if ( $query->have_posts() ) {
+			$params = [
+				'email' => $user_data->user_email
+			];
+
+			foreach ( $query->posts as $post ) {
+				$params['container_uri'] = get_post_meta( $post->ID, 'wpd_container_uri', true );
+				$params['username']      = get_post_meta( $post->ID, 'wpd_username', true );
+				$params['password']      = wp_generate_password();
+
+				$this->schedule_change_customer_role_cron( $params, $user_id, $role );
 			}
+		}
 
-			$query = new WP_Query( [
-				'author'        => $user_id,
-				'post_type'     => 'container',
-				'post_per_page' => - 1,
-				'post_status'   => 'publish'
-			] );
+		wp_reset_postdata();
+	}
 
-			$user_data = get_userdata( $user_id );
+	/**
+	 * Update containers for all customers
+	 *
+	 * @param $post_id
+	 */
+	public function update_all_customers_role( $post_id ) {
+		if ( $post_id !== 'options' ) {
+			return;
+		}
 
-			if ( $query->have_posts() ) {
-				$params = [
-					'email' => $user_data->user_email
-				];
-
-				foreach ( $query->posts as $post ) {
-					$params['container_uri'] = get_post_meta( $post->ID, 'wpd_container_uri', true );
-					$params['username']      = get_post_meta( $post->ID, 'wpd_username', true );
-					$params['password']      = wp_generate_password();
-
-					$this->schedule_change_customer_role_cron( $params, $user_id, $role );
-				}
-			}
-
-			wp_reset_postdata();
+		foreach ( get_users() as $user ) {
+			$this->update_customer_role( $user->ID );
 		}
 	}
 
