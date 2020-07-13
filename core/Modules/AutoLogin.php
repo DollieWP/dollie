@@ -6,20 +6,24 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+/**
+ * Class AutoLogin
+ * @package Dollie\Core\Modules
+ */
 class AutoLogin {
 
+	/**
+	 * AutoLogin constructor.
+	 */
 	public function __construct() {
-
 		add_action( 'init', [ $this, 'do_autologin' ], - 1 );
 	}
 
-	function do_autologin() {
-
-
-		// redirect_canonical() - make sure we set the correct cookie domain
-
+	/**
+	 * Auto login logic
+	 */
+	public function do_autologin() {
 		if ( ! isset( $_GET['s5token'] ) ) {
-
 			return;
 		}
 
@@ -36,29 +40,17 @@ class AutoLogin {
 			return;
 		}
 
-		$blogusers = get_users( 'role=administrator&number=1' );
-		// Array of WP_User objects.
-		foreach ( $blogusers as $user ) {
-			$community_admin = $user->user_login;
-		}
-
-
-		if ( get_option( 'wfp_flush_new_install' ) != 'yes' ) {
+		if ( get_option( 'wfp_flush_new_install' ) !== 'yes' ) {
 			// Clear Object Cache
 			wp_cache_flush();
 			update_option( 'wfp_flush_new_install', 'yes' );
 		}
 
 		$user = false;
-		if ( isset( $_GET['user'] ) ) {
-			$username = $_GET['user'];
-			$user     = get_user_by( 'login', $username );
-		}
-
-
-		if ( ! $user ) {
-			$all_users = get_users();
-			foreach ( $all_users as $item ) {
+		if ( isset( $_GET['user'] ) && $_GET['user'] ) {
+			$user = get_user_by( 'login', $_GET['user'] );
+		} else {
+			foreach ( get_users() as $item ) {
 				if ( $item->has_cap( 'administrator' ) ) {
 					$user = $item;
 					break;
@@ -77,6 +69,7 @@ class AutoLogin {
 			} else {
 				wp_safe_redirect( admin_url() );
 			}
+
 			exit;
 		}
 
@@ -85,6 +78,7 @@ class AutoLogin {
 		} else {
 			wp_safe_redirect( admin_url() );
 		}
+
 		exit;
 	}
 
