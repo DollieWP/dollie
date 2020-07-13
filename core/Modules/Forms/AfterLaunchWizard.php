@@ -28,7 +28,7 @@ class AfterLaunchWizard extends Singleton {
 		parent::__construct();
 
 		// Form submission action.
-		add_action( 'acf/validate_save_post', array( $this, 'submission_callback' ), 10, 0 );
+		add_action( 'acf/validate_save_post', [ $this, 'submission_callback' ], 10, 0 );
 
 		add_action( 'acf/init', [ $this, 'acf_init' ] );
 	}

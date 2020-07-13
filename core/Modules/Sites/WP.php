@@ -249,8 +249,8 @@ final class WP extends Singleton {
 
 				Api::post( Api::ROUTE_WIZARD_SETUP, $data );
 
-				if ( dollie()->get_client_user_role() !== 'administrator' ) {
-					ContainerManagement::instance()->change_client_user_role( $data );
+				if ( dollie()->get_customer_user_role() !== 'administrator' ) {
+					ContainerManagement::instance()->change_customer_user_role( $data );
 				}
 			}
 		}

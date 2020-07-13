@@ -510,14 +510,14 @@ class Helpers extends Singleton {
 	}
 
 	/**
-     * Get client user role
+     * Get customer user role
      *
 	 * @param null $user_id
 	 *
 	 * @return mixed|void
      *
 	 */
-	public function get_client_user_role( $user_id = null ) {
+	public function get_customer_user_role( $user_id = null ) {
 		if ( ! $user_id ) {
 			$user_id = get_current_user_id();
 		}

@@ -34,7 +34,10 @@ class ContainerManagement extends Singleton {
 
 		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
 		add_action( 'add_meta_boxes', [ $this, 'rename_author_box_title' ] );
-		add_action( 'edit_user_profile_update', [ $this, 'update_user_role' ] );
+		add_action( 'edit_user_profile_update', [ $this, 'update_customer_role' ] );
+		//add_action( 'personal_options_update', [ $this, 'update_customer_role' ] );
+
+		add_action( 'wpd_check_customer_role', [ $this, 'run_change_customer_role' ], 10, 3 );
 	}
 
 	/**
@@ -576,11 +579,11 @@ class ContainerManagement extends Singleton {
 	}
 
 	/**
-     * Update user role on container when profile changes
-     *
+	 * Update user role on container when profile changes
+	 *
 	 * @param $user_id
 	 */
-	public function update_user_role( $user_id ) {
+	public function update_customer_role( $user_id ) {
 		$fields = get_fields( 'user_' . $user_id );
 
 		if ( isset( $fields['wpd_client_site_permissions'] ) ) {
@@ -597,17 +600,19 @@ class ContainerManagement extends Singleton {
 				'post_status'   => 'publish'
 			] );
 
+			$user_data = get_userdata( $user_id );
+
 			if ( $query->have_posts() ) {
 				$params = [
-					'email' => get_user_meta( $user_id, 'email' )
+					'email' => $user_data->user_email
 				];
 
 				foreach ( $query->posts as $post ) {
-					$params['container_uri'] = get_post_meta( $post->id, 'wpd_container_uri', true );
-					$params['username']      = get_post_meta( $post->id, 'wpd_username', true );
+					$params['container_uri'] = get_post_meta( $post->ID, 'wpd_container_uri', true );
+					$params['username']      = get_post_meta( $post->ID, 'wpd_username', true );
 					$params['password']      = wp_generate_password();
 
-					$this->change_client_user_role( $params, $user_id, $role );
+					$this->schedule_change_customer_role_cron( $params, $user_id, $role );
 				}
 			}
 
@@ -616,7 +621,7 @@ class ContainerManagement extends Singleton {
 	}
 
 	/**
-	 * Change client's user role
+	 * Change customer's user role
 	 *
 	 * @param $params
 	 * @param null $user_id
@@ -624,11 +629,11 @@ class ContainerManagement extends Singleton {
 	 *
 	 * @return bool
 	 */
-	public function change_client_user_role( $params, $user_id = null, $force_role = null ) {
-		if ( $force_role ) {
-			$role = $force_role;
-		} else {
-			$role = dollie()->get_client_user_role( $user_id );
+	public function change_customer_user_role( $params, $user_id = null, $force_role = null ) {
+		$role = $force_role ?: null;
+
+		if ( ! $role && $user_id ) {
+			$role = dollie()->get_customer_user_role( $user_id );
 		}
 
 		if ( ! is_array( $params ) || ! isset( $params['container_uri'], $params['email'], $params['password'], $params['username'] ) || ! $role ) {
@@ -649,6 +654,32 @@ class ContainerManagement extends Singleton {
 		Api::post( Api::ROUTE_CHANGE_USER_ROLE, $data );
 
 		return true;
+	}
+
+	/**
+	 * Run the customer role function
+	 *
+	 * @param $params
+	 * @param $user_id
+	 * @param $force_role
+	 */
+	public function run_change_customer_role( $params, $user_id, $force_role ) {
+		$this->change_customer_user_role( $params, $user_id, $force_role );
+	}
+
+	/**
+	 * Schedule customer role change event
+	 *
+	 * @param $params
+	 * @param $user_id
+	 * @param $force_role
+	 */
+	public function schedule_change_customer_role_cron( $params, $user_id, $force_role ) {
+		wp_schedule_single_event( time() + MINUTE_IN_SECONDS / 3, 'wpd_check_customer_role', [
+			$params,
+			$user_id,
+			$force_role
+		] );
 	}
 
 }
