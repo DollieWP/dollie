@@ -616,8 +616,16 @@ class ContainerManagement extends Singleton {
 			];
 
 			foreach ( $query->posts as $post ) {
+				$initial_username = get_post_meta( $post->ID, 'wpd_username', true );;
+
+				if ( ! $initial_username ) {
+					$details = $this->get_container_wp_info( $post->ID );
+					update_post_meta( $post->ID, 'wpd_username', $details->Admin );
+					$initial_username = $details->Admin;
+				}
+
 				$params['container_uri'] = get_post_meta( $post->ID, 'wpd_container_uri', true );
-				$params['username']      = get_post_meta( $post->ID, 'wpd_username', true );
+				$params['username']      = $initial_username;
 				$params['password']      = wp_generate_password();
 
 				$this->schedule_change_customer_role_cron( $params, $user_id, $role );
@@ -638,9 +646,9 @@ class ContainerManagement extends Singleton {
 		}
 
 		foreach ( get_users() as $user ) {
-			if ( $user->has_cap( 'administrator' ) ) {
-				continue;
-			}
+			/*			if ( $user->has_cap( 'administrator' ) ) {
+							continue;
+						}*/
 
 			$this->update_customer_role( $user->ID );
 		}
