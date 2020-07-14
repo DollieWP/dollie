@@ -199,19 +199,27 @@ final class WP extends Singleton {
 	/**
 	 * Update WP site details.
 	 *
-	 * @param int|null $container_id
-	 * @param array|null $data
+	 * @param $data
+	 * @param null $container_id
 	 *
 	 * @return bool|\WP_Error
 	 */
-	public function update_site_details( $data = null, $container_id = null ) {
-		if ( ! isset( $container_id ) ) {
+	public function update_site_details( $data, $container_id = null ) {
+		if ( ! is_array( $data ) || empty( $data ) ) {
+			return false;
+		}
+
+		if ( ! $container_id ) {
 			$current_query = dollie()->get_current_object();
 
 			$container_id   = $current_query->id;
 			$container_slug = $current_query->slug;
 		} else {
 			$container_slug = get_post( $container_id )->post_name;
+		}
+
+		if ( isset( $data['username'] ) ) {
+			update_post_meta( $container_id, 'wpd_username', $data['username'] );
 		}
 
 		do_action( 'dollie/launch_site/set_details/before', $container_id, $data );
