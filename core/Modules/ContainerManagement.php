@@ -39,6 +39,7 @@ class ContainerManagement extends Singleton {
 		add_action( 'acf/save_post', [ $this, 'update_all_customers_role' ] );
 
 		add_action( 'wpd_check_customer_role', [ $this, 'run_change_customer_role' ], 10, 3 );
+		add_action( 'acf/input/admin_footer', [ $this, 'change_role_option_notice' ] );
 	}
 
 	/**
@@ -714,6 +715,23 @@ class ContainerManagement extends Singleton {
 			$user_id,
 			$force_role
 		] );
+	}
+
+	public function change_role_option_notice() {
+		?>
+        <script type="text/javascript">
+            (function ($) {
+                var customer_role = $('[data-name="wpd_client_site_permission"]');
+                if (customer_role.length) {
+                    var key = customer_role.data('key');
+
+                    $('[name="acf[' + key + ']"]').on('change', function () {
+                        alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
+                    })
+                }
+            })(jQuery);
+        </script>
+		<?php
 	}
 
 }
