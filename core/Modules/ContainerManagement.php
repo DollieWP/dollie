@@ -638,6 +638,10 @@ class ContainerManagement extends Singleton {
 		}
 
 		foreach ( get_users() as $user ) {
+			if ( $user->has_cap( 'administrator' ) ) {
+				continue;
+			}
+
 			$this->update_customer_role( $user->ID );
 		}
 	}

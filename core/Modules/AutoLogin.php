@@ -58,7 +58,7 @@ class AutoLogin {
 			}
 		}
 
-		// login as this user
+		// Login as this user
 		wp_clear_auth_cookie();
 		wp_set_current_user( $user->ID, $user->user_login );
 		wp_set_auth_cookie( $user->ID, true, is_ssl() );
