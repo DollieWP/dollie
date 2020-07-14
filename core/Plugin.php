@@ -47,7 +47,6 @@ class Plugin extends Singleton {
 		add_filter( 'body_class', [ $this, 'add_timestamp_body' ] );
 
 		add_action( 'template_redirect', [ $this, 'remove_customer_domain' ] );
-		add_action( 'template_redirect', [ $this, 'redirect_to_container_launch' ] );
 
 		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
 
@@ -239,19 +238,6 @@ class Plugin extends Singleton {
 		}
 	}
 
-	/**
-	 * Redirect to launch
-	 */
-	public function redirect_to_container_launch() {
-		if ( ! dollie()->get_launch_page_id() ) {
-			return;
-		}
-
-		if ( current_user_can( 'manage_options' ) && dollie()->count_total_containers() === 0 && ! is_page( dollie()->get_launch_page_id() ) ) {
-			wp_redirect( dollie()->get_launch_page_url() );
-			exit;
-		}
-	}
 
 	/**
 	 * Default view time total containers
