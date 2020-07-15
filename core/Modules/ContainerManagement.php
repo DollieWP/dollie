@@ -595,12 +595,16 @@ class ContainerManagement extends Singleton {
 		}
 
 		if ( $role === 'default' ) {
-			$role = get_option( 'options_wpd_client_site_permission' );
+			$role = get_field( 'wpd_client_site_permission', 'options' );
 		}
 
-		if ( ! $role ) {
+		$last_role = get_user_meta( $user_id, 'wpd_client_last_changed_role', true );
+
+		if ( ! $role || $last_role === $role ) {
 			return;
 		}
+
+		update_user_meta( $user_id, 'wpd_client_last_changed_role', $role );
 
 		$query = new WP_Query( [
 			'author'        => $user_id,
@@ -645,6 +649,14 @@ class ContainerManagement extends Singleton {
 		if ( $post_id !== 'options' ) {
 			return;
 		}
+
+		$role = get_field( 'wpd_client_site_permission', $post_id );
+
+		if ( get_option( 'wpd_client_last_changed_role', '' ) === $role ) {
+			return;
+		}
+
+		update_option( 'wpd_client_last_changed_role', $role );
 
 		foreach ( get_users() as $user ) {
 			if ( $user->has_cap( 'administrator' ) ) {
