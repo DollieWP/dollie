@@ -665,6 +665,9 @@ class ContainerManagement extends Singleton {
 		}
 
 		wp_reset_postdata();
+
+		Log::add( 'Scheduled job to update client access role for ' . $user_data->display_name );
+
 	}
 
 	/**
@@ -716,6 +719,8 @@ class ContainerManagement extends Singleton {
 
 			$this->update_customer_role( $user->ID );
 		}
+
+		Log::add( 'Started to update all customers access role' );
 	}
 
 	/**
@@ -775,7 +780,7 @@ class ContainerManagement extends Singleton {
 	 * @param $force_role
 	 */
 	public function schedule_change_customer_role_cron( $params, $user_id, $force_role ) {
-		wp_schedule_single_event( time() + MINUTE_IN_SECONDS / 3, 'wpd_check_customer_role', [
+		wp_schedule_single_event( time() + 10, 'wpd_check_customer_role', [
 			$params,
 			$user_id,
 			$force_role
