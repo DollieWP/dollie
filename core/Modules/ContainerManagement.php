@@ -34,8 +34,7 @@ class ContainerManagement extends Singleton {
 
 		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
 		add_action( 'add_meta_boxes', [ $this, 'rename_author_box_title' ] );
-		add_action( 'edit_user_profile_update', [ $this, 'update_customer_role' ] );
-		//add_action( 'personal_options_update', [ $this, 'update_customer_role' ] );
+		add_action( 'acf/save_post', [ $this, 'update_customer_role' ] );
 		add_action( 'acf/save_post', [ $this, 'update_all_customers_role' ] );
 
 		// Schedule role change
@@ -619,6 +618,14 @@ class ContainerManagement extends Singleton {
 	 * @param $user_id
 	 */
 	public function update_customer_role( $user_id ) {
+		if ( ! is_numeric( $user_id ) ) {
+			$user_id = (int) str_replace( 'user_', '', $user_id );
+		}
+
+		if ( ! $user_id || user_can( $user_id, 'administrator' ) ) {
+			return;
+		}
+
 		$fields = get_fields( 'user_' . $user_id );
 
 		$role = '';
@@ -633,11 +640,13 @@ class ContainerManagement extends Singleton {
 
 		$last_role = get_user_meta( $user_id, 'wpd_client_last_changed_role', true );
 
+		if ( $last_role !== $role ) {
+			update_user_meta( $user_id, 'wpd_client_last_changed_role', $role );
+		}
+
 		if ( ! $role || $last_role === $role ) {
 			return;
 		}
-
-		update_user_meta( $user_id, 'wpd_client_last_changed_role', $role );
 
 		$query = new WP_Query( [
 			'author'        => $user_id,

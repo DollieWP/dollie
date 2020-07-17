@@ -125,7 +125,7 @@ class Helpers extends Singleton {
 		} else {
 			$username = ContainerManagement::instance()->get_container_client_username( $container->id );
 		}
- 
+
 		$token_details = ContainerManagement::instance()->get_container_login_token( $container->id, $username );
 
 		if ( ! $token_details ) {
@@ -546,7 +546,7 @@ class Helpers extends Singleton {
 
 		$role = get_user_meta( $user_id, 'wpd_client_site_permissions', true );
 
-		if ( $role === 'default' ) {
+		if ( ! $role || $role === 'default' ) {
 			$role = get_field( 'wpd_client_site_permission', 'options' );
 		}
 
