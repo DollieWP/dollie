@@ -546,7 +546,7 @@ class Helpers extends Singleton {
 
 		$role = get_user_meta( $user_id, 'wpd_client_site_permissions', true );
 
-		if ( $role === 'default' ) {
+		if ( ! $role || $role === 'default' ) {
 			$role = get_field( 'wpd_client_site_permission', 'options' );
 		}
 
