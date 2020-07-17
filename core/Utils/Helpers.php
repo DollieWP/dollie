@@ -125,7 +125,7 @@ class Helpers extends Singleton {
 			return $url;
 		}
 
-		$url .= '?s5token=' . $token_details->Token . '&user=' . $username . $location;
+		$url .= '?s5token=' . $token_details->Token . $location;
 
 		return $url;
 
