@@ -322,12 +322,13 @@ class ContainerManagement extends Singleton {
 
 		// Now that we have our container details get our info
 		$details_url = dollie()->get_container_url( $container->id ) . '/wp-content/mu-plugins/platform/container/details/login.php';
-		$details_url .= '';
 
+		$site_username = ContainerManagement::instance()->get_container_client_username( $container->id );
+		$details_url   .= '?username=' . $site_username;
+
+		// Pass on the App ID from our request.
 		$details_username = 'container';
-
-		//Pass on the App ID from our request
-		$details_pass = $request->id;
+		$details_pass     = $request->id;
 
 		//Make the request
 		return dollie()->container_api_request( $details_url, null, $details_username, $details_pass );
@@ -668,14 +669,14 @@ class ContainerManagement extends Singleton {
 	}
 
 	/**
-     * Return the username used for site launch.
-     *
+	 * Return the username used for site launch.
+	 *
 	 * @param $container_id
 	 *
 	 * @return mixed
 	 */
 	public function get_container_client_username( $container_id ) {
-		$initial_username = get_post_meta( $container_id, 'wpd_username', true );;
+		$initial_username = get_post_meta( $container_id, 'wpd_username', true );
 
 		if ( ! $initial_username ) {
 			$details = $this->get_container_wp_info( $container_id );
