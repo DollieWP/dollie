@@ -128,13 +128,13 @@ class Helpers extends Singleton {
 
 		$token_details = ContainerManagement::instance()->get_container_login_token( $container->id, $username );
 
-		if ( $token_details && $token_details->Token ) {
+		if ( is_object( $token_details ) && $token_details->Token ) {
 			$url .= '?s5token=' . $token_details->Token . $location;
 		} else {
 
-		    // keep old functionality for fallback
+			// keep old functionality for fallback
 			$details = ContainerManagement::instance()->get_container_wp_info( $container->id );
-			$url .= '?s5token=' . $details->Token . $location;
+			$url     .= '?s5token=' . $details->Token . $location;
 		}
 
 		return $url;
@@ -548,6 +548,9 @@ class Helpers extends Singleton {
 
 		if ( ! $role || $role === 'default' ) {
 			$role = get_field( 'wpd_client_site_permission', 'options' );
+		}
+		if ( ! $role ) {
+			$role = 'administrator';
 		}
 
 		return $role;
