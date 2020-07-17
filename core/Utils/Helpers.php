@@ -115,7 +115,17 @@ class Helpers extends Singleton {
 			$location = '';
 		}
 
-		$username      = ContainerManagement::instance()->get_container_client_username( $container->id );
+		// Generate different login links based on user access control.
+		$client_user_id = get_post_field( 'post_author', $container->id );
+		$user_role      = dollie()->get_customer_user_role( $client_user_id );
+
+		// If we are admin and visiting client site
+		if ( $user_role !== 'administrator' && current_user_can( 'manage_options' ) ) {
+			$username = get_option( 'options_wpd_admin_user_name' );
+		} else {
+			$username = ContainerManagement::instance()->get_container_client_username( $container->id );
+		}
+ 
 		$token_details = ContainerManagement::instance()->get_container_login_token( $container->id, $username );
 
 		if ( ! $token_details ) {
