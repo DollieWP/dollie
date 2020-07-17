@@ -128,14 +128,14 @@ class Helpers extends Singleton {
 
 		$token_details = ContainerManagement::instance()->get_container_login_token( $container->id, $username );
 
-		if ( ! $token_details ) {
-			return $url;
-		}
-		if ( ! isset( $token_details->Token ) ) {
-			return $url;
-		}
+		if ( $token_details && $token_details->Token ) {
+			$url .= '?s5token=' . $token_details->Token . $location;
+		} else {
 
-		$url .= '?s5token=' . $token_details->Token . $location;
+		    // keep old functionality for fallback
+			$details = ContainerManagement::instance()->get_container_wp_info( $container->id );
+			$url .= '?s5token=' . $details->Token . $location;
+		}
 
 		return $url;
 
