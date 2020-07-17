@@ -257,6 +257,7 @@ final class WP extends Singleton {
 
 				Api::post( Api::ROUTE_WIZARD_SETUP, $data );
 
+				// Change user access for site
 				if ( dollie()->get_customer_user_role() !== 'administrator' ) {
 					ContainerManagement::instance()->change_customer_user_role( $data );
 				}

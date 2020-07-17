@@ -107,6 +107,7 @@ class Helpers extends Singleton {
 	public function get_customer_login_url( $container_id = null, $container_location = null ) {
 
 		$container = $this->get_current_object( $container_id );
+		$url       = $this->get_container_url( $container->id ) . '/wp-login.php';
 
 		if ( $container_location !== null ) {
 			$location = '&location=' . $container_location;
@@ -114,9 +115,20 @@ class Helpers extends Singleton {
 			$location = '';
 		}
 
-		$details = ContainerManagement::instance()->get_container_wp_info( $container->id );
+		$username      = ContainerManagement::instance()->get_container_client_username( $container->id );
+		$token_details = ContainerManagement::instance()->get_container_login_token( $container->id, $username );
 
-		return $this->get_container_url( $container_id ) . '/wp-login.php?s5token=' . $details->Token . '&string=' . $details->{'Customer ID'} . '&user=' . $details->Admin . $location;
+		if ( ! $token_details ) {
+			return $url;
+		}
+		if ( ! isset( $token_details->Token ) ) {
+			return $url;
+		}
+
+		$url .= '?s5token=' . $token_details->Token . '&user=' . $username . $location;
+
+		return $url;
+
 	}
 
 	public function get_customer_admin_url() {

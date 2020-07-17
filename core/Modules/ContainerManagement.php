@@ -38,7 +38,9 @@ class ContainerManagement extends Singleton {
 		//add_action( 'personal_options_update', [ $this, 'update_customer_role' ] );
 		add_action( 'acf/save_post', [ $this, 'update_all_customers_role' ] );
 
+		// Schedule role change
 		add_action( 'wpd_check_customer_role', [ $this, 'run_change_customer_role' ], 10, 3 );
+
 		add_action( 'acf/input/admin_footer', [ $this, 'change_role_option_notice' ] );
 	}
 
@@ -225,15 +227,11 @@ class ContainerManagement extends Singleton {
 	 *
 	 * @return array|mixed
 	 */
-	public function container_api_request( $url, $transient_id, $user_auth, $user_pass = null ) {
+	public function container_api_request( $url, $transient_id = null, $user_auth = null, $user_pass = null ) {
 		if ( ob_get_length() > 0 ) {
 			@ob_end_flush();
 			@flush();
 		}
-
-		$transient_name = 'dollie_container_api_request_' . $transient_id;
-
-		$request = get_transient( $transient_name );
 
 		if ( $user_auth === null ) {
 			$user_auth = DOLLIE_S5_USER;
@@ -241,6 +239,13 @@ class ContainerManagement extends Singleton {
 
 		if ( $user_pass === null ) {
 			$user_pass = DOLLIE_S5_PASSWORD;
+		}
+
+		$request = [];
+
+		if ( isset( $transient_id ) ) {
+			$transient_name = 'dollie_container_api_request_' . $transient_id;
+			$request        = get_transient( $transient_name );
 		}
 
 		// Only make request if it's not cached in a transient.
@@ -261,7 +266,9 @@ class ContainerManagement extends Singleton {
 				return [];
 			}
 
-			set_transient( $transient_name, $request, MINUTE_IN_SECONDS * 30 );
+			if ( isset( $transient_name ) ) {
+				set_transient( $transient_name, $request, MINUTE_IN_SECONDS * 30 );
+			}
 		}
 
 		return $request;
@@ -298,6 +305,32 @@ class ContainerManagement extends Singleton {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Get container login info
+	 *
+	 * @param null $container_id
+	 *
+	 * @return mixed
+	 */
+	public function get_container_login_token( $container_id = null ) {
+		$container = dollie()->get_current_object( $container_id );
+
+		// Make an API request to get our customer details.
+		$request = dollie()->get_customer_container_details( $container->id );
+
+		// Now that we have our container details get our info
+		$details_url = dollie()->get_container_url( $container->id ) . '/wp-content/mu-plugins/platform/container/details/login.php';
+		$details_url .= '';
+
+		$details_username = 'container';
+
+		//Pass on the App ID from our request
+		$details_pass = $request->id;
+
+		//Make the request
+		return dollie()->container_api_request( $details_url, null, $details_username, $details_pass );
 	}
 
 	/**
@@ -621,13 +654,7 @@ class ContainerManagement extends Singleton {
 			];
 
 			foreach ( $query->posts as $post ) {
-				$initial_username = get_post_meta( $post->ID, 'wpd_username', true );;
-
-				if ( ! $initial_username ) {
-					$details = $this->get_container_wp_info( $post->ID );
-					update_post_meta( $post->ID, 'wpd_username', $details->Admin );
-					$initial_username = $details->Admin;
-				}
+				$initial_username = $this->get_container_client_username( $post->ID );
 
 				$params['container_uri'] = get_post_meta( $post->ID, 'wpd_container_uri', true );
 				$params['username']      = $initial_username;
@@ -638,6 +665,25 @@ class ContainerManagement extends Singleton {
 		}
 
 		wp_reset_postdata();
+	}
+
+	/**
+     * Return the username used for site launch.
+     *
+	 * @param $container_id
+	 *
+	 * @return mixed
+	 */
+	public function get_container_client_username( $container_id ) {
+		$initial_username = get_post_meta( $container_id, 'wpd_username', true );;
+
+		if ( ! $initial_username ) {
+			$details = $this->get_container_wp_info( $container_id );
+			update_post_meta( $container_id, 'wpd_username', $details->Admin );
+			$initial_username = $details->Admin;
+		}
+
+		return $initial_username;
 	}
 
 	/**
@@ -699,6 +745,8 @@ class ContainerManagement extends Singleton {
 		];
 
 		Api::post( Api::ROUTE_CHANGE_USER_ROLE, $data );
+
+		Log::add( $params['container_uri'] . ' client access was set to ' . $role );
 
 		return true;
 	}
