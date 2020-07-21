@@ -259,6 +259,7 @@ final class WP extends Singleton {
 
 				// Change user access for site
 				if ( dollie()->get_customer_user_role() !== 'administrator' ) {
+					sleep( 5 );
 					ContainerManagement::instance()->change_customer_user_role( $data );
 				}
 			}
