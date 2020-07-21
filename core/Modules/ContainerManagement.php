@@ -744,7 +744,11 @@ class ContainerManagement extends Singleton {
 	public function change_customer_user_role( $params, $user_id = null, $force_role = null ) {
 		$role = $force_role ?: null;
 
-		if ( ! $role && $user_id ) {
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+
+		if ( ! $role ) {
 			$role = dollie()->get_customer_user_role( $user_id );
 		}
 
