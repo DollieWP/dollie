@@ -80,9 +80,9 @@ class DeleteSite extends Singleton {
 	 */
 	public function change_form_args( $args ) {
 		$args['submit_text'] = esc_html__( 'Delete', 'dollie' );
+		$args['redirect']    = get_site_url() . '/dashboard';
 
 		return $args;
 	}
-
 
 }

@@ -312,7 +312,7 @@ class CheckSubscription extends Singleton {
 		if ( $id === null ) {
 			$query_args = [
 				'post_type'      => 'container',
-				'posts_per_page' => 1000,
+				'posts_per_page' => - 1,
 				'post_status'    => 'publish',
 				'meta_key'       => 'wpd_scheduled_for_removal',
 				'meta_value'     => 'yes',
@@ -335,7 +335,7 @@ class CheckSubscription extends Singleton {
 				$today        = mktime( 0, 0, 0, date( 'm' ), date( 'd' ), date( 'Y' ) );
 				$trigger_date = get_post_meta( get_the_ID(), 'wpd_stop_container_at', true );
 
-				//If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
+				// If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
 				if ( $trigger_date < $today ) {
 					ContainerManagement::instance()->container_action( 'stop', get_the_ID() );
 					Log::add( get_the_title( get_the_ID() ) . ' has been stopped because the customer has no active subscription' );
@@ -357,23 +357,25 @@ class CheckSubscription extends Singleton {
 		// Instantiate custom query
 		$query = new WP_Query( [
 			'post_type'      => 'container',
-			'post_status'    => 'publish',
-			'posts_per_page' => 9999999,
+			'post_status'    => 'draft',
+			'posts_per_page' => - 1,
 			'meta_key'       => 'wpd_scheduled_for_undeployment',
 			'meta_value'     => 'yes',
 		] );
 
-		// Output custom query loop
 		if ( $query->have_posts() ) {
+			// Output custom query loop
 			while ( $query->have_posts() ) {
 				$query->the_post();
 				// Get today's timestamp.
 				$today        = mktime( 0, 0, 0, date( 'm' ), date( 'd' ), date( 'Y' ) );
 				$trigger_date = get_post_meta( get_the_ID(), 'wpd_undeploy_container_at', true );
-				//If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
+
+				// If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
 				if ( $trigger_date < $today ) {
 					ContainerManagement::instance()->container_action( 'undeploy', get_the_ID() );
 					Log::add( get_the_title( get_the_ID() ) . ' has been undeployed' );
+					sleep( 3 );
 				}
 			}
 		}
@@ -632,8 +634,8 @@ class CheckSubscription extends Singleton {
 	}
 
 	/**
-     * Get how many sites are left available for customer
-     *
+	 * Get how many sites are left available for customer
+	 *
 	 * @return int|mixed
 	 */
 	public function sites_available() {
@@ -649,8 +651,8 @@ class CheckSubscription extends Singleton {
 	}
 
 	/**
-     * Get storage available for customer
-     *
+	 * Get storage available for customer
+	 *
 	 * @return int|mixed
 	 */
 	public function storage_available() {
@@ -665,8 +667,8 @@ class CheckSubscription extends Singleton {
 	}
 
 	/**
-     * Get subscription name
-     *
+	 * Get subscription name
+	 *
 	 * @return mixed|string
 	 */
 	public function subscription_name() {
@@ -680,8 +682,8 @@ class CheckSubscription extends Singleton {
 	}
 
 	/**
-     * Check if site limit has been reached
-     *
+	 * Check if site limit has been reached
+	 *
 	 * @return bool
 	 */
 	public function site_limit_reached() {
@@ -701,8 +703,8 @@ class CheckSubscription extends Singleton {
 	}
 
 	/**
-     * Get excluded blueprints
-     *
+	 * Get excluded blueprints
+	 *
 	 * @return bool
 	 */
 	public function get_excluded_blueprints() {
@@ -719,8 +721,8 @@ class CheckSubscription extends Singleton {
 	}
 
 	/**
-     * Get included blueprints
-     *
+	 * Get included blueprints
+	 *
 	 * @return bool
 	 */
 	public function get_included_blueprints() {
@@ -737,8 +739,8 @@ class CheckSubscription extends Singleton {
 	}
 
 	/**
-     * Check if the size limit has been reached
-     *
+	 * Check if the size limit has been reached
+	 *
 	 * @return bool
 	 */
 	public function size_limit_reached() {

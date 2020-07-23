@@ -23,19 +23,18 @@
 		<?php foreach ( $containers as $container ): ?>
 			<?php
 
-			if ( ! $container['uri'] ) {
-				continue;
-			}
-
-			$full_url        = parse_url( $container['uri'] );
-			$stripped_domain = explode( '.', $full_url['host'] );
+			$stripped_domain = explode( '.', $container['name'] );
 			$name            = $stripped_domain[0];
 
 			?>
 
             <tr>
                 <td><?php echo $name; ?></td>
-                <td><?php echo $container['uri']; ?></td>
+                <td>
+                    <a href="<?php echo esc_url( 'https://' . $container['name'] ); ?>" target="_blank">
+						<?php echo 'https://' . $container['name']; ?>
+                    </a>
+                </td>
                 <td><?php echo $container['status']; ?></td>
             </tr>
 		<?php endforeach; ?>

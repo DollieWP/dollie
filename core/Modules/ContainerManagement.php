@@ -397,6 +397,7 @@ class ContainerManagement extends Singleton {
 					'post_status' => 'publish',
 				] );
 			}
+
 			if ( $action === 'stop' ) {
 				// Get today's timestamp.
 				$today        = mktime( 0, 0, 0, date( 'm' ), date( 'd' ), date( 'Y' ) );
@@ -404,12 +405,14 @@ class ContainerManagement extends Singleton {
 
 				//If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
 				if ( $trigger_date < $today ) {
-					$delay_in_days = 14;
+					$delay_in_days = 7;
+
 					// Calculate the "stop" date and set it 3 days into the future.
 					$trigger_date = mktime( 0, 0, 0, date( 'm' ), date( 'd' ) + $delay_in_days, date( 'Y' ) );
 					update_post_meta( $post_id, 'wpd_container_status', 'stopped' );
 					update_post_meta( $post_id, 'wpd_scheduled_for_undeployment', 'yes' );
 					update_post_meta( $post_id, 'wpd_undeploy_container_at', $trigger_date );
+
 					// Update the site status so it won't count as an active site.
 					wp_update_post( [
 						'ID'          => $post_id,
@@ -419,6 +422,7 @@ class ContainerManagement extends Singleton {
 
 				Log::add( $site . ' scheduled to be removed', '', 'undeploy' );
 			}
+
 			if ( $action === 'undeploy' ) {
 				delete_post_meta( $post_id, 'wpd_stop_container_at' );
 				delete_post_meta( $post_id, 'wpd_scheduled_for_removal' );
