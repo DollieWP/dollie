@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Jobs\ChangeUserRole;
+use Dollie\Core\Jobs\ChangeUserRoleJob;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
@@ -667,7 +667,7 @@ class ContainerManagement extends Singleton {
 				'email' => $user_data->user_email
 			];
 
-			$job = new ChangeUserRole();
+			$job = new ChangeUserRoleJob();
 
 			foreach ( $query->posts as $post ) {
 				$initial_username = $this->get_container_client_username( $post->ID );

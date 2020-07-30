@@ -13,12 +13,12 @@ use Dollie\Core\Utils\Api;
  * Class ChangeUserRole
  * @package Dollie\Core\Jobs
  */
-class ChangeUserRole extends \WP_Background_Process {
+class ChangeUserRoleJob extends \WP_Background_Process {
 
 	/**
 	 * @var string
 	 */
-	protected $action = 'change_user_role_process';
+	protected $action = 'change_user_role_job';
 
 	/**
 	 * Define task
