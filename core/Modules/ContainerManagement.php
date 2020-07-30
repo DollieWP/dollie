@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Jobs\ChangeUserRole;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
@@ -666,6 +667,8 @@ class ContainerManagement extends Singleton {
 				'email' => $user_data->user_email
 			];
 
+			$job = new ChangeUserRole();
+
 			foreach ( $query->posts as $post ) {
 				$initial_username = $this->get_container_client_username( $post->ID );
 
@@ -673,8 +676,14 @@ class ContainerManagement extends Singleton {
 				$params['username']      = $initial_username;
 				$params['password']      = wp_generate_password();
 
-				$this->schedule_change_customer_role_cron( $params, $user_id, $role );
+				$job->push_to_queue( [
+					'params'  => $params,
+					'user_id' => $user_id,
+					'role'    => $role
+				] );
 			}
+
+			$job->save()->dispatch();
 		}
 
 		wp_reset_postdata();
@@ -734,74 +743,6 @@ class ContainerManagement extends Singleton {
 		}
 
 		Log::add( 'Started to update all customers access role' );
-	}
-
-	/**
-	 * Change customer's user role
-	 *
-	 * @param $params
-	 * @param null $user_id
-	 * @param null $force_role
-	 *
-	 * @return bool
-	 */
-	public function change_customer_user_role( $params, $user_id = null, $force_role = null ) {
-		$role = $force_role ?: null;
-
-		if ( ! $user_id ) {
-			$user_id = get_current_user_id();
-		}
-
-		if ( ! $role ) {
-			$role = dollie()->get_customer_user_role( $user_id );
-		}
-
-		if ( ! is_array( $params ) || ! isset( $params['container_uri'], $params['email'], $params['password'], $params['username'] ) || ! $role ) {
-			return false;
-		}
-
-		$data = [
-			'container_uri'  => $params['container_uri'],
-			'email'          => $params['email'],
-			'password'       => $params['password'],
-			'username'       => $params['username'],
-			'super_email'    => get_option( 'admin_email' ),
-			'super_password' => wp_generate_password(),
-			'super_username' => get_option( 'options_wpd_admin_user_name' ),
-			'switch_to'      => $role
-		];
-
-		Api::post( Api::ROUTE_CHANGE_USER_ROLE, $data );
-
-		Log::add( $params['container_uri'] . ' client access was set to ' . $role );
-
-		return true;
-	}
-
-	/**
-	 * Run the customer role function
-	 *
-	 * @param $params
-	 * @param $user_id
-	 * @param $force_role
-	 */
-	public function run_change_customer_role( $params, $user_id, $force_role ) {
-		$this->change_customer_user_role( $params, $user_id, $force_role );
-	}
-
-	/**
-	 * Schedule customer role change event
-	 *
-	 * @param $params
-	 * @param $user_id
-	 * @param $force_role
-	 */
-	public function schedule_change_customer_role_cron( $params, $user_id, $force_role ) {
-		wp_schedule_single_event( time() + 10, 'wpd_check_customer_role', [
-			$params,
-			$user_id,
-			$force_role
-		] );
 	}
 
 	public function change_role_option_notice() {

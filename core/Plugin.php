@@ -65,6 +65,8 @@ class Plugin extends Singleton {
 	 * Load Dollie dependencies. Make sure to call them on plugins_loaded
 	 */
 	public function load_dependencies() {
+		// Load async processing
+		require_once DOLLIE_PATH . 'core/Extras/wp-background-processing/wp-background-processing.php';
 
 		// load ACF as fallback.
 		if ( ! class_exists( 'ACF' ) ) {
@@ -197,7 +199,7 @@ class Plugin extends Singleton {
 			$post_id      = $currentQuery->id;
 
 			// Prevent unauthorized access
-			if ( ! current_user_can('edit_post', $post_id ) ) {
+			if ( ! current_user_can( 'edit_post', $post_id ) ) {
 				return;
 			}
 
