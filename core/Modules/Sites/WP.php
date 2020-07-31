@@ -260,8 +260,11 @@ final class WP extends Singleton {
 				// Change user access for site
 				if ( dollie()->get_customer_user_role() !== 'administrator' ) {
 					sleep( 5 );
-					$job = new ChangeUserRoleJob();
-					$job->data( [ 'params' => $data ] )->dispatch();
+
+					as_enqueue_async_action( 'dollie/jobs/change_container_user_role', [
+						'params'  => $data,
+					] );
+
 				}
 			}
 		}

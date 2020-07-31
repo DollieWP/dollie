@@ -4,6 +4,13 @@
  *
  * @package WP-Background-Processing
  */
+/*
+Library URI: https://github.com/deliciousbrains/wp-background-processing/blob/fbbc56f2480910d7959972ec9ec0819a13c6150a/classes/wp-async-request.php
+Author: Delicious Brains Inc.
+Author URI: https://deliciousbrains.com/
+License: GNU General Public License v2.0
+License URI: https://github.com/deliciousbrains/wp-background-processing/commit/126d7945dd3d39f39cb6488ca08fe1fb66cb351a
+*/
 
 if ( ! class_exists( 'WP_Async_Request' ) ) {
 

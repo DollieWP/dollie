@@ -43,6 +43,8 @@ class ContainerManagement extends Singleton {
 		add_action( 'wpd_check_customer_role', [ $this, 'run_change_customer_role' ], 10, 3 );
 
 		add_action( 'acf/input/admin_footer', [ $this, 'change_role_option_notice' ] );
+
+		add_action( 'dollie/jobs/change_container_user_role', [ $this, 'run_change_user_role_task' ], 10, 3  );
 	}
 
 	/**
@@ -659,10 +661,10 @@ class ContainerManagement extends Singleton {
 		}
 
 		$query = new WP_Query( [
-			'author'        => $user_id,
-			'post_type'     => 'container',
-			'post_per_page' => - 1,
-			'post_status'   => 'publish'
+			'author'         => $user_id,
+			'post_type'      => 'container',
+			'posts_per_page' => - 1,
+			'post_status'    => 'publish'
 		] );
 
 		$user_data = get_userdata( $user_id );
@@ -672,8 +674,6 @@ class ContainerManagement extends Singleton {
 				'email' => $user_data->user_email
 			];
 
-			$job = new ChangeUserRoleJob();
-
 			foreach ( $query->posts as $post ) {
 				$initial_username = $this->get_container_client_username( $post->ID );
 
@@ -681,20 +681,56 @@ class ContainerManagement extends Singleton {
 				$params['username']      = $initial_username;
 				$params['password']      = wp_generate_password();
 
-				$job->push_to_queue( [
+				as_enqueue_async_action( 'dollie/jobs/change_container_user_role', [
 					'params'  => $params,
 					'user_id' => $user_id,
 					'role'    => $role
 				] );
 			}
-
-			$job->save()->dispatch();
 		}
 
 		wp_reset_postdata();
 
 		Log::add( 'Scheduled job to update client access role for ' . $user_data->display_name );
 
+	}
+
+	public function run_change_user_role_task( $params, $user_id = null, $role = null ) {
+
+		if ( ! isset( $params ) ) {
+			return false;
+		}
+
+		if ( ! isset( $user_id ) ) {
+			$user_id = get_current_user_id();
+		}
+
+		if ( ! isset( $role ) ) {
+			$role = dollie()->get_customer_user_role( $user_id );
+		}
+
+		if ( ! is_array( $params ) || ! isset( $params['container_uri'], $params['email'], $params['password'], $params['username'] ) || ! $role ) {
+			Log::add( 'Client user role change failed due to missing param.' );
+
+			return false;
+		}
+
+		$data = [
+			'container_uri'  => $params['container_uri'],
+			'email'          => $params['email'],
+			'password'       => $params['password'],
+			'username'       => $params['username'],
+			'super_email'    => get_option( 'admin_email' ),
+			'super_password' => wp_generate_password(),
+			'super_username' => get_option( 'options_wpd_admin_user_name' ),
+			'switch_to'      => $role
+		];
+
+		Api::post( Api::ROUTE_CHANGE_USER_ROLE, $data );
+
+		Log::add( $params['container_uri'] . ' client access was set to ' . $role );
+
+		return false;
 	}
 
 	/**
