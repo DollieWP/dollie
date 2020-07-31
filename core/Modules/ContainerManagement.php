@@ -11,6 +11,7 @@ use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
 use WP_Query;
+use function Crontrol\Schedule\add;
 
 /**
  * Class ContainerManagement
@@ -623,9 +624,13 @@ class ContainerManagement extends Singleton {
 	 * @param $user_id
 	 */
 	public function update_customer_role( $user_id ) {
-		if ( ! is_numeric( $user_id ) ) {
-			$user_id = (int) str_replace( 'user_', '', $user_id );
+
+		//make sure we are editing user
+		if ( strpos( $user_id, 'user_' ) === false ) {
+			return;
 		}
+
+		$user_id = (int) str_replace( 'user_', '', $user_id );
 
 		if ( ! $user_id || user_can( $user_id, 'administrator' ) ) {
 			return;
@@ -739,7 +744,7 @@ class ContainerManagement extends Singleton {
 				continue;
 			}
 
-			$this->update_customer_role( $user->ID );
+			$this->update_customer_role( 'user_' . $user->ID );
 		}
 
 		Log::add( 'Started to update all customers access role' );
