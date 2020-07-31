@@ -504,7 +504,7 @@ class Options extends Singleton {
 		$containers = [];
 
 		if ( array_key_exists( 'synchronize', $_POST ) ) {
-			$containers = ContainerManagement::instance()->sync_containers();
+			$containers = Jobs::instance()->run_sync_containers_task();
 		}
 
 		Tpl::load( 'admin/tools-page', [ 'containers' => $containers ], true );
@@ -579,8 +579,8 @@ class Options extends Singleton {
 	}
 
 	/**
-     * Api status callback
-     *
+	 * Api status callback
+	 *
 	 * @param $post
 	 * @param array $args
 	 */

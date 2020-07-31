@@ -18,6 +18,7 @@ use Dollie\Core\Modules\Forms;
 use Dollie\Core\Modules\Hooks;
 use Dollie\Core\Modules\Options;
 use Dollie\Core\Modules\SecurityChecks;
+use Dollie\Core\Modules\Jobs;
 use Dollie\Core\Modules\Upgrades;
 use Dollie\Core\Modules\WooCommerce;
 
@@ -50,7 +51,7 @@ class Plugin extends Singleton {
 
 		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
 
-		add_action( 'plugins_loaded', [ $this, 'load_early_dependencies' ], -10 );
+		add_action( 'plugins_loaded', [ $this, 'load_early_dependencies' ], - 10 );
 		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 0 );
 		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
 
@@ -62,9 +63,13 @@ class Plugin extends Singleton {
 		add_filter( 'dollie/api/after/post', [ $this, 'check_token_post_request' ], 10, 3 );
 	}
 
+	/**
+	 * Load early dependencies
+	 */
 	public function load_early_dependencies() {
 		require_once DOLLIE_PATH . 'core/Extras/action-scheduler/action-scheduler.php';
 	}
+
 	/**
 	 * Load Dollie dependencies. Make sure to call them on plugins_loaded
 	 */
@@ -111,6 +116,7 @@ class Plugin extends Singleton {
 	public function initialize() {
 
 		// Load modules
+		Jobs::instance();
 		Forms::instance();
 		AccessControl::instance();
 		Backups::instance();

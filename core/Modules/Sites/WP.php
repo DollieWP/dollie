@@ -2,7 +2,6 @@
 
 namespace Dollie\Core\Modules\Sites;
 
-use Dollie\Core\Jobs\ChangeUserRoleJob;
 use Dollie\Core\Log;
 use Dollie\Core\Modules\Backups;
 use Dollie\Core\Modules\Blueprints;
@@ -261,7 +260,7 @@ final class WP extends Singleton {
 				if ( dollie()->get_customer_user_role() !== 'administrator' ) {
 					sleep( 5 );
 
-					as_enqueue_async_action( 'dollie/jobs/change_container_user_role', [
+					as_enqueue_async_action( 'dollie/jobs/single/change_container_customer_role', [
 						'params'  => $data,
 					] );
 
