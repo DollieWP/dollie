@@ -2,7 +2,7 @@
 Contributors: dollie
 Requires at least: 4.9
 Tested up to: 5.5
-Stable tag: 3.1.0
+Stable tag: 3.2.1
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -12,6 +12,13 @@ A turn-key solution for WordPress product vendors, agencies and developers to st
 A turn-key solution for WordPress product vendors, agencies and developers to start offering white-labeled cloud services and SaaS/WaaS to their customers.
 
 == Changelog ==
+
+= 3.2.1 =
+* Added daily scheduled task to synchronize sites with Dollie dashboard. Removed sites from dollie.io panel will automatically get removed from your partner site.
+
+= 3.2.0 =
+* Client-Deployed Site Permissions. Read more: https://getdollie.com/feature-release-client-deployed-site-permissions/
+* One time login token for client sites. Starting with this version all the login tokens for client site authentication are unique for better security.
 
 = 3.1.0 =
 * Dollie now allows you to translate all Form labels, messages and instructions.

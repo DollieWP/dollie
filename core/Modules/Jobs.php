@@ -144,7 +144,7 @@ class Jobs extends Singleton {
 					// Update author field of all containers.
 					wp_update_post( [
 						'ID'          => $client_container->ID,
-						'post_author' => $author->ID,
+						// 'post_author' => $author->ID, // If we reassign the container, this will put it back to the old user
 						'post_name'   => $domain,
 						'post_title'  => $domain,
 					] );
