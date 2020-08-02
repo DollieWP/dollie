@@ -4,7 +4,7 @@
  * Plugin Name: Dollie
  * Description: A turn-key solution for WordPress product vendors, agencies and developers to start offering white-labeled cloud services and SaaS/WaaS to their customers.
  * Plugin URI:  https://getdollie.com
- * Version:     3.2.1
+ * Version:     3.2.2
  * Author:      Dollie
  * Author URI:  https://getdollie.com
  *

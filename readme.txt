@@ -2,7 +2,7 @@
 Contributors: dollie
 Requires at least: 4.9
 Tested up to: 5.5
-Stable tag: 3.2.1
+Stable tag: 3.2.2
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
