@@ -1089,7 +1089,7 @@ msgstr ""
 msgid "%s Created on %s"
 msgstr ""
 
-#: core/Modules/CheckSubscription.php:678
+#: core/Modules/CheckSubscription.php:677
 msgid "None"
 msgstr ""
 
@@ -1309,7 +1309,7 @@ msgstr ""
 msgid "Items list navigation"
 msgstr ""
 
-#: core/Modules/ContainerManagement.php:466
+#: core/Modules/ContainerManagement.php:473
 msgid "Need Advanced Options?"
 msgstr ""
 
