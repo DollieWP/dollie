@@ -282,6 +282,7 @@ class CheckSubscription extends Singleton {
 				$stop_time = get_post_meta( get_the_ID(), 'wpd_stop_container_at', true );
 
 				if ( $type === 'schedule' ) {
+
 					// Set a stop time for the container if customer subscription(s) are cancelled.
 					if ( empty( $stop_time ) ) {
 						update_post_meta( get_the_ID(), 'wpd_stop_container_at', $trigger_date, true );
@@ -347,7 +348,6 @@ class CheckSubscription extends Singleton {
 		wp_reset_postdata();
 		wp_reset_query();
 
-		Log::add( 'Customer container stop cron completed' );
 	}
 
 	/**
@@ -383,7 +383,6 @@ class CheckSubscription extends Singleton {
 		wp_reset_postdata();
 		wp_reset_query();
 
-		Log::add( 'Daily container undeploy check completed!' );
 	}
 
 	/**

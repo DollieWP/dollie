@@ -13,6 +13,9 @@ A turn-key solution for WordPress product vendors, agencies and developers to st
 
 == Changelog ==
 
+= 3.2.2 =
+* Extra check on undeploy cron so a site will be removed locally if it was already removed from dollie.io
+
 = 3.2.1 =
 * Added daily scheduled task to synchronize sites with Dollie dashboard. Removed sites from dollie.io panel will automatically get removed from your partner site.
 

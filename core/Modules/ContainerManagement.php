@@ -381,6 +381,13 @@ class ContainerManagement extends Singleton {
 		$requestTriggerResponse = json_decode( wp_remote_retrieve_body( $requestTriggerContainer ), true );
 
 		if ( $requestTriggerResponse['status'] === 500 ) {
+
+		    // if it was already removed from dollie
+			if ( $action === 'undeploy' ) {
+				wp_trash_post( $post_id );
+				Log::add( $site . ' was removed locally, no match found on dollie.io', '', 'undeploy' );
+			}
+
 			Log::add( 'container action could not be completed for ' . $currentQuery->slug, print_r( $requestTriggerResponse, true ), 'error' );
 		} else {
 			if ( $action === 'start' ) {

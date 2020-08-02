@@ -81,9 +81,13 @@ class Jobs extends Singleton {
 	}
 
 	/**
+	 * Create containers if they don't exist locally
+	 * Delete containers if they are no longer running, eq. deleted, undeployed
+	 *
 	 * @return array|mixed
 	 */
 	public function run_sync_containers_task() {
+
 		// Get list of container from remote API
 		$get_containers_request = Api::post( Api::ROUTE_CONTAINER_GET, [
 			'dollie_domain' => DOLLIE_INSTALL,
@@ -143,10 +147,10 @@ class Jobs extends Singleton {
 
 					// Update author field of all containers.
 					wp_update_post( [
-						'ID'          => $client_container->ID,
+						'ID'         => $client_container->ID,
 						// 'post_author' => $author->ID, // If we reassign the container, this will put it back to the old user
-						'post_name'   => $domain,
-						'post_title'  => $domain,
+						'post_name'  => $domain,
+						'post_title' => $domain,
 					] );
 				}
 			} else {
@@ -173,6 +177,9 @@ class Jobs extends Singleton {
 						'wpd_refetch_secret_key'    => 'yes',
 					],
 				] );
+
+				Log::add( 'Container added from sync '. $domain );
+
 			}
 
 			// Trash container if is not deployed
