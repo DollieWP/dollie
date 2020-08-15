@@ -42,28 +42,28 @@ class Hooks extends Singleton {
 				include get_template_directory() . '/lib/get-container-details.php';
 
 				//Load the correct templates
-				if ( isset( $_GET['page'] ) && $_GET['page'] === 'backups' ) {
+				if ( isset( $_GET['section'] ) && $_GET['section'] === 'backups' ) {
 					if ( ! empty( $request ) ) {
 						include_once( locate_template( '/templates/site-manager/backups-header.php' ) );
 					}
-				} elseif ( isset( $_GET['page'] ) && $_GET['page'] === 'updates' ) {
+				} elseif ( isset( $_GET['section'] ) && $_GET['section'] === 'updates' ) {
 					if ( ! empty( $request ) ) {
 						include_once( locate_template( '/templates/site-manager/updates-header.php' ) );
 					}
-				} elseif ( isset( $_GET['page'] ) && $_GET['page'] === 'developers' ) {
+				} elseif ( isset( $_GET['section'] ) && $_GET['section'] === 'developers' ) {
 					if ( ! empty( $request ) ) {
 						include_once( locate_template( '/templates/site-manager/developer-header.php' ) );
 						if ( $setup_complete === 'yes' ) {
 							include_once( locate_template( '/templates/site-manager/developer-navigation.php' ) );
 						}
 					}
-				} elseif ( isset( $_GET['page'] ) && $_GET['page'] === 'blueprint' ) {
+				} elseif ( isset( $_GET['section'] ) && $_GET['section'] === 'blueprint' ) {
 					if ( ! empty( $request ) ) {
 						include_once( locate_template( '/templates/site-manager/blueprint-header.php' ) );
 					}
 				} else {
 					include_once( locate_template( '/templates/site-manager/site-header.php' ) );
-					if ( ! isset( $_GET['page'] ) ) {
+					if ( ! isset( $_GET['section'] ) ) {
 						if ( $setup_complete === 'yes' ) {
 							include_once( locate_template( '/templates/site-manager/site-navigation.php' ) );
 						}

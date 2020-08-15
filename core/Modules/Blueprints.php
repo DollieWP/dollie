@@ -108,7 +108,7 @@ class Blueprints extends Singleton {
 	 * @return array
 	 */
 	public function get_site_available_blueprints( $site_id = null ) {
-		if ( isset( $_GET['page'] ) && $_GET['page'] === 'blueprint' && is_singular( 'container' ) ) {
+		if ( isset( $_GET['section'] ) && $_GET['section'] === 'blueprint' && is_singular( 'container' ) ) {
 
 			$site = dollie()->get_current_object( $site_id );
 

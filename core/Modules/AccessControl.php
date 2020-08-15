@@ -95,7 +95,7 @@ class AccessControl extends Singleton {
 			}
 
 			// Has access to the specific section?
-			if ( isset( $_GET['page'] ) && is_singular( 'container' ) && ! dollie()->in_array_r( $_GET['page'], $this->get_available_sections() ) ) {
+			if ( isset( $_GET['section'] ) && is_singular( 'container' ) && ! dollie()->in_array_r( $_GET['section'], $this->get_available_sections() ) ) {
 				wp_redirect( get_permalink() );
 				exit();
 			}
