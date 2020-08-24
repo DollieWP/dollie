@@ -275,6 +275,12 @@ function livepreviewpro_get_image_url( $image ) {
     <link rel="stylesheet" type="text/css" href="<?php echo DOLLIE_PREVIEW_URL . 'assets/css/font-awesome.min.css'; ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo DOLLIE_PREVIEW_URL . 'assets/css/bootstrap.min.css'; ?>">
     <link rel="stylesheet" type="text/css" href="<?php echo DOLLIE_PREVIEW_URL . 'assets/themes/main-top.min.css'; ?>">
+
+    <?php if ( is_child_theme() && file_exists( get_stylesheet_directory() . '/assets/css/dollie-preview.css' ) ) : ?>
+        <link rel="stylesheet" type="text/css"
+              href="<?php echo get_stylesheet_directory_uri() . '/assets/css/dollie-preview.css'; ?>">
+	<?php endif; ?>
+
     <title><?php echo get_bloginfo( 'name' ); ?></title>
     <script type='text/javascript'>
         /* <![CDATA[ */
