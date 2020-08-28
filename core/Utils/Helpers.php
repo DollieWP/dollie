@@ -106,8 +106,14 @@ class Helpers extends Singleton {
 
 	public function get_customer_login_url( $container_id = null, $container_location = null ) {
 
-		$container = $this->get_current_object( $container_id );
-		$url       = $this->get_container_url( $container->id ) . '/wp-login.php';
+		$container           = $this->get_current_object( $container_id );
+		$url                 = $this->get_container_url( $container->id ) . '/wp-login.php';
+		$pending_role_action = get_post_meta( $container->id, '_wpd_user_role_change_pending', true );
+
+		// User role change is not yet complete.
+		if ( $pending_role_action ) {
+			return '';
+		}
 
 		if ( $container_location !== null ) {
 			$location = '&location=' . $container_location;

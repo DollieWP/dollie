@@ -260,9 +260,13 @@ final class WP extends Singleton {
 				if ( dollie()->get_customer_user_role() !== 'administrator' ) {
 					sleep( 5 );
 
-					as_enqueue_async_action( 'dollie/jobs/single/change_container_customer_role', [
+					$action_id = as_enqueue_async_action( 'dollie/jobs/single/change_container_customer_role', [
 						'params'  => $data,
+						'container_id' => $container_id,
+						'user_id' => get_current_user_id()
 					] );
+
+					update_post_meta( $container_id, '_wpd_user_role_change_pending', $action_id );
 
 				}
 			}

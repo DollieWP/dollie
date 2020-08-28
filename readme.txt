@@ -13,6 +13,9 @@ A turn-key solution for WordPress product vendors, agencies and developers to st
 
 == Changelog ==
 
+= 3.2.4 =
+* Added extra checks for Client Restricted Access functionality.
+
 = 3.2.3 =
 * WP 5.5 compatibility. Changed dashboard query parameter from "page" to "section"
 

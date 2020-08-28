@@ -29,7 +29,7 @@ class Jobs extends Singleton {
 		add_action( 'dollie/jobs/single/change_container_customer_role', [
 			$this,
 			'run_change_customer_role_task'
-		], 10, 3 );
+		], 10, 4 );
 		add_action( 'dollie/jobs/single/sync_containers', [ $this, 'run_sync_containers_task' ], 10 );
 		add_action( 'dollie/jobs/recurring/sync_containers', [ $this, 'run_sync_containers_task' ], 10 );
 	}
@@ -47,13 +47,14 @@ class Jobs extends Singleton {
 	 * Change customer role task
 	 *
 	 * @param $params
+	 * @param null $container_id
 	 * @param null $user_id
 	 * @param null $role
 	 *
 	 * @return bool
 	 */
-	public function run_change_customer_role_task( $params, $user_id = null, $role = null ) {
-		$user_id = $user_id ?: get_current_user_id();
+	public function run_change_customer_role_task( $params, $container_id, $user_id, $role = null ) {
+
 		$role    = $role ?: dollie()->get_customer_user_role( $user_id );
 
 		if ( ! is_array( $params ) || ! isset( $params['container_uri'], $params['email'], $params['password'], $params['username'] ) || ! $role ) {
@@ -74,6 +75,10 @@ class Jobs extends Singleton {
 		];
 
 		Api::post( Api::ROUTE_CHANGE_USER_ROLE, $data );
+
+		sleep( 5 );
+
+		delete_post_meta( $container_id, '_wpd_user_role_change_pending' );
 
 		Log::add( $params['container_uri'] . ' client access was set to ' . $role );
 

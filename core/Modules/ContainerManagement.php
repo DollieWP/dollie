@@ -382,7 +382,7 @@ class ContainerManagement extends Singleton {
 
 		if ( $requestTriggerResponse['status'] === 500 ) {
 
-		    // if it was already removed from dollie
+			// if it was already removed from dollie
 			if ( $action === 'undeploy' ) {
 				wp_trash_post( $post_id );
 				Log::add( $site . ' was removed locally, no match found on dollie.io', '', 'undeploy' );
@@ -574,11 +574,15 @@ class ContainerManagement extends Singleton {
 				$params['username']      = $initial_username;
 				$params['password']      = wp_generate_password();
 
-				as_enqueue_async_action( 'dollie/jobs/single/change_container_customer_role', [
-					'params'  => $params,
-					'user_id' => $user_id,
-					'role'    => $role
+				$action_id = as_enqueue_async_action( 'dollie/jobs/single/change_container_customer_role', [
+					    'params'  => $params,
+					    'container_id' => $post->ID,
+					    'user_id' => $user_id,
+					    'role'    => $role
 				] );
+
+				update_post_meta( $post->ID, '_wpd_user_role_change_pending', $action_id );
+
 			}
 		}
 
