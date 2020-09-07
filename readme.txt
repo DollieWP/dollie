@@ -2,7 +2,7 @@
 Contributors: dollie
 Requires at least: 4.9
 Tested up to: 5.5
-Stable tag: 3.2.3
+Stable tag: 3.2.5
 License: MIT
 License URI: https://opensource.org/licenses/MIT
 
@@ -12,6 +12,9 @@ A turn-key solution for WordPress product vendors, agencies and developers to st
 A turn-key solution for WordPress product vendors, agencies and developers to start offering white-labeled cloud services and SaaS/WaaS to their customers.
 
 == Changelog ==
+
+= 3.2.5 =
+* When launching a new site, show or hide the Default Blueprint option.
 
 = 3.2.4 =
 * Added extra checks for Client Restricted Access functionality.

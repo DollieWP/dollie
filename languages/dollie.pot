@@ -523,7 +523,7 @@ msgstr ""
 msgid "Depending on the customers you bring in, you can choose to disable certain sections of the developer dashboard."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1324, core/Extras/AcfFields.php:1649
+#: core/Extras/AcfFields.php:1324, core/Extras/AcfFields.php:1669
 msgid "Client Deployed Site Permissions"
 msgstr ""
 
@@ -539,7 +539,7 @@ msgstr ""
 msgid "Choose the username that is created for your own administration access. This won't be shared with the client."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1377, core/Extras/AcfFields.php:1756
+#: core/Extras/AcfFields.php:1377, core/Extras/AcfFields.php:1776
 msgid "Blueprints"
 msgstr ""
 
@@ -560,90 +560,98 @@ msgid "The link to where your sites preview will show. By default is set to \"pr
 msgstr ""
 
 #: core/Extras/AcfFields.php:1432
+msgid "Show Default Blueprint"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1435
+msgid "When launching a new site, show or hide the Default Blueprint option."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1452
 msgid "Email Delivery"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1448
+#: core/Extras/AcfFields.php:1468
 msgid "Email Delivery Address"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1451, core/Extras/AcfFields.php:1470
+#: core/Extras/AcfFields.php:1471, core/Extras/AcfFields.php:1490
 msgid "The default transactional email address that's being used by the WordPress installation of your customers. Make sure this is properly set up and tested with SendGrid."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1467
+#: core/Extras/AcfFields.php:1487
 msgid "SMTP Host"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1486
+#: core/Extras/AcfFields.php:1506
 msgid "SMTP Port"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1489
+#: core/Extras/AcfFields.php:1509
 msgid "The port being used for SMTP delivery."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1505
+#: core/Extras/AcfFields.php:1525
 msgid "SendGrid Username"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1508
+#: core/Extras/AcfFields.php:1528
 msgid "Your SendGrid username"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1524
+#: core/Extras/AcfFields.php:1544
 msgid "API Key / Password"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1527
+#: core/Extras/AcfFields.php:1547
 msgid "The password belonging to your SendGrid API account."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1567
+#: core/Extras/AcfFields.php:1587
 msgid "Active Dollie Subscription"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1587
+#: core/Extras/AcfFields.php:1607
 msgid "Stop Container at.."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1606
+#: core/Extras/AcfFields.php:1626
 msgid "Containers undeployed?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1652
+#: core/Extras/AcfFields.php:1672
 msgid "Choose the user role given to the user when deploying a site. Default inherits from Dollie - Settings - Access Control"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1697
+#: core/Extras/AcfFields.php:1717
 msgid "Basic"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1713
+#: core/Extras/AcfFields.php:1733
 msgid "Number of Sites"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1716, core/Extras/AcfFields.php:1738
+#: core/Extras/AcfFields.php:1736, core/Extras/AcfFields.php:1758
 msgid "How many sites can a customer deploy when subscribed to this product?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1735
+#: core/Extras/AcfFields.php:1755
 msgid "Disk Space"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1772
+#: core/Extras/AcfFields.php:1792
 msgid "Included Blueprints"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1775
+#: core/Extras/AcfFields.php:1795
 msgid "Select which of your Blueprints are allowed to be deployed when a customer has an active subscription to this product."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1795
+#: core/Extras/AcfFields.php:1815
 msgid "Excluded Blueprints"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1798
+#: core/Extras/AcfFields.php:1818
 msgid "Select which of your Blueprints can not be chosen when a customer has an active subscription to this product. Use this setting if you have a lot of blueprints and only want to restrict access to a couple of them."
 msgstr ""
 
@@ -1085,7 +1093,7 @@ msgstr ""
 msgid "You have not restored your site yet."
 msgstr ""
 
-#: core/Modules/Blueprints.php:203
+#: core/Modules/Blueprints.php:207
 msgid "%s Created on %s"
 msgstr ""
 
@@ -1643,11 +1651,11 @@ msgstr ""
 msgid "Launch New Site"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:99
+#: core/Modules/Forms/LaunchSite.php:100
 msgid "Default Wordpress Site"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:101
+#: core/Modules/Forms/LaunchSite.php:102
 msgid "No Blueprint"
 msgstr ""
 
