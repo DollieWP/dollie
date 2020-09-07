@@ -30,6 +30,10 @@ class Blueprints extends Singleton {
 		add_action( 'init', [ $this, 'set_blueprint_cookie' ], - 99999 );
 	}
 
+	public static function show_default_blueprint() {
+		return get_field( 'wpd_show_default_blueprint' );
+	}
+
 	/**
 	 * Get all available blueprints
 	 *

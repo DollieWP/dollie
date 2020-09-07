@@ -91,17 +91,18 @@ class LaunchSite extends Singleton {
 
 	public function populate_blueprints( $field ) {
 
-		$blueprints = Blueprints::instance()->get_all_blueprints( 'image' );
+		$default_option = [];
+		$blueprints     = Blueprints::instance()->get_all_blueprints( 'image' );
 
-		if ( ! empty( $blueprints ) ) {
-			$default_option   = [
+		if ( ! empty( $blueprints ) && Blueprints::show_default_blueprint() ) {
+			$default_option = [
 				0 => '<img data-toggle="tooltip" data-placement="bottom" ' .
 				     ' title="' . esc_attr__( 'Default Wordpress Site', 'dollie' ) . '"' .
 				     ' class="fw-blueprint-screenshot" src="' . DOLLIE_ASSETS_URL . 'img/default-blueprint.jpg">' .
 				     esc_html__( 'No Blueprint', 'dollie' )
 			];
-			$field['choices'] = $default_option + $blueprints;
 		}
+		$field['choices'] = $default_option + $blueprints;
 
 		// Hide the blueprints field or check the value from cookie
 		if ( empty( $blueprints ) ) {
