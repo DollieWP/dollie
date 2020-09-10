@@ -169,7 +169,7 @@ class Helpers extends Singleton {
 		$post_id = $container_id ?: $this->get_current_object()->id;
 
 		$site  = $this->get_container_url( $post_id );
-		$image = 'https://s0.wp.com/mshots/v1/default';
+		$image = DOLLIE_ASSETS_URL . 'img/generating-preview.png';
 
 		if ( false === ( get_transient( 'dollie_site_new_screenshot_' . $this->get_container_url( $post_id ) ) ) ) {
 			$screenshot = $this->container_screenshot( $site );
@@ -182,7 +182,7 @@ class Helpers extends Singleton {
 			$image = $screenshot['desktop'];
 		}
 
-		$image_tag  = '<img class="ss_screenshot_img img-fluid" width="700" alt="' . esc_attr( $site ) . '" src="' . esc_url( $image ) . '" />';
+		$image_tag  = '<img class="ss_screenshot_img img-fluid" width="700" alt="' . esc_attr( $site ) . '" src="' . $image . '" />';
 		$screenshot = '<a class="ss_screenshot_link img-fluid" target ="_blank" href="' . esc_url( $site ) . '">' . $image_tag . '</a>';
 		update_post_meta( $post_id, 'wpd_site_screenshot', $image );
 
