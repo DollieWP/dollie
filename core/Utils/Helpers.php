@@ -171,14 +171,14 @@ class Helpers extends Singleton {
 		$site  = $this->get_container_url( $post_id );
 		$image = DOLLIE_ASSETS_URL . 'img/generating-preview.png';
 
-		if ( false === ( get_transient( 'dollie_site_new_screenshot_' . $this->get_container_url( $post_id ) ) ) ) {
+		if ( false === ( get_transient( 'dollie_site_new1_screenshot_' . $this->get_container_url( $post_id ) ) ) ) {
 			$screenshot = $this->container_screenshot( $site );
-			set_transient( 'dollie_site_api_screenshot_' . $this->get_container_url( $post_id ), $screenshot, HOUR_IN_SECONDS * 24 );
+			set_transient( 'dollie_site1_api_screenshot_' . $this->get_container_url( $post_id ), $screenshot, HOUR_IN_SECONDS * 24 );
 		} else {
-			$screenshot = get_transient( 'dollie_site_new_screenshot_' . $this->get_container_url( $post_id ) );
+			$screenshot = get_transient( 'dollie_site_new1_screenshot_' . $this->get_container_url( $post_id ) );
 		}
 
-		if ( ! empty( $screenshot ) && isset( $screenshot['desktop'] ) ) {
+		if ( ! empty( $screenshot ) && isset( $screenshot['desktop'] ) && $screenshot['desktop'] ) {
 			$image = $screenshot['desktop'];
 		}
 
