@@ -173,7 +173,10 @@ class Helpers extends Singleton {
 
 		if ( false === ( get_transient( 'dollie_site_new_screenshot_' . $this->get_container_url( $post_id ) ) ) ) {
 			$screenshot = $this->container_screenshot( $site );
-			set_transient( 'dollie_site_new_screenshot_' . $this->get_container_url( $post_id ), $screenshot, HOUR_IN_SECONDS * 24 );
+
+			if ( ! empty( $screenshot ) && isset( $screenshot['desktop'] ) && $screenshot['desktop'] ) {
+				set_transient( 'dollie_site_new_screenshot_' . $this->get_container_url( $post_id ), $screenshot, HOUR_IN_SECONDS * 24 );
+			}
 		} else {
 			$screenshot = get_transient( 'dollie_site_new_screenshot_' . $this->get_container_url( $post_id ) );
 		}
