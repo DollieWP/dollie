@@ -168,18 +168,23 @@ class Helpers extends Singleton {
 	public function get_site_screenshot( $container_id = null ) {
 		$post_id = $container_id ?: $this->get_current_object()->id;
 
-		if ( false === ( get_transient( 'dollie_site_screenshot_' . $this->get_container_url( $post_id ) ) ) ) {
-			$site = $this->get_container_url( $post_id ) . '/?time=' . $this->random_string( 10 );
-			set_transient( 'dollie_site_screenshot_' . $this->get_container_url( $post_id ), $site, HOUR_IN_SECONDS * 24 );
+		$site  = $this->get_container_url( $post_id );
+		$image = 'https://s0.wp.com/mshots/v1/default';
+
+		if ( false === ( get_transient( 'dollie_site_new_screenshot_' . $this->get_container_url( $post_id ) ) ) ) {
+			$screenshot = $this->container_screenshot( $site );
+			set_transient( 'dollie_site_api_screenshot_' . $this->get_container_url( $post_id ), $screenshot, HOUR_IN_SECONDS * 24 );
 		} else {
-			$site = get_transient( 'dollie_site_screenshot_' . $this->get_container_url( $post_id ) );
+			$screenshot = get_transient( 'dollie_site_new_screenshot_' . $this->get_container_url( $post_id ) );
 		}
 
-		$width      = '700';
-		$query_url  = 'https://s.wordpress.com/mshots/v1/' . $site . '?w=' . $width;
-		$image_tag  = '<img class="ss_screenshot_img img-fluid" alt="' . $site . '" width="' . $width . '" src="' . $query_url . '" />';
-		$screenshot = '<a class="ss_screenshot_link img-fluid" target ="_blank" href="' . $site . '">' . $image_tag . '</a>';
-		update_post_meta( $post_id, 'wpd_site_screenshot', $query_url );
+		if ( ! empty( $screenshot ) && isset( $screenshot['desktop'] ) ) {
+			$image = $screenshot['desktop'];
+		}
+
+		$image_tag  = '<img class="ss_screenshot_img img-fluid" width="700" alt="' . esc_attr( $site ) . '" src="' . esc_url( $image ) . '" />';
+		$screenshot = '<a class="ss_screenshot_link img-fluid" target ="_blank" href="' . esc_url( $site ) . '">' . $image_tag . '</a>';
+		update_post_meta( $post_id, 'wpd_site_screenshot', $image );
 
 		return $screenshot;
 	}
@@ -460,6 +465,10 @@ class Helpers extends Singleton {
 
 	public function container_api_request( $url, $transient_id, $user_auth, $user_pass = null ) {
 		return ContainerManagement::instance()->container_api_request( $url, $transient_id, $user_auth, $user_pass );
+	}
+
+	public function container_screenshot( $container_uri, $regenerate = false ) {
+		return ContainerManagement::instance()->get_screenshot( $container_uri, $regenerate );
 	}
 
 	public function get_total_container_size() {

@@ -575,10 +575,10 @@ class ContainerManagement extends Singleton {
 				$params['password']      = wp_generate_password();
 
 				$action_id = as_enqueue_async_action( 'dollie/jobs/single/change_container_customer_role', [
-					    'params'  => $params,
-					    'container_id' => $post->ID,
-					    'user_id' => $user_id,
-					    'role'    => $role
+					'params'       => $params,
+					'container_id' => $post->ID,
+					'user_id'      => $user_id,
+					'role'         => $role
 				] );
 
 				update_post_meta( $post->ID, '_wpd_user_role_change_pending', $action_id );
@@ -660,6 +660,25 @@ class ContainerManagement extends Singleton {
             })(jQuery);
         </script>
 		<?php
+	}
+
+	/**
+	 * Get container screenshot
+	 *
+	 * @param $container_uri
+	 * @param bool $regenerate
+	 *
+	 * @return array|mixed|null
+	 */
+	public function get_screenshot( $container_uri, $regenerate = false ) {
+		$requestScreenshot = Api::post( API::ROUTE_CONTAINER_SCREENSHOT, [
+			'container_uri' => $container_uri,
+			'regenerate'    => $regenerate ? 'yes' : '',
+			'dollie_domain' => DOLLIE_INSTALL,
+			'dollie_token'  => Api::get_dollie_token()
+		] );
+
+		return json_decode( wp_remote_retrieve_body( $requestScreenshot ), true );
 	}
 
 }

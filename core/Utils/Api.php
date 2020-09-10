@@ -20,6 +20,7 @@ class Api extends Singleton {
 		ROUTE_CONTAINER_CREATE = 'containers/create',
 		ROUTE_CONTAINER_TRIGGER = 'containers/trigger',
 		ROUTE_CHANGE_USER_ROLE = 'containers/change-user-role',
+		ROUTE_CONTAINER_SCREENSHOT = 'containers/take-screenshot',
 
 		ROUTE_DOMAIN_ROUTES_ADD = 'domain/routes/add',
 		ROUTE_DOMAIN_ROUTES_GET = 'domain/routes/get',
