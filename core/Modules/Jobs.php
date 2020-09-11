@@ -32,6 +32,7 @@ class Jobs extends Singleton {
 		], 10, 4 );
 		add_action( 'dollie/jobs/single/sync_containers', [ $this, 'run_sync_containers_task' ], 10 );
 		add_action( 'dollie/jobs/recurring/sync_containers', [ $this, 'run_sync_containers_task' ], 10 );
+		add_action( 'dollie/jobs/recurring/update_screenshots', [ $this, 'run_update_screenshots_task' ], 10 );
 	}
 
 	/**
@@ -40,6 +41,10 @@ class Jobs extends Singleton {
 	public function init_recurring_tasks() {
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/sync_containers' ) ) {
 			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/sync_containers' );
+		}
+
+		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/update_screenshots' ) ) {
+			as_schedule_recurring_action( strtotime( 'today' ), HOUR_IN_SECONDS * 8, 'dollie/jobs/recurring/update_screenshots' );
 		}
 	}
 
@@ -55,7 +60,7 @@ class Jobs extends Singleton {
 	 */
 	public function run_change_customer_role_task( $params, $container_id, $user_id, $role = null ) {
 
-		$role    = $role ?: dollie()->get_customer_user_role( $user_id );
+		$role = $role ?: dollie()->get_customer_user_role( $user_id );
 
 		if ( ! is_array( $params ) || ! isset( $params['container_uri'], $params['email'], $params['password'], $params['username'] ) || ! $role ) {
 			Log::add( 'Client user role change failed due to missing param.' );
@@ -183,7 +188,7 @@ class Jobs extends Singleton {
 					],
 				] );
 
-				Log::add( 'Container added from sync '. $domain );
+				Log::add( 'Container added from sync ' . $domain );
 
 			}
 
@@ -212,6 +217,38 @@ class Jobs extends Singleton {
 		flush_rewrite_rules();
 
 		return $containers;
+	}
+
+	/**
+	 * Update screenshots task
+	 */
+	public function run_update_screenshots_task() {
+		$args = array(
+			'post_type'      => 'container',
+			'posts_per_page' => 9999999,
+			'meta_key'       => 'wpd_last_viewed',
+			'orderby'        => 'meta_value_num',
+			'order'          => 'DESC',
+			'meta_query'     => [
+				[
+					'key'     => 'wpd_last_viewed',
+					'value'   => strtotime( '-7 days' ),
+					'compare' => '>='
+				]
+			]
+		);
+
+		$query = new \WP_Query( $args );
+
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				the_post();
+
+				dollie()->container_screenshot( dollie()->get_container_url( get_the_ID() ), true );
+			}
+		}
+
+		wp_reset_postdata();
 	}
 
 }

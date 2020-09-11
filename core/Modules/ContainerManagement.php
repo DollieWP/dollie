@@ -519,8 +519,7 @@ class ContainerManagement extends Singleton {
 	 * @param $user_id
 	 */
 	public function update_customer_role( $user_id ) {
-
-		//make sure we are editing user
+		// Make sure we are editing user
 		if ( strpos( $user_id, 'user_' ) === false ) {
 			return;
 		}
@@ -645,6 +644,9 @@ class ContainerManagement extends Singleton {
 		Log::add( 'Started to update all customers access role' );
 	}
 
+	/**
+	 * Change role notice
+	 */
 	public function change_role_option_notice() {
 		?>
         <script type="text/javascript">
