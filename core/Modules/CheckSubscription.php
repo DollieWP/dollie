@@ -357,7 +357,7 @@ class CheckSubscription extends Singleton {
 		// Instantiate custom query
 		$query = new WP_Query( [
 			'post_type'      => 'container',
-			'post_status'    => 'draft',
+			'post_status'    => [ 'draft', 'trash' ],
 			'posts_per_page' => - 1,
 			'meta_key'       => 'wpd_scheduled_for_undeployment',
 			'meta_value'     => 'yes',
