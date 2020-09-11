@@ -225,6 +225,7 @@ class Jobs extends Singleton {
 	public function run_update_screenshots_task() {
 		$args = array(
 			'post_type'      => 'container',
+			'post_status'    => 'publish',
 			'posts_per_page' => 9999999,
 			'meta_key'       => 'wpd_last_viewed',
 			'orderby'        => 'meta_value_num',
