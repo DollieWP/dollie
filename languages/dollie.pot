@@ -1417,23 +1417,23 @@ msgstr ""
 msgid "Our SiteCache solution is powered partly by the WP Fastest Cache plugin. We recommend to keep this plugin activated."
 msgstr ""
 
-#: core/Utils/Helpers.php:345
+#: core/Utils/Helpers.php:353
 msgid "Sorry, we could not retrieve your site details."
 msgstr ""
 
-#: core/Utils/Helpers.php:348
+#: core/Utils/Helpers.php:356
 msgid "We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error."
 msgstr ""
 
-#: core/Utils/Helpers.php:349
+#: core/Utils/Helpers.php:357
 msgid "Click here to try retrieving your site details again."
 msgstr ""
 
-#: core/Utils/Helpers.php:352
+#: core/Utils/Helpers.php:360
 msgid "Still no success?"
 msgstr ""
 
-#: core/Utils/Helpers.php:353
+#: core/Utils/Helpers.php:361
 msgid "Create a support ticket"
 msgstr ""
 
