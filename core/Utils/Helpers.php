@@ -193,14 +193,13 @@ class Helpers extends Singleton {
 	}
 
 	public function flush_container_details( $container_id = null ) {
-
 		$container = $this->get_current_object( $container_id );
 
 		delete_transient( 'dollie_container_api_request_' . $container->slug . '_get_container_wp_info' );
 		delete_transient( 'dollie_container_api_request_' . $container->slug . '_get_container_site_info' );
 		delete_transient( 'dollie_site_users_' . $container->slug );
 		delete_transient( 'dollie_site_news_' . $container->slug );
-		delete_transient( 'dollie_site_screenshot_' . $this->get_container_url() );
+		delete_transient( 'dollie_site_new_screenshot_' . $container->ID );
 	}
 
 	public function get_latest_container_url() {

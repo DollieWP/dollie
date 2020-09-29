@@ -183,7 +183,7 @@ class Plugin extends Singleton {
 	 * @return array
 	 */
 	public function add_timestamp_body( $classes ) {
-		$timestamp = get_transient( 'dollie_site_screenshot_' . dollie()->get_container_url() );
+		$timestamp = get_transient( 'dollie_site_new_screenshot_' . get_the_ID() );
 
 		if ( empty( $timestamp ) ) {
 			$classes[] = 'wf-site-screenshot-not-set';
