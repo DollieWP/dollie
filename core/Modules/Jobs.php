@@ -223,7 +223,7 @@ class Jobs extends Singleton {
 	 * Update screenshots task
 	 */
 	public function run_update_screenshots_task() {
-		$args = array(
+		$args = [
 			'post_type'      => 'container',
 			'post_status'    => 'publish',
 			'posts_per_page' => 9999999,
@@ -237,19 +237,25 @@ class Jobs extends Singleton {
 					'compare' => '>='
 				]
 			]
-		);
+		];
 
 		$query = new \WP_Query( $args );
+
+		$containers = [];
 
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				the_post();
 
-				dollie()->container_screenshot( dollie()->get_container_url( get_the_ID() ), true );
+				$containers[] = dollie()->get_container_url( get_the_ID() );
 			}
 		}
 
 		wp_reset_postdata();
+
+		dollie()->regenerate_containers_screenshot( $containers );
+
+		return true;
 	}
 
 }

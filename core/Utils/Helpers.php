@@ -473,6 +473,10 @@ class Helpers extends Singleton {
 		return ContainerManagement::instance()->get_screenshot( $container_uri, $regenerate );
 	}
 
+	public function regenerate_containers_screenshot( $containers = [] ) {
+		return ContainerManagement::instance()->regenerate_screenshots( $containers );
+	}
+
 	public function get_total_container_size() {
 		return SiteInsights::instance()->get_total_container_size();
 	}

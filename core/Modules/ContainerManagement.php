@@ -683,4 +683,21 @@ class ContainerManagement extends Singleton {
 		return json_decode( wp_remote_retrieve_body( $requestScreenshot ), true );
 	}
 
+	/**
+	 * Regenerate screenshots bulk
+	 *
+	 * @param array $containers
+	 *
+	 * @return mixed|null
+	 */
+	public function regenerate_screenshots( $containers = [] ) {
+		$requestScreenshot = Api::post( API::ROUTE_CONTAINER_SCREENSHOT_REGEN, [
+			'containers'    => $containers,
+			'dollie_domain' => DOLLIE_INSTALL,
+			'dollie_token'  => Api::get_dollie_token()
+		] );
+
+		return json_decode( wp_remote_retrieve_body( $requestScreenshot ), true );
+	}
+
 }
