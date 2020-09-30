@@ -51,7 +51,7 @@ class LaunchSite extends Singleton {
 
 		// Check if domain does not already exists.
 		$query_args = array(
-			'name'        => $domain,
+			'post_name__in' => [ $domain, $domain . '-failed' ],
 			'post_type'   => 'container',
 			'numberposts' => 1
 		);
