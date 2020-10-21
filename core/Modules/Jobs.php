@@ -226,7 +226,7 @@ class Jobs extends Singleton {
 		$args = [
 			'post_type'      => 'container',
 			'post_status'    => 'publish',
-			'posts_per_page' => 9999999,
+			'posts_per_page' => - 1,
 			'meta_key'       => 'wpd_last_viewed',
 			'orderby'        => 'meta_value_num',
 			'order'          => 'DESC',
@@ -239,19 +239,15 @@ class Jobs extends Singleton {
 			]
 		];
 
-		$query = new \WP_Query( $args );
+		$posts = get_posts( $args );
 
 		$containers = [];
 
-		if ( $query->have_posts() ) {
-			while ( $query->have_posts() ) {
-				the_post();
-
-				$containers[] = dollie()->get_container_url( get_the_ID() );
+		if ( $posts ) {
+			foreach ( $posts as $post ) {
+				$containers[] = dollie()->get_container_url( $post->ID );
 			}
 		}
-
-		wp_reset_postdata();
 
 		dollie()->regenerate_containers_screenshot( $containers );
 

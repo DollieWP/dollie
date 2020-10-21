@@ -13,6 +13,9 @@ A turn-key solution for WordPress product vendors, agencies and developers to st
 
 == Changelog ==
 
+= 3.2.8 =
+* Cron job optimization for sites screenshot update
+
 = 3.2.7 =
 * Some performance improvements and cron jobs optimization
 
