@@ -4,7 +4,7 @@
  * Plugin Name: Dollie
  * Description: A turn-key solution for WordPress product vendors, agencies and developers to start offering white-labeled cloud services and SaaS/WaaS to their customers.
  * Plugin URI:  https://getdollie.com
- * Version:     3.2.8
+ * Version:     3.2.9
  * Author:      Dollie
  * Author URI:  https://getdollie.com
  *
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'DOLLIE_VERSION', '3.2.8' );
+define( 'DOLLIE_VERSION', '3.2.9' );
 define( 'DOLLIE_SLUG', 'dollie' );
 
 define( 'DOLLIE_FILE', __FILE__ );

@@ -1417,23 +1417,23 @@ msgstr ""
 msgid "Our SiteCache solution is powered partly by the WP Fastest Cache plugin. We recommend to keep this plugin activated."
 msgstr ""
 
-#: core/Utils/Helpers.php:353
+#: core/Utils/Helpers.php:352
 msgid "Sorry, we could not retrieve your site details."
 msgstr ""
 
-#: core/Utils/Helpers.php:356
+#: core/Utils/Helpers.php:355
 msgid "We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error."
 msgstr ""
 
-#: core/Utils/Helpers.php:357
+#: core/Utils/Helpers.php:356
 msgid "Click here to try retrieving your site details again."
 msgstr ""
 
-#: core/Utils/Helpers.php:360
+#: core/Utils/Helpers.php:359
 msgid "Still no success?"
 msgstr ""
 
-#: core/Utils/Helpers.php:361
+#: core/Utils/Helpers.php:360
 msgid "Create a support ticket"
 msgstr ""
 
@@ -1643,19 +1643,23 @@ msgstr ""
 msgid "Complete Setup"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:61
+#: core/Modules/Forms/LaunchSite.php:53
+msgid "Site URL cannot contain hyphens. Please remove them and try again."
+msgstr ""
+
+#: core/Modules/Forms/LaunchSite.php:65
 msgid "This site is already registered. Please try another name."
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:87, core/Modules/Forms/QuickLaunch.php:104
+#: core/Modules/Forms/LaunchSite.php:91, core/Modules/Forms/QuickLaunch.php:104
 msgid "Launch New Site"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:100
+#: core/Modules/Forms/LaunchSite.php:104
 msgid "Default Wordpress Site"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:102
+#: core/Modules/Forms/LaunchSite.php:106
 msgid "No Blueprint"
 msgstr ""
 
