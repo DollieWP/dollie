@@ -45,7 +45,7 @@ class QuickLaunch extends Singleton {
 	public function submission_callback( $form, $fields, $args ) {
 
 		$generator = new NameGenerator();
-		$domain    = strtolower( str_replace( ' ', '-', $generator->getName() ) );
+		$domain    = strtolower( str_replace( ' ', '', $generator->getName() ) );
 
 		$email     = af_get_field( 'client_email' );
 		$blueprint = Forms::instance()->get_form_blueprint( $form, $args );
