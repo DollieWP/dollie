@@ -49,10 +49,6 @@ class LaunchSite extends Singleton {
 
 		$domain = af_get_field( 'site_url' );
 
-		if ( strpos( $domain, '-' ) !== false ) {
-			af_add_error( 'site_url', esc_html__( 'Site URL cannot contain hyphens. Please remove them and try again.', 'dollie' ) );
-		}
-
 		// Check if domain does not already exists.
 		$query_args = array(
 			'post_name__in' => [ $domain, $domain . '-failed' ],
