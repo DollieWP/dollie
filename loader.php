@@ -38,7 +38,7 @@ $sub_domain = preg_replace( '#^https?://#', '', rtrim( $domain, '/' ) );
 $enterprise = get_option( 'options_wpd_api_dashboard_url' );
 
 if ( substr_count( $sub_domain, '.' ) === 2 ) {
-	define( 'DOLLIE_DOMAIN', '-' . $sub_domain );
+	define( 'DOLLIE_DOMAIN', '.' . $sub_domain );
 } else {
 	define( 'DOLLIE_DOMAIN', '.' . $sub_domain );
 }
