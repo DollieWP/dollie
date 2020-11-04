@@ -13,6 +13,9 @@ A turn-key solution for WordPress product vendors, agencies and developers to st
 
 == Changelog ==
 
+= 3.3.0 =
+* Fix new site deployments using dash in the name
+
 = 3.2.9 =
 * Prevent site url to include dashes
 
