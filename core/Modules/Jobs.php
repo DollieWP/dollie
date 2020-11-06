@@ -130,6 +130,7 @@ class Jobs extends Singleton {
 			// Get container from client's WP install with the server's container ID
 			$client_containers = get_posts( [
 				'post_type'  => 'container',
+				'post_status'  => ['publish', 'draft', 'trash'],
 				'meta_query' => [
 					[
 						'key'     => 'wpd_container_id',
