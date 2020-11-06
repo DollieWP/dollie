@@ -103,13 +103,9 @@ final class WP extends Singleton {
 
 		sleep( 10 );
 
-		$status = false;
-
-		while ( $status === false ) {
-			sleep( 5 );
-			if ( $this->test_site_deployment( 'https://' . $domain . DOLLIE_DOMAIN ) ) {
-				$status = true;
-			}
+		$status = $this->test_site_deployment( 'https://' . $domain . DOLLIE_DOMAIN );
+		if ( is_wp_error( $status ) ) {
+			return $status;
 		}
 
 		$requestGetContainer = Api::post( Api::ROUTE_CONTAINER_GET, [
@@ -261,9 +257,9 @@ final class WP extends Singleton {
 					sleep( 5 );
 
 					$action_id = as_enqueue_async_action( 'dollie/jobs/single/change_container_customer_role', [
-						'params'  => $data,
+						'params'       => $data,
 						'container_id' => $container_id,
-						'user_id' => get_current_user_id()
+						'user_id'      => get_current_user_id()
 					] );
 
 					update_post_meta( $container_id, '_wpd_user_role_change_pending', $action_id );
@@ -290,12 +286,26 @@ final class WP extends Singleton {
 	 *
 	 * @param $url
 	 *
-	 * @return bool
+	 * @return bool|\WP_Error
 	 */
 	private function test_site_deployment( $url ) {
-		$response = wp_remote_get( $url );
+		$status = false;
+		$count  = 0;
 
-		return wp_remote_retrieve_response_code( $response ) === 200;
+		while ( $status === false ) {
+			$count ++;
+
+			sleep( 5 );
+			$response = wp_remote_get( $url );
+			$status   = wp_remote_retrieve_response_code( $response ) === 200;
+
+			if ( $count >= 5 && ! $status) {
+				Log::add( $url . ' response code ' . print_r( wp_remote_retrieve_response_code( $response ), true ), print_r( wp_remote_retrieve_body( $response ), true ) );
+
+				return new \WP_Error( 'dollie_launch', esc_html__( 'Sorry, It seems like there was an issue with launching your new site.', 'dollie' ) );
+			}
+		}
+
+		return true;
 	}
-
 }
