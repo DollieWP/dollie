@@ -103,23 +103,10 @@ final class WP extends Singleton {
 
 		sleep( 10 );
 
-		$status = $this->test_site_deployment( 'https://' . $domain . DOLLIE_DOMAIN, $container['id'] );
-		if ( is_wp_error( $status ) ) {
-			return $status;
+		$data_container = $this->test_site_deployment( 'https://' . $domain . DOLLIE_DOMAIN, $container['id'] );
+		if ( is_wp_error( $data_container ) ) {
+			return $data_container;
 		}
-
-		$requestGetContainer = Api::post( Api::ROUTE_CONTAINER_GET, [
-			'container_id'  => $container['id'],
-			'dollie_domain' => DOLLIE_INSTALL,
-			'dollie_token'  => Api::get_dollie_token(),
-		] );
-
-		Log::add( $domain . 'Deploying created site ', print_r( $requestGetContainer, true ), 'deploy' );
-
-		sleep( 3 );
-
-		$responseContainer = json_decode( wp_remote_retrieve_body( $requestGetContainer ), true );
-		$data_container    = json_decode( $responseContainer['body'], true );
 
 		// Show an error of S5 API has not completed the setup.
 		if ( ! array_key_exists( 'id', $data_container ) ) {
@@ -287,7 +274,7 @@ final class WP extends Singleton {
 	 * @param $url
 	 * @param $container_id
 	 *
-	 * @return bool|\WP_Error
+	 * @return array|\WP_Error
 	 */
 	private function test_site_deployment( $url, $container_id ) {
 		$status = false;
@@ -310,6 +297,7 @@ final class WP extends Singleton {
 			] );
 
 			$check_response = json_decode( wp_remote_retrieve_body( $check_request ), true );
+			Log::add('Log s5 response for ' . $url, print_r( $check_response, true ) );
 
 			if ( $check_response['status'] === 500 ) {
 				continue;
@@ -317,7 +305,7 @@ final class WP extends Singleton {
 
 			$request = json_decode( $check_response['body'], true );
 
-			if( $request['state'] !== 'Running' ) {
+			if( $request['status'] !== 'Running' ) {
 				continue;
 			}
 
@@ -325,7 +313,7 @@ final class WP extends Singleton {
 			$status   = wp_remote_retrieve_response_code( $site_response ) === 200;
 
 			if ( $status ) {
-				return true;
+				return $request;
 			}
 		}
 
