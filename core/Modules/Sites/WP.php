@@ -103,7 +103,7 @@ final class WP extends Singleton {
 
 		sleep( 10 );
 
-		$status = $this->test_site_deployment( 'https://' . $domain . DOLLIE_DOMAIN );
+		$status = $this->test_site_deployment( 'https://' . $domain . DOLLIE_DOMAIN, $container['id'] );
 		if ( is_wp_error( $status ) ) {
 			return $status;
 		}
@@ -285,27 +285,52 @@ final class WP extends Singleton {
 	 * Test if site is online
 	 *
 	 * @param $url
+	 * @param $container_id
 	 *
 	 * @return bool|\WP_Error
 	 */
-	private function test_site_deployment( $url ) {
+	private function test_site_deployment( $url, $container_id ) {
 		$status = false;
 		$count  = 0;
 
 		while ( $status === false ) {
 			$count ++;
 
+			if ( $count >= 10 ) {
+				break;
+			}
+
 			sleep( 5 );
-			$response = wp_remote_get( $url );
-			$status   = wp_remote_retrieve_response_code( $response ) === 200;
 
-			if ( $count >= 5 && ! $status) {
-				Log::add( $url . ' response code ' . print_r( wp_remote_retrieve_response_code( $response ), true ), print_r( wp_remote_retrieve_body( $response ), true ) );
+			// Set up the request to check if the site is running
+			$check_request = Api::post( API::ROUTE_CONTAINER_GET, [
+				'container_id'  => $container_id,
+				'dollie_domain' => DOLLIE_INSTALL,
+				'dollie_token'  => Api::get_dollie_token()
+			] );
 
-				return new \WP_Error( 'dollie_launch', esc_html__( 'Sorry, It seems like there was an issue with launching your new site.', 'dollie' ) );
+			$check_response = json_decode( wp_remote_retrieve_body( $check_request ), true );
+
+			if ( $check_response['status'] === 500 ) {
+				continue;
+			}
+
+			$request = json_decode( $check_response['body'], true );
+
+			if( $request['state'] !== 'Running' ) {
+				continue;
+			}
+
+			$site_response = wp_remote_get( $url );
+			$status   = wp_remote_retrieve_response_code( $site_response ) === 200;
+
+			if ( $status ) {
+				return true;
 			}
 		}
 
-		return true;
+		Log::add('Failed to check site availability for ' . $url );
+		return new \WP_Error( 'dollie_launch', esc_html__( 'Sorry, It seems like there was an issue with launching your new site.', 'dollie' ) );
+
 	}
 }
