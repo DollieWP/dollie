@@ -277,8 +277,9 @@ final class WP extends Singleton {
 	 * @return array|\WP_Error
 	 */
 	private function test_site_deployment( $url, $container_id ) {
-		$status = false;
-		$count  = 0;
+		$status         = false;
+		$count          = 0;
+		$check_response = '';
 
 		while ( $status === false ) {
 			$count ++;
@@ -297,7 +298,6 @@ final class WP extends Singleton {
 			] );
 
 			$check_response = json_decode( wp_remote_retrieve_body( $check_request ), true );
-			Log::add('Log s5 response for ' . $url, print_r( $check_response, true ) );
 
 			if ( $check_response['status'] === 500 ) {
 				continue;
@@ -305,19 +305,20 @@ final class WP extends Singleton {
 
 			$request = json_decode( $check_response['body'], true );
 
-			if( $request['status'] !== 'Running' ) {
+			if ( $request['status'] !== 'Running' ) {
 				continue;
 			}
 
 			$site_response = wp_remote_get( $url );
-			$status   = wp_remote_retrieve_response_code( $site_response ) === 200;
+			$status        = wp_remote_retrieve_response_code( $site_response ) === 200;
 
 			if ( $status ) {
 				return $request;
 			}
 		}
 
-		Log::add('Failed to check site availability for ' . $url );
+		Log::add( 'Failed to check site availability for ' . $url, print_r( $check_response, true ) );
+
 		return new \WP_Error( 'dollie_launch', esc_html__( 'Sorry, It seems like there was an issue with launching your new site.', 'dollie' ) );
 
 	}

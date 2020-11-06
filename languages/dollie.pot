@@ -1727,10 +1727,14 @@ msgstr ""
 msgid "Sorry, We could not launch this site. Please try again with a different URL. Keep having problems? Please get in touch with our support!"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:130
+#: core/Modules/Sites/WP.php:113
 msgid "Sorry, It seems like there was an issue with launching your new site. Our support team has been notified"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:254
+#: core/Modules/Sites/WP.php:237
 msgid "Processed site data is invalid."
+msgstr ""
+
+#: core/Modules/Sites/WP.php:322
+msgid "Sorry, It seems like there was an issue with launching your new site."
 msgstr ""
