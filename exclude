@@ -1,0 +1,15 @@
+.idea/
+dist/
+node_modules/
+*.sass-cache
+vendor
+composer.json
+composer.lock
+package.json
+package-lock.json
+prepros.config
+prepros-6.config
+tailwing.config.js
+gulpfile.esm.js/
+assets/scss/
+assets/less/
