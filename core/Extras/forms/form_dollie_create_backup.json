@@ -1,0 +1,20 @@
+{
+    "key": "form_dollie_create_backup",
+    "title": "[BACKUPS] Create New Backup",
+    "display": {
+        "description": "Creates a backup for the user",
+        "success_message": "[dollie_blockquote type=\"success\" icon=\"fal fa-globe\" title=\"We're building your backup!\"]\r\nYou'll see it appear in the backup list on the left once it's done! If you have a large site this might take a while!\r\n[\/dollie_blockquote]"
+    },
+    "create_entries": true,
+    "is_launch_site": false,
+    "site_blueprint": false,
+    "redirect_to_site": false,
+    "restrictions": {
+        "entries": false,
+        "user": {
+            "message": ""
+        },
+        "schedule": false
+    },
+    "emails": false
+}

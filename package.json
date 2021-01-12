@@ -1,0 +1,37 @@
+{
+  "name": "dollie",
+  "version": "3.2.0",
+  "description": "A turn-key solution for WordPress product vendors, agencies and developers to start offering white-labeled cloud services and SaaS/WaaS to their customers.",
+  "main": "loader.php",
+  "scripts": {
+    "translate": "gulp translate",
+    "release": "gulp",
+    "build": "gulp build",
+    "build-tailwind": "gulp tailwind"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@code.stratus5.com:wordpress/dollie-plugin.git"
+  },
+  "author": "Dollie",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^9.8.6",
+    "del": "^5.1.0",
+    "gulp": "^4.0.2",
+    "gulp-csso": "^4.0.1",
+    "gulp-postcss": "^8.0.0",
+    "gulp-rename": "^2.0.0",
+    "gulp-rsync": "0.0.9",
+    "gulp-sass": "^4.1.0",
+    "gulp-sort": "^2.0.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-wp-pot": "^2.4.3",
+    "gulp-zip": "^5.0.2",
+    "pump": "^3.0.0",
+    "tailwindcss": "^1.9.6"
+  },
+  "dependencies": {
+    "esm": "^3.2.25"
+  }
+}

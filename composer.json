@@ -1,0 +1,14 @@
+{
+  "autoload": {
+    "psr-4": {
+      "Dollie\\Core\\": "core/"
+    }
+  },
+  "require": {
+    "ext-json": "*",
+    "ext-simplexml": "*",
+    "ext-libxml": "*",
+    "nubs/random-name-generator": "^2.1",
+    "appsero/client": "^1.2"
+  }
+}

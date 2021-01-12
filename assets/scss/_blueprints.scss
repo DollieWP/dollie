@@ -1,0 +1,51 @@
+//Launch Site
+#form_dollie_launch_site {
+  .acf-radio-list {
+    label {
+      display: inherit !important;
+      text-align: center;
+    }
+    li {
+      float: left;
+      list-style: none;
+      padding: 5px;
+
+      &:hover {
+        padding: 5px;
+      }
+
+      label.selected {
+        font-weight: 700;
+        background: rgb(57, 188, 156);
+        color: rgb(255, 255, 255);
+        border-radius: 4px;
+
+        /* border: 1px solid; */
+        img.fw-blueprint-screenshot {
+          opacity: 1;
+        }
+      }
+      input {
+        display: none !important;
+      }
+      input[type="radio"]:checked + label {
+        font-weight: 700;
+        padding-bottom: 15px;
+      }
+    }
+    img.fw-blueprint-screenshot {
+      max-width: 230px;
+      display: block;
+      margin-right: 30px;
+      border-radius: 10px;
+      padding: 5px;
+      margin-right: 0px;
+      opacity: 0.8;
+
+      &:hover {
+        opacity: 1;
+        background: rgb(57, 188, 156);
+      }
+    }
+  }
+}

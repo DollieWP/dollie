@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screens;
+
+@import "widgets/nav";
+@import "widgets/title";
+@import "widgets/forms";
+@import "widgets/cards";
+@import "widgets/sites-list";
+
+@import "acf";
+@import "notifications";
+@import "blueprints";
+@import "fontawesome5/fontawesome.scss";
+@import "custom-icons.scss";
+
+@layer components {
+  .dol-title {
+    @apply text-gray-500 uppercase tracking-wide mb-5 text-xl font-semibold;
+  }
+}

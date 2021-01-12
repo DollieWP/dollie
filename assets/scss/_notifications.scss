@@ -1,0 +1,88 @@
+
+.dollie-notifications-nav {
+
+  display: block !important;
+  position: relative;
+
+  .notif-navigation-count {
+    top: -5px;
+    position: absolute;
+    margin-left: -5px;
+  }
+
+  .notif-icon-wrap {
+    i {
+      font-size: 18px;
+      /*vertical-align: -7px;*/
+    }
+  }
+
+}
+
+.dollie-notifications-list {
+  max-width: 480px;
+  top: 0;
+
+  &.notif-visible {
+    display: block;
+  }
+
+
+  .notif-inner {
+    height: calc(100% - 57px);
+  }
+
+  .notif-unread {
+    @apply bg-gray-100;
+  }
+
+  .notif-title {
+    line-height: 1.2;
+  }
+
+  .notif-date {
+    min-width: 70px;
+  }
+
+  .notif-header-title a,
+  .notification-body a {
+    padding: 0 !important;
+  }
+
+  .notification-body a {
+    display: inline-block !important;
+  }
+
+  .notif-header-title {
+    .dollie-notifications-count {
+      vertical-align: middle;
+    }
+  }
+}
+
+.dollie-notifications-count:not(:empty) {
+  border-radius: 50%;
+  background: red;
+  color: #fff;
+  padding: 2px;
+  font-size: 11px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 16px;
+}
+
+.admin-bar {
+
+  .dollie-notifications-list {
+    top: 32px;
+    height: calc(100% - 32px);
+  }
+
+}
+
+.dollie-menu-avatar-img {
+  width: 28px;
+  height: 28px;
+}

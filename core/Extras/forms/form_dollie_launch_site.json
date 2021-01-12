@@ -1,0 +1,29 @@
+{
+    "key": "form_dollie_launch_site",
+    "title": "[SETUP] Launch Site",
+    "display": {
+        "description": "This launches a new site on the platform.",
+        "success_message": "[dollie_blockquote title=\"Your site {field:site_url} is being deployed\" icon=\"fal fa-rocket\"]\r\nYou will be notified once is ready.\r\n[\/dollie_blockquote]"
+    },
+    "create_entries": false,
+    "is_launch_site": true,
+    "site_blueprint": false,
+    "redirect_to_site": true,
+    "restrictions": {
+        "entries": false,
+        "user": {
+            "message": ""
+        },
+        "schedule": false
+    },
+    "emails": false,
+    "editing": {
+        "user": false,
+        "post": false,
+        "term": false
+    },
+    "slack": false,
+    "mailchimp": false,
+    "zapier": false,
+    "calculated": []
+}

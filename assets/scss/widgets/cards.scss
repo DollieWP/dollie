@@ -1,0 +1,67 @@
+@layer components {
+
+  .dol-card {
+    @apply w-full px-4 my-4;
+
+    .dol-card-inner {
+      @apply rounded overflow-hidden border border-solid border-ash-300;
+
+      .dol-card-title-container {
+        @apply flex items-center bg-ash-200 border-0 border-b border-solid border-ash-300;
+
+        .dol-card-icon {
+          @apply p-4 bg-ash-300 flex items-center justify-center;
+        }
+
+        .dol-card-title {
+          @apply block px-4 m-0 font-bold text-ash-700 text-base leading-normal;
+        }
+      }
+
+      .dol-card-content {
+        @apply p-4 bg-white;
+      }
+    }
+  }
+
+  @screen md {
+    .dol-card {
+      @apply w-6/12;
+
+      .dol-card-inner {
+        .dol-card-title-container {
+          .dol-card-title {
+            @apply text-lg;
+          }
+        }
+      }
+    }
+  }
+
+  @screen lg {
+    .dol-card {
+      .dol-card-inner {
+        .dol-card-title-container {
+          .dol-card-icon {
+            @apply px-8 py-4;
+          }
+
+          .dol-card-title {
+            @apply px-8 py-2;
+          }
+        }
+
+        .dol-card-content {
+          @apply px-8 py-6;
+        }
+      }
+    }
+  }
+
+  @screen xl {
+    .dol-card {
+      @apply w-4/12;
+    }
+  }
+
+}

@@ -1,0 +1,1948 @@
+# Copyright (C) 2020 Dollie
+# This file is distributed under the same license as the Dollie package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Dollie\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Last-Translator: Bowe Frankema\n"
+"Report-Msgid-Bugs-To: Dollie\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:"
+"1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;"
+"esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 :(((n%100>19)||(( n%100==0)&&(n!"
+"=0)))? 2 : 1));\n"
+"POT-Creation-Date: 2020-08-06 15:09+0000\n"
+"PO-Revision-Date: 2020-08-06 15:09+0000\n"
+"Language-Team: \n"
+"Language: ro_RO\n"
+"X-Generator: Loco https://localise.biz/\n"
+"X-Loco-Version: 2.4.1; wp-5.4.2"
+
+#: core/Plugin.php:299
+msgid "Dollie is almost ready..."
+msgstr ""
+
+#: templates/launch-splash.php:26
+msgid "Launching New Cloud Container"
+msgstr ""
+
+#: templates/launch-splash.php:29
+msgid ""
+"We use state-of-the-art technology like PHP7, Nginx, Redis, Memcached and\n"
+"                                MariaDB inside isolated cloud containers to "
+"guarantee excellent performance\n"
+"                                and security for each and every site on our "
+"platform."
+msgstr ""
+
+#: templates/launch-splash.php:40
+msgid "Setting up WordPress"
+msgstr ""
+
+#: templates/launch-splash.php:44
+msgid ""
+"We manage important WordPress security updates for you, and notify you when\n"
+"                                compromised plugins and themes with security "
+"issues are found. And of course\n"
+"                                free SSL certificates for your site are set "
+"up automatically."
+msgstr ""
+
+#: templates/launch-splash.php:57
+msgid "Testing & Verifying Installation"
+msgstr ""
+
+#: templates/launch-splash.php:61
+msgid ""
+"We are running some automated tests to make sure everything is set up and\n"
+"                                ready to go before you start building your "
+"brand new site!"
+msgstr ""
+
+#: templates/launch-splash.php:73
+msgid "Site Setup Complete"
+msgstr ""
+
+#: templates/launch-splash.php:77
+msgid ""
+"Your new site Wordpress site is deployed to our cloud! You will be "
+"redirected\n"
+"                                to the site setup wizard in just a couple of "
+"seconds..."
+msgstr ""
+
+#: templates/link-domain.php:7
+msgid "Your domain <strong>%s</strong> was successfully connected!"
+msgstr ""
+
+#: templates/link-domain.php:12
+msgid "Let's continue with our domain setup by making your DNS change."
+msgstr ""
+
+#: templates/link-domain.php:18
+msgid ""
+"Login to Your Domain Management account. This can be CloudFlare or your "
+"domain registrar."
+msgstr ""
+
+#: templates/link-domain.php:23
+msgid "Go to your Domain name <strong>%s</strong> and go to the DNS Manager."
+msgstr ""
+
+#: templates/link-domain.php:31
+msgid ""
+"Replace the IP address for the <strong>\"A\"</strong> <strong>%s</strong> "
+"record with the following IP address: <strong>%s</strong>"
+msgstr ""
+
+#: templates/link-domain.php:44
+msgid "Important Note: You only need to change the A and WWW records"
+msgstr ""
+
+#: templates/link-domain.php:47
+msgid ""
+"Your domain might have multiple DNS records set up. For example if you also "
+"have your own email address\n"
+"    (yourname@%s) or subdomains (anothersite.%s). For the migration to work "
+"you only\n"
+"    need to make a change to the A and (if existing) WWW record. Do not "
+"change the other records unless\n"
+"    specified by our support team or in unique domain setups configured by "
+"you or your developer."
+msgstr ""
+
+#: templates/migration-instructions.php:6
+msgid "Ready for the easiest migration ever?"
+msgstr ""
+
+#: templates/migration-instructions.php:10
+msgid ""
+"We are going make an exact copy of your current WordPress install to <strong>"
+"%s</strong>"
+msgstr ""
+
+#: templates/migration-instructions.php:16
+msgid ""
+"Do not worry; your live site will not be touched or modified in any way!"
+msgstr ""
+
+#: templates/migration-instructions.php:19
+msgid "Step 1 - Install the Migrate Guru Plugin"
+msgstr ""
+
+#: templates/migration-instructions.php:22
+msgid ""
+"Login to the WordPress Admin of the <strong>site you would like to "
+"migrate</strong> (i.e yoursite.com)"
+msgstr ""
+
+#: templates/migration-instructions.php:25
+msgid ""
+"Go to <strong>Plugins > Add New </strong> and search for \"Migrate Guru\""
+msgstr ""
+
+#: templates/migration-instructions.php:28
+msgid "Press the <strong>Install Now</strong> button."
+msgstr ""
+
+#: templates/migration-instructions.php:31
+msgid "Activate the plugin"
+msgstr ""
+
+#: templates/migration-instructions.php:34
+msgid "Click on the Migrate Guru menu link in the WordPress Admin"
+msgstr ""
+
+#: templates/migration-instructions.php:38
+msgid "Step 2 - Fill in the Migration Details"
+msgstr ""
+
+#: templates/migration-instructions.php:40
+msgid ""
+"On the Settings page you will be asked to first leave your email to keep you "
+"up to date about the migration progress."
+msgstr ""
+
+#: templates/migration-instructions.php:42
+msgid "Click on Migrate Site to continue."
+msgstr ""
+
+#: templates/migration-instructions.php:45
+msgid ""
+"Now choose <strong>FTP</strong> as your migration method, at the bottom "
+"right of the screen."
+msgstr ""
+
+#: templates/migration-instructions.php:48
+msgid "Finally fill in the following settings for your migration."
+msgstr ""
+
+#: templates/migration-instructions.php:54
+msgid "Destination Site URL"
+msgstr ""
+
+#: templates/migration-instructions.php:58
+msgid "FTP Type"
+msgstr ""
+
+#: templates/migration-instructions.php:62
+msgid "Destination Server IP/FTP Address"
+msgstr ""
+
+#: templates/migration-instructions.php:66
+msgid "Port:"
+msgstr ""
+
+#: templates/migration-instructions.php:71
+msgid "FTP Username:"
+msgstr ""
+
+#: templates/migration-instructions.php:75
+msgid "FTP Password:"
+msgstr ""
+
+#: templates/migration-instructions.php:79
+msgid "Directory Path:"
+msgstr ""
+
+#: templates/migration-instructions.php:93
+msgid "Step 3 - Sit back and enjoy the show!"
+msgstr ""
+
+#: templates/migration-instructions.php:96
+msgid ""
+"Press <strong>Migrate</strong> and sit back and enjoy the show. Depending on "
+"the size of your site and the speed of your current host this process could "
+"take up to a couple of hours. Do not worry, this is completely normal! We "
+"will send you an email when the migration has completed so you can easily "
+"continue to this setup wizard."
+msgstr ""
+
+#: core/Extras/AcfFields.php:10
+msgid "Make this a Product Blueprint?"
+msgstr ""
+
+#: core/Extras/AcfFields.php:34
+msgid "Private Blueprint?"
+msgstr ""
+
+#: core/Extras/AcfFields.php:37
+msgid ""
+"Would you like to make this Blueprint only available to users with the admin "
+"role?"
+msgstr ""
+
+#: core/Extras/AcfFields.php:58
+msgid "Blueprint Title"
+msgstr ""
+
+#: core/Extras/AcfFields.php:61, core/Extras/AcfFields.php:88
+msgid ""
+"This is shown when using the shortcode [dollie-blueprints] on your pages."
+msgstr ""
+
+#: core/Extras/AcfFields.php:85
+msgid "Blueprint Description"
+msgstr ""
+
+#: core/Extras/AcfFields.php:112
+msgid "Link to Hosting Product"
+msgstr ""
+
+#: core/Extras/AcfFields.php:115
+msgid ""
+"By linking this blueprint directly to a hosting product you can enable one-"
+"click checkout + deployment for your new customers."
+msgstr ""
+
+#: core/Extras/AcfFields.php:149
+msgid "Blueprint Image"
+msgstr ""
+
+#: core/Extras/AcfFields.php:174
+msgid "Upload Your Custom Image"
+msgstr ""
+
+#: core/Extras/AcfFields.php:177
+msgid "Ideal dimensions are 700 x 525 PX"
+msgstr ""
+
+#: core/Extras/AcfFields.php:230, core/Extras/AcfFields.php:617,
+#: core/Modules/ContainerFields.php:64
+msgid "Status"
+msgstr ""
+
+#: core/Extras/AcfFields.php:255
+msgid "Notes"
+msgstr ""
+
+#: core/Extras/AcfFields.php:258
+msgid "Did something custom for this container? Leave notes here."
+msgstr ""
+
+#: core/Extras/AcfFields.php:298
+msgid "WP Details"
+msgstr ""
+
+#: core/Extras/AcfFields.php:314, core/Extras/AcfFormFields.php:356,
+#: core/Modules/ContainerFields.php:66
+msgid "Domain"
+msgstr ""
+
+#: core/Extras/AcfFields.php:317, core/Extras/AcfFields.php:336
+msgid "The domain connected to this container."
+msgstr ""
+
+#: core/Extras/AcfFields.php:333
+msgid "WordPress Version"
+msgstr ""
+
+#: core/Extras/AcfFields.php:352, core/Extras/AcfFormFields.php:1016
+msgid "Site Name"
+msgstr ""
+
+#: core/Extras/AcfFields.php:371
+msgid "Registered Users"
+msgstr ""
+
+#: core/Extras/AcfFields.php:390
+msgid "WP Admin Email"
+msgstr ""
+
+#: core/Extras/AcfFields.php:409
+msgid "Active Theme"
+msgstr ""
+
+#: core/Extras/AcfFields.php:428
+msgid "Installation Size"
+msgstr ""
+
+#: core/Extras/AcfFields.php:447
+msgid "Email Sent"
+msgstr ""
+
+#: core/Extras/AcfFields.php:466
+msgid "Management"
+msgstr ""
+
+#: core/Extras/AcfFields.php:482
+msgid "Connected to Dollie API?"
+msgstr ""
+
+#: core/Extras/AcfFields.php:485
+msgid ""
+"Remove the 'yes' value to re-register this container with the Dollie "
+"Management API. You'd only want to do this if there are issues with sending "
+"commands to this container (for example switching PHP versions or restoring "
+"from backups)."
+msgstr ""
+
+#: core/Extras/AcfFields.php:501
+msgid "Site Setup Complete?"
+msgstr ""
+
+#: core/Extras/AcfFields.php:504
+msgid ""
+"Remove the 'yes' value if you (or your customer) wants to go through the "
+"initial site setup/migration again."
+msgstr ""
+
+#: core/Extras/AcfFields.php:520
+msgid "Blueprint Setup Complete"
+msgstr ""
+
+#: core/Extras/AcfFields.php:523
+msgid ""
+"If this site is based on a blueprint remove this value if you'd like to "
+"setup the blueprint again."
+msgstr ""
+
+#: core/Extras/AcfFields.php:539
+msgid "Backups Available"
+msgstr ""
+
+#: core/Extras/AcfFields.php:542
+msgid "The total amount of backups made."
+msgstr ""
+
+#: core/Extras/AcfFields.php:582
+msgid "Core"
+msgstr ""
+
+#: core/Extras/AcfFields.php:598
+msgid "Charge For Launching Sites?"
+msgstr ""
+
+#: core/Extras/AcfFields.php:601
+msgid ""
+"Would you like to charge your customers for launching websites? If you have "
+"this set to \"off\" anyone can launch sites on your platform without having "
+"a paid (WooCommerce) subscription."
+msgstr ""
+
+#: core/Extras/AcfFields.php:620
+msgid ""
+"In staging you can test out Dollie as long as you'd like. <br>Ready to go "
+"live with Dollie? Make sure you have completed the <a href=\"https:"
+"//partners.getdollie.com/go-live\" target=\"_blank\" >partner onboarding "
+"process </a> and our white glove onboarding team will provide you with the "
+"right settings. <br><strong>Making changes to these settings before you've "
+"gone live will lead to failed deployments.</strong>"
+msgstr ""
+
+#: core/Extras/AcfFields.php:636
+msgid "Your Deployment Domain"
+msgstr ""
+
+#: core/Extras/AcfFields.php:639
+msgid ""
+"Which domain are you using for the sites deployed by you or your customers? "
+"Make sure you have connected your custom domain by following the video: <a "
+"href=\"https://www.youtube.com/watch?v=1yoUr19iUR4&feature=youtu.be "
+"target=\"_blank\"\">Connecting Your Own Domain</a>"
+msgstr ""
+
+#: core/Extras/AcfFields.php:660
+msgid "Dollie Console URL"
+msgstr ""
+
+#: core/Extras/AcfFields.php:663
+msgid ""
+"The unique URL to your Dollie Console. This is usually something like "
+"<yourpartnername-cp.dollie.io> but you might have customized it, so make "
+"sure to double check. See:\n"
+"<a href=\"https://youtu.be/1EwJkrJp2-Q\" target=\"_blank\"\">Setting up API "
+"access</a>"
+msgstr ""
+
+#: core/Extras/AcfFields.php:685
+msgid "Dollie API Email"
+msgstr ""
+
+#: core/Extras/AcfFields.php:688, core/Extras/AcfFields.php:716
+msgid ""
+"During the partner onboarding you have created your unique API connection "
+"details that you need to fill in here. See:\n"
+"<a href=\"https://youtu.be/1EwJkrJp2-Q\" target=\"_blank\"\">Setting up API "
+"access</a>"
+msgstr ""
+
+#: core/Extras/AcfFields.php:713
+msgid "Dollie API Password"
+msgstr ""
+
+#: core/Extras/AcfFields.php:739
+msgid "Pages"
+msgstr ""
+
+#: core/Extras/AcfFields.php:755
+msgid "Launch Site Page"
+msgstr ""
+
+#: core/Extras/AcfFields.php:758, core/Extras/AcfFields.php:780,
+#: core/Extras/AcfFields.php:802
+msgid "From which page do your customers launch their sites?"
+msgstr ""
+
+#: core/Extras/AcfFields.php:777
+msgid "Customer Dashboard Page"
+msgstr ""
+
+#: core/Extras/AcfFields.php:799
+msgid "Customer Login Page"
+msgstr ""
+
+#: core/Extras/AcfFields.php:821
+msgid "Support Link"
+msgstr ""
+
+#: core/Extras/AcfFields.php:824
+msgid ""
+"This is the URL we use when directing users to submit a ticket for support."
+msgstr ""
+
+#: core/Extras/AcfFields.php:838
+msgid "Branding"
+msgstr ""
+
+#: core/Extras/AcfFields.php:854
+msgid "Dashboard Logo"
+msgstr ""
+
+#: core/Extras/AcfFields.php:878
+msgid "Dashboard Logo Inversed"
+msgstr ""
+
+#: core/Extras/AcfFields.php:902
+msgid "Header Style"
+msgstr ""
+
+#: core/Extras/AcfFields.php:905, core/Extras/AcfFields.php:950
+msgid "Choose a pre-designed theme you'd like to use"
+msgstr ""
+
+#: core/Extras/AcfFields.php:928
+msgid "Sidebar Style"
+msgstr ""
+
+#: core/Extras/AcfFields.php:947
+msgid "Theme Preset"
+msgstr ""
+
+#: core/Extras/AcfFields.php:975
+msgid "Brand Color"
+msgstr ""
+
+#: core/Extras/AcfFields.php:978
+msgid "You can set a branding color that fits your business or product."
+msgstr ""
+
+#: core/Extras/AcfFields.php:990
+msgid "Newsfeed URL"
+msgstr ""
+
+#: core/Extras/AcfFields.php:993
+msgid "The link to the WordPress installation you want to show news from."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1006
+msgid "Default Screenshot Placeholder"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1009
+msgid ""
+"<strong>Recommended size: 1200x900px</strong><br>\n"
+"This is the default screenshot image shown on the site details header. It is "
+"only shown when the site owner has not set up their site yet."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1031
+msgid "Header Background Image"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1034
+msgid ""
+"This is the default background image shown inside the headers. We recommend "
+"to upload a scalable SVG pattern"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1055
+msgid "Launch Site Wizard"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1072
+msgid "Step 1"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1075
+msgid ""
+"This is the first screen shown as soon as someone presses the \"Launch "
+"Site\" button."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1092
+msgid "Step 2"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1095
+msgid ""
+"This is the second screen shown as soon as someone presses the \"Launch "
+"Site\" button."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1112
+msgid "Step 3"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1115
+msgid ""
+"This is the third screen shown as soon as someone presses the \"Launch "
+"Site\" button."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1135
+msgid "Step 4"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1138
+msgid ""
+"This is the final screen shown as soon as someone presses the \"Launch "
+"Site\" button. This only shows if the site deploy takes longer than usual."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1157
+msgid "Access Control"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1173
+msgid "Enable Site Management Access?"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1176
+msgid ""
+"Would you like to give your clients/customers the ability to manage their "
+"own sites or would you like to restrict this functionality to your team "
+"(Administrators) only?"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1192
+msgid "Available Site Management Features"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1195, core/Extras/AcfFields.php:1240
+msgid ""
+"Depending on the customers you bring in, you can choose to disable certain "
+"sections of the customer dashboard."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1237
+msgid "Available Site Management Tabs"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1280
+msgid "Available Developer Tabs"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1283
+msgid ""
+"Depending on the customers you bring in, you can choose to disable certain "
+"sections of the developer dashboard."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1324, core/Extras/AcfFields.php:1649
+msgid "Client Deployed Site Permissions"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1327
+msgid ""
+"Choose the user role given to the users when deploying a site. Warning, this "
+"will change the user roles for all client sites"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1349
+msgid "Administrator User Name"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1352
+msgid ""
+"Choose the username that is created for your own administration access. This "
+"won't be shared with the client."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1377, core/Extras/AcfFields.php:1756
+msgid "Blueprints"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1393
+msgid "Enable Site Preview"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1396
+msgid ""
+"The site preview bar allows you to quickly showcase the available Blueprints "
+"you've created. If you'd like to enable this feature make sure you've "
+"uploaded the Site Preview script to your root directory."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1412
+msgid "Site Preview Link"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1415
+msgid ""
+"The link to where your sites preview will show. By default is set to "
+"\"preview\" and will look like your-site.com/preview"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1432
+msgid "Email Delivery"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1448
+msgid "Email Delivery Address"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1451, core/Extras/AcfFields.php:1470
+msgid ""
+"The default transactional email address that's being used by the WordPress "
+"installation of your customers. Make sure this is properly set up and tested "
+"with SendGrid."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1467
+msgid "SMTP Host"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1486
+msgid "SMTP Port"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1489
+msgid "The port being used for SMTP delivery."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1505
+msgid "SendGrid Username"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1508
+msgid "Your SendGrid username"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1524
+msgid "API Key / Password"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1527
+msgid "The password belonging to your SendGrid API account."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1567
+msgid "Active Dollie Subscription"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1587
+msgid "Stop Container at.."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1606
+msgid "Containers undeployed?"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1652
+msgid ""
+"Choose the user role given to the user when deploying a site. Default "
+"inherits from Dollie - Settings - Access Control"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1697
+msgid "Basic"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1713
+msgid "Number of Sites"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1716, core/Extras/AcfFields.php:1738
+msgid "How many sites can a customer deploy when subscribed to this product?"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1735
+msgid "Disk Space"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1772
+msgid "Included Blueprints"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1775
+msgid ""
+"Select which of your Blueprints are allowed to be deployed when a customer "
+"has an active subscription to this product."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1795
+msgid "Excluded Blueprints"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1798
+msgid ""
+"Select which of your Blueprints can not be chosen when a customer has an "
+"active subscription to this product. Use this setting if you have a lot of "
+"blueprints and only want to restrict access to a couple of them."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:10
+msgid "Intro message"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:22
+msgid ""
+"[dollie_blockquote type=\"success\" icon=\"fa fa-globe\" title=\"Let's link "
+"up your custom domain {dollie_user_display_name}!\"]\n"
+"We'll walk you through all the steps required to link your own domain to "
+"your site. Let's get started shall we?\n"
+"[/dollie_blockquote]"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:30
+msgid "Have you registered a domain name?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:55
+msgid "Does this domain have an (active) website linked to it?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:58
+msgid "Are you currently using this domain to host a website?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:89, core/Extras/AcfFormFields.php:1126
+msgid "Migration Instructions"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:109, core/Extras/AcfFormFields.php:1146
+msgid "{dollie_migration_instructions}"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:115
+msgid "Have you completed the data migration?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:148
+msgid "Great! So here's what you need to know"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:168
+msgid ""
+"<p class=\"font-size-smaller box-brand-primary lighten padding-small\">\n"
+"\t\t\t\t1. Do not worry about new content/files that were added after you "
+"have done the migration. We will get to this later.<br>\n"
+"\t\t\t\t2. Please keep the Migration Plugin installed and active on your "
+"current live website.<br>\n"
+"\t\t\t\t3. At a later stage during this wizard we will sync your existing "
+"content/database one final time.\n"
+"</p>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:178
+msgid "Migration issues"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:198
+msgid ""
+"If you encounter problems please stop this wizard and out to our <a "
+"href=\"{dollie_support_link}\">support team</a> so we can help."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:204
+msgid "Register Your Domain Name"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:224
+msgid ""
+"<div class=\"box-light padding-half alert alert-info p-3\">\n"
+"<p>We are not selling domains directly.</p> \n"
+"If you have not registered your own domain yet, this is the time to do so! "
+"We recommend <a href=\"https://namecheap.com\" target=\"_blank\">"
+"NameCheap</a> because of their easy to use domain manager and very low "
+"prices, but you are free to choose any other domain registrar. \n"
+"<strong>Go ahead, register your domain and come back to this form to "
+"continue the domain setup!</strong>\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:234
+msgid "Registered Your New Domain?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:254
+msgid "Yes, I have registered my domain!"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:262
+msgid "Your Domain Name"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:265
+msgid ""
+"Please type your domain name <strong>without www. or http(s)://</strong>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:297
+msgid "Confirm Your Domain"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:300
+msgid "Please retype your domain name."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:374
+msgid "DNS Instructions"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:386
+msgid "{dollie_tpl_link_domain}"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:392
+msgid "Did you make the required DNS change?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:417
+msgid "DNS Check"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:437
+msgid ""
+"<div class=\"alert alert-success p-3\">\n"
+"<h3>Great job!</h3>\n"
+" It usually takes anywhere between a couple of minutes to one hour before "
+"the DNS change takes affect. The quickest way to check if the DNS update has "
+"completed is using this handy <a href=\"https://dnschecker.org\">DNS "
+"Checker</a>. Once the change has taken affect please click the Next button "
+"to complete the DNS Setup.\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:446
+msgid "Support Request"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:466
+msgid ""
+"<div class=\"box-light padding-half alert alert-info p-3\">\n"
+"<h3>No worries , we're here to help!</h3>\n"
+"\n"
+"Please create a support ticket so our team can assist you in making the "
+"required DNS changes. In order for us to do this, you need to give us "
+"temporary access to your CloudFlare account. Please include these details "
+"with your support ticket.\n"
+"\n"
+"<a href=\"{dollie_support_link}\">Create A Support Ticket</a>\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:478
+msgid "SSL"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:496
+msgid "How would you like to set up your SSL certificate?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:499
+msgid ""
+"Having a SSL certificate is crucial for any site for security and SEO. "
+"Luckily we make it extremely easy for you!"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:521
+msgid "CloudFlare Email"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:524
+msgid "The email you use to login to your CloudFlare account."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:548
+msgid "CloudFlare API Key"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:551
+msgid ""
+"See the instructions below to see how you can find your CloudFlare API key."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:576
+msgid "CloudFlare API Key Instructions"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:596
+msgid ""
+"<div class=\"box-light padding-half mt-4 alert alert-info p-3\">\n"
+"<h4>Finding Your CloudFlare API Key</h4>\n"
+"<a target=\"_blank\" href=\"https://support.cloudflare.com/hc/en-"
+"us/articles/200167836-Where-do-I-find-my-Cloudflare-API-key-\">Please visit "
+"the following page to find instructions on getting your CloudFlare API "
+"key</a>\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:605
+msgid "Your CloudFlare Zone ID"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:608
+msgid ""
+"To enable Site Analytics paste in your Zone ID in the field below. See the "
+"instructions below for more info."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:633
+msgid "CloudFlare Zone ID Instructions"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:653
+msgid ""
+"<div class=\"box-light padding-half alert alert-info p-3\">\n"
+"<h4>Finding Your Domains Zone ID</h4>\n"
+"\n"
+"<ol>\n"
+"<li>Login to your CloudFlare account</li>\n"
+"<li>Click on the Domain Name belonging your site</li>\n"
+"<li>Scroll down to the <strong>Domain Summary</strong> section and copy and "
+"paste the Zone ID.\n"
+"</ol>\n"
+"<img class=\"wysiwyg-text-align-center\" src=\"/wp-"
+"content/plugins/dollie/assets/img/cloudflare-zone-id.png\" alt=\"Cloudflare "
+"zone id\" width=\"50%\" height=\"auto\">\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:692
+msgid "Site URL"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:710
+msgid "Intro Message"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:722
+msgid ""
+"[dollie_blockquote title=\"Final Step - Updating the URL for your site.\"]\n"
+"Let's continue with our domain wizard automatically by changing the url on "
+"your new site.\n"
+"[/dollie_blockquote]"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:730
+msgid "Do you want to have www. in the URL?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:733
+msgid ""
+"When you visit your domain do you want it to show <strong>www.</strong> in "
+"the address bar?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:756
+msgid "Unsure www domain"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:776
+msgid ""
+"<div class=\"box-light padding-half\">\n"
+"<h4>No problemo!</h4>\n"
+"The recommended domain setup these days is to remove <em>www.</em> from the "
+"URL. So we will continue setting up your domain without the www. prefix.\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:785
+msgid "Database Update"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:803
+msgid "Verifying Your Site URL Update"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:815
+msgid ""
+"[dollie_blockquote title=\"Please Check Your Site\"]\n"
+"We have now updated your domain for your site. Please visit it and take a "
+"look.\n"
+"[/dollie_blockquote]"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:823
+msgid "Is your site now using your custom domain?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:849
+msgid "Domain Update Issues"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:869
+msgid ""
+"Please <a href=\"{dollie_support_link}\">create a support ticket</a> so our "
+"migration team can get to the bottom of this!"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:875
+msgid "Domain not migrated"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:895
+msgid ""
+"<div class=\"box-light padding-half\">\n"
+"<h4>Please wait a few more minutes...</h4>\n"
+"If you have a large database the update might take a while. Please hold on a "
+"couple of minutes and if nothing has changed please <a "
+"href=\"{dollie_support_link}\">get in touch </a>with our support team so we "
+"can look into the issue.\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:928
+msgid "Setup Your Site"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:946
+msgid "What would you like to do?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:971
+msgid "Details"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:989
+msgid "Site Email"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:992
+msgid ""
+"This address is used for admin purposes, like new user notifications. In "
+"most cases you probably want to use the same address you used when creating "
+"your account."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1044
+msgid "Site Description"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1047
+msgid ""
+"Depending on your WordPress theme your description might be shown in several "
+"areas across your site. It's also shown in the visitors browser window title."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1072
+msgid "Site Username"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1075
+msgid "The username you use to login to your WordPress install."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1100
+msgid "Site Password"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1152
+msgid "How did your migration go?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1186
+msgid "Contact Support"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1211
+msgid ""
+"<div class=\"box-light padding-half\">\n"
+"<h4>No worries , we're here to help!</h4>\n"
+"\n"
+"Please create a support ticket so our team can assist you in completing your "
+"content migration.\n"
+"\n"
+"</div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1246
+msgid "Confirm Site Name"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1249
+msgid ""
+"Please type the name of the site to confirm deletion, this can not be undone."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1290
+msgid "Choose Your URL"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1293
+msgid ""
+"Please choose a temporary URL for your site. This will be the place where "
+"you can work on your site used until you are ready to go live and connect "
+"your own domain."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1310
+msgid "Admin Email"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1313
+msgid "This is the email address you use to login to your WordPress admin."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1329, core/Modules/Forms.php:405
+msgid "Select a Blueprint (optional)"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1332
+msgid ""
+"Carefully crafted site designs made by our team which you can use as a "
+"starting point for your new site."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1376
+msgid "Available Backups"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1399
+msgid "What would you like to restore?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1427
+msgid "You are about to restore your site"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1466
+msgid "Choose Your Caching Method"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1469
+msgid ""
+"<strong>PoweredCache</strong> - Recommended. Control cache settings on the "
+"WordPress level via the PoweredCache page in your WP admin. <br>\n"
+"<strong>WPRocket</strong> - Recommended if you're using WPRocket."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1492
+msgid "PHP Version"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1537
+msgid ""
+"<div class=\"alert alert-danger\">\n"
+"Whilst PHP7 gives your site a big performance boost not all plugins and "
+"themes are yet compatible with PHP7. Please make sure to test your site "
+"functionality before you decide to use PHP7 </div>"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1568
+msgid "Plugins to Update"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1616
+msgid "Your Name"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1619
+msgid "Please enter your name"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1636
+msgid "Email"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1639
+msgid "We need your email to launch the site"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1655
+msgid "Password"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1658
+msgid "Set a password to also create an account."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1699
+msgid "Confirmation"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1711
+msgid "Yes, create a new blueprint!"
+msgstr ""
+
+#: core/Modules/Backups.php:135
+msgid "You have never restored your site."
+msgstr ""
+
+#: core/Modules/Backups.php:104
+msgid "You have not restored your site yet."
+msgstr ""
+
+#: core/Modules/Blueprints.php:203
+msgid "%s Created on %s"
+msgstr ""
+
+#: core/Modules/Subscription.php:677
+msgid "None"
+msgstr ""
+
+#: core/Modules/ContainerFields.php:65
+msgid "Theme"
+msgstr ""
+
+#: core/Modules/ContainerFields.php:67
+msgid "Blueprint"
+msgstr ""
+
+#: core/Modules/ContainerFields.php:68
+msgid "Users"
+msgstr ""
+
+#: core/Modules/ContainerFields.php:69
+msgid "Size"
+msgstr ""
+
+#: core/Modules/ContainerFields.php:70
+msgid "Container Manager"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:48
+msgctxt "dollie"
+msgid "Sites"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:49
+msgctxt "dollie"
+msgid "Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:50
+msgid "Sites"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:51
+msgid "Post Type"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:52
+msgid "Site Archives"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:53
+msgid "Site Attributes"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:54
+msgid "Parent Site:"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:55,
+#: core/Modules/ContainerManagement.php:62
+msgid "View Sites"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:56
+msgid "Add New Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:57
+msgid "Add New"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:58
+msgid "New Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:59
+msgid "Edit Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:60
+msgid "Update Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:61
+msgid "View Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:63
+msgid "Search Sites"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:64
+msgid "Not found"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:65
+msgid "Not found in Trash"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:66
+msgid "Featured Image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:67
+msgid "Set featured image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:68
+msgid "Remove featured image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:69
+msgid "Use as featured image"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:70
+msgid "Insert into item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:71
+msgid "Uploaded to this item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:72
+msgid "Sites list"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:73
+msgid "Sites list navigation"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:74
+msgid "Filter items list"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:78
+msgid "Site"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:79
+msgid "Platform Sites"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:113
+msgctxt "Taxonomy General Name"
+msgid "Blueprint Categories"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:114
+msgctxt "Taxonomy Singular Name"
+msgid "Blueprint Category"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:115
+msgid "Taxonomy"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:116
+msgid "All Items"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:117
+msgid "Parent Item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:118
+msgid "Parent Item:"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:119
+msgid "New Item Name"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:120
+msgid "Add New Item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:121
+msgid "Edit Item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:122
+msgid "Update Item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:123
+msgid "View Item"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:124
+msgid "Separate items with commas"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:125
+msgid "Add or remove items"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:126
+msgid "Choose from the most used"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:127
+msgid "Popular Items"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:128
+msgid "Search Items"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:129
+msgid "Not Found"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:130
+msgid "No items"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:131
+msgid "Items list"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:132
+msgid "Items list navigation"
+msgstr ""
+
+#: core/Modules/ContainerManagement.php:473
+msgid "Need Advanced Options?"
+msgstr ""
+
+#: core/Modules/Forms.php:138
+msgid "Dollie Container Login URL"
+msgstr ""
+
+#: core/Modules/Forms.php:142
+msgid "Dollie Container URL"
+msgstr ""
+
+#: core/Modules/Forms.php:310
+msgid "Possible shortcode attributes: "
+msgstr ""
+
+#: core/Modules/Forms.php:336, core/Modules/Options.php:196,
+#: core/Modules/Options.php:220
+msgid "Settings"
+msgstr ""
+
+#: core/Modules/Forms.php:353
+msgid "Shortcode"
+msgstr ""
+
+#: core/Modules/Forms.php:360
+msgid "Enable Launch Site options"
+msgstr ""
+
+#: core/Modules/Forms.php:363
+msgid ""
+"If this form launches a new site you can enable this option to enable splash "
+"loader on launch and choose a default blueprint."
+msgstr ""
+
+#: core/Modules/Forms.php:378
+msgid "Splash template"
+msgstr ""
+
+#: core/Modules/Forms.php:381
+msgid ""
+"Enter a custom Splash template path to appear on form submit. Theme override "
+"location theme-name/dollie/tpl-name"
+msgstr ""
+
+#: core/Modules/Forms.php:408
+msgid "Force a default blueprint to use for the launched site"
+msgstr ""
+
+#: core/Modules/Forms.php:437
+msgid "Redirect to site dashboard"
+msgstr ""
+
+#: core/Modules/Forms.php:440
+msgid ""
+"Redirect to site dashboard page on form submit. Success Message will be "
+"ignored"
+msgstr ""
+
+#: core/Modules/Forms.php:704
+msgid "My New Site"
+msgstr ""
+
+#: core/Modules/Forms.php:761
+msgid "The best website in the world?"
+msgstr ""
+
+#: core/Modules/Options.php:192, core/Modules/Options.php:217,
+#: core/Modules/Options.php:309
+msgid "Dollie (Staging)"
+msgstr ""
+
+#: core/Modules/Options.php:190, core/Modules/Options.php:215,
+#: core/Modules/Options.php:307
+msgid "Dollie (Live)"
+msgstr ""
+
+#: core/Modules/Options.php:466, core/Modules/Options.php:467,
+#: core/Modules/Dashboard/Pages.php:77
+msgid "Integrations"
+msgstr ""
+
+#: core/Modules/Upgrades.php:79
+msgid "Database update required"
+msgstr ""
+
+#: core/Modules/Upgrades.php:83
+msgid ""
+"<strong>Dollie</strong> needs to update your database to the latest version. "
+"Please make sure to create a backup first."
+msgstr ""
+
+#: core/Modules/Upgrades.php:89
+msgid "<a href=\"%s\">Update now</a>"
+msgstr ""
+
+#: core/Modules/Upgrades.php:141
+msgid "Something went wrong, please check logs."
+msgstr ""
+
+#: core/Modules/Upgrades.php:137
+msgid "Awesome, database is now at the latest version!"
+msgstr ""
+
+#: core/Utils/Helpers.php:61
+msgid ""
+"We strongly recommend to keep this plugin active and installed at all times."
+msgstr ""
+
+#: core/Utils/Helpers.php:65
+msgid ""
+"Our SiteCache solution is powered partly by the WP Fastest Cache plugin. We "
+"recommend to keep this plugin activated."
+msgstr ""
+
+#: core/Utils/Helpers.php:339
+msgid "Sorry, we could not retrieve your site details."
+msgstr ""
+
+#: core/Utils/Helpers.php:342
+msgid ""
+"We could not connect to your site to retrieve its details. This is usually "
+"caused by your WordPress site being unavailable or having a site-breaking "
+"error."
+msgstr ""
+
+#: core/Utils/Helpers.php:343
+msgid "Click here to try retrieving your site details again."
+msgstr ""
+
+#: core/Utils/Helpers.php:346
+msgid "Still no success?"
+msgstr ""
+
+#: core/Utils/Helpers.php:347
+msgid "Create a support ticket"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:116
+msgid "Install Dollie Plugin Suite"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:117
+msgid "Dollie Plugins"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:118
+msgid "Installing Plugin: %s"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:119
+msgid "Updating Plugin: %s"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:120
+msgid "Something went wrong with the plugin API."
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:121
+msgid "Dollie requires the following plugin: %1$s."
+msgid_plural "Dollie requires the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:126
+msgid "Dollie recommends the following plugin: %1$s."
+msgid_plural "Dollie recommends the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:131
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with Dollie: %1$s."
+msgid_plural ""
+"The following plugins need to be updated to their latest version to ensure "
+"maximum compatibility with Dollie: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:136
+msgid "There is an update available for: %1$s."
+msgid_plural "There are updates available for the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:141
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:146
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:151
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:156
+msgid "Begin updating plugin"
+msgid_plural "Begin updating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:161
+msgid "Begin activating plugin"
+msgid_plural "Begin activating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:166
+msgid "Return to Dollie Plugin Installer"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:167
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:168
+msgid "The following plugin was activated successfully:"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:169
+msgid "No action taken. Plugin %1$s was already active."
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:170
+msgid ""
+"Plugin not activated. A higher version of %s is needed for Dollie. Please "
+"update the plugin."
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:171
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:172
+msgid "Dismiss this notice"
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:173
+msgid ""
+"There are one or more required or recommended plugins to install, update or "
+"activate."
+msgstr ""
+
+#: core/Extras/tgm-plugin-activation/requirements.php:174
+msgid "Please contact the administrator of this site for help."
+msgstr ""
+
+#: core/Modules/Dashboard/Pages.php:73
+msgid "Dollie Integrations"
+msgstr ""
+
+#: core/Modules/Dashboard/Pages.php:78
+msgid "Loading Dollie Integrations"
+msgstr ""
+
+#: core/Modules/Dashboard/Pages.php:213
+msgid "Loading %s"
+msgstr ""
+
+#: core/Modules/Forms/AfterLaunchWizard.php:107
+msgid "An unknown error occurred. Please contact site administrator."
+msgstr ""
+
+#: core/Modules/Forms/AfterLaunchWizard.php:112
+msgid "Complete Setup!"
+msgstr ""
+
+#: core/Modules/Forms/AfterLaunchWizard.php:125
+msgid "Let's configure your new WordPress site"
+msgstr ""
+
+#: core/Modules/Forms/AfterLaunchWizard.php:128
+msgid ""
+"To help you get started our one-time welcome wizard will guide you through "
+"setting up your new WordPress site."
+msgstr ""
+
+#: core/Modules/Forms/CreateBackup.php:49
+msgid "Create New Backup"
+msgstr ""
+
+#: core/Modules/Forms/CreateBlueprint.php:62
+msgid "Please confirm blueprint creation"
+msgstr ""
+
+#: core/Modules/Forms/CreateBlueprint.php:69
+msgid "Deploy Blueprint"
+msgstr ""
+
+#: core/Modules/Forms/DeleteSite.php:70
+msgid ""
+"Please type the unique name of your site. Your site name is shown in the "
+"sidebar and in your URL address bar."
+msgstr ""
+
+#: core/Modules/Forms/DeleteSite.php:82
+msgid "Delete"
+msgstr ""
+
+#: core/Modules/Forms/DomainConnect.php:82
+msgid ""
+"Sorry, We could not link this domain to your site. This could be because the "
+"domain is already registered for another site in our network. It could also "
+"be an issue on our end! Please try again or <a href=\"%s\">Contact "
+"Support</a>"
+msgstr ""
+
+#: core/Modules/Forms/DomainConnect.php:120
+msgid "You need to have a registered domain before you continue."
+msgstr ""
+
+#: core/Modules/Forms/DomainConnect.php:125
+msgid "Your domain names do not match."
+msgstr ""
+
+#: core/Modules/Forms/DomainConnect.php:130
+msgid "You need to migrate your data before continuing."
+msgstr ""
+
+#: core/Modules/Forms/DomainConnect.php:159
+msgid "Connect Domain"
+msgstr ""
+
+#: core/Modules/Forms/DomainDns.php:228
+msgid ""
+"Sorry, We could not generate a SSL certificate for this domain. Please "
+"contact support so we can look into why this has happened."
+msgstr ""
+
+#: core/Modules/Forms/DomainDns.php:146
+msgid ""
+"Your CloudFlare Email or API key is incorrect. Please try again or <a "
+"href=\"%s\">Contact Support</a>"
+msgstr ""
+
+#: core/Modules/Forms/DomainDns.php:197
+msgid ""
+"Your CloudFlare Zone ID is incorrect. Please make sure you copy and pasted "
+"the right ID without extra spaces. Need help? <a href=\"%s\">Contact "
+"Support</a>"
+msgstr ""
+
+#: core/Modules/Forms/DomainDns.php:112
+msgid ""
+"Your domain DNS A record is not yet pointing to our IP address. Please wait "
+"a few minutes and try again."
+msgstr ""
+
+#: core/Modules/Forms/DomainDns.php:266
+msgid "Complete Domain Setup"
+msgstr ""
+
+#: core/Modules/Forms/DomainUpdateUrl.php:115
+msgid ""
+"There was a problem when performing the request. Please contact support so "
+"we can look into why this has happened."
+msgstr ""
+
+#: core/Modules/Forms/DomainUpdateUrl.php:163
+msgid "Complete Setup"
+msgstr ""
+
+#: core/Modules/Forms/LaunchSite.php:61
+msgid "This site is already registered. Please try another name."
+msgstr ""
+
+#: core/Modules/Forms/LaunchSite.php:87, core/Modules/Forms/QuickLaunch.php:104
+msgid "Launch New Site"
+msgstr ""
+
+#: core/Modules/Forms/LaunchSite.php:99
+msgid "Default Wordpress Site"
+msgstr ""
+
+#: core/Modules/Forms/LaunchSite.php:101
+msgid "No Blueprint"
+msgstr ""
+
+#: core/Modules/Forms/ListBackups.php:87
+msgid "We could not retrieve your backups."
+msgstr ""
+
+#: core/Modules/Forms/ListBackups.php:90
+msgid ""
+"This usually means we have trouble reaching your WordPress installation. "
+"Please get in touch with our support of you keep seeing this message."
+msgstr ""
+
+#: core/Modules/Forms/ListBackups.php:104
+msgid "Restore Backup"
+msgstr ""
+
+#: core/Modules/Forms/Performance.php:49
+msgid "Submit"
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:148
+msgid "All Done updating your plugins..."
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:109
+msgid "Plugin update is still running... please hold on"
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:141
+msgid "All Your Plugins are updated!"
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:136
+msgid ""
+"Sadly we can not complete updating your plugins. Please login to your "
+"WordPress admin and update your plugins from there."
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:124
+msgid "Plugin updates completed."
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:104
+msgid "There was a problem sending the update request. Please try again!"
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:195
+msgid "Everything is up to date!"
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:198
+msgid "There are no plugins available to update. Good job!"
+msgstr ""
+
+#: core/Modules/Forms/PluginUpdates.php:283
+msgid "Update Plugins!"
+msgstr ""
+
+#: core/Modules/Forms/QuickLaunch.php:63
+msgid "Email already exists. Please login first"
+msgstr ""
+
+#: core/Modules/Forms/QuickLaunch.php:86
+msgid "My WP"
+msgstr ""
+
+#: core/Modules/Forms/QuickLaunch.php:87
+msgid "My WordPress Install"
+msgstr ""
+
+#: core/Modules/Sites/WP.php:33
+msgid ""
+"Sorry, We could not launch this site. Please try again with a different URL. "
+"Keep having problems? Please get in touch with our support!"
+msgstr ""
+
+#: core/Modules/Sites/WP.php:130
+msgid ""
+"Sorry, It seems like there was an issue with launching your new site. Our "
+"support team has been notified"
+msgstr ""
+
+#: core/Modules/Sites/WP.php:254
+msgid "Processed site data is invalid."
+msgstr ""

@@ -1,0 +1,24 @@
+@layer components {
+
+  .dol-nav-btn {
+    @apply block py-3 rounded text-cobalt-500;
+
+    &.dol-nav-btn-primary {
+      @apply bg-flame-500 text-white;
+
+      &:hover,
+      &.dol-nav-active {
+        @apply bg-flame-600;
+      }
+    }
+
+    &.dol-nav-btn-secondary {
+      @apply text-cobalt-500;
+
+      &:hover,
+      &.dol-nav-active {
+        @apply bg-cobalt-500 text-white;
+      }
+    }
+  }
+}

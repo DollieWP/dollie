@@ -1,0 +1,29 @@
+{
+    "key": "form_dollie_domain_connect",
+    "title": "[DOMAIN] Connect domain",
+    "display": {
+        "description": "This form handles migration requests",
+        "success_message": ""
+    },
+    "create_entries": false,
+    "restrictions": {
+        "entries": false,
+        "user": {
+            "message": ""
+        },
+        "schedule": false
+    },
+    "emails": false,
+    "editing": {
+        "user": false,
+        "post": false,
+        "term": false
+    },
+    "slack": false,
+    "mailchimp": false,
+    "zapier": false,
+    "calculated": [],
+    "splash_template": false,
+    "site_blueprint": false,
+    "redirect_to_site": false
+}
