@@ -120,6 +120,8 @@ Our team is here to provide you with technical infrastructure support only, for 
 
 
 == Changelog ==
+= 4.1.5 =
+* Initial WP repo release
 
 = 4.0.0 =
 * Major Update! Dollie is now theme independent and it can be used with any theme
