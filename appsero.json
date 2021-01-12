@@ -1,0 +1,20 @@
+{
+  "name" : "dollie",
+  "exclude": [
+    ".idea",
+    "README.md",
+    "appsero.json",
+    "composer.json",
+    "composer.lock",
+    ".gitignore",
+    "assets/scss",
+    "assets/less",
+    "gulpfile.esm.js",
+    "tailwind.config.js",
+    "prepros-6.config",
+    "prepros.config",
+    "package.json",
+    "package-lock.json",
+    "dist"
+  ]
+}
