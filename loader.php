@@ -4,7 +4,7 @@
  * Plugin Name: Dollie
  * Description: Start offering white-labeled cloud services and SaaS/WaaS to your customers right away
  * Plugin URI:  https://getdollie.com
- * Version:     4.1.4
+ * Version:     4.1.5
  * Author:      GetDollie
  *
  * Text Domain: dollie
