@@ -48,7 +48,7 @@ class Upgrades extends Singleton {
 	 */
 	private $upgrades = [
 		// '2.0.0' => '_upgrade_200',
-		'4.0.7' => '_upgrade_400',
+		'4.2.0' => '_upgrade_400',
 	];
 
 	/**
@@ -78,14 +78,14 @@ class Upgrades extends Singleton {
 				$url = wp_nonce_url( add_query_arg( 'dollie_db_update', '' ), 'action' );
 				?>
 
-				<div class="notice dollie-notice">
+                <div class="notice dollie-notice">
 
-					<div class="dollie-inner-message">
+                    <div class="dollie-inner-message">
 
-						<img width="60" src="<?php echo esc_url( DOLLIE_URL . 'assets/img/active.png' ); ?>">
-						<div class="dollie-message-center">
-							<h3><?php _e( 'Database update required', 'dollie' ); ?></h3>
-							<p>
+                        <img width="60" src="<?php echo esc_url( DOLLIE_URL . 'assets/img/active.png' ); ?>">
+                        <div class="dollie-message-center">
+                            <h3><?php _e( 'Database update required', 'dollie' ); ?></h3>
+                            <p>
 								<?php
 								echo wp_kses_post(
 									sprintf(
@@ -94,14 +94,14 @@ class Upgrades extends Singleton {
 									)
 								);
 								?>
-							</p>
-						</div>
-						<div class="dollie-msg-button-right">
+                            </p>
+                        </div>
+                        <div class="dollie-msg-button-right">
 							<?php echo wp_kses_post( sprintf( __( '<a href="%s">Update now</a>', 'dollie' ), esc_url( $url ) ) ); ?>
-						</div>
+                        </div>
 
-					</div>
-				</div>
+                    </div>
+                </div>
 				<?php
 			}
 		}
@@ -161,7 +161,7 @@ class Upgrades extends Singleton {
 		}
 
 		// Save successful upgrades.
-		update_option( $this->option_name, $old_upgrades );
+		// update_option( $this->option_name, $old_upgrades );
 
 		// Try to update forms on each plugin update.
 		$forms_result = ImportForms::instance()->import_forms();
@@ -170,7 +170,7 @@ class Upgrades extends Singleton {
 		}
 
 		if ( $errors === false ) {
-			$this->updated = true;
+			// $this->updated = true;
 		}
 	}
 
@@ -274,7 +274,7 @@ class Upgrades extends Singleton {
 	 */
 	private function _upgrade_400() {
 		$pages_data = [
-			'launch-site'    => [
+			/*'launch-site'    => [
 				'title'     => 'Launch New Site',
 				'option'    => 'options_wpd_launch_page_id',
 				'tpl'       => 'elementor_header_footer',
@@ -297,7 +297,7 @@ class Upgrades extends Singleton {
 				'option'    => 'options_wpd_login_page_id',
 				'tpl'       => 'elementor_canvas',
 				'post_type' => 'page',
-			],
+			],*/
 			'single'         => [
 				'title'     => 'Site template',
 				'option'    => 'options_wpd_site_template_id',
@@ -354,7 +354,12 @@ class Upgrades extends Singleton {
 
 			if ( ! is_wp_error( $el_data ) ) {
 
+
+
+
 				$el_data['id'] = $existing_id;
+
+
 				$source->update_item( $el_data );
 
 				update_post_meta( $existing_id, '_elementor_edit_mode', 'builder' );
