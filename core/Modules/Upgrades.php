@@ -48,7 +48,7 @@ class Upgrades extends Singleton {
 	 */
 	private $upgrades = [
 		// '2.0.0' => '_upgrade_200',
-		'4.2.0' => '_upgrade_400',
+		'4.1.4' => '_upgrade_400',
 	];
 
 	/**
@@ -161,7 +161,7 @@ class Upgrades extends Singleton {
 		}
 
 		// Save successful upgrades.
-		// update_option( $this->option_name, $old_upgrades );
+		update_option( $this->option_name, $old_upgrades );
 
 		// Try to update forms on each plugin update.
 		$forms_result = ImportForms::instance()->import_forms();
@@ -170,7 +170,7 @@ class Upgrades extends Singleton {
 		}
 
 		if ( $errors === false ) {
-			// $this->updated = true;
+			$this->updated = true;
 		}
 	}
 
@@ -274,7 +274,7 @@ class Upgrades extends Singleton {
 	 */
 	private function _upgrade_400() {
 		$pages_data = [
-			/*'launch-site'    => [
+			'launch-site'    => [
 				'title'     => 'Launch New Site',
 				'option'    => 'options_wpd_launch_page_id',
 				'tpl'       => 'elementor_header_footer',
@@ -297,7 +297,7 @@ class Upgrades extends Singleton {
 				'option'    => 'options_wpd_login_page_id',
 				'tpl'       => 'elementor_canvas',
 				'post_type' => 'page',
-			],*/
+			],
 			'single'         => [
 				'title'     => 'Site template',
 				'option'    => 'options_wpd_site_template_id',
@@ -354,12 +354,7 @@ class Upgrades extends Singleton {
 
 			if ( ! is_wp_error( $el_data ) ) {
 
-
-
-
 				$el_data['id'] = $existing_id;
-
-
 				$source->update_item( $el_data );
 
 				update_post_meta( $existing_id, '_elementor_edit_mode', 'builder' );
