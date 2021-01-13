@@ -5,8 +5,7 @@
   "main": "loader.php",
   "scripts": {
     "translate": "gulp translate",
-    "release": "gulp",
-    "build": "gulp build",
+    "build": "gulp",
     "build-tailwind": "gulp tailwind"
   },
   "repository": {
