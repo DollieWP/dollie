@@ -3,7 +3,7 @@ Contributors: GetDollie
 Tags: hosting, waas, wordpress hosting, sell hosting
 Requires at least: 5.0
 Tested up to: 5.6.1
-Requires PHP: 5.6
+Requires PHP: 7.0
 Stable tag: 4.1.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -116,13 +116,16 @@ Our backups run every 24hr and are kept for 28 days
 **What happens with Support?**
 Our team is here to provide you with technical infrastructure support only, for example, if a container has issues unrelated to the WordPress installation of your customer. This support is delivered through Slack and through our ticketing support channels. We do not provide direct support to your customers, but to you and your support team only.
 
-== Screenshots ==
+**Found a bug or want to contribute?**
+Our code is available on [Github](https://github.com/DollieWP/dollie)
 
+== Screenshots ==
 
 == Changelog ==
 
 = 4.1.6 =
 * Import Elementor template updates
+
 = 4.1.5 =
 * Initial WP repo release
 

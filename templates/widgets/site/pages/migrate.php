@@ -1,7 +1,7 @@
 <?php
 
 \Dollie\Core\Utils\Tpl::load(
-	DOLLIE_WIDGETS_PATH . 'templates/notice',
+	'notice',
 	[
 		'type'         => 'success',
 		'icon'         => 'fal fa-truck',

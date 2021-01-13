@@ -6,7 +6,7 @@
 
 <?php
 \Dollie\Core\Utils\Tpl::load(
-	DOLLIE_WIDGETS_PATH . 'templates/notice',
+	'notice',
 	[
 		'type'         => 'info',
 		'icon'         => 'fal fa-bookmark',
@@ -62,7 +62,7 @@
 	$message = $php[0] === '7' ? esc_html__( 'If your site is compatible with the latest version of PHP7 we recommend upgrading to the latest PHP7 version because it provides superior performance.', 'dollie' ) : esc_html__( 'PHP 5.6 is not as fast as PHP7, but virtually all plugins and themes support it.', 'dollie' );
 
 	\Dollie\Core\Utils\Tpl::load(
-		DOLLIE_WIDGETS_PATH . 'templates/notice',
+		'notice',
 		[
 			'type'    => 'info',
 			'icon'    => 'fal fa-tachometer',
@@ -77,7 +77,7 @@
 <?php if ( $data['container_details']['Object Cache'] !== 'disabled' ) : ?>
 	<?php
 	\Dollie\Core\Utils\Tpl::load(
-		DOLLIE_WIDGETS_PATH . 'templates/notice',
+		'notice',
 		[
 			'type'    => 'warning',
 			'icon'    => 'fal fa-database',
@@ -97,7 +97,7 @@
 <?php else : ?>
 	<?php
 	\Dollie\Core\Utils\Tpl::load(
-		DOLLIE_WIDGETS_PATH . 'templates/notice',
+		'notice',
 		[
 			'type'    => 'info',
 			'icon'    => 'fal fa-database',

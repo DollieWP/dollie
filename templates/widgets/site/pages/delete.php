@@ -1,7 +1,7 @@
 <div class="dol-my-6">
 	<?php
 	\Dollie\Core\Utils\Tpl::load(
-		DOLLIE_WIDGETS_PATH . 'templates/notice',
+		'notice',
 		[
 			'type'    => 'info',
 			'icon'    => 'fal fa-question',

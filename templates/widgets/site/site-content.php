@@ -125,7 +125,7 @@
 
 	if ( 'plugins' === $sub_page ) {
 		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'Site/templates/pages/plugins',
+			'widgets/site/pages/plugins',
 			[
 				'data'    => $data,
 				'install' => $install,
@@ -134,7 +134,7 @@
 		);
 	} elseif ( 'themes' === $sub_page ) {
 		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'Site/templates/pages/themes',
+			'widgets/site/pages/themes',
 			[
 				'data' => $data,
 			],
@@ -142,7 +142,7 @@
 		);
 	} elseif ( 'domains' === $sub_page ) {
 		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'Site/templates/pages/domains',
+			'widgets/site/pages/domains',
 			[
 				'data' => $data,
 			],
@@ -150,7 +150,7 @@
 		);
 	} elseif ( 'migrate' === $sub_page ) {
 		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'Site/templates/pages/migrate',
+			'widgets/site/pages/migrate',
 			[
 				'data' => $data,
 			],
@@ -158,7 +158,7 @@
 		);
 	} elseif ( 'backups' === $sub_page ) {
 		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'Site/templates/pages/backups',
+			'widgets/site/pages/backups',
 			[
 				'data' => $data,
 			],
@@ -166,7 +166,7 @@
 		);
 	} elseif ( 'updates' === $sub_page ) {
 		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'Site/templates/pages/updates',
+			'widgets/site/pages/updates',
 			[
 				'data' => $data,
 			],
@@ -174,7 +174,7 @@
 		);
 	} elseif ( 'developer-tools' === $sub_page ) {
 		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'Site/templates/pages/developer-tools',
+			'widgets/site/pages/developer-tools',
 			[
 				'data' => $data,
 			],
@@ -182,7 +182,7 @@
 		);
 	} elseif ( 'blueprints' === $sub_page ) {
 		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'Site/templates/pages/blueprints',
+			'widgets/site/pages/blueprints',
 			[
 				'data'    => $data,
 				'post_id' => $post_id,
@@ -191,7 +191,7 @@
 		);
 	} elseif ( 'delete' === $sub_page ) {
 		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'Site/templates/pages/delete',
+			'widgets/site/pages/delete',
 			[
 				'data' => $data,
 			],
@@ -199,7 +199,7 @@
 		);
 	} else {
 		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'Site/templates/pages/dashboard',
+			'widgets/site/pages/dashboard',
 			[
 				'data'    => $data,
 				'install' => $install,

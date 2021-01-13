@@ -41,7 +41,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 		<div class="dol-my-6">
 			<?php
 			\Dollie\Core\Utils\Tpl::load(
-				DOLLIE_WIDGETS_PATH . 'templates/notice',
+				'notice',
 				[
 					'icon'    => 'fal fa-exclamation-circle',
 					'title'   => sprintf( __( '%s is linked to this site!', 'dollie' ), $domain ),

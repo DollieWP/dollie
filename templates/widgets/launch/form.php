@@ -2,7 +2,7 @@
 
 if ( ! dollie()->has_partner_subscription() || ( dollie()->is_partner_subscription_trial() && 0 === dollie()->get_partner_subscription_credits() ) ) {
 	\Dollie\Core\Utils\Tpl::load(
-		DOLLIE_WIDGETS_PATH . 'templates/notice',
+		'notice',
 		[
 			'type'    => 'warning',
 			'icon'    => 'fal fa-exclamation-circle',
@@ -23,7 +23,7 @@ if ( current_user_can( 'manage_options' ) || dollie()->has_subscription() ) {
 }
 
 \Dollie\Core\Utils\Tpl::load(
-	DOLLIE_WIDGETS_PATH . 'templates/notice',
+	'notice',
 	[
 		'type'    => 'error',
 		'icon'    => 'fal fa-exclamation-circle',

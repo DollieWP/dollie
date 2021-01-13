@@ -56,7 +56,7 @@ class SiteContent extends \Elementor\Widget_Base {
 			'settings' => $this->get_settings_for_display(),
 		];
 
-		Tpl::load( DOLLIE_WIDGETS_PATH . 'Site/templates/site-content', $data, true );
+		Tpl::load( 'widgets/site/site-content', $data, true );
 	}
 
 }

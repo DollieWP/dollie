@@ -41,7 +41,7 @@ class LatestNews extends \Elementor\Widget_Base {
 			'settings' => $this->get_settings_for_display(),
 		];
 
-		Tpl::load( DOLLIE_WIDGETS_PATH . 'Dashboard/templates/latest-news', $data, true );
+		Tpl::load( 'widgets/dashboard/latest-news', $data, true );
 	}
 
 }

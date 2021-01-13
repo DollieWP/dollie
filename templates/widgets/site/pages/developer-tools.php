@@ -75,7 +75,7 @@ if ( empty( $data ) ) : ?>
 
 	if ( 'code-editor' === $page ) {
 		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'Site/templates/pages/developer-tools/codiad',
+			'widgets/site/pages/developer-tools/codiad',
 			[
 				'data' => $data,
 			],
@@ -83,7 +83,7 @@ if ( empty( $data ) ) : ?>
 		);
 	} elseif ( 'database' === $page ) {
 		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'Site/templates/pages/developer-tools/adminer',
+			'widgets/site/pages/developer-tools/adminer',
 			[
 				'data'             => $data,
 				'customer_details' => $customer_details,
@@ -92,7 +92,7 @@ if ( empty( $data ) ) : ?>
 		);
 	} elseif ( 'shell' === $page ) {
 		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'Site/templates/pages/developer-tools/shell',
+			'widgets/site/pages/developer-tools/shell',
 			[
 				'data' => $data,
 			],
@@ -100,7 +100,7 @@ if ( empty( $data ) ) : ?>
 		);
 	} else {
 		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'Site/templates/pages/developer-tools/details',
+			'widgets/site/pages/developer-tools/details',
 			[
 				'data'             => $data,
 				'customer_details' => $customer_details,

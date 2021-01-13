@@ -396,14 +396,14 @@ class Options extends Singleton {
 			$containers = SyncContainersJob::instance()->run();
 		}
 
-		Tpl::load( DOLLIE_MODULE_TPL_PATH . 'admin/tools-page', [ 'containers' => $containers ], true );
+		Tpl::load( 'admin/tools-page', [ 'containers' => $containers ], true );
 	}
 
 	/**
 	 * Api page content
 	 */
 	public function dollie_api_content() {
-		Tpl::load( DOLLIE_MODULE_TPL_PATH . 'admin/api-page', [], true );
+		Tpl::load( 'admin/api-page', [], true );
 	}
 
 	/**

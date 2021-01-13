@@ -22,7 +22,7 @@
 	<?php
 	$message = ob_get_clean();
 	\Dollie\Core\Utils\Tpl::load(
-		DOLLIE_WIDGETS_PATH . 'templates/notice',
+		'notice',
 		[
 			'type'    => 'info',
 			'icon'    => 'fal fa-question',

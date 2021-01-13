@@ -60,7 +60,7 @@ class PartnerGreeting extends \Elementor\Widget_Base {
 			'settings' => $this->get_settings_for_display(),
 		];
 
-		Tpl::load( DOLLIE_WIDGETS_PATH . 'Dashboard/templates/partner-greeting', $data, true );
+		Tpl::load( 'widgets/dashboard/partner-greeting', $data, true );
 	}
 
 }

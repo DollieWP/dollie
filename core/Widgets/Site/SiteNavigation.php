@@ -43,7 +43,7 @@ class SiteNavigation extends \Elementor\Widget_Base {
 		if ( get_post_type() !== 'container' ) {
 			esc_html_e( 'This widget can only be used on the "Site" page.', 'dollie' );
 		} else {
-			Tpl::load( DOLLIE_WIDGETS_PATH . 'Site/templates/site-navigation', $data, true );
+			Tpl::load( 'widgets/site/site-navigation', $data, true );
 		}
 	}
 

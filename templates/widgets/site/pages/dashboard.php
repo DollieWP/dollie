@@ -250,8 +250,7 @@
 
 		<?php
 
-		\Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'templates/posts',
+		\Dollie\Core\Utils\Tpl::load( 'loop/posts',
 			[
 				'title' => __( 'From your blog', 'dollie' ),
 				'posts' => dollie()->get_latest_container_posts(),

@@ -93,7 +93,7 @@ class ListBackups extends Singleton {
 		if ( false === $backups ) {
 
 			return \Dollie\Core\Utils\Tpl::load(
-				DOLLIE_WIDGETS_PATH . 'templates/notice',
+				'notice',
 				[
 					'type'         => 'info',
 					'icon'         => 'fal fa-hdd',

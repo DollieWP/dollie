@@ -359,7 +359,7 @@ class Plugin extends Singleton {
 		);
 
 		return \Dollie\Core\Utils\Tpl::load(
-			DOLLIE_WIDGETS_PATH . 'templates/notice',
+			'notice',
 			[
 				'type'         => $atts['type'],
 				'icon'         => $atts['icon'],

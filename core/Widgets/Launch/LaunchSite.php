@@ -57,7 +57,7 @@ class LaunchSite extends \Elementor\Widget_Base {
 			'settings' => $this->get_settings_for_display(),
 		];
 
-		Tpl::load( DOLLIE_WIDGETS_PATH . 'Launch/templates/launch-site', $data, true );
+		Tpl::load( 'widgets/launch/launch-site', $data, true );
 	}
 
 }
