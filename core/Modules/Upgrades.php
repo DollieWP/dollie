@@ -336,7 +336,7 @@ class Upgrades extends Singleton {
 				}
 			}
 
-			if ( ! $existing_id ) {
+			if ( empty( $existing_id ) ) {
 				continue;
 			}
 
@@ -348,17 +348,18 @@ class Upgrades extends Singleton {
 
 			$el_data = $source->get_data( $args );
 
-			if ( isset( $el_data['type'] ) ) {
-				update_post_meta( $existing_id, '_elementor_template_type', $el_data['type'] );
-			}
-
 			if ( ! is_wp_error( $el_data ) ) {
+
+				if ( isset( $el_data['type'] ) ) {
+					update_post_meta( $existing_id, '_elementor_template_type', $el_data['type'] );
+				}
+
+				update_post_meta( $existing_id, '_elementor_edit_mode', 'builder' );
+				update_post_meta( $existing_id, '_wp_page_template', $page_data['tpl'] );
 
 				$el_data['id'] = $existing_id;
 				$source->update_item( $el_data );
 
-				update_post_meta( $existing_id, '_elementor_edit_mode', 'builder' );
-				update_post_meta( $existing_id, '_wp_page_template', $page_data['tpl'] );
 			}
 		}
 

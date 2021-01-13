@@ -138,7 +138,7 @@ class DollieSource extends Source_Base {
 			return new \WP_Error( 'save_error', __( 'Access denied.', 'elementor' ) );
 		}
 
-		$document = Plugin::$instance->documents->get( $new_data['id'] );
+		$document = Plugin::$instance->documents->get( $new_data['id'], false );
 
 		if ( ! $document ) {
 			return new \WP_Error( 'save_error', __( 'Template not exist.', 'elementor' ) );
