@@ -8,12 +8,11 @@ import {series} from 'gulp';
 import translate from './translate';
 import tailwind from './tailwind';
 import build from './build';
-import sftp from './sftp';
 
-const release = series(tailwind, translate, build, sftp);
+const release = series(tailwind, translate, build);
 
 export default release;
 
 export {
-    tailwind, translate, build
+    tailwind, translate
 }
