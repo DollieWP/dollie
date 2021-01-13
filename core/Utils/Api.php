@@ -246,6 +246,8 @@ class Api extends Singleton {
 			$data = @json_decode( $data, true );
 
 			if ( is_array( $data ) && isset( $data['token'], $data['domain'] ) && $data['token'] && $data['domain'] ) {
+				delete_transient( 'wpd_partner_subscription' );
+
 				self::update_auth_token( $data['token'] );
 
 				update_option( 'options_wpd_api_domain', sanitize_text_field( $data['domain'] ) );
