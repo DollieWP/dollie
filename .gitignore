@@ -3,3 +3,4 @@ dist/
 node_modules/
 *.sass-cache
 vendor
+package-lock.json

@@ -493,8 +493,7 @@ class Forms extends Singleton {
 			$url    = dollie()->get_wp_site_data( 'uri', $current_query->id );
 			$domain = get_post_meta( $current_query->id, 'wpd_domains', true ) ?: '';
 
-			$tpl_link_domain = Tpl::load(
-				DOLLIE_MODULE_TPL_PATH . 'link-domain',
+			$tpl_link_domain = Tpl::load( 'site/link-domain',
 				[
 					'has_domain'   => $domain,
 					'ip'           => $ip,

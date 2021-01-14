@@ -2,7 +2,7 @@
 if ( isset( $_GET['payment-status'] ) ) {
 
 	\Dollie\Core\Utils\Tpl::load(
-		DOLLIE_WIDGETS_PATH . 'templates/notice',
+		'notice',
 		[
 			'type'         => 'success',
 			'icon'         => 'fal fa-check',
@@ -24,7 +24,7 @@ if ( isset( $_GET['payment-status'] ) ) {
 if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
 
 	\Dollie\Core\Utils\Tpl::load(
-		DOLLIE_WIDGETS_PATH . 'templates/notice',
+		'notice',
 		[
 			'type'         => 'error',
 			'icon'         => 'fal fa-exclamation-circle',
@@ -45,7 +45,7 @@ if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
 
 if ( dollie()->size_limit_reached() ) {
 	\Dollie\Core\Utils\Tpl::load(
-		DOLLIE_WIDGETS_PATH . 'templates/notice',
+		'notice',
 		[
 			'type'         => 'error',
 			'icon'         => 'fal fa-exclamation-circle',
@@ -59,7 +59,7 @@ if ( dollie()->size_limit_reached() ) {
 
 if ( dollie()->site_limit_reached() ) {
 	\Dollie\Core\Utils\Tpl::load(
-		DOLLIE_WIDGETS_PATH . 'templates/notice',
+		'notice',
 		[
 			'type'         => 'error',
 			'icon'         => 'fal fa-exclamation-circle',
@@ -72,4 +72,4 @@ if ( dollie()->site_limit_reached() ) {
 }
 
 // Load form
-\Dollie\Core\Utils\Tpl::load( DOLLIE_WIDGETS_PATH . 'Launch/templates/form', [], true );
+\Dollie\Core\Utils\Tpl::load( 'widgets/launch/form', [], true );

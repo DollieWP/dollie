@@ -44,7 +44,7 @@ class SitesNavigation extends \Elementor\Widget_Base {
 			'settings' => $this->get_settings_for_display(),
 		];
 
-		Tpl::load( DOLLIE_WIDGETS_PATH . 'General/templates/sites-navigation', $data, true );
+		Tpl::load( 'widgets/general/sites-navigation', $data, true );
 	}
 
 }

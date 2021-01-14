@@ -40,7 +40,7 @@ class RecentOrders extends \Elementor\Widget_Base {
 			'settings' => $this->get_settings_for_display(),
 		];
 
-		Tpl::load( DOLLIE_WIDGETS_PATH . 'Dashboard/templates/recent-orders', $data, true );
+		Tpl::load( 'widgets/dashboard/recent-orders', $data, true );
 	}
 
 }

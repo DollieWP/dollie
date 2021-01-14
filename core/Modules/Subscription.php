@@ -783,6 +783,10 @@ class Subscription extends Singleton {
 	 * @return array
 	 */
 	public function get_partner_subscription() {
+		if ( ! Api::get_auth_token() ) {
+			return false;
+		}
+
 		$subscription = get_transient( 'wpd_partner_subscription' );
 
 		if ( ! $subscription ) {
@@ -805,6 +809,10 @@ class Subscription extends Singleton {
 	public function has_partner_subscription() {
 		$subscription = $this->get_partner_subscription();
 
+		if ( ! $subscription ) {
+			return false;
+		}
+
 		return $subscription['active'];
 	}
 
@@ -816,6 +824,10 @@ class Subscription extends Singleton {
 	public function is_partner_subscription_trial() {
 		$subscription = $this->get_partner_subscription();
 
+		if ( ! $subscription ) {
+			return false;
+		}
+
 		return $subscription['subscription']['trial'];
 	}
 
@@ -826,6 +838,10 @@ class Subscription extends Singleton {
 	 */
 	public function get_partner_subscription_credits() {
 		$subscription = $this->get_partner_subscription();
+
+		if ( ! $subscription ) {
+			return 0;
+		}
 
 		return $subscription['subscription']['limit'];
 	}

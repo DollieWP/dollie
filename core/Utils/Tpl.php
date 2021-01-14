@@ -18,7 +18,7 @@ class Tpl {
 	 *
 	 * @param $path
 	 * @param array $args
-	 * @param bool  $echo
+	 * @param bool $echo
 	 *
 	 * @return false|string|void
 	 */
@@ -34,8 +34,8 @@ class Tpl {
 		$template = locate_template( 'dollie/' . $path . '.php' );
 
 		if ( ! $template ) {
-			if ( file_exists( $path . '.php' ) ) {
-				$template = $path . '.php';
+			if ( file_exists( DOLLIE_MODULE_TPL_PATH . $path . '.php' ) ) {
+				$template = DOLLIE_MODULE_TPL_PATH . $path . '.php';
 			} else {
 				return '';
 			}

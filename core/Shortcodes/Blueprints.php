@@ -48,7 +48,7 @@ final class Blueprints extends Singleton implements Base {
 				'orderby'            => 'post_date',
 				'order'              => 'DESC',
 				'category'           => '',
-				'template'           => 'loop-templates/blueprints',
+				//'template'           => 'loop/blueprints',
 				'id'                 => '',
 				'checkout-url'       => '',
 				'launch-button-text' => '',
@@ -104,7 +104,7 @@ final class Blueprints extends Singleton implements Base {
 
 				//Include template
 				\Dollie\Core\Utils\Tpl::load(
-					DOLLIE_MODULE_TPL_PATH . '/' . $a['template'],
+					'loop/blueprints',
 					[
 						'query' => $query,
 						'launch_button_text' => $a['launch-button-text'],

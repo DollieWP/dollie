@@ -1,7 +1,7 @@
 <?php
 
 \Dollie\Core\Utils\Tpl::load(
-	DOLLIE_WIDGETS_PATH . 'templates/posts',
+	'loop/posts',
 	[
 		'title' => __( 'Latest news', 'dollie' ),
 		'posts' => $posts,

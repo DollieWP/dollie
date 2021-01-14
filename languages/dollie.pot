@@ -1,4 +1,4 @@
-# Copyright (C) 2020 Dollie
+# Copyright (C) 2021 Dollie
 # This file is distributed under the same license as the Dollie package.
 msgid ""
 msgstr ""
@@ -15,246 +15,104 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: core/Log.php:123
+#: core/Log.php:127
 msgid "Site deploy started"
 msgstr ""
 
-#: core/Log.php:129
+#: core/Log.php:133
 msgid "Site deployed"
 msgstr ""
 
-#: core/Log.php:135
+#: core/Log.php:139
 msgid "Site deploy failed"
 msgstr ""
 
-#: core/Log.php:141
+#: core/Log.php:145
 msgid "Site setup completed"
 msgstr ""
 
-#: core/Log.php:147
+#: core/Log.php:151
 msgid "Site setup failed"
 msgstr ""
 
-#: core/Log.php:153
+#: core/Log.php:157
 msgid "Backup triggered"
 msgstr ""
 
-#: core/Log.php:159
+#: core/Log.php:163
 msgid "Site removal notice"
 msgstr ""
 
-#: core/Log.php:165
+#: core/Log.php:169
 msgid "Site undeployed"
 msgstr ""
 
-#: core/Log.php:171
+#: core/Log.php:175
 msgid "Site deleted"
 msgstr ""
 
-#: core/Log.php:177
+#: core/Log.php:181
 msgid "Site reactivated"
 msgstr ""
 
-#: core/Log.php:183
+#: core/Log.php:187
 msgid "Site stopped"
 msgstr ""
 
-#: core/Log.php:189
+#: core/Log.php:193
 msgid "Domain linked"
 msgstr ""
 
-#: core/Log.php:195
+#: core/Log.php:199
 msgid "Domain setup completed"
 msgstr ""
 
-#: core/Log.php:201
+#: core/Log.php:205
 msgid "Domain setup error"
 msgstr ""
 
-#: core/Log.php:207
+#: core/Log.php:211
 msgid "Cloudflare linked"
 msgstr ""
 
-#: core/Log.php:213
+#: core/Log.php:217
 msgid "Cloudflare Zone ID added"
 msgstr ""
 
-#: core/Log.php:219
+#: core/Log.php:223
 msgid "Letsencrypt failed"
 msgstr ""
 
-#: core/Log.php:224
+#: core/Log.php:228
 msgid "Blueprint updated"
 msgstr ""
 
-#: core/Plugin.php:327, core/Modules/Options.php:273
+#: core/Plugin.php:323, core/Modules/Options.php:269, core/Widgets/Launch/templates/launch-site.php:35
 msgid "Connect with Dollie"
 msgstr ""
 
-#: templates/launch-splash.php:26
-msgid "Launching New Cloud Container"
-msgstr ""
-
-#: templates/launch-splash.php:29
-msgid ""
-"We use state-of-the-art technology like PHP7, Nginx, Redis, Memcached and\n"
-"                                MariaDB inside isolated cloud containers to guarantee excellent performance\n"
-"                                and security for each and every site on our platform."
-msgstr ""
-
-#: templates/launch-splash.php:40
-msgid "Setting up WordPress"
-msgstr ""
-
-#: templates/launch-splash.php:44
-msgid ""
-"We manage important WordPress security updates for you, and notify you when\n"
-"                                compromised plugins and themes with security issues are found. And of course\n"
-"                                free SSL certificates for your site are set up automatically."
-msgstr ""
-
-#: templates/launch-splash.php:57
-msgid "Testing & Verifying Installation"
-msgstr ""
-
-#: templates/launch-splash.php:61
-msgid ""
-"We are running some automated tests to make sure everything is set up and\n"
-"                                ready to go before you start building your brand new site!"
-msgstr ""
-
-#: templates/launch-splash.php:73
-msgid "Site Setup Complete"
-msgstr ""
-
-#: templates/launch-splash.php:77
-msgid ""
-"Your new site Wordpress site is deployed to our cloud! You will be redirected\n"
-"                                to the site setup wizard in just a couple of seconds..."
-msgstr ""
-
-#: templates/link-domain.php:7
-msgid "Your domain <strong>%s</strong> was successfully connected!"
-msgstr ""
-
-#: templates/link-domain.php:12
-msgid "Let's continue with our domain setup by making your DNS change."
-msgstr ""
-
-#: templates/link-domain.php:18
+#: templates/link-domain.php:4
 msgid "Login to Your Domain Management account. This can be CloudFlare or your domain registrar."
 msgstr ""
 
-#: templates/link-domain.php:23
-msgid "Go to your Domain name <strong>%s</strong> and go to the DNS Manager."
+#: templates/link-domain.php:7
+msgid "Go to your Domain name and go to the DNS Manager."
 msgstr ""
 
-#: templates/link-domain.php:31
-msgid "Replace the IP address for the <strong>\"A\"</strong> <strong>%s</strong> record with the following IP address: <strong>%s</strong>"
+#: templates/link-domain.php:11
+msgid "Replace the IP address for the \"@\" and \"www\" like the following:"
 msgstr ""
 
-#: templates/link-domain.php:44
-msgid "Important Note: You only need to change the A and WWW records"
+#: templates/link-domain.php:37
+msgid "Important Note: You only need to change the @ and WWW records"
 msgstr ""
 
-#: templates/link-domain.php:47
-msgid ""
-"Your domain might have multiple DNS records set up. For example if you also have your own email address\n"
-"    (yourname@%s) or subdomains (anothersite.%s). For the migration to work you only\n"
-"    need to make a change to the A and (if existing) WWW record. Do not change the other records unless\n"
-"    specified by our support team or in unique domain setups configured by you or your developer."
+#: templates/link-domain.php:39
+msgid "Your domain might have multiple DNS records set up. Make sure to change only the \"@\" and \"www\" records."
 msgstr ""
 
-#: templates/migration-instructions.php:6
-msgid "Ready for the easiest migration ever?"
-msgstr ""
-
-#: templates/migration-instructions.php:8
-msgid "We are going make an exact copy of your current WordPress install to <strong>%s</strong>"
-msgstr ""
-
-#: templates/migration-instructions.php:15
-msgid "Do not worry; your live site will not be touched or modified in any way!"
-msgstr ""
-
-#: templates/migration-instructions.php:18
-msgid "Step 1 - Install the Migrate Guru Plugin"
-msgstr ""
-
-#: templates/migration-instructions.php:21
-msgid "Login to the WordPress Admin of the <strong>site you would like to migrate</strong> (i.e yoursite.com)"
-msgstr ""
-
-#: templates/migration-instructions.php:24
-msgid "Go to <strong>Plugins > Add New </strong> and search for \"Migrate Guru\""
-msgstr ""
-
-#: templates/migration-instructions.php:27
-msgid "Press the <strong>Install Now</strong> button."
-msgstr ""
-
-#: templates/migration-instructions.php:30
-msgid "Activate the plugin"
-msgstr ""
-
-#: templates/migration-instructions.php:33
-msgid "Click on the Migrate Guru menu link in the WordPress Admin"
-msgstr ""
-
-#: templates/migration-instructions.php:37
-msgid "Step 2 - Fill in the Migration Details"
-msgstr ""
-
-#: templates/migration-instructions.php:39
-msgid "On the Settings page you will be asked to first leave your email to keep you up to date about the migration progress."
-msgstr ""
-
-#: templates/migration-instructions.php:41
-msgid "Click on Migrate Site to continue."
-msgstr ""
-
-#: templates/migration-instructions.php:44
-msgid "Now choose <strong>FTP</strong> as your migration method, at the bottom right of the screen."
-msgstr ""
-
-#: templates/migration-instructions.php:47
-msgid "Finally fill in the following settings for your migration."
-msgstr ""
-
-#: templates/migration-instructions.php:53
-msgid "Destination Site URL"
-msgstr ""
-
-#: templates/migration-instructions.php:57
-msgid "FTP Type"
-msgstr ""
-
-#: templates/migration-instructions.php:61
-msgid "Destination Server IP/FTP Address"
-msgstr ""
-
-#: templates/migration-instructions.php:65
-msgid "Port:"
-msgstr ""
-
-#: templates/migration-instructions.php:70
-msgid "FTP Username:"
-msgstr ""
-
-#: templates/migration-instructions.php:74
-msgid "FTP Password:"
-msgstr ""
-
-#: templates/migration-instructions.php:78
-msgid "Directory Path:"
-msgstr ""
-
-#: templates/migration-instructions.php:92
-msgid "Step 3 - Sit back and enjoy the show!"
-msgstr ""
-
-#: templates/migration-instructions.php:95
-msgid "Press <strong>Migrate</strong> and sit back and enjoy the show. Depending on the size of your site and the speed of your current host this process could take up to a couple of hours. Do not worry, this is completely normal! We will send you an email when the migration has completed so you can easily continue to this setup wizard."
+#: templates/link-domain.php:42
+msgid "If you don't have the records you can create them."
 msgstr ""
 
 #: core/Elementor/DollieSource.php:33, core/Elementor/Hooks.php:69, core/Elementor/Hooks.php:83, core/Utils/Notices.php:67, core/Admin/NavMenu/Component.php:67, core/Elementor/Library/Documents/Dollie.php:61
@@ -305,7 +163,7 @@ msgstr ""
 msgid "Ideal dimensions are 700 x 525 PX"
 msgstr ""
 
-#: core/Extras/AcfFields.php:230, core/Modules/ContainerFields.php:64, core/Widgets/Site/templates/pages/plugins.php:96
+#: core/Extras/AcfFields.php:230, core/Modules/ContainerFields.php:65, core/Widgets/Site/templates/pages/plugins.php:110
 msgid "Status"
 msgstr ""
 
@@ -321,7 +179,7 @@ msgstr ""
 msgid "WP Details"
 msgstr ""
 
-#: core/Extras/AcfFields.php:314, core/Extras/AcfFormFields.php:356, core/Modules/ContainerFields.php:66
+#: core/Extras/AcfFields.php:314, core/Modules/ContainerFields.php:67
 msgid "Domain"
 msgstr ""
 
@@ -329,11 +187,11 @@ msgstr ""
 msgid "The domain connected to this container."
 msgstr ""
 
-#: core/Extras/AcfFields.php:333
+#: core/Extras/AcfFields.php:333, core/Widgets/Site/templates/pages/dashboard.php:108
 msgid "WordPress Version"
 msgstr ""
 
-#: core/Extras/AcfFields.php:352, core/Extras/AcfFormFields.php:1108
+#: core/Extras/AcfFields.php:352, core/Extras/AcfFormFields.php:352
 msgid "Site Name"
 msgstr ""
 
@@ -345,7 +203,7 @@ msgstr ""
 msgid "WP Admin Email"
 msgstr ""
 
-#: core/Extras/AcfFields.php:409, core/Widgets/Site/templates/pages/themes.php:6
+#: core/Extras/AcfFields.php:409, core/Widgets/Site/templates/pages/dashboard.php:78, core/Widgets/Site/templates/pages/themes.php:6
 msgid "Active Theme"
 msgstr ""
 
@@ -405,209 +263,216 @@ msgstr ""
 msgid "Default domain you are using for the sites deployed by you or your customers. You can add below your own custom domain."
 msgstr ""
 
-#: core/Extras/AcfFields.php:616
+#: core/Extras/AcfFields.php:619
 msgid "Custom Deployment Domain"
 msgstr ""
 
-#: core/Extras/AcfFields.php:619
-msgid "Add a custom domain for site deployments."
+#: core/Extras/AcfFields.php:622
+msgid ""
+"Add a custom domain for site deployments. An unused domain is recommended.<br>\n"
+"Dollie will handle all the DNS functionality for your deployed sites so you first need to change your NS entries at your domain registrar.<br>\n"
+"NS entries: <strong>pdns1.stratus5.com</strong>, <strong>pdns2.stratus5.com</strong> and <strong>pdns3.stratus5.com</strong>"
 msgstr ""
 
-#: core/Extras/AcfFields.php:640
+#: core/Extras/AcfFields.php:648
 msgid "Pages"
 msgstr ""
 
-#: core/Extras/AcfFields.php:656
+#: core/Extras/AcfFields.php:664
 msgid "Launch Site Page"
 msgstr ""
 
-#: core/Extras/AcfFields.php:659, core/Extras/AcfFields.php:681, core/Extras/AcfFields.php:703
+#: core/Extras/AcfFields.php:667, core/Extras/AcfFields.php:689, core/Extras/AcfFields.php:711
 msgid "From which page do your customers launch their sites?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:678
+#: core/Extras/AcfFields.php:686
 msgid "Customer Dashboard Page"
 msgstr ""
 
-#: core/Extras/AcfFields.php:700
+#: core/Extras/AcfFields.php:708
 msgid "Customer Login Page"
 msgstr ""
 
-#: core/Extras/AcfFields.php:722
+#: core/Extras/AcfFields.php:730
 msgid "Sites Page"
 msgstr ""
 
-#: core/Extras/AcfFields.php:725
+#: core/Extras/AcfFields.php:733
 msgid "Choose the page where all the customers sites are listed."
 msgstr ""
 
-#: core/Extras/AcfFields.php:745
+#: core/Extras/AcfFields.php:753
 msgid "Site Template"
 msgstr ""
 
-#: core/Extras/AcfFields.php:748
+#: core/Extras/AcfFields.php:756
 msgid "Choose the Elementor template for your site page."
 msgstr ""
 
-#: core/Extras/AcfFields.php:770
+#: core/Extras/AcfFields.php:778
 msgid "Support Link"
 msgstr ""
 
-#: core/Extras/AcfFields.php:773
+#: core/Extras/AcfFields.php:781
 msgid "This is the URL we use when directing users to submit a ticket for support."
 msgstr ""
 
-#: core/Extras/AcfFields.php:787
+#: core/Extras/AcfFields.php:795
 msgid "Branding"
 msgstr ""
 
-#: core/Extras/AcfFields.php:803
+#: core/Extras/AcfFields.php:811
 msgid "Newsfeed URL"
 msgstr ""
 
-#: core/Extras/AcfFields.php:806
+#: core/Extras/AcfFields.php:814
 msgid "The link to the WordPress installation you want to show news from."
 msgstr ""
 
-#: core/Extras/AcfFields.php:819
+#: core/Extras/AcfFields.php:828
 msgid "Default Screenshot Placeholder"
 msgstr ""
 
-#: core/Extras/AcfFields.php:822
+#: core/Extras/AcfFields.php:831
 msgid ""
-"<strong>Recommended size: 1200x900px</strong><br>\n"
-"This is the default screenshot image shown on the site details header. It is only shown when the site owner has not set up their site yet."
+"<strong>Recommended size: 700x460px</strong><br>\n"
+"This is the default screenshot image shown until a live screenshot is generated."
 msgstr ""
 
-#: core/Extras/AcfFields.php:844
+#: core/Extras/AcfFields.php:854
 msgid "Access Control"
 msgstr ""
 
-#: core/Extras/AcfFields.php:860
+#: core/Extras/AcfFields.php:870
 msgid "Charge For Launching Sites?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:863
+#: core/Extras/AcfFields.php:873
 msgid "Would you like to charge your customers for launching websites? If you have this set to \"off\" anyone can launch sites on your platform without having a paid (WooCommerce) subscription."
 msgstr ""
 
-#: core/Extras/AcfFields.php:879
+#: core/Extras/AcfFields.php:889
 msgid "Enable Site Management Access?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:882
+#: core/Extras/AcfFields.php:892
 msgid "Would you like to give your clients/customers the ability to manage their own sites or would you like to restrict this functionality to your team (Administrators) only?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:898
+#: core/Extras/AcfFields.php:908
 msgid "Available Site Management Features"
 msgstr ""
 
-#: core/Extras/AcfFields.php:901, core/Extras/AcfFields.php:946
+#: core/Extras/AcfFields.php:911
 msgid "Depending on the customers you bring in, you can choose to disable certain sections of the customer dashboard."
 msgstr ""
 
-#: core/Extras/AcfFields.php:943
-msgid "Available Site Management Tabs"
-msgstr ""
-
-#: core/Extras/AcfFields.php:986
+#: core/Extras/AcfFields.php:961
 msgid "Available Developer Tabs"
 msgstr ""
 
-#: core/Extras/AcfFields.php:989
+#: core/Extras/AcfFields.php:964
 msgid "Depending on the customers you bring in, you can choose to disable certain sections of the developer dashboard."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1030, core/Extras/AcfFields.php:1264
+#: core/Extras/AcfFields.php:999, core/Extras/AcfFields.php:1275
 msgid "Client Deployed Site Permissions"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1033
+#: core/Extras/AcfFields.php:1002
 msgid "Choose the user role given to the users when deploying a site. Warning, this will change the user roles for all client sites"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1055
+#: core/Extras/AcfFields.php:1024
 msgid "Administrator User Name"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1058
+#: core/Extras/AcfFields.php:1027
 msgid "Choose the username that is created for your own administration access. This won't be shared with the client."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1083, core/Extras/AcfFields.php:1371, core/Widgets/Site/templates/site-navigation.php:79, core/Widgets/Site/templates/pages/blueprints.php:4
+#: core/Extras/AcfFields.php:1052, core/Extras/AcfFields.php:1383, core/Widgets/Site/templates/site-navigation.php:80, core/Widgets/Site/templates/pages/blueprints.php:4
 msgid "Blueprints"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1099
+#: core/Extras/AcfFields.php:1068
 msgid "Enable Site Preview"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1102
-msgid "The site preview bar allows you to quickly showcase the available Blueprints you've created. If you'd like to enable this feature make sure you've uploaded the Site Preview script to your root directory."
+#: core/Extras/AcfFields.php:1071
+msgid "The site preview bar allows you to quickly showcase the available Blueprints you've created."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1118
+#: core/Extras/AcfFields.php:1088
 msgid "Site Preview Link"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1121
+#: core/Extras/AcfFields.php:1091, core/Extras/AcfFields.php:1119
 msgid "The link to where your sites preview will show. By default is set to \"preview\" and will look like your-site.com/preview"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1138
+#: core/Extras/AcfFields.php:1116
+msgid "Preview Page Logo"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1149
 msgid "Show Default Blueprint"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1141
+#: core/Extras/AcfFields.php:1152
 msgid "When launching a new site, show or hide the Default Blueprint option."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1182
+#: core/Extras/AcfFields.php:1193
 msgid "Active Dollie Subscription"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1202
+#: core/Extras/AcfFields.php:1213
 msgid "Stop Container at.."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1221
+#: core/Extras/AcfFields.php:1232
 msgid "Containers undeployed?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1267
+#: core/Extras/AcfFields.php:1278
 msgid "Choose the user role given to the user when deploying a site. Default inherits from Dollie - Settings - Access Control"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1312
+#: core/Extras/AcfFields.php:1323
 msgid "Basic"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1328
+#: core/Extras/AcfFields.php:1339
 msgid "Number of Sites"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1331, core/Extras/AcfFields.php:1353
+#: core/Extras/AcfFields.php:1342
 msgid "How many sites can a customer deploy when subscribed to this product?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1350
+#: core/Extras/AcfFields.php:1361
 msgid "Disk Space"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1387
+#: core/Extras/AcfFields.php:1364
+msgid "The amount of space customer can use when subscribed to this product."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1399
 msgid "Included Blueprints"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1390
+#: core/Extras/AcfFields.php:1402
 msgid "Select which of your Blueprints are allowed to be deployed when a customer has an active subscription to this product."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1410
+#: core/Extras/AcfFields.php:1422
 msgid "Excluded Blueprints"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1413
+#: core/Extras/AcfFields.php:1425
 msgid "Select which of your Blueprints can not be chosen when a customer has an active subscription to this product. Use this setting if you have a lot of blueprints and only want to restrict access to a couple of them."
 msgstr ""
 
@@ -617,7 +482,7 @@ msgstr ""
 
 #: core/Extras/AcfFormFields.php:22
 msgid ""
-"[dollie_blockquote type=\"success\" icon=\"fa fa-globe\" title=\"Let's link up your custom domain {dollie_user_display_name}!\"]\n"
+"[dollie_blockquote type=\"success\" icon=\"fal fa-globe\" title=\"Let's link up your custom domain {dollie_user_display_name}!\"]\n"
 "We'll walk you through all the steps required to link your own domain to your site. Let's get started shall we?\n"
 "[/dollie_blockquote]"
 msgstr ""
@@ -627,51 +492,18 @@ msgid "Have you registered a domain name?"
 msgstr ""
 
 #: core/Extras/AcfFormFields.php:55
-msgid "Does this domain have an (active) website linked to it?"
+msgid "Migration Tip"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:58
-msgid "Are you currently using this domain to host a website?"
+#: core/Extras/AcfFormFields.php:75
+msgid "Tip: Do you already have an active site on this domain and want to keep the content? Head on to the Migration tab and follow the instructions to migrate your existing site. After that you can start the domain connect wizard."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:89
-msgid "Migration Instructions"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:109
-msgid "{dollie_migration_instructions}"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:115
-msgid "Have you completed the data migration?"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:148
-msgid "Great! So here's what you need to know"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:168
-msgid ""
-"<p class=\"font-size-smaller box-brand-primary lighten padding-small\">\n"
-"				1. Do not worry about new content/files that were added after you have done the migration. We will get to this later.<br>\n"
-"				2. Please keep the Migration Plugin installed and active on your current live website.<br>\n"
-"				3. At a later stage during this wizard we will sync your existing content/database one final time.\n"
-"</p>"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:178
-msgid "Migration issues"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:198
-msgid "If you encounter problems please stop this wizard and out to our <a href=\"{dollie_support_link}\">support team</a> so we can help."
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:204
+#: core/Extras/AcfFormFields.php:81
 msgid "Register Your Domain Name"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:224
+#: core/Extras/AcfFormFields.php:101
 msgid ""
 "<div class=\"box-light padding-half alert alert-info p-3\">\n"
 "<p>We are not selling domains directly.</p> \n"
@@ -680,686 +512,539 @@ msgid ""
 "</div>"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:234
-msgid "Registered Your New Domain?"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:254
-msgid "Yes, I have registered my domain!"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:262
+#: core/Extras/AcfFormFields.php:111
 msgid "Your Domain Name"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:265
+#: core/Extras/AcfFormFields.php:114
 msgid "Please type your domain name <strong>without www. or http(s)://</strong>"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:297
-msgid "Confirm Your Domain"
+#: core/Extras/AcfFormFields.php:131
+msgid "message"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:300
-msgid "Please retype your domain name."
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:374
-msgid "DNS Instructions"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:386
+#: core/Extras/AcfFormFields.php:143
 msgid "{dollie_tpl_link_domain}"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:392
-msgid "Did you make the required DNS change?"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:417
-msgid "DNS Check"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:437
-msgid ""
-"<div class=\"alert alert-success p-3\">\n"
-"<h3>Great job!</h3>\n"
-" It usually takes anywhere between a couple of minutes to one hour before the DNS change takes affect. The quickest way to check if the DNS update has completed is using this handy <a href=\"https://dnschecker.org\">DNS Checker</a>. Once the change has taken affect please click the Next button to complete the DNS Setup.\n"
-"</div>"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:446
-msgid "Support Request"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:466
-msgid ""
-"<div class=\"box-light padding-half alert alert-info p-3\">\n"
-"<h3>No worries , we're here to help!</h3>\n"
-"\n"
-"Please create a support ticket so our team can assist you in making the required DNS changes. In order for us to do this, you need to give us temporary access to your CloudFlare account. Please include these details with your support ticket.\n"
-"\n"
-"<a href=\"{dollie_support_link}\">Create A Support Ticket</a>\n"
-"</div>"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:478
-msgid "SSL"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:496
-msgid "How would you like to set up your SSL certificate?"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:499
-msgid "Having a SSL certificate is crucial for any site for security and SEO. Luckily we make it extremely easy for you!"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:521
-msgid "CloudFlare Email"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:524
-msgid "The email you use to login to your CloudFlare account."
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:548
-msgid "CloudFlare API Key"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:551
-msgid "See the instructions below to see how you can find your CloudFlare API key."
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:576
-msgid "CloudFlare API Key Instructions"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:596
-msgid ""
-"<div class=\"box-light padding-half mt-4 alert alert-info p-3\">\n"
-"<h4>Finding Your CloudFlare API Key</h4>\n"
-"<a target=\"_blank\" href=\"https://support.cloudflare.com/hc/en-us/articles/200167836-Where-do-I-find-my-Cloudflare-API-key-\">Please visit the following page to find instructions on getting your CloudFlare API key</a>\n"
-"</div>"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:605
-msgid "Your CloudFlare Zone ID"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:608
-msgid "To enable Site Analytics paste in your Zone ID in the field below. See the instructions below for more info."
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:633
-msgid "CloudFlare Zone ID Instructions"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:653
-msgid ""
-"<div class=\"box-light padding-half alert alert-info p-3\">\n"
-"<h4>Finding Your Domains Zone ID</h4>\n"
-"\n"
-"<ol>\n"
-"<li>Login to your CloudFlare account</li>\n"
-"<li>Click on the Domain Name belonging your site</li>\n"
-"<li>Scroll down to the <strong>Domain Summary</strong> section and copy and paste the Zone ID.\n"
-"</ol>\n"
-"<img class=\"wysiwyg-text-align-center\" src=\"/wp-content/plugins/dollie/assets/img/cloudflare-zone-id.png\" alt=\"Cloudflare zone id\" width=\"50%\" height=\"auto\">\n"
-"</div>"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:692
-msgid "Site URL"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:710
-msgid "Intro Message"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:722
-msgid ""
-"[dollie_blockquote title=\"Final Step - Updating the URL for your site.\"]\n"
-"Let's continue with our domain wizard automatically by changing the url on your new site.\n"
-"[/dollie_blockquote]"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:730
-msgid "Do you want to have www. in the URL?"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:733
-msgid "When you visit your domain do you want it to show <strong>www.</strong> in the address bar?"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:756
-msgid "Unsure www domain"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:776
-msgid ""
-"<div class=\"box-light padding-half\">\n"
-"<h4>No problemo!</h4>\n"
-"The recommended domain setup these days is to remove <em>www.</em> from the URL. So we will continue setting up your domain without the www. prefix.\n"
-"</div>"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:785
-msgid "Database Update"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:803
-msgid "Verifying Your Site URL Update"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:815
-msgid ""
-"[dollie_blockquote title=\"Please Check Your Site\"]\n"
-"We have now updated your domain for your site. Please visit it and take a look.\n"
-"[/dollie_blockquote]"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:823
-msgid "Is your site now using your custom domain?"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:849
-msgid "Domain Update Issues"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:869
-msgid "Please <a href=\"{dollie_support_link}\">create a support ticket</a> so our migration team can get to the bottom of this!"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:875
-msgid "Domain not migrated"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:895
-msgid ""
-"<div class=\"box-light padding-half\">\n"
-"<h4>Please wait a few more minutes...</h4>\n"
-"If you have a large database the update might take a while. Please hold on a couple of minutes and if nothing has changed please <a href=\"{dollie_support_link}\">get in touch </a>with our support team so we can look into the issue.\n"
-"</div>"
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:928
+#: core/Extras/AcfFormFields.php:173
 msgid "Confirm Site Name"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:931
+#: core/Extras/AcfFormFields.php:176
 msgid "Please type the name of the site to confirm deletion, this can not be undone."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:972
+#: core/Extras/AcfFormFields.php:217
 msgid "Choose Your URL"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:975
+#: core/Extras/AcfFormFields.php:220
 msgid "Please choose a temporary URL for your site. This will be the place where you can work on your site used until you are ready to go live and connect your own domain."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:992, core/Modules/Forms.php:358
+#: core/Extras/AcfFormFields.php:237, core/Modules/Forms.php:363
 msgid "Select a Blueprint (optional)"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:995
+#: core/Extras/AcfFormFields.php:240
 msgid "Carefully crafted site designs made by our team which you can use as a starting point for your new site."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1015
+#: core/Extras/AcfFormFields.php:259
 msgid "Advanced Settings"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1035
+#: core/Extras/AcfFormFields.php:279
 msgid "Admin Email"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1038
+#: core/Extras/AcfFormFields.php:282
 msgid "This is the email address you use to login to your WordPress admin."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1054
+#: core/Extras/AcfFormFields.php:298
 msgid "Admin Username"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1057
+#: core/Extras/AcfFormFields.php:301
 msgid "The username you use to login to your WordPress admin."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1082
+#: core/Extras/AcfFormFields.php:326
 msgid "Admin Password"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1111
+#: core/Extras/AcfFormFields.php:355
 msgid "You can always change this later."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1136
+#: core/Extras/AcfFormFields.php:380
 msgid "Site Description"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1139
+#: core/Extras/AcfFormFields.php:383
 msgid "This is shown in several areas across your site. It's also shown in the visitors browser window title. You can always change it later."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1188
+#: core/Extras/AcfFormFields.php:432
 msgid "Available Backups"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1210
+#: core/Extras/AcfFormFields.php:454
 msgid "What would you like to restore?"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1237
+#: core/Extras/AcfFormFields.php:481
 msgid "You are about to restore your site"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1276
+#: core/Extras/AcfFormFields.php:520
 msgid "Choose Your Caching Method"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1279
+#: core/Extras/AcfFormFields.php:523
 msgid ""
 "<strong>PoweredCache</strong> - Recommended. Control cache settings on the WordPress level via the PoweredCache page in your WP admin. <br>\n"
 "<strong>WPRocket</strong> - Recommended if you're using WPRocket."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1302
+#: core/Extras/AcfFormFields.php:546
 msgid "PHP Version"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1347
+#: core/Extras/AcfFormFields.php:591
 msgid ""
 "<div class=\"alert alert-danger\">\n"
 "Whilst PHP7 gives your site a big performance boost not all plugins and themes are yet compatible with PHP7. Please make sure to test your site functionality before you decide to use PHP7 </div>"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1378
+#: core/Extras/AcfFormFields.php:622
 msgid "Plugins to Update"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1424
+#: core/Extras/AcfFormFields.php:668
 msgid "Your Name"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1427
+#: core/Extras/AcfFormFields.php:671
 msgid "Please enter your name"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1444
+#: core/Extras/AcfFormFields.php:688
 msgid "Email"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1447
+#: core/Extras/AcfFormFields.php:691
 msgid "We need your email to launch the site"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1463, core/Widgets/General/Login.php:279, core/Widgets/General/Login.php:292
+#: core/Extras/AcfFormFields.php:707, core/Widgets/General/Login.php:279, core/Widgets/General/Login.php:292
 msgid "Password"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1466
+#: core/Extras/AcfFormFields.php:710
 msgid "Set a password to also create an account."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1507
+#: core/Extras/AcfFormFields.php:751
 msgid "Confirmation"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1519
+#: core/Extras/AcfFormFields.php:763
 msgid "Yes, create a new blueprint!"
 msgstr ""
 
-#: core/Modules/Container.php:55
-msgctxt "dollie"
-msgid "Sites"
-msgstr ""
-
-#: core/Modules/Container.php:56
-msgctxt "dollie"
-msgid "Site"
-msgstr ""
-
-#: core/Modules/Container.php:57, core/Widgets/Sites/SitesList.php:40, core/Widgets/General/templates/main-navigation.php:32, core/Widgets/General/templates/sites-navigation.php:22
-msgid "Sites"
-msgstr ""
-
-#: core/Modules/Container.php:58
-msgid "Post Type"
-msgstr ""
-
 #: core/Modules/Container.php:59
-msgid "Site Archives"
+msgctxt "dollie"
+msgid "Sites"
 msgstr ""
 
 #: core/Modules/Container.php:60
-msgid "Site Attributes"
-msgstr ""
-
-#: core/Modules/Container.php:61
-msgid "Parent Site:"
-msgstr ""
-
-#: core/Modules/Container.php:62, core/Modules/Container.php:69, core/Modules/Options.php:289
-msgid "View Sites"
-msgstr ""
-
-#: core/Modules/Container.php:63
-msgid "Add New Site"
-msgstr ""
-
-#: core/Modules/Container.php:64
-msgid "Add New"
-msgstr ""
-
-#: core/Modules/Container.php:65
-msgid "New Site"
-msgstr ""
-
-#: core/Modules/Container.php:66
-msgid "Edit Site"
-msgstr ""
-
-#: core/Modules/Container.php:67
-msgid "Update Site"
-msgstr ""
-
-#: core/Modules/Container.php:68
-msgid "View Site"
-msgstr ""
-
-#: core/Modules/Container.php:70
-msgid "Search Sites"
-msgstr ""
-
-#: core/Modules/Container.php:71
-msgid "Not found"
-msgstr ""
-
-#: core/Modules/Container.php:72
-msgid "Not found in Trash"
-msgstr ""
-
-#: core/Modules/Container.php:73
-msgid "Featured Image"
-msgstr ""
-
-#: core/Modules/Container.php:74
-msgid "Set featured image"
-msgstr ""
-
-#: core/Modules/Container.php:75
-msgid "Remove featured image"
-msgstr ""
-
-#: core/Modules/Container.php:76
-msgid "Use as featured image"
-msgstr ""
-
-#: core/Modules/Container.php:77
-msgid "Insert into item"
-msgstr ""
-
-#: core/Modules/Container.php:78
-msgid "Uploaded to this item"
-msgstr ""
-
-#: core/Modules/Container.php:79
-msgid "Sites list"
-msgstr ""
-
-#: core/Modules/Container.php:80
-msgid "Sites list navigation"
-msgstr ""
-
-#: core/Modules/Container.php:81
-msgid "Filter items list"
-msgstr ""
-
-#: core/Modules/Container.php:85
+msgctxt "dollie"
 msgid "Site"
 msgstr ""
 
-#: core/Modules/Container.php:86
+#: core/Modules/Container.php:61, core/Widgets/Sites/SitesList.php:41, core/Widgets/General/templates/main-navigation.php:32, core/Widgets/General/templates/sites-navigation.php:24
+msgid "Sites"
+msgstr ""
+
+#: core/Modules/Container.php:62
+msgid "Post Type"
+msgstr ""
+
+#: core/Modules/Container.php:63
+msgid "Site Archives"
+msgstr ""
+
+#: core/Modules/Container.php:64
+msgid "Site Attributes"
+msgstr ""
+
+#: core/Modules/Container.php:65
+msgid "Parent Site:"
+msgstr ""
+
+#: core/Modules/Container.php:66, core/Modules/Container.php:73, core/Modules/Options.php:289
+msgid "View Sites"
+msgstr ""
+
+#: core/Modules/Container.php:67
+msgid "Add New Site"
+msgstr ""
+
+#: core/Modules/Container.php:68
+msgid "Add New"
+msgstr ""
+
+#: core/Modules/Container.php:69
+msgid "New Site"
+msgstr ""
+
+#: core/Modules/Container.php:70
+msgid "Edit Site"
+msgstr ""
+
+#: core/Modules/Container.php:71
+msgid "Update Site"
+msgstr ""
+
+#: core/Modules/Container.php:72
+msgid "View Site"
+msgstr ""
+
+#: core/Modules/Container.php:74
+msgid "Search Sites"
+msgstr ""
+
+#: core/Modules/Container.php:75
+msgid "Not found"
+msgstr ""
+
+#: core/Modules/Container.php:76
+msgid "Not found in Trash"
+msgstr ""
+
+#: core/Modules/Container.php:77
+msgid "Featured Image"
+msgstr ""
+
+#: core/Modules/Container.php:78
+msgid "Set featured image"
+msgstr ""
+
+#: core/Modules/Container.php:79
+msgid "Remove featured image"
+msgstr ""
+
+#: core/Modules/Container.php:80
+msgid "Use as featured image"
+msgstr ""
+
+#: core/Modules/Container.php:81
+msgid "Insert into item"
+msgstr ""
+
+#: core/Modules/Container.php:82
+msgid "Uploaded to this item"
+msgstr ""
+
+#: core/Modules/Container.php:83
+msgid "Sites list"
+msgstr ""
+
+#: core/Modules/Container.php:84
+msgid "Sites list navigation"
+msgstr ""
+
+#: core/Modules/Container.php:85
+msgid "Filter items list"
+msgstr ""
+
+#: core/Modules/Container.php:89
+msgid "Site"
+msgstr ""
+
+#: core/Modules/Container.php:90
 msgid "Platform Sites"
 msgstr ""
 
-#: core/Modules/Container.php:120
+#: core/Modules/Container.php:124
 msgctxt "Taxonomy General Name"
 msgid "Blueprint Categories"
 msgstr ""
 
-#: core/Modules/Container.php:121
+#: core/Modules/Container.php:125
 msgctxt "Taxonomy Singular Name"
 msgid "Blueprint Category"
 msgstr ""
 
-#: core/Modules/Container.php:122
+#: core/Modules/Container.php:126
 msgid "Taxonomy"
 msgstr ""
 
-#: core/Modules/Container.php:123
+#: core/Modules/Container.php:127
 msgid "All Items"
 msgstr ""
 
-#: core/Modules/Container.php:124
+#: core/Modules/Container.php:128
 msgid "Parent Item"
 msgstr ""
 
-#: core/Modules/Container.php:125
+#: core/Modules/Container.php:129
 msgid "Parent Item:"
 msgstr ""
 
-#: core/Modules/Container.php:126
+#: core/Modules/Container.php:130
 msgid "New Item Name"
 msgstr ""
 
-#: core/Modules/Container.php:127
+#: core/Modules/Container.php:131
 msgid "Add New Item"
 msgstr ""
 
-#: core/Modules/Container.php:128
+#: core/Modules/Container.php:132
 msgid "Edit Item"
 msgstr ""
 
-#: core/Modules/Container.php:129
+#: core/Modules/Container.php:133
 msgid "Update Item"
 msgstr ""
 
-#: core/Modules/Container.php:130
+#: core/Modules/Container.php:134
 msgid "View Item"
 msgstr ""
 
-#: core/Modules/Container.php:131
+#: core/Modules/Container.php:135
 msgid "Separate items with commas"
 msgstr ""
 
-#: core/Modules/Container.php:132
+#: core/Modules/Container.php:136
 msgid "Add or remove items"
 msgstr ""
 
-#: core/Modules/Container.php:133
+#: core/Modules/Container.php:137
 msgid "Choose from the most used"
 msgstr ""
 
-#: core/Modules/Container.php:134
+#: core/Modules/Container.php:138
 msgid "Popular Items"
 msgstr ""
 
-#: core/Modules/Container.php:135
+#: core/Modules/Container.php:139
 msgid "Search Items"
 msgstr ""
 
-#: core/Modules/Container.php:136
+#: core/Modules/Container.php:140
 msgid "Not Found"
 msgstr ""
 
-#: core/Modules/Container.php:137
+#: core/Modules/Container.php:141
 msgid "No items"
 msgstr ""
 
-#: core/Modules/Container.php:138
+#: core/Modules/Container.php:142
 msgid "Items list"
 msgstr ""
 
-#: core/Modules/Container.php:139
+#: core/Modules/Container.php:143
 msgid "Items list navigation"
 msgstr ""
 
-#: core/Modules/ContainerFields.php:65
+#: core/Modules/ContainerFields.php:66
 msgid "Theme"
 msgstr ""
 
-#: core/Modules/ContainerFields.php:67
+#: core/Modules/ContainerFields.php:68
 msgid "Blueprint"
 msgstr ""
 
-#: core/Modules/ContainerFields.php:68
+#: core/Modules/ContainerFields.php:69
 msgid "Users"
 msgstr ""
 
-#: core/Modules/ContainerFields.php:69, core/Widgets/General/Login.php:93
+#: core/Modules/ContainerFields.php:70, core/Widgets/General/Login.php:93
 msgid "Size"
 msgstr ""
 
-#: core/Modules/Forms.php:134
+#: core/Modules/Forms.php:138
 msgid "Dollie Container Login URL"
 msgstr ""
 
-#: core/Modules/Forms.php:138
+#: core/Modules/Forms.php:142
 msgid "Dollie Container URL"
 msgstr ""
 
-#: core/Modules/Forms.php:289
+#: core/Modules/Forms.php:294
 msgid "Possible shortcode attributes: "
 msgstr ""
 
-#: core/Modules/Forms.php:316, core/Modules/Options.php:105, core/Modules/Options.php:126, core/Modules/Options.php:281
+#: core/Modules/Forms.php:321, core/Modules/Options.php:106, core/Modules/Options.php:127, core/Modules/Options.php:279
 msgid "Settings"
 msgstr ""
 
-#: core/Modules/Forms.php:333, core/Elementor/Library/Module.php:77
+#: core/Modules/Forms.php:338, core/Elementor/Library/Module.php:77
 msgid "Shortcode"
 msgstr ""
 
-#: core/Modules/Forms.php:340
+#: core/Modules/Forms.php:345
 msgid "Enable Launch Site options"
 msgstr ""
 
-#: core/Modules/Forms.php:343
+#: core/Modules/Forms.php:348
 msgid "If this form launches a new site you can enable this option to enable splash loader on launch and choose a default blueprint."
 msgstr ""
 
-#: core/Modules/Forms.php:361
+#: core/Modules/Forms.php:366
 msgid "Force a default blueprint to use for the launched site"
 msgstr ""
 
-#: core/Modules/Forms.php:390
+#: core/Modules/Forms.php:395
 msgid "Redirect to site"
 msgstr ""
 
-#: core/Modules/Forms.php:393
+#: core/Modules/Forms.php:398
 msgid "Redirect to site page after form submit. Success Message will be ignored"
 msgstr ""
 
-#: core/Modules/Options.php:106, core/Modules/Options.php:243
+#: core/Modules/Options.php:107, core/Modules/Options.php:236
 msgid "Dollie (Live)"
 msgstr ""
 
-#: core/Modules/Options.php:123, core/Modules/Options.php:245
+#: core/Modules/Options.php:124, core/Modules/Options.php:238
 msgid "Dollie (Staging)"
 msgstr ""
 
-#: core/Modules/Options.php:298
-msgid "Logs"
-msgstr ""
-
-#: core/Modules/Options.php:307, core/Modules/Forms/LaunchSite.php:121, core/Modules/Forms/QuickLaunch.php:100, core/Widgets/General/templates/main-navigation.php:16
+#: core/Modules/Options.php:300, core/Modules/Options.php:380, core/Modules/Forms/LaunchSite.php:125, core/Modules/Forms/QuickLaunch.php:101, core/Widgets/General/templates/main-navigation.php:16
 msgid "Launch New Site"
 msgstr ""
 
-#: core/Modules/Options.php:323
-msgid "Visit Partner Dashboard"
+#: core/Modules/Options.php:310
+msgid "Logs"
 msgstr ""
 
 #: core/Modules/Options.php:330
+msgid "Visit Partner Dashboard"
+msgstr ""
+
+#: core/Modules/Options.php:339
 msgid "Slack"
 msgstr ""
 
-#: core/Modules/Options.php:343
+#: core/Modules/Options.php:354
 msgid "Partner Dashboard"
 msgstr ""
 
-#: core/Modules/Options.php:348
+#: core/Modules/Options.php:360
 msgid "Slack Community"
 msgstr ""
 
-#: core/Modules/Options.php:423
+#: core/Modules/Options.php:366
+msgid "Support"
+msgstr ""
+
+#: core/Modules/Options.php:452
 msgid "Inactive"
 msgstr ""
 
-#: core/Modules/Options.php:427, core/Widgets/Site/templates/pages/plugins.php:137
+#: core/Modules/Options.php:456, core/Widgets/Site/templates/pages/plugins.php:151
 msgid "Active"
 msgstr ""
 
-#: core/Modules/Options.php:440, templates/admin/api-page.php:12
+#: core/Modules/Options.php:469, templates/admin/api-page.php:12
 msgid "Something went wrong. Please try again later or contact our support."
 msgstr ""
 
-#: core/Modules/Options.php:446
+#: core/Modules/Options.php:475
 msgid "You are not connected with the Dollie API. Please follow the instructions at the top of the page to continue with the API authentication."
 msgstr ""
 
-#: core/Modules/Subscription.php:679
+#: core/Modules/Preview.php:213, core/Widgets/Dashboard/LaunchSite.php:25, core/Widgets/Launch/LaunchSite.php:32
+msgid "Launch Site"
+msgstr ""
+
+#: core/Modules/Preview.php:259
+msgid "all times"
+msgstr ""
+
+#: core/Modules/Preview.php:322
+msgid "close iframe"
+msgstr ""
+
+#: core/Modules/Preview.php:336
+msgid "Tablet Landscape (1024x768)"
+msgstr ""
+
+#: core/Modules/Preview.php:338
+msgid "Tablet Portrait (768x1024)"
+msgstr ""
+
+#: core/Modules/Preview.php:340
+msgid "Mobile Landscape (480x320)"
+msgstr ""
+
+#: core/Modules/Preview.php:342
+msgid "Mobile Portrait (320x480)"
+msgstr ""
+
+#: core/Modules/Preview.php:371
+msgid "More +"
+msgstr ""
+
+#: core/Modules/Preview.php:390
+msgid "Search"
+msgstr ""
+
+#: core/Modules/Subscription.php:695
 msgid "None"
 msgstr ""
 
-#: core/Modules/Upgrades.php:83
+#: core/Modules/Upgrades.php:87
 msgid "Database update required"
 msgstr ""
 
-#: core/Modules/Upgrades.php:87
+#: core/Modules/Upgrades.php:92
 msgid "<strong>Dollie</strong> needs to update your database to the latest version. Please make sure to create a backup first."
 msgstr ""
 
-#: core/Modules/Upgrades.php:93
+#: core/Modules/Upgrades.php:100
 msgid "<a href=\"%s\">Update now</a>"
 msgstr ""
 
-#: core/Modules/Upgrades.php:187
+#: core/Modules/Upgrades.php:193
 msgid "Something went wrong, please check logs."
 msgstr ""
 
-#: core/Modules/Upgrades.php:183
+#: core/Modules/Upgrades.php:189
 msgid "Awesome, database is now at the latest version!"
 msgstr ""
 
-#: core/Utils/Helpers.php:69
+#: core/Utils/Helpers.php:72
 msgid "We strongly recommend to keep this plugin active and installed at all times."
 msgstr ""
 
-#: core/Utils/Helpers.php:73
+#: core/Utils/Helpers.php:76
 msgid "Our SiteCache solution is powered partly by the WP Fastest Cache plugin. We recommend to keep this plugin activated."
 msgstr ""
 
-#: core/Utils/Helpers.php:490
+#: core/Utils/Helpers.php:522
 msgid "Sorry, we could not retrieve your site details"
 msgstr ""
 
-#: core/Utils/Helpers.php:495
+#: core/Utils/Helpers.php:527
 msgid "We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error."
 msgstr ""
 
-#: core/Utils/Helpers.php:501
+#: core/Utils/Helpers.php:533
 msgid "Retry"
 msgstr ""
 
-#: core/Utils/Helpers.php:506
+#: core/Utils/Helpers.php:538
 msgid "Create a support ticket"
 msgstr ""
 
-#: core/Utils/Helpers.php:826
+#: core/Utils/Helpers.php:886
 msgid "Site View"
 msgstr ""
 
@@ -1385,16 +1070,56 @@ msgstr ""
 msgid "Elementor"
 msgstr ""
 
-#: core/Utils/Notices.php:78
+#: core/Utils/Notices.php:79
 msgid "Update Elementor Now"
 msgstr ""
 
-#: core/Utils/Notices.php:101
+#: core/Utils/Notices.php:102
 msgid "Dollie is almost ready..."
 msgstr ""
 
-#: core/Utils/Notices.php:102
+#: core/Utils/Notices.php:103
 msgid "Please authenticate this installation so that you can start launching your first site using Dollie!"
+msgstr ""
+
+#: core/Utils/Notices.php:145
+msgid "Custom Deployment Domain - Active"
+msgstr ""
+
+#: core/Utils/Notices.php:146
+msgid "Yey! Your custom deployment domain is ready to use. From now on, all your deploys will use your custom domain."
+msgstr ""
+
+#: core/Utils/Notices.php:134
+msgid "Custom Deployment Domain - Pending"
+msgstr ""
+
+#: core/Utils/Notices.php:135
+msgid "Your custom deployment domain has been added, but it may take up to 24 hours for the NS records to propagate. We will constantly check your domain and automatically replace your deployment domain with the custom one, once we detect the change. In the meantime, all your deploys will use the default deployment domain."
+msgstr ""
+
+#: core/Utils/Notices.php:236
+msgid "Trail subscription limit"
+msgstr ""
+
+#: core/Utils/Notices.php:237
+msgid "Your trial subscription has reached the maximum allowed deploys. Please note that your clients won't be able to deploy until you activate your subscription."
+msgstr ""
+
+#: core/Utils/Notices.php:243, core/Utils/Notices.php:221
+msgid "Update Subscription"
+msgstr ""
+
+#: core/Utils/Notices.php:249, core/Utils/Notices.php:227, core/Widgets/Site/templates/pages/plugins.php:93, core/Widgets/Site/templates/pages/plugins.php:73
+msgid "Check again"
+msgstr ""
+
+#: core/Utils/Notices.php:214
+msgid "No active subscription"
+msgstr ""
+
+#: core/Utils/Notices.php:215
+msgid "It seems like your Dollie Subscription is expired or inactive. Please note that your clients won't be able to deploy until you activate your subscription."
 msgstr ""
 
 #: templates/admin/api-page.php:18
@@ -1417,7 +1142,47 @@ msgstr ""
 msgid "If you disconnect your site from Dollie, you won't be able to deploy sites or interact with our servers."
 msgstr ""
 
-#: core/Admin/NavMenu/Component.php:95
+#: templates/loop-templates/blueprints.php:38
+msgid "%s View Demo"
+msgstr ""
+
+#: templates/loop-templates/blueprints.php:61
+msgid "%s Launch Site"
+msgstr ""
+
+#: templates/loop-templates/sites.php:33
+msgid "Search for a site..."
+msgstr ""
+
+#: templates/loop-templates/sites.php:167
+msgid "No sites found."
+msgstr ""
+
+#: templates/loop-templates/sites.php:60
+msgid "Unnamed"
+msgstr ""
+
+#: templates/loop-templates/sites.php:103
+msgid "WordPress"
+msgstr ""
+
+#: templates/loop-templates/sites.php:106
+msgid "Version %s"
+msgstr ""
+
+#: templates/loop-templates/sites.php:111
+msgid "Client"
+msgstr ""
+
+#: templates/loop-templates/sites.php:121
+msgid "Manage"
+msgstr ""
+
+#: templates/loop-templates/sites.php:132, core/Widgets/Site/templates/site-navigation.php:49
+msgid "Admin"
+msgstr ""
+
+#: core/Admin/NavMenu/Component.php:95, core/Admin/NavMenu/Component.php:187
 msgid "Logged-In"
 msgstr ""
 
@@ -1433,7 +1198,7 @@ msgstr ""
 msgid "Live Notifications"
 msgstr ""
 
-#: core/Admin/NavMenu/Component.php:132, core/Admin/NavMenu/Component.php:178, core/Admin/NavMenu/Component.php:187
+#: core/Admin/NavMenu/Component.php:132, core/Admin/NavMenu/Component.php:178
 msgid "Logged-Out"
 msgstr ""
 
@@ -1441,7 +1206,7 @@ msgstr ""
 msgid "Log In"
 msgstr ""
 
-#: core/Admin/NavMenu/Component.php:160, core/Widgets/General/Login.php:210, core/Widgets/General/Login.php:864, core/Widgets/General/Login.php:925
+#: core/Admin/NavMenu/Component.php:160, core/Widgets/General/Login.php:210, core/Widgets/General/Login.php:866, core/Widgets/General/Login.php:927
 msgid "Register"
 msgstr ""
 
@@ -1465,28 +1230,24 @@ msgstr ""
 msgid "You need to be logged in"
 msgstr ""
 
-#: core/Admin/NavMenu/Component.php:497
+#: core/Admin/NavMenu/Component.php:499
 msgid "Go to site"
 msgstr ""
 
-#: core/Admin/NavMenu/Component.php:528
+#: core/Admin/NavMenu/Component.php:538
 msgid "Notifications"
 msgstr ""
 
-#: core/Admin/NavMenu/Component.php:532
+#: core/Admin/NavMenu/Component.php:542
 msgid "Mark all as read"
 msgstr ""
 
-#: core/Admin/NavMenu/Component.php:535
+#: core/Admin/NavMenu/Component.php:545
 msgid "Close"
 msgstr ""
 
 #: core/Elementor/Library/Module.php:120
 msgid "Select template type"
-msgstr ""
-
-#: core/Extras/preview/index.php:171, core/Widgets/Dashboard/LaunchSite.php:24, core/Widgets/Launch/LaunchSite.php:31
-msgid "Launch Site"
 msgstr ""
 
 #: core/Extras/tgm-plugin-activation/requirements.php:145
@@ -1599,183 +1360,159 @@ msgstr ""
 msgid "Please contact the administrator of this site for help."
 msgstr ""
 
-#: core/Modules/Forms/CreateBackup.php:65
+#: core/Modules/Forms/CreateBackup.php:66
 msgid "Create New Backup"
 msgstr ""
 
-#: core/Modules/Forms/CreateBlueprint.php:79
+#: core/Modules/Forms/CreateBlueprint.php:82
 msgid "Please confirm blueprint creation"
 msgstr ""
 
-#: core/Modules/Forms/CreateBlueprint.php:91
+#: core/Modules/Forms/CreateBlueprint.php:94
 msgid "Deploy Blueprint"
 msgstr ""
 
-#: core/Modules/Forms/DeleteSite.php:73
+#: core/Modules/Forms/DeleteSite.php:77
 msgid "Please type the unique name of your site. Your site name is shown in the sidebar and in your URL address bar."
 msgstr ""
 
-#: core/Modules/Forms/DeleteSite.php:85, core/Widgets/Site/templates/site-navigation.php:80
+#: core/Modules/Forms/DeleteSite.php:89, core/Widgets/Site/templates/site-navigation.php:82
 msgid "Delete"
 msgstr ""
 
-#: core/Modules/Forms/DomainConnect.php:86
-msgid "Sorry, We could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href=\"%s\">Contact Support</a>"
+#: core/Modules/Forms/DomainConnect.php:95
+msgid "Sorry, we could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href=\"%s\">Contact Support</a>"
 msgstr ""
 
-#: core/Modules/Forms/DomainConnect.php:134
-msgid "You need to have a registered domain before you continue."
-msgstr ""
-
-#: core/Modules/Forms/DomainConnect.php:139
-msgid "Your domain names do not match."
-msgstr ""
-
-#: core/Modules/Forms/DomainConnect.php:144
-msgid "You need to migrate your data before continuing."
-msgstr ""
-
-#: core/Modules/Forms/DomainConnect.php:178
-msgid "Connect Domain"
-msgstr ""
-
-#: core/Modules/Forms/DomainDns.php:235
-msgid "Sorry, We could not generate a SSL certificate for this domain. Please contact support so we can look into why this has happened."
-msgstr ""
-
-#: core/Modules/Forms/DomainDns.php:157
-msgid "Your CloudFlare Email or API key is incorrect. Please try again or <a href=\"%s\">Contact Support</a>"
-msgstr ""
-
-#: core/Modules/Forms/DomainDns.php:206
-msgid "Your CloudFlare Zone ID is incorrect. Please make sure you copy and pasted the right ID without extra spaces. Need help? <a href=\"%s\">Contact Support</a>"
-msgstr ""
-
-#: core/Modules/Forms/DomainDns.php:123
-msgid "Your domain DNS A record is not yet pointing to our IP address. Please wait a few minutes and try again."
-msgstr ""
-
-#: core/Modules/Forms/DomainDns.php:276
-msgid "Complete Domain Setup"
-msgstr ""
-
-#: core/Modules/Forms/DomainUpdateUrl.php:125
+#: core/Modules/Forms/DomainConnect.php:152
 msgid "There was a problem when performing the request. Please contact support so we can look into why this has happened."
 msgstr ""
 
-#: core/Modules/Forms/DomainUpdateUrl.php:179
-msgid "Complete Setup"
+#: core/Modules/Forms/DomainConnect.php:179
+msgid "We are sorry but an error occurred. Please try again or contact support!"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:70
+#: core/Modules/Forms/DomainConnect.php:215
+msgid "Your domain DNS A record is not yet pointing to our IP address. Please wait a few minutes and try again."
+msgstr ""
+
+#: core/Modules/Forms/DomainConnect.php:253
+msgid "Connect Domain"
+msgstr ""
+
+#: core/Modules/Forms/LaunchSite.php:61
+msgid "Site URL can oly contain letters, numbers, dash and underscore"
+msgstr ""
+
+#: core/Modules/Forms/LaunchSite.php:75
 msgid "This site is already registered. Please try another name."
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:141
+#: core/Modules/Forms/LaunchSite.php:145
 msgid "Default Wordpress Site"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:143
+#: core/Modules/Forms/LaunchSite.php:147
 msgid "No Blueprint"
 msgstr ""
 
-#: core/Modules/Forms/ListBackups.php:92
+#: core/Modules/Forms/ListBackups.php:100
 msgid "We could not retrieve your backups"
 msgstr ""
 
-#: core/Modules/Forms/ListBackups.php:93
+#: core/Modules/Forms/ListBackups.php:101
 msgid "This usually means we have trouble reaching your WordPress installation. Please get in touch with our support of you keep seeing this message."
 msgstr ""
 
-#: core/Modules/Forms/ListBackups.php:110
+#: core/Modules/Forms/ListBackups.php:120
 msgid "Restore Backup"
 msgstr ""
 
-#: core/Modules/Forms/Performance.php:62
+#: core/Modules/Forms/Performance.php:63
 msgid "Submit"
 msgstr ""
 
-#: core/Modules/Forms/PluginUpdates.php:159
+#: core/Modules/Forms/PluginUpdates.php:176
 msgid "All Done updating your plugins..."
 msgstr ""
 
-#: core/Modules/Forms/PluginUpdates.php:120
+#: core/Modules/Forms/PluginUpdates.php:128
 msgid "Plugin update is still running... please hold on"
 msgstr ""
 
-#: core/Modules/Forms/PluginUpdates.php:152
+#: core/Modules/Forms/PluginUpdates.php:169
 msgid "All Your Plugins are updated!"
 msgstr ""
 
-#: core/Modules/Forms/PluginUpdates.php:147
+#: core/Modules/Forms/PluginUpdates.php:164
 msgid "Sadly we can not complete updating your plugins. Please login to your WordPress admin and update your plugins from there."
 msgstr ""
 
-#: core/Modules/Forms/PluginUpdates.php:135
+#: core/Modules/Forms/PluginUpdates.php:148
 msgid "Plugin updates completed."
 msgstr ""
 
-#: core/Modules/Forms/PluginUpdates.php:115
+#: core/Modules/Forms/PluginUpdates.php:123
 msgid "There was a problem sending the update request. Please try again!"
 msgstr ""
 
-#: core/Modules/Forms/PluginUpdates.php:205
+#: core/Modules/Forms/PluginUpdates.php:223
 msgid "Everything is up to date"
 msgstr ""
 
-#: core/Modules/Forms/PluginUpdates.php:210
+#: core/Modules/Forms/PluginUpdates.php:228
 msgid "There are no plugins available to update. Good job!"
 msgstr ""
 
-#: core/Modules/Forms/PluginUpdates.php:308
+#: core/Modules/Forms/PluginUpdates.php:325
 msgid "Update Plugins!"
 msgstr ""
 
-#: core/Modules/Forms/QuickLaunch.php:69
+#: core/Modules/Forms/QuickLaunch.php:70
 msgid "Email already exists. Please login first"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:267
+#: core/Modules/Sites/WP.php:346
 msgid "My New Site"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:271
+#: core/Modules/Sites/WP.php:350
 msgid "The best website in the world"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:384
+#: core/Modules/Sites/WP.php:396
 msgid "Failed to update site details(invalid site data)"
 msgstr ""
 
-#: core/Widgets/Dashboard/LatestNews.php:22
+#: core/Widgets/Dashboard/LatestNews.php:23
 msgid "Latest News"
 msgstr ""
 
-#: core/Widgets/Dashboard/LaunchSite.php:39, core/Widgets/Dashboard/PartnerGreeting.php:39, core/Widgets/Dashboard/SubscriptionDetails.php:39, core/Widgets/Launch/LaunchSite.php:46, core/Widgets/Sites/SitesList.php:55
+#: core/Widgets/Dashboard/LaunchSite.php:40, core/Widgets/Dashboard/PartnerGreeting.php:40, core/Widgets/Dashboard/SubscriptionDetails.php:40, core/Widgets/Launch/LaunchSite.php:47, core/Widgets/Sites/SitesList.php:56
 msgid "Content"
 msgstr ""
 
-#: core/Widgets/Dashboard/PartnerGreeting.php:24
+#: core/Widgets/Dashboard/PartnerGreeting.php:25
 msgid "Partner Greeting"
 msgstr ""
 
-#: core/Widgets/Dashboard/PartnerGreeting.php:47
+#: core/Widgets/Dashboard/PartnerGreeting.php:48
 msgid "Description"
 msgstr ""
 
-#: core/Widgets/Dashboard/PartnerGreeting.php:50
+#: core/Widgets/Dashboard/PartnerGreeting.php:51
 msgid "Here you can continue working on all the sites you have with us, see the latest updates from our team and look at your payments history and other account details."
 msgstr ""
 
-#: core/Widgets/Dashboard/RecentOrders.php:22
+#: core/Widgets/Dashboard/RecentOrders.php:23
 msgid "Recent Orders"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:24
+#: core/Widgets/Dashboard/SubscriptionDetails.php:25
 msgid "Subscription Details"
 msgstr ""
 
-#: core/Widgets/General/Avatar.php:22
+#: core/Widgets/General/Avatar.php:23
 msgid "Avatar"
 msgstr ""
 
@@ -1879,15 +1616,15 @@ msgstr ""
 msgid "Redirect After Logout"
 msgstr ""
 
-#: core/Widgets/General/Login.php:198, core/Widgets/General/Login.php:855, core/Widgets/General/Login.php:915
+#: core/Widgets/General/Login.php:198, core/Widgets/General/Login.php:857, core/Widgets/General/Login.php:917
 msgid "Lost your password?"
 msgstr ""
 
-#: core/Widgets/General/Login.php:222, core/Widgets/General/Login.php:834, core/Widgets/General/Login.php:898
+#: core/Widgets/General/Login.php:222, core/Widgets/General/Login.php:835, core/Widgets/General/Login.php:900
 msgid "Remember Me"
 msgstr ""
 
-#: core/Widgets/General/Login.php:233, core/Widgets/General/Login.php:656
+#: core/Widgets/General/Login.php:233, core/Widgets/General/Login.php:657
 msgid "Logged in Message"
 msgstr ""
 
@@ -1935,7 +1672,7 @@ msgstr ""
 msgid "Spacing"
 msgstr ""
 
-#: core/Widgets/General/Login.php:397, core/Widgets/General/Login.php:431, core/Widgets/General/Login.php:529, core/Widgets/General/Login.php:606, core/Widgets/General/Login.php:664
+#: core/Widgets/General/Login.php:397, core/Widgets/General/Login.php:431, core/Widgets/General/Login.php:529, core/Widgets/General/Login.php:607, core/Widgets/General/Login.php:665
 msgid "Text Color"
 msgstr ""
 
@@ -1943,11 +1680,11 @@ msgstr ""
 msgid "Fields"
 msgstr ""
 
-#: core/Widgets/General/Login.php:455, core/Widgets/General/Login.php:550, core/Widgets/General/Login.php:617
+#: core/Widgets/General/Login.php:455, core/Widgets/General/Login.php:550, core/Widgets/General/Login.php:618
 msgid "Background Color"
 msgstr ""
 
-#: core/Widgets/General/Login.php:469, core/Widgets/General/Login.php:628
+#: core/Widgets/General/Login.php:469, core/Widgets/General/Login.php:629
 msgid "Border Color"
 msgstr ""
 
@@ -1955,7 +1692,7 @@ msgstr ""
 msgid "Border Width"
 msgstr ""
 
-#: core/Widgets/General/Login.php:497, core/Widgets/General/Login.php:573
+#: core/Widgets/General/Login.php:497, core/Widgets/General/Login.php:574
 msgid "Border Radius"
 msgstr ""
 
@@ -1963,47 +1700,47 @@ msgstr ""
 msgid "Normal"
 msgstr ""
 
-#: core/Widgets/General/Login.php:585
+#: core/Widgets/General/Login.php:586
 msgid "Text Padding"
 msgstr ""
 
-#: core/Widgets/General/Login.php:599
+#: core/Widgets/General/Login.php:600
 msgid "Hover"
 msgstr ""
 
-#: core/Widgets/General/Login.php:642
+#: core/Widgets/General/Login.php:643
 msgid "Animation"
 msgstr ""
 
-#: core/Widgets/General/Login.php:798
+#: core/Widgets/General/Login.php:799
 msgid "You are Logged in as %1$s (<a href=\"%2$s\">Logout</a>)"
 msgstr ""
 
-#: core/Widgets/General/MainNavigation.php:22
+#: core/Widgets/General/MainNavigation.php:23
 msgid "Main Navigation"
 msgstr ""
 
-#: core/Widgets/General/SitesNavigation.php:22
+#: core/Widgets/General/SitesNavigation.php:23
 msgid "Sites Navigation"
 msgstr ""
 
-#: core/Widgets/General/TopNavigation.php:20
+#: core/Widgets/General/TopNavigation.php:21
 msgid "Top Navigation"
 msgstr ""
 
-#: core/Widgets/General/WooNavigation.php:22
+#: core/Widgets/General/WooNavigation.php:23
 msgid "Woo Navigation"
 msgstr ""
 
-#: core/Widgets/Site/SiteContent.php:34
+#: core/Widgets/Site/SiteContent.php:35
 msgid "Site Content"
 msgstr ""
 
-#: core/Widgets/Site/SiteNavigation.php:22
+#: core/Widgets/Site/SiteNavigation.php:23
 msgid "Site Navigation"
 msgstr ""
 
-#: core/Widgets/Site/SiteNavigation.php:43
+#: core/Widgets/Site/SiteNavigation.php:44
 msgid "This widget can only be used on the \"Site\" page."
 msgstr ""
 
@@ -2015,7 +1752,11 @@ msgstr ""
 msgid "Read article"
 msgstr ""
 
-#: core/Widgets/Dashboard/templates/latest-news.php:4
+#: core/Extras/options-page-for-acf/inc/ACF_Location_Options_Page.php:91
+msgid "Please use ACF Pro version greater than 5.9.0 or disable ACF Pro plugin"
+msgstr ""
+
+#: core/Widgets/Dashboard/templates/latest-news.php:6
 msgid "Latest news"
 msgstr ""
 
@@ -2039,7 +1780,15 @@ msgstr ""
 msgid "Current plan"
 msgstr ""
 
-#: core/Widgets/General/templates/main-navigation.php:24
+#: core/Widgets/Dashboard/templates/subscription-details.php:22
+msgid "Remaining sites"
+msgstr ""
+
+#: core/Widgets/Dashboard/templates/subscription-details.php:51
+msgid "Used storage"
+msgstr ""
+
+#: core/Widgets/General/templates/main-navigation.php:24, core/Widgets/Site/templates/site-navigation.php:73
 msgid "Dashboard"
 msgstr ""
 
@@ -2047,63 +1796,63 @@ msgstr ""
 msgid "Your Account"
 msgstr ""
 
-#: core/Widgets/Launch/templates/form.php:11
+#: core/Widgets/Launch/templates/form.php:9
+msgid "Deployments are currently unavailable"
+msgstr ""
+
+#: core/Widgets/Launch/templates/form.php:10
+msgid "Please try again later or contact the website administrator!"
+msgstr ""
+
+#: core/Widgets/Launch/templates/form.php:30
 msgid "You have no active subscription"
 msgstr ""
 
-#: core/Widgets/Launch/templates/form.php:12
+#: core/Widgets/Launch/templates/form.php:31
 msgid "Please sign-up for a subscription to launch a new website!"
 msgstr ""
 
-#: core/Widgets/Launch/templates/launch-site.php:7
+#: core/Widgets/Launch/templates/launch-site.php:9
 msgid "Your First Payment was successful!"
 msgstr ""
 
-#: core/Widgets/Launch/templates/launch-site.php:25
-msgid "Dollie is currently in Staging mode!"
+#: core/Widgets/Launch/templates/launch-site.php:31
+msgid "Dollie is not connected!"
 msgstr ""
 
-#: core/Widgets/Launch/templates/launch-site.php:42
-msgid "You have reached your Disk Space limit"
-msgstr ""
-
-#: core/Widgets/Launch/templates/launch-site.php:43
-msgid "You have reached the maximum amount of disk space you can use. Please upgrade your plan to add more disk space."
+#: core/Widgets/Launch/templates/launch-site.php:32
+msgid "You need to connect your site to Dollie so you can start deploying sites."
 msgstr ""
 
 #: core/Widgets/Launch/templates/launch-site.php:52
-msgid "You have reached your site limit"
+msgid "You have reached your Disk Space limit"
 msgstr ""
 
 #: core/Widgets/Launch/templates/launch-site.php:53
-msgid "You have reached the maximum amount of sites you can launch. Please upgrade your plan to add more sites."
-msgstr ""
-
-#: core/Widgets/Launch/templates/launch-site.php:62
-msgid "You have reached your staging deployment limit"
-msgstr ""
-
-#: core/Widgets/Launch/templates/launch-site.php:63
-msgid "Ready to start selling your Dollie Powered services? Our onboarding team is here to help you go live in no time. Once you've gone live you can deploy as many sites for you and your customers as you like."
+msgid "You have reached the maximum amount of disk space you can use. Please upgrade your plan to add more disk space."
 msgstr ""
 
 #: core/Widgets/Launch/templates/launch-site.php:66
-msgid "Apply here to go Live"
+msgid "You have reached your site limit"
 msgstr ""
 
-#: core/Widgets/Site/templates/site-content.php:93
+#: core/Widgets/Launch/templates/launch-site.php:67
+msgid "You have reached the maximum amount of sites you can launch. Please upgrade your plan to add more sites."
+msgstr ""
+
+#: core/Widgets/Site/templates/site-content.php:95
 msgid "Deploying your site"
 msgstr ""
 
-#: core/Widgets/Site/templates/site-content.php:97
+#: core/Widgets/Site/templates/site-content.php:99
 msgid "You site is getting ready soon. Thank you for your patience!"
 msgstr ""
 
-#: core/Widgets/Site/templates/site-content.php:103
+#: core/Widgets/Site/templates/site-content.php:105
 msgid "Don't worry, we'll automatically reload this page once it's ready."
 msgstr ""
 
-#: core/Widgets/Site/templates/site-content.php:106
+#: core/Widgets/Site/templates/site-content.php:108
 msgid "If you don't want to wait for a few seconds, you can navigate away. We got it covered!"
 msgstr ""
 
@@ -2111,80 +1860,44 @@ msgstr ""
 msgid "Hosting for this site is currently paused."
 msgstr ""
 
-#: core/Widgets/Site/templates/site-navigation.php:21
+#: core/Widgets/Site/templates/site-navigation.php:23
 msgid "Getting ready soon"
 msgstr ""
 
-#: core/Widgets/Site/templates/site-navigation.php:61
+#: core/Widgets/Site/templates/site-navigation.php:63
 msgid "Deploying"
 msgstr ""
 
-#: core/Widgets/Site/templates/site-navigation.php:40, core/Widgets/Site/templates/pages/plugins.php:150
+#: core/Widgets/Site/templates/site-navigation.php:42, core/Widgets/Site/templates/pages/plugins.php:164
 msgid "Visit"
 msgstr ""
 
-#: core/Widgets/Site/templates/site-navigation.php:47, core/Widgets/Sites/templates/sites-list.php:125
-msgid "Admin"
-msgstr ""
-
-#: core/Widgets/Site/templates/site-navigation.php:71
-msgid "Site Dashboard"
-msgstr ""
-
-#: core/Widgets/Site/templates/site-navigation.php:72, core/Widgets/Site/templates/pages/blueprints.php:99, core/Widgets/Site/templates/pages/plugins.php:39, core/Widgets/Site/templates/pages/developer-tools/details.php:4
+#: core/Widgets/Site/templates/site-navigation.php:74, core/Widgets/Site/templates/pages/blueprints.php:105, core/Widgets/Site/templates/pages/plugins.php:45
 msgid "Plugins"
 msgstr ""
 
-#: core/Widgets/Site/templates/site-navigation.php:73, core/Widgets/Site/templates/pages/blueprints.php:100
+#: core/Widgets/Site/templates/site-navigation.php:75, core/Widgets/Site/templates/pages/blueprints.php:106
 msgid "Themes"
 msgstr ""
 
-#: core/Widgets/Site/templates/site-navigation.php:74
-msgid "Emails"
-msgstr ""
-
-#: core/Widgets/Site/templates/site-navigation.php:75, core/Widgets/Site/templates/pages/domains.php:2
+#: core/Widgets/Site/templates/site-navigation.php:76, core/Widgets/Site/templates/pages/domains.php:2
 msgid "Domains"
 msgstr ""
 
-#: core/Widgets/Site/templates/site-navigation.php:76, core/Widgets/Site/templates/pages/backups.php:18
+#: core/Widgets/Site/templates/site-navigation.php:77, core/Widgets/Site/templates/pages/backups.php:18
 msgid "Backups"
 msgstr ""
 
-#: core/Widgets/Site/templates/site-navigation.php:77, core/Widgets/Site/templates/pages/updates.php:2
+#: core/Widgets/Site/templates/site-navigation.php:78, core/Widgets/Site/templates/pages/updates.php:2
 msgid "Updates"
 msgstr ""
 
-#: core/Widgets/Site/templates/site-navigation.php:78
+#: core/Widgets/Site/templates/site-navigation.php:79
 msgid "Developer Tools"
 msgstr ""
 
-#: core/Widgets/Sites/templates/sites-list.php:31
-msgid "Search for a site..."
-msgstr ""
-
-#: core/Widgets/Sites/templates/sites-list.php:154
-msgid "No sites found."
-msgstr ""
-
-#: core/Widgets/Sites/templates/sites-list.php:58
-msgid "Unnamed"
-msgstr ""
-
-#: core/Widgets/Sites/templates/sites-list.php:101
-msgid "WordPress"
-msgstr ""
-
-#: core/Widgets/Sites/templates/sites-list.php:104
-msgid "Version %s"
-msgstr ""
-
-#: core/Widgets/Sites/templates/sites-list.php:109
-msgid "Client"
-msgstr ""
-
-#: core/Widgets/Sites/templates/sites-list.php:119
-msgid "Manage"
+#: core/Widgets/Site/templates/site-navigation.php:81
+msgid "Migrate"
 msgstr ""
 
 #: core/Widgets/Site/templates/pages/backups.php:4
@@ -2221,337 +1934,381 @@ msgstr ""
 msgid "Your last Blueprint was deployed at %s"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:27
+#: core/Widgets/Site/templates/pages/blueprints.php:29
 msgid "Create or update your blueprint"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:38
+#: core/Widgets/Site/templates/pages/blueprints.php:42
 msgid "Blueprint Settings"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:43
+#: core/Widgets/Site/templates/pages/blueprints.php:47
 msgid "Now that created your blueprint you can use the options below to change how it is listed on the \"Launch Site\" page and wherever you use the [dollie-blueprints] shortcode."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:66
+#: core/Widgets/Site/templates/pages/blueprints.php:72
 msgid "Blueprint history"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:82
+#: core/Widgets/Site/templates/pages/blueprints.php:88
 msgid "No Blueprints created yet."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:76
-msgid "Created on %s at %s."
+#: core/Widgets/Site/templates/pages/blueprints.php:82
+msgid "Created on %1$s at %2$s."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:77
+#: core/Widgets/Site/templates/pages/blueprints.php:83
 msgid "Size %s."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:91
+#: core/Widgets/Site/templates/pages/blueprints.php:97
 msgid "What is included?"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:96
+#: core/Widgets/Site/templates/pages/blueprints.php:102
 msgid "We copy over:"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:101
+#: core/Widgets/Site/templates/pages/blueprints.php:107
 msgid "Media Upload"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:102
+#: core/Widgets/Site/templates/pages/blueprints.php:108
 msgid "The Database*"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:111
+#: core/Widgets/Site/templates/pages/blueprints.php:117
 msgid "What is excluded?"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:116
+#: core/Widgets/Site/templates/pages/blueprints.php:122
 msgid "We DO NOT copy:"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:119
+#: core/Widgets/Site/templates/pages/blueprints.php:125
 msgid "mu-plugins folder"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:120
+#: core/Widgets/Site/templates/pages/blueprints.php:126
 msgid "All WordPress Core Files"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:121
+#: core/Widgets/Site/templates/pages/blueprints.php:127
 msgid "WP-Config.php"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:122
+#: core/Widgets/Site/templates/pages/blueprints.php:128
 msgid "wp_users & wp_usermeta tables"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/blueprints.php:123
+#: core/Widgets/Site/templates/pages/blueprints.php:129
 msgid "All non-core folders and files outside of wp-content"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/dashboard.php:31
-msgid "Site Status"
+#: core/Widgets/Site/templates/pages/dashboard.php:32
+msgid "Your Installation"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/dashboard.php:42
-msgid "%s Active plugin"
-msgid_plural "%s Active plugins"
+#: core/Widgets/Site/templates/pages/dashboard.php:45
+msgid "Plugins Active"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/dashboard.php:62
+msgid "%s Updates Available"
+msgid_plural "%s Updates Available"
 msgstr[0] ""
 msgstr[1] ""
 
-#: core/Widgets/Site/templates/pages/dashboard.php:52
-msgid "%s Plugin Update Available"
-msgid_plural "%s Plugin Updates Available"
-msgstr[0] ""
-msgstr[1] ""
-
-#: core/Widgets/Site/templates/pages/dashboard.php:67
-msgid "%s is active"
+#: core/Widgets/Site/templates/pages/dashboard.php:93
+msgid "Check for Updates"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/dashboard.php:77
-msgid "%s Theme Update Available"
-msgid_plural "%s Theme Updates Available"
-msgstr[0] ""
-msgstr[1] ""
-
-#: core/Widgets/Site/templates/pages/dashboard.php:100
-msgid "Check for updates"
+#: core/Widgets/Site/templates/pages/dashboard.php:123
+msgid "Check Core Updates"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/dashboard.php:111
-msgid "Installation"
+#: core/Widgets/Site/templates/pages/dashboard.php:140
+msgid "Backup Status"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/dashboard.php:122
-msgid "Comments"
+#: core/Widgets/Site/templates/pages/dashboard.php:150
+msgid "No backups yet."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/dashboard.php:130
-msgid "%s total"
+#: core/Widgets/Site/templates/pages/dashboard.php:148
+msgid "%s Backups Available"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/dashboard.php:134
-msgid "%s moderated"
+#: core/Widgets/Site/templates/pages/dashboard.php:160
+msgid "Runs every 24 hours"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/dashboard.php:138
-msgid "%s approved"
+#: core/Widgets/Site/templates/pages/dashboard.php:171
+msgid "View Backups"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/dashboard.php:142
-msgid "%s spam"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/dashboard.php:146
-msgid "%s trashed"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/dashboard.php:172
-msgid "Site details"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/dashboard.php:183
-msgid "Multisite"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/dashboard.php:215
-msgid "From your blog"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/dashboard.php:11
-msgid "Setup Wizard - Your first site was deployed successfully!"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/dashboard.php:14
-msgid "Finally give your site a name and give it an admin account and you're all set!"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/delete.php:6
-msgid "Delete sites as Site Administrator"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/delete.php:7
-msgid "Please be aware that there might be a slight delay before the site is completely undeployed from your Dollie infrastructure. This is to ensure accidental deletion of sites by you or your customers."
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/delete.php:10
-msgid "Learn more"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools.php:8
+#: core/Widgets/Site/templates/pages/dashboard.php:182, core/Widgets/Site/templates/pages/developer-tools.php:11
 msgid "Details"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools.php:9, core/Widgets/Site/templates/pages/developer-tools/codiad.php:23
+#: core/Widgets/Site/templates/pages/dashboard.php:193
+msgid "%s Comments Made"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/dashboard.php:196
+msgid "%s marked as spam"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/dashboard.php:212
+msgid "is the site administrator email"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/dashboard.php:227
+msgid "of Disk space is used"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/dashboard.php:240
+msgid "%s Users"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/dashboard.php:242
+msgid "Registered on this site"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/dashboard.php:256
+msgid "From your blog"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/dashboard.php:12
+msgid "Setup Wizard - Your first site was deployed successfully!"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/dashboard.php:15
+msgid "Finally give your site a name and give it an admin account and you're all set!"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/delete.php:8
+msgid "Delete sites as Site Administrator"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/delete.php:9
+msgid "Please be aware that there might be a slight delay before the site is completely undeployed from your Dollie infrastructure. This is to ensure accidental deletion of sites by you or your customers."
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/delete.php:12
+msgid "Learn more"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/developer-tools.php:15, core/Widgets/Site/templates/pages/developer-tools/codiad.php:28
 msgid "Code Editor"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools.php:10
+#: core/Widgets/Site/templates/pages/developer-tools.php:19
 msgid "Database"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools.php:11, core/Widgets/Site/templates/pages/developer-tools/shell.php:22
+#: core/Widgets/Site/templates/pages/developer-tools.php:23, core/Widgets/Site/templates/pages/developer-tools/shell.php:27
 msgid "WP CLI"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools.php:27
-msgid "Dev menu"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/domains.php:46
+#: core/Widgets/Site/templates/pages/domains.php:47
 msgid "%s is linked to this site!"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/domains.php:34
-msgid "You still need to complete the Domain Setup Wizard"
+#: core/Widgets/Site/templates/pages/domains.php:21
+msgid "Site URL replacement is not complete "
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/domains.php:35
-msgid "It seems that you've added your domain <strong>%s</strong> but have not completed the Domain Setup Wizard. Please complete the remaining steps!"
+#: core/Widgets/Site/templates/pages/domains.php:26
+msgid "Your domain <strong>%s</strong> is connected but the URL replacement wasn't complete."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/domains.php:57
+#: core/Widgets/Site/templates/pages/domains.php:32
+msgid "Replace URL now"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/domains.php:60
 msgid "Remove your linked domain"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/domains.php:61
+#: core/Widgets/Site/templates/pages/domains.php:64
 msgid "Have you changed your domain name? You can unlink your current domain by pressing the button below. Once you have removed your current domain you can add your new domain."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/domains.php:67
+#: core/Widgets/Site/templates/pages/domains.php:70
 msgid "Remove Domain"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/domains.php:19
-msgid "You have not connected a custom domain yet!"
+#: core/Widgets/Site/templates/pages/migrate.php:8
+msgid "Ready for the easiest migration ever?"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/domains.php:20
-msgid "Use the wizard bellow to setup your domain."
+#: core/Widgets/Site/templates/pages/migrate.php:11
+msgid "We are going make an exact copy of your current WordPress install to <strong>%s</strong>"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/emails.php:4
-msgid "Transactional Emails"
+#: core/Widgets/Site/templates/pages/migrate.php:21
+msgid "Do not worry; your live site will not be touched or modified in any way!"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/emails.php:41
-msgid "Your emails are being delivered via your own domain"
+#: core/Widgets/Site/templates/pages/migrate.php:24
+msgid "Step 1 - Install the Migrate Guru Plugin"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/emails.php:42
-msgid "Good job, It seems you are sending your emails using your own domain. To see your email statistics and logs please visit the administration panel of your transaction email service."
+#: core/Widgets/Site/templates/pages/migrate.php:34
+msgid "Login to the WordPress Admin of the <strong>site you would like to migrate</strong> (i.e yoursite.com)"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/emails.php:14
-msgid "Emails Delivered From Your Site"
+#: core/Widgets/Site/templates/pages/migrate.php:44
+msgid "Go to <strong>Plugins > Add New </strong> and search for \"Migrate Guru\""
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/emails.php:19
-msgid "All of the transactional emails that are sent from your site (password reset emails, account logins and site notifications) are delivered via our enterprise-grade transactional mail delivery service. This ensures that emails are delivered reliably and without delays."
+#: core/Widgets/Site/templates/pages/migrate.php:54
+msgid "Press the <strong>Install Now</strong> button."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/emails.php:23
-msgid "Sending Transactional Emails via your own domain."
+#: core/Widgets/Site/templates/pages/migrate.php:64
+msgid "Activate the plugin"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/emails.php:25
-msgid "Once your site grows we recommend to start using your own domain for delivering your transactional emails."
+#: core/Widgets/Site/templates/pages/migrate.php:73
+msgid "Click on the Migrate Guru menu link in the WordPress Admin"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/emails.php:26
-msgid "Based on the size and amount of emails we strongly recommend that you do this as soon as possible. We have written some guides to show you exactly how to do this."
+#: core/Widgets/Site/templates/pages/migrate.php:77
+msgid "Step 2 - Choosing Your Migration Method"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/emails.php:31
-msgid "Visit our Knowledge Base"
+#: core/Widgets/Site/templates/pages/migrate.php:86
+msgid "Click on Migrate Site to continue."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/plugins.php:77
+#: core/Widgets/Site/templates/pages/migrate.php:96
+msgid "Now choose <strong>FTP</strong> as your migration method, at the bottom right of the screen."
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/migrate.php:106
+msgid "Finally fill in the following settings for your migration."
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/migrate.php:113
+msgid "Step 3 - Fill in the Connection Details"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/migrate.php:120
+msgid "Destination Site URL"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/migrate.php:125
+msgid "FTP Type"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/migrate.php:131
+msgid "Destination Server IP/FTP Address"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/migrate.php:137
+msgid "Port:"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/migrate.php:142
+msgid "FTP Username:"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/migrate.php:147
+msgid "FTP Password:"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/migrate.php:153
+msgid "Directory Path:"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/migrate.php:161
+msgid "Step 4 - Sit back and enjoy the show!"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/migrate.php:165
+msgid "Press <strong>Migrate</strong> and sit back and enjoy the show. Depending on the size of your site and the speed of your current host this process could take up to a couple of hours. Do not worry, this is completely normal! We will send you an email when the migration has completed so you can easily continue to this setup wizard."
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/plugins.php:89
 msgid "SiteGuard has found no issues"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/plugins.php:78
+#: core/Widgets/Site/templates/pages/plugins.php:90
 msgid "There are no insecure plugins or themes found on your site. Good job!"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/plugins.php:81, core/Widgets/Site/templates/pages/plugins.php:65
-msgid "Check again"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/plugins.php:48
+#: core/Widgets/Site/templates/pages/plugins.php:54
 msgid "Visit your dashboard"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/plugins.php:50
+#: core/Widgets/Site/templates/pages/plugins.php:56
 msgid "and update or remove the following plugin(s):"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/plugins.php:61
+#: core/Widgets/Site/templates/pages/plugins.php:69
 msgid "SiteGuard has found some critical security issues"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/plugins.php:93
+#: core/Widgets/Site/templates/pages/plugins.php:107
 msgid "Plugin Name"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/plugins.php:99
+#: core/Widgets/Site/templates/pages/plugins.php:113
 msgid "Version"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/plugins.php:102
+#: core/Widgets/Site/templates/pages/plugins.php:116
 msgid "Developer"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/plugins.php:111
+#: core/Widgets/Site/templates/pages/plugins.php:125
 msgid "Plugin"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/plugins.php:139
+#: core/Widgets/Site/templates/pages/plugins.php:153
 msgid "Disabled"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/security-scan.php:36
+#: core/Widgets/Site/templates/pages/security-scan.php:37
 msgid "Our SiteGuard has found no issues."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/security-scan.php:39
+#: core/Widgets/Site/templates/pages/security-scan.php:40
 msgid "There are no insecure plugins or themes found on your site, Good job!"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/security-scan.php:42
+#: core/Widgets/Site/templates/pages/security-scan.php:43
 msgid "Run a security check!"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/security-scan.php:12
+#: core/Widgets/Site/templates/pages/security-scan.php:13
 msgid "Critical security issues were found"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/security-scan.php:15
+#: core/Widgets/Site/templates/pages/security-scan.php:16
 msgid "Please"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/security-scan.php:17
+#: core/Widgets/Site/templates/pages/security-scan.php:18
 msgid "visit your dashboard"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/security-scan.php:18
+#: core/Widgets/Site/templates/pages/security-scan.php:19
 msgid "and update or delete the following plugin(s):"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/security-scan.php:25
+#: core/Widgets/Site/templates/pages/security-scan.php:26
 msgid " Run the security check again."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/themes.php:22
+#: core/Widgets/Site/templates/pages/themes.php:24
 msgid "Developed by"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/themes.php:45
+#: core/Widgets/Site/templates/pages/themes.php:47
 msgid "Installed Themes"
 msgstr ""
 
@@ -2571,11 +2328,11 @@ msgstr ""
 msgid "<strong>Tip:</strong> Run '<code>wp db export</code>' in your WP-CLI terminal to quickly create a database backup!"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/adminer.php:22, core/Widgets/Site/templates/pages/developer-tools/details.php:39
+#: core/Widgets/Site/templates/pages/developer-tools/adminer.php:22, core/Widgets/Site/templates/pages/developer-tools/details.php:43
 msgid "Username: %s"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/adminer.php:25, core/Widgets/Site/templates/pages/developer-tools/details.php:42
+#: core/Widgets/Site/templates/pages/developer-tools/adminer.php:25, core/Widgets/Site/templates/pages/developer-tools/details.php:46
 msgid "Password: %s"
 msgstr ""
 
@@ -2583,135 +2340,71 @@ msgstr ""
 msgid "Open Database Manager"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:4
-msgid "Get Started with CloudFlare"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:37
-msgid "CloudFlare is not set up yet."
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:42
-msgid "Go to the CloudFlare Setup Wizard!"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:49
-msgid "How we keep your site safe with CloudFlare"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:52
-msgid "Take a look at the video below to learn more about why we partnered with CloudFlare to keep your site safe and performant."
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:56
-msgid "HTTPS / SSL Certificates for your entire site"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:57
-msgid "Free CDN"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:58
-msgid "Spam / Hack / Attack Protection"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:59
-msgid "Advanced Site Analytics"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:60
-msgid "Always Online Protection"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:61
-msgid "RocketLoader for Extreme Performance"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:62
-msgid "A Powerful Global DNS"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:74
-msgid "How it works."
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:74
-msgid "Your site is routed through the intelligent CloudFlare global network. We automatically optimize the delivery of your web pages so your visitors get the fastest page load times and best performance. We also block threats and limit abusive bots and crawlers from visiting your site. The result: A significant improvement in performance and a decrease in spam and other attacks"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:16
-msgid "Your CloudFlare Account is set up!"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:23
-msgid "We have succesfully connected your site to CloudFlare."
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/cloudflare.php:26
-msgid "The email that belongs to your CloudFlare account is:"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/codiad.php:32
+#: core/Widgets/Site/templates/pages/developer-tools/codiad.php:37
 msgid "Code is Poetry..."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/codiad.php:39
+#: core/Widgets/Site/templates/pages/developer-tools/codiad.php:44
 msgid "Load the Code Editor"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/details.php:11
-msgid "Your SFTP Details"
+#: core/Widgets/Site/templates/pages/developer-tools/details.php:4
+msgid "Developer Details"
 msgstr ""
 
 #: core/Widgets/Site/templates/pages/developer-tools/details.php:13
+msgid "Your SFTP Details"
+msgstr ""
+
+#: core/Widgets/Site/templates/pages/developer-tools/details.php:15
 msgid "Quick Connect!"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/details.php:21
+#: core/Widgets/Site/templates/pages/developer-tools/details.php:25
 msgid "SFTP Details"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/details.php:26
+#: core/Widgets/Site/templates/pages/developer-tools/details.php:30
 msgid "Use the details below in your SFTP client to connect to the site and manage your files."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/details.php:31
+#: core/Widgets/Site/templates/pages/developer-tools/details.php:35
 msgid "URL: %s"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/details.php:34
+#: core/Widgets/Site/templates/pages/developer-tools/details.php:38
 msgid "Port: %s"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/details.php:47
+#: core/Widgets/Site/templates/pages/developer-tools/details.php:51
 msgid "SSH Details"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/details.php:58
+#: core/Widgets/Site/templates/pages/developer-tools/details.php:62
 msgid "If your site is compatible with the latest version of PHP7 we recommend upgrading to the latest PHP7 version because it provides superior performance."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/details.php:58
+#: core/Widgets/Site/templates/pages/developer-tools/details.php:62
 msgid "PHP 5.6 is not as fast as PHP7, but virtually all plugins and themes support it."
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/details.php:63
+#: core/Widgets/Site/templates/pages/developer-tools/details.php:69
 msgid "Your site is running PHP version %s"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/details.php:90
+#: core/Widgets/Site/templates/pages/developer-tools/details.php:104
 msgid "Redis Object Caching is Enabled"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/details.php:94
+#: core/Widgets/Site/templates/pages/developer-tools/details.php:108
 msgid "Disable Caching"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/details.php:74
+#: core/Widgets/Site/templates/pages/developer-tools/details.php:84
 msgid "Redis Object Caching is Disabled"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/details.php:78
+#: core/Widgets/Site/templates/pages/developer-tools/details.php:88
 msgid "Get Redis Cache"
 msgstr ""
 
@@ -2719,22 +2412,10 @@ msgstr ""
 msgid "Performance"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/php-debug.php:26
-msgid "WP Debug"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/php-debug.php:35
-msgid "Cool kids debug"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/php-debug.php:42
-msgid "Show WP Debug Log"
-msgstr ""
-
-#: core/Widgets/Site/templates/pages/developer-tools/shell.php:31
+#: core/Widgets/Site/templates/pages/developer-tools/shell.php:36
 msgid "Have fun, but don't forget to make backups!"
 msgstr ""
 
-#: core/Widgets/Site/templates/pages/developer-tools/shell.php:38
+#: core/Widgets/Site/templates/pages/developer-tools/shell.php:43
 msgid "Load the WP-CLI Terminal"
 msgstr ""

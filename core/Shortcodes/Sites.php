@@ -105,7 +105,7 @@ final class Sites extends Singleton implements Base {
 			]
 		];
 
-		Tpl::load( DOLLIE_PATH . 'templates/loop-templates/sites', $data, true );
+		Tpl::load( 'loop/sites', $data, true );
 	}
 
 }
