@@ -4,7 +4,7 @@ Tags: hosting, waas, wordpress hosting, sell hosting
 Requires at least: 5.0
 Tested up to: 5.6.1
 Requires PHP: 7.0
-Stable tag: 4.1.6
+Stable tag: 4.1.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -77,8 +77,8 @@ You set your own prices and you receive the payments directly on your own Woocom
 
 ### Privacy Policy
 Dollie uses Appsero SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
-Appsero SDK **does not gather any data by default.** The SDK only starts gathering basic telemetry data **when a user allows it via the admin notice**. We collect the data to ensure a great user experience for all our users.
-Integrating Appsero SDK **DOES NOT IMMEDIATELY** start gathering data, **without confirmation from users in any case.**
+Appsero SDK does not gather any data by default. The SDK only starts gathering basic telemetry data **when a user allows it via the admin notice**. We collect the data to ensure a great user experience for all our users.
+Integrating Appsero SDK does not immediately start gathering data, **without confirmation from users in any case.**
 
 == Installation ==
 
@@ -122,6 +122,10 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 == Screenshots ==
 
 == Changelog ==
+
+= 4.1.7 =
+* Check for active subscription only when API token is set
+* Unified templates so they can be easily overridden in themes
 
 = 4.1.6 =
 * Import Elementor template updates
