@@ -247,10 +247,16 @@ class Helpers extends Singleton {
 		}
 
 		if ( ! $deploying && ! empty( $site ) ) {
-			$screenshot = $this->container_screenshot( $site );
+			$screenshot = get_transient( 'wpd_container_ss' );
 
-			if ( ! empty( $screenshot ) && isset( $screenshot['desktop'] ) && $screenshot['desktop'] ) {
+			if ( ! is_array( $screenshot ) || empty( $screenshot ) || ! isset( $screenshot['desktop'] ) || ! $screenshot['desktop'] ) {
+				$screenshot = $this->container_screenshot( $site );
+			}
+
+			if ( is_array( $screenshot ) && ! empty( $screenshot ) && isset( $screenshot['desktop'] ) && $screenshot['desktop'] ) {
 				$image = $screenshot['desktop'] . '?ver=' . current_time( 'timestamp' );
+
+				set_transient( 'wpd_container_ss', $screenshot, MINUTE_IN_SECONDS * 60 );
 			}
 		}
 
