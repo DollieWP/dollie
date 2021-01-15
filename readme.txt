@@ -4,7 +4,7 @@ Tags: hosting, waas, wordpress hosting, sell hosting
 Requires at least: 5.0
 Tested up to: 5.6.1
 Requires PHP: 7.0
-Stable tag: 4.1.7
+Stable tag: 4.1.8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -122,6 +122,11 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 == Screenshots ==
 
 == Changelog ==
+
+= 4.1.8 =
+* Optimize the process and notification on new site deployment.
+* Show developer tools only when DOLLIE_DEV constant is set to true.
+* Cache site screenshot for 1 hour
 
 = 4.1.7 =
 * Check for active subscription only when API token is set
