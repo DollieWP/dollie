@@ -25,7 +25,6 @@ use Dollie\Core\Modules\WooCommerce;
 use Dollie\Core\Modules\Sites\WP;
 
 use Dollie\Core\Modules\Jobs\ChangeContainerRoleJob;
-use Dollie\Core\Modules\Jobs\SyncContainersJob;
 use Dollie\Core\Modules\Jobs\UpdateContainerScreenshotsJob;
 
 use Dollie\Core\Utils\Api;
@@ -141,7 +140,7 @@ class Plugin extends Singleton {
 
 		// Load jobs
 		ChangeContainerRoleJob::instance();
-		SyncContainersJob::instance();
+		// SyncContainersJob::instance();
 		UpdateContainerScreenshotsJob::instance();
 		RemoveOldLogsJob::instance();
 
@@ -197,9 +196,6 @@ class Plugin extends Singleton {
 	 * Register ACF fields
 	 */
 	public function acf_add_local_field_groups() {
-		if ( defined( 'DOLLIE_DEV' ) ) {
-			return;
-		}
 
 		require DOLLIE_CORE_PATH . 'Extras/AcfFields.php';
 		require DOLLIE_CORE_PATH . 'Extras/AcfFormFields.php';

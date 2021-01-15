@@ -169,15 +169,32 @@ final class WP extends Singleton {
 	}
 
 
+	public function update_deploy() {
+
+		$args = [
+			'post_type' => 'container',
+			'meta_key'  => 'wpd_container_deploy_job',
+		];
+
+		$pending_deploys = get_posts( $args );
+
+		//var_dump($pending_deploys);exit;
+
+		if ( ! empty( $pending_deploys ) ) {
+			foreach ( $pending_deploys as $deploy_container ) {
+				$this->update_deploy_for_container( $deploy_container->ID );
+				$this->update_deploy_setup_data_for_container( $deploy_container->ID  );
+			}
+		}
+	}
+
 	/**
 	 * Update deploy
+	 *
+	 * @param null $post_id
 	 */
-	public function update_deploy() {
-		if ( ! is_singular( 'container' ) ) {
-			return;
-		}
+	public function update_deploy_for_container( $post_id = null ) {
 
-		$post_id         = get_the_ID();
 		$dollie_obj      = dollie()->get_current_object( $post_id );
 		$deploy_job_uuid = Container::instance()->get_deploy_job( $post_id );
 
@@ -304,15 +321,26 @@ final class WP extends Singleton {
 	}
 
 	/**
-	 * Run after the deploy to setup initial WP site details
-	 * @
+	 * Update setup data after deploy. When loading the container page
 	 */
 	public function update_deploy_setup_data() {
-
 		if ( ! is_singular( 'container' ) ) {
 			return;
 		}
 		$post_id = get_the_ID();
+
+		$this->update_deploy_setup_data_for_container( $post_id );
+
+	}
+
+	/**
+	 * Run after the deploy to setup initial WP site details
+	 * @
+	 *
+	 * @param null $post_id
+	 */
+	public function update_deploy_setup_data_for_container( $post_id = null ) {
+
 
 		// in case the deploy failed
 		if ( get_post_status( $post_id ) === 'draft' ) {
