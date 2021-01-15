@@ -21,7 +21,7 @@ use Dollie\Core\Utils\Tpl;
 class Options extends Singleton {
 
 	const PANEL_SLUG = 'wpd_platform_setup',
-		API_SLUG     = 'wpd_api';
+		API_SLUG = 'wpd_api';
 
 	/**
 	 * Options constructor.
@@ -147,15 +147,17 @@ class Options extends Singleton {
 	 */
 	public function dollie_submenus() {
 
-		add_submenu_page(
-			self::PANEL_SLUG,
-			'Forms',
-			'Forms',
-			'manage_options',
-			'edit.php?post_type=af_form'
-		);
+		if ( defined( 'DOLLIE_DEV' ) && DOLLIE_DEV ) {
+			add_submenu_page(
+				self::PANEL_SLUG,
+				'Forms',
+				'Forms',
+				'manage_options',
+				'edit.php?post_type=af_form'
+			);
+		}
 
-		if ( $this->is_live() ) {
+		if ( defined( 'DOLLIE_DEV' ) && DOLLIE_DEV && $this->is_live() ) {
 			add_submenu_page(
 				self::PANEL_SLUG,
 				'Tools',
@@ -458,34 +460,34 @@ class Options extends Singleton {
 		}
 
 		?>
-		<div class="notice dollie-notice <?php echo esc_attr( $class ); ?>">
-			<div class="dollie-inner-message">
-				<h2><span class="dashicons dashicons-rest-api dollie-api-status"></span>
-					API Status: <span class="<?php echo esc_attr( $class ); ?>-span"><?php echo $status; ?></span>
-				</h2>
+        <div class="notice dollie-notice <?php echo esc_attr( $class ); ?>">
+            <div class="dollie-inner-message">
+                <h2><span class="dashicons dashicons-rest-api dollie-api-status"></span>
+                    API Status: <span class="<?php echo esc_attr( $class ); ?>-span"><?php echo $status; ?></span>
+                </h2>
 
-				<div>
+                <div>
 					<?php if ( isset( $_GET['err'] ) ) : ?>
 						<?php _e( 'Something went wrong. Please try again later or contact our support.', 'dollie' ); ?>
-						<br>
-						<br>
+                        <br>
+                        <br>
 					<?php endif; ?>
 
 					<?php if ( isset( $_GET['status'] ) && $_GET['status'] === 'not_connected' ) : ?>
 						<?php _e( 'You are not connected with the Dollie API. Please follow the instructions at the top of the page to continue with the API authentication.', 'dollie' ); ?>
-						<br>
-						<br>
+                        <br>
+                        <br>
 					<?php endif; ?>
 
-					<br>
+                    <br>
 
 					<?php if ( ! \Dollie\Core\Utils\Api::get_auth_token() ) : ?>
 						<?php echo \Dollie\Core\Plugin::instance()->get_api_access_link( true ); ?>
 					<?php endif; ?>
 
-				</div>
-			</div>
-		</div>
+                </div>
+            </div>
+        </div>
 
 		<?php
 	}
@@ -498,26 +500,26 @@ class Options extends Singleton {
 				'all_admin_notices',
 				static function () {
 					?>
-					<div class="dollie-notice">
-						<h3>
-							<svg aria-hidden="true" data-prefix="fab" data-icon="docker" role="img"
-								 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"
-								 class="svg-inline--fa fa-docker fa-w-20 fa-3x">
-								<path fill="currentColor"
-									  d="M349.9 236.3h-66.1v-59.4h66.1v59.4zm0-204.3h-66.1v60.7h66.1V32zm78.2 144.8H362v59.4h66.1v-59.4zm-156.3-72.1h-66.1v60.1h66.1v-60.1zm78.1 0h-66.1v60.1h66.1v-60.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1l-13.3-8.9zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm-78.1-72.1h-66.1v60.1h66.1v-60.1z"
-									  class=""></path>
-							</svg>
-							The Site Manager
-						</h3>
-						<p>
-							Below you'll find all of your sites launched by you and your customers. Click on a
-							site for
-							a quick overview of the WordPress installation or to access various management tools
-							and
-							create
-							re-usable Blueprints with the click of a button.
-						</p>
-					</div>
+                    <div class="dollie-notice">
+                        <h3>
+                            <svg aria-hidden="true" data-prefix="fab" data-icon="docker" role="img"
+                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"
+                                 class="svg-inline--fa fa-docker fa-w-20 fa-3x">
+                                <path fill="currentColor"
+                                      d="M349.9 236.3h-66.1v-59.4h66.1v59.4zm0-204.3h-66.1v60.7h66.1V32zm78.2 144.8H362v59.4h66.1v-59.4zm-156.3-72.1h-66.1v60.1h66.1v-60.1zm78.1 0h-66.1v60.1h66.1v-60.1zm276.8 100c-14.4-9.7-47.6-13.2-73.1-8.4-3.3-24-16.7-44.9-41.1-63.7l-14-9.3-9.3 14c-18.4 27.8-23.4 73.6-3.7 103.8-8.7 4.7-25.8 11.1-48.4 10.7H2.4c-8.7 50.8 5.8 116.8 44 162.1 37.1 43.9 92.7 66.2 165.4 66.2 157.4 0 273.9-72.5 328.4-204.2 21.4.4 67.6.1 91.3-45.2 1.5-2.5 6.6-13.2 8.5-17.1l-13.3-8.9zm-511.1-27.9h-66v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm78.1 0h-66.1v59.4h66.1v-59.4zm-78.1-72.1h-66.1v60.1h66.1v-60.1z"
+                                      class=""></path>
+                            </svg>
+                            The Site Manager
+                        </h3>
+                        <p>
+                            Below you'll find all of your sites launched by you and your customers. Click on a
+                            site for
+                            a quick overview of the WordPress installation or to access various management tools
+                            and
+                            create
+                            re-usable Blueprints with the click of a button.
+                        </p>
+                    </div>
 					<?php
 				}
 			);
@@ -529,24 +531,24 @@ class Options extends Singleton {
 				'all_admin_notices',
 				static function () {
 					?>
-					<div class="dollie-notice">
-						<h3>
-							<svg aria-hidden="true" data-prefix="fal" data-icon="pennant" role="img"
-								 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
-								 class="svg-inline--fa fa-pennant fa-w-18 fa-3x">
-								<path fill="currentColor"
-									  d="M552 191.3c-30 6.2-115.6 12.5-260.7-63.6-87-45.7-158.1-51.8-210-45.2 9-8.8 14.7-21 14.7-34.5C96 21.5 74.5 0 48 0S0 21.5 0 48c0 20.8 13.4 38.4 32 45.1V504c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8v-79.6c40.2-27.2 102-56.4 179.5-60.2 28.7-1.4 76-5.8 137.9-18.8 4.4-.9 109.4-23.8 190-121.7 11.8-14.3-.7-36.2-19.4-32.4zM48 32c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm326.9 282.1c-59.9 12.5-105.4 16.8-133 18.2-84.8 4.2-145.3 35.1-177.9 54.2V117.7c47.2-10.6 119.5-10.5 212.4 38.3 118.9 62.4 202.3 72.4 249.5 70.4-69.5 69.7-150.1 87.5-151 87.7z"
-									  class=""></path>
-							</svg>
-							The Activity Log
-						</h3>
-						<p>
-							The activity log keeps track of everything you need to know regarding your sites,
-							actions taken by your customers and recurring crons/maintenance jobs that run on
-							your
-							installation.
-						</p>
-					</div>
+                    <div class="dollie-notice">
+                        <h3>
+                            <svg aria-hidden="true" data-prefix="fal" data-icon="pennant" role="img"
+                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                 class="svg-inline--fa fa-pennant fa-w-18 fa-3x">
+                                <path fill="currentColor"
+                                      d="M552 191.3c-30 6.2-115.6 12.5-260.7-63.6-87-45.7-158.1-51.8-210-45.2 9-8.8 14.7-21 14.7-34.5C96 21.5 74.5 0 48 0S0 21.5 0 48c0 20.8 13.4 38.4 32 45.1V504c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8v-79.6c40.2-27.2 102-56.4 179.5-60.2 28.7-1.4 76-5.8 137.9-18.8 4.4-.9 109.4-23.8 190-121.7 11.8-14.3-.7-36.2-19.4-32.4zM48 32c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm326.9 282.1c-59.9 12.5-105.4 16.8-133 18.2-84.8 4.2-145.3 35.1-177.9 54.2V117.7c47.2-10.6 119.5-10.5 212.4 38.3 118.9 62.4 202.3 72.4 249.5 70.4-69.5 69.7-150.1 87.5-151 87.7z"
+                                      class=""></path>
+                            </svg>
+                            The Activity Log
+                        </h3>
+                        <p>
+                            The activity log keeps track of everything you need to know regarding your sites,
+                            actions taken by your customers and recurring crons/maintenance jobs that run on
+                            your
+                            installation.
+                        </p>
+                    </div>
 					<?php
 				}
 			);
@@ -557,23 +559,23 @@ class Options extends Singleton {
 				'all_admin_notices',
 				static function () {
 					?>
-					<div class="dollie-notice">
-						<h3>
-							<svg aria-hidden="true" data-prefix="fal" data-icon="pennant" role="img"
-								 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
-								 class="svg-inline--fa fa-pennant fa-w-18 fa-3x">
-								<path fill="currentColor"
-									  d="M552 191.3c-30 6.2-115.6 12.5-260.7-63.6-87-45.7-158.1-51.8-210-45.2 9-8.8 14.7-21 14.7-34.5C96 21.5 74.5 0 48 0S0 21.5 0 48c0 20.8 13.4 38.4 32 45.1V504c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8v-79.6c40.2-27.2 102-56.4 179.5-60.2 28.7-1.4 76-5.8 137.9-18.8 4.4-.9 109.4-23.8 190-121.7 11.8-14.3-.7-36.2-19.4-32.4zM48 32c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm326.9 282.1c-59.9 12.5-105.4 16.8-133 18.2-84.8 4.2-145.3 35.1-177.9 54.2V117.7c47.2-10.6 119.5-10.5 212.4 38.3 118.9 62.4 202.3 72.4 249.5 70.4-69.5 69.7-150.1 87.5-151 87.7z"
-									  class=""></path>
-							</svg>
-							Dollie Forms
-						</h3>
-						<p>
-							These forms can be embedded easily to further customize the experience for your
-							customers. Please only edit these forms if you're a developer and you have good
-							knowledge of the Dollie platform and it's API.
-						</p>
-					</div>
+                    <div class="dollie-notice">
+                        <h3>
+                            <svg aria-hidden="true" data-prefix="fal" data-icon="pennant" role="img"
+                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                 class="svg-inline--fa fa-pennant fa-w-18 fa-3x">
+                                <path fill="currentColor"
+                                      d="M552 191.3c-30 6.2-115.6 12.5-260.7-63.6-87-45.7-158.1-51.8-210-45.2 9-8.8 14.7-21 14.7-34.5C96 21.5 74.5 0 48 0S0 21.5 0 48c0 20.8 13.4 38.4 32 45.1V504c0 4.4 3.6 8 8 8h16c4.4 0 8-3.6 8-8v-79.6c40.2-27.2 102-56.4 179.5-60.2 28.7-1.4 76-5.8 137.9-18.8 4.4-.9 109.4-23.8 190-121.7 11.8-14.3-.7-36.2-19.4-32.4zM48 32c8.8 0 16 7.2 16 16s-7.2 16-16 16-16-7.2-16-16 7.2-16 16-16zm326.9 282.1c-59.9 12.5-105.4 16.8-133 18.2-84.8 4.2-145.3 35.1-177.9 54.2V117.7c47.2-10.6 119.5-10.5 212.4 38.3 118.9 62.4 202.3 72.4 249.5 70.4-69.5 69.7-150.1 87.5-151 87.7z"
+                                      class=""></path>
+                            </svg>
+                            Dollie Forms
+                        </h3>
+                        <p>
+                            These forms can be embedded easily to further customize the experience for your
+                            customers. Please only edit these forms if you're a developer and you have good
+                            knowledge of the Dollie platform and it's API.
+                        </p>
+                    </div>
 					<?php
 				}
 			);

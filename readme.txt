@@ -1,4 +1,4 @@
-=== Dollie ===
+=== Dollie - Cloud hosting automation platform for WordPress ===
 Contributors: GetDollie
 Tags: hosting, waas, wordpress hosting, sell hosting
 Requires at least: 5.0

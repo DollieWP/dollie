@@ -127,7 +127,7 @@ class Log {
 				'title'   => __( 'Site deploy started', 'dollie' ),
 				'content' => __( sprintf( 'Deploying WordPress site %s. You\'ll get a notification when is ready. ', $values[0] ), 'dollie' ),
 				'type'    => 'deploy',
-				'link'    => false,
+				'link'    => true,
 			],
 			self::WP_SITE_DEPLOYED              => [
 				'title'   => __( 'Site deployed', 'dollie' ),

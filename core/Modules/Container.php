@@ -1142,7 +1142,7 @@ class Container extends Singleton {
 	}
 
 	/**
-	 * Set container status
+	 * Set container status. start|stopped
 	 *
 	 * @param $container_id
 	 * @param $status
