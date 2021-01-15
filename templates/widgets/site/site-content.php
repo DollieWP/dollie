@@ -1,7 +1,8 @@
-<?php $status = \Dollie\Core\Modules\Container::instance()->get_status( get_the_ID() ); ?>
+<?php
+$status = \Dollie\Core\Modules\Container::instance()->get_status( $current_id ); ?>
 
 <?php if ( 'stop' === $status ) : ?>
-	<?php $undeploy_at = get_post_meta( get_the_ID(), 'wpd_undeploy_container_at', true ); ?>
+	<?php $undeploy_at = get_post_meta( $current_id, 'wpd_undeploy_container_at', true ); ?>
 	<div class="dol-bg-orange-700 dol-text-center dol-p-8 md:dol-p-10 lg:dol-p-20 dol-rounded">
 		<h2 class="dol-text-xl md:dol-text-3xl dol-mb-4 dol-text-white">
 			<i class="fab fa-wordpress"></i>
@@ -79,7 +80,7 @@
 	}
 	?>
 
-	<div id="dol-deploying-site" class="dol-hidden" data-container="<?php echo esc_attr( get_the_ID() ); ?>"
+	<div id="dol-deploying-site" class="dol-hidden" data-container="<?php echo esc_attr( $current_id ); ?>"
 		 data-nonce="<?php echo esc_attr( wp_create_nonce( 'check_deploy_nonce' ) ); ?>"
 		 data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>"></div>
 	<div class="dol-py-32 dol-flex dol-flex-col dol-items-center dol-justify-center">
@@ -112,15 +113,15 @@
 
 	<?php
 
-	$post_id = get_the_ID();
-	$install = get_queried_object()->post_name;
+	$post_id = $current_id;
+	$install = get_post( $post_id )->post_name;
 
 	// Include ACF editor for blueprints
 	if ( get_query_var( 'blueprints' ) || current_user_can( 'edit_pages' ) ) {
 		acf_form_head();
 	}
 
-	$data     = \Dollie\Core\Modules\Container::instance()->get_container_details( get_the_ID() );
+	$data     = \Dollie\Core\Modules\Container::instance()->get_container_details( $current_id );
 	$sub_page = get_query_var( 'sub_page' );
 
 	if ( 'plugins' === $sub_page ) {
@@ -209,7 +210,4 @@
 		);
 	}
 
-	?>
-
-	<?php
 endif;

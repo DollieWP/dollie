@@ -1,4 +1,4 @@
-<?php $setup_complete = get_post_meta( get_the_ID(), 'wpd_setup_complete', true ); ?>
+<?php $setup_complete = get_post_meta( $post_id, 'wpd_setup_complete', true ); ?>
 
 
 <?php if ( empty( $data ) || ( $data['site_data']['Installed Themes'] === '' && $setup_complete === 'yes' ) ) : ?>
@@ -55,7 +55,7 @@
 					</div>
 					<div class="dol-bg-cool-gray-50 dol-px-5 dol-py-3">
 						<div class="dol-text-sm dol-leading-5">
-							<a href="<?php echo dollie()->get_site_url( get_the_ID(), 'updates' ); ?>"
+							<a href="<?php echo dollie()->get_site_url( $post_id, 'updates' ); ?>"
 							   class="dol-font-medium dol-text-teal-600 hover:dol-text-teal-900 dol-transition dol-ease-in-out dol-duration-150">
 								<?php
 								$plugin_updates = get_post_meta( $post_id, 'wpd_installation_plugin_updates', true );
@@ -88,7 +88,7 @@
 					</div>
 					<div class="dol-bg-cool-gray-50 dol-px-5 dol-py-3">
 						<div class="dol-text-sm dol-leading-5">
-							<a href="<?php echo dollie()->get_site_url( get_the_ID(), 'updates' ); ?>"
+							<a href="<?php echo dollie()->get_site_url( $post_id, 'updates' ); ?>"
 							   class="dol-font-medium dol-text-teal-600 hover:dol-text-teal-900 dol-transition dol-ease-in-out dol-duration-150">
 								<?php esc_html_e( 'Check for Updates', 'dollie' ); ?>
 							</a>
@@ -118,7 +118,7 @@
 					</div>
 					<div class="dol-bg-cool-gray-50 dol-px-5 dol-py-3">
 						<div class="dol-text-sm dol-leading-5">
-							<a href="<?php echo dollie()->get_site_url( get_the_ID(), 'updates' ); ?>"
+							<a href="<?php echo dollie()->get_site_url( $post_id, 'updates' ); ?>"
 							   class="dol-font-medium dol-text-teal-600 hover:dol-text-teal-900 dol-transition dol-ease-in-out dol-duration-150">
 								<?php esc_html_e( 'Check Core Updates', 'dollie' ); ?>
 							</a>
@@ -166,7 +166,7 @@
 						</div>
 						<div class="dol-bg-cool-gray-50 dol-px-5 dol-py-3">
 							<div class="dol-text-sm dol-leading-5">
-								<a href="<?php echo dollie()->get_site_url( get_the_ID(), 'backups' ); ?>"
+								<a href="<?php echo dollie()->get_site_url( $post_id, 'backups' ); ?>"
 								   class="dol-font-medium dol-text-teal-600 hover:dol-text-teal-900 dol-transition dol-ease-in-out dol-duration-150">
 									<?php esc_html_e( 'View Backups', 'dollie' ); ?>
 								</a>

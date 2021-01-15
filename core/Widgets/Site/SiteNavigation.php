@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Utils\Tpl;
+use Elementor\Plugin;
 
 /**
  * Class SiteNavigation
@@ -37,10 +38,28 @@ class SiteNavigation extends \Elementor\Widget_Base {
 
 	protected function render() {
 		$data = [
-			'settings' => $this->get_settings_for_display(),
+			'settings'   => $this->get_settings_for_display(),
+			'current_id' => get_the_ID()
 		];
 
-		if ( get_post_type() !== 'container' ) {
+		$elementor_builder = \Elementor\Plugin::instance()->editor->is_edit_mode()
+			|| \Elementor\Plugin::instance()->preview->is_preview()
+		|| isset($_GET['elementor_library']);
+
+		if ( $elementor_builder ) {
+
+			$my_sites = get_posts( [
+				'post_type'      => 'container',
+				'author'         => get_current_user_id(),
+				'posts_per_page' => 1
+			] );
+
+			if ( ! empty( $my_sites ) ) {
+				$data['current_id'] = $my_sites[0]->ID;
+			}
+		}
+
+		if ( get_post_type() !== 'container' && ! $elementor_builder ) {
 			esc_html_e( 'This widget can only be used on the "Site" page.', 'dollie' );
 		} else {
 			Tpl::load( 'widgets/site/site-navigation', $data, true );

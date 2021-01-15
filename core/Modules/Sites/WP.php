@@ -171,9 +171,14 @@ final class WP extends Singleton {
 
 	public function update_deploy() {
 
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
+
 		$args = [
-			'post_type' => 'container',
-			'meta_key'  => 'wpd_container_deploy_job',
+			'post_type'   => 'container',
+			'meta_key'    => 'wpd_container_deploy_job',
+			'author' => get_current_user_id()
 		];
 
 		$pending_deploys = get_posts( $args );
@@ -183,7 +188,7 @@ final class WP extends Singleton {
 		if ( ! empty( $pending_deploys ) ) {
 			foreach ( $pending_deploys as $deploy_container ) {
 				$this->update_deploy_for_container( $deploy_container->ID );
-				$this->update_deploy_setup_data_for_container( $deploy_container->ID  );
+				$this->update_deploy_setup_data_for_container( $deploy_container->ID );
 			}
 		}
 	}
