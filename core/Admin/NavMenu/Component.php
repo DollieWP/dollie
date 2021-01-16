@@ -40,6 +40,7 @@ class Component {
 		}
 
 		add_action( 'load-nav-menus.php', [ $this, 'wp_nav_menu_meta_box' ] );
+		add_filter('get_user_option_metaboxhidden_nav-menus', [$this, 'wp_nav_menu_meta_box_always_show'], 10, 3);
 		add_filter( 'wp_setup_nav_menu_item', [ $this, 'setup_nav_menu_item' ], 10, 1 );
 
 		add_filter( 'walker_nav_menu_start_el', [ $this, 'nav_notifications' ], 10, 4 );
@@ -75,6 +76,16 @@ class Component {
 		);
 
 		add_action( 'admin_print_footer_scripts', [ $this, 'wp_nav_menu_restrict_items' ] );
+	}
+
+	/**
+	 *  Always show the Dollie Metabox.
+	 */
+	public function wp_nav_menu_meta_box_always_show($result, $option, $user)
+	{
+		if (in_array('add-dollie-menu', $result))
+			$result = array_diff($result, array('add-dollie-menu'));
+		return $result;
 	}
 
 	/**
