@@ -335,15 +335,6 @@ class Options extends Singleton {
 			]
 		);
 
-		$wp_admin_bar->add_menu(
-			[
-				'parent' => $menu_id,
-				'title'  => esc_html__( 'Slack', 'dollie' ),
-				'id'     => 'dwb-slack',
-				'href'   => 'https://dollie-hub.herokuapp.com/',
-			]
-		);
-
 	}
 
 	/**
@@ -359,15 +350,9 @@ class Options extends Singleton {
 		];
 
 		$submenu[ self::PANEL_SLUG ][] = [
-			esc_html__( 'Slack Community', 'dollie' ),
-			'manage_options',
-			'https://dollie-hub.herokuapp.com/',
-		];
-
-		$submenu[ self::PANEL_SLUG ][] = [
 			esc_html__( 'Support', 'dollie' ),
 			'manage_options',
-			'https://partners.getdollie.com/support/',
+			'https://partners.getdollie.com/?redirect=support',
 		];
 
 		$launch_site = dollie()->get_launch_page_id();

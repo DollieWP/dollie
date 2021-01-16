@@ -208,7 +208,7 @@ final class Notices extends Singleton {
 
 		?>
 			<?php if ( ! dollie()->has_partner_subscription() ) : ?>
-				<div class="notice dollie-notice">
+				<div class="notice dollie-notice dollie-notice-error">
 					<div class="dollie-inner-message">
 						<div class="dollie-message-center">
 							<h3><?php esc_html_e( 'No active subscription', 'dollie' ); ?> </h3>
@@ -217,29 +217,29 @@ final class Notices extends Singleton {
 
 						<?php
 						printf(
-							'<a href="https://partners.getdollie.com/" class="button button-primary" target="_blank">%s</a>',
+							'<a href="https://partners.getdollie.com/?redirect=my-account/subscriptions/" class="button button-primary" target="_blank">%s</a>',
 							esc_html__( 'Update Subscription', 'dollie' )
 						);
 
 						printf(
 							'<a href="%s" class="button" style="margin-left: 10px;">%s</a>',
 							esc_url( admin_url() . '?wpd_check_subscription' ),
-							esc_html__( 'Check again', 'dollie' )
+							esc_html__( 'Re-Check Subscription Status', 'dollie' )
 						);
 						?>
 					</div>
 				</div>
 			<?php elseif ( dollie()->has_partner_subscription() && dollie()->is_partner_subscription_trial() && 0 === dollie()->get_partner_subscription_credits() ) : ?>
-				<div class="notice dollie-notice">
+				<div class="notice dollie-notice dollie-notice-error">
 					<div class="dollie-inner-message">
 						<div class="dollie-message-center">
-							<h3><?php esc_html_e( 'Trail subscription limit', 'dollie' ); ?> </h3>
+							<h3><?php esc_html_e( 'Trial Subscription Limit Reached', 'dollie' ); ?> </h3>
 							<p><?php esc_html_e( 'Your trial subscription has reached the maximum allowed deploys. Please note that your clients won\'t be able to deploy until you activate your subscription.', 'dollie' ); ?></p>
 						</div>
 
 						<?php
 						printf(
-							'<a href="https://partners.getdollie.com/" class="button button-primary" target="_blank">%s</a>',
+							'<a href="https://partners.getdollie.com/?redirect=my-account/subscriptions/" class="button button-primary" target="_blank">%s</a>',
 							esc_html__( 'Update Subscription', 'dollie' )
 						);
 

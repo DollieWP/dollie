@@ -10,7 +10,7 @@
 			'links'   => [
 				[
 					'title' => __( 'Learn more', 'dollie' ),
-					'url'   => 'https://partners.getdollie.com/knowledge-base/how-can-i-delete-sites-as-a-dollie-administrator/',
+					'url'   => 'https://partners.getdollie.com/redirect=knowledge-base/how-can-i-delete-sites-as-a-dollie-administrator/',
 				],
 			],
 		],
