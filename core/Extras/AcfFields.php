@@ -811,7 +811,7 @@ NS entries: <strong>pdns1.stratus5.com</strong>, <strong>pdns2.stratus5.com</str
 				'label'             => __( 'Newsfeed URL', 'dollie' ),
 				'name'              => 'wpd_feed_url',
 				'type'              => 'url',
-				'instructions'      => __( 'The link to the WordPress installation you want to show news from.', 'dollie' ),
+				'instructions'      => __('The link to the WordPress installation you want to show news from. Use the "Latest News" Dollie widget to show them.', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -824,8 +824,30 @@ NS entries: <strong>pdns1.stratus5.com</strong>, <strong>pdns2.stratus5.com</str
 				'placeholder'       => 'https://yoursite.com',
 			),
 			array(
+					'key' => 'field_60044dd1decf6',
+					'label' => __('Amount of Posts to show in the "Latest News" dashboard widget', 'dollie'),
+					'name' => 'wpd_newsfeed_amount_of_posts',
+					'type' => 'number',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'hide_admin' => 0,
+					'default_value' => 6,
+					'placeholder' => '',
+					'prepend' => '',
+					'append' => 'Posts',
+					'min' => '',
+					'max' => '',
+					'step' => '',
+			),
+			array(
 				'key'               => 'field_583b2eeaf884d',
-				'label'             => __( 'Default Screenshot Placeholder', 'dollie' ),
+				'label'             => __( 'Default Site Screenshot Placeholder', 'dollie' ),
 				'name'              => 'default_screenshot',
 				'type'              => 'image',
 				'instructions'      => __( '<strong>Recommended size: 700x460px</strong><br>
@@ -1065,10 +1087,10 @@ This is the default screenshot image shown until a live screenshot is generated.
 			),
 			array(
 				'key'               => 'field_5b097b1dd50cc',
-				'label'             => __( 'Enable Site Preview', 'dollie' ),
+				'label'             => __( 'Enable Blueprint Site Preview', 'dollie' ),
 				'name'              => 'wpd_enable_site_preview',
 				'type'              => 'true_false',
-				'instructions'      => __( 'The site preview bar allows you to quickly showcase the available Blueprints you\'ve created.', 'dollie' ),
+				'instructions'      => __( 'Site Previews allows you to quickly showcase the available Site Blueprints you\'ve created. Ideal if you are building for WaaS / SaaS platform.', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -1088,7 +1110,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 				'label'             => __( 'Site Preview Link', 'dollie' ),
 				'name'              => 'wpd_site_preview_path',
 				'type'              => 'text',
-				'instructions'      => __( 'The link to where your sites preview will shown. By default this is set to "preview" and you can vist it by going to your-site.com/preview', 'dollie' ),
+				'instructions'      => __( 'The link to where your Site Preview will shown. By default you can visit it by going to your-site.com/preview after you have created your first Blueprint', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => array(
 					array(
@@ -1113,10 +1135,10 @@ This is the default screenshot image shown until a live screenshot is generated.
 			),
 			array(
 				'key'               => 'field_5fc8e845150e2',
-				'label'             => __( 'Preview Page Logo', 'dollie' ),
+				'label'             => __( 'Site Preview Logo', 'dollie' ),
 				'name'              => 'wpd_dashboard_preview_logo',
 				'type'              => 'image',
-				'instructions'      => __( 'The logo that is show in the Preview header', 'dollie' ),
+				'instructions'      => __( 'The logo that is shown in the Site Preview', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => array(
 					array(
