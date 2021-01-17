@@ -1088,7 +1088,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 				'label'             => __( 'Site Preview Link', 'dollie' ),
 				'name'              => 'wpd_site_preview_path',
 				'type'              => 'text',
-				'instructions'      => __( 'The link to where your sites preview will show. By default is set to "preview" and will look like your-site.com/preview', 'dollie' ),
+				'instructions'      => __( 'The link to where your sites preview will shown. By default this is set to "preview" and you can vist it by going to your-site.com/preview', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => array(
 					array(
@@ -1116,7 +1116,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 				'label'             => __( 'Preview Page Logo', 'dollie' ),
 				'name'              => 'wpd_dashboard_preview_logo',
 				'type'              => 'image',
-				'instructions'      => __( 'The link to where your sites preview will show. By default is set to "preview" and will look like your-site.com/preview', 'dollie' ),
+				'instructions'      => __( 'The logo that is show in the Preview header', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => array(
 					array(
@@ -1339,7 +1339,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 				'label'             => __( 'Number of Sites', 'dollie' ),
 				'name'              => '_wpd_installs',
 				'type'              => 'number',
-				'instructions'      => __( 'How many sites can a customer deploy when subscribed to this product?', 'dollie' ),
+				'instructions'      => __( 'How many sites can a customer launch when subscribed to this product?', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -1361,7 +1361,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 				'label'             => __( 'Disk Space', 'dollie' ),
 				'name'              => '_wpd_max_size',
 				'type'              => 'number',
-				'instructions'      => __( 'The amount of space customer can use when subscribed to this product.', 'dollie' ),
+				'instructions'      => __( 'The total amount of disk space (for all sites) the customer can use when subscribed to this product.', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
