@@ -211,7 +211,7 @@ final class Notices extends Singleton {
 				<div class="notice dollie-notice dollie-notice-error">
 					<div class="dollie-inner-message">
 						<div class="dollie-message-center">
-							<h3><?php esc_html_e( 'No active subscription', 'dollie' ); ?> </h3>
+							<h3><?php esc_html_e( 'Dollie Error - No active subscription', 'dollie' ); ?> </h3>
 							<p><?php esc_html_e( 'It seems like your Dollie Subscription is expired or inactive. Please note that your clients won\'t be able to deploy until you activate your subscription.', 'dollie' ); ?></p>
 						</div>
 
@@ -230,10 +230,10 @@ final class Notices extends Singleton {
 					</div>
 				</div>
 			<?php elseif ( dollie()->has_partner_subscription() && dollie()->is_partner_subscription_trial() && 0 === dollie()->get_partner_subscription_credits() ) : ?>
-				<div class="notice dollie-notice dollie-notice-error">
+				<div class="notice dollie-notice">
 					<div class="dollie-inner-message">
 						<div class="dollie-message-center">
-							<h3><?php esc_html_e( 'Trial Subscription Limit Reached', 'dollie' ); ?> </h3>
+							<h3><?php esc_html_e( 'Dollie Notice - Trial Subscription Limit Reached', 'dollie' ); ?> </h3>
 							<p><?php esc_html_e( 'Your trial subscription has reached the maximum allowed deploys. Please note that your clients won\'t be able to deploy until you activate your subscription.', 'dollie' ); ?></p>
 						</div>
 
