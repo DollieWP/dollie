@@ -3,72 +3,55 @@ $status = \Dollie\Core\Modules\Container::instance()->get_status($current_id); ?
 
 <?php if ('stop' === $status) : ?>
 	<?php $undeploy_at = get_post_meta($current_id, 'wpd_undeploy_container_at', true); ?>
-	<div class="dol-bg-orange-700 dol-text-center dol-p-8 md:dol-p-10 lg:dol-p-20 dol-rounded">
-		<h2 class="dol-text-xl md:dol-text-3xl dol-mb-4 dol-text-white">
-			<i class="fab fa-wordpress"></i>
+	<div class="dol-bg-gray-200 dol-p-8 md:dol-p-10 lg:dol-p-20 dol-rounded">
+		<h2 class="dol-text-xl md:dol-text-3xl dol-mb-4">
+			<i class="far fa-pause-circle"></i>
 			<?php esc_html_e('Hosting for this site is currently paused.', 'dollie'); ?>
 		</h2>
+		<div class="py-30">
+			<p class="mt-5 mb-5 pl-100 pr-100 h5 font-size-large">
+				<?php esc_html_e('If you have cancelled your service subscription or it has expired, please visit', 'dollie'); ?>
+				<a href="<?php get_permalink(get_option('woocommerce_myaccount_page_id')); ?>" class="dol-font-bold"><?php esc_html_e('your subscription overview', 'dollie'); ?> </a>
+				<?php printf(__('and resolve the issue before <strong>%s</strong> to prevent this site from being removed completely.', 'dollie'), date('F j, Y', $undeploy_at)); ?>
+			</p>
+			<p class="pl-100 pr-100">
+				<?php esc_html_e('Stopped this site by mistake or think something went wrong? Please reach out to our team and
+						we\'ll get back to you as soon as we can!', 'dollie'); ?>
 
+				<a class="dol-font-700" href="<?php echo Dollie()->get_support_link(); ?>"><?php esc_html_e('Contact our Support Team', 'dollie'); ?> </a>
+			</p>
+		</div>
 		<?php if (!dollie()->has_subscription()) : ?>
 
 		<?php endif; ?>
 	</div>
-	<div class="hero-section">
-		<div class="hero-inner">
-			<div class="content content-blank">
-				<div class="text-center py-30">
-					<div class="mb-20">
-						<h2 class="text-white">
-							<i class="fab fa-wordpress"></i> Hosting for this site is currently paused.
-						</h2>
-					</div>
-					<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
-						If you have cancelled your service subscription by accident please re-activate your
-						<a href="<?php echo get_site_url(); ?>/my-account/subscriptions" class="text-white">subscription</a>
-						before <strong><?php echo date('F j, Y', $undeploy_at); ?></strong> to prevent this site from
-						being removed completely.
-					</p>
-					<p class="pl-100 pr-100 text-gray text-muted">
-						Stopped this site by mistake or think something went wrong? <br>Please reach out to our team and
-						we'll get back to you as soon as we can!
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
 <?php elseif ($status === 'failed') : ?>
-	<div class="hero-section">
-		<div class="hero-inner">
-			<div class="content content-blank">
-				<div class="text-center py-30">
-					<?php if (current_user_can('manage_options')) : ?>
-						<div class="mb-20">
-							<h2 class="text-white">Admin Notice - This site has failed to launch</h2>
-						</div>
-						<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
-							When a site fails to deploy it usually means there is a misconfiguration in your
-							Dollie API settings. Please double check your email, password and domain
-							<a class="text-white" href="<?php echo admin_url('admin.php?page=wpd_platform_setup'); ?>" data-clear="text-white">settings</a>.
-							Finally you can also check the Dollie Logs or reach out to the Dollie Support
-							team
-							via the <a class="text-white" href="https://partners.getdollie.com/?redirect=support">Partner
-								Dashboard</a>
-						</p>
-					<?php else : ?>
-						<div class="mb-20">
-							<h2 class="text-white">
-								<i class="fab fa-wordpress"></i>
-								Sorry, there was an error launching your site.
-							</h2>
-						</div>
-						<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
-							It seems like we were unable to launch your new site on our platform at this time.
-							Our team is notified and will be looking into this issue immediately and will reach out to
-							you as soon as we can.
-						</p>
-					<?php endif; ?>
-				</div>
-			</div>
+	<div class="dol-bg-gray-200 dol-p-8 md:dol-p-10 lg:dol-p-20 dol-rounded">
+		<div class="text-center py-30">
+			<?php if (current_user_can('manage_options')) : ?>
+				<h2 class="dol-text-xl md:dol-text-3xl dol-mb-4">
+					<i class="fas fa-exclamation-circle"></i>
+					<?php esc_html_e('Admin Notice - This site has failed to launch', 'dollie'); ?>
+				</h2>
+				<p class="mt-5 mb-5 pl-100 pr-100 h5 font-size-large">
+					When a site fails to deploy it usually means there is a misconfiguration in your
+					Dollie settings or a conflict with another plugin or your theme.
+					<a class="dol-font-700" href="<?php echo admin_url('wp-admin/edit.php?post_type=dollie-logs'); ?>">Click here to check the Dollie Logs</a>.
+					<br><br>Finally you can also or reach out to the Dollie Support
+					team via your <a class="dol-font-700 dol-text-dark" href="https://partners.getdollie.com/?redirect=support">Partner
+						Dashboard</a>
+				</p>
+			<?php else : ?>
+				<h2 class="dol-text-xl md:dol-text-3xl dol-mb-4">
+					<i class="fas fa-exclamation-circle"></i>
+					<?php esc_html_e('Sorry, there was an error launching your site.', 'dollie'); ?>
+				</h2>
+				<p class="mt-5 mb-5 pl-100 pr-100 h5 font-size-large">
+					<?php esc_html_e('It seems like we were unable to launch your new site on our platform at this time. Our team has been notified but please reach out to us if the issue persists.', 'dollie'); ?>
+					<br><br>
+					<a class="dol-font-700" href="<?php echo Dollie()->get_support_link(); ?>"><?php esc_html_e('Contact our Support Team', 'dollie'); ?></a>
+				</p>
+			<?php endif; ?>
 		</div>
 	</div>
 <?php elseif ('pending' === $status) : ?>
@@ -87,11 +70,11 @@ $status = \Dollie\Core\Modules\Container::instance()->get_status($current_id); ?
 		</svg>
 
 		<div class="dol-font-bold dol-mt-6 dol-text-2xl dol-uppercase dol-text-flame-600">
-			<?php esc_html_e('Deploying your site', 'dollie'); ?>
+			<?php esc_html_e('Launching Your New Site', 'dollie'); ?>
 		</div>
 
-		<div class="dol-mt-1 dol-text-cobalt-500 dol-text-md dol-font-semibold">
-			<?php esc_html_e('You site is getting ready soon. Thank you for your patience!', 'dollie'); ?>
+		<div class="dol-mt-1  dol-text-md dol-font-semibold">
+			<?php esc_html_e('Your site will ready to use in just a moment.', 'dollie'); ?>
 		</div>
 
 		<div class="dol-my-6 dol-w-16 dol-h-1 dol-bg-gray-200"></div>
