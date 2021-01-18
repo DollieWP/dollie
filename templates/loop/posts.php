@@ -2,7 +2,10 @@
 	<?php echo esc_html( $title ); ?>
 </h2>
 
-<?php if ( $posts ) : ?>
+<?php
+$i = 0;
+if ( $posts ) :
+?>
 	<div class="dol-flex dol-flex-wrap dol--m-4">
 		<?php foreach ( $posts as $post ) : ?>
 			<?php
@@ -53,7 +56,10 @@
 					</div>
 				</div>
 			</div>
-		<?php endforeach; ?>
+		<?php
+			$i++;
+			if ($i == get_option('options_wpd_newsfeed_amount_of_posts', '6')) break;
+			endforeach; ?>
 	</div>
 
 <?php else : ?>

@@ -63,7 +63,15 @@ function appsero_init_tracker_dollie() {
 	$client = new Appsero\Client( '7230a815-77e5-4157-8a30-e71e549e7473', 'Dollie', DOLLIE_FILE );
 
 	// Active insights
-	$client->insights()->init();
+	$client->insights()
+	->notice('<h3>Dollie - Help us improve your experience</h3>Please allow us to collect some non-sensitive information about your installation so that we can identify issues quickly and provide you with better support.')
+	->init();
+
+
+	// Active insights
+	//$client->insights()->notice( 'My Custom Notice Message' );
+
+
 
 	// Active automatic updater
 	$client->updater();

@@ -163,18 +163,18 @@ function dollie_register_required_plugins() {
 				'dollie'
 			),
 			'notice_ask_to_update_maybe'      => _n_noop(
-				'There is an update available for: %1$s.',
-				'There are updates available for the following plugins: %1$s.',
+				'Dollie - There is an update available for: %1$s.',
+				'Dollie - There are updates available for the following plugins: %1$s.',
 				'dollie'
 			),
 			'notice_can_activate_required'    => _n_noop(
-				'The following required plugin is currently inactive: %1$s.',
-				'The following required plugins are currently inactive: %1$s.',
+				'Dollie - The following required plugin is currently inactive: %1$s.',
+				'Dollie - The following required plugins are currently inactive: %1$s.',
 				'dollie'
 			),
 			'notice_can_activate_recommended' => _n_noop(
-				'The following recommended plugin is currently inactive: %1$s.',
-				'The following recommended plugins are currently inactive: %1$s.',
+				'Dollie - The following recommended plugin is currently inactive: %1$s.',
+				'Dollie - The following recommended plugins are currently inactive: %1$s.',
 				'dollie'
 			),
 			'install_link'                    => _n_noop(
@@ -199,7 +199,7 @@ function dollie_register_required_plugins() {
 			'plugin_needs_higher_version'     => __( 'Plugin not activated. A higher version of %s is needed for Dollie. Please update the plugin.', 'dollie' ),
 			'complete'                        => __( 'All plugins installed and activated successfully. %1$s', 'dollie' ),
 			'dismiss'                         => __( 'Dismiss this notice', 'dollie' ),
-			'notice_cannot_install_activate'  => __( 'There are one or more required or recommended plugins to install, update or activate.', 'dollie' ),
+			'notice_cannot_install_activate'  => __('Dollie - There are one or more required or recommended plugins to install, update or activate.', 'dollie' ),
 			'contact_admin'                   => __( 'Please contact the administrator of this site for help.', 'dollie' ),
 
 			'nag_type' => 'notice-info',

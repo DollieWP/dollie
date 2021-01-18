@@ -52,8 +52,27 @@ class SiteContent extends \Elementor\Widget_Base {
 			return false;
 		}
 
+		$current_id        = get_the_ID();
+		$elementor_builder = \Elementor\Plugin::instance()->editor->is_edit_mode()
+		                     || \Elementor\Plugin::instance()->preview->is_preview()
+		                     || isset( $_GET['elementor_library'] );
+
+		if ( $elementor_builder ) {
+
+			$my_sites = get_posts( [
+				'post_type'      => 'container',
+				'author'         => get_current_user_id(),
+				'posts_per_page' => 1
+			] );
+
+			if ( ! empty( $my_sites ) ) {
+				$current_id = $my_sites[0]->ID;
+			}
+		}
+
 		$data = [
-			'settings' => $this->get_settings_for_display(),
+			'settings'   => $this->get_settings_for_display(),
+			'current_id' => $current_id
 		];
 
 		Tpl::load( 'widgets/site/site-content', $data, true );

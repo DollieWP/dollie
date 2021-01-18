@@ -595,10 +595,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 			),
 			array(
 				'key'               => 'field_5cf62cee6f366',
-				'label'             => __( 'Deployment Domain', 'dollie' ),
+				'label'             => __( 'Default Deployment 	', 'dollie' ),
 				'name'              => 'wpd_api_domain',
 				'type'              => 'text',
-				'instructions'      => __( 'Default domain you are using for the sites deployed by you or your customers. You can add below your own custom domain.', 'dollie' ),
+				'instructions'      => __( 'The default domain that is being used for the sites deployed by you or your customers. Once you are ready to go live we recommend you add your own domain below', 'dollie' ),
 				'required'          => 1,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -615,33 +615,84 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 				'readonly'          => 1,
 			),
 			array(
-				'key'               => 'field_5fc8d451c30aa',
-				'label'             => __( 'Custom Deployment Domain', 'dollie' ),
-				'name'              => 'wpd_api_domain_custom',
-				'type'              => 'text',
-				'instructions'      => __( 'Add a custom domain for site deployments. An unused domain is recommended.<br>
-Dollie will handle all the DNS functionality for your deployed sites so you first need to change your NS entries at your domain registrar.<br>
-NS entries: <strong>pdns1.stratus5.com</strong>, <strong>pdns2.stratus5.com</strong> and <strong>pdns3.stratus5.com</strong>', 'dollie' ),
-				'required'          => 0,
+				'key' => 'field_600451ceafac7',
+				'label' => __('Use My Own Domain', 'dollie'),
+				'name' => 'wpd_show_custom_domain_options',
+				'type' => 'true_false',
+				'instructions' => __('Add your own domain for site deployments to fully white label the sites being launched on your platform.', 'dollie'),
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'message' => '',
+				'default_value' => 0,
+				'ui' => 1,
+				'ui_on_text' => 'Yes',
+				'ui_off_text' => 'No',
+			),
+			array(
+				'key' => 'field_60045271afac9',
+				'label' => __('Important - Read this first', 'dollie'),
+				'name' => '',
+				'type' => 'message',
+				'instructions' => '',
+				'required' => 0,
 				'conditional_logic' => array(
 					array(
 						array(
-							'field'    => 'field_5cf62cee6f366',
+							'field' => 'field_5cf62cee6f366',
 							'operator' => '!=empty',
+						),
+						array(
+							'field' => 'field_600451ceafac7',
+							'operator' => '==',
+							'value' => '1',
 						),
 					),
 				),
-				'wrapper'           => array(
+				'wrapper' => array(
 					'width' => '',
 					'class' => '',
-					'id'    => '',
+					'id' => '',
 				),
-				'hide_admin'        => 0,
-				'default_value'     => '',
-				'placeholder'       => 'example.com',
-				'prepend'           => '',
-				'append'            => '',
-				'maxlength'         => '',
+				'hide_admin' => 0,
+				'message' => __('<h3>Please read the guide before you continue.</h3><br>
+Follow along with the <a target="_blank" href="https://partners.getdollie.com/?redirect=knowledge-base/domain-setup/">Domain Setup Guide</a> in the partner dashboard to have your domain added in no time, without any hassle. ', 'dollie'),
+				'new_lines' => 'wpautop',
+				'esc_html' => 0,
+			),
+			array(
+				'key' => 'field_5fabba25bf323',
+				'label' => __('Your Deployment Domain', 'dollie'),
+				'name' => 'wpd_api_domain_custom',
+				'type' => 'url',
+				'instructions' => __('Add your base domain name. So with http(s):// or www. For example "myagency.com"', 'dollie'),
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5cf62cee6f366',
+							'operator' => '!=empty',
+						),
+						array(
+							'field' => 'field_600451ceafac7',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'default_value' => '',
+				'placeholder' => '',
 			),
 			array(
 				'key'               => 'field_5e5557cda4c7b',
@@ -664,7 +715,7 @@ NS entries: <strong>pdns1.stratus5.com</strong>, <strong>pdns2.stratus5.com</str
 				'label'             => __( 'Launch Site Page', 'dollie' ),
 				'name'              => 'wpd_launch_page_id',
 				'type'              => 'post_object',
-				'instructions'      => __( 'From which page do your customers launch their sites?', 'dollie' ),
+				'instructions'      => __( 'This page contains the (Elementor) template for launching a new site', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -686,7 +737,7 @@ NS entries: <strong>pdns1.stratus5.com</strong>, <strong>pdns2.stratus5.com</str
 				'label'             => __( 'Customer Dashboard Page', 'dollie' ),
 				'name'              => 'wpd_dashboard_page_id',
 				'type'              => 'post_object',
-				'instructions'      => __( 'From which page do your customers launch their sites?', 'dollie' ),
+				'instructions'      => __('This page contains the (Elementor) template for the Customer Dashboard', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -708,7 +759,7 @@ NS entries: <strong>pdns1.stratus5.com</strong>, <strong>pdns2.stratus5.com</str
 				'label'             => __( 'Customer Login Page', 'dollie' ),
 				'name'              => 'wpd_login_page_id',
 				'type'              => 'post_object',
-				'instructions'      => __( 'From which page do your customers launch their sites?', 'dollie' ),
+				'instructions'      => __('This page contains the (Elementor) template for the customer login.', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -730,7 +781,7 @@ NS entries: <strong>pdns1.stratus5.com</strong>, <strong>pdns2.stratus5.com</str
 				'label'             => __( 'Sites Page', 'dollie' ),
 				'name'              => 'wpd_sites_page_id',
 				'type'              => 'post_object',
-				'instructions'      => __( 'Choose the page where all the customers sites are listed.', 'dollie' ),
+				'instructions'      => __('This page contains the (Elementor) template for the global site overview', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -753,7 +804,7 @@ NS entries: <strong>pdns1.stratus5.com</strong>, <strong>pdns2.stratus5.com</str
 				'label'             => __( 'Site Template', 'dollie' ),
 				'name'              => 'wpd_site_template_id',
 				'type'              => 'post_object',
-				'instructions'      => __( 'Choose the Elementor template for your site page.', 'dollie' ),
+				'instructions'      => __( 'Choose the Elementor template that is being used for the Single Site design', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -811,7 +862,7 @@ NS entries: <strong>pdns1.stratus5.com</strong>, <strong>pdns2.stratus5.com</str
 				'label'             => __( 'Newsfeed URL', 'dollie' ),
 				'name'              => 'wpd_feed_url',
 				'type'              => 'url',
-				'instructions'      => __( 'The link to the WordPress installation you want to show news from.', 'dollie' ),
+				'instructions'      => __('The link to the WordPress installation you want to show news from. Use the "Latest News" Dollie widget to show them.', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -824,8 +875,30 @@ NS entries: <strong>pdns1.stratus5.com</strong>, <strong>pdns2.stratus5.com</str
 				'placeholder'       => 'https://yoursite.com',
 			),
 			array(
+					'key' => 'field_60044dd1decf6',
+					'label' => __('Amount of Posts to show in the "Latest News" dashboard widget', 'dollie'),
+					'name' => 'wpd_newsfeed_amount_of_posts',
+					'type' => 'number',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'hide_admin' => 0,
+					'default_value' => 6,
+					'placeholder' => '',
+					'prepend' => '',
+					'append' => 'Posts',
+					'min' => '',
+					'max' => '',
+					'step' => '',
+			),
+			array(
 				'key'               => 'field_583b2eeaf884d',
-				'label'             => __( 'Default Screenshot Placeholder', 'dollie' ),
+				'label'             => __( 'Default Site Screenshot Placeholder', 'dollie' ),
 				'name'              => 'default_screenshot',
 				'type'              => 'image',
 				'instructions'      => __( '<strong>Recommended size: 700x460px</strong><br>
@@ -1065,10 +1138,10 @@ This is the default screenshot image shown until a live screenshot is generated.
 			),
 			array(
 				'key'               => 'field_5b097b1dd50cc',
-				'label'             => __( 'Enable Site Preview', 'dollie' ),
+				'label'             => __( 'Enable Blueprint Site Preview', 'dollie' ),
 				'name'              => 'wpd_enable_site_preview',
 				'type'              => 'true_false',
-				'instructions'      => __( 'The site preview bar allows you to quickly showcase the available Blueprints you\'ve created.', 'dollie' ),
+				'instructions'      => __( 'Site Previews allows you to quickly showcase the available Site Blueprints you\'ve created. Ideal if you are building for WaaS / SaaS platform.', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -1088,7 +1161,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 				'label'             => __( 'Site Preview Link', 'dollie' ),
 				'name'              => 'wpd_site_preview_path',
 				'type'              => 'text',
-				'instructions'      => __( 'The link to where your sites preview will show. By default is set to "preview" and will look like your-site.com/preview', 'dollie' ),
+				'instructions'      => __( 'The link to where your Site Preview will shown. By default you can visit it by going to your-site.com/preview after you have created your first Blueprint', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => array(
 					array(
@@ -1113,10 +1186,10 @@ This is the default screenshot image shown until a live screenshot is generated.
 			),
 			array(
 				'key'               => 'field_5fc8e845150e2',
-				'label'             => __( 'Preview Page Logo', 'dollie' ),
+				'label'             => __( 'Site Preview Logo', 'dollie' ),
 				'name'              => 'wpd_dashboard_preview_logo',
 				'type'              => 'image',
-				'instructions'      => __( 'The link to where your sites preview will show. By default is set to "preview" and will look like your-site.com/preview', 'dollie' ),
+				'instructions'      => __( 'The logo that is shown in the Site Preview', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => array(
 					array(
@@ -1339,7 +1412,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 				'label'             => __( 'Number of Sites', 'dollie' ),
 				'name'              => '_wpd_installs',
 				'type'              => 'number',
-				'instructions'      => __( 'How many sites can a customer deploy when subscribed to this product?', 'dollie' ),
+				'instructions'      => __( 'How many sites can a customer launch when subscribed to this product?', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -1361,7 +1434,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 				'label'             => __( 'Disk Space', 'dollie' ),
 				'name'              => '_wpd_max_size',
 				'type'              => 'number',
-				'instructions'      => __( 'The amount of space customer can use when subscribed to this product.', 'dollie' ),
+				'instructions'      => __( 'The total amount of disk space (for all sites) the customer can use when subscribed to this product.', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(

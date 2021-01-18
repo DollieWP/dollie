@@ -237,14 +237,19 @@ body.toplevel_page_wpd_platform_setup {
 .dollie-notice,
 #setting-error-tgmpa {
   position: relative;
-  //z-index: -1;
   width: auto;
-  margin-top: 30px; /* max-width: 70%; */
+  margin-top: 30px;
   margin-top: 0;
   margin-left: -20px;
   padding: 20px;
   color: #545454;
-  background: linear-gradient(160deg, #ffffff 71%, #36b3cd 0%);
+  background-image: url(../img/active.png),
+    -o-linear-gradient(290deg, #ffffff 71%, #36b3cd 0%);
+  background: url(../img/active.png),
+    linear-gradient(160deg, #ffffff 71%, #36b3cd 0%);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: right;
 
   svg {
     position: absolute; /* z-index: -1000; */
@@ -283,6 +288,16 @@ body.toplevel_page_wpd_platform_setup {
     margin-bottom: -14px;
     position: relative;
     top: 75px !important;
+  }
+}
+
+.dollie-notice.dollie-notice-error {
+  background-image: url("../img/active.png"),
+    linear-gradient(160deg, #ffffff 71%, #cd3636 0%);
+
+  .button.button-primary {
+    background-color: #cd3636;
+    border: 1px solid #cd3636;
   }
 }
 

@@ -97,7 +97,6 @@ final class Notices extends Singleton {
 		?>
 		<div class="notice dollie-notice dollie-connect-message">
 			<div class="dollie-inner-message">
-				<img width="60" src="<?php echo esc_url( DOLLIE_URL . 'assets/img/active.png' ); ?>">
 				<div class="dollie-message-center">
 					<h3><?php esc_html_e( 'Dollie is almost ready...', 'dollie' ); ?> </h3>
 					<p><?php esc_html_e( 'Please authenticate this installation so that you can start launching your first site using Dollie!', 'dollie' ); ?></p>
@@ -131,8 +130,8 @@ final class Notices extends Singleton {
 			<div class="notice dollie-notice">
 				<div class="dollie-inner-message">
 					<div class="dollie-message-center">
-						<h3><?php esc_html_e( 'Custom Deployment Domain - Pending', 'dollie' ); ?> </h3>
-						<p><?php esc_html_e( 'Your custom deployment domain has been added, but it may take up to 24 hours for the NS records to propagate. We will constantly check your domain and automatically replace your deployment domain with the custom one, once we detect the change. In the meantime, all your deploys will use the default deployment domain.', 'dollie' ); ?></p>
+						<h3><?php esc_html_e( 'Dollie - Custom Domain is Pending', 'dollie' ); ?> </h3>
+						<p><?php esc_html_e( 'Your custom domain has been added, but it may take up to 24 hours for the NS records to propagate. We will constantly check your domain and automatically replace your deployment domain with the custom one, once we detect the change. In the meantime, all your deploys will use the default deployment domain.', 'dollie' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -142,12 +141,12 @@ final class Notices extends Singleton {
 			<div class="notice dollie-notice dollie-custom-domain-notice">
 				<div class="dollie-inner-message">
 					<div class="dollie-message-center">
-						<h3><?php esc_html_e( 'Custom Deployment Domain - Active', 'dollie' ); ?> </h3>
-						<p><?php esc_html_e( 'Yey! Your custom deployment domain is ready to use. From now on, all your deploys will use your custom domain.', 'dollie' ); ?></p>
+						<h3><?php esc_html_e( 'Dollie - Custom Domain Activated', 'dollie' ); ?> </h3>
+						<p><?php esc_html_e( 'Yey! Your custom deployment domain is ready to use. From now on, all your launched sites will use your custom domain.', 'dollie' ); ?></p>
 					</div>
 					<div>
 						<a href="#" data-nonce="<?php echo esc_js( wp_create_nonce( 'dollie_notice' ) ); ?>" class="dollie-notice-dismiss">
-						<?php esc_html_e( 'Dismiss', 'kleo' ); ?>
+						<?php esc_html_e( 'Dismiss', 'dollie' ); ?>
 						</a>
 					</div>
 				</div>
@@ -208,38 +207,38 @@ final class Notices extends Singleton {
 
 		?>
 			<?php if ( ! dollie()->has_partner_subscription() ) : ?>
-				<div class="notice dollie-notice">
+				<div class="notice dollie-notice dollie-notice-error">
 					<div class="dollie-inner-message">
 						<div class="dollie-message-center">
-							<h3><?php esc_html_e( 'No active subscription', 'dollie' ); ?> </h3>
+							<h3><?php esc_html_e( 'Dollie Error - No active subscription', 'dollie' ); ?> </h3>
 							<p><?php esc_html_e( 'It seems like your Dollie Subscription is expired or inactive. Please note that your clients won\'t be able to deploy until you activate your subscription.', 'dollie' ); ?></p>
 						</div>
 
 						<?php
 						printf(
-							'<a href="https://partners.getdollie.com/" class="button button-primary" target="_blank">%s</a>',
+							'<a href="https://partners.getdollie.com/?redirect=my-account/subscriptions/" class="button button-primary" target="_blank">%s</a>',
 							esc_html__( 'Update Subscription', 'dollie' )
 						);
 
 						printf(
 							'<a href="%s" class="button" style="margin-left: 10px;">%s</a>',
 							esc_url( admin_url() . '?wpd_check_subscription' ),
-							esc_html__( 'Check again', 'dollie' )
+							esc_html__( 'Re-Check Subscription Status', 'dollie' )
 						);
 						?>
 					</div>
 				</div>
 			<?php elseif ( dollie()->has_partner_subscription() && dollie()->is_partner_subscription_trial() && 0 === dollie()->get_partner_subscription_credits() ) : ?>
-				<div class="notice dollie-notice">
+				<div class="notice dollie-notice dollie-notice-error">
 					<div class="dollie-inner-message">
 						<div class="dollie-message-center">
-							<h3><?php esc_html_e( 'Trail subscription limit', 'dollie' ); ?> </h3>
+							<h3><?php esc_html_e( 'Dollie Notice - Trial Subscription Limit Reached', 'dollie' ); ?> </h3>
 							<p><?php esc_html_e( 'Your trial subscription has reached the maximum allowed deploys. Please note that your clients won\'t be able to deploy until you activate your subscription.', 'dollie' ); ?></p>
 						</div>
 
 						<?php
 						printf(
-							'<a href="https://partners.getdollie.com/" class="button button-primary" target="_blank">%s</a>',
+							'<a href="https://partners.getdollie.com/?redirect=my-account/subscriptions/" class="button button-primary" target="_blank">%s</a>',
 							esc_html__( 'Update Subscription', 'dollie' )
 						);
 

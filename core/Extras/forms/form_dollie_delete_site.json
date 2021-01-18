@@ -3,7 +3,7 @@
     "title": "Delete Site",
     "display": {
         "description": "",
-        "success_message": "<p>The given site has been submitted for deletion.<\/p>\n"
+        "success_message": "<p>The given site is marked for deletion and will be removed soon.<\/p>\n"
     },
     "create_entries": false,
     "restrictions": {
