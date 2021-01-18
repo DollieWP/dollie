@@ -39,7 +39,7 @@ input[type="text"] {
 
   .dol-sites-item {
     .dol-sites-item-inner {
-      @apply dol-flex dol-flex-wrap dol-items-center dol-bg-white dol-relative dol-overflow-hidden dol-border dol-border-solid dol-border-gray-300 dol-p-4 dol-rounded;
+      @apply dol-flex dol-flex-wrap dol-items-center dol-bg-white dol-relative dol-overflow-hidden dol-p-4;
 
       &:hover {
         @apply dol-border-gray-400;
