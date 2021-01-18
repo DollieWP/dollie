@@ -36,8 +36,8 @@
 
 <?php if ( $blueprint_time !== '' && current_user_can( 'manage_options' ) ) : ?>
 
-	<div class="dol-border dol-border-solid dol-border-ash-400 dol-rounded dol-overflow-hidden">
-		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-ash-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
+	<div class="dol-border dol-border-solid dol-border-gray-200 dol-rounded dol-overflow-hidden">
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
 			<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-ash-800 dol-text-base md:dol-text-xl">
 				<?php esc_html_e( 'Blueprint Settings', 'dollie' ); ?>
 			</h4>
@@ -66,8 +66,8 @@
 
 <div class="dol-flex dol-flex-wrap dol--mx-4 dol-mt-4">
 	<div class="dol-w-full md:dol-w-1/2 lg:dol-w-2/6 dol-p-4">
-		<div class="dol-border dol-border-solid dol-border-ash-400 dol-rounded dol-overflow-hidden">
-			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-ash-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
+		<div class="dol-border dol-border-solid dol-border-gray-200 dol-rounded dol-overflow-hidden">
+			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
 				<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-ash-800 dol-text-base md:dol-text-xl">
 					<?php esc_html_e( 'Blueprint history', 'dollie' ); ?>
 				</h4>
@@ -91,8 +91,8 @@
 		</div>
 	</div>
 	<div class="dol-w-full md:dol-w-1/2 lg:dol-w-2/6 dol-p-4">
-		<div class="dol-border dol-border-solid dol-border-ash-400 dol-rounded dol-overflow-hidden">
-			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-ash-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
+		<div class="dol-border dol-border-solid dol-border-gray-200 dol-rounded dol-overflow-hidden">
+			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
 				<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-ash-800 dol-text-base md:dol-text-xl">
 					<?php esc_html_e( 'What is included?', 'dollie' ); ?>
 				</h4>
@@ -111,8 +111,8 @@
 		</div>
 	</div>
 	<div class="dol-w-full md:dol-w-1/2 lg:dol-w-2/6 dol-p-4">
-		<div class="dol-border dol-border-solid dol-border-ash-400 dol-rounded dol-overflow-hidden">
-			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-ash-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
+		<div class="dol-border dol-border-solid dol-border-gray-200 dol-rounded dol-overflow-hidden">
+			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
 				<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-ash-800 dol-text-base md:dol-text-xl">
 					<?php esc_html_e( 'What is excluded?', 'dollie' ); ?>
 				</h4>

@@ -547,3 +547,4 @@ class Options extends Singleton {
 	}
 
 }
+

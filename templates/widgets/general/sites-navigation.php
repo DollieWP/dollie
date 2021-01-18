@@ -20,7 +20,7 @@ $containers = new WP_Query(
 <?php if ( $containers->have_posts() ) : ?>
 	<ul class="dol-list-none dol-p-0 dol-m-0">
 		<li class="dol-m-0">
-			<span class="dol-block dol-font-bold dol-text-cobalt-200 dol-uppercase dol-py-2">
+			<span class="dol-block dol-font-bold dol-text-blue-200 dol-uppercase dol-py-2">
 				<?php _e( 'Sites', 'dollie' ); ?>
 			</span>
 		</li>
@@ -42,7 +42,7 @@ $containers = new WP_Query(
 
 			?>
 			<li class="dol-m-0">
-				<a class="dol-flex dol-w-full dol-justify-between dol-items-center dol-font-semibold dol-nav-btn dol-nav-btn-secondary"
+				<a class="dol-flex dol-w-full dol-justify-between dol-items-center dol-nav-btn dol-nav-btn-secondary"
 				   data-toggle="nav-submenu" href="<?php echo dollie()->get_site_url( get_the_ID() ); ?>">
 					<span class="dol-flex dol-items-center">
 						<span class="dol-inline-block dol-text-center dol-w-8 dol-mr-1">

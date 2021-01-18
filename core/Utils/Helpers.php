@@ -519,7 +519,7 @@ class Helpers extends Singleton {
 	 */
 	public function could_not_connect_message() {
 		?>
-		<div class="dol-border dol-border-solid dol-border-cobalt-100 dol-rounded dol-overflow-hidden">
+		<div class="dol-border dol-border-solid dol-border-blue-100 dol-rounded dol-overflow-hidden">
 			<div class="dol-flex dol-items-center dol-bg-red-600">
 				<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-red-700 dol-flex dol-items-center dol-justify-center">
 					<i class="fal fa-exclamation-circle dol-text-white dol-text-2xl"></i>

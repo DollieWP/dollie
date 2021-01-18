@@ -1,0 +1,182 @@
+/* Search input */
+input[type=text].dol-search-input {
+  @apply pl-10 pr-4 py-2 border-2 border-solid border-ash-500 text-base text-ash-700 bg-white rounded;
+}
+input[type=text].dol-search-input::-webkit-input-placeholder {
+  @apply text-ash-600;
+}
+input[type=text].dol-search-input::-moz-placeholder {
+  @apply text-ash-600;
+}
+input[type=text].dol-search-input:-ms-input-placeholder {
+  @apply text-ash-600;
+}
+input[type=text].dol-search-input::-ms-input-placeholder {
+  @apply text-ash-600;
+}
+input[type=text].dol-search-input::placeholder {
+  @apply text-ash-600;
+}
+input[type=text].dol-search-input:focus {
+  @apply border-ash-600;
+}
+
+/* List type switch */
+.dol-list-switch {
+  @apply h-full px-4 bg-ash-400 text-ash-700 flex items-center cursor-pointer;
+}
+.dol-list-switch:hover {
+  @apply bg-ash-500;
+}
+.dol-list-switch.dol-switch-active {
+  @apply bg-ash-500 text-ash-700;
+}
+
+.dol-sites-container {
+  @apply flex flex-wrap;
+}
+.dol-sites-container.dol-sites-list {
+  @apply -mx-2 -my-2;
+}
+.dol-sites-container.dol-sites-grid {
+  @apply -mx-4 -my-4;
+}
+.dol-sites-container .dol-sites-item {
+  /* List styling */
+  /* Grid styling */
+}
+.dol-sites-container .dol-sites-item .dol-sites-item-inner {
+  @apply flex flex-wrap items-center bg-white relative overflow-hidden border border-solid border-ash-300 p-4 rounded;
+}
+.dol-sites-container .dol-sites-item .dol-sites-item-inner:hover {
+  @apply border-ash-400;
+}
+.dol-sites-container .dol-sites-item.dol-sites-list-item {
+  @apply w-full p-2;
+}
+.dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-image {
+  @apply w-4/12 mb-2;
+}
+.dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-image .dol-sites-image-box {
+  @apply shadow rounded overflow-hidden;
+}
+.dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-status {
+  @apply absolute top-0 left-0 -ml-2 -mt-2;
+}
+.dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-name {
+  @apply w-8/12;
+}
+.dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-version {
+  @apply w-1/2 mt-2;
+}
+.dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-client {
+  @apply w-1/2 mt-2;
+}
+.dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-controls {
+  @apply w-full text-left mt-4 border-0 border-t border-solid border-ash-200 pt-4;
+}
+.dol-sites-container .dol-sites-item.dol-sites-grid-item {
+  @apply w-full p-4;
+}
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-item-inner {
+  @apply p-0;
+}
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-image,
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-name,
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-version,
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-client,
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-controls {
+  @apply w-full;
+}
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-status {
+  @apply absolute bottom-0 left-0 ml-4 mb-4;
+}
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-image-box {
+  @apply h-64 border-0 border-b border-solid border-gray-200 relative overflow-hidden;
+}
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-image-box:before {
+  content: " ";
+  @apply dol-block absolute bottom-0 left-0 h-40 w-full;
+  background: white;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(20%, rgba(255, 255, 255, 0)), to(rgba(0, 0, 0, 0.5018382353)));
+  background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 0.5018382353) 100%);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 0.5018382353) 100%);
+}
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-name {
+  @apply py-4;
+}
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-version {
+  @apply px-4 pb-2;
+}
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-client {
+  @apply px-4;
+}
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-controls {
+  @apply p-4;
+}
+
+@screen md {
+  .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-image {
+    @apply w-2/12 mb-0;
+  }
+  .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-name {
+    @apply w-6/12;
+  }
+  .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-version {
+    @apply w-2/12 mt-0;
+  }
+  .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-client {
+    @apply w-2/12 mt-0;
+  }
+  .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-controls {
+    @apply text-right;
+  }
+  .dol-sites-container .dol-sites-item.dol-sites-grid-item {
+    @apply w-1/2;
+  }
+}
+@screen xl {
+  .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-image {
+    @apply w-1/12;
+  }
+  .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-name {
+    @apply w-4/12;
+  }
+  .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-controls {
+    @apply w-3/12 mt-0 border-0 p-0;
+  }
+  .dol-sites-container .dol-sites-item.dol-sites-grid-item {
+    @apply w-1/3;
+  }
+  .dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-status {
+    @apply ml-8;
+  }
+  .dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-name {
+    @apply px-4 py-6;
+  }
+  .dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-version,
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-client,
+.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-controls {
+    @apply px-8;
+  }
+  .dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-controls {
+    @apply dol-py-6;
+  }
+}
+/* Pagination */
+.dol-loader {
+  @apply absolute mt-2 w-full h-full bg-black opacity-25 z-10 rounded hidden;
+}
+
+.dol-sites-pages {
+  @apply mt-6 flex items-center justify-center;
+}
+.dol-sites-pages .page-numbers {
+  @apply px-4 py-2 bg-ash-400 text-ash-700 rounded mx-1 shadow;
+}
+.dol-sites-pages .page-numbers.current {
+  @apply bg-ash-600 text-ash-800 cursor-default;
+}
+.dol-sites-pages .page-numbers:hover {
+  @apply bg-ash-600 text-ash-800;
+}

@@ -214,7 +214,7 @@ class PluginUpdates extends Singleton {
 			$data = '';
 			ob_start();
 			?>
-			<div class="dol-border dol-border-solid dol-border-cobalt-100 dol-rounded dol-overflow-hidden dol-my-6">
+			<div class="dol-border dol-border-solid dol-border-blue-100 dol-rounded dol-overflow-hidden dol-my-6">
 				<div class="dol-flex dol-items-center dol-bg-green-500">
 					<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-green-600 dol-flex dol-items-center dol-justify-center">
 						<i class="fal fa-shield dol-text-white dol-text-2xl"></i>

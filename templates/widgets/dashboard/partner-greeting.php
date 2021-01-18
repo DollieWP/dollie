@@ -7,7 +7,7 @@
 	?>
 </h2>
 <?php if ( $settings['description'] ) : ?>
-	<span class="dol-block dol-text-cobalt-400 dol-text-lg">
+	<span class="dol-block dol-text-lg">
 		<?php echo $settings['description']; ?>
 	</span>
 <?php endif; ?>

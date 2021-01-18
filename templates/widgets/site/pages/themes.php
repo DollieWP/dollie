@@ -6,8 +6,8 @@
 		<?php esc_html_e( 'Active Theme', 'dollie' ); ?>
 	</h2>
 
-	<div class="dol-rounded dol-overflow-hidden dol-border dol-border-solid dol-border-ash-400 dol-mb-12">
-		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-ash-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
+	<div class="dol-rounded dol-overflow-hidden dol-border dol-border-solid dol-border-gray-200 dol-mb-12">
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
 			<div class="dol-flex dol-flex-wrap">
 				<div class="dol-w-full lg:dol-w-3/6">
 					<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-ash-800 dol-text-base md:dol-text-xl">
@@ -30,14 +30,14 @@
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 dol-bg-white">
 			<div class="dol-flex dol-flex-wrap dol--mx-4 dol-my-2">
 				<div class="dol-w-full md:dol-w-2/5 lg:dol-w-1/3 dol-px-4">
-					<div class="dol-border dol-border-solid dol-border-cobalt-50 dol-rounded">
+					<div class="dol-border dol-border-solid dol-border-blue-50 dol-rounded">
 						<img class="dol-block"
 							 src="<?php echo esc_url( get_post_meta( get_the_ID(), 'wpd_installation_site_theme_screenshot', true ) ); ?>"
 							 alt="<?php echo esc_attr( $data['container_details']['Name'] ); ?>">
 					</div>
 				</div>
 				<div class="dol-w-full md:dol-w-3/5 lg:dol-w-2/3 dol-px-4 dol-mt-4 md:dol-mt-0 dol-text-sm md:dol-text-base">
-					<span class="dol-text-cobalt-400"><?php echo esc_html( $data['site_data']['Theme Description'] ); ?></span>
+					<span class="dol-text-blue-400"><?php echo esc_html( $data['site_data']['Theme Description'] ); ?></span>
 				</div>
 			</div>
 		</div>

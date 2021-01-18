@@ -86,7 +86,7 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 						</div>
 						<div class="dol-sites-name">
 							<div class="dol-px-4">
-								<div class="dol-font-bold dol-text-cobalt-600 dol-text-lg dol-cursor-default">
+								<div class="dol-font-bold  dol-text-lg dol-cursor-default">
 									<?php echo esc_html( $data['name'] ); ?>
 								</div>
 
@@ -102,7 +102,7 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 							<div class="dol-font-semibold dol-text-gray-500">
 								<?php esc_html_e( 'WordPress', 'dollie' ); ?>
 							</div>
-							<div class="dol-font-bold dol-text-cobalt-500">
+							<div class="dol-font-bold ">
 								<?php printf( __( 'Version %s', 'dollie' ), $data['wp_version'] ); ?>
 							</div>
 						</div>
@@ -110,7 +110,7 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 							<div class="dol-font-semibold dol-text-gray-500">
 								<?php esc_html_e( 'Client', 'dollie' ); ?>
 							</div>
-							<div class="dol-font-bold dol-text-cobalt-500">
+							<div class="dol-font-bold ">
 								<?php echo get_the_author(); ?>
 							</div>
 						</div>
