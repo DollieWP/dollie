@@ -17,7 +17,7 @@ Dollie lets you convert one-time customers into recurring revenue machines, all 
 
 https://www.youtube.com/watch?v=S5QC7jaoGCw
 
-### 100% White Labeled - Your Brand, Your Services, Your Pricing
+## 100% White Labeled - Your Brand, Your Services, Your Pricing
 
 Future-proof your Business by offering true turnkey solutions to your customers with Dollie as your 100% invisible partner. Here is how Dollie is being used by our community.
 
@@ -46,10 +46,10 @@ Utilise Dollie as the backbone for your own scalable cloud automation solution. 
 
 [Learn More](https://getdollie.com/enterprise-cloud-automation-for-wordpress/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
 
-### Top Features
+= Top Features =
 
 **World-Class Performance & Security for all your sites on the platform.**
-Our engineers used many decades of combined experience to build a highly scalable container-based infrastructure that ensures that all the sites hosted on your platform will blow your customers away. Customer can launch brand new WordPress sites in under your own domain in just 30 seconds.
+Our engineers used many decades of combined experience to build a highly scalable container-based infrastructure which ensures that all the sites hosted on your platform will blow your customers away. Your customers can launch brand new WordPress sites under your own domain in 30 seconds flat.
 
 [Learn More About Our Technology](https://getdollie.com/wordpress-cloud-automation//?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
 
