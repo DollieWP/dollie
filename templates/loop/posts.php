@@ -20,7 +20,7 @@ if ($posts) :
 			}
 			?>
 			<div class="dol-w-full md:dol-w-6/12 xl:dol-w-4/12 dol-px-4 dol-my-4">
-				<div class="dol-rounded dol-overflow-hidden dol-border dol-border-solid dol-border-ash-300">
+				<div class="dol-overflow-hidden dol-rounded-lg dol-shadow dol-divide-y dol-divide-gray-200 dol-p-0">
 					<a target="_blank" href="<?php echo esc_url($post->link); ?>">
 						<?php if ($featured_image) : ?>
 							<span class="dol-block dol-overflow-hidden">
