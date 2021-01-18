@@ -7,8 +7,12 @@ module.exports = {
             zIndex: {
                 '-1': '-1',
                 '500': '500'
-            }
-        }
+            },
+            colors: {
+                'th-primary': 'var(--primary)',
+                'th-secondary': 'var(--secondary)'
+              }
+        },
     },
     variants: {
         margin: ['responsive', 'last'],
@@ -16,7 +20,7 @@ module.exports = {
         display: ['responsive', 'group-hover']
     },
     purge: {
-        enabled: true,
+        enabled: false,
         content: [
             './templates/*.php',
             './templates/**/*.php',
