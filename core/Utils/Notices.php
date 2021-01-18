@@ -97,7 +97,6 @@ final class Notices extends Singleton {
 		?>
 		<div class="notice dollie-notice dollie-connect-message">
 			<div class="dollie-inner-message">
-				<img width="60" src="<?php echo esc_url( DOLLIE_URL . 'assets/img/active.png' ); ?>">
 				<div class="dollie-message-center">
 					<h3><?php esc_html_e( 'Dollie is almost ready...', 'dollie' ); ?> </h3>
 					<p><?php esc_html_e( 'Please authenticate this installation so that you can start launching your first site using Dollie!', 'dollie' ); ?></p>
@@ -131,8 +130,8 @@ final class Notices extends Singleton {
 			<div class="notice dollie-notice">
 				<div class="dollie-inner-message">
 					<div class="dollie-message-center">
-						<h3><?php esc_html_e( 'Custom Deployment Domain - Pending', 'dollie' ); ?> </h3>
-						<p><?php esc_html_e( 'Your custom deployment domain has been added, but it may take up to 24 hours for the NS records to propagate. We will constantly check your domain and automatically replace your deployment domain with the custom one, once we detect the change. In the meantime, all your deploys will use the default deployment domain.', 'dollie' ); ?></p>
+						<h3><?php esc_html_e( 'Dollie - Custom Domain is Pending', 'dollie' ); ?> </h3>
+						<p><?php esc_html_e( 'Your custom domain has been added, but it may take up to 24 hours for the NS records to propagate. We will constantly check your domain and automatically replace your deployment domain with the custom one, once we detect the change. In the meantime, all your deploys will use the default deployment domain.', 'dollie' ); ?></p>
 					</div>
 				</div>
 			</div>
@@ -142,12 +141,12 @@ final class Notices extends Singleton {
 			<div class="notice dollie-notice dollie-custom-domain-notice">
 				<div class="dollie-inner-message">
 					<div class="dollie-message-center">
-						<h3><?php esc_html_e( 'Custom Deployment Domain - Active', 'dollie' ); ?> </h3>
-						<p><?php esc_html_e( 'Yey! Your custom deployment domain is ready to use. From now on, all your deploys will use your custom domain.', 'dollie' ); ?></p>
+						<h3><?php esc_html_e( 'Dollie - Custom Domain Activated', 'dollie' ); ?> </h3>
+						<p><?php esc_html_e( 'Yey! Your custom deployment domain is ready to use. From now on, all your launched sites will use your custom domain.', 'dollie' ); ?></p>
 					</div>
 					<div>
 						<a href="#" data-nonce="<?php echo esc_js( wp_create_nonce( 'dollie_notice' ) ); ?>" class="dollie-notice-dismiss">
-						<?php esc_html_e( 'Dismiss', 'kleo' ); ?>
+						<?php esc_html_e( 'Dismiss', 'dollie' ); ?>
 						</a>
 					</div>
 				</div>
@@ -230,7 +229,7 @@ final class Notices extends Singleton {
 					</div>
 				</div>
 			<?php elseif ( dollie()->has_partner_subscription() && dollie()->is_partner_subscription_trial() && 0 === dollie()->get_partner_subscription_credits() ) : ?>
-				<div class="notice dollie-notice">
+				<div class="notice dollie-notice dollie-notice-error">
 					<div class="dollie-inner-message">
 						<div class="dollie-message-center">
 							<h3><?php esc_html_e( 'Dollie Notice - Trial Subscription Limit Reached', 'dollie' ); ?> </h3>
