@@ -127,13 +127,13 @@ class Log
 
 		$actions = [
 			self::WP_SITE_DEPLOY_STARTED        => [
-				'title'   => __('Site Launch Start', 'dollie'),
+				'title'   => __('Site Launch Started', 'dollie'),
 				'content' => __(sprintf('Launching Your New Site %s. You\'ll get another notification when it is ready! ', $values[0]), 'dollie'),
 				'type'    => 'deploy',
 				'link'    => true,
 			],
 			self::WP_SITE_DEPLOYED              => [
-				'title'   => __('Site Launched', 'dollie'),
+				'title'   => __('Site Launch Completed', 'dollie'),
 				'content' => __(sprintf('Site %s has been successfully launched.', $values[0]), 'dollie'),
 				'type'    => 'deploy',
 				'link'    => true,
