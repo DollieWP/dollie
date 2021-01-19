@@ -59,7 +59,7 @@ Bill your customers directly hooking up Stripe, PayPal, or any other the WooComm
 **Flexible - Built for the WordPress ecosystem**
 Dollie integrates, out of the box with thousands of WordPress solutions. Use it alongside your favourite plugins and create something truly unique for your customers. Use your favorite WordPress plugins and WooCommerce extensions to add an affiliate system, detailed customer insights, live chat support, or anything you envision to your customer dashboard.
 
-**Blueprints - Your Pre-Made Sites Launched With Click of a Button **
+**Blueprints - Your Pre-Made Sites Launched With Click of a Button**
 Create re-usable blueprints for each product/service you offer and allow new or existing customers to launch fully configured ready-to-go sites with the click of a button. Link Blueprints to your subscriptions or make them exclusively available to those with specific subscriptions. Offer unique click-to-launch designs for different audiences and manage them all through your Dollie Dashboard.
 
 **Insights & Support Tools**

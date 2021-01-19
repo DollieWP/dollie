@@ -29,7 +29,7 @@ define( 'DOLLIE_WIDGETS_PATH', DOLLIE_CORE_PATH . 'Widgets/' );
 
 $dollie_domain = get_option( 'options_wpd_api_domain' );
 
-if ( get_option( 'wpd_deployment_domain' ) && get_option( 'wpd_deployment_domain_status' ) ) {
+if ( get_option( 'wpd_show_custom_domain_options' ) && get_option( 'wpd_deployment_domain' ) && get_option( 'wpd_deployment_domain_status' ) ) {
 	$dollie_domain = get_option( 'wpd_deployment_domain' );
 }
 
