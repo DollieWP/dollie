@@ -155,7 +155,7 @@ function dol_customizer_css()
 	}
 	require_once DOLLIE_PATH . 'vendor/mexitek/phpcolors/src/Mexitek/PHPColors/Color.php';
 
-	$primary_color = new Mexitek\PHPColors\Color(get_option('dollie_color_primary', '#986EE4'));
+	$primary_color = new Mexitek\PHPColors\Color(get_option('dollie_color_primary', '#38B3CD'));
 	$primary = $primary_color->getHsl();
 
 	//Take converted HEX values and format them correctly. Encount for trailing zeros and round numbers (50, 40 etc)
@@ -164,7 +164,7 @@ function dol_customizer_css()
 	$P_L = substr($primary['L'], 0, 4);
 
 
-	$secondary_color = new Mexitek\PHPColors\Color(get_option('dollie_color_secondary', '#986EE4'));
+	$secondary_color = new Mexitek\PHPColors\Color(get_option('dollie_color_secondary', '#E67E23'));
 	$secondary = $secondary_color->getHsl();
 
 	//Take converted HEX values and format them correctly. Encount for trailing zeros and round numbers (50, 40 etc)
