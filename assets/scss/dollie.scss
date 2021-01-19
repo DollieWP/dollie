@@ -1,22 +1,3 @@
-:root {
-  --color: 180, 100%; /*the base color*/
-  --color-l: 40%; /*the initial lightness*/
-
-  --secondary: hsl(var(--color), calc(var(--color-l) * 1));
-  --secondary-100: hsl(var(--color), calc(var(--color-l) * 1.4));
-  --secondary-200: hsl(var(--color), calc(var(--color-l) * 1.3));
-  --secondary-300: hsl(var(--color), calc(var(--color-l) * 1.2));
-  --secondary-400: hsl(var(--color), calc(var(--color-l) * 1.1));
-  --secondary-500: hsl(var(--color), calc(var(--color-l) * 0.9));
-  --secondary-600: hsl(var(--color), calc(var(--color-l) * 0.8));
-  --secondary-700: hsl(var(--color), calc(var(--color-l) * 0.7));
-  --secondary-800: hsl(var(--color), calc(var(--color-l) * 0.6));
-  --secondary-900: hsl(
-    var(--color),
-    calc(var(--color-l) - var(--color-l) * 0.3)
-  );
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -33,7 +14,7 @@
 @import "fontawesome5/fontawesome.scss";
 @import "custom-icons.scss";
 
-.dol-bg-blue-500 {
+.dol-bg-primary-500 {
   background: var(--e-global-color-primary) !important;
 }
 
