@@ -48,6 +48,57 @@
         }
     },
     {
+        "name": "mexitek/phpcolors",
+        "version": "v1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/mexitek/phpColors.git",
+            "reference": "4b1ccc920b5fc3749a575c171d2f12fca0ecfded"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/mexitek/phpColors/zipball/4b1ccc920b5fc3749a575c171d2f12fca0ecfded",
+            "reference": "4b1ccc920b5fc3749a575c171d2f12fca0ecfded",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^7.2"
+        },
+        "require-dev": {
+            "nette/tester": "^2.3",
+            "squizlabs/php_codesniffer": "^3.5"
+        },
+        "time": "2020-11-05T06:04:47+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                "src"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Arlo Carreon",
+                "homepage": "http://arlocarreon.com",
+                "role": "creator"
+            }
+        ],
+        "description": "A series of methods that let you manipulate colors. Just incase you ever need different shades of one color on the fly.",
+        "homepage": "http://mexitek.github.com/phpColors/",
+        "keywords": [
+            "color",
+            "css",
+            "design",
+            "frontend",
+            "ui"
+        ]
+    },
+    {
         "name": "nubs/random-name-generator",
         "version": "v2.2.0",
         "version_normalized": "2.2.0.0",
