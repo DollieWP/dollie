@@ -3,13 +3,29 @@ module.exports = {
     darkMode: 'class',
     prefix: 'dol-',
     theme: {
+        colors: {
+            transparent: 'transparent',
+            current: 'currentColor',
+            black: colors.black,
+            white: colors.white,
+            gray: colors.trueGray,
+        },
         extend: {
             zIndex: {
                 '-1': '-1',
                 '500': '500'
             },
             colors: {
-                'primary': 'var(--primary)',
+               'primary': 'var(--primary)',
+               'primary-100': 'var(--primary-100)',
+               'primary-200': 'var(--primary-200)',
+               'primary-300': 'var(--primary-300)',
+               'primary-400': 'var(--primary-400)',
+               'primary-500': 'var(--primary-500)',
+               'primary-600': 'var(--primary-600)',
+               'primary-700': 'var(--primary-700)',
+               'primary-800': 'var(--primary-800)',
+               'primary-900': 'var(--primary-900)',
                 'secondary': 'var(--secondary)',
                 'secondary-100': 'var(--secondary-100)',
                 'secondary-200': 'var(--secondary-200)',
@@ -29,7 +45,7 @@ module.exports = {
         display: ['responsive', 'group-hover']
     },
     purge: {
-        enabled: false,
+        enabled: true,
         content: [
             './templates/*.php',
             './templates/**/*.php',
@@ -42,8 +58,9 @@ module.exports = {
             './templates/link-domain.php'
         ],
         options: {
-            safelist: ["dark"],
-            safelist: ["dol-custom"]
+            safelist: {
+               greedy: [/primary/, /secondary/],
+            }
         }
     },
     corePlugins: {
