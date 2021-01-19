@@ -1,23 +1,9 @@
 @layer components {
   .dol-nav-btn {
-    @apply dol-block dol-py-3 dol-rounded dol-text-primary-500;
-
-    &.dol-nav-btn-primary {
-      @apply dol-bg-red-500 dol-text-white;
-
-      &:hover,
-      &.dol-nav-active {
-        @apply dol-bg-red-600;
-      }
-    }
-
-    &.dol-nav-btn-secondary {
-      @apply dol-text-primary-500;
-
-      &:hover,
-      &.dol-nav-active {
-        @apply dol-bg-primary-500 dol-text-white;
-      }
+    @apply dol-block dol-py-3 dol-rounded dol-text-gray-500 dol-font-semibold;
+    &:hover,
+    &.dol-nav-active {
+      @apply dol-bg-primary dol-text-white;
     }
   }
 }

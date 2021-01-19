@@ -1,32 +1,17 @@
 .dol-nav-btn {
   border-radius: 0.25rem;
   display: block;
+  font-weight: 600;
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
-  color: var(--primary-500);
+  --tw-text-opacity: 1;
+  color: rgba(115, 115, 115, var(--tw-text-opacity));
 }
 
-.dol-nav-btn.dol-nav-btn-primary {
-  --tw-bg-opacity: 1;
-  background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+.dol-nav-btn:hover, .dol-nav-btn.dol-nav-active {
+  background-color: var(--primary);
   --tw-text-opacity: 1;
   color: rgba(255, 255, 255, var(--tw-text-opacity));
-}
-
-.dol-nav-btn.dol-nav-btn-primary:hover, .dol-nav-btn.dol-nav-btn-primary.dol-nav-active {
-  --tw-bg-opacity: 1;
-  background-color: rgba(220, 38, 38, var(--tw-bg-opacity));
-}
-
-.dol-nav-btn.dol-nav-btn-secondary {
-  color: var(--primary-500);
-}
-
-.dol-nav-btn.dol-nav-btn-secondary:hover, .dol-nav-btn.dol-nav-btn-secondary.dol-nav-active {
-  background-color: var(--primary-500);
-  --tw-text-opacity: 1;
-  color: rgba(255, 255, 255, var(--tw-text-opacity));
-  background: var(--e-global-color-primary);
 }
 
 .dol-title {
@@ -7007,8 +6992,8 @@
   transition-duration: 150ms;
 }
 
-.dol-duration-500 {
-  transition-duration: 500ms;
+.dol-duration-300 {
+  transition-duration: 300ms;
 }
 
 @-webkit-keyframes dol-spin {
