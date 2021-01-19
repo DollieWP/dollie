@@ -2,7 +2,7 @@
 	<?php dollie()->could_not_connect_message(); ?>
 <?php else : ?>
 
-	<h2 class="dol-title">
+	<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 		<?php esc_html_e('Active Theme', 'dollie'); ?>
 	</h2>
 
@@ -40,7 +40,7 @@
 		</div>
 	</div>
 
-	<h2 class="dol-title">
+	<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 		<?php esc_html_e('Other Installed Themes', 'dollie'); ?>
 	</h2>
 

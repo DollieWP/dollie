@@ -1,6 +1,6 @@
 <?php $blueprint_time = get_post_meta( $post_id, 'wpd_blueprint_time', true ); ?>
 
-<h2 class="dol-title">
+<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 	<?php esc_html_e( 'Blueprints', 'dollie' ); ?>
 </h2>
 

@@ -77,7 +77,9 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 						<div class="dol-sites-name">
 							<div class="dol-px-4">
 								<div class="dol-font-bold dol-text-lg dol-cursor-default">
-									<?php echo esc_html($data['name']); ?>
+									<a class="dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600" href="<?php echo dollie()->get_site_url(get_the_ID()); ?>" target="_blank">
+										<?php echo esc_html($data['name']); ?>
+									</a>
 								</div>
 
 								<div class="dol-flex dol-items-center">
@@ -104,7 +106,7 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 							</div>
 						</div>
 						<div class="dol-sites-controls">
-							<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary-500 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo dollie()->get_site_url(get_the_ID()); ?>">
+							<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo dollie()->get_site_url(get_the_ID()); ?>">
 								<i class="fal fa-cog"></i>
 								<span class="dol-ml-1"><?php esc_html_e('Manage', 'dollie'); ?></span>
 							</a>
@@ -114,7 +116,7 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 							$login_link = dollie()->get_customer_login_url(get_the_ID());
 							if (!empty($login_link)) :
 							?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-secondary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary-700" href="<?php echo $login_link; ?>">
+								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-font-semibold dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo $login_link; ?>">
 									<i class="fal fa-wrench"></i>
 									<span class="dol-ml-1"><?php esc_html_e('Admin', 'dollie'); ?></span>
 								</a>

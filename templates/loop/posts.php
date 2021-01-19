@@ -1,4 +1,4 @@
-<h2 class="dol-title">
+<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 	<?php echo esc_html($title); ?>
 </h2>
 
@@ -20,7 +20,7 @@ if ($posts) :
 			}
 			?>
 			<div class="dol-w-full md:dol-w-6/12 xl:dol-w-4/12 dol-px-4 dol-my-4">
-				<div class="dol-overflow-hidden dol-rounded-lg dol-shadow dol-divide-y dol-divide-gray-200 dol-p-0">
+				<div class="dol-overflow-hidden dol-rounded-lg dol-shadow dol-divide-y dol-divide-gray-200 dol-p-0 dol-bg-white">
 					<a target="_blank" href="<?php echo esc_url($post->link); ?>">
 						<?php if ($featured_image) : ?>
 							<span class="dol-block dol-overflow-hidden">

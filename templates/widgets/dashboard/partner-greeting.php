@@ -1,4 +1,4 @@
-<h2 class="dol-title">
+<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 	<?php
 
 	$user_info = get_userdata( get_current_user_id() );

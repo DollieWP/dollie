@@ -1,6 +1,6 @@
 <?php if ( class_exists( 'WooCommerce' ) && get_option( 'options_wpd_charge_for_deployments' ) === '1' ) : ?>
 	<div class=" dol-border dol-bg-white dol-rounded-lg dol-shadow dol-rounded dol-overflow-hidden">
-		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-500">
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary">
 			<h4 class="dol-text-white dol-text-lg dol-font-bold dol-m-0"><?php esc_html_e( 'Plan details', 'dollie' ); ?></h4>
 		</div>
 		<div class="dol-px-4 dol-py-2 lg:dol-px-8 lg:dol-py-6 dol-bg-ash-100">

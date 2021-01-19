@@ -1,6 +1,6 @@
 <?php $hostname = preg_replace( '#^https?://#', '', $customer_details->uri ); ?>
 
-<h2 class="dol-title">
+<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 	<?php esc_html_e( 'Developer Details', 'dollie' ); ?>
 </h2>
 

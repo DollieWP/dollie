@@ -20,7 +20,7 @@ $containers = new WP_Query(
 <?php if ( $containers->have_posts() ) : ?>
 	<ul class="dol-list-none dol-p-0 dol-m-0">
 		<li class="dol-m-0">
-			<span class="dol-block dol-font-bold dol-text-primary-200 dol-uppercase dol-py-2">
+			<span class="dol-block dol-font-bold dol-text-primary-400 dol-uppercase dol-py-2">
 				<?php _e( 'Sites', 'dollie' ); ?>
 			</span>
 		</li>
