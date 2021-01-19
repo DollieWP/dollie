@@ -3,14 +3,32 @@ module.exports = {
     darkMode: 'class',
     prefix: 'dol-',
     theme: {
+      screens: {
+          'sm': '640px',
+          // => @media (min-width: 640px) { ... }
+
+          'md': '768px',
+          // => @media (min-width: 768px) { ... }
+
+          'lg': '1024px',
+          // => @media (min-width: 1024px) { ... }
+        },
         colors: {
             transparent: 'transparent',
             current: 'currentColor',
             black: colors.black,
             white: colors.white,
             gray: colors.trueGray,
+            red: colors.red,
+            green: colors.green,
         },
         extend: {
+            transitionDuration: {
+                '0': '0ms',
+                '300': '300ms',
+                '500': '500ms',
+                '1000': '1000ms'
+            },
             zIndex: {
                 '-1': '-1',
                 '500': '500'
