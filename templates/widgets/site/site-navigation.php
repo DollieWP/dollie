@@ -6,7 +6,7 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 
 ?>
 <div class="">
-	<div class="dol-bg-white dark:dol-bg-primary-700 dol-rounded dol-overflow-hidden dol-p-4">
+	<div class="dol-bg-white dark:dol-bg-primary-700 dol-rounded dol-shadow dol-overflow-hidden dol-p-4">
 		<?php if (!$deploying) : ?>
 			<div class="dol-px-3 dol-py-3 dol-mb-1">
 				<div class="dol-font-bold dol-text-xl dol-uppercase dark:dol-text-primary-100">

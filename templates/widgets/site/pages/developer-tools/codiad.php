@@ -30,9 +30,9 @@ wp_enqueue_script( 'iframe-resizer' );
 
 <div class="dol-codiad-wrapper"></div>
 <div class="dol-codiad-preloader dol-py-40 md:dol-py-56 dol-rounded dol-overflow-hidden dol-relative dol-z-0">
-	<div class="dol-bg-black dol-opacity-25 dol-absolute dol-h-full dol-w-full dol-top-0 dol-left-0 dol--z-1"></div>
+	<div class="dol-bg-black dol-bg-gradient-primary dol-absolute dol-h-full dol-w-full dol-top-0 dol-left-0 dol--z-1"></div>
 	<div class="dol-flex dol-flex-wrap dol-items-center dol-justify-center dol-flex-col">
-		<div class="dol-italic dol-text-lg">
+		<div class="dol-italic dol-text-lg dol-text-white">
 			<i class="fal fa-code fa dol-mr-2" aria-hidden="true"></i>
 			<?php esc_html_e( 'Code is Poetry...', 'dollie' ); ?>
 		</div>

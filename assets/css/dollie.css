@@ -14,24 +14,6 @@
   color: rgba(255, 255, 255, var(--tw-text-opacity));
 }
 
-.dol-title {
-  display: block;
-  font-weight: 700;
-  font-size: 1.5rem;
-  line-height: 2rem;
-  margin: 0px;
-  margin-bottom: 1.5rem;
-  padding: 0px;
-  color: var(--primary-500);
-}
-
-@media (min-width: 768px) {
-  .dol-title {
-    font-size: 1.875rem;
-    line-height: 2.25rem;
-  }
-}
-
 .dol-space-x-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
@@ -681,11 +663,6 @@
 
 .focus\:dol-bg-secondary-900:focus {
   background-color: var(--secondary-900);
-}
-
-.dol-dark .dark\:dol-bg-gray-800 {
-  --tw-bg-opacity: 1;
-  background-color: rgba(38, 38, 38, var(--tw-bg-opacity));
 }
 
 .dol-dark .dark\:dol-bg-primary {
@@ -3900,11 +3877,6 @@
   padding: 2rem;
 }
 
-.dol-py-1 {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
-
 .dol-py-2 {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
@@ -3963,6 +3935,14 @@
 .dol-py-40 {
   padding-top: 10rem;
   padding-bottom: 10rem;
+}
+
+.dol-pt-1 {
+  padding-top: 0.25rem;
+}
+
+.dol-pb-1 {
+  padding-bottom: 0.25rem;
 }
 
 .dol-pt-2 {
@@ -34964,8 +34944,12 @@ readers do not read off random characters that represent icons */
   content: "\f135";
 }
 
-.dol-bg-primary-500 {
-  background: var(--e-global-color-primary) !important;
+.dol-bg-gradient-primary {
+  background: linear-gradient(var(--primary-700), var(--primary));
+}
+
+.dol-bg-gradient-secondary {
+  background: linear-gradient(var(--secondary-700), var(--secondary));
 }
 
 /*# sourceMappingURL=dollie.css.map */

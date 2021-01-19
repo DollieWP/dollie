@@ -14,8 +14,12 @@
 @import "fontawesome5/fontawesome.scss";
 @import "custom-icons.scss";
 
-.dol-bg-primary-500 {
-  background: var(--e-global-color-primary) !important;
+.dol-bg-gradient-primary {
+  background: linear-gradient(var(--primary-700), var(--primary));
+}
+
+.dol-bg-gradient-secondary {
+  background: linear-gradient(var(--secondary-700), var(--secondary));
 }
 
 .elementor-kit-5971 {
