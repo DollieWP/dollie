@@ -1,10 +1,10 @@
 .dollie-notifications-nav {
-  display: dol-block !important;
-  position: dol-relative;
+  display: block !important;
+  position: relative;
 
   .notif-navigation-count {
     top: -5px;
-    position: dol-absolute;
+    position: absolute;
     margin-left: -5px;
   }
 
@@ -21,7 +21,7 @@
   top: 0;
 
   &.notif-visible {
-    display: dol-block;
+    display: block;
   }
 
   .notif-inner {
@@ -46,7 +46,7 @@
   }
 
   .notification-body a {
-    display: dol-inline-block !important;
+    display: inline-block !important;
   }
 
   .notif-header-title {
@@ -62,7 +62,7 @@
   color: #fff;
   padding: 2px;
   font-size: 11px;
-  display: dol-inline-block;
+  display: inline-block;
   width: 20px;
   height: 20px;
   text-align: center;
