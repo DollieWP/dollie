@@ -33,7 +33,7 @@ class Options extends Singleton
 
 		$api_menu_priority = 2;
 
-		if ($this->is_live()) {
+		if ( $this->is_live() || defined('DOLLIE_DEV') && DOLLIE_DEV) {
 			$api_menu_priority = 99;
 			add_action('init', [$this, 'add_acf_options_page']);
 
