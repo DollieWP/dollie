@@ -183,7 +183,7 @@
 			</h2>
 			<ul class="dol-grid dol-grid-cols-1 dol-gap-4 sm:dol-gap-6 sm:dol-grid-cols-2 dol-mt-3 dol-p-0 dol-m-0">
 				<li class="dol-relative dol-col-span-1 dol-flex dol-shadow-sm dol-rounded-md">
-					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-pink-600 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
+					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-red-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
 						<i class="fal fa-comments dol-text-white dol-text-xl"></i>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-bg-white dol-rounded-r-md dol-truncate">
@@ -200,7 +200,7 @@
 				</li>
 
 				<li class="dol-relative dol-col-span-1 dol-flex dol-shadow-sm dol-rounded-md">
-					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-purple-600 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
+					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-secondary dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
 						<i class="fal fa-at dol-text-white dol-text-xl"></i>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-bg-white dol-rounded-r-md dol-truncate">
@@ -215,7 +215,7 @@
 				</li>
 
 				<li class="dol-relative dol-col-span-1 dol-flex dol-shadow-sm dol-rounded-md">
-					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-orange-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
+					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-green-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
 						<i class="fal fa-hdd dol-text-white dol-text-xl"></i>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-bg-white dol-rounded-r-md dol-truncate">
@@ -230,7 +230,7 @@
 				</li>
 
 				<li class="dol-relative dol-col-span-1 dol-flex dol-shadow-sm dol-rounded-md">
-					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-green-400 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
+					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-primary dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
 						<i class="fal fa-users dol-text-white dol-text-xl"></i>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-bg-white dol-rounded-r-md dol-truncate">

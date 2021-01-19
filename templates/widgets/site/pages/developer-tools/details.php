@@ -19,9 +19,9 @@
 );
 ?>
 
-<div class="dol-border dol-border-solid dol-border-gray-200 dol-rounded dol-overflow-hidden dol-my-6">
-	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
-		<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-ash-800 dol-text-base md:dol-text-xl">
+<div class="dol-border dol-bg-white dol-rounded-lg dol-shadow dol-rounded dol-overflow-hidden dol-my-6">
+	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
+		<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
 			<?php esc_html_e( 'SFTP Details', 'dollie' ); ?>
 		</h4>
 	</div>

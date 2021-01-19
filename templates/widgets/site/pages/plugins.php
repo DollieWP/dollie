@@ -101,8 +101,8 @@
 		</div>
 	<?php endif; ?>
 
-	<div class="dol-flex dol-flex-wrap dol-border dol-border-solid dol-border-gray-200 dol-rounded dol-overflow-hidden">
-		<div class="dol-hidden dol-w-full md:dol-flex dol-flex-wrap dol-items-center dol-bg-primary-700 dol-p-4 lg:dol-px-8 dol-font-bold dol-text-white">
+	<div class="dol-flex dol-flex-wrap dol-border dol-bg-white dol-rounded-lg dol-shadow dol-rounded dol-overflow-hidden">
+		<div class="dol-hidden dol-w-full md:dol-flex dol-flex-wrap dol-items-center dol-bg-primary-600 dol-p-4 lg:dol-px-8 dol-font-bold dol-text-white">
 			<div class="dol-w-5/12 lg:dol-w-6/12 dol-text-left">
 				<?php _e( 'Plugin Name', 'dollie' ); ?>
 			</div>
@@ -118,7 +118,7 @@
 		</div>
 		<div class="dol-w-full dol-bg-white dol-overflow-hidden">
 			<?php foreach ( $plugins_list as $plugin ) : ?>
-				<div class="dol-w-full dol-flex dol-flex-wrap dol-items-center dol-p-4 lg:dol-px-8 dol-border-0 dol-border-b dol-border-solid dol-border-gray-200 last:dol-border-0 dol-relative dol-group hover:dol-bg-ash-100">
+				<div class="dol-w-full dol-flex dol-flex-wrap dol-items-center dol-p-4 lg:dol-px-8 dol-border-0 dol-border-b dol-bg-white dol-rounded-lg dol-shadow last:dol-border-0 dol-relative dol-group hover:dol-bg-ash-100">
 					<div class="dol-absolute dol-w-2 dol-h-full dol-bg-gray-200 dol-left-0 dol-top-0 dol-hidden md:group-hover:dol-block"></div>
 					<div class="dol-w-full dol-mb-4 md:dol-mb-0 md:dol-w-5/12 lg:dol-w-6/12">
 						<span class="dol-block dol-text-ash-600 dol-text-xs dol-font-bold dol-uppercase md:dol-hidden">
