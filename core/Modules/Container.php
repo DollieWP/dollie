@@ -321,8 +321,8 @@ class Container extends Singleton {
 	 * Update WP site url option
 	 *
 	 * @param $new_url
-	 * @param string  $old_url
-	 * @param null    $container_id
+	 * @param string $old_url
+	 * @param null $container_id
 	 *
 	 * @return bool|mixed
 	 */
@@ -578,7 +578,7 @@ class Container extends Singleton {
 	 * @param $url
 	 * @param $transient_id
 	 * @param $user_auth
-	 * @param null         $user_pass
+	 * @param null $user_pass
 	 *
 	 * @return array|mixed
 	 */
@@ -654,7 +654,7 @@ class Container extends Singleton {
 	/**
 	 * Get container login info
 	 *
-	 * @param null   $container_id
+	 * @param null $container_id
 	 * @param string $site_username
 	 *
 	 * @return mixed
@@ -1005,6 +1005,10 @@ class Container extends Singleton {
 		$domain       = get_field( 'wpd_api_domain_custom', $post_id );
 		$saved_domain = get_option( 'wpd_deployment_domain' );
 
+		if ( ! empty( $domain ) ) {
+			$domain = str_replace( [ 'https://', 'http://' ], '', $domain );
+		}
+
 		if ( $saved_domain && ! $domain ) {
 			$request_remove_domain  = Api::post( Api::ROUTE_DOMAIN_REMOVE );
 			$response_remove_domain = Api::process_response( $request_remove_domain );
@@ -1054,18 +1058,18 @@ class Container extends Singleton {
 	 */
 	public function change_role_notice() {
 		?>
-		<script type="text/javascript">
-			(function ($) {
-				var customer_role = $('[data-name="wpd_client_site_permission"]');
-				if (customer_role.length) {
-					var key = customer_role.data('key');
+        <script type="text/javascript">
+            (function ($) {
+                var customer_role = $('[data-name="wpd_client_site_permission"]');
+                if (customer_role.length) {
+                    var key = customer_role.data('key');
 
-					$('[name="acf[' + key + ']"]').on('change', function () {
-						alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
-					})
-				}
-			})(jQuery);
-		</script>
+                    $('[name="acf[' + key + ']"]').on('change', function () {
+                        alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
+                    })
+                }
+            })(jQuery);
+        </script>
 		<?php
 	}
 
@@ -1073,7 +1077,7 @@ class Container extends Singleton {
 	 * Get container screenshot
 	 *
 	 * @param $container_uri
-	 * @param bool          $regenerate
+	 * @param bool $regenerate
 	 *
 	 * @return array|mixed|null
 	 */
