@@ -15,8 +15,8 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 
 		<div class="dol-my-6">
 
-			<div class="dol-border dol-border-solid dol-border-blue-100 dol-rounded dol-overflow-hidden dol-mb-6">
-				<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-bg-blue-100">
+			<div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden dol-mb-6">
+				<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-100">
 					<h4 class="dol-p-0 dol-m-0 dol-font-bold  dol-text-base md:dol-text-xl">
 						<?php esc_html_e( 'Site URL replacement is not complete ', 'dollie' ); ?>
 					</h4>
@@ -54,8 +54,8 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 
 	<?php endif; ?>
 
-	<div class="dol-border dol-border-solid dol-border-blue-100 dol-rounded dol-overflow-hidden dol-mb-6">
-		<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-bg-blue-100">
+	<div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden dol-mb-6">
+		<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-100">
 			<h4 class="dol-p-0 dol-m-0 dol-font-bold  dol-text-base md:dol-text-xl">
 				<?php esc_html_e( 'Remove your linked domain', 'dollie' ); ?>
 			</h4>

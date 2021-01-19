@@ -8,7 +8,7 @@
 
 		<?php if ( current_user_can( 'manage_options' ) && dollie()->count_total_containers() === 1 ) : ?>
 			<div class="dol-mb-6">
-				<h4 class="dol-text-blue-800 dol-mb-2 dol-font-bold dol-text-xl lg:dol-text-2xl">
+				<h4 class="dol-text-primary-800 dol-mb-2 dol-font-bold dol-text-xl lg:dol-text-2xl">
 					<?php esc_html_e( 'Setup Wizard - Your first site was deployed successfully!', 'dollie' ); ?>
 				</h4>
 				<p class="dol-p-0 dol-m-0 dol-text-ash-700">
@@ -37,7 +37,7 @@
 					<div class="dol-p-5">
 						<div class="dol-flex dol-items-center">
 							<div class="dol-flex-shrink-0">
-								<i class="fal fa-wrench dol-mr-2 dol-text-blue-300 dol-text-xl"></i>
+								<i class="fal fa-wrench dol-mr-2 dol-text-primary-300 dol-text-xl"></i>
 							</div>
 							<div class="dol-ml-5 dol-w-0 dol-flex-1">
 								<dl>
@@ -70,7 +70,7 @@
 					<div class="dol-p-5">
 						<div class="dol-flex dol-items-center">
 							<div class="dol-flex-shrink-0">
-								<i class="fal fa-themes dol-text-blue-300 dol-text-xl"></i>
+								<i class="fal fa-themes dol-text-primary-300 dol-text-xl"></i>
 							</div>
 							<div class="dol-ml-5 dol-w-0 dol-flex-1">
 								<dl>
@@ -100,7 +100,7 @@
 					<div class="dol-p-5">
 						<div class="dol-flex dol-items-center">
 							<div class="dol-flex-shrink-0">
-								<i class="fab fa-wordpress-simple dol-text-blue-300 dol-text-xl"></i>
+								<i class="fab fa-wordpress-simple dol-text-primary-300 dol-text-xl"></i>
 							</div>
 							<div class="dol-ml-5 dol-w-0 dol-flex-1">
 								<dl>
@@ -132,7 +132,7 @@
 						<div class="dol-px-4 dol-py-5 sm:dol-p-6">
 							<div class="dol-flex dol-items-center">
 								<div class="dol-flex-shrink-0 dol-bg-cool-gray-50 dol-rounded-md dol-p-3">
-									<i class="fal fa-hdd dol-text-blue-300 dol-text-xl"></i>
+									<i class="fal fa-hdd dol-text-primary-300 dol-text-xl"></i>
 								</div>
 								<div class="dol-ml-5 dol-w-0 dol-flex-1">
 									<dl>

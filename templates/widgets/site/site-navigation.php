@@ -35,14 +35,14 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 
 			<?php if (!$deploying) : ?>
 				<div class="dol-flex dol-flex-wrap dol-rounded dol-overflow-hidden dol-mt-2">
-					<div class="dol-w-full md:dol-w-1/2 dol-border-0 md:dol-border-r dol-border-solid dol-border-blue-100">
-						<a class="dol-block dol-text-center dol-text-sm dol-font-bold dol-bg-white hover: hover:dol-bg-blue-100 dol-px-4 dol-py-2" href="<?php echo dollie()->get_container_url($current_id); ?>" target="_blank">
+					<div class="dol-w-full md:dol-w-1/2 dol-border-0 md:dol-border-r dol-border-solid dol-border-primary-100">
+						<a class="dol-block dol-text-center dol-text-sm dol-font-bold dol-bg-white hover: hover:dol-bg-primary-100 dol-px-4 dol-py-2" href="<?php echo dollie()->get_container_url($current_id); ?>" target="_blank">
 							<i class="fal fa-external-link-alt dol-mr-1"></i>
 							<?php esc_html_e('Visit', 'dollie'); ?>
 						</a>
 					</div>
-					<div class="dol-w-full md:dol-w-1/2 dol-border-0 md:dol-border-l dol-border-solid dol-border-blue-100">
-						<a class="dol-block dol-text-center dol-text-sm dol-font-bold dol-bg-white hover: hover:dol-bg-blue-100 dol-px-4 dol-py-2" href="<?php echo dollie()->get_customer_login_url($current_id); ?>" target="_blank">
+					<div class="dol-w-full md:dol-w-1/2 dol-border-0 md:dol-border-l dol-border-solid dol-border-primary-100">
+						<a class="dol-block dol-text-center dol-text-sm dol-font-bold dol-bg-white hover: hover:dol-bg-primary-100 dol-px-4 dol-py-2" href="<?php echo dollie()->get_customer_login_url($current_id); ?>" target="_blank">
 							<i class="fal fa-tools dol-mr-1"></i>
 							<?php esc_html_e('Admin', 'dollie'); ?>
 						</a>

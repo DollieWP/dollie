@@ -39,7 +39,7 @@ wp_enqueue_script( 'iframe-resizer' );
 
 		<div class="dol-mt-4">
 			<a href="#"
-			   class="dol-inline-block dol-text-white dol-bg-blue-600 hover:dol-text-white hover:dol-bg-blue-700 dol-px-6 dol-py-3 dol-rounded"
+			   class="dol-inline-block dol-text-white dol-bg-primary-600 hover:dol-text-white hover:dol-bg-primary-700 dol-px-6 dol-py-3 dol-rounded"
 			   data-codiad="LpKyzSxVhk4">
 				<?php esc_html_e( 'Load the Code Editor', 'dollie' ); ?>
 			</a>

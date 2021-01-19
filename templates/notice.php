@@ -36,8 +36,8 @@ if ( 'error' === $args_default['type'] ) {
 	$icon_class = 'dol-bg-red-700';
 	$bar_class  = 'dol-bg-red-600';
 } elseif ( 'info' === $args_default['type'] ) {
-	$icon_class = 'dol-bg-blue-700';
-	$bar_class  = 'dol-bg-blue-600';
+	$icon_class = 'dol-bg-primary-700';
+	$bar_class  = 'dol-bg-primary-600';
 } elseif ( 'warning' === $args_default['type'] ) {
 	$icon_class = 'dol-bg-orange-700';
 	$bar_class  = 'dol-bg-orange-600';

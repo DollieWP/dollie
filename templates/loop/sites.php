@@ -104,7 +104,7 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 							</div>
 						</div>
 						<div class="dol-sites-controls">
-							<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-blue-500 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-blue-600" href="<?php echo dollie()->get_site_url(get_the_ID()); ?>">
+							<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary-500 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo dollie()->get_site_url(get_the_ID()); ?>">
 								<i class="fal fa-cog"></i>
 								<span class="dol-ml-1"><?php esc_html_e('Manage', 'dollie'); ?></span>
 							</a>

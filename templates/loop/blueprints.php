@@ -49,7 +49,7 @@ if (get_field('wpd_blueprint_image') === 'custom') {
 
 			</div>
 			<div class="dol--ml-px dol-w-0 dol-flex-1 dol-flex">
-				<a data-id="<?php echo get_the_ID(); ?>" class="dol-relative dol-w-0 dol-flex-1 dol-inline-flex dol-items-center dol-justify-center dol-py-4 dol-text-sm dol-text-gray-700 dol-font-medium dol-border dol-border-transparent dol-rounded-br-lg hover:dol-text-gray-500" href="<?php echo esc_url($checkout_link); ?>">
+				<a data-id="<?php echo get_the_ID(); ?>" class="dol-relative dol-w-0 dol-flex-1 dol-inline-flex dol-items-center dol-justify-center dol-py-4 dol-text-sm dol-text-gray-700 dol-font-medium dol-border dol-border-transparent dol-rounded-br-lg hover:dol-text-gray-500 dol-bg-secondary" href="<?php echo esc_url($checkout_link); ?>">
 					<?php if (!empty($launch_button_text)) { ?>
 						<?php echo $launch_button_text; ?> <i class="pr-2 fal fa-rocket"></i>
 					<?php } else { ?>

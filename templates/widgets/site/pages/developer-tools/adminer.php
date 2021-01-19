@@ -27,7 +27,7 @@
 			</div>
 
 			<div class="dol-mt-4">
-				<a class="dol-inline-block dol-text-white dol-bg-blue-600 hover:dol-text-white hover:dol-bg-blue-700 dol-px-6 dol-py-3 dol-rounded"
+				<a class="dol-inline-block dol-text-white dol-bg-primary-600 hover:dol-text-white hover:dol-bg-primary-700 dol-px-6 dol-py-3 dol-rounded"
 				   href="<?php echo esc_url( dollie()->get_container_url( get_the_ID() ) ) . Dollie\Core\Modules\Sites\WP::PLATFORM_PATH; ?>container/adminer/" target="_blank">
 					<?php esc_html_e( 'Open Database Manager', 'dollie' ); ?>
 				</a>
