@@ -6,8 +6,8 @@ if ( ! dollie()->has_partner_subscription() || ( dollie()->is_partner_subscripti
 		[
 			'type'    => 'warning',
 			'icon'    => 'fal fa-exclamation-circle',
-			'title'   => __( 'Deployments are currently unavailable', 'dollie' ),
-			'message' => __( 'Please try again later or contact the website administrator!', 'dollie' ),
+			'title'   => __( 'Sorry, Launching a new site is currently not possible.', 'dollie' ),
+			'message' => __( 'We are hard at work at our infrastructure, please come back to this page at a later time.', 'dollie' ),
 		],
 		true
 	);
@@ -27,8 +27,8 @@ if ( current_user_can( 'manage_options' ) || dollie()->has_subscription() ) {
 	[
 		'type'    => 'error',
 		'icon'    => 'fal fa-exclamation-circle',
-		'title'   => __( 'You have no active subscription', 'dollie' ),
-		'message' => __( 'Please sign-up for a subscription to launch a new website!', 'dollie' ),
+		'title'   => __( 'Sorry, You have no active subscription', 'dollie' ),
+		'message' => __( 'Please sign-up for a one of our subscriptions to launch a new website!', 'dollie' ),
 	],
 	true
 );
