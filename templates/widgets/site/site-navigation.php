@@ -5,7 +5,7 @@ use Dollie\Core\Modules\AccessControl;
 $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_status($current_id);
 
 ?>
-<div class="dark dol-dark">
+<div class="">
 	<div class="<?php do_action('dol_add_widget_classes'); ?> dol-overflow-hidden dol-p-4 dol-widget-site-sidebar">
 		<?php if (!$deploying) : ?>
 			<div class="dol-px-3 dol-py-3 dol-mb-1">
