@@ -5,14 +5,14 @@ use Dollie\Core\Modules\AccessControl;
 $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_status($current_id);
 
 ?>
-<div class="">
+<div class="dark dol-dark">
 	<div class="<?php do_action('dol_add_widget_classes'); ?> dol-overflow-hidden dol-p-4 dol-widget-site-sidebar">
 		<?php if (!$deploying) : ?>
 			<div class="dol-px-3 dol-py-3 dol-mb-1">
 				<div class="dol-font-bold dol-text-xl dol-uppercase dark:dol-text-primary-100">
 					<?php echo get_post_meta($current_id, 'wpd_installation_name', true); ?>
 				</div>
-				<div class="dol-inline-block dol-text-sm dol-break-all dark:dol-text-primary-200">
+				<div class="dol-inline-block dol-text-sm dol-break-all dark:dol-text-gray-400">
 					<?php echo dollie()->get_container_url($current_id); ?>
 				</div>
 			</div>
@@ -34,14 +34,14 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 
 			<?php if (!$deploying) : ?>
 				<div class="dol-flex dol-flex-wrap dol-rounded dol-overflow-hidden dol-mt-2">
-					<div class="dol-w-full md:dol-w-1/2 dol-border-0 md:dol-border-r dol-border-solid dol-border-primary-100">
-						<a class="dol-block dol-text-gray-600 dol-text-center dol-text-sm dol-font-bold dol-bg-gray-200 hover: hover:dol-bg-primary-100 dol-px-4 dol-py-2" href="<?php echo dollie()->get_container_url($current_id); ?>" target="_blank">
+					<div class="dol-w-full md:dol-w-1/2">
+						<a class="dol-block dol-text-gray-600 dol-text-center dol-text-sm dol-font-bold dol-bg-gray-200 hover:dol-bg-primary-100 dark:dol-bg-gray-900 dark:dol-text-gray-200 dol-px-4 dol-py-2" href="<?php echo dollie()->get_container_url($current_id); ?>" target="_blank">
 							<i class="fal fa-external-link-alt dol-mr-1"></i>
 							<?php esc_html_e('Visit', 'dollie'); ?>
 						</a>
 					</div>
-					<div class="dol-w-full md:dol-w-1/2 dol-border-0 md:dol-border-l dol-border-solid dol-border-primary-100">
-						<a class="dol-block dol-text-center dol-text-sm dol-font-bold dol-bg-secondary-200 hover: hover:dol-bg-primary-300 dol-text-secondary-600 dol-px-4 dol-py-2" href="<?php echo dollie()->get_customer_login_url($current_id); ?>" target="_blank">
+					<div class="dol-w-full md:dol-w-1/2">
+						<a class="dol-block dol-text-center dol-text-sm dol-font-bold dol-bg-secondary-200 hover: hover:dol-bg-primary-300 dol-text-secondary-600 dol-px-4 dol-py-2 dark:dol-bg-secondary-700 dark:dol-text-gray-200" href="<?php echo dollie()->get_customer_login_url($current_id); ?>" target="_blank">
 							<i class="fal fa-tools dol-mr-1"></i>
 							<?php esc_html_e('Admin', 'dollie'); ?>
 						</a>
@@ -93,7 +93,7 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 							continue;
 						}
 
-						$active_class = $sub_page === $page ? ' dol-text-primary' : 'dol-font-normal dol-text-gray-400';
+						$active_class = $sub_page === $page ? ' dol-text-primary' : 'dol-font-normal dol-text-gray-400 dark:dol-text-gray-300';
 						?>
 						<li class="dol-m-0">
 							<a class="<?php echo esc_attr($active_class); ?> dol-nav-btn dol-nav-btn-secondary dol-font-semibold dol-pt-1 dol-pb-1" href="<?php echo dollie()->get_site_url($current_id, $page); ?>">
