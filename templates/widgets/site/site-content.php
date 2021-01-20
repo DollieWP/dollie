@@ -64,25 +64,25 @@ $status = \Dollie\Core\Modules\Container::instance()->get_status($current_id); ?
 
 	<div id="dol-deploying-site" class="dol-hidden" data-container="<?php echo esc_attr($current_id); ?>" data-nonce="<?php echo esc_attr(wp_create_nonce('check_deploy_nonce')); ?>" data-ajax-url="<?php echo esc_attr(admin_url('admin-ajax.php')); ?>"></div>
 	<div class="dol-py-32 dol-flex dol-flex-col dol-items-center dol-justify-center">
-		<svg class="dol-animate-spin dol-h-16 dol-w-16 dol-text-flame-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+		<svg class="dol-animate-spin dol-h-16 dol-w-16 dol-text-primary-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 			<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
 			<path class="dol-opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
 		</svg>
 
-		<div class="dol-font-bold dol-mt-6 dol-text-2xl dol-uppercase dol-text-flame-600">
+		<div class="dol-font-bold dol-mt-6 dol-text-2xl dol-uppercase">
 			<?php esc_html_e('Launching Your New Site', 'dollie'); ?>
 		</div>
 
-		<div class="dol-mt-1  dol-text-md dol-font-semibold">
+		<div class="dol-mt-1 dol-text-md dol-font-semibold dol-text-gray-500">
 			<?php esc_html_e('Your site will ready to use in just a moment.', 'dollie'); ?>
 		</div>
 
 		<div class="dol-my-6 dol-w-16 dol-h-1 dol-bg-gray-200"></div>
 
-		<div class="dol-text-gray-500 dol-text-sm">
+		<div class="dol-text-gray-400 dol-text-sm">
 			<?php esc_html_e('Don\'t worry, we\'ll automatically reload this page once it\'s ready.', 'dollie'); ?>
 		</div>
-		<div class="dol-text-gray-500 dol-text-sm">
+		<div class="dol-text-gray-400 dol-text-sm">
 			<?php esc_html_e('If you don\'t want to wait for a few seconds, you can navigate away. We got it covered!', 'dollie'); ?>
 		</div>
 	</div>
