@@ -33,7 +33,7 @@
 			</h2>
 			<div class="dol-mt-2 dol-grid dol-grid-cols-1 dol-gap-5 sm:dol-grid-cols-2 lg:dol-grid-cols-3">
 
-				<div class="dol-overflow-hidden <?php do_action( 'dol_add_widget_classes' ); ?>">
+				<div class="dol-overflow-hidden <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-p-5">
 						<div class="dol-flex dol-items-center">
 							<div class="dol-flex-shrink-0">
@@ -65,7 +65,7 @@
 					</div>
 				</div>
 
-				<div class="dol-overflow-hidden <?php do_action( 'dol_add_widget_classes' ); ?>">
+				<div class="dol-overflow-hidden <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-p-5">
 						<div class="dol-flex dol-items-center">
 							<div class="dol-flex-shrink-0">
@@ -94,7 +94,7 @@
 					</div>
 				</div>
 
-				<div class="dol-overflow-hidden <?php do_action( 'dol_add_widget_classes' ); ?>">
+				<div class="dol-overflow-hidden <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-p-5">
 						<div class="dol-flex dol-items-center">
 							<div class="dol-flex-shrink-0">
@@ -125,7 +125,7 @@
 			</div>
 			<div>
 				<div class="dol-mt-5 dol-grid dol-grid-cols-1 dol-gap-5 sm:dol-grid-cols-1 lg:dol-grid-cols-1">
-					<div class="dol-overflow-hidden <?php do_action( 'dol_add_widget_classes' ); ?>">
+					<div class="dol-overflow-hidden <?php do_action('dol_add_widget_classes'); ?>">
 						<div class="dol-px-4 dol-py-5 sm:dol-p-6">
 							<div class="dol-flex dol-items-center">
 								<div class="dol-flex-shrink-0 dol-bg-gray-100 dol-rounded-md dol-p-3 dol-text-white">
@@ -175,60 +175,60 @@
 				<?php esc_html_e('Details', 'dollie'); ?>
 			</h2>
 			<ul class="dol-grid dol-grid-cols-1 dol-gap-4 sm:dol-gap-6 sm:dol-grid-cols-2 dol-mt-3 dol-p-0 dol-m-0">
-				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action( 'dol_add_widget_classes' ); ?>">
+				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-red-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
 						<i class="fal fa-comments dol-text-white dol-text-xl"></i>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
-						<div class="dol-flex-1 dol-px-4 dol-py-2 dol-text-sm dol-leading-5 dol-truncate">
+						<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
 							<a href="#" class="dol-text-gray-900 dol-font-medium hover:dol-text-gray-600 dol-transition dol-ease-in-out dol-duration-150">
 								<?php printf(__('%s Comments Made', 'dollie'), get_post_meta($post_id, 'wpd_installation_comments_total', true)); ?>
 							</a>
-							<p class="dol-text-gray-500">
+							<span class="dol-text-gray-500 dol-block dol-mt-1">
 								<?php printf(__('%s marked as spam', 'dollie'), get_post_meta($post_id, 'wpd_installation_comments_spam', true)); ?>
-							</p>
+							</span>
 						</div>
 					</div>
 				</li>
 
-				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action( 'dol_add_widget_classes' ); ?>">
+				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-secondary dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
 						<i class="fal fa-at dol-text-white dol-text-xl"></i>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
-						<div class="dol-flex-1 dol-px-4 dol-py-2 dol-text-sm dol-leading-5 dol-truncate">
+						<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
 							<a href="#" class="dol-text-gray-900 dol-font-medium hover:dol-text-gray-600 dol-transition dol-ease-in-out dol-duration-150">
 								<?php echo esc_html($data['container_details']['Admin Email']); ?>
 							</a>
-							<p class="dol-text-gray-500"><?php esc_html_e('is the site administrator email', 'dollie'); ?></p>
+							<span class="dol-text-gray-500 dol-block dol-mt-1"><?php esc_html_e('is the site administrator email', 'dollie'); ?></span>
 						</div>
 					</div>
 				</li>
 
-				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action( 'dol_add_widget_classes' ); ?>">
+				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-green-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
 						<i class="fal fa-hdd dol-text-white dol-text-xl"></i>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
-						<div class="dol-flex-1 dol-px-4 dol-py-2 dol-text-sm dol-leading-5 dol-truncate">
+						<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
 							<a href="#" class="dol-text-gray-900 dol-font-medium hover:dol-text-gray-600 dol-transition dol-ease-in-out dol-duration-150">
 								<?php echo get_post_meta($post_id, 'wpd_installation_size', true); ?>
 							</a>
-							<p class="dol-text-gray-500"><?php esc_html_e('of Disk space is used', 'dollie'); ?></p>
+							<span class="dol-text-gray-500 dol-block dol-mt-1"><?php esc_html_e('of Disk space is used', 'dollie'); ?></span>
 						</div>
 					</div>
 				</li>
 
-				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action( 'dol_add_widget_classes' ); ?>">
+				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-primary dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
 						<i class="fal fa-users dol-text-white dol-text-xl"></i>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
-						<div class="dol-flex-1 dol-px-4 dol-py-2 dol-text-sm dol-leading-5 dol-truncate">
+						<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
 							<a href="#" class="dol-text-gray-900 dol-font-medium hover:dol-text-gray-600 dol-transition dol-ease-in-out dol-duration-150">
 								<?php printf(__('%s Users', 'dollie'), get_post_meta($post_id, 'wpd_installation_users', true)); ?>
 							</a>
-							<p class="dol-text-gray-500"><?php esc_html_e('Registered on this site', 'dollie'); ?></p>
+							<span class="dol-text-gray-500 dol-block dol-mt-1"><?php esc_html_e('Registered on this site', 'dollie'); ?></span>
 						</div>
 					</div>
 				</li>
