@@ -1,4 +1,4 @@
-<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-mb-6">
+<div class="dol-border <?php do_action('dol_add_widget_classes'); ?> dol-overflow-hidden dol-mb-6 dol-widget-create-backup">
 	<div class="dol-hidden dol-w-full md:dol-flex dol-flex-wrap dol-items-center dol-bg-primary-600 dol-p-4 lg:dol-px-8 dol-font-bold">
 		<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-white md:dol-text-xl">
 			<?php esc_html_e('Create a backup', 'dollie'); ?>
@@ -12,7 +12,7 @@
 	</div>
 </div>
 
-<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-mb-6">
+<div class="dol-border <?php do_action('dol_add_widget_classes'); ?> dol-overflow-hidden dol-mb-6 dol-widget-backup-list">
 	<div class="dol-hidden dol-w-full md:dol-flex dol-flex-wrap dol-items-center dol-bg-primary-600 dol-p-4 lg:dol-px-8 dol-font-bold">
 		<h4 class="dol-m-0 dol-p-0 dol-font-bold md:dol-text-xl dol-text-white">
 			<?php esc_html_e('Backups', 'dollie'); ?>
@@ -38,7 +38,7 @@
 	</div>
 </div>
 
-<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-mb-6">
+<div class="dol-border <?php do_action('dol_add_widget_classes'); ?> dol-overflow-hidden dol-mb-6 dol-widget-backup-restores">
 	<div class="dol-hidden dol-w-full md:dol-flex dol-flex-wrap dol-items-center dol-bg-primary-600 dol-p-4 lg:dol-px-8 dol-font-bold">
 		<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
 			<?php esc_html_e('Restore history', 'dollie'); ?>

@@ -6,7 +6,7 @@
 $i = 0;
 if ($posts) :
 ?>
-	<div class="dol-flex dol-flex-wrap dol--m-4">
+	<div class="dol-flex dol-flex-wrap dol--m-4 dol-widget-posts">
 		<?php foreach ($posts as $post) : ?>
 			<?php
 			$featured_image = '';
@@ -19,8 +19,8 @@ if ($posts) :
 				}
 			}
 			?>
-			<div class="dol-w-full md:dol-w-6/12 xl:dol-w-4/12 dol-px-4 dol-my-4">
-				<div class="dol-overflow-hidden <?php do_action( 'dol_add_widget_classes' ); ?> dol-divide-y dol-divide-gray-200 dol-p-0">
+			<div class="dol-w-full md:dol-w-6/12 xl:dol-w-4/12 dol-px-4 dol-my-4 dol-widget-post">
+				<div class="dol-overflow-hidden <?php do_action('dol_add_widget_classes'); ?> dol-divide-y dol-divide-gray-200 dol-p-0">
 					<a target="_blank" href="<?php echo esc_url($post->link); ?>">
 						<?php if ($featured_image) : ?>
 							<span class="dol-block dol-overflow-hidden">

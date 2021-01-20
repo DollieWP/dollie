@@ -8,7 +8,7 @@ $active_class = [
 
 ?>
 
-<ul class="dol-list-none dol-p-0 dol-m-0">
+<ul class="dol-list-none dol-p-0 dol-m-0 dol-widget-main-nav">
 	<li class="dol-mb-4">
 		<a href="<?php echo dollie()->get_launch_page_url(); ?>"
 		   class="dol-nav-btn dol-font-semibold dol-bg-secondary dol-text-white <?php echo esc_attr( $active_class['launch-site'] ); ?>">

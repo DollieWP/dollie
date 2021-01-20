@@ -8,7 +8,7 @@
 			<?php esc_html_e( 'Connection Details', 'dollie' ); ?>
 		</h4>
 	</div>
-	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
+	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
 		<div class="dol-font-bold dol-mb-2">
 			<?php esc_html_e( 'You can securely access your database by using the login details below.', 'dollie' ); ?>
 		</div>

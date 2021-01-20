@@ -9,7 +9,7 @@ $list_item_type = 'dol-sites-' . $view_type . '-item';
 $list_btn_active = $view_type === 'list' ? 'dol-switch-active' : '';
 $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 ?>
-<div class="dol-mb-6">
+<div class="dol-mb-6 dol-widget-site-search">
 	<div class="dol-flex dol-flex-wrap md:dol-justify-between">
 		<div class="dol-flex dol-items-center dol-rounded dol-overflow-hidden dol-mb-4 md:dol-mb-0 dol-h-10 md:dol-h-auto">
 			<span class="dol-list-switch dol-inline-flex <?php echo esc_attr($list_btn_active); ?>" data-list-type="list">
@@ -54,7 +54,7 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 
 				?>
 				<div class="dol-sites-item <?php echo esc_attr($list_item_type); ?>">
-					<div class="dol-sites-item-inner <?php do_action( 'dol_add_widget_classes' ); ?> dol-divide-y dol-divide-gray-200">
+					<div class="dol-sites-item-inner <?php do_action('dol_add_widget_classes'); ?> dol-divide-y dol-divide-gray-200">
 						<div class="dol-sites-image dol-relative">
 							<div class="dol-sites-image-box">
 								<?php echo dollie()->get_site_screenshot(get_the_ID()); ?>

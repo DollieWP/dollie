@@ -1,5 +1,5 @@
 <?php if ( class_exists( 'WooCommerce' ) ) : ?>
-	<ul class="dol-list-none dol-p-0 dol-m-0">
+	<ul class="dol-list-none dol-p-0 dol-m-0 dol-widget-woo-nav">
 		<li class="dol-m-0">
 			<span class="dol-block dol-font-bold dol-text-primary-400 dol-uppercase dol-px-2 dol-py-3">
 				<?php esc_html_e( 'Your Account', 'dollie' ); ?>

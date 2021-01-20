@@ -179,7 +179,7 @@
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-red-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
 						<i class="fal fa-comments dol-text-white dol-text-xl"></i>
 					</div>
-					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200  dol-rounded-r-md dol-truncate">
+					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 						<div class="dol-flex-1 dol-px-4 dol-py-2 dol-text-sm dol-leading-5 dol-truncate">
 							<a href="#" class="dol-text-gray-900 dol-font-medium hover:dol-text-gray-600 dol-transition dol-ease-in-out dol-duration-150">
 								<?php printf(__('%s Comments Made', 'dollie'), get_post_meta($post_id, 'wpd_installation_comments_total', true)); ?>
@@ -195,7 +195,7 @@
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-secondary dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
 						<i class="fal fa-at dol-text-white dol-text-xl"></i>
 					</div>
-					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200  dol-rounded-r-md dol-truncate">
+					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 						<div class="dol-flex-1 dol-px-4 dol-py-2 dol-text-sm dol-leading-5 dol-truncate">
 							<a href="#" class="dol-text-gray-900 dol-font-medium hover:dol-text-gray-600 dol-transition dol-ease-in-out dol-duration-150">
 								<?php echo esc_html($data['container_details']['Admin Email']); ?>
@@ -209,7 +209,7 @@
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-green-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
 						<i class="fal fa-hdd dol-text-white dol-text-xl"></i>
 					</div>
-					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200  dol-rounded-r-md dol-truncate">
+					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 						<div class="dol-flex-1 dol-px-4 dol-py-2 dol-text-sm dol-leading-5 dol-truncate">
 							<a href="#" class="dol-text-gray-900 dol-font-medium hover:dol-text-gray-600 dol-transition dol-ease-in-out dol-duration-150">
 								<?php echo get_post_meta($post_id, 'wpd_installation_size', true); ?>
@@ -223,7 +223,7 @@
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-primary dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
 						<i class="fal fa-users dol-text-white dol-text-xl"></i>
 					</div>
-					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200  dol-rounded-r-md dol-truncate">
+					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 						<div class="dol-flex-1 dol-px-4 dol-py-2 dol-text-sm dol-leading-5 dol-truncate">
 							<a href="#" class="dol-text-gray-900 dol-font-medium hover:dol-text-gray-600 dol-transition dol-ease-in-out dol-duration-150">
 								<?php printf(__('%s Users', 'dollie'), get_post_meta($post_id, 'wpd_installation_users', true)); ?>

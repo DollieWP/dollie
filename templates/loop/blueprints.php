@@ -19,7 +19,7 @@ if (get_field('wpd_blueprint_image') === 'custom') {
 	$image = get_post_meta(get_the_ID(), 'wpd_site_screenshot', true);
 }
 ?>
-<li class="dol-m-0 dol-col-span-1 dol-flex dol-flex-col <?php do_action( 'dol_add_widget_classes' ); ?> dol-divide-y dol-divide-gray-200 dol-p-0">
+<li class="dol-m-0 dol-col-span-1 dol-flex dol-flex-col <?php do_action('dol_add_widget_classes'); ?> dol-divide-y dol-divide-gray-200 dol-p-0 dol-widget-blueprint">
 	<img class="dol-w-100 dol-h-100 dol-flex-shrink-0 dol-mx-auto" src="<?php echo $image; ?>" alt="">
 	<div class="dol-flex-1 dol-flex dol-flex-col dol-p-6">
 		<h3 class="dol-mt-6 dol-text-gray-900 dol-text-xl dol-font-bold"><?php echo get_post_meta(get_the_ID(), 'wpd_installation_blueprint_title', true); ?></h3>
@@ -43,13 +43,13 @@ if (get_field('wpd_blueprint_image') === 'custom') {
 				}
 				?>
 
-				<a target="_blank" class="dol-relative dol--mr-px dol-w-0 dol-flex-1 dol-inline-flex dol-items-center dol-justify-center dol-py-4 dol-text-sm dol-text-gray-700 dol-font-medium dol-border dol-border-transparent dol-rounded-bl-lg hover:dol-text-gray-500" href="<?php echo esc_url($path); ?>">
+				<a target="_blank" class="dol-bg-gray-100 dol-relative dol--mr-px dol-w-0 dol-flex-1 dol-inline-flex dol-items-center dol-justify-center dol-py-4 dol-text-sm dol-text-gray-700 dol-font-medium dol-border dol-border-transparent dol-rounded-bl-lg hover:dol-text-gray-500" href="<?php echo esc_url($path); ?>">
 					<?php echo wp_kses_post($view_demo_text); ?>
 				</a>
 
 			</div>
 			<div class="dol--ml-px dol-w-0 dol-flex-1 dol-flex">
-				<a data-id="<?php echo get_the_ID(); ?>" class="dol-relative dol-w-0 dol-flex-1 dol-inline-flex dol-items-center dol-justify-center dol-py-4 dol-text-sm dol-text-gray-700 dol-font-medium dol-border dol-border-transparent dol-rounded-br-lg hover:dol-text-gray-500 dol-bg-secondary" href="<?php echo esc_url($checkout_link); ?>">
+				<a data-id="<?php echo get_the_ID(); ?>" class="dol-relative dol-w-0 dol-flex-1 dol-inline-flex dol-items-center dol-justify-center dol-py-4 dol-text-sm dol-text-gray-700 dol-font-medium dol-border dol-border-transparent dol-rounded-br-lg hover:dol-text-gray-500 dol-bg-primary-200 dol-text-primary-600" href="<?php echo esc_url($checkout_link); ?>">
 					<?php if (!empty($launch_button_text)) { ?>
 						<?php echo $launch_button_text; ?> <i class="pr-2 fal fa-rocket"></i>
 					<?php } else { ?>

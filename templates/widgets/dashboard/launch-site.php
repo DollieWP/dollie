@@ -1,4 +1,4 @@
-<div class="dol-flex dol-flex-wrap dol-overflow-hidden dol-bg-primary dol-p-8 dol-rounded">
+<div class="dol-flex dol-flex-wrap dol-overflow-hidden dol-bg-primary dol-p-8 dol-rounded dol-widget-launch-site">
 	<div class="dol-w-full md:dol-w-4/6 dol-flex dol-flex-wrap dol-items-center">
 		<div class="dol-text-brand-50 dol-mb-4 md:dol-mb-0 md:dol-mr-8 dol-text-center dol-w-full md:dol-w-auto">
 			<i class="fal fa-rocket fa-3x dol-text-white"></i>
