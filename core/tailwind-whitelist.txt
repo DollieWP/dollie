@@ -1,0 +1,12 @@
+## This file contains some specifc classes that should never be purged when building the Dollie Tailwind styles.
+dol-p-sm
+dol-p-md
+dol-p-lg
+dol-shadow
+dol-shadow-sm
+dol-shadow-lg
+dol-shadow-md
+dol-bg-white
+dol-rounded
+dol-rounded-lg
+dol-rounded-md

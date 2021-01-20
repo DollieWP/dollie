@@ -73,11 +73,12 @@ module.exports = {
             './core/Widgets/**/templates/**/**/*.php',
             './core/Shortcodes/Blueprints.php',
             './core/Admin/NavMenu/Component.php',
-            './templates/link-domain.php'
+            './templates/link-domain.php',
+            './core/tailwind-whitelist.txt'
         ],
         options: {
             safelist: {
-               greedy: [/primary/, /secondary/],
+               greedy: [/primary/, /secondary/]
             }
         }
     },
