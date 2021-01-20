@@ -6,7 +6,7 @@
 		<?php esc_html_e('Active Theme', 'dollie'); ?>
 	</h2>
 
-	<div class="dol-rounded dol-overflow-hidden dol-border dol-bg-white dol-rounded-lg dol-shadow dol-mb-12">
+	<div class="dol-rounded dol-overflow-hidden dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-mb-12">
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
 			<div class="dol-flex dol-flex-wrap">
 				<div class="dol-w-full lg:dol-w-3/6">
@@ -26,7 +26,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 dol-bg-white">
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
 			<div class="dol-flex dol-flex-wrap dol--mx-4 dol-my-2">
 				<div class="dol-w-full md:dol-w-2/5 lg:dol-w-1/3 dol-px-4">
 					<div class="dol-border dol-border-solid dol-border-primary-50 dol-rounded">
@@ -45,7 +45,7 @@
 	</h2>
 
 	<div class="dol-mt-5 dol-grid dol-grid-cols-1 dol-gap-5 sm:dol-grid-cols-1 lg:dol-grid-cols-1">
-		<div class="dol-bg-white dol-overflow-hidden dol-shadow dol-rounded-lg">
+		<div class="dol-overflow-hidden <?php do_action( 'dol_add_widget_classes' ); ?>">
 			<div class="dol-px-4 dol-py-5 sm:dol-p-6">
 				<div class="dol-flex dol-items-center">
 					<div class="dol-ml-5 dol-w-0 dol-flex-1">

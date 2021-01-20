@@ -21,7 +21,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 						<?php esc_html_e( 'Site URL replacement is not complete ', 'dollie' ); ?>
 					</h4>
 				</div>
-				<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-bg-white">
+				<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 ">
 					<span class="dol-block dol-mb-4">
 						<?php printf( __( 'Your domain <strong>%s</strong> is connected but the URL replacement wasn\'t complete.', 'dollie' ), $domain ); ?>
 					</span>
@@ -60,7 +60,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 				<?php esc_html_e( 'Remove your linked domain', 'dollie' ); ?>
 			</h4>
 		</div>
-		<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-bg-white">
+		<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 ">
 			<span class="dol-block dol-mb-4"><?php esc_html_e( 'Have you changed your domain name? You can unlink your current domain by pressing the button below. Once you have removed your current domain you can add your new domain.', 'dollie' ); ?></span>
 			<form action="<?php echo get_permalink( get_the_ID() ); ?>?remove-domain=<?php echo get_post_meta( get_the_ID(), 'wpd_container_id', true ); ?>"
 				  method="post">

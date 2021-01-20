@@ -54,7 +54,7 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 
 				?>
 				<div class="dol-sites-item <?php echo esc_attr($list_item_type); ?>">
-					<div class="dol-sites-item-inner dol-rounded-lg dol-shadow dol-divide-y dol-divide-gray-200">
+					<div class="dol-sites-item-inner <?php do_action( 'dol_add_widget_classes' ); ?> dol-divide-y dol-divide-gray-200">
 						<div class="dol-sites-image dol-relative">
 							<div class="dol-sites-image-box">
 								<?php echo dollie()->get_site_screenshot(get_the_ID()); ?>

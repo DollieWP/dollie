@@ -49,7 +49,7 @@ if (!empty($args_default['links'])) {
 
 ?>
 
-<div class="dol-border dol-bg-white dol-rounded-lg dol-shadow dol-rounded dol-overflow-hidden <?php echo esc_attr($box_class); ?>">
+<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden <?php echo esc_attr($box_class); ?>">
 	<div class="dol-flex dol-items-center <?php echo esc_attr($bar_class); ?>">
 		<?php if ($args_default['icon']) : ?>
 			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-flex dol-items-center dol-justify-center dol-h-full <?php echo esc_attr($icon_class); ?>">

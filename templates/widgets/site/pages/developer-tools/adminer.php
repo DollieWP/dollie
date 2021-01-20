@@ -2,13 +2,13 @@
 	<?php esc_html_e( 'Database Manager', 'dollie' ); ?>
 </h2>
 
-<div class="dol-border dol-bg-white dol-rounded-lg dol-shadow dol-rounded dol-overflow-hidden dol-my-6">
+<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-my-6">
 	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
 		<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
 			<?php esc_html_e( 'Connection Details', 'dollie' ); ?>
 		</h4>
 	</div>
-	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 dol-bg-white">
+	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
 		<div class="dol-font-bold dol-mb-2">
 			<?php esc_html_e( 'You can securely access your database by using the login details below.', 'dollie' ); ?>
 		</div>
