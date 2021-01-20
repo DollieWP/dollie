@@ -3,7 +3,7 @@
     @apply dol-block dol-py-3 dol-rounded dol-text-gray-500 dol-font-semibold;
     &:hover,
     &.dol-nav-active {
-      @apply dol-bg-primary dol-text-white;
+      @apply dol-text-primary;
     }
   }
 }

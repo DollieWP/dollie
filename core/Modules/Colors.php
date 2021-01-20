@@ -1,5 +1,7 @@
 <?php
 
+
+
 function dol_sanitize_hex_color($hex_color, $setting)
 {
 	// Sanitize $input as a hex value.
@@ -210,4 +212,15 @@ add_action('wp_head', 'dol_customizer_css');
 
 //
 
+/**
+ * Add filterable classes for styling widgets
+ *
+ * @since 1.0.0
+ *
+ */
+function dol_widgets_layout()
+{
+	echo apply_filters('dol_update_widget_classes', 'dol-bg-white dol-rounded-md dol-shadow dol-widget-custom');
+}
 
+add_action('dol_add_widget_classes', 'dol_widgets_layout');

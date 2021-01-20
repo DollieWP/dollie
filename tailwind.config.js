@@ -78,7 +78,7 @@ module.exports = {
         ],
         options: {
             safelist: {
-               greedy: [/primary/, /secondary/]
+               greedy: [/primary/, /secondary/,/gray/]
             }
         }
     },

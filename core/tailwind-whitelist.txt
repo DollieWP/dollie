@@ -10,3 +10,5 @@ dol-bg-white
 dol-rounded
 dol-rounded-lg
 dol-rounded-md
+dol-border-md
+dol-border-solid
