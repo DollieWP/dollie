@@ -6,7 +6,7 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 
 ?>
 <div class="">
-	<div class="<?php do_action('dol_add_widget_classes'); ?> dol-overflow-hidden dol-p-4">
+	<div class="<?php do_action('dol_add_widget_classes'); ?> dol-overflow-hidden dol-p-4 dol-widget-site-sidebar">
 		<?php if (!$deploying) : ?>
 			<div class="dol-px-3 dol-py-3 dol-mb-1">
 				<div class="dol-font-bold dol-text-xl dol-uppercase dark:dol-text-primary-100">
@@ -64,16 +64,16 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 			<?php
 
 			$menu = [
-				''                => '<i class="fas fa-columns"></i> ' . __('Dashboard', 'dollie'),
-				'plugins'         => '<i class="fas fa-plug"></i> ' . __('Plugins', 'dollie'),
-				'themes'          => '<i class="fas fa-paint-roller"></i> ' . __('Themes', 'dollie'),
-				'domains'         => '<i class="fas fa-globe"></i> ' . __('Domains', 'dollie'),
-				'backups'         => '<i class="fas fa-history"></i> ' . __('Backups', 'dollie'),
-				'updates'         => '<i class="fas fa-box-open"></i> ' . __('Updates', 'dollie'),
-				'developer-tools' => '<i class="fas fa-code"></i> ' . __('Developer Tools', 'dollie'),
-				'blueprints'      => '<i class="fas fa-copy"></i> ' . __('Blueprints', 'dollie'),
-				'migrate'         => '<i class="fas fa-truck-moving"></i> ' . __('Migrate', 'dollie'),
-				'delete'          => '<i class="fas fa-trash-alt"></i> ' . __('Delete', 'dollie'),
+				''                => '<i class="fas fa-columns"></i>' . __('Dashboard', 'dollie'),
+				'plugins'         => '<i class="fas fa-plug"></i>' . __('Plugins', 'dollie'),
+				'themes'          => '<i class="fas fa-paint-roller"></i>' . __('Themes', 'dollie'),
+				'domains'         => '<i class="fas fa-globe"></i>' . __('Domains', 'dollie'),
+				'backups'         => '<i class="fas fa-history"></i>' . __('Backups', 'dollie'),
+				'updates'         => '<i class="fas fa-box-open"></i>' . __('Updates', 'dollie'),
+				'developer-tools' => '<i class="fas fa-code"></i>' . __('Developer Tools', 'dollie'),
+				'blueprints'      => '<i class="fas fa-copy"></i>' . __('Blueprints', 'dollie'),
+				'migrate'         => '<i class="fas fa-truck-moving"></i>' . __('Migrate', 'dollie'),
+				'delete'          => '<i class="fas fa-trash-alt"></i>' . __('Delete', 'dollie'),
 			];
 
 			$sub_page = get_query_var('sub_page');

@@ -39450,6 +39450,25 @@
   transition-duration: 300ms;
 }
 
+.dol-widget-site-sidebar li a {
+  position: relative;
+  padding-left: 27px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  line-height: 170%;
+}
+
+.dol-widget-site-sidebar li a:hover i {
+  opacity: 1;
+}
+
+.dol-widget-site-sidebar li i {
+  opacity: 0.5;
+  position: absolute;
+  left: 0;
+  top: 11px;
+}
+
 /* Search input */
 
 input[type="text"].dol-search-input {
