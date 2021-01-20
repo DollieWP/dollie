@@ -669,8 +669,8 @@ Follow along with the <a target="_blank" href="https://partners.getdollie.com/?r
 				'key' => 'field_5fabba25bf323',
 				'label' => __('Your Deployment Domain', 'dollie'),
 				'name' => 'wpd_api_domain_custom',
-				'type' => 'url',
-				'instructions' => __('Add your base domain name. So with http(s):// or www. For example "myagency.com"', 'dollie'),
+				'type' => 'text',
+				'instructions' => __('Add your base domain name, without http(s):// or www. For example "myagency.com"', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => array(
 					array(

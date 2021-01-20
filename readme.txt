@@ -4,7 +4,7 @@ Tags: hosting, waas, wordpress hosting, sell hosting
 Requires at least: 5.0
 Tested up to: 5.6.1
 Requires PHP: 7.0
-Stable tag: 4.1.8
+Stable tag: 4.1.9.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -59,7 +59,7 @@ Bill your customers directly hooking up Stripe, PayPal, or any other the WooComm
 **Flexible - Built for the WordPress ecosystem**
 Dollie integrates, out of the box with thousands of WordPress solutions. Use it alongside your favourite plugins and create something truly unique for your customers. Use your favorite WordPress plugins and WooCommerce extensions to add an affiliate system, detailed customer insights, live chat support, or anything you envision to your customer dashboard.
 
-**Blueprints - Your Pre-Made Sites Launched With Click of a Button **
+**Blueprints - Your Pre-Made Sites Launched With Click of a Button**
 Create re-usable blueprints for each product/service you offer and allow new or existing customers to launch fully configured ready-to-go sites with the click of a button. Link Blueprints to your subscriptions or make them exclusively available to those with specific subscriptions. Offer unique click-to-launch designs for different audiences and manage them all through your Dollie Dashboard.
 
 **Insights & Support Tools**
@@ -140,8 +140,20 @@ Our team is here to provide you with technical infrastructure support only, for 
 Our code is available on [Github](https://github.com/DollieWP/dollie)
 
 == Screenshots ==
+1. **Site Dashboard.** Let your customers manage their sites directly inside your WordPress install.
+2. **Sell Pre-Made Site Designs.** Create re-usable designs for each product/service you offer and (new) customers to launch fully configured ready-to-go sites with the click of a button.
+3. **Live Preview** All the designs you've made can be previewed with the Live Preview feature included with Dollie
+4. **Full (Access)Control.** Enable or disable specific site management features. For example by giving clients the ability to create backups of their site, but disabling the advanced Developer Features and keeping those reserved for your team alone.
+5. **WooCommerce Integration.** Set up WooCommerce (Subscription) Products that need to be purchased before your customers can launch sites. Control exactly how many sites can be launched, and which features are enabled.
+6. **Developer Tools.** The Developer Tools allow you to quickly manage sites on your platform, or allow your customers to do that themselves.
 
 == Changelog ==
+= 4.1.9.1 =
+* Fix custom domain for site deployment
+
+= 4.1.9 =
+* Show site content when editing Elementor Site widgets
+* Text changes and UI adjustments
 
 = 4.1.8 =
 * Optimize the process and notification on new site deployment.
