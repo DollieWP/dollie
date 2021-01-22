@@ -193,7 +193,7 @@ class Helpers extends Singleton {
 		} else {
 			// keep old functionality for fallback
 			$details = Container::instance()->get_info( $container->id );
-			$url    .= '?s5token=' . $details->Token . $location;
+			$url     .= '?s5token=' . $details->Token . $location;
 		}
 
 		return $url;
@@ -234,7 +234,7 @@ class Helpers extends Singleton {
 	 *
 	 * @return string
 	 */
-	public function get_site_screenshot( $container_id = null ) {
+	public function get_site_screenshot( $container_id = null, $html = true ) {
 		$post_id = $this->get_current_object( $container_id )->id;
 
 		$deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_status( $post_id );
@@ -258,6 +258,10 @@ class Helpers extends Singleton {
 
 				set_transient( 'wpd_container_ss', $screenshot, MINUTE_IN_SECONDS * 60 );
 			}
+		}
+
+		if ( ! $html ) {
+			return $image;
 		}
 
 		$image_tag = '<img width="700" class="dol-block dol-object-cover" alt="' . esc_attr( $site ) . '" src="' . $image . '" />';
@@ -500,7 +504,7 @@ class Helpers extends Singleton {
 
 	/**
 	 * @param $site_id
-	 * @param string  $page
+	 * @param string $page
 	 *
 	 * @return string
 	 */
@@ -580,10 +584,12 @@ class Helpers extends Singleton {
 	/**
 	 * Get site total backups
 	 *
+	 * @param null $container_id
+	 *
 	 * @return mixed
 	 */
-	public function get_site_total_backups() {
-		return Backups::instance()->count();
+	public function get_site_total_backups( $container_id = null ) {
+		return Backups::instance()->count( $container_id );
 	}
 
 	/**
@@ -702,7 +708,7 @@ class Helpers extends Singleton {
 	 * @param $url
 	 * @param $transient_id
 	 * @param $user_auth
-	 * @param null         $user_pass
+	 * @param null $user_pass
 	 *
 	 * @return mixed
 	 */
@@ -712,7 +718,7 @@ class Helpers extends Singleton {
 
 	/**
 	 * @param $container_uri
-	 * @param bool          $regenerate
+	 * @param bool $regenerate
 	 *
 	 * @return mixed
 	 */
@@ -826,7 +832,7 @@ class Helpers extends Singleton {
 	/**
 	 * @param $needle
 	 * @param $haystack
-	 * @param bool     $strict
+	 * @param bool $strict
 	 *
 	 * @return bool
 	 */
@@ -975,5 +981,32 @@ class Helpers extends Singleton {
 
 	public function is_preview() {
 		return get_query_var( 'dollie_route_name' ) === 'dollie_preview';
+	}
+
+	public function get_current_site_id() {
+
+		$current_id = get_the_ID();
+		if ( ! class_exists( '\Elementor\Plugin' ) ) {
+			return $current_id;
+		}
+
+		$elementor_builder = \Elementor\Plugin::instance()->editor->is_edit_mode()
+		                     || \Elementor\Plugin::instance()->preview->is_preview()
+		                     || isset( $_GET['elementor_library'] );
+
+		if ( $elementor_builder ) {
+
+			$my_sites = get_posts( [
+				'post_type'      => 'container',
+				'author'         => get_current_user_id(),
+				'posts_per_page' => 1
+			] );
+
+			if ( ! empty( $my_sites ) ) {
+				$current_id = $my_sites[0]->ID;
+			}
+		}
+
+		return $current_id;
 	}
 }
