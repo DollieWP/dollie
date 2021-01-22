@@ -32,6 +32,8 @@
     "tailwindcss": "^2.0.2"
   },
   "dependencies": {
-    "esm": "^3.2.25"
+    "@tailwindcss/forms": "^0.2.1",
+    "esm": "^3.2.25",
+    "kutty": "^0.4.1"
   }
 }
