@@ -45,6 +45,22 @@ class Hooks extends Singleton {
 		add_action( 'elementor/elements/categories_registered', [ $this, 'register_category' ] );
 		add_action( 'elementor/widgets/widgets_registered', [ $this, 'widgets_registered' ] );
 
+		add_action( 'elementor/dynamic_tags/register_tags', function() {
+
+			/** @var \Elementor\Core\DynamicTags\Manager $module */
+			$module = \ElementorPro\Plugin::elementor()->dynamic_tags;
+
+			$module->register_group( 'dollie-tags', [
+				'title' => 'Dollie'
+			] );
+
+			// Finally register the tag
+			$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteRemoteInfo' );
+			$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteImageRemoteInfo' );
+			$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteScreenshot' );
+			$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteBackups' );
+		} );
+
 	}
 
 	/**
