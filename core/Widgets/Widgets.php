@@ -118,6 +118,12 @@ class Widgets extends Singleton {
 			'name'  => 'dollie-site-navigation',
 		];
 
+		$this->widgets[] = [
+			'path'  => 'Site/SiteScreenshot',
+			'class' => 'Site\SiteScreenshot',
+			'name'  => 'dollie-site-screenshot',
+		];
+
 		// Launch Widgets
 
 		$this->widgets[] = [
