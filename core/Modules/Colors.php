@@ -224,3 +224,16 @@ function dol_widgets_layout()
 }
 
 add_action('dol_add_widget_classes', 'dol_widgets_layout');
+
+function mytheme_register_nav_menu()
+{
+	register_nav_menus(array(
+		'dol_top_menu' => __('Dollie - Primary Menu', 'text_domain'),
+		'dol_notifications_menu'  => __('Dollie - Notifications Menu', 'text_domain'),
+	));
+}
+add_action('after_setup_theme', 'mytheme_register_nav_menu', 0);
+
+
+
+

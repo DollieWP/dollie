@@ -37,20 +37,35 @@ class PartnerGreeting extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'content_section',
 			[
-				'label' => __( 'Content', 'dollie' ),
+				'label' => __( 'Template', 'dollie' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			]
 		);
 
 		$this->add_control(
-			'description',
+			'content',
 			[
-				'label'   => __( 'Description', 'dollie' ),
-				'type'    => Controls_Manager::TEXTAREA,
-				'rows'    => 10,
-				'default' => __( 'Here you can continue working on all the sites you have with us, see the latest updates from our team and look at your payments history and other account details.', 'dollie' ),
+				'label'   => __( 'Content Template', 'dollie' ),
+				'type'    => Controls_Manager::NUMBER
 			]
 		);
+
+		$this->add_control(
+			'sidebar',
+			[
+				'label'   => __('Sidebar template', 'dollie'),
+				'type'    => Controls_Manager::NUMBER,
+			]
+		);
+
+		$this->add_control(
+			'header',
+			[
+				'label'   => __('Header template', 'dollie'),
+				'type'    => Controls_Manager::NUMBER,
+			]
+		);
+
 
 		$this->end_controls_section();
 	}

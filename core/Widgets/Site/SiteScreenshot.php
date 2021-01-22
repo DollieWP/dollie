@@ -60,7 +60,7 @@ class SiteScreenshot extends \Elementor\Widget_Base {
 		}
 
 		if ( get_post_type() !== 'container' && ! $elementor_builder ) {
-			esc_html_e( 'This widget can only be used on the "Site" page.', 'dollie' );
+			esc_html_e( 'This widget will only show content when you visit a Single Dollie Site.', 'dollie' );
 		} else {
 			Tpl::load( 'widgets/site/site-screenshot', $data, true );
 		}

@@ -7,25 +7,6 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 ?>
 <div class="">
 	<div class="<?php do_action('dol_add_widget_classes'); ?> dol-overflow-hidden dol-p-4 dol-widget-site-sidebar">
-		<?php if (!$deploying) : ?>
-			<div class="dol-px-3 dol-py-3 dol-mb-1">
-				<div class="dol-font-bold dol-text-xl dol-uppercase dark:dol-text-primary-100">
-					<?php echo get_post_meta($current_id, 'wpd_installation_name', true); ?>
-				</div>
-				<div class="dol-inline-block dol-text-sm dol-break-all dark:dol-text-gray-400">
-					<?php echo dollie()->get_container_url($current_id); ?>
-				</div>
-			</div>
-		<?php else : ?>
-			<div class="dol-px-3 dol-py-3">
-				<div class=" dol-font-bold dol-text-xl dol-uppercase">
-					<?php esc_html_e('Getting ready soon', 'dollie'); ?>
-				</div>
-				<div class="dol-inline-block dol-text-sm">
-					<?php echo get_the_title($current_id); ?>
-				</div>
-			</div>
-		<?php endif; ?>
 
 		<div class="dol-px-3">
 			<div class="dol-rounded dol-overflow-hidden">

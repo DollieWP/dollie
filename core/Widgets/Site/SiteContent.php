@@ -75,7 +75,11 @@ class SiteContent extends \Elementor\Widget_Base {
 			'current_id' => $current_id
 		];
 
-		Tpl::load( 'widgets/site/site-content', $data, true );
+		if (get_post_type() !== 'container' && !$elementor_builder) {
+			esc_html_e('This widget will only show content when you visit a Single Dollie Site.', 'dollie');
+		} else {
+			Tpl::load('widgets/site/site-content', $data, true);
+		}
 	}
 
 }

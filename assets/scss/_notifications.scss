@@ -76,7 +76,51 @@
   }
 }
 
+.admin-bar {
+  .dol-layout-sidebar {
+    position: relative;
+  }
+  .dol-layout-sidebar {
+    padding-top: 10px;
+    z-index: 100000;
+  }
+}
+
 .dollie-menu-avatar-img {
   width: 28px;
   height: 28px;
+}
+
+//Custom styling for Tailwind Layouts
+.dol-custom-layout {
+  #dol-notifications,
+  .menu-notifications-container {
+    padding: inherit;
+    margin: none;
+    li {
+      list-style: none;
+    }
+  }
+}
+
+.dol-layout-header {
+  .dol-widget-custom {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+  .dol-widget-site-sidebar {
+    li {
+      display: inline-block;
+
+      a {
+        position: relative;
+        padding-left: 23px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        line-height: 170%;
+        margin-right: 10px !important;
+      }
+    }
+  }
 }

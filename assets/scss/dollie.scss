@@ -18,13 +18,21 @@
   background: linear-gradient(var(--primary-700), var(--primary));
 }
 
-.dol-sidebar-widget {
+.dol-sidebar-widget,
+.dol-layout-sidebar,
+.dol-widget-clean {
   .dol-widget-site-sidebar,
   .dol-widget-custom {
     background: transparent;
     padding: 0;
     box-shadow: none;
   }
+}
+
+.dol-widget-clean {
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
 }
 
 .dol-bg-gradient-secondary {
