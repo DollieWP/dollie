@@ -24,7 +24,6 @@ class SiteRemoteInfo extends Tag {
 		$this->wpd_data['customer_data']["Customer Subscription - Sites Available"] = dollie()->sites_available();
 		$this->wpd_data['customer_data']["Customer Subscription - Storage Available"] = dollie()->storage_available();
 
-
 	}
 
 	public function get_name() {
@@ -75,8 +74,6 @@ class SiteRemoteInfo extends Tag {
 
 			$keys[$k] = $k;
 		}
-
-		print("<pre>".print_r($keys,true)."</pre>");
 
 		$this->add_control(
 			'param_name',
