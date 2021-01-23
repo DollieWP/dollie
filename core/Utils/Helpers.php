@@ -337,11 +337,7 @@ class Helpers extends Singleton {
 	 * @return string
 	 */
 	public function secret_admin_key() {
-		if ( isset( $_COOKIE['wordpress_user_sw_olduser_wefoster-cookie-hash'] ) ) {
-			return '?G1HoCIM4VYCbmpk!0GOgSO01=yes';
-		}
-
-		return '';
+		return '?' . dollie()->random_string(12);
 	}
 
 	/**
