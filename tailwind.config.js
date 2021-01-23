@@ -53,7 +53,7 @@ module.exports = {
         display: ['responsive', 'group-hover']
     },
     purge: {
-        enabled: true,
+        enabled: false,
         content: [
             './templates/*.php',
             './templates/**/*.php',
