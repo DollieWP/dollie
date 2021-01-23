@@ -140,7 +140,7 @@ class Log
 			],
 			self::WP_SITE_DEPLOY_FAILED         => [
 				'title'   => __('Site Launch Failed', 'dollie'),
-				'content' => __(sprintf('Site %s has failed to launch. Please contact our support if the issue persists.', $values[0],), 'dollie'),
+				'content' => __(sprintf('Site %s has failed to launch. Please contact our support if the issue persists.', $values[0]), 'dollie'),
 				'type'    => 'deploy',
 				'link'    => false,
 			],
