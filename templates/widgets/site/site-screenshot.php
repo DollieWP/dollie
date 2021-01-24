@@ -9,7 +9,12 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 	<div class="<?php do_action('dol_add_widget_classes'); ?> dol-overflow-hidden dol-p-4 dol-widget-site-sidebar">
 
 		<div class="dol-px-3">
-			<div class="dol-rounded dol-overflow-hidden">
+			<div class="dol-rounded dol-overflow-hidden dol-relative">
+				<div class="dol-sites-status dol-absolute dol-top-3 dol-right-4">
+					<span class="dol-flex dol-h-4 dol-w-4 dol-relative">
+						<a href="<?php echo get_the_permalink(); ?>/?update-details"><i class="fas fa-sync-alt dol-text-gray-300 dol-text-xl"></i></a>
+					</span>
+				</div>
 				<?php echo dollie()->get_site_screenshot($current_id); ?>
 			</div>
 
