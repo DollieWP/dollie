@@ -94,13 +94,26 @@ final class Notices extends Singleton {
 			return;
 		}
 
+		if ( isset( $_GET['hosted'] ) ) {
+			update_option( 'dollie_hosted_by_us', 'yes' );
+		}
+
 		?>
 		<div class="notice dollie-notice dollie-connect-message">
 			<div class="dollie-inner-message">
+				<?php if ( isset($_GET['hosted'] ) ) { ?>
+				<div class="dollie-message-center">
+					<h3><?php esc_html_e( 'Welcome to Your New Dollie Website!', 'dollie' ); ?> </h3>
+					<p><?php esc_html_e( 'Please finish the site setup by connecting this installation to your partner account. Simply click on the button below to continue.', 'dollie' ); ?></p>
+				</div>
+				<?php } else { ?>
+
 				<div class="dollie-message-center">
 					<h3><?php esc_html_e( 'Dollie is almost ready...', 'dollie' ); ?> </h3>
 					<p><?php esc_html_e( 'Please authenticate this installation so that you can start launching your first site using Dollie!', 'dollie' ); ?></p>
 				</div>
+				<?php }
+				?>
 
 				<div class="dollie-msg-button-right">
 				<?php echo Plugin::instance()->get_api_access_link( true ); ?>
