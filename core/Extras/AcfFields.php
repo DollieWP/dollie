@@ -922,6 +922,153 @@ This is the default screenshot image shown until a live screenshot is generated.
 				'max_size'          => '',
 				'mime_types'        => '',
 			),
+
+			array(
+				'key' => 'field_5db808224445b',
+				'label' => __('Custom Launch Messages', 'dollie'),
+				'name' => 'wpd_custom_launch_splash',
+				'type' => 'true_false',
+				'instructions' => __('Enable this if you would like to show custom messages whilst a new site is being launched.', 'dollie'),
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'message' => '',
+				'default_value' => 0,
+				'ui' => 1,
+				'ui_on_text' => 'Yes',
+				'ui_off_text' => 'No',
+			),
+
+			array(
+				'key' => 'field_5db808224473a',
+				'label' => 'Launch Site Wizard',
+				'name' => '',
+				'type' => 'message',
+				'instructions' => 'hello',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5db808224445b',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'message' => 'Fill in the fields below with your custom messages. <br><br><a target="_blank" class="btn button button-secondary" href="' . dollie()->get_latest_container_url(). '?launch-splash-preview">Click here for a preview</a>. <br><br>Make sure to save your options first.',
+				'new_lines' => 'wpautop',
+				'esc_html' => 0,
+			),
+			array(
+				'key' => 'field_5db73a6b5ba07',
+				'label' => 'Step 1',
+				'name' => 'wpd_launch_step_1',
+				'type' => 'wysiwyg',
+				'instructions' => 'This is the first screen shown as soon as someone presses the "Launch Site" button.',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5db808224445b',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'media_upload' => 0,
+				'toolbar' => 'full',
+				'delay' => 0,
+			),
+			array(
+				'key' => 'field_5db73b99d3b4b',
+				'label' => 'Step 2',
+				'name' => 'wpd_launch_step_2',
+				'type' => 'wysiwyg',
+				'instructions' => 'This is the second screen shown as soon as someone presses the "Launch Site" button.',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5db808224445b',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'media_upload' => 0,
+				'toolbar' => 'full',
+				'delay' => 0,
+			),
+			array(
+				'key' => 'field_5db73bf2d3b4c',
+				'label' => 'Step 3',
+				'name' => 'wpd_launch_step_3',
+				'type' => 'wysiwyg',
+				'instructions' => 'This is the third screen shown as soon as someone presses the "Launch Site" button.',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5db808224445b',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'media_upload' => 0,
+				'toolbar' => 'full',
+				'delay' => 0,
+			),
+			array(
+				'key' => 'field_5db808cb4473b',
+				'label' => 'Step 4',
+				'name' => 'wpd_launch_step_4',
+				'type' => 'wysiwyg',
+				'instructions' => 'This is the final screen shown as soon as someone presses the "Launch Site" button. This only shows if the site deploy takes longer than usual.',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5db808224445b',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'media_upload' => 0,
+				'toolbar' => 'full',
+				'delay' => 0,
+			),
 			array(
 				'key'               => 'field_5b06a979537b3',
 				'label'             => __( 'Access Control', 'dollie' ),
