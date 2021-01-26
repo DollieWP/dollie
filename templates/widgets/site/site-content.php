@@ -79,41 +79,9 @@
 		wp_enqueue_script('dollie-site-content');
 	}
 	?>
-	<?php if (get_field('wpd_custom_launch_splash', 'option') == true) { ?>
-		<script>
-			jQuery(document).ready(function() {
-				var modalId = '#dol-deploying-site';
-				var counter = 1,
-					int = setInterval(function() {
-						jQuery("div.loader-wrap").attr(
-							"class",
-							"loader-wrap launch-class-" + counter
-						);
-						if (counter === 4) {
-							counter = 1;
-						} else {
-							counter++;
-						}
-					}, 25000);
-
-				var divs = jQuery('div[id^="dollie-content-"]'),
-					i = 0;
-
-				divs.hide();
-
-				(function launchCycle() {
-					divs
-						.eq(i)
-						.fadeIn(500)
-						.delay(15000)
-						.fadeOut(500, launchCycle);
-
-					i = ++i % divs.length;
-				})();
-
-			});
-		</script>
-	<?php } ?>
+	<?php if (get_field('wpd_custom_launch_splash', 'option') == true) {
+		wp_enqueue_script('dollie-custom-launch');
+	} ?>
 
 	<div id="dol-deploying-site" class="dol-hidden" data-container="<?php echo esc_attr(get_the_ID()); ?>" data-nonce="<?php echo esc_attr(wp_create_nonce('check_deploy_nonce')); ?>" data-ajax-url="<?php echo esc_attr(admin_url('admin-ajax.php')); ?>"></div>
 	<div class="dol-py-32 dol-flex dol-flex-col dol-items-center dol-justify-center">

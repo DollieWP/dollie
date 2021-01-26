@@ -26,6 +26,7 @@ class SiteContent extends \Elementor\Widget_Base {
 			DOLLIE_VERSION,
 			true
 		);
+		wp_register_script('dollie-custom-launch', DOLLIE_ASSETS_URL . 'js/custom-launch.js', ['jquery'], DOLLIE_VERSION, true);
 	}
 
 	public function get_name() {
