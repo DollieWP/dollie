@@ -783,7 +783,7 @@ class Subscription extends Singleton {
 	 * @return array
 	 */
 	public function get_partner_subscription() {
-		if ( ! Api::get_auth_token() ) {
+		if ( ! Api::get_auth_token() || get_transient( 'wpd_just_connected' ) ) {
 			return false;
 		}
 
