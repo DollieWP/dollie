@@ -105,6 +105,10 @@ class SyncContainersJob extends Singleton {
 			// If no such container found, create one with details from server's container.
 			if ( ! $client_containers ) {
 
+				if ( $container['status'] == 'Running') {
+					$status = 'start';
+				}
+
 				$container_post_id = wp_insert_post(
 					[
 						'post_type'   => 'container',
@@ -115,7 +119,7 @@ class SyncContainersJob extends Singleton {
 						'meta_input'  => [
 							'wpd_container_id'          => $container['id'],
 							'_wpd_container_data'       => WP::instance()->get_filtered_store_data( $container ),
-							'wpd_container_status'      => $container['status'],
+							'wpd_container_status'      => $status,
 							'wpd_node_added'            => 'yes',
 							'wpd_setup_complete'        => 'yes',
 							'wpd_refetch_secret_key'    => 'yes',
