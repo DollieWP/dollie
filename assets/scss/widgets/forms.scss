@@ -163,3 +163,27 @@
     }
   }
 }
+#form_dollie_list_backups {
+  .af-field-site-backup {
+    li {
+      @apply dol-rounded;
+      font-size: 13px;
+      line-height: 39px;
+      display: grid;
+      margin: 0;
+      position: relative;
+      word-wrap: break-word;
+      margin-bottom: 5px;
+      padding: 5px;
+      padding-left: 12px;
+
+      label {
+        display: block;
+      }
+
+      span.dol-inline-block {
+        float: right;
+      }
+    }
+  }
+}
