@@ -21,11 +21,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 final class WP extends Singleton {
 
-	public const POST_SUFFIX = '-failed';
+	const POST_SUFFIX = '-failed';
 	/**
 	 * Used for remote call. Gives false positive in WP repo checks
 	 */
-	public const PLATFORM_PATH = '/wp-content/mu-plugins/platform/'; // phpcs:ignore
+	const PLATFORM_PATH = '/wp-content/mu-plugins/platform/'; // phpcs:ignore
 
 	public function __construct() {
 		parent::__construct();
@@ -176,14 +176,14 @@ final class WP extends Singleton {
 		}
 
 		$args = [
-			'post_type'   => 'container',
-			'meta_key'    => 'wpd_container_deploy_job',
-			'author' => get_current_user_id()
+			'post_type' => 'container',
+			'meta_key'  => 'wpd_container_deploy_job',
+			'author'    => get_current_user_id(),
 		];
 
 		$pending_deploys = get_posts( $args );
 
-		//var_dump($pending_deploys);exit;
+		// var_dump($pending_deploys);exit;
 
 		if ( ! empty( $pending_deploys ) ) {
 			foreach ( $pending_deploys as $deploy_container ) {
@@ -345,7 +345,6 @@ final class WP extends Singleton {
 	 * @param null $post_id
 	 */
 	public function update_deploy_setup_data_for_container( $post_id = null ) {
-
 
 		// in case the deploy failed
 		if ( get_post_status( $post_id ) === 'draft' ) {
