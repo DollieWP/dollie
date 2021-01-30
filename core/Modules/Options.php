@@ -528,7 +528,7 @@ class Options extends Singleton
 			add_action(
 				'all_admin_notices',
 				static function () {
-					if (empty($_GET['blueprint'])) { ?>
+					if ( empty($_GET['blueprint'] )) { ?>
 					<div class="dollie-notice">
 						<h3>
 							The Site Manager
@@ -542,7 +542,7 @@ class Options extends Singleton
 							?>
 						</p>
 					</div>
-				<?php } else ?>
+				<?php } else { ?>
 				<div class="dollie-notice">
 					<h3>
 						Your Site Blueprints
@@ -550,13 +550,14 @@ class Options extends Singleton
 					<p>
 						<?php
 						printf(
-							'Below you will find all the Blueprints you have created. Want to add a new Blueprint? <a href="%s">Launch a New Blueprint</a>.',
+							'Below you will find all the Blueprints you have created. Want to add a new Blueprint? <a href="%s">Launch a Blueprint</a>.',
 							esc_url(dollie()->get_launch_blueprint_page_url())
 						);
 						?>
 					</p>
 				</div>
 			<?php }
+			}
 			);
 		}
 
