@@ -280,6 +280,12 @@ class Upgrades extends Singleton {
 				'tpl'       => 'elementor_header_footer',
 				'post_type' => 'page',
 			],
+			'launch-site'    => [
+				'title'     => 'Launch New Blueprint',
+				'option'    => 'options_wpd_launch_blueprint_page_id',
+				'tpl'       => 'elementor_header_footer',
+				'post_type' => 'page',
+			],
 			'dashboard'      => [
 				'title'     => 'Dashboard',
 				'option'    => 'options_wpd_dashboard_page_id',

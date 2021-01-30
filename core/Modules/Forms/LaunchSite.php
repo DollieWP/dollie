@@ -58,7 +58,7 @@ class LaunchSite extends Singleton {
 		$domain = af_get_field( 'site_url' );
 
 		if ( ! preg_match( '/^[a-zA-Z0-9-_]+$/', $domain ) ) {
-			af_add_error( 'site_url', esc_html__( 'Site URL can oly contain letters, numbers, dash and underscore', 'dollie' ) );
+			af_add_error( 'site_url', esc_html__( 'Site URL can only contain letters, numbers, dash and underscore', 'dollie' ) );
 
 		}
 

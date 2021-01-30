@@ -733,6 +733,28 @@ Follow along with the <a target="_blank" href="https://partners.getdollie.com/?r
 				'ui'                => 1,
 			),
 			array(
+				'key'               => 'field_5e5557eda4f91',
+				'label'             => __('Launch Blueprint Page', 'dollie'),
+				'name'              => 'wpd_launch_blueprint_page_id',
+				'type'              => 'post_object',
+				'instructions'      => __('This page contains the (Elementor) template for launching a new Blueprint', 'dollie'),
+				'required'          => 0,
+				'conditional_logic' => 0,
+				'wrapper'           => array(
+					'width' => '',
+					'class' => '',
+					'id'    => '',
+				),
+				'post_type'         => array(
+					0 => 'page',
+				),
+				'taxonomy'          => '',
+				'allow_null'        => 0,
+				'multiple'          => 0,
+				'return_format'     => 'id',
+				'ui'                => 1,
+			),
+			array(
 				'key'               => 'field_5e555885a4c7e',
 				'label'             => __( 'Customer Dashboard Page', 'dollie' ),
 				'name'              => 'wpd_dashboard_page_id',

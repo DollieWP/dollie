@@ -459,6 +459,22 @@ class Helpers extends Singleton {
 	/**
 	 * @return mixed|void
 	 */
+	public function get_launch_blueprint_page_id()
+	{
+		return (int) get_option('options_wpd_launch_blueprint_page_id');
+	}
+
+	/**
+	 * @return false|string
+	 */
+	public function get_launch_blueprint_page_url()
+	{
+		return get_permalink($this->get_launch_blueprint_page_id());
+	}
+
+	/**
+	 * @return mixed|void
+	 */
 	public function get_dashboard_page_id() {
 		return (int) get_option( 'options_wpd_dashboard_page_id' );
 	}

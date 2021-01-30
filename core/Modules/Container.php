@@ -46,6 +46,7 @@ class Container extends Singleton
 
 		add_action('add_meta_boxes', [$this, 'rename_author_box_title']);
 		add_filter('manage_container_posts_columns', [$this, 'rename_author_box_column']);
+		add_filter('parse_query', [$this, 'filter_blueprint_from_sites']);
 
 		add_action('acf/save_post', [$this, 'update_customer_role']);
 		add_action('acf/save_post', [$this, 'update_all_customers_role']);
@@ -857,6 +858,39 @@ class Container extends Singleton
 		add_meta_box('authordiv', __('Assigned Customer to this Site', 'wpse39446_domain'), 'post_author_meta_box', 'container', 'normal', 'high');
 	}
 
+	public function filter_blueprint_from_sites($query)
+	{
+
+		if (is_admin() and $query->query['post_type'] == 'container') {
+			$qv = &$query->query_vars;
+			$qv['meta_query'] = array();
+
+			if (!empty($_GET['blueprint'])) {
+				$qv['meta_query'][] = array(
+					'relation' => 'OR',
+					array(
+						'key'   => 'wpd_blueprint_created',
+						'value' => 'yes',
+					),
+					array(
+						'key'   => 'wpd_is_blueprint',
+						'value' => 'yes',
+					),
+						array(
+						'key'     => 'wpd_installation_blueprint_title',
+						'compare' => 'EXISTS',
+					),
+				);
+			} else {
+				$qv['meta_query'][] = array(
+						'key'   => 'wpd_is_blueprint',
+						'compare' => 'NOT EXISTS'
+				);
+			}
+		}
+	}
+
+
 	/**
 	 * Container author box
 	 */
@@ -1242,3 +1276,5 @@ class Container extends Singleton
 		return get_post_meta($container->id, 'wpd_container_status', true);
 	}
 }
+
+
