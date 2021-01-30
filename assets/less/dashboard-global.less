@@ -191,9 +191,38 @@ body.toplevel_page_wpd_platform_setup {
   }
 }
 
+//Blueprint Admin Box
+#acf-group_5affdcd76c8d1 {
+  display: none;
+}
+
+.post-type-container.post-php {
+  .handle-actions,
+  #minor-publishing-actions,
+  #misc-publishing-actions,
+  #delete-action {
+    display: none;
+  }
+  .notice,
+  .notice.notice-error {
+    display: none !important;
+  }
+  #acf-group_5affdcd76c8d1,
+  #pageparentdiv,
+  #elementor-switch-mode {
+    display: none !important;
+  }
+}
+
 #acf-group_5afc7b8e22840 {
   top: -32px;
+}
 
+#acf-group_5afc7b8e22840,
+#acf-group_5af8272e96d48,
+#acf-group_5af9435f11e79,
+.post-type-container #authordiv,
+#tagsdiv-container_category {
   .hndle {
     padding-top: 12px;
     padding-bottom: 12px;
@@ -232,6 +261,12 @@ body.toplevel_page_wpd_platform_setup {
   .update-nag {
     display: none;
   }
+}
+
+#acf-group_5af8272e96d48,
+#acf-group_5af9435f11e79,
+.post-type-container #authordiv {
+  top: 0;
 }
 
 .dollie-notice,

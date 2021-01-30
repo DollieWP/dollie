@@ -212,7 +212,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 			),
 		),
 		'menu_order'            => - 2147483648,
-		'position'              => 'side',
+		'position'              => 'normal',
 		'style'                 => 'default',
 		'label_placement'       => 'top',
 		'instruction_placement' => 'label',
@@ -223,14 +223,14 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 
 	acf_add_local_field_group( array(
 		'key'                   => 'group_5af9435f11e79',
-		'title'                 => 'Management',
+		'title'                 => 'Advanced Management',
 		'fields'                => array(
 			array(
 				'key'               => 'field_5af943727c113',
 				'label'             => __( 'Status', 'dollie' ),
 				'name'              => 'wpd_container_status',
 				'type'              => 'radio',
-				'instructions'      => '',
+				'instructions'      => 'Warning - Only change the status if you want to manually take action. For example pausing a website or restarting it. The status of a site will automatically be updated based on the subscription status of your customer. ',
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -239,9 +239,9 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 					'id'    => '',
 				),
 				'choices'           => array(
-					'start'   => 'Active',
-					'restart' => 'Restart',
-					'stop'    => 'Stopped',
+					'start'   => 'Active (Site is online)',
+					'restart' => 'Restart (Restart site container)',
+					'stop'    => 'Stopped (Manually stop this site)',
 				),
 				'allow_null'        => 0,
 				'other_choice'      => 0,
@@ -279,8 +279,8 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 				),
 			),
 		),
-		'menu_order'            => - 10,
-		'position'              => 'side',
+		'menu_order'            => 100,
+		'position'              => 'low',
 		'style'                 => 'default',
 		'label_placement'       => 'top',
 		'instruction_placement' => 'label',
@@ -291,11 +291,11 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 
 	acf_add_local_field_group( array(
 		'key'                   => 'group_5af8272e96d48',
-		'title'                 => 'Container Details',
+		'title'                 => 'Site Details',
 		'fields'                => array(
 			array(
 				'key'               => 'field_5af82852c985c',
-				'label'             => __( 'WP Details', 'dollie' ),
+				'label'             => __( 'Installation Details', 'dollie' ),
 				'name'              => '',
 				'type'              => 'tab',
 				'instructions'      => '',
@@ -563,9 +563,9 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 				),
 			),
 		),
-		'menu_order'            => 0,
-		'position'              => 'normal',
-		'style'                 => 'default',
+		'menu_order'            => 1000,
+		'position'              => 'low',
+		'style'                 => 'advanced',
 		'label_placement'       => 'top',
 		'instruction_placement' => 'label',
 		'hide_on_screen'        => '',
