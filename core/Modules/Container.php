@@ -1032,7 +1032,7 @@ class Container extends Singleton
 			return;
 		}
 
-		$container_id  = get_post_meta($_GET['post'], 'wpd_container_id', true);
+		$container_id  = $_GET['post'];
 		$dashboard_url = get_option('options_wpd_api_dashboard_url');
 ?>
 		<br>
