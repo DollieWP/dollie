@@ -62,12 +62,10 @@ class ContainerFields extends Singleton {
 		return array_merge(
 			$columns,
 			[
-				'status'       => __( 'Status', 'dollie' ),
-				'active_theme' => __( 'Theme', 'dollie' ),
 				'domain'       => __( 'Domain', 'dollie' ),
-				'blueprint'    => __( 'Blueprint', 'dollie' ),
 				'users'        => __( 'Users', 'dollie' ),
 				'size'         => __( 'Size', 'dollie' ),
+				'status'       => __('Status', 'dollie'),
 			]
 		);
 	}
@@ -82,17 +80,8 @@ class ContainerFields extends Singleton {
 		$search_meta = '';
 
 		switch ( $column ) {
-			case 'status':
-				$search_meta = 'wpd_container_status';
-				break;
-			case 'active_theme':
-				$search_meta = 'wpd_installation_themes';
-				break;
 			case 'domain':
 				$search_meta = 'wpd_domains';
-				break;
-			case 'blueprint':
-				$search_meta = 'wpd_is_blueprint';
 				break;
 			case 'users':
 				$search_meta = 'wpd_installation_users';
@@ -100,10 +89,20 @@ class ContainerFields extends Singleton {
 			case 'size':
 				$search_meta = 'wpd_installation_size';
 				break;
+			case 'status':
+				$search_meta = 'wpd_container_status';
+				break;
 		}
 
 		if ( $search_meta ) {
-			echo get_post_meta( $post_id, $search_meta, true );
+			$meta = get_post_meta($post_id, $search_meta, true);
+				if ( $meta == 'stop' ) {
+					echo '<mark class="site-status status-stop">' . get_post_meta($post_id, $search_meta, true). '</mark>';
+				} elseif ($meta == 'start') {
+					echo '<mark class="site-status status-start">' . get_post_meta($post_id, $search_meta, true) . '</mark>';
+				} else {
+					echo get_post_meta($post_id, $search_meta, true);
+				}
 		}
 	}
 

@@ -196,6 +196,58 @@ body.toplevel_page_wpd_platform_setup {
   display: none;
 }
 
+.post-type-container {
+  .wp-heading-inline,
+  .page-title-action {
+    display: none !important;
+  }
+  .notice,
+  .notice.notice-error {
+    display: none !important;
+  }
+  .site-status {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    line-height: 2.5em;
+    color: #777;
+    background: #e5e5e5;
+    border-radius: 4px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    margin: -0.25em 0;
+    cursor: inherit !important;
+    white-space: nowrap;
+    max-width: 100%;
+    padding: 0px 12px;
+    font-weight: 600;
+  }
+  .site-status.status-completed {
+    background: #c8d7e1;
+    color: #2e4453;
+  }
+  .site-status.status-on-hold {
+    background: #f8dda7;
+    color: #94660c;
+  }
+  .site-status.status-stop {
+    background: #eba3a3;
+    color: #761919;
+  }
+  .site-status.status-start {
+    background: #c6e1c6;
+    color: #5b841b;
+  }
+  .site-status.status-trash {
+    background: #eba3a3;
+    color: #761919;
+  }
+  .site-status > span {
+    margin: 0 1em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
 .post-type-container.post-php {
   .handle-actions,
   #minor-publishing-actions,

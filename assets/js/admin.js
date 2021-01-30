@@ -9,7 +9,6 @@ jQuery(document).ready(function ($) {
     $(".post-type-container input[name='post_name']").attr("disabled", true);
     $("#acf-group_5af8272e96d48 input").attr("disabled", true);
 
-    $('a[href="wpd_launch_site"]').attr("href", baseUrl + "launch-site");
     $(".post-type-container a.page-title-action").attr(
         "href",
         baseUrl + "launch-site"
