@@ -47,6 +47,9 @@ class Container extends Singleton
 		add_action('add_meta_boxes', [$this, 'rename_author_box_title']);
 		add_filter('manage_container_posts_columns', [$this, 'rename_author_box_column']);
 		add_filter('parse_query', [$this, 'filter_blueprint_from_sites']);
+		add_filter('page_row_actions', [$this, 'add_container_title_actions'], 10, 2);
+		add_filter('manage_container_posts_columns', [$this, 'replace_container_title_column']);
+		add_action('manage_container_posts_custom_column', [$this, 'add_new_container_title_content'], 10, 2);
 
 		add_action('acf/save_post', [$this, 'update_customer_role']);
 		add_action('acf/save_post', [$this, 'update_all_customers_role']);
@@ -490,6 +493,12 @@ class Container extends Singleton
 				update_post_meta($post_id, 'wpd_installation_size', dollie()->convert_to_readable_size($data['container_details']['Size']));
 				update_post_meta($post_id, 'wpd_installation_size_bytes', $data['container_details']['Size']);
 				update_post_meta($post_id, 'wpd_installation_version', $data['container_details']['Version']);
+
+				$post_data = array(
+					'post_title' => $data['container_details']['Name']
+				);
+				wp_update_post($post_data);
+
 			}
 
 			// Now that we have our container stats get our secret key
@@ -858,6 +867,11 @@ class Container extends Singleton
 		add_meta_box('authordiv', __('Assigned Customer to this Site', 'wpse39446_domain'), 'post_author_meta_box', 'container', 'normal', 'high');
 	}
 
+	/**
+	 * Seperate Blueprints from regular sites.
+	 *
+	 * @param $query
+	 */
 	public function filter_blueprint_from_sites($query)
 	{
 
@@ -889,6 +903,64 @@ class Container extends Singleton
 			}
 		}
 	}
+
+	/**
+	 * Add a new column to show more info about sites.
+	 *
+	 * @param $columns
+	 */
+	public function replace_container_title_column($columns)
+	{
+
+		$new = array();
+
+		foreach ($columns as $key => $title) {
+			if ($key == 'title')
+			$new['site-title'] = 'Site'; // Our New Colomn Name
+			$new[$key] = $title;
+		}
+
+		unset($new['title']);
+		return $new;
+	}
+
+	/**
+	 * Replace the title in the new column
+	 *
+	 * @param $column_name
+	 * @param $post_id
+	 */
+	public function add_new_container_title_content($column_name, $post_ID)
+	{
+		if ($column_name == 'site-title') {
+			$oldtitle = get_the_title();
+			$newtitle = '<a href="' . get_edit_post_link($post_ID) . '">' . get_the_title() . '</a></h4><br><span class="url-box"><a target="_blank" href="' . dollie()->get_container_url($post_ID) . '">' . dollie()->get_container_url($post_ID) . '</span></a>';
+			$title = $newtitle;
+			echo $title;
+		}
+	}
+
+	/**
+	 * Add custom actions for the site listing, and remove default ones.
+	 *
+	 * @param $actions
+	 * @param $page_object
+	 */
+	public function add_container_title_actions($actions, $page_object)
+	{
+		if (get_post_type() === 'container') {
+			$id = $page_object->ID;
+			unset($actions['trash']);
+			unset($actions['view']);
+			unset($actions['inline hide-if-no-js']);
+			unset($actions['edit']);
+			$actions['manage_site'] = '<a href="' . get_the_permalink($id) . '" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __('Manage Site') . '</a>';
+			$actions['google_link'] = '<a href="' . dollie()->get_customer_login_url($id) . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __('Login to Installation') . '</a>';
+		}
+
+		return $actions;
+	}
+
 
 
 	/**
@@ -1073,11 +1145,11 @@ class Container extends Singleton
 		<div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
 			<div class="dollie-inner-message">
 				<div class="dollie-message-center">
-					<h3><?php esc_html_e('Notice - Want to Manage This Site?', 'dollie'); ?> </h3>
+					<h3><?php esc_html_e('Notice - How To Manage This Site', 'dollie'); ?> </h3>
 					<p>
 						<?php
 						printf(
-							'We recommend managing this site on the front-end of your <a href="%s">Customer Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team.',
+							'We recommend managing this site on the front-end of your installation using the <a href="%s">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team.',
 							esc_url(get_the_permalink($container_id))
 						);
 						?>
