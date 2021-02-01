@@ -252,6 +252,8 @@ class Api extends Singleton {
 
 				update_option( 'options_wpd_api_domain', sanitize_text_field( $data['domain'] ) );
 
+				set_transient( 'wpd_just_connected', 1, MINUTE_IN_SECONDS );
+
 				wp_redirect( admin_url( 'admin.php?page=' . Options::API_SLUG ) );
 				die();
 			}
