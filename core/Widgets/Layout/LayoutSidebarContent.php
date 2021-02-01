@@ -17,6 +17,8 @@ use Elementor\Controls_Manager;
  */
 class LayoutSidebarContent extends \Elementor\Widget_Base {
 
+	private static $section_templates = null;
+
 	public function get_name() {
 		return 'dollie-layout-sidebar-content';
 	}
@@ -37,7 +39,7 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'content_section',
 			[
-				'label' => __( 'Template', 'dollie' ),
+				'label' => __( 'Build Your Layout', 'dollie' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -46,7 +48,9 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 			'content',
 			[
 				'label'   => __( 'Content Template', 'dollie' ),
-				'type'    => Controls_Manager::NUMBER
+				'type' => Controls_Manager::SELECT2,
+				'options' => $this::get_saved_data('section'),
+				'default' => 'Select',
 			]
 		);
 
@@ -54,7 +58,9 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 			'sidebar',
 			[
 				'label'   => __('Sidebar template', 'dollie'),
-				'type'    => Controls_Manager::NUMBER,
+				'type' => Controls_Manager::SELECT2,
+				'options' => $this::get_saved_data('section'),
+				'default' => 'Select',
 			]
 		);
 
@@ -62,12 +68,54 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 			'header',
 			[
 				'label'   => __('Header template', 'dollie'),
-				'type'    => Controls_Manager::NUMBER,
+				'type' => Controls_Manager::SELECT2,
+				'options' => $this::get_saved_data('section'),
+				'default' => 'Select',
 			]
 		);
 
 
 		$this->end_controls_section();
+	}
+
+	private static function get_saved_data($type = 'page')
+    {
+
+        $template_type = $type . '_templates';
+
+        $templates_list = array();
+
+            $posts = get_posts(
+                array(
+                    'post_type' => 'elementor_library',
+                    'orderby' => 'title',
+                    'order' => 'ASC',
+                    'posts_per_page' => '-1',
+                )
+            );
+
+            foreach ($posts as $post) {
+
+                $templates_list[] = array(
+                    'id' => $post->ID,
+                    'name' => $post->post_title,
+                );
+            }
+
+            self::${$template_type}[-1] = __('Select', 'dollie');
+
+            if (count($templates_list)) {
+                foreach ($templates_list as $saved_row) {
+
+                    $content_id = $saved_row['id'];
+                    $content_id = apply_filters('wpml_object_id', $content_id);
+                    self::${$template_type}[$content_id] = $saved_row['name'];
+
+                }
+            } else {
+                self::${$template_type}['no_template'] = __('Sorry, No Elementor templates have been found.', 'dollie');
+            }
+        return self::${$template_type};
 	}
 
 	protected function render() {
