@@ -11,18 +11,18 @@ use Dollie\Core\Utils\Tpl;
 use Elementor\Controls_Manager;
 
 /**
- * Class PartnerGreeting
+ * Class LayoutSidebarContent
  *
  * @package Dollie\Core\Widgets\Dashboard
  */
-class PartnerGreeting extends \Elementor\Widget_Base {
+class LayoutSidebarContent extends \Elementor\Widget_Base {
 
 	public function get_name() {
-		return 'dollie-dashboard-partner-greeting';
+		return 'dollie-layout-sidebar-content';
 	}
 
 	public function get_title() {
-		return esc_html__( 'Partner Greeting', 'dollie' );
+		return esc_html__( 'Layout - Sidebar / Content', 'dollie' );
 	}
 
 	public function get_icon() {
@@ -75,7 +75,7 @@ class PartnerGreeting extends \Elementor\Widget_Base {
 			'settings' => $this->get_settings_for_display(),
 		];
 
-		Tpl::load( 'widgets/dashboard/partner-greeting', $data, true );
+		Tpl::load( 'widgets/dashboard/sidebar-content-layout', $data, true );
 	}
 
 }

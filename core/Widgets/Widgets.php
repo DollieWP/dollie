@@ -41,9 +41,9 @@ class Widgets extends Singleton {
 		];
 
 		$this->widgets[] = [
-			'path'  => 'Dashboard/PartnerGreeting',
-			'class' => 'Dashboard\PartnerGreeting',
-			'name'  => 'dollie-dashboard-partner-greeting',
+			'path'  => 'Dashboard/LayoutSidebarContent',
+			'class' => 'Dashboard\LayoutSidebarContent',
+			'name'  => 'dollie-layout-sidebar-content',
 		];
 
 		$this->widgets[] = [
