@@ -48,7 +48,7 @@ class Hooks extends Singleton {
 		add_action( 'elementor/dynamic_tags/register_tags', function() {
 
 			/** @var \Elementor\Core\DynamicTags\Manager $module */
-			$module = \ElementorPro\Plugin::elementor()->dynamic_tags;
+			$module = \Elementor\Plugin::$instance->dynamic_tags;
 
 			$module->register_group( 'dollie-tags', [
 				'title' => 'Dollie'
