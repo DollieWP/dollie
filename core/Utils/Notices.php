@@ -199,6 +199,10 @@ final class Notices extends Singleton {
 			return;
 		}
 
+		if ( get_transient( 'wpd_just_connected' ) ) {
+			return;
+		}
+
 		if ( isset( $_GET['wpd_check_subscription'] ) ) {
 			delete_transient( 'wpd_partner_subscription' );
 			wp_redirect( admin_url() );
