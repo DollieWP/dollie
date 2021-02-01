@@ -1,6 +1,6 @@
 <?php
 
-namespace Dollie\Core\Widgets\Dashboard;
+namespace Dollie\Core\Widgets\Layout;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -26,7 +26,7 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 	}
 
 	public function get_icon() {
-		return 'eicon-welcome';
+		return 'eicon-inner-section';
 	}
 
 	public function get_categories() {
@@ -75,7 +75,7 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 			'settings' => $this->get_settings_for_display(),
 		];
 
-		Tpl::load( 'widgets/dashboard/sidebar-content-layout', $data, true );
+		Tpl::load( 'widgets/layout/sidebar-content-layout', $data, true );
 	}
 
 }

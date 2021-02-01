@@ -26,6 +26,13 @@ class Widgets extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
+		// Layout Widgets
+		$this->widgets[] = [
+			'path'  => 'Layout/LayoutSidebarContent',
+			'class' => 'Layout\LayoutSidebarContent',
+			'name'  => 'dollie-layout-sidebar-content',
+		];
+
 		// Dashboard Widgets
 
 		$this->widgets[] = [
@@ -38,12 +45,6 @@ class Widgets extends Singleton {
 			'path'  => 'Dashboard/LaunchSite',
 			'class' => 'Dashboard\LaunchSite',
 			'name'  => 'dollie-dashboard-launch-site',
-		];
-
-		$this->widgets[] = [
-			'path'  => 'Dashboard/LayoutSidebarContent',
-			'class' => 'Dashboard\LayoutSidebarContent',
-			'name'  => 'dollie-layout-sidebar-content',
 		];
 
 		$this->widgets[] = [
