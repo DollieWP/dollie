@@ -36,31 +36,12 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 	}
 
 	protected function _register_controls() {
+
 		$this->start_controls_section(
-			'content_section',
+			'header_section',
 			[
-				'label' => __( 'Build Your Layout', 'dollie' ),
+				'label' => __('Header Area', 'dollie'),
 				'tab'   => Controls_Manager::TAB_CONTENT,
-			]
-		);
-
-		$this->add_control(
-			'content',
-			[
-				'label'   => __( 'Content Template', 'dollie' ),
-				'type' => Controls_Manager::SELECT2,
-				'options' => $this::get_saved_data('section'),
-				'default' => 'Select',
-			]
-		);
-
-		$this->add_control(
-			'sidebar',
-			[
-				'label'   => __('Sidebar template', 'dollie'),
-				'type' => Controls_Manager::SELECT2,
-				'options' => $this::get_saved_data('section'),
-				'default' => 'Select',
 			]
 		);
 
@@ -76,6 +57,49 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 
 
 		$this->end_controls_section();
+
+
+		$this->start_controls_section(
+			'sidebar_section',
+			[
+				'label' => __('Sidebar Area', 'dollie'),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+		$this->add_control(
+			'sidebar',
+			[
+				'label'   => __('Sidebar template', 'dollie'),
+				'type' => Controls_Manager::SELECT2,
+				'options' => $this::get_saved_data('section'),
+				'default' => 'Select',
+			]
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'content_section',
+			[
+				'label' => __('Content Area', 'dollie'),
+				'tab'   => Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+		$this->add_control(
+			'content',
+			[
+				'label'   => __('Content Template', 'dollie'),
+				'type' => Controls_Manager::SELECT2,
+				'options' => $this::get_saved_data('section'),
+				'default' => 'Select',
+			]
+		);
+
+		$this->end_controls_section();
+
+
 	}
 
 	private static function get_saved_data($type = 'page')
