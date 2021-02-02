@@ -1,11 +1,12 @@
 <!--Menu-->
 <?php
-
+$layout = $settings['layout'];
+$colors = $settings['colors'];
 use Dollie\Core\Modules\AccessControl;
 
 $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_status($current_id); ?>
 
-<nav class="" x-data="{ isOpen: false }" @keydown.escape="isOpen = false" :class="{ 'dol-shadow-lg dol-bg-indigo-900' : isOpen , 'dol-bg-white' : !isOpen}">
+<nav class="" x-data="{ isOpen: false }" @keydown.escape="isOpen = false" :class="{ 'dol-shadow-lg' : isOpen , '' : !isOpen}">
 
 	<!--Toggle button (hidden on large screens)-->
 	<button @click="isOpen = !isOpen" type="button" class="dol-block lg:dol-hidden dol-px-2 dol-text-gray-500 hover: focus:dol-outline-none focus:" :class="{ 'dol-transition transform-180': isOpen }">
@@ -16,7 +17,7 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 	</button>
 
 	<div class="dol-w-full dol-flex-grow lg:dol-flex lg:dol-items-center lg:dol-w-auto" :class="{ 'dol-block shadow-3xl': isOpen, 'dol-hidden': !isOpen }" @click.away="isOpen = false" x-show.transition="true">
-		<div class="<?php do_action('dol_add_widget_classes'); ?> dol-overflow-hidden dol-p-4 dol-widget-site-sidebar">
+		<div class="dol-overflow-hidden dol-widget-site-sidebar dol-widget-<?php echo $layout;?>">
 			<?php if (!$deploying) : ?>
 				<?php
 
@@ -38,7 +39,6 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 				?>
 				<!--Menu-->
 				<div class="dol-w-full dol-flex-grow lg:dol-flex lg:dol-items-center lg:dol-w-auto" :class="{ 'dol-block shadow-3xl': isOpen, 'dol-hidden': !isOpen }" @click.away="isOpen = false" x-show.transition="true">
-					<div class="dol-px-3 dol-py-3 dol-mt-2">
 						<ul class="dol-list-none dol-p-0 dol-m-0">
 							<?php foreach ($menu as $page => $title) : ?>
 								<?php
@@ -53,14 +53,13 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 
 								$active_class = $sub_page === $page ? ' dol-text-primary' : 'dol-font-normal dol-text-gray-400 dark:dol-text-gray-300';
 								?>
-								<li class="dol-m-0">
+								<li class="dol-m-0 dol-p-2">
 									<a @click="isOpen = false" class="<?php echo esc_attr($active_class); ?> dol-nav-btn dol-nav-btn-secondary dol-font-semibold dol-pt-1 dol-pb-1" href="<?php echo dollie()->get_site_url($current_id, $page); ?>">
 										<?php echo $title; ?>
 									</a>
 								</li>
 							<?php endforeach; ?>
 						</ul>
-					</div>
 				<?php endif; ?>
 				</div>
 		</div>

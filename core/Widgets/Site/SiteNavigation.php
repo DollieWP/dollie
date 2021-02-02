@@ -34,6 +34,58 @@ class SiteNavigation extends \Elementor\Widget_Base {
 
 	protected function _register_controls() {
 
+		$this->start_controls_section(
+			'Design',
+			[
+				'label' => __('Design', 'dollie'),
+				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+			]
+		);
+
+		$this->add_control(
+			'layout',
+			[
+				'label' => __('Layout', 'dollie'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'vertical',
+				'options' => [
+					'vertical'  => __('Vertical', 'dollie'),
+					'horizontal' => __('Horizontal', 'dollie'),
+				],
+			]
+		);
+
+		$this->add_control(
+			'colors',
+			[
+				'label' => __('Color Scheme', 'dollie'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'light',
+				'options' => [
+					'light'  => __('Light', 'dollie'),
+					'dark' => __('Dark', 'dollie'),
+				],
+			]
+		);
+
+		$this->add_control(
+			'nav_color',
+			[
+				'label' => __('Navigation Link Color', 'plugin-domain'),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'scheme' => [
+					'type' => \Elementor\Scheme_Color::get_type(),
+					'value' => \Elementor\Scheme_Color::COLOR_1,
+				],
+				'selectors' => [
+					'{{WRAPPER}} li a.dol-nav-btn' => 'color: {{VALUE}}',
+				],
+			]
+		);
+
+
+		$this->end_controls_section();
+
 	}
 
 	protected function render() {
