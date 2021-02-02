@@ -149,12 +149,23 @@ add_action('customize_preview_init', 'dol_customizer_live_preview');
  */
 function dol_customizer_css()
 {
-	if ( !get_option('dollie_color_primary') ) {
-		return;
-	}
 	require_once DOLLIE_PATH . 'vendor/mexitek/phpcolors/src/Mexitek/PHPColors/Color.php';
 
-	$primary_color = new Mexitek\PHPColors\Color(get_option('dollie_color_primary', '#38B3CD'));
+	$primary_option = get_option('dollie_color_primary');
+	$secondary_option = get_option('dollie_color_secondary');
+
+	if ( $primary_option ) {
+		$primary_color = new Mexitek\PHPColors\Color(get_option('dollie_color_primary'));
+	} else {
+		$primary_color = new Mexitek\PHPColors\Color('#51AABF');
+	}
+	if ($secondary_option) {
+		$secondary_color = new Mexitek\PHPColors\Color(get_option('dollie_color_secondary'));
+	} else {
+		$secondary_color = new Mexitek\PHPColors\Color('#f0a146');
+	}
+
+
 	$primary = $primary_color->getHsl();
 
 	//Take converted HEX values and format them correctly. Encount for trailing zeros and round numbers (50, 40 etc)
@@ -162,8 +173,6 @@ function dol_customizer_css()
 	$P_S = substr($primary['S'], 0, 4);
 	$P_L = substr($primary['L'], 0, 4);
 
-
-	$secondary_color = new Mexitek\PHPColors\Color(get_option('dollie_color_secondary', '#E67E23'));
 	$secondary = $secondary_color->getHsl();
 
 	//Take converted HEX values and format them correctly. Encount for trailing zeros and round numbers (50, 40 etc)
@@ -217,7 +226,7 @@ add_action('wp_head', 'dol_customizer_css');
  */
 function dol_widgets_layout()
 {
-	echo apply_filters('dol_update_widget_classes', 'dol-bg-white dol-rounded-md dol-shadow dol-widget-custom dark:dol-bg-gray-800');
+	echo apply_filters('dol_update_widget_classes', 'dol-bg-white dol-rounded-md dol-widget-custom dark:dol-bg-gray-800');
 }
 
 add_action('dol_add_widget_classes', 'dol_widgets_layout');
