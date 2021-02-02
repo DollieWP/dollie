@@ -33,7 +33,7 @@ function dol_colors_init($wp_customize)
 		array(
 			'title' => __('Dollie', 'dollie'),
 			'description' => __('Set colors for Dollie widgets', 'dollie'),
-			'priority' => 9
+			'priority' => 9,
 		)
 	);
 
@@ -121,26 +121,6 @@ function dol_colors_init($wp_customize)
 	);
 
 }
-
-
-/**
- * Registers the Theme Customizer Preview with WordPress.
- *
- * @package    sk
- * @since      0.3.0
- * @version    0.3.0
- */
-function dol_customizer_live_preview()
-{
-	wp_enqueue_script(
-		'dol-theme-customizer',
-		get_stylesheet_directory_uri() . '/js/theme-customizer.js',
-		array('customize-preview'),
-		'0.1.0',
-		true
-	);
-} // end dol_customizer_live_preview
-add_action('customize_preview_init', 'dol_customizer_live_preview');
 
 
 /**
@@ -239,6 +219,15 @@ function dol_register_nav_menu()
 	));
 }
 add_action('after_setup_theme', 'dol_register_nav_menu', 0);
+
+/**
+ * Enqueue script for custom customize control.
+ */
+function custom_customize_enqueue()
+{
+	wp_enqueue_script('custom-customize', DOLLIE_ASSETS_URL . '/js/customize.js', array('jquery', 'customize-controls'), false, true);
+}
+add_action('customize_controls_enqueue_scripts', 'custom_customize_enqueue');
 
 
 
