@@ -19,6 +19,19 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 
 	private static $section_templates = null;
 
+	public function __construct($data = [], $args = null)
+	{
+		parent::__construct($data, $args);
+
+		wp_register_script(
+			'dollie-layout-alpine',
+			'https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js',
+			[],
+			DOLLIE_VERSION,
+			true
+		);
+	}
+
 	public function get_name() {
 		return 'dollie-layout-sidebar-content';
 	}
@@ -29,6 +42,11 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 
 	public function get_icon() {
 		return 'eicon-inner-section';
+	}
+
+	public function get_script_depends()
+	{
+		return ['dollie-layout-alpine'];
 	}
 
 	public function get_categories() {

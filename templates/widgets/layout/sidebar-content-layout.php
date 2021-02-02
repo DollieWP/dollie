@@ -1,7 +1,5 @@
 <!-- component -->
 <div class="dol-custom-layout dol-layout-sidebar-left">
-	<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
-
 
 	<div class="dol-flex dol-h-screen dol-overflow-hidden" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
 		<div x-show="sidebarOpen" class="md:dol-hidden" x-description="Off-canvas menu for mobile, show/hide based on off-canvas menu state." style="display: none;">
