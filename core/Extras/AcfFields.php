@@ -838,9 +838,9 @@ Follow along with the <a target="_blank" href="https://partners.getdollie.com/?r
 				'post_type'         => array(
 					0 => 'elementor_library',
 				),
-				'taxonomy'          => array(
-					0 => 'elementor_library_type:dollie-templates',
-				),
+				// 'taxonomy'          => array(
+				// 	0 => 'elementor_library_type:dollie-templates',
+				// ),
 				'allow_null'        => 0,
 				'multiple'          => 0,
 				'return_format'     => 'id',

@@ -29,7 +29,7 @@
 		<div class="dol-hidden md:dol-flex md:dol-flex-shrink-0">
 			<div class="dol-flex dol-flex-col dol-w-80">
 				<!-- Sidebar component, swap this element with another sidebar if you like -->
-				<div class="dol-flex dol-flex-col dol-flex-grow dol-pt-5 dol-pb-4 dol-overflow-y-auto dol-bg-white dol-border-r dol-border-gray-200 dol-layout-sidebar dol-bg-gray-700">
+				<div class="dol-flex dol-flex-col dol-flex-grow dol-pt-5 dol-pb-4 dol-overflow-y-auto dol-bg-white dol-border-r dol-border-gray-200 dol-layout-sidebar">
 					<div class="dol-flex dol-flex-col dol-flex-grow dol-mt-5">
 						<?php echo do_shortcode('[elementor-template id="' . $settings['sidebar'] . '"]'); ?>
 					</div>
