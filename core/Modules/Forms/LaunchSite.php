@@ -123,6 +123,15 @@ class LaunchSite extends Singleton {
 	 * @return mixed
 	 */
 	public function change_form_args( $args ) {
+
+		if ( isset( $args['values'], $args['values']['site_type'] ) && $args['values']['site_type'] === 'blueprint' ) {
+			add_filter( 'acf/prepare_field/name=site_url', function ( $field ) {
+				$field['append'] = '.wp-site.xyz';
+
+				return $field;
+			} );
+		}
+		
 		$args['submit_text'] = esc_html__( 'Launch New Site', 'dollie' );
 
 		return $args;
