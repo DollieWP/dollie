@@ -57,6 +57,8 @@ class QuickLaunch extends Singleton {
 		$domain    = strtolower( str_replace( ' ', '', $generator->getName() ) );
 		$email     = af_get_field( 'client_email' );
 		$blueprint = Forms::instance()->get_form_blueprint( $form, $args );
+		$site_type = 'site';
+
 
 		// If we allow registration and not logged in - create account
 		if ( ! is_user_logged_in() && get_option( 'users_can_register' ) ) {
@@ -79,7 +81,7 @@ class QuickLaunch extends Singleton {
 			return;
 		}
 
-		$deploy_data = compact( 'email', 'domain', 'user_id', 'blueprint' );
+		$deploy_data = compact( 'email', 'domain', 'user_id', 'blueprint', 'site_type' );
 
 		// add WP site details.
 		$setup_data = [

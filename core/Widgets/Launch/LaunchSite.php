@@ -49,6 +49,19 @@ class LaunchSite extends \Elementor\Widget_Base {
 			]
 		);
 
+		$this->add_control(
+			'type',
+			[
+				'label'   => __('Type of site to launch', 'dollie'),
+				'type' => Controls_Manager::SELECT2,
+				'options' => [
+					'site' => 'Site',
+					'blueprint' => 'Blueprint',
+				],
+				'default' => 'site',
+			]
+		);
+
 		$this->end_controls_section();
 	}
 

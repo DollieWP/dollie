@@ -84,6 +84,7 @@ class LaunchSite extends Singleton {
 			'domain'    => af_get_field( 'site_url' ),
 			'user_id'   => get_current_user_id(),
 			'blueprint' => Forms::instance()->get_form_blueprint( $form, $args ),
+			'site_type' => af_get_field( 'site_type' )
 		];
 
 		// add WP site details.
@@ -142,9 +143,9 @@ class LaunchSite extends Singleton {
 		if ( ! empty( $blueprints ) && Blueprints::show_default_blueprint() ) {
 			$default_option = [
 				0 => '<img data-toggle="tooltip" data-placement="bottom" ' .
-					 ' title="' . esc_attr__( 'Default Wordpress Site', 'dollie' ) . '"' .
-					 ' class="fw-blueprint-screenshot" src="' . DOLLIE_ASSETS_URL . 'img/default-blueprint.jpg">' .
-					 esc_html__( 'No Blueprint', 'dollie' ),
+				     ' title="' . esc_attr__( 'Default Wordpress Site', 'dollie' ) . '"' .
+				     ' class="fw-blueprint-screenshot" src="' . DOLLIE_ASSETS_URL . 'img/default-blueprint.jpg">' .
+				     esc_html__( 'No Blueprint', 'dollie' ),
 			];
 		}
 		$field['choices'] = $default_option + $blueprints;
