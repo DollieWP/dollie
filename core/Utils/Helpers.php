@@ -941,6 +941,23 @@ class Helpers extends Singleton {
 
 
 	/**
+	 * @param $plugin_path
+	 *
+	 * @return bool
+	 */
+	public function has_dollie_layout_widget()
+	{
+		$template_id = dollie()->get_site_template_id();
+		$meta = get_post_meta($template_id, '_elementor_data');
+
+		foreach ($meta as $index => $string) {
+			if (strpos($string, 'dollie-layout-') !== FALSE)
+				return true;
+		}
+
+	}
+
+	/**
 	 * Check valid json.
 	 *
 	 * on check failure if $return_data is false, false is returned instead of the passed data
