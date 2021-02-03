@@ -131,8 +131,6 @@ class LaunchSite extends Singleton {
 				return $field;
 			} );
 		}
-		
-		$args['submit_text'] = esc_html__( 'Launch New Site', 'dollie' );
 
 		return $args;
 	}

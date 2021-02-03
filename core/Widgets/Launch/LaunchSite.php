@@ -62,6 +62,16 @@ class LaunchSite extends \Elementor\Widget_Base {
 			]
 		);
 
+		$this->add_control(
+			'button_text',
+			[
+				'label'   => __('Button text', 'dollie'),
+				'type' => Controls_Manager::TEXT,
+				'default' => '',
+			]
+		);
+
+
 		$this->end_controls_section();
 	}
 
