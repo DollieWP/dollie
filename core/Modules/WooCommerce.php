@@ -28,7 +28,7 @@ class WooCommerce extends Singleton {
 
 		/*
 		 Todo make it an option */
-		// add_action( 'woocommerce_thankyou', [ $this, 'redirect_to_blueprint' ] );
+		add_action( 'woocommerce_thankyou', [ $this, 'redirect_to_blueprint' ] );
 
 		add_filter( 'acf/fields/relationship/query/key=field_5e2c1adcc1543', [ $this, 'modify_query' ], 10, 3 );
 		add_filter( 'acf/fields/relationship/query/key=field_5e2c1b94c1544', [ $this, 'modify_query' ], 10, 3 );
