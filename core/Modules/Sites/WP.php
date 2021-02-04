@@ -51,6 +51,7 @@ final class WP extends Singleton {
 		$email     = $deploy_data['email'];
 		$domain    = $deploy_data['domain'];
 		$user_id   = $deploy_data['user_id'];
+		$site_type = $deploy_data['site_type'];
 		$blueprint = isset( $deploy_data['blueprint'] ) ? $deploy_data['blueprint'] : null;
 
 		$post_id = wp_insert_post(
@@ -72,6 +73,7 @@ final class WP extends Singleton {
 		$post_body = [
 			'route'       => $domain . DOLLIE_DOMAIN,
 			'description' => $email . ' | ' . get_site_url(),
+			'site_type'   => $site_type,
 			'envVars'     => array_merge(
 				$env_vars_extras,
 				[

@@ -17,8 +17,12 @@ if ( ! dollie()->has_partner_subscription() || ( dollie()->is_partner_subscripti
 
 if ( current_user_can( 'manage_options' ) || dollie()->has_subscription() ) {
 	if ( ! dollie()->site_limit_reached() && ! dollie()->size_limit_reached() && ! dollie()->staging_limit_reached() ) {
-		echo do_shortcode( '[dollie_form form="form_dollie_launch_site"]' );
+		$form_type   = $settings['type'] ?? 'site';
+		$button_text = isset( $settings['button_text'] ) && $settings['button_text'] ? $settings['button_text'] : esc_html__( 'Launch New Site', 'dollie' );
+
+		echo do_shortcode( '[dollie_form form="form_dollie_launch_site" values="site_type:' . $form_type . '" submit_text="' . $button_text . '"]' );
 	}
+
 	return;
 }
 

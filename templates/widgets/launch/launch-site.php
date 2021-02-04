@@ -72,4 +72,4 @@ if ( dollie()->site_limit_reached() ) {
 }
 
 // Load form
-\Dollie\Core\Utils\Tpl::load( 'widgets/launch/form', [], true );
+\Dollie\Core\Utils\Tpl::load( 'widgets/launch/form', [ 'settings' => $settings ], true );

@@ -66,6 +66,7 @@ class Forms extends Singleton {
 	 */
 	public function init() {
 		add_shortcode( 'dollie_form', [ $this, 'form_shortcode' ] );
+
 		add_filter( 'acf/prepare_field/name=form_shortcode_message', [ $this, 'hide_af_form_shortcode' ], 12, 1 );
 		add_filter(
 			'acf/prepare_field/name=form_wpd_shortcode_message',
@@ -167,8 +168,28 @@ class Forms extends Singleton {
 	 * @return string
 	 */
 	public function form_shortcode( $atts = [] ) {
+		if ( ! function_exists( 'advanced_form' ) ) {
+			return '';
+		}
+		$form_id_or_key = $atts['form'];
+		unset( $atts['form'] );
 
-		return do_shortcode( '[advanced_form form="' . esc_attr( $atts['form'] ) . '"]' );
+		$atts['echo'] = false;
+		if ( isset( $atts['values'] ) ) {
+
+			$final_values = [];
+			$values_array = explode( ',', $atts['values'] );
+			foreach ( $values_array as $value ) {
+				$array_value = explode( ':', $value );
+				if ( count( $array_value ) > 1 ) {
+					$final_values[ $array_value[0] ] = $array_value[1];
+				}
+			}
+			$atts['values'] = $final_values;
+		}
+
+		return advanced_form( $form_id_or_key, $atts );
+
 	}
 
 
@@ -449,7 +470,7 @@ class Forms extends Singleton {
 		$field = af_get_field_object( $field_name, $fields );
 
 		if ( is_array( $field['value'] ) && 'array' === $field['return_format']
-			 && ( 'radio' === $field['type'] || 'select' === $field['type'] ) ) {
+		     && ( 'radio' === $field['type'] || 'select' === $field['type'] ) ) {
 
 			$value = $field['value']['label'];
 			if ( strtotime( $value ) ) {
@@ -649,7 +670,6 @@ class Forms extends Singleton {
 
 		return $attributes;
 	}
-
 
 
 	/**
