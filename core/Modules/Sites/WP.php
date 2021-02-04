@@ -71,7 +71,7 @@ final class WP extends Singleton {
 		$env_vars_extras = apply_filters( 'dollie/launch_site/extras_envvars', [], $domain, $user_id, $email, $blueprint );
 
 		$post_body = [
-			'route'       => $domain . DOLLIE_DOMAIN,
+			'route'       => 'blueprint' !== $site_type ? $domain . DOLLIE_DOMAIN : $domain . '.dollie-blueprints.stratus5.net',
 			'description' => $email . ' | ' . get_site_url(),
 			'site_type'   => $site_type,
 			'envVars'     => array_merge(
