@@ -82,7 +82,8 @@ class AccessControl extends Singleton {
 	 * Protect container access
 	 */
 	public function protect_container_access() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		$sub_page = get_query_var('sub_page');
+		if (  ! current_user_can( 'manage_options' ) ) {
 
 			if ( is_post_type_archive( 'container' ) ) {
 				wp_redirect( get_site_url( null, '/' ) );
@@ -104,8 +105,10 @@ class AccessControl extends Singleton {
 					exit();
 				}
 
+
+
 				// Has access to the specific section?
-				if ( isset( $_GET['section'] ) && ! dollie()->in_array_r( $_GET['section'], $this->get_available_sections() ) ) {
+				if ( $sub_page && ! dollie()->in_array_r($sub_page, $this->get_available_sections() ) ) {
 					wp_redirect( get_permalink() );
 					exit();
 				}
