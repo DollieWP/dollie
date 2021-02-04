@@ -7,7 +7,7 @@
 				?>
 				<div class="blockquote-box blockquote-danger clearfix">
 					<div class="square pull-left">
-						<i class="fal fa-exclamation-triangle"></i>
+						<i class="fas fa-exclamation-triangle"></i>
 					</div>
 					<h4>
 						<?php esc_html_e( 'Critical security issues were found', 'dollie' ); ?>
@@ -31,7 +31,7 @@
 			<?php } else { ?>
 				<div class="blockquote-box blockquote-success clearfix">
 					<div class="square pull-left">
-						<i class="fal fa-shield"></i>
+						<i class="fas fa-shield"></i>
 					</div>
 					<h4>
 						<?php esc_html_e( 'Our SiteGuard has found no issues.', 'dollie' ); ?>

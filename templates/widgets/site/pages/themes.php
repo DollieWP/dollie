@@ -19,7 +19,7 @@
 				</div>
 				<div class="dol-w-full lg:dol-w-3/6 lg:dol-text-right dol-mt-1 lg:dol-mt-0">
 					<a class="dol-text-sm dol-text-primary-200 hover:dol-text-primary-300" target="_blank" href="<?php echo esc_url($data['site_data']['Theme AuthorURI']); ?>">
-						<i class="fal fa-user dol-text-primary-200 dol-mr-2"></i>
+						<i class="fas fa-user dol-text-primary-200 dol-mr-2"></i>
 						<?php esc_html_e('Developed by', 'dollie'); ?>
 						<?php echo esc_html($data['site_data']['Theme Author']); ?>
 					</a>
@@ -55,7 +55,7 @@
 							?>
 							<?php foreach ($installed_themes as $theme) : ?>
 								<li>
-									<i class="fal fa-angle-right dol-mr-1"></i>
+									<i class="fas fa-angle-right dol-mr-1"></i>
 									<?php echo esc_html($theme); ?>
 								</li>
 							<?php endforeach; ?>

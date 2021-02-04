@@ -350,7 +350,7 @@ class Plugin extends Singleton {
 	public function blockquote_shortcode( $atts = [], $content = '' ) {
 		$atts = shortcode_atts(
 			[
-				'icon'  => 'fal fa-info-circle',
+				'icon'  => 'fas fa-info-circle',
 				'type'  => 'info',
 				'title' => '',
 			],

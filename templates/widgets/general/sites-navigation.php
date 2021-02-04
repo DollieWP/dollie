@@ -64,11 +64,11 @@ $containers = new WP_Query(
 							<span class="dol-font-medium">
 								<?php
 								if (!empty($domain)) {
-									echo '<i class="fal fa-globe"></i>';
+									echo '<i class="fas fa-globe"></i>';
 								} elseif (!empty($blueprint)) {
-									echo '<i class="fal fa-copy"></i>';
+									echo '<i class="fas fa-copy"></i>';
 								} else {
-									echo '<i class="fal fa-cog"></i>';
+									echo '<i class="fas fa-cog"></i>';
 								}
 								?>
 								<?php

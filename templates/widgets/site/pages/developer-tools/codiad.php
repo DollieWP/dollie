@@ -34,7 +34,7 @@ wp_enqueue_script('iframe-resizer');
 	<div class="dol-bg-black dol-bg-gradient-primary dol-absolute dol-h-full dol-w-full dol-top-0 dol-left-0 dol--z-1"></div>
 	<div class="dol-flex dol-flex-wrap dol-items-center dol-justify-center dol-flex-col">
 		<div class="dol-italic dol-text-lg dol-text-white">
-			<i class="fal fa-code fa dol-mr-2" aria-hidden="true"></i>
+			<i class="fas fa-code fa dol-mr-2" aria-hidden="true"></i>
 			<?php esc_html_e('Code is Poetry...', 'dollie'); ?>
 		</div>
 

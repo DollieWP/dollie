@@ -37,7 +37,7 @@
 					<div class="dol-p-5">
 						<div class="dol-flex dol-items-center">
 							<div class="dol-flex-shrink-0">
-								<i class="fal fa-wrench dol-mr-2 dol-text-secondary dol-text-xl"></i>
+								<i class="fas fa-wrench dol-mr-2 dol-text-secondary dol-text-xl"></i>
 							</div>
 							<div class="dol-ml-5 dol-w-0 dol-flex-1">
 								<dl>
@@ -69,7 +69,7 @@
 					<div class="dol-p-5">
 						<div class="dol-flex dol-items-center">
 							<div class="dol-flex-shrink-0">
-								<i class="fal fa-themes dol-text-secondary dol-text-xl"></i>
+								<i class="fas fa-themes dol-text-secondary dol-text-xl"></i>
 							</div>
 							<div class="dol-ml-5 dol-w-0 dol-flex-1">
 								<dl>
@@ -129,7 +129,7 @@
 						<div class="dol-px-4 dol-py-5 sm:dol-p-6">
 							<div class="dol-flex dol-items-center">
 								<div class="dol-flex-shrink-0 dol-bg-gray-100 dol-rounded-md dol-p-3 dol-text-white">
-									<i class="fal fa-hdd dol-text-primary-800 dol-text-xl"></i>
+									<i class="fas fa-hdd dol-text-primary-800 dol-text-xl"></i>
 								</div>
 								<div class="dol-ml-5 dol-w-0 dol-flex-1">
 									<dl>
@@ -177,7 +177,7 @@
 			<ul class="dol-grid dol-grid-cols-1 dol-gap-4 sm:dol-gap-6 sm:dol-grid-cols-2 dol-mt-3 dol-p-0 dol-m-0">
 				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-red-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
-						<i class="fal fa-comments dol-text-white dol-text-xl"></i>
+						<i class="fas fa-comments dol-text-white dol-text-xl"></i>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 						<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
@@ -193,7 +193,7 @@
 
 				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-secondary dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
-						<i class="fal fa-at dol-text-white dol-text-xl"></i>
+						<i class="fas fa-at dol-text-white dol-text-xl"></i>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 						<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
@@ -207,7 +207,7 @@
 
 				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-green-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
-						<i class="fal fa-hdd dol-text-white dol-text-xl"></i>
+						<i class="fas fa-hdd dol-text-white dol-text-xl"></i>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 						<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
@@ -221,7 +221,7 @@
 
 				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-primary dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
-						<i class="fal fa-users dol-text-white dol-text-xl"></i>
+						<i class="fas fa-users dol-text-white dol-text-xl"></i>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 						<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">

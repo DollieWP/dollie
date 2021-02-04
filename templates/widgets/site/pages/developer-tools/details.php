@@ -9,10 +9,10 @@
 	'notice',
 	[
 		'type'         => 'info',
-		'icon'         => 'fal fa-bookmark',
+		'icon'         => 'fas fa-bookmark',
 		'title'        => esc_html__( 'Your SFTP Details', 'dollie' ),
 		'message'      => '<a class="dol-text-brand-500 hover:dol-text-brand-600" href="sftp://' . $customer_details->containerSshUsername . ':' . $customer_details->containerSshPassword . '@' . $hostname . ':' . $customer_details->containerSshPort . '">' .
-						  '<i class="fal fa-plus dol-mr-2"></i>' . esc_html__( 'Quick Connect!', 'dollie' ) . '</a>',
+						  '<i class="fas fa-plus dol-mr-2"></i>' . esc_html__( 'Quick Connect!', 'dollie' ) . '</a>',
 		'bottom_space' => true,
 	],
 	true
@@ -65,7 +65,7 @@
 		'notice',
 		[
 			'type'    => 'info',
-			'icon'    => 'fal fa-tachometer',
+			'icon'    => 'fas fa-tachometer',
 			'title'   => sprintf( __( 'Your site is running PHP version %s', 'dollie' ), $php[0] . '.' . $php[1] ),
 			'message' => $message,
 		],
@@ -80,7 +80,7 @@
 		'notice',
 		[
 			'type'    => 'warning',
-			'icon'    => 'fal fa-database',
+			'icon'    => 'fas fa-database',
 			'title'   => esc_html__( 'Redis Object Caching is Disabled', 'dollie' ),
 			'message' => esc_html__( 'Object Caching can further improve performance for logged-in users or when running heavy database queries. You can search for any Redis Object Cache Plugin on Wordpress repository.' ),
 			'links'   => [
@@ -100,7 +100,7 @@
 		'notice',
 		[
 			'type'    => 'info',
-			'icon'    => 'fal fa-database',
+			'icon'    => 'fas fa-database',
 			'title'   => esc_html__( 'Redis Object Caching is Enabled', 'dollie' ),
 			'message' => esc_html__( 'Object Caching can further improve performance for logged-in users or when running heavy database queries. Make sure to test it properly to ensure compatibility with your themes and plugins.' ),
 			'links'   => [

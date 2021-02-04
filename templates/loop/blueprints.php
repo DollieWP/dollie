@@ -31,7 +31,7 @@ if (get_field('wpd_blueprint_image') === 'custom') {
 		<div class="dol--mt-px dol-flex dol-divide-x dol-divide-gray-200">
 			<div class="dol-w-0 dol-flex-1 dol-flex">
 				<?php
-				$icon           = '<i class="fal fa-tv dol-pr-2"></i>';
+				$icon           = '<i class="fas fa-tv dol-pr-2"></i>';
 				$view_demo_text = !empty($view_demo_text)
 					? $view_demo_text . ' ' . $icon
 					: sprintf(__('%s View Demo', 'dollie'), $icon);
@@ -51,9 +51,9 @@ if (get_field('wpd_blueprint_image') === 'custom') {
 			<div class="dol--ml-px dol-w-0 dol-flex-1 dol-flex">
 				<a data-id="<?php echo get_the_ID(); ?>" class="dol-relative dol-w-0 dol-flex-1 dol-inline-flex dol-items-center dol-justify-center dol-py-4 dol-text-sm dol-text-gray-700 dol-font-medium dol-border dol-border-transparent dol-rounded-br-lg hover:dol-text-gray-500 dol-bg-primary-200 dol-text-primary-600" href="<?php echo esc_url($checkout_link); ?>">
 					<?php if (!empty($launch_button_text)) { ?>
-						<?php echo $launch_button_text; ?> <i class="pr-2 fal fa-rocket"></i>
+						<?php echo $launch_button_text; ?> <i class="pr-2 fas fa-rocket"></i>
 					<?php } else { ?>
-						<?php printf(esc_html__('%s Launch Site', 'dollie'), ' <i class="fal fa-rocket dol-pr-2"></i>'); ?>
+						<?php printf(esc_html__('%s Launch Site', 'dollie'), ' <i class="fas fa-rocket dol-pr-2"></i>'); ?>
 					<?php } ?>
 				</a>
 			</div>

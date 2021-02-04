@@ -4,7 +4,7 @@
 	'notice',
 	[
 		'type'         => 'success',
-		'icon'         => 'fal fa-truck',
+		'icon'         => 'fas fa-truck',
 		'title'        => esc_html__( 'Ready for the easiest migration ever?', 'dollie' ),
 		'message'      => wp_kses_post(
 			sprintf(

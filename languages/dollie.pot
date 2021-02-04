@@ -482,7 +482,7 @@ msgstr ""
 
 #: core/Extras/AcfFormFields.php:22
 msgid ""
-"[dollie_blockquote type=\"success\" icon=\"fal fa-globe\" title=\"Let's link up your custom domain {dollie_user_display_name}!\"]\n"
+"[dollie_blockquote type=\"success\" icon=\"fas fa-globe\" title=\"Let's link up your custom domain {dollie_user_display_name}!\"]\n"
 "We'll walk you through all the steps required to link your own domain to your site. Let's get started shall we?\n"
 "[/dollie_blockquote]"
 msgstr ""

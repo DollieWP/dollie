@@ -5,7 +5,7 @@ if ( isset( $_GET['payment-status'] ) ) {
 		'notice',
 		[
 			'type'         => 'success',
-			'icon'         => 'fal fa-check',
+			'icon'         => 'fas fa-check',
 			'title'        => __( 'Your First Payment was successful!', 'dollie' ),
 			'message'      => __(
 				sprintf(
@@ -27,7 +27,7 @@ if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
 		'notice',
 		[
 			'type'         => 'error',
-			'icon'         => 'fal fa-exclamation-circle',
+			'icon'         => 'fas fa-exclamation-circle',
 			'title'        => __( 'Dollie is not connected!', 'dollie' ),
 			'message'      => __( 'You need to connect your site to Dollie so you can start deploying sites.', 'dollie' ),
 			'links'        => [
@@ -48,7 +48,7 @@ if ( dollie()->size_limit_reached() ) {
 		'notice',
 		[
 			'type'         => 'error',
-			'icon'         => 'fal fa-exclamation-circle',
+			'icon'         => 'fas fa-exclamation-circle',
 			'title'        => __( 'You have reached your Disk Space limit', 'dollie' ),
 			'message'      => __( 'You have reached the maximum amount of disk space you can use. Please upgrade your plan to add more disk space.', 'dollie' ),
 			'bottom_space' => true,
@@ -62,7 +62,7 @@ if ( dollie()->site_limit_reached() ) {
 		'notice',
 		[
 			'type'         => 'error',
-			'icon'         => 'fal fa-exclamation-circle',
+			'icon'         => 'fas fa-exclamation-circle',
 			'title'        => __( 'You have reached your site limit', 'dollie' ),
 			'message'      => __( 'You have reached the maximum amount of sites you can launch. Please upgrade your plan to add more sites.', 'dollie' ),
 			'bottom_space' => true,

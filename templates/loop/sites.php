@@ -13,15 +13,15 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 	<div class="dol-flex dol-flex-wrap md:dol-justify-between">
 		<div class="dol-flex dol-items-center dol-rounded dol-overflow-hidden dol-mb-4 md:dol-mb-0 dol-h-10 md:dol-h-auto">
 			<span class="dol-list-switch dol-inline-flex <?php echo esc_attr($list_btn_active); ?>" data-list-type="list">
-				<i class="fal fa-list"></i>
+				<i class="fas fa-list"></i>
 			</span>
 			<span class="dol-list-switch dol-inline-flex <?php echo esc_attr($grid_btn_active); ?>" data-list-type="grid">
-				<i class="fal fa-th"></i>
+				<i class="fas fa-th"></i>
 			</span>
 		</div>
 		<div class="dol-relative dol-w-full md:dol-w-auto">
 			<div class="dol-absolute dol-left-0 dol-top-0 dol-ml-4 dol-flex dol-items-center dol-h-full">
-				<i class="fal fa-search dol-text-ash-500"></i>
+				<i class="fas fa-search dol-text-ash-500"></i>
 			</div>
 			<input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full md:dol-w-64" data-list-type="<?php echo esc_attr($view_type); ?>" data-permalink="<?php echo esc_attr($query_data['permalink']); ?>" data-search-term="" placeholder="<?php esc_html_e('Search for a site...', 'dollie'); ?>">
 		</div>
@@ -107,7 +107,7 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 						</div>
 						<div class="dol-sites-controls">
 							<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo dollie()->get_site_url(get_the_ID()); ?>">
-								<i class="fal fa-cog"></i>
+								<i class="fas fa-cog"></i>
 								<span class="dol-ml-1"><?php esc_html_e('Manage', 'dollie'); ?></span>
 							</a>
 
@@ -117,7 +117,7 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 							if (!empty($login_link)) :
 							?>
 								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-font-semibold dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo $login_link; ?>">
-									<i class="fal fa-wrench"></i>
+									<i class="fas fa-wrench"></i>
 									<span class="dol-ml-1"><?php esc_html_e('Admin', 'dollie'); ?></span>
 								</a>
 							<?php endif; ?>

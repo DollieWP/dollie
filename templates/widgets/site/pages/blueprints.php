@@ -25,7 +25,7 @@
 		'notice',
 		[
 			'type'    => 'info',
-			'icon'    => 'fal fa-question',
+			'icon'    => 'fas fa-question',
 			'title'   => __( 'Create or update your blueprint', 'dollie' ),
 			'message' => $message,
 		],
@@ -78,7 +78,7 @@
 					<ul class="dol-list-none dol-m-0 dol-p-0">
 						<?php foreach ( $blueprints as $blueprint ) : ?>
 							<li>
-								<i class="fal fa-calendar"></i>
+								<i class="fas fa-calendar"></i>
 								<span><?php printf( __( 'Created on %1$s at %2$s.', 'dollie' ), $blueprint['date'], $blueprint['time'] ); ?></span>
 								<span><?php printf( __( 'Size %s.', 'dollie' ), $blueprint['size'] ); ?></span>
 							</li>

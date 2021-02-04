@@ -554,7 +554,7 @@ class Component {
 			                  '</div>' .
 			                  '<div class="dol-flex-shrink">' .
 			                  '<a class="notif-close" title="' . esc_attr__( 'Close', 'dollie' ) . '" href="#">' .
-			                  '<i class="fal fa-times-circle"></i>' .
+			                  '<i class="fas fa-times-circle"></i>' .
 			                  '</a>' .
 			                  '</div>' .
 			                  '</div>' .
@@ -573,7 +573,7 @@ class Component {
 
 			$menu_output = '<a href="#">' .
 			               '<span class="notif-icon-wrap dol-relative">' .
-			               '<i class="fal fa-bell"></i>' .
+			               '<i class="fas fa-bell"></i>' .
 			               '<span class="dollie-notifications-count notif-navigation-count">%notif_count%</span>' .
 			               '</span>' .
 			               '</a>';

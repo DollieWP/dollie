@@ -28,7 +28,7 @@ if ($posts) :
 							</span>
 						<?php else : ?>
 							<span class="dol-flex dol-items-center dol-justify-center dol-h-40 dol-bg-gray-100">
-								<i class="fal fa-newspaper fa-3x"></i>
+								<i class="fas fa-newspaper fa-3x"></i>
 							</span>
 						<?php endif; ?>
 					</a>
@@ -45,7 +45,7 @@ if ($posts) :
 							<a target="_blank" class="dol-btn dol-btn-secondary dol-font-bold dol-nav-active" href="<?php echo esc_html($post->link); ?>">
 								<span class="dol-flex dol-items-center">
 									<?php esc_html_e('Read article', 'dollie'); ?>
-									<i class="fal fa-angle-right dol-ml-2"></i>
+									<i class="fas fa-angle-right dol-ml-2"></i>
 								</span>
 							</a>
 						</div>

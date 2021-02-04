@@ -65,7 +65,7 @@
 				'notice',
 				[
 					'type'    => 'error',
-					'icon'    => 'fal fa-exclamation-triangle',
+					'icon'    => 'fas fa-exclamation-triangle',
 					'title'   => __( 'SiteGuard has found some critical security issues', 'dollie' ),
 					'message' => $message,
 					'links'   => [
@@ -85,7 +85,7 @@
 			\Dollie\Core\Utils\Tpl::load(
 				'notice',
 				[
-					'icon'    => 'fal fa-shield',
+					'icon'    => 'fas fa-shield',
 					'title'   => __( 'SiteGuard has found no issues', 'dollie' ),
 					'message' => __( 'There are no insecure plugins or themes found on your site. Good job!', 'dollie' ),
 					'links'   => [
@@ -162,7 +162,7 @@
 					<div class="dol-w-4/12 md:dol-w-3/12 lg:dol-w-2/12 dol-text-right">
 						<a class="dol-inline-block md:dol-px-4 md:dol-py-2 md:dol-bg-secondary dol-text-white md:dol-text-white dol-text-sm md:hover:dol-text-white md:hover:dol-bg-secondary-600 dol-rounded"
 						   href="<?php echo esc_url( $plugin['PluginURI'] ); ?>" target="_blank">
-							<i class="fal fa-globe dol-mr-1"></i>
+							<i class="fas fa-globe dol-mr-1"></i>
 							<span class="md:dol-hidden lg:dol-inline-block"><?php esc_html_e( 'Visit', 'dollie' ); ?></span>
 						</a>
 					</div>

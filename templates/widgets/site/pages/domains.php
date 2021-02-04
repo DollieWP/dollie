@@ -43,7 +43,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 			\Dollie\Core\Utils\Tpl::load(
 				'notice',
 				[
-					'icon'    => 'fal fa-exclamation-circle',
+					'icon'    => 'fas fa-exclamation-circle',
 					'title'   => sprintf( __( '%s is linked to this site!', 'dollie' ), $domain ),
 					'message' => __( 'Congrats! Your are using a live domain for this site.' ),
 				],

@@ -12,7 +12,7 @@ $active_class = [
 	<li class="dol-mb-4">
 		<a href="<?php echo dollie()->get_launch_page_url(); ?>"
 		   class="dol-nav-btn dol-font-semibold dol-bg-secondary dol-text-white <?php echo esc_attr( $active_class['launch-site'] ); ?>">
-			<span class="dol-inline-block dol-text-center dol-w-8"><i class="fal fa-rocket"></i></span>
+			<span class="dol-inline-block dol-text-center dol-w-8"><i class="fas fa-rocket"></i></span>
 			<?php _e( 'Launch New Site', 'dollie' ); ?>
 		</a>
 	</li>
@@ -20,7 +20,7 @@ $active_class = [
 	<li class="dol-mb-1">
 		<a href="<?php echo dollie()->get_dashboard_page_url(); ?>"
 		   class="dol-nav-btn dol-font-semibold <?php echo esc_attr( $active_class['dashboard'] ); ?>">
-			<span class="dol-inline-block dol-text-center dol-w-8"><i class="fal fa-browser"></i></span>
+			<span class="dol-inline-block dol-text-center dol-w-8"><i class="fas fa-columns"></i></span>
 			<?php _e( 'Dashboard', 'dollie' ); ?>
 		</a>
 	</li>
@@ -28,7 +28,7 @@ $active_class = [
 	<li class="dol-m-0">
 		<a href="<?php echo dollie()->get_sites_page_url(); ?>"
 		   class="dol-nav-btn dol-font-semibold <?php echo esc_attr( $active_class['sites'] ); ?>">
-			<span class="dol-inline-block dol-text-center dol-w-8"><i class="fal fa-globe"></i></span>
+			<span class="dol-inline-block dol-text-center dol-w-8"><i class="fas fa-globe"></i></span>
 			<?php _e( 'Sites', 'dollie' ); ?>
 		</a>
 	</li>

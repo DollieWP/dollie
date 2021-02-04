@@ -96,7 +96,7 @@ class ListBackups extends Singleton {
 				'notice',
 				[
 					'type'         => 'info',
-					'icon'         => 'fal fa-hdd',
+					'icon'         => 'fas fa-hdd',
 					'title'        => __( 'We could not retrieve your backups', 'dollie' ),
 					'message'      => __( 'This usually means we have trouble reaching your WordPress installation. Please get in touch with our support of you keep seeing this message.', 'dollie' ),
 					'bottom_space' => true,
@@ -152,7 +152,7 @@ class ListBackups extends Singleton {
 					$real_size = $info[1];
 				}
 
-				$size = '<span class="dol-inline-block dol-ml-4"><i class="fal fa-hdd dol-mr-1"></i> ' . $real_size . '</span>';
+				$size = '<span class="dol-inline-block dol-ml-4"><i class="fas fa-hdd dol-mr-1"></i> ' . $real_size . '</span>';
 				// Time is first part but needs to be split
 				$backup_date = explode( '_', $info[0] );
 				// Date of backup

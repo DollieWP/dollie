@@ -538,7 +538,7 @@ class Helpers extends Singleton {
 		<div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden">
 			<div class="dol-flex dol-items-center dol-bg-red-600">
 				<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-red-700 dol-flex dol-items-center dol-justify-center">
-					<i class="fal fa-exclamation-circle dol-text-white dol-text-2xl"></i>
+					<i class="fas fa-exclamation-circle dol-text-white dol-text-2xl"></i>
 				</div>
 				<h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
 					<?php esc_html_e( 'Sorry, we could not retrieve your site details', 'dollie' ); ?>
