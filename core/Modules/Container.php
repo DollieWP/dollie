@@ -38,7 +38,6 @@ class Container extends Singleton
 		add_filter('single_template', [$this, 'container_template']);
 
 		add_action('template_redirect', [$this, 'remove_customer_domain_action']);
-		add_action('template_redirect', [$this, 'bypass_output_caching']);
 		add_action('template_redirect', [$this, 'remove_details_transients']);
 		add_action('template_redirect', [$this, 'update_details']);
 
@@ -210,20 +209,6 @@ class Container extends Singleton
 			'index.php?' . $post_type . '=$matches[1]&post_type=' . $post_type . '&sub_page=$matches[2]',
 			'top'
 		);
-	}
-
-	/**
-	 * Skip caching
-	 */
-	public function bypass_output_caching()
-	{
-		if (is_singular('container')) {
-			header('Content-Encoding: none');
-
-			// Explicitly disable caching so NGINX and other upstreams won't cache.
-			header('Cache-Control: no-cache, must-revalidate');
-			header('X-Accel-Buffering: no');
-		}
 	}
 
 	/**
