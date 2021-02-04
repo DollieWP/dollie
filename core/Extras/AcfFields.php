@@ -7,7 +7,8 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 		'fields'                => array(
 			array(
 				'key'               => 'field_5affdce12d99a',
-				'label'             => __( 'Make this a Product Blueprint?', 'dollie' ),
+				'label'             => __( 'Show this Blueprint?', 'dollie' ),
+				'instructions'      => __('Set this to "No" if you would like to (temporary) make this Blueprint unavailable', 'dollie'),
 				'name'              => 'wpd_is_blueprint',
 				'type'              => 'radio',
 				'instructions'      => '',
@@ -34,7 +35,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 				'label'             => __( 'Private Blueprint?', 'dollie' ),
 				'name'              => 'wpd_private_blueprint',
 				'type'              => 'radio',
-				'instructions'      => __( 'Would you like to make this Blueprint only available to users with the admin role?', 'dollie' ),
+				'instructions'      => __( 'Optionally make this Blueprint only available to users with the admin role.', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -280,7 +281,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 			),
 		),
 		'menu_order'            => 100,
-		'position'              => 'low',
+		'position'              => 'high',
 		'style'                 => 'default',
 		'label_placement'       => 'top',
 		'instruction_placement' => 'label',
