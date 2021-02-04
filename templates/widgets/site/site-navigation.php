@@ -35,6 +35,10 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 					'delete'          => '<i class="fas fa-trash-alt"></i>' . __('Delete', 'dollie'),
 				];
 
+				if (dollie()->is_blueprint($current_id)) {
+					unset($menu['domains']);
+				}
+
 				$sub_page = get_query_var('sub_page');
 
 				?>

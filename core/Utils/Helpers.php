@@ -952,7 +952,23 @@ class Helpers extends Singleton {
 				return true;
 			}
 		}
+		return false;
 
+	}
+
+	/**
+	 * @param $id
+	 *
+	 * @return bool
+	 */
+	public function is_blueprint($id)
+	{
+		$blueprint = get_post_meta($id, 'wpd_is_blueprint', true);
+
+		if ( $blueprint == 'yes') {
+			return true;
+		}
+		return false;
 	}
 
 	/**

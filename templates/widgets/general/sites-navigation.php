@@ -49,6 +49,10 @@ $containers = new WP_Query(
 				'delete'          => '<i class="fas fa-trash-alt"></i>' . __('Delete', 'dollie'),
 			];
 
+			if ( dollie()->is_blueprint(get_the_ID()) ) {
+				unset($menu['domains']);
+			}
+
 			$sub_page = get_query_var('sub_page');
 
 
