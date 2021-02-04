@@ -114,9 +114,6 @@ class AccessControl extends Singleton {
 					exit();
 				}
 			}
-		} elseif( is_singular('container') && dollie()->is_blueprint($wp_query->post->ID) && $sub_page == 'domains' ) {
-				wp_redirect(get_permalink());
-				exit();
 		}
 	}
 

@@ -283,6 +283,11 @@ class DomainConnect extends Singleton {
 			return true;
 		}
 
+		//If the site is a blueprint, no bueno
+		if ( dollie()->is_blueprint( $container->id ) ) {
+			return true;
+		}
+
 		$has_domain     = get_post_meta( $container->id, 'wpd_domains', true );
 		$has_cloudflare = get_post_meta( $container->id, 'wpd_cloudflare_email', true );
 		$has_analytics  = get_post_meta( $container->id, 'wpd_cloudflare_zone_id', true );
