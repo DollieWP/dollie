@@ -191,11 +191,6 @@ body.toplevel_page_wpd_platform_setup {
   }
 }
 
-//Blueprint Admin Box
-#acf-group_5affdcd76c8d1 {
-  display: none;
-}
-
 .post-type-container {
   .widefat td {
     vertical-align: middle !important;
@@ -310,6 +305,16 @@ body.toplevel_page_wpd_platform_setup {
   #elementor-switch-mode {
     display: none !important;
   }
+
+  &.dollie-is-blueprint {
+    #acf-group_5af8272e96d48,
+    #authordiv {
+      display: none !important;
+    }
+    #acf-group_5affdcd76c8d1 {
+      display: block !important;
+    }
+  }
 }
 
 #acf-group_5afc7b8e22840 {
@@ -319,6 +324,7 @@ body.toplevel_page_wpd_platform_setup {
 #acf-group_5afc7b8e22840,
 #acf-group_5af8272e96d48,
 #acf-group_5af9435f11e79,
+#acf-group_5affdcd76c8d1,
 .post-type-container #authordiv,
 #tagsdiv-container_category {
   .hndle {

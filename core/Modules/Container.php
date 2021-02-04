@@ -933,7 +933,7 @@ class Container extends Singleton
 	 */
 	public function add_container_title_actions($actions, $page_object)
 	{
-		if (get_post_type() === 'container') {
+		if (get_post_type() === 'container' && empty($_GET['blueprint']) ) {
 			$id = $page_object->ID;
 			unset($actions['trash']);
 			unset($actions['view']);
@@ -941,6 +941,15 @@ class Container extends Singleton
 			unset($actions['edit']);
 			$actions['manage_site'] = '<a href="' . get_the_permalink($id) . '" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __('Manage Site') . '</a>';
 			$actions['google_link'] = '<a href="' . dollie()->get_customer_login_url($id) . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __('Login to Installation') . '</a>';
+		} else {
+			$id = $page_object->ID;
+			unset($actions['trash']);
+			unset($actions['view']);
+			unset($actions['inline hide-if-no-js']);
+			unset($actions['edit']);
+			$actions['manage_site'] = '<a href="' . get_the_permalink($id) . '/blueprints" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __('Manage Blueprint') . '</a>';
+			$actions['google_link'] = '<a href="' . dollie()->get_customer_login_url($id) . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __('Login to Installation') . '</a>';
+
 		}
 
 		return $actions;
