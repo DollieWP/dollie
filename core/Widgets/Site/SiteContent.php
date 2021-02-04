@@ -26,7 +26,7 @@ class SiteContent extends \Elementor\Widget_Base {
 			DOLLIE_VERSION,
 			true
 		);
-		wp_register_script('dollie-custom-launch', DOLLIE_ASSETS_URL . 'js/custom-launch.js', ['jquery'], DOLLIE_VERSION, true);
+		wp_register_script( 'dollie-custom-launch', DOLLIE_ASSETS_URL . 'js/custom-launch.js', [ 'jquery' ], DOLLIE_VERSION, true );
 	}
 
 	public function get_name() {
@@ -58,13 +58,17 @@ class SiteContent extends \Elementor\Widget_Base {
 
 		$data = [
 			'settings'   => $this->get_settings_for_display(),
-			'current_id' => $current_id
+			'current_id' => $current_id,
 		];
 
-		if (get_post_type() !== 'container' && !$elementor_builder) {
-			esc_html_e('This widget will only show content when you visit a Single Dollie Site.', 'dollie');
+		$elementor_builder = \Elementor\Plugin::instance()->editor->is_edit_mode()
+							 || \Elementor\Plugin::instance()->preview->is_preview()
+							 || isset( $_GET['elementor_library'] );
+
+		if ( get_post_type() !== 'container' && ! $elementor_builder ) {
+			esc_html_e( 'This widget will only show content when you visit a Single Dollie Site.', 'dollie' );
 		} else {
-			Tpl::load('widgets/site/site-content', $data, true);
+			Tpl::load( 'widgets/site/site-content', $data, true );
 		}
 	}
 

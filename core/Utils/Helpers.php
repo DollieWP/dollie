@@ -193,7 +193,7 @@ class Helpers extends Singleton {
 		} else {
 			// keep old functionality for fallback
 			$details = Container::instance()->get_info( $container->id );
-			$url     .= '?s5token=' . $details->Token . $location;
+			$url    .= '?s5token=' . $details->Token . $location;
 		}
 
 		return $url;
@@ -337,7 +337,7 @@ class Helpers extends Singleton {
 	 * @return string
 	 */
 	public function secret_admin_key() {
-		return '?' . dollie()->random_string(12);
+		return '?' . dollie()->random_string( 12 );
 	}
 
 	/**
@@ -459,17 +459,15 @@ class Helpers extends Singleton {
 	/**
 	 * @return mixed|void
 	 */
-	public function get_launch_blueprint_page_id()
-	{
-		return (int) get_option('options_wpd_launch_blueprint_page_id');
+	public function get_launch_blueprint_page_id() {
+		return (int) get_option( 'options_wpd_launch_blueprint_page_id' );
 	}
 
 	/**
 	 * @return false|string
 	 */
-	public function get_launch_blueprint_page_url()
-	{
-		return get_permalink($this->get_launch_blueprint_page_id());
+	public function get_launch_blueprint_page_url() {
+		return get_permalink( $this->get_launch_blueprint_page_id() );
 	}
 
 	/**
@@ -516,7 +514,7 @@ class Helpers extends Singleton {
 
 	/**
 	 * @param $site_id
-	 * @param string $page
+	 * @param string  $page
 	 *
 	 * @return string
 	 */
@@ -720,7 +718,7 @@ class Helpers extends Singleton {
 	 * @param $url
 	 * @param $transient_id
 	 * @param $user_auth
-	 * @param null $user_pass
+	 * @param null         $user_pass
 	 *
 	 * @return mixed
 	 */
@@ -730,7 +728,7 @@ class Helpers extends Singleton {
 
 	/**
 	 * @param $container_uri
-	 * @param bool $regenerate
+	 * @param bool          $regenerate
 	 *
 	 * @return mixed
 	 */
@@ -844,7 +842,7 @@ class Helpers extends Singleton {
 	/**
 	 * @param $needle
 	 * @param $haystack
-	 * @param bool $strict
+	 * @param bool     $strict
 	 *
 	 * @return bool
 	 */
@@ -945,14 +943,14 @@ class Helpers extends Singleton {
 	 *
 	 * @return bool
 	 */
-	public function has_dollie_layout_widget()
-	{
+	public function has_dollie_layout_widget() {
 		$template_id = dollie()->get_site_template_id();
-		$meta = get_post_meta($template_id, '_elementor_data');
+		$meta        = get_post_meta( $template_id, '_elementor_data' );
 
-		foreach ($meta as $index => $string) {
-			if (strpos($string, 'dollie-layout-') !== FALSE)
+		foreach ( $meta as $index => $string ) {
+			if ( strpos( $string, 'dollie-layout-' ) !== false ) {
 				return true;
+			}
 		}
 
 	}
@@ -1020,16 +1018,18 @@ class Helpers extends Singleton {
 		}
 
 		$elementor_builder = \Elementor\Plugin::instance()->editor->is_edit_mode()
-		                     || \Elementor\Plugin::instance()->preview->is_preview()
-		                     || isset( $_GET['elementor_library'] );
+							 || \Elementor\Plugin::instance()->preview->is_preview()
+							 || isset( $_GET['elementor_library'] );
 
 		if ( $elementor_builder ) {
 
-			$my_sites = get_posts( [
-				'post_type'      => 'container',
-				'author'         => get_current_user_id(),
-				'posts_per_page' => 1
-			] );
+			$my_sites = get_posts(
+				[
+					'post_type'      => 'container',
+					'author'         => get_current_user_id(),
+					'posts_per_page' => 1,
+				]
+			);
 
 			if ( ! empty( $my_sites ) ) {
 				$current_id = $my_sites[0]->ID;

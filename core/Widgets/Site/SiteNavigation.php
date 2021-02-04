@@ -37,20 +37,20 @@ class SiteNavigation extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'Design',
 			[
-				'label' => __('Design', 'dollie'),
-				'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
+				'label' => __( 'Design', 'dollie' ),
+				'tab'   => \Elementor\Controls_Manager::TAB_CONTENT,
 			]
 		);
 
 		$this->add_control(
 			'layout',
 			[
-				'label' => __('Layout', 'dollie'),
-				'type' => \Elementor\Controls_Manager::SELECT,
+				'label'   => __( 'Layout', 'dollie' ),
+				'type'    => \Elementor\Controls_Manager::SELECT,
 				'default' => 'vertical',
 				'options' => [
-					'vertical'  => __('Vertical', 'dollie'),
-					'horizontal' => __('Horizontal', 'dollie'),
+					'vertical'   => __( 'Vertical', 'dollie' ),
+					'horizontal' => __( 'Horizontal', 'dollie' ),
 				],
 			]
 		);
@@ -58,12 +58,12 @@ class SiteNavigation extends \Elementor\Widget_Base {
 		$this->add_control(
 			'colors',
 			[
-				'label' => __('Color Scheme', 'dollie'),
-				'type' => \Elementor\Controls_Manager::SELECT,
+				'label'   => __( 'Color Scheme', 'dollie' ),
+				'type'    => \Elementor\Controls_Manager::SELECT,
 				'default' => 'light',
 				'options' => [
-					'light'  => __('Light', 'dollie'),
-					'dark' => __('Dark', 'dollie'),
+					'light' => __( 'Light', 'dollie' ),
+					'dark'  => __( 'Dark', 'dollie' ),
 				],
 			]
 		);
@@ -71,10 +71,10 @@ class SiteNavigation extends \Elementor\Widget_Base {
 		$this->add_control(
 			'nav_color',
 			[
-				'label' => __('Navigation Link Color', 'plugin-domain'),
-				'type' => \Elementor\Controls_Manager::COLOR,
-				'scheme' => [
-					'type' => \Elementor\Scheme_Color::get_type(),
+				'label'     => __( 'Navigation Link Color', 'plugin-domain' ),
+				'type'      => \Elementor\Controls_Manager::COLOR,
+				'scheme'    => [
+					'type'  => \Elementor\Scheme_Color::get_type(),
 					'value' => \Elementor\Scheme_Color::COLOR_1,
 				],
 				'selectors' => [
@@ -83,7 +83,6 @@ class SiteNavigation extends \Elementor\Widget_Base {
 			]
 		);
 
-
 		$this->end_controls_section();
 
 	}
@@ -91,20 +90,22 @@ class SiteNavigation extends \Elementor\Widget_Base {
 	protected function render() {
 		$data = [
 			'settings'   => $this->get_settings_for_display(),
-			'current_id' => get_the_ID()
+			'current_id' => get_the_ID(),
 		];
 
 		$elementor_builder = \Elementor\Plugin::instance()->editor->is_edit_mode()
 			|| \Elementor\Plugin::instance()->preview->is_preview()
-		|| isset($_GET['elementor_library']);
+			|| isset( $_GET['elementor_library'] );
 
 		if ( $elementor_builder ) {
 
-			$my_sites = get_posts( [
-				'post_type'      => 'container',
-				'author'         => get_current_user_id(),
-				'posts_per_page' => 1
-			] );
+			$my_sites = get_posts(
+				[
+					'post_type'      => 'container',
+					'author'         => get_current_user_id(),
+					'posts_per_page' => 1,
+				]
+			);
 
 			if ( ! empty( $my_sites ) ) {
 				$data['current_id'] = $my_sites[0]->ID;
