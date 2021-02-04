@@ -147,7 +147,7 @@ class ContainerFields extends Singleton {
 
 		if ( $search_meta ) {
 			$meta = get_post_meta( $post_id, $search_meta, true );
-			if ( $stop === $meta ) {
+			if ( 'stop' === $meta ) {
 				echo '<mark class="site-status status-stop">' . get_post_meta( $post_id, $search_meta, true ) . '</mark>';
 			} elseif ( 'start' === $meta ) {
 				echo '<mark class="site-status status-start">' . get_post_meta( $post_id, $search_meta, true ) . '</mark>';
