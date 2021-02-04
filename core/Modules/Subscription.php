@@ -793,6 +793,10 @@ class Subscription extends Singleton {
 			$check_request  = Api::get( Api::ROUTE_CHECK_SUBSCRIPTION );
 			$check_response = Api::process_response( $check_request, null );
 
+			if ( ! $check_response ) {
+				return false;
+			}
+
 			$subscription = $check_response['data'];
 
 			set_transient( 'wpd_partner_subscription', $subscription, HOUR_IN_SECONDS * 6 );

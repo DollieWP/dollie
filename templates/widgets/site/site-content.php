@@ -1,16 +1,16 @@
 <?php the_content(); ?>
 
-<?php $status = \Dollie\Core\Modules\Container::instance()->get_status(get_the_ID()); ?>
+<?php $status = \Dollie\Core\Modules\Container::instance()->get_status( get_the_ID() ); ?>
 
-<?php if ('stop' === $status) : ?>
-	<?php $undeploy_at = get_post_meta(get_the_ID(), 'wpd_undeploy_container_at', true); ?>
+<?php if ( 'stop' === $status ) : ?>
+	<?php $undeploy_at = get_post_meta( get_the_ID(), 'wpd_undeploy_container_at', true ); ?>
 	<div class="dol-bg-orange-700 dol-text-center dol-p-8 md:dol-p-10 lg:dol-p-20 dol-rounded">
 		<h2 class="dol-text-xl md:dol-text-3xl dol-mb-4 dol-text-white">
 			<i class="fab fa-wordpress"></i>
-			<?php esc_html_e('Hosting for this site is currently paused.', 'dollie'); ?>
+			<?php esc_html_e( 'Hosting for this site is currently paused.', 'dollie' ); ?>
 		</h2>
 
-		<?php if (!dollie()->has_subscription()) : ?>
+		<?php if ( ! dollie()->has_subscription() ) : ?>
 
 		<?php endif; ?>
 	</div>
@@ -26,7 +26,7 @@
 					<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
 						If you have cancelled your service subscription by accident please re-activate your
 						<a href="<?php echo get_site_url(); ?>/my-account/subscriptions" class="text-white">subscription</a>
-						before <strong><?php echo date('F j, Y', $undeploy_at); ?></strong> to prevent this site from
+						before <strong><?php echo date( 'F j, Y', $undeploy_at ); ?></strong> to prevent this site from
 						being removed completely.
 					</p>
 					<p class="pl-100 pr-100 text-gray text-muted">
@@ -37,19 +37,19 @@
 			</div>
 		</div>
 	</div>
-<?php elseif ($status === 'failed') : ?>
+<?php elseif ( $status === 'failed' ) : ?>
 	<div class="hero-section">
 		<div class="hero-inner">
 			<div class="content content-blank">
 				<div class="text-center py-30">
-					<?php if (current_user_can('manage_options')) : ?>
+					<?php if ( current_user_can( 'manage_options' ) ) : ?>
 						<div class="mb-20">
 							<h2 class="text-white">Admin Notice - This site has failed to launch</h2>
 						</div>
 						<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
 							When a site fails to deploy it usually means there is a misconfiguration in your
 							Dollie API settings. Please double check your email, password and domain
-							<a class="text-white" href="<?php echo admin_url('admin.php?page=wpd_platform_setup'); ?>" data-clear="text-white">settings</a>.
+							<a class="text-white" href="<?php echo admin_url( 'admin.php?page=wpd_platform_setup' ); ?>" data-clear="text-white">settings</a>.
 							Finally you can also check the Dollie Logs or reach out to the Dollie Support
 							team
 							via the <a class="text-white" href="https://partners.getdollie.com">Partner
@@ -72,18 +72,21 @@
 			</div>
 		</div>
 	</div>
-<?php elseif ('pending' === $status || isset($_GET['launch-splash-preview']) ) : ?>
+<?php elseif ( 'pending' === $status || isset( $_GET['launch-splash-preview'] ) ) : ?>
 
 	<?php
-	if (!\Elementor\Plugin::instance()->editor->is_edit_mode()) {
-		wp_enqueue_script('dollie-site-content');
-	}
-	?>
-	<?php if (get_field('wpd_custom_launch_splash', 'option') == true) {
-		wp_enqueue_script('dollie-custom-launch');
-	} ?>
 
-	<div id="dol-deploying-site" class="dol-hidden" data-container="<?php echo esc_attr(get_the_ID()); ?>" data-nonce="<?php echo esc_attr(wp_create_nonce('check_deploy_nonce')); ?>" data-ajax-url="<?php echo esc_attr(admin_url('admin-ajax.php')); ?>"></div>
+	if ( ! \Elementor\Plugin::instance()->editor->is_edit_mode() ) {
+		wp_enqueue_script( 'dollie-site-content' );
+	}
+
+	if ( get_field( 'wpd_custom_launch_splash', 'option' ) === true ) {
+		wp_enqueue_script( 'dollie-custom-launch' );
+	}
+
+	?>
+
+	<div id="dol-deploying-site" class="dol-hidden" data-container="<?php echo esc_attr( get_the_ID() ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'check_deploy_nonce' ) ); ?>" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>"></div>
 	<div class="dol-py-32 dol-flex dol-flex-col dol-items-center dol-justify-center">
 		<svg class="dol-animate-spin dol-h-16 dol-w-16 dol-text-flame-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 			<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -91,37 +94,37 @@
 		</svg>
 
 		<div class="dol-mt-1 dol-text-md dol-font-semibold div-loader-wrap dol-text-l dol-text-center dol-p-6">
-			<?php if (get_field('wpd_custom_launch_splash', 'option') == true) { ?>
+			<?php if ( get_field( 'wpd_custom_launch_splash', 'option' ) == true ) { ?>
 				<div class="block-content mt-50 text-align-center pb-30 pl-50 pr-50 nice-copy-story dol-px-20">
 					<div id="dollie-content-1">
-						<?php the_field('wpd_launch_step_1', 'option'); ?>
+						<?php the_field( 'wpd_launch_step_1', 'option' ); ?>
 					</div>
 					<div id="dollie-content-2" style="display: none;">
-						<?php the_field('wpd_launch_step_2', 'option'); ?>
+						<?php the_field( 'wpd_launch_step_2', 'option' ); ?>
 					</div>
 
 					<div id="dollie-content-3" style="display: none;">
-						<?php the_field('wpd_launch_step_3', 'option'); ?>
+						<?php the_field( 'wpd_launch_step_3', 'option' ); ?>
 					</div>
 
 					<div id="dollie-content-4" style="display: none;">
-						<?php the_field('wpd_launch_step_4', 'option'); ?>
+						<?php the_field( 'wpd_launch_step_4', 'option' ); ?>
 					</div>
 				</div>
 			<?php } else { ?>
 				<div class="dol-font-bold dol-mt-6 dol-text-2xl dol-uppercase">
-					<?php esc_html_e('Launching Your New Site', 'dollie'); ?>
+					<?php esc_html_e( 'Launching Your New Site', 'dollie' ); ?>
 				</div>
 				<div class="dol-mt-1 dol-text-md dol-font-semibold dol-text-gray-500">
-					<?php esc_html_e('Your site will be ready to go in just a moment.', 'dollie'); ?>
+					<?php esc_html_e( 'Your site will be ready to go in just a moment.', 'dollie' ); ?>
 			<?php } ?>
 				</div>
 
 				<div class="dol-text-gray-500 dol-text-sm dol-mt-6">
-					<?php esc_html_e('Don\'t worry, we\'ll automatically reload this page once it\'s ready.', 'dollie'); ?>
+					<?php esc_html_e( 'Don\'t worry, we\'ll automatically reload this page once it\'s ready.', 'dollie' ); ?>
 				</div>
 				<div class="dol-text-gray-500 dol-text-sm">
-					<?php esc_html_e('If you don\'t want to wait for a few seconds, you can navigate away. We got it covered!', 'dollie'); ?>
+					<?php esc_html_e( 'If you don\'t want to wait for a few seconds, you can navigate away. We got it covered!', 'dollie' ); ?>
 				</div>
 		</div>
 	<?php else : ?>
@@ -132,14 +135,14 @@
 		$install = get_queried_object()->post_name;
 
 		// Include ACF editor for blueprints
-		if (get_query_var('blueprints') || current_user_can('edit_pages')) {
+		if ( get_query_var( 'blueprints' ) || current_user_can( 'edit_pages' ) ) {
 			acf_form_head();
 		}
 
-		$data     = \Dollie\Core\Modules\Container::instance()->get_container_details(get_the_ID());
-		$sub_page = get_query_var('sub_page');
+		$data     = \Dollie\Core\Modules\Container::instance()->get_container_details( get_the_ID() );
+		$sub_page = get_query_var( 'sub_page' );
 
-		if ('plugins' === $sub_page) {
+		if ( 'plugins' === $sub_page ) {
 			\Dollie\Core\Utils\Tpl::load(
 				'widgets/site/pages/plugins',
 				[
@@ -148,7 +151,7 @@
 				],
 				true
 			);
-		} elseif ('themes' === $sub_page) {
+		} elseif ( 'themes' === $sub_page ) {
 			\Dollie\Core\Utils\Tpl::load(
 				'widgets/site/pages/themes',
 				[
@@ -156,7 +159,7 @@
 				],
 				true
 			);
-		} elseif ('domains' === $sub_page) {
+		} elseif ( 'domains' === $sub_page ) {
 			\Dollie\Core\Utils\Tpl::load(
 				'widgets/site/pages/domains',
 				[
@@ -164,7 +167,7 @@
 				],
 				true
 			);
-		} elseif ('migrate' === $sub_page) {
+		} elseif ( 'migrate' === $sub_page ) {
 			\Dollie\Core\Utils\Tpl::load(
 				'widgets/site/pages/migrate',
 				[
@@ -172,7 +175,7 @@
 				],
 				true
 			);
-		} elseif ('backups' === $sub_page) {
+		} elseif ( 'backups' === $sub_page ) {
 			\Dollie\Core\Utils\Tpl::load(
 				'widgets/site/pages/backups',
 				[
@@ -180,7 +183,7 @@
 				],
 				true
 			);
-		} elseif ('updates' === $sub_page) {
+		} elseif ( 'updates' === $sub_page ) {
 			\Dollie\Core\Utils\Tpl::load(
 				'widgets/site/pages/updates',
 				[
@@ -188,7 +191,7 @@
 				],
 				true
 			);
-		} elseif ('developer-tools' === $sub_page) {
+		} elseif ( 'developer-tools' === $sub_page ) {
 			\Dollie\Core\Utils\Tpl::load(
 				'widgets/site/pages/developer-tools',
 				[
@@ -196,7 +199,7 @@
 				],
 				true
 			);
-		} elseif ('blueprints' === $sub_page) {
+		} elseif ( 'blueprints' === $sub_page ) {
 			\Dollie\Core\Utils\Tpl::load(
 				'widgets/site/pages/blueprints',
 				[
@@ -205,7 +208,7 @@
 				],
 				true
 			);
-		} elseif ('delete' === $sub_page) {
+		} elseif ( 'delete' === $sub_page ) {
 			\Dollie\Core\Utils\Tpl::load(
 				'widgets/site/pages/delete',
 				[
@@ -227,5 +230,5 @@
 
 		?>
 
-	<?php
+		<?php
 endif;

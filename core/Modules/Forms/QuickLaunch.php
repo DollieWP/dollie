@@ -59,7 +59,6 @@ class QuickLaunch extends Singleton {
 		$blueprint = Forms::instance()->get_form_blueprint( $form, $args );
 		$site_type = 'site';
 
-
 		// If we allow registration and not logged in - create account
 		if ( ! is_user_logged_in() && get_option( 'users_can_register' ) ) {
 			$user_id       = username_exists( $email );
