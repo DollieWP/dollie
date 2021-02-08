@@ -2,7 +2,7 @@
 
 namespace Dollie\Core\Modules;
 
-if (!defined('ABSPATH')) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
@@ -18,87 +18,85 @@ use WP_Query;
  *
  * @package Dollie\Core\Modules
  */
-class Container extends Singleton
-{
+class Container extends Singleton {
+
 
 	/**
 	 * Container constructor.
 	 */
-	public function __construct()
-	{
-		parent::__construct();
+	public function __construct() {
+		 parent::__construct();
 
-		add_action('init', [$this, 'register'], 0);
-		add_action('init', [$this, 'register_category'], 0);
-		add_filter('init', [$this, 'rewrite_rules_container_sub_pages'], 20);
-		add_action('init', [$this, 'set_default_view_time_total_containers']);
-		add_action('init', [$this, 'check_deployment_domain_status']);
+		add_action( 'init', [ $this, 'register' ], 0 );
+		add_action( 'init', [ $this, 'register_category' ], 0 );
+		add_filter( 'init', [ $this, 'rewrite_rules_container_sub_pages' ], 20 );
+		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
+		add_action( 'init', [ $this, 'check_deployment_domain_status' ] );
 
-		add_filter('query_vars', [$this, 'query_vars']);
-		add_filter('single_template', [$this, 'container_template']);
+		add_filter( 'query_vars', [ $this, 'query_vars' ] );
+		add_filter( 'single_template', [ $this, 'container_template' ] );
 
-		add_action('template_redirect', [$this, 'remove_customer_domain_action']);
-		add_action('template_redirect', [$this, 'remove_details_transients']);
-		add_action('template_redirect', [$this, 'update_details']);
+		add_action( 'template_redirect', [ $this, 'remove_customer_domain_action' ] );
+		add_action( 'template_redirect', [ $this, 'remove_details_transients' ] );
+		add_action( 'template_redirect', [ $this, 'update_details' ] );
 
-		add_action('untrashed_post', [$this, 'run_untrash_action']);
+		add_action( 'untrashed_post', [ $this, 'run_untrash_action' ] );
 
-		add_action('add_meta_boxes', [$this, 'rename_author_box_title']);
-		add_filter('manage_container_posts_columns', [$this, 'rename_author_box_column']);
-		add_filter('parse_query', [$this, 'filter_blueprint_from_sites']);
-		add_filter('page_row_actions', [$this, 'add_container_title_actions'], 10, 2);
-		add_filter('manage_container_posts_columns', [$this, 'replace_container_title_column']);
-		add_action('manage_container_posts_custom_column', [$this, 'add_new_container_title_content'], 10, 2);
+		add_action( 'add_meta_boxes', [ $this, 'rename_author_box_title' ] );
+		add_filter( 'manage_container_posts_columns', [ $this, 'rename_author_box_column' ] );
+		add_filter( 'parse_query', [ $this, 'filter_blueprint_from_sites' ] );
+		add_filter( 'page_row_actions', [ $this, 'add_container_title_actions' ], 10, 2 );
+		add_filter( 'manage_container_posts_columns', [ $this, 'replace_container_title_column' ] );
+		add_action( 'manage_container_posts_custom_column', [ $this, 'add_new_container_title_content' ], 10, 2 );
 
-		add_action('acf/save_post', [$this, 'update_customer_role']);
-		add_action('acf/save_post', [$this, 'update_all_customers_role']);
-		add_action('acf/save_post', [$this, 'update_deployment_domain']);
+		add_action( 'acf/save_post', [ $this, 'update_customer_role' ] );
+		add_action( 'acf/save_post', [ $this, 'update_all_customers_role' ] );
+		add_action( 'acf/save_post', [ $this, 'update_deployment_domain' ] );
 
-		add_action('acf/input/admin_footer', [$this, 'change_role_notice']);
-		add_action('edit_form_after_title', [$this, 'add_container_manager_notice']);
+		add_action( 'acf/input/admin_footer', [ $this, 'change_role_notice' ] );
+		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
 	}
 
 	/**
 	 * Register container post type
 	 */
-	public function register()
-	{
+	public function register() {
 		$labels = [
-			'name'                  => _x('Sites', 'dollie', 'dollie'),
-			'singular_name'         => _x('Site', 'dollie', 'dollie'),
-			'menu_name'             => __('Sites', 'dollie'),
-			'name_admin_bar'        => __('Post Type', 'dollie'),
-			'archives'              => __('Site Archives', 'dollie'),
-			'attributes'            => __('Site Attributes', 'dollie'),
-			'parent_item_colon'     => __('Parent Site:', 'dollie'),
-			'all_items'             => __('View Sites', 'dollie'),
-			'add_new_item'          => __('Add New Site', 'dollie'),
-			'add_new'               => __('Add New', 'dollie'),
-			'new_item'              => __('New Site', 'dollie'),
-			'edit_item'             => __('Edit Site', 'dollie'),
-			'update_item'           => __('Update Site', 'dollie'),
-			'view_item'             => __('View Site', 'dollie'),
-			'view_items'            => __('View Sites', 'dollie'),
-			'search_items'          => __('Search Sites', 'dollie'),
-			'not_found'             => __('Not found', 'dollie'),
-			'not_found_in_trash'    => __('Not found in Trash', 'dollie'),
-			'featured_image'        => __('Featured Image', 'dollie'),
-			'set_featured_image'    => __('Set featured image', 'dollie'),
-			'remove_featured_image' => __('Remove featured image', 'dollie'),
-			'use_featured_image'    => __('Use as featured image', 'dollie'),
-			'insert_into_item'      => __('Insert into item', 'dollie'),
-			'uploaded_to_this_item' => __('Uploaded to this item', 'dollie'),
-			'items_list'            => __('Sites list', 'dollie'),
-			'items_list_navigation' => __('Sites list navigation', 'dollie'),
-			'filter_items_list'     => __('Filter items list', 'dollie'),
+			'name'                  => _x( 'Sites', 'dollie', 'dollie' ),
+			'singular_name'         => _x( 'Site', 'dollie', 'dollie' ),
+			'menu_name'             => __( 'Sites', 'dollie' ),
+			'name_admin_bar'        => __( 'Post Type', 'dollie' ),
+			'archives'              => __( 'Site Archives', 'dollie' ),
+			'attributes'            => __( 'Site Attributes', 'dollie' ),
+			'parent_item_colon'     => __( 'Parent Site:', 'dollie' ),
+			'all_items'             => __( 'View Sites', 'dollie' ),
+			'add_new_item'          => __( 'Add New Site', 'dollie' ),
+			'add_new'               => __( 'Add New', 'dollie' ),
+			'new_item'              => __( 'New Site', 'dollie' ),
+			'edit_item'             => __( 'Edit Site', 'dollie' ),
+			'update_item'           => __( 'Update Site', 'dollie' ),
+			'view_item'             => __( 'View Site', 'dollie' ),
+			'view_items'            => __( 'View Sites', 'dollie' ),
+			'search_items'          => __( 'Search Sites', 'dollie' ),
+			'not_found'             => __( 'Not found', 'dollie' ),
+			'not_found_in_trash'    => __( 'Not found in Trash', 'dollie' ),
+			'featured_image'        => __( 'Featured Image', 'dollie' ),
+			'set_featured_image'    => __( 'Set featured image', 'dollie' ),
+			'remove_featured_image' => __( 'Remove featured image', 'dollie' ),
+			'use_featured_image'    => __( 'Use as featured image', 'dollie' ),
+			'insert_into_item'      => __( 'Insert into item', 'dollie' ),
+			'uploaded_to_this_item' => __( 'Uploaded to this item', 'dollie' ),
+			'items_list'            => __( 'Sites list', 'dollie' ),
+			'items_list_navigation' => __( 'Sites list navigation', 'dollie' ),
+			'filter_items_list'     => __( 'Filter items list', 'dollie' ),
 		];
 
 		$args = [
-			'label'               => __('Site', 'dollie'),
-			'description'         => __('Platform Sites', 'dollie'),
+			'label'               => __( 'Site', 'dollie' ),
+			'description'         => __( 'Platform Sites', 'dollie' ),
 			'labels'              => $labels,
-			'supports'            => ['title', 'content', 'author', 'custom-fields', 'thumbnail', 'page-attributes'],
-			'taxonomies'          => ['container_category', 'container_tag'],
+			'supports'            => [ 'title', 'content', 'author', 'custom-fields', 'thumbnail', 'page-attributes' ],
+			'taxonomies'          => [ 'container_category', 'container_tag' ],
 			'hierarchical'        => true,
 			'public'              => true,
 			'show_ui'             => true,
@@ -121,35 +119,34 @@ class Container extends Singleton
 			'show_in_rest'        => false,
 		];
 
-		register_post_type('container', $args);
+		register_post_type( 'container', $args );
 	}
 
 	/**
 	 * Register container taxonomy
 	 */
-	public function register_category()
-	{
+	public function register_category() {
 		$labels = [
-			'name'                       => _x('Blueprint Categories', 'Taxonomy General Name', 'dollie'),
-			'singular_name'              => _x('Blueprint Category', 'Taxonomy Singular Name', 'dollie'),
-			'menu_name'                  => __('Taxonomy', 'dollie'),
-			'all_items'                  => __('All Items', 'dollie'),
-			'parent_item'                => __('Parent Item', 'dollie'),
-			'parent_item_colon'          => __('Parent Item:', 'dollie'),
-			'new_item_name'              => __('New Item Name', 'dollie'),
-			'add_new_item'               => __('Add New Item', 'dollie'),
-			'edit_item'                  => __('Edit Item', 'dollie'),
-			'update_item'                => __('Update Item', 'dollie'),
-			'view_item'                  => __('View Item', 'dollie'),
-			'separate_items_with_commas' => __('Separate items with commas', 'dollie'),
-			'add_or_remove_items'        => __('Add or remove items', 'dollie'),
-			'choose_from_most_used'      => __('Choose from the most used', 'dollie'),
-			'popular_items'              => __('Popular Items', 'dollie'),
-			'search_items'               => __('Search Items', 'dollie'),
-			'not_found'                  => __('Not Found', 'dollie'),
-			'no_terms'                   => __('No items', 'dollie'),
-			'items_list'                 => __('Items list', 'dollie'),
-			'items_list_navigation'      => __('Items list navigation', 'dollie'),
+			'name'                       => _x( 'Blueprint Categories', 'Taxonomy General Name', 'dollie' ),
+			'singular_name'              => _x( 'Blueprint Category', 'Taxonomy Singular Name', 'dollie' ),
+			'menu_name'                  => __( 'Taxonomy', 'dollie' ),
+			'all_items'                  => __( 'All Items', 'dollie' ),
+			'parent_item'                => __( 'Parent Item', 'dollie' ),
+			'parent_item_colon'          => __( 'Parent Item:', 'dollie' ),
+			'new_item_name'              => __( 'New Item Name', 'dollie' ),
+			'add_new_item'               => __( 'Add New Item', 'dollie' ),
+			'edit_item'                  => __( 'Edit Item', 'dollie' ),
+			'update_item'                => __( 'Update Item', 'dollie' ),
+			'view_item'                  => __( 'View Item', 'dollie' ),
+			'separate_items_with_commas' => __( 'Separate items with commas', 'dollie' ),
+			'add_or_remove_items'        => __( 'Add or remove items', 'dollie' ),
+			'choose_from_most_used'      => __( 'Choose from the most used', 'dollie' ),
+			'popular_items'              => __( 'Popular Items', 'dollie' ),
+			'search_items'               => __( 'Search Items', 'dollie' ),
+			'not_found'                  => __( 'Not Found', 'dollie' ),
+			'no_terms'                   => __( 'No items', 'dollie' ),
+			'items_list'                 => __( 'Items list', 'dollie' ),
+			'items_list_navigation'      => __( 'Items list navigation', 'dollie' ),
 		];
 		$args   = [
 			'labels'            => $labels,
@@ -161,7 +158,7 @@ class Container extends Singleton
 			'show_tagcloud'     => true,
 		];
 
-		register_taxonomy('container_category', ['container'], $args);
+		register_taxonomy( 'container_category', [ 'container' ], $args );
 	}
 
 	/**
@@ -171,11 +168,10 @@ class Container extends Singleton
 	 *
 	 * @return string
 	 */
-	public function container_template($single)
-	{
+	public function container_template( $single ) {
 		global $post;
 
-		if ('container' === $post->post_type) {
+		if ( 'container' === $post->post_type ) {
 			return DOLLIE_MODULE_TPL_PATH . '/container.php';
 		}
 
@@ -189,8 +185,7 @@ class Container extends Singleton
 	 *
 	 * @return array
 	 */
-	public function query_vars($vars)
-	{
+	public function query_vars( $vars ) {
 		$vars[] = 'sub_page';
 
 		return $vars;
@@ -199,8 +194,7 @@ class Container extends Singleton
 	/**
 	 * Add container subpages
 	 */
-	public function rewrite_rules_container_sub_pages()
-	{
+	public function rewrite_rules_container_sub_pages() {
 		$post_type = 'site';
 		$sub_pages = '(dashboard|plugins|themes|emails|domains|backups|updates|developer-tools|blueprints|delete|migrate)';
 
@@ -214,38 +208,36 @@ class Container extends Singleton
 	/**
 	 * Remove customer domain
 	 */
-	public function remove_customer_domain_action()
-	{
-		if (isset($_REQUEST['remove_customer_domain'])) {
+	public function remove_customer_domain_action() {
+		if ( isset( $_REQUEST['remove_customer_domain'] ) ) {
 
 			// Prevent unauthorized access
-			if (!is_user_logged_in()) {
+			if ( ! is_user_logged_in() ) {
 				return;
 			}
 
 			$current_query = dollie()->get_current_object();
 
 			// Prevent unauthorized access
-			if (!current_user_can('manage_options') && !$current_query->author != get_current_user_id()) {
+			if ( ! current_user_can( 'manage_options' ) && ! $current_query->author != get_current_user_id() ) {
 				return;
 			}
 
-			$this->remove_domain($current_query->id);
+			$this->remove_domain( $current_query->id );
 		}
 	}
 
 	/**
 	 * @param null|int $post_id
 	 */
-	public function remove_domain($post_id = null)
-	{
+	public function remove_domain( $post_id = null ) {
 
-		$container = dollie()->get_current_object($post_id);
+		$container = dollie()->get_current_object( $post_id );
 		$post_id   = $container->id;
 
-		$container_id = get_post_meta($post_id, 'wpd_container_id', true);
-		$route_id     = get_post_meta($post_id, 'wpd_domain_id', true);
-		$www_route_id = get_post_meta($post_id, 'wpd_www_domain_id', true);
+		$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
+		$route_id     = get_post_meta( $post_id, 'wpd_domain_id', true );
+		$www_route_id = get_post_meta( $post_id, 'wpd_www_domain_id', true );
 
 		Api::process_response(
 			Api::post(
@@ -274,7 +266,7 @@ class Container extends Singleton
 				'https://',
 			],
 			'',
-			get_post_meta($post_id, 'wpd_domains', true)
+			get_post_meta( $post_id, 'wpd_domains', true )
 		);
 
 		$new_url = str_replace(
@@ -283,7 +275,7 @@ class Container extends Singleton
 				'https://',
 			],
 			'',
-			dollie()->get_wp_site_data('uri', $post_id)
+			dollie()->get_wp_site_data( 'uri', $post_id )
 		);
 
 		$this->update_url(
@@ -292,7 +284,7 @@ class Container extends Singleton
 			$container->id
 		);
 
-		sleep(5);
+		sleep( 5 );
 
 		$this->update_url(
 			$new_url,
@@ -302,18 +294,18 @@ class Container extends Singleton
 
 		dollie()->flush_container_details();
 
-		delete_post_meta($post_id, 'wpd_domain_migration_complete');
-		delete_post_meta($post_id, 'wpd_cloudflare_zone_id');
-		delete_post_meta($post_id, 'wpd_cloudflare_id');
-		delete_post_meta($post_id, 'wpd_cloudflare_active');
-		delete_post_meta($post_id, 'wpd_cloudflare_api');
-		delete_post_meta($post_id, 'wpd_domain_id');
-		delete_post_meta($post_id, 'wpd_letsencrypt_enabled');
-		delete_post_meta($post_id, 'wpd_domains');
-		delete_post_meta($post_id, 'wpd_www_domain_id');
-		delete_post_meta($post_id, 'wpd_cloudflare_email');
+		delete_post_meta( $post_id, 'wpd_domain_migration_complete' );
+		delete_post_meta( $post_id, 'wpd_cloudflare_zone_id' );
+		delete_post_meta( $post_id, 'wpd_cloudflare_id' );
+		delete_post_meta( $post_id, 'wpd_cloudflare_active' );
+		delete_post_meta( $post_id, 'wpd_cloudflare_api' );
+		delete_post_meta( $post_id, 'wpd_domain_id' );
+		delete_post_meta( $post_id, 'wpd_letsencrypt_enabled' );
+		delete_post_meta( $post_id, 'wpd_domains' );
+		delete_post_meta( $post_id, 'wpd_www_domain_id' );
+		delete_post_meta( $post_id, 'wpd_cloudflare_email' );
 
-		wp_redirect(get_site_url() . '/site/' . $container->slug . '/?get-details');
+		wp_redirect( get_site_url() . '/site/' . $container->slug . '/?get-details' );
 		exit();
 	}
 
@@ -321,41 +313,40 @@ class Container extends Singleton
 	 * Update WP site url option
 	 *
 	 * @param $new_url
-	 * @param string $old_url
-	 * @param null $container_id
+	 * @param string  $old_url
+	 * @param null    $container_id
 	 *
 	 * @return bool|mixed
 	 */
-	public function update_url($new_url, $old_url = '', $container_id = null)
-	{
+	public function update_url( $new_url, $old_url = '', $container_id = null ) {
 
-		if (empty($new_url)) {
+		if ( empty( $new_url ) ) {
 			return false;
 		}
 
-		$container = dollie()->get_current_object($container_id);
+		$container = dollie()->get_current_object( $container_id );
 
-		if (empty($old_url)) {
+		if ( empty( $old_url ) ) {
 			$old_url = str_replace(
 				[
 					'http://',
 					'https://',
 				],
 				'',
-				dollie()->get_container_url($container->id)
+				dollie()->get_container_url( $container->id )
 			);
 		}
 
 		$request_domain_update = Api::post(
 			Api::ROUTE_DOMAIN_UPDATE,
 			[
-				'container_uri' => dollie()->get_wp_site_data('uri', $container->id),
+				'container_uri' => dollie()->get_wp_site_data( 'uri', $container->id ),
 				'route'         => $new_url,
 				'install'       => $old_url,
 			]
 		);
 
-		return Api::process_response($request_domain_update);
+		return Api::process_response( $request_domain_update );
 	}
 
 	/**
@@ -364,13 +355,12 @@ class Container extends Singleton
 	 *
 	 * @return bool
 	 */
-	public function update_url_with_domain($domain = null, $container_id = null)
-	{
+	public function update_url_with_domain( $domain = null, $container_id = null ) {
 
-		$container = dollie()->get_current_object($container_id);
+		$container = dollie()->get_current_object( $container_id );
 
-		if (empty($domain)) {
-			$domain = get_post_meta($container->id, 'wpd_domains', true);
+		if ( empty( $domain ) ) {
+			$domain = get_post_meta( $container->id, 'wpd_domains', true );
 		}
 
 		$old_url = str_replace(
@@ -379,22 +369,22 @@ class Container extends Singleton
 				'https://',
 			],
 			'',
-			dollie()->get_container_url($container->id)
+			dollie()->get_container_url( $container->id )
 		);
 
-		$response_data = $this->update_url($domain, $old_url, $container->id);
+		$response_data = $this->update_url( $domain, $old_url, $container->id );
 
-		if ($response_data === false) {
+		if ( $response_data === false ) {
 
-			Log::add('Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has failed');
+			Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has failed' );
 
 			return false;
 		}
 
-		Log::add('Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has started', $response_data);
+		Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has started', $response_data );
 
 		// Mark domain URL migration as complete
-		update_post_meta($container->id, 'wpd_domain_migration_complete', 'yes');
+		update_post_meta( $container->id, 'wpd_domain_migration_complete', 'yes' );
 
 		return true;
 	}
@@ -402,8 +392,7 @@ class Container extends Singleton
 	/**
 	 * Default view time total containers
 	 */
-	public function set_default_view_time_total_containers()
-	{
+	public function set_default_view_time_total_containers() {
 		$query = new WP_Query(
 			[
 				'post_type'     => 'container',
@@ -418,10 +407,10 @@ class Container extends Singleton
 			]
 		);
 
-		if ($query->have_posts()) {
-			while ($query->have_posts()) {
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
 				$query->the_post();
-				update_post_meta(get_the_ID(), 'wpd_last_viewed', '1');
+				update_post_meta( get_the_ID(), 'wpd_last_viewed', '1' );
 			}
 		}
 
@@ -436,10 +425,9 @@ class Container extends Singleton
 	 *
 	 * @return array
 	 */
-	public function get_container_details($post_id)
-	{
+	public function get_container_details( $post_id ) {
 		$current_user = wp_get_current_user();
-		$post         = get_post($post_id);
+		$post         = get_post( $post_id );
 		$post_slug    = $post->post_name;
 
 		$data = [
@@ -451,79 +439,79 @@ class Container extends Singleton
 		];
 
 		// Make an API request to get our customer details.
-		$request = $this->get_customer_details($post_id);
+		$request = $this->get_customer_details( $post_id );
 
-		if (!empty($request)) {
+		if ( ! empty( $request ) ) {
 			// Now that we have our container details get our info
-			$details_url          = dollie()->get_container_url($post_id) . WP::PLATFORM_PATH . 'container/details';
+			$details_url          = dollie()->get_container_url( $post_id ) . WP::PLATFORM_PATH . 'container/details';
 			$details_transient_id = $post_slug . '_get_container_wp_info';
 
 			// Make the request
-			$details_request = dollie()->container_api_request($details_url, $details_transient_id, 'container', $request->id);
+			$details_request = dollie()->container_api_request( $details_url, $details_transient_id, 'container', $request->id );
 
 			// Decode to PHP currently used
-			$data['container_details'] = json_decode(json_encode($details_request), true);
+			$data['container_details'] = json_decode( json_encode( $details_request ), true );
 
 			// Set last viewed meta
-			if ($post->post_author === $current_user->ID) {
-				update_post_meta($post_id, 'wpd_last_viewed', time());
+			if ( $post->post_author === $current_user->ID ) {
+				update_post_meta( $post_id, 'wpd_last_viewed', time() );
 			}
 
-			if (!empty($data['container_details']) && $data['container_details']['Secret'] !== '') {
-				update_post_meta($post_id, 'wpd_container_secret', $data['container_details']['Secret']);
-				update_post_meta($post_id, 'wpd_installation_name', $data['container_details']['Name']);
-				update_post_meta($post_id, 'wpd_installation_users', $data['container_details']['Members']);
-				update_post_meta($post_id, 'wpd_installation_admin_email', $data['container_details']['Admin Email']);
-				update_post_meta($post_id, 'wpd_installation_is_multisite', $data['container_details']['Multisite']);
-				update_post_meta($post_id, 'wpd_installation_size', dollie()->convert_to_readable_size($data['container_details']['Size']));
-				update_post_meta($post_id, 'wpd_installation_size_bytes', $data['container_details']['Size']);
-				update_post_meta($post_id, 'wpd_installation_version', $data['container_details']['Version']);
+			if ( ! empty( $data['container_details'] ) && $data['container_details']['Secret'] !== '' ) {
+				update_post_meta( $post_id, 'wpd_container_secret', $data['container_details']['Secret'] );
+				update_post_meta( $post_id, 'wpd_installation_name', $data['container_details']['Name'] );
+				update_post_meta( $post_id, 'wpd_installation_users', $data['container_details']['Members'] );
+				update_post_meta( $post_id, 'wpd_installation_admin_email', $data['container_details']['Admin Email'] );
+				update_post_meta( $post_id, 'wpd_installation_is_multisite', $data['container_details']['Multisite'] );
+				update_post_meta( $post_id, 'wpd_installation_size', dollie()->convert_to_readable_size( $data['container_details']['Size'] ) );
+				update_post_meta( $post_id, 'wpd_installation_size_bytes', $data['container_details']['Size'] );
+				update_post_meta( $post_id, 'wpd_installation_version', $data['container_details']['Version'] );
 
-				$post_data = array(
-					'post_title' => $data['container_details']['Name']
-				);
-				wp_update_post($post_data);
+				$post_data = [
+					'post_title' => $data['container_details']['Name'],
+				];
+				wp_update_post( $post_data );
 
 			}
 
 			// Now that we have our container stats get our secret key
-			$stats_url          = dollie()->get_container_url($post_id) . WP::PLATFORM_PATH . 'container/details/stats.php';
+			$stats_url          = dollie()->get_container_url( $post_id ) . WP::PLATFORM_PATH . 'container/details/stats.php';
 			$stats_transient_id = $post_slug . '_get_container_site_info';
 
 			// Make the request
-			$stats_request = dollie()->container_api_request($stats_url, $stats_transient_id, 'container', $request->id);
+			$stats_request = dollie()->container_api_request( $stats_url, $stats_transient_id, 'container', $request->id );
 
 			// Decode to PHP currently used
-			$data['site_data'] = json_decode(json_encode($stats_request), true);
+			$data['site_data'] = json_decode( json_encode( $stats_request ), true );
 
-			if (!empty($data['site_data']) && !empty($stats_request)) {
-				update_post_meta($post_id, 'wpd_installation_themes', $data['site_data']['Theme Name']);
-				update_post_meta($post_id, 'wpd_installation_site_icon', $data['site_data']['Site Icon']);
-				update_post_meta($post_id, 'wpd_installation_site_theme_screenshot', $data['site_data']['Theme Screenshot']);
-				update_post_meta($post_id, 'wpd_installation_emails_sent', $data['site_data']['Emails']);
-				update_post_meta($post_id, 'wpd_installation_posts', $data['site_data']['Posts']);
-				update_post_meta($post_id, 'wpd_installation_pages', $data['site_data']['Pages']);
+			if ( ! empty( $data['site_data'] ) && ! empty( $stats_request ) ) {
+				update_post_meta( $post_id, 'wpd_installation_themes', $data['site_data']['Theme Name'] );
+				update_post_meta( $post_id, 'wpd_installation_site_icon', $data['site_data']['Site Icon'] );
+				update_post_meta( $post_id, 'wpd_installation_site_theme_screenshot', $data['site_data']['Theme Screenshot'] );
+				update_post_meta( $post_id, 'wpd_installation_emails_sent', $data['site_data']['Emails'] );
+				update_post_meta( $post_id, 'wpd_installation_posts', $data['site_data']['Posts'] );
+				update_post_meta( $post_id, 'wpd_installation_pages', $data['site_data']['Pages'] );
 
-				if (!empty($data['site_data']['Sites'])) {
-					update_post_meta($post_id, 'wpd_installation_sites_live', $data['site_data']['Sites']['publish']);
-					update_post_meta($post_id, 'wpd_installation_sites_trashed', $data['site_data']['Sites']['trash']);
+				if ( ! empty( $data['site_data']['Sites'] ) ) {
+					update_post_meta( $post_id, 'wpd_installation_sites_live', $data['site_data']['Sites']['publish'] );
+					update_post_meta( $post_id, 'wpd_installation_sites_trashed', $data['site_data']['Sites']['trash'] );
 				}
 
-				update_post_meta($post_id, 'wpd_installation_comments_total', $data['site_data']['Comments Total']);
-				update_post_meta($post_id, 'wpd_installation_comments_moderated', $data['site_data']['Comments Moderation']);
-				update_post_meta($post_id, 'wpd_installation_comments_trash', $data['site_data']['Comments Trash']);
-				update_post_meta($post_id, 'wpd_installation_comments_approved', $data['site_data']['Comments Approved']);
-				update_post_meta($post_id, 'wpd_installation_comments_spam', $data['site_data']['Comments Spam']);
-				update_post_meta($post_id, 'wpd_installation_revisions', $data['site_data']['Revisions']);
-				update_post_meta($post_id, 'wpd_installation_plugin_updates', $data['site_data']['Plugin Updates']);
-				update_post_meta($post_id, 'wpd_installation_theme_updates', $data['site_data']['Theme Updates']);
+				update_post_meta( $post_id, 'wpd_installation_comments_total', $data['site_data']['Comments Total'] );
+				update_post_meta( $post_id, 'wpd_installation_comments_moderated', $data['site_data']['Comments Moderation'] );
+				update_post_meta( $post_id, 'wpd_installation_comments_trash', $data['site_data']['Comments Trash'] );
+				update_post_meta( $post_id, 'wpd_installation_comments_approved', $data['site_data']['Comments Approved'] );
+				update_post_meta( $post_id, 'wpd_installation_comments_spam', $data['site_data']['Comments Spam'] );
+				update_post_meta( $post_id, 'wpd_installation_revisions', $data['site_data']['Revisions'] );
+				update_post_meta( $post_id, 'wpd_installation_plugin_updates', $data['site_data']['Plugin Updates'] );
+				update_post_meta( $post_id, 'wpd_installation_theme_updates', $data['site_data']['Theme Updates'] );
 
-				if (!empty($data['site_data']['WP Updates'])) {
-					update_post_meta($post_id, 'wpd_installation_wp_updates', $data['site_data']['WP Updates']);
+				if ( ! empty( $data['site_data']['WP Updates'] ) ) {
+					update_post_meta( $post_id, 'wpd_installation_wp_updates', $data['site_data']['WP Updates'] );
 				}
 
-				if (!empty($data['site_data']['WP Update Summary'])) {
-					update_post_meta($post_id, 'wpd_installation_update_summary', $data['site_data']['WP Update Summary']);
+				if ( ! empty( $data['site_data']['WP Update Summary'] ) ) {
+					update_post_meta( $post_id, 'wpd_installation_update_summary', $data['site_data']['WP Update Summary'] );
 				}
 			}
 		}
@@ -538,20 +526,19 @@ class Container extends Singleton
 	 *
 	 * @return array|object
 	 */
-	public function get_customer_details($container_id = null)
-	{
-		$container = dollie()->get_current_object($container_id);
+	public function get_customer_details( $container_id = null ) {
+		$container = dollie()->get_current_object( $container_id );
 
-		if (!$container->id) {
+		if ( ! $container->id ) {
 			return [];
 		}
 
-		$request = get_transient('dollie_s5_container_details_' . $container->slug);
+		$request = get_transient( 'dollie_s5_container_details_' . $container->slug );
 
 		// Only make request if it's not cached in a transient.
-		if (empty($request)) {
+		if ( empty( $request ) ) {
 
-			$container_id = get_post_meta($container->id, 'wpd_container_id', true);
+			$container_id = get_post_meta( $container->id, 'wpd_container_id', true );
 
 			// Set up the request
 			$request_get_container = Api::post(
@@ -561,22 +548,22 @@ class Container extends Singleton
 				]
 			);
 
-			$request_response = Api::process_response($request_get_container, null);
+			$request_response = Api::process_response( $request_get_container, null );
 
-			if (empty($request_response) || 500 === $request_response['status']) {
+			if ( empty( $request_response ) || 500 === $request_response['status'] ) {
 
-				Log::add('Container details could not be fetched for ' . $container->slug, print_r($request_get_container, true), 'error');
+				Log::add( 'Container details could not be fetched for ' . $container->slug, print_r( $request_get_container, true ), 'error' );
 
 				return [];
 			}
 
-			$request = dollie()->maybe_decode_json($request_response['body'], true);
+			$request = dollie()->maybe_decode_json( $request_response['body'], true );
 
 			// Set Transient.
-			set_transient('dollie_s5_container_details_' . $container->slug, $request, MINUTE_IN_SECONDS * 150000);
+			set_transient( 'dollie_s5_container_details_' . $container->slug, $request, MINUTE_IN_SECONDS * 150000 );
 
 			// Update Post Meta.
-			WP::instance()->store_container_data($container->id, $request);
+			WP::instance()->store_container_data( $container->id, $request );
 		}
 
 		return (object) $request;
@@ -588,46 +575,45 @@ class Container extends Singleton
 	 * @param $url
 	 * @param $transient_id
 	 * @param $user_auth
-	 * @param null $user_pass
+	 * @param null         $user_pass
 	 *
 	 * @return array|mixed
 	 */
-	public function do_api_request($url, $transient_id = null, $user_auth = null, $user_pass = null)
-	{
-		if (null === $user_auth || null === $user_pass) {
+	public function do_api_request( $url, $transient_id = null, $user_auth = null, $user_pass = null ) {
+		if ( null === $user_auth || null === $user_pass ) {
 			return [];
 		}
 
 		$request = [];
 
-		if (isset($transient_id)) {
+		if ( isset( $transient_id ) ) {
 			$transient_name = 'dollie_container_api_request_' . $transient_id;
-			$request        = get_transient($transient_name);
+			$request        = get_transient( $transient_name );
 		}
 
 		// Only make request if it's not cached in a transient.
-		if (empty($request)) {
+		if ( empty( $request ) ) {
 			$response = wp_remote_request(
 				$url,
 				[
 					'method'  => 'GET',
 					'headers' => [
-						'Authorization' => 'Basic ' . base64_encode($user_auth . ':' . $user_pass),
+						'Authorization' => 'Basic ' . base64_encode( $user_auth . ':' . $user_pass ),
 					],
 				]
 			);
-			if (is_wp_error($response)) {
+			if ( is_wp_error( $response ) ) {
 				return [];
 			}
 
-			$request = json_decode(wp_remote_retrieve_body($response), false);
+			$request = json_decode( wp_remote_retrieve_body( $response ), false );
 
-			if (empty($request)) {
+			if ( empty( $request ) ) {
 				return [];
 			}
 
-			if (isset($transient_name)) {
-				set_transient($transient_name, $request, MINUTE_IN_SECONDS * 30);
+			if ( isset( $transient_name ) ) {
+				set_transient( $transient_name, $request, MINUTE_IN_SECONDS * 30 );
 			}
 		}
 
@@ -641,23 +627,22 @@ class Container extends Singleton
 	 *
 	 * @return mixed
 	 */
-	public function get_info($container_id = null)
-	{
-		$container = dollie()->get_current_object($container_id);
+	public function get_info( $container_id = null ) {
+		$container = dollie()->get_current_object( $container_id );
 
 		$transient_id   = $container->slug . '_get_container_wp_info';
 		$transient_name = 'dollie_container_api_request_' . $transient_id;
 
-		$data = get_transient($transient_name);
+		$data = get_transient( $transient_name );
 
-		if (empty($data)) {
+		if ( empty( $data ) ) {
 			// Make an API request to get our customer details.
-			$request = dollie()->get_customer_container_details($container->id);
+			$request = dollie()->get_customer_container_details( $container->id );
 
 			// Now that we have our container details get our info
-			$details_url = dollie()->get_container_url($container->id) . WP::PLATFORM_PATH . 'container/details';
+			$details_url = dollie()->get_container_url( $container->id ) . WP::PLATFORM_PATH . 'container/details';
 
-			$data = dollie()->container_api_request($details_url, $transient_id, 'container', $request->id);
+			$data = dollie()->container_api_request( $details_url, $transient_id, 'container', $request->id );
 		}
 
 		return $data;
@@ -666,61 +651,57 @@ class Container extends Singleton
 	/**
 	 * Get container login info
 	 *
-	 * @param null $container_id
+	 * @param null   $container_id
 	 * @param string $site_username
 	 *
 	 * @return mixed
 	 */
-	public function get_login_token($container_id = null, $site_username = '')
-	{
-		$container = dollie()->get_current_object($container_id);
+	public function get_login_token( $container_id = null, $site_username = '' ) {
+		$container = dollie()->get_current_object( $container_id );
 
 		// Make an API request to get our customer details.
-		$request = dollie()->get_customer_container_details($container->id);
+		$request = dollie()->get_customer_container_details( $container->id );
 
-		$container_url = dollie()->get_container_url($container->id);
+		$container_url = dollie()->get_container_url( $container->id );
 
-		if (empty($container_url)) {
+		if ( empty( $container_url ) ) {
 			return '';
 		}
 
 		// Now that we have our container details get our info
-		$details_url = dollie()->get_container_url($container->id) . WP::PLATFORM_PATH . 'container/details/login.php?username=' . $site_username;
+		$details_url = dollie()->get_container_url( $container->id ) . WP::PLATFORM_PATH . 'container/details/login.php?username=' . $site_username;
 
-		return dollie()->container_api_request($details_url, null, 'container', $request->id);
+		return dollie()->container_api_request( $details_url, null, 'container', $request->id );
 	}
 
 	/**
 	 * Remove container details transients
 	 */
-	public function remove_details_transients()
-	{
-		if (isset($_GET['get-details'])) {
+	public function remove_details_transients() {
+		if ( isset( $_GET['get-details'] ) ) {
 			$current_query = dollie()->get_current_object();
 
-			delete_transient('dollie_s5_container_details_' . $current_query->slug);
-			delete_transient('dollie_site_users_' . $current_query->slug);
-			delete_transient('dollie_site_news_' . $current_query->slug);
+			delete_transient( 'dollie_s5_container_details_' . $current_query->slug );
+			delete_transient( 'dollie_site_users_' . $current_query->slug );
+			delete_transient( 'dollie_site_news_' . $current_query->slug );
 		}
 	}
 
 	/**
 	 * Flush container details
 	 */
-	public function update_details()
-	{
-
-		if (!is_singular('container')) {
+	public function update_details() {
+		if ( ! is_singular( 'container' ) ) {
 			return;
 		}
 
-		if (isset($_GET['update-details'])) {
+		if ( isset( $_GET['update-details'] ) ) {
 			dollie()->flush_container_details();
 		}
 
-		if (isset($_GET['update-domain-url'])) {
+		if ( isset( $_GET['update-domain-url'] ) ) {
 			$this->update_url_with_domain();
-			wp_redirect(trailingslashit(get_permalink()) . 'domains');
+			wp_redirect( trailingslashit( get_permalink() ) . 'domains' );
 			exit;
 		}
 	}
@@ -731,19 +712,18 @@ class Container extends Singleton
 	 * @param $action
 	 * @param $container_post_id
 	 */
-	public function trigger($action, $container_post_id)
-	{
-		$current_query = dollie()->get_current_object($container_post_id);
+	public function trigger( $action, $container_post_id ) {
+		$current_query = dollie()->get_current_object( $container_post_id );
 
 		$post_id = $current_query->id;
-		$site    = get_post_field('post_name', $post_id);
+		$site    = get_post_field( 'post_name', $post_id );
 
 		// No need to continue if the status is unchanged.
-		if ($action === $this->get_status($post_id)) {
+		if ( $action === $this->get_status( $post_id ) ) {
 			return;
 		}
 
-		$container_id = get_post_meta($post_id, 'wpd_container_id', true);
+		$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
 
 		$request_trigger_container = Api::post(
 			Api::ROUTE_CONTAINER_TRIGGER,
@@ -753,35 +733,35 @@ class Container extends Singleton
 			]
 		);
 
-		$request_response = Api::process_response($request_trigger_container, null);
+		$request_response = Api::process_response( $request_trigger_container, null );
 
-		if (empty($request_response) || 500 === $request_response['status']) {
+		if ( empty( $request_response ) || 500 === $request_response['status'] ) {
 
-			Log::add('Container action could not be completed for ' . $current_query->slug, print_r($request_trigger_container, true), 'error');
+			Log::add( 'Container action could not be completed for ' . $current_query->slug, print_r( $request_trigger_container, true ), 'error' );
 
 			return;
 		}
 
-		$request = dollie()->maybe_decode_json($request_response['body'], true);
+		$request = dollie()->maybe_decode_json( $request_response['body'], true );
 
-		if (500 === $request['status']) {
+		if ( 500 === $request['status'] ) {
 
 			// if it was already removed from dollie
-			if ('undeploy' === $action) {
-				wp_trash_post($post_id);
-				Log::add($site . ' was removed locally, no match found on dollie.io', '', 'undeploy');
+			if ( 'undeploy' === $action ) {
+				wp_trash_post( $post_id );
+				Log::add( $site . ' was removed locally, no match found on dollie.io', '', 'undeploy' );
 			}
 
-			Log::add('Container action could not be completed for ' . $current_query->slug, print_r($request_trigger_container, true), 'error');
+			Log::add( 'Container action could not be completed for ' . $current_query->slug, print_r( $request_trigger_container, true ), 'error' );
 
 			return;
 		}
 
-		if ('start' === $action) {
-			delete_post_meta($post_id, 'wpd_stop_container_at');
-			delete_post_meta($post_id, 'wpd_scheduled_for_removal');
-			delete_post_meta($post_id, 'wpd_undeploy_container_at');
-			delete_post_meta($post_id, 'wpd_scheduled_for_undeployment');
+		if ( 'start' === $action ) {
+			delete_post_meta( $post_id, 'wpd_stop_container_at' );
+			delete_post_meta( $post_id, 'wpd_scheduled_for_removal' );
+			delete_post_meta( $post_id, 'wpd_undeploy_container_at' );
+			delete_post_meta( $post_id, 'wpd_scheduled_for_undeployment' );
 			// Update the site status so it counts as an active site
 			wp_update_post(
 				[
@@ -790,21 +770,21 @@ class Container extends Singleton
 				]
 			);
 
-			Log::add_front(Log::WP_SITE_STARTED, $current_query, $site);
-		} elseif ('stop' === $action) {
+			Log::add_front( Log::WP_SITE_STARTED, $current_query, $site );
+		} elseif ( 'stop' === $action ) {
 			// Get today's timestamp.
-			$today        = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
-			$trigger_date = get_post_meta($post_id, 'wpd_stop_container_at', true);
+			$today        = mktime( 0, 0, 0, date( 'm' ), date( 'd' ), date( 'Y' ) );
+			$trigger_date = get_post_meta( $post_id, 'wpd_stop_container_at', true );
 
 			// If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
-			if ($trigger_date < $today) {
+			if ( $trigger_date < $today ) {
 				$delay_in_days = 7;
 
 				// Calculate the "stop" date and set it 3 days into the future.
-				$trigger_date = mktime(0, 0, 0, date('m'), date('d') + $delay_in_days, date('Y'));
-				$this->set_status($post_id, 'stopped');
-				update_post_meta($post_id, 'wpd_scheduled_for_undeployment', 'yes');
-				update_post_meta($post_id, 'wpd_undeploy_container_at', $trigger_date);
+				$trigger_date = mktime( 0, 0, 0, date( 'm' ), date( 'd' ) + $delay_in_days, date( 'Y' ) );
+				$this->set_status( $post_id, 'stopped' );
+				update_post_meta( $post_id, 'wpd_scheduled_for_undeployment', 'yes' );
+				update_post_meta( $post_id, 'wpd_undeploy_container_at', $trigger_date );
 
 				// Update the site status so it won't count as an active site.
 				wp_update_post(
@@ -815,19 +795,19 @@ class Container extends Singleton
 				);
 			}
 
-			Log::add_front(Log::WP_SITE_REMOVAL_SCHEDULED, $current_query, $site);
-		} elseif ('undeploy' === $action) {
-			delete_post_meta($post_id, 'wpd_stop_container_at');
-			delete_post_meta($post_id, 'wpd_scheduled_for_removal');
-			delete_post_meta($post_id, 'wpd_undeploy_container_at');
-			delete_post_meta($post_id, 'wpd_scheduled_for_undeployment');
-			wp_trash_post($post_id);
+			Log::add_front( Log::WP_SITE_REMOVAL_SCHEDULED, $current_query, $site );
+		} elseif ( 'undeploy' === $action ) {
+			delete_post_meta( $post_id, 'wpd_stop_container_at' );
+			delete_post_meta( $post_id, 'wpd_scheduled_for_removal' );
+			delete_post_meta( $post_id, 'wpd_undeploy_container_at' );
+			delete_post_meta( $post_id, 'wpd_scheduled_for_undeployment' );
+			wp_trash_post( $post_id );
 
-			Log::add_front(Log::WP_SITE_UNDEPLOYED, $current_query, $site);
+			Log::add_front( Log::WP_SITE_UNDEPLOYED, $current_query, $site );
 		}
 
-		$this->set_status($post_id, $action);
-		Log::add($site . ' status changed to: ' . $action);
+		$this->set_status( $post_id, $action );
+		Log::add( $site . ' status changed to: ' . $action );
 	}
 
 	/**
@@ -835,21 +815,19 @@ class Container extends Singleton
 	 *
 	 * @param $post_id
 	 */
-	public function run_untrash_action($post_id)
-	{
-		$post_type = get_post($post_id)->post_type;
-		if ('container' === $post_type) {
-			$this->trigger('start', $post_id);
+	public function run_untrash_action( $post_id ) {
+		$post_type = get_post( $post_id )->post_type;
+		if ( 'container' === $post_type ) {
+			$this->trigger( 'start', $post_id );
 		}
 	}
 
 	/**
 	 * Container author box
 	 */
-	public function rename_author_box_title()
-	{
-		remove_meta_box('authordiv', 'container', 'core');
-		add_meta_box('authordiv', __('Assigned Customer to this Site', 'wpse39446_domain'), 'post_author_meta_box', 'container', 'normal', 'high');
+	public function rename_author_box_title() {
+		 remove_meta_box( 'authordiv', 'container', 'core' );
+		add_meta_box( 'authordiv', __( 'Assigned Customer to this Site', 'wpse39446_domain' ), 'post_author_meta_box', 'container', 'normal', 'high' );
 	}
 
 	/**
@@ -857,34 +835,33 @@ class Container extends Singleton
 	 *
 	 * @param $query
 	 */
-	public function filter_blueprint_from_sites($query)
-	{
+	public function filter_blueprint_from_sites( $query ) {
 
-		if (is_admin() and $query->query['post_type'] == 'container') {
-			$qv = &$query->query_vars;
-			$qv['meta_query'] = array();
+		if ( is_admin() and $query->query['post_type'] == 'container' ) {
+			$qv               = &$query->query_vars;
+			$qv['meta_query'] = [];
 
-			if (!empty($_GET['blueprint'])) {
-				$qv['meta_query'][] = array(
+			if ( ! empty( $_GET['blueprint'] ) ) {
+				$qv['meta_query'][] = [
 					'relation' => 'OR',
-					array(
+					[
 						'key'   => 'wpd_blueprint_created',
 						'value' => 'yes',
-					),
-					array(
+					],
+					[
 						'key'   => 'wpd_is_blueprint',
 						'value' => 'yes',
-					),
-						array(
+					],
+					[
 						'key'     => 'wpd_installation_blueprint_title',
 						'compare' => 'EXISTS',
-					),
-				);
+					],
+				];
 			} else {
-				$qv['meta_query'][] = array(
-						'key'   => 'wpd_is_blueprint',
-						'compare' => 'NOT EXISTS'
-				);
+				$qv['meta_query'][] = [
+					'key'     => 'wpd_is_blueprint',
+					'compare' => 'NOT EXISTS',
+				];
 			}
 		}
 	}
@@ -894,18 +871,18 @@ class Container extends Singleton
 	 *
 	 * @param $columns
 	 */
-	public function replace_container_title_column($columns)
-	{
+	public function replace_container_title_column( $columns ) {
 
-		$new = array();
+		$new = [];
 
-		foreach ($columns as $key => $title) {
-			if ($key == 'title')
-			$new['site-title'] = 'Site'; // Our New Colomn Name
-			$new[$key] = $title;
+		foreach ( $columns as $key => $title ) {
+			if ( $key == 'title' ) {
+				$new['site-title'] = 'Site'; // Our New Colomn Name
+			}
+			$new[ $key ] = $title;
 		}
 
-		unset($new['title']);
+		unset( $new['title'] );
 		return $new;
 	}
 
@@ -915,12 +892,11 @@ class Container extends Singleton
 	 * @param $column_name
 	 * @param $post_id
 	 */
-	public function add_new_container_title_content($column_name, $post_ID)
-	{
-		if ($column_name == 'site-title') {
+	public function add_new_container_title_content( $column_name, $post_ID ) {
+		if ( $column_name == 'site-title' ) {
 			$oldtitle = get_the_title();
-			$newtitle = '<a href="' . get_edit_post_link($post_ID) . '">' . get_the_title() . '</a></h4><br><span class="url-box"><a target="_blank" href="' . dollie()->get_container_url($post_ID) . '">' . dollie()->get_container_url($post_ID) . '</span></a>';
-			$title = $newtitle;
+			$newtitle = '<a href="' . get_edit_post_link( $post_ID ) . '">' . get_the_title() . '</a></h4><br><span class="url-box"><a target="_blank" href="' . dollie()->get_container_url( $post_ID ) . '">' . dollie()->get_container_url( $post_ID ) . '</span></a>';
+			$title    = $newtitle;
 			echo $title;
 		}
 	}
@@ -931,24 +907,23 @@ class Container extends Singleton
 	 * @param $actions
 	 * @param $page_object
 	 */
-	public function add_container_title_actions($actions, $page_object)
-	{
-		if (get_post_type() === 'container' && empty($_GET['blueprint']) ) {
+	public function add_container_title_actions( $actions, $page_object ) {
+		if ( get_post_type() === 'container' && empty( $_GET['blueprint'] ) ) {
 			$id = $page_object->ID;
-			unset($actions['trash']);
-			unset($actions['view']);
-			unset($actions['inline hide-if-no-js']);
-			unset($actions['edit']);
-			$actions['manage_site'] = '<a href="' . get_the_permalink($id) . '" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __('Manage Site') . '</a>';
-			$actions['google_link'] = '<a href="' . dollie()->get_customer_login_url($id) . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __('Login to Installation') . '</a>';
+			unset( $actions['trash'] );
+			unset( $actions['view'] );
+			unset( $actions['inline hide-if-no-js'] );
+			unset( $actions['edit'] );
+			$actions['manage_site'] = '<a href="' . get_the_permalink( $id ) . '" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __( 'Manage Site' ) . '</a>';
+			$actions['google_link'] = '<a href="' . dollie()->get_customer_login_url( $id ) . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __( 'Login to Installation' ) . '</a>';
 		} else {
 			$id = $page_object->ID;
-			unset($actions['trash']);
-			unset($actions['view']);
-			unset($actions['inline hide-if-no-js']);
-			unset($actions['edit']);
-			$actions['manage_site'] = '<a href="' . get_the_permalink($id) . '/blueprints" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __('Manage Blueprint') . '</a>';
-			$actions['google_link'] = '<a href="' . dollie()->get_customer_login_url($id) . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __('Login to Installation') . '</a>';
+			unset( $actions['trash'] );
+			unset( $actions['view'] );
+			unset( $actions['inline hide-if-no-js'] );
+			unset( $actions['edit'] );
+			$actions['manage_site'] = '<a href="' . get_the_permalink( $id ) . '/blueprints" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __( 'Manage Blueprint' ) . '</a>';
+			$actions['google_link'] = '<a href="' . dollie()->get_customer_login_url( $id ) . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __( 'Login to Installation' ) . '</a>';
 
 		}
 
@@ -960,10 +935,9 @@ class Container extends Singleton
 	/**
 	 * Container author box
 	 */
-	public function rename_author_box_column($columns)
-	{
+	public function rename_author_box_column( $columns ) {
 
-		$columns['author'] = __('Customer', 'dollie');
+		$columns['author'] = __( 'Customer', 'dollie' );
 		return $columns;
 	}
 
@@ -972,38 +946,37 @@ class Container extends Singleton
 	 *
 	 * @param $user_id
 	 */
-	public function update_customer_role($user_id)
-	{
+	public function update_customer_role( $user_id ) {
 		// Make sure we are editing user
-		if (strpos($user_id, 'user_') === false) {
+		if ( strpos( $user_id, 'user_' ) === false ) {
 			return;
 		}
 
-		$user_id = (int) str_replace('user_', '', $user_id);
+		$user_id = (int) str_replace( 'user_', '', $user_id );
 
-		if (!$user_id || user_can($user_id, 'administrator')) {
+		if ( ! $user_id || user_can( $user_id, 'administrator' ) ) {
 			return;
 		}
 
-		$fields = get_fields('user_' . $user_id);
+		$fields = get_fields( 'user_' . $user_id );
 
 		$role = '';
 
-		if (isset($fields['wpd_client_site_permissions'])) {
+		if ( isset( $fields['wpd_client_site_permissions'] ) ) {
 			$role = $fields['wpd_client_site_permissions'];
 		}
 
-		if ('default' === $role) {
-			$role = get_field('wpd_client_site_permission', 'options');
+		if ( 'default' === $role ) {
+			$role = get_field( 'wpd_client_site_permission', 'options' );
 		}
 
-		$last_role = get_user_meta($user_id, 'wpd_client_last_changed_role', true);
+		$last_role = get_user_meta( $user_id, 'wpd_client_last_changed_role', true );
 
-		if ($last_role !== $role) {
-			update_user_meta($user_id, 'wpd_client_last_changed_role', $role);
+		if ( $last_role !== $role ) {
+			update_user_meta( $user_id, 'wpd_client_last_changed_role', $role );
 		}
 
-		if (!$role || $last_role === $role) {
+		if ( ! $role || $last_role === $role ) {
 			return;
 		}
 
@@ -1016,17 +989,17 @@ class Container extends Singleton
 			]
 		);
 
-		$user_data = get_userdata($user_id);
+		$user_data = get_userdata( $user_id );
 
-		if ($query->have_posts()) {
+		if ( $query->have_posts() ) {
 			$params = [
 				'email' => $user_data->user_email,
 			];
 
-			foreach ($query->posts as $post) {
-				$initial_username = $this->get_customer_username($post->ID);
+			foreach ( $query->posts as $post ) {
+				$initial_username = $this->get_customer_username( $post->ID );
 
-				$params['container_uri'] = dollie()->get_wp_site_data('uri', $post->ID);
+				$params['container_uri'] = dollie()->get_wp_site_data( 'uri', $post->ID );
 				$params['username']      = $initial_username;
 				$params['password']      = wp_generate_password();
 
@@ -1040,13 +1013,13 @@ class Container extends Singleton
 					]
 				);
 
-				update_post_meta($post->ID, '_wpd_user_role_change_pending', $action_id);
+				update_post_meta( $post->ID, '_wpd_user_role_change_pending', $action_id );
 			}
 		}
 
 		wp_reset_postdata();
 
-		Log::add('Scheduled job to update client access role for ' . $user_data->display_name);
+		Log::add( 'Scheduled job to update client access role for ' . $user_data->display_name );
 	}
 
 	/**
@@ -1056,37 +1029,36 @@ class Container extends Singleton
 	 *
 	 * @return mixed
 	 */
-	public function get_customer_username($container_id)
-	{
-		$setup_data = get_post_meta($container_id, '_wpd_setup_data', true) ?: [];
+	public function get_customer_username( $container_id ) {
+		$setup_data = get_post_meta( $container_id, '_wpd_setup_data', true ) ?: [];
 
-		if (isset($setup_data['username'])) {
+		if ( isset( $setup_data['username'] ) ) {
 			$initial_username = $setup_data['username'];
 		}
 
 		// Deprecated. Stored in _wpd_setup_data
-		if (empty($initial_username)) {
-			$initial_username = get_post_meta($container_id, 'wpd_username', true);
+		if ( empty( $initial_username ) ) {
+			$initial_username = get_post_meta( $container_id, 'wpd_username', true );
 
-			if (!empty($initial_username)) {
+			if ( ! empty( $initial_username ) ) {
 				$setup_data['username'] = $initial_username;
 
-				delete_post_meta($container_id, 'wpd_username');
-				update_post_meta($container_id, '_wpd_setup_data', $setup_data);
+				delete_post_meta( $container_id, 'wpd_username' );
+				update_post_meta( $container_id, '_wpd_setup_data', $setup_data );
 			}
 		}
 
-		if (empty($initial_username)) {
-			$details = $this->get_info($container_id);
+		if ( empty( $initial_username ) ) {
+			$details = $this->get_info( $container_id );
 
 			// If we have an admin
-			if ($details->Admin) {
+			if ( $details->Admin ) {
 				$setup_data = [
 					'username' => $details->Admin,
 				];
 
 				$initial_username = $details->Admin;
-				update_post_meta($container_id, '_wpd_setup_data', $setup_data);
+				update_post_meta( $container_id, '_wpd_setup_data', $setup_data );
 			} else {
 				return false;
 			}
@@ -1100,57 +1072,54 @@ class Container extends Singleton
 	 *
 	 * @param $post_id
 	 */
-	public function update_all_customers_role($post_id)
-	{
-		if ('options' !== $post_id) {
+	public function update_all_customers_role( $post_id ) {
+		if ( 'options' !== $post_id ) {
 			return;
 		}
 
-		$role = get_field('wpd_client_site_permission', $post_id);
+		$role = get_field( 'wpd_client_site_permission', $post_id );
 
-		if (get_option('wpd_client_last_changed_role', '') === $role) {
+		if ( get_option( 'wpd_client_last_changed_role', '' ) === $role ) {
 			return;
 		}
 
-		update_option('wpd_client_last_changed_role', $role);
+		update_option( 'wpd_client_last_changed_role', $role );
 
-		foreach (get_users() as $user) {
-			if ($user->has_cap('administrator')) {
+		foreach ( get_users() as $user ) {
+			if ( $user->has_cap( 'administrator' ) ) {
 				continue;
 			}
 
-			$this->update_customer_role('user_' . $user->ID);
+			$this->update_customer_role( 'user_' . $user->ID );
 		}
 
-		Log::add('Started to update all customers access role');
+		Log::add( 'Started to update all customers access role' );
 	}
 
-	public function add_container_manager_notice()
-	{
-
-		if ('container' !== get_post_type()) {
+	public function add_container_manager_notice() {
+		if ( 'container' !== get_post_type() ) {
 			return;
 		}
 
 		$container_id  = $_GET['post'];
-		$dashboard_url = get_option('options_wpd_api_dashboard_url');
-?>
+		$dashboard_url = get_option( 'options_wpd_api_dashboard_url' );
+		?>
 		<br>
 		<div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
 			<div class="dollie-inner-message">
 				<div class="dollie-message-center">
-					<h3><?php esc_html_e('Notice - How To Manage This Site', 'dollie'); ?> </h3>
+					<h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
 					<p>
 						<?php
 						printf(
 							'We recommend managing this site on the front-end of your installation using the <a href="%s">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team.',
-							esc_url(get_the_permalink($container_id))
+							esc_url( get_the_permalink( $container_id ) )
 						);
 						?>
 				</div>
 			</div>
 		</div>
-	<?php
+		<?php
 	}
 
 
@@ -1159,59 +1128,57 @@ class Container extends Singleton
 	 *
 	 * @param $post_id
 	 */
-	public function update_deployment_domain($post_id)
-	{
-		if ('options' !== $post_id) {
+	public function update_deployment_domain( $post_id ) {
+		if ( 'options' !== $post_id ) {
 			return;
 		}
 
-		$domain       = get_field('wpd_api_domain_custom', $post_id);
-		$saved_domain = get_option('wpd_deployment_domain');
+		$domain       = get_field( 'wpd_api_domain_custom', $post_id );
+		$saved_domain = get_option( 'wpd_deployment_domain' );
 
-		if (!empty($domain)) {
-			$domain = str_replace(['https://', 'http://'], '', $domain);
+		if ( ! empty( $domain ) ) {
+			$domain = str_replace( [ 'https://', 'http://' ], '', $domain );
 		}
 
-		if ($saved_domain && !$domain) {
-			$request_remove_domain  = Api::post(Api::ROUTE_DOMAIN_REMOVE);
-			$response_remove_domain = Api::process_response($request_remove_domain);
+		if ( $saved_domain && ! $domain ) {
+			$request_remove_domain  = Api::post( Api::ROUTE_DOMAIN_REMOVE );
+			$response_remove_domain = Api::process_response( $request_remove_domain );
 
-			if (!$response_remove_domain['domain'] && !$response_remove_domain['status']) {
-				update_option('wpd_deployment_domain', false);
-				update_option('deployment_domain_notice', false);
+			if ( ! $response_remove_domain['domain'] && ! $response_remove_domain['status'] ) {
+				update_option( 'wpd_deployment_domain', false );
+				update_option( 'deployment_domain_notice', false );
 			}
-		} elseif ($domain && $domain !== $saved_domain && Helpers::instance()->is_valid_domain($domain)) {
-			Api::post(Api::ROUTE_DOMAIN_ADD, ['name' => $domain]);
+		} elseif ( $domain && $domain !== $saved_domain && Helpers::instance()->is_valid_domain( $domain ) ) {
+			Api::post( Api::ROUTE_DOMAIN_ADD, [ 'name' => $domain ] );
 
-			update_option('wpd_deployment_domain', $domain);
-			update_option('wpd_deployment_domain_status', false);
-			update_option('deployment_domain_notice', false);
+			update_option( 'wpd_deployment_domain', $domain );
+			update_option( 'wpd_deployment_domain_status', false );
+			update_option( 'deployment_domain_notice', false );
 		}
 	}
 
 	/**
 	 * Check domain availability
 	 */
-	public function check_deployment_domain_status()
-	{
-		if (!Api::get_auth_token()) {
+	public function check_deployment_domain_status() {
+		if ( ! Api::get_auth_token() ) {
 			return;
 		}
 
-		$domain        = get_option('wpd_deployment_domain');
-		$domain_status = get_option('wpd_deployment_domain_status');
+		$domain        = get_option( 'wpd_deployment_domain' );
+		$domain_status = get_option( 'wpd_deployment_domain_status' );
 
-		if ($domain && !$domain_status) {
-			if (get_option('wpd_deployment_delay_status') && !get_transient('wpd_deployment_domain_delay')) {
-				update_option('wpd_deployment_domain_status', true);
-				delete_option('wpd_deployment_delay_status');
-			} elseif (!get_option('wpd_deployment_delay_status')) {
-				$request_check_domain  = Api::post(Api::ROUTE_DOMAIN_CHECK);
-				$response_check_domain = Api::process_response($request_check_domain);
+		if ( $domain && ! $domain_status ) {
+			if ( get_option( 'wpd_deployment_delay_status' ) && ! get_transient( 'wpd_deployment_domain_delay' ) ) {
+				update_option( 'wpd_deployment_domain_status', true );
+				delete_option( 'wpd_deployment_delay_status' );
+			} elseif ( ! get_option( 'wpd_deployment_delay_status' ) ) {
+				$request_check_domain  = Api::post( Api::ROUTE_DOMAIN_CHECK );
+				$response_check_domain = Api::process_response( $request_check_domain );
 
-				if ($response_check_domain['domain'] === $domain && $response_check_domain['status']) {
-					set_transient('wpd_deployment_domain_delay', true, 5 * MINUTE_IN_SECONDS);
-					update_option('wpd_deployment_delay_status', true);
+				if ( $response_check_domain['domain'] === $domain && $response_check_domain['status'] ) {
+					set_transient( 'wpd_deployment_domain_delay', true, 5 * MINUTE_IN_SECONDS );
+					update_option( 'wpd_deployment_delay_status', true );
 				}
 			}
 		}
@@ -1220,9 +1187,8 @@ class Container extends Singleton
 	/**
 	 * Change role notice
 	 */
-	public function change_role_notice()
-	{
-	?>
+	public function change_role_notice() {
+		?>
 		<script type="text/javascript">
 			(function($) {
 				var customer_role = $('[data-name="wpd_client_site_permission"]');
@@ -1235,19 +1201,18 @@ class Container extends Singleton
 				}
 			})(jQuery);
 		</script>
-<?php
+		<?php
 	}
 
 	/**
 	 * Get container screenshot
 	 *
 	 * @param $container_uri
-	 * @param bool $regenerate
+	 * @param bool          $regenerate
 	 *
 	 * @return array|mixed|null
 	 */
-	public function get_screenshot($container_uri, $regenerate = false)
-	{
+	public function get_screenshot( $container_uri, $regenerate = false ) {
 		$request_screenshot = Api::post(
 			API::ROUTE_CONTAINER_SCREENSHOT,
 			[
@@ -1256,7 +1221,7 @@ class Container extends Singleton
 			]
 		);
 
-		return Api::process_response($request_screenshot);
+		return Api::process_response( $request_screenshot );
 	}
 
 	/**
@@ -1266,8 +1231,7 @@ class Container extends Singleton
 	 *
 	 * @return mixed|null
 	 */
-	public function regenerate_screenshots($containers = [])
-	{
+	public function regenerate_screenshots( $containers = [] ) {
 		$request_screenshot = Api::post(
 			API::ROUTE_CONTAINER_SCREENSHOT_REGEN,
 			[
@@ -1275,7 +1239,7 @@ class Container extends Singleton
 			]
 		);
 
-		return Api::process_response($request_screenshot);
+		return Api::process_response( $request_screenshot );
 	}
 
 	/**
@@ -1286,9 +1250,8 @@ class Container extends Singleton
 	 *
 	 * @return bool|int
 	 */
-	public function set_deploy_job($container_id, $job_uuid)
-	{
-		return update_post_meta($container_id, 'wpd_container_deploy_job', $job_uuid);
+	public function set_deploy_job( $container_id, $job_uuid ) {
+		return update_post_meta( $container_id, 'wpd_container_deploy_job', $job_uuid );
 	}
 
 	/**
@@ -1298,9 +1261,8 @@ class Container extends Singleton
 	 *
 	 * @return mixed
 	 */
-	public function get_deploy_job($container_id)
-	{
-		return get_post_meta($container_id, 'wpd_container_deploy_job', true);
+	public function get_deploy_job( $container_id ) {
+		return get_post_meta( $container_id, 'wpd_container_deploy_job', true );
 	}
 
 	/**
@@ -1310,9 +1272,8 @@ class Container extends Singleton
 	 *
 	 * @return bool
 	 */
-	public function remove_deploy_job($container_id)
-	{
-		return delete_post_meta($container_id, 'wpd_container_deploy_job');
+	public function remove_deploy_job( $container_id ) {
+		return delete_post_meta( $container_id, 'wpd_container_deploy_job' );
 	}
 
 	/**
@@ -1323,9 +1284,8 @@ class Container extends Singleton
 	 *
 	 * @return bool|int
 	 */
-	public function set_status($container_id, $status)
-	{
-		return update_post_meta($container_id, 'wpd_container_status', $status);
+	public function set_status( $container_id, $status ) {
+		return update_post_meta( $container_id, 'wpd_container_status', $status );
 	}
 
 	/**
@@ -1335,11 +1295,10 @@ class Container extends Singleton
 	 *
 	 * @return mixed
 	 */
-	public function get_status($container_id = null)
-	{
-		$container = dollie()->get_current_object($container_id);
+	public function get_status( $container_id = null ) {
+		$container = dollie()->get_current_object( $container_id );
 
-		return get_post_meta($container->id, 'wpd_container_status', true);
+		return get_post_meta( $container->id, 'wpd_container_status', true );
 	}
 }
 
