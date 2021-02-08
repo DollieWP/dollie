@@ -9,7 +9,7 @@ const gulp = require('gulp'),
     postcss = require('gulp-postcss');
 
 export default function tailwind(done) {
-    gulp.src('./assets/scss/dollie.scss')
+    return gulp.src('./assets/scss/dollie.scss')
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(postcss([
@@ -25,5 +25,4 @@ export default function tailwind(done) {
             })
         )
         .pipe(gulp.dest('./assets/css/'));
-    done();
 }

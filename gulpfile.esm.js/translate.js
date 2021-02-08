@@ -15,7 +15,7 @@ import {paths, names} from './constants';
  */
 export default function translate(done) {
 
-	pump([
+	return pump([
         src(paths.languages.src),
         sort(),
         wpPot({
