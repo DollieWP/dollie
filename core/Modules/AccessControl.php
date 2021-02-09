@@ -24,7 +24,7 @@ class AccessControl extends Singleton {
 		add_action( 'template_redirect', [ $this, 'logged_in_only' ] );
 		add_action( 'template_redirect', [ $this, 'protect_launch_site' ] );
 		add_action( 'template_redirect', [ $this, 'protect_container_access' ], 1 );
-		add_action('template_redirect', [$this, 'disable_blueprint_domain_access'], 1);
+		add_action( 'template_redirect', [ $this, 'disable_blueprint_domain_access' ], 1 );
 		add_action( 'admin_init', [ $this, 'admin_access_only' ], 100 );
 		add_action( 'user_has_cap', [ $this, 'restrict_form_delete' ], 10, 3 );
 
@@ -85,8 +85,8 @@ class AccessControl extends Singleton {
 	public function protect_container_access() {
 		global $wp_query;
 
-		$sub_page = get_query_var('sub_page');
-		if (  ! current_user_can( 'manage_options' ) ) {
+		$sub_page = get_query_var( 'sub_page' );
+		if ( ! current_user_can( 'manage_options' ) ) {
 
 			if ( is_post_type_archive( 'container' ) ) {
 				wp_redirect( get_site_url( null, '/' ) );
@@ -109,7 +109,7 @@ class AccessControl extends Singleton {
 				}
 
 				// Has access to the specific section?
-				if ( $sub_page && ! dollie()->in_array_r($sub_page, $this->get_available_sections() ) ) {
+				if ( $sub_page && ! dollie()->in_array_r( $sub_page, $this->get_available_sections() ) ) {
 					wp_redirect( get_permalink() );
 					exit();
 				}
@@ -120,12 +120,21 @@ class AccessControl extends Singleton {
 	/**
 	 * Protect container access
 	 */
-	public function disable_blueprint_domain_access()
-	{
+	public function disable_blueprint_domain_access() {
 		global $wp_query;
-		$sub_page = get_query_var('sub_page');
-		if (is_singular('container') && dollie()->is_blueprint($wp_query->post->ID) && $sub_page == 'domains') {
-			wp_redirect(get_permalink());
+		$sub_page = get_query_var( 'sub_page' );
+
+		if ( ! is_singular( 'container' ) ) {
+			return;
+		}
+
+		if ( $sub_page === 'domains' && dollie()->is_blueprint( $wp_query->post->ID ) ) {
+			wp_redirect( get_permalink() );
+			exit();
+		}
+
+		if ( $sub_page === 'blueprints' && ! dollie()->is_blueprint( $wp_query->post->ID ) ) {
+			wp_redirect( get_permalink() );
 			exit();
 		}
 	}

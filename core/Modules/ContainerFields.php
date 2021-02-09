@@ -88,7 +88,7 @@ class ContainerFields extends Singleton {
 					'users'   => __( 'Users', 'dollie' ),
 					'size'    => __( 'Size', 'dollie' ),
 					'status'  => __( 'Status', 'dollie' ),
-				],
+				]
 			);
 		} else {
 			return array_merge(
