@@ -49,7 +49,7 @@ class Upgrades extends Singleton {
 	private $upgrades = [
 		// '2.0.0' => '_upgrade_200',
 		'4.1.4' => '_upgrade_400',
-		'4.2.1' => '_upgrade_421',
+		'4.2.3' => '_upgrade_421',
 	];
 
 	/**
