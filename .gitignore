@@ -1,6 +1,6 @@
 .idea/
 .vscode/
-dist/
+dst/
 node_modules/
 *.sass-cache
 vendor

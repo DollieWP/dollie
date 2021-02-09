@@ -14,7 +14,6 @@
     "prepros-6.config",
     "prepros.config",
     "package.json",
-    "package-lock.json",
-    "./dist"
+    "package-lock.json"
   ]
 }

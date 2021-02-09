@@ -49,7 +49,7 @@ class Upgrades extends Singleton {
 	private $upgrades = [
 		// '2.0.0' => '_upgrade_200',
 		'4.1.4' => '_upgrade_400',
-		'4.2.0' => '_upgrade_420',
+		'4.2.1' => '_upgrade_421',
 	];
 
 	/**
@@ -315,7 +315,7 @@ class Upgrades extends Singleton {
 	/**
 	 * @return bool|WP_Error
 	 */
-	private function _upgrade_420() {
+	private function _upgrade_421() {
 		$pages_data = [
 			'launch-blueprint'    => [
 				'title'     => 'Launch New Blueprint',
