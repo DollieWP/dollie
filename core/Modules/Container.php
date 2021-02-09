@@ -893,7 +893,7 @@ class Container extends Singleton {
 	 * @param $post_id
 	 */
 	public function add_new_container_title_content( $column_name, $post_ID ) {
-		if ( $column_name == 'site-title' ) {
+		if ( $column_name === 'site-title' ) {
 			$oldtitle = get_the_title();
 			$newtitle = '<a href="' . get_edit_post_link( $post_ID ) . '">' . get_the_title() . '</a></h4><br><span class="url-box"><a target="_blank" href="' . dollie()->get_container_url( $post_ID ) . '">' . dollie()->get_container_url( $post_ID ) . '</span></a>';
 			$title    = $newtitle;
@@ -916,7 +916,7 @@ class Container extends Singleton {
 			unset( $actions['edit'] );
 			$actions['manage_site'] = '<a href="' . get_the_permalink( $id ) . '" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __( 'Manage Site' ) . '</a>';
 			$actions['google_link'] = '<a href="' . dollie()->get_customer_login_url( $id ) . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __( 'Login to Installation' ) . '</a>';
-		} else {
+		} elseif ( get_post_type() === 'container')  {
 			$id = $page_object->ID;
 			unset( $actions['trash'] );
 			unset( $actions['view'] );
