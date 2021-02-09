@@ -155,6 +155,13 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 6. **Developer Tools.** The Developer Tools allow you to quickly manage sites on your platform, or allow your customers to do that themselves.
 == Changelog ==
 
+= 4.2.0 =
+* Improved admin sites listing UI
+* Fix Site navigation
+* Upgraded to Tailwind CSS frameworks 2.0
+* Added more Elementor widget options
+* Added Layout Elementor widget for a unified Dollie layout across pages
+* Fix Custom domain setup
 
 = 4.1.9.4 =
 * Fix PHP 7.0 compatibility
