@@ -8,8 +8,7 @@ const zip = require('gulp-zip');
 const rename = require('gulp-rename');
 
 export function cleanFiles(cb) {
-    return del('./dist/**/*', {force: true});
-    cb();
+    return del('./dst/**/*', {force: true});
 }
 
 export function copyFiles() {
@@ -30,8 +29,8 @@ export function copyFiles() {
         '!node_modules',
         '!node_modules/**',
         '!**/node_modules{,/**}',
-        '!./dist',
-        '!./dist/**/*',
+        '!./dst',
+        '!./dst/**/*',
         '!./gulp',
         '!./gulp/**/*',
         '!./gulpfile.esm.js',
@@ -45,7 +44,7 @@ export function copyFiles() {
             file.dirname = 'dollie/' + file.dirname;
         }))
         .pipe(zip('dollie.zip'))
-        .pipe(gulp.dest('dist/'));
+        .pipe(gulp.dest('dst/'));
 }
 
 const build = gulp.series(

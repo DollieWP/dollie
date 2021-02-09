@@ -31,7 +31,7 @@ let paths = {
 			`!${rootPath}/optional/**/*.*`,
 			`!${rootPath}/tests/**/*.*`,
 			`!${rootPath}/vendor/**/*.*`,
-			`!${rootPath}/dist/**/*.*`,
+			`!${rootPath}/dst/**/*.*`,
 			`!${rootPath}/core/Extras/kirki/**/*.*`,
 		],
 		dest: `${rootPath}/languages/${names.slug}.pot`,
