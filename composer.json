@@ -11,8 +11,5 @@
     "nubs/random-name-generator": "^2.1",
     "mexitek/phpcolors": "^1.0.2",
     "appsero/client": "^1.2"
-  },
-  "config": {
-    "platform-check": false
   }
 }
