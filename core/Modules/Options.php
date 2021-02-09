@@ -33,7 +33,7 @@ class Options extends Singleton
 
 		$api_menu_priority = 2;
 
-		if ($this->is_live()) {
+		if ($this->is_live() || defined('DOLLIE_DEV') && DOLLIE_DEV) {
 			$api_menu_priority = 99;
 			add_action('init', [$this, 'add_acf_options_page']);
 
@@ -307,6 +307,17 @@ class Options extends Singleton
 			]
 		);
 
+		$wp_admin_bar->add_menu(
+			[
+				'parent' => $menu_id,
+				'title'  => esc_html__('View Blueprints', 'dollie'),
+				'id'     => 'dab-blueprints',
+				'href'   => get_admin_url() . 'edit.php?post_type=container&blueprint=yes',
+				'meta'   => ['target' => ''],
+			]
+		);
+
+
 		if ($launch_site) {
 			$wp_admin_bar->add_menu(
 				[
@@ -363,6 +374,7 @@ class Options extends Singleton
 			'https://partners.getdollie.com',
 		];
 
+
 		$submenu[self::PANEL_SLUG][] = [
 			esc_html__('Support', 'dollie'),
 			'manage_options',
@@ -385,6 +397,18 @@ class Options extends Singleton
 				]
 			);
 		}
+		array_splice(
+			$submenu[self::PANEL_SLUG],
+			2,
+			0,
+			[
+				[
+					esc_html__('View Blueprints', 'dollie'),
+					'manage_options',
+					get_admin_url() . 'edit.php?post_type=container&blueprint=yes',
+				],
+			]
+		);
 	}
 
 	/**
@@ -504,22 +528,36 @@ class Options extends Singleton
 			add_action(
 				'all_admin_notices',
 				static function () {
-		?>
+					if ( empty($_GET['blueprint'] )) { ?>
+					<div class="dollie-notice">
+						<h3>
+							The Site Manager
+						</h3>
+						<p>
+							<?php
+							printf(
+								'Below you will find all of your sites launched by you and your customers. Remember: You can also view all the sites launched by your customers in the <a href="%s">Sites Directory</a>.',
+								esc_url(dollie()->get_sites_page_url())
+							);
+							?>
+						</p>
+					</div>
+				<?php } else { ?>
 				<div class="dollie-notice">
 					<h3>
-						The Site Manager
+						Your Site Blueprints
 					</h3>
 					<p>
-						Below you'll find all of your sites launched by you and your customers. Click on a
-						site for
-						a quick overview of the WordPress installation or to access various management tools
-						and
-						create
-						re-usable Blueprints with the click of a button.
+						<?php
+						printf(
+							'Below you will find all the Blueprints you have created. Want to add a new Blueprint? <a href="%s">Launch a Blueprint</a>.',
+							esc_url(dollie()->get_launch_blueprint_page_url())
+						);
+						?>
 					</p>
 				</div>
-			<?php
-				}
+			<?php }
+			}
 			);
 		}
 

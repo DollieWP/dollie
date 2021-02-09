@@ -1,5 +1,4 @@
 @layer components {
-
   .acf-field input[type="text"],
   .acf-field input[type="password"],
   .acf-field input[type="date"],
@@ -15,21 +14,21 @@
   .acf-field input[type="week"],
   .acf-field textarea,
   .acf-field select {
-    @apply border-2 border-solid border-ash-400 rounded;
-    @apply px-3 py-2 #{!important};
+    @apply dol-border-2 dol-border-solid dol-border-gray-400 dol-rounded;
+    @apply dol-px-3 dol-py-2 #{!important};
   }
 
   .acf-form {
     .acf-field .acf-notice,
     .acf-notice {
-      @apply mt-0 mx-4 mb-6 px-4 py-2 rounded;
+      @apply dol-mt-0 dol-mx-4 dol-mb-6 dol-px-4 dol-py-2 dol-rounded;
 
       &.-error {
-        @apply border-0 bg-red-600;
+        @apply dol-border-0 dol-bg-red-600;
       }
 
       p {
-        @apply text-white text-sm;
+        @apply dol-text-white dol-text-sm;
       }
 
       .acf-notice-dismiss {
@@ -40,24 +39,24 @@
 
     .acf-field .acf-notice {
       &.-error {
-        @apply bg-red-200 mx-0 mb-4;
+        @apply dol-bg-red-200 dol-mx-0 dol-mb-4;
 
         p {
-          @apply text-red-600;
+          @apply dol-text-red-600;
         }
       }
     }
 
     .acf-fields {
       > .acf-field {
-        @apply py-0 px-4 border-0 mb-4;
+        @apply dol-py-0 dol-px-4 dol-border-0 dol-mb-4;
 
         .acf-label {
           label {
-            @apply font-semibold text-ash-900;
+            @apply dol-font-semibold dol-text-gray-900;
 
             .acf__tooltip {
-              @apply ml-2 fill-current text-ash-700;
+              @apply dol-ml-2 dol-fill-current dol-text-gray-700;
             }
           }
         }
@@ -67,7 +66,7 @@
           .acf-input {
             .acf-input-wrap {
               input {
-                @apply border-2 border-solid border-ash-400 px-3 py-2 rounded;
+                @apply dol-border-2 dol-border-solid dol-border-gray-400 dol-px-3 dol-py-2 dol-rounded;
               }
             }
           }
@@ -77,7 +76,7 @@
         &.acf-field-type-select {
           .acf-input {
             select {
-              @apply border-2 border-solid border-ash-400 px-3 py-2 rounded;
+              @apply dol-border-2 dol-border-solid dol-border-gray-400 dol-px-3 dol-py-2 dol-rounded;
             }
           }
         }
@@ -85,16 +84,16 @@
         &.af-field-type-radio {
           .acf-input {
             ul {
-              @apply p-0 m-0;
+              @apply dol-p-0 dol-m-0;
               > li {
-                @apply mb-3;
+                @apply dol-mb-3;
 
                 &:last-child {
-                  @apply mb-0;
+                  @apply dol-mb-0;
                 }
 
                 label {
-                  @apply flex items-center;
+                  @apply dol-flex dol-items-center;
                 }
               }
             }
@@ -104,18 +103,18 @@
             .acf-input {
               ul {
                 > li {
-                  @apply mb-0;
+                  @apply dol-mb-0;
 
                   label {
-                    @apply p-4;
+                    @apply dol-p-4;
 
                     &.selected,
                     &:hover {
-                      @apply bg-ash-300;
+                      @apply dol-bg-gray-300;
                     }
 
                     input {
-                      @apply mr-3;
+                      @apply dol-mr-3;
                     }
                   }
                 }
@@ -126,19 +125,19 @@
 
         &.af-field-type-text.af-field-site-url {
           .acf-input {
-            @apply w-full;
+            @apply dol-w-full;
 
-            @screen xl {
-              @apply w-3/5;
+            @screen lg {
+              @apply dol-w-3/5;
             }
 
             .acf-input-append {
-              @apply border-2 border-l-0 border-solid border-ash-400 px-3 py-2 bg-ash-300 text-ash-700 rounded rounded-tl-none rounded-bl-none;
+              @apply dol-border-2 dol-border-l-0 dol-border-solid dol-border-gray-400 dol-px-3 dol-py-2 dol-bg-gray-300 dol-text-gray-700 dol-rounded dol-rounded-tl-none dol-rounded-bl-none;
             }
 
             .acf-input-wrap {
               input {
-                @apply border-2 border-r-0 border-solid border-ash-400 px-3 py-2 rounded rounded-tr-none rounded-br-none;
+                @apply dol-border-2 dol-border-r-0 dol-border-solid dol-border-gray-400 dol-px-3 dol-py-2 dol-rounded dol-rounded-tr-none dol-rounded-br-none;
               }
             }
           }
@@ -147,21 +146,44 @@
     }
 
     .acf-form-submit {
-      @apply py-0 px-4 mt-4;
+      @apply dol-py-0 dol-px-4 dol-mt-4;
 
       input,
       button {
-        @apply py-2 px-3 rounded bg-flame-500 border-0 text-white;
+        @apply dol-py-2 dol-px-3 dol-rounded dol-bg-red-500 dol-border-0 dol-text-white;
 
         &:hover {
-          @apply bg-flame-600 border-0 text-white;
+          @apply dol-bg-red-600 dol-border-0 dol-text-white;
         }
 
         &:focus {
-          @apply outline-none;
+          @apply dol-outline-none;
         }
       }
     }
   }
+}
+#form_dollie_list_backups {
+  .af-field-site-backup {
+    li {
+      @apply dol-rounded;
+      font-size: 13px;
+      line-height: 39px;
+      display: grid;
+      margin: 0;
+      position: relative;
+      word-wrap: break-word;
+      margin-bottom: 5px;
+      padding: 5px;
+      padding-left: 12px;
 
+      label {
+        display: block;
+      }
+
+      span.dol-inline-block {
+        float: right;
+      }
+    }
+  }
 }

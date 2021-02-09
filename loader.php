@@ -4,7 +4,7 @@
  * Plugin Name: Dollie
  * Description: Start offering white-labeled cloud services and SaaS/WaaS to your customers right away
  * Plugin URI:  https://getdollie.com
- * Version:     4.1.9.4
+ * Version:     4.2.0
  * Author:      GetDollie
  *
  * Text Domain: dollie
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'DOLLIE_VERSION', '4.1.9.4' );
+define( 'DOLLIE_VERSION', '4.2.0' );
 define( 'DOLLIE_SLUG', 'dollie' );
 
 define( 'DOLLIE_FILE', __FILE__ );
@@ -29,7 +29,7 @@ define( 'DOLLIE_WIDGETS_PATH', DOLLIE_CORE_PATH . 'Widgets/' );
 
 $dollie_domain = get_option( 'options_wpd_api_domain' );
 
-if ( get_option( 'wpd_show_custom_domain_options' ) && get_option( 'wpd_deployment_domain' ) && get_option( 'wpd_deployment_domain_status' ) ) {
+if ( get_option( 'wpd_deployment_domain' ) && get_option( 'wpd_deployment_domain_status' ) ) {
 	$dollie_domain = get_option( 'wpd_deployment_domain' );
 }
 

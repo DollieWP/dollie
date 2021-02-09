@@ -1,4 +1,6 @@
-<?php use Dollie\Core\Modules\AccessControl;
+<?php
+
+use Dollie\Core\Modules\AccessControl;
 
 if ( empty( $data ) ) : ?>
 	<?php dollie()->could_not_connect_message(); ?>
@@ -33,7 +35,7 @@ if ( empty( $data ) ) : ?>
 
 	?>
 	<nav class="dol-flex" aria-label="Breadcrumb">
-		<ol class="dol-bg-white dol-rounded-md dol-shadow dol-px-6 dol-flex dol-space-x-4 dol-mb-10">
+		<ol class="<?php do_action( 'dol_add_widget_classes' ); ?> dol-px-6 dol-flex dol-space-x-4 dol-mb-10 dol-p-0 dol-m-0">
 			<li class="dol-flex">
 				<div class="dol-flex dol-items-center">
 					<a href="<?php dollie()->get_site_url( get_the_ID(), 'performance' ); ?>" class="dol-text-gray-400 hover:dol-text-gray-500">
@@ -58,8 +60,7 @@ if ( empty( $data ) ) : ?>
 						<svg class="dol-flex-shrink-0 dol-w-6 dol-h-full dol-text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 							<path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
 						</svg>
-						<a href="<?php echo dollie()->get_site_url( get_the_ID(), 'developer-tools' ); ?>?section=<?php echo esc_attr( $slug ); ?>"
-						   class="dol-leading-5 dol-text-gray-500 hover:dol-text-gray-700 dol-transition dol-duration-150 dol-ease-in-out <?php echo esc_attr( $menu_class ); ?>">
+						<a href="<?php echo dollie()->get_site_url( get_the_ID(), 'developer-tools' ); ?>?section=<?php echo esc_attr( $slug ); ?>" class="dol-leading-5 dol-text-gray-500 hover:dol-text-gray-700 dol-transition dol-duration-150 dol-ease-in-out <?php echo esc_attr( $menu_class ); ?>">
 							<i class="fal <?php echo esc_attr( $item['icon'] ); ?> md:dol-mr-1"></i>
 							<?php echo esc_html( $item['title'] ); ?>
 						</a>

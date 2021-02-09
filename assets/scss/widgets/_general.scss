@@ -1,0 +1,22 @@
+.dol-layout-header {
+  .dol-widget-custom {
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
+.dol-widget-horizontal {
+  li {
+    display: inline-block;
+
+    a {
+      position: relative;
+      padding-left: 23px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      line-height: 170%;
+      margin-right: 10px !important;
+    }
+  }
+}

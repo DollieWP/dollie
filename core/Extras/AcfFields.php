@@ -7,7 +7,8 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 		'fields'                => array(
 			array(
 				'key'               => 'field_5affdce12d99a',
-				'label'             => __( 'Make this a Product Blueprint?', 'dollie' ),
+				'label'             => __( 'Show this Blueprint?', 'dollie' ),
+				'instructions'      => __('Set this to "No" if you would like to (temporary) make this Blueprint unavailable', 'dollie'),
 				'name'              => 'wpd_is_blueprint',
 				'type'              => 'radio',
 				'instructions'      => '',
@@ -34,7 +35,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 				'label'             => __( 'Private Blueprint?', 'dollie' ),
 				'name'              => 'wpd_private_blueprint',
 				'type'              => 'radio',
-				'instructions'      => __( 'Would you like to make this Blueprint only available to users with the admin role?', 'dollie' ),
+				'instructions'      => __( 'Optionally make this Blueprint only available to users with the admin role.', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -212,7 +213,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 			),
 		),
 		'menu_order'            => - 2147483648,
-		'position'              => 'side',
+		'position'              => 'normal',
 		'style'                 => 'default',
 		'label_placement'       => 'top',
 		'instruction_placement' => 'label',
@@ -223,14 +224,14 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 
 	acf_add_local_field_group( array(
 		'key'                   => 'group_5af9435f11e79',
-		'title'                 => 'Management',
+		'title'                 => 'Advanced Management',
 		'fields'                => array(
 			array(
 				'key'               => 'field_5af943727c113',
 				'label'             => __( 'Status', 'dollie' ),
 				'name'              => 'wpd_container_status',
 				'type'              => 'radio',
-				'instructions'      => '',
+				'instructions'      => 'Warning - Only change the status if you want to manually take action. For example pausing a website or restarting it. The status of a site will automatically be updated based on the subscription status of your customer. ',
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -239,9 +240,9 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 					'id'    => '',
 				),
 				'choices'           => array(
-					'start'   => 'Active',
-					'restart' => 'Restart',
-					'stop'    => 'Stopped',
+					'start'   => 'Active (Site is online)',
+					'restart' => 'Restart (Restart site container)',
+					'stop'    => 'Stopped (Manually stop this site)',
 				),
 				'allow_null'        => 0,
 				'other_choice'      => 0,
@@ -279,8 +280,8 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 				),
 			),
 		),
-		'menu_order'            => - 10,
-		'position'              => 'side',
+		'menu_order'            => 100,
+		'position'              => 'high',
 		'style'                 => 'default',
 		'label_placement'       => 'top',
 		'instruction_placement' => 'label',
@@ -291,11 +292,11 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 
 	acf_add_local_field_group( array(
 		'key'                   => 'group_5af8272e96d48',
-		'title'                 => 'Container Details',
+		'title'                 => 'Site Details',
 		'fields'                => array(
 			array(
 				'key'               => 'field_5af82852c985c',
-				'label'             => __( 'WP Details', 'dollie' ),
+				'label'             => __( 'Installation Details', 'dollie' ),
 				'name'              => '',
 				'type'              => 'tab',
 				'instructions'      => '',
@@ -563,9 +564,9 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 				),
 			),
 		),
-		'menu_order'            => 0,
-		'position'              => 'normal',
-		'style'                 => 'default',
+		'menu_order'            => 1000,
+		'position'              => 'low',
+		'style'                 => 'advanced',
 		'label_placement'       => 'top',
 		'instruction_placement' => 'label',
 		'hide_on_screen'        => '',
@@ -733,6 +734,28 @@ Follow along with the <a target="_blank" href="https://partners.getdollie.com/?r
 				'ui'                => 1,
 			),
 			array(
+				'key'               => 'field_5e5557eda4f91',
+				'label'             => __('Launch Blueprint Page', 'dollie'),
+				'name'              => 'wpd_launch_blueprint_page_id',
+				'type'              => 'post_object',
+				'instructions'      => __('This page contains the (Elementor) template for launching a new Blueprint', 'dollie'),
+				'required'          => 0,
+				'conditional_logic' => 0,
+				'wrapper'           => array(
+					'width' => '',
+					'class' => '',
+					'id'    => '',
+				),
+				'post_type'         => array(
+					0 => 'page',
+				),
+				'taxonomy'          => '',
+				'allow_null'        => 0,
+				'multiple'          => 0,
+				'return_format'     => 'id',
+				'ui'                => 1,
+			),
+			array(
 				'key'               => 'field_5e555885a4c7e',
 				'label'             => __( 'Customer Dashboard Page', 'dollie' ),
 				'name'              => 'wpd_dashboard_page_id',
@@ -816,9 +839,9 @@ Follow along with the <a target="_blank" href="https://partners.getdollie.com/?r
 				'post_type'         => array(
 					0 => 'elementor_library',
 				),
-				'taxonomy'          => array(
-					0 => 'elementor_library_type:dollie-templates',
-				),
+				// 'taxonomy'          => array(
+				// 	0 => 'elementor_library_type:dollie-templates',
+				// ),
 				'allow_null'        => 0,
 				'multiple'          => 0,
 				'return_format'     => 'id',
@@ -921,6 +944,153 @@ This is the default screenshot image shown until a live screenshot is generated.
 				'max_height'        => '',
 				'max_size'          => '',
 				'mime_types'        => '',
+			),
+
+			array(
+				'key' => 'field_5db808224445b',
+				'label' => __('Custom Launch Messages', 'dollie'),
+				'name' => 'wpd_custom_launch_splash',
+				'type' => 'true_false',
+				'instructions' => __('Enable this if you would like to show custom messages whilst a new site is being launched.', 'dollie'),
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'message' => '',
+				'default_value' => 0,
+				'ui' => 1,
+				'ui_on_text' => 'Yes',
+				'ui_off_text' => 'No',
+			),
+
+			array(
+				'key' => 'field_5db808224473a',
+				'label' => 'Launch Site Wizard',
+				'name' => '',
+				'type' => 'message',
+				'instructions' => 'hello',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5db808224445b',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'message' => 'Fill in the fields below with your custom messages. <br><br><a target="_blank" class="btn button button-secondary" href="' . dollie()->get_latest_container_url(). '?launch-splash-preview">Click here for a preview</a>. <br><br>Make sure to save your options first.',
+				'new_lines' => 'wpautop',
+				'esc_html' => 0,
+			),
+			array(
+				'key' => 'field_5db73a6b5ba07',
+				'label' => 'Step 1',
+				'name' => 'wpd_launch_step_1',
+				'type' => 'wysiwyg',
+				'instructions' => 'This is the first screen shown as soon as someone presses the "Launch Site" button.',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5db808224445b',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'media_upload' => 0,
+				'toolbar' => 'full',
+				'delay' => 0,
+			),
+			array(
+				'key' => 'field_5db73b99d3b4b',
+				'label' => 'Step 2',
+				'name' => 'wpd_launch_step_2',
+				'type' => 'wysiwyg',
+				'instructions' => 'This is the second screen shown as soon as someone presses the "Launch Site" button.',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5db808224445b',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'media_upload' => 0,
+				'toolbar' => 'full',
+				'delay' => 0,
+			),
+			array(
+				'key' => 'field_5db73bf2d3b4c',
+				'label' => 'Step 3',
+				'name' => 'wpd_launch_step_3',
+				'type' => 'wysiwyg',
+				'instructions' => 'This is the third screen shown as soon as someone presses the "Launch Site" button.',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5db808224445b',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'media_upload' => 0,
+				'toolbar' => 'full',
+				'delay' => 0,
+			),
+			array(
+				'key' => 'field_5db808cb4473b',
+				'label' => 'Step 4',
+				'name' => 'wpd_launch_step_4',
+				'type' => 'wysiwyg',
+				'instructions' => 'This is the final screen shown as soon as someone presses the "Launch Site" button. This only shows if the site deploy takes longer than usual.',
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_5db808224445b',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'media_upload' => 0,
+				'toolbar' => 'full',
+				'delay' => 0,
 			),
 			array(
 				'key'               => 'field_5b06a979537b3',

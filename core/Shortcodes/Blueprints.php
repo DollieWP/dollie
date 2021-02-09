@@ -97,7 +97,7 @@ final class Blueprints extends Singleton implements Base {
 			$rows         = $a['columns'];
 			$custom_class = $a['custom-class'];
 
-			echo '<ul class="dol-grid dol-grid-cols-1 dol-gap-6 sm:dol-grid-cols-2 md:dol-grid-cols-' . $rows . ' lg:dol-grid-cols-' . $rows . ' dol-m-0">';
+			echo '<ul class="dol-grid dol-grid-cols-1 dol-gap-6 sm:dol-grid-cols-2 md:dol-grid-cols-' . $rows . ' lg:dol-grid-cols-' . $rows . ' dol-m-0 dol-p-0">';
 
 			while ( $query->have_posts() ) {
 				$query->the_post();

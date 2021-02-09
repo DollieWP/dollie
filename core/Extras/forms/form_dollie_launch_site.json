@@ -3,7 +3,7 @@
     "title": "[SETUP] Launch Site",
     "display": {
         "description": "This launches a new site on the platform.",
-        "success_message": "[dollie_blockquote title=\"Your site {field:site_url} is being deployed\" icon=\"fal fa-rocket\"]\r\nYou will be notified once it is ready.\r\n[\/dollie_blockquote]"
+        "success_message": "[dollie_blockquote title=\"Your site {field:site_url} is being deployed\" icon=\"fas fa-rocket\"]\r\nYou will be notified once it is ready.\r\n[\/dollie_blockquote]"
     },
     "create_entries": false,
     "is_launch_site": true,

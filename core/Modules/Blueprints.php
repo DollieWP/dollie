@@ -110,8 +110,8 @@ class Blueprints extends Singleton {
 	 * @return array
 	 */
 	public function get_by_site( $site_id = null ) {
-		if ( isset( $_GET['section'] ) && 'blueprint' === $_GET['section'] && is_singular( 'container' ) ) {
-
+		$sub_page = get_query_var('sub_page');
+		if ( is_singular( 'container' ) && 'blueprints' === $sub_page ) {
 			$site = dollie()->get_current_object( $site_id );
 
 			$secret = get_post_meta( $site->id, 'wpd_container_secret', true );
@@ -135,13 +135,6 @@ class Blueprints extends Singleton {
 			if ( empty( $blueprints ) ) {
 				return [];
 			}
-
-			$total_blueprints = array_filter(
-				$blueprints,
-				static function ( $value ) {
-					return ! ( strpos( $value, 'restore' ) !== false );
-				}
-			);
 
 			set_transient( 'dollie_' . $site->slug . '_total_blueprints', count( $total_blueprints ), MINUTE_IN_SECONDS * 1 );
 			update_post_meta( $site->id, 'wpd_installation_blueprints_available', count( $total_blueprints ) );
@@ -178,9 +171,6 @@ class Blueprints extends Singleton {
 		foreach ( $blueprints as $blueprint ) {
 			$info = explode( '|', $blueprint );
 
-			if ( 'restore' === $info[1] ) {
-				continue;
-			}
 
 			if ( strpos( $info[1], 'MB' ) !== false ) {
 				$get_mb_size = str_replace( 'MB', '', $info[1] );

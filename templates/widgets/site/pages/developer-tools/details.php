@@ -1,6 +1,6 @@
 <?php $hostname = preg_replace( '#^https?://#', '', $customer_details->uri ); ?>
 
-<h2 class="dol-title">
+<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 	<?php esc_html_e( 'Developer Details', 'dollie' ); ?>
 </h2>
 
@@ -9,23 +9,23 @@
 	'notice',
 	[
 		'type'         => 'info',
-		'icon'         => 'fal fa-bookmark',
+		'icon'         => 'fas fa-bookmark',
 		'title'        => esc_html__( 'Your SFTP Details', 'dollie' ),
 		'message'      => '<a class="dol-text-brand-500 hover:dol-text-brand-600" href="sftp://' . $customer_details->containerSshUsername . ':' . $customer_details->containerSshPassword . '@' . $hostname . ':' . $customer_details->containerSshPort . '">' .
-						  '<i class="fal fa-plus dol-mr-2"></i>' . esc_html__( 'Quick Connect!', 'dollie' ) . '</a>',
+						  '<i class="fas fa-plus dol-mr-2"></i>' . esc_html__( 'Quick Connect!', 'dollie' ) . '</a>',
 		'bottom_space' => true,
 	],
 	true
 );
 ?>
 
-<div class="dol-border dol-border-solid dol-border-ash-400 dol-rounded dol-overflow-hidden dol-my-6">
-	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-ash-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
-		<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-ash-800 dol-text-base md:dol-text-xl">
+<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-my-6">
+	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
+		<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
 			<?php esc_html_e( 'SFTP Details', 'dollie' ); ?>
 		</h4>
 	</div>
-	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 dol-bg-white">
+	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
 		<div class="dol-font-bold dol-mb-2">
 			<?php esc_html_e( 'Use the details below in your SFTP client to connect to the site and manage your files.', 'dollie' ); ?>
 		</div>
@@ -65,7 +65,7 @@
 		'notice',
 		[
 			'type'    => 'info',
-			'icon'    => 'fal fa-tachometer',
+			'icon'    => 'fas fa-tachometer',
 			'title'   => sprintf( __( 'Your site is running PHP version %s', 'dollie' ), $php[0] . '.' . $php[1] ),
 			'message' => $message,
 		],
@@ -80,7 +80,7 @@
 		'notice',
 		[
 			'type'    => 'warning',
-			'icon'    => 'fal fa-database',
+			'icon'    => 'fas fa-database',
 			'title'   => esc_html__( 'Redis Object Caching is Disabled', 'dollie' ),
 			'message' => esc_html__( 'Object Caching can further improve performance for logged-in users or when running heavy database queries. You can search for any Redis Object Cache Plugin on Wordpress repository.' ),
 			'links'   => [
@@ -100,7 +100,7 @@
 		'notice',
 		[
 			'type'    => 'info',
-			'icon'    => 'fal fa-database',
+			'icon'    => 'fas fa-database',
 			'title'   => esc_html__( 'Redis Object Caching is Enabled', 'dollie' ),
 			'message' => esc_html__( 'Object Caching can further improve performance for logged-in users or when running heavy database queries. Make sure to test it properly to ensure compatibility with your themes and plugins.' ),
 			'links'   => [

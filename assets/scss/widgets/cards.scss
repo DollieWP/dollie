@@ -1,37 +1,36 @@
 @layer components {
-
   .dol-card {
-    @apply w-full px-4 my-4;
+    @apply dol-w-full dol-px-4 dol-my-4;
 
     .dol-card-inner {
-      @apply rounded overflow-hidden border border-solid border-ash-300;
+      @apply dol-rounded dol-overflow-hidden dol-border dol-border-solid dol-border-gray-300;
 
       .dol-card-title-container {
-        @apply flex items-center bg-ash-200 border-0 border-b border-solid border-ash-300;
+        @apply dol-flex dol-items-center dol-bg-gray-200 dol-border-0 dol-border-b dol-border-solid dol-border-gray-300;
 
         .dol-card-icon {
-          @apply p-4 bg-ash-300 flex items-center justify-center;
+          @apply dol-p-4 dol-bg-gray-300 dol-flex dol-items-center dol-justify-center;
         }
 
         .dol-card-title {
-          @apply block px-4 m-0 font-bold text-ash-700 text-base leading-normal;
+          @apply dol-block dol-px-4 dol-m-0 dol-font-bold dol-text-gray-700 dol-text-base dol-leading-normal;
         }
       }
 
       .dol-card-content {
-        @apply p-4 bg-white;
+        @apply dol-p-4 dol-bg-white;
       }
     }
   }
 
   @screen md {
     .dol-card {
-      @apply w-6/12;
+      @apply dol-w-6/12;
 
       .dol-card-inner {
         .dol-card-title-container {
           .dol-card-title {
-            @apply text-lg;
+            @apply dol-text-lg;
           }
         }
       }
@@ -43,25 +42,18 @@
       .dol-card-inner {
         .dol-card-title-container {
           .dol-card-icon {
-            @apply px-8 py-4;
+            @apply dol-px-8 dol-py-4;
           }
 
           .dol-card-title {
-            @apply px-8 py-2;
+            @apply dol-px-8 dol-py-2;
           }
         }
 
         .dol-card-content {
-          @apply px-8 py-6;
+          @apply dol-px-8 dol-py-6;
         }
       }
     }
   }
-
-  @screen xl {
-    .dol-card {
-      @apply w-4/12;
-    }
-  }
-
 }

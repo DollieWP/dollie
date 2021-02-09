@@ -19,7 +19,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 					'id'    => '',
 				),
 				'hide_admin'        => 0,
-				'message'           => __( '[dollie_blockquote type="success" icon="fal fa-globe" title="Let\'s link up your custom domain {dollie_user_display_name}!"]
+				'message'           => __( '[dollie_blockquote type="success" icon="fas fa-globe" title="Let\'s link up your custom domain {dollie_user_display_name}!"]
 We\'ll walk you through all the steps required to link your own domain to your site. Let\'s get started shall we?
 [/dollie_blockquote]', 'dollie' ),
 				'new_lines'         => '',
@@ -99,8 +99,8 @@ We\'ll walk you through all the steps required to link your own domain to your s
 				),
 				'hide_admin'        => 0,
 				'message'           => __( '<div class="box-light padding-half alert alert-info p-3">
-<p>We are not selling domains directly.</p> 
-If you have not registered your own domain yet, this is the time to do so! We recommend <a href="https://namecheap.com" target="_blank">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar. 
+<p>We are not selling domains directly.</p>
+If you have not registered your own domain yet, this is the time to do so! We recommend <a href="https://namecheap.com" target="_blank">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar.
 <strong>Go ahead, register your domain and come back to this form to continue the domain setup!</strong>
 </div>', 'dollie' ),
 				'new_lines'         => '',
@@ -233,13 +233,47 @@ If you have not registered your own domain yet, this is the time to do so! We re
 				'maxlength'         => '',
 			),
 			array(
+				'key'               => 'field_601a8d9bc4b42',
+				'label'             => __( 'Site Type', 'dollie' ),
+				'name'              => 'site_type',
+				'type'              => 'select',
+				'instructions'      => '',
+				'required'          => 0,
+				'conditional_logic' => 0,
+				'wrapper'           => array(
+					'width' => '',
+					'class' => 'acf-hide-title acf-hidden',
+					'id'    => '',
+				),
+				'hide_admin'        => 1,
+				'choices'           => array(
+					'site'      => 'site',
+					'blueprint' => 'blueprint',
+				),
+				'default_value'     => 'site',
+				'allow_null'        => 0,
+				'multiple'          => 0,
+				'ui'                => 0,
+				'return_format'     => 'value',
+				'ajax'              => 0,
+				'placeholder'       => '',
+			),
+			array(
 				'key'               => 'field_5e6a221a065b8',
 				'label'             => __( 'Select a Blueprint (optional)', 'dollie' ),
 				'name'              => 'site_blueprint',
 				'type'              => 'radio',
 				'instructions'      => __( 'Carefully crafted site designs made by our team which you can use as a starting point for your new site.', 'dollie' ),
 				'required'          => 0,
-				'conditional_logic' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field'    => 'field_601a8d9bc4b42',
+							'operator' => '==',
+							'value'    => 'site',
+						),
+					),
+				),
 				'wrapper'           => array(
 					'width' => '',
 					'class' => '',
@@ -261,7 +295,15 @@ If you have not registered your own domain yet, this is the time to do so! We re
 				'type'              => 'true_false',
 				'instructions'      => '',
 				'required'          => 0,
-				'conditional_logic' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field'    => 'field_601a8d9bc4b42',
+							'operator' => '==',
+							'value'    => 'site',
+						),
+					),
+				),
 				'wrapper'           => array(
 					'width' => '',
 					'class' => '',

@@ -1,4 +1,4 @@
-<h2 class="dol-title">
+<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 	<?php esc_html_e( 'Domains', 'dollie' ); ?>
 </h2>
 
@@ -15,13 +15,13 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 
 		<div class="dol-my-6">
 
-			<div class="dol-border dol-border-solid dol-border-cobalt-100 dol-rounded dol-overflow-hidden dol-mb-6">
-				<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-bg-cobalt-100">
-					<h4 class="dol-p-0 dol-m-0 dol-font-bold dol-text-cobalt-500 dol-text-base md:dol-text-xl">
+			<div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden dol-mb-6">
+				<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-100">
+					<h4 class="dol-p-0 dol-m-0 dol-font-bold  dol-text-base md:dol-text-xl">
 						<?php esc_html_e( 'Site URL replacement is not complete ', 'dollie' ); ?>
 					</h4>
 				</div>
-				<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-bg-white">
+				<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 ">
 					<span class="dol-block dol-mb-4">
 						<?php printf( __( 'Your domain <strong>%s</strong> is connected but the URL replacement wasn\'t complete.', 'dollie' ), $domain ); ?>
 					</span>
@@ -43,7 +43,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 			\Dollie\Core\Utils\Tpl::load(
 				'notice',
 				[
-					'icon'    => 'fal fa-exclamation-circle',
+					'icon'    => 'fas fa-exclamation-circle',
 					'title'   => sprintf( __( '%s is linked to this site!', 'dollie' ), $domain ),
 					'message' => __( 'Congrats! Your are using a live domain for this site.' ),
 				],
@@ -54,13 +54,13 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 
 	<?php endif; ?>
 
-	<div class="dol-border dol-border-solid dol-border-cobalt-100 dol-rounded dol-overflow-hidden dol-mb-6">
-		<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-bg-cobalt-100">
-			<h4 class="dol-p-0 dol-m-0 dol-font-bold dol-text-cobalt-500 dol-text-base md:dol-text-xl">
+	<div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden dol-mb-6">
+		<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-100">
+			<h4 class="dol-p-0 dol-m-0 dol-font-bold  dol-text-base md:dol-text-xl">
 				<?php esc_html_e( 'Remove your linked domain', 'dollie' ); ?>
 			</h4>
 		</div>
-		<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-bg-white">
+		<div class="dol-px-4 lg:dol-px-8 lg:dol-py-4 ">
 			<span class="dol-block dol-mb-4"><?php esc_html_e( 'Have you changed your domain name? You can unlink your current domain by pressing the button below. Once you have removed your current domain you can add your new domain.', 'dollie' ); ?></span>
 			<form action="<?php echo get_permalink( get_the_ID() ); ?>?remove-domain=<?php echo get_post_meta( get_the_ID(), 'wpd_container_id', true ); ?>"
 				  method="post">

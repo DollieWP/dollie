@@ -1,97 +1,59 @@
+const colors = require('tailwindcss/colors')
 module.exports = {
+    darkMode: 'class',
     prefix: 'dol-',
     theme: {
+        colors: {
+            transparent: 'transparent',
+            current: 'currentColor',
+            black: colors.black,
+            white: colors.white,
+            gray: colors.trueGray,
+            red: colors.red,
+            green: colors.green,
+        },
         extend: {
-            colors: {
-                'brand': {
-                    50: '#F5FBFD',
-                    100: '#EBF7FA',
-                    200: '#CDECF3',
-                    300: '#AFE1EB',
-                    400: '#72CADC',
-                    500: '#36B3CD',
-                    600: '#31A1B9',
-                    700: '#206B7B',
-                    800: '#18515C',
-                    900: '#10363E',
-                },
-                'cobalt': {
-                    50: '#F3F5F6',
-                    100: '#E7EBEE',
-                    200: '#C2CED4',
-                    300: '#9DB0BB',
-                    400: '#547487',
-                    500: '#0B3954',
-                    600: '#0A334C',
-                    700: '#072232',
-                    800: '#051A26',
-                    900: '#031119',
-                },
-                'almond': {
-                    50: '#FFFEFD',
-                    100: '#FFFDFA',
-                    200: '#FFFAF4',
-                    300: '#FFF7ED',
-                    400: '#FFF2DF',
-                    500: '#FFECD1',
-                    600: '#E6D4BC',
-                    700: '#998E7D',
-                    800: '#736A5E',
-                    900: '#4D473F',
-                },
-                'flame': {
-                    50: '#FEF7F4',
-                    100: '#FDEEE9',
-                    200: '#FBD5C8',
-                    300: '#F8BBA7',
-                    400: '#F38964',
-                    500: '#EE5622',
-                    600: '#D64D1F',
-                    700: '#8F3414',
-                    800: '#6B270F',
-                    900: '#471A0A',
-                },
-                'green': {
-                    50: '#F5FDF9',
-                    100: '#EBFCF3',
-                    200: '#CCF7E2',
-                    300: '#ADF2D0',
-                    400: '#70E8AD',
-                    500: '#32DE8A',
-                    600: '#2DC87C',
-                    700: '#1E8553',
-                    800: '#17643E',
-                    900: '#0F4329',
-                },
-                'ash': {
-                    100: '#FCFCFC',
-                    200: '#F8F8F8',
-                    300: '#F4F4F4',
-                    400: '#EBEBEB',
-                    500: '#E3E3E3',
-                    600: '#CCCCCC',
-                    700: '#888888',
-                    800: '#666666',
-                    900: '#444444',
-                },
+            transitionDuration: {
+                '0': '0ms',
+                '300': '300ms',
+                '500': '500ms',
+                '1000': '1000ms'
             },
             zIndex: {
                 '-1': '-1',
                 '500': '500'
-            }
-        }
+            },
+            colors: {
+               'primary': 'var(--primary)',
+               'primary-100': 'var(--primary-100)',
+               'primary-200': 'var(--primary-200)',
+               'primary-300': 'var(--primary-300)',
+               'primary-400': 'var(--primary-400)',
+               'primary-500': 'var(--primary-500)',
+               'primary-600': 'var(--primary-600)',
+               'primary-700': 'var(--primary-700)',
+               'primary-800': 'var(--primary-800)',
+               'primary-900': 'var(--primary-900)',
+                'secondary': 'var(--secondary)',
+                'secondary-100': 'var(--secondary-100)',
+                'secondary-200': 'var(--secondary-200)',
+                'secondary-300': 'var(--secondary-300)',
+                'secondary-400': 'var(--secondary-400)',
+                'secondary-500': 'var(--secondary-500)',
+                'secondary-600': 'var(--secondary-600)',
+                'secondary-700': 'var(--secondary-700)',
+                'secondary-800': 'var(--secondary-800)',
+                'secondary-900': 'var(--secondary-900)',
+              }
+        },
     },
     variants: {
         margin: ['responsive', 'last'],
         borderWidth: ['responsive', 'last'],
         display: ['responsive', 'group-hover']
     },
-    future: {
-        removeDeprecatedGapUtilities: true,
-        purgeLayersByDefault: true,
-    },
     purge: {
-        enabled: true,
+        enabled: false,
         content: [
             './templates/*.php',
             './templates/**/*.php',
@@ -101,10 +63,18 @@ module.exports = {
             './core/Widgets/**/templates/**/**/*.php',
             './core/Shortcodes/Blueprints.php',
             './core/Admin/NavMenu/Component.php',
-            './templates/link-domain.php'
-        ]
+            './templates/link-domain.php',
+            './core/tailwind-whitelist.txt'
+        ],
+        options: {
+            safelist: {
+               //standard: [/dark/]
+            }
+        }
     },
     corePlugins: {
         preflight: false,
-    }
+    },
+    plugins: [require('@tailwindcss/forms'),]
 }
+

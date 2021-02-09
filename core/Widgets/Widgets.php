@@ -26,6 +26,13 @@ class Widgets extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
+		// Layout Widgets
+		$this->widgets[] = [
+			'path'  => 'Layout/LayoutSidebarContent',
+			'class' => 'Layout\LayoutSidebarContent',
+			'name'  => 'dollie-layout-sidebar-content',
+		];
+
 		// Dashboard Widgets
 
 		$this->widgets[] = [
@@ -38,12 +45,6 @@ class Widgets extends Singleton {
 			'path'  => 'Dashboard/LaunchSite',
 			'class' => 'Dashboard\LaunchSite',
 			'name'  => 'dollie-dashboard-launch-site',
-		];
-
-		$this->widgets[] = [
-			'path'  => 'Dashboard/PartnerGreeting',
-			'class' => 'Dashboard\PartnerGreeting',
-			'name'  => 'dollie-dashboard-partner-greeting',
 		];
 
 		$this->widgets[] = [
@@ -116,6 +117,12 @@ class Widgets extends Singleton {
 			'path'  => 'Site/SiteNavigation',
 			'class' => 'Site\SiteNavigation',
 			'name'  => 'dollie-site-navigation',
+		];
+
+		$this->widgets[] = [
+			'path'  => 'Site/SiteScreenshot',
+			'class' => 'Site\SiteScreenshot',
+			'name'  => 'dollie-site-screenshot',
 		];
 
 		// Launch Widgets

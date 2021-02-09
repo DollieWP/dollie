@@ -20,11 +20,12 @@ use WP_Query;
  */
 class Container extends Singleton {
 
+
 	/**
 	 * Container constructor.
 	 */
 	public function __construct() {
-		parent::__construct();
+		 parent::__construct();
 
 		add_action( 'init', [ $this, 'register' ], 0 );
 		add_action( 'init', [ $this, 'register_category' ], 0 );
@@ -36,19 +37,24 @@ class Container extends Singleton {
 		add_filter( 'single_template', [ $this, 'container_template' ] );
 
 		add_action( 'template_redirect', [ $this, 'remove_customer_domain_action' ] );
-		add_action( 'template_redirect', [ $this, 'bypass_output_caching' ] );
 		add_action( 'template_redirect', [ $this, 'remove_details_transients' ] );
 		add_action( 'template_redirect', [ $this, 'update_details' ] );
 
 		add_action( 'untrashed_post', [ $this, 'run_untrash_action' ] );
 
 		add_action( 'add_meta_boxes', [ $this, 'rename_author_box_title' ] );
+		add_filter( 'manage_container_posts_columns', [ $this, 'rename_author_box_column' ] );
+		add_filter( 'parse_query', [ $this, 'filter_blueprint_from_sites' ] );
+		add_filter( 'page_row_actions', [ $this, 'add_container_title_actions' ], 10, 2 );
+		add_filter( 'manage_container_posts_columns', [ $this, 'replace_container_title_column' ] );
+		add_action( 'manage_container_posts_custom_column', [ $this, 'add_new_container_title_content' ], 10, 2 );
 
 		add_action( 'acf/save_post', [ $this, 'update_customer_role' ] );
 		add_action( 'acf/save_post', [ $this, 'update_all_customers_role' ] );
 		add_action( 'acf/save_post', [ $this, 'update_deployment_domain' ] );
 
 		add_action( 'acf/input/admin_footer', [ $this, 'change_role_notice' ] );
+		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
 	}
 
 	/**
@@ -95,7 +101,7 @@ class Container extends Singleton {
 			'public'              => true,
 			'show_ui'             => true,
 			'show_in_menu'        => 'wpd_platform_setup',
-			'menu_position'       => - 10,
+			'menu_position'       => -10,
 			'show_in_admin_bar'   => true,
 			'show_in_nav_menus'   => true,
 			'can_export'          => true,
@@ -147,7 +153,7 @@ class Container extends Singleton {
 			'hierarchical'      => false,
 			'public'            => true,
 			'show_ui'           => true,
-			'show_admin_column' => true,
+			'show_admin_column' => false,
 			'show_in_nav_menus' => true,
 			'show_tagcloud'     => true,
 		];
@@ -200,19 +206,6 @@ class Container extends Singleton {
 	}
 
 	/**
-	 * Skip caching
-	 */
-	public function bypass_output_caching() {
-		if ( is_singular( 'container' ) ) {
-			header( 'Content-Encoding: none' );
-
-			// Explicitly disable caching so NGINX and other upstreams won't cache.
-			header( 'Cache-Control: no-cache, must-revalidate' );
-			header( 'X-Accel-Buffering: no' );
-		}
-	}
-
-	/**
 	 * Remove customer domain
 	 */
 	public function remove_customer_domain_action() {
@@ -231,7 +224,6 @@ class Container extends Singleton {
 			}
 
 			$this->remove_domain( $current_query->id );
-
 		}
 	}
 
@@ -321,8 +313,8 @@ class Container extends Singleton {
 	 * Update WP site url option
 	 *
 	 * @param $new_url
-	 * @param string $old_url
-	 * @param null $container_id
+	 * @param string  $old_url
+	 * @param null    $container_id
 	 *
 	 * @return bool|mixed
 	 */
@@ -343,7 +335,6 @@ class Container extends Singleton {
 				'',
 				dollie()->get_container_url( $container->id )
 			);
-
 		}
 
 		$request_domain_update = Api::post(
@@ -475,6 +466,12 @@ class Container extends Singleton {
 				update_post_meta( $post_id, 'wpd_installation_size', dollie()->convert_to_readable_size( $data['container_details']['Size'] ) );
 				update_post_meta( $post_id, 'wpd_installation_size_bytes', $data['container_details']['Size'] );
 				update_post_meta( $post_id, 'wpd_installation_version', $data['container_details']['Version'] );
+
+				$post_data = [
+					'post_title' => $data['container_details']['Name'],
+				];
+				wp_update_post( $post_data );
+
 			}
 
 			// Now that we have our container stats get our secret key
@@ -578,7 +575,7 @@ class Container extends Singleton {
 	 * @param $url
 	 * @param $transient_id
 	 * @param $user_auth
-	 * @param null $user_pass
+	 * @param null         $user_pass
 	 *
 	 * @return array|mixed
 	 */
@@ -654,7 +651,7 @@ class Container extends Singleton {
 	/**
 	 * Get container login info
 	 *
-	 * @param null $container_id
+	 * @param null   $container_id
 	 * @param string $site_username
 	 *
 	 * @return mixed
@@ -694,7 +691,6 @@ class Container extends Singleton {
 	 * Flush container details
 	 */
 	public function update_details() {
-
 		if ( ! is_singular( 'container' ) ) {
 			return;
 		}
@@ -775,7 +771,6 @@ class Container extends Singleton {
 			);
 
 			Log::add_front( Log::WP_SITE_STARTED, $current_query, $site );
-
 		} elseif ( 'stop' === $action ) {
 			// Get today's timestamp.
 			$today        = mktime( 0, 0, 0, date( 'm' ), date( 'd' ), date( 'Y' ) );
@@ -801,7 +796,6 @@ class Container extends Singleton {
 			}
 
 			Log::add_front( Log::WP_SITE_REMOVAL_SCHEDULED, $current_query, $site );
-
 		} elseif ( 'undeploy' === $action ) {
 			delete_post_meta( $post_id, 'wpd_stop_container_at' );
 			delete_post_meta( $post_id, 'wpd_scheduled_for_removal' );
@@ -832,8 +826,119 @@ class Container extends Singleton {
 	 * Container author box
 	 */
 	public function rename_author_box_title() {
-		remove_meta_box( 'authordiv', 'container', 'core' );
-		add_meta_box( 'authordiv', __( 'Assigned Customer to this Site', 'wpse39446_domain' ), 'post_author_meta_box', 'container', 'advanced', 'high' );
+		 remove_meta_box( 'authordiv', 'container', 'core' );
+		add_meta_box( 'authordiv', __( 'Assigned Customer to this Site', 'wpse39446_domain' ), 'post_author_meta_box', 'container', 'normal', 'high' );
+	}
+
+	/**
+	 * Seperate Blueprints from regular sites.
+	 *
+	 * @param $query
+	 */
+	public function filter_blueprint_from_sites( $query ) {
+
+		if ( is_admin() and $query->query['post_type'] == 'container' ) {
+			$qv               = &$query->query_vars;
+			$qv['meta_query'] = [];
+
+			if ( ! empty( $_GET['blueprint'] ) ) {
+				$qv['meta_query'][] = [
+					'relation' => 'OR',
+					[
+						'key'   => 'wpd_blueprint_created',
+						'value' => 'yes',
+					],
+					[
+						'key'   => 'wpd_is_blueprint',
+						'value' => 'yes',
+					],
+					[
+						'key'     => 'wpd_installation_blueprint_title',
+						'compare' => 'EXISTS',
+					],
+				];
+			} else {
+				$qv['meta_query'][] = [
+					'key'     => 'wpd_is_blueprint',
+					'compare' => 'NOT EXISTS',
+				];
+			}
+		}
+	}
+
+	/**
+	 * Add a new column to show more info about sites.
+	 *
+	 * @param $columns
+	 */
+	public function replace_container_title_column( $columns ) {
+
+		$new = [];
+
+		foreach ( $columns as $key => $title ) {
+			if ( $key == 'title' ) {
+				$new['site-title'] = 'Site'; // Our New Colomn Name
+			}
+			$new[ $key ] = $title;
+		}
+
+		unset( $new['title'] );
+		return $new;
+	}
+
+	/**
+	 * Replace the title in the new column
+	 *
+	 * @param $column_name
+	 * @param $post_id
+	 */
+	public function add_new_container_title_content( $column_name, $post_ID ) {
+		if ( $column_name === 'site-title' ) {
+			$oldtitle = get_the_title();
+			$newtitle = '<a href="' . get_edit_post_link( $post_ID ) . '">' . get_the_title() . '</a></h4><br><span class="url-box"><a target="_blank" href="' . dollie()->get_container_url( $post_ID ) . '">' . dollie()->get_container_url( $post_ID ) . '</span></a>';
+			$title    = $newtitle;
+			echo $title;
+		}
+	}
+
+	/**
+	 * Add custom actions for the site listing, and remove default ones.
+	 *
+	 * @param $actions
+	 * @param $page_object
+	 */
+	public function add_container_title_actions( $actions, $page_object ) {
+		if ( get_post_type() === 'container' && empty( $_GET['blueprint'] ) ) {
+			$id = $page_object->ID;
+			unset( $actions['trash'] );
+			unset( $actions['view'] );
+			unset( $actions['inline hide-if-no-js'] );
+			unset( $actions['edit'] );
+			$actions['manage_site'] = '<a href="' . get_the_permalink( $id ) . '" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __( 'Manage Site' ) . '</a>';
+			$actions['google_link'] = '<a href="' . dollie()->get_customer_login_url( $id ) . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __( 'Login to Installation' ) . '</a>';
+		} elseif ( get_post_type() === 'container')  {
+			$id = $page_object->ID;
+			unset( $actions['trash'] );
+			unset( $actions['view'] );
+			unset( $actions['inline hide-if-no-js'] );
+			unset( $actions['edit'] );
+			$actions['manage_site'] = '<a href="' . get_the_permalink( $id ) . '/blueprints" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __( 'Manage Blueprint' ) . '</a>';
+			$actions['google_link'] = '<a href="' . dollie()->get_customer_login_url( $id ) . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __( 'Login to Installation' ) . '</a>';
+
+		}
+
+		return $actions;
+	}
+
+
+
+	/**
+	 * Container author box
+	 */
+	public function rename_author_box_column( $columns ) {
+
+		$columns['author'] = __( 'Customer', 'dollie' );
+		return $columns;
 	}
 
 	/**
@@ -879,7 +984,7 @@ class Container extends Singleton {
 			[
 				'author'         => $user_id,
 				'post_type'      => 'container',
-				'posts_per_page' => - 1,
+				'posts_per_page' => -1,
 				'post_status'    => 'publish',
 			]
 		);
@@ -909,7 +1014,6 @@ class Container extends Singleton {
 				);
 
 				update_post_meta( $post->ID, '_wpd_user_role_change_pending', $action_id );
-
 			}
 		}
 
@@ -992,6 +1096,33 @@ class Container extends Singleton {
 		Log::add( 'Started to update all customers access role' );
 	}
 
+	public function add_container_manager_notice() {
+		if ( 'container' !== get_post_type() ) {
+			return;
+		}
+
+		$container_id  = $_GET['post'];
+		$dashboard_url = get_option( 'options_wpd_api_dashboard_url' );
+		?>
+		<br>
+		<div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
+			<div class="dollie-inner-message">
+				<div class="dollie-message-center">
+					<h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
+					<p>
+						<?php
+						printf(
+							'We recommend managing this site on the front-end of your installation using the <a href="%s">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team.',
+							esc_url( get_the_permalink( $container_id ) )
+						);
+						?>
+				</div>
+			</div>
+		</div>
+		<?php
+	}
+
+
 	/**
 	 * Update deployment domain
 	 *
@@ -1058,18 +1189,18 @@ class Container extends Singleton {
 	 */
 	public function change_role_notice() {
 		?>
-        <script type="text/javascript">
-            (function ($) {
-                var customer_role = $('[data-name="wpd_client_site_permission"]');
-                if (customer_role.length) {
-                    var key = customer_role.data('key');
+		<script type="text/javascript">
+			(function($) {
+				var customer_role = $('[data-name="wpd_client_site_permission"]');
+				if (customer_role.length) {
+					var key = customer_role.data('key');
 
-                    $('[name="acf[' + key + ']"]').on('change', function () {
-                        alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
-                    })
-                }
-            })(jQuery);
-        </script>
+					$('[name="acf[' + key + ']"]').on('change', function() {
+						alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
+					})
+				}
+			})(jQuery);
+		</script>
 		<?php
 	}
 
@@ -1077,7 +1208,7 @@ class Container extends Singleton {
 	 * Get container screenshot
 	 *
 	 * @param $container_uri
-	 * @param bool $regenerate
+	 * @param bool          $regenerate
 	 *
 	 * @return array|mixed|null
 	 */
@@ -1169,5 +1300,6 @@ class Container extends Singleton {
 
 		return get_post_meta( $container->id, 'wpd_container_status', true );
 	}
-
 }
+
+

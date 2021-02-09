@@ -93,7 +93,7 @@ class DomainConnect extends Singleton {
 				wp_kses_post(
 					sprintf(
 						__( 'Sorry, we could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href="%s">Contact Support</a>', 'dollie' ),
-						get_option('options_wpd_support_link')
+						Dollie()->get_support_link()
 					)
 				)
 			);
@@ -280,6 +280,11 @@ class DomainConnect extends Singleton {
 
 		// If it already has linked domain and return an empty space as message
 		if ( get_post_meta( $container->id, 'wpd_domains', true ) ) {
+			return true;
+		}
+
+		//If the site is a blueprint, no bueno
+		if ( dollie()->is_blueprint( $container->id ) ) {
 			return true;
 		}
 

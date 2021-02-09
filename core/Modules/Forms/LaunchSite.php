@@ -58,7 +58,7 @@ class LaunchSite extends Singleton {
 		$domain = af_get_field( 'site_url' );
 
 		if ( ! preg_match( '/^[a-zA-Z0-9-_]+$/', $domain ) ) {
-			af_add_error( 'site_url', esc_html__( 'Site URL can oly contain letters, numbers, dash and underscore', 'dollie' ) );
+			af_add_error( 'site_url', esc_html__( 'Site URL can only contain letters, numbers, dash and underscore', 'dollie' ) );
 
 		}
 
@@ -84,6 +84,7 @@ class LaunchSite extends Singleton {
 			'domain'    => af_get_field( 'site_url' ),
 			'user_id'   => get_current_user_id(),
 			'blueprint' => Forms::instance()->get_form_blueprint( $form, $args ),
+			'site_type' => af_get_field( 'site_type' ),
 		];
 
 		// add WP site details.
@@ -122,7 +123,17 @@ class LaunchSite extends Singleton {
 	 * @return mixed
 	 */
 	public function change_form_args( $args ) {
-		$args['submit_text'] = esc_html__( 'Launch New Site', 'dollie' );
+
+		if ( isset( $args['values'], $args['values']['site_type'] ) && $args['values']['site_type'] === 'blueprint' ) {
+			add_filter(
+				'acf/prepare_field/name=site_url',
+				function ( $field ) {
+					$field['append'] = '.wp-site.xyz';
+
+					return $field;
+				}
+			);
+		}
 
 		return $args;
 	}

@@ -56,6 +56,7 @@ class Hooks extends Singleton {
 
 			// Finally register the tag
 			$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteRemoteInfo' );
+			$module->register_tag('\Dollie\Core\\Elementor\\Tags\\SiteRemoteInfoUrl');
 			$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteImageRemoteInfo' );
 			$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteScreenshot' );
 			$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteBackups' );

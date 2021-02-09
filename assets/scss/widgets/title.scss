@@ -1,12 +1,11 @@
 @layer components {
-
   .dol-title {
-    @apply block font-bold text-2xl text-cobalt-500 m-0 p-0 mb-6;
+    @apply dol-block dol-font-bold dol-text-2xl dol-text-primary-500 dol-m-0 dol-p-0 dol-mb-6;
   }
 
   @screen md {
     .dol-title {
-      @apply text-3xl;
+      @apply dol-text-3xl;
     }
   }
 }

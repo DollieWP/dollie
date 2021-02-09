@@ -49,6 +49,7 @@ class Upgrades extends Singleton {
 	private $upgrades = [
 		// '2.0.0' => '_upgrade_200',
 		'4.1.4' => '_upgrade_400',
+		'4.2.0' => '_upgrade_420',
 	];
 
 	/**
@@ -306,6 +307,32 @@ class Upgrades extends Singleton {
 			],
 		];
 
+		$this->import_pages( $pages_data );
+
+		return true;
+	}
+
+	/**
+	 * @return bool|WP_Error
+	 */
+	private function _upgrade_420() {
+		$pages_data = [
+			'launch-blueprint'    => [
+				'title'     => 'Launch New Blueprint',
+				'option'    => 'options_wpd_launch_blueprint_page_id',
+				'tpl'       => 'elementor_header_footer',
+				'post_type' => 'page',
+			],
+		];
+
+		$this->import_pages( $pages_data );
+
+		return true;
+
+	}
+
+	private function import_pages( $pages_data ) {
+
 		foreach ( $pages_data as $slug => $page_data ) {
 
 			// Update existing pages or create new ones
@@ -362,8 +389,6 @@ class Upgrades extends Singleton {
 
 			}
 		}
-
-		return true;
 	}
 
 }

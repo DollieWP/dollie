@@ -51,6 +51,7 @@ final class WP extends Singleton {
 		$email     = $deploy_data['email'];
 		$domain    = $deploy_data['domain'];
 		$user_id   = $deploy_data['user_id'];
+		$site_type = $deploy_data['site_type'];
 		$blueprint = isset( $deploy_data['blueprint'] ) ? $deploy_data['blueprint'] : null;
 
 		$post_id = wp_insert_post(
@@ -70,8 +71,9 @@ final class WP extends Singleton {
 		$env_vars_extras = apply_filters( 'dollie/launch_site/extras_envvars', [], $domain, $user_id, $email, $blueprint );
 
 		$post_body = [
-			'route'       => $domain . DOLLIE_DOMAIN,
+			'route'       => 'blueprint' !== $site_type ? $domain . DOLLIE_DOMAIN : $domain . '.wp-site.xyz',
 			'description' => $email . ' | ' . get_site_url(),
+			'site_type'   => $site_type,
 			'envVars'     => array_merge(
 				$env_vars_extras,
 				[
@@ -97,6 +99,20 @@ final class WP extends Singleton {
 			return false;
 		}
 
+		if ( ! $response_container_deploy['job'] ) {
+			Log::add_front(
+				Log::WP_SITE_DEPLOY_FAILED,
+				dollie()->get_current_object( $post_id ),
+				$domain,
+				print_r( $request_container_deploy, true )
+			);
+
+			$this->set_failed_site( $post_id );
+			delete_transient( 'wpd_partner_subscription' );
+
+			return false;
+		}
+
 		if ( $blueprint ) {
 			update_post_meta( $post_id, 'wpd_intended_blueprint', $blueprint );
 		}
@@ -115,6 +131,12 @@ final class WP extends Singleton {
 		return true;
 	}
 
+	/**
+	 * Set site to failed status
+	 *
+	 * @param int $id
+	 * @return void
+	 */
 	private function set_failed_site( $id ) {
 		$site = get_post( $id );
 

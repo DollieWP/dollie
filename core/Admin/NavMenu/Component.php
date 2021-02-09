@@ -540,7 +540,7 @@ class Component {
 
 			wp_enqueue_script( 'dollie-notifications' );
 
-			$footer_output = '<div class="dollie-notifications-list dol-z-500 dol-h-full dol-fixed dol-top-0 dol-right-0 dol-leading-normal dol-text-left ol-leading-4 dol-text-gray-700 dol-bg-white dol-hidden dol-rounded dol-shadow-md"' .
+			$footer_output = '<div class="transform dollie-notifications-list dol-z-500 dol-h-full dol-fixed dol-top-0 dol-right-0 dol-leading-normal dol-text-left ol-leading-4 dol-text-gray-700 dol-bg-white dol-hidden dol-rounded dol-shadow-md dol-ease-in-out dol-transition-all dol-duration-300 dol-z-30 dol-translate-x-0"' .
 			                 ' data-nonce="' . wp_create_nonce( 'dollie-notifications' ) . '"' . '>';
 
 			$footer_output .= '<div class="notif-header">' .
@@ -554,7 +554,7 @@ class Component {
 			                  '</div>' .
 			                  '<div class="dol-flex-shrink">' .
 			                  '<a class="notif-close" title="' . esc_attr__( 'Close', 'dollie' ) . '" href="#">' .
-			                  '<i class="fal fa-times-circle"></i>' .
+			                  '<i class="fas fa-times-circle"></i>' .
 			                  '</a>' .
 			                  '</div>' .
 			                  '</div>' .
@@ -573,7 +573,7 @@ class Component {
 
 			$menu_output = '<a href="#">' .
 			               '<span class="notif-icon-wrap dol-relative">' .
-			               '<i class="fal fa-bell"></i>' .
+			               '<i class="fas fa-bell"></i>' .
 			               '<span class="dollie-notifications-count notif-navigation-count">%notif_count%</span>' .
 			               '</span>' .
 			               '</a>';

@@ -1,6 +1,6 @@
 <?php $blueprint_time = get_post_meta( $post_id, 'wpd_blueprint_time', true ); ?>
 
-<h2 class="dol-title">
+<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 	<?php esc_html_e( 'Blueprints', 'dollie' ); ?>
 </h2>
 
@@ -25,7 +25,7 @@
 		'notice',
 		[
 			'type'    => 'info',
-			'icon'    => 'fal fa-question',
+			'icon'    => 'fas fa-question',
 			'title'   => __( 'Create or update your blueprint', 'dollie' ),
 			'message' => $message,
 		],
@@ -36,13 +36,13 @@
 
 <?php if ( $blueprint_time !== '' && current_user_can( 'manage_options' ) ) : ?>
 
-	<div class="dol-border dol-border-solid dol-border-ash-400 dol-rounded dol-overflow-hidden">
-		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-ash-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
-			<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-ash-800 dol-text-base md:dol-text-xl">
+	<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-widget-blueprint-settings">
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
+			<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
 				<?php esc_html_e( 'Blueprint Settings', 'dollie' ); ?>
 			</h4>
 		</div>
-		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 dol-bg-white">
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
 			<div class="dol-mb-6">
 				<?php esc_html_e( 'Now that created your blueprint you can use the options below to change how it is listed on the "Launch Site" page and wherever you use the [dollie-blueprints] shortcode.', 'dollie' ); ?>
 			</div>
@@ -66,19 +66,19 @@
 
 <div class="dol-flex dol-flex-wrap dol--mx-4 dol-mt-4">
 	<div class="dol-w-full md:dol-w-1/2 lg:dol-w-2/6 dol-p-4">
-		<div class="dol-border dol-border-solid dol-border-ash-400 dol-rounded dol-overflow-hidden">
-			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-ash-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
-				<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-ash-800 dol-text-base md:dol-text-xl">
+		<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden">
+			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
+				<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
 					<?php esc_html_e( 'Blueprint history', 'dollie' ); ?>
 				</h4>
 			</div>
-			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 dol-bg-white">
-				<?php $blueprints = dollie()->get_available_blueprints(); ?>
+			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
+				<?php $blueprints = dollie()->get_available_blueprints();?>
 				<?php if ( ! empty( $blueprints ) ) : ?>
 					<ul class="dol-list-none dol-m-0 dol-p-0">
 						<?php foreach ( $blueprints as $blueprint ) : ?>
 							<li>
-								<i class="fal fa-calendar"></i>
+								<i class="fas fa-calendar"></i>
 								<span><?php printf( __( 'Created on %1$s at %2$s.', 'dollie' ), $blueprint['date'], $blueprint['time'] ); ?></span>
 								<span><?php printf( __( 'Size %s.', 'dollie' ), $blueprint['size'] ); ?></span>
 							</li>
@@ -91,13 +91,13 @@
 		</div>
 	</div>
 	<div class="dol-w-full md:dol-w-1/2 lg:dol-w-2/6 dol-p-4">
-		<div class="dol-border dol-border-solid dol-border-ash-400 dol-rounded dol-overflow-hidden">
-			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-ash-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
-				<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-ash-800 dol-text-base md:dol-text-xl">
+		<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden">
+			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
+				<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
 					<?php esc_html_e( 'What is included?', 'dollie' ); ?>
 				</h4>
 			</div>
-			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 dol-bg-white">
+			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
 				<div class="dol-font-bold dol-mb-2">
 					<?php esc_html_e( 'We copy over:', 'dollie' ); ?>
 				</div>
@@ -111,13 +111,13 @@
 		</div>
 	</div>
 	<div class="dol-w-full md:dol-w-1/2 lg:dol-w-2/6 dol-p-4">
-		<div class="dol-border dol-border-solid dol-border-ash-400 dol-rounded dol-overflow-hidden">
-			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-ash-200 dol-border-0 dol-border-b dol-border-solid dol-border-ash-300">
-				<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-ash-800 dol-text-base md:dol-text-xl">
+		<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden">
+			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
+				<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
 					<?php esc_html_e( 'What is excluded?', 'dollie' ); ?>
 				</h4>
 			</div>
-			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 dol-bg-white">
+			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
 				<div class="dol-font-bold dol-mb-2">
 					<?php esc_html_e( 'We DO NOT copy:', 'dollie' ); ?>
 				</div>

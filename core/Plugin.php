@@ -110,6 +110,10 @@ class Plugin extends Singleton {
 
 		require_once DOLLIE_PATH . 'core/Extras/options-page-for-acf/loader.php';
 
+		//Load Color Customizer
+		require_once DOLLIE_PATH . 'core/Modules/Colors.php';
+
+
 		// Load logger.
 		if ( ! class_exists( '\WDS_Log_Post' ) ) {
 			require_once DOLLIE_PATH . 'core/Extras/wds-log-post/wds-log-post.php';
@@ -346,7 +350,7 @@ class Plugin extends Singleton {
 	public function blockquote_shortcode( $atts = [], $content = '' ) {
 		$atts = shortcode_atts(
 			[
-				'icon'  => 'fal fa-info-circle',
+				'icon'  => 'fas fa-info-circle',
 				'type'  => 'info',
 				'title' => '',
 			],
