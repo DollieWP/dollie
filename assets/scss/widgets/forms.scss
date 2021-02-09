@@ -15,7 +15,7 @@
   .acf-field textarea,
   .acf-field select {
     @apply dol-border-2 dol-border-solid dol-border-gray-400 dol-rounded;
-    @apply dol-px-3 dol-py-2 #{!important};
+    @apply dol-px-3 dol-py-2 !important;
   }
 
   .acf-form {
@@ -107,6 +107,7 @@
 
                   label {
                     @apply dol-p-4;
+                    @apply dol-bg-gray-100;
 
                     &.selected,
                     &:hover {
@@ -174,8 +175,7 @@
       position: relative;
       word-wrap: break-word;
       margin-bottom: 5px;
-      padding: 5px;
-      padding-left: 12px;
+      padding: 0;
 
       label {
         display: block;
