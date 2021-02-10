@@ -247,7 +247,7 @@ class Helpers extends Singleton {
 		}
 
 		if ( ! $deploying && ! empty( $site ) ) {
-			$screenshot = get_transient( 'wpd_container_ss' );
+			$screenshot = get_transient('wpd_container_ss_'. $post_id);
 
 			if ( ! is_array( $screenshot ) || empty( $screenshot ) || ! isset( $screenshot['desktop'] ) || ! $screenshot['desktop'] ) {
 				$screenshot = $this->container_screenshot( $site );
@@ -256,7 +256,7 @@ class Helpers extends Singleton {
 			if ( is_array( $screenshot ) && ! empty( $screenshot ) && isset( $screenshot['desktop'] ) && $screenshot['desktop'] ) {
 				$image = $screenshot['desktop'] . '?ver=' . current_time( 'timestamp' );
 
-				set_transient( 'wpd_container_ss', $screenshot, MINUTE_IN_SECONDS * 60 );
+				set_transient('wpd_container_ss_' . $post_id, $screenshot, MINUTE_IN_SECONDS * 60 );
 			}
 		}
 
