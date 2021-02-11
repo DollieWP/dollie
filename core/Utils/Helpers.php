@@ -371,10 +371,13 @@ class Helpers extends Singleton {
 	/**
 	 * @return int
 	 */
-	public function count_customer_containers() {
+	public function count_customer_containers($user_id = null) {
+		if ( $user_id === null ) {
+			$user_id = get_current_user_id();
+		}
 		$query = new WP_Query(
 			[
-				'author'        => get_current_user_id(),
+				'author'        => $user_id,
 				'post_type'     => 'container',
 				'post_per_page' => 1000,
 				'post_status'   => 'publish',

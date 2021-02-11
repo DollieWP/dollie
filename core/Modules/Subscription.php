@@ -663,7 +663,7 @@ class Subscription extends Singleton {
 			return 0;
 		}
 
-		$total_site = dollie()->count_customer_containers();
+		$total_site = dollie()->count_customer_containers(get_current_user_id());
 
 		return $subscription['max_allowed_installs'] - $total_site;
 	}
@@ -714,7 +714,7 @@ class Subscription extends Singleton {
 			return false;
 		}
 
-		$total_site = (int) dollie()->count_customer_containers();
+		$total_site = (int) dollie()->count_customer_containers(get_current_user_id());
 
 		return $this->has_subscription() && ( $subscription['max_allowed_installs'] - $total_site ) <= 0 && ! current_user_can( 'manage_options' );
 	}
