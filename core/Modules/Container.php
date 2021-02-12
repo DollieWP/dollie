@@ -25,7 +25,7 @@ class Container extends Singleton {
 	 * Container constructor.
 	 */
 	public function __construct() {
-		 parent::__construct();
+		parent::__construct();
 
 		add_action( 'init', [ $this, 'register' ], 0 );
 		add_action( 'init', [ $this, 'register_category' ], 0 );
@@ -916,7 +916,7 @@ class Container extends Singleton {
 			unset( $actions['edit'] );
 			$actions['manage_site'] = '<a href="' . get_the_permalink( $id ) . '" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __( 'Manage Site' ) . '</a>';
 			$actions['google_link'] = '<a href="' . dollie()->get_customer_login_url( $id ) . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __( 'Login to Installation' ) . '</a>';
-		} elseif ( get_post_type() === 'container')  {
+		} elseif ( get_post_type() === 'container' ) {
 			$id = $page_object->ID;
 			unset( $actions['trash'] );
 			unset( $actions['view'] );
@@ -1147,6 +1147,8 @@ class Container extends Singleton {
 			if ( ! $response_remove_domain['domain'] && ! $response_remove_domain['status'] ) {
 				update_option( 'wpd_deployment_domain', false );
 				update_option( 'deployment_domain_notice', false );
+				delete_transient( 'wpd_deployment_domain_delay' );
+				delete_option( 'wpd_deployment_delay_status' );
 			}
 		} elseif ( $domain && $domain !== $saved_domain && Helpers::instance()->is_valid_domain( $domain ) ) {
 			Api::post( Api::ROUTE_DOMAIN_ADD, [ 'name' => $domain ] );
@@ -1154,6 +1156,8 @@ class Container extends Singleton {
 			update_option( 'wpd_deployment_domain', $domain );
 			update_option( 'wpd_deployment_domain_status', false );
 			update_option( 'deployment_domain_notice', false );
+			delete_transient( 'wpd_deployment_domain_delay' );
+			delete_option( 'wpd_deployment_delay_status' );
 		}
 	}
 
@@ -1167,12 +1171,13 @@ class Container extends Singleton {
 
 		$domain        = get_option( 'wpd_deployment_domain' );
 		$domain_status = get_option( 'wpd_deployment_domain_status' );
+		$delay_status  = get_option( 'wpd_deployment_delay_status' );
 
 		if ( $domain && ! $domain_status ) {
-			if ( get_option( 'wpd_deployment_delay_status' ) && ! get_transient( 'wpd_deployment_domain_delay' ) ) {
+			if ( $delay_status && ! get_transient( 'wpd_deployment_domain_delay' ) ) {
 				update_option( 'wpd_deployment_domain_status', true );
 				delete_option( 'wpd_deployment_delay_status' );
-			} elseif ( ! get_option( 'wpd_deployment_delay_status' ) ) {
+			} elseif ( ! $delay_status ) {
 				$request_check_domain  = Api::post( Api::ROUTE_DOMAIN_CHECK );
 				$response_check_domain = Api::process_response( $request_check_domain );
 
