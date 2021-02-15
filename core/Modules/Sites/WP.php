@@ -66,6 +66,11 @@ final class WP extends Singleton {
 			]
 		);
 
+		// Mark as blueprint
+		if ( $site_type === 'blueprint' ) {
+			update_post_meta( $post_id, 'wpd_is_blueprint', 'yes' );
+		}
+
 		Container::instance()->set_status( $post_id, 'pending' );
 
 		$env_vars_extras = apply_filters( 'dollie/launch_site/extras_envvars', [], $domain, $user_id, $email, $blueprint );
@@ -135,6 +140,7 @@ final class WP extends Singleton {
 	 * Set site to failed status
 	 *
 	 * @param int $id
+	 *
 	 * @return void
 	 */
 	private function set_failed_site( $id ) {
