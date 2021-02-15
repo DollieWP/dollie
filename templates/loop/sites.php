@@ -102,8 +102,14 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 								<div class="dol-font-semibold dol-text-gray-500">
 									<?php esc_html_e('Blueprint Updated', 'dollie'); ?>
 								</div>
-								<div class="dol-font-bold ">
-									<?php echo get_post_meta(get_the_ID(), 'wpd_blueprint_time', true); ?>
+								<div class="dol-font-bold">
+									<?php if (get_post_meta(get_the_ID(), 'wpd_blueprint_time', true)) : ?>
+									<?php echo get_post_meta(get_the_ID(), 'wpd_blueprint_time', true);?>
+									<?php else : ?>
+										<a class="dol-link" href="<?php echo get_the_permalink(get_the_ID()); ?>blueprints">
+											<?php esc_html_e('Never. Update now!', 'dollie'); ?>
+										</a>
+									<?php endif; ?>
 								</div>
 							</div>
 						<?php else : ?>
@@ -119,8 +125,8 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 						<div class="dol-sites-controls">
 							<?php if (dollie()->is_blueprint(get_the_ID())) : ?>
 								<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_the_permalink(get_the_ID()); ?>blueprints">
-									<i class="fas fa-cog"></i>
-									<span class="dol-ml-1"><?php esc_html_e('Update Blueprint', 'dollie'); ?></span>
+									<i class="fas fa-sync"></i>
+									<span class="dol-ml-1"><?php esc_html_e('Update', 'dollie'); ?></span>
 								</a>
 							<?php else : ?>
 								<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo dollie()->get_site_url(get_the_ID()); ?>">
