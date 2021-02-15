@@ -483,7 +483,6 @@ class Container extends Singleton
 					'post_title' => $data['container_details']['Name']
 				);
 				wp_update_post($post_data);
-
 			}
 
 			// Now that we have our container stats get our secret key
@@ -868,22 +867,14 @@ class Container extends Singleton
 				$qv['meta_query'][] = array(
 					'relation' => 'OR',
 					array(
-						'key'   => 'wpd_blueprint_created',
-						'value' => 'yes',
-					),
-					array(
 						'key'   => 'wpd_is_blueprint',
 						'value' => 'yes',
-					),
-						array(
-						'key'     => 'wpd_installation_blueprint_title',
-						'compare' => 'EXISTS',
-					),
+					)
 				);
 			} else {
 				$qv['meta_query'][] = array(
-						'key'   => 'wpd_is_blueprint',
-						'compare' => 'NOT EXISTS'
+					'key'   => 'wpd_is_blueprint',
+					'compare' => 'NOT EXISTS'
 				);
 			}
 		}
@@ -901,7 +892,7 @@ class Container extends Singleton
 
 		foreach ($columns as $key => $title) {
 			if ($key == 'title')
-			$new['site-title'] = 'Site'; // Our New Colomn Name
+				$new['site-title'] = 'Site'; // Our New Colomn Name
 			$new[$key] = $title;
 		}
 
@@ -933,7 +924,7 @@ class Container extends Singleton
 	 */
 	public function add_container_title_actions($actions, $page_object)
 	{
-		if (get_post_type() === 'container' && empty($_GET['blueprint']) ) {
+		if (get_post_type() === 'container' && empty($_GET['blueprint'])) {
 			$id = $page_object->ID;
 			unset($actions['trash']);
 			unset($actions['view']);
@@ -941,7 +932,7 @@ class Container extends Singleton
 			unset($actions['edit']);
 			$actions['manage_site'] = '<a href="' . get_the_permalink($id) . '" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __('Manage Site') . '</a>';
 			$actions['google_link'] = '<a href="' . dollie()->get_customer_login_url($id) . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __('Login to Installation') . '</a>';
-		} elseif ( get_post_type() === 'container')  {
+		} elseif (get_post_type() === 'container') {
 			$id = $page_object->ID;
 			unset($actions['trash']);
 			unset($actions['view']);
@@ -949,7 +940,6 @@ class Container extends Singleton
 			unset($actions['edit']);
 			$actions['manage_site'] = '<a href="' . get_the_permalink($id) . '/blueprints" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __('Manage Blueprint') . '</a>';
 			$actions['google_link'] = '<a href="' . dollie()->get_customer_login_url($id) . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __('Login to Installation') . '</a>';
-
 		}
 
 		return $actions;
@@ -1133,21 +1123,36 @@ class Container extends Singleton
 		}
 
 		$container_id  = $_GET['post'];
-		$dashboard_url = get_option('options_wpd_api_dashboard_url');
 ?>
 		<br>
 		<div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
 			<div class="dollie-inner-message">
-				<div class="dollie-message-center">
-					<h3><?php esc_html_e('Notice - How To Manage This Site', 'dollie'); ?> </h3>
-					<p>
-						<?php
-						printf(
-							'We recommend managing this site on the front-end of your installation using the <a href="%s">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team.',
-							esc_url(get_the_permalink($container_id))
-						);
-						?>
-				</div>
+				<?php if (dollie()->is_blueprint($container_id)) { ?>
+
+					<div class="dollie-message-center">
+						<h3><?php esc_html_e('Notice - How To Manage & Update This Blueprint', 'dollie'); ?> </h3>
+						<p>
+							<?php
+							printf(
+								'<a href="%s">You should manage this Blueprint using the front-end of your dashboard.</a> Only use this page to take advanced actions, like stopping or removing the blueprint completely',
+								esc_url(get_the_permalink($container_id) . '/blueprints')
+							);
+							?>
+					</div>
+
+
+				<?php } else { ?>
+					<div class="dollie-message-center">
+						<h3><?php esc_html_e('Notice - How To Manage This Site', 'dollie'); ?> </h3>
+						<p>
+							<?php
+							printf(
+								'We recommend managing this site on the front-end of your installation using the <a href="%s">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team.',
+								esc_url(get_the_permalink($container_id))
+							);
+							?>
+					</div>
+				<?php } ?>
 			</div>
 		</div>
 	<?php
@@ -1342,5 +1347,3 @@ class Container extends Singleton
 		return get_post_meta($container->id, 'wpd_container_status', true);
 	}
 }
-
-
