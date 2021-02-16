@@ -624,7 +624,7 @@ body.products-active .products-wrap .products {
 .livepreview-wrap .products-wrap .products .product-list .row.active {
   -webkit-transition: all 0.5s;
   transition: all 0.5s;
-  display: block;
+  display: flex;
   opacity: 0;
 }
 
