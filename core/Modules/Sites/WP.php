@@ -421,7 +421,12 @@ final class WP extends Singleton {
 			}
 		}
 
-		Log::add_front( Log::WP_SITE_DEPLOYED, $dollie_obj, $dollie_obj->slug );
+		if ( dollie()->is_blueprint( $post_id ) ) {
+			Log::add_front( Log::WP_BLUEPRINT_DEPLOYED, $dollie_obj, $dollie_obj->slug );
+		} else {
+			Log::add_front( Log::WP_SITE_DEPLOYED, $dollie_obj, $dollie_obj->slug );
+
+		}
 	}
 
 	private function is_null_or_empty( $val ) {
