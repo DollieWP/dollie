@@ -247,7 +247,7 @@ class Helpers extends Singleton {
 		}
 
 		if ( ! $deploying && ! empty( $site ) ) {
-			$screenshot = get_transient( 'wpd_container_ss' );
+			$screenshot = get_transient('wpd_container_ss_'. $post_id);
 
 			if ( ! is_array( $screenshot ) || empty( $screenshot ) || ! isset( $screenshot['desktop'] ) || ! $screenshot['desktop'] ) {
 				$screenshot = $this->container_screenshot( $site );
@@ -256,7 +256,7 @@ class Helpers extends Singleton {
 			if ( is_array( $screenshot ) && ! empty( $screenshot ) && isset( $screenshot['desktop'] ) && $screenshot['desktop'] ) {
 				$image = $screenshot['desktop'] . '?ver=' . current_time( 'timestamp' );
 
-				set_transient( 'wpd_container_ss', $screenshot, MINUTE_IN_SECONDS * 60 );
+				set_transient('wpd_container_ss_' . $post_id, $screenshot, MINUTE_IN_SECONDS * 60 );
 			}
 		}
 
@@ -371,10 +371,13 @@ class Helpers extends Singleton {
 	/**
 	 * @return int
 	 */
-	public function count_customer_containers() {
+	public function count_customer_containers($user_id = null) {
+		if ( $user_id === null ) {
+			$user_id = get_current_user_id();
+		}
 		$query = new WP_Query(
 			[
-				'author'        => get_current_user_id(),
+				'author'        => $user_id,
 				'post_type'     => 'container',
 				'post_per_page' => 1000,
 				'post_status'   => 'publish',
@@ -446,7 +449,11 @@ class Helpers extends Singleton {
 	 * @return mixed|void
 	 */
 	public function get_launch_page_id() {
-		return (int) get_option( 'options_wpd_launch_page_id' );
+		if ( function_exists('pll_get_post') ) {
+			return (int) pll_get_post(get_option('options_wpd_launch_page_id'));
+		} else {
+			return (int) get_option('options_wpd_launch_page_id');
+		}
 	}
 
 	/**
@@ -457,10 +464,22 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * @return false|string
+	 */
+	public function get_launch_page_title()
+	{
+		return get_the_title($this->get_launch_page_id());
+	}
+
+	/**
 	 * @return mixed|void
 	 */
 	public function get_launch_blueprint_page_id() {
-		return (int) get_option( 'options_wpd_launch_blueprint_page_id' );
+		if (function_exists('pll_get_post')) {
+			return (int) pll_get_post(get_option('options_wpd_launch_blueprint_page_id'));
+		} else {
+			return (int) get_option('options_wpd_launch_blueprint_page_id');
+		}
 	}
 
 	/**
@@ -471,10 +490,22 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * @return false|string
+	 */
+	public function get_launch_blueprint_page_title()
+	{
+		return get_the_title($this->get_launch_blueprint_page_id());
+	}
+
+	/**
 	 * @return mixed|void
 	 */
 	public function get_dashboard_page_id() {
-		return (int) get_option( 'options_wpd_dashboard_page_id' );
+		if (function_exists('pll_get_post')) {
+			return (int) pll_get_post(get_option('options_wpd_dashboard_page_id'));
+		} else {
+			return (int) get_option('options_wpd_dashboard_page_id');
+		}
 	}
 
 	/**
@@ -485,17 +516,46 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * @return false|string
+	 */
+	public function get_dashboard_page_title()
+	{
+		return get_the_title($this->get_dashboard_page_id());
+	}
+
+	/**
 	 * @return mixed|void
 	 */
 	public function get_login_page_id() {
-		return (int) get_option( 'options_wpd_login_page_id' );
+		if (function_exists('pll_get_post')) {
+			return (int) pll_get_post(get_option('options_wpd_login_page_id'));
+		} else {
+			return (int) get_option('options_wpd_login_page_id');
+		}
+	}
+
+	public function get_login_page_url()
+	{
+		return get_permalink($this->get_login_page_id());
+	}
+
+	/**
+	 * @return false|string
+	 */
+	public function get_login_page_title()
+	{
+		return get_the_title($this->get_login_page_id());
 	}
 
 	/**
 	 * @return mixed|void
 	 */
 	public function get_sites_page_id() {
-		return (int) get_option( 'options_wpd_sites_page_id' );
+		if (function_exists('pll_get_post')) {
+			return (int) pll_get_post(get_option('options_wpd_sites_page_id'));
+		} else {
+			return (int) get_option('options_wpd_sites_page_id');
+		}
 	}
 
 	/**
@@ -503,6 +563,14 @@ class Helpers extends Singleton {
 	 */
 	public function get_sites_page_url() {
 		return get_permalink( $this->get_sites_page_id() );
+	}
+
+	/**
+	 * @return false|string
+	 */
+	public function get_sites_page_title()
+	{
+		return get_the_title($this->get_sites_page_id());
 	}
 
 	/**

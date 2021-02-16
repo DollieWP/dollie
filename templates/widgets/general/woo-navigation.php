@@ -9,8 +9,7 @@
 			<li class="dol-m-0">
 				<a href="<?php echo esc_url( wc_get_account_endpoint_url( $endpoint ) ); ?>"
 				   class="dol-nav-btn dol-nav-btn-secondary">
-					<span>
-                        <i class="fas fa-<?php echo esc_attr( $endpoint ); ?>"></i></span>
+					<i class="fas fa-<?php echo esc_attr( $endpoint ); ?>"></i>
 					<?php echo esc_html( $label ); ?>
 				</a>
 			</li>
