@@ -132,10 +132,11 @@ class Backups extends Singleton {
 	 * Create a backup
 	 *
 	 * @param null $container_id
+	 * @param bool $with_log
 	 *
 	 * @return bool
 	 */
-	public function make( $container_id = null ) {
+	public function make( $container_id = null, $with_log = true ) {
 		$container = dollie()->get_current_object( $container_id );
 
 		if ( $container->id === 0 ) {
@@ -145,7 +146,10 @@ class Backups extends Singleton {
 		$container_uri = dollie()->get_wp_site_data( 'uri', $container->id );
 
 		Api::process_response( Api::post( Api::ROUTE_BACKUP_CREATE, [ 'container_uri' => $container_uri ] ) );
-		Log::add_front( Log::WP_SITE_BACKUP_STARTED, $container, $container->slug );
+
+		if ( $with_log ) {
+			Log::add_front( Log::WP_SITE_BACKUP_STARTED, $container, $container->slug );
+		}
 
 		return true;
 	}

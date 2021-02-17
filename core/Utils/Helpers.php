@@ -193,7 +193,7 @@ class Helpers extends Singleton {
 		} else {
 			// keep old functionality for fallback
 			$details = Container::instance()->get_info( $container->id );
-			$url    .= '?s5token=' . $details->Token . $location;
+			$url     .= '?s5token=' . $details->Token . $location;
 		}
 
 		return $url;
@@ -247,7 +247,7 @@ class Helpers extends Singleton {
 		}
 
 		if ( ! $deploying && ! empty( $site ) ) {
-			$screenshot = get_transient( 'wpd_container_ss' );
+			$screenshot = get_transient('wpd_container_ss_'. $post_id);
 
 			if ( ! is_array( $screenshot ) || empty( $screenshot ) || ! isset( $screenshot['desktop'] ) || ! $screenshot['desktop'] ) {
 				$screenshot = $this->container_screenshot( $site );
@@ -256,7 +256,7 @@ class Helpers extends Singleton {
 			if ( is_array( $screenshot ) && ! empty( $screenshot ) && isset( $screenshot['desktop'] ) && $screenshot['desktop'] ) {
 				$image = $screenshot['desktop'] . '?ver=' . current_time( 'timestamp' );
 
-				set_transient( 'wpd_container_ss', $screenshot, MINUTE_IN_SECONDS * 60 );
+				set_transient('wpd_container_ss_' . $post_id, $screenshot, MINUTE_IN_SECONDS * 60 );
 			}
 		}
 
@@ -371,10 +371,13 @@ class Helpers extends Singleton {
 	/**
 	 * @return int
 	 */
-	public function count_customer_containers() {
+	public function count_customer_containers($user_id = null) {
+		if ( $user_id === null ) {
+			$user_id = get_current_user_id();
+		}
 		$query = new WP_Query(
 			[
-				'author'        => get_current_user_id(),
+				'author'        => $user_id,
 				'post_type'     => 'container',
 				'post_per_page' => 1000,
 				'post_status'   => 'publish',
@@ -446,7 +449,11 @@ class Helpers extends Singleton {
 	 * @return mixed|void
 	 */
 	public function get_launch_page_id() {
-		return (int) get_option( 'options_wpd_launch_page_id' );
+		if ( function_exists('pll_get_post') ) {
+			return (int) pll_get_post(get_option('options_wpd_launch_page_id'));
+		} else {
+			return (int) get_option('options_wpd_launch_page_id');
+		}
 	}
 
 	/**
@@ -457,10 +464,22 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * @return false|string
+	 */
+	public function get_launch_page_title()
+	{
+		return get_the_title($this->get_launch_page_id());
+	}
+
+	/**
 	 * @return mixed|void
 	 */
 	public function get_launch_blueprint_page_id() {
-		return (int) get_option( 'options_wpd_launch_blueprint_page_id' );
+		if (function_exists('pll_get_post')) {
+			return (int) pll_get_post(get_option('options_wpd_launch_blueprint_page_id'));
+		} else {
+			return (int) get_option('options_wpd_launch_blueprint_page_id');
+		}
 	}
 
 	/**
@@ -471,10 +490,22 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * @return false|string
+	 */
+	public function get_launch_blueprint_page_title()
+	{
+		return get_the_title($this->get_launch_blueprint_page_id());
+	}
+
+	/**
 	 * @return mixed|void
 	 */
 	public function get_dashboard_page_id() {
-		return (int) get_option( 'options_wpd_dashboard_page_id' );
+		if (function_exists('pll_get_post')) {
+			return (int) pll_get_post(get_option('options_wpd_dashboard_page_id'));
+		} else {
+			return (int) get_option('options_wpd_dashboard_page_id');
+		}
 	}
 
 	/**
@@ -485,17 +516,46 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * @return false|string
+	 */
+	public function get_dashboard_page_title()
+	{
+		return get_the_title($this->get_dashboard_page_id());
+	}
+
+	/**
 	 * @return mixed|void
 	 */
 	public function get_login_page_id() {
-		return (int) get_option( 'options_wpd_login_page_id' );
+		if (function_exists('pll_get_post')) {
+			return (int) pll_get_post(get_option('options_wpd_login_page_id'));
+		} else {
+			return (int) get_option('options_wpd_login_page_id');
+		}
+	}
+
+	public function get_login_page_url()
+	{
+		return get_permalink($this->get_login_page_id());
+	}
+
+	/**
+	 * @return false|string
+	 */
+	public function get_login_page_title()
+	{
+		return get_the_title($this->get_login_page_id());
 	}
 
 	/**
 	 * @return mixed|void
 	 */
 	public function get_sites_page_id() {
-		return (int) get_option( 'options_wpd_sites_page_id' );
+		if (function_exists('pll_get_post')) {
+			return (int) pll_get_post(get_option('options_wpd_sites_page_id'));
+		} else {
+			return (int) get_option('options_wpd_sites_page_id');
+		}
 	}
 
 	/**
@@ -503,6 +563,14 @@ class Helpers extends Singleton {
 	 */
 	public function get_sites_page_url() {
 		return get_permalink( $this->get_sites_page_id() );
+	}
+
+	/**
+	 * @return false|string
+	 */
+	public function get_sites_page_title()
+	{
+		return get_the_title($this->get_sites_page_id());
 	}
 
 	/**
@@ -514,7 +582,7 @@ class Helpers extends Singleton {
 
 	/**
 	 * @param $site_id
-	 * @param string  $page
+	 * @param string $page
 	 *
 	 * @return string
 	 */
@@ -533,33 +601,33 @@ class Helpers extends Singleton {
 	 */
 	public function could_not_connect_message() {
 		?>
-		<div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden">
-			<div class="dol-flex dol-items-center dol-bg-red-600">
-				<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-red-700 dol-flex dol-items-center dol-justify-center">
-					<i class="fas fa-exclamation-circle dol-text-white dol-text-2xl"></i>
-				</div>
-				<h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
+        <div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden">
+            <div class="dol-flex dol-items-center dol-bg-red-600">
+                <div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-red-700 dol-flex dol-items-center dol-justify-center">
+                    <i class="fas fa-exclamation-circle dol-text-white dol-text-2xl"></i>
+                </div>
+                <h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
 					<?php esc_html_e( 'Sorry, we could not retrieve your site details', 'dollie' ); ?>
-				</h4>
-			</div>
-			<div class="dol-px-4 dol-py-2 lg:dol-px-8 lg:dol-py-6 dol-bg-gray-100">
-				<div class="dol-mb-4">
+                </h4>
+            </div>
+            <div class="dol-px-4 dol-py-2 lg:dol-px-8 lg:dol-py-6 dol-bg-gray-100">
+                <div class="dol-mb-4">
 					<?php esc_html_e( 'We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error.', 'dollie' ); ?>
-				</div>
+                </div>
 
-				<div>
-					<a href="<?php echo esc_url( get_permalink() . '?get-details' ); ?>"
-					   class="dol-text-sm dol-text-white hover:dol-text-white dol-inline-block dol-px-4 dol-py-2 dol-bg-gray-800 hover:dol-bg-gray-900 dol-rounded">
+                <div>
+                    <a href="<?php echo esc_url( get_permalink() . '?get-details' ); ?>"
+                       class="dol-text-sm dol-text-white hover:dol-text-white dol-inline-block dol-px-4 dol-py-2 dol-bg-gray-800 hover:dol-bg-gray-900 dol-rounded">
 						<?php esc_html_e( 'Retry', 'dollie' ); ?>
-					</a>
+                    </a>
 
-					<a href="<?php echo esc_url( get_site_url() . '/support' ); ?>"
-					   class="dol-text-sm dol-text-white hover:dol-text-white dol-inline-block dol-px-4 dol-py-2 dol-bg-gray-500 hover:dol-bg-gray-600 dol-rounded">
+                    <a href="<?php echo esc_url( get_site_url() . '/support' ); ?>"
+                       class="dol-text-sm dol-text-white hover:dol-text-white dol-inline-block dol-px-4 dol-py-2 dol-bg-gray-500 hover:dol-bg-gray-600 dol-rounded">
 						<?php esc_html_e( 'Create a support ticket', 'dollie' ); ?>
-					</a>
-				</div>
-			</div>
-		</div>
+                    </a>
+                </div>
+            </div>
+        </div>
 		<?php
 	}
 
@@ -718,7 +786,7 @@ class Helpers extends Singleton {
 	 * @param $url
 	 * @param $transient_id
 	 * @param $user_auth
-	 * @param null         $user_pass
+	 * @param null $user_pass
 	 *
 	 * @return mixed
 	 */
@@ -728,7 +796,7 @@ class Helpers extends Singleton {
 
 	/**
 	 * @param $container_uri
-	 * @param bool          $regenerate
+	 * @param bool $regenerate
 	 *
 	 * @return mixed
 	 */
@@ -842,7 +910,7 @@ class Helpers extends Singleton {
 	/**
 	 * @param $needle
 	 * @param $haystack
-	 * @param bool     $strict
+	 * @param bool $strict
 	 *
 	 * @return bool
 	 */
@@ -952,6 +1020,7 @@ class Helpers extends Singleton {
 				return true;
 			}
 		}
+
 		return false;
 
 	}
@@ -961,14 +1030,10 @@ class Helpers extends Singleton {
 	 *
 	 * @return bool
 	 */
-	public function is_blueprint($id)
-	{
-		$blueprint = get_post_meta($id, 'wpd_is_blueprint', true);
+	public function is_blueprint( $id ) {
+		$blueprint = get_post_meta( $id, 'wpd_is_blueprint', true );
 
-		if ( $blueprint == 'yes') {
-			return true;
-		}
-		return false;
+		return $blueprint === 'yes';
 	}
 
 	/**
@@ -1034,8 +1099,8 @@ class Helpers extends Singleton {
 		}
 
 		$elementor_builder = \Elementor\Plugin::instance()->editor->is_edit_mode()
-							 || \Elementor\Plugin::instance()->preview->is_preview()
-							 || isset( $_GET['elementor_library'] );
+		                     || \Elementor\Plugin::instance()->preview->is_preview()
+		                     || isset( $_GET['elementor_library'] );
 
 		if ( $elementor_builder ) {
 

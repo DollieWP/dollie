@@ -20,7 +20,7 @@ class SiteRemoteInfo extends Tag {
 
 		//Add custom items
 		$this->wpd_data['site_data']["Name"] = get_post_meta($current_id, 'wpd_installation_name', true);
-		$this->wpd_data['customer_data']["Customer - Total Sites Launched"] = dollie()->count_customer_containers();
+		$this->wpd_data['customer_data']["Customer - Total Sites Launched"] = dollie()->count_customer_containers(get_current_user_id());
 		$this->wpd_data['customer_data']["Customer Subscription - Sites Available"] = dollie()->sites_available();
 		$this->wpd_data['customer_data']["Customer Subscription - Storage Available"] = dollie()->storage_available();
 

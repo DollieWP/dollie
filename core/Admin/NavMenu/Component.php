@@ -40,7 +40,7 @@ class Component {
 		}
 
 		add_action( 'load-nav-menus.php', [ $this, 'wp_nav_menu_meta_box' ] );
-		add_filter('get_user_option_metaboxhidden_nav-menus', [$this, 'wp_nav_menu_meta_box_always_show'], 10, 3);
+		add_filter( 'get_user_option_metaboxhidden_nav-menus', [ $this, 'wp_nav_menu_meta_box_always_show' ], 10, 3 );
 		add_filter( 'wp_setup_nav_menu_item', [ $this, 'setup_nav_menu_item' ], 10, 1 );
 
 		add_filter( 'walker_nav_menu_start_el', [ $this, 'nav_notifications' ], 10, 4 );
@@ -81,10 +81,11 @@ class Component {
 	/**
 	 *  Always show the Dollie Metabox.
 	 */
-	public function wp_nav_menu_meta_box_always_show($result, $option, $user)
-	{
-		if (in_array('add-dollie-menu', $result))
-			$result = array_diff($result, array('add-dollie-menu'));
+	public function wp_nav_menu_meta_box_always_show( $result, $option, $user ) {
+		if ( in_array( 'add-dollie-menu', $result ) ) {
+			$result = array_diff( $result, array( 'add-dollie-menu' ) );
+		}
+
 		return $result;
 	}
 
@@ -505,9 +506,23 @@ class Component {
 				                human_time_diff( strtotime( $notification->post_date ) ) . ' ago' .
 				                '</div>' .
 				                '</div>';
+
+				$link_output = '';
+				if ( $site_id && isset( $log['link'] ) && $log['link'] ) {
+					$link      = get_permalink( $site_id );
+					$link_text = esc_html__( 'Go to site', 'dollie' );
+
+					if ( dollie()->is_blueprint( $site_id ) ) {
+						$link      .= trailingslashit( $link ) . 'blueprints';
+						$link_text = esc_html__( 'Setup blueprint', 'dollie' );
+					}
+
+					$link_output = '<br><a href="' . $link . '">' . $link_text . '</a>';
+				}
+
 				$item_output .= '<div class="notification-body dol-text-gray-600 dol-mt-1">' .
 				                esc_html( $log['content'] ) .
-				                ( $site_id && isset( $log['link'] ) && $log['link'] ? '<br> <a href="' . get_permalink( $site_id ) . '">' . esc_html__( 'Go to site', 'dollie' ) . '</a>' : '' ) .
+				                $link_output .
 				                '</div>';
 				$item_output .= '</div>';
 

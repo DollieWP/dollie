@@ -15,7 +15,7 @@
   .acf-field textarea,
   .acf-field select {
     @apply dol-border-2 dol-border-solid dol-border-gray-400 dol-rounded;
-    @apply dol-px-3 dol-py-2 !important;
+    @apply dol-px-3 dol-py-2 #{!important};
   }
 
   .acf-form {

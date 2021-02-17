@@ -1,18 +1,14 @@
 <div class="dol-my-6">
 	<?php
+
+	$container = get_post( get_the_ID() );
 	\Dollie\Core\Utils\Tpl::load(
 		'notice',
 		[
 			'type'    => 'info',
 			'icon'    => 'fas fa-question',
-			'title'   => __( 'Delete sites as Site Administrator', 'dollie' ),
-			'message' => __( 'Please be aware that there might be a slight delay before the site is completely undeployed from your Dollie infrastructure. This is to ensure accidental deletion of sites by you or your customers.', 'dollie' ),
-			'links'   => [
-				[
-					'title' => __( 'Learn more', 'dollie' ),
-					'url'   => 'https://partners.getdollie.com/redirect=knowledge-base/how-can-i-delete-sites-as-a-dollie-administrator/',
-				],
-			],
+			'title'   => __( 'Delete site', 'dollie' ),
+			'message' => sprintf( __( 'You are about to completely remove <strong>%s</strong> site. Please be aware that the site will be deleted from our infrastructure and can\'t be recovered.', 'dollie' ), $container->post_name ),
 		],
 		true
 	);

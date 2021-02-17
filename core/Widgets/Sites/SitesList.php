@@ -114,6 +114,10 @@ class SitesList extends \Elementor\Widget_Base {
 			$args['author'] = get_current_user_id();
 		}
 
+		if (isset($_GET['customer']) && $_GET['customer']) {
+			$args['author'] = intval($_GET['customer']);
+		}
+
 		$sites = new WP_Query( $args );
 
 		$view_type = isset( $_GET['list_type'] ) && in_array(

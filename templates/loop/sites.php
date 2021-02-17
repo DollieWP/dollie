@@ -53,8 +53,8 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 				];
 
 				?>
-				<div class="dol-sites-item <?php echo esc_attr($list_item_type); ?>">
-					<div class="dol-sites-item-inner <?php do_action('dol_add_widget_classes'); ?> dol-divide-y dol-divide-gray-200">
+				<div class="dol-sites-item <?php echo esc_attr($list_item_type); ?> <?php if (dollie()->is_blueprint(get_the_ID())) : ?>dol-blueprint-site<?php endif; ?>">
+					<div class="dol-sites-item-inner <?php do_action('dol_add_widget_classes'); ?> dol-divide-y dol-divide-gray-200 ">
 						<div class="dol-sites-image dol-relative">
 							<div class="dol-sites-image-box">
 								<?php echo dollie()->get_site_screenshot(get_the_ID()); ?>
@@ -97,20 +97,43 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 								<?php printf(__('Version %s', 'dollie'), $data['wp_version']); ?>
 							</div>
 						</div>
-						<div class="dol-sites-client dol-cursor-default dol-text-sm">
-							<div class="dol-font-semibold dol-text-gray-500">
-								<?php esc_html_e('Client', 'dollie'); ?>
+						<?php if (dollie()->is_blueprint(get_the_ID())) : ?>
+							<div class="dol-sites-client dol-cursor-default dol-text-sm">
+								<div class="dol-font-semibold dol-text-gray-500">
+									<?php esc_html_e('Blueprint Updated', 'dollie'); ?>
+								</div>
+								<div class="dol-font-bold">
+									<?php if (get_post_meta(get_the_ID(), 'wpd_blueprint_time', true)) : ?>
+									<?php echo get_post_meta(get_the_ID(), 'wpd_blueprint_time', true);?>
+									<?php else : ?>
+										<a class="dol-link" href="<?php echo get_the_permalink(get_the_ID()); ?>blueprints">
+											<?php esc_html_e('Never. Update now!', 'dollie'); ?>
+										</a>
+									<?php endif; ?>
+								</div>
 							</div>
-							<div class="dol-font-bold ">
-								<?php echo get_the_author(); ?>
+						<?php else : ?>
+							<div class="dol-sites-client dol-cursor-default dol-text-sm">
+								<div class="dol-font-semibold dol-text-gray-500">
+									<?php esc_html_e('Customer', 'dollie'); ?>
+								</div>
+								<div class="dol-font-bold ">
+									<?php echo get_the_author(); ?>
+								</div>
 							</div>
-						</div>
+						<?php endif; ?>
 						<div class="dol-sites-controls">
-							<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo dollie()->get_site_url(get_the_ID()); ?>">
-								<i class="fas fa-cog"></i>
-								<span class="dol-ml-1"><?php esc_html_e('Manage', 'dollie'); ?></span>
-							</a>
-
+							<?php if (dollie()->is_blueprint(get_the_ID())) : ?>
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_the_permalink(get_the_ID()); ?>blueprints">
+									<i class="fas fa-sync"></i>
+									<span class="dol-ml-1"><?php esc_html_e('Update', 'dollie'); ?></span>
+								</a>
+							<?php else : ?>
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo dollie()->get_site_url(get_the_ID()); ?>">
+									<i class="fas fa-cog"></i>
+									<span class="dol-ml-1"><?php esc_html_e('Manage', 'dollie'); ?></span>
+								</a>
+							<?php endif; ?>
 
 							<?php
 							$login_link = dollie()->get_customer_login_url(get_the_ID());

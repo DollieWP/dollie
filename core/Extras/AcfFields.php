@@ -11,7 +11,6 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 				'instructions'      => __('Set this to "No" if you would like to (temporary) make this Blueprint unavailable', 'dollie'),
 				'name'              => 'wpd_is_blueprint',
 				'type'              => 'radio',
-				'instructions'      => '',
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(

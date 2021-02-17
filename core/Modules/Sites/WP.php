@@ -66,6 +66,11 @@ final class WP extends Singleton {
 			]
 		);
 
+		// Mark as blueprint
+		if ( $site_type === 'blueprint' ) {
+			update_post_meta( $post_id, 'wpd_is_blueprint', 'yes' );
+		}
+
 		Container::instance()->set_status( $post_id, 'pending' );
 
 		$env_vars_extras = apply_filters( 'dollie/launch_site/extras_envvars', [], $domain, $user_id, $email, $blueprint );
@@ -135,6 +140,7 @@ final class WP extends Singleton {
 	 * Set site to failed status
 	 *
 	 * @param int $id
+	 *
 	 * @return void
 	 */
 	private function set_failed_site( $id ) {
@@ -415,7 +421,12 @@ final class WP extends Singleton {
 			}
 		}
 
-		Log::add_front( Log::WP_SITE_DEPLOYED, $dollie_obj, $dollie_obj->slug );
+		if ( dollie()->is_blueprint( $post_id ) ) {
+			Log::add_front( Log::WP_BLUEPRINT_DEPLOYED, $dollie_obj, $dollie_obj->slug );
+		} else {
+			Log::add_front( Log::WP_SITE_DEPLOYED, $dollie_obj, $dollie_obj->slug );
+
+		}
 	}
 
 	private function is_null_or_empty( $val ) {

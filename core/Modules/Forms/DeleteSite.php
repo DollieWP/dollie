@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Log;
+use Dollie\Core\Modules\Backups;
 use Dollie\Core\Modules\Container;
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Singleton;
@@ -36,6 +37,7 @@ class DeleteSite extends Singleton {
 	 * Init ACF
 	 */
 	public function acf_init() {
+
 		// Form args
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
@@ -52,16 +54,15 @@ class DeleteSite extends Singleton {
 	 * @param $args
 	 */
 	public function submission_callback( $form, $fields, $args ) {
+
 		$container = Forms::get_form_container();
 
-		Log::add_front( Log::WP_SITE_DELETED, $container, $container->slug );
-
-		$trigger_date = mktime( 0, 0, 0, date( 'm' ), date( 'd' ) + - 2, date( 'Y' ) );
-
-		update_post_meta( $container->id, 'wpd_stop_container_at', $trigger_date, true );
-
-		Container::instance()->trigger( 'stop', $container->id );
 		Container::instance()->remove_domain( $container->id );
+		Backups::instance()->make( $container->id, false );
+		Container::instance()->trigger( 'undeploy', $container->id );
+
+		wp_delete_post( $container->id, true );
+
 	}
 
 	/**
