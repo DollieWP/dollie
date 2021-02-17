@@ -862,6 +862,8 @@ class Container extends Singleton {
 	 * Add a new column to show more info about sites.
 	 *
 	 * @param $columns
+	 *
+	 * @return array
 	 */
 	public function replace_container_title_column( $columns ) {
 
