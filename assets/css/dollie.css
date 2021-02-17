@@ -176,7 +176,7 @@ select {
 }
 
 .dol-nav-btn:hover, .dol-nav-btn.dol-nav-active {
-  color: var(--primary);
+  color: var(--d-primary);
 }
 
 .dol-space-y-1 > :not([hidden]) ~ :not([hidden]) {
@@ -312,83 +312,83 @@ select {
 }
 
 .dol-bg-primary {
-  background-color: var(--primary);
+  background-color: var(--d-primary);
 }
 
 .dol-bg-primary-100 {
-  background-color: var(--primary-100);
+  background-color: var(--d-primary-100);
 }
 
 .dol-bg-primary-200 {
-  background-color: var(--primary-200);
+  background-color: var(--d-primary-200);
 }
 
 .dol-bg-primary-300 {
-  background-color: var(--primary-300);
+  background-color: var(--d-primary-300);
 }
 
 .dol-bg-primary-400 {
-  background-color: var(--primary-400);
+  background-color: var(--d-primary-400);
 }
 
 .dol-bg-primary-500 {
-  background-color: var(--primary-500);
+  background-color: var(--d-primary-500);
 }
 
 .dol-bg-primary-600 {
-  background-color: var(--primary-600);
+  background-color: var(--d-primary-600);
 }
 
 .dol-bg-primary-700 {
-  background-color: var(--primary-700);
+  background-color: var(--d-primary-700);
 }
 
 .dol-bg-primary-800 {
-  background-color: var(--primary-800);
+  background-color: var(--d-primary-800);
 }
 
 .dol-bg-primary-900 {
-  background-color: var(--primary-900);
+  background-color: var(--d-primary-900);
 }
 
 .dol-bg-secondary {
-  background-color: var(--secondary);
+  background-color: var(--d-secondary);
 }
 
 .dol-bg-secondary-100 {
-  background-color: var(--secondary-100);
+  background-color: var(--d-secondary-100);
 }
 
 .dol-bg-secondary-200 {
-  background-color: var(--secondary-200);
+  background-color: var(--d-secondary-200);
 }
 
 .dol-bg-secondary-300 {
-  background-color: var(--secondary-300);
+  background-color: var(--d-secondary-300);
 }
 
 .dol-bg-secondary-400 {
-  background-color: var(--secondary-400);
+  background-color: var(--d-secondary-400);
 }
 
 .dol-bg-secondary-500 {
-  background-color: var(--secondary-500);
+  background-color: var(--d-secondary-500);
 }
 
 .dol-bg-secondary-600 {
-  background-color: var(--secondary-600);
+  background-color: var(--d-secondary-600);
 }
 
 .dol-bg-secondary-700 {
-  background-color: var(--secondary-700);
+  background-color: var(--d-secondary-700);
 }
 
 .dol-bg-secondary-800 {
-  background-color: var(--secondary-800);
+  background-color: var(--d-secondary-800);
 }
 
 .dol-bg-secondary-900 {
-  background-color: var(--secondary-900);
+  background-color: var(--d-secondary-900);
 }
 
 .hover\:dol-bg-gray-50:hover {
@@ -402,31 +402,31 @@ select {
 }
 
 .hover\:dol-bg-primary:hover {
-  background-color: var(--primary);
+  background-color: var(--d-primary);
 }
 
 .hover\:dol-bg-primary-100:hover {
-  background-color: var(--primary-100);
+  background-color: var(--d-primary-100);
 }
 
 .hover\:dol-bg-primary-300:hover {
-  background-color: var(--primary-300);
+  background-color: var(--d-primary-300);
 }
 
 .hover\:dol-bg-primary-600:hover {
-  background-color: var(--primary-600);
+  background-color: var(--d-primary-600);
 }
 
 .hover\:dol-bg-secondary:hover {
-  background-color: var(--secondary);
+  background-color: var(--d-secondary);
 }
 
 .hover\:dol-bg-secondary-600:hover {
-  background-color: var(--secondary-600);
+  background-color: var(--d-secondary-600);
 }
 
 .hover\:dol-bg-secondary-700:hover {
-  background-color: var(--secondary-700);
+  background-color: var(--d-secondary-700);
 }
 
 .dol-dark .dark\:dol-bg-gray-900 {
@@ -435,7 +435,7 @@ select {
 }
 
 .dol-dark .dark\:dol-bg-secondary-700 {
-  background-color: var(--secondary-700);
+  background-color: var(--d-secondary-700);
 }
 
 .dol-border-transparent {
@@ -448,15 +448,15 @@ select {
 }
 
 .dol-border-primary-100 {
-  border-color: var(--primary-100);
+  border-color: var(--d-primary-100);
 }
 
 .dol-border-primary-200 {
-  border-color: var(--primary-200);
+  border-color: var(--d-primary-200);
 }
 
 .dol-border-primary-700 {
-  border-color: var(--primary-700);
+  border-color: var(--d-primary-700);
 }
 
 .focus\:dol-border-transparent:focus {
@@ -1231,7 +1231,7 @@ select {
 }
 
 .focus\:dol-ring-primary-500:focus {
-  --tw-ring-color: var(--primary-500);
+  --tw-ring-color: var(--d-primary-500);
 }
 
 .dol-ring-opacity-5 {
@@ -1306,83 +1306,83 @@ select {
 }
 
 .dol-text-primary {
-  color: var(--primary);
+  color: var(--d-primary);
 }
 
 .dol-text-primary-100 {
-  color: var(--primary-100);
+  color: var(--d-primary-100);
 }
 
 .dol-text-primary-200 {
-  color: var(--primary-200);
+  color: var(--d-primary-200);
 }
 
 .dol-text-primary-300 {
-  color: var(--primary-300);
+  color: var(--d-primary-300);
 }
 
 .dol-text-primary-400 {
-  color: var(--primary-400);
+  color: var(--d-primary-400);
 }
 
 .dol-text-primary-500 {
-  color: var(--primary-500);
+  color: var(--d-primary-500);
 }
 
 .dol-text-primary-600 {
-  color: var(--primary-600);
+  color: var(--d-primary-600);
 }
 
 .dol-text-primary-700 {
-  color: var(--primary-700);
+  color: var(--d-primary-700);
 }
 
 .dol-text-primary-800 {
-  color: var(--primary-800);
+  color: var(--d-primary-800);
 }
 
 .dol-text-primary-900 {
-  color: var(--primary-900);
+  color: var(--d-primary-900);
 }
 
 .dol-text-secondary {
-  color: var(--secondary);
+  color: var(--d-secondary);
 }
 
 .dol-text-secondary-100 {
-  color: var(--secondary-100);
+  color: var(--d-secondary-100);
 }
 
 .dol-text-secondary-200 {
-  color: var(--secondary-200);
+  color: var(--d-secondary-200);
 }
 
 .dol-text-secondary-300 {
-  color: var(--secondary-300);
+  color: var(--d-secondary-300);
 }
 
 .dol-text-secondary-400 {
-  color: var(--secondary-400);
+  color: var(--d-secondary-400);
 }
 
 .dol-text-secondary-500 {
-  color: var(--secondary-500);
+  color: var(--d-secondary-500);
 }
 
 .dol-text-secondary-600 {
-  color: var(--secondary-600);
+  color: var(--d-secondary-600);
 }
 
 .dol-text-secondary-700 {
-  color: var(--secondary-700);
+  color: var(--d-secondary-700);
 }
 
 .dol-text-secondary-800 {
-  color: var(--secondary-800);
+  color: var(--d-secondary-800);
 }
 
 .dol-text-secondary-900 {
-  color: var(--secondary-900);
+  color: var(--d-secondary-900);
 }
 
 .dol-group:hover .group-hover\:dol-text-gray-500 {
@@ -1421,23 +1421,23 @@ select {
 }
 
 .hover\:dol-text-primary-300:hover {
-  color: var(--primary-300);
+  color: var(--d-primary-300);
 }
 
 .hover\:dol-text-primary-700:hover {
-  color: var(--primary-700);
+  color: var(--d-primary-700);
 }
 
 .hover\:dol-text-primary-800:hover {
-  color: var(--primary-800);
+  color: var(--d-primary-800);
 }
 
 .hover\:dol-text-secondary-600:hover {
-  color: var(--secondary-600);
+  color: var(--d-secondary-600);
 }
 
 .hover\:dol-text-secondary-700:hover {
-  color: var(--secondary-700);
+  color: var(--d-secondary-700);
 }
 
 .dol-dark .dark\:dol-text-gray-200 {
@@ -1806,11 +1806,11 @@ select {
 
 @media (min-width: 768px) {
   .md\:dol-bg-secondary {
-    background-color: var(--secondary);
+    background-color: var(--d-secondary);
   }
 
   .md\:hover\:dol-bg-secondary-600:hover {
-    background-color: var(--secondary-600);
+    background-color: var(--d-secondary-600);
   }
 
   .md\:dol-inline-block {
@@ -2549,7 +2549,7 @@ input[type="text"].dol-search-input:focus {
 }
 
 .dollie-notifications-count:not(:empty) {
-  dol-border-radius: 50%;
+  border-radius: 50%;
   background: red;
   color: #fff;
   padding: 2px;
@@ -11720,7 +11720,7 @@ readers do not read off random characters that represent icons */
 }
 
 .dol-bg-gradient-primary {
-  background: linear-gradient(var(--primary-700), var(--primary));
+  background: linear-gradient(var(--d-primary-700), var(--d-primary));
 }
 
 .dol-sidebar-widget .dol-widget-site-sidebar,

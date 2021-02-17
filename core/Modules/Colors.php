@@ -165,30 +165,30 @@ function dol_customizer_css() {
 
 	echo '<style>
 	:root {
-	--primary-color: ' . $P_H . ', ' . substr( $P_S, 2 ) . '%;
-	--primary-color-l: ' . substr( $P_L, 2 ) . '%;
-	--primary: hsl(var(--primary-color), calc(var(--primary-color-l) * 1));
-	--primary-100: hsl(var(--primary-color), calc(var(--primary-color-l) * 1.85));
-	--primary-200: hsl(var(--primary-color), calc(var(--primary-color-l) * 1.65));
-	--primary-300: hsl(var(--primary-color), calc(var(--primary-color-l) * 1.45));
-	--primary-400: hsl(var(--primary-color), calc(var(--primary-color-l) * 1.25));
-	--primary-500: hsl(var(--primary-color), calc(var(--primary-color-l) * 0.9));
-	--primary-600: hsl(var(--primary-color), calc(var(--primary-color-l) * 0.8));
-	--primary-700: hsl(var(--primary-color), calc(var(--primary-color-l) * 0.6));
-	--primary-800: hsl(var(--primary-color), calc(var(--primary-color-l) * 0.4));
-	--primary-900: hsl(var(--primary-color), calc(var(--primary-color-l) * 0.2));
-	--secondary-color: ' . $S_H . ', ' . substr( $S_S, 2 ) . '%;
-	--secondary-color-l: ' . substr( $S_L, 2 ) . '%;
-	--secondary: hsl(var(--secondary-color), calc(var(--secondary-color-l) * 1));
-	--secondary-100: hsl(var(--secondary-color), calc(var(--secondary-color-l) * 1.85));
-	--secondary-200: hsl(var(--secondary-color), calc(var(--secondary-color-l) * 1.65));
-	--secondary-300: hsl(var(--secondary-color), calc(var(--secondary-color-l) * 1.45));
-	--secondary-400: hsl(var(--secondary-color), calc(var(--secondary-color-l) * 1.25));
-	--secondary-500: hsl(var(--secondary-color), calc(var(--secondary-color-l) * 0.9));
-	--secondary-600: hsl(var(--secondary-color), calc(var(--secondary-color-l) * 0.8));
-	--secondary-700: hsl(var(--secondary-color), calc(var(--secondary-color-l) * 0.6));
-	--secondary-800: hsl(var(--secondary-color), calc(var(--secondary-color-l) * 0.4));
-	--secondary-900: hsl(var(--secondary-color), calc(var(--secondary-color-l) * 0.2));
+	--d-primary-color: ' . $P_H . ', ' . substr( $P_S, 2 ) . '%;
+	--d-primary-color-l: ' . substr( $P_L, 2 ) . '%;
+	--d-primary: hsl(var(--d-primary-color), calc(var(--d-primary-color-l) * 1));
+	--d-primary-100: hsl(var(--d-primary-color), calc(var(--d-primary-color-l) * 1.85));
+	--d-primary-200: hsl(var(--d-primary-color), calc(var(--d-primary-color-l) * 1.65));
+	--d-primary-300: hsl(var(--d-primary-color), calc(var(--d-primary-color-l) * 1.45));
+	--d-primary-400: hsl(var(--d-primary-color), calc(var(--d-primary-color-l) * 1.25));
+	--d-primary-500: hsl(var(--d-primary-color), calc(var(--d-primary-color-l) * 0.9));
+	--d-primary-600: hsl(var(--d-primary-color), calc(var(--d-primary-color-l) * 0.8));
+	--d-primary-700: hsl(var(--d-primary-color), calc(var(--d-primary-color-l) * 0.6));
+	--d-primary-800: hsl(var(--d-primary-color), calc(var(--d-primary-color-l) * 0.4));
+	--d-primary-900: hsl(var(--d-primary-color), calc(var(--d-primary-color-l) * 0.2));
+	--d-secondary-color: ' . $S_H . ', ' . substr( $S_S, 2 ) . '%;
+	--d-secondary-color-l: ' . substr( $S_L, 2 ) . '%;
+	--d-secondary: hsl(var(--d-secondary-color), calc(var(--d-secondary-color-l) * 1));
+	--d-secondary-100: hsl(var(--d-secondary-color), calc(var(--d-secondary-color-l) * 1.85));
+	--d-secondary-200: hsl(var(--d-secondary-color), calc(var(--d-secondary-color-l) * 1.65));
+	--d-secondary-300: hsl(var(--d-secondary-color), calc(var(--d-secondary-color-l) * 1.45));
+	--d-secondary-400: hsl(var(--d-secondary-color), calc(var(--d-secondary-color-l) * 1.25));
+	--d-secondary-500: hsl(var(--d-secondary-color), calc(var(--d-secondary-color-l) * 0.9));
+	--d-secondary-600: hsl(var(--d-secondary-color), calc(var(--d-secondary-color-l) * 0.8));
+	--d-secondary-700: hsl(var(--d-secondary-color), calc(var(--d-secondary-color-l) * 0.6));
+	--d-secondary-800: hsl(var(--d-secondary-color), calc(var(--d-secondary-color-l) * 0.4));
+	--d-secondary-900: hsl(var(--d-secondary-color), calc(var(--d-secondary-color-l) * 0.2));
 	}
 	</style>';
 
