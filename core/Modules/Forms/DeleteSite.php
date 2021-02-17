@@ -37,6 +37,7 @@ class DeleteSite extends Singleton {
 	 * Init ACF
 	 */
 	public function acf_init() {
+
 		// Form args
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
@@ -53,11 +54,14 @@ class DeleteSite extends Singleton {
 	 * @param $args
 	 */
 	public function submission_callback( $form, $fields, $args ) {
+
 		$container = Forms::get_form_container();
 
 		Container::instance()->remove_domain( $container->id );
 		Backups::instance()->make( $container->id, false );
 		Container::instance()->trigger( 'undeploy', $container->id );
+
+		wp_delete_post( $container->id, true );
 
 	}
 
