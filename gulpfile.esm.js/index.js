@@ -1,18 +1,16 @@
 /* eslint-env es6 */
-'use strict';
+"use strict";
 
 // External dependencies
-import {series} from 'gulp';
+import { series } from "gulp";
 
 // Internal dependencies
-import translate from './translate';
-import tailwind from './tailwind';
-import build from './build';
+import translate from "./translate";
+import tailwind from "./tailwind";
+import build from "./build";
 
 const release = series(tailwind, translate, build);
 
 export default release;
 
-export {
-    tailwind, translate
-}
+export { tailwind, translate };
