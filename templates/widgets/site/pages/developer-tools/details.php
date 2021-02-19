@@ -46,12 +46,6 @@
 					<?php printf( __( 'Password: %s', 'dollie' ), $customer_details->containerSshPassword ); ?>
 				</div>
 			</li>
-			<?php if ( isset( $_COOKIE['wordpress_user_sw_olduser_wefoster-cookie-hash'] ) || current_user_can( 'administrator' ) ) : ?>
-				<li class="dol-mt-4">
-					<div class="dol-mb-2 dol-font-bold"><?php esc_html_e( 'SSH Details', 'dollie' ); ?></div>
-					<pre class="dol-p-0 dol-m-0">ssh -l <?php echo esc_html( $customer_details->containerSshUsername ); ?> -p <?php echo $customer_details->containerSshPort; ?> <?php echo $hostname; ?><br>password: <?php echo $customer_details->containerSshPassword; ?></pre>
-				</li>
-			<?php endif; ?>
 		</ul>
 	</div>
 </div>
