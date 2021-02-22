@@ -907,16 +907,24 @@ msgstr ""
 msgid "Items list navigation"
 msgstr ""
 
-#: core/Modules/Container.php:939, templates/loop/sites.php:118
+#: core/Modules/Container.php:946, templates/loop/sites.php:118
 msgid "Customer"
 msgstr ""
 
-#: core/Modules/Container.php:1125
+#: core/Modules/Container.php:1132
 msgid "Notice - How To Manage This Site"
 msgstr ""
 
-#: core/Modules/Container.php:1112
+#: core/Modules/Container.php:1137
+msgid "We recommend managing this site on the front-end of your installation using the <a href=\"%s\">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team."
+msgstr ""
+
+#: core/Modules/Container.php:1119
 msgid "Notice - How To Manage & Update This Blueprint"
+msgstr ""
+
+#: core/Modules/Container.php:1123
+msgid "<a href=\"%s\">You should manage this Blueprint using the front-end of your dashboard.</a> Only use this page to take advanced actions, like stopping or removing the blueprint completely"
 msgstr ""
 
 #: core/Modules/ContainerFields.php:102, core/Modules/ContainerFields.php:92
@@ -1342,7 +1350,7 @@ msgid "Go to site"
 msgstr ""
 
 #: core/Admin/NavMenu/Component.php:517
-msgid "Setup blueprint"
+msgid "Go to blueprint"
 msgstr ""
 
 #: core/Admin/NavMenu/Component.php:564

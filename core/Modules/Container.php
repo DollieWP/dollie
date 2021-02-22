@@ -855,8 +855,15 @@ class Container extends Singleton {
 				);
 			} else {
 				$qv['meta_query'][] = array(
-					'key'     => 'wpd_is_blueprint',
-					'compare' => 'NOT EXISTS'
+					'relation' => 'OR',
+					[
+						'key'     => 'wpd_is_blueprint',
+						'compare' => 'NOT EXISTS'
+                    ],
+					[
+						'key'     => 'wpd_is_blueprint',
+						'value' => 'no'
+					]
 				);
 			}
 		}
@@ -1112,10 +1119,10 @@ class Container extends Singleton {
                         <h3><?php esc_html_e( 'Notice - How To Manage & Update This Blueprint', 'dollie' ); ?> </h3>
                         <p>
 							<?php
-							printf(
-								'<a href="%s">You should manage this Blueprint using the front-end of your dashboard.</a> Only use this page to take advanced actions, like stopping or removing the blueprint completely',
-								esc_url( get_the_permalink( $container_id ) . '/blueprints' )
-							);
+							echo wp_kses_post( sprintf(
+								__( '<a href="%s">You should manage this Blueprint using the front-end of your dashboard.</a> Only use this page to take advanced actions, like stopping or removing the blueprint completely', 'dollie' ),
+								esc_url( trailingslashit( get_the_permalink( $container_id ) ) . 'blueprints' )
+							) );
 							?>
                     </div>
 
@@ -1125,10 +1132,11 @@ class Container extends Singleton {
                         <h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
                         <p>
 							<?php
-							printf(
-								'We recommend managing this site on the front-end of your installation using the <a href="%s">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team.',
+							echo wp_kses_post (
+							sprintf(
+								__( 'We recommend managing this site on the front-end of your installation using the <a href="%s">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team.', 'dollie' ),
 								esc_url( get_the_permalink( $container_id ) )
-							);
+							) );
 							?>
                     </div>
 				<?php } ?>
