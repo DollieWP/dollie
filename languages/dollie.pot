@@ -171,7 +171,7 @@ msgstr ""
 msgid "The domain connected to this container."
 msgstr ""
 
-#: core/Extras/AcfFields.php:333, templates/widgets/site/pages/dashboard.php:114
+#: core/Extras/AcfFields.php:333, templates/widgets/site/pages/dashboard.php:115
 msgid "WordPress Version"
 msgstr ""
 
@@ -187,7 +187,7 @@ msgstr ""
 msgid "WP Admin Email"
 msgstr ""
 
-#: core/Extras/AcfFields.php:409, templates/widgets/site/pages/dashboard.php:84, templates/widgets/site/pages/themes.php:6
+#: core/Extras/AcfFields.php:409, templates/widgets/site/pages/dashboard.php:85, templates/widgets/site/pages/themes.php:6
 msgid "Active Theme"
 msgstr ""
 
@@ -2181,85 +2181,85 @@ msgstr ""
 msgid "All non-core folders and files outside of wp-content"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:38
+#: templates/widgets/site/pages/dashboard.php:39
 msgid "Your Installation"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:51
+#: templates/widgets/site/pages/dashboard.php:52
 msgid "Plugins Active"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:68
+#: templates/widgets/site/pages/dashboard.php:69
 msgid "%s Updates Available"
 msgid_plural "%s Updates Available"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/widgets/site/pages/dashboard.php:99
+#: templates/widgets/site/pages/dashboard.php:100
 msgid "Check for Updates"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:129
+#: templates/widgets/site/pages/dashboard.php:130
 msgid "Check Core Updates"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:146
+#: templates/widgets/site/pages/dashboard.php:147
 msgid "Backup Status"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:156
+#: templates/widgets/site/pages/dashboard.php:157
 msgid "No backups yet."
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:154
+#: templates/widgets/site/pages/dashboard.php:155
 msgid "%s Backups Available"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:166
+#: templates/widgets/site/pages/dashboard.php:167
 msgid "Runs every 24 hours"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:177
+#: templates/widgets/site/pages/dashboard.php:178
 msgid "View Backups"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:188, templates/widgets/site/pages/developer-tools.php:13
+#: templates/widgets/site/pages/dashboard.php:189, templates/widgets/site/pages/developer-tools.php:13
 msgid "Details"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:199
+#: templates/widgets/site/pages/dashboard.php:200
 msgid "%s Comments Made"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:202
+#: templates/widgets/site/pages/dashboard.php:203
 msgid "%s marked as spam"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:218
+#: templates/widgets/site/pages/dashboard.php:219
 msgid "is the site administrator email"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:233
+#: templates/widgets/site/pages/dashboard.php:234
 msgid "of Disk space is used"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:246
+#: templates/widgets/site/pages/dashboard.php:247
 msgid "%s Users"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:248
+#: templates/widgets/site/pages/dashboard.php:249
 msgid "Registered on this site"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:262
+#: templates/widgets/site/pages/dashboard.php:263
 msgid "From your blog"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:14
+#: templates/widgets/site/pages/dashboard.php:15
 msgid "Setup Wizard - Your first site was deployed successfully!"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:17
+#: templates/widgets/site/pages/dashboard.php:18
 msgid "Finally give your site a name and give it an admin account and you're all set!"
 msgstr ""
 
@@ -2547,35 +2547,31 @@ msgstr ""
 msgid "Port: %s"
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/details.php:51
-msgid "SSH Details"
-msgstr ""
-
-#: templates/widgets/site/pages/developer-tools/details.php:62
+#: templates/widgets/site/pages/developer-tools/details.php:56
 msgid "If your site is compatible with the latest version of PHP7 we recommend upgrading to the latest PHP7 version because it provides superior performance."
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/details.php:62
+#: templates/widgets/site/pages/developer-tools/details.php:56
 msgid "PHP 5.6 is not as fast as PHP7, but virtually all plugins and themes support it."
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/details.php:69
+#: templates/widgets/site/pages/developer-tools/details.php:63
 msgid "Your site is running PHP version %s"
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/details.php:104
+#: templates/widgets/site/pages/developer-tools/details.php:98
 msgid "Redis Object Caching is Enabled"
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/details.php:108
+#: templates/widgets/site/pages/developer-tools/details.php:102
 msgid "Disable Caching"
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/details.php:84
+#: templates/widgets/site/pages/developer-tools/details.php:78
 msgid "Redis Object Caching is Disabled"
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/details.php:88
+#: templates/widgets/site/pages/developer-tools/details.php:82
 msgid "Get Redis Cache"
 msgstr ""
 

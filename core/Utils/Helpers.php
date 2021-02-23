@@ -1031,9 +1031,8 @@ class Helpers extends Singleton {
 	 * @return bool
 	 */
 	public function is_blueprint( $id ) {
-		$blueprint = get_post_meta( $id, 'wpd_is_blueprint', true );
 
-		return $blueprint === 'yes';
+		return get_post_meta( $id, 'wpd_is_blueprint', true ) === 'yes';
 	}
 
 	/**
