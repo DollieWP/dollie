@@ -67,6 +67,13 @@ class Widgets extends Singleton {
 			'name'  => 'dollie-sites-list',
 		];
 
+
+		$this->widgets[] = [
+			'path'  => 'Customers/CustomersList',
+			'class' => 'Customers\CustomersList',
+			'name'  => 'dollie-customers-list',
+		];
+
 		// General & Nav Widgets
 
 		$this->widgets[] = [
