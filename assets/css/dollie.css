@@ -1018,6 +1018,11 @@ select {
   padding-right: 1.5rem;
 }
 
+.dol-py-8 {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 .dol-px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
@@ -1026,11 +1031,6 @@ select {
 .dol-px-20 {
   padding-left: 5rem;
   padding-right: 5rem;
-}
-
-.dol-py-32 {
-  padding-top: 8rem;
-  padding-bottom: 8rem;
 }
 
 .dol-py-40 {
