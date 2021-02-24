@@ -61,7 +61,7 @@ class CustomersList extends \Elementor\Widget_Base {
 		$this->add_control(
 			'customers_per_page',
 			[
-				'label'   => __( 'Customers per page', 'elementor' ),
+				'label'   => __( 'Customers per page', 'dollie' ),
 				'type'    => Controls_Manager::NUMBER,
 				'min'     => - 1,
 				'max'     => 40,
@@ -85,33 +85,36 @@ class CustomersList extends \Elementor\Widget_Base {
 			return false;
 		}
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			echo esc_html__( 'Admin access only', 'dollie' );
+		}
+
 		$settings = $this->get_settings_for_display();
 
-		$current_page = get_query_var('paged') ? (int) get_query_var('paged') : 1;
-		$customers_per_page = $settings['customers_per_page']; // RAISE THIS AFTER TESTING ;)
+		$current_page       = get_query_var( 'paged' ) ? (int) get_query_var( 'paged' ) : 1;
+		$customers_per_page = $settings['customers_per_page'];
 
 		$args = [
-			'number'    => '5',
-			array( 'role__in' => array( 'author','subscriber', 'customer' )),
+			array( 'role__in' => array( 'author', 'subscriber', 'customer' ) ),
 			'number' => $customers_per_page, // How many per page
-			'paged' => $current_page // What page to get, starting from 1.
+			'paged'  => $current_page // What page to get, starting from 1.
 		];
 
 		if ( isset( $_GET['search'] ) && $_GET['search'] ) {
-			$searchword = sanitize_text_field($_GET['search']);
-			$parts = explode(' ', $searchword);
+			$searchword = sanitize_text_field( $_GET['search'] );
+			$parts      = explode( ' ', $searchword );
 
-			$args['search_columns'] = array('display_name');
-			$args['search'] = "*{$searchword}*";
-			$args['orderby']  = 'display_name';
-			$args['order']    = 'ASC';
+			$args['search_columns'] = array( 'display_name' );
+			$args['search']         = "*{$searchword}*";
+			$args['orderby']        = 'display_name';
+			$args['order']          = 'ASC';
 
-			if (!empty($parts)) {
+			if ( ! empty( $parts ) ) {
 
-				$args['meta_query'] = [];
+				$args['meta_query']             = [];
 				$args['meta_query']['relation'] = 'OR';
 
-				foreach ($parts as $part) {
+				foreach ( $parts as $part ) {
 					$args['meta_query'][] = array(
 						'key'     => 'first_name',
 						'value'   => $part,
@@ -126,14 +129,10 @@ class CustomersList extends \Elementor\Widget_Base {
 			}
 		}
 
-		if ( ! current_user_can( 'manage_options' ) ) {
-			echo 'No Access';
-		}
-
 		$customers = new WP_User_Query( $args );
 
 		$total_customers = $customers->get_total(); // How many users we have in total (beyond the current page)
-		$num_pages = ceil($total_customers / $customers_per_page); // How many pages of users we will need
+		$num_pages       = ceil( $total_customers / $customers_per_page ); // How many pages of users we will need
 
 		$view_type = isset( $_GET['list_type'] ) && in_array(
 			$_GET['list_type'],
@@ -144,13 +143,17 @@ class CustomersList extends \Elementor\Widget_Base {
 		) ? sanitize_text_field( $_GET['list_type'] ) : 'list';
 
 		$data = [
-			'customers'      => $customers,
+			'customers'       => $customers,
 			'total_customers' => $total_customers,
-			'per_page' => $total_customers,
-			'pages' => $num_pages,
-			'view_type'  => $view_type,
-			'settings'   => $settings,
-			'current_page' => $current_page,
+			'per_page'        => $total_customers,
+			'pages'           => $num_pages,
+			'view_type'       => $view_type,
+			'settings'        => $settings,
+			'current_page'    => $current_page,
+			'query_data' => [
+				'permalink'    => get_the_permalink(),
+				'current_page' => get_query_var( 'paged', 1 ),
+			],
 		];
 
 		Tpl::load( 'loop/customers', $data, true );

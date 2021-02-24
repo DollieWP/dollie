@@ -115,7 +115,7 @@ class SitesList extends \Elementor\Widget_Base {
 		}
 
 		if (isset($_GET['customer']) && $_GET['customer']) {
-			$args['author'] = intval($_GET['customer']);
+			$args['author'] = (int) $_GET['customer'];
 		}
 
 		$sites = new WP_Query( $args );
