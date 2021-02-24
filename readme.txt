@@ -157,9 +157,10 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 == Changelog ==
 
 = 4.2.6 =
+* NEW: Customers list Widget
 * Blueprint fixes in admin area
 * Show correct WordPress version in site dashboard
-* Add Customers Widget
+* Fix deploying site broken layout
 
 = 4.2.5.1 =
 * Prefixed Dollie specific CSS variables for increased themes/plugins compatibility
