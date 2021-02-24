@@ -513,8 +513,8 @@ class Component {
 					$link_text = esc_html__( 'Go to site', 'dollie' );
 
 					if ( dollie()->is_blueprint( $site_id ) ) {
-						$link      .= trailingslashit( $link ) . 'blueprints';
-						$link_text = esc_html__( 'Setup blueprint', 'dollie' );
+						$link      = trailingslashit( $link ) . 'blueprints';
+						$link_text = esc_html__( 'Go to blueprint', 'dollie' );
 					}
 
 					$link_output = '<br><a href="' . $link . '">' . $link_text . '</a>';

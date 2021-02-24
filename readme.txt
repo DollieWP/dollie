@@ -2,9 +2,9 @@
 Contributors: GetDollie
 Tags: hosting, waas, wordpress hosting, sell hosting
 Requires at least: 5.0
-Tested up to: 5.6.1
+Tested up to: 5.6.2
 Requires PHP: 7.0
-Stable tag: 4.2.5.1
+Stable tag: 4.2.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -155,6 +155,12 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 6. **Developer Tools.** The Developer Tools allow you to quickly manage sites on your platform, or allow your customers to do that themselves.
 
 == Changelog ==
+
+= 4.2.6 =
+* NEW: Customers list Widget
+* Blueprint fixes in admin area
+* Show correct WordPress version in site dashboard
+* Fix deploying site broken layout
 
 = 4.2.5.1 =
 * Prefixed Dollie specific CSS variables for increased themes/plugins compatibility

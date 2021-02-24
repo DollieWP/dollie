@@ -25,7 +25,7 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 
 		wp_register_script(
 			'dollie-layout-alpine',
-			'https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js',
+			DOLLIE_ASSETS_URL . 'js/alpine.min.js',
 			[],
 			DOLLIE_VERSION,
 			true

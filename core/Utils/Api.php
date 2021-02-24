@@ -65,7 +65,7 @@ class Api extends Singleton {
 	 * @return array
 	 */
 	public static function set_custom_http_args( $r = [] ) {
-		$r['timeout'] = 10;
+		$r['timeout'] = 25;
 
 		return $r;
 	}

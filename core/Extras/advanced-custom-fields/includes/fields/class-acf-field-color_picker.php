@@ -51,10 +51,10 @@ class acf_field_color_picker extends acf_field {
 		if( !is_admin() ) {
 			$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 			$scripts = wp_scripts();
-			$scripts->add( 'iris', admin_url( 'js/iris.min.js' ), array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ), '1.0.7', 1 );
-			$scripts->add( 'wp-color-picker', admin_url( "js/color-picker$suffix.js" ), array( 'iris' ), false, 1 );
+			$scripts->add( 'iris', '/wp-admin/js/iris.min.js', array( 'jquery-ui-draggable', 'jquery-ui-slider', 'jquery-touch-punch' ), '1.0.7', 1 );
+			$scripts->add( 'wp-color-picker', "/wp-admin/js/color-picker$suffix.js", array( 'iris' ), false, 1 );
 			
-			// Handle localisation across mult iple WP versions.
+			// Handle localisation across multiple WP versions. 
 			// WP 5.0+
 			if( method_exists($scripts, 'set_translations') ) {
 				$scripts->set_translations( 'wp-color-picker' );
