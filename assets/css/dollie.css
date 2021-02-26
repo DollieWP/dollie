@@ -590,10 +590,6 @@ select {
   justify-items: stretch;
 }
 
-.dol-justify-start {
-  justify-content: flex-start;
-}
-
 .dol-justify-end {
   justify-content: flex-end;
 }
@@ -666,10 +662,6 @@ select {
   height: 2.5rem;
 }
 
-.dol-h-12 {
-  height: 3rem;
-}
-
 .dol-h-16 {
   height: 4rem;
 }
@@ -680,10 +672,6 @@ select {
 
 .dol-h-40 {
   height: 10rem;
-}
-
-.dol-h-64 {
-  height: 16rem;
 }
 
 .dol-h-96 {
@@ -728,11 +716,6 @@ select {
   line-height: 2rem;
 }
 
-.dol-text-5xl {
-  font-size: 3rem;
-  line-height: 1;
-}
-
 .dol-leading-5 {
   line-height: 1.25rem;
 }
@@ -770,11 +753,6 @@ select {
   margin-bottom: 0.5rem;
 }
 
-.dol-mx-2 {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
-}
-
 .dol-my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -798,10 +776,6 @@ select {
 .dol--mx-4 {
   margin-left: -1rem;
   margin-right: -1rem;
-}
-
-.dol-mb-0 {
-  margin-bottom: 0px;
 }
 
 .dol-mt-1 {
@@ -900,14 +874,6 @@ select {
   margin-left: -0.25rem;
 }
 
-.dol--mr-6 {
-  margin-right: -1.5rem;
-}
-
-.dol--ml-6 {
-  margin-left: -1.5rem;
-}
-
 .dol--mr-12 {
   margin-right: -3rem;
 }
@@ -926,10 +892,6 @@ select {
 
 .dol-max-w-xs {
   max-width: 20rem;
-}
-
-.dol-max-w-4xl {
-  max-width: 56rem;
 }
 
 .dol-max-w-7xl {
@@ -1069,11 +1031,6 @@ select {
 .dol-px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
-}
-
-.dol-px-20 {
-  padding-left: 5rem;
-  padding-right: 5rem;
 }
 
 .dol-py-40 {
@@ -1220,11 +1177,6 @@ select {
 
 .dol-shadow-lg {
   --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
-.hover\:dol-shadow:hover {
-  --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
@@ -1548,10 +1500,6 @@ select {
   width: 2.5rem;
 }
 
-.dol-w-12 {
-  width: 3rem;
-}
-
 .dol-w-14 {
   width: 3.5rem;
 }
@@ -1701,12 +1649,6 @@ select {
   transition-duration: 150ms;
 }
 
-.dol-transition-colors {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
 .dol-transition-opacity {
   transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -1739,10 +1681,6 @@ select {
 
 .dol-duration-150 {
   transition-duration: 150ms;
-}
-
-.dol-duration-200 {
-  transition-duration: 200ms;
 }
 
 .dol-duration-300 {

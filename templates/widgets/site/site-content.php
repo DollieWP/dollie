@@ -96,8 +96,11 @@ if ( 'stop' === $status ) : ?>
 
 	<?php if ( get_field( 'wpd_custom_launch_splash', 'option' ) == true ) : ?>
 
-        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+		<?php
+		wp_enqueue_script( 'swiper' );
+		wp_print_styles( 'swiper' );
+		?>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/fitvids/1.2.0/jquery.fitvids.min.js"></script>
 
         <div class="dol-swiper-wrapper dol-relative">
 
@@ -106,18 +109,26 @@ if ( 'stop' === $status ) : ?>
                 <!-- Additional required wrapper -->
                 <div class="swiper-wrapper">
 
-                    <div class="swiper-slide dol-p-24 dol-items-center">
-		                <?php the_field( 'wpd_launch_step_1', 'option' ); ?>
-                    </div>
-                    <div class="swiper-slide dol-p-24 dol-items-center">
-		                <?php the_field( 'wpd_launch_step_2', 'option' ); ?>
-                    </div>
-                    <div class="swiper-slide dol-p-24 dol-items-center">
-		                <?php the_field( 'wpd_launch_step_3', 'option' ); ?>
-                    </div>
-                    <div class="swiper-slide dol-p-24 dol-items-center">
-		                <?php the_field( 'wpd_launch_step_4', 'option' ); ?>
-                    </div>
+					<?php if ( get_field( 'wpd_launch_step_1', 'option' ) ) : ?>
+                        <div class="swiper-slide dol-p-24 dol-items-center">
+							<?php the_field( 'wpd_launch_step_1', 'option' ); ?>
+                        </div>
+					<?php endif; ?>
+					<?php if ( get_field( 'wpd_launch_step_2', 'option' ) ) : ?>
+                        <div class="swiper-slide dol-p-24 dol-items-center">
+							<?php the_field( 'wpd_launch_step_2', 'option' ); ?>
+                        </div>
+					<?php endif; ?>
+					<?php if ( get_field( 'wpd_launch_step_3', 'option' ) ) : ?>
+                        <div class="swiper-slide dol-p-24 dol-items-center">
+							<?php the_field( 'wpd_launch_step_3', 'option' ); ?>
+                        </div>
+					<?php endif; ?>
+					<?php if ( get_field( 'wpd_launch_step_4', 'option' ) ) : ?>
+                        <div class="swiper-slide dol-p-24 dol-items-center">
+							<?php the_field( 'wpd_launch_step_4', 'option' ); ?>
+                        </div>
+					<?php endif; ?>
 
                 </div>
                 <!-- If we need pagination -->
@@ -131,14 +142,14 @@ if ( 'stop' === $status ) : ?>
             <style>
                 .swiper-container {
                     max-width: 800px;
-                    height: 100%
+                    height: 400px;
                 }
             </style>
 
             <script>
                 const swiper = new Swiper('.swiper-container', {
                     // Optional parameters
-                    loop: true,
+                    loop: false,
 
                     // If we need pagination
                     pagination: {
@@ -151,6 +162,12 @@ if ( 'stop' === $status ) : ?>
                         prevEl: '.swiper-button-prev',
                     },
 
+                });
+                jQuery(document).ready(function () {
+
+                    jQuery(".swiper-slide").filter(function () {
+                        return !jQuery(this).find('.ast-oembed-container');
+                    }).fitVids();
                 });
             </script>
 

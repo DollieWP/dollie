@@ -2063,19 +2063,19 @@ msgstr ""
 msgid "You have reached the maximum amount of sites you can launch. Please upgrade your plan to add more sites."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:127
+#: templates/widgets/site/site-content.php:188
 msgid "Launching Your New Site"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:130
+#: templates/widgets/site/site-content.php:192
 msgid "Your site will be ready to go in just a moment."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:136
+#: templates/widgets/site/site-content.php:196
 msgid "Don't worry, we'll automatically reload this page once it's ready."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:139
+#: templates/widgets/site/site-content.php:199
 msgid "If you don't want to wait for a few seconds, you can navigate away. We got it covered!"
 msgstr ""
 
