@@ -1107,7 +1107,7 @@ msgstr ""
 msgid "Create a support ticket"
 msgstr ""
 
-#: core/Utils/Helpers.php:976
+#: core/Utils/Helpers.php:978
 msgid "Site View"
 msgstr ""
 
@@ -1607,15 +1607,15 @@ msgstr ""
 msgid "Email already exists. Please login first"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:406
+#: core/Modules/Sites/WP.php:408
 msgid "My New Site"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:410
+#: core/Modules/Sites/WP.php:412
 msgid "The best website in the world"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:461
+#: core/Modules/Sites/WP.php:463
 msgid "Failed to update site details(invalid site data)"
 msgstr ""
 

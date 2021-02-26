@@ -245,7 +245,7 @@ class Plugin extends Singleton {
 			[],
 			'6.4.15'
 		);
-		wp_register_style(
+		wp_register_script(
 			'swiper',
 			DOLLIE_ASSETS_URL . 'css/swiper-bundle.min.js',
 			[],
