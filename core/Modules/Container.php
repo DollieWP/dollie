@@ -471,11 +471,11 @@ class Container extends Singleton {
 				update_post_meta( $post_id, 'wpd_installation_size_bytes', $data['container_details']['Size'] );
 				update_post_meta( $post_id, 'wpd_installation_version', $data['container_details']['Version'] );
 
-				$post_data = [
-					'post_title' => $data['container_details']['Name'],
-				];
-				wp_update_post( $post_data );
-				wp_update_post( $post_data );
+				$post_data = array(
+					'ID'           => $post_id,
+					'post_title' => $data['container_details']['Name']
+				);
+				wp_update_post($post_data);
 			}
 
 			// Now that we have our container stats get our secret key
