@@ -119,6 +119,8 @@ class Container extends Singleton {
 			'show_in_rest'        => false,
 		];
 
+		$args = apply_filters( 'dollie/cpt/container/args', $args );
+
 		register_post_type( 'container', $args );
 	}
 

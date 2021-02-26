@@ -16,7 +16,7 @@ use Dollie\Core\Utils\Api;
  */
 class Blueprints extends Singleton {
 
-	const COOKIE_NAME      = 'dollie_blueprint_id';
+	const COOKIE_NAME = 'dollie_blueprint_id';
 	const COOKIE_GET_PARAM = 'blueprint_id';
 
 	/**
@@ -25,7 +25,6 @@ class Blueprints extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'wp_head', [ $this, 'get_by_site' ], 11 );
 		add_action( 'init', [ $this, 'set_cookie' ], - 99999 );
 	}
 
@@ -88,9 +87,9 @@ class Blueprints extends Singleton {
 					$image = get_post_meta( $site->ID, 'wpd_site_screenshot', true );
 				}
 				$value = '<img data-toggle="tooltip" data-placement="bottom" ' .
-						 'data-tooltip="' . esc_attr( get_post_meta( $site->ID, 'wpd_installation_blueprint_description', true ) ) . '" ' .
-						 'class="fw-blueprint-screenshot acf__tooltip" src=' . $image . '>' .
-						 esc_html( get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true ) );
+				         'data-tooltip="' . esc_attr( get_post_meta( $site->ID, 'wpd_installation_blueprint_description', true ) ) . '" ' .
+				         'class="fw-blueprint-screenshot acf__tooltip" src=' . $image . '>' .
+				         esc_html( get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true ) );
 
 			} else {
 				$value = get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true );
@@ -110,39 +109,37 @@ class Blueprints extends Singleton {
 	 * @return array
 	 */
 	public function get_by_site( $site_id = null ) {
-		$sub_page = get_query_var('sub_page');
-		if ( is_singular( 'container' ) && 'blueprints' === $sub_page ) {
-			$site = dollie()->get_current_object( $site_id );
 
-			$secret = get_post_meta( $site->id, 'wpd_container_secret', true );
+		$sub_page = get_query_var( 'sub_page' );
+		$site = dollie()->get_current_object( $site_id );
 
-			$request_get_blueprint = Api::post(
-				Api::ROUTE_BLUEPRINT_GET,
-				[
-					'container_url'    => dollie()->get_container_url( $site_id, true ),
-					'container_secret' => $secret,
-				]
-			);
+		$secret = get_post_meta( $site->id, 'wpd_container_secret', true );
 
-			$blueprints_response = Api::process_response( $request_get_blueprint, null );
+		$request_get_blueprint = Api::post(
+			Api::ROUTE_BLUEPRINT_GET,
+			[
+				'container_url'    => dollie()->get_container_url( $site->id, true ),
+				'container_secret' => $secret,
+			]
+		);
 
-			if ( false === $blueprints_response || 500 === $blueprints_response['status'] ) {
-				return [];
-			}
+		$blueprints_response = Api::process_response( $request_get_blueprint, null );
 
-			$blueprints = dollie()->maybe_decode_json( $blueprints_response['body'] );
-
-			if ( empty( $blueprints ) ) {
-				return [];
-			}
-
-			set_transient( 'dollie_' . $site->slug . '_total_blueprints', count( $total_blueprints ), MINUTE_IN_SECONDS * 1 );
-			update_post_meta( $site->id, 'wpd_installation_blueprints_available', count( $total_blueprints ) );
-
-			return $blueprints;
+		if ( false === $blueprints_response || 500 === $blueprints_response['status'] ) {
+			return [];
 		}
 
-		return [];
+		$blueprints = dollie()->maybe_decode_json( $blueprints_response['body'] );
+
+		if ( empty( $blueprints ) ) {
+			return [];
+		}
+
+		set_transient( 'dollie_' . $site->slug . '_total_blueprints', count( $blueprints ), MINUTE_IN_SECONDS * 1 );
+		update_post_meta( $site->id, 'wpd_installation_blueprints_available', count( $blueprints ) );
+
+		return $blueprints;
+
 	}
 
 	/**
@@ -162,10 +159,14 @@ class Blueprints extends Singleton {
 	/**
 	 * Get available blueprints
 	 *
+	 * @param null $container_id
+	 *
 	 * @return array
 	 */
-	public function get_available() {
-		$blueprints           = $this->get_by_site();
+	public function get_available( $container_id = null ) {
+		$container = dollie()->get_current_object( $container_id );
+
+		$blueprints           = $this->get_by_site( $container->id );
 		$formatted_blueprints = [];
 
 		foreach ( $blueprints as $blueprint ) {

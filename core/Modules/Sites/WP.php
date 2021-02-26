@@ -133,6 +133,10 @@ final class WP extends Singleton {
 			$domain
 		);
 
+		// prevent any backup request for a bit
+		$backups_transient_name = 'dollie_' . $domain . '_backups_data';
+		set_transient( $backups_transient_name, [], 60 * 10 );
+
 		return true;
 	}
 
@@ -210,8 +214,6 @@ final class WP extends Singleton {
 		];
 
 		$pending_deploys = get_posts( $args );
-
-		// var_dump($pending_deploys);exit;
 
 		if ( ! empty( $pending_deploys ) ) {
 			foreach ( $pending_deploys as $deploy_container ) {
