@@ -24,7 +24,6 @@ class WooCommerce extends Singleton {
 
 		add_action( 'after_setup_theme', [ $this, 'add_theme_support' ] );
 
-		add_filter( 'woocommerce_payment_complete_order_status', [ $this, 'mark_order_as_complete' ], 10, 2 );
 
 		/*
 		 Todo make it an option */
@@ -41,22 +40,6 @@ class WooCommerce extends Singleton {
 		add_theme_support( 'woocommerce' );
 	}
 
-	/**
-	 * Mark order as complete if payment went through
-	 *
-	 * @param $order_status
-	 * @param $order_id
-	 *
-	 * @return string
-	 */
-	public function mark_order_as_complete( $order_status, $order_id ) {
-		$order = new WC_Order( $order_id );
-		if ( 'processing' === $order_status && ( 'on-hold' === $order->status || 'pending' === $order->status || 'failed' === $order->status ) ) {
-			return 'completed';
-		}
-
-		return $order_status;
-	}
 
 	/**
 	 * Redirect to payment success + blueprint if blueprint cookie is set
