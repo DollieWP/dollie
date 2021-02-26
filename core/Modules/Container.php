@@ -480,6 +480,7 @@ class Container extends Singleton
 				update_post_meta($post_id, 'wpd_installation_version', $data['container_details']['Version']);
 
 				$post_data = array(
+					'ID'           => $post_id,
 					'post_title' => $data['container_details']['Name']
 				);
 				wp_update_post($post_data);
@@ -539,6 +540,8 @@ class Container extends Singleton
 	 */
 	public function get_customer_details($container_id = null)
 	{
+
+
 		$container = dollie()->get_current_object($container_id);
 
 		if (!$container->id) {
