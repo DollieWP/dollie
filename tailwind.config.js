@@ -64,6 +64,7 @@ module.exports = {
       "./core/Shortcodes/Blueprints.php",
       "./core/Admin/NavMenu/Component.php",
       "./templates/link-domain.php",
+      "./templates/widgets/site/site-content.php",
       "./core/tailwind-whitelist.txt",
     ],
     options: {
