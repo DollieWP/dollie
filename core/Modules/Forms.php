@@ -470,7 +470,7 @@ class Forms extends Singleton {
 		$field = af_get_field_object( $field_name, $fields );
 
 		if ( is_array( $field['value'] ) && 'array' === $field['return_format']
-		     && ( 'radio' === $field['type'] || 'select' === $field['type'] ) ) {
+			 && ( 'radio' === $field['type'] || 'select' === $field['type'] ) ) {
 
 			$value = $field['value']['label'];
 			if ( strtotime( $value ) ) {
@@ -514,7 +514,8 @@ class Forms extends Singleton {
 			$url    = dollie()->get_wp_site_data( 'uri', $current_query->id );
 			$domain = get_post_meta( $current_query->id, 'wpd_domains', true ) ?: '';
 
-			$tpl_link_domain = Tpl::load( 'site/link-domain',
+			$tpl_link_domain = Tpl::load(
+				'site/link-domain',
 				[
 					'has_domain'   => $domain,
 					'ip'           => $ip,
