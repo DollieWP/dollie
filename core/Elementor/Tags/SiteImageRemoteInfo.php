@@ -41,18 +41,17 @@ class SiteImageRemoteInfo extends Data_Tag {
 		$keys = [];
 		foreach ( $this->wpd_data['site_data'] as $k => $data ) {
 
-			if ( is_array( $data ) || $data === false ) {
+			if ( is_array( $data ) || false === $data ) {
 				continue;
 			}
 
 			if ( strpos( $data, '.png' ) ||
-			     strpos( $data, '.jpg' ) ||
-			     strpos( $data, '.jpeg' ) ||
-			     strpos( $data, '.gif' ) ) {
+				 strpos( $data, '.jpg' ) ||
+				 strpos( $data, '.jpeg' ) ||
+				 strpos( $data, '.gif' ) ) {
 
 				$keys[ $k ] = $k;
 			}
-
 		}
 
 		$this->add_control(
@@ -66,7 +65,6 @@ class SiteImageRemoteInfo extends Data_Tag {
 	}
 
 	public function get_value( array $options = [] ) {
-
 
 		$param_name = $this->get_settings( 'param_name' );
 
@@ -83,8 +81,8 @@ class SiteImageRemoteInfo extends Data_Tag {
 		$value = $data[ $param_name ];
 
 		return [
-			'id' => '',
-			'url' => $value
+			'id'  => '',
+			'url' => $value,
 		];
 
 	}

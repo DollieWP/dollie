@@ -16,10 +16,10 @@ class SiteRemoteInfoUrl extends Tag {
 
 		$current_id = dollie()->get_current_site_id();
 
-		//Get Items from Feed
+		// Get Items from Feed
 		$this->wpd_data                                  = Container::instance()->get_container_details( $current_id );
-		$this->wpd_data['customer_data']["Support Link"] = dollie()->get_support_link();
-		$this->wpd_data['site_data']["URL"]              = dollie()->get_container_url( $current_id );
+		$this->wpd_data['customer_data']['Support Link'] = dollie()->get_support_link();
+		$this->wpd_data['site_data']['URL']              = dollie()->get_container_url( $current_id );
 
 	}
 
@@ -43,11 +43,10 @@ class SiteRemoteInfoUrl extends Tag {
 
 	protected function _register_controls() {
 
-
 		$keys = [];
 		foreach ( $this->wpd_data['site_data'] as $k => $data ) {
 
-			if ( is_array( $data ) || $data === false ) {
+			if ( is_array( $data ) || false === $data ) {
 				continue;
 			}
 
@@ -60,7 +59,7 @@ class SiteRemoteInfoUrl extends Tag {
 
 		foreach ( $this->wpd_data['customer_data'] as $k => $data ) {
 
-			if ( is_array( $data ) || $data === false ) {
+			if ( is_array( $data ) || false === $data ) {
 				continue;
 			}
 

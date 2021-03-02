@@ -110,9 +110,8 @@ class Plugin extends Singleton {
 
 		require_once DOLLIE_PATH . 'core/Extras/options-page-for-acf/loader.php';
 
-		//Load Color Customizer
+		// Load Color Customizer
 		require_once DOLLIE_PATH . 'core/Modules/Colors.php';
-
 
 		// Load logger.
 		if ( ! class_exists( '\WDS_Log_Post' ) ) {
@@ -126,7 +125,7 @@ class Plugin extends Singleton {
 		}
 
 		// Load logger.
-		if ( ! class_exists( '\AF' ) && ! ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'activate' ) ) {
+		if ( ! class_exists( '\AF' ) && ! ( is_admin() && isset( $_GET['action'] ) && 'activate' === $_GET['action'] ) ) {
 			require_once DOLLIE_PATH . 'core/Extras/advanced-forms/advanced-forms.php';
 			require_once DOLLIE_PATH . 'core/Extras/acf-tooltip/acf-tooltip.php';
 		}
@@ -386,7 +385,7 @@ class Plugin extends Singleton {
 	}
 
 	public function do_route_login_redirect() {
-		if ( ! isset( $_GET['site'] ) || (int) $_GET['site'] === 0 ) {
+		if ( ! isset( $_GET['site'] ) || 0 === (int) $_GET['site'] ) {
 			wp_redirect( home_url() );
 			exit;
 		}
