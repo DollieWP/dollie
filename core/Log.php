@@ -232,7 +232,7 @@ class Log {
 			],
 			self::WP_SITE_BLUEPRINT_DEPLOYED    => [
 				'title'   => __( 'Blueprint Updated', 'dollie' ),
-				'content' => __( sprintf( 'A new Blueprint has be updated/deployed for %s.', $values[0] ), 'dollie' ),
+				'content' => __( sprintf( 'A new Blueprint has ben updated/deployed for %s.', $values[0] ), 'dollie' ),
 				'type'    => 'blueprint',
 				'link'    => true,
 			],

@@ -133,6 +133,10 @@ final class WP extends Singleton {
 			$domain
 		);
 
+		// prevent any backup request for a bit
+		$backups_transient_name = 'dollie_' . $domain . '_backups_data';
+		set_transient( $backups_transient_name, [], 60 * 10 );
+
 		return true;
 	}
 

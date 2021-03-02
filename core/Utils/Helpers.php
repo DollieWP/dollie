@@ -682,10 +682,12 @@ class Helpers extends Singleton {
 	/**
 	 * Get available blueprints
 	 *
+	 * @param null $container_id
+	 *
 	 * @return mixed
 	 */
-	public function get_available_blueprints() {
-		return Blueprints::instance()->get_available();
+	public function get_available_blueprints( $container_id = null ) {
+		return Blueprints::instance()->get_available( $container_id );
 	}
 
 	/**
@@ -1031,9 +1033,8 @@ class Helpers extends Singleton {
 	 * @return bool
 	 */
 	public function is_blueprint( $id ) {
-		$blueprint = get_post_meta( $id, 'wpd_is_blueprint', true );
 
-		return $blueprint === 'yes';
+		return get_post_meta( $id, 'wpd_is_blueprint', true ) === 'yes';
 	}
 
 	/**

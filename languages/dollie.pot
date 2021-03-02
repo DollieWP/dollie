@@ -87,11 +87,11 @@ msgstr ""
 msgid "LetsEncrypt Failed"
 msgstr ""
 
-#: core/Log.php:234, core/Modules/ContainerFields.php:91, templates/loop/sites.php:103
+#: core/Log.php:234, core/Modules/ContainerFields.php:91, templates/loop/sites.php:112
 msgid "Blueprint Updated"
 msgstr ""
 
-#: core/Plugin.php:323, core/Modules/Options.php:283, templates/widgets/launch/launch-site.php:35
+#: core/Plugin.php:337, core/Modules/Options.php:283, templates/widgets/launch/launch-site.php:35
 msgid "Connect with Dollie"
 msgstr ""
 
@@ -171,7 +171,7 @@ msgstr ""
 msgid "The domain connected to this container."
 msgstr ""
 
-#: core/Extras/AcfFields.php:333, templates/widgets/site/pages/dashboard.php:114
+#: core/Extras/AcfFields.php:333, templates/widgets/site/pages/dashboard.php:115
 msgid "WordPress Version"
 msgstr ""
 
@@ -187,7 +187,7 @@ msgstr ""
 msgid "WP Admin Email"
 msgstr ""
 
-#: core/Extras/AcfFields.php:409, templates/widgets/site/pages/dashboard.php:84, templates/widgets/site/pages/themes.php:6
+#: core/Extras/AcfFields.php:409, templates/widgets/site/pages/dashboard.php:85, templates/widgets/site/pages/themes.php:6
 msgid "Active Theme"
 msgstr ""
 
@@ -419,7 +419,7 @@ msgstr ""
 msgid "Choose the username that is created for your own administration access. This won't be shared with the client."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1294, core/Extras/AcfFields.php:1625, templates/widgets/general/sites-navigation.php:50, templates/widgets/site/site-navigation.php:24, templates/widgets/site/pages/blueprints.php:4
+#: core/Extras/AcfFields.php:1294, core/Extras/AcfFields.php:1625, templates/widgets/general/sites-navigation.php:50, templates/widgets/site/site-navigation.php:26, templates/widgets/site/pages/blueprints.php:4
 msgid "Blueprints"
 msgstr ""
 
@@ -721,7 +721,7 @@ msgctxt "dollie"
 msgid "Site"
 msgstr ""
 
-#: core/Modules/Container.php:67, core/Widgets/Sites/SitesList.php:41
+#: core/Modules/Container.php:67, templates/loop/customers.php:83, core/Widgets/Sites/SitesList.php:41
 msgid "Sites"
 msgstr ""
 
@@ -741,7 +741,7 @@ msgstr ""
 msgid "Parent Site:"
 msgstr ""
 
-#: core/Modules/Container.php:72, core/Modules/Container.php:79, core/Modules/Options.php:303
+#: core/Modules/Container.php:72, core/Modules/Container.php:79, core/Modules/Options.php:303, templates/loop/customers.php:100
 msgid "View Sites"
 msgstr ""
 
@@ -825,105 +825,105 @@ msgstr ""
 msgid "Platform Sites"
 msgstr ""
 
-#: core/Modules/Container.php:130
+#: core/Modules/Container.php:132
 msgctxt "Taxonomy General Name"
 msgid "Blueprint Categories"
 msgstr ""
 
-#: core/Modules/Container.php:131
+#: core/Modules/Container.php:133
 msgctxt "Taxonomy Singular Name"
 msgid "Blueprint Category"
 msgstr ""
 
-#: core/Modules/Container.php:132
+#: core/Modules/Container.php:134
 msgid "Taxonomy"
 msgstr ""
 
-#: core/Modules/Container.php:133
+#: core/Modules/Container.php:135
 msgid "All Items"
 msgstr ""
 
-#: core/Modules/Container.php:134
+#: core/Modules/Container.php:136
 msgid "Parent Item"
 msgstr ""
 
-#: core/Modules/Container.php:135
+#: core/Modules/Container.php:137
 msgid "Parent Item:"
 msgstr ""
 
-#: core/Modules/Container.php:136
+#: core/Modules/Container.php:138
 msgid "New Item Name"
 msgstr ""
 
-#: core/Modules/Container.php:137
+#: core/Modules/Container.php:139
 msgid "Add New Item"
 msgstr ""
 
-#: core/Modules/Container.php:138
+#: core/Modules/Container.php:140
 msgid "Edit Item"
 msgstr ""
 
-#: core/Modules/Container.php:139
+#: core/Modules/Container.php:141
 msgid "Update Item"
 msgstr ""
 
-#: core/Modules/Container.php:140
+#: core/Modules/Container.php:142
 msgid "View Item"
 msgstr ""
 
-#: core/Modules/Container.php:141
+#: core/Modules/Container.php:143
 msgid "Separate items with commas"
 msgstr ""
 
-#: core/Modules/Container.php:142
+#: core/Modules/Container.php:144
 msgid "Add or remove items"
 msgstr ""
 
-#: core/Modules/Container.php:143
+#: core/Modules/Container.php:145
 msgid "Choose from the most used"
 msgstr ""
 
-#: core/Modules/Container.php:144
+#: core/Modules/Container.php:146
 msgid "Popular Items"
 msgstr ""
 
-#: core/Modules/Container.php:145
+#: core/Modules/Container.php:147
 msgid "Search Items"
 msgstr ""
 
-#: core/Modules/Container.php:146
+#: core/Modules/Container.php:148
 msgid "Not Found"
 msgstr ""
 
-#: core/Modules/Container.php:147
+#: core/Modules/Container.php:149
 msgid "No items"
 msgstr ""
 
-#: core/Modules/Container.php:148
+#: core/Modules/Container.php:150
 msgid "Items list"
 msgstr ""
 
-#: core/Modules/Container.php:149
+#: core/Modules/Container.php:151
 msgid "Items list navigation"
 msgstr ""
 
-#: core/Modules/Container.php:946, templates/loop/sites.php:118
+#: core/Modules/Container.php:950, templates/loop/sites.php:128
 msgid "Customer"
 msgstr ""
 
-#: core/Modules/Container.php:1132
+#: core/Modules/Container.php:1136
 msgid "Notice - How To Manage This Site"
 msgstr ""
 
-#: core/Modules/Container.php:1137
+#: core/Modules/Container.php:1141
 msgid "We recommend managing this site on the front-end of your installation using the <a href=\"%s\">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team."
 msgstr ""
 
-#: core/Modules/Container.php:1119
+#: core/Modules/Container.php:1123
 msgid "Notice - How To Manage & Update This Blueprint"
 msgstr ""
 
-#: core/Modules/Container.php:1123
+#: core/Modules/Container.php:1127
 msgid "<a href=\"%s\">You should manage this Blueprint using the front-end of your dashboard.</a> Only use this page to take advanced actions, like stopping or removing the blueprint completely"
 msgstr ""
 
@@ -1107,7 +1107,7 @@ msgstr ""
 msgid "Create a support ticket"
 msgstr ""
 
-#: core/Utils/Helpers.php:976
+#: core/Utils/Helpers.php:978
 msgid "Site View"
 msgstr ""
 
@@ -1229,6 +1229,14 @@ msgstr ""
 msgid "%s Launch Site"
 msgstr ""
 
+#: templates/loop/customers.php:25
+msgid "Search for a Customer..."
+msgstr ""
+
+#: templates/loop/customers.php:93
+msgid "Manage Customer"
+msgstr ""
+
 #: templates/loop/posts.php:64
 msgid "There are no posts available"
 msgstr ""
@@ -1237,39 +1245,39 @@ msgstr ""
 msgid "Read article"
 msgstr ""
 
-#: templates/loop/sites.php:26
+#: templates/loop/sites.php:31
 msgid "Search for a site..."
 msgstr ""
 
-#: templates/loop/sites.php:176
+#: templates/loop/sites.php:191
 msgid "No sites found."
 msgstr ""
 
-#: templates/loop/sites.php:50
+#: templates/loop/sites.php:57
 msgid "Unnamed"
 msgstr ""
 
-#: templates/loop/sites.php:94
+#: templates/loop/sites.php:103
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites.php:97
+#: templates/loop/sites.php:106
 msgid "Version %s"
 msgstr ""
 
-#: templates/loop/sites.php:110
+#: templates/loop/sites.php:120
 msgid "Never. Update now!"
 msgstr ""
 
-#: templates/loop/sites.php:134
+#: templates/loop/sites.php:146
 msgid "Manage"
 msgstr ""
 
-#: templates/loop/sites.php:129
+#: templates/loop/sites.php:140
 msgid "Update"
 msgstr ""
 
-#: templates/loop/sites.php:144, templates/widgets/site/site-screenshot.php:32
+#: templates/loop/sites.php:157, templates/widgets/site/site-screenshot.php:35
 msgid "Admin"
 msgstr ""
 
@@ -1503,7 +1511,7 @@ msgstr ""
 msgid "Please type the unique name of your site. Your site name is shown in the sidebar and in your URL address bar."
 msgstr ""
 
-#: core/Modules/Forms/DeleteSite.php:90, templates/widgets/general/sites-navigation.php:52, templates/widgets/site/site-navigation.php:26
+#: core/Modules/Forms/DeleteSite.php:90, templates/widgets/general/sites-navigation.php:52, templates/widgets/site/site-navigation.php:28
 msgid "Delete"
 msgstr ""
 
@@ -1599,24 +1607,36 @@ msgstr ""
 msgid "Email already exists. Please login first"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:406
+#: core/Modules/Sites/WP.php:408
 msgid "My New Site"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:410
+#: core/Modules/Sites/WP.php:412
 msgid "The best website in the world"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:461
+#: core/Modules/Sites/WP.php:463
 msgid "Failed to update site details(invalid site data)"
+msgstr ""
+
+#: core/Widgets/Customers/CustomersList.php:41
+msgid "Customers"
+msgstr ""
+
+#: core/Widgets/Customers/CustomersList.php:56, core/Widgets/Dashboard/LaunchSite.php:40, core/Widgets/Dashboard/SubscriptionDetails.php:40, core/Widgets/Launch/LaunchSite.php:47, core/Widgets/Sites/SitesList.php:56
+msgid "Content"
+msgstr ""
+
+#: core/Widgets/Customers/CustomersList.php:64
+msgid "Customers per page"
+msgstr ""
+
+#: core/Widgets/Customers/CustomersList.php:89
+msgid "Admin access only"
 msgstr ""
 
 #: core/Widgets/Dashboard/LatestNews.php:23
 msgid "Latest News"
-msgstr ""
-
-#: core/Widgets/Dashboard/LaunchSite.php:40, core/Widgets/Dashboard/SubscriptionDetails.php:40, core/Widgets/Launch/LaunchSite.php:47, core/Widgets/Sites/SitesList.php:56
-msgid "Content"
 msgstr ""
 
 #: core/Widgets/Dashboard/RecentOrders.php:23
@@ -1963,35 +1983,35 @@ msgstr ""
 msgid "Used storage"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:43, templates/widgets/site/site-navigation.php:17
+#: templates/widgets/general/sites-navigation.php:43, templates/widgets/site/site-navigation.php:19
 msgid "Dashboard"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:44, templates/widgets/site/site-navigation.php:18, templates/widgets/site/pages/blueprints.php:105, templates/widgets/site/pages/plugins.php:45
+#: templates/widgets/general/sites-navigation.php:44, templates/widgets/site/site-navigation.php:20, templates/widgets/site/pages/blueprints.php:105, templates/widgets/site/pages/plugins.php:45
 msgid "Plugins"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:45, templates/widgets/site/site-navigation.php:19, templates/widgets/site/pages/blueprints.php:106
+#: templates/widgets/general/sites-navigation.php:45, templates/widgets/site/site-navigation.php:21, templates/widgets/site/pages/blueprints.php:106
 msgid "Themes"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:46, templates/widgets/site/site-navigation.php:20, templates/widgets/site/pages/domains.php:2
+#: templates/widgets/general/sites-navigation.php:46, templates/widgets/site/site-navigation.php:22, templates/widgets/site/pages/domains.php:2
 msgid "Domains"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:47, templates/widgets/site/site-navigation.php:21, templates/widgets/site/pages/backups.php:18
+#: templates/widgets/general/sites-navigation.php:47, templates/widgets/site/site-navigation.php:23, templates/widgets/site/pages/backups.php:18
 msgid "Backups"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:48, templates/widgets/site/site-navigation.php:22, templates/widgets/site/pages/updates.php:2
+#: templates/widgets/general/sites-navigation.php:48, templates/widgets/site/site-navigation.php:24, templates/widgets/site/pages/updates.php:2
 msgid "Updates"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:49, templates/widgets/site/site-navigation.php:23
+#: templates/widgets/general/sites-navigation.php:49, templates/widgets/site/site-navigation.php:25
 msgid "Developer Tools"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:51, templates/widgets/site/site-navigation.php:25
+#: templates/widgets/general/sites-navigation.php:51, templates/widgets/site/site-navigation.php:27
 msgid "Migrate"
 msgstr ""
 
@@ -2043,31 +2063,31 @@ msgstr ""
 msgid "You have reached the maximum amount of sites you can launch. Please upgrade your plan to add more sites."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:116
+#: templates/widgets/site/site-content.php:190
 msgid "Launching Your New Site"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:119
+#: templates/widgets/site/site-content.php:194
 msgid "Your site will be ready to go in just a moment."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:124
+#: templates/widgets/site/site-content.php:198
 msgid "Don't worry, we'll automatically reload this page once it's ready."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:127
+#: templates/widgets/site/site-content.php:201
 msgid "If you don't want to wait for a few seconds, you can navigate away. We got it covered!"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:10
+#: templates/widgets/site/site-content.php:12
 msgid "Hosting for this site is currently paused."
 msgstr ""
 
-#: templates/widgets/site/site-screenshot.php:43
+#: templates/widgets/site/site-screenshot.php:46
 msgid "Launching Site"
 msgstr ""
 
-#: templates/widgets/site/site-screenshot.php:26, templates/widgets/site/pages/plugins.php:166
+#: templates/widgets/site/site-screenshot.php:28, templates/widgets/site/pages/plugins.php:166
 msgid "Visit"
 msgstr ""
 
@@ -2181,85 +2201,85 @@ msgstr ""
 msgid "All non-core folders and files outside of wp-content"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:38
+#: templates/widgets/site/pages/dashboard.php:39
 msgid "Your Installation"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:51
+#: templates/widgets/site/pages/dashboard.php:52
 msgid "Plugins Active"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:68
+#: templates/widgets/site/pages/dashboard.php:69
 msgid "%s Updates Available"
 msgid_plural "%s Updates Available"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/widgets/site/pages/dashboard.php:99
+#: templates/widgets/site/pages/dashboard.php:100
 msgid "Check for Updates"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:129
+#: templates/widgets/site/pages/dashboard.php:130
 msgid "Check Core Updates"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:146
+#: templates/widgets/site/pages/dashboard.php:147
 msgid "Backup Status"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:156
+#: templates/widgets/site/pages/dashboard.php:157
 msgid "No backups yet."
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:154
+#: templates/widgets/site/pages/dashboard.php:155
 msgid "%s Backups Available"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:166
+#: templates/widgets/site/pages/dashboard.php:167
 msgid "Runs every 24 hours"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:177
+#: templates/widgets/site/pages/dashboard.php:178
 msgid "View Backups"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:188, templates/widgets/site/pages/developer-tools.php:13
+#: templates/widgets/site/pages/dashboard.php:189, templates/widgets/site/pages/developer-tools.php:13
 msgid "Details"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:199
+#: templates/widgets/site/pages/dashboard.php:200
 msgid "%s Comments Made"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:202
+#: templates/widgets/site/pages/dashboard.php:203
 msgid "%s marked as spam"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:218
+#: templates/widgets/site/pages/dashboard.php:219
 msgid "is the site administrator email"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:233
+#: templates/widgets/site/pages/dashboard.php:234
 msgid "of Disk space is used"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:246
+#: templates/widgets/site/pages/dashboard.php:247
 msgid "%s Users"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:248
+#: templates/widgets/site/pages/dashboard.php:249
 msgid "Registered on this site"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:262
+#: templates/widgets/site/pages/dashboard.php:263
 msgid "From your blog"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:14
+#: templates/widgets/site/pages/dashboard.php:15
 msgid "Setup Wizard - Your first site was deployed successfully!"
 msgstr ""
 
-#: templates/widgets/site/pages/dashboard.php:17
+#: templates/widgets/site/pages/dashboard.php:18
 msgid "Finally give your site a name and give it an admin account and you're all set!"
 msgstr ""
 
@@ -2547,35 +2567,31 @@ msgstr ""
 msgid "Port: %s"
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/details.php:51
-msgid "SSH Details"
-msgstr ""
-
-#: templates/widgets/site/pages/developer-tools/details.php:62
+#: templates/widgets/site/pages/developer-tools/details.php:56
 msgid "If your site is compatible with the latest version of PHP7 we recommend upgrading to the latest PHP7 version because it provides superior performance."
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/details.php:62
+#: templates/widgets/site/pages/developer-tools/details.php:56
 msgid "PHP 5.6 is not as fast as PHP7, but virtually all plugins and themes support it."
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/details.php:69
+#: templates/widgets/site/pages/developer-tools/details.php:63
 msgid "Your site is running PHP version %s"
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/details.php:104
+#: templates/widgets/site/pages/developer-tools/details.php:98
 msgid "Redis Object Caching is Enabled"
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/details.php:108
+#: templates/widgets/site/pages/developer-tools/details.php:102
 msgid "Disable Caching"
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/details.php:84
+#: templates/widgets/site/pages/developer-tools/details.php:78
 msgid "Redis Object Caching is Disabled"
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/details.php:88
+#: templates/widgets/site/pages/developer-tools/details.php:82
 msgid "Get Redis Cache"
 msgstr ""
 

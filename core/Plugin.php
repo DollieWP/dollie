@@ -73,7 +73,7 @@ class Plugin extends Singleton {
 		add_filter( 'dollie/api/after/get', [ $this, 'check_token_get_request' ], 10, 2 );
 		add_filter( 'dollie/api/after/post', [ $this, 'check_token_post_request' ], 10, 3 );
 
-		add_action( 'wp_enqueue_scripts', [ $this, 'load_styles' ], 12 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'load_assets' ], 12 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_scripts' ] );
 		add_shortcode( 'dollie_blockquote', [ $this, 'blockquote_shortcode' ] );
 
@@ -225,7 +225,7 @@ class Plugin extends Singleton {
 	/**
 	 * Enqueue styles
 	 */
-	public function load_styles() {
+	public function load_assets() {
 		$min = '.min';
 
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
@@ -237,6 +237,20 @@ class Plugin extends Singleton {
 			DOLLIE_ASSETS_URL . 'css/dollie' . $min . '.css',
 			[],
 			DOLLIE_VERSION
+		);
+
+		wp_register_style(
+			'swiper',
+			DOLLIE_ASSETS_URL . 'css/swiper-bundle.min.css',
+			[],
+			'6.4.15'
+		);
+		wp_register_script(
+			'swiper',
+			DOLLIE_ASSETS_URL . 'css/swiper-bundle.min.js',
+			[],
+			'6.4.15',
+			true
 		);
 	}
 
