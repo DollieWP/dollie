@@ -105,7 +105,7 @@ class SyncContainersJob extends Singleton {
 			// If no such container found, create one with details from server's container.
 			if ( ! $client_containers ) {
 
-				if ( $container['status'] == 'Running') {
+				if ( 'Running' === $container['status'] ) {
 					$status = 'start';
 				}
 
@@ -120,7 +120,6 @@ class SyncContainersJob extends Singleton {
 							'wpd_container_id'          => $container['id'],
 							'_wpd_container_data'       => WP::instance()->get_filtered_store_data( $container ),
 							'wpd_container_status'      => $status,
-							'wpd_node_added'            => 'yes',
 							'wpd_setup_complete'        => 'yes',
 							'wpd_refetch_secret_key'    => 'yes',
 							'wpd_container_launched_by' => $email,

@@ -14,6 +14,7 @@ use Elementor\Plugin;
 
 /**
  * Class Module
+ *
  * @package Dollie\Core\Extras\Library
  */
 class Module extends BaseModule {
@@ -59,7 +60,7 @@ class Module extends BaseModule {
 			return;
 		}
 
-		wp_enqueue_script( 'dollie-admin-library', DOLLIE_ASSETS_URL . 'js/admin-library.js', array(), DOLLIE_VERSION );
+		wp_enqueue_script( 'dollie-admin-library', DOLLIE_ASSETS_URL . 'js/admin-library.js', [], DOLLIE_VERSION );
 	}
 
 	/**
@@ -115,22 +116,22 @@ class Module extends BaseModule {
 	 */
 	public function template_options() {
 		?>
-        <div id="elementor-new-template__form__template-dol__wrapper" class="elementor-form-field">
-            <label for="elementor-new-template__form__template-dol"
-                   class="elementor-form-field__label"><?php echo esc_html__( 'Select template type', 'dollie' ); ?></label>
-            <div class="elementor-form-field__select__wrapper">
-                <select id="elementor-new-template__form__template-dol" class="elementor-form-field__select"
-                        name="<?php echo Dollie::REMOTE_CATEGORY_META_KEY; ?>">
-                    <option value=""><?php echo __( 'Select', 'elementor' ); ?>...</option>
+		<div id="elementor-new-template__form__template-dol__wrapper" class="elementor-form-field">
+			<label for="elementor-new-template__form__template-dol"
+				   class="elementor-form-field__label"><?php echo esc_html__( 'Select template type', 'dollie' ); ?></label>
+			<div class="elementor-form-field__select__wrapper">
+				<select id="elementor-new-template__form__template-dol" class="elementor-form-field__select"
+						name="<?php echo Dollie::REMOTE_CATEGORY_META_KEY; ?>">
+					<option value=""><?php echo __( 'Select', 'elementor' ); ?>...</option>
 					<?php
 					foreach ( Helpers::instance()->get_elementor_template_types() as $type => $title ) {
-						$selected = ( $type === 'container' ) ? ' selected="selected"' : '';
+						$selected = ( 'container' === $type ) ? ' selected="selected"' : '';
 						printf( '<option%1$s value="%2$s">%3$s</option>', $selected, $type, $title );
 					}
 					?>
-                </select>
-            </div>
-        </div>
+				</select>
+			</div>
+		</div>
 		<?php
 	}
 

@@ -42,20 +42,17 @@ class Api extends Singleton {
 
 		ROUTE_BLUEPRINT_GET              = 'blueprint',
 		ROUTE_BLUEPRINT_CREATE_OR_UPDATE = 'blueprint/create-or-update',
-		ROUTE_BLUEPRINT_DEPLOY           = 'blueprint/deploy',
 
 		ROUTE_PLUGINS_UPDATES_GET   = 'plugins/updates/get',
 		ROUTE_PLUGINS_UPDATES_APPLY = 'plugins/updates/apply',
 
-		ROUTE_EXECUTE_JOB        = 'execute/job',
-		ROUTE_NODES_CREATE       = 'nodes/create',
-		ROUTE_NODES_GET          = 'nodes',
 		ROUTE_WIZARD_SETUP       = 'setup',
 		ROUTE_CHECK_SUBSCRIPTION = 'partner/check-subscription';
 
 	const API_BASE_URL = 'https://api-staging.getdollie.com/';
 	const API_URL      = self::API_BASE_URL . 'api/';
 	const PARTNERS_URL = 'https://partners.getdollie.com/';
+
 
 	public static $last_call = null;
 

@@ -91,7 +91,7 @@ msgstr ""
 msgid "Blueprint Updated"
 msgstr ""
 
-#: core/Plugin.php:323, core/Modules/Options.php:283, templates/widgets/launch/launch-site.php:35
+#: core/Plugin.php:337, core/Modules/Options.php:283, templates/widgets/launch/launch-site.php:35
 msgid "Connect with Dollie"
 msgstr ""
 
@@ -825,105 +825,105 @@ msgstr ""
 msgid "Platform Sites"
 msgstr ""
 
-#: core/Modules/Container.php:130
+#: core/Modules/Container.php:132
 msgctxt "Taxonomy General Name"
 msgid "Blueprint Categories"
 msgstr ""
 
-#: core/Modules/Container.php:131
+#: core/Modules/Container.php:133
 msgctxt "Taxonomy Singular Name"
 msgid "Blueprint Category"
 msgstr ""
 
-#: core/Modules/Container.php:132
+#: core/Modules/Container.php:134
 msgid "Taxonomy"
 msgstr ""
 
-#: core/Modules/Container.php:133
+#: core/Modules/Container.php:135
 msgid "All Items"
 msgstr ""
 
-#: core/Modules/Container.php:134
+#: core/Modules/Container.php:136
 msgid "Parent Item"
 msgstr ""
 
-#: core/Modules/Container.php:135
+#: core/Modules/Container.php:137
 msgid "Parent Item:"
 msgstr ""
 
-#: core/Modules/Container.php:136
+#: core/Modules/Container.php:138
 msgid "New Item Name"
 msgstr ""
 
-#: core/Modules/Container.php:137
+#: core/Modules/Container.php:139
 msgid "Add New Item"
 msgstr ""
 
-#: core/Modules/Container.php:138
+#: core/Modules/Container.php:140
 msgid "Edit Item"
 msgstr ""
 
-#: core/Modules/Container.php:139
+#: core/Modules/Container.php:141
 msgid "Update Item"
 msgstr ""
 
-#: core/Modules/Container.php:140
+#: core/Modules/Container.php:142
 msgid "View Item"
 msgstr ""
 
-#: core/Modules/Container.php:141
+#: core/Modules/Container.php:143
 msgid "Separate items with commas"
 msgstr ""
 
-#: core/Modules/Container.php:142
+#: core/Modules/Container.php:144
 msgid "Add or remove items"
 msgstr ""
 
-#: core/Modules/Container.php:143
+#: core/Modules/Container.php:145
 msgid "Choose from the most used"
 msgstr ""
 
-#: core/Modules/Container.php:144
+#: core/Modules/Container.php:146
 msgid "Popular Items"
 msgstr ""
 
-#: core/Modules/Container.php:145
+#: core/Modules/Container.php:147
 msgid "Search Items"
 msgstr ""
 
-#: core/Modules/Container.php:146
+#: core/Modules/Container.php:148
 msgid "Not Found"
 msgstr ""
 
-#: core/Modules/Container.php:147
+#: core/Modules/Container.php:149
 msgid "No items"
 msgstr ""
 
-#: core/Modules/Container.php:148
+#: core/Modules/Container.php:150
 msgid "Items list"
 msgstr ""
 
-#: core/Modules/Container.php:149
+#: core/Modules/Container.php:151
 msgid "Items list navigation"
 msgstr ""
 
-#: core/Modules/Container.php:946, templates/loop/sites.php:128
+#: core/Modules/Container.php:950, templates/loop/sites.php:128
 msgid "Customer"
 msgstr ""
 
-#: core/Modules/Container.php:1132
+#: core/Modules/Container.php:1136
 msgid "Notice - How To Manage This Site"
 msgstr ""
 
-#: core/Modules/Container.php:1137
+#: core/Modules/Container.php:1141
 msgid "We recommend managing this site on the front-end of your installation using the <a href=\"%s\">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team."
 msgstr ""
 
-#: core/Modules/Container.php:1119
+#: core/Modules/Container.php:1123
 msgid "Notice - How To Manage & Update This Blueprint"
 msgstr ""
 
-#: core/Modules/Container.php:1123
+#: core/Modules/Container.php:1127
 msgid "<a href=\"%s\">You should manage this Blueprint using the front-end of your dashboard.</a> Only use this page to take advanced actions, like stopping or removing the blueprint completely"
 msgstr ""
 
@@ -1107,7 +1107,7 @@ msgstr ""
 msgid "Create a support ticket"
 msgstr ""
 
-#: core/Utils/Helpers.php:976
+#: core/Utils/Helpers.php:978
 msgid "Site View"
 msgstr ""
 
@@ -1607,15 +1607,15 @@ msgstr ""
 msgid "Email already exists. Please login first"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:406
+#: core/Modules/Sites/WP.php:408
 msgid "My New Site"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:410
+#: core/Modules/Sites/WP.php:412
 msgid "The best website in the world"
 msgstr ""
 
-#: core/Modules/Sites/WP.php:461
+#: core/Modules/Sites/WP.php:463
 msgid "Failed to update site details(invalid site data)"
 msgstr ""
 
@@ -2063,19 +2063,19 @@ msgstr ""
 msgid "You have reached the maximum amount of sites you can launch. Please upgrade your plan to add more sites."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:127
+#: templates/widgets/site/site-content.php:190
 msgid "Launching Your New Site"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:130
+#: templates/widgets/site/site-content.php:194
 msgid "Your site will be ready to go in just a moment."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:136
+#: templates/widgets/site/site-content.php:198
 msgid "Don't worry, we'll automatically reload this page once it's ready."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:139
+#: templates/widgets/site/site-content.php:201
 msgid "If you don't want to wait for a few seconds, you can navigate away. We got it covered!"
 msgstr ""
 

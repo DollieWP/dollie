@@ -14,6 +14,7 @@ use Elementor\Plugin;
 
 /**
  * Class ElementorHooks
+ *
  * @package Dollie\Core
  */
 class Hooks extends Singleton {
@@ -36,31 +37,41 @@ class Hooks extends Singleton {
 		add_action( 'elementor/init', [ $this, 'init' ], 0 );
 
 		if ( is_admin() ) {
-			add_action( 'elementor/admin/after_create_settings/' . \Elementor\Settings::PAGE_ID, [
-				$this,
-				'register_admin_fields'
-			], 20 );
+			add_action(
+				'elementor/admin/after_create_settings/' . \Elementor\Settings::PAGE_ID,
+				[
+					$this,
+					'register_admin_fields',
+				],
+				20
+			);
 		}
 
 		add_action( 'elementor/elements/categories_registered', [ $this, 'register_category' ] );
 		add_action( 'elementor/widgets/widgets_registered', [ $this, 'widgets_registered' ] );
 
-		add_action( 'elementor/dynamic_tags/register_tags', function() {
+		add_action(
+			'elementor/dynamic_tags/register_tags',
+			function() {
 
-			/** @var \Elementor\Core\DynamicTags\Manager $module */
-			$module = \Elementor\Plugin::$instance->dynamic_tags;
+				/** @var \Elementor\Core\DynamicTags\Manager $module */
+				$module = \Elementor\Plugin::$instance->dynamic_tags;
 
-			$module->register_group( 'dollie-tags', [
-				'title' => 'Dollie'
-			] );
+				$module->register_group(
+					'dollie-tags',
+					[
+						'title' => 'Dollie',
+					]
+				);
 
-			// Finally register the tag
-			$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteRemoteInfo' );
-			$module->register_tag('\Dollie\Core\\Elementor\\Tags\\SiteRemoteInfoUrl');
-			$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteImageRemoteInfo' );
-			$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteScreenshot' );
-			$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteBackups' );
-		} );
+				// Finally register the tag
+				$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteRemoteInfo' );
+				$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteRemoteInfoUrl' );
+				$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteImageRemoteInfo' );
+				$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteScreenshot' );
+				$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteBackups' );
+			}
+		);
 
 	}
 
@@ -82,7 +93,8 @@ class Hooks extends Singleton {
 	 */
 	public function register_admin_fields( $settings ) {
 		$settings->add_tab(
-			'dollie-templates', [
+			'dollie-templates',
+			[
 				'label' => esc_html__( 'Dollie', 'dollie' ),
 			]
 		);
@@ -113,7 +125,7 @@ class Hooks extends Singleton {
 			foreach ( Widgets::instance()->get() as $widget ) {
 				if ( $template_file = $this->get_element_path( $widget['path'] ) ) {
 					require_once $template_file;
-					$elementor->widgets_manager->register_widget_type( new $widget['class'] );
+					$elementor->widgets_manager->register_widget_type( new $widget['class']() );
 				}
 			}
 		}
@@ -147,7 +159,7 @@ class Hooks extends Singleton {
 
 		$tpl_id = (int) get_the_ID();
 
-		if ( $tpl_id === 0 ) {
+		if ( 0 === $tpl_id ) {
 			$slug = sanitize_text_field( $_GET['elementor_library'] );
 			$tpl  = get_page_by_path( $slug, OBJECT, 'elementor_library' );
 			if ( $tpl ) {
@@ -170,7 +182,7 @@ class Hooks extends Singleton {
 
 		$post_id = (int) $_GET['elementor-preview'];
 
-		if ( $post_id === 0 ) {
+		if ( 0 === $post_id ) {
 			return false;
 		}
 

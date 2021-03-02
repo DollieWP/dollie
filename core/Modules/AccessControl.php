@@ -128,12 +128,12 @@ class AccessControl extends Singleton {
 			return;
 		}
 
-		if ( $sub_page === 'domains' && dollie()->is_blueprint( $wp_query->post->ID ) ) {
+		if ( 'domains' === $sub_page && dollie()->is_blueprint( $wp_query->post->ID ) ) {
 			wp_redirect( get_permalink() );
 			exit();
 		}
 
-		if ( $sub_page === 'blueprints' && ! dollie()->is_blueprint( $wp_query->post->ID ) ) {
+		if ( 'blueprints' === $sub_page && ! dollie()->is_blueprint( $wp_query->post->ID ) ) {
 			wp_redirect( get_permalink() );
 			exit();
 		}

@@ -15,14 +15,14 @@ class SiteRemoteInfo extends Tag {
 
 		$current_id = dollie()->get_current_site_id();
 
-		//Get Items from Feed
+		// Get Items from Feed
 		$this->wpd_data = \Dollie\Core\Modules\Container::instance()->get_container_details( $current_id );
 
-		//Add custom items
-		$this->wpd_data['site_data']["Name"] = get_post_meta($current_id, 'wpd_installation_name', true);
-		$this->wpd_data['customer_data']["Customer - Total Sites Launched"] = dollie()->count_customer_containers(get_current_user_id());
-		$this->wpd_data['customer_data']["Customer Subscription - Sites Available"] = dollie()->sites_available();
-		$this->wpd_data['customer_data']["Customer Subscription - Storage Available"] = dollie()->storage_available();
+		// Add custom items
+		$this->wpd_data['site_data']['Name']                                        = get_post_meta( $current_id, 'wpd_installation_name', true );
+		$this->wpd_data['customer_data']['Customer - Total Sites Launched']         = dollie()->count_customer_containers( get_current_user_id() );
+		$this->wpd_data['customer_data']['Customer Subscription - Sites Available'] = dollie()->sites_available();
+		$this->wpd_data['customer_data']['Customer Subscription - Storage Available'] = dollie()->storage_available();
 
 	}
 
@@ -50,15 +50,15 @@ class SiteRemoteInfo extends Tag {
 
 		foreach ( $this->wpd_data['site_data'] as $k => $data ) {
 
-			if ( is_array( $data ) || $data === false ) {
+			if ( is_array( $data ) || false === $data ) {
 				continue;
 			}
 
 			if ( strpos( $data, '.png' ) ||
-			     strpos( $data, '.jpg' ) ||
+				 strpos( $data, '.jpg' ) ||
 				 strpos( $data, '.jpeg' ) ||
-				 filter_var($data, FILTER_VALIDATE_URL) ||
-			     strpos( $data, '.gif' ) ) {
+				 filter_var( $data, FILTER_VALIDATE_URL ) ||
+				 strpos( $data, '.gif' ) ) {
 
 				continue;
 			}
@@ -66,13 +66,13 @@ class SiteRemoteInfo extends Tag {
 			$keys[ $k ] = 'Site - ' . $k;
 		}
 
-		foreach ($this->wpd_data['customer_data'] as $k => $data) {
+		foreach ( $this->wpd_data['customer_data'] as $k => $data ) {
 
-			if (is_array($data) || $data === false) {
+			if ( is_array( $data ) || false === $data ) {
 				continue;
 			}
 
-			$keys[$k] = $k;
+			$keys[ $k ] = $k;
 		}
 
 		$this->add_control(

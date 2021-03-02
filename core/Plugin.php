@@ -73,7 +73,7 @@ class Plugin extends Singleton {
 		add_filter( 'dollie/api/after/get', [ $this, 'check_token_get_request' ], 10, 2 );
 		add_filter( 'dollie/api/after/post', [ $this, 'check_token_post_request' ], 10, 3 );
 
-		add_action( 'wp_enqueue_scripts', [ $this, 'load_styles' ], 12 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'load_assets' ], 12 );
 		add_action( 'admin_enqueue_scripts', [ $this, 'load_admin_scripts' ] );
 		add_shortcode( 'dollie_blockquote', [ $this, 'blockquote_shortcode' ] );
 
@@ -110,9 +110,8 @@ class Plugin extends Singleton {
 
 		require_once DOLLIE_PATH . 'core/Extras/options-page-for-acf/loader.php';
 
-		//Load Color Customizer
+		// Load Color Customizer
 		require_once DOLLIE_PATH . 'core/Modules/Colors.php';
-
 
 		// Load logger.
 		if ( ! class_exists( '\WDS_Log_Post' ) ) {
@@ -126,7 +125,7 @@ class Plugin extends Singleton {
 		}
 
 		// Load logger.
-		if ( ! class_exists( '\AF' ) && ! ( is_admin() && isset( $_GET['action'] ) && $_GET['action'] === 'activate' ) ) {
+		if ( ! class_exists( '\AF' ) && ! ( is_admin() && isset( $_GET['action'] ) && 'activate' === $_GET['action'] ) ) {
 			require_once DOLLIE_PATH . 'core/Extras/advanced-forms/advanced-forms.php';
 			require_once DOLLIE_PATH . 'core/Extras/acf-tooltip/acf-tooltip.php';
 		}
@@ -225,7 +224,7 @@ class Plugin extends Singleton {
 	/**
 	 * Enqueue styles
 	 */
-	public function load_styles() {
+	public function load_assets() {
 		$min = '.min';
 
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
@@ -237,6 +236,20 @@ class Plugin extends Singleton {
 			DOLLIE_ASSETS_URL . 'css/dollie' . $min . '.css',
 			[],
 			DOLLIE_VERSION
+		);
+
+		wp_register_style(
+			'swiper',
+			DOLLIE_ASSETS_URL . 'css/swiper-bundle.min.css',
+			[],
+			'6.4.15'
+		);
+		wp_register_script(
+			'swiper',
+			DOLLIE_ASSETS_URL . 'css/swiper-bundle.min.js',
+			[],
+			'6.4.15',
+			true
 		);
 	}
 
@@ -372,7 +385,7 @@ class Plugin extends Singleton {
 	}
 
 	public function do_route_login_redirect() {
-		if ( ! isset( $_GET['site'] ) || (int) $_GET['site'] === 0 ) {
+		if ( ! isset( $_GET['site'] ) || 0 === (int) $_GET['site'] ) {
 			wp_redirect( home_url() );
 			exit;
 		}

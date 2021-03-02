@@ -3,10 +3,8 @@
 namespace Dollie\Core\Modules\Sites;
 
 use Dollie\Core\Log;
-use Dollie\Core\Modules\Backups;
 use Dollie\Core\Modules\Blueprints;
 use Dollie\Core\Modules\Container;
-use Dollie\Core\Modules\ContainerRegistration;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 
@@ -48,11 +46,12 @@ final class WP extends Singleton {
 			return false;
 		}
 
-		$email     = $deploy_data['email'];
-		$domain    = $deploy_data['domain'];
-		$user_id   = $deploy_data['user_id'];
-		$site_type = $deploy_data['site_type'];
-		$blueprint = isset( $deploy_data['blueprint'] ) ? $deploy_data['blueprint'] : null;
+		$email             = $deploy_data['email'];
+		$domain            = $deploy_data['domain'];
+		$user_id           = $deploy_data['user_id'];
+		$site_type         = $deploy_data['site_type'];
+		$blueprint         = isset( $deploy_data['blueprint'] ) ? $deploy_data['blueprint'] : null;
+		$blueprint_install = $blueprint ? dollie()->get_wp_site_data( 'uri', $blueprint ) : null;
 
 		$post_id = wp_insert_post(
 			[
@@ -66,8 +65,8 @@ final class WP extends Singleton {
 			]
 		);
 
-		// Mark as blueprint
-		if ( $site_type === 'blueprint' ) {
+		// Mark site as blueprint.
+		if ( 'blueprint' === $site_type ) {
 			update_post_meta( $post_id, 'wpd_is_blueprint', 'yes' );
 		}
 
@@ -75,11 +74,16 @@ final class WP extends Singleton {
 
 		$env_vars_extras = apply_filters( 'dollie/launch_site/extras_envvars', [], $domain, $user_id, $email, $blueprint );
 
+		if ( $blueprint ) {
+			setcookie( Blueprints::COOKIE_NAME, '', time() - 3600, '/' );
+		}
+
 		$post_body = [
-			'route'       => 'blueprint' !== $site_type ? $domain . DOLLIE_DOMAIN : $domain . '.wp-site.xyz',
-			'description' => $email . ' | ' . get_site_url(),
-			'site_type'   => $site_type,
-			'envVars'     => array_merge(
+			'route'           => 'blueprint' !== $site_type ? $domain . DOLLIE_DOMAIN : $domain . '.wp-site.xyz',
+			'description'     => $email . ' | ' . get_site_url(),
+			'site_type'       => $site_type,
+			'apply_blueprint' => $blueprint_install,
+			'envVars'         => array_merge(
 				$env_vars_extras,
 				[
 					'S5_DEPLOYMENT_URL' => get_site_url(),
@@ -87,7 +91,7 @@ final class WP extends Singleton {
 			),
 		];
 
-		// Send the API request
+		// Send the API request.
 		$request_container_deploy  = Api::post( Api::ROUTE_CONTAINER_DEPLOY, $post_body );
 		$response_container_deploy = Api::process_response( $request_container_deploy );
 
@@ -118,10 +122,6 @@ final class WP extends Singleton {
 			return false;
 		}
 
-		if ( $blueprint ) {
-			update_post_meta( $post_id, 'wpd_intended_blueprint', $blueprint );
-		}
-
 		update_post_meta( $post_id, 'wpd_container_launched_by', $email );
 		update_post_meta( $post_id, '_wpd_setup_data', $setup_data );
 
@@ -132,6 +132,10 @@ final class WP extends Singleton {
 			dollie()->get_current_object( $post_id ),
 			$domain
 		);
+
+		// prevent any backup request for a bit
+		$backups_transient_name = 'dollie_' . $domain . '_backups_data';
+		set_transient( $backups_transient_name, [], 60 * 10 );
 
 		return true;
 	}
@@ -196,9 +200,12 @@ final class WP extends Singleton {
 		wp_send_json_success();
 	}
 
-
+	/**
+	 * Update pending deploys on template redirect
+	 *
+	 * @return void
+	 */
 	public function update_deploy() {
-
 		if ( ! is_user_logged_in() ) {
 			return;
 		}
@@ -210,8 +217,6 @@ final class WP extends Singleton {
 		];
 
 		$pending_deploys = get_posts( $args );
-
-		// var_dump($pending_deploys);exit;
 
 		if ( ! empty( $pending_deploys ) ) {
 			foreach ( $pending_deploys as $deploy_container ) {
@@ -254,11 +259,11 @@ final class WP extends Singleton {
 
 		$domain = $data['route'];
 
-		if ( $data['status'] === 0 ) {
+		if ( 0 === $data['status'] ) {
 			return;
 		}
 
-		if ( $data['status'] === 2 ) {
+		if ( 2 === $data['status'] ) {
 			Container::instance()->set_status( $post_id, 'failed' );
 
 			Log::add_front(
@@ -301,55 +306,7 @@ final class WP extends Singleton {
 		$this->store_container_data( $post_id, $data_container );
 
 		Container::instance()->set_status( $post_id, 'start' );
-
-		sleep( 3 );
-
-		// Register Node via Worker
-		ContainerRegistration::instance()->register_worker_node( $post_id );
-
-		// Set Flag if Blueprint
-		$blueprint = get_post_meta( $post_id, 'wpd_intended_blueprint', true );
-
-		if ( $blueprint ) {
-			add_post_meta( $post_id, 'wpd_container_based_on_blueprint_id', $blueprint, true );
-
-			// TODO if the site has a domain assign -> send the request with the domain name? @bowe
-			$blueprint_install = str_replace(
-				[
-					'https://',
-					'http://',
-				],
-				'',
-				dollie()->get_wp_site_data( 'uri', $blueprint )
-			);
-			$container_uri     = str_replace( [ 'https://', 'http://' ], '', $data_container['uri'] );
-
-			Api::process_response(
-				Api::post(
-					Api::ROUTE_BLUEPRINT_DEPLOY,
-					[
-						'container_uri' => $container_uri,
-						'blueprint_url' => $blueprint_install,
-					]
-				)
-			);
-
-			Log::add( 'Applying blueprint ' . $blueprint_install . ' for ' . $domain, '', 'deploy' );
-
-			// Remove our cookie
-			setcookie( Blueprints::COOKIE_NAME, '', time() - 3600, '/' );
-
-			do_action( 'dollie/launch_site/deploy/set_blueprint/after', $post_id, $blueprint );
-
-			// dirty fix for blueprint deploy
-			// Todo: change this later
-			sleep( 45 );
-
-			dollie()->container_screenshot( $container_uri, true );
-		}
-
 		Container::instance()->remove_deploy_job( $post_id );
-
 		Container::instance()->get_container_details( $post_id );
 	}
 

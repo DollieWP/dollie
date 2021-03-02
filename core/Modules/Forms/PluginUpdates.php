@@ -76,110 +76,32 @@ class PluginUpdates extends Singleton {
 			]
 		);
 
-		// Parse the JSON request
-		$answer = API::process_response( $update );
-
-		$xml   = simplexml_load_string( $answer, 'SimpleXMLElement', LIBXML_NOCDATA );
-		$json  = json_encode( $xml );
-		$array = json_decode( $json, true );
-
-		$execution_id = $array['executions']['execution']['@attributes']['id'];
-
-		AF()->submission['extra']['execution_id'] = $execution_id;
-
-		sleep( 4 );
+		AF()->submission['extra']['is_success'] = API::process_response( $update );
 	}
 
 	/**
 	 * Success message
 	 *
-	 * @param $success_message
+	 * @param $message
 	 * @param $form
 	 * @param $args
 	 *
 	 * @return string
 	 */
-	public function success_message( $success_message, $form, $args ) {
-		if ( ob_get_length() > 0 ) {
-			@ob_end_flush();
-			@flush();
-		}
+	public function success_message( $message, $form, $args ) {
+		$message .= '<div class="alert alert-info mt-30">';
 
-		$success_message .= '<div class="alert alert-info mt-30">';
+		$success = AF()->submission['extra']['is_success'];
 
-		$execution_id = AF()->submission['extra']['execution_id'];
-
-		// Set up the request
-		$plugin_update = Api::post( Api::ROUTE_EXECUTE_JOB, [ 'job_id' => $execution_id ] );
-		$response      = Api::process_response( $plugin_update );
-
-		if ( $response === false ) {
-			return 'An error occurred.';
-		}
-
-		$headers = wp_remote_retrieve_headers( $plugin_update );
-
-		if ( ! isset( $execution_id ) || empty( $execution_id ) ) {
-			$success_message .= __( 'There was a problem sending the update request. Please try again!', 'dollie' );
-		} elseif ( 'false' === $headers['x-rundeck-execoutput-completed'] ) {
-
-			// TODO - Add a looping completion request here.
-
-			$success_message .= __( 'Plugin update is still running... please hold on', 'dollie' );
-			$success_message .= '<br>';
-			sleep( 4 );
-
-			// Set up the request
-			$new_plugin_update = Api::post( Api::ROUTE_EXECUTE_JOB, [ 'job_id' => $execution_id ] );
-
-			$response = Api::process_response( $new_plugin_update );
-
-			if ( false === $response ) {
-				return 'An error occurred.';
-			}
-
-			// Parse the JSON request
-			$new_headers = wp_remote_retrieve_headers( $new_plugin_update );
-
-			if ( $new_headers['x-rundeck-execoutput-completed'] === 'true' ) {
-
-				$new_plugin_update = Api::process_response( $new_plugin_update );
-
-				$success_message .= __( 'Plugin updates completed.', 'dollie' );
-				$success_message .= '<br><pre>' . $new_plugin_update . '<pre>';
-			} else {
-				sleep( 4 );
-
-				// Set up the request
-				$final_plugin_update = Api::post( Api::ROUTE_EXECUTE_JOB, [ 'job_id' => $execution_id ] );
-				$response            = Api::process_response( $final_plugin_update );
-
-				if ( false === $response ) {
-					return 'An error occurred.';
-				}
-
-				// Parse the JSON request
-				$final_headers = wp_remote_retrieve_headers( $final_plugin_update );
-				if ( $final_headers['x-rundeck-execoutput-completed'] === 'false' ) {
-					$success_message .= __( 'Sadly we can not complete updating your plugins. Please login to your WordPress admin and update your plugins from there.', 'dollie' );
-				} else {
-
-					$final_plugin_update = Api::process_response( $final_plugin_update );
-
-					$success_message .= __( 'All Your Plugins are updated!', 'dollie' );
-					$success_message .= '<br><pre>' . $final_plugin_update . '<pre>';
-				}
-			}
+		if ( $success ) {
+			$message .= __( 'Your plugins have been updated successfully.', 'dollie' );
 		} else {
-			$plugin_update = Api::process_response( $plugin_update );
-
-			$success_message .= __( 'All Done updating your plugins...', 'dollie' );
-			$success_message .= '<br><pre>' . $plugin_update . '<pre>';
+			$message .= __( 'Sadly we can not complete updating your plugins. Please login to your WordPress admin and update your plugins from there.', 'dollie' );
 		}
 
-		$success_message .= '</div>';
+		$message .= '</div>';
 
-		return $success_message;
+		return $message;
 	}
 
 	/**
@@ -190,22 +112,20 @@ class PluginUpdates extends Singleton {
 	 * @return bool|string
 	 */
 	public function restrict_form( $restriction = false ) {
-
-		// Added in case another restriction already applies
 		if ( $restriction ) {
 			return $restriction;
 		}
 
-		// Grab our array of available backups
-
-		$plugins = $this->get_all_plugin_updates();
+		$plugin_updates = $this->get_all_plugin_updates();
 
 		$needs_upgrade = false;
-		if ( $plugins ) {
-			foreach ( $plugins as $plugin ) {
-				if ( 'available' === $plugin['update'] ) {
-					$needs_upgrade = true;
-					break;
+		if ( false !== $plugin_updates ) {
+			foreach ( $plugin_updates as $update ) {
+				foreach ( $update as $plugin ) {
+					if ( 'available' === $plugin['update'] ) {
+						$needs_upgrade = true;
+						break;
+					}
 				}
 			}
 		}
@@ -246,21 +166,22 @@ class PluginUpdates extends Singleton {
 	 * @return mixed
 	 */
 	public function populate_plugins( $field ) {
-		// Grab our array of available backups
-		$plugins = $this->get_all_plugin_updates();
+		$plugin_updates = $this->get_all_plugin_updates();
 
 		$choices = [];
 
-		if ( ! $plugins ) {
+		if ( ! $plugin_updates ) {
 			return $field;
 		}
 
-		foreach ( $plugins as $plugin ) {
-			if ( 'must-use' === $plugin['status'] || 'none' === $plugin['update'] ) {
-				continue;
-			}
+		foreach ( $plugin_updates as $update ) {
+			foreach ( $update as $plugin ) {
+				if ( 'must-use' === $plugin['status'] || 'none' === $plugin['update'] ) {
+					continue;
+				}
 
-			$choices[ $plugin['name'] ] = $plugin['title'] . ' ' . $plugin['version'];
+				$choices[ $plugin['name'] ] = $plugin['title'] . ' ' . $plugin['version'];
+			}
 		}
 
 		if ( ! empty( $choices ) ) {
@@ -280,36 +201,23 @@ class PluginUpdates extends Singleton {
 		$current_query = dollie()->get_current_object();
 		$container_uri = dollie()->get_wp_site_data( 'uri', $current_query->id );
 
-		if ( $updates = get_transient( 'dollie_plugin_updates_' . $container_uri ) ) {
+		if ( $updates = get_transient( 'dollie_get_plugin_updates_' . $container_uri ) ) {
 			return $updates;
 		}
 
-		$update = Api::post( Api::ROUTE_PLUGINS_UPDATES_GET, [ 'container_uri' => $container_uri ] );
+		$request = Api::post( Api::ROUTE_PLUGINS_UPDATES_GET, [ 'container_uri' => $container_uri ] );
 
-		$answer = Api::process_response( $update );
-
-		if ( ! $answer ) {
-			return false;
-		}
-
-		$xml   = simplexml_load_string( $answer, 'SimpleXMLElement', LIBXML_NOCDATA );
-		$json  = json_encode( $xml );
-		$array = json_decode( $json, true );
-
-		$execution_id = $array['executions']['execution']['@attributes']['id'];
-
-		sleep( 6 );
-
-		// Set up the request
-		$update = Api::post( Api::ROUTE_EXECUTE_JOB, [ 'job_id' => $execution_id ] );
-
-		$updates = Api::process_response( $update );
+		$updates = Api::process_response( $request );
 
 		if ( ! $updates ) {
 			return false;
 		}
 
-		set_transient( 'dollie_plugin_updates_' . $container_uri, $updates, 15 );
+		foreach ( $updates as $key => $update ) {
+			$updates[ $key ] = json_decode( $update, true );
+		}
+
+		set_transient( 'dollie_get_plugin_updates_' . $container_uri, $updates, 15 );
 
 		return $updates;
 	}
