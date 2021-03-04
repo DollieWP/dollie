@@ -259,7 +259,7 @@ final class WP extends Singleton {
 
 		$domain = $data['route'];
 
-		if ( 0 === $data['status'] ) {
+		if ( 0 === $data['status'] || 4 === $data['status'] ) {
 			return;
 		}
 
