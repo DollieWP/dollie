@@ -39,76 +39,60 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
         </div>
     </div>
 	<?php if ( ! empty( $customers->results ) ) { ?>
-    <div class="dol-customers-container <?php echo esc_attr( $list_type ); ?>">
-		<?php foreach ( $customers->results as $customer ) { ?>
-			<?php
-			$data = [
-				'name' => $customer->display_name,
-			];
-			?>
-            <div class="dol-customers-item <?php echo esc_attr( $list_item_type ); ?>">
-                <div class="dol-customers-item-inner <?php do_action( 'dol_add_widget_classes' ); ?> dol-divide-y dol-divide-gray-200">
-                    <div class="dol-customers-image dol-relative">
+        <div class="dol-customers-container <?php echo esc_attr( $list_type ); ?>">
+			<?php foreach ( $customers->results as $customer ) { ?>
+				<?php
+				$data = [
+					'name' => $customer->display_name,
+				];
+				?>
+                <div class="dol-customers-item <?php echo esc_attr( $list_item_type ); ?>">
+                    <div class="dol-customers-item-inner <?php do_action( 'dol_add_widget_classes' ); ?> dol-divide-y dol-divide-gray-200">
+                        <div class="dol-customers-image dol-relative">
 
+							<?php echo get_avatar( $customer->ID, '100', '', '', array( 'class' => 'dol-customers-image-box dol-round-lg' ) ); ?>
 
-						<?php echo get_avatar( $customer->ID, '100', '', '', array( 'class' => 'dol-customers-image-box dol-round-lg' ) ); ?>
-
-
-                        <!-- <div class="dol-customers-status">
-								<?php if ( $data['is_running'] ) : ?>
-									<span class="dol-flex dol-h-4 dol-w-4 dol-relative">
-										<span class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w-full dol-rounded-full dol-bg-green-500 dol-opacity-75"></span>
-										<span class="dol-relative dol-inline-flex dol-rounded-full dol-h-4 dol-w-4 dol-bg-green-600"></span>
-									</span>
-								<?php else : ?>
-									<span class="dol-flex dol-h-4 dol-w-4 dol-relative">
-										<span class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w-full dol-rounded-full dol-bg-red-500 dol-opacity-75"></span>
-										<span class="dol-relative dol-inline-flex dol-rounded-full dol-h-4 dol-w-4 dol-bg-red-600"></span>
-									</span>
-								<?php endif; ?>
-							</div> -->
-                    </div>
-                    <div class="dol-customers-name">
-                        <div class="dol-px-4">
-                            <div class="dol-font-bold dol-text-lg dol-cursor-default">
-                                <a class="dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600"
-                                   href="<?php echo get_author_posts_url( $customer->ID ); ?>" target="_blank">
-									<?php echo $customer->display_name; ?>
-                                </a>
+                        </div>
+                        <div class="dol-customers-name">
+                            <div class="dol-px-4">
+                                <div class="dol-font-bold dol-text-lg dol-cursor-default">
+                                    <a class="dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600"
+                                       href="<?php echo get_author_posts_url( $customer->ID ); ?>" target="_blank">
+										<?php echo $customer->display_name; ?>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="dol-customers-version dol-cursor-default dol-text-sm">
-                        <div class="dol-font-semibold dol-text-gray-500">
-							<?php esc_html_e( 'Sites', 'dollie' ); ?>
+                        <div class="dol-customers-version dol-cursor-default dol-text-sm">
+                            <div class="dol-font-semibold dol-text-gray-500">
+								<?php esc_html_e( 'Sites', 'dollie' ); ?>
+                            </div>
+                            <div class="dol-font-bold ">
+								<?php echo dollie()->count_customer_containers( $customer->ID ); ?>
+                            </div>
                         </div>
-                        <div class="dol-font-bold ">
-							<?php echo dollie()->count_customer_containers( $customer->ID ); ?>
-                        </div>
-                    </div>
-                    <div class="dol-customers-controls">
-                        <a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600"
-                           href="<?php echo get_edit_user_link( $customer->ID ); ?>">
-                            <i class="fas fa-cog"></i>
-                            <span class="dol-ml-1"><?php esc_html_e( 'Manage Customer', 'dollie' ); ?></span>
-                        </a>
+                        <div class="dol-customers-controls">
+                            <a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600"
+                               href="<?php echo get_edit_user_link( $customer->ID ); ?>">
+                                <i class="fas fa-cog"></i>
+                                <span class="dol-ml-1"><?php esc_html_e( 'Manage Customer', 'dollie' ); ?></span>
+                            </a>
 
 
-                        <a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-font-semibold dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary"
-                           href="<?php echo dollie()->get_sites_page_url(); ?>?customer=<?php echo $customer->ID; ?>">
-                            <i class="fas fa-wrench"></i>
-                            <span class="dol-ml-1"><?php esc_html_e( 'View Sites', 'dollie' ); ?></span>
-                        </a>
+                            <a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-font-semibold dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary"
+                               href="<?php echo dollie()->get_sites_page_url(); ?>?customer=<?php echo $customer->ID; ?>">
+                                <i class="fas fa-wrench"></i>
+                                <span class="dol-ml-1"><?php esc_html_e( 'View Sites', 'dollie' ); ?></span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-			<?php
-		}
-		} else {
-			echo 'No users found.';
-		}
-		?>
-    </div>
+			<?php } ?>
+        </div>
+	<?php } else {
+		echo 'No users found.';
+	} ?>
+
 
 
 	<?php

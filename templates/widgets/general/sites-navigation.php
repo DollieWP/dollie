@@ -107,7 +107,7 @@ $containers = new WP_Query(
 						$active_class = $sub_page === $page ? ' dol-text-primary' : 'dol-font-normal dol-text-gray-400 dark:dol-text-gray-300';
 						?>
                         <a class="<?php echo esc_attr( $active_class ); ?> dol-py-2 dol-px-3 dol-block dol-text-sm dol-text-gray-400 hover:dol-bg-primary hover:dol-text-white"
-                           href="<?php echo dollie()->get_site_url( $current_id, $page ); ?>">
+                           href="<?php echo dollie()->get_site_url( get_the_ID(), $page ); ?>">
                             <?php echo $title; ?>
                         </a>
 					<?php endforeach; ?>
