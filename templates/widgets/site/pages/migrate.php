@@ -152,7 +152,7 @@
 					class="title-font dol-font-medium dol-p-2">
 				<?php _e( 'Directory Path:', 'dollie' ); ?>
 				<br><strong>
-					/usr/src/app/
+					/app
 				</strong><br></span>
 		</div>
 	</div>
