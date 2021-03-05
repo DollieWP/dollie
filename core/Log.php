@@ -115,6 +115,7 @@ class Log {
 				// client email
 				$client = get_user_by( 'id', $object->author );
 				$client_site = get_post( $object->id );
+				$site_data = get_post_meta( $object->id, '_wpd_setup_data', true );
 
 				$to      = $client->user_email;
 				$subject = get_field( 'wpd_deployed_site_client_notification_subject', 'options' );
@@ -123,12 +124,18 @@ class Log {
 					[
 						'{dollie_site_url}',
 						'{dollie_site_name}',
-						'{dollie_user}'
+						'{dollie_user}',
+						'{dollie_site_email}',
+						'{dollie_site_username}',
+						'{dollie_site_password}'
 					],
 					[
 						get_permalink( $object->id ),
 						$client_site->post_name,
-						$client->user_login
+						$client->user_login,
+						$site_data['email'],
+						$site_data['username'],
+						$site_data['password']
 					],
 					$message
 				);
@@ -143,12 +150,18 @@ class Log {
 					[
 						'{dollie_site_url}',
 						'{dollie_site_name}',
-						'{dollie_user}'
+						'{dollie_user}',
+						'{dollie_site_email}',
+						'{dollie_site_username}',
+						'{dollie_site_password}'
 					],
 					[
 						get_permalink( $object->id ),
 						$client_site->post_name,
-						$client->user_login
+						$client->user_login,
+						$site_data['email'],
+						$site_data['username'],
+						$site_data['password']
 					],
 					$message
 				);

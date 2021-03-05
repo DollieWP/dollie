@@ -1471,7 +1471,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 				'name'              => 'wpd_deployed_site_client_notification_body',
 				'type'              => 'wysiwyg',
 				'instructions'      => __( 'Placeholders: 
-{dollie_site_url}, {dollie_site_name}, {dollie_user}', 'dollie' ),
+{dollie_site_url}, {dollie_site_name}, {dollie_user}, {dollie_site_email}, {dollie_site_username}, {dollie_site_password}', 'dollie' ),
 				'required'          => 1,
 				'conditional_logic' => array(
 					array(
@@ -1529,7 +1529,8 @@ Site <a href="{dollie_site_url}">{dollie_site_name}</a> has been deployed succes
 				'name'              => 'wpd_deployed_site_admin_notification_body',
 				'type'              => 'wysiwyg',
 				'instructions'      => __( 'Placeholders: 
-{dollie_site_url}, {dollie_site_name}, {dollie_user}', 'dollie' ),
+{dollie_site_url}, {dollie_site_name}, {dollie_user}, {dollie_site_email}, {dollie_site_username}, {dollie_site_password}', 'dollie' ),
+
 				'required'          => 1,
 				'conditional_logic' => array(
 					array(
