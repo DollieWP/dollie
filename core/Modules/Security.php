@@ -76,7 +76,7 @@ class Security extends Singleton {
 					if ( isset( $plugin->$plugin_key->vulnerabilities ) ) {
 						foreach ( $plugin->$plugin_key->vulnerabilities as $vuln ) {
 							if ( ! isset( $vuln->fixed_in ) ||
-								 version_compare( $details['Version'], $vuln->fixed_in, '<' ) ) {
+							     version_compare( $details['Version'], $vuln->fixed_in, '<' ) ) {
 								$vulnerabilities[ $name ][] = $vuln;
 							}
 						}
@@ -116,14 +116,14 @@ class Security extends Singleton {
 				if ( $vulnerability_count ) {
 					set_transient( 'dollie_security_check_failed_' . $current_query->slug, 'failed', MINUTE_IN_SECONDS * 3600 );
 					$mail_body .= '' . sprintf(
-						_n(
-							'%s vulnerability found.',
-							'%s vulnerabilities found.',
-							$vulnerability_count,
-							'plugin-security-scanner'
-						),
-						$vulnerability_count
-					) . "\n";
+							_n(
+								'%s vulnerability found.',
+								'%s vulnerabilities found.',
+								$vulnerability_count,
+								'plugin-security-scanner'
+							),
+							$vulnerability_count
+						) . "\n";
 					set_transient( 'dollie_security_check_message_' . $current_query->slug, $mail_body, MINUTE_IN_SECONDS * 3600 );
 				}
 			}
@@ -141,7 +141,7 @@ class Security extends Singleton {
 			delete_transient( 'dollie_security_check_failed_' . $current_query->slug );
 			delete_transient( 'dollie_security_check_failed_' . $current_query->slug );
 			delete_transient( 'dollie_container_api_request_' . $current_query->slug . '_get_customer_site_info' );
-			wp_redirect( get_permalink() . '#plugins' );
+			wp_redirect( trailingslashit( get_permalink() ) . 'plugins' );
 
 			exit;
 		}

@@ -31,7 +31,7 @@
 			<?php } else { ?>
 				<div class="blockquote-box blockquote-success clearfix">
 					<div class="square pull-left">
-						<i class="fas fa-shield"></i>
+						<i class="fas fa-shield-alt"></i>
 					</div>
 					<h4>
 						<?php esc_html_e( 'Our SiteGuard has found no issues.', 'dollie' ); ?>

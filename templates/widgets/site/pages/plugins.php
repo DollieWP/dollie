@@ -71,7 +71,7 @@
 					'links'   => [
 						[
 							'title' => __( 'Check again', 'dollie' ),
-							'url'   => get_permalink() . '?run-security-check',
+							'url'   => trailingslashit( get_permalink() ) . 'plugins' . '?run-security-check',
 						],
 					],
 				],
@@ -85,13 +85,13 @@
 			\Dollie\Core\Utils\Tpl::load(
 				'notice',
 				[
-					'icon'    => 'fas fa-shield',
+					'icon'    => 'fas fa-shield-alt',
 					'title'   => __( 'SiteGuard has found no issues', 'dollie' ),
 					'message' => __( 'There are no insecure plugins or themes found on your site. Good job!', 'dollie' ),
 					'links'   => [
 						[
 							'title' => __( 'Check again', 'dollie' ),
-							'url'   => get_permalink() . '?run-security-check',
+							'url'   => trailingslashit( get_permalink() ) . 'plugins' . '?run-security-check',
 						],
 					],
 				],

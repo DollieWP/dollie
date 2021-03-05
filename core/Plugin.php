@@ -240,15 +240,22 @@ class Plugin extends Singleton {
 
 		wp_register_style(
 			'swiper',
-			DOLLIE_ASSETS_URL . 'css/swiper-bundle.min.css',
+			DOLLIE_ASSETS_URL . 'lib/swiper/swiper-bundle.min.css',
 			[],
 			'6.4.15'
 		);
 		wp_register_script(
 			'swiper',
-			DOLLIE_ASSETS_URL . 'css/swiper-bundle.min.js',
+			DOLLIE_ASSETS_URL . 'lib/swiper/swiper-bundle.min.js',
 			[],
 			'6.4.15',
+			true
+		);
+		wp_register_script(
+			'jquery-fitvids',
+			DOLLIE_ASSETS_URL . 'lib/jquery.fitvids.min.js',
+			[ 'jquery' ],
+			'1.1.0',
 			true
 		);
 	}
@@ -355,7 +362,7 @@ class Plugin extends Singleton {
 	/**
 	 * Register blockquote shortcode
 	 *
-	 * @param array  $atts
+	 * @param array $atts
 	 * @param string $content
 	 *
 	 * @return string

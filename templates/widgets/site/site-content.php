@@ -99,9 +99,9 @@ if ( 'stop' === $status ) :
 
 		<?php
 		wp_enqueue_script( 'swiper' );
+		wp_enqueue_script( 'jquery-fitvids' );
 		wp_print_styles( 'swiper' );
 		?>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/fitvids/1.2.0/jquery.fitvids.min.js"></script>
 
 		<div class="dol-swiper-wrapper dol-relative">
 
@@ -148,23 +148,25 @@ if ( 'stop' === $status ) :
 			</style>
 
 			<script>
-				const swiper = new Swiper('.swiper-container', {
-					// Optional parameters
-					loop: false,
 
-					// If we need pagination
-					pagination: {
-						el: '.swiper-pagination',
-					},
-
-					// Navigation arrows
-					navigation: {
-						nextEl: '.swiper-button-next',
-						prevEl: '.swiper-button-prev',
-					},
-
-				});
 				jQuery(document).ready(function () {
+
+                    const swiper = new Swiper('.swiper-container', {
+                        // Optional parameters
+                        loop: false,
+
+                        // If we need pagination
+                        pagination: {
+                            el: '.swiper-pagination',
+                        },
+
+                        // Navigation arrows
+                        navigation: {
+                            nextEl: '.swiper-button-next',
+                            prevEl: '.swiper-button-prev',
+                        },
+
+                    });
 
 					jQuery(".swiper-slide").filter(function () {
 						return !jQuery(this).find('.ast-oembed-container');

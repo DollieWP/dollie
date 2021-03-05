@@ -52,10 +52,10 @@ class LaunchSite extends \Elementor\Widget_Base {
 		$this->add_control(
 			'type',
 			[
-				'label'   => __('Type of site to launch', 'dollie'),
-				'type' => Controls_Manager::SELECT2,
+				'label'   => __( 'Type of site to launch', 'dollie' ),
+				'type'    => Controls_Manager::SELECT2,
 				'options' => [
-					'site' => 'Site',
+					'site'      => 'Site',
 					'blueprint' => 'Blueprint',
 				],
 				'default' => 'site',
@@ -63,10 +63,25 @@ class LaunchSite extends \Elementor\Widget_Base {
 		);
 
 		$this->add_control(
+			'advanced_settings',
+			[
+				'label'        => __( 'Advanced Settings State', 'dollie' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_on'     => __( 'Show', 'dollie' ),
+				'label_off'    => __( 'Hide', 'dollie' ),
+				'return_value' => '1',
+				'default'      => '0',
+				'condition'    => [
+					'type' => 'site',
+				],
+			]
+		);
+
+		$this->add_control(
 			'button_text',
 			[
-				'label'   => __('Button text', 'dollie'),
-				'type' => Controls_Manager::TEXT,
+				'label'   => __( 'Button text', 'dollie' ),
+				'type'    => Controls_Manager::TEXT,
 				'default' => '',
 			]
 		);
