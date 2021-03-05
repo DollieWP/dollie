@@ -1420,7 +1420,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 			array(
 				'key'               => 'field_6041ed2ed94cd',
 				'label'             => __( 'Deployed Site Email notification', 'dollie' ),
-				'name'              => 'deployed_site_notification',
+				'name'              => 'wpd_deployed_site_notification',
 				'type'              => 'true_false',
 				'instructions'      => __( 'An email will be automatically sent when a site has been deployed.', 'dollie' ),
 				'required'          => 0,
@@ -1440,7 +1440,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 			array(
 				'key'               => 'field_6041eeaf507f6',
 				'label'             => __( 'Client Notification Subject', 'dollie' ),
-				'name'              => 'deployed_site_client_notification_subject',
+				'name'              => 'wpd_deployed_site_client_notification_subject',
 				'type'              => 'text',
 				'instructions'      => '',
 				'required'          => 1,
@@ -1468,7 +1468,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 			array(
 				'key'               => 'field_6041ede3d94ce',
 				'label'             => __( 'Client Notification', 'dollie' ),
-				'name'              => 'deployed_site_client_notification_body',
+				'name'              => 'wpd_deployed_site_client_notification_body',
 				'type'              => 'wysiwyg',
 				'instructions'      => __( 'Placeholders: 
 {dollie_site_url}, {dollie_site_name}, {dollie_user}', 'dollie' ),
@@ -1498,7 +1498,7 @@ Site <a href="{dollie_site_url}">{dollie_site_name}</a> has been deployed succes
 			array(
 				'key'               => 'field_6041eed0507f7',
 				'label'             => __( 'Admin Notification Subject', 'dollie' ),
-				'name'              => 'deployed_site_admin_notification_subject',
+				'name'              => 'wpd_deployed_site_admin_notification_subject',
 				'type'              => 'text',
 				'instructions'      => '',
 				'required'          => 1,
@@ -1526,7 +1526,7 @@ Site <a href="{dollie_site_url}">{dollie_site_name}</a> has been deployed succes
 			array(
 				'key'               => 'field_6041edf2d94cf',
 				'label'             => __( 'Admin Notification', 'dollie' ),
-				'name'              => 'deployed_site_admin_notification',
+				'name'              => 'wpd_deployed_site_admin_notification_body',
 				'type'              => 'wysiwyg',
 				'instructions'      => __( 'Placeholders: 
 {dollie_site_url}, {dollie_site_name}, {dollie_user}', 'dollie' ),

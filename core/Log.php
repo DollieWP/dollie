@@ -105,7 +105,57 @@ class Log {
 
 		wp_update_post( $args );
 
-		// TODO also add email notification for some based on type.
+		// Add email notification for some based on type.
+		if ( $action === self::WP_SITE_DEPLOYED ) {
+
+			if ( get_field( 'wpd_deployed_site_notification', 'options' ) ) {
+
+				$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+
+				// client email
+				$client = get_user_by( 'id', $object->author );
+				$client_site = get_post( $object->id );
+
+				$to      = $client->user_email;
+				$subject = get_field( 'wpd_deployed_site_client_notification_subject', 'options' );
+				$message = get_field( 'wpd_deployed_site_client_notification_body', 'options' );
+				$message = str_replace(
+					[
+						'{dollie_site_url}',
+						'{dollie_site_name}',
+						'{dollie_user}'
+					],
+					[
+						get_permalink( $object->id ),
+						$client_site->post_name,
+						$client->user_login
+					],
+					$message
+				);
+
+				wp_mail( $to, $subject, $message, $headers );
+
+				// admin email
+				$to      = get_option( 'admin_email' );
+				$subject = get_field( 'wpd_deployed_site_admin_notification_subject', 'options' );
+				$message = get_field( 'wpd_deployed_site_admin_notification_body', 'options' );
+				$message = str_replace(
+					[
+						'{dollie_site_url}',
+						'{dollie_site_name}',
+						'{dollie_user}'
+					],
+					[
+						get_permalink( $object->id ),
+						$client_site->post_name,
+						$client->user_login
+					],
+					$message
+				);
+
+				wp_mail( $to, $subject, $message, $headers );
+			}
+		}
 
 		return $log_id;
 	}
