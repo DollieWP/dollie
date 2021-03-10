@@ -10,7 +10,7 @@
 		<?php printf( __( '<strong>%s</strong> is the source of your Blueprint. Make sure that this installation is working properly and is set up according before you deploy your Blueprint.', 'dollie' ), dollie()->get_container_url() ); ?>
 	</div>
 
-	<?php if ( $blueprint_time !== '' ) : ?>
+	<?php if ( '' !== $blueprint_time ) : ?>
 		<div class="dol-my-4 dol-font-bold">
 			<?php printf( __( 'Your last Blueprint was deployed at %s', 'dollie' ), $blueprint_time ); ?>
 		</div>
@@ -34,7 +34,7 @@
 	?>
 </div>
 
-<?php if ( $blueprint_time !== '' && current_user_can( 'manage_options' ) ) : ?>
+<?php if ( '' !== $blueprint_time && current_user_can( 'manage_options' ) ) : ?>
 
 	<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-widget-blueprint-settings">
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
@@ -50,9 +50,11 @@
 			<div>
 				<?php
 				$acf_fields = dollie()->acf_get_database_field_group_keys();
+
 				acf_form(
 					[
 						'form'         => true,
+						'id'           => 'acf-form-bp',
 						'field_groups' => [ $acf_fields['Blueprints'] ],
 						'return'       => dollie()->get_site_url( get_the_ID(), 'blueprints' ),
 					]

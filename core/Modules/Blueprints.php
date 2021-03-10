@@ -135,6 +135,8 @@ class Blueprints extends Singleton {
 			return [];
 		}
 
+		$blueprints = json_decode( $blueprints, true );
+
 		set_transient( 'dollie_' . $site->slug . '_total_blueprints', count( $blueprints ), MINUTE_IN_SECONDS * 1 );
 		update_post_meta( $site->id, 'wpd_installation_blueprints_available', count( $blueprints ) );
 

@@ -151,22 +151,22 @@ if ( 'stop' === $status ) :
 
 				jQuery(document).ready(function () {
 
-                    const swiper = new Swiper('.swiper-container', {
-                        // Optional parameters
-                        loop: false,
+					const swiper = new Swiper('.swiper-container', {
+						// Optional parameters
+						loop: false,
 
-                        // If we need pagination
-                        pagination: {
-                            el: '.swiper-pagination',
-                        },
+						// If we need pagination
+						pagination: {
+							el: '.swiper-pagination',
+						},
 
-                        // Navigation arrows
-                        navigation: {
-                            nextEl: '.swiper-button-next',
-                            prevEl: '.swiper-button-prev',
-                        },
+						// Navigation arrows
+						navigation: {
+							nextEl: '.swiper-button-next',
+							prevEl: '.swiper-button-prev',
+						},
 
-                    });
+					});
 
 					jQuery(".swiper-slide").filter(function () {
 						return !jQuery(this).find('.ast-oembed-container');
@@ -215,7 +215,7 @@ if ( 'stop' === $status ) :
 	$install = get_queried_object()->post_name;
 
 	// Include ACF editor for blueprints
-	if ( get_query_var( 'blueprints' ) || current_user_can( 'edit_pages' ) ) {
+	if ( get_query_var( 'blueprints' ) ) {
 		acf_form_head();
 	}
 
