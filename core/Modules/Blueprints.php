@@ -16,7 +16,7 @@ use Dollie\Core\Utils\Api;
  */
 class Blueprints extends Singleton {
 
-	const COOKIE_NAME = 'dollie_blueprint_id';
+	const COOKIE_NAME      = 'dollie_blueprint_id';
 	const COOKIE_GET_PARAM = 'blueprint_id';
 
 	/**
@@ -87,9 +87,9 @@ class Blueprints extends Singleton {
 					$image = get_post_meta( $site->ID, 'wpd_site_screenshot', true );
 				}
 				$value = '<img data-toggle="tooltip" data-placement="bottom" ' .
-				         'data-tooltip="' . esc_attr( get_post_meta( $site->ID, 'wpd_installation_blueprint_description', true ) ) . '" ' .
-				         'class="fw-blueprint-screenshot acf__tooltip" src=' . $image . '>' .
-				         esc_html( get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true ) );
+						 'data-tooltip="' . esc_attr( get_post_meta( $site->ID, 'wpd_installation_blueprint_description', true ) ) . '" ' .
+						 'class="fw-blueprint-screenshot acf__tooltip" src=' . $image . '>' .
+						 esc_html( get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true ) );
 
 			} else {
 				$value = get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true );
@@ -111,7 +111,7 @@ class Blueprints extends Singleton {
 	public function get_by_site( $site_id = null ) {
 
 		$sub_page = get_query_var( 'sub_page' );
-		$site = dollie()->get_current_object( $site_id );
+		$site     = dollie()->get_current_object( $site_id );
 
 		$secret = get_post_meta( $site->id, 'wpd_container_secret', true );
 
@@ -150,7 +150,7 @@ class Blueprints extends Singleton {
 			$cookie_id = sanitize_text_field( $_GET[ self::COOKIE_GET_PARAM ] );
 		}
 
-		// No Cookies set? Check is parameter are valid
+		// No Cookies set? Check is parameter are valid.
 		if ( isset( $cookie_id ) ) {
 			setcookie( self::COOKIE_NAME, $cookie_id, time() + ( 86400 * 30 ), '/' );
 		}
@@ -171,7 +171,6 @@ class Blueprints extends Singleton {
 
 		foreach ( $blueprints as $blueprint ) {
 			$info = explode( '|', $blueprint );
-
 
 			if ( strpos( $info[1], 'MB' ) !== false ) {
 				$get_mb_size = str_replace( 'MB', '', $info[1] );

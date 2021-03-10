@@ -463,8 +463,7 @@ final class WP extends Singleton {
 	 * @return false|mixed
 	 */
 	public function get_container_data( $data, $container_id = null ) {
-
-		if ( $container_id === null ) {
+		if ( null === $container_id ) {
 			$container_id = dollie()->get_current_object( $container_id )->id;
 		}
 
@@ -472,7 +471,7 @@ final class WP extends Singleton {
 			return '';
 		}
 
-		if ( $data === 'id' ) {
+		if ( 'id' === $data ) {
 			return get_post_meta( $container_id, 'wpd_container_id', true );
 		}
 
@@ -485,7 +484,7 @@ final class WP extends Singleton {
 			return $meta[ $data ];
 		}
 
-		// old options
+		// Old options.
 		$map = $this->compat_meta_store_data_map();
 		if ( $old_data = get_post_meta( $container_id, $map[ $data ], true ) ) {
 			$meta[ $data ] = $old_data;

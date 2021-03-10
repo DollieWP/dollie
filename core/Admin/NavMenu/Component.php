@@ -53,10 +53,14 @@ class Component {
 
 	public function enqueue_scripts() {
 		wp_register_script( 'dollie-notifications', DOLLIE_ASSETS_URL . 'js/notifications.js', [ 'jquery' ], DOLLIE_VERSION, true );
-		wp_localize_script( 'dollie-notifications', 'wpdNotifications', [
-			'ajaxurl'     => admin_url( '/admin-ajax.php' ),
-			'refreshTime' => 20000,
-		] );
+		wp_localize_script(
+			'dollie-notifications',
+			'wpdNotifications',
+			[
+				'ajaxurl'     => admin_url( '/admin-ajax.php' ),
+				'refreshTime' => 20000,
+			]
+		);
 	}
 
 	/**
@@ -68,7 +72,7 @@ class Component {
 			esc_html__( 'Dollie', 'dollie' ),
 			[
 				$this,
-				'do_wp_nav_menu_meta_box'
+				'do_wp_nav_menu_meta_box',
 			],
 			'nav-menus',
 			'side',
@@ -83,7 +87,7 @@ class Component {
 	 */
 	public function wp_nav_menu_meta_box_always_show( $result, $option, $user ) {
 		if ( in_array( 'add-dollie-menu', $result ) ) {
-			$result = array_diff( $result, array( 'add-dollie-menu' ) );
+			$result = array_diff( $result, [ 'add-dollie-menu' ] );
 		}
 
 		return $result;
@@ -117,7 +121,7 @@ class Component {
 				'comment_status' => 'closed',
 				'guid'           => wp_logout_url(),
 			],
-			(object) array(
+			(object) [
 				'ID'             => - 1,
 				'post_title'     => esc_html__( 'My Account', 'dollie' ),
 				'post_author'    => 0,
@@ -127,7 +131,7 @@ class Component {
 				'post_status'    => 'publish',
 				'comment_status' => 'closed',
 				'guid'           => '#',
-			),
+			],
 			(object) [
 				'ID'             => - 1,
 				'post_title'     => esc_html__( 'Live Notifications', 'dollie' ),
@@ -138,7 +142,7 @@ class Component {
 				'post_status'    => 'publish',
 				'comment_status' => 'closed',
 				'guid'           => '#',
-			]
+			],
 		];
 
 		$tabs['loggedout']['label'] = esc_html__( 'Logged-Out', 'dollie' );
@@ -153,7 +157,7 @@ class Component {
 			'post_type'      => 'page',
 			'post_status'    => 'publish',
 			'comment_status' => 'closed',
-			'guid'           => wp_login_url()
+			'guid'           => wp_login_url(),
 		];
 
 		$title = '';
@@ -186,24 +190,24 @@ class Component {
 		];
 		?>
 
-        <div id="<?php echo self::MENU_KEY; ?>-menu" class="posttypediv">
-            <h4><?php esc_html_e( 'Logged-Out', 'dollie' ) ?></h4>
-            <p><?php esc_html_e( 'Logged-Out links are not visible to users who are logged in.', 'dollie' ) ?></p>
+		<div id="<?php echo self::MENU_KEY; ?>-menu" class="posttypediv">
+			<h4><?php esc_html_e( 'Logged-Out', 'dollie' ); ?></h4>
+			<p><?php esc_html_e( 'Logged-Out links are not visible to users who are logged in.', 'dollie' ); ?></p>
 
-            <div id="tabs-panel-posttype-<?php echo $post_type_name; ?>-loggedout" class="tabs-panel tabs-panel-active">
-                <ul id="<?php echo self::MENU_KEY; ?>-menu-checklist-loggedout" class="categorychecklist form-no-clear">
+			<div id="tabs-panel-posttype-<?php echo $post_type_name; ?>-loggedout" class="tabs-panel tabs-panel-active">
+				<ul id="<?php echo self::MENU_KEY; ?>-menu-checklist-loggedout" class="categorychecklist form-no-clear">
 					<?php echo walk_nav_menu_tree( array_map( 'wp_setup_nav_menu_item', $tabs['loggedout']['pages'] ), 0, (object) $args ); ?>
-                </ul>
-            </div>
+				</ul>
+			</div>
 
-            <h4><?php esc_html_e( 'Logged-In', 'dollie' ) ?></h4>
-            <p><?php esc_html_e( 'Logged-in links are visible only to users who are logged in.', 'dollie' ) ?></p>
+			<h4><?php esc_html_e( 'Logged-In', 'dollie' ); ?></h4>
+			<p><?php esc_html_e( 'Logged-in links are visible only to users who are logged in.', 'dollie' ); ?></p>
 
-            <div id="tabs-panel-posttype-<?php echo $post_type_name; ?>-loggedin" class="tabs-panel tabs-panel-active">
-                <ul id="<?php echo self::MENU_KEY; ?>-menu-checklist-loggedin" class="categorychecklist form-no-clear">
+			<div id="tabs-panel-posttype-<?php echo $post_type_name; ?>-loggedin" class="tabs-panel tabs-panel-active">
+				<ul id="<?php echo self::MENU_KEY; ?>-menu-checklist-loggedin" class="categorychecklist form-no-clear">
 					<?php echo walk_nav_menu_tree( array_map( 'wp_setup_nav_menu_item', $tabs['loggedin']['pages'] ), 0, (object) $args ); ?>
-                </ul>
-            </div>
+				</ul>
+			</div>
 
 			<?php
 			$removed_args = [
@@ -216,29 +220,38 @@ class Component {
 			];
 			?>
 
-            <p class="button-controls">
+			<p class="button-controls">
 			<span class="list-controls">
-				<a href="<?php
-				echo esc_url( add_query_arg(
-					[
-						$post_type_name . '-tab' => 'all',
-						'selectall'              => 1,
-					],
-					remove_query_arg( $removed_args )
-				) );
-				?>#<?php echo self::MENU_KEY; ?>-menu"
-                   class="select-all"><?php esc_html_e( 'Select All', 'dollie' ); ?></a>
+				<a href="
+				<?php
+				echo esc_url(
+					add_query_arg(
+						[
+							$post_type_name . '-tab' => 'all',
+							'selectall'              => 1,
+						],
+						remove_query_arg( $removed_args )
+					)
+				);
+				?>
+				#<?php echo self::MENU_KEY; ?>-menu"
+				   class="select-all"><?php esc_html_e( 'Select All', 'dollie' ); ?></a>
 			</span>
-                <span class="add-to-menu">
+				<span class="add-to-menu">
 				<input
-                        type="submit"<?php if ( function_exists( 'wp_nav_menu_disabled_check' ) ) : wp_nav_menu_disabled_check( $nav_menu_selected_id ); endif; ?>
+						type="submit"
+						<?php
+						if ( function_exists( 'wp_nav_menu_disabled_check' ) ) :
+							wp_nav_menu_disabled_check( $nav_menu_selected_id );
+endif;
+						?>
 					class="button-secondary submit-add-to-menu right"
-                        value="<?php esc_attr_e( 'Add to Menu', 'dollie' ); ?>" name="add-custom-menu-item"
-                        id="submit-<?php echo self::MENU_KEY; ?>-menu"/>
+						value="<?php esc_attr_e( 'Add to Menu', 'dollie' ); ?>" name="add-custom-menu-item"
+						id="submit-<?php echo self::MENU_KEY; ?>-menu"/>
 				<span class="spinner"></span>
 			</span>
-            </p>
-        </div><!-- /#nav-menu -->
+			</p>
+		</div><!-- /#nav-menu -->
 
 		<?php
 	}
@@ -261,17 +274,17 @@ class Component {
 	 */
 	public function wp_nav_menu_restrict_items() {
 		?>
-        <script type="text/javascript">
-            jQuery('#menu-to-edit').on('click', 'a.item-edit', function () {
-                var settings = jQuery(this).closest('.menu-item-bar').next('.menu-item-settings');
-                var css_class = settings.find('.edit-menu-item-classes');
+		<script type="text/javascript">
+			jQuery('#menu-to-edit').on('click', 'a.item-edit', function () {
+				var settings = jQuery(this).closest('.menu-item-bar').next('.menu-item-settings');
+				var css_class = settings.find('.edit-menu-item-classes');
 
-                if (css_class.val().indexOf('<?php echo self::MENU_KEY; ?>-menu') === 0) {
-                    css_class.attr('readonly', 'readonly');
-                    settings.find('.field-url').css('display', 'none');
-                }
-            });
-        </script>
+				if (css_class.val().indexOf('<?php echo self::MENU_KEY; ?>-menu') === 0) {
+					css_class.attr('readonly', 'readonly');
+					settings.find('.field-url').css('display', 'none');
+				}
+			});
+		</script>
 		<?php
 	}
 
@@ -282,7 +295,6 @@ class Component {
 	 *
 	 * @return \WP_Post The modified WP_Post object.
 	 * @since 1.9.0
-	 *
 	 */
 	public function setup_nav_menu_item( $menu_item ) {
 		if ( is_admin() ) {
@@ -306,7 +318,7 @@ class Component {
 		}
 
 		switch ( $matches[1] ) {
-			case 'login' :
+			case 'login':
 				if ( is_user_logged_in() ) {
 					$menu_item->_invalid = true;
 				} else {
@@ -315,16 +327,15 @@ class Component {
 
 				break;
 
-
 			// Don't show the Register link to logged-in users.
-			case 'register' :
+			case 'register':
 				if ( is_user_logged_in() ) {
 					$menu_item->_invalid = true;
 				}
 
 				break;
 
-			case 'logout' :
+			case 'logout':
 				if ( ! is_user_logged_in() ) {
 					$menu_item->_invalid = true;
 				} else {
@@ -333,25 +344,28 @@ class Component {
 
 				break;
 
-			case 'notifications' :
+			case 'notifications':
 				if ( ! is_user_logged_in() ) {
 					$menu_item->_invalid = true;
 				}
 
 				break;
 
-			case 'avatar' :
+			case 'avatar':
 				if ( ! is_user_logged_in() ) {
 					$menu_item->url       = wp_login_url( $this->get_requested_url() );
 					$menu_item->classes[] = 'dollie-login-nav';
 				} else {
 					$menu_item->url = dollie()->get_dashboard_page_url();
 
-					$avatar           = get_avatar_url( get_current_user_id(), array(
-						'width'  => 30,
-						'height' => 30,
-					) );
-					$menu_item->title = '<img class="dollie-menu-avatar-img" src="' . esc_attr( $avatar ) . '"' . ' alt="">';
+					$avatar            = get_avatar_url(
+						get_current_user_id(),
+						[
+							'width'  => 30,
+							'height' => 30,
+						]
+					);
+					$menu_item->title  = '<img class="dollie-menu-avatar-img" src="' . esc_attr( $avatar ) . '"' . ' alt="">';
 					$menu_item->title .= ( $menu_item->attr_title !== '' ? '<span class="dollie-menu-avatar-text">' . strip_tags( $menu_item->attr_title ) . '</span>' : '' );
 				}
 
@@ -386,22 +400,24 @@ class Component {
 		check_ajax_referer( 'dollie-notifications', 'check' );
 
 		if ( ! is_user_logged_in() ) {
-			wp_send_json_error( [
-				'message' => esc_html__( 'You need to be logged in', 'dollie' )
-			] );
+			wp_send_json_error(
+				[
+					'message' => esc_html__( 'You need to be logged in', 'dollie' ),
+				]
+			);
 		}
 
-		$args = array(
+		$args = [
 			'posts_per_page'   => - 1,
 			'post_type'        => 'dollie-logs',
 			'suppress_filters' => true,
-			'meta_query'       => array(
-				array(
+			'meta_query'       => [
+				[
 					'key'   => '_wpd_read',
-					'value' => 0
-				),
-			)
-		);
+					'value' => 0,
+				],
+			],
+		];
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			$args['author'] = get_current_user_id();
@@ -425,21 +441,23 @@ class Component {
 		check_ajax_referer( 'dollie-notifications', 'check' );
 
 		if ( ! is_user_logged_in() ) {
-			wp_send_json_error( [
-				'message' => esc_html__( 'You need to be logged in', 'dollie' )
-			] );
+			wp_send_json_error(
+				[
+					'message' => esc_html__( 'You need to be logged in', 'dollie' ),
+				]
+			);
 		}
 
 		$current = sanitize_text_field( $_GET['current_notifications'] );
 
 		$data = $this->get_notifications_content(
 			[
-				'meta_query' => array(
-					array(
+				'meta_query' => [
+					[
 						'key'   => '_wpd_read',
-						'value' => '0'
-					),
-				),
+						'value' => '0',
+					],
+				],
 			]
 		);
 
@@ -464,12 +482,12 @@ class Component {
 		$defaults = [
 			'posts_per_page' => - 1,
 			'post_type'      => 'dollie-logs',
-			'meta_query'     => array(
-				array(
+			'meta_query'     => [
+				[
 					'key'     => '_wpd_read',
-					'compare' => 'EXISTS'
-				),
-			),
+					'compare' => 'EXISTS',
+				],
+			],
 		];
 
 		$args = wp_parse_args( $args, $defaults );
@@ -499,13 +517,13 @@ class Component {
 
 				$item_output .= '<div class="notif-item ' . $read_class . ' dol-p-5 dol-border-0 dol-border-b dol-border-gray-200 dol-border-solid">';
 				$item_output .= '<div class="notif-title dol-flex dol-justify-items-stretch dol-space-x-2">' .
-				                '<div class="dol-flex-grow dol-font-bold">' .
-				                esc_html( $log['title'] ) .
-				                '</div>' .
-				                '<div class="notif-date dol-flex-shrink dol-text-right dol-text-gray-500">' .
-				                human_time_diff( strtotime( $notification->post_date ) ) . ' ago' .
-				                '</div>' .
-				                '</div>';
+								'<div class="dol-flex-grow dol-font-bold">' .
+								esc_html( $log['title'] ) .
+								'</div>' .
+								'<div class="notif-date dol-flex-shrink dol-text-right dol-text-gray-500">' .
+								human_time_diff( strtotime( $notification->post_date ) ) . ' ago' .
+								'</div>' .
+								'</div>';
 
 				$link_output = '';
 				if ( $site_id && isset( $log['link'] ) && $log['link'] ) {
@@ -521,15 +539,14 @@ class Component {
 				}
 
 				$item_output .= '<div class="notification-body dol-text-gray-600 dol-mt-1">' .
-				                esc_html( $log['content'] ) .
-				                $link_output .
-				                '</div>';
+								esc_html( $log['content'] ) .
+								$link_output .
+								'</div>';
 				$item_output .= '</div>';
 
 				if ( ! $read_status ) {
 					$count ++;
 				}
-
 			}
 		}
 
@@ -537,7 +554,10 @@ class Component {
 			$count = '';
 		}
 
-		return [ 'count' => $count, 'content' => $item_output ];
+		return [
+			'count'   => $count,
+			'content' => $item_output,
+		];
 	}
 
 	/**
@@ -556,42 +576,46 @@ class Component {
 			wp_enqueue_script( 'dollie-notifications' );
 
 			$footer_output = '<div class="transform dollie-notifications-list dol-z-500 dol-h-full dol-fixed dol-top-0 dol-right-0 dol-leading-normal dol-text-left ol-leading-4 dol-text-gray-700 dol-bg-white dol-hidden dol-rounded dol-shadow-md dol-ease-in-out dol-transition-all dol-duration-300 dol-z-30 dol-translate-x-0"' .
-			                 ' data-nonce="' . wp_create_nonce( 'dollie-notifications' ) . '"' . '>';
+							 ' data-nonce="' . wp_create_nonce( 'dollie-notifications' ) . '"' . '>';
 
 			$footer_output .= '<div class="notif-header">' .
-			                  '<div class="notif-header-title dol-flex dol-justify-items-stretch dol-space-x-4 dol-p-5 dol-border-0 dol-border-b dol-border-gray-200 dol-border-solid">' .
-			                  '<div class="dol-text-lg dol-font-semibold dol-flex-grow">' .
-			                  esc_html__( 'Notifications', 'dollie' ) .
-			                  ' <span class="dollie-notifications-count">%notif_count%</span>' .
-			                  '</div>' .
-			                  '<div class="dol-flex-shrink">' .
-			                  '<a class="notif-mark-read" href="#">' . esc_html__( 'Mark all as read', 'dollie' ) . '</a>' .
-			                  '</div>' .
-			                  '<div class="dol-flex-shrink">' .
-			                  '<a class="notif-close" title="' . esc_attr__( 'Close', 'dollie' ) . '" href="#">' .
-			                  '<i class="fas fa-times-circle"></i>' .
-			                  '</a>' .
-			                  '</div>' .
-			                  '</div>' .
-			                  '</div>';
+							  '<div class="notif-header-title dol-flex dol-justify-items-stretch dol-space-x-4 dol-p-5 dol-border-0 dol-border-b dol-border-gray-200 dol-border-solid">' .
+							  '<div class="dol-text-lg dol-font-semibold dol-flex-grow">' .
+							  esc_html__( 'Notifications', 'dollie' ) .
+							  ' <span class="dollie-notifications-count">%notif_count%</span>' .
+							  '</div>' .
+							  '<div class="dol-flex-shrink">' .
+							  '<a class="notif-mark-read" href="#">' . esc_html__( 'Mark all as read', 'dollie' ) . '</a>' .
+							  '</div>' .
+							  '<div class="dol-flex-shrink">' .
+							  '<a class="notif-close" title="' . esc_attr__( 'Close', 'dollie' ) . '" href="#">' .
+							  '<i class="fas fa-times-circle"></i>' .
+							  '</a>' .
+							  '</div>' .
+							  '</div>' .
+							  '</div>';
 			$footer_output .= '<div class="notif-inner dol-overflow-y-auto">';
 
 			$notifications = $this->get_notifications_content();
 
 			$footer_output .= $notifications['content'];
 			$footer_output .= '</div></div>';
-			$footer_output = str_replace( '%notif_count%', $notifications['count'], $footer_output );
+			$footer_output  = str_replace( '%notif_count%', $notifications['count'], $footer_output );
 
-			add_action( 'wp_footer', static function () use ( $footer_output ) {
-				echo $footer_output;
-			}, 20 );
+			add_action(
+				'wp_footer',
+				static function () use ( $footer_output ) {
+					echo $footer_output;
+				},
+				20
+			);
 
 			$menu_output = '<a href="#">' .
-			               '<span class="notif-icon-wrap dol-relative">' .
-			               '<i class="fas fa-bell"></i>' .
-			               '<span class="dollie-notifications-count notif-navigation-count">%notif_count%</span>' .
-			               '</span>' .
-			               '</a>';
+						   '<span class="notif-icon-wrap dol-relative">' .
+						   '<i class="fas fa-bell"></i>' .
+						   '<span class="dollie-notifications-count notif-navigation-count">%notif_count%</span>' .
+						   '</span>' .
+						   '</a>';
 			$menu_output = str_replace( '%notif_count%', $notifications['count'], $menu_output );
 
 			return $menu_output;
@@ -605,10 +629,9 @@ class Component {
 	 *
 	 * @return string Requested URL string.
 	 * @since 1.0
-	 *
 	 */
 	public function get_requested_url() {
-		$url = is_ssl() ? 'https://' : 'http://';
+		$url  = is_ssl() ? 'https://' : 'http://';
 		$url .= $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
 		return apply_filters( 'dollie/get_requested_url', esc_url( $url ) );
