@@ -52,6 +52,7 @@ class Container extends Singleton {
 		add_action( 'acf/save_post', [ $this, 'update_customer_role' ] );
 		add_action( 'acf/save_post', [ $this, 'update_all_customers_role' ] );
 		add_action( 'acf/save_post', [ $this, 'update_deployment_domain' ] );
+		add_action( 'acf/save_post', [ $this, 'update_backup_module' ], 1 );
 
 		add_action( 'acf/input/admin_footer', [ $this, 'change_role_notice' ] );
 		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
@@ -1186,6 +1187,42 @@ class Container extends Singleton {
 			delete_transient( 'wpd_deployment_domain_delay' );
 			delete_option( 'wpd_deployment_delay_status' );
 		}
+	}
+
+	/**
+	 * Update custom backup settings
+	 *
+	 * @param $post_id
+	 */
+	public function update_backup_module( $post_id ) {
+		if ( 'options' !== $post_id ) {
+			return;
+		}
+
+		$new_data = [];
+		$changed  = false;
+		$settings = [
+			'status'     => 'wpd_enable_custom_backup',
+			'provider'   => 'wpd_backup_provider',
+			'access_key' => 'wpd_backup_google_key',
+			'secret_key' => 'wpd_backup_google_secret',
+			'path'       => 'wpd_backup_google_path',
+		];
+
+		// a field has changed
+		foreach ( $settings as $k => $setting ) {
+			$new_data[ $k ] = $_POST['acf'][ acf_get_field( $setting )['key'] ];
+
+			if ( isset ( $new_data[ $k ] ) && get_field( $setting, 'options' ) != $new_data[ $k ] ) {
+				$changed = true;
+			}
+		}
+
+		// send request
+		if ( $changed ) {
+			Api::post( Api::ROUTE_SETTINGS_ADD_CUSTOM_BACKUP, $new_data );
+		}
+
 	}
 
 	/**
