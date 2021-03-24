@@ -465,6 +465,40 @@ msgstr ""
 msgid "Admin Notification"
 msgstr ""
 
+#: core/Extras/AcfFields.php:1559
+msgid "Modules"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1576
+msgid "Custom Backup Location"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1579
+msgid ""
+"<strong>This feature is part of our Enterprise solution. Please contact Dollie team to enable this feature on your account.</strong><br>\n"
+"Once this is enabled on your account, all deployed sites will be configured with the settings you set here."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1597
+msgid "Provider"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1630
+msgid "Access Key"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1658
+msgid "Secret Key"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1686
+msgid "Path"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1689
+msgid "We automatically append each site's name to the following defined path. Every site will be backed up in it's own folder, in the directory that you define here."
+msgstr ""
+
 #: core/Extras/AcfFormFields.php:10
 msgid "Intro message"
 msgstr ""
@@ -673,219 +707,219 @@ msgstr ""
 msgid "Select the secondary color used across Dollie"
 msgstr ""
 
-#: core/Modules/Container.php:65
+#: core/Modules/Container.php:66
 msgctxt "dollie"
 msgid "Sites"
 msgstr ""
 
-#: core/Modules/Container.php:66
+#: core/Modules/Container.php:67
 msgctxt "dollie"
 msgid "Site"
 msgstr ""
 
-#: core/Modules/Container.php:67, templates/loop/customers.php:68, core/Widgets/Sites/SitesList.php:41
+#: core/Modules/Container.php:68, templates/loop/customers.php:68, core/Widgets/Sites/SitesList.php:41
 msgid "Sites"
-msgstr ""
-
-#: core/Modules/Container.php:68
-msgid "Post Type"
 msgstr ""
 
 #: core/Modules/Container.php:69
-msgid "Site Archives"
+msgid "Post Type"
 msgstr ""
 
 #: core/Modules/Container.php:70
-msgid "Site Attributes"
+msgid "Site Archives"
 msgstr ""
 
 #: core/Modules/Container.php:71
+msgid "Site Attributes"
+msgstr ""
+
+#: core/Modules/Container.php:72
 msgid "Parent Site:"
 msgstr ""
 
-#: core/Modules/Container.php:72, core/Modules/Container.php:79, core/Modules/Options.php:291, templates/loop/customers.php:85
+#: core/Modules/Container.php:73, core/Modules/Container.php:80, core/Modules/Options.php:291, templates/loop/customers.php:85
 msgid "View Sites"
 msgstr ""
 
-#: core/Modules/Container.php:73
+#: core/Modules/Container.php:74
 msgid "Add New Site"
 msgstr ""
 
-#: core/Modules/Container.php:74
+#: core/Modules/Container.php:75
 msgid "Add New"
 msgstr ""
 
-#: core/Modules/Container.php:75
+#: core/Modules/Container.php:76
 msgid "New Site"
 msgstr ""
 
-#: core/Modules/Container.php:76
+#: core/Modules/Container.php:77
 msgid "Edit Site"
 msgstr ""
 
-#: core/Modules/Container.php:77
+#: core/Modules/Container.php:78
 msgid "Update Site"
 msgstr ""
 
-#: core/Modules/Container.php:78
+#: core/Modules/Container.php:79
 msgid "View Site"
 msgstr ""
 
-#: core/Modules/Container.php:80
+#: core/Modules/Container.php:81
 msgid "Search Sites"
 msgstr ""
 
-#: core/Modules/Container.php:81
+#: core/Modules/Container.php:82
 msgid "Not found"
 msgstr ""
 
-#: core/Modules/Container.php:82
+#: core/Modules/Container.php:83
 msgid "Not found in Trash"
 msgstr ""
 
-#: core/Modules/Container.php:83
+#: core/Modules/Container.php:84
 msgid "Featured Image"
 msgstr ""
 
-#: core/Modules/Container.php:84
+#: core/Modules/Container.php:85
 msgid "Set featured image"
 msgstr ""
 
-#: core/Modules/Container.php:85
+#: core/Modules/Container.php:86
 msgid "Remove featured image"
 msgstr ""
 
-#: core/Modules/Container.php:86
+#: core/Modules/Container.php:87
 msgid "Use as featured image"
 msgstr ""
 
-#: core/Modules/Container.php:87
+#: core/Modules/Container.php:88
 msgid "Insert into item"
 msgstr ""
 
-#: core/Modules/Container.php:88
+#: core/Modules/Container.php:89
 msgid "Uploaded to this item"
 msgstr ""
 
-#: core/Modules/Container.php:89
+#: core/Modules/Container.php:90
 msgid "Sites list"
 msgstr ""
 
-#: core/Modules/Container.php:90
+#: core/Modules/Container.php:91
 msgid "Sites list navigation"
 msgstr ""
 
-#: core/Modules/Container.php:91
+#: core/Modules/Container.php:92
 msgid "Filter items list"
 msgstr ""
 
-#: core/Modules/Container.php:95
+#: core/Modules/Container.php:96
 msgid "Site"
 msgstr ""
 
-#: core/Modules/Container.php:96
+#: core/Modules/Container.php:97
 msgid "Platform Sites"
 msgstr ""
 
-#: core/Modules/Container.php:132
+#: core/Modules/Container.php:133
 msgctxt "Taxonomy General Name"
 msgid "Blueprint Categories"
 msgstr ""
 
-#: core/Modules/Container.php:133
+#: core/Modules/Container.php:134
 msgctxt "Taxonomy Singular Name"
 msgid "Blueprint Category"
 msgstr ""
 
-#: core/Modules/Container.php:134
+#: core/Modules/Container.php:135
 msgid "Taxonomy"
 msgstr ""
 
-#: core/Modules/Container.php:135
+#: core/Modules/Container.php:136
 msgid "All Items"
 msgstr ""
 
-#: core/Modules/Container.php:136
+#: core/Modules/Container.php:137
 msgid "Parent Item"
 msgstr ""
 
-#: core/Modules/Container.php:137
+#: core/Modules/Container.php:138
 msgid "Parent Item:"
 msgstr ""
 
-#: core/Modules/Container.php:138
+#: core/Modules/Container.php:139
 msgid "New Item Name"
 msgstr ""
 
-#: core/Modules/Container.php:139
+#: core/Modules/Container.php:140
 msgid "Add New Item"
 msgstr ""
 
-#: core/Modules/Container.php:140
+#: core/Modules/Container.php:141
 msgid "Edit Item"
 msgstr ""
 
-#: core/Modules/Container.php:141
+#: core/Modules/Container.php:142
 msgid "Update Item"
 msgstr ""
 
-#: core/Modules/Container.php:142
+#: core/Modules/Container.php:143
 msgid "View Item"
 msgstr ""
 
-#: core/Modules/Container.php:143
+#: core/Modules/Container.php:144
 msgid "Separate items with commas"
 msgstr ""
 
-#: core/Modules/Container.php:144
+#: core/Modules/Container.php:145
 msgid "Add or remove items"
 msgstr ""
 
-#: core/Modules/Container.php:145
+#: core/Modules/Container.php:146
 msgid "Choose from the most used"
 msgstr ""
 
-#: core/Modules/Container.php:146
+#: core/Modules/Container.php:147
 msgid "Popular Items"
 msgstr ""
 
-#: core/Modules/Container.php:147
+#: core/Modules/Container.php:148
 msgid "Search Items"
 msgstr ""
 
-#: core/Modules/Container.php:148
+#: core/Modules/Container.php:149
 msgid "Not Found"
 msgstr ""
 
-#: core/Modules/Container.php:149
+#: core/Modules/Container.php:150
 msgid "No items"
 msgstr ""
 
-#: core/Modules/Container.php:150
+#: core/Modules/Container.php:151
 msgid "Items list"
 msgstr ""
 
-#: core/Modules/Container.php:151
+#: core/Modules/Container.php:152
 msgid "Items list navigation"
 msgstr ""
 
-#: core/Modules/Container.php:950, templates/loop/sites.php:128
+#: core/Modules/Container.php:951, templates/loop/sites.php:128
 msgid "Customer"
 msgstr ""
 
-#: core/Modules/Container.php:1136
+#: core/Modules/Container.php:1137
 msgid "Notice - How To Manage This Site"
 msgstr ""
 
-#: core/Modules/Container.php:1141
+#: core/Modules/Container.php:1142
 msgid "We recommend managing this site on the front-end of your installation using the <a href=\"%s\">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team."
 msgstr ""
 
-#: core/Modules/Container.php:1123
+#: core/Modules/Container.php:1124
 msgid "Notice - How To Manage & Update This Blueprint"
 msgstr ""
 
-#: core/Modules/Container.php:1127
+#: core/Modules/Container.php:1128
 msgid "<a href=\"%s\">You should manage this Blueprint using the front-end of your dashboard.</a> Only use this page to take advanced actions, like stopping or removing the blueprint completely"
 msgstr ""
 
@@ -991,6 +1025,10 @@ msgstr ""
 
 #: core/Modules/Preview.php:213, core/Widgets/Dashboard/LaunchSite.php:25, core/Widgets/Launch/LaunchSite.php:32
 msgid "Launch Site"
+msgstr ""
+
+#: core/Modules/Preview.php:248
+msgid "all"
 msgstr ""
 
 #: core/Modules/Preview.php:259

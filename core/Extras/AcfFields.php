@@ -1686,7 +1686,7 @@ Once this is enabled on your account, all deployed sites will be configured with
 				'label'             => __( 'Path', 'dollie' ),
 				'name'              => 'wpd_backup_google_path',
 				'type'              => 'text',
-				'instructions'      => __( 'We automatically prepend the site name to the path you enter here. Please make sure the path ends with a trailing slash(/).', 'dollie' ),
+				'instructions'      => __( 'We automatically append each site\'s name to the following defined path. Every site will be backed up in it\'s own folder, in the directory that you define here.', 'dollie' ),
 				'required'          => 1,
 				'conditional_logic' => array(
 					array(
@@ -1704,7 +1704,7 @@ Once this is enabled on your account, all deployed sites will be configured with
 				),
 				'hide_admin'        => 0,
 				'default_value'     => '',
-				'placeholder'       => 'my_backups/dollie_backups/',
+				'placeholder'       => 'my_backups/dollie_backups',
 				'prepend'           => '',
 				'append'            => '',
 				'maxlength'         => '',
