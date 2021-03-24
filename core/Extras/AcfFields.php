@@ -1686,7 +1686,7 @@ Once this is enabled on your account, all deployed sites will be configured with
 				'label'             => __( 'Path', 'dollie' ),
 				'name'              => 'wpd_backup_google_path',
 				'type'              => 'text',
-				'instructions'      => __( 'We automatically append each site\'s name to the following defined path. Every site will be backed up in it\'s own folder, in the directory that you define here.', 'dollie' ),
+				'instructions'      => __( 'We automatically append each site\'s name to the following defined path. Every site will be backed up in its own folder, in the directory that you define here.', 'dollie' ),
 				'required'          => 1,
 				'conditional_logic' => array(
 					array(

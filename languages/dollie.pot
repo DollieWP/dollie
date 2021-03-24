@@ -496,7 +496,7 @@ msgid "Path"
 msgstr ""
 
 #: core/Extras/AcfFields.php:1689
-msgid "We automatically append each site's name to the following defined path. Every site will be backed up in it's own folder, in the directory that you define here."
+msgid "We automatically append each site's name to the following defined path. Every site will be backed up in its own folder, in the directory that you define here."
 msgstr ""
 
 #: core/Extras/AcfFormFields.php:10
