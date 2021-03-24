@@ -56,7 +56,7 @@ class ChangeContainerRoleJob extends Singleton {
 			'switch_to'      => $role,
 		];
 
-		Api::process_response( Api::post( Api::ROUTE_CHANGE_USER_ROLE, $data ) );
+		Api::process_response( Api::post( Api::ROUTE_CONTAINER_CHANGE_USER_ROLE, $data ) );
 
 		sleep( 5 );
 

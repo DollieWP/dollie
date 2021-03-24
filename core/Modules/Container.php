@@ -320,8 +320,8 @@ class Container extends Singleton {
 	 * Update WP site url option
 	 *
 	 * @param $new_url
-	 * @param string $old_url
-	 * @param null $container_id
+	 * @param string  $old_url
+	 * @param null    $container_id
 	 *
 	 * @return bool|mixed
 	 */
@@ -475,10 +475,10 @@ class Container extends Singleton {
 				update_post_meta( $post_id, 'wpd_installation_version', $data['container_details']['Version'] );
 
 				if ( $data['container_details']['Name'] !== get_the_title( $post_id ) ) {
-					$post_data = array(
+					$post_data = [
 						'ID'         => $post_id,
-						'post_title' => $data['container_details']['Name']
-					);
+						'post_title' => $data['container_details']['Name'],
+					];
 					wp_update_post( $post_data );
 				}
 			}
@@ -584,7 +584,7 @@ class Container extends Singleton {
 	 * @param $url
 	 * @param $transient_id
 	 * @param $user_auth
-	 * @param null $user_pass
+	 * @param null         $user_pass
 	 *
 	 * @return array|mixed
 	 */
@@ -660,7 +660,7 @@ class Container extends Singleton {
 	/**
 	 * Get container login info
 	 *
-	 * @param null $container_id
+	 * @param null   $container_id
 	 * @param string $site_username
 	 *
 	 * @return mixed
@@ -851,25 +851,25 @@ class Container extends Singleton {
 			$qv['meta_query'] = [];
 
 			if ( ! empty( $_GET['blueprint'] ) ) {
-				$qv['meta_query'][] = array(
+				$qv['meta_query'][] = [
 					'relation' => 'OR',
-					array(
+					[
 						'key'   => 'wpd_is_blueprint',
 						'value' => 'yes',
-					)
-				);
+					],
+				];
 			} else {
-				$qv['meta_query'][] = array(
+				$qv['meta_query'][] = [
 					'relation' => 'OR',
 					[
 						'key'     => 'wpd_is_blueprint',
-						'compare' => 'NOT EXISTS'
+						'compare' => 'NOT EXISTS',
 					],
 					[
 						'key'   => 'wpd_is_blueprint',
-						'value' => 'no'
-					]
-				);
+						'value' => 'no',
+					],
+				];
 			}
 		}
 	}
@@ -1115,38 +1115,41 @@ class Container extends Singleton {
 
 		$container_id = $_GET['post'];
 		?>
-        <br>
-        <div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
-            <div class="dollie-inner-message">
+		<br>
+		<div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
+			<div class="dollie-inner-message">
 				<?php if ( dollie()->is_blueprint( $container_id ) ) { ?>
 
-                    <div class="dollie-message-center">
-                        <h3><?php esc_html_e( 'Notice - How To Manage & Update This Blueprint', 'dollie' ); ?> </h3>
-                        <p>
+					<div class="dollie-message-center">
+						<h3><?php esc_html_e( 'Notice - How To Manage & Update This Blueprint', 'dollie' ); ?> </h3>
+						<p>
 							<?php
-							echo wp_kses_post( sprintf(
-								__( '<a href="%s">You should manage this Blueprint using the front-end of your dashboard.</a> Only use this page to take advanced actions, like stopping or removing the blueprint completely', 'dollie' ),
-								esc_url( trailingslashit( get_the_permalink( $container_id ) ) . 'blueprints' )
-							) );
+							echo wp_kses_post(
+								sprintf(
+									__( '<a href="%s">You should manage this Blueprint using the front-end of your dashboard.</a> Only use this page to take advanced actions, like stopping or removing the blueprint completely', 'dollie' ),
+									esc_url( trailingslashit( get_the_permalink( $container_id ) ) . 'blueprints' )
+								)
+							);
 							?>
-                    </div>
+					</div>
 
 
 				<?php } else { ?>
-                    <div class="dollie-message-center">
-                        <h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
-                        <p>
+					<div class="dollie-message-center">
+						<h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
+						<p>
 							<?php
 							echo wp_kses_post(
 								sprintf(
 									__( 'We recommend managing this site on the front-end of your installation using the <a href="%s">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team.', 'dollie' ),
 									esc_url( get_the_permalink( $container_id ) )
-								) );
+								)
+							);
 							?>
-                    </div>
+					</div>
 				<?php } ?>
-            </div>
-        </div>
+			</div>
+		</div>
 		<?php
 	}
 
@@ -1209,20 +1212,18 @@ class Container extends Singleton {
 			'path'       => 'wpd_backup_google_path',
 		];
 
-		// a field has changed
+		// Check if any chiled has changed.
 		foreach ( $settings as $k => $setting ) {
 			$new_data[ $k ] = $_POST['acf'][ acf_get_field( $setting )['key'] ];
 
-			if ( isset ( $new_data[ $k ] ) && get_field( $setting, 'options' ) != $new_data[ $k ] ) {
+			if ( isset( $new_data[ $k ] ) && get_field( $setting, 'options' ) != $new_data[ $k ] ) {
 				$changed = true;
 			}
 		}
 
-		// send request
 		if ( $changed ) {
-			Api::post( Api::ROUTE_SETTINGS_ADD_CUSTOM_BACKUP, $new_data );
+			Api::post( Api::ROUTE_ADD_CUSTOM_BACKUP, $new_data );
 		}
-
 	}
 
 	/**
@@ -1258,18 +1259,18 @@ class Container extends Singleton {
 	 */
 	public function change_role_notice() {
 		?>
-        <script type="text/javascript">
-            (function ($) {
-                var customer_role = $('[data-name="wpd_client_site_permission"]');
-                if (customer_role.length) {
-                    var key = customer_role.data('key');
+		<script type="text/javascript">
+			(function ($) {
+				var customer_role = $('[data-name="wpd_client_site_permission"]');
+				if (customer_role.length) {
+					var key = customer_role.data('key');
 
-                    $('[name="acf[' + key + ']"]').on('change', function () {
-                        alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
-                    })
-                }
-            })(jQuery);
-        </script>
+					$('[name="acf[' + key + ']"]').on('change', function () {
+						alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
+					})
+				}
+			})(jQuery);
+		</script>
 		<?php
 	}
 
@@ -1277,7 +1278,7 @@ class Container extends Singleton {
 	 * Get container screenshot
 	 *
 	 * @param $container_uri
-	 * @param bool $regenerate
+	 * @param bool          $regenerate
 	 *
 	 * @return array|mixed|null
 	 */

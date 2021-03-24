@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dollie\Core\Modules\Blueprints;
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Modules\Sites\WP;
+use Dollie\Core\Utils\Api;
 use Dollie\Core\Singleton;
 
 /**
@@ -55,11 +56,11 @@ class LaunchSite extends Singleton {
 	 * @param $args
 	 */
 	public function validate_form( $form, $args ) {
-		$domain = af_get_field( 'site_url' );
+		$domain    = af_get_field( 'site_url' );
+		$site_type = af_get_field( 'site_type' );
 
 		if ( ! preg_match( '/^[a-zA-Z0-9-_]+$/', $domain ) ) {
 			af_add_error( 'site_url', esc_html__( 'Site URL can only contain letters, numbers, dash and underscore', 'dollie' ) );
-
 		}
 
 		// Check if domain does not already exists.
@@ -69,10 +70,18 @@ class LaunchSite extends Singleton {
 			'numberposts'   => 1,
 			'post_status'   => 'any',
 		];
-		$my_posts   = get_posts( $query_args );
+		$containers = get_posts( $query_args );
 
-		if ( ! empty( $my_posts ) ) {
+		if ( ! empty( $containers ) ) {
 			af_add_error( 'site_url', esc_html__( 'This site is already registered. Please try another name.', 'dollie' ) );
+		}
+
+		if ( 'blueprint' === $site_type ) {
+			$blueprint_availability = Api::process_response( Api::post( Api::ROUTE_CONTAINER_BLUEPRINT_AVAILABILITY, [ 'route' => $domain . '.wp-site.xyz' ] ) );
+
+			if ( ! $blueprint_availability ['status'] ) {
+				af_add_error( 'site_url', esc_html__( 'This site name is not available in our blueprints workspace. Please try another name.', 'dollie' ) );
+			}
 		}
 
 		do_action( 'dollie/launch/validate/after' );
@@ -123,8 +132,7 @@ class LaunchSite extends Singleton {
 	 * @return mixed
 	 */
 	public function change_form_args( $args ) {
-
-		if ( isset( $args['values'], $args['values']['site_type'] ) && $args['values']['site_type'] === 'blueprint' ) {
+		if ( isset( $args['values'], $args['values']['site_type'] ) && 'blueprint' === $args['values']['site_type'] ) {
 			add_filter(
 				'acf/prepare_field/name=site_url',
 				function ( $field ) {
@@ -146,7 +154,6 @@ class LaunchSite extends Singleton {
 	 * @return mixed
 	 */
 	public function populate_blueprints( $field ) {
-
 		$default_option = [];
 		$blueprints     = Blueprints::instance()->get( 'image' );
 
@@ -160,7 +167,7 @@ class LaunchSite extends Singleton {
 		}
 		$field['choices'] = $default_option + $blueprints;
 
-		// Hide the blueprints field or check the value from cookie
+		// Hide the blueprints field or check the value from cookie.
 		if ( empty( $blueprints ) ) {
 
 			$field['wrapper']['class'] = 'acf-hidden';
@@ -170,7 +177,6 @@ class LaunchSite extends Singleton {
 			$field['value'] = (int) sanitize_text_field( $_COOKIE[ Blueprints::COOKIE_NAME ] );
 		}
 
-		// return the field
 		return $field;
 	}
 
