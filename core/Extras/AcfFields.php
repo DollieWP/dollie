@@ -1683,10 +1683,10 @@ Once this is enabled on your account, all deployed sites will be configured with
 			),
 			array(
 				'key'               => 'field_6059f23be3d75',
-				'label'             => __( 'Path', 'dollie' ),
+				'label'             => __( 'Bucket Name', 'dollie' ),
 				'name'              => 'wpd_backup_google_path',
 				'type'              => 'text',
-				'instructions'      => __( 'We automatically append each site\'s name to the following defined path. Every site will be backed up in its own folder, in the directory that you define here.', 'dollie' ),
+				'instructions'      => __( 'You can fill in just your bucket name like "my_bucket_name" or you can point to a folder in your bucket like "my_bucket_name/example_folder". Every site will be backed up in its own folder.', 'dollie' ),
 				'required'          => 1,
 				'conditional_logic' => array(
 					array(
@@ -1704,7 +1704,7 @@ Once this is enabled on your account, all deployed sites will be configured with
 				),
 				'hide_admin'        => 0,
 				'default_value'     => '',
-				'placeholder'       => 'my_backups/dollie_backups',
+				'placeholder'       => 'my_bucket_name/example_folder',
 				'prepend'           => '',
 				'append'            => '',
 				'maxlength'         => '',

@@ -492,11 +492,11 @@ msgid "Secret Key"
 msgstr ""
 
 #: core/Extras/AcfFields.php:1686
-msgid "Path"
+msgid "Bucket Name"
 msgstr ""
 
 #: core/Extras/AcfFields.php:1689
-msgid "We automatically append each site's name to the following defined path. Every site will be backed up in its own folder, in the directory that you define here."
+msgid "You can fill in just your bucket name like \"my_bucket_name\" or you can point to a folder in your bucket like \"my_bucket_name/example_folder\". Every site will be backed up in its own folder."
 msgstr ""
 
 #: core/Extras/AcfFormFields.php:10
@@ -907,11 +907,11 @@ msgstr ""
 msgid "Customer"
 msgstr ""
 
-#: core/Modules/Container.php:1137
+#: core/Modules/Container.php:1139
 msgid "Notice - How To Manage This Site"
 msgstr ""
 
-#: core/Modules/Container.php:1142
+#: core/Modules/Container.php:1144
 msgid "We recommend managing this site on the front-end of your installation using the <a href=\"%s\">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team."
 msgstr ""
 
@@ -919,7 +919,7 @@ msgstr ""
 msgid "Notice - How To Manage & Update This Blueprint"
 msgstr ""
 
-#: core/Modules/Container.php:1128
+#: core/Modules/Container.php:1129
 msgid "<a href=\"%s\">You should manage this Blueprint using the front-end of your dashboard.</a> Only use this page to take advanced actions, like stopping or removing the blueprint completely"
 msgstr ""
 
@@ -1535,19 +1535,23 @@ msgstr ""
 msgid "Connect Domain"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:61
+#: core/Modules/Forms/LaunchSite.php:63
 msgid "Site URL can only contain letters, numbers, dash and underscore"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:75
+#: core/Modules/Forms/LaunchSite.php:76
 msgid "This site is already registered. Please try another name."
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:156
+#: core/Modules/Forms/LaunchSite.php:83
+msgid "This site name is not available in our blueprints workspace. Please try another name."
+msgstr ""
+
+#: core/Modules/Forms/LaunchSite.php:163
 msgid "Default Wordpress Site"
 msgstr ""
 
-#: core/Modules/Forms/LaunchSite.php:158
+#: core/Modules/Forms/LaunchSite.php:165
 msgid "No Blueprint"
 msgstr ""
 
