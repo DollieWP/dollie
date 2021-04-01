@@ -1221,8 +1221,10 @@ class Container extends Singleton {
 			}
 		}
 
-		if ( $changed ) {
+		if ( $changed && $new_data['status'] ) {
 			Api::post( Api::ROUTE_ADD_CUSTOM_BACKUP, $new_data );
+		} elseif ( ! $new_data['status'] ) {
+			Api::get( Api::ROUTE_DISABLE_CUSTOM_BACKUP );
 		}
 	}
 
