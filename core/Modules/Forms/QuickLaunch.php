@@ -81,6 +81,7 @@ class QuickLaunch extends Singleton {
 		}
 
 		$deploy_data = compact( 'email', 'domain', 'user_id', 'blueprint', 'site_type' );
+		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data, $domain, $blueprint );
 
 		// add WP site details.
 		$setup_data = [

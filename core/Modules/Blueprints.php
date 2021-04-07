@@ -16,7 +16,7 @@ use Dollie\Core\Utils\Api;
  */
 class Blueprints extends Singleton {
 
-	const COOKIE_NAME      = 'dollie_blueprint_id';
+	const COOKIE_NAME = 'dollie_blueprint_id';
 	const COOKIE_GET_PARAM = 'blueprint_id';
 
 	/**
@@ -26,6 +26,78 @@ class Blueprints extends Singleton {
 		parent::__construct();
 
 		add_action( 'init', [ $this, 'set_cookie' ], - 99999 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		add_action( 'wp_ajax_dollie_launch_site_blueprint_data', [ $this, 'ajax_get_dynamic_fields' ] );
+		add_filter( 'dollie/launch_site/form_deploy_data', [ $this, 'site_launch_add_customizer_data' ], 10, 3 );
+		add_filter( 'dollie/launch_site/extras_envvars', [ $this, 'site_launch_set_env_vars' ], 10, 6 );
+
+	}
+
+	public function enqueue_scripts() {
+
+		if ( ! is_page( dollie()->get_launch_page_id() ) ) {
+			return;
+		}
+
+		wp_register_script( 'dollie-launch-dynamic-data', DOLLIE_ASSETS_URL . 'js/launch-dynamic-data.js', [ 'jquery' ], DOLLIE_VERSION, true );
+		wp_localize_script(
+			'dollie-launch-dynamic-data',
+			'wpdDynamicData',
+			[
+				'ajaxurl' => admin_url( '/admin-ajax.php' ),
+			]
+		);
+
+		wp_enqueue_script( 'dollie-launch-dynamic-data' );
+	}
+
+	/**
+	 * Add dynamic blueprint customizer fields to the launch form
+	 */
+	public function ajax_get_dynamic_fields() {
+		$blueprint = (int) $_POST['blueprint'];
+
+		if ( empty( $blueprint ) ) {
+
+			return;
+		}
+
+		ob_start();
+
+		$fields = get_field( 'wpd_dynamic_blueprint_data', $blueprint );
+		if ( ! empty( $fields ) ) {
+
+			$message = '';
+
+			foreach ( $fields as $field ) {
+				$message .= '<div class="acf-field-text acf-field" style="width: 50%;" data-width="50">';
+				$message .= '<div class="af-label acf-label">' .
+				            '<label>' . $field['name'] . '</label>' .
+				            '</div>';
+				$message .= '<div class="af-input acf-input">';
+				$message .= '<input name="wpd_bp_data[' . $field['placeholder'] . ']" type="text" value="' . $field['default_value'] . '"><br>';
+				$message .= '</div>';
+				$message .= '</div>';
+			}
+
+			\Dollie\Core\Utils\Tpl::load(
+				'notice',
+				[
+					'icon'    => 'fas fa-exclamation-circle',
+					'title'   => __( 'Blueprint Customizer', 'dollie' ),
+					'message' => __( 'Make sure to set your site details below. We automatically deploy the site with your information.', 'dollie' )
+					             . $message,
+				],
+				true
+			);
+
+		}
+
+		wp_send_json_success( [
+			'fields' => ob_get_clean()
+		] );
+
+		exit;
 	}
 
 	public static function show_default_blueprint() {
@@ -87,9 +159,9 @@ class Blueprints extends Singleton {
 					$image = get_post_meta( $site->ID, 'wpd_site_screenshot', true );
 				}
 				$value = '<img data-toggle="tooltip" data-placement="bottom" ' .
-						 'data-tooltip="' . esc_attr( get_post_meta( $site->ID, 'wpd_installation_blueprint_description', true ) ) . '" ' .
-						 'class="fw-blueprint-screenshot acf__tooltip" src=' . $image . '>' .
-						 esc_html( get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true ) );
+				         'data-tooltip="' . esc_attr( get_post_meta( $site->ID, 'wpd_installation_blueprint_description', true ) ) . '" ' .
+				         'class="fw-blueprint-screenshot acf__tooltip" src=' . $image . '>' .
+				         esc_html( get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true ) );
 
 			} else {
 				$value = get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true );
@@ -134,6 +206,8 @@ class Blueprints extends Singleton {
 		if ( ! is_array( $blueprints ) || empty( $blueprints ) ) {
 			return [];
 		}
+
+		// $blueprints = json_decode( $blueprints, true );
 
 		set_transient( 'dollie_' . $site->slug . '_total_blueprints', count( $blueprints ), MINUTE_IN_SECONDS * 1 );
 		update_post_meta( $site->id, 'wpd_installation_blueprints_available', count( $blueprints ) );
@@ -195,6 +269,58 @@ class Blueprints extends Singleton {
 		}
 
 		return $formatted_blueprints;
+	}
+
+	/**
+	 * Integrate the blueprint customizer form data into the deploy data variable
+	 *
+	 * @param $deploy_data
+	 * @param $domain
+	 * @param $blueprint
+	 *
+	 * @return mixed
+	 */
+	public function site_launch_add_customizer_data( $deploy_data, $domain, $blueprint ) {
+
+		if ( isset( $_POST['wpd_bp_data'] ) && is_array( $_POST['wpd_bp_data'] ) ) {
+			$bp_customizer = [];
+			$bp_fields     = get_field( 'wpd_dynamic_blueprint_data', $blueprint );
+
+			if ( ! empty( $bp_fields ) ) {
+				foreach ( $bp_fields as $bp_field ) {
+					if ( isset( $_POST['wpd_bp_data'][ $bp_field['placeholder'] ] ) ) {
+						$bp_customizer[ $bp_field['placeholder'] ] = $_POST['wpd_bp_data'][ $bp_field['placeholder'] ];
+					}
+				}
+			}
+
+			if ( ! empty( $bp_customizer ) ) {
+				$deploy_data['bp_customizer'] = $bp_customizer;
+			}
+
+		}
+
+		return $deploy_data;
+	}
+
+	/**
+	 * Add the blueprint customizer variables to the API request
+	 *
+	 * @param $vars
+	 * @param $domain
+	 * @param $user_id
+	 * @param $email
+	 * @param $blueprint
+	 * @param $deploy_data
+	 *
+	 * @return mixed
+	 */
+	public function site_launch_set_env_vars( $vars, $domain, $user_id, $email, $blueprint, $deploy_data ) {
+		if ( isset( $deploy_data['bp_customizer'] ) && is_array( $deploy_data['bp_customizer'] ) ) {
+			$vars['dynamic_fields'] = $deploy_data['bp_customizer'];
+		}
+
+		return $vars;
 	}
 
 }

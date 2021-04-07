@@ -72,7 +72,7 @@ final class WP extends Singleton {
 
 		Container::instance()->set_status( $post_id, 'pending' );
 
-		$env_vars_extras = apply_filters( 'dollie/launch_site/extras_envvars', [], $domain, $user_id, $email, $blueprint );
+		$env_vars_extras = apply_filters( 'dollie/launch_site/extras_envvars', [], $domain, $user_id, $email, $blueprint, $deploy_data );
 
 		if ( $blueprint ) {
 			setcookie( Blueprints::COOKIE_NAME, '', time() - 3600, '/' );

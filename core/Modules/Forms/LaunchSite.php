@@ -88,13 +88,18 @@ class LaunchSite extends Singleton {
 	}
 
 	public function submission_callback( $form, $fields, $args ) {
+
+		$blueprint   = Forms::instance()->get_form_blueprint( $form, $args );
+		$domain = af_get_field( 'site_url' );
 		$deploy_data = [
 			'email'     => af_get_field( 'site_admin_email' ),
-			'domain'    => af_get_field( 'site_url' ),
+			'domain'    => $domain,
 			'user_id'   => get_current_user_id(),
-			'blueprint' => Forms::instance()->get_form_blueprint( $form, $args ),
+			'blueprint' => $blueprint,
 			'site_type' => af_get_field( 'site_type' ),
 		];
+
+		$deploy_data = apply_filters('dollie/launch_site/form_deploy_data', $deploy_data, $domain, $blueprint );
 
 		// add WP site details.
 		$setup_data = [
@@ -160,9 +165,9 @@ class LaunchSite extends Singleton {
 		if ( ! empty( $blueprints ) && Blueprints::show_default_blueprint() ) {
 			$default_option = [
 				0 => '<img data-toggle="tooltip" data-placement="bottom" ' .
-					 ' title="' . esc_attr__( 'Default Wordpress Site', 'dollie' ) . '"' .
-					 ' class="fw-blueprint-screenshot" src="' . DOLLIE_ASSETS_URL . 'img/default-blueprint.jpg">' .
-					 esc_html__( 'No Blueprint', 'dollie' ),
+				     ' title="' . esc_attr__( 'Default Wordpress Site', 'dollie' ) . '"' .
+				     ' class="fw-blueprint-screenshot" src="' . DOLLIE_ASSETS_URL . 'img/default-blueprint.jpg">' .
+				     esc_html__( 'No Blueprint', 'dollie' ),
 			];
 		}
 		$field['choices'] = $default_option + $blueprints;
