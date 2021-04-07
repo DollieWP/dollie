@@ -1834,5 +1834,5 @@ Once this is enabled on your account, all deployed sites will be configured with
 		'active'                => true,
 		'description'           => '',
 	) );
-	
+
 endif;
