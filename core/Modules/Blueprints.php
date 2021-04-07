@@ -70,6 +70,11 @@ class Blueprints extends Singleton {
 			$message = '';
 
 			foreach ( $fields as $field ) {
+
+				if ( empty( $field['placeholder'] ) ) {
+					continue;
+				}
+
 				$message .= '<div class="acf-field-text acf-field" style="width: 50%;" data-width="50">';
 				$message .= '<div class="af-label acf-label">' .
 				            '<label>' . $field['name'] . '</label>' .
