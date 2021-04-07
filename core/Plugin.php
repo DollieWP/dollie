@@ -138,16 +138,16 @@ class Plugin extends Singleton {
 	 */
 	public function initialize() {
 
-		// Load elementor hooks
+		// Load elementor hooks.
 		Elementor\Hooks::instance();
 
-		// Load jobs
+		// Load jobs.
 		ChangeContainerRoleJob::instance();
 		// SyncContainersJob::instance();
 		UpdateContainerScreenshotsJob::instance();
 		RemoveOldLogsJob::instance();
 
-		// Load modules
+		// Load modules.
 		Forms::instance();
 		AccessControl::instance();
 		Backups::instance();
@@ -165,7 +165,7 @@ class Plugin extends Singleton {
 		NavMenu::instance();
 		WP::instance();
 
-		// Shortcodes
+		// Shortcodes.
 		Shortcodes\Blueprints::instance();
 		Shortcodes\Orders::instance();
 		Shortcodes\Sites::instance();
@@ -362,7 +362,7 @@ class Plugin extends Singleton {
 	/**
 	 * Register blockquote shortcode
 	 *
-	 * @param array $atts
+	 * @param array  $atts
 	 * @param string $content
 	 *
 	 * @return string

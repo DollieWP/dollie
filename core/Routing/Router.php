@@ -31,11 +31,11 @@ class Router {
 	/**
 	 * Constructor.
 	 *
-	 * @param string $route_variable
+	 * @param string  $route_variable
 	 * @param Route[] $routes
 	 */
-	public function __construct( $route_variable = 'route_name', array $routes = array() ) {
-		$this->routes         = array();
+	public function __construct( $route_variable = 'route_name', array $routes = [] ) {
+		$this->routes         = [];
 		$this->route_variable = $route_variable;
 
 		foreach ( $routes as $name => $route ) {
@@ -47,7 +47,7 @@ class Router {
 	 * Add a route to the router. Overwrites a route if it shares the same name as an already registered one.
 	 *
 	 * @param string $name
-	 * @param Route $route
+	 * @param Route  $route
 	 */
 	public function add_route( $name, Route $route ) {
 		$this->routes[ $name ] = $route;
@@ -99,7 +99,7 @@ class Router {
 	 * Adds a new WordPress rewrite rule for the given Route.
 	 *
 	 * @param string $name
-	 * @param Route $route
+	 * @param Route  $route
 	 * @param string $position
 	 */
 	private function add_rule( $name, Route $route, $position = 'top' ) {

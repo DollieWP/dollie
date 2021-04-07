@@ -53,6 +53,7 @@
 
 				acf_form(
 					[
+						'post_id'      => get_the_ID(),
 						'form'         => true,
 						'id'           => 'acf-form-bp',
 						'field_groups' => [ $acf_fields['Blueprints'] ],

@@ -34,6 +34,7 @@ class Container extends Singleton {
 		add_action( 'init', [ $this, 'check_deployment_domain_status' ] );
 
 		add_filter( 'query_vars', [ $this, 'query_vars' ] );
+		add_action( 'single_template', [ $this, 'add_acf_form_head' ], 9 );
 		add_filter( 'single_template', [ $this, 'container_template' ] );
 
 		add_action( 'template_redirect', [ $this, 'remove_customer_domain_action' ] );
@@ -206,6 +207,17 @@ class Container extends Singleton {
 			'index.php?' . $post_type . '=$matches[1]&post_type=' . $post_type . '&sub_page=$matches[2]',
 			'top'
 		);
+	}
+
+	/**
+	 * Init
+	 *
+	 * @return void
+	 */
+	public function add_acf_form_head() {
+		if ( in_array( get_query_var( 'sub_page' ), [ 'blueprints' ] ) ) {
+			acf_form_head();
+		}
 	}
 
 	/**

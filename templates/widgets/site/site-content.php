@@ -214,13 +214,13 @@ if ( 'stop' === $status ) :
 	$post_id = get_the_ID();
 	$install = get_queried_object()->post_name;
 
-	// Include ACF editor for blueprints
-	if ( get_query_var( 'blueprints' ) ) {
-		acf_form_head();
-	}
-
 	$data     = \Dollie\Core\Modules\Container::instance()->get_container_details( get_the_ID() );
 	$sub_page = get_query_var( 'sub_page' );
+
+	// Include ACF form head.
+	if ( in_array( $sub_page, [ 'blueprints' ] ) ) {
+		acf_form_head();
+	}
 
 	if ( 'plugins' === $sub_page ) {
 		\Dollie\Core\Utils\Tpl::load(

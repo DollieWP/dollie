@@ -74,16 +74,16 @@ class Preview {
 					'author'         => $author,
 					'post_type'      => 'container',
 					'posts_per_page' => 1000,
-					'meta_key'       => 'wpd_setup_complete', // (string) - Custom field key.
-					'meta_value'     => 'yes', // (string) - Custom field value.
+					'meta_key'       => 'wpd_setup_complete',
+					'meta_value'     => 'yes',
 				];
 			} elseif ( 'my-blueprints' === $_GET['type'] ) {
 				$gp_args = [
 					'author'         => get_current_user_id(),
 					'post_type'      => 'container',
 					'posts_per_page' => 1000,
-					'meta_key'       => 'wpd_blueprint_created', // (string) - Custom field key.
-					'meta_value'     => 'yes', // (string) - Custom field value.
+					'meta_key'       => 'wpd_blueprint_created',
+					'meta_value'     => 'yes',
 				];
 			}
 		} else {
@@ -91,11 +91,8 @@ class Preview {
 				'post_type'      => 'container',
 				'posts_per_page' => 1000,
 				'post_status'    => 'publish',
-				// Se the meta query
 				'meta_query'     => [
-					// comparison between the inner meta fields conditionals
 					'relation' => 'AND',
-					// meta field condition one
 					[
 						'key'   => 'wpd_blueprint_created',
 						'value' => 'yes',
@@ -104,18 +101,15 @@ class Preview {
 						'key'   => 'wpd_is_blueprint',
 						'value' => 'yes',
 					],
-					// meta
-					// meta field condition one
 					[
 						'key'     => 'wpd_installation_blueprint_title',
-						// I think you really want != instead of NOT LIKE, fix me if I'm wrong
-						// 'compare'      => 'NOT LIKE',
 						'compare' => 'EXISTS',
 					],
 				],
 
 			];
 		}
+
 		$posts = query_posts( $gp_args );
 
 		$theme_array = [];

@@ -2,7 +2,6 @@
 
 namespace Dollie\Core\Routing;
 
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -40,10 +39,10 @@ class Processor {
 	/**
 	 * Constructor.
 	 *
-	 * @param Router $router
+	 * @param Router  $router
 	 * @param Route[] $routes
 	 */
-	public function __construct( Router $router, array $routes = array() ) {
+	public function __construct( Router $router, array $routes = [] ) {
 		$this->router = $router;
 		$this->routes = $routes;
 	}
@@ -51,16 +50,16 @@ class Processor {
 	/**
 	 * Initialize processor with WordPress.
 	 *
-	 * @param Router $router
+	 * @param Router  $router
 	 * @param Route[] $routes
 	 */
-	public static function init( Router $router, array $routes = array() ) {
+	public static function init( Router $router, array $routes = [] ) {
 		$self = new self( $router, $routes );
 
-		add_action( 'init', array( $self, 'register_routes' ) );
-		add_action( 'parse_request', array( $self, 'match_request' ) );
-		add_action( 'template_include', array( $self, 'load_route_template' ) );
-		add_action( 'template_redirect', array( $self, 'call_route_hook' ) );
+		add_action( 'init', [ $self, 'register_routes' ] );
+		add_action( 'parse_request', [ $self, 'match_request' ] );
+		add_action( 'template_include', [ $self, 'load_route_template' ] );
+		add_action( 'template_redirect', [ $self, 'call_route_hook' ] );
 	}
 
 	/**
@@ -109,7 +108,7 @@ class Processor {
 		}
 
 		if ( $matched_route instanceof \WP_Error && in_array( 'route_not_found', $matched_route->get_error_codes() ) ) {
-			wp_die( $matched_route, 'Route Not Found', array( 'response' => 404 ) );
+			wp_die( $matched_route, 'Route Not Found', [ 'response' => 404 ] );
 		}
 	}
 
