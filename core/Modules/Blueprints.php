@@ -288,7 +288,7 @@ class Blueprints extends Singleton {
 
 			if ( ! empty( $bp_fields ) ) {
 				foreach ( $bp_fields as $bp_field ) {
-					if ( isset( $_POST['wpd_bp_data'][ $bp_field['placeholder'] ] ) ) {
+					if ( ! empty( $bp_field['placeholder'] ) && isset( $_POST['wpd_bp_data'][ $bp_field['placeholder'] ] ) ) {
 						$bp_customizer[ $bp_field['placeholder'] ] = $_POST['wpd_bp_data'][ $bp_field['placeholder'] ];
 					}
 				}
