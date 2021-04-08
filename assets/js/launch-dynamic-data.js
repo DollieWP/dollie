@@ -18,6 +18,34 @@ var Dollie = Dollie || {};
                 _this.registerChangeAction(e)
             });
 
+            acf.add_filter('validation_complete', function( json, $form ){
+
+                var emptyField = false;
+                $('.wpd-blueprint-dynamic input').each(function() {
+                    if ($(this).val() == ''){
+                        emptyField = true;
+                    }
+                });
+
+                if ( emptyField === true ) {
+
+                    // check errors
+                    if( ! json.errors ) {
+                        json.errors = [{
+                            input: "acf[field_5e6a1773d54c4]",
+                            message: wpdDynamicData.validationErrorMessage
+                        }];
+                        json.valid = 0;
+                    }
+
+                    console.log(json);
+
+                }
+
+                // return
+                return json;
+            });
+
         },
 
         registerChangeAction: function (e) {

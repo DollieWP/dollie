@@ -58,7 +58,7 @@
 						'id'           => 'acf-form-bp',
 						'field_groups' => [
 							$acf_fields['Blueprints'],
-							$acf_fields['Blueprint Customizer']
+							$acf_fields['Realtime Customizer']
 						],
 						'return'       => dollie()->get_site_url( get_the_ID(), 'blueprints' ),
 					]

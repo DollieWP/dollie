@@ -45,6 +45,7 @@ class Blueprints extends Singleton {
 			'wpdDynamicData',
 			[
 				'ajaxurl' => admin_url( '/admin-ajax.php' ),
+				'validationErrorMessage' => __('Please fill the Realtime Customizer fields.','dollie')
 			]
 		);
 
@@ -80,7 +81,7 @@ class Blueprints extends Singleton {
 				            '<label>' . $field['name'] . '</label>' .
 				            '</div>';
 				$message .= '<div class="af-input acf-input">';
-				$message .= '<input name="wpd_bp_data[' . $field['placeholder'] . ']" type="text" value="' . $field['default_value'] . '"><br>';
+				$message .= '<input name="wpd_bp_data[' . $field['placeholder'] . ']" type="text" placeholder="' . $field['default_value'] . '"><br>';
 				$message .= '</div>';
 				$message .= '</div>';
 			}
@@ -89,8 +90,9 @@ class Blueprints extends Singleton {
 				'notice',
 				[
 					'icon'    => 'fas fa-exclamation-circle',
-					'title'   => __( 'Blueprint Customizer', 'dollie' ),
-					'message' => __( 'Make sure to set your site details below. We automatically deploy the site with your information.', 'dollie' )
+					'title'   => __( 'Realtime Customizer', 'dollie' ),
+					'message' => '<div>' . __( 'Make sure to set your site details below. We automatically deploy the site with your information.', 'dollie' )
+					             . '</div>'
 					             . $message,
 				],
 				true

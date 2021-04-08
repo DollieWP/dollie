@@ -1731,11 +1731,11 @@ Once this is enabled on your account, all deployed sites will be configured with
 
 	acf_add_local_field_group(array(
 		'key' => 'group_60361f89bf0cf',
-		'title' => 'Blueprint Customizer',
+		'title' => 'Realtime Customizer',
 		'fields' => array(
 			array(
 				'key' => 'field_604f48fdbb766',
-				'label' => __('Blueprint Content Customizer', 'dollie'),
+				'label' => __('Realtime Content Customizer', 'dollie'),
 				'name' => 'wpd_dynamic_blueprint_data',
 				'type' => 'repeater',
 				'instructions' => __('Here you can define custom placeholders for data that can be searched and replaced when a site is deployed using this blueprint.', 'dollie'),
@@ -1795,7 +1795,7 @@ Once this is enabled on your account, all deployed sites will be configured with
 					),
 					array(
 						'key' => 'field_60631a4858ebf',
-						'label' => __('Default value', 'dollie'),
+						'label' => __('Suggested value', 'dollie'),
 						'name' => 'default_value',
 						'type' => 'text',
 						'instructions' => '',
@@ -1834,6 +1834,5 @@ Once this is enabled on your account, all deployed sites will be configured with
 		'active' => true,
 		'description' => '',
 	));
-
 
 endif;
