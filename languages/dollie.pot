@@ -91,7 +91,7 @@ msgstr ""
 msgid "Blueprint Updated"
 msgstr ""
 
-#: core/Plugin.php:343, core/Modules/Options.php:271, templates/widgets/launch/launch-site.php:35
+#: core/Plugin.php:362, core/Modules/Options.php:271, templates/widgets/launch/launch-site.php:35
 msgid "Connect with Dollie"
 msgstr ""
 
