@@ -151,22 +151,22 @@ if ( 'stop' === $status ) :
 
 				jQuery(document).ready(function () {
 
-                    const swiper = new Swiper('.swiper-container', {
-                        // Optional parameters
-                        loop: false,
+					const swiper = new Swiper('.swiper-container', {
+						// Optional parameters
+						loop: false,
 
-                        // If we need pagination
-                        pagination: {
-                            el: '.swiper-pagination',
-                        },
+						// If we need pagination
+						pagination: {
+							el: '.swiper-pagination',
+						},
 
-                        // Navigation arrows
-                        navigation: {
-                            nextEl: '.swiper-button-next',
-                            prevEl: '.swiper-button-prev',
-                        },
+						// Navigation arrows
+						navigation: {
+							nextEl: '.swiper-button-next',
+							prevEl: '.swiper-button-prev',
+						},
 
-                    });
+					});
 
 					jQuery(".swiper-slide").filter(function () {
 						return !jQuery(this).find('.ast-oembed-container');
@@ -214,13 +214,13 @@ if ( 'stop' === $status ) :
 	$post_id = get_the_ID();
 	$install = get_queried_object()->post_name;
 
-	// Include ACF editor for blueprints
-	if ( get_query_var( 'blueprints' ) || current_user_can( 'edit_pages' ) ) {
-		acf_form_head();
-	}
-
 	$data     = \Dollie\Core\Modules\Container::instance()->get_container_details( get_the_ID() );
 	$sub_page = get_query_var( 'sub_page' );
+
+	// Include ACF form head.
+	if ( in_array( $sub_page, [ 'blueprints' ] ) ) {
+		acf_form_head();
+	}
 
 	if ( 'plugins' === $sub_page ) {
 		\Dollie\Core\Utils\Tpl::load(

@@ -24,8 +24,10 @@ if (dollie()->has_dollie_layout_widget()) { ?>
 	</head>
 
 	<body <?php body_class(); ?>>
-	<?php } else {
-	get_header();
+	<?php
+		do_action('dollie_open_body');
+	} else {
+		get_header();
 }
 while (have_posts()) {
 	the_post();

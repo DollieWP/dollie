@@ -18,13 +18,14 @@ use Dollie\Core\Singleton;
 class Api extends Singleton {
 
 	const
-		ROUTE_CONTAINER_GET              = 'containers',
-		ROUTE_CONTAINER_DEPLOY           = 'containers/deploy',
-		ROUTE_CONTAINER_DEPLOY_GET       = 'containers/deploy/{uuid}',
-		ROUTE_CONTAINER_TRIGGER          = 'containers/trigger',
-		ROUTE_CHANGE_USER_ROLE           = 'containers/change-user-role',
-		ROUTE_CONTAINER_SCREENSHOT       = 'containers/take-screenshot',
-		ROUTE_CONTAINER_SCREENSHOT_REGEN = 'containers/regenerate-screenshots',
+		ROUTE_CONTAINER_GET                    = 'containers',
+		ROUTE_CONTAINER_DEPLOY                 = 'containers/deploy',
+		ROUTE_CONTAINER_DEPLOY_GET             = 'containers/deploy/{uuid}',
+		ROUTE_CONTAINER_TRIGGER                = 'containers/trigger',
+		ROUTE_CONTAINER_CHANGE_USER_ROLE       = 'containers/change-user-role',
+		ROUTE_CONTAINER_SCREENSHOT             = 'containers/take-screenshot',
+		ROUTE_CONTAINER_SCREENSHOT_REGEN       = 'containers/regenerate-screenshots',
+		ROUTE_CONTAINER_BLUEPRINT_AVAILABILITY = 'containers/blueprint-availability',
 
 		ROUTE_DOMAIN_ADD                 = 'domain/add',
 		ROUTE_DOMAIN_UPDATE              = 'domain/update',
@@ -46,13 +47,14 @@ class Api extends Singleton {
 		ROUTE_PLUGINS_UPDATES_GET   = 'plugins/updates/get',
 		ROUTE_PLUGINS_UPDATES_APPLY = 'plugins/updates/apply',
 
-		ROUTE_WIZARD_SETUP       = 'setup',
-		ROUTE_CHECK_SUBSCRIPTION = 'partner/check-subscription';
+		ROUTE_WIZARD_SETUP          = 'setup',
+		ROUTE_CHECK_SUBSCRIPTION    = 'partner/check-subscription',
+		ROUTE_ADD_CUSTOM_BACKUP     = 'partner/add-custom-backup',
+		ROUTE_DISABLE_CUSTOM_BACKUP = 'partner/disable-custom-backup';
 
 	const API_BASE_URL = 'https://api-staging.getdollie.com/';
 	const API_URL      = self::API_BASE_URL . 'api/';
 	const PARTNERS_URL = 'https://partners.getdollie.com/';
-
 
 	public static $last_call = null;
 

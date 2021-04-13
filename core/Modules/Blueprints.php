@@ -26,6 +26,85 @@ class Blueprints extends Singleton {
 		parent::__construct();
 
 		add_action( 'init', [ $this, 'set_cookie' ], - 99999 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
+		add_action( 'wp_ajax_dollie_launch_site_blueprint_data', [ $this, 'ajax_get_dynamic_fields' ] );
+		add_filter( 'dollie/launch_site/form_deploy_data', [ $this, 'site_launch_add_customizer_data' ], 10, 3 );
+		add_filter( 'dollie/launch_site/extras_envvars', [ $this, 'site_launch_set_env_vars' ], 10, 6 );
+
+	}
+
+	public function enqueue_scripts() {
+
+		if ( ! is_page( dollie()->get_launch_page_id() ) ) {
+			return;
+		}
+
+		wp_register_script( 'dollie-launch-dynamic-data', DOLLIE_ASSETS_URL . 'js/launch-dynamic-data.js', [ 'jquery' ], DOLLIE_VERSION, true );
+		wp_localize_script(
+			'dollie-launch-dynamic-data',
+			'wpdDynamicData',
+			[
+				'ajaxurl' => admin_url( '/admin-ajax.php' ),
+				'validationErrorMessage' => __('Please fill the Realtime Customizer fields.','dollie')
+			]
+		);
+
+		wp_enqueue_script( 'dollie-launch-dynamic-data' );
+	}
+
+	/**
+	 * Add dynamic blueprint customizer fields to the launch form
+	 */
+	public function ajax_get_dynamic_fields() {
+		$blueprint = (int) $_POST['blueprint'];
+
+		if ( empty( $blueprint ) ) {
+
+			return;
+		}
+
+		ob_start();
+
+		$fields = get_field( 'wpd_dynamic_blueprint_data', $blueprint );
+		if ( ! empty( $fields ) ) {
+
+			$message = '';
+
+			foreach ( $fields as $field ) {
+
+				if ( empty( $field['placeholder'] ) ) {
+					continue;
+				}
+
+				$message .= '<div class="acf-field-text acf-field" style="width: 50%;" data-width="50">';
+				$message .= '<div class="af-label acf-label">' .
+				            '<label>' . $field['name'] . '</label>' .
+				            '</div>';
+				$message .= '<div class="af-input acf-input">';
+				$message .= '<input name="wpd_bp_data[' . $field['placeholder'] . ']" type="text" placeholder="' . $field['default_value'] . '"><br>';
+				$message .= '</div>';
+				$message .= '</div>';
+			}
+
+			\Dollie\Core\Utils\Tpl::load(
+				'notice',
+				[
+					'icon'    => 'fas fa-exclamation-circle',
+					'title'   => __( 'Realtime Customizer', 'dollie' ),
+					'message' => '<div>' . __( 'Make sure to set your site details below. We automatically deploy the site with your information.', 'dollie' )
+					             . '</div>'
+					             . $message,
+				],
+				true
+			);
+
+		}
+
+		wp_send_json_success( [
+			'fields' => ob_get_clean()
+		] );
+
+		exit;
 	}
 
 	public static function show_default_blueprint() {
@@ -111,7 +190,7 @@ class Blueprints extends Singleton {
 	public function get_by_site( $site_id = null ) {
 
 		$sub_page = get_query_var( 'sub_page' );
-		$site = dollie()->get_current_object( $site_id );
+		$site     = dollie()->get_current_object( $site_id );
 
 		$secret = get_post_meta( $site->id, 'wpd_container_secret', true );
 
@@ -131,9 +210,11 @@ class Blueprints extends Singleton {
 
 		$blueprints = dollie()->maybe_decode_json( $blueprints_response['body'] );
 
-		if ( empty( $blueprints ) ) {
+		if ( ! is_array( $blueprints ) || empty( $blueprints ) ) {
 			return [];
 		}
+
+		// $blueprints = json_decode( $blueprints, true );
 
 		set_transient( 'dollie_' . $site->slug . '_total_blueprints', count( $blueprints ), MINUTE_IN_SECONDS * 1 );
 		update_post_meta( $site->id, 'wpd_installation_blueprints_available', count( $blueprints ) );
@@ -150,7 +231,7 @@ class Blueprints extends Singleton {
 			$cookie_id = sanitize_text_field( $_GET[ self::COOKIE_GET_PARAM ] );
 		}
 
-		// No Cookies set? Check is parameter are valid
+		// No Cookies set? Check is parameter are valid.
 		if ( isset( $cookie_id ) ) {
 			setcookie( self::COOKIE_NAME, $cookie_id, time() + ( 86400 * 30 ), '/' );
 		}
@@ -171,7 +252,6 @@ class Blueprints extends Singleton {
 
 		foreach ( $blueprints as $blueprint ) {
 			$info = explode( '|', $blueprint );
-
 
 			if ( strpos( $info[1], 'MB' ) !== false ) {
 				$get_mb_size = str_replace( 'MB', '', $info[1] );
@@ -196,6 +276,58 @@ class Blueprints extends Singleton {
 		}
 
 		return $formatted_blueprints;
+	}
+
+	/**
+	 * Integrate the blueprint customizer form data into the deploy data variable
+	 *
+	 * @param $deploy_data
+	 * @param $domain
+	 * @param $blueprint
+	 *
+	 * @return mixed
+	 */
+	public function site_launch_add_customizer_data( $deploy_data, $domain, $blueprint ) {
+
+		if ( isset( $_POST['wpd_bp_data'] ) && is_array( $_POST['wpd_bp_data'] ) ) {
+			$bp_customizer = [];
+			$bp_fields     = get_field( 'wpd_dynamic_blueprint_data', $blueprint );
+
+			if ( ! empty( $bp_fields ) ) {
+				foreach ( $bp_fields as $bp_field ) {
+					if ( ! empty( $bp_field['placeholder'] ) && isset( $_POST['wpd_bp_data'][ $bp_field['placeholder'] ] ) ) {
+						$bp_customizer[ $bp_field['placeholder'] ] = $_POST['wpd_bp_data'][ $bp_field['placeholder'] ];
+					}
+				}
+			}
+
+			if ( ! empty( $bp_customizer ) ) {
+				$deploy_data['bp_customizer'] = $bp_customizer;
+			}
+
+		}
+
+		return $deploy_data;
+	}
+
+	/**
+	 * Add the blueprint customizer variables to the API request
+	 *
+	 * @param $vars
+	 * @param $domain
+	 * @param $user_id
+	 * @param $email
+	 * @param $blueprint
+	 * @param $deploy_data
+	 *
+	 * @return mixed
+	 */
+	public function site_launch_set_env_vars( $vars, $domain, $user_id, $email, $blueprint, $deploy_data ) {
+		if ( isset( $deploy_data['bp_customizer'] ) && is_array( $deploy_data['bp_customizer'] ) ) {
+			$vars['dynamic_fields'] = $deploy_data['bp_customizer'];
+		}
+
+		return $vars;
 	}
 
 }

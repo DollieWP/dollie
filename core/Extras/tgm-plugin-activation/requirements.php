@@ -86,6 +86,19 @@ function dollie_register_required_plugins() {
 			// If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
 			'source'              => 'https://api.getdollie.com/releases/?action=download&slug=woocommerce-subscriptions'
 		),
+		array(
+			'name'             => 'Advanced Custom Fields Pro',
+			// The plugin name.
+			'slug'             => 'advanced-custom-fields-pro',
+			// The plugin slug (typically the folder name).
+			'required'         => true,
+			// If false, the plugin is only 'recommended' instead of required.
+			'version'          => '3.0.10',
+			// E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
+			'force_activation' => false,
+			// If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
+			'source'              => 'https://api.getdollie.com/releases/?action=download&slug=advanced-custom-fields-pro'
+		),
 
 		// This is an example of how to include a plugin from the WordPress Plugin Repository.
 		array(

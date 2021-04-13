@@ -58,7 +58,7 @@ class Plugin extends Singleton {
 		parent::__construct();
 
 		add_filter( 'body_class', [ $this, 'add_timestamp_body' ] );
-
+		add_filter('body_class', [$this, 'add_deploy_class']);
 		add_action( 'plugins_loaded', [ $this, 'load_early_dependencies' ], - 10 );
 		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 0 );
 		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
@@ -138,16 +138,16 @@ class Plugin extends Singleton {
 	 */
 	public function initialize() {
 
-		// Load elementor hooks
+		// Load elementor hooks.
 		Elementor\Hooks::instance();
 
-		// Load jobs
+		// Load jobs.
 		ChangeContainerRoleJob::instance();
 		// SyncContainersJob::instance();
 		UpdateContainerScreenshotsJob::instance();
 		RemoveOldLogsJob::instance();
 
-		// Load modules
+		// Load modules.
 		Forms::instance();
 		AccessControl::instance();
 		Backups::instance();
@@ -165,7 +165,7 @@ class Plugin extends Singleton {
 		NavMenu::instance();
 		WP::instance();
 
-		// Shortcodes
+		// Shortcodes.
 		Shortcodes\Blueprints::instance();
 		Shortcodes\Orders::instance();
 		Shortcodes\Sites::instance();
@@ -216,6 +216,25 @@ class Plugin extends Singleton {
 
 		if ( empty( $timestamp ) ) {
 			$classes[] = 'wf-site-screenshot-not-set';
+		}
+
+		return $classes;
+	}
+
+	/**
+	 * Add body timestamp
+	 *
+	 * @param $classes
+	 *
+	 * @return array
+	 */
+	public function add_deploy_class($classes)
+	{
+		$status = \Dollie\Core\Modules\Container::instance()->get_status(get_the_ID());
+
+
+		if ('pending' === $status) {
+			$classes[] = 'dollie-is-deploying';
 		}
 
 		return $classes;
@@ -362,7 +381,7 @@ class Plugin extends Singleton {
 	/**
 	 * Register blockquote shortcode
 	 *
-	 * @param array $atts
+	 * @param array  $atts
 	 * @param string $content
 	 *
 	 * @return string

@@ -46,7 +46,7 @@ class SyncContainersJob extends Singleton {
 	 * @return array|mixed
 	 */
 	public function run() {
-		// Get list of container from remote API
+		// Get list of container from remote API.
 		$get_containers_request = Api::post( Api::ROUTE_CONTAINER_GET );
 		$containers_response    = Api::process_response( $get_containers_request, null );
 
@@ -62,6 +62,15 @@ class SyncContainersJob extends Singleton {
 			return [];
 		}
 
+		// Get container from client's WP install with the server's container ID.
+		$client_containers = get_posts(
+			[
+				'numberposts' => -1,
+				'post_type'   => 'container',
+				'post_status' => [ 'publish', 'draft', 'trash' ],
+			]
+		);
+
 		foreach ( $containers as $key => $container ) {
 			$domain = '';
 
@@ -71,25 +80,10 @@ class SyncContainersJob extends Singleton {
 				$domain          = $stripped_domain[0] === 'www' ? $stripped_domain[1] : $stripped_domain[0];
 			}
 
-			// Skip if no domain
+			// Skip if no domain.
 			if ( ! $domain ) {
 				continue;
 			}
-
-			// Get container from client's WP install with the server's container ID
-			$client_containers = get_posts(
-				[
-					'post_type'   => 'container',
-					'post_status' => [ 'publish', 'draft', 'trash' ],
-					'meta_query'  => [
-						[
-							'key'     => 'wpd_container_id',
-							'value'   => $container['id'],
-							'compare' => '=',
-						],
-					],
-				]
-			);
 
 			// Get email from the description field and then find author ID based on email.
 			$description = explode( '|', $container['description'], 2 );
@@ -100,15 +94,32 @@ class SyncContainersJob extends Singleton {
 				$author = wp_get_current_user();
 			}
 
-			$container_post_id = false;
+			$current_container_id = false;
 
-			// If no such container found, create one with details from server's container.
-			if ( ! $client_containers ) {
+			foreach ( $client_containers as $client_container ) {
+				$container_id = get_post_meta( $client_container->ID, 'wpd_container_id', true );
 
-				if ( 'Running' === $container['status'] ) {
-					$status = 'start';
+				if ( $container['id'] !== $container_id ) {
+					continue;
 				}
 
+				$current_container_id = true;
+
+				// Trash container if is not deployed.
+				if ( 'Running' !== $container['status'] ) {
+					wp_trash_post( $client_container->ID );
+				}
+
+				// Trash container if is not deployed.
+				if ( 'Running' === $container['status'] ) {
+					wp_publish_post( $client_container->ID );
+				}
+
+				$synced_container_ids[] = $client_container->ID;
+			}
+
+			// If no such container found, create one with details from server's container.
+			if ( ! $current_container_id && 'Running' === $container['status'] ) {
 				$container_post_id = wp_insert_post(
 					[
 						'post_type'   => 'container',
@@ -119,7 +130,7 @@ class SyncContainersJob extends Singleton {
 						'meta_input'  => [
 							'wpd_container_id'          => $container['id'],
 							'_wpd_container_data'       => WP::instance()->get_filtered_store_data( $container ),
-							'wpd_container_status'      => $status,
+							'wpd_container_status'      => 'start',
 							'wpd_setup_complete'        => 'yes',
 							'wpd_refetch_secret_key'    => 'yes',
 							'wpd_container_launched_by' => $email,
@@ -128,18 +139,11 @@ class SyncContainersJob extends Singleton {
 				);
 
 				Log::add( 'Container added from sync ' . $domain );
-
+				$synced_container_ids[] = $container_post_id;
 			}
-
-			// Trash container if is not deployed
-			if ( 'Running' !== $container['status'] && $container_post_id ) {
-				wp_trash_post( $container_post_id );
-			}
-
-			$synced_container_ids[] = $container['id'];
 		}
 
-		// Delete posts if they have no corresponding container
+		// Delete posts if they have no corresponding container.
 		$stored_containers = get_posts(
 			[
 				'post_type'   => 'container',
@@ -155,7 +159,7 @@ class SyncContainersJob extends Singleton {
 			}
 		}
 
-		// Flush permalink
+		// Flush permalink.
 		flush_rewrite_rules();
 
 		return $containers;
