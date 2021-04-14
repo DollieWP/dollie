@@ -1106,7 +1106,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 				'label'             => __( 'Charge For Launching Sites?', 'dollie' ),
 				'name'              => 'wpd_charge_for_deployments',
 				'type'              => 'true_false',
-				'instructions'      => __( 'Would you like to charge your customers for launching websites? If you have this set to "off" anyone can launch sites on your platform without having a paid (WooCommerce) subscription.', 'dollie' ),
+				'instructions'      => __( 'Would you like to charge your customers for launching websites? If you have this set to "off" anyone can launch sites on your platform without having an active subscription.', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -1470,7 +1470,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 				'label'             => __( 'Client Notification', 'dollie' ),
 				'name'              => 'wpd_deployed_site_client_notification_body',
 				'type'              => 'wysiwyg',
-				'instructions'      => __( 'Placeholders: 
+				'instructions'      => __( 'Placeholders:
 {dollie_site_url}, {dollie_site_name}, {dollie_user}, {dollie_site_email}, {dollie_site_username}, {dollie_site_password}', 'dollie' ),
 				'required'          => 1,
 				'conditional_logic' => array(
@@ -1488,7 +1488,7 @@ This is the default screenshot image shown until a live screenshot is generated.
 					'id'    => '',
 				),
 				'hide_admin'        => 0,
-				'default_value'     => 'Hi, 
+				'default_value'     => 'Hi,
 Site <a href="{dollie_site_url}">{dollie_site_name}</a> has been deployed successfully.',
 				'tabs'              => 'all',
 				'toolbar'           => 'full',
@@ -1528,7 +1528,7 @@ Site <a href="{dollie_site_url}">{dollie_site_name}</a> has been deployed succes
 				'label'        => __( 'Admin Notification', 'dollie' ),
 				'name'         => 'wpd_deployed_site_admin_notification_body',
 				'type'         => 'wysiwyg',
-				'instructions' => __( 'Placeholders: 
+				'instructions' => __( 'Placeholders:
 {dollie_site_url}, {dollie_site_name}, {dollie_user}, {dollie_site_email}, {dollie_site_username}, {dollie_site_password}', 'dollie' ),
 
 				'required'          => 1,
@@ -1547,7 +1547,7 @@ Site <a href="{dollie_site_url}">{dollie_site_name}</a> has been deployed succes
 					'id'    => '',
 				),
 				'hide_admin'        => 0,
-				'default_value'     => 'Hi, 
+				'default_value'     => 'Hi,
 <a href="{dollie_site_url}">{dollie_site_name}</a> site has been deployed by {dollie_user}.',
 				'tabs'              => 'all',
 				'toolbar'           => 'full',
