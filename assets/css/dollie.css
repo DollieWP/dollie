@@ -2841,6 +2841,12 @@ input[type="text"].dol-search-input:focus {
   padding-left: 0;
 }
 
+[type=checkbox] {
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  appearance: auto;
+}
+
 .dollie-notifications-nav {
   display: block !important;
   position: relative;
@@ -2959,7 +2965,6 @@ input[type="text"].dol-search-input:focus {
   background: #39bc9c;
   color: white;
   border-radius: 4px;
-  /* border: 1px solid; */
 }
 
 #form_dollie_launch_site .acf-radio-list li label.selected img.fw-blueprint-screenshot {
