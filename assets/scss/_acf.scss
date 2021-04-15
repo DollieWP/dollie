@@ -5,3 +5,9 @@
 .acf-form .acf-fields > .acf-field.af-field-site-backup {
   padding-left: 0;
 }
+
+[type=checkbox] {
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  appearance: auto;
+}

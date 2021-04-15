@@ -293,7 +293,7 @@ If you have not registered your own domain yet, this is the time to do so! We re
 				'label'             => __( 'Advanced Settings', 'dollie' ),
 				'name'              => 'advanced_settings',
 				'type'              => 'true_false',
-				'instructions'      => '',
+				'instructions'      => __( 'Configure site details like default admin username and password.','dollie'),
 				'required'          => 0,
 				'conditional_logic' => array(
 					array(

@@ -5,6 +5,7 @@
       display: inherit !important;
       text-align: center;
     }
+    
     li {
       float: left;
       list-style: none;
@@ -20,19 +21,21 @@
         color: rgb(255, 255, 255);
         border-radius: 4px;
 
-        /* border: 1px solid; */
         img.fw-blueprint-screenshot {
           opacity: 1;
         }
       }
+
       input {
         display: none !important;
       }
+
       input[type="radio"]:checked + label {
         font-weight: 700;
         padding-bottom: 15px;
       }
     }
+
     img.fw-blueprint-screenshot {
       max-width: 230px;
       display: block;
