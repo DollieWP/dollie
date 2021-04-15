@@ -1,160 +1,167 @@
-[
-    {
-        "name": "appsero/client",
-        "version": "v1.2.0",
-        "version_normalized": "1.2.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/Appsero/client.git",
-            "reference": "5c3fdc4945c8680bca6fb01eee1ec5dc4f22de87"
+{
+    "packages": [
+        {
+            "name": "appsero/client",
+            "version": "v1.2.0",
+            "version_normalized": "1.2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Appsero/client.git",
+                "reference": "5c3fdc4945c8680bca6fb01eee1ec5dc4f22de87"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Appsero/client/zipball/5c3fdc4945c8680bca6fb01eee1ec5dc4f22de87",
+                "reference": "5c3fdc4945c8680bca6fb01eee1ec5dc4f22de87",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "time": "2020-09-10T09:10:28+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Appsero\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tareq Hasan",
+                    "email": "tareq@appsero.com"
+                }
+            ],
+            "description": "Appsero Client",
+            "keywords": [
+                "analytics",
+                "plugin",
+                "theme",
+                "wordpress"
+            ],
+            "support": {
+                "issues": "https://github.com/Appsero/client/issues",
+                "source": "https://github.com/Appsero/client/tree/v1.2.0"
+            },
+            "install-path": "../appsero/client"
         },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/Appsero/client/zipball/5c3fdc4945c8680bca6fb01eee1ec5dc4f22de87",
-            "reference": "5c3fdc4945c8680bca6fb01eee1ec5dc4f22de87",
-            "shasum": ""
+        {
+            "name": "mexitek/phpcolors",
+            "version": "v1.0.2",
+            "version_normalized": "1.0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mexitek/phpColors.git",
+                "reference": "4b1ccc920b5fc3749a575c171d2f12fca0ecfded"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mexitek/phpColors/zipball/4b1ccc920b5fc3749a575c171d2f12fca0ecfded",
+                "reference": "4b1ccc920b5fc3749a575c171d2f12fca0ecfded",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "nette/tester": "^2.3",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "time": "2020-11-05T06:04:47+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "src"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arlo Carreon",
+                    "homepage": "http://arlocarreon.com",
+                    "role": "creator"
+                }
+            ],
+            "description": "A series of methods that let you manipulate colors. Just incase you ever need different shades of one color on the fly.",
+            "homepage": "http://mexitek.github.com/phpColors/",
+            "keywords": [
+                "color",
+                "css",
+                "design",
+                "frontend",
+                "ui"
+            ],
+            "support": {
+                "issues": "https://github.com/mexitek/phpColors/issues",
+                "source": "https://github.com/mexitek/phpColors"
+            },
+            "install-path": "../mexitek/phpcolors"
         },
-        "require": {
-            "php": ">=5.3"
-        },
-        "time": "2020-09-10T09:10:28+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Appsero\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Tareq Hasan",
-                "email": "tareq@appsero.com"
-            }
-        ],
-        "description": "Appsero Client",
-        "keywords": [
-            "analytics",
-            "plugin",
-            "theme",
-            "wordpress"
-        ],
-        "support": {
-            "issues": "https://github.com/Appsero/client/issues",
-            "source": "https://github.com/Appsero/client/tree/v1.2.0"
+        {
+            "name": "nubs/random-name-generator",
+            "version": "v2.2.0",
+            "version_normalized": "2.2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nubs/random-name-generator.git",
+                "reference": "50abf24519badc5795a43c831f1d2a1faa45cb77"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nubs/random-name-generator/zipball/50abf24519badc5795a43c831f1d2a1faa45cb77",
+                "reference": "50abf24519badc5795a43c831f1d2a1faa45cb77",
+                "shasum": ""
+            },
+            "require": {
+                "php": "~5.6 || ~7.0 || ~8.0"
+            },
+            "require-dev": {
+                "cinam/randomizer": ">=1.1.1,<2.0",
+                "php-coveralls/php-coveralls": "~2.4",
+                "phpunit/phpunit": "^5.0 || ^6.5 || ^7.0 || ^9.0",
+                "squizlabs/php_codesniffer": "~2.3"
+            },
+            "time": "2021-01-12T13:46:08+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Nubs\\RandomNameGenerator\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Spencer Rinehart",
+                    "email": "anubis@overthemonkey.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A library to create interesting, sometimes entertaining, random names.",
+            "keywords": [
+                "alliteration",
+                "generator",
+                "random",
+                "video game"
+            ],
+            "support": {
+                "issues": "https://github.com/nubs/random-name-generator/issues",
+                "source": "https://github.com/nubs/random-name-generator/tree/v2.2.0"
+            },
+            "install-path": "../nubs/random-name-generator"
         }
-    },
-    {
-        "name": "mexitek/phpcolors",
-        "version": "v1.0.2",
-        "version_normalized": "1.0.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/mexitek/phpColors.git",
-            "reference": "4b1ccc920b5fc3749a575c171d2f12fca0ecfded"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/mexitek/phpColors/zipball/4b1ccc920b5fc3749a575c171d2f12fca0ecfded",
-            "reference": "4b1ccc920b5fc3749a575c171d2f12fca0ecfded",
-            "shasum": ""
-        },
-        "require": {
-            "php": "^7.2"
-        },
-        "require-dev": {
-            "nette/tester": "^2.3",
-            "squizlabs/php_codesniffer": "^3.5"
-        },
-        "time": "2020-11-05T06:04:47+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                "src"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Arlo Carreon",
-                "homepage": "http://arlocarreon.com",
-                "role": "creator"
-            }
-        ],
-        "description": "A series of methods that let you manipulate colors. Just incase you ever need different shades of one color on the fly.",
-        "homepage": "http://mexitek.github.com/phpColors/",
-        "keywords": [
-            "color",
-            "css",
-            "design",
-            "frontend",
-            "ui"
-        ],
-        "support": {
-            "issues": "https://github.com/mexitek/phpColors/issues",
-            "source": "https://github.com/mexitek/phpColors"
-        }
-    },
-    {
-        "name": "nubs/random-name-generator",
-        "version": "v2.2.0",
-        "version_normalized": "2.2.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/nubs/random-name-generator.git",
-            "reference": "50abf24519badc5795a43c831f1d2a1faa45cb77"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/nubs/random-name-generator/zipball/50abf24519badc5795a43c831f1d2a1faa45cb77",
-            "reference": "50abf24519badc5795a43c831f1d2a1faa45cb77",
-            "shasum": ""
-        },
-        "require": {
-            "php": "~5.6 || ~7.0 || ~8.0"
-        },
-        "require-dev": {
-            "cinam/randomizer": ">=1.1.1,<2.0",
-            "php-coveralls/php-coveralls": "~2.4",
-            "phpunit/phpunit": "^5.0 || ^6.5 || ^7.0 || ^9.0",
-            "squizlabs/php_codesniffer": "~2.3"
-        },
-        "time": "2021-01-12T13:46:08+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Nubs\\RandomNameGenerator\\": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Spencer Rinehart",
-                "email": "anubis@overthemonkey.com",
-                "role": "Developer"
-            }
-        ],
-        "description": "A library to create interesting, sometimes entertaining, random names.",
-        "keywords": [
-            "alliteration",
-            "generator",
-            "random",
-            "video game"
-        ],
-        "support": {
-            "issues": "https://github.com/nubs/random-name-generator/issues",
-            "source": "https://github.com/nubs/random-name-generator/tree/v2.2.0"
-        }
-    }
-]
+    ],
+    "dev": true,
+    "dev-package-names": []
+}
