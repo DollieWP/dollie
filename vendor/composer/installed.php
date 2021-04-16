@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '5129abdf56b253c920951a7006ff87196eef2c1a',
+    'reference' => '5bd4b72ddec56896a98d9a0e8baa36b838582cd9',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '5129abdf56b253c920951a7006ff87196eef2c1a',
+      'reference' => '5bd4b72ddec56896a98d9a0e8baa36b838582cd9',
     ),
     'appsero/client' => 
     array (
