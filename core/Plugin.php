@@ -113,6 +113,9 @@ class Plugin extends Singleton {
 		// Load Color Customizer
 		require_once DOLLIE_PATH . 'core/Modules/Colors.php';
 
+		// Load Theme/Plugins Compability
+		require_once DOLLIE_PATH . 'core/Modules/Compatibility.php';
+
 		// Load logger.
 		if ( ! class_exists( '\WDS_Log_Post' ) ) {
 			require_once DOLLIE_PATH . 'core/Extras/wds-log-post/wds-log-post.php';
