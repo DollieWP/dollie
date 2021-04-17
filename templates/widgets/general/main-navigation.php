@@ -5,6 +5,7 @@ $active_class = [
 	'dashboard'   => dollie()->get_dashboard_page_id() === get_the_ID() ? 'dol-nav-active' : '',
 	'sites'       => dollie()->get_sites_page_id() === get_the_ID() ? 'dol-nav-active' : '',
 	'launch-blueprint'       => dollie()->get_launch_blueprint_page_id() === get_the_ID() ? 'dol-nav-active' : '',
+	'view-blueprint'       => dollie()->get_sites_page_id() === get_the_ID() ? 'dol-nav-active' : '',
 ];
 
 ?>
@@ -34,9 +35,18 @@ $active_class = [
 	</li>
 
 	<li class="dol-m-0">
-		<a href="<?php echo dollie()->get_sites_page_url(); ?>" class="dol-nav-btn dol-font-semibold <?php echo esc_attr($active_class['sites']); ?>">
+		<a href="<?php echo dollie()->get_sites_page_url(); ?>" class="dol-nav-btn dol-font-semibold <?php if (!isset($_GET['blueprints']) && !$_GET['blueprints']) { ?><?php echo esc_attr($active_class['sites']); ?><?php } ?>">
 			<span class="dol-inline-block dol-text-center dol-w-8"><i class="fas fa-globe"></i></span>
 			<?php echo dollie()->get_sites_page_title(); ?>
 		</a>
 	</li>
+
+	<?php if (current_user_can('manage_options')) : ?>
+		<li class="dol-m-0">
+			<a href="<?php echo dollie()->get_sites_page_url(); ?>?blueprints=yes" class="dol-nav-btn dol-font-semibold <?php if (isset($_GET['blueprints']) && $_GET['blueprints']) { ?><?php echo esc_attr($active_class['view-blueprint']); ?><?php } ?>">
+				<span class="dol-inline-block dol-text-center dol-w-8"><i class="fas fa-copy"></i></span>
+				<?php esc_html_e('View Blueprints', 'dollie'); ?>
+			</a>
+		</li>
+	<?php endif; ?>
 </ul>
