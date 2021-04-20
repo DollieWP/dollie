@@ -79,7 +79,7 @@ class CreateBlueprint extends Singleton {
 	 */
 	public function validate_form( $form, $args ) {
 		if ( ! af_get_field( 'confirmation' ) ) {
-			af_add_error( 'confirmation', __( 'Please confirm blueprint creation', 'dollie' ) );
+			af_add_error( 'confirmation', __( 'Please confirm the blueprint update', 'dollie' ) );
 		}
 	}
 
@@ -91,7 +91,12 @@ class CreateBlueprint extends Singleton {
 	 * @return mixed
 	 */
 	public function change_form_args( $args ) {
-		$args['submit_text'] = __( 'Deploy Blueprint', 'dollie' );
+		global $wp_query;
+		if ( dollie()->is_blueprint_staging($wp_query->post->ID) ) {
+			$args['submit_text'] = __( 'Publish Blueprint', 'dollie' );
+		} else {
+			$args['submit_text'] = __('Update Blueprint', 'dollie');
+		}
 
 		return $args;
 	}

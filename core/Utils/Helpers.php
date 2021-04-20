@@ -1032,6 +1032,24 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * @param $id
+	 *
+	 * @return bool
+	 */
+	public function is_blueprint_staging($id)
+	{
+
+		$blueprint = dollie()->is_blueprint($id);
+		$updated    = get_post_meta($id, 'wpd_blueprint_time', true);
+
+		if ( $blueprint && $updated == '') {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Check valid json.
 	 *
 	 * on check failure if $return_data is false, false is returned instead of the passed data
