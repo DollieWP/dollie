@@ -6,14 +6,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Singleton;
 use WP_Query;
 
 use Dollie\Core\Modules\Sites\WP;
-use Dollie\Core\Singleton;
-
+use Dollie\Core\Modules\Subscription\Subscription;
 use Dollie\Core\Modules\Backups;
 use Dollie\Core\Modules\Blueprints;
-use Dollie\Core\Modules\Subscription;
 use Dollie\Core\Modules\Container;
 use Dollie\Core\Modules\SiteInsights;
 
@@ -372,9 +371,10 @@ class Helpers extends Singleton {
 	 * @return int
 	 */
 	public function count_customer_containers( $user_id = null ) {
-		if ( $user_id === null ) {
+		if ( ! $user_id ) {
 			$user_id = get_current_user_id();
 		}
+
 		$query = new WP_Query(
 			[
 				'author'        => $user_id,
