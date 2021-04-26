@@ -23,10 +23,6 @@ class WooCommerce extends Singleton {
 		parent::__construct();
 
 		add_action( 'after_setup_theme', [ $this, 'add_theme_support' ] );
-
-
-		/*
-		 Todo make it an option */
 		add_action( 'woocommerce_thankyou', [ $this, 'redirect_to_blueprint' ] );
 
 		add_filter( 'acf/fields/relationship/query/key=field_5e2c1adcc1543', [ $this, 'modify_query' ], 10, 3 );

@@ -1,6 +1,6 @@
 <?php
 
-namespace Dollie\Core\Modules;
+namespace Dollie\Core\Modules\Jobs;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -8,21 +8,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Log;
-use Dollie\Core\Utils\Api;
-
-use WC_Email;
+use Dollie\Core\Modules\Subscription\Subscription;
+use Dollie\Core\Modules\Container;
 use WP_Query;
-use WP_User_Query;
 
 /**
- * Class Subscription
+ * Class CustomerSubscriptionCheckJob
  *
  * @package Dollie\Core\Modules
  */
-class Subscription extends Singleton {
+class CustomerSubscriptionCheckJob extends Singleton {
 
 	/**
-	 * Subscription constructor.
+	 * CustomerSubscriptionCheckJob constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
@@ -43,163 +41,6 @@ class Subscription extends Singleton {
 	}
 
 	/**
-	 * Check if a user has bought any product
-	 *
-	 * @param int $user_id
-	 *
-	 * @return bool
-	 */
-	public function has_bought_product( $user_id = 0 ) {
-		global $wpdb;
-		$customer_id         = ! $user_id ? get_current_user_id() : $user_id;
-		$paid_order_statuses = array_map( 'esc_sql', wc_get_is_paid_statuses() );
-
-		$results = $wpdb->get_col(
-			"SELECT p.ID FROM {$wpdb->prefix}posts AS p
-        INNER JOIN {$wpdb->prefix}postmeta AS pm ON p.ID = pm.post_id
-        WHERE p.post_status IN ( 'wc-" . implode( "','wc-", $paid_order_statuses ) . "' )
-        AND p.post_type LIKE 'shop_order'
-        AND pm.meta_key = '_customer_user'
-        AND pm.meta_value = $customer_id"
-		);
-
-		// Count number of orders and return a boolean value depending if higher than 0.
-		return count( $results ) > 0;
-	}
-
-	/**
-	 * Get checkout link
-	 *
-	 * @param $product_id
-	 * @param $blueprint_id
-	 *
-	 * @return mixed|string|void
-	 * @throws \Exception
-	 */
-	public function get_checkout_link( $product_id, $blueprint_id ) {
-		if ( ! function_exists( 'wc_get_product' ) ) {
-			return '#';
-		}
-
-		$product_obj = wc_get_product( $product_id );
-
-		$link_args = [
-			'add-to-cart'  => $product_id,
-			'blueprint_id' => $blueprint_id,
-		];
-
-		if ( method_exists( $product_obj, 'get_type' ) && $product_obj->get_type() === 'variable-subscription' ) {
-
-			$default_atts = $product_obj->get_default_attributes();
-
-			if ( isset( $default_atts['pa_subscription'] ) ) {
-
-				$data_store                = \WC_Data_Store::load( 'product' );
-				$default_variation         = $data_store->find_matching_product_variation( $product_obj, [ 'attribute_pa_subscription' => $default_atts['pa_subscription'] ] );
-				$link_args['variation_id'] = $default_variation;
-			}
-		}
-
-		$link = add_query_arg(
-			$link_args,
-			wc_get_checkout_url()
-		);
-
-		return apply_filters( 'dollie/woo/checkout_link', $link, $product_id, $blueprint_id );
-	}
-
-	/**
-	 * Get subscriptions for customer
-	 *
-	 * @param $customer_id
-	 * @param string      $status
-	 * @param int         $resources Return max client resource allocation
-	 *
-	 * @return array|bool
-	 */
-	public function get_customer_subscriptions( $customer_id, $status = 'any', $resources = 0 ) {
-
-		if ( ! function_exists( 'wcs_get_subscriptions' ) ) {
-			return false;
-		}
-
-		$resources_allocated = [
-			'max_allowed_installs' => 0,
-			'max_allowed_size'     => 0,
-		];
-
-		$active_plans = [];
-
-		$subscriptions = wcs_get_subscriptions(
-			[
-				'customer_id'         => $customer_id,
-				'subscription_status' => $status,
-			]
-		);
-
-		if ( ! is_array( $subscriptions ) || empty( $subscriptions ) ) {
-			return false;
-		}
-
-		foreach ( $subscriptions as $subscription_id => $subscription ) {
-
-			// Getting the subscription Order ID.
-			$the_subscription = wcs_get_subscription( $subscription_id );
-
-			// Get the right number of items, count also any upgraded/downgraded orders.
-			$order_items = $the_subscription->get_items();
-
-			if ( ! is_array( $order_items ) || empty( $order_items ) ) {
-				continue;
-			}
-
-			// Iterating through each item in the order.
-			foreach ( $order_items as $item_id => $item_data ) {
-				$id = $item_data['product_id'];
-
-				if ( 0 === $id ) {
-					continue;
-				}
-
-				// Filter out non Dollie subscriptions by checking custom meta field.
-				if ( ! get_field( '_wpd_installs', $id ) ) {
-					continue;
-				}
-
-				$installs = (int) get_field( '_wpd_installs', $id );
-				$max_size = get_field( '_wpd_max_size', $id );
-
-				if ( ! $max_size ) {
-					$max_size = 0;
-				}
-
-				$active_plans['products'][ $id ] = [
-					'name'                => $item_data['name'],
-					'installs'            => $installs,
-					'max_size'            => $max_size,
-					'included_blueprints' => get_field( '_wpd_included_blueprints', $id ),
-					'excluded_blueprints' => get_field( '_wpd_excluded_blueprints', $id ),
-				];
-
-				if ( $resources ) {
-					$quantity = $item_data['quantity'] ?: 1;
-
-					// Add up individual plan's max values to obtain total max values of allowed installs and size.
-					$resources_allocated['max_allowed_installs'] += $installs * $quantity;
-					$resources_allocated['max_allowed_size']     += $max_size * $quantity;
-					$resources_allocated['name']                  = $item_data['name'];
-				}
-			}
-		}
-
-		if ( $resources ) {
-			return $resources_allocated;
-		}
-
-		return $active_plans;
-	}
-
-	/**
 	 * Check customer's subscriptions
 	 */
 	public function check_customer_subscriptions() {
@@ -208,7 +49,7 @@ class Subscription extends Singleton {
 		}
 
 		// The User Query.
-		$query = new WP_User_Query(
+		$query = new \WP_User_Query(
 			[
 				'role__not_in' => 'Administrator',
 			]
@@ -219,7 +60,7 @@ class Subscription extends Singleton {
 			foreach ( $query->results as $customer ) {
 
 				// WooCommerce Checking.
-				$has_subscription = $this->get_customer_subscriptions( $customer->ID, 'active', 0 );
+				$has_subscription = Subscription::instance()->get_customer_subscriptions( 'active', $customer->ID );
 
 				$status = $has_subscription ? 'yes' : 'no';
 				$cron   = $has_subscription ? 'unschedule' : 'schedule';
@@ -282,7 +123,7 @@ class Subscription extends Singleton {
 			[
 				'author'         => $customer_id,
 				'post_type'      => 'container',
-				'posts_per_page' => 1000,
+				'posts_per_page' => -1,
 			]
 		);
 
@@ -339,7 +180,6 @@ class Subscription extends Singleton {
 		// Instantiate custom query.
 		$query = new WP_Query( $query_args );
 
-		// Output custom query loop.
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
@@ -365,7 +205,6 @@ class Subscription extends Singleton {
 	 * Undeploy customer's container if he has no active subscription
 	 */
 	public function undeploy_customer_container() {
-		// Instantiate custom query.
 		$query = new WP_Query(
 			[
 				'post_type'      => 'container',
@@ -377,7 +216,6 @@ class Subscription extends Singleton {
 		);
 
 		if ( $query->have_posts() ) {
-			// Output custom query loop.
 			while ( $query->have_posts() ) {
 				$query->the_post();
 				// Get today's timestamp.
@@ -470,18 +308,17 @@ class Subscription extends Singleton {
 	 * @return false|string
 	 */
 	public function get_stopped_container_list() {
-		// Instantiate custom query.
 		$query = new WP_Query(
 			[
 				'post_type'      => 'container',
-				'posts_per_page' => 1000,
+				'posts_per_page' => -1,
 				'meta_key'       => 'wpd_scheduled_for_removal',
 				'meta_value'     => 'yes',
 			]
 		);
 
 		ob_start();
-		// Output custom query loop.
+
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
@@ -517,7 +354,7 @@ class Subscription extends Singleton {
 		$query = new WP_Query(
 			[
 				'post_type'      => 'container',
-				'posts_per_page' => 1000,
+				'posts_per_page' => -1,
 				'meta_key'       => 'wpd_scheduled_for_undeployment',
 				'meta_value'     => 'yes',
 			]
@@ -561,16 +398,7 @@ class Subscription extends Singleton {
 			$message = '<p><h4>The following sites are scheduled to be stopped in the near future:</h4><br><br>' . $this->get_stopped_container_list() . '</p><p>Please make sure that all of the above containers are indeed meant to be stopped due to cancelled subscriptions or manual removal.</p><p><h4>The following containers are scheduled to be completely undeployed in the near future:</h4><br><br>' . $this->get_undeployed_container_list() . '</p><p>Once a site has been completely undeployed, it will removed completely from our infrastructure, and can only be restored in emergency situations.</p>';
 			$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
 
-			// Get woocommerce mailer from instance.
-			$mailer = WC()->mailer();
-			// Wrap message using woocommerce html email template.
-			$wrapped_message = $mailer->wrap_message( $heading, $message );
-			// Create new WC_Email instance.
-			$wc_email = new WC_Email();
-			// Style the wrapped message with woocommerce inline styles.
-			$html_message = $wc_email->style_inline( $wrapped_message );
-			// Send the email using WordPress mail function.
-			wp_mail( $email, $subject, $html_message, $headers );
+			wp_mail( $email, $subject, $message, $headers );
 		}
 	}
 
@@ -603,7 +431,7 @@ class Subscription extends Singleton {
 		$query = new WP_Query(
 			[
 				'post_type'      => 'container',
-				'posts_per_page' => 9999999,
+				'posts_per_page' => -1,
 				'meta_key'       => 'wpd_scheduled_for_undeployment',
 				'meta_value'     => 'yes',
 			]
@@ -625,7 +453,7 @@ class Subscription extends Singleton {
 		$query = new WP_Query(
 			[
 				'post_type'      => 'container',
-				'posts_per_page' => 9999999,
+				'posts_per_page' => -1,
 				'meta_key'       => 'wpd_scheduled_for_removal',
 				'meta_value'     => 'yes',
 			]
@@ -636,218 +464,6 @@ class Subscription extends Singleton {
 		wp_reset_postdata();
 
 		return $total;
-	}
-
-	/**
-	 * Check if customer has subscription
-	 *
-	 * @return bool
-	 */
-	public function has_subscription() {
-		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
-			return true;
-		}
-
-		return (bool) $this->get_customer_subscriptions( get_current_user_id() );
-	}
-
-	/**
-	 * Get how many sites are left available for customer
-	 *
-	 * @return int|mixed
-	 */
-	public function sites_available() {
-		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
-
-		if ( ! $subscription ) {
-			return 0;
-		}
-
-		$total_site = dollie()->count_customer_containers(get_current_user_id());
-
-		return $subscription['max_allowed_installs'] - $total_site;
-	}
-
-	/**
-	 * Get storage available for customer
-	 *
-	 * @return int|mixed
-	 */
-	public function storage_available() {
-		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
-
-		if ( ! $subscription ) {
-			return 0;
-		}
-
-		return $subscription['max_allowed_size'];
-	}
-
-	/**
-	 * Get subscription name
-	 *
-	 * @return mixed|string
-	 */
-	public function subscription_name() {
-		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
-
-		if ( ! $subscription || ! isset( $subscription['name'] ) ) {
-			return __( 'None', 'dollie' );
-		}
-
-		return $subscription['name'];
-	}
-
-	/**
-	 * Check if site limit has been reached
-	 *
-	 * @return bool
-	 */
-	public function site_limit_reached() {
-		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
-			return false;
-		}
-
-		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
-
-		if ( ! is_array( $subscription ) || empty( $subscription ) ) {
-			return false;
-		}
-
-		$total_site = (int) dollie()->count_customer_containers(get_current_user_id());
-
-		return $this->has_subscription() && ( $subscription['max_allowed_installs'] - $total_site ) <= 0 && ! current_user_can( 'manage_options' );
-	}
-
-	/**
-	 * Get excluded blueprints
-	 *
-	 * @return bool
-	 */
-	public function get_excluded_blueprints() {
-		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 0 );
-
-		if ( ! $subscription ) {
-			return false;
-		}
-
-		$get_first = $subscription['products'];
-		$product   = reset( $get_first );
-
-		return $product['excluded_blueprints'];
-	}
-
-	/**
-	 * Get included blueprints
-	 *
-	 * @return bool
-	 */
-	public function get_included_blueprints() {
-		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 0 );
-
-		if ( ! $subscription ) {
-			return false;
-		}
-
-		$get_first = $subscription['products'];
-		$product   = reset( $get_first );
-
-		return $product['included_blueprints'];
-	}
-
-	/**
-	 * Check if the size limit has been reached
-	 *
-	 * @return bool
-	 */
-	public function size_limit_reached() {
-		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
-			return false;
-		}
-
-		$subscription = $this->get_customer_subscriptions( get_current_user_id(), 'active', 1 );
-
-		if ( ! $subscription ) {
-			return false;
-		}
-
-		$total_size   = dollie()->get_total_container_size();
-		$allowed_size = $subscription['max_allowed_size'] * 1024 * 1024 * 1024;
-
-		return $this->has_subscription() && $total_size >= $allowed_size && ! current_user_can( 'manage_options' );
-	}
-
-	/**
-	 * Get partner subscription
-	 *
-	 * @return bool|array
-	 */
-	public function get_partner_subscription() {
-		if ( ! Api::get_auth_token() || get_transient( 'wpd_just_connected' ) ) {
-			return false;
-		}
-
-		$subscription = get_transient( 'wpd_partner_subscription' );
-
-		if ( ! $subscription ) {
-			$check_request  = Api::get( Api::ROUTE_CHECK_SUBSCRIPTION );
-			$check_response = Api::process_response( $check_request, null );
-
-			if ( ! $check_response ) {
-				return false;
-			}
-
-			$subscription = $check_response['data'];
-
-			set_transient( 'wpd_partner_subscription', $subscription, HOUR_IN_SECONDS * 6 );
-		}
-
-		return $subscription;
-	}
-
-	/**
-	 * Check if partner subscription
-	 *
-	 * @return boolean
-	 */
-	public function has_partner_subscription() {
-		$subscription = $this->get_partner_subscription();
-
-		if ( ! $subscription ) {
-			return false;
-		}
-
-		return $subscription['active'];
-	}
-
-	/**
-	 * Check if partner subscription is trial
-	 *
-	 * @return boolean
-	 */
-	public function is_partner_subscription_trial() {
-		$subscription = $this->get_partner_subscription();
-
-		if ( ! $subscription ) {
-			return false;
-		}
-
-		return $subscription['subscription']['trial'];
-	}
-
-	/**
-	 * Get how many containers can partner deploy
-	 *
-	 * @return int
-	 */
-	public function get_partner_subscription_credits() {
-		$subscription = $this->get_partner_subscription();
-
-		if ( ! $subscription ) {
-			return 0;
-		}
-
-		return $subscription['subscription']['limit'];
 	}
 
 }
