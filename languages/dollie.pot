@@ -87,11 +87,11 @@ msgstr ""
 msgid "LetsEncrypt Failed"
 msgstr ""
 
-#: core/Log.php:297, core/Modules/ContainerFields.php:91, templates/loop/sites.php:112
+#: core/Log.php:297, core/Modules/ContainerFields.php:91, templates/loop/sites.php:110
 msgid "Blueprint Updated"
 msgstr ""
 
-#: core/Plugin.php:362, core/Modules/Options.php:271, templates/widgets/launch/launch-site.php:35
+#: core/Plugin.php:365, core/Modules/Options.php:271, templates/widgets/launch/launch-site.php:35
 msgid "Connect with Dollie"
 msgstr ""
 
@@ -199,7 +199,7 @@ msgstr ""
 msgid "The amount of space customer can use when subscribed to this product."
 msgstr ""
 
-#: core/Extras/AcfFields.php:490, core/Extras/AcfFields.php:1288, templates/widgets/general/sites-navigation.php:50, templates/widgets/site/site-navigation.php:26, templates/widgets/site/pages/blueprints.php:4
+#: core/Extras/AcfFields.php:490, core/Extras/AcfFields.php:1288, templates/widgets/general/main-navigation.php:53, templates/widgets/general/sites-navigation.php:50, templates/widgets/site/site-navigation.php:26
 msgid "Blueprints"
 msgstr ""
 
@@ -360,7 +360,7 @@ msgid "Charge For Launching Sites?"
 msgstr ""
 
 #: core/Extras/AcfFields.php:1109
-msgid "Would you like to charge your customers for launching websites? If you have this set to \"off\" anyone can launch sites on your platform without having a paid (WooCommerce) subscription."
+msgid "Would you like to charge your customers for launching websites? If you have this set to \"off\" anyone can launch sites on your platform without having an active subscription."
 msgstr ""
 
 #: core/Extras/AcfFields.php:1125
@@ -453,7 +453,7 @@ msgstr ""
 
 #: core/Extras/AcfFields.php:1473, core/Extras/AcfFields.php:1531
 msgid ""
-"Placeholders: \n"
+"Placeholders:\n"
 "{dollie_site_url}, {dollie_site_name}, {dollie_user}, {dollie_site_email}, {dollie_site_username}, {dollie_site_password}"
 msgstr ""
 
@@ -603,6 +603,10 @@ msgstr ""
 msgid "Advanced Settings"
 msgstr ""
 
+#: core/Extras/AcfFormFields.php:296
+msgid "Configure site details like default admin username and password."
+msgstr ""
+
 #: core/Extras/AcfFormFields.php:321
 msgid "Admin Email"
 msgstr ""
@@ -708,7 +712,7 @@ msgid "Yes, create a new blueprint!"
 msgstr ""
 
 #: core/Modules/Blueprints.php:48
-msgid "Please fill the Realtime Customizer fields."
+msgid "Please fill in the Realtime Customizer fields."
 msgstr ""
 
 #: core/Modules/Blueprints.php:93
@@ -716,7 +720,23 @@ msgid "Realtime Customizer"
 msgstr ""
 
 #: core/Modules/Blueprints.php:94
-msgid "Make sure to set your site details below. We automatically deploy the site with your information."
+msgid "Make sure to set your site details below. We automatically launch the site with your information."
+msgstr ""
+
+#: core/Modules/Blueprints.php:258
+msgid "Live"
+msgstr ""
+
+#: core/Modules/Blueprints.php:259
+msgid "This Blueprint was last updated at %s"
+msgstr ""
+
+#: core/Modules/Blueprints.php:249
+msgid "Staging"
+msgstr ""
+
+#: core/Modules/Blueprints.php:250
+msgid "This Blueprint is still in staging mode. Click here to make it available for your customers."
 msgstr ""
 
 #: core/Modules/Colors.php:36
@@ -935,7 +955,7 @@ msgstr ""
 msgid "Items list navigation"
 msgstr ""
 
-#: core/Modules/Container.php:963, templates/loop/sites.php:128
+#: core/Modules/Container.php:963, templates/loop/sites.php:125
 msgid "Customer"
 msgstr ""
 
@@ -1277,11 +1297,11 @@ msgstr ""
 msgid "Read article"
 msgstr ""
 
-#: templates/loop/sites.php:31
+#: templates/loop/sites.php:26
 msgid "Search for a site..."
 msgstr ""
 
-#: templates/loop/sites.php:191
+#: templates/loop/sites.php:183
 msgid "No sites found."
 msgstr ""
 
@@ -1289,27 +1309,27 @@ msgstr ""
 msgid "Unnamed"
 msgstr ""
 
-#: templates/loop/sites.php:103
+#: templates/loop/sites.php:101
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites.php:106
+#: templates/loop/sites.php:104
 msgid "Version %s"
 msgstr ""
 
-#: templates/loop/sites.php:120
+#: templates/loop/sites.php:117
 msgid "Never. Update now!"
 msgstr ""
 
-#: templates/loop/sites.php:146
+#: templates/loop/sites.php:141
 msgid "Manage"
 msgstr ""
 
-#: templates/loop/sites.php:140
+#: templates/loop/sites.php:136
 msgid "Update"
 msgstr ""
 
-#: templates/loop/sites.php:157, templates/widgets/site/site-screenshot.php:35
+#: templates/loop/sites.php:151, templates/widgets/site/site-screenshot.php:33
 msgid "Admin"
 msgstr ""
 
@@ -1528,11 +1548,15 @@ msgid "Create New Backup"
 msgstr ""
 
 #: core/Modules/Forms/CreateBlueprint.php:82
-msgid "Please confirm blueprint creation"
+msgid "Please confirm the blueprint update"
 msgstr ""
 
-#: core/Modules/Forms/CreateBlueprint.php:94
-msgid "Deploy Blueprint"
+#: core/Modules/Forms/CreateBlueprint.php:98
+msgid "Update Blueprint"
+msgstr ""
+
+#: core/Modules/Forms/CreateBlueprint.php:96
+msgid "Publish Blueprint"
 msgstr ""
 
 #: core/Modules/Forms/DeleteSite.php:78
@@ -2007,11 +2031,11 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:44, templates/widgets/site/site-navigation.php:20, templates/widgets/site/pages/blueprints.php:112, templates/widgets/site/pages/plugins.php:45
+#: templates/widgets/general/sites-navigation.php:44, templates/widgets/site/site-navigation.php:20, templates/widgets/site/pages/blueprints.php:145, templates/widgets/site/pages/plugins.php:45
 msgid "Plugins"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:45, templates/widgets/site/site-navigation.php:21, templates/widgets/site/pages/blueprints.php:113
+#: templates/widgets/general/sites-navigation.php:45, templates/widgets/site/site-navigation.php:21, templates/widgets/site/pages/blueprints.php:146
 msgid "Themes"
 msgstr ""
 
@@ -2099,15 +2123,27 @@ msgstr ""
 msgid "If you don't want to wait for a few seconds, you can navigate away. We got it covered!"
 msgstr ""
 
+#: templates/widgets/site/site-content.php:185
+msgid "Launching New Blueprint"
+msgstr ""
+
+#: templates/widgets/site/site-content.php:189
+msgid "Once your Blueprint has been launched you can go ahead and install your favorite plugins and themes, to make the perfect pre-made site for your customers."
+msgstr ""
+
 #: templates/widgets/site/site-content.php:13
 msgid "Hosting for this site is currently paused."
 msgstr ""
 
-#: templates/widgets/site/site-screenshot.php:46
+#: templates/widgets/site/site-screenshot.php:47
 msgid "Launching Site"
 msgstr ""
 
-#: templates/widgets/site/site-screenshot.php:28, templates/widgets/site/pages/plugins.php:166
+#: templates/widgets/site/site-screenshot.php:45
+msgid "Launching Blueprint"
+msgstr ""
+
+#: templates/widgets/site/site-screenshot.php:27, templates/widgets/site/pages/plugins.php:166
 msgid "Visit"
 msgstr ""
 
@@ -2141,83 +2177,99 @@ msgstr ""
 msgid "You have never restored your site."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:10
-msgid "<strong>%s</strong> is the source of your Blueprint. Make sure that this installation is working properly and is set up according before you deploy your Blueprint."
+#: templates/widgets/site/pages/blueprints.php:4
+msgid "Manage This Blueprint"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:15
-msgid "Your last Blueprint was deployed at %s"
+#: templates/widgets/site/pages/blueprints.php:13
+msgid "Ready to make <strong>%s</strong> available as a Blueprint for your customers?."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:29
-msgid "Create or update your blueprint"
+#: templates/widgets/site/pages/blueprints.php:16
+msgid "Important - Make sure that the installation is working properly before you take your Blueprint Live. Meaning all your plugins are configured, your theme is set up, and you have double-checked that no accidental sensitive data is included (like test user accounts, private API keys etc.)"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:42
+#: templates/widgets/site/pages/blueprints.php:30
+msgid "Publish this blueprint"
+msgstr ""
+
+#: templates/widgets/site/pages/blueprints.php:46
+msgid "Before you update this blueprint make sure <strong>%s</strong> is "
+msgstr ""
+
+#: templates/widgets/site/pages/blueprints.php:51
+msgid "Your Blueprint was last updated at %s"
+msgstr ""
+
+#: templates/widgets/site/pages/blueprints.php:65
+msgid "Update your blueprint"
+msgstr ""
+
+#: templates/widgets/site/pages/blueprints.php:77
 msgid "Blueprint Settings"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:47
+#: templates/widgets/site/pages/blueprints.php:82
 msgid "Now that created your blueprint you can use the options below to change how it is listed on the \"Launch Site\" page and wherever you use the [dollie-blueprints] shortcode."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:78
+#: templates/widgets/site/pages/blueprints.php:112
 msgid "Blueprint history"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:94
+#: templates/widgets/site/pages/blueprints.php:128
 msgid "No Blueprints created yet."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:88
+#: templates/widgets/site/pages/blueprints.php:122
 msgid "Created on %1$s at %2$s."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:89
+#: templates/widgets/site/pages/blueprints.php:123
 msgid "Size %s."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:103
+#: templates/widgets/site/pages/blueprints.php:137
 msgid "What is included?"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:108
+#: templates/widgets/site/pages/blueprints.php:142
 msgid "We copy over:"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:114
+#: templates/widgets/site/pages/blueprints.php:147
 msgid "Media Upload"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:115
+#: templates/widgets/site/pages/blueprints.php:148
 msgid "The Database*"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:124
+#: templates/widgets/site/pages/blueprints.php:157
 msgid "What is excluded?"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:129
+#: templates/widgets/site/pages/blueprints.php:162
 msgid "We DO NOT copy:"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:132
+#: templates/widgets/site/pages/blueprints.php:165
 msgid "mu-plugins folder"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:133
+#: templates/widgets/site/pages/blueprints.php:166
 msgid "All WordPress Core Files"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:134
+#: templates/widgets/site/pages/blueprints.php:167
 msgid "WP-Config.php"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:135
+#: templates/widgets/site/pages/blueprints.php:168
 msgid "wp_users & wp_usermeta tables"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:136
+#: templates/widgets/site/pages/blueprints.php:169
 msgid "All non-core folders and files outside of wp-content"
 msgstr ""
 
