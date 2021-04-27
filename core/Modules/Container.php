@@ -20,7 +20,6 @@ use WP_Query;
  */
 class Container extends Singleton {
 
-
 	/**
 	 * Container constructor.
 	 */
@@ -332,8 +331,8 @@ class Container extends Singleton {
 	 * Update WP site url option
 	 *
 	 * @param $new_url
-	 * @param string $old_url
-	 * @param null $container_id
+	 * @param string  $old_url
+	 * @param null    $container_id
 	 *
 	 * @return bool|mixed
 	 */
@@ -596,7 +595,7 @@ class Container extends Singleton {
 	 * @param $url
 	 * @param $transient_id
 	 * @param $user_auth
-	 * @param null $user_pass
+	 * @param null         $user_pass
 	 *
 	 * @return array|mixed
 	 */
@@ -672,7 +671,7 @@ class Container extends Singleton {
 	/**
 	 * Get container login info
 	 *
-	 * @param null $container_id
+	 * @param null   $container_id
 	 * @param string $site_username
 	 *
 	 * @return mixed
@@ -1130,14 +1129,14 @@ class Container extends Singleton {
 
 		$container_id = $_GET['post'];
 		?>
-        <br>
-        <div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
-            <div class="dollie-inner-message">
-				<?php if ( dollie()->is_blueprint( $container_id ) ) { ?>
+		<br>
+		<div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
+			<div class="dollie-inner-message">
+				<?php if ( dollie()->is_blueprint( $container_id ) ) : ?>
 
-                    <div class="dollie-message-center">
-                        <h3><?php esc_html_e( 'Notice - How To Manage & Update This Blueprint', 'dollie' ); ?> </h3>
-                        <p>
+					<div class="dollie-message-center">
+						<h3><?php esc_html_e( 'Notice - How To Manage & Update This Blueprint', 'dollie' ); ?> </h3>
+						<p>
 							<?php
 							echo wp_kses_post(
 								sprintf(
@@ -1146,13 +1145,12 @@ class Container extends Singleton {
 								)
 							);
 							?>
-                    </div>
+					</div>
 
-
-				<?php } else { ?>
-                    <div class="dollie-message-center">
-                        <h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
-                        <p>
+				<?php else : ?>
+					<div class="dollie-message-center">
+						<h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
+						<p>
 							<?php
 							echo wp_kses_post(
 								sprintf(
@@ -1161,10 +1159,10 @@ class Container extends Singleton {
 								)
 							);
 							?>
-                    </div>
-				<?php } ?>
-            </div>
-        </div>
+					</div>
+				<?php endif; ?>
+			</div>
+		</div>
 		<?php
 	}
 
@@ -1276,18 +1274,18 @@ class Container extends Singleton {
 	 */
 	public function change_role_notice() {
 		?>
-        <script type="text/javascript">
-            (function ($) {
-                var customer_role = $('[data-name="wpd_client_site_permission"]');
-                if (customer_role.length) {
-                    var key = customer_role.data('key');
+		<script type="text/javascript">
+			(function ($) {
+				var customer_role = $('[data-name="wpd_client_site_permission"]');
+				if (customer_role.length) {
+					var key = customer_role.data('key');
 
-                    $('[name="acf[' + key + ']"]').on('change', function () {
-                        alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
-                    })
-                }
-            })(jQuery);
-        </script>
+					$('[name="acf[' + key + ']"]').on('change', function () {
+						alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
+					})
+				}
+			})(jQuery);
+		</script>
 		<?php
 	}
 
@@ -1295,7 +1293,7 @@ class Container extends Singleton {
 	 * Get container screenshot
 	 *
 	 * @param $container_uri
-	 * @param bool $regenerate
+	 * @param bool          $regenerate
 	 *
 	 * @return array|mixed|null
 	 */

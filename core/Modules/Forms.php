@@ -7,10 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Modules\Forms\CreateBackup;
-use Dollie\Core\Modules\Forms\CreateBlueprint;
 use Dollie\Core\Modules\Forms\DomainConnect;
-use Dollie\Core\Modules\Forms\DomainDns;
-use Dollie\Core\Modules\Forms\DomainUpdateUrl;
 use Dollie\Core\Modules\Forms\LaunchSite;
 use Dollie\Core\Modules\Forms\ListBackups;
 use Dollie\Core\Modules\Forms\Performance;
@@ -37,7 +34,6 @@ class Forms extends Singleton {
 		QuickLaunch::instance();
 		CreateBackup::instance();
 		ListBackups::instance();
-		CreateBlueprint::instance();
 		DomainConnect::instance();
 		PluginUpdates::instance();
 		DeleteSite::instance();
@@ -83,12 +79,11 @@ class Forms extends Singleton {
 	 * ACF/AF specific hooks
 	 */
 	public function acf_init() {
-
 		add_filter( 'af/merge_tags/resolve', [ $this, 'resolve_fields_tag' ], 9, 3 );
 		add_filter( 'af/merge_tags/resolve', [ $this, 'add_merge_tags' ], 10, 2 );
 		add_filter( 'af/merge_tags/custom', [ $this, 'register_merge_tags' ], 10, 2 );
 
-		// Placeholders/Change values
+		// Placeholders/Change values.
 		add_filter( 'acf/prepare_field/type=message', [ $this, 'add_acf_placeholders' ], 10 );
 
 		add_filter( 'af/form/button_attributes', [ $this, 'filter_submit_button_attributes' ], 10, 3 );

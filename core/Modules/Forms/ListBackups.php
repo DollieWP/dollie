@@ -36,13 +36,13 @@ class ListBackups extends Singleton {
 	 * Init ACF
 	 */
 	public function acf_init() {
-		// Restrictions
+		// Restrictions.
 		add_filter( 'af/form/restriction/key=' . $this->form_key, [ $this, 'restrict_form' ], 10 );
 
 		// Placeholders/Change values.
 		add_filter( 'acf/load_field/name=site_backup', [ $this, 'populate_site_backups' ] );
 
-		// Form args
+		// Form args.
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
 		// Form submission action.
@@ -83,7 +83,7 @@ class ListBackups extends Singleton {
 	 * @return bool|string
 	 */
 	public function restrict_form( $restriction = false ) {
-		// Added in case another restriction already applies
+		// Added in case another restriction already applies.
 		if ( $restriction ) {
 			return $restriction;
 		}
@@ -130,7 +130,7 @@ class ListBackups extends Singleton {
 	 * @return mixed
 	 */
 	public function populate_site_backups( $field ) {
-		// Grab our array of available backups
+		// Grab our array of available backups.
 		$backups = Backups::instance()->get();
 		$choices = [];
 
@@ -153,14 +153,14 @@ class ListBackups extends Singleton {
 				}
 
 				$size = '<span class="dol-inline-block dol-ml-4"><i class="fas fa-hdd dol-mr-1"></i> ' . $real_size . '</span>';
-				// Time is first part but needs to be split
+				// Time is first part but needs to be split.
 				$backup_date = explode( '_', $info[0] );
-				// Date of backup
+				// Date of backup.
 				$date        = strtotime( $backup_date[0] );
 				$raw_time    = str_replace( '-', ':', $backup_date[1] );
 				$pretty_time = date( 'g:i a', strtotime( $raw_time ) );
 
-				// Time of backup
+				// Time of backup.
 				$time = ' at ' . $pretty_time . '';
 				// Size of backup
 				// Format for compat with duplicity.

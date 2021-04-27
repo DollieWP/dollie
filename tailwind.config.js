@@ -63,6 +63,7 @@ module.exports = {
       "./core/Widgets/**/templates/**/**/*.php",
       "./core/Shortcodes/Blueprints.php",
       "./core/Admin/NavMenu/Component.php",
+      "./core/Modules/Blueprints.php",
       "./templates/link-domain.php",
       "./templates/widgets/site/site-content.php",
       "./core/tailwind-whitelist.txt",
