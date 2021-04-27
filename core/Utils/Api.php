@@ -52,13 +52,9 @@ class Api extends Singleton {
 		ROUTE_ADD_CUSTOM_BACKUP     = 'partner/add-custom-backup',
 		ROUTE_DISABLE_CUSTOM_BACKUP = 'partner/disable-custom-backup';
 
-	// const API_BASE_URL = 'https://api-staging.getdollie.com/';
-	const API_BASE_URL = 'http://dollie-api.lcl/';
-
-	const API_URL = self::API_BASE_URL . 'api/';
-	// const PARTNERS_URL = 'https://partners.getdollie.com/';
-	const PARTNERS_URL = 'http://dollie-wp.lcl/';
-
+	const API_BASE_URL = 'https://api-staging.getdollie.com/';
+	const API_URL      = self::API_BASE_URL . 'api/';
+	const PARTNERS_URL = 'https://partners.getdollie.com/';
 
 	public static $last_call = null;
 
