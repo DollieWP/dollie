@@ -39,7 +39,7 @@ $active_class = [
 
     <li class="dol-m-0">
         <a href="<?php echo dollie()->get_sites_page_url(); ?>"
-           class="dol-nav-btn dol-font-semibold <?php if ( ! isset( $_GET['blueprints'] ) && ! $_GET['blueprints'] ) { ?><?php echo esc_attr( $active_class['sites'] ); ?><?php } ?>">
+           class="dol-nav-btn dol-font-semibold <?php if ( ! isset( $_GET['blueprints'] ) || ! $_GET['blueprints'] ) { ?><?php echo esc_attr( $active_class['sites'] ); ?><?php } ?>">
             <span class="dol-inline-block dol-text-center dol-w-8"><i class="fas fa-globe"></i></span>
 			<?php echo dollie()->get_sites_page_title(); ?>
         </a>

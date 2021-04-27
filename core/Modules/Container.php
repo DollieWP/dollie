@@ -20,7 +20,6 @@ use WP_Query;
  */
 class Container extends Singleton {
 
-
 	/**
 	 * Container constructor.
 	 */

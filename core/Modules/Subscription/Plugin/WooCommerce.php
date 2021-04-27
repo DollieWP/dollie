@@ -69,9 +69,9 @@ class WooCommerce implements SubscriptionInterface {
 	/**
 	 * Redirect to payment success + blueprint if blueprint cookie is set
 	 *
-	 * @param $id
+	 * @param $order_id
 	 */
-	public function redirect_to_blueprint( $id ) {
+	public function redirect_to_blueprint( $order_id ) {
 		if ( isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) && $_COOKIE[ Blueprints::COOKIE_NAME ] ) {
 			$order = new \WC_Order( $order_id );
 			if ( 'failed' !== $order->status ) {

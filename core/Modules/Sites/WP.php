@@ -76,6 +76,7 @@ final class WP extends Singleton {
 
 		if ( $blueprint ) {
 			setcookie( Blueprints::COOKIE_NAME, '', time() - 3600, '/' );
+			update_post_meta( $post_id, 'wpd_from_blueprint', $blueprint );
 		}
 
 		$post_body = [
