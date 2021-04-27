@@ -727,27 +727,27 @@ msgstr ""
 msgid "Please fill in the Realtime Customizer fields."
 msgstr ""
 
-#: core/Modules/Blueprints.php:100
+#: core/Modules/Blueprints.php:99
 msgid "Realtime Customizer"
 msgstr ""
 
-#: core/Modules/Blueprints.php:101
+#: core/Modules/Blueprints.php:100
 msgid "Make sure to set your site details below. We automatically launch the site with your information."
 msgstr ""
 
-#: core/Modules/Blueprints.php:277
+#: core/Modules/Blueprints.php:276
 msgid "Live"
 msgstr ""
 
-#: core/Modules/Blueprints.php:278
+#: core/Modules/Blueprints.php:277
 msgid "This Blueprint was last updated at %1$s. Made changes since then? Don’t forget to update this blueprint."
 msgstr ""
 
-#: core/Modules/Blueprints.php:267
+#: core/Modules/Blueprints.php:266
 msgid "Staging"
 msgstr ""
 
-#: core/Modules/Blueprints.php:268
+#: core/Modules/Blueprints.php:267
 msgid "This Blueprint is still in staging mode. Click here to make it available for your customers."
 msgstr ""
 
