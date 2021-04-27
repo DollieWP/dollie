@@ -66,13 +66,12 @@ class Blueprints extends Singleton {
 		$blueprint = (int) $_POST['blueprint'];
 
 		if ( empty( $blueprint ) ) {
-
 			return;
 		}
 
 		ob_start();
 
-		$fields = get_field( 'wpd_dynamic_blueprint_data', $blueprint );
+		$fields = get_field( 'wpd_dynamic_blueprint_data', 'create_update_blueprint_' . $blueprint );
 		if ( ! empty( $fields ) ) {
 
 			$message = '';
@@ -335,7 +334,7 @@ class Blueprints extends Singleton {
 	public function site_launch_add_customizer_data( $deploy_data, $domain, $blueprint ) {
 		if ( isset( $_POST['wpd_bp_data'] ) && is_array( $_POST['wpd_bp_data'] ) ) {
 			$bp_customizer = [];
-			$bp_fields     = get_field( 'wpd_dynamic_blueprint_data', $blueprint );
+			$bp_fields     = get_field( 'wpd_dynamic_blueprint_data', 'create_update_blueprint_' . $blueprint );
 
 			if ( ! empty( $bp_fields ) ) {
 				foreach ( $bp_fields as $bp_field ) {
@@ -382,7 +381,7 @@ class Blueprints extends Singleton {
 	public function update_create_blueprint( $post_id ) {
 		$container = dollie()->get_current_object( get_the_ID() );
 
-		if ( 'create_update_blueprint' !== $post_id || 'container' !== get_post_type() || ! dollie()->is_blueprint() || ! $container ) {
+		if ( strpos( $post_id, 'create_update_blueprint' ) === false || 'container' !== get_post_type() || ! dollie()->is_blueprint() || ! $container ) {
 			return;
 		}
 

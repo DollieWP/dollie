@@ -23,7 +23,7 @@
 
 				acf_form(
 					[
-						'post_id'      => 'create_update_blueprint',
+						'post_id'      => 'create_update_blueprint_' . get_the_ID(),
 						'form'         => true,
 						'id'           => 'acf-form-create-update-bp',
 						'field_groups' => [
@@ -74,7 +74,7 @@
 
 				acf_form(
 					[
-						'post_id'      => 'create_update_blueprint',
+						'post_id'      => 'create_update_blueprint_' . get_the_ID(),
 						'form'         => true,
 						'id'           => 'acf-form-create-update-bp',
 						'field_groups' => [
