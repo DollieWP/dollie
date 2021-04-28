@@ -34,6 +34,7 @@ use Dollie\Core\Utils\Notices;
 use Dollie\Core\Routing\Processor;
 use Dollie\Core\Routing\Route;
 use Dollie\Core\Routing\Router;
+use Dollie\Core\Utils\Tpl;
 
 /**
  * Class Plugin
@@ -79,6 +80,7 @@ class Plugin extends Singleton {
 		add_shortcode( 'dollie_blockquote', [ $this, 'blockquote_shortcode' ] );
 
 		add_action( 'route_login_redirect', [ $this, 'do_route_login_redirect' ] );
+		add_action( 'route_preview', [ $this, 'do_route_preview' ] );
 
 	}
 
@@ -193,7 +195,7 @@ class Plugin extends Singleton {
 
 		$router       = new Router( 'dollie_route_name' );
 		$this->routes = [
-			'dollie_preview'        => new Route( '/' . dollie()->get_preview_url( 'path' ), '', DOLLIE_PATH . 'templates/preview.php' ),
+			'dollie_preview'        => new Route( '/' . dollie()->get_preview_url( 'path' ), 'route_preview' ),
 			'dollie_login_redirect' => new Route( '/site_login_redirect', 'route_login_redirect' ),
 		];
 
@@ -433,6 +435,12 @@ class Plugin extends Singleton {
 
 		$location = ! empty( $_GET['location'] ) ? esc_url_raw( $_GET['location'] ) : null;
 		wp_redirect( dollie()->final_customer_login_url( $container_id, $location ) );
+		exit;
+	}
+
+	public function do_route_preview() {
+
+		Tpl::load( 'preview', [], true );
 		exit;
 	}
 
