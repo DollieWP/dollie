@@ -511,8 +511,12 @@ msgstr ""
 msgid "You can fill in just your bucket name like \"my_bucket_name\" or you can point to a folder in your bucket like \"my_bucket_name/example_folder\". Every site will be backed up in its own folder."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1624, core/Extras/AcfFormFields.php:793
+#: core/Extras/AcfFields.php:1624
 msgid "Confirmation"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1637
+msgid "Yes, deploy new blueprint version!"
 msgstr ""
 
 #: core/Extras/AcfFields.php:1673
@@ -717,10 +721,6 @@ msgstr ""
 
 #: core/Extras/AcfFormFields.php:752
 msgid "Set a password to also create an account."
-msgstr ""
-
-#: core/Extras/AcfFormFields.php:805
-msgid "Yes, create a new blueprint!"
 msgstr ""
 
 #: core/Modules/Blueprints.php:55
@@ -1089,10 +1089,6 @@ msgstr ""
 
 #: core/Modules/Preview.php:207, core/Widgets/Dashboard/LaunchSite.php:25, core/Widgets/Launch/LaunchSite.php:32
 msgid "Launch Site"
-msgstr ""
-
-#: core/Modules/Preview.php:242
-msgid "all"
 msgstr ""
 
 #: core/Modules/Preview.php:253
@@ -2201,27 +2197,27 @@ msgstr ""
 msgid "Publish this blueprint"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:62
+#: templates/widgets/site/pages/blueprints.php:61
 msgid "Before you update this blueprint make sure <strong>%s</strong> is ready for an update. Once you have deployed a new version of this blueprint it will be used next time a customer launches a site based on this blueprint. Make sure you’ve removed all sensitive data like testing user accounts and emails."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:67
+#: templates/widgets/site/pages/blueprints.php:66
 msgid "Your Blueprint was last updated at %s"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:85
+#: templates/widgets/site/pages/blueprints.php:84
 msgid "Update Blueprint"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:97
+#: templates/widgets/site/pages/blueprints.php:96
 msgid "Update your blueprint"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:109
+#: templates/widgets/site/pages/blueprints.php:110
 msgid "Blueprint Settings"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:114
+#: templates/widgets/site/pages/blueprints.php:115
 msgid "Now that created your blueprint you can use the options below to change how it is listed on the \"Launch Site\" page and wherever you use the [dollie-blueprints] shortcode."
 msgstr ""
 
