@@ -1634,7 +1634,7 @@ if( function_exists('acf_add_local_field_group') ):
 				),
 				'hide_admin' => 0,
 				'choices' => array(
-					'yes' => 'Yes, create a new blueprint!',
+					'yes' => __( 'Yes, deploy new blueprint version!', 'dollie' ),
 				),
 				'allow_custom' => 0,
 				'default_value' => array(

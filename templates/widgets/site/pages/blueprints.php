@@ -51,7 +51,6 @@
 		?>
 	</div>
 
-
 <?php endif ?>
 
 <?php if ( '' !== $blueprint_time && current_user_can( 'manage_options' ) ) : ?>
@@ -102,10 +101,9 @@
 		?>
 	</div>
 
-
 	<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-widget-blueprint-settings">
         <div class=" dol-flex dol-items-center dol-bg-primary-600 dol-border-0 dol-border-b">
-            <div class="dol-p-4 lg:dol-px-8 dol-flex dol-items-center dol-justify-center dol-h-full <?php echo esc_attr($icon_class); ?>">
+            <div class="dol-p-4 lg:dol-px-8 dol-flex dol-items-center dol-justify-center dol-h-full">
                 <i class="fal fa-cogs dol-text-white dol-text-xl md:dol-text-2xl"></i>
             </div>
 			<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
@@ -136,7 +134,6 @@
 			</div>
 		</div>
 	</div>
-
 
 	<div class="dol-flex dol-flex-wrap dol--mx-4 dol-mt-4">
 		<div class="dol-w-full md:dol-w-1/2 lg:dol-w-2/6 dol-p-4">
