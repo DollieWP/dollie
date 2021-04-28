@@ -11,6 +11,7 @@ use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
 use Dollie\Core\Utils\Helpers;
+use Dollie\Core\Utils\Tpl;
 use WP_Query;
 
 /**
@@ -175,7 +176,7 @@ class Container extends Singleton {
 		global $post;
 
 		if ( 'container' === $post->post_type ) {
-			return DOLLIE_MODULE_TPL_PATH . '/container.php';
+			return Tpl::get_path( 'container' );
 		}
 
 		return $single;

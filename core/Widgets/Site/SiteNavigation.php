@@ -74,8 +74,8 @@ class SiteNavigation extends \Elementor\Widget_Base {
 				'label'     => __( 'Navigation Link Color', 'plugin-domain' ),
 				'type'      => \Elementor\Controls_Manager::COLOR,
 				'scheme'    => [
-					'type'  => \Elementor\Scheme_Color::get_type(),
-					'value' => \Elementor\Scheme_Color::COLOR_1,
+					'type'  => \Elementor\Core\Schemes\Color::get_type(),
+					'value' => \Elementor\Core\Schemes\Color::COLOR_1,
 				],
 				'selectors' => [
 					'{{WRAPPER}} li a.dol-nav-btn' => 'color: {{VALUE}}',

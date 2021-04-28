@@ -3010,16 +3010,32 @@ input[type="text"].dol-search-input:focus {
 #form_dollie_launch_site .acf-radio-list img.fw-blueprint-screenshot {
   max-width: 230px;
   display: block;
-  margin-right: 30px;
   border-radius: 10px;
   padding: 5px;
-  margin-right: 0px;
+  margin-right: 0;
   opacity: 0.8;
 }
 
 #form_dollie_launch_site .acf-radio-list img.fw-blueprint-screenshot:hover {
   opacity: 1;
   background: #39bc9c;
+}
+
+.acf-field-repeater[data-name="wpd_dynamic_blueprint_data"] {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.acf-field-repeater[data-name="wpd_dynamic_blueprint_data"] .acf-label label {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .acf-field-repeater[data-name="wpd_dynamic_blueprint_data"] .acf-label label {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
 }
 
 /*!

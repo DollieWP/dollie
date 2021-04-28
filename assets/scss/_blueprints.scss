@@ -39,16 +39,26 @@
     img.fw-blueprint-screenshot {
       max-width: 230px;
       display: block;
-      margin-right: 30px;
       border-radius: 10px;
       padding: 5px;
-      margin-right: 0px;
+      margin-right: 0;
       opacity: 0.8;
 
       &:hover {
         opacity: 1;
         background: rgb(57, 188, 156);
       }
+    }
+  }
+}
+
+.acf-field-repeater[data-name="wpd_dynamic_blueprint_data"] {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+
+  .acf-label {
+    label {
+      @apply dol-text-base md:dol-text-xl;
     }
   }
 }
