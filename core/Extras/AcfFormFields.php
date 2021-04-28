@@ -784,48 +784,4 @@ Whilst PHP7 gives your site a big performance boost not all plugins and themes a
 		'description'           => '',
 	) );
 
-	acf_add_local_field_group( array(
-		'key'                   => 'group_5e821cfd8136f',
-		'title'                 => '[Forms] Create New Blueprint',
-		'fields'                => array(
-			array(
-				'key'               => 'field_5e821d165e20a',
-				'label'             => __( 'Confirmation', 'dollie' ),
-				'name'              => 'confirmation',
-				'type'              => 'true_false',
-				'instructions'      => '',
-				'required'          => 0,
-				'conditional_logic' => 0,
-				'wrapper'           => array(
-					'width' => '',
-					'class' => '',
-					'id'    => '',
-				),
-				'hide_admin'        => 0,
-				'message'           => __( 'Yes, create a new blueprint!', 'dollie' ),
-				'default_value'     => 0,
-				'ui'                => 0,
-				'ui_on_text'        => '',
-				'ui_off_text'       => '',
-			),
-		),
-		'location'              => array(
-			array(
-				array(
-					'param'    => 'af_form',
-					'operator' => '==',
-					'value'    => 'form_dollie_create_blueprint',
-				),
-			),
-		),
-		'menu_order'            => 0,
-		'position'              => 'normal',
-		'style'                 => 'default',
-		'label_placement'       => 'top',
-		'instruction_placement' => 'label',
-		'hide_on_screen'        => '',
-		'active'                => true,
-		'description'           => '',
-	) );
-
 endif;
