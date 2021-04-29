@@ -57,6 +57,7 @@
 
 	<div class="dol-my-6">
 		<?php ob_start(); ?>
+
 		<div class="dol-mb-4">
 			<?php printf( __( 'Before you update this blueprint make sure <strong>%s</strong> is ready for an update. Once you have deployed a new version of this blueprint it will be used next time a customer launches a site based on this blueprint. Make sure you’ve removed all sensitive data like testing user accounts and emails.', 'dollie' ), dollie()->get_container_url() ); ?>
 		</div>
@@ -68,6 +69,22 @@
 		<?php endif; ?>
 
 		<div>
+			<?php
+			$dynamic_fields = get_field( 'wpd_dynamic_blueprint_data', 'create_update_blueprint_' . get_the_ID() );
+
+			if ( ! is_array( $dynamic_fields ) ) {
+				$dynamic_fields = [];
+			}
+			?>
+			<div id="dol-blueprint-notification" class="dol-hidden" data-dynamic-fields="<?php echo esc_attr( count( $dynamic_fields ) ); ?>" data-container="<?php echo esc_attr( get_the_ID() ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'check_dynamic_fields_nonce' ) ); ?>" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>">
+				<div class="dol-inline-flex dol-w-full dol-items-center dol-px-4 dol-py-2 dol-text-base dol-leading-6 dol-rounded dol-text-white dol-bg-secondary-600 dol-transition dol-ease-in-out dol-duration-150">
+					<svg class="dol-animate-spin dol--ml-1 dol-mr-3 dol-h-5 dol-w-5 dol-text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+						<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+						<path class="dol-opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+					</svg>
+					<?php esc_html_e( 'Checking field integrity...', 'dollie' ); ?>
+				</div>
+			</div>
 			<?php
 				$acf_fields = dollie()->acf_get_database_field_group_keys();
 
@@ -86,6 +103,7 @@
 				);
 			?>
 		</div>
+
 		<?php
 		$message = ob_get_clean();
 		\Dollie\Core\Utils\Tpl::load(

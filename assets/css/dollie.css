@@ -735,6 +735,10 @@ select {
   line-height: 1.25rem;
 }
 
+.dol-leading-6 {
+  line-height: 1.5rem;
+}
+
 .dol-leading-7 {
   line-height: 1.75rem;
 }

@@ -95,7 +95,7 @@ msgstr ""
 msgid "Connect with Dollie"
 msgstr ""
 
-#: core/Elementor/DollieSource.php:33, core/Elementor/Hooks.php:98, core/Elementor/Hooks.php:112, core/Modules/Colors.php:35, core/Utils/Notices.php:67, core/Admin/NavMenu/Component.php:72, core/Elementor/Library/Documents/Dollie.php:61
+#: core/Elementor/DollieSource.php:33, core/Elementor/Hooks.php:98, core/Elementor/Hooks.php:112, core/Modules/Colors.php:34, core/Utils/Notices.php:67, core/Admin/NavMenu/Component.php:72, core/Elementor/Library/Documents/Dollie.php:61
 msgid "Dollie"
 msgstr ""
 
@@ -723,51 +723,63 @@ msgstr ""
 msgid "Set a password to also create an account."
 msgstr ""
 
-#: core/Modules/Blueprints.php:55
+#: core/Modules/Blueprints.php:56
 msgid "Please fill in the Realtime Customizer fields."
 msgstr ""
 
-#: core/Modules/Blueprints.php:99
+#: core/Modules/Blueprints.php:100
 msgid "Realtime Customizer"
 msgstr ""
 
-#: core/Modules/Blueprints.php:100
+#: core/Modules/Blueprints.php:101
 msgid "Make sure to set your site details below. We automatically launch the site with your information."
 msgstr ""
 
-#: core/Modules/Blueprints.php:276
+#: core/Modules/Blueprints.php:277
 msgid "Live"
 msgstr ""
 
-#: core/Modules/Blueprints.php:277
+#: core/Modules/Blueprints.php:278
 msgid "This Blueprint was last updated at %1$s. Made changes since then? Don’t forget to update this blueprint."
 msgstr ""
 
-#: core/Modules/Blueprints.php:266
+#: core/Modules/Blueprints.php:267
 msgid "Staging"
 msgstr ""
 
-#: core/Modules/Blueprints.php:267
+#: core/Modules/Blueprints.php:268
 msgid "This Blueprint is still in staging mode. Click here to make it available for your customers."
 msgstr ""
 
-#: core/Modules/Colors.php:36
+#: core/Modules/Blueprints.php:451
+msgid "The following fields were not found in the blueprint:"
+msgstr ""
+
+#: core/Modules/Blueprints.php:462
+msgid "Make sure you add the missing fields into your blueprint or completly remove them from the customizer's fields and then update it."
+msgstr ""
+
+#: core/Modules/Blueprints.php:443
+msgid "All customizer's fields were successfully found in the blueprint."
+msgstr ""
+
+#: core/Modules/Colors.php:35
 msgid "Set colors for Dollie widgets"
 msgstr ""
 
-#: core/Modules/Colors.php:102
+#: core/Modules/Colors.php:99
 msgid "Primary Color"
 msgstr ""
 
-#: core/Modules/Colors.php:103
+#: core/Modules/Colors.php:100
 msgid "Select the primary color used across Dollie."
 msgstr ""
 
-#: core/Modules/Colors.php:118
+#: core/Modules/Colors.php:115
 msgid "Secondary Color"
 msgstr ""
 
-#: core/Modules/Colors.php:119
+#: core/Modules/Colors.php:116
 msgid "Select the secondary color used across Dollie"
 msgstr ""
 
@@ -1089,6 +1101,10 @@ msgstr ""
 
 #: core/Modules/Preview.php:207, core/Widgets/Dashboard/LaunchSite.php:25, core/Widgets/Launch/LaunchSite.php:32
 msgid "Launch Site"
+msgstr ""
+
+#: core/Modules/Preview.php:242
+msgid "all"
 msgstr ""
 
 #: core/Modules/Preview.php:253
@@ -2027,11 +2043,11 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:44, templates/widgets/site/site-navigation.php:20, templates/widgets/site/pages/blueprints.php:176, templates/widgets/site/pages/plugins.php:45
+#: templates/widgets/general/sites-navigation.php:44, templates/widgets/site/site-navigation.php:20, templates/widgets/site/pages/blueprints.php:194, templates/widgets/site/pages/plugins.php:45
 msgid "Plugins"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:45, templates/widgets/site/site-navigation.php:21, templates/widgets/site/pages/blueprints.php:177
+#: templates/widgets/general/sites-navigation.php:45, templates/widgets/site/site-navigation.php:21, templates/widgets/site/pages/blueprints.php:195
 msgid "Themes"
 msgstr ""
 
@@ -2197,87 +2213,91 @@ msgstr ""
 msgid "Publish this blueprint"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:61
+#: templates/widgets/site/pages/blueprints.php:62
 msgid "Before you update this blueprint make sure <strong>%s</strong> is ready for an update. Once you have deployed a new version of this blueprint it will be used next time a customer launches a site based on this blueprint. Make sure you’ve removed all sensitive data like testing user accounts and emails."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:66
+#: templates/widgets/site/pages/blueprints.php:67
 msgid "Your Blueprint was last updated at %s"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:84
+#: templates/widgets/site/pages/blueprints.php:85
+msgid "Checking field integrity..."
+msgstr ""
+
+#: templates/widgets/site/pages/blueprints.php:101
 msgid "Update Blueprint"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:96
+#: templates/widgets/site/pages/blueprints.php:114
 msgid "Update your blueprint"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:110
+#: templates/widgets/site/pages/blueprints.php:128
 msgid "Blueprint Settings"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:115
+#: templates/widgets/site/pages/blueprints.php:133
 msgid "Now that created your blueprint you can use the options below to change how it is listed on the \"Launch Site\" page and wherever you use the [dollie-blueprints] shortcode."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:143
+#: templates/widgets/site/pages/blueprints.php:161
 msgid "Blueprint history"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:159
+#: templates/widgets/site/pages/blueprints.php:177
 msgid "No Blueprints created yet."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:153
+#: templates/widgets/site/pages/blueprints.php:171
 msgid "Created on %1$s at %2$s."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:154
+#: templates/widgets/site/pages/blueprints.php:172
 msgid "Size %s."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:168
+#: templates/widgets/site/pages/blueprints.php:186
 msgid "What is included?"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:173
+#: templates/widgets/site/pages/blueprints.php:191
 msgid "We copy over:"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:178
+#: templates/widgets/site/pages/blueprints.php:196
 msgid "Media Upload"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:179
+#: templates/widgets/site/pages/blueprints.php:197
 msgid "The Database*"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:188
+#: templates/widgets/site/pages/blueprints.php:206
 msgid "What is excluded?"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:193
+#: templates/widgets/site/pages/blueprints.php:211
 msgid "We DO NOT copy:"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:196
+#: templates/widgets/site/pages/blueprints.php:214
 msgid "mu-plugins folder"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:197
+#: templates/widgets/site/pages/blueprints.php:215
 msgid "All WordPress Core Files"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:198
+#: templates/widgets/site/pages/blueprints.php:216
 msgid "WP-Config.php"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:199
+#: templates/widgets/site/pages/blueprints.php:217
 msgid "wp_users & wp_usermeta tables"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:200
+#: templates/widgets/site/pages/blueprints.php:218
 msgid "All non-core folders and files outside of wp-content"
 msgstr ""
 
