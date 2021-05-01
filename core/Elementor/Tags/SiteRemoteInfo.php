@@ -19,9 +19,17 @@ class SiteRemoteInfo extends Tag {
 		$this->wpd_data = \Dollie\Core\Modules\Container::instance()->get_container_details( $current_id );
 
 		// Add custom items
-		$this->wpd_data['site_data']['Name']                                        = get_post_meta( $current_id, 'wpd_installation_name', true );
-		$this->wpd_data['customer_data']['Customer - Total Sites Launched']         = dollie()->count_customer_containers( get_current_user_id() );
-		$this->wpd_data['customer_data']['Customer Subscription - Sites Available'] = dollie()->sites_available();
+		if ( isset( $this->wpd_data['container_details'] ) ) {
+			if ( isset( $this->wpd_data['container_details']['Name'] ) ) {
+				$this->wpd_data['site_data']['Name'] = $this->wpd_data['container_details']['Name'];
+			}
+			if ( isset( $this->wpd_data['container_details']['Description'] ) ) {
+				$this->wpd_data['site_data']['Description'] = $this->wpd_data['container_details']['Description'];
+			}
+		}
+
+		$this->wpd_data['customer_data']['Customer - Total Sites Launched']           = dollie()->count_customer_containers( get_current_user_id() );
+		$this->wpd_data['customer_data']['Customer Subscription - Sites Available']   = dollie()->sites_available();
 		$this->wpd_data['customer_data']['Customer Subscription - Storage Available'] = dollie()->storage_available();
 
 	}
@@ -55,10 +63,10 @@ class SiteRemoteInfo extends Tag {
 			}
 
 			if ( strpos( $data, '.png' ) ||
-				 strpos( $data, '.jpg' ) ||
-				 strpos( $data, '.jpeg' ) ||
-				 filter_var( $data, FILTER_VALIDATE_URL ) ||
-				 strpos( $data, '.gif' ) ) {
+			     strpos( $data, '.jpg' ) ||
+			     strpos( $data, '.jpeg' ) ||
+			     filter_var( $data, FILTER_VALIDATE_URL ) ||
+			     strpos( $data, '.gif' ) ) {
 
 				continue;
 			}
@@ -78,7 +86,7 @@ class SiteRemoteInfo extends Tag {
 		$this->add_control(
 			'param_name',
 			[
-				'label'   => __( 'Choose Data', 'elementor-pro' ),
+				'label'   => __( 'Choose Data', 'dollie' ),
 				'type'    => Controls_Manager::SELECT,
 				'options' => $keys,
 			]
