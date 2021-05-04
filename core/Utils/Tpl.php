@@ -23,25 +23,17 @@ class Tpl {
 	 * @return false|string|void
 	 */
 	public static function load( $path = null, $args = [], $echo = false ) {
-		if ( ! isset( $path ) ) {
+
+		$template = self::get_path( $path );
+
+		if ( empty( $template ) ) {
 			return;
 		}
 
-		$path = trim( $path );
-
 		extract( $args );
 
-		$template = locate_template( 'dollie/' . $path . '.php' );
-
-		if ( ! $template ) {
-			if ( file_exists( DOLLIE_MODULE_TPL_PATH . $path . '.php' ) ) {
-				$template = DOLLIE_MODULE_TPL_PATH . $path . '.php';
-			} else {
-				return '';
-			}
-		}
-
 		ob_start();
+
 		include $template;
 
 		if ( $echo ) {
@@ -49,6 +41,34 @@ class Tpl {
 		} else {
 			return ob_get_clean();
 		}
+	}
+
+	/**
+	 * Get full template path
+	 *
+	 * @param $path
+	 *
+	 * @return false|string
+	 */
+	public static function get_path( $path ) {
+		if ( ! isset( $path ) ) {
+			return false;
+		}
+
+		$path = trim( $path );
+
+		$template = locate_template( 'dollie/' . $path . '.php' );
+
+		if ( ! $template ) {
+			if ( file_exists( DOLLIE_MODULE_TPL_PATH . $path . '.php' ) ) {
+				return DOLLIE_MODULE_TPL_PATH . $path . '.php';
+			}
+
+			return false;
+		}
+
+		return $template;
+
 	}
 
 }

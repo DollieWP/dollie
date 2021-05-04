@@ -38,7 +38,6 @@ class ImportForms extends Singleton {
 	 */
 	private $forms = [
 		'form_dollie_create_backup',
-		'form_dollie_create_blueprint',
 		'form_dollie_delete_site',
 		'form_dollie_domain_connect',
 		'form_dollie_launch_site',

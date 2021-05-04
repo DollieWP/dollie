@@ -6,14 +6,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Singleton;
 use WP_Query;
 
 use Dollie\Core\Modules\Sites\WP;
-use Dollie\Core\Singleton;
-
+use Dollie\Core\Modules\Subscription\Subscription;
 use Dollie\Core\Modules\Backups;
 use Dollie\Core\Modules\Blueprints;
-use Dollie\Core\Modules\Subscription;
 use Dollie\Core\Modules\Container;
 use Dollie\Core\Modules\SiteInsights;
 
@@ -372,9 +371,10 @@ class Helpers extends Singleton {
 	 * @return int
 	 */
 	public function count_customer_containers( $user_id = null ) {
-		if ( $user_id === null ) {
+		if ( ! $user_id ) {
 			$user_id = get_current_user_id();
 		}
+
 		$query = new WP_Query(
 			[
 				'author'        => $user_id,
@@ -492,7 +492,7 @@ class Helpers extends Singleton {
 	 * @return false|string
 	 */
 	public function get_launch_blueprint_page_title() {
-		 return get_the_title( $this->get_launch_blueprint_page_id() );
+		return get_the_title( $this->get_launch_blueprint_page_id() );
 	}
 
 	/**
@@ -1026,9 +1026,30 @@ class Helpers extends Singleton {
 	 *
 	 * @return bool
 	 */
-	public function is_blueprint( $id ) {
+	public function is_blueprint( $id = null ) {
+
+		if ( $id === null ) {
+			$id = get_the_ID();
+		}
 
 		return get_post_meta( $id, 'wpd_is_blueprint', true ) === 'yes';
+	}
+
+	/**
+	 * @param $id
+	 *
+	 * @return bool
+	 */
+	public function is_blueprint_staging( $id ) {
+
+		$blueprint = dollie()->is_blueprint( $id );
+		$updated   = get_post_meta( $id, 'wpd_blueprint_time', true );
+
+		if ( $blueprint && $updated == '' ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

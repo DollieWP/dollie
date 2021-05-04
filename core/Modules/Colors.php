@@ -10,8 +10,8 @@ function dol_sanitize_hex_color( $hex_color, $setting ) {
 	return ( ! is_null( $hex_color ) ? $hex_color : $setting->default );
 }
 
-
 add_action( 'customize_register', 'dol_colors_init' );
+
 function dol_colors_init( $wp_customize ) {
 	/*
 	* Failsafe is safe
@@ -19,7 +19,6 @@ function dol_colors_init( $wp_customize ) {
 	if ( ! isset( $wp_customize ) ) {
 		return;
 	}
-
 
 	/**
 	 * Add Header Section for General Options.
@@ -31,13 +30,12 @@ function dol_colors_init( $wp_customize ) {
 	// $id
 		'dollie_colors_section',
 		// $args
-		array(
+		[
 			'title'       => __( 'Dollie', 'dollie' ),
 			'description' => __( 'Set colors for Dollie widgets', 'dollie' ),
 			'priority'    => 9,
-		)
+		]
 	);
-
 
 	/**
 	 * Header Background Color setting.
@@ -55,24 +53,23 @@ function dol_colors_init( $wp_customize ) {
 	// $id
 		'dollie_color_primary',
 		// $args
-		array(
+		[
 			'type'              => 'option',
 			'sanitize_callback' => 'dol_sanitize_hex_color',
-			//'transport' => 'postMessage'
-		)
+			// 'transport' => 'postMessage'
+		]
 	);
 
 	$wp_customize->add_setting(
 	// $id
 		'dollie_color_secondary',
 		// $args
-		array(
+		[
 			'type'              => 'option',
 			'sanitize_callback' => 'dol_sanitize_hex_color',
-			//'transport' => 'postMessage'
-		)
+			// 'transport' => 'postMessage'
+		]
 	);
-
 
 	/**
 	 * Core Color control.
@@ -96,12 +93,12 @@ function dol_colors_init( $wp_customize ) {
 			// $id
 			'dollie_color_primary_control',
 			// $args
-			array(
+			[
 				'settings'    => 'dollie_color_primary',
 				'section'     => 'dollie_colors_section',
 				'label'       => __( 'Primary Color', 'dollie' ),
 				'description' => __( 'Select the primary color used across Dollie.', 'dollie' ),
-			)
+			]
 		)
 	);
 
@@ -112,12 +109,12 @@ function dol_colors_init( $wp_customize ) {
 			// $id
 			'dollie_color_secondary_control',
 			// $args
-			array(
+			[
 				'settings'    => 'dollie_color_secondary',
 				'section'     => 'dollie_colors_section',
 				'label'       => __( 'Secondary Color', 'dollie' ),
 				'description' => __( 'Select the secondary color used across Dollie', 'dollie' ),
-			)
+			]
 		)
 	);
 
@@ -147,21 +144,19 @@ function dol_customizer_css() {
 		$secondary_color = new Mexitek\PHPColors\Color( '#f0a146' );
 	}
 
-
 	$primary = $primary_color->getHsl();
 
-	//Take converted HEX values and format them correctly. Encount for trailing zeros and round numbers (50, 40 etc)
+	// Take converted HEX values and format them correctly. Encount for trailing zeros and round numbers (50, 40 etc)
 	$P_H = round( $primary['H'], 0 );
 	$P_S = substr( $primary['S'], 0, 4 );
 	$P_L = substr( $primary['L'], 0, 4 );
 
 	$secondary = $secondary_color->getHsl();
 
-	//Take converted HEX values and format them correctly. Encount for trailing zeros and round numbers (50, 40 etc)
+	// Take converted HEX values and format them correctly. Encount for trailing zeros and round numbers (50, 40 etc)
 	$S_H = round( $secondary['H'], 0 );
 	$S_S = substr( $secondary['S'], 0, 4 );
 	$S_L = substr( $secondary['L'], 0, 4 );
-
 
 	echo '<style>
 	:root {
@@ -198,13 +193,11 @@ function dol_customizer_css() {
 
 add_action( 'wp_head', 'dol_customizer_css' );
 
-//
 
 /**
  * Add filterable classes for styling widgets
  *
  * @since 1.0.0
- *
  */
 function dol_widgets_layout() {
 	echo apply_filters( 'dol_update_widget_classes', 'dol-bg-white dol-shadow dol-rounded-md dol-widget-custom dark:dol-bg-gray-800' );
@@ -213,10 +206,12 @@ function dol_widgets_layout() {
 add_action( 'dol_add_widget_classes', 'dol_widgets_layout' );
 
 function dol_register_nav_menu() {
-	register_nav_menus( array(
-		'dol_top_menu'           => __( 'Dollie - Primary Menu', 'text_domain' ),
-		'dol_notifications_menu' => __( 'Dollie - Notifications Menu', 'text_domain' ),
-	) );
+	register_nav_menus(
+		[
+			'dol_top_menu'           => __( 'Dollie - Primary Menu', 'text_domain' ),
+			'dol_notifications_menu' => __( 'Dollie - Notifications Menu', 'text_domain' ),
+		]
+	);
 }
 
 add_action( 'after_setup_theme', 'dol_register_nav_menu', 0 );
@@ -225,10 +220,16 @@ add_action( 'after_setup_theme', 'dol_register_nav_menu', 0 );
  * Enqueue script for custom customize control.
  */
 function custom_customize_enqueue() {
-	wp_enqueue_script( 'custom-customize', DOLLIE_ASSETS_URL . '/js/customize.js', array(
-		'jquery',
-		'customize-controls'
-	), false, true );
+	wp_enqueue_script(
+		'custom-customize',
+		DOLLIE_ASSETS_URL . '/js/customize.js',
+		[
+			'jquery',
+			'customize-controls',
+		],
+		false,
+		true
+	);
 }
 
 add_action( 'customize_controls_enqueue_scripts', 'custom_customize_enqueue' );

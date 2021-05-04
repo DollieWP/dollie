@@ -110,6 +110,25 @@ class SitesList extends \Elementor\Widget_Base {
 			];
 		}
 
+		if (isset($_GET['blueprints']) && $_GET['blueprints']) {
+			$args['meta_query'] = [
+				'relation' => 'OR',
+				[
+					'key'     => 'wpd_is_blueprint',
+					'value'   => 'yes',
+					'compare' => '='
+				]
+			];
+		} else {
+			$args['meta_query'] = [
+				'relation' => 'OR',
+				[
+					'key'     => 'wpd_is_blueprint',
+					'compare' => 'NOT EXISTS'
+				]
+			];
+		}
+
 		if ( ! current_user_can( 'manage_options' ) ) {
 			$args['author'] = get_current_user_id();
 		}

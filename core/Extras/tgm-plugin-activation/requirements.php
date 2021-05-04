@@ -58,35 +58,8 @@ function dollie_register_required_plugins() {
 	 * Array of plugin arrays. Required keys are name and slug.
 	 * If the source is NOT from the .org repo, then source is also required.
 	 */
-	$plugins = array(
-
-		// This is an example of how to include a plugin bundled with a theme.
-		array(
-			'name'             => 'WooCommerce',
-			// The plugin name.
-			'slug'             => 'woocommerce',
-			// The plugin slug (typically the folder name).
-			'required'         => true,
-			// If false, the plugin is only 'recommended' instead of required.
-			'version'          => '',
-			// E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
-			'force_activation' => false,
-			// If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
-		),
-		array(
-			'name'             => 'WooCommerce Subscriptions',
-			// The plugin name.
-			'slug'             => 'woocommerce-subscriptions',
-			// The plugin slug (typically the folder name).
-			'required'         => true,
-			// If false, the plugin is only 'recommended' instead of required.
-			'version'          => '3.0.10',
-			// E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
-			'force_activation' => false,
-			// If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
-			'source'              => 'https://api.getdollie.com/releases/?action=download&slug=woocommerce-subscriptions'
-		),
-		array(
+	$plugins = [
+		[
 			'name'             => 'Advanced Custom Fields Pro',
 			// The plugin name.
 			'slug'             => 'advanced-custom-fields-pro',
@@ -97,15 +70,15 @@ function dollie_register_required_plugins() {
 			// E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
 			'force_activation' => false,
 			// If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
-			'source'              => 'https://api.getdollie.com/releases/?action=download&slug=advanced-custom-fields-pro'
-		),
+			'source'           => 'https://api.getdollie.com/releases/?action=download&slug=advanced-custom-fields-pro',
+		],
 
 		// This is an example of how to include a plugin from the WordPress Plugin Repository.
-		array(
+		[
 			'name'     => 'User Switching (Allows you to login on behalf of customers)',
 			'slug'     => 'user-switching',
 			'required' => false,
-		),
+		],
 
 		// This is an example of the use of 'is_callable' functionality. A user could - for instance -
 		// have WPSEO installed *or* WPSEO Premium. The slug would in that last case be different, i.e.
@@ -113,7 +86,9 @@ function dollie_register_required_plugins() {
 		// By setting 'is_callable' to either a function from that plugin or a class method
 		// `array( 'class', 'method' )` similar to how you hook in to actions and filters, TGMPA can still
 
-	);
+	];
+
+	$plugins = apply_filters( 'dollie/required_plugins', $plugins );
 
 	/*
 	 * Array of configuration settings. Amend each line as needed.
@@ -124,7 +99,7 @@ function dollie_register_required_plugins() {
 	 *
 	 * Only uncomment the strings in the config array if you want to customize the strings.
 	 */
-	$config = array(
+	$config = [
 		'id'           => 'dollie',
 		// Unique ID for hashing notices for multiple instances of TGMPA.
 		'default_path' => '',
@@ -153,8 +128,7 @@ function dollie_register_required_plugins() {
 					</div>',
 		// Message to output right before the plugins table.
 
-
-		'strings' => array(
+		'strings'      => [
 			'page_title'                      => __( 'Install Dollie Plugin Suite', 'dollie' ),
 			'menu_title'                      => __( 'Dollie Plugins', 'dollie' ),
 			'installing'                      => __( 'Installing Plugin: %s', 'dollie' ),
@@ -212,13 +186,13 @@ function dollie_register_required_plugins() {
 			'plugin_needs_higher_version'     => __( 'Plugin not activated. A higher version of %s is needed for Dollie. Please update the plugin.', 'dollie' ),
 			'complete'                        => __( 'All plugins installed and activated successfully. %1$s', 'dollie' ),
 			'dismiss'                         => __( 'Dismiss this notice', 'dollie' ),
-			'notice_cannot_install_activate'  => __('Dollie - There are one or more required or recommended plugins to install, update or activate.', 'dollie' ),
+			'notice_cannot_install_activate'  => __( 'Dollie - There are one or more required or recommended plugins to install, update or activate.', 'dollie' ),
 			'contact_admin'                   => __( 'Please contact the administrator of this site for help.', 'dollie' ),
 
-			'nag_type' => 'notice-info',
+			'nag_type'                        => 'notice-info',
 			// Determines admin notice type - can only be one of the typical WP notice classes, such as 'updated', 'update-nag', 'notice-warning', 'notice-info' or 'error'. Some of which may not work as expected in older WP versions.
-		),
-	);
+		],
+	];
 
 	tgmpa( $plugins, $config );
 }

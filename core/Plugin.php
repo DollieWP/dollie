@@ -7,11 +7,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Admin\NavMenu\Component as NavMenu;
+use Dollie\Core\Modules\Subscription\Subscription;
 use Dollie\Core\Modules\AccessControl;
 use Dollie\Core\Modules\Backups;
 use Dollie\Core\Modules\Blueprints;
 use Dollie\Core\Modules\Jobs\RemoveOldLogsJob;
-use Dollie\Core\Modules\Subscription;
 use Dollie\Core\Modules\ContainerFields;
 use Dollie\Core\Modules\Container;
 use Dollie\Core\Modules\ContainerRegistration;
@@ -26,6 +26,7 @@ use Dollie\Core\Modules\Sites\WP;
 
 use Dollie\Core\Modules\Jobs\ChangeContainerRoleJob;
 use Dollie\Core\Modules\Jobs\UpdateContainerScreenshotsJob;
+use Dollie\Core\Modules\Jobs\CustomerSubscriptionCheckJob;
 
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Utils\Notices;
@@ -33,6 +34,7 @@ use Dollie\Core\Utils\Notices;
 use Dollie\Core\Routing\Processor;
 use Dollie\Core\Routing\Route;
 use Dollie\Core\Routing\Router;
+use Dollie\Core\Utils\Tpl;
 
 /**
  * Class Plugin
@@ -58,7 +60,7 @@ class Plugin extends Singleton {
 		parent::__construct();
 
 		add_filter( 'body_class', [ $this, 'add_timestamp_body' ] );
-		add_filter('body_class', [$this, 'add_deploy_class']);
+		add_filter( 'body_class', [ $this, 'add_deploy_class' ] );
 		add_action( 'plugins_loaded', [ $this, 'load_early_dependencies' ], - 10 );
 		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 0 );
 		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
@@ -78,6 +80,7 @@ class Plugin extends Singleton {
 		add_shortcode( 'dollie_blockquote', [ $this, 'blockquote_shortcode' ] );
 
 		add_action( 'route_login_redirect', [ $this, 'do_route_login_redirect' ] );
+		add_action( 'route_preview', [ $this, 'do_route_preview' ] );
 
 	}
 
@@ -105,32 +108,35 @@ class Plugin extends Singleton {
 
 		// load ACF as fallback.
 		if ( ! class_exists( 'ACF' ) ) {
-			require_once DOLLIE_PATH . 'core/Extras/advanced-custom-fields/acf.php';
+			require_once DOLLIE_CORE_PATH . 'Extras/advanced-custom-fields/acf.php';
 		}
 
-		require_once DOLLIE_PATH . 'core/Extras/options-page-for-acf/loader.php';
+		require_once DOLLIE_CORE_PATH . 'Extras/options-page-for-acf/loader.php';
 
 		// Load Color Customizer
-		require_once DOLLIE_PATH . 'core/Modules/Colors.php';
+		require_once DOLLIE_CORE_PATH . 'Modules/Colors.php';
+
+		// Load Theme/Plugins Compability
+		require_once DOLLIE_PATH . 'core/Modules/Compatibility.php';
 
 		// Load logger.
 		if ( ! class_exists( '\WDS_Log_Post' ) ) {
-			require_once DOLLIE_PATH . 'core/Extras/wds-log-post/wds-log-post.php';
+			require_once DOLLIE_CORE_PATH . 'Extras/wds-log-post/wds-log-post.php';
 		}
 
 		// Load TGM Class
 		if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
-			require_once DOLLIE_PATH . 'core/Extras/tgm-plugin-activation/class-tgm-plugin-activation.php';
-			require_once DOLLIE_PATH . 'core/Extras/tgm-plugin-activation/requirements.php';
+			require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/class-tgm-plugin-activation.php';
+			require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/requirements.php';
 		}
 
 		// Load logger.
 		if ( ! class_exists( '\AF' ) && ! ( is_admin() && isset( $_GET['action'] ) && 'activate' === $_GET['action'] ) ) {
-			require_once DOLLIE_PATH . 'core/Extras/advanced-forms/advanced-forms.php';
-			require_once DOLLIE_PATH . 'core/Extras/acf-tooltip/acf-tooltip.php';
+			require_once DOLLIE_CORE_PATH . 'Extras/advanced-forms/advanced-forms.php';
+			require_once DOLLIE_CORE_PATH . 'Extras/acf-tooltip/acf-tooltip.php';
 		}
 
-		require_once DOLLIE_PATH . 'core/Extras/menu-walker/bootstrap-wp-navwalker.php';
+		require_once DOLLIE_CORE_PATH . 'Extras/menu-walker/bootstrap-wp-navwalker.php';
 	}
 
 	/**
@@ -146,6 +152,7 @@ class Plugin extends Singleton {
 		// SyncContainersJob::instance();
 		UpdateContainerScreenshotsJob::instance();
 		RemoveOldLogsJob::instance();
+		CustomerSubscriptionCheckJob::instance();
 
 		// Load modules.
 		Forms::instance();
@@ -188,7 +195,7 @@ class Plugin extends Singleton {
 
 		$router       = new Router( 'dollie_route_name' );
 		$this->routes = [
-			'dollie_preview'        => new Route( '/' . dollie()->get_preview_url( 'path' ), '', DOLLIE_PATH . 'templates/preview.php' ),
+			'dollie_preview'        => new Route( '/' . dollie()->get_preview_url( 'path' ), 'route_preview' ),
 			'dollie_login_redirect' => new Route( '/site_login_redirect', 'route_login_redirect' ),
 		];
 
@@ -199,7 +206,6 @@ class Plugin extends Singleton {
 	 * Register ACF fields
 	 */
 	public function acf_add_local_field_groups() {
-
 		require DOLLIE_CORE_PATH . 'Extras/AcfFields.php';
 		require DOLLIE_CORE_PATH . 'Extras/AcfFormFields.php';
 	}
@@ -228,12 +234,10 @@ class Plugin extends Singleton {
 	 *
 	 * @return array
 	 */
-	public function add_deploy_class($classes)
-	{
-		$status = \Dollie\Core\Modules\Container::instance()->get_status(get_the_ID());
+	public function add_deploy_class( $classes ) {
+		$status = \Dollie\Core\Modules\Container::instance()->get_status( get_the_ID() );
 
-
-		if ('pending' === $status) {
+		if ( 'pending' === $status ) {
 			$classes[] = 'dollie-is-deploying';
 		}
 
@@ -431,6 +435,12 @@ class Plugin extends Singleton {
 
 		$location = ! empty( $_GET['location'] ) ? esc_url_raw( $_GET['location'] ) : null;
 		wp_redirect( dollie()->final_customer_login_url( $container_id, $location ) );
+		exit;
+	}
+
+	public function do_route_preview() {
+
+		Tpl::load( 'preview', [], true );
 		exit;
 	}
 

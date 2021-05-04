@@ -28,8 +28,7 @@ if ( 'stop' === $status ) :
 					</div>
 					<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
 						If you have cancelled your service subscription by accident please re-activate your
-						<a href="<?php echo get_site_url(); ?>/my-account/subscriptions"
-						   class="text-white">subscription</a>
+						<a href="<?php echo get_site_url(); ?>/my-account/subscriptions" class="text-white">subscription</a>
 						before <strong><?php echo date( 'F j, Y', $undeploy_at ); ?></strong> to prevent this site from
 						being removed completely.
 					</p>
@@ -53,8 +52,7 @@ if ( 'stop' === $status ) :
 						<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
 							When a site fails to deploy it usually means there is a misconfiguration in your
 							Dollie API settings. Please double check your email, password and domain
-							<a class="text-white" href="<?php echo admin_url( 'admin.php?page=wpd_platform_setup' ); ?>"
-							   data-clear="text-white">settings</a>.
+							<a class="text-white" href="<?php echo admin_url( 'admin.php?page=wpd_platform_setup' ); ?>" data-clear="text-white">settings</a>.
 							Finally you can also check the Dollie Logs or reach out to the Dollie Support
 							team
 							via the <a class="text-white" href="https://partners.getdollie.com">Partner
@@ -91,9 +89,7 @@ if ( 'stop' === $status ) :
 
 	?>
 
-	<div id="dol-deploying-site" class="dol-hidden" data-container="<?php echo esc_attr( get_the_ID() ); ?>"
-		 data-nonce="<?php echo esc_attr( wp_create_nonce( 'check_deploy_nonce' ) ); ?>"
-		 data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>"></div>
+	<div id="dol-deploying-site" class="dol-hidden" data-container="<?php echo esc_attr( get_the_ID() ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'check_deploy_nonce' ) ); ?>" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>"></div>
 
 	<?php if ( get_field( 'wpd_custom_launch_splash', 'option' ) == true ) : ?>
 
@@ -148,8 +144,7 @@ if ( 'stop' === $status ) :
 			</style>
 
 			<script>
-
-				jQuery(document).ready(function () {
+				jQuery(document).ready(function() {
 
 					const swiper = new Swiper('.swiper-container', {
 						// Optional parameters
@@ -168,7 +163,7 @@ if ( 'stop' === $status ) :
 
 					});
 
-					jQuery(".swiper-slide").filter(function () {
+					jQuery(".swiper-slide").filter(function() {
 						return !jQuery(this).find('.ast-oembed-container');
 					}).fitVids();
 				});
@@ -179,30 +174,38 @@ if ( 'stop' === $status ) :
 	<?php else : ?>
 		<div class="dol-mt-1 dol-text-md dol-font-semibold div-loader-wrap dol-text-l dol-text-center dol-p-6">
 			<div class="dol-py-8 dol-flex dol-flex-col dol-items-center dol-justify-center">
-				<svg class="dol-animate-spin dol-h-16 dol-w-16 dol-text-flame-600" xmlns="http://www.w3.org/2000/svg"
-					 fill="none"
-					 viewBox="0 0 24 24">
-					<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-							stroke-width="4"></circle>
-					<path class="dol-opacity-75" fill="currentColor"
-						  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+				<svg class="dol-animate-spin dol-h-16 dol-w-16 dol-text-flame-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+					<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+					<path class="dol-opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
 				</svg>
 			</div>
 
-			<div class="dol-font-bold dol-mt-6 dol-text-2xl dol-uppercase">
-				<?php esc_html_e( 'Launching Your New Site', 'dollie' ); ?>
-			</div>
+			<?php if ( dollie()->is_blueprint( $current_id ) ) : ?>
+				<div class="dol-font-bold dol-mt-6 dol-text-2xl dol-uppercase">
+					<?php esc_html_e( 'Launching New Blueprint', 'dollie' ); ?>
+				</div>
 
-			<div class="dol-mt-1 dol-text-md dol-font-semibold dol-text-gray-500">
-				<?php esc_html_e( 'Your site will be ready to go in just a moment.', 'dollie' ); ?>
-			</div>
+				<div class="dol-mt-1 dol-text-md dol-font-semibold dol-text-gray-500">
+					<?php esc_html_e( 'Once your Blueprint has been launched you can go ahead and install your favorite plugins and themes, to make the perfect pre-made site for your customers.', 'dollie' ); ?>
+				</div>
+			<?php else : ?>
+				<div class="dol-font-bold dol-mt-6 dol-text-2xl dol-uppercase">
+					<?php esc_html_e( 'Launching Your New Site', 'dollie' ); ?>
+				</div>
 
-			<div class="dol-text-gray-500 dol-text-sm dol-mt-6">
-				<?php esc_html_e( 'Don\'t worry, we\'ll automatically reload this page once it\'s ready.', 'dollie' ); ?>
-			</div>
-			<div class="dol-text-gray-500 dol-text-sm">
-				<?php esc_html_e( 'If you don\'t want to wait for a few seconds, you can navigate away. We got it covered!', 'dollie' ); ?>
-			</div>
+				<div class="dol-mt-1 dol-text-md dol-font-semibold dol-text-gray-500">
+					<?php esc_html_e( 'Your site will be ready to go in just a moment.', 'dollie' ); ?>
+				</div>
+
+				<div class="dol-text-gray-500 dol-text-sm dol-mt-6">
+					<?php esc_html_e( 'Don\'t worry, we\'ll automatically reload this page once it\'s ready.', 'dollie' ); ?>
+				</div>
+				<div class="dol-text-gray-500 dol-text-sm">
+					<?php esc_html_e( 'If you don\'t want to wait for a few seconds, you can navigate away. We got it covered!', 'dollie' ); ?>
+				</div>
+			<?php endif; ?>
+
+
 		</div>
 
 	<?php endif; ?>
@@ -280,6 +283,10 @@ if ( 'stop' === $status ) :
 			true
 		);
 	} elseif ( 'blueprints' === $sub_page ) {
+		if ( ! \Elementor\Plugin::instance()->editor->is_edit_mode() ) {
+			wp_enqueue_script( 'dollie-site-content' );
+		}
+
 		\Dollie\Core\Utils\Tpl::load(
 			'widgets/site/pages/blueprints',
 			[

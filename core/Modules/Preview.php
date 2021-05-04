@@ -194,7 +194,7 @@ class Preview {
 		$config = [
 			'title'             => get_bloginfo( 'name' ),
 			'logo'              => [
-				'url'   => '',
+				'url'   => $logo,
 				'href'  => get_site_url(),
 				'blank' => 1,
 			],
@@ -222,7 +222,7 @@ class Preview {
 
 		// Init Tags
 		$product_tags = [];
-		foreach ( $products as $key => $product ) {
+		foreach ( $products as $product_key => $product ) {
 			$tag = $product->tag;
 			if ( $tag ) {
 				$is_found = false;

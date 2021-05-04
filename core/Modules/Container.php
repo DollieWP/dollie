@@ -11,6 +11,7 @@ use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
 use Dollie\Core\Utils\Helpers;
+use Dollie\Core\Utils\Tpl;
 use WP_Query;
 
 /**
@@ -19,7 +20,6 @@ use WP_Query;
  * @package Dollie\Core\Modules
  */
 class Container extends Singleton {
-
 
 	/**
 	 * Container constructor.
@@ -176,7 +176,7 @@ class Container extends Singleton {
 		global $post;
 
 		if ( 'container' === $post->post_type ) {
-			return DOLLIE_MODULE_TPL_PATH . '/container.php';
+			return Tpl::get_path( 'container' );
 		}
 
 		return $single;
@@ -857,8 +857,11 @@ class Container extends Singleton {
 	 * @param $query
 	 */
 	public function filter_blueprint_from_sites( $query ) {
+		if ( ! is_admin() || wp_doing_ajax() ) {
+			return $query;
+		}
 
-		if ( is_admin() and $query->query['post_type'] === 'container' ) {
+		if ( $query->query['post_type'] === 'container' ) {
 			$qv               = &$query->query_vars;
 			$qv['meta_query'] = [];
 
@@ -1130,7 +1133,7 @@ class Container extends Singleton {
 		<br>
 		<div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
 			<div class="dollie-inner-message">
-				<?php if ( dollie()->is_blueprint( $container_id ) ) { ?>
+				<?php if ( dollie()->is_blueprint( $container_id ) ) : ?>
 
 					<div class="dollie-message-center">
 						<h3><?php esc_html_e( 'Notice - How To Manage & Update This Blueprint', 'dollie' ); ?> </h3>
@@ -1145,8 +1148,7 @@ class Container extends Singleton {
 							?>
 					</div>
 
-
-				<?php } else { ?>
+				<?php else : ?>
 					<div class="dollie-message-center">
 						<h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
 						<p>
@@ -1159,7 +1161,7 @@ class Container extends Singleton {
 							);
 							?>
 					</div>
-				<?php } ?>
+				<?php endif; ?>
 			</div>
 		</div>
 		<?php

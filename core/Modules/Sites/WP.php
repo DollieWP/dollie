@@ -76,6 +76,7 @@ final class WP extends Singleton {
 
 		if ( $blueprint ) {
 			setcookie( Blueprints::COOKIE_NAME, '', time() - 3600, '/' );
+			update_post_meta( $post_id, 'wpd_from_blueprint', $blueprint );
 		}
 
 		$post_body = [
@@ -133,7 +134,7 @@ final class WP extends Singleton {
 			$domain
 		);
 
-		// prevent any backup request for a bit
+		// Prevent any backup request for a bit.
 		$backups_transient_name = 'dollie_' . $domain . '_backups_data';
 		set_transient( $backups_transient_name, [], 60 * 10 );
 

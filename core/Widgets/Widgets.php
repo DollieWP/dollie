@@ -47,17 +47,22 @@ class Widgets extends Singleton {
 			'name'  => 'dollie-dashboard-launch-site',
 		];
 
-		$this->widgets[] = [
-			'path'  => 'Dashboard/RecentOrders',
-			'class' => 'Dashboard\RecentOrders',
-			'name'  => 'dollie-dashboard-recent-orders',
-		];
+		//WooCommerce Specific
+		if ( class_exists('WooCommerce')) {
 
-		$this->widgets[] = [
-			'path'  => 'Dashboard/SubscriptionDetails',
-			'class' => 'Dashboard\SubscriptionDetails',
-			'name'  => 'dollie-dashboard-subscription-details',
-		];
+			$this->widgets[] = [
+				'path'  => 'Dashboard/RecentOrders',
+				'class' => 'Dashboard\RecentOrders',
+				'name'  => 'dollie-dashboard-recent-orders',
+			];
+
+			$this->widgets[] = [
+				'path'  => 'Dashboard/SubscriptionDetails',
+				'class' => 'Dashboard\SubscriptionDetails',
+				'name'  => 'dollie-dashboard-subscription-details',
+			];
+
+		}
 
 		// Sites Widgets
 
@@ -100,11 +105,15 @@ class Widgets extends Singleton {
 			'name'  => 'dollie-sites-navigation',
 		];
 
-		$this->widgets[] = [
-			'path'  => 'General/WooNavigation',
-			'class' => 'General\WooNavigation',
-			'name'  => 'dollie-woo-navigation',
-		];
+		if (class_exists('WooCommerce')) {
+
+			$this->widgets[] = [
+				'path'  => 'General/WooNavigation',
+				'class' => 'General\WooNavigation',
+				'name'  => 'dollie-woo-navigation',
+			];
+
+		}
 
 		$this->widgets[] = [
 			'path'  => 'General/Login',

@@ -41,8 +41,9 @@ class Api extends Singleton {
 		ROUTE_BACKUP_CREATE  = 'backup/create',
 		ROUTE_BACKUP_RESTORE = 'backup/restore',
 
-		ROUTE_BLUEPRINT_GET              = 'blueprint',
-		ROUTE_BLUEPRINT_CREATE_OR_UPDATE = 'blueprint/create-or-update',
+		ROUTE_BLUEPRINT_GET                  = 'blueprint',
+		ROUTE_BLUEPRINT_CREATE_OR_UPDATE     = 'blueprint/create-or-update',
+		ROUTE_BLUEPRINT_CHECK_DYNAMIC_FIELDS = 'blueprint/check-dynamic-fields',
 
 		ROUTE_PLUGINS_UPDATES_GET   = 'plugins/updates/get',
 		ROUTE_PLUGINS_UPDATES_APPLY = 'plugins/updates/apply',

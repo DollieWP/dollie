@@ -41,9 +41,9 @@ final class Sites extends Singleton implements Base {
 	 * @return bool|false|mixed|string
 	 */
 	public function shortcode( $atts ) {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return false;
-		}
+		// if ( ! current_user_can( 'manage_options' ) ) {
+		// 	return false;
+		// }
 
 		if ( isset( $_GET['dollie_db_update'] ) ) {
 			return false;
@@ -83,6 +83,18 @@ final class Sites extends Singleton implements Base {
 				]*/
 			];
 		}
+
+		if (isset($_GET['blueprints']) && $_GET['blueprints']) {
+			$args['meta_query'] = [
+				'relation' => 'OR',
+				[
+					'key'     => 'wpd_is_blueprint',
+					'value'   => 'yes',
+					'compare' => '='
+				]
+			];
+		}
+
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			$args['author'] = get_current_user_id();
