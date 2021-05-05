@@ -16,9 +16,69 @@ class AF_Core_Forms_Submissions {
   const OPTION_EXPIRY_PREFIX = 'af_submission_expiry_';
   
   function __construct() {
+    add_action( 'wp_ajax_af_submission', array( $this, 'ajax_submission' ), 10, 0 );
+    add_action( 'wp_ajax_nopriv_af_submission', array( $this, 'ajax_submission' ), 10, 0 );
     add_action( 'init', array( $this, 'pre_form' ), 10, 0 );
     add_action( 'acf/validate_save_post', array( $this, 'validate' ), 10, 0 );
     add_filter( 'acf/upload_prefilter', array( $this, 'intercept_upload_errors' ), 1000, 3 );
+  }
+
+
+  function ajax_submission() {
+    // Make sure honeypot field is empty if one exists
+    if ( ! $this->is_honeypot_valid() ) {
+      wp_send_json_error(array(
+        'errors' => array(
+          array( 'message' => 'Non-human user detected' ),
+        ),
+      ), 400 );
+      wp_die();
+    }
+
+    // Validate the posted data. This validation has already been performed once over AJAX.
+    if( ! acf_validate_save_post() ) {
+      wp_send_json_error( array(
+        'errors' => array(
+          array( 'message' => 'Validation failed' ),
+        ),
+      ), 400 );
+      wp_die();
+    }
+
+    $form = AF()->submission['form'];
+    $args = AF()->submission['args'];
+    $fields = AF()->submission['fields'];
+
+    $this->process_submission( $form, $args, $fields );
+
+    $response = array(
+      'type' => 'none',
+    );
+
+    // Redirect to different URL if redirect argument has been passed
+    $redirect_url = $args['redirect'];
+    if ( ! empty( $redirect_url ) ) {
+      $response = array(
+        'type' => 'redirect',
+        'redirect_url' => $redirect_url,
+      );
+    } else if ( ! empty( $args['filter_mode'] ) ) {
+      // Do nothing and let the response type be "none".
+      // Filter mode is equivalent to changing nothing after submission.
+    } else {
+      $success_message = af_form_success_message( $form, $args );
+      $response = array(
+        'type' => 'success_message',
+        'success_message' => $success_message,
+      );
+    }
+
+    $response = apply_filters( 'af/form/ajax/response', $response, $form, $args );
+    $response = apply_filters( 'af/form/ajax/response/post=' . $form['post_id'], $response, $form, $args );
+    $response = apply_filters( 'af/form/ajax/response/key=' . $form['key'], $response, $form, $args );
+
+    wp_send_json_success( $response );
+    wp_die();
   }
   
   
@@ -36,7 +96,7 @@ class AF_Core_Forms_Submissions {
     }
 
     // Make sure honeypot field is empty if one exists
-    if ( isset( $_POST['email_for_non_humans'] ) && ! empty( $_POST['email_for_non_humans'] ) ) {
+    if ( ! $this->is_honeypot_valid() ) {
       wp_die( 'Non-human user detected' );
       exit;
     }
@@ -47,36 +107,72 @@ class AF_Core_Forms_Submissions {
     }
       
     // Validate the posted data, this validation has already been performed once over AJAX
-    if ( acf_validate_save_post( true ) ) {
-      $form = AF()->submission['form'];
-      $args = AF()->submission['args'];
-      $fields = AF()->submission['fields'];
-      
-      // Increase the form submissions counter
-      if ( $form['post_id'] ) {
-        $submissions = get_post_meta( $form['post_id'], 'form_num_of_submissions', true );
-        $submissions = $submissions ? $submissions + 1 : 1;
-        update_post_meta( $form['post_id'], 'form_num_of_submissions', $submissions );
-      }
+    if ( ! acf_validate_save_post( true ) ) {
+      return;
+    }
 
-      do_action( 'af/form/before_submission', $form, $fields, $args );
-      do_action( 'af/form/before_submission/id=' . $form['post_id'], $form, $fields, $args );
-      do_action( 'af/form/before_submission/key=' . $form['key'], $form, $fields, $args );
-      
-      if ( ! af_submission_failed() ) {
-        do_action( 'af/form/submission', $form, $fields, $args );
-        do_action( 'af/form/submission/id=' . $form['post_id'], $form, $fields, $args );
-        do_action( 'af/form/submission/key=' . $form['key'], $form, $fields, $args );
-      }
+    $form = AF()->submission['form'];
+    $args = AF()->submission['args'];
+    $fields = AF()->submission['fields'];
 
-      // Redirect to different URL if redirect argument has been passed
-      if ( $args['redirect'] && '' != $args['redirect'] ) {
-        $this->clear_expired_submissions();
-        $this->save_submission( AF()->submission );
+    $this->process_submission( $form, $args, $fields );
 
-        wp_redirect( $args['redirect'] );
-        exit;
-      }
+    // Redirect to different URL if redirect argument has been passed
+    $redirect_url = $args['redirect'];
+
+    // By default the user is redirected back to the form page.
+    // Some browsers will prompt to submit the form again if the form page is reloaded.
+    // Redirecting back removes the risk of duplicate submissions.
+    if ( NULL === $redirect_url ) {
+      $redirect_url = $_POST['af_origin_url'];
+    }
+
+    if ( $redirect_url && '' !== $redirect_url ) {
+      $this->clear_expired_submissions();
+      $this->save_submission( AF()->submission );
+
+      wp_redirect( $redirect_url );
+      exit;
+    }
+  }
+
+
+  /**
+   * Check that the honeypot has not been filled.
+   * 
+   * @since 1.7.2
+   */
+  function is_honeypot_valid() {
+    if ( isset( $_POST['email_for_non_humans'] ) && ! empty( $_POST['email_for_non_humans'] ) ) {
+      return false;
+    }
+
+    return true;
+  }
+
+
+  /**
+   * Process a form submission.
+   * 
+   * @since 1.7.2
+   * 
+   */
+  function process_submission( $form, $args, $fields ) {
+    // Increase the form submissions counter
+    if ( $form['post_id'] ) {
+      $submissions = get_post_meta( $form['post_id'], 'form_num_of_submissions', true );
+      $submissions = $submissions ? $submissions + 1 : 1;
+      update_post_meta( $form['post_id'], 'form_num_of_submissions', $submissions );
+    }
+
+    do_action( 'af/form/before_submission', $form, $fields, $args );
+    do_action( 'af/form/before_submission/id=' . $form['post_id'], $form, $fields, $args );
+    do_action( 'af/form/before_submission/key=' . $form['key'], $form, $fields, $args );
+    
+    if ( ! af_submission_failed() ) {
+      do_action( 'af/form/submission', $form, $fields, $args );
+      do_action( 'af/form/submission/id=' . $form['post_id'], $form, $fields, $args );
+      do_action( 'af/form/submission/key=' . $form['key'], $form, $fields, $args );
     }
   }
 
@@ -181,7 +277,7 @@ class AF_Core_Forms_Submissions {
     $hashed_args = hash( 'sha256', $encoded_args );
     $nonce_value = sprintf( 'af_submission_%s_%s', $form['key'], $hashed_args );
     if ( ! wp_verify_nonce( $nonce, $nonce_value ) ) {
-      wp_die( 'Invalid form nonce' );
+      wp_die( 'Your submission failed. Please reload the page and try again.' );
       exit;
     }
 
