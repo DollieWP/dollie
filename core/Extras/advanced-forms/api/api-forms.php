@@ -545,3 +545,39 @@ function af_get_form_fields( $form_key, $type = 'all' ) {
 	return $form_fields;
 	
 }
+
+
+/**
+ * Renders the success message for a form. Requires that the submission has already been loaded.
+ * 
+ * @since 1.7.2
+ * 
+ */
+function af_form_success_message( $form, $args ) {
+  $success_message = $form['display']['success_message'];
+  $success_message = apply_filters( 'af/form/success_message', $success_message, $form, $args );
+  $success_message = apply_filters( 'af/form/success_message/id=' . $form['post_id'], $success_message, $form, $args );
+  $success_message = apply_filters( 'af/form/success_message/key=' . $form['key'], $success_message, $form, $args );
+
+  $success_message = af_resolve_merge_tags( $success_message );
+
+  return sprintf( '<div class="af-success" aria-live="assertive" role="alert">%s</div>', $success_message );
+}
+
+
+/**
+ * Enqueues the necessary scripts and styles for a form.
+ * 
+ * @since 1.8.0
+ * 
+ */
+function af_enqueue() {
+	// Enqueue ACF scripts and styles
+  acf_enqueue_scripts();
+
+  // ACF fails to include all translations when running "acf_enqueue_scripts", hence we need to do it manually.
+  $acf_l10n = acf_get_instance('ACF_Assets')->text;
+  wp_localize_script( 'acf-input', 'acfL10n', $acf_l10n );
+
+  wp_enqueue_script( 'af-forms-script', AF()->url . 'assets/dist/js/forms.js', array( 'jquery', 'acf-input' ), AF()->version, true );
+}

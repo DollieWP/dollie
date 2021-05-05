@@ -59,20 +59,26 @@ class AF_Core_Forms_Rendering {
       return;
     }
     
-    $this->enqueue( $form, $args );
-    
+    // Enqueue scripts and styles
+    af_enqueue();
+
+    do_action( 'af/form/enqueue', $form, $args );
+    do_action( 'af/form/enqueue/id=' . $form['post_id'], $form, $args );
+    do_action( 'af/form/enqueue/key=' . $form['key'], $form, $args );
+
     // Allow the form to be modified before rendering form
     $form = apply_filters( 'af/form/before_render', $form, $args );
     $form = apply_filters( 'af/form/before_render/id=' . $form['post_id'], $form, $args );
     $form = apply_filters( 'af/form/before_render/key=' . $form['key'], $form, $args );
     
     $args = wp_parse_args($args, array(
+      'ajax' => false,
       'display_title'       => false,
       'display_description'     => false,
       'id'            => $form['key'],
       'values'          => array(),
       'submit_text'         => __( 'Submit', 'advanced-forms' ),
-      'redirect'          => acf_get_current_url(),
+      'redirect'          => NULL,
       'target'          => acf_get_current_url(),
       'echo'            => true,
       'exclude_fields'      => array(),
@@ -100,6 +106,11 @@ class AF_Core_Forms_Rendering {
       'id'    => $args['id'],
       'data-key' => $form['key'],
     );
+    
+    // Add data attribute to indicate that the form should use AJAX submissions
+    if ( $args['ajax'] ) {
+      $form_attributes['data-ajax'] = true;
+    }
     
     $form_attributes = apply_filters( 'af/form/attributes', $form_attributes, $form, $args );
     $form_attributes = apply_filters( 'af/form/attributes/id=' . $form['post_id'], $form_attributes, $form, $args );
@@ -131,7 +142,7 @@ class AF_Core_Forms_Rendering {
     $instance_hash = af_form_instance_hash( $form['key'], $args );
     if ( af_has_submission( $instance_hash ) && ! af_submission_failed( $form['key'] ) && ! $args['filter_mode'] ) {
 
-      $this->render_success_message( $form, $args );
+      echo af_form_success_message( $form, $args );
 
     } elseif ( $restriction ) {
     
@@ -145,46 +156,6 @@ class AF_Core_Forms_Rendering {
     
     // End form
     echo '</form>';
-  }
-
-  /**
-   * Enqueues all scripts and styles necessary for a form to work.
-   * 
-   * @since 1.6.7
-   * 
-   */
-  function enqueue( $form, $args ) {
-    /**
-     * Enqueue ACF scripts and styles
-     *
-     * Normally ACF initializes the global JS object in wp_head but we only want to include the scripts when displaying a form.
-     * To work around this we enqueue using the regular ACF function and then immediately include the acf-input.js script and all it's dependencies.
-     * If acf-input.js is not initialized before the fields then conditional logic doesn't work. The remaining scripts/styles will be included in wp_footer.
-     *
-     * From ACF 5.7 and onwards this is no longer necessary. Conditional logic is no longer reliant on inline scripts and a regular enqueue is sufficient.
-     *
-     * @since 1.1.1
-     *
-     */
-    acf_enqueue_scripts();
-
-
-    // ACF fails to include all translations when running "acf_enqueue_scripts", hence we need to do it manually.
-    $acf_l10n = acf_get_instance('ACF_Assets')->text;
-    wp_localize_script( 'acf-input', 'acfL10n', $acf_l10n );
-
-    wp_enqueue_script( 'af-forms-script', AF()->url . 'assets/dist/js/forms.js', array( 'jquery', 'acf-input' ), AF()->version, true );
-    
-    // Check if ACF version is < 5.7
-    if ( acf_version_compare( acf()->version, '<', '5.7' ) ) {
-      global $wp_scripts;
-      
-      $wp_scripts->print_scripts( array( 'acf-input', 'acf-pro-input' ) );
-    }
-
-    do_action( 'af/form/enqueue', $form, $args );
-    do_action( 'af/form/enqueue/id=' . $form['post_id'], $form, $args );
-    do_action( 'af/form/enqueue/key=' . $form['key'], $form, $args );
   }
 
 
@@ -240,36 +211,18 @@ class AF_Core_Forms_Rendering {
 
 
   /**
-   * Renders the success message for a form.
-   *
-   * @since 1.6.0
-   *
-   */
-  function render_success_message( $form, $args ) {
-    $success_message = $form['display']['success_message'];
-    $success_message = apply_filters( 'af/form/success_message', $success_message, $form, $args );
-    $success_message = apply_filters( 'af/form/success_message/id=' . $form['post_id'], $success_message, $form, $args );
-    $success_message = apply_filters( 'af/form/success_message/key=' . $form['key'], $success_message, $form, $args );
-
-    $success_message = af_resolve_merge_tags( $success_message );
-    
-    echo '<div class="af-success" aria-live="assertive" role="alert">';
-    
-      echo $success_message;
-    
-    echo '</div>';
-  }
-
-
-  /**
    * Renders a field wrapper with all fields and a submit button.
    *
    * @since 1.6.0
    *
    */
   function render_fields( $form, $args ) {
-    // Increase the form view counter
-    if ( $form['post_id'] && ! $args['filter_mode'] ) {
+    // Increment the form view counter
+    $view_counter_enabled = true;
+    $view_counter_enabled = apply_filters( 'af/form/view_counter_enabled', $view_counter_enabled,  $form, $args );
+    $view_counter_enabled = apply_filters( 'af/form/view_counter_enabled/id=' . $form['post_id'], $view_counter_enabled, $form, $args );
+    $view_counter_enabled = apply_filters( 'af/form/view_counter_enabled/key=' . $form['key'], $view_counter_enabled, $form, $args );
+    if ( $form['post_id'] && ! $args['filter_mode'] && $view_counter_enabled ) {
       $views = get_post_meta( $form['post_id'], 'form_num_of_views', true );
       $views = $views ? $views + 1 : 1;
       update_post_meta( $form['post_id'], 'form_num_of_views', $views );
@@ -289,11 +242,17 @@ class AF_Core_Forms_Rendering {
     
 
     // Form data required by ACF for validation to work.
-    acf_form_data(array( 
+    $acf_form_data = array( 
       'screen'  => 'acf_form',
       'post_id' => false,
       'form'    => false,
-    ));
+    );
+
+    $acf_form_data = apply_filters( 'af/form/acf_data', $acf_form_data, $form, $args );
+    $acf_form_data = apply_filters( 'af/form/acf_data/id=' . $form['post_id'], $acf_form_data, $form, $args );
+    $acf_form_data = apply_filters( 'af/form/acf_data/key=' . $form['key'], $acf_form_data, $form, $args );
+
+    acf_form_data( $acf_form_data );
 
     // Hidden fields to identify form
     echo '<div class="acf-hidden">';
@@ -318,6 +277,9 @@ class AF_Core_Forms_Rendering {
       if ( $args['honeypot'] ) {
         echo '<input type="text" name="email_for_non_humans" tabindex="-1" autocomplete="off" />';
       }
+
+      // Add origin URL to enable an automatic redirect back to the form page after submission.
+      echo sprintf( '<input type="hidden" name="af_origin_url" value="%s" />', acf_get_current_url() );
       
       do_action( 'af/form/hidden_fields', $form, $args );
       do_action( 'af/form/hidden_fields/id=' . $form['post_id'], $form, $args );
@@ -361,9 +323,8 @@ class AF_Core_Forms_Rendering {
         }
         
       }
-      
+
       $this->render_field( $field, $form, $args );
-      
     }
   }
 
@@ -375,10 +336,6 @@ class AF_Core_Forms_Rendering {
    *
    */
   function render_field( $field, $form, $args ) {
-    do_action( 'af/field/before_field', $field, $form, $args );
-    do_action( 'af/field/before_field/name=' . $field['name'], $field, $form, $args );
-    do_action( 'af/field/before_field/key=' . $field['key'], $field, $form, $args );
-
     // Ignore hide from admin value
     $field['hide_admin'] = false;
 
@@ -412,9 +369,14 @@ class AF_Core_Forms_Rendering {
     }
     
     $field = apply_filters( 'af/field/before_render', $field, $form, $args );
-    $field = apply_filters( 'af/field/before_render/id=' . $form['post_id'], $field, $form, $args );
-    $field = apply_filters( 'af/field/before_render/key=' . $form['key'], $field, $form, $args );
-    
+    $field = apply_filters( 'af/field/before_render/name=' . $field['name'], $field, $form, $args );
+    $field = apply_filters( 'af/field/before_render/key=' . $field['key'], $field, $form, $args );
+
+    // Allow "af/field/before_render" to remove a field by returning false
+    if ( ! $field ) {
+      return;
+    }
+
     // Attributes to be used on the wrapper element
     $attributes = array();
     
@@ -445,13 +407,6 @@ class AF_Core_Forms_Rendering {
     $attributes['data-key'] = $field['key'];
     $attributes['data-type'] = $field['type'];
 
-    /**
-     * ACF 5.7 totally changes how conditional logic works.
-     * Instead of running a script after each field we now pass the conditional rules JSON encoded to the data-conditions attribute.
-     *
-     * @since 1.4.0
-     *
-     */
     if( ! empty( $field['conditional_logic'] ) ) {
       $field['conditions'] = $field['conditional_logic'];
     }
@@ -476,6 +431,10 @@ class AF_Core_Forms_Rendering {
     } else {
       $instructions = '';
     }
+
+    do_action( 'af/field/before_field', $field, $form, $args );
+    do_action( 'af/field/before_field/name=' . $field['name'], $field, $form, $args );
+    do_action( 'af/field/before_field/key=' . $field['key'], $field, $form, $args );
     
     // Field wrapper
     echo sprintf( '<div %s>', acf_esc_atts( $attributes ) );
@@ -503,20 +462,6 @@ class AF_Core_Forms_Rendering {
 
     if ( 'field' == $instruction_placement ) {
       echo $instructions;
-    }
-    
-    /*
-     * Conditional logic Javascript for field.
-     * This is not needed after ACF 5.7 and won't be included.
-     */
-    if ( acf_version_compare( acf()->version, '<', '5.7' ) ) {
-      if ( ! empty( $field['conditional_logic'] ) ) {
-        ?>
-        <script type="text/javascript">
-          if(typeof acf !== 'undefined'){ acf.conditional_logic.add( '<?php echo $field['key']; ?>', <?php echo json_encode($field['conditional_logic']); ?>); }
-        </script>
-        <?php
-      }
     }
     
     // End field wrapper
