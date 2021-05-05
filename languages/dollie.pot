@@ -1103,10 +1103,6 @@ msgstr ""
 msgid "Launch Site"
 msgstr ""
 
-#: core/Modules/Preview.php:242
-msgid "all"
-msgstr ""
-
 #: core/Modules/Preview.php:253
 msgid "all times"
 msgstr ""
@@ -1449,12 +1445,12 @@ msgstr ""
 msgid "Select template type"
 msgstr ""
 
-#: core/Elementor/Tags/SiteRemoteInfoUrl.php:32
-msgid "Dollie Site Remote Info URL"
+#: core/Elementor/Tags/SiteRemoteInfo.php:89, core/Elementor/Tags/SiteRemoteInfoUrl.php:72
+msgid "Choose Data"
 msgstr ""
 
-#: core/Elementor/Tags/SiteRemoteInfoUrl.php:72
-msgid "Choose Data"
+#: core/Elementor/Tags/SiteRemoteInfoUrl.php:32
+msgid "Dollie Site Remote Info URL"
 msgstr ""
 
 #: core/Extras/tgm-plugin-activation/requirements.php:132

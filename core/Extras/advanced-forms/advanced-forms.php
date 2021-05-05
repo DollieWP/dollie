@@ -144,7 +144,7 @@ class AF {
 	 */
 	function has_acf() {
 		
-		return class_exists( 'acf_pro' );
+		return class_exists( 'acf' );
 		
 	}
 
