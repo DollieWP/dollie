@@ -30,9 +30,7 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 
 				if ( dollie()->is_blueprint( $current_id ) ) {
 					unset( $menu['domains'] );
-				}
-
-				if ( ! dollie()->is_blueprint( $current_id ) ) {
+				} else {
 					unset( $menu['blueprints'] );
 				}
 
