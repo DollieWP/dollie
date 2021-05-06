@@ -16,7 +16,9 @@ var Dollie = Dollie || {};
     init: function () {
       var _this = this;
 
-      _this.registerChangeAction(this.selectors.selectedInput[0]);
+      if (this.selectors.selectedInput.length) {
+        _this.registerChangeAction(this.selectors.selectedInput[0]);
+      }
 
       this.selectors.input.on("change", function (e) {
         _this.registerChangeAction(e.target);
