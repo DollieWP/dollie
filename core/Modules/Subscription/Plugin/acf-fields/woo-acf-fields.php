@@ -60,7 +60,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					],
 					'hide_admin'        => 0,
 					'default_value'     => '',
-					'placeholder'       => 2,
+					'placeholder'       => '',
 					'prepend'           => '',
 					'append'            => 'GB',
 					'min'               => '',
