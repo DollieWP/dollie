@@ -6,14 +6,22 @@ var Dollie = Dollie || {};
   Dollie.dynamicData = {
     selectors: {
       wrapper: $(".af-field-site-blueprint"),
+      selectedInput: $(
+        '.af-field-site-blueprint .acf-radio-list input[type="radio"]:checked'
+      ),
       input: $('.af-field-site-blueprint .acf-radio-list input[type="radio"]'),
       fieldsWrapper: ".wpd-blueprint-dynamic",
     },
     $body: $("body"),
     init: function () {
       var _this = this;
+
+      if (this.selectors.selectedInput.length) {
+        _this.registerChangeAction(this.selectors.selectedInput[0]);
+      }
+
       this.selectors.input.on("change", function (e) {
-        _this.registerChangeAction(e);
+        _this.registerChangeAction(e.target);
       });
 
       acf.add_filter("validation_complete", function (json, $form) {
@@ -45,6 +53,7 @@ var Dollie = Dollie || {};
     },
 
     registerChangeAction: function (e) {
+      console.log(e);
       var _this = this;
       if ($("body").hasClass("customize-preview")) {
         return false;
@@ -58,7 +67,7 @@ var Dollie = Dollie || {};
         );
       }
 
-      var currentVal = $(e.target).val();
+      var currentVal = $(e).val();
 
       if (currentVal == 0) {
         $(_this.selectors.fieldsWrapper).html("");
