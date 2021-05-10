@@ -182,7 +182,7 @@ class AccessControl extends Singleton {
 			return $allcaps;
 		}
 
-		if ( isset( $args[0], $args[2] ) && $args[0] === 'delete_post' && function_exists( 'af_get_form' ) ) {
+		if ( isset( $args[0], $args[2] ) && 'delete_post' === $args[0] && function_exists( 'af_get_form' ) ) {
 			$form = af_get_form( $args[2] );
 
 			if ( $form && isset( $form['key'] ) && strpos( $form['key'], 'form_dollie' ) !== false ) {

@@ -171,7 +171,7 @@ msgstr ""
 msgid "Containers undeployed?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:382, core/Extras/AcfFields.php:1122
+#: core/Extras/AcfFields.php:382, core/Extras/AcfFields.php:1120
 msgid "Client Deployed Site Permissions"
 msgstr ""
 
@@ -368,7 +368,7 @@ msgid "Charge For Launching Sites?"
 msgstr ""
 
 #: core/Extras/AcfFields.php:996
-msgid "Would you like to charge your customers for launching websites? If you have this set to \"off\" anyone can launch sites on your platform without having an active subscription."
+msgid "Would you like to charge your customers for launching websites? If you have this set to \"off\" anyone can launch sites on your platform without having a paid (WooCommerce) subscription."
 msgstr ""
 
 #: core/Extras/AcfFields.php:1012
@@ -387,155 +387,155 @@ msgstr ""
 msgid "Depending on the customers you bring in, you can choose to disable certain sections of the customer dashboard."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1084
+#: core/Extras/AcfFields.php:1082
 msgid "Available Developer Tabs"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1087
+#: core/Extras/AcfFields.php:1085
 msgid "Depending on the customers you bring in, you can choose to disable certain sections of the developer dashboard."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1125
+#: core/Extras/AcfFields.php:1123
 msgid "Choose the user role given to the users when deploying a site. Warning, this will change the user roles for all client sites"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1147
+#: core/Extras/AcfFields.php:1145
 msgid "Administrator User Name"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1150
+#: core/Extras/AcfFields.php:1148
 msgid "Choose the username that is created for your own administration access. This won't be shared with the client."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1175, templates/widgets/general/main-navigation.php:53, templates/widgets/general/sites-navigation.php:50, templates/widgets/site/site-navigation.php:26, core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:72
+#: core/Extras/AcfFields.php:1173, templates/widgets/general/main-navigation.php:61, templates/widgets/general/sites-navigation.php:50, templates/widgets/site/site-navigation.php:26, core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:72
 msgid "Blueprints"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1191
+#: core/Extras/AcfFields.php:1189
 msgid "Enable Blueprint Site Preview"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1194
+#: core/Extras/AcfFields.php:1192
 msgid "Site Previews allows you to quickly showcase the available Site Blueprints you've created. Ideal if you are building for WaaS / SaaS platform."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1211
+#: core/Extras/AcfFields.php:1209
 msgid "Site Preview Link"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1214
+#: core/Extras/AcfFields.php:1212
 msgid "The link to where your Site Preview will shown. By default you can visit it by going to your-site.com/preview after you have created your first Blueprint"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1239
+#: core/Extras/AcfFields.php:1237
 msgid "Site Preview Logo"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1242
+#: core/Extras/AcfFields.php:1240
 msgid "The logo that is shown in the Site Preview."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1272
+#: core/Extras/AcfFields.php:1270
 msgid "Show Default Blueprint"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1275
+#: core/Extras/AcfFields.php:1273
 msgid "When launching a new site, show or hide the Default Blueprint option."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1292, core/Admin/NavMenu/Component.php:584
+#: core/Extras/AcfFields.php:1290, core/Admin/NavMenu/Component.php:584
 msgid "Notifications"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1309
+#: core/Extras/AcfFields.php:1307
 msgid "Deployed Site Email notification"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1312
+#: core/Extras/AcfFields.php:1310
 msgid "An email will be automatically sent when a site has been deployed."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1329
+#: core/Extras/AcfFields.php:1327
 msgid "Client Notification Subject"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1357
+#: core/Extras/AcfFields.php:1355
 msgid "Client Notification"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1360, core/Extras/AcfFields.php:1418
+#: core/Extras/AcfFields.php:1358, core/Extras/AcfFields.php:1416
 msgid ""
 "Placeholders: \n"
 "	{dollie_site_url}, {dollie_site_name}, {dollie_user}, {dollie_site_email}, {dollie_site_username}, {dollie_site_password}"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1387
+#: core/Extras/AcfFields.php:1385
 msgid "Admin Notification Subject"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1415
+#: core/Extras/AcfFields.php:1413
 msgid "Admin Notification"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1445
+#: core/Extras/AcfFields.php:1443
 msgid "Modules"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1462
+#: core/Extras/AcfFields.php:1460
 msgid "Custom Backup Location"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1465
+#: core/Extras/AcfFields.php:1463
 msgid ""
 "<strong>This feature is part of our Enterprise solution. Please contact Dollie team to enable this feature on your account.</strong><br>\n"
 "	Once this is enabled on your account, all deployed sites will be configured with the settings you set here."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1483
+#: core/Extras/AcfFields.php:1481
 msgid "Provider"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1516
+#: core/Extras/AcfFields.php:1514
 msgid "Access Key"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1544
+#: core/Extras/AcfFields.php:1542
 msgid "Secret Key"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1572
+#: core/Extras/AcfFields.php:1570
 msgid "Bucket Name"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1575
+#: core/Extras/AcfFields.php:1573
 msgid "You can fill in just your bucket name like \"my_bucket_name\" or you can point to a folder in your bucket like \"my_bucket_name/example_folder\". Every site will be backed up in its own folder."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1624
+#: core/Extras/AcfFields.php:1622
 msgid "Confirmation"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1637
+#: core/Extras/AcfFields.php:1635
 msgid "Yes, deploy new blueprint version!"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1673
+#: core/Extras/AcfFields.php:1671
 msgid "Realtime Content Customizer"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1676
+#: core/Extras/AcfFields.php:1674
 msgid "Here you can define custom placeholders for data that can be searched and replaced when a site is deployed using this blueprint."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1693
+#: core/Extras/AcfFields.php:1691
 msgid "Name"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1713
+#: core/Extras/AcfFields.php:1711
 msgid "Placeholder"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1733
+#: core/Extras/AcfFields.php:1731
 msgid "Suggested value"
 msgstr ""
 
@@ -1091,14 +1091,6 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: core/Modules/Options.php:479, templates/admin/api-page.php:12
-msgid "Something went wrong. Please try again later or contact our support."
-msgstr ""
-
-#: core/Modules/Options.php:485
-msgid "You are not connected with the Dollie API. Please follow the instructions at the top of the page to continue with the API authentication."
-msgstr ""
-
 #: core/Modules/Preview.php:207, core/Widgets/Dashboard/LaunchSite.php:25, core/Widgets/Launch/LaunchSite.php:32
 msgid "Launch Site"
 msgstr ""
@@ -1271,6 +1263,10 @@ msgstr ""
 
 #: core/Utils/Notices.php:243
 msgid "Re-Check Subscription Status"
+msgstr ""
+
+#: templates/admin/api-page.php:12
+msgid "Something went wrong. Please try again later or contact our support."
 msgstr ""
 
 #: templates/admin/api-page.php:18

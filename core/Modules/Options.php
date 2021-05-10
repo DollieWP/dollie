@@ -470,30 +470,9 @@ class Options extends Singleton {
 		?>
 		<div class="notice dollie-notice <?php echo esc_attr( $class ); ?>">
 			<div class="dollie-inner-message">
-				<h2><span class="dashicons dashicons-rest-api dollie-api-status"></span>
+				<h2>
 					API Status: <span class="<?php echo esc_attr( $class ); ?>-span"><?php echo $status; ?></span>
 				</h2>
-
-				<div>
-					<?php if ( isset( $_GET['err'] ) ) : ?>
-						<?php _e( 'Something went wrong. Please try again later or contact our support.', 'dollie' ); ?>
-						<br>
-						<br>
-					<?php endif; ?>
-
-					<?php if ( isset( $_GET['status'] ) && $_GET['status'] === 'not_connected' ) : ?>
-						<?php _e( 'You are not connected with the Dollie API. Please follow the instructions at the top of the page to continue with the API authentication.', 'dollie' ); ?>
-						<br>
-						<br>
-					<?php endif; ?>
-
-					<br>
-
-					<?php if ( ! \Dollie\Core\Utils\Api::get_auth_token() ) : ?>
-						<?php echo \Dollie\Core\Plugin::instance()->get_api_access_link( true ); ?>
-					<?php endif; ?>
-
-				</div>
 			</div>
 		</div>
 
