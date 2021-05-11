@@ -94,46 +94,53 @@ class SitesList extends \Elementor\Widget_Base {
 			'post_status'    => 'publish',
 		];
 
+		$meta_query = [];
+
 		if ( isset( $_GET['search'] ) && $_GET['search'] ) {
-			$args['meta_query'] = [
-				'relation' => 'OR',
-				[
-					'key'     => 'wpd_installation_name',
-					'value'   => sanitize_text_field( $_GET['search'] ),
-					'compare' => 'LIKE',
-				],
-				[
-					'key'     => 'wpd_domains',
-					'value'   => sanitize_text_field( $_GET['search'] ),
-					'compare' => 'LIKE',
-				],
+			$meta_query[] = [
+				'key'     => 'wpd_installation_name',
+				'value'   => sanitize_text_field( $_GET['search'] ),
+				'compare' => 'LIKE',
+			];
+			$meta_query[] = [
+				'key'     => 'wpd_domains',
+				'value'   => sanitize_text_field( $_GET['search'] ),
+				'compare' => 'LIKE',
 			];
 		}
 
-		if (isset($_GET['blueprints']) && $_GET['blueprints']) {
-			$args['meta_query'] = [
-				'relation' => 'OR',
-				[
-					'key'     => 'wpd_is_blueprint',
-					'value'   => 'yes',
-					'compare' => '='
-				]
+		if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) {
+			$meta_query[] = [
+				'key'     => 'wpd_is_blueprint',
+				'value'   => 'yes',
+				'compare' => '=',
 			];
 		} else {
-			$args['meta_query'] = [
-				'relation' => 'OR',
-				[
-					'key'     => 'wpd_is_blueprint',
-					'compare' => 'NOT EXISTS'
-				]
+			$meta_query[] = [
+				'key'     => 'wpd_is_blueprint',
+				'value'   => 'no',
+				'compare' => '=',
 			];
+
+			$meta_query[] = [
+				'key'     => 'wpd_is_blueprint',
+				'compare' => 'NOT EXISTS',
+			];
+		}
+
+		if ( count( $meta_query ) ) {
+			$args['meta_query'] = $meta_query;
+
+			if ( count( $meta_query ) > 1 ) {
+				$args['meta_query']['relation'] = 'OR';
+			}
 		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			$args['author'] = get_current_user_id();
 		}
 
-		if (isset($_GET['customer']) && $_GET['customer']) {
+		if ( isset( $_GET['customer'] ) && $_GET['customer'] ) {
 			$args['author'] = (int) $_GET['customer'];
 		}
 
