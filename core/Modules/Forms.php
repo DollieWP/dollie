@@ -599,7 +599,7 @@ class Forms extends Singleton {
 
 		$container = dollie()->get_current_object( $container_id );
 
-		if ( $container_id === 0 ) {
+		if ( 0 === $container_id ) {
 			return false;
 		}
 

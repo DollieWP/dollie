@@ -1630,7 +1630,7 @@ if( function_exists('acf_add_local_field_group') ):
 					'class' => '',
 					'id' => '',
 				),
-				'hide_admin' => 0,
+				'hide_admin' => 1,
 				'choices' => array(
 					'yes' => __( 'Yes, deploy new blueprint version!', 'dollie' ),
 				),

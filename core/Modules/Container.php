@@ -57,6 +57,8 @@ class Container extends Singleton {
 
 		add_action( 'acf/input/admin_footer', [ $this, 'change_role_notice' ] );
 		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
+
+		add_filter( 'admin_body_class', [ $this, 'add_container_type_class' ] );
 	}
 
 	/**
@@ -783,7 +785,8 @@ class Container extends Singleton {
 			delete_post_meta( $post_id, 'wpd_scheduled_for_removal' );
 			delete_post_meta( $post_id, 'wpd_undeploy_container_at' );
 			delete_post_meta( $post_id, 'wpd_scheduled_for_undeployment' );
-			// Update the site status so it counts as an active site
+
+			// Update the site status so it counts as an active site.
 			wp_update_post(
 				[
 					'ID'          => $post_id,
@@ -861,7 +864,7 @@ class Container extends Singleton {
 			return $query;
 		}
 
-		if ( $query->query['post_type'] === 'container' ) {
+		if ( 'container' === $query->query['post_type'] ) {
 			$qv               = &$query->query_vars;
 			$qv['meta_query'] = [];
 
@@ -901,8 +904,8 @@ class Container extends Singleton {
 		$new = [];
 
 		foreach ( $columns as $key => $title ) {
-			if ( $key === 'title' ) {
-				$new['site-title'] = 'Site'; // Our New Colomn Name
+			if ( 'title' === $key ) {
+				$new['site-title'] = 'Site';
 			}
 
 			$new[ $key ] = $title;
@@ -920,10 +923,10 @@ class Container extends Singleton {
 	 * @param $post_id
 	 */
 	public function add_new_container_title_content( $column_name, $post_ID ) {
-		if ( $column_name === 'site-title' ) {
-			$oldtitle = get_the_title();
+		if ( 'site-title' === $column_name ) {
 			$newtitle = '<a href="' . get_edit_post_link( $post_ID ) . '">' . get_the_title() . '</a></h4><br><span class="url-box"><a target="_blank" href="' . dollie()->get_container_url( $post_ID ) . '">' . dollie()->get_container_url( $post_ID ) . '</span></a>';
 			$title    = $newtitle;
+
 			echo $title;
 		}
 	}
@@ -974,7 +977,7 @@ class Container extends Singleton {
 	 * @param $user_id
 	 */
 	public function update_customer_role( $user_id ) {
-		// Make sure we are editing user
+		// Make sure we are editing user.
 		if ( strpos( $user_id, 'user_' ) === false ) {
 			return;
 		}
@@ -1063,7 +1066,7 @@ class Container extends Singleton {
 			$initial_username = $setup_data['username'];
 		}
 
-		// Deprecated. Stored in _wpd_setup_data
+		// Deprecated. Stored in _wpd_setup_data.
 		if ( empty( $initial_username ) ) {
 			$initial_username = get_post_meta( $container_id, 'wpd_username', true );
 
@@ -1078,7 +1081,7 @@ class Container extends Singleton {
 		if ( empty( $initial_username ) ) {
 			$details = $this->get_info( $container_id );
 
-			// If we have an admin
+			// If we have an admin.
 			if ( $details->Admin ) {
 				$setup_data = [
 					'username' => $details->Admin,
@@ -1123,6 +1126,11 @@ class Container extends Singleton {
 		Log::add( 'Started to update all customers access role' );
 	}
 
+	/**
+	 * Container manager notice
+	 *
+	 * @return void
+	 */
 	public function add_container_manager_notice() {
 		if ( 'container' !== get_post_type() ) {
 			return;
@@ -1141,7 +1149,7 @@ class Container extends Singleton {
 							<?php
 							echo wp_kses_post(
 								sprintf(
-									__( '<a href="%s">You should manage this Blueprint using the front-end of your dashboard.</a> Only use this page to take advanced actions, like stopping or removing the blueprint completely', 'dollie' ),
+									__( '<a href="%s">Manage this Blueprint using the front-end of your dashboard.</a> Use this page to take advanced actions, like stopping/removing the blueprint completely or assigning it to another user.', 'dollie' ),
 									esc_url( trailingslashit( get_the_permalink( $container_id ) ) . 'blueprints' )
 								)
 							);
@@ -1155,7 +1163,7 @@ class Container extends Singleton {
 							<?php
 							echo wp_kses_post(
 								sprintf(
-									__( 'We recommend managing this site on the front-end of your installation using the <a href="%s">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team.', 'dollie' ),
+									__( 'We recommend managing this site on the front-end of your installation using the <a href="%s">Site Dashboard</a>. Use this page to take advanced actions, like stopping or restarting your site.', 'dollie' ),
 									esc_url( get_the_permalink( $container_id ) )
 								)
 							);
@@ -1385,5 +1393,17 @@ class Container extends Singleton {
 		$container = dollie()->get_current_object( $container_id );
 
 		return get_post_meta( $container->id, 'wpd_container_status', true );
+	}
+
+	/**
+	 * Add body container class
+	 *
+	 * @param string $classes
+	 * @return string
+	 */
+	public function add_container_type_class( $classes ) {
+		$classes .= dollie()->is_blueprint() ? ' dol-container-blueprint' : ' dol-container-site';
+
+		return $classes;
 	}
 }

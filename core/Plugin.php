@@ -288,9 +288,10 @@ class Plugin extends Singleton {
 	 *
 	 * @param $hook
 	 */
-	public function load_admin_scripts( $hook ) {
+	public function load_admin_scripts() {
 		wp_register_style( 'dollie-custom-css', DOLLIE_ASSETS_URL . 'css/admin.css', [], DOLLIE_VERSION );
 		wp_enqueue_style( 'dollie-custom-css' );
+
 		wp_enqueue_script( 'dollie-custom-js', DOLLIE_ASSETS_URL . 'js/admin.js', [], DOLLIE_VERSION );
 	}
 
