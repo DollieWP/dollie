@@ -43,10 +43,6 @@ class Blueprints extends Singleton {
 	 * @return void
 	 */
 	public function enqueue_scripts() {
-		if ( ! is_page( dollie()->get_launch_page_id() ) ) {
-			return;
-		}
-
 		wp_register_script( 'dollie-launch-dynamic-data', DOLLIE_ASSETS_URL . 'js/launch-dynamic-data.js', [ 'jquery' ], DOLLIE_VERSION, true );
 		wp_localize_script(
 			'dollie-launch-dynamic-data',
@@ -56,8 +52,6 @@ class Blueprints extends Singleton {
 				'validationErrorMessage' => __( 'Please fill in the Realtime Customizer fields.', 'dollie' ),
 			]
 		);
-
-		wp_enqueue_script( 'dollie-launch-dynamic-data' );
 	}
 
 	/**

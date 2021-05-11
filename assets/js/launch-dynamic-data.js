@@ -43,8 +43,6 @@ var Dollie = Dollie || {};
             ];
             json.valid = 0;
           }
-
-          console.log(json);
         }
 
         // return
@@ -53,7 +51,6 @@ var Dollie = Dollie || {};
     },
 
     registerChangeAction: function (e) {
-      console.log(e);
       var _this = this;
       if ($("body").hasClass("customize-preview")) {
         return false;
