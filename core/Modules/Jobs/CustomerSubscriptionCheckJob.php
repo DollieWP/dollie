@@ -25,25 +25,39 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'init', [ $this, 'create_daily_customer_status_cron' ] );
-		add_action( 'init', [ $this, 'create_daily_customer_removal_cron' ] );
-		add_action( 'init', [ $this, 'create_daily_undeployment_cron' ] );
-		add_action( 'init', [ $this, 'create_daily_email_notification' ] );
+		add_action( 'init', [ $this, 'init_recurring_tasks' ] );
 
-		add_action( 'admin_init', [ $this, 'create_daily_container_stop_cron' ] );
-
-		add_action( 'wpd_check_customer_status_cron', [ $this, 'daily_subscription_check' ] );
-		add_action( 'wpd_check_customer_removal_cron', [ $this, 'daily_removal_check' ] );
-		add_action( 'wpd_check_undeployment_cron', [ $this, 'daily_undeployment_check' ] );
-		add_action( 'wpd_check_email_cron', [ $this, 'send_out_daily_email' ] );
+		add_action( 'dollie/jobs/recurring/subscription_check', [ $this, 'run_subscription_check' ], 10 );
+		add_action( 'dollie/jobs/recurring/stop_sites', [ $this, 'run_stop_sites' ], 10 );
+		add_action( 'dollie/jobs/recurring/undeploy_sites', [ $this, 'run_undeploy_sites' ], 10 );
+		add_action( 'dollie/jobs/recurring/email_digest', [ $this, 'run_email_digest' ], 10 );
 
 		add_action( 'trashed_post', [ $this, 'do_not_schedule_post_types' ] );
 	}
 
 	/**
+	 * Init recurring tasks
+	 */
+	public function init_recurring_tasks() {
+
+		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/subscription_check' ) ) {
+			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/subscription_check' );
+		}
+		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/stop_sites' ) ) {
+			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/stop_sites' );
+		}
+		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/undeploy_sites' ) ) {
+			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/undeploy_sites' );
+		}
+		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/email_digest' ) ) {
+			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/email_digest' );
+		}
+	}
+
+	/**
 	 * Check customer's subscriptions
 	 */
-	public function check_customer_subscriptions() {
+	public function run_subscription_check() {
 		if ( get_option( 'wpd_charge_for_deployments' ) !== '1' ) {
 			return;
 		}
@@ -59,7 +73,7 @@ class CustomerSubscriptionCheckJob extends Singleton {
 		if ( ! empty( $query->results ) ) {
 			foreach ( $query->results as $customer ) {
 
-				// WooCommerce Checking.
+				// Subscription Checking.
 				$has_subscription = Subscription::instance()->get_customer_subscriptions( 'active', $customer->ID );
 
 				$status = $has_subscription ? 'yes' : 'no';
@@ -74,28 +88,7 @@ class CustomerSubscriptionCheckJob extends Singleton {
 			}
 		}
 
-		Log::add( 'Hourly customer subscription cron completed' );
-	}
-
-	/**
-	 * Daily cron for customer status
-	 */
-	public function create_daily_customer_status_cron() {
-		// Use wp_next_scheduled to check if the event is already scheduled.
-		$timestamp = wp_next_scheduled( 'wpd_check_customer_status_cron' );
-
-		// Not scheduled yet? Schedule it.
-		if ( false === $timestamp ) {
-			// Schedule the event for right now, then to repeat daily using the hook 'wi_create_daily_backup'.
-			wp_schedule_event( time(), 'hourly', 'wpd_check_customer_status_cron' );
-		}
-	}
-
-	/**
-	 * Daily cron check for customer's subscriptions
-	 */
-	public function daily_subscription_check() {
-		$this->check_customer_subscriptions();
+		Log::add( esc_html__( 'Customer subscription cron completed', 'dollie' ) );
 	}
 
 	/**
@@ -108,22 +101,24 @@ class CustomerSubscriptionCheckJob extends Singleton {
 		if ( get_option( 'wpd_charge_for_deployments' ) !== '1' ) {
 			return;
 		}
-
 		// Number of days we want to wait with stopping of container.
 		$delay_in_days = 3;
 
 		// Calculate the "stop" date and set it 7 days into the future.
 		$trigger_date = mktime( 0, 0, 0, date( 'm' ), date( 'd' ) + $delay_in_days, date( 'Y' ) );
 
-		// Set "stop" date and save as user meta.
-		update_user_meta( $customer_id, 'wpd_stop_container_at', $trigger_date );
+		if ( 'schedule' === $type ) {
+
+			// set "stop" date and save as user meta.
+			update_user_meta( $customer_id, 'wpd_stop_container_at', $trigger_date );
+		}
 
 		// Instantiate custom query.
 		$query = new WP_Query(
 			[
 				'author'         => $customer_id,
 				'post_type'      => 'container',
-				'posts_per_page' => -1,
+				'posts_per_page' => - 1,
 			]
 		);
 
@@ -139,13 +134,13 @@ class CustomerSubscriptionCheckJob extends Singleton {
 					if ( empty( $stop_time ) ) {
 						update_post_meta( get_the_ID(), 'wpd_stop_container_at', $trigger_date, true );
 					}
+
 					update_post_meta( get_the_ID(), 'wpd_scheduled_for_removal', 'yes' );
 					Log::add_front( Log::WP_SITE_REMOVAL_SCHEDULED, dollie()->get_current_object( get_the_ID() ), get_the_title( get_the_ID() ) );
 				} else {
 					// Start the containers that were stopped via S5 API.
 					Container::instance()->trigger( 'start', get_the_ID() );
 					Log::add_front( Log::WP_SITE_STARTED, dollie()->get_current_object( get_the_ID() ), get_the_title( get_the_ID() ) );
-					sleep( 3 );
 				}
 			}
 		}
@@ -161,21 +156,15 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	 *
 	 * @param null $id
 	 */
-	public function stop_customer_container( $id = null ) {
-		if ( null === $id ) {
-			$query_args = [
-				'post_type'      => 'container',
-				'posts_per_page' => - 1,
-				'post_status'    => 'publish',
-				'meta_key'       => 'wpd_scheduled_for_removal',
-				'meta_value'     => 'yes',
-			];
-		} else {
-			$query_args = [
-				'post_type' => 'container',
-				'p'         => $id,
-			];
-		}
+	public function run_stop_sites() {
+
+		$query_args = [
+			'post_type'      => 'container',
+			'posts_per_page' => - 1,
+			'post_status'    => 'publish',
+			'meta_key'       => 'wpd_scheduled_for_removal',
+			'meta_value'     => 'yes',
+		];
 
 		// Instantiate custom query.
 		$query = new WP_Query( $query_args );
@@ -191,7 +180,6 @@ class CustomerSubscriptionCheckJob extends Singleton {
 				if ( $trigger_date < $today ) {
 					Container::instance()->trigger( 'stop', get_the_ID() );
 					Log::add_front( Log::WP_SITE_STOPPED, dollie()->get_current_object( get_the_ID() ), get_the_title( get_the_ID() ) );
-					sleep( 3 );
 				}
 			}
 		}
@@ -204,7 +192,7 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	/**
 	 * Undeploy customer's container if he has no active subscription
 	 */
-	public function undeploy_customer_container() {
+	public function run_undeploy_sites() {
 		$query = new WP_Query(
 			[
 				'post_type'      => 'container',
@@ -226,7 +214,6 @@ class CustomerSubscriptionCheckJob extends Singleton {
 				if ( $trigger_date < $today ) {
 					Container::instance()->trigger( 'undeploy', get_the_ID() );
 					Log::add_front( Log::WP_SITE_UNDEPLOYED, dollie()->get_current_object( get_the_ID() ), get_the_title( get_the_ID() ) );
-					sleep( 3 );
 				}
 			}
 		}
@@ -237,70 +224,52 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	}
 
 	/**
-	 * Daily remove container cron
+	 * Send mail
 	 */
-	public function create_daily_customer_removal_cron() {
-		// Set our daily time cron.
-		$timestamp = wp_next_scheduled( 'wpd_check_undeployment_cron' );
-
-		// If $timestamp == false schedule daily backups since it hasn't been done previously.
-		if ( false === $timestamp ) {
-			wp_schedule_event( time(), 'hourly', 'wpd_check_undeployment_cron' );
+	public function run_email_digest() {
+		if ( ! get_field( 'wpd_email_digest_notification', 'options' ) ) {
+			return;
 		}
-	}
 
-	/**
-	 * Daily stop container cron
-	 */
-	public function create_daily_container_stop_cron() {
-		// Set our daily time cron.
-		$timestamp = wp_next_scheduled( 'wpd_check_customer_removal_cron' );
-
-		// If $timestamp == false schedule daily backups since it hasn't been done previously.
-		if ( false === $timestamp ) {
-			wp_schedule_event( time(), 'hourly', 'wpd_check_customer_removal_cron' );
+		if ( $this->count_undeployed_containers() === 0 && $this->count_stopped_containers() === 0 ) {
+			return;
 		}
+
+		$subject = get_field( 'wpd_email_digest_subject', 'options' );
+		$subject = str_replace(
+			[
+				'{dollie_sites_stopped_count}',
+				'{dollie_sites_removal_count}',
+			],
+			[
+				$this->count_stopped_containers(),
+				$this->count_undeployed_containers(),
+
+			],
+			$subject
+		);
+
+		$message = get_field( 'wpd_email_digest_body', 'options' );
+		$message = str_replace(
+			[
+				'{dollie_sites_stopped_list}',
+				'{dollie_sites_removal_list}',
+			],
+			[
+				$this->get_stopped_container_list(),
+				$this->get_undeployed_container_list(),
+
+			],
+			$message
+		);
+
+		$to      = get_option( 'admin_email' );
+		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
+
+		wp_mail( $to, $subject, $message, $headers );
+
 	}
 
-	/**
-	 * Daily removal check
-	 */
-	public function daily_removal_check() {
-		$this->stop_customer_container();
-	}
-
-	/**
-	 * Daily undeployment cron
-	 */
-	public function create_daily_undeployment_cron() {
-		// Set our daily time cron.
-		$timestamp = wp_next_scheduled( 'wpd_check_undeployment_cron' );
-
-		// If $timestamp == false schedule daily backups since it hasn't been done previously.
-		if ( false === $timestamp ) {
-			wp_schedule_event( time(), 'twicedaily', 'wpd_check_undeployment_cron' );
-		}
-	}
-
-	/**
-	 * Daily undeployment check
-	 */
-	public function daily_undeployment_check() {
-		$this->undeploy_customer_container();
-	}
-
-	/**
-	 * Don't schedule other post types except container
-	 *
-	 * @param $post_id
-	 */
-	public function do_not_schedule_post_types( $post_id ) {
-		$unscheduled_post_types = [ 'container' ];
-
-		if ( in_array( get_post_type( $post_id ), $unscheduled_post_types, true ) ) {
-			delete_post_meta( $post_id, '_wp_trash_meta_time' );
-		}
-	}
 
 	/**
 	 * Get stopped containers list
@@ -311,7 +280,8 @@ class CustomerSubscriptionCheckJob extends Singleton {
 		$query = new WP_Query(
 			[
 				'post_type'      => 'container',
-				'posts_per_page' => -1,
+				'post_status'    => [ 'draft', 'trash', 'publish' ],
+				'posts_per_page' => - 1,
 				'meta_key'       => 'wpd_scheduled_for_removal',
 				'meta_value'     => 'yes',
 			]
@@ -329,11 +299,11 @@ class CustomerSubscriptionCheckJob extends Singleton {
 				$domain    = get_post_meta( get_the_ID(), 'wpd_domains', true );
 				$author_id = get_the_author_meta( 'ID' );
 				?>
-				<a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
-						href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be stopped at
-				<strong><?php echo date( 'F j, Y', $undeploy ); ?></strong> <a
-						href="<?php echo get_edit_post_link( get_the_ID() ); ?>">View Container</a>
-				<br>
+                <a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
+                        href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be stopped at
+                <strong><?php echo date( 'F j, Y', $undeploy ); ?></strong> <a
+                        href="<?php echo get_edit_post_link( get_the_ID() ); ?>">View Container</a>
+                <br>
 				<?php
 			}
 		}
@@ -354,7 +324,8 @@ class CustomerSubscriptionCheckJob extends Singleton {
 		$query = new WP_Query(
 			[
 				'post_type'      => 'container',
-				'posts_per_page' => -1,
+				'post_status'    => [ 'draft', 'trash', 'publish' ],
+				'posts_per_page' => - 1,
 				'meta_key'       => 'wpd_scheduled_for_undeployment',
 				'meta_value'     => 'yes',
 			]
@@ -372,11 +343,10 @@ class CustomerSubscriptionCheckJob extends Singleton {
 				$domain    = get_post_meta( get_the_ID(), 'wpd_domains', true );
 				$author_id = get_the_author_meta( 'ID' );
 				?>
-				<a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
-						href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be undeployed on
-				<strong><?php echo date( 'F j, Y', $undeploy ); ?></strong> <a
-						href="<?php echo get_edit_post_link( get_the_ID() ); ?>">View Container</a>
-				<br>
+                <a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
+                        href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be undeployed on
+                <strong><?php echo date( 'F j, Y', $undeploy ); ?></strong>
+                <br>
 				<?php
 			}
 		}
@@ -388,60 +358,22 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	}
 
 	/**
-	 * Send mail
-	 */
-	public function send_daily_update_email() {
-		if ( $this->count_undeployed_containers() !== 0 || $this->count_stopped_containers() !== 0 ) {
-			$email   = get_option( 'admin_email' );
-			$subject = 'Dollie - ' . $this->count_stopped_containers() . ' will be stopped, ' . $this->count_undeployed_containers() . ' will be completely removed';
-			$heading = 'Please review your following sites';
-			$message = '<p><h4>The following sites are scheduled to be stopped in the near future:</h4><br><br>' . $this->get_stopped_container_list() . '</p><p>Please make sure that all of the above containers are indeed meant to be stopped due to cancelled subscriptions or manual removal.</p><p><h4>The following containers are scheduled to be completely undeployed in the near future:</h4><br><br>' . $this->get_undeployed_container_list() . '</p><p>Once a site has been completely undeployed, it will removed completely from our infrastructure, and can only be restored in emergency situations.</p>';
-			$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
-
-			wp_mail( $email, $subject, $message, $headers );
-		}
-	}
-
-	/**
-	 * Daily mail cron
-	 */
-	public function create_daily_email_notification() {
-		// Set our daily time cron.
-		$timestamp = wp_next_scheduled( 'wpd_check_email_cron' );
-
-		// If $timestamp == false schedule daily backups since it hasn't been done previously.
-		if ( false === $timestamp ) {
-			wp_schedule_event( time(), 'daily', 'wpd_check_email_cron' );
-		}
-	}
-
-	/**
-	 * Send daily mail update
-	 */
-	public function send_out_daily_email() {
-		$this->send_daily_update_email();
-	}
-
-	/**
 	 * Count undeployed containers
 	 *
 	 * @return int
 	 */
 	public function count_undeployed_containers() {
-		$query = new WP_Query(
+		$posts = get_posts(
 			[
 				'post_type'      => 'container',
-				'posts_per_page' => -1,
+				'post_status'    => 'trash',
+				'posts_per_page' => - 1,
 				'meta_key'       => 'wpd_scheduled_for_undeployment',
 				'meta_value'     => 'yes',
 			]
 		);
 
-		$total = $query->found_posts;
-
-		wp_reset_postdata();
-
-		return $total;
+		return count( $posts );
 	}
 
 	/**
@@ -450,20 +382,30 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	 * @return int
 	 */
 	public function count_stopped_containers() {
-		$query = new WP_Query(
+		$posts = get_posts(
 			[
 				'post_type'      => 'container',
-				'posts_per_page' => -1,
+				'post_status'    => [ 'draft', 'trash', 'publish' ],
+				'posts_per_page' => - 1,
 				'meta_key'       => 'wpd_scheduled_for_removal',
 				'meta_value'     => 'yes',
 			]
 		);
 
-		$total = $query->found_posts;
+		return count( $posts );
+	}
 
-		wp_reset_postdata();
+	/**
+	 * Don't schedule other post types except container
+	 *
+	 * @param $post_id
+	 */
+	public function do_not_schedule_post_types( $post_id ) {
+		$unscheduled_post_types = [ 'container' ];
 
-		return $total;
+		if ( in_array( get_post_type( $post_id ), $unscheduled_post_types, true ) ) {
+			delete_post_meta( $post_id, '_wp_trash_meta_time' );
+		}
 	}
 
 }

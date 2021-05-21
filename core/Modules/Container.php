@@ -41,7 +41,10 @@ class Container extends Singleton {
 		add_action( 'template_redirect', [ $this, 'remove_details_transients' ] );
 		add_action( 'template_redirect', [ $this, 'update_details' ] );
 
+		add_action( 'before_delete_post', [ $this, 'run_before_delete_action' ] );
 		add_action( 'untrashed_post', [ $this, 'run_untrash_action' ] );
+		add_action( 'wp_trash_post', [ $this, 'run_trash_action' ] );
+		add_filter( 'gettext', [ $this, 'override_empty_trash' ], 50, 3 );
 
 		add_action( 'add_meta_boxes', [ $this, 'rename_author_box_title' ] );
 		add_filter( 'manage_container_posts_columns', [ $this, 'rename_author_box_column' ] );
@@ -334,8 +337,8 @@ class Container extends Singleton {
 	 * Update WP site url option
 	 *
 	 * @param $new_url
-	 * @param string  $old_url
-	 * @param null    $container_id
+	 * @param string $old_url
+	 * @param null $container_id
 	 *
 	 * @return bool|mixed
 	 */
@@ -598,7 +601,7 @@ class Container extends Singleton {
 	 * @param $url
 	 * @param $transient_id
 	 * @param $user_auth
-	 * @param null         $user_pass
+	 * @param null $user_pass
 	 *
 	 * @return array|mixed
 	 */
@@ -674,7 +677,7 @@ class Container extends Singleton {
 	/**
 	 * Get container login info
 	 *
-	 * @param null   $container_id
+	 * @param null $container_id
 	 * @param string $site_username
 	 *
 	 * @return mixed
@@ -801,22 +804,15 @@ class Container extends Singleton {
 			$trigger_date = get_post_meta( $post_id, 'wpd_stop_container_at', true );
 
 			// If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
-			if ( $trigger_date < $today ) {
-				$delay_in_days = 7;
+			if ( ( $trigger_date && $trigger_date < $today ) || ! $trigger_date ) {
+				$delay_in_days = 3;
 
-				// Calculate the "stop" date and set it 3 days into the future.
+				// Calculate the "remove" date and set it 3 days into the future.
 				$trigger_date = mktime( 0, 0, 0, date( 'm' ), date( 'd' ) + $delay_in_days, date( 'Y' ) );
 				$this->set_status( $post_id, 'stopped' );
 				update_post_meta( $post_id, 'wpd_scheduled_for_undeployment', 'yes' );
 				update_post_meta( $post_id, 'wpd_undeploy_container_at', $trigger_date );
 
-				// Update the site status so it won't count as an active site.
-				wp_update_post(
-					[
-						'ID'          => $post_id,
-						'post_status' => 'draft',
-					]
-				);
 			}
 
 			Log::add_front( Log::WP_SITE_REMOVAL_SCHEDULED, $current_query, $site );
@@ -835,6 +831,18 @@ class Container extends Singleton {
 	}
 
 	/**
+	 * Start container after trash
+	 *
+	 * @param $post_id
+	 */
+	public function run_trash_action( $post_id ) {
+		$post_type = get_post( $post_id )->post_type;
+		if ( 'container' === $post_type ) {
+			$this->trigger( 'stop', $post_id );
+		}
+	}
+
+	/**
 	 * Start container after untrash
 	 *
 	 * @param $post_id
@@ -846,12 +854,60 @@ class Container extends Singleton {
 		}
 	}
 
+
+	/**
+	 * Action on empty trash
+	 *
+	 * @param $post_id
+	 */
+	public function run_before_delete_action( $post_id ) {
+		$post_type = get_post( $post_id )->post_type;
+		if ( 'container' === $post_type ) {
+			$this->trigger( 'undeploy', $post_id );
+		}
+	}
+
+	/**
+	 * Override the "Empty Trash" string on admin pages for a custom post type
+	 *
+	 * @param string $translated_text translation of $text from previous filter calls
+	 * @param string $text original text string
+	 * @param string $domain translation domain
+	 *
+	 * @return string|void
+	 */
+	function override_empty_trash( $translated_text, $text, $domain ) {
+
+		// Skip all of these checks if not on an admin screen
+		if ( is_admin() ) {
+
+			if ( ! function_exists( 'get_current_screen' ) ) {
+				require_once ABSPATH . '/wp-admin/includes/screen.php';
+			}
+
+			// get_current_screen returns info on the admin screen, including post_type
+			$current_screen = get_current_screen();
+			if ( isset( $current_screen ) && 'container' === $current_screen->post_type ) {
+
+				if ( 'Empty Trash' === $text ) {
+					$translated_text = __( 'Permanently delete sites', 'dollie' );
+				} elseif ( 'Move to Trash' === $text ) {
+					$translated_text = __( 'Stop', 'dollie' );
+				}
+			}
+
+		}
+
+		return $translated_text;
+
+	}
+
 	/**
 	 * Container author box
 	 */
 	public function rename_author_box_title() {
 		remove_meta_box( 'authordiv', 'container', 'core' );
-		add_meta_box( 'authordiv', __( 'Assigned Customer to this Site', 'wpse39446_domain' ), 'post_author_meta_box', 'container', 'normal', 'high' );
+		add_meta_box( 'authordiv', __( 'Assigned Customer to this Site', 'dollie' ), 'post_author_meta_box', 'container', 'normal', 'high' );
 	}
 
 	/**
@@ -861,6 +917,10 @@ class Container extends Singleton {
 	 */
 	public function filter_blueprint_from_sites( $query ) {
 		if ( ! is_admin() || wp_doing_ajax() ) {
+			return $query;
+		}
+
+		if ( ! isset( $_GET['post_type'] ) || $_GET['post_type'] !== 'container' ) {
 			return $query;
 		}
 
@@ -1138,14 +1198,14 @@ class Container extends Singleton {
 
 		$container_id = $_GET['post'];
 		?>
-		<br>
-		<div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
-			<div class="dollie-inner-message">
+        <br>
+        <div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
+            <div class="dollie-inner-message">
 				<?php if ( dollie()->is_blueprint( $container_id ) ) : ?>
 
-					<div class="dollie-message-center">
-						<h3><?php esc_html_e( 'Notice - How To Manage & Update This Blueprint', 'dollie' ); ?> </h3>
-						<p>
+                    <div class="dollie-message-center">
+                        <h3><?php esc_html_e( 'Notice - How To Manage & Update This Blueprint', 'dollie' ); ?> </h3>
+                        <p>
 							<?php
 							echo wp_kses_post(
 								sprintf(
@@ -1154,12 +1214,12 @@ class Container extends Singleton {
 								)
 							);
 							?>
-					</div>
+                    </div>
 
 				<?php else : ?>
-					<div class="dollie-message-center">
-						<h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
-						<p>
+                    <div class="dollie-message-center">
+                        <h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
+                        <p>
 							<?php
 							echo wp_kses_post(
 								sprintf(
@@ -1168,10 +1228,10 @@ class Container extends Singleton {
 								)
 							);
 							?>
-					</div>
+                    </div>
 				<?php endif; ?>
-			</div>
-		</div>
+            </div>
+        </div>
 		<?php
 	}
 
@@ -1283,18 +1343,18 @@ class Container extends Singleton {
 	 */
 	public function change_role_notice() {
 		?>
-		<script type="text/javascript">
-			(function ($) {
-				var customer_role = $('[data-name="wpd_client_site_permission"]');
-				if (customer_role.length) {
-					var key = customer_role.data('key');
+        <script type="text/javascript">
+            (function ($) {
+                var customer_role = $('[data-name="wpd_client_site_permission"]');
+                if (customer_role.length) {
+                    var key = customer_role.data('key');
 
-					$('[name="acf[' + key + ']"]').on('change', function () {
-						alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
-					})
-				}
-			})(jQuery);
-		</script>
+                    $('[name="acf[' + key + ']"]').on('change', function () {
+                        alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
+                    })
+                }
+            })(jQuery);
+        </script>
 		<?php
 	}
 
@@ -1302,7 +1362,7 @@ class Container extends Singleton {
 	 * Get container screenshot
 	 *
 	 * @param $container_uri
-	 * @param bool          $regenerate
+	 * @param bool $regenerate
 	 *
 	 * @return array|mixed|null
 	 */
@@ -1399,6 +1459,7 @@ class Container extends Singleton {
 	 * Add body container class
 	 *
 	 * @param string $classes
+	 *
 	 * @return string
 	 */
 	public function add_container_type_class( $classes ) {
