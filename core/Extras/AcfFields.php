@@ -1676,6 +1676,26 @@ if( function_exists('acf_add_local_field_group') ):
 				'append' => '',
 				'maxlength' => '',
 			),
+			array(
+				'key' => 'field_60a7974f6956c',
+				'label' => __('Staging', 'dollie'),
+				'name' => 'wpd_enable_staging',
+				'type' => 'true_false',
+				'instructions' => __('Allow customers to use staging site functionality. Each enabled staging site will add a cost to your monthly subscription. Please check with the Dollie Sales Team.', 'dollie'),
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'message' => '',
+				'default_value' => 0,
+				'ui' => 1,
+				'ui_on_text' => 'Enable',
+				'ui_off_text' => 'Disable',
+			),
 		),
 		'location' => array(
 			array(
