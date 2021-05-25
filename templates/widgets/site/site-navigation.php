@@ -9,9 +9,9 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 
 ?>
 <nav>
-	<div class="dol-w-full dol-flex-grow lg:dol-flex lg:dol-items-center lg:dol-w-auto">
+    <div class="dol-w-full dol-flex-grow lg:dol-flex lg:dol-items-center lg:dol-w-auto">
 
-		<div class="dol-overflow-hidden dol-widget-site-sidebar dol-widget-<?php echo $layout; ?>">
+        <div class="dol-overflow-hidden dol-widget-site-sidebar dol-widget-<?php echo $layout; ?>">
 			<?php if ( ! $deploying ) : ?>
 
 				<?php
@@ -25,8 +25,13 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 					'developer-tools' => '<i class="fas fa-code"></i>' . __( 'Developer Tools', 'dollie' ),
 					'blueprints'      => '<i class="fas fa-copy"></i>' . __( 'Blueprints', 'dollie' ),
 					'migrate'         => '<i class="fas fa-truck-moving"></i>' . __( 'Migrate', 'dollie' ),
-					'delete'          => '<i class="fas fa-trash-alt"></i>' . __( 'Delete', 'dollie' ),
 				];
+
+				if ( get_field( 'wpd_enable_staging', 'options' ) ) {
+					$menu['staging'] = '<i class="fas fa-clone"></i>' . esc_html__( 'Staging', 'dollie' );
+				}
+
+				$menu['delete'] = '<i class="fas fa-trash-alt"></i>' . esc_html__( 'Delete', 'dollie' );
 
 				if ( dollie()->is_blueprint( $current_id ) ) {
 					unset( $menu['domains'] );
@@ -37,8 +42,8 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 				$sub_page = get_query_var( 'sub_page' );
 
 				?>
-				<div class="dol-w-full dol-flex-grow lg:dol-flex lg:dol-items-center lg:dol-w-auto">
-					<ul class="dol-list-none dol-p-0 dol-m-0">
+                <div class="dol-w-full dol-flex-grow lg:dol-flex lg:dol-items-center lg:dol-w-auto">
+                    <ul class="dol-list-none dol-p-0 dol-m-0">
 						<?php foreach ( $menu as $page => $title ) : ?>
 							<?php
 
@@ -52,17 +57,17 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 
 							$active_class = $sub_page === $page ? ' dol-text-primary' : 'dol-font-normal dol-text-gray-400 dark:dol-text-gray-300';
 							?>
-							<li class="dol-m-0 dol-p-2">
-								<a class="<?php echo esc_attr( $active_class ); ?> dol-nav-btn dol-nav-btn-secondary dol-font-semibold dol-pt-1 dol-pb-1"
-								   href="<?php echo dollie()->get_site_url( $current_id, $page ); ?>">
+                            <li class="dol-m-0 dol-p-2">
+                                <a class="<?php echo esc_attr( $active_class ); ?> dol-nav-btn dol-nav-btn-secondary dol-font-semibold dol-pt-1 dol-pb-1"
+                                   href="<?php echo dollie()->get_site_url( $current_id, $page ); ?>">
 									<?php echo $title; ?>
-								</a>
-							</li>
+                                </a>
+                            </li>
 						<?php endforeach; ?>
-					</ul>
-				</div>
+                    </ul>
+                </div>
 			<?php endif; ?>
-		</div>
+        </div>
 
-	</div>
+    </div>
 </nav>

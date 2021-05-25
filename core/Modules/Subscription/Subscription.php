@@ -98,7 +98,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	/**
 	 * Get partner subscription
 	 *
-	 * @return array
+	 * @return array|bool
 	 */
 	public function get_partner_subscription() {
 		if ( ! Api::get_auth_token() || get_transient( 'wpd_just_connected' ) ) {

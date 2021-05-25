@@ -303,6 +303,14 @@ if ( 'stop' === $status ) :
 			],
 			true
 		);
+	} elseif ( 'staging' === $sub_page && get_field( 'wpd_enable_staging', 'options' ) ) {
+		\Dollie\Core\Utils\Tpl::load(
+			'widgets/site/pages/staging',
+			[
+				'data' => $data,
+			],
+			true
+		);
 	} else {
 		\Dollie\Core\Utils\Tpl::load(
 			'widgets/site/pages/dashboard',

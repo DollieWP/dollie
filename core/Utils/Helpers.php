@@ -139,6 +139,7 @@ class Helpers extends Singleton {
 			$url = add_query_arg( 'location', $container_location, $url );
 		}
 
+
 		return wp_nonce_url( $url, 'get_site_login', '_nonce' );
 	}
 
@@ -774,8 +775,8 @@ class Helpers extends Singleton {
 	 *
 	 * @return mixed
 	 */
-	public function get_customer_container_details( $container_id = null ) {
-		return Container::instance()->get_customer_details( $container_id );
+	public function get_customer_container_details( $container_id = null, $force = false ) {
+		return Container::instance()->get_customer_details( $container_id, $force );
 	}
 
 	/**
@@ -786,8 +787,8 @@ class Helpers extends Singleton {
 	 *
 	 * @return mixed
 	 */
-	public function container_api_request( $url, $transient_id, $user_auth, $user_pass = null ) {
-		return Container::instance()->do_api_request( $url, $transient_id, $user_auth, $user_pass );
+	public function container_api_request( $url, $transient_id, $user_auth, $user_pass = null, $force = false ) {
+		return Container::instance()->do_api_request( $url, $transient_id, $user_auth, $user_pass, $force );
 	}
 
 	/**
