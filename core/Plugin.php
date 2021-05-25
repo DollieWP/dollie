@@ -435,7 +435,7 @@ class Plugin extends Singleton {
 			exit;
 		}
 
-		$location = ! empty( $_GET['location'] ) ? esc_url_raw( $_GET['location'] ) : null;
+		$location = ! empty( $_GET['location'] ) ? esc_attr( $_GET['location'] ) : null;
 		wp_redirect( dollie()->final_customer_login_url( $container_id, $location ) );
 		exit;
 	}

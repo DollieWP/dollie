@@ -41,6 +41,8 @@ class AccessControl extends Singleton {
 			$available_sections_array = dollie()->remove_element_with_value( $available_sections_array, 'value', 'blueprints' );
 		}
 
+		$available_sections_array[] = 'staging';
+
 		return $available_sections_array;
 	}
 

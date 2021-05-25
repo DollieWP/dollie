@@ -62,6 +62,9 @@ class Container extends Singleton {
 		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
 
 		add_filter( 'admin_body_class', [ $this, 'add_container_type_class' ] );
+
+
+		add_action( 'template_redirect', [ $this, 'staging_change_action' ] );
 	}
 
 	/**
@@ -205,7 +208,7 @@ class Container extends Singleton {
 	 */
 	public function rewrite_rules_container_sub_pages() {
 		$post_type = 'site';
-		$sub_pages = '(dashboard|plugins|themes|emails|domains|backups|updates|developer-tools|blueprints|delete|migrate)';
+		$sub_pages = '(dashboard|plugins|themes|emails|domains|backups|updates|developer-tools|blueprints|delete|migrate|staging)';
 
 		add_rewrite_rule(
 			$post_type . '\/([^\/]+)(?:\/' . $sub_pages . ')\/?$',
@@ -449,7 +452,7 @@ class Container extends Singleton {
 	 *
 	 * @return array
 	 */
-	public function get_container_details( $post_id ) {
+	public function get_container_details( $post_id, $force = false ) {
 		$current_user = wp_get_current_user();
 		$post         = get_post( $post_id );
 		$post_slug    = $post->post_name;
@@ -471,7 +474,7 @@ class Container extends Singleton {
 			$details_transient_id = $post_slug . '_get_container_wp_info';
 
 			// Make the request
-			$details_request = dollie()->container_api_request( $details_url, $details_transient_id, 'container', $request->id );
+			$details_request = dollie()->container_api_request( $details_url, $details_transient_id, 'container', $request->id, $force );
 
 			// Decode to PHP currently used
 			$data['container_details'] = json_decode( json_encode( $details_request ), true );
@@ -500,17 +503,10 @@ class Container extends Singleton {
 				}
 			}
 
-			// Now that we have our container stats get our secret key
-			$stats_url          = dollie()->get_container_url( $post_id ) . WP::PLATFORM_PATH . 'container/details/stats.php';
-			$stats_transient_id = $post_slug . '_get_container_site_info';
+			// get stats data
+			$data['site_data'] = $this->get_remote_stats( $post_id, $force );
 
-			// Make the request
-			$stats_request = dollie()->container_api_request( $stats_url, $stats_transient_id, 'container', $request->id );
-
-			// Decode to PHP currently used
-			$data['site_data'] = json_decode( json_encode( $stats_request ), true );
-
-			if ( ! empty( $data['site_data'] ) && ! empty( $stats_request ) ) {
+			if ( ! empty( $data['site_data'] ) && is_array( $data['site_data'] ) ) {
 				update_post_meta( $post_id, 'wpd_installation_themes', $data['site_data']['Theme Name'] );
 				update_post_meta( $post_id, 'wpd_installation_site_icon', $data['site_data']['Site Icon'] );
 				update_post_meta( $post_id, 'wpd_installation_site_theme_screenshot', $data['site_data']['Theme Screenshot'] );
@@ -545,6 +541,29 @@ class Container extends Singleton {
 		return $data;
 	}
 
+	public function get_remote_stats( $post_id, $force = false ) {
+
+		$post      = get_post( $post_id );
+		$post_slug = $post->post_name;
+		$request   = $this->get_customer_details( $post_id );
+
+		if ( empty( $request ) ) {
+			return false;
+		}
+
+		$stats_url          = dollie()->get_container_url( $post_id ) . WP::PLATFORM_PATH . 'container/details/stats.php';
+		$stats_transient_id = $post_slug . '_get_container_site_info';
+
+		// Make the request
+		$stats_request = $this->do_api_request( $stats_url, $stats_transient_id, 'container', $request->id, $force );
+
+		if ( empty( $stats_request ) ) {
+			return false;
+		}
+
+		return json_decode( json_encode( $stats_request ), true );
+	}
+
 	/**
 	 * Get container details
 	 *
@@ -552,17 +571,18 @@ class Container extends Singleton {
 	 *
 	 * @return array|object
 	 */
-	public function get_customer_details( $container_id = null ) {
+	public function get_customer_details( $container_id = null, $force = false ) {
 		$container = dollie()->get_current_object( $container_id );
+		$transient = 'dollie_s5_container_details_' . $container->slug;
 
 		if ( ! $container->id ) {
 			return [];
 		}
 
-		$request = get_transient( 'dollie_s5_container_details_' . $container->slug );
+		$request = get_transient( $transient );
 
 		// Only make request if it's not cached in a transient.
-		if ( empty( $request ) ) {
+		if ( empty( $request ) || $force === true ) {
 
 			$container_id = get_post_meta( $container->id, 'wpd_container_id', true );
 
@@ -586,7 +606,7 @@ class Container extends Singleton {
 			$request = dollie()->maybe_decode_json( $request_response['body'], true );
 
 			// Set Transient.
-			set_transient( 'dollie_s5_container_details_' . $container->slug, $request, MINUTE_IN_SECONDS * 150000 );
+			set_transient( $transient, $request, MINUTE_IN_SECONDS * 15 );
 
 			// Update Post Meta.
 			WP::instance()->store_container_data( $container->id, $request );
@@ -605,7 +625,7 @@ class Container extends Singleton {
 	 *
 	 * @return array|mixed
 	 */
-	public function do_api_request( $url, $transient_id = null, $user_auth = null, $user_pass = null ) {
+	public function do_api_request( $url, $transient_id = null, $user_auth = null, $user_pass = null, $force = false ) {
 		if ( null === $user_auth || null === $user_pass ) {
 			return [];
 		}
@@ -618,7 +638,7 @@ class Container extends Singleton {
 		}
 
 		// Only make request if it's not cached in a transient.
-		if ( empty( $request ) ) {
+		if ( empty( $request ) || $force ) {
 			$response = wp_remote_request(
 				$url,
 				[
@@ -805,7 +825,7 @@ class Container extends Singleton {
 
 			// If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
 			if ( ( $trigger_date && $trigger_date < $today ) || ! $trigger_date ) {
-				$delay_in_days = 3;
+				$delay_in_days = 7;
 
 				// Calculate the "remove" date and set it 3 days into the future.
 				$trigger_date = mktime( 0, 0, 0, date( 'm' ), date( 'd' ) + $delay_in_days, date( 'Y' ) );
@@ -1467,4 +1487,43 @@ class Container extends Singleton {
 
 		return $classes;
 	}
+
+	/**
+	 * Action to enable/disable staging from front-end
+	 */
+	public function staging_change_action() {
+		if ( isset( $_POST['staging_change'] ) && wp_verify_nonce( $_POST['_wpnonce'], 'wpd_staging' ) ) {
+
+			if ( ! in_array( $_POST['staging_change'], [ 0, 1 ], false ) ) {
+				return;
+			}
+			$status = (int) $_POST['staging_change'];
+
+			$response = Api::process_response(
+				Api::post(
+					Api::ROUTE_CONTAINER_STAGING,
+					[
+						'container_uri' => dollie()->get_container_url( get_the_ID() ),
+						'status'        => $status,
+					]
+				)
+			);
+
+			if ( $response === true ) {
+				$response_param = 'success';
+			} else {
+				$response_param = 'error';
+			}
+			$redirect_url = sanitize_text_field( $_POST['_wp_http_referer'] );
+			$redirect_url = remove_query_arg( 'staging_status', $redirect_url );
+			$redirect_url = remove_query_arg( 'action', $redirect_url );
+			$url          = site_url( $redirect_url );
+			$url          = add_query_arg( 'staging_status', $response_param, $url );
+			$url          = add_query_arg( 'action', ( $status === 1 ? 'enabled' : 'disabled' ), $url );
+
+			sleep( 8 );
+			wp_redirect( $url );
+		}
+	}
+
 }
