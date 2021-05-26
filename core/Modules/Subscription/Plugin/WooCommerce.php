@@ -189,7 +189,7 @@ class WooCommerce implements SubscriptionInterface {
 				}
 
 				// Filter out non Dollie subscriptions by checking custom meta field.
-				if ( ! get_field( '_wpd_installs', $id ) || ! get_field( '_wpd_staging', $id ) ) {
+				if ( ! get_field( '_wpd_installs', $id ) ) {
 					continue;
 				}
 
@@ -393,15 +393,25 @@ class WooCommerce implements SubscriptionInterface {
 		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return true;
 		}
-		if ( $user_id === null ) {
-			$user_id = get_current_user_id();
-		}
 
 		if ( ! get_field( 'wpd_enable_staging', 'options' ) ) {
 			return false;
 		}
 
+		if ( is_super_admin() ) {
+			return true;
+		}
+
+		if ( $user_id === null ) {
+			$user_id = get_current_user_id();
+		}
+
 		$subscriptions = $this->get_customer_subscriptions( 'active', $user_id );
+
+		// if no subscription is active
+		if ( empty( $subscriptions ) ) {
+			return false;
+		}
 
 		// apply overrides at product level
 		if ( isset( $subscriptions['resources']['staging'] ) ) {

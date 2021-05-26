@@ -17,8 +17,12 @@
 	if ( $staging_on && isset( $container_details['Staging URL'] ) ) {
 
 		$staging_url = 'https://' . $container_details['Staging URL'];
-		$message     .= '<br><strong>Staging URL</strong>: ' .
-                        '<a target="_blank" href="' . $staging_url . '">' . $staging_url . '</a>';
+		$message     .= '<br>' .
+		                sprintf(
+			                '<strong>Staging URL</strong>: <a target="_blank" href="%s">%s</a>',
+			                $staging_url,
+			                $staging_url
+		                );
 	}
 
 	\Dollie\Core\Utils\Tpl::load(

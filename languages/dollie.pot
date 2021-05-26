@@ -407,7 +407,7 @@ msgstr ""
 msgid "Choose the username that is created for your own administration access. This won't be shared with the client."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1173, templates/widgets/general/main-navigation.php:61, templates/widgets/general/sites-navigation.php:50, templates/widgets/site/site-navigation.php:26, core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:72
+#: core/Extras/AcfFields.php:1173, templates/widgets/general/main-navigation.php:61, templates/widgets/general/sites-navigation.php:50, templates/widgets/site/site-navigation.php:27, core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:98
 msgid "Blueprints"
 msgstr ""
 
@@ -539,39 +539,47 @@ msgstr ""
 msgid "You can fill in just your bucket name like \"my_bucket_name\" or you can point to a folder in your bucket like \"my_bucket_name/example_folder\". Every site will be backed up in its own folder."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1681, core/Modules/Blueprints.php:261, templates/widgets/site/site-navigation.php:31
+#: core/Extras/AcfFields.php:1681, core/Modules/Blueprints.php:261, templates/widgets/site/site-navigation.php:32
 msgid "Staging"
 msgstr ""
 
 #: core/Extras/AcfFields.php:1684
-msgid "Allow customers to use staging site functionality. Each enabled staging site will add a cost to your monthly subscription. Please check with the Dollie Sales Team."
+msgid "Allow customers to use staging sites functionality. Each enabled staging site will add a cost to your monthly subscription. Please check with the Dollie Sales Team."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1725
+#: core/Extras/AcfFields.php:1701
+msgid "Staging Restrictions"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1704
+msgid "Allow all clients to use staging and restrict usage at product level or restrict it by default and allow it only for certain products."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1759
 msgid "Confirmation"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1738
+#: core/Extras/AcfFields.php:1772
 msgid "Yes, deploy new blueprint version!"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1774
+#: core/Extras/AcfFields.php:1808
 msgid "Realtime Content Customizer"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1777
+#: core/Extras/AcfFields.php:1811
 msgid "Here you can define custom placeholders for data that can be searched and replaced when a site is deployed using this blueprint."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1794
+#: core/Extras/AcfFields.php:1828
 msgid "Name"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1814
+#: core/Extras/AcfFields.php:1848
 msgid "Placeholder"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1834
+#: core/Extras/AcfFields.php:1868
 msgid "Suggested value"
 msgstr ""
 
@@ -1611,7 +1619,7 @@ msgstr ""
 msgid "Please type the unique name of your site. Your site name is shown in the sidebar and in your URL address bar."
 msgstr ""
 
-#: core/Modules/Forms/DeleteSite.php:90, templates/widgets/general/sites-navigation.php:52, templates/widgets/site/site-navigation.php:34
+#: core/Modules/Forms/DeleteSite.php:90, templates/widgets/general/sites-navigation.php:52, templates/widgets/site/site-navigation.php:35
 msgid "Delete"
 msgstr ""
 
@@ -2079,35 +2087,35 @@ msgstr ""
 msgid "Used storage"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:43, templates/widgets/site/site-navigation.php:19
+#: templates/widgets/general/sites-navigation.php:43, templates/widgets/site/site-navigation.php:20
 msgid "Dashboard"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:44, templates/widgets/site/site-navigation.php:20, templates/widgets/site/pages/blueprints.php:194, templates/widgets/site/pages/plugins.php:45
+#: templates/widgets/general/sites-navigation.php:44, templates/widgets/site/site-navigation.php:21, templates/widgets/site/pages/blueprints.php:194, templates/widgets/site/pages/plugins.php:45
 msgid "Plugins"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:45, templates/widgets/site/site-navigation.php:21, templates/widgets/site/pages/blueprints.php:195
+#: templates/widgets/general/sites-navigation.php:45, templates/widgets/site/site-navigation.php:22, templates/widgets/site/pages/blueprints.php:195
 msgid "Themes"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:46, templates/widgets/site/site-navigation.php:22, templates/widgets/site/pages/domains.php:2
+#: templates/widgets/general/sites-navigation.php:46, templates/widgets/site/site-navigation.php:23, templates/widgets/site/pages/domains.php:2
 msgid "Domains"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:47, templates/widgets/site/site-navigation.php:23, templates/widgets/site/pages/backups.php:18
+#: templates/widgets/general/sites-navigation.php:47, templates/widgets/site/site-navigation.php:24, templates/widgets/site/pages/backups.php:18
 msgid "Backups"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:48, templates/widgets/site/site-navigation.php:24, templates/widgets/site/pages/updates.php:2
+#: templates/widgets/general/sites-navigation.php:48, templates/widgets/site/site-navigation.php:25, templates/widgets/site/pages/updates.php:2
 msgid "Updates"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:49, templates/widgets/site/site-navigation.php:25
+#: templates/widgets/general/sites-navigation.php:49, templates/widgets/site/site-navigation.php:26
 msgid "Developer Tools"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:51, templates/widgets/site/site-navigation.php:27
+#: templates/widgets/general/sites-navigation.php:51, templates/widgets/site/site-navigation.php:28
 msgid "Migrate"
 msgstr ""
 
@@ -2203,7 +2211,7 @@ msgstr ""
 msgid "Please use ACF Pro version greater than 5.9.0 or disable ACF Pro plugin"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/WooCommerce.php:300
+#: core/Modules/Subscription/Plugin/WooCommerce.php:307
 msgid "None"
 msgstr ""
 
@@ -2647,31 +2655,39 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:20
-msgid "Staging Site is %s"
-msgstr ""
-
-#: templates/widgets/site/pages/staging.php:21
+#: templates/widgets/site/pages/staging.php:15
 msgid "Here you can easily manage your staging site for <strong>%s</strong>. Staging allows you to conduct different tests before applying them to your live site."
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:40
+#: templates/widgets/site/pages/staging.php:29
+msgid "Staging Site is %s"
+msgstr ""
+
+#: templates/widgets/site/pages/staging.php:49
 msgid "An error occurred when changing the staging status. Please try again!"
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:36
+#: templates/widgets/site/pages/staging.php:44
+msgid "enabled"
+msgstr ""
+
+#: templates/widgets/site/pages/staging.php:44
+msgid "disabled"
+msgstr ""
+
+#: templates/widgets/site/pages/staging.php:45
 msgid "Staging has been %s"
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:74
+#: templates/widgets/site/pages/staging.php:83
 msgid "Enable Staging"
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:60
+#: templates/widgets/site/pages/staging.php:69
 msgid "Disable Staging"
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:63
+#: templates/widgets/site/pages/staging.php:72
 msgid "Staging Settings"
 msgstr ""
 
@@ -2703,19 +2719,23 @@ msgstr ""
 msgid "The amount of space customer can use when subscribed to this product."
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:88
-msgid "Included Blueprints"
-msgstr ""
-
-#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:91
-msgid "Select which of your Blueprints are allowed to be deployed when a customer has an active subscription to this product."
-msgstr ""
-
-#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:111
-msgid "Excluded Blueprints"
+#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:72
+msgid "Allow Staging"
 msgstr ""
 
 #: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:114
+msgid "Included Blueprints"
+msgstr ""
+
+#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:117
+msgid "Select which of your Blueprints are allowed to be deployed when a customer has an active subscription to this product."
+msgstr ""
+
+#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:137
+msgid "Excluded Blueprints"
+msgstr ""
+
+#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:140
 msgid "Select which of your Blueprints can not be chosen when a customer has an active subscription to this product. Use this setting if you have a lot of blueprints and only want to restrict access to a couple of them."
 msgstr ""
 
