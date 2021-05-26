@@ -1681,7 +1681,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Staging', 'dollie'),
 				'name' => 'wpd_enable_staging',
 				'type' => 'true_false',
-				'instructions' => __('Allow customers to use staging site functionality. Each enabled staging site will add a cost to your monthly subscription. Please check with the Dollie Sales Team.', 'dollie'),
+				'instructions' => __('Allow customers to use staging sites functionality. Each enabled staging site will add a cost to your monthly subscription. Please check with the Dollie Sales Team.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -1695,6 +1695,40 @@ if( function_exists('acf_add_local_field_group') ):
 				'ui' => 1,
 				'ui_on_text' => 'Enable',
 				'ui_off_text' => 'Disable',
+			),
+			array(
+				'key' => 'field_60ace39e8841e',
+				'label' => __('Staging Restrictions', 'dollie'),
+				'name' => 'wpd_staging_restrictions',
+				'type' => 'select',
+				'instructions' => __('Allow all clients to use staging and restrict usage at product level or restrict it by default and allow it only for certain products.', 'dollie'),
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_60a7974f6956c',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'choices' => array(
+					'allow' => 'Allow by default',
+					'restrict' => 'Restrict by default',
+				),
+				'default_value' => false,
+				'allow_null' => 0,
+				'multiple' => 0,
+				'ui' => 0,
+				'return_format' => 'value',
+				'ajax' => 0,
+				'placeholder' => '',
 			),
 		),
 		'location' => array(

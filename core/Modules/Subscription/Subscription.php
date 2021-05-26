@@ -45,6 +45,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		if ( ! $this->module instanceof SubscriptionInterface ) {
 			throw new \Exception( 'Invalid subscription plugin' );
 		}
+
 	}
 
 	public function redirect_to_blueprint( $id ) {
@@ -93,6 +94,10 @@ class Subscription extends Singleton implements SubscriptionInterface {
 
 	public function get_included_blueprints() {
 		return $this->module->get_included_blueprints();
+	}
+
+	public function is_staging_allowed() {
+		return $this->module->is_staging_allowed();
 	}
 
 	/**

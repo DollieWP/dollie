@@ -25,5 +25,6 @@ interface SubscriptionInterface {
 	public function size_limit_reached();
 	public function get_excluded_blueprints();
 	public function get_included_blueprints();
+	public function is_staging_allowed();
 
 }

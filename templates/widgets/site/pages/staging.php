@@ -12,13 +12,22 @@
 
 
 	$container = get_post( get_the_ID() );
+	$message   = sprintf( __( 'Here you can easily manage your staging site for <strong>%s</strong>. Staging allows you to conduct different tests before applying them to your live site.', 'dollie' ), $container->post_name );
+
+	if ( $staging_on && isset( $container_details['Staging URL'] ) ) {
+
+		$staging_url = 'https://' . $container_details['Staging URL'];
+		$message     .= '<br><strong>Staging URL</strong>: ' .
+                        '<a target="_blank" href="' . $staging_url . '">' . $staging_url . '</a>';
+	}
+
 	\Dollie\Core\Utils\Tpl::load(
 		'notice',
 		[
 			'type'    => 'info',
 			'icon'    => 'fas fa-clone',
 			'title'   => sprintf( __( 'Staging Site is %s', 'dollie' ), $status ),
-			'message' => sprintf( __( 'Here you can easily manage your staging site for <strong>%s</strong>. Staging allows you to conduct different tests before applying them to your live site.', 'dollie' ), $container->post_name ),
+			'message' => $message
 		],
 		true
 	);
@@ -32,7 +41,7 @@ if ( isset( $_GET['staging_status'], $_GET['action'] ) ) {
 
 	if ( $response === 'success' ) {
 		$type        = 'success';
-		$text_status = sanitize_text_field( $_GET['action'] ) === 'enabled' ? __( 'Enabled' ) : __( 'Disabled' );
+		$text_status = sanitize_text_field( $_GET['action'] ) === 'enabled' ? __( 'enabled', 'dollie' ) : __( 'disabled', 'dollie' );
 		$text        = sprintf( __( 'Staging has been %s', 'dollie' ), $text_status );
 
 	} else {
@@ -44,7 +53,7 @@ if ( isset( $_GET['staging_status'], $_GET['action'] ) ) {
 		'notice',
 		[
 			'icon'  => 'fas fa-exclamation-circle',
-			'type'  => '',
+			'type'  => $type,
 			'title' => $text,
 		],
 		true

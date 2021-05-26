@@ -16,7 +16,7 @@ use Dollie\Core\Modules\Blueprints;
 class WooCommerce implements SubscriptionInterface {
 
 	const
-		SUB_STATUS_ANY    = 'any',
+		SUB_STATUS_ANY = 'any',
 		SUB_STATUS_ACTIVE = 'active';
 
 	/**
@@ -43,6 +43,7 @@ class WooCommerce implements SubscriptionInterface {
 	 * Require Woocommerce plugins
 	 *
 	 * @param array $plugins
+	 *
 	 * @return array
 	 */
 	public function required_woocommerce( $plugins ) {
@@ -130,7 +131,7 @@ class WooCommerce implements SubscriptionInterface {
 	/**
 	 * Get subscriptions for customer
 	 *
-	 * @param string   $status
+	 * @param string $status
 	 * @param null|int $customer_id
 	 *
 	 * @return array|bool
@@ -164,6 +165,7 @@ class WooCommerce implements SubscriptionInterface {
 			'resources' => [
 				'max_allowed_installs' => 0,
 				'max_allowed_size'     => 0,
+				'staging'              => null
 			],
 		];
 
@@ -187,12 +189,13 @@ class WooCommerce implements SubscriptionInterface {
 				}
 
 				// Filter out non Dollie subscriptions by checking custom meta field.
-				if ( ! get_field( '_wpd_installs', $id ) ) {
+				if ( ! get_field( '_wpd_installs', $id ) || ! get_field( '_wpd_staging', $id ) ) {
 					continue;
 				}
 
 				$installs = (int) get_field( '_wpd_installs', $id );
 				$max_size = get_field( '_wpd_max_size', $id );
+				$staging  = get_field( '_wpd_staging', $id );
 
 				if ( ! $max_size ) {
 					$max_size = 0;
@@ -210,7 +213,11 @@ class WooCommerce implements SubscriptionInterface {
 
 				$data['resources']['max_allowed_installs'] += $installs * $quantity;
 				$data['resources']['max_allowed_size']     += $max_size * $quantity;
-				$data['resources']['name']                  = $item_data['name'];
+				$data['resources']['name']                 = $item_data['name'];
+
+				if ( $data['resources']['staging'] === null && in_array( $staging, [ 'yes', 'no' ] ) ) {
+					$data['resources']['staging'] = $staging === 'yes';
+				}
 			}
 		}
 
@@ -380,6 +387,31 @@ class WooCommerce implements SubscriptionInterface {
 		$product   = reset( $get_first );
 
 		return $product['included_blueprints'];
+	}
+
+	public function is_staging_allowed( $user_id = null ) {
+		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
+			return true;
+		}
+		if ( $user_id === null ) {
+			$user_id = get_current_user_id();
+		}
+
+		if ( ! get_field( 'wpd_enable_staging', 'options' ) ) {
+			return false;
+		}
+
+		$subscriptions = $this->get_customer_subscriptions( 'active', $user_id );
+
+		// apply overrides at product level
+		if ( isset( $subscriptions['resources']['staging'] ) ) {
+			return $subscriptions['resources']['staging'];
+		}
+
+		$default = get_field( 'wpd_staging_restrictions', 'options' );
+
+		return $default === 'allow';
+
 	}
 
 }
