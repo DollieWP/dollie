@@ -14,12 +14,12 @@
 	if ( $staging_on && isset( $container_details['Staging URL'] ) ) {
 
 		$staging_url = 'https://' . $container_details['Staging URL'];
-		$message     .= '<br>' .
-		                sprintf(
-			                '<strong>Staging URL</strong>: <a target="_blank" href="%s">%s</a>',
-			                $staging_url,
-			                $staging_url
-		                );
+		$message    .= '<br>' .
+						sprintf(
+							'<strong>Staging URL</strong>: <a target="_blank" href="%s">%s</a>',
+							$staging_url,
+							$staging_url
+						);
 	}
 
 	\Dollie\Core\Utils\Tpl::load(
@@ -28,7 +28,7 @@
 			'type'    => 'info',
 			'icon'    => 'fas fa-clone',
 			'title'   => sprintf( __( 'Staging Site is %s', 'dollie' ), $status ),
-			'message' => $message
+			'message' => $message,
 		],
 		true
 	);
@@ -40,7 +40,7 @@ if ( isset( $_GET['staging_status'], $_GET['action'] ) ) {
 
 	$response = sanitize_text_field( $_GET['staging_status'] );
 
-	if ( $response === 'success' ) {
+	if ( 'success' === $response ) {
 		$type        = 'success';
 		$text_status = sanitize_text_field( $_GET['action'] ) === 'enabled' ? __( 'enabled', 'dollie' ) : __( 'disabled', 'dollie' );
 		$text        = sprintf( __( 'Staging has been %s', 'dollie' ), $text_status );
@@ -64,23 +64,26 @@ if ( isset( $_GET['staging_status'], $_GET['action'] ) ) {
 
 <?php if ( $staging_on ) : ?>
 
-    <div class="dol-mt-6">
-        <form action="" method="post">
-            <button class="dol-bg-red-700" name="staging_change" value="0">
+	<div class="dol-mt-6">
+		<form action="" method="post">
+			<input type="hidden" name="staging_change" value="1">
+
+			<button type="submit" class="dol-bg-red-700" id="staging-form-submit">
 				<?php esc_html_e( 'Disable Staging', 'dollie' ); ?>
-            </button>
-            <a href="<?php echo esc_url( $settings_url ); ?>" class="button" target="_blank">
+			</button>
+			<a href="<?php echo esc_url( $settings_url ); ?>" class="button" target="_blank">
 				<?php esc_html_e( 'Staging Settings', 'dollie' ); ?>
-            </a>
+			</a>
 			<?php wp_nonce_field( 'wpd_staging' ); ?>
-        </form>
-    </div>
+		</form>
+	</div>
 
 <?php else : ?>
 
 	<?php
-	if ( dollie()->staging_sites_limit_reached() ): ?>
-        <div class="dol-mt-6">
+	if ( dollie()->staging_sites_limit_reached() ) :
+		?>
+		<div class="dol-mt-6">
 			<?php
 			\Dollie\Core\Utils\Tpl::load(
 				'notice',
@@ -94,16 +97,28 @@ if ( isset( $_GET['staging_status'], $_GET['action'] ) ) {
 
 			return;
 			?>
-        </div>
+		</div>
 
 	<?php endif; ?>
 
-    <div class="dol-mt-6">
-        <form action="" method="post">
-            <button name="staging_change" value="1">
+	<div class="dol-mt-6">
+		<form action="" method="post">
+			<input type="hidden" name="staging_change" value="1">
+
+			<button type="submit" id="staging-form-submit">
 				<?php esc_html_e( 'Enable Staging', 'dollie' ); ?>
-            </button>
+			</button>
 			<?php wp_nonce_field( 'wpd_staging' ); ?>
-        </form>
-    </div>
+		</form>
+	</div>
 <?php endif; ?>
+
+<script>
+	jQuery(document).ready(function($) {
+		$('#staging-form-submit').on('click', function(e) {
+			$(this).attr('disabled', true);
+
+			$(this).parent('form').submit();
+		});
+	});
+</script>
