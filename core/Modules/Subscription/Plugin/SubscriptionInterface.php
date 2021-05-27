@@ -23,8 +23,7 @@ interface SubscriptionInterface {
 	public function subscription_name();
 	public function site_limit_reached();
 	public function size_limit_reached();
-	public function get_excluded_blueprints();
-	public function get_included_blueprints();
+	public function get_blueprints_exception( $type = 'excluded' );
 	public function has_staging();
 	public function staging_sites_limit_reached();
 

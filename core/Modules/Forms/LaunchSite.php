@@ -90,7 +90,7 @@ class LaunchSite extends Singleton {
 	public function submission_callback( $form, $fields, $args ) {
 
 		$blueprint   = Forms::instance()->get_form_blueprint( $form, $args );
-		$domain = af_get_field( 'site_url' );
+		$domain      = af_get_field( 'site_url' );
 		$deploy_data = [
 			'email'     => af_get_field( 'site_admin_email' ),
 			'domain'    => $domain,
@@ -99,7 +99,7 @@ class LaunchSite extends Singleton {
 			'site_type' => af_get_field( 'site_type' ),
 		];
 
-		$deploy_data = apply_filters('dollie/launch_site/form_deploy_data', $deploy_data, $domain, $blueprint );
+		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data, $domain, $blueprint );
 
 		// add WP site details.
 		$setup_data = [

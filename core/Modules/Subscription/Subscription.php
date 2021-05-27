@@ -88,12 +88,8 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		return $this->module->size_limit_reached();
 	}
 
-	public function get_excluded_blueprints() {
-		return $this->module->get_excluded_blueprints();
-	}
-
-	public function get_included_blueprints() {
-		return $this->module->get_included_blueprints();
+	public function get_blueprints_exception( $type = 'excluded' ) {
+		return $this->module->get_blueprints_exception( $type );
 	}
 
 	public function has_staging() {

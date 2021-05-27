@@ -28,6 +28,8 @@ class WooCommerce implements SubscriptionInterface {
 		add_action( 'after_setup_theme', [ $this, 'add_theme_support' ] );
 
 		add_filter( 'dollie/required_plugins', [ $this, 'required_woocommerce' ] );
+
+		add_filter( 'dollie/blueprints', [ $this, 'filter_blueprints' ] );
 	}
 
 	/**
@@ -149,6 +151,11 @@ class WooCommerce implements SubscriptionInterface {
 			$status = self::SUB_STATUS_ANY;
 		}
 
+		$transient = 'wpd_woo_subscription_' . $customer_id . '_' . $status;
+		if ( $data = get_transient( $transient ) ) {
+			return $data;
+		}
+
 		$subscriptions = wcs_get_subscriptions(
 			[
 				'customer_id'         => $customer_id,
@@ -218,6 +225,10 @@ class WooCommerce implements SubscriptionInterface {
 				$data['resources']['staging_max_allowed'] += $staging * $quantity;
 
 			}
+		}
+
+		if ( ! empty( $data['plans'] ) ) {
+			set_transient( $transient, $data, 30 );
 		}
 
 		return $data;
@@ -355,37 +366,31 @@ class WooCommerce implements SubscriptionInterface {
 	/**
 	 * Get excluded blueprints
 	 *
-	 * @return bool
+	 * @return array|boolean
 	 */
-	public function get_excluded_blueprints() {
-		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
+	public function get_blueprints_exception( $type = 'excluded' ) {
 
-		if ( ! $subscription ) {
+		$data          = [];
+		$type          .= '_blueprints';
+		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
+
+		if ( empty( $subscriptions ) ) {
 			return false;
 		}
 
-		$get_first = $subscription['plans']['products'];
-		$product   = reset( $get_first );
+		foreach ( $subscriptions['plans']['products'] as $product ) {
+			if ( isset( $product[ $type ] ) && ! empty( $product[ $type ] ) ) {
+				foreach ( $product[ $type ] as $bp ) {
+					$data[ $bp ] = $bp;
+				}
+			}
+		}
 
-		return $product['excluded_blueprints'];
-	}
-
-	/**
-	 * Get included blueprints
-	 *
-	 * @return bool
-	 */
-	public function get_included_blueprints() {
-		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
-
-		if ( ! $subscription ) {
+		if ( empty( $data ) ) {
 			return false;
 		}
 
-		$get_first = $subscription['plans']['products'];
-		$product   = reset( $get_first );
-
-		return $product['included_blueprints'];
+		return $data;
 	}
 
 	public function has_staging( $user_id = null ) {
@@ -449,6 +454,27 @@ class WooCommerce implements SubscriptionInterface {
 		$total_site = (int) dollie()->count_customer_staging_sites( $user_id );
 
 		return ( $subscriptions['resources']['staging_max_allowed'] - $total_site ) <= 0;
+	}
+
+	public function filter_blueprints( $blueprints ) {
+		if ( ! empty( $blueprints ) ) {
+
+			$included = $this->get_blueprints_exception( 'included' );
+			if ( ! empty( $included ) ) {
+				return array_intersect_key( $blueprints, $included );
+			}
+
+			$excluded = $this->get_blueprints_exception();
+			if ( ! empty( $excluded ) ) {
+				foreach ( $excluded as $bp_id ) {
+					if ( isset( $blueprints[ $bp_id ] ) ) {
+						unset( $blueprints[ $bp_id ] );
+					}
+				}
+			}
+		}
+
+		return $blueprints;
 	}
 
 }
