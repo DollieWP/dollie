@@ -86,7 +86,7 @@ class CustomersList extends \Elementor\Widget_Base {
 		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			echo esc_html__( 'Admin access only', 'dollie' );
+			return false;
 		}
 
 		$settings = $this->get_settings_for_display();
