@@ -4,7 +4,6 @@ $layout = $settings['layout'];
 $colors = $settings['colors'];
 
 use Dollie\Core\Modules\AccessControl;
-use Dollie\Core\Modules\Subscription\Subscription;
 
 $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_status( $current_id );
 
@@ -28,7 +27,7 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 					'migrate'         => '<i class="fas fa-truck-moving"></i>' . __( 'Migrate', 'dollie' ),
 				];
 
-				if ( Subscription::instance()->is_staging_allowed() ) {
+				if ( dollie()->has_staging() ) {
 					$menu['staging'] = '<i class="fas fa-clone"></i>' . esc_html__( 'Staging', 'dollie' );
 				}
 

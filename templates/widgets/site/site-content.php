@@ -303,7 +303,7 @@ if ( 'stop' === $status ) :
 			],
 			true
 		);
-	} elseif ( 'staging' === $sub_page && \Dollie\Core\Modules\Subscription\Subscription::instance()->is_staging_allowed() ) {
+	} elseif ( 'staging' === $sub_page && dollie()->has_staging() ) {
 		\Dollie\Core\Utils\Tpl::load(
 			'widgets/site/pages/staging',
 			[

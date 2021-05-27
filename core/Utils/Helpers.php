@@ -440,6 +440,36 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * @return int
+	 */
+	public function count_customer_staging_sites( $user_id = null ) {
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+
+		$query = new WP_Query(
+			[
+				'author'        => $user_id,
+				'post_type'     => 'container',
+				'post_per_page' => -1,
+				'post_status'   => 'publish',
+				'meta_query'    => [
+					[
+						'key'   => 'wpd_has_staging',
+						'value' => 'yes',
+					],
+				],
+			]
+		);
+
+		$total = $query->found_posts;
+
+		wp_reset_postdata();
+
+		return $total;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function is_live() {
@@ -738,6 +768,20 @@ class Helpers extends Singleton {
 	 */
 	public function has_subscription() {
 		return Subscription::instance()->has_subscription();
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function has_staging() {
+		return Subscription::instance()->has_staging();
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function staging_sites_limit_reached() {
+		return Subscription::instance()->staging_sites_limit_reached();
 	}
 
 	/**

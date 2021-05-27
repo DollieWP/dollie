@@ -1,15 +1,12 @@
 <div class="dol-my-6">
 	<?php
 
-	use Dollie\Core\Utils\Api;
-
 	$container_details = \Dollie\Core\Modules\Container::instance()->get_remote_stats( get_the_ID(), true );
 	$staging_on        = isset( $container_details['Staging'] ) && $container_details['Staging'];
 	$status            = $staging_on ? __( 'Enabled', 'dollie' ) : __( 'Disabled', 'dollie' );
 
 	$settings_url = 'wp-admin/admin.php?page=wpstagecoach';
 	$settings_url = dollie()->get_customer_login_url( get_the_ID(), $settings_url );
-
 
 	$container = get_post( get_the_ID() );
 	$message   = sprintf( __( 'Here you can easily manage your staging site for <strong>%s</strong>. Staging allows you to conduct different tests before applying them to your live site.', 'dollie' ), $container->post_name );
@@ -80,6 +77,24 @@ if ( isset( $_GET['staging_status'], $_GET['action'] ) ) {
     </div>
 
 <?php else : ?>
+
+	<?php
+	if ( dollie()->staging_sites_limit_reached() ): ?>
+		<?php
+		\Dollie\Core\Utils\Tpl::load(
+			'notice',
+			[
+				'icon'  => 'fas fa-exclamation-circle',
+				'type'  => 'error',
+				'title' => esc_html__( 'You have reached your staging sites limit. Please upgrade your subscription!', 'dollie' ),
+			],
+			true
+		);
+
+		return;
+		?>
+
+	<?php endif; ?>
 
     <div class="dol-mt-6">
         <form action="" method="post">

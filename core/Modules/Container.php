@@ -1499,6 +1499,11 @@ class Container extends Singleton {
 			}
 			$status = (int) $_POST['staging_change'];
 
+			// make sure we can't create staging if limit is reached
+			if ( $status === 1 && dollie()->staging_sites_limit_reached() ) {
+				return;
+			}
+
 			$response = Api::process_response(
 				Api::post(
 					Api::ROUTE_CONTAINER_STAGING,
@@ -1511,6 +1516,11 @@ class Container extends Singleton {
 
 			if ( $response === true ) {
 				$response_param = 'success';
+				if ( $status === 1 ) {
+					update_post_meta( get_the_ID(), 'wpd_has_staging', 'yes' );
+				} else {
+					delete_post_meta( get_the_ID(), 'wpd_has_staging' );
+				}
 			} else {
 				$response_param = 'error';
 			}

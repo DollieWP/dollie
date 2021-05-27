@@ -165,7 +165,7 @@ class WooCommerce implements SubscriptionInterface {
 			'resources' => [
 				'max_allowed_installs' => 0,
 				'max_allowed_size'     => 0,
-				'staging'              => null
+				'staging_max_allowed'  => 0,
 			],
 		];
 
@@ -195,7 +195,7 @@ class WooCommerce implements SubscriptionInterface {
 
 				$installs = (int) get_field( '_wpd_installs', $id );
 				$max_size = get_field( '_wpd_max_size', $id );
-				$staging  = get_field( '_wpd_staging', $id );
+				$staging  = get_field( '_wpd_staging_installs', $id );
 
 				if ( ! $max_size ) {
 					$max_size = 0;
@@ -215,9 +215,8 @@ class WooCommerce implements SubscriptionInterface {
 				$data['resources']['max_allowed_size']     += $max_size * $quantity;
 				$data['resources']['name']                 = $item_data['name'];
 
-				if ( $data['resources']['staging'] === null && in_array( $staging, [ 'yes', 'no' ] ) ) {
-					$data['resources']['staging'] = $staging === 'yes';
-				}
+				$data['resources']['staging_max_allowed'] += $staging * $quantity;
+
 			}
 		}
 
@@ -389,7 +388,7 @@ class WooCommerce implements SubscriptionInterface {
 		return $product['included_blueprints'];
 	}
 
-	public function is_staging_allowed( $user_id = null ) {
+	public function has_staging( $user_id = null ) {
 		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return true;
 		}
@@ -406,7 +405,7 @@ class WooCommerce implements SubscriptionInterface {
 			$user_id = get_current_user_id();
 		}
 
-		$subscriptions = $this->get_customer_subscriptions( 'active', $user_id );
+		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user_id );
 
 		// if no subscription is active
 		if ( empty( $subscriptions ) ) {
@@ -414,14 +413,42 @@ class WooCommerce implements SubscriptionInterface {
 		}
 
 		// apply overrides at product level
-		if ( isset( $subscriptions['resources']['staging'] ) ) {
-			return $subscriptions['resources']['staging'];
+		if ( isset( $subscriptions['resources']['staging_max_allowed'] ) ) {
+			return $subscriptions['resources']['staging_max_allowed'] > 0;
 		}
 
-		$default = get_field( 'wpd_staging_restrictions', 'options' );
+		return false;
 
-		return $default === 'allow';
+	}
 
+	/**
+	 * Check if site limit has been reached
+	 *
+	 * @return bool
+	 */
+	public function staging_sites_limit_reached( $user_id = null ) {
+
+		if ( current_user_can( 'manage_options' ) ) {
+			return false;
+		}
+
+		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
+			return false;
+		}
+
+		if ( $user_id === null ) {
+			$user_id = get_current_user_id();
+		}
+
+		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user_id );
+
+		if ( ! is_array( $subscriptions ) || empty( $subscriptions ) ) {
+			return false;
+		}
+
+		$total_site = (int) dollie()->count_customer_staging_sites( $user_id );
+
+		return ( $subscriptions['resources']['staging_max_allowed'] - $total_site ) <= 0;
 	}
 
 }
