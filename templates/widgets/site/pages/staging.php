@@ -80,19 +80,21 @@ if ( isset( $_GET['staging_status'], $_GET['action'] ) ) {
 
 	<?php
 	if ( dollie()->staging_sites_limit_reached() ): ?>
-		<?php
-		\Dollie\Core\Utils\Tpl::load(
-			'notice',
-			[
-				'icon'  => 'fas fa-exclamation-circle',
-				'type'  => 'error',
-				'title' => esc_html__( 'You have reached your staging sites limit. Please upgrade your subscription!', 'dollie' ),
-			],
-			true
-		);
+        <div class="dol-mt-6">
+			<?php
+			\Dollie\Core\Utils\Tpl::load(
+				'notice',
+				[
+					'icon'  => 'fas fa-exclamation-circle',
+					'type'  => 'error',
+					'title' => esc_html__( 'You have reached your staging sites limit. Please upgrade your subscription!', 'dollie' ),
+				],
+				true
+			);
 
-		return;
-		?>
+			return;
+			?>
+        </div>
 
 	<?php endif; ?>
 
