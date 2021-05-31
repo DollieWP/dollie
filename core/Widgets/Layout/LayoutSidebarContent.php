@@ -19,19 +19,6 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 
 	private static $section_templates = null;
 
-	public function __construct($data = [], $args = null)
-	{
-		parent::__construct($data, $args);
-
-		wp_register_script(
-			'dollie-layout-alpine',
-			DOLLIE_ASSETS_URL . 'js/alpine.min.js',
-			[],
-			DOLLIE_VERSION,
-			true
-		);
-	}
-
 	public function get_name() {
 		return 'dollie-layout-sidebar-content';
 	}

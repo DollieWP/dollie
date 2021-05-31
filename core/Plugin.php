@@ -282,6 +282,14 @@ class Plugin extends Singleton {
 			'1.1.0',
 			true
 		);
+
+		wp_register_script(
+			'dollie-layout-alpine',
+			DOLLIE_ASSETS_URL . 'js/alpine.min.js',
+			[],
+			DOLLIE_VERSION,
+			true
+		);
 	}
 
 	/**

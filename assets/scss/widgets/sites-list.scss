@@ -137,12 +137,17 @@ input[type="text"] {
   .dol-sites-container {
     .dol-sites-item {
       &.dol-sites-list-item {
+
+        .dol-check-wrap {
+          @apply dol-w-1/12;
+        }
+
         .dol-sites-image {
           @apply dol-w-2/12 dol-mb-0;
         }
 
         .dol-sites-name {
-          @apply dol-w-6/12;
+          @apply dol-w-4/12;
         }
 
         .dol-sites-version {
@@ -150,7 +155,7 @@ input[type="text"] {
         }
 
         .dol-sites-client {
-          @apply dol-w-2/12 dol-mt-0;
+          @apply dol-w-1/12 dol-mt-0;
         }
 
         .dol-sites-controls {
@@ -228,3 +233,63 @@ input[type="text"] {
     }
   }
 }
+
+/* Filters */
+:root {
+  --disabled: #959495;
+}
+
+.dol-checkbox {
+  display: grid;
+  grid-template-columns: min-content auto;
+  grid-gap: 0.5em;
+  font-size: 1.2rem;
+  color: var(--d-primary);
+
+  &--disabled {
+    color: var(--disabled);
+  }
+}
+
+.checkbox__control {
+  display: inline-grid;
+  width: 1em;
+  height: 1em;
+  border-radius: 0.25em;
+  border: 0.1em solid currentColor;
+
+  svg {
+    transition: transform 0.1s ease-in 25ms;
+    transform: scale(0);
+    transform-origin: bottom left;
+  }
+}
+
+.checkbox__input {
+  display: grid;
+  grid-template-areas: "checkbox";
+
+  > * {
+    grid-area: checkbox;
+  }
+
+  input {
+    opacity: 0;
+    width: 1em;
+    height: 1em;
+
+    &:focus + .checkbox__control {
+      box-shadow: 0 0 0 0.05em #fff, 0 0 0.15em 0.1em currentColor;
+    }
+
+    &:checked + .checkbox__control svg {
+      transform: scale(1);
+    }
+
+    &:disabled + .checkbox__control {
+      color: var(--disabled);
+    }
+  }
+}
+
+

@@ -2404,13 +2404,17 @@ input[type="text"].dol-search-input:focus {
 }
 
 @media (min-width: 768px) {
+  .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-check-wrap {
+    width: 8.333333%;
+  }
+
   .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-image {
     margin-bottom: 0px;
     width: 16.666667%;
   }
 
   .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-name {
-    width: 50%;
+    width: 33.333333%;
   }
 
   .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-version {
@@ -2420,7 +2424,7 @@ input[type="text"].dol-search-input:focus {
 
   .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-client {
     margin-top: 0px;
-    width: 16.666667%;
+    width: 8.333333%;
   }
 
   .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-controls {
@@ -2525,6 +2529,66 @@ input[type="text"].dol-search-input:focus {
   background-color: rgba(82, 82, 82, var(--tw-bg-opacity));
   --tw-text-opacity: 1;
   color: rgba(38, 38, 38, var(--tw-text-opacity));
+}
+
+/* Filters */
+
+:root {
+  --disabled: #959495;
+}
+
+.dol-checkbox {
+  display: grid;
+  grid-template-columns: -webkit-min-content auto;
+  grid-template-columns: min-content auto;
+  grid-gap: 0.5em;
+  font-size: 1.2rem;
+  color: var(--d-primary);
+}
+
+.dol-checkbox--disabled {
+  color: var(--disabled);
+}
+
+.checkbox__control {
+  display: inline-grid;
+  width: 1em;
+  height: 1em;
+  border-radius: 0.25em;
+  border: 0.1em solid currentColor;
+}
+
+.checkbox__control svg {
+  transition: transform 0.1s ease-in 25ms;
+  transform: scale(0);
+  transform-origin: bottom left;
+}
+
+.checkbox__input {
+  display: grid;
+  grid-template-areas: "checkbox";
+}
+
+.checkbox__input > * {
+  grid-area: checkbox;
+}
+
+.checkbox__input input {
+  opacity: 0;
+  width: 1em;
+  height: 1em;
+}
+
+.checkbox__input input:focus + .checkbox__control {
+  box-shadow: 0 0 0 0.05em #fff, 0 0 0.15em 0.1em currentColor;
+}
+
+.checkbox__input input:checked + .checkbox__control svg {
+  transform: scale(1);
+}
+
+.checkbox__input input:disabled + .checkbox__control {
+  color: var(--disabled);
 }
 
 /* Search input */
