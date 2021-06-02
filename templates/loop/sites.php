@@ -12,7 +12,32 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 ?>
 
 <div class="dol-mb-6 dol-widget-site-search">
+
     <div class="dol-flex dol-flex-wrap md:dol-justify-between">
+
+        <div class="dol-check-wrap">
+            <label class="dol-checkbox">
+              <span class="checkbox__input">
+                <input type="checkbox" name="checkbox">
+                <span class="checkbox__control">
+                  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' aria-hidden="true" focusable="false">
+                    <path fill='none' stroke='currentColor' stroke-width='3' d='M1.73 12.91l6.37 6.37L22.79 4.59'/></svg>
+                </span>
+              </span>
+                <span class="radio__label"></span>
+            </label>
+        </div>
+
+        <div class="dol-relative dol-w-full md:dol-w-auto">
+            <div class="dol-absolute dol-left-0 dol-top-0 dol-ml-4 dol-flex dol-items-center dol-h-full">
+                <i class="fas fa-search dol-text-ash-500"></i>
+            </div>
+            <input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full md:dol-w-64"
+                   data-list-type="<?php echo esc_attr( $view_type ); ?>"
+                   data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>" data-search-term=""
+                   placeholder="<?php esc_html_e( 'Search for a site...', 'dollie' ); ?>">
+        </div>
+
         <div class="dol-flex dol-items-center dol-rounded dol-overflow-hidden dol-mb-4 md:dol-mb-0 dol-h-10 md:dol-h-auto">
 			<span class="dol-list-switch dol-inline-flex <?php echo esc_attr( $list_btn_active ); ?>"
                   data-list-type="list">
@@ -22,15 +47,6 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
                   data-list-type="grid">
 				<i class="fas fa-th"></i>
 			</span>
-        </div>
-        <div class="dol-relative dol-w-full md:dol-w-auto">
-            <div class="dol-absolute dol-left-0 dol-top-0 dol-ml-4 dol-flex dol-items-center dol-h-full">
-                <i class="fas fa-search dol-text-ash-500"></i>
-            </div>
-            <input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full md:dol-w-64"
-                   data-list-type="<?php echo esc_attr( $view_type ); ?>"
-                   data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>" data-search-term=""
-                   placeholder="<?php esc_html_e( 'Search for a site...', 'dollie' ); ?>">
         </div>
     </div>
 </div>
