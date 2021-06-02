@@ -67,7 +67,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'max'               => '',
 					'step'              => '',
 				],
-				[
+				/*[
 					'key' => 'field_60ace0aedf140',
 					'label' => __('Staging Sites', 'dollie'),
 					'name' => '_wpd_staging_installs',
@@ -88,7 +88,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'min' => '',
 					'max' => '',
 					'step' => '',
-				],
+				],*/
 				[
 					'key'               => 'field_5e2c1ac7c1542',
 					'label'             => __( 'Blueprints', 'dollie' ),
