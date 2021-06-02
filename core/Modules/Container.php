@@ -16,7 +16,6 @@ use WP_Query;
 
 /**
  * Class Container
- *
  * @package Dollie\Core\Modules
  */
 class Container extends Singleton {
@@ -41,7 +40,10 @@ class Container extends Singleton {
 		add_action( 'template_redirect', [ $this, 'remove_details_transients' ] );
 		add_action( 'template_redirect', [ $this, 'update_details' ] );
 
+		add_action( 'before_delete_post', [ $this, 'run_before_delete_action' ] );
 		add_action( 'untrashed_post', [ $this, 'run_untrash_action' ] );
+		add_action( 'wp_trash_post', [ $this, 'run_trash_action' ] );
+		add_filter( 'gettext', [ $this, 'override_empty_trash' ], 50, 3 );
 
 		add_action( 'add_meta_boxes', [ $this, 'rename_author_box_title' ] );
 		add_filter( 'manage_container_posts_columns', [ $this, 'rename_author_box_column' ] );
@@ -57,6 +59,11 @@ class Container extends Singleton {
 
 		add_action( 'acf/input/admin_footer', [ $this, 'change_role_notice' ] );
 		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
+
+		add_filter( 'admin_body_class', [ $this, 'add_container_type_class' ] );
+
+
+		add_action( 'template_redirect', [ $this, 'staging_change_action' ] );
 	}
 
 	/**
@@ -200,7 +207,7 @@ class Container extends Singleton {
 	 */
 	public function rewrite_rules_container_sub_pages() {
 		$post_type = 'site';
-		$sub_pages = '(dashboard|plugins|themes|emails|domains|backups|updates|developer-tools|blueprints|delete|migrate)';
+		$sub_pages = '(dashboard|plugins|themes|emails|domains|backups|updates|developer-tools|blueprints|delete|migrate|staging)';
 
 		add_rewrite_rule(
 			$post_type . '\/([^\/]+)(?:\/' . $sub_pages . ')\/?$',
@@ -332,8 +339,8 @@ class Container extends Singleton {
 	 * Update WP site url option
 	 *
 	 * @param $new_url
-	 * @param string  $old_url
-	 * @param null    $container_id
+	 * @param string $old_url
+	 * @param null $container_id
 	 *
 	 * @return bool|mixed
 	 */
@@ -444,7 +451,7 @@ class Container extends Singleton {
 	 *
 	 * @return array
 	 */
-	public function get_container_details( $post_id ) {
+	public function get_container_details( $post_id, $force = false ) {
 		$current_user = wp_get_current_user();
 		$post         = get_post( $post_id );
 		$post_slug    = $post->post_name;
@@ -466,7 +473,7 @@ class Container extends Singleton {
 			$details_transient_id = $post_slug . '_get_container_wp_info';
 
 			// Make the request
-			$details_request = dollie()->container_api_request( $details_url, $details_transient_id, 'container', $request->id );
+			$details_request = dollie()->container_api_request( $details_url, $details_transient_id, 'container', $request->id, $force );
 
 			// Decode to PHP currently used
 			$data['container_details'] = json_decode( json_encode( $details_request ), true );
@@ -495,17 +502,10 @@ class Container extends Singleton {
 				}
 			}
 
-			// Now that we have our container stats get our secret key
-			$stats_url          = dollie()->get_container_url( $post_id ) . WP::PLATFORM_PATH . 'container/details/stats.php';
-			$stats_transient_id = $post_slug . '_get_container_site_info';
+			// get stats data
+			$data['site_data'] = $this->get_remote_stats( $post_id, $force );
 
-			// Make the request
-			$stats_request = dollie()->container_api_request( $stats_url, $stats_transient_id, 'container', $request->id );
-
-			// Decode to PHP currently used
-			$data['site_data'] = json_decode( json_encode( $stats_request ), true );
-
-			if ( ! empty( $data['site_data'] ) && ! empty( $stats_request ) ) {
+			if ( ! empty( $data['site_data'] ) && is_array( $data['site_data'] ) ) {
 				update_post_meta( $post_id, 'wpd_installation_themes', $data['site_data']['Theme Name'] );
 				update_post_meta( $post_id, 'wpd_installation_site_icon', $data['site_data']['Site Icon'] );
 				update_post_meta( $post_id, 'wpd_installation_site_theme_screenshot', $data['site_data']['Theme Screenshot'] );
@@ -540,6 +540,29 @@ class Container extends Singleton {
 		return $data;
 	}
 
+	public function get_remote_stats( $post_id, $force = false ) {
+
+		$post      = get_post( $post_id );
+		$post_slug = $post->post_name;
+		$request   = $this->get_customer_details( $post_id );
+
+		if ( empty( $request ) ) {
+			return false;
+		}
+
+		$stats_url          = dollie()->get_container_url( $post_id ) . WP::PLATFORM_PATH . 'container/details/stats.php';
+		$stats_transient_id = $post_slug . '_get_container_site_info';
+
+		// Make the request
+		$stats_request = $this->do_api_request( $stats_url, $stats_transient_id, 'container', $request->id, $force );
+
+		if ( empty( $stats_request ) ) {
+			return false;
+		}
+
+		return json_decode( json_encode( $stats_request ), true );
+	}
+
 	/**
 	 * Get container details
 	 *
@@ -547,17 +570,18 @@ class Container extends Singleton {
 	 *
 	 * @return array|object
 	 */
-	public function get_customer_details( $container_id = null ) {
+	public function get_customer_details( $container_id = null, $force = false ) {
 		$container = dollie()->get_current_object( $container_id );
+		$transient = 'dollie_s5_container_details_' . $container->slug;
 
 		if ( ! $container->id ) {
 			return [];
 		}
 
-		$request = get_transient( 'dollie_s5_container_details_' . $container->slug );
+		$request = get_transient( $transient );
 
 		// Only make request if it's not cached in a transient.
-		if ( empty( $request ) ) {
+		if ( empty( $request ) || $force === true ) {
 
 			$container_id = get_post_meta( $container->id, 'wpd_container_id', true );
 
@@ -581,7 +605,7 @@ class Container extends Singleton {
 			$request = dollie()->maybe_decode_json( $request_response['body'], true );
 
 			// Set Transient.
-			set_transient( 'dollie_s5_container_details_' . $container->slug, $request, MINUTE_IN_SECONDS * 150000 );
+			set_transient( $transient, $request, MINUTE_IN_SECONDS * 15 );
 
 			// Update Post Meta.
 			WP::instance()->store_container_data( $container->id, $request );
@@ -596,11 +620,11 @@ class Container extends Singleton {
 	 * @param $url
 	 * @param $transient_id
 	 * @param $user_auth
-	 * @param null         $user_pass
+	 * @param null $user_pass
 	 *
 	 * @return array|mixed
 	 */
-	public function do_api_request( $url, $transient_id = null, $user_auth = null, $user_pass = null ) {
+	public function do_api_request( $url, $transient_id = null, $user_auth = null, $user_pass = null, $force = false ) {
 		if ( null === $user_auth || null === $user_pass ) {
 			return [];
 		}
@@ -613,7 +637,7 @@ class Container extends Singleton {
 		}
 
 		// Only make request if it's not cached in a transient.
-		if ( empty( $request ) ) {
+		if ( empty( $request ) || $force ) {
 			$response = wp_remote_request(
 				$url,
 				[
@@ -672,7 +696,7 @@ class Container extends Singleton {
 	/**
 	 * Get container login info
 	 *
-	 * @param null   $container_id
+	 * @param null $container_id
 	 * @param string $site_username
 	 *
 	 * @return mixed
@@ -783,7 +807,8 @@ class Container extends Singleton {
 			delete_post_meta( $post_id, 'wpd_scheduled_for_removal' );
 			delete_post_meta( $post_id, 'wpd_undeploy_container_at' );
 			delete_post_meta( $post_id, 'wpd_scheduled_for_undeployment' );
-			// Update the site status so it counts as an active site
+
+			// Update the site status so it counts as an active site.
 			wp_update_post(
 				[
 					'ID'          => $post_id,
@@ -798,22 +823,15 @@ class Container extends Singleton {
 			$trigger_date = get_post_meta( $post_id, 'wpd_stop_container_at', true );
 
 			// If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
-			if ( $trigger_date < $today ) {
+			if ( ( $trigger_date && $trigger_date < $today ) || ! $trigger_date ) {
 				$delay_in_days = 7;
 
-				// Calculate the "stop" date and set it 3 days into the future.
+				// Calculate the "remove" date and set it 3 days into the future.
 				$trigger_date = mktime( 0, 0, 0, date( 'm' ), date( 'd' ) + $delay_in_days, date( 'Y' ) );
 				$this->set_status( $post_id, 'stopped' );
 				update_post_meta( $post_id, 'wpd_scheduled_for_undeployment', 'yes' );
 				update_post_meta( $post_id, 'wpd_undeploy_container_at', $trigger_date );
 
-				// Update the site status so it won't count as an active site.
-				wp_update_post(
-					[
-						'ID'          => $post_id,
-						'post_status' => 'draft',
-					]
-				);
 			}
 
 			Log::add_front( Log::WP_SITE_REMOVAL_SCHEDULED, $current_query, $site );
@@ -832,6 +850,18 @@ class Container extends Singleton {
 	}
 
 	/**
+	 * Start container after trash
+	 *
+	 * @param $post_id
+	 */
+	public function run_trash_action( $post_id ) {
+		$post_type = get_post( $post_id )->post_type;
+		if ( 'container' === $post_type ) {
+			$this->trigger( 'stop', $post_id );
+		}
+	}
+
+	/**
 	 * Start container after untrash
 	 *
 	 * @param $post_id
@@ -843,12 +873,60 @@ class Container extends Singleton {
 		}
 	}
 
+
+	/**
+	 * Action on empty trash
+	 *
+	 * @param $post_id
+	 */
+	public function run_before_delete_action( $post_id ) {
+		$post_type = get_post( $post_id )->post_type;
+		if ( 'container' === $post_type ) {
+			$this->trigger( 'undeploy', $post_id );
+		}
+	}
+
+	/**
+	 * Override the "Empty Trash" string on admin pages for a custom post type
+	 *
+	 * @param string $translated_text translation of $text from previous filter calls
+	 * @param string $text original text string
+	 * @param string $domain translation domain
+	 *
+	 * @return string|void
+	 */
+	function override_empty_trash( $translated_text, $text, $domain ) {
+
+		// Skip all of these checks if not on an admin screen
+		if ( is_admin() ) {
+
+			if ( ! function_exists( 'get_current_screen' ) ) {
+				require_once ABSPATH . '/wp-admin/includes/screen.php';
+			}
+
+			// get_current_screen returns info on the admin screen, including post_type
+			$current_screen = get_current_screen();
+			if ( isset( $current_screen ) && 'container' === $current_screen->post_type ) {
+
+				if ( 'Empty Trash' === $text ) {
+					$translated_text = __( 'Permanently delete sites', 'dollie' );
+				} elseif ( 'Move to Trash' === $text ) {
+					$translated_text = __( 'Stop', 'dollie' );
+				}
+			}
+
+		}
+
+		return $translated_text;
+
+	}
+
 	/**
 	 * Container author box
 	 */
 	public function rename_author_box_title() {
 		remove_meta_box( 'authordiv', 'container', 'core' );
-		add_meta_box( 'authordiv', __( 'Assigned Customer to this Site', 'wpse39446_domain' ), 'post_author_meta_box', 'container', 'normal', 'high' );
+		add_meta_box( 'authordiv', __( 'Assigned Customer to this Site', 'dollie' ), 'post_author_meta_box', 'container', 'normal', 'high' );
 	}
 
 	/**
@@ -861,7 +939,11 @@ class Container extends Singleton {
 			return $query;
 		}
 
-		if ( $query->query['post_type'] === 'container' ) {
+		if ( ! isset( $_GET['post_type'] ) || $_GET['post_type'] !== 'container' ) {
+			return $query;
+		}
+
+		if ( 'container' === $query->query['post_type'] ) {
 			$qv               = &$query->query_vars;
 			$qv['meta_query'] = [];
 
@@ -901,8 +983,8 @@ class Container extends Singleton {
 		$new = [];
 
 		foreach ( $columns as $key => $title ) {
-			if ( $key === 'title' ) {
-				$new['site-title'] = 'Site'; // Our New Colomn Name
+			if ( 'title' === $key ) {
+				$new['site-title'] = 'Site';
 			}
 
 			$new[ $key ] = $title;
@@ -920,10 +1002,10 @@ class Container extends Singleton {
 	 * @param $post_id
 	 */
 	public function add_new_container_title_content( $column_name, $post_ID ) {
-		if ( $column_name === 'site-title' ) {
-			$oldtitle = get_the_title();
+		if ( 'site-title' === $column_name ) {
 			$newtitle = '<a href="' . get_edit_post_link( $post_ID ) . '">' . get_the_title() . '</a></h4><br><span class="url-box"><a target="_blank" href="' . dollie()->get_container_url( $post_ID ) . '">' . dollie()->get_container_url( $post_ID ) . '</span></a>';
 			$title    = $newtitle;
+
 			echo $title;
 		}
 	}
@@ -974,7 +1056,7 @@ class Container extends Singleton {
 	 * @param $user_id
 	 */
 	public function update_customer_role( $user_id ) {
-		// Make sure we are editing user
+		// Make sure we are editing user.
 		if ( strpos( $user_id, 'user_' ) === false ) {
 			return;
 		}
@@ -1063,7 +1145,7 @@ class Container extends Singleton {
 			$initial_username = $setup_data['username'];
 		}
 
-		// Deprecated. Stored in _wpd_setup_data
+		// Deprecated. Stored in _wpd_setup_data.
 		if ( empty( $initial_username ) ) {
 			$initial_username = get_post_meta( $container_id, 'wpd_username', true );
 
@@ -1078,7 +1160,7 @@ class Container extends Singleton {
 		if ( empty( $initial_username ) ) {
 			$details = $this->get_info( $container_id );
 
-			// If we have an admin
+			// If we have an admin.
 			if ( $details->Admin ) {
 				$setup_data = [
 					'username' => $details->Admin,
@@ -1123,6 +1205,11 @@ class Container extends Singleton {
 		Log::add( 'Started to update all customers access role' );
 	}
 
+	/**
+	 * Container manager notice
+	 *
+	 * @return void
+	 */
 	public function add_container_manager_notice() {
 		if ( 'container' !== get_post_type() ) {
 			return;
@@ -1130,40 +1217,40 @@ class Container extends Singleton {
 
 		$container_id = $_GET['post'];
 		?>
-		<br>
-		<div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
-			<div class="dollie-inner-message">
+        <br>
+        <div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
+            <div class="dollie-inner-message">
 				<?php if ( dollie()->is_blueprint( $container_id ) ) : ?>
 
-					<div class="dollie-message-center">
-						<h3><?php esc_html_e( 'Notice - How To Manage & Update This Blueprint', 'dollie' ); ?> </h3>
-						<p>
+                    <div class="dollie-message-center">
+                        <h3><?php esc_html_e( 'Notice - How To Manage & Update This Blueprint', 'dollie' ); ?> </h3>
+                        <p>
 							<?php
 							echo wp_kses_post(
 								sprintf(
-									__( '<a href="%s">You should manage this Blueprint using the front-end of your dashboard.</a> Only use this page to take advanced actions, like stopping or removing the blueprint completely', 'dollie' ),
+									__( '<a href="%s">Manage this Blueprint using the front-end of your dashboard.</a> Use this page to take advanced actions, like stopping/removing the blueprint completely or assigning it to another user.', 'dollie' ),
 									esc_url( trailingslashit( get_the_permalink( $container_id ) ) . 'blueprints' )
 								)
 							);
 							?>
-					</div>
+                    </div>
 
 				<?php else : ?>
-					<div class="dollie-message-center">
-						<h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
-						<p>
+                    <div class="dollie-message-center">
+                        <h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
+                        <p>
 							<?php
 							echo wp_kses_post(
 								sprintf(
-									__( 'We recommend managing this site on the front-end of your installation using the <a href="%s">Site Dashboard</a>. Some settings on this page should only be used by experienced Dollie Partners. If you are unsure what to do please reach out to our team.', 'dollie' ),
+									__( 'We recommend managing this site on the front-end of your installation using the <a href="%s">Site Dashboard</a>. Use this page to take advanced actions, like stopping or restarting your site.', 'dollie' ),
 									esc_url( get_the_permalink( $container_id ) )
 								)
 							);
 							?>
-					</div>
+                    </div>
 				<?php endif; ?>
-			</div>
-		</div>
+            </div>
+        </div>
 		<?php
 	}
 
@@ -1275,18 +1362,18 @@ class Container extends Singleton {
 	 */
 	public function change_role_notice() {
 		?>
-		<script type="text/javascript">
-			(function ($) {
-				var customer_role = $('[data-name="wpd_client_site_permission"]');
-				if (customer_role.length) {
-					var key = customer_role.data('key');
+        <script type="text/javascript">
+            (function ($) {
+                var customer_role = $('[data-name="wpd_client_site_permission"]');
+                if (customer_role.length) {
+                    var key = customer_role.data('key');
 
-					$('[name="acf[' + key + ']"]').on('change', function () {
-						alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
-					})
-				}
-			})(jQuery);
-		</script>
+                    $('[name="acf[' + key + ']"]').on('change', function () {
+                        alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
+                    })
+                }
+            })(jQuery);
+        </script>
 		<?php
 	}
 
@@ -1294,7 +1381,7 @@ class Container extends Singleton {
 	 * Get container screenshot
 	 *
 	 * @param $container_uri
-	 * @param bool          $regenerate
+	 * @param bool $regenerate
 	 *
 	 * @return array|mixed|null
 	 */
@@ -1386,4 +1473,66 @@ class Container extends Singleton {
 
 		return get_post_meta( $container->id, 'wpd_container_status', true );
 	}
+
+	/**
+	 * Add body container class
+	 *
+	 * @param string $classes
+	 *
+	 * @return string
+	 */
+	public function add_container_type_class( $classes ) {
+		$classes .= dollie()->is_blueprint() ? ' dol-container-blueprint' : ' dol-container-site';
+
+		return $classes;
+	}
+
+	/**
+	 * Action to enable/disable staging from front-end
+	 */
+	public function staging_change_action() {
+		if ( isset( $_POST['staging_change'] ) && wp_verify_nonce( $_POST['_wpnonce'], 'wpd_staging' ) ) {
+
+			if ( ! in_array( $_POST['staging_change'], [ 0, 1 ], false ) ) {
+				return;
+			}
+			$status = (int) $_POST['staging_change'];
+
+			// make sure we can't create staging if limit is reached
+			if ( $status === 1 && dollie()->staging_sites_limit_reached() ) {
+				return;
+			}
+
+			$response = Api::process_response(
+				Api::post(
+					Api::ROUTE_CONTAINER_STAGING,
+					[
+						'container_uri' => dollie()->get_container_url( get_the_ID() ),
+						'status'        => $status,
+					]
+				)
+			);
+
+			if ( $response === true ) {
+				$response_param = 'success';
+				if ( $status === 1 ) {
+					update_post_meta( get_the_ID(), 'wpd_has_staging', 'yes' );
+				} else {
+					delete_post_meta( get_the_ID(), 'wpd_has_staging' );
+				}
+			} else {
+				$response_param = 'error';
+			}
+			$redirect_url = sanitize_text_field( $_POST['_wp_http_referer'] );
+			$redirect_url = remove_query_arg( 'staging_status', $redirect_url );
+			$redirect_url = remove_query_arg( 'action', $redirect_url );
+			$url          = site_url( $redirect_url );
+			$url          = add_query_arg( 'staging_status', $response_param, $url );
+			$url          = add_query_arg( 'action', ( $status === 1 ? 'enabled' : 'disabled' ), $url );
+
+			sleep( 8 );
+			wp_redirect( $url );
+		}
+	}
+
 }

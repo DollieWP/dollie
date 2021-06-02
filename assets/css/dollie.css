@@ -2127,6 +2127,21 @@ select {
   top: 11px;
 }
 
+.elementor-widget-dollie-launch-site .acf-input-append {
+  --tw-border-opacity: 1;
+  border-color: rgba(163, 163, 163, var(--tw-border-opacity));
+  border-radius: 0.25rem;
+  border-style: solid;
+  border-width: 2px;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+  padding-left: 0.75rem !important;
+  padding-right: 0.75rem !important;
+  border-left-width: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
 #form_dollie_list_backups .af-field-site-backup li {
   border-radius: 0.25rem;
   font-size: 13px;

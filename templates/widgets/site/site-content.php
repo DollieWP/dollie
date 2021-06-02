@@ -303,6 +303,14 @@ if ( 'stop' === $status ) :
 			],
 			true
 		);
+	} elseif ( 'staging' === $sub_page && dollie()->has_staging() ) {
+		\Dollie\Core\Utils\Tpl::load(
+			'widgets/site/pages/staging',
+			[
+				'data' => $data,
+			],
+			true
+		);
 	} else {
 		\Dollie\Core\Utils\Tpl::load(
 			'widgets/site/pages/dashboard',

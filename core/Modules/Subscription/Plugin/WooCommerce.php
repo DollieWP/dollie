@@ -16,7 +16,7 @@ use Dollie\Core\Modules\Blueprints;
 class WooCommerce implements SubscriptionInterface {
 
 	const
-		SUB_STATUS_ANY    = 'any',
+		SUB_STATUS_ANY = 'any',
 		SUB_STATUS_ACTIVE = 'active';
 
 	/**
@@ -28,6 +28,8 @@ class WooCommerce implements SubscriptionInterface {
 		add_action( 'after_setup_theme', [ $this, 'add_theme_support' ] );
 
 		add_filter( 'dollie/required_plugins', [ $this, 'required_woocommerce' ] );
+
+		add_filter( 'dollie/blueprints', [ $this, 'filter_blueprints' ] );
 	}
 
 	/**
@@ -43,6 +45,7 @@ class WooCommerce implements SubscriptionInterface {
 	 * Require Woocommerce plugins
 	 *
 	 * @param array $plugins
+	 *
 	 * @return array
 	 */
 	public function required_woocommerce( $plugins ) {
@@ -130,7 +133,7 @@ class WooCommerce implements SubscriptionInterface {
 	/**
 	 * Get subscriptions for customer
 	 *
-	 * @param string   $status
+	 * @param string $status
 	 * @param null|int $customer_id
 	 *
 	 * @return array|bool
@@ -146,6 +149,11 @@ class WooCommerce implements SubscriptionInterface {
 
 		if ( ! $status ) {
 			$status = self::SUB_STATUS_ANY;
+		}
+
+		$transient = 'wpd_woo_subscription_' . $customer_id . '_' . $status;
+		if ( $data = get_transient( $transient ) ) {
+			return $data;
 		}
 
 		$subscriptions = wcs_get_subscriptions(
@@ -164,6 +172,7 @@ class WooCommerce implements SubscriptionInterface {
 			'resources' => [
 				'max_allowed_installs' => 0,
 				'max_allowed_size'     => 0,
+				'staging_max_allowed'  => 0,
 			],
 		];
 
@@ -193,6 +202,7 @@ class WooCommerce implements SubscriptionInterface {
 
 				$installs = (int) get_field( '_wpd_installs', $id );
 				$max_size = get_field( '_wpd_max_size', $id );
+				$staging  = get_field( '_wpd_staging_installs', $id );
 
 				if ( ! $max_size ) {
 					$max_size = 0;
@@ -210,8 +220,15 @@ class WooCommerce implements SubscriptionInterface {
 
 				$data['resources']['max_allowed_installs'] += $installs * $quantity;
 				$data['resources']['max_allowed_size']     += $max_size * $quantity;
-				$data['resources']['name']                  = $item_data['name'];
+				$data['resources']['name']                 = $item_data['name'];
+
+				$data['resources']['staging_max_allowed'] += $staging * $quantity;
+
 			}
+		}
+
+		if ( ! empty( $data['plans'] ) ) {
+			set_transient( $transient, $data, 30 );
 		}
 
 		return $data;
@@ -349,37 +366,115 @@ class WooCommerce implements SubscriptionInterface {
 	/**
 	 * Get excluded blueprints
 	 *
-	 * @return bool
+	 * @return array|boolean
 	 */
-	public function get_excluded_blueprints() {
-		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
+	public function get_blueprints_exception( $type = 'excluded' ) {
 
-		if ( ! $subscription ) {
+		$data          = [];
+		$type          .= '_blueprints';
+		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
+
+		if ( empty( $subscriptions ) ) {
 			return false;
 		}
 
-		$get_first = $subscription['plans']['products'];
-		$product   = reset( $get_first );
+		foreach ( $subscriptions['plans']['products'] as $product ) {
+			if ( isset( $product[ $type ] ) && ! empty( $product[ $type ] ) ) {
+				foreach ( $product[ $type ] as $bp ) {
+					$data[ $bp ] = $bp;
+				}
+			}
+		}
 
-		return $product['excluded_blueprints'];
+		if ( empty( $data ) ) {
+			return false;
+		}
+
+		return $data;
+	}
+
+	public function has_staging( $user_id = null ) {
+		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
+			return true;
+		}
+
+		if ( ! get_field( 'wpd_enable_staging', 'options' ) ) {
+			return false;
+		}
+
+		if ( is_super_admin() ) {
+			return true;
+		}
+
+		if ( $user_id === null ) {
+			$user_id = get_current_user_id();
+		}
+
+		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user_id );
+
+		// if no subscription is active
+		if ( empty( $subscriptions ) ) {
+			return false;
+		}
+
+		// apply overrides at product level
+		if ( isset( $subscriptions['resources']['staging_max_allowed'] ) ) {
+			return $subscriptions['resources']['staging_max_allowed'] > 0;
+		}
+
+		return false;
+
 	}
 
 	/**
-	 * Get included blueprints
+	 * Check if site limit has been reached
 	 *
 	 * @return bool
 	 */
-	public function get_included_blueprints() {
-		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
+	public function staging_sites_limit_reached( $user_id = null ) {
 
-		if ( ! $subscription ) {
+		if ( current_user_can( 'manage_options' ) ) {
 			return false;
 		}
 
-		$get_first = $subscription['plans']['products'];
-		$product   = reset( $get_first );
+		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
+			return false;
+		}
 
-		return $product['included_blueprints'];
+		if ( $user_id === null ) {
+			$user_id = get_current_user_id();
+		}
+
+		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user_id );
+
+		if ( ! is_array( $subscriptions ) || empty( $subscriptions ) ) {
+			return false;
+		}
+
+		$total_site = (int) dollie()->count_customer_staging_sites( $user_id );
+
+		return ( $subscriptions['resources']['staging_max_allowed'] - $total_site ) <= 0;
+	}
+
+	public function filter_blueprints( $blueprints ) {
+		if ( ! empty( $blueprints ) ) {
+
+			$included = $this->get_blueprints_exception( 'included' );
+			if ( ! empty( $included ) ) {
+				return array_intersect_key( $blueprints, $included );
+			}
+
+			$excluded = $this->get_blueprints_exception();
+			if ( ! empty( $excluded ) ) {
+				foreach ( $excluded as $bp_id ) {
+					if ( isset( $blueprints[ $bp_id ] ) ) {
+						unset( $blueprints[ $bp_id ] );
+					}
+				}
+			}
+		}
+
+		return $blueprints;
 	}
 
 }

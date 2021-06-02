@@ -12,6 +12,7 @@ use WP_Query;
 
 /**
  * Class Sites
+ *
  * @package Dollie\Core\Shortcodes
  */
 final class Sites extends Singleton implements Base {
@@ -42,7 +43,7 @@ final class Sites extends Singleton implements Base {
 	 */
 	public function shortcode( $atts ) {
 		// if ( ! current_user_can( 'manage_options' ) ) {
-		// 	return false;
+		// return false;
 		// }
 
 		if ( isset( $_GET['dollie_db_update'] ) ) {
@@ -51,7 +52,7 @@ final class Sites extends Singleton implements Base {
 
 		$a = shortcode_atts(
 			[
-				'amount'  => '15',
+				'amount' => '15',
 			],
 			$atts
 		);
@@ -69,32 +70,26 @@ final class Sites extends Singleton implements Base {
 				[
 					'key'     => 'wpd_installation_name',
 					'value'   => sanitize_text_field( $_GET['search'] ),
-					'compare' => 'LIKE'
+					'compare' => 'LIKE',
 				],
 				[
 					'key'     => 'wpd_domains',
 					'value'   => sanitize_text_field( $_GET['search'] ),
-					'compare' => 'LIKE'
+					'compare' => 'LIKE',
 				],
-				/*[
-					'key'     => '_wpd_container_data',
-					'value'   => sanitize_text_field( $_GET['search'] ),
-					'compare' => 'LIKE'
-				]*/
 			];
 		}
 
-		if (isset($_GET['blueprints']) && $_GET['blueprints']) {
+		if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) {
 			$args['meta_query'] = [
 				'relation' => 'OR',
 				[
 					'key'     => 'wpd_is_blueprint',
 					'value'   => 'yes',
-					'compare' => '='
-				]
+					'compare' => '=',
+				],
 			];
 		}
-
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			$args['author'] = get_current_user_id();
@@ -102,10 +97,13 @@ final class Sites extends Singleton implements Base {
 
 		$sites = new WP_Query( $args );
 
-		$view_type = isset( $_GET['list_type'] ) && in_array( $_GET['list_type'], [
-			'list',
-			'grid'
-		] ) ? sanitize_text_field( $_GET['list_type'] ) : 'list';
+		$view_type = isset( $_GET['list_type'] ) && in_array(
+			$_GET['list_type'],
+			[
+				'list',
+				'grid',
+			]
+		) ? sanitize_text_field( $_GET['list_type'] ) : 'list';
 
 		$data = [
 			'sites'      => $sites,
@@ -113,8 +111,8 @@ final class Sites extends Singleton implements Base {
 			'settings'   => $a,
 			'query_data' => [
 				'permalink'    => get_the_permalink(),
-				'current_page' => get_query_var( 'paged', 1 )
-			]
+				'current_page' => get_query_var( 'paged', 1 ),
+			],
 		];
 
 		Tpl::load( 'loop/sites', $data, true );

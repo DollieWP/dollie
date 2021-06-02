@@ -45,6 +45,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		if ( ! $this->module instanceof SubscriptionInterface ) {
 			throw new \Exception( 'Invalid subscription plugin' );
 		}
+
 	}
 
 	public function redirect_to_blueprint( $id ) {
@@ -87,18 +88,22 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		return $this->module->size_limit_reached();
 	}
 
-	public function get_excluded_blueprints() {
-		return $this->module->get_excluded_blueprints();
+	public function get_blueprints_exception( $type = 'excluded' ) {
+		return $this->module->get_blueprints_exception( $type );
 	}
 
-	public function get_included_blueprints() {
-		return $this->module->get_included_blueprints();
+	public function has_staging() {
+		return $this->module->has_staging();
+	}
+
+	public function staging_sites_limit_reached() {
+		return $this->module->staging_sites_limit_reached();
 	}
 
 	/**
 	 * Get partner subscription
 	 *
-	 * @return array
+	 * @return array|bool
 	 */
 	public function get_partner_subscription() {
 		if ( ! Api::get_auth_token() || get_transient( 'wpd_just_connected' ) ) {

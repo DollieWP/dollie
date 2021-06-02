@@ -82,8 +82,11 @@ var DollieSiteContent = DollieSiteContent || {};
           context: $(this),
           success: function (response) {
             if (response.success) {
-              location.reload();
               DollieSiteContent.vars.reloaded = true;
+
+              setTimeout(function () {
+                location.reload();
+              }, 3000);
             }
           },
         });

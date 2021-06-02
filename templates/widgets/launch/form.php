@@ -21,9 +21,11 @@ if ( current_user_can( 'manage_options' ) || dollie()->has_subscription() ) {
 		$button_text       = isset( $settings['button_text'] ) && $settings['button_text'] ? $settings['button_text'] : esc_html__( 'Launch New Site', 'dollie' );
 		$advanced_settings = (bool) $settings['advanced_settings'];
 
-		echo do_shortcode( '[dollie_form form="form_dollie_launch_site" ' .
-		                   'values="site_type:' . $form_type . ',advanced_settings:' . $advanced_settings . '" ' .
-		                   'submit_text="' . $button_text . '"]' );
+		echo do_shortcode(
+			'[dollie_form form="form_dollie_launch_site" ' .
+				'values="site_type:' . $form_type . ',advanced_settings:' . $advanced_settings . '" ' .
+				'submit_text="' . $button_text . '"]'
+		);
 	}
 
 	return;

@@ -46,7 +46,7 @@ class ContainerFields extends Singleton {
 			}
 		}
 
-		if (isset($_GET['blueprint']) && !empty($_GET['blueprint'])) {
+		if ( isset( $_GET['blueprint'] ) && ! empty( $_GET['blueprint'] ) ) {
 			$classes .= ' dollie-is-blueprint';
 		}
 

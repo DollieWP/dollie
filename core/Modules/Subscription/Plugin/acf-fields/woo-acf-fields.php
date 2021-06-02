@@ -67,6 +67,28 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'max'               => '',
 					'step'              => '',
 				],
+				/*[
+					'key' => 'field_60ace0aedf140',
+					'label' => __('Staging Sites', 'dollie'),
+					'name' => '_wpd_staging_installs',
+					'type' => 'number',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'hide_admin' => 0,
+					'default_value' => '',
+					'placeholder' => '',
+					'prepend' => '',
+					'append' => '',
+					'min' => '',
+					'max' => '',
+					'step' => '',
+				],*/
 				[
 					'key'               => 'field_5e2c1ac7c1542',
 					'label'             => __( 'Blueprints', 'dollie' ),

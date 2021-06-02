@@ -139,6 +139,7 @@ class Helpers extends Singleton {
 			$url = add_query_arg( 'location', $container_location, $url );
 		}
 
+
 		return wp_nonce_url( $url, 'get_site_login', '_nonce' );
 	}
 
@@ -426,6 +427,36 @@ class Helpers extends Singleton {
 					[
 						'key'     => 'wpd_installation_blueprint_title',
 						'compare' => 'EXISTS',
+					],
+				],
+			]
+		);
+
+		$total = $query->found_posts;
+
+		wp_reset_postdata();
+
+		return $total;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function count_customer_staging_sites( $user_id = null ) {
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+
+		$query = new WP_Query(
+			[
+				'author'        => $user_id,
+				'post_type'     => 'container',
+				'post_per_page' => -1,
+				'post_status'   => 'publish',
+				'meta_query'    => [
+					[
+						'key'   => 'wpd_has_staging',
+						'value' => 'yes',
 					],
 				],
 			]
@@ -740,6 +771,20 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * @return mixed
+	 */
+	public function has_staging() {
+		return Subscription::instance()->has_staging();
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function staging_sites_limit_reached() {
+		return Subscription::instance()->staging_sites_limit_reached();
+	}
+
+	/**
 	 * @return boolean
 	 */
 	public function has_partner_subscription() {
@@ -774,8 +819,8 @@ class Helpers extends Singleton {
 	 *
 	 * @return mixed
 	 */
-	public function get_customer_container_details( $container_id = null ) {
-		return Container::instance()->get_customer_details( $container_id );
+	public function get_customer_container_details( $container_id = null, $force = false ) {
+		return Container::instance()->get_customer_details( $container_id, $force );
 	}
 
 	/**
@@ -786,8 +831,8 @@ class Helpers extends Singleton {
 	 *
 	 * @return mixed
 	 */
-	public function container_api_request( $url, $transient_id, $user_auth, $user_pass = null ) {
-		return Container::instance()->do_api_request( $url, $transient_id, $user_auth, $user_pass );
+	public function container_api_request( $url, $transient_id, $user_auth, $user_pass = null, $force = false ) {
+		return Container::instance()->do_api_request( $url, $transient_id, $user_auth, $user_pass, $force );
 	}
 
 	/**

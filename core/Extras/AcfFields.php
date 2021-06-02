@@ -1439,6 +1439,89 @@ if( function_exists('acf_add_local_field_group') ):
 				'delay' => 0,
 			),
 			array(
+				'key' => 'field_60a786473ae9b',
+				'label' => __('Daily Site Status Digest', 'dollie'),
+				'name' => 'wpd_email_digest_notification',
+				'type' => 'true_false',
+				'instructions' => __('Daily email digest with sites scheduled to be stopped or removed.', 'dollie'),
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'message' => '',
+				'default_value' => 0,
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
+			),
+			array(
+				'key' => 'field_60a787f46c3b5',
+				'label' => __('Email Digest Subject', 'dollie'),
+				'name' => 'wpd_email_digest_subject',
+				'type' => 'text',
+				'instructions' => __('Placeholders:
+{dollie_sites_stopped_count}, {dollie_sites_removal_count}', 'dollie'),
+				'required' => 1,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_60a786473ae9b',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'default_value' => 'Dollie - {dollie_sites_stopped_count} will be stopped, {dollie_sites_removal_count} will be completely removed',
+				'placeholder' => '',
+				'prepend' => '',
+				'append' => '',
+				'maxlength' => '',
+			),
+			array(
+				'key' => 'field_60a786083ae9a',
+				'label' => __('Email Digest Content', 'dollie'),
+				'name' => 'wpd_email_digest_body',
+				'type' => 'wysiwyg',
+				'instructions' => __('Placeholders:
+{dollie_sites_stopped_list}, {dollie_sites_removal_list}', 'dollie'),
+				'required' => 1,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_60a786473ae9b',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'default_value' => '<h4>The following sites are scheduled to be stopped in the near future:</h4>
+<p>{dollie_sites_stopped_list}</p>
+<p>Please make sure that all of the above containers are indeed meant to be stopped due to cancelled subscriptions or manual removal.</p>
+<h4>The following containers are scheduled to be completely removed in the near future:</h4>
+<p>{dollie_sites_removal_list}</p>
+<p>Once a site has been completely removed from our infrastructure it can only be restored in emergency situations.</p>',
+				'tabs' => 'all',
+				'toolbar' => 'full',
+				'media_upload' => 1,
+				'delay' => 0,
+			),
+			array(
 				'key' => 'field_6059e3baf19d0',
 				'label' => __('Modules', 'dollie'),
 				'name' => '',
@@ -1593,6 +1676,26 @@ if( function_exists('acf_add_local_field_group') ):
 				'append' => '',
 				'maxlength' => '',
 			),
+			/*array(
+				'key' => 'field_60a7974f6956c',
+				'label' => __('Staging', 'dollie'),
+				'name' => 'wpd_enable_staging',
+				'type' => 'true_false',
+				'instructions' => __('Allow customers to use staging sites functionality. Each enabled staging site will add a cost to your monthly subscription. Please check with the Dollie Sales Team.', 'dollie'),
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'message' => '',
+				'default_value' => 0,
+				'ui' => 1,
+				'ui_on_text' => 'Enable',
+				'ui_off_text' => 'Disable',
+			),*/
 		),
 		'location' => array(
 			array(
@@ -1630,7 +1733,7 @@ if( function_exists('acf_add_local_field_group') ):
 					'class' => '',
 					'id' => '',
 				),
-				'hide_admin' => 0,
+				'hide_admin' => 1,
 				'choices' => array(
 					'yes' => __( 'Yes, deploy new blueprint version!', 'dollie' ),
 				),

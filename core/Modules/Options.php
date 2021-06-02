@@ -47,6 +47,7 @@ class Options extends Singleton {
 		add_action( 'admin_menu', [ $this, 'add_external_menu_links' ], 100 );
 		add_action( 'admin_menu', [ $this, 'remove_duplicate_admin_menu' ], 100 );
 		add_action( 'admin_menu', [ $this, 'remove_duplicate_forms_menu' ], 100 );
+		add_action( 'admin_footer', [ $this, 'external_menu_scripts' ] );
 
 		add_action( 'wp_before_admin_bar_render', [ $this, 'dollie_adminbar_menu' ], 2000 );
 		add_filter( 'acf/load_field/name=wpd_api_domain', [ $this, 'dollie_domain_readonly' ] );
@@ -220,6 +221,22 @@ class Options extends Singleton {
 	}
 
 	/**
+	 * Force external menu to open in new tab
+	 *
+	 * @return void
+	 */
+	public function external_menu_scripts() {
+		?>
+		<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				$('#dol-url-partner-dashboard').parent().attr('target','_blank');
+				$('#dol-url-support').parent().attr('target','_blank');
+			});
+		</script>
+		<?php
+	}
+
+	/**
 	 * Admin bar menu
 	 */
 	public function dollie_adminbar_menu() {
@@ -355,13 +372,13 @@ class Options extends Singleton {
 		 global $submenu;
 
 		$submenu[ self::PANEL_SLUG ][] = [
-			esc_html__( 'Partner Dashboard', 'dollie' ),
+			'<div id="dol-url-partner-dashboard">' . esc_html__( 'Partner Dashboard', 'dollie' ) . '</div>',
 			'manage_options',
 			'https://partners.getdollie.com',
 		];
 
 		$submenu[ self::PANEL_SLUG ][] = [
-			esc_html__( 'Support', 'dollie' ),
+			'<div id="dol-url-support">' . esc_html__( 'Support', 'dollie' ) . '</div>',
 			'manage_options',
 			'https://partners.getdollie.com/?redirect=support',
 		];

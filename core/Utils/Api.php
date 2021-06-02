@@ -26,6 +26,7 @@ class Api extends Singleton {
 		ROUTE_CONTAINER_SCREENSHOT             = 'containers/take-screenshot',
 		ROUTE_CONTAINER_SCREENSHOT_REGEN       = 'containers/regenerate-screenshots',
 		ROUTE_CONTAINER_BLUEPRINT_AVAILABILITY = 'containers/blueprint-availability',
+		ROUTE_CONTAINER_STAGING                 = 'containers/staging',
 
 		ROUTE_DOMAIN_ADD                 = 'domain/add',
 		ROUTE_DOMAIN_UPDATE              = 'domain/update',

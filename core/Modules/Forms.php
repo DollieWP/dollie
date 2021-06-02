@@ -183,10 +183,10 @@ class Forms extends Singleton {
 			$atts['values'] = $final_values;
 		}
 
+		wp_enqueue_script( 'dollie-launch-dynamic-data' );
+
 		return advanced_form( $form_id_or_key, $atts );
-
 	}
-
 
 	/**
 	 * Add default form attributes
@@ -599,7 +599,7 @@ class Forms extends Singleton {
 
 		$container = dollie()->get_current_object( $container_id );
 
-		if ( $container_id === 0 ) {
+		if ( 0 === $container_id ) {
 			return false;
 		}
 

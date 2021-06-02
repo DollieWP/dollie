@@ -164,6 +164,14 @@
     }
   }
 }
+.elementor-widget-dollie-launch-site .acf-input-append {
+  @apply dol-border-2 dol-border-solid dol-border-gray-400 dol-rounded;
+  @apply dol-px-3 dol-py-2 #{!important};
+  border-left-width: 0;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
 #form_dollie_list_backups {
   .af-field-site-backup {
     li {
