@@ -16,7 +16,6 @@ use WP_Query;
 
 /**
  * Class Container
- *
  * @package Dollie\Core\Modules
  */
 class Container extends Singleton {

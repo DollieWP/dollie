@@ -53,6 +53,9 @@ final class WP extends Singleton {
 		$blueprint         = isset( $deploy_data['blueprint'] ) ? $deploy_data['blueprint'] : null;
 		$blueprint_install = $blueprint ? dollie()->get_wp_site_data( 'uri', $blueprint ) : null;
 
+		$deploy_start_log  = Log::WP_SITE_DEPLOY_STARTED;
+		$deploy_failed_log = Log::WP_SITE_DEPLOY_FAILED;
+
 		$post_id = wp_insert_post(
 			[
 				'comment_status' => 'closed',
@@ -68,6 +71,8 @@ final class WP extends Singleton {
 		// Mark site as blueprint.
 		if ( 'blueprint' === $site_type ) {
 			update_post_meta( $post_id, 'wpd_is_blueprint', 'yes' );
+			$deploy_start_log  = Log::WP_BLUEPRINT_DEPLOY_STARTED;
+			$deploy_failed_log = Log::WP_BLUEPRINT_DEPLOY_FAILED;
 		}
 
 		Container::instance()->set_status( $post_id, 'pending' );
@@ -98,7 +103,7 @@ final class WP extends Singleton {
 
 		if ( ! $response_container_deploy ) {
 			Log::add_front(
-				Log::WP_SITE_DEPLOY_FAILED,
+				$deploy_failed_log,
 				dollie()->get_current_object( $post_id ),
 				$domain,
 				print_r( $request_container_deploy, true )
@@ -111,7 +116,7 @@ final class WP extends Singleton {
 
 		if ( ! $response_container_deploy['job'] ) {
 			Log::add_front(
-				Log::WP_SITE_DEPLOY_FAILED,
+				$deploy_failed_log,
 				dollie()->get_current_object( $post_id ),
 				$domain,
 				print_r( $request_container_deploy, true )
@@ -129,7 +134,7 @@ final class WP extends Singleton {
 		Container::instance()->set_deploy_job( $post_id, $response_container_deploy['job'] );
 
 		Log::add_front(
-			Log::WP_SITE_DEPLOY_STARTED,
+			$deploy_start_log,
 			dollie()->get_current_object( $post_id ),
 			$domain
 		);

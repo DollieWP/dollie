@@ -19,7 +19,9 @@ class Log {
 	const WP_SITE_SETUP_COMPLETED = 'wp-site-setup-completed';
 	const WP_SITE_SETUP_FAILED = 'wp-site-setup-failed';
 	const WP_SITE_BACKUP_STARTED = 'wp-site-backup-started';
+	const WP_BLUEPRINT_DEPLOY_STARTED = 'wp-blueprint-deploy-start';
 	const WP_BLUEPRINT_DEPLOYED = 'wp-blueprint-deployed';
+	const WP_BLUEPRINT_DEPLOY_FAILED = 'wp-blueprint-deploy-failed';
 	const WP_SITE_REMOVAL_SCHEDULED = 'wp-site-removal-scheduled';
 	const WP_SITE_STARTED = 'wp-site-started';
 	const WP_SITE_STOPPED = 'wp-site-stopped';
@@ -216,11 +218,23 @@ class Log {
 				'type'    => 'setup',
 				'link'    => false,
 			],
-			self::WP_BLUEPRINT_DEPLOYED         => [
-				'title'   => __( 'Site Blueprint Completed', 'dollie' ),
-				'content' => __( sprintf( 'Site Blueprint %s has been successfully launched.', $values[0] ), 'dollie' ),
+			self::WP_BLUEPRINT_DEPLOY_STARTED        => [
+				'title'   => __( 'Blueprint Launch Started', 'dollie' ),
+				'content' => __( sprintf( 'Launching Your New Blueprint %s. You\'ll get another notification when it is ready! ', $values[0] ), 'dollie' ),
 				'type'    => 'deploy',
 				'link'    => true,
+			],
+			self::WP_BLUEPRINT_DEPLOYED         => [
+				'title'   => __( 'Blueprint Launch Completed', 'dollie' ),
+				'content' => __( sprintf( 'Blueprint %s has been successfully launched.', $values[0] ), 'dollie' ),
+				'type'    => 'deploy',
+				'link'    => true,
+			],
+			self::WP_BLUEPRINT_DEPLOY_FAILED         => [
+				'title'   => __( 'Blueprint Launch Failed', 'dollie' ),
+				'content' => __( sprintf( 'Blueprint %s has failed to launch. Please contact our support if the issue persists.', $values[0] ), 'dollie' ),
+				'type'    => 'deploy',
+				'link'    => false,
 			],
 			self::WP_SITE_BACKUP_STARTED        => [
 				'title'   => __( 'Backup Created', 'dollie' ),
