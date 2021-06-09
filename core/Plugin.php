@@ -15,6 +15,7 @@ use Dollie\Core\Modules\Jobs\RemoveOldLogsJob;
 use Dollie\Core\Modules\ContainerFields;
 use Dollie\Core\Modules\Container;
 use Dollie\Core\Modules\ContainerRegistration;
+use Dollie\Core\Modules\Staging;
 use Dollie\Core\Modules\Logging;
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Modules\Hooks;
@@ -163,6 +164,7 @@ class Plugin extends Singleton {
 		ContainerFields::instance();
 		Container::instance();
 		ContainerRegistration::instance();
+		Staging::instance();
 		Logging::instance();
 		Hooks::instance();
 		Options::instance();

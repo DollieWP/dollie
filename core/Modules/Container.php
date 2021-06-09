@@ -61,9 +61,6 @@ class Container extends Singleton {
 		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
 
 		add_filter( 'admin_body_class', [ $this, 'add_container_type_class' ] );
-
-
-		add_action( 'template_redirect', [ $this, 'staging_change_action' ] );
 	}
 
 	/**
@@ -1485,54 +1482,6 @@ class Container extends Singleton {
 		$classes .= dollie()->is_blueprint() ? ' dol-container-blueprint' : ' dol-container-site';
 
 		return $classes;
-	}
-
-	/**
-	 * Action to enable/disable staging from front-end
-	 */
-	public function staging_change_action() {
-		if ( isset( $_POST['staging_change'] ) && wp_verify_nonce( $_POST['_wpnonce'], 'wpd_staging' ) ) {
-
-			if ( ! in_array( $_POST['staging_change'], [ 0, 1 ], false ) ) {
-				return;
-			}
-			$status = (int) $_POST['staging_change'];
-
-			// make sure we can't create staging if limit is reached
-			if ( $status === 1 && dollie()->staging_sites_limit_reached() ) {
-				return;
-			}
-
-			$response = Api::process_response(
-				Api::post(
-					Api::ROUTE_CONTAINER_STAGING,
-					[
-						'container_uri' => dollie()->get_container_url( get_the_ID() ),
-						'status'        => $status,
-					]
-				)
-			);
-
-			if ( $response === true ) {
-				$response_param = 'success';
-				if ( $status === 1 ) {
-					update_post_meta( get_the_ID(), 'wpd_has_staging', 'yes' );
-				} else {
-					delete_post_meta( get_the_ID(), 'wpd_has_staging' );
-				}
-			} else {
-				$response_param = 'error';
-			}
-			$redirect_url = sanitize_text_field( $_POST['_wp_http_referer'] );
-			$redirect_url = remove_query_arg( 'staging_status', $redirect_url );
-			$redirect_url = remove_query_arg( 'action', $redirect_url );
-			$url          = site_url( $redirect_url );
-			$url          = add_query_arg( 'staging_status', $response_param, $url );
-			$url          = add_query_arg( 'action', ( $status === 1 ? 'enabled' : 'disabled' ), $url );
-
-			sleep( 8 );
-			wp_redirect( $url );
-		}
 	}
 
 }

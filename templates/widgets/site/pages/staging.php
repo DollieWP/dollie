@@ -1,89 +1,66 @@
-<div class="dol-my-6">
-	<?php
-
-	$container_details = \Dollie\Core\Modules\Container::instance()->get_remote_stats( get_the_ID(), true );
-	$staging_on        = isset( $container_details['Staging'] ) && $container_details['Staging'];
-	$status            = $staging_on ? __( 'Enabled', 'dollie' ) : __( 'Disabled', 'dollie' );
-
-	$settings_url = 'wp-admin/admin.php?page=wpstagecoach';
-	$settings_url = dollie()->get_customer_login_url( get_the_ID(), $settings_url );
-
-	$container = get_post( get_the_ID() );
-	$message   = sprintf( __( 'Here you can easily manage your staging site for <strong>%s</strong>. Staging allows you to conduct different tests before applying them to your live site.', 'dollie' ), $container->post_name );
-
-	if ( $staging_on && isset( $container_details['Staging URL'] ) ) {
-
-		$staging_url = 'https://' . $container_details['Staging URL'];
-		$message    .= '<br>' .
-						sprintf(
-							'<strong>Staging URL</strong>: <a target="_blank" href="%s">%s</a>',
-							$staging_url,
-							$staging_url
-						);
-	}
-
-	\Dollie\Core\Utils\Tpl::load(
-		'notice',
-		[
-			'type'    => 'info',
-			'icon'    => 'fas fa-clone',
-			'title'   => sprintf( __( 'Staging Site is %s', 'dollie' ), $status ),
-			'message' => $message,
-		],
-		true
-	);
-	?>
-</div>
-
 <?php
-if ( isset( $_GET['staging_status'], $_GET['action'] ) ) {
+$container    = get_post( get_the_ID() );
+$staging_data = get_post_meta( get_the_ID(), '_wpd_staging_data', true );
+$staging_url  = get_post_meta( get_the_ID(), '_wpd_staging_url', true );
 
-	$response = sanitize_text_field( $_GET['staging_status'] );
-
-	if ( 'success' === $response ) {
-		$type        = 'success';
-		$text_status = sanitize_text_field( $_GET['action'] ) === 'enabled' ? __( 'enabled', 'dollie' ) : __( 'disabled', 'dollie' );
-		$text        = sprintf( __( 'Staging has been %s', 'dollie' ), $text_status );
-
-	} else {
-		$type = 'error';
-		$text = __( 'An error occurred when changing the staging status. Please try again!', 'dollie' );
-
-	}
-	\Dollie\Core\Utils\Tpl::load(
-		'notice',
-		[
-			'icon'  => 'fas fa-exclamation-circle',
-			'type'  => $type,
-			'title' => $text,
-		],
-		true
-	);
+if ( empty( $staging_url ) ) {
+	$status = 'disabled';
+} else {
+	$status = $staging_data[ $staging_url ]['status'];
 }
+//$status = 'disabled';
+
+$status_title   = __( 'Staging site is disabled', 'dollie' );
+$status_message = sprintf( __( 'Here you can easily manage your staging site for <strong>%s</strong>. Staging allows you to conduct different tests before applying them to your live site.', 'dollie' ), $container->post_name );
+
+if ( $status === 'pending' ) {
+
+	if ( isset( $staging_data[ $staging_url ]['deploy_job'] ) ) {
+		$job           = $staging_data[ $staging_url ]['deploy_job'];
+		$deploy_status = \Dollie\Core\Modules\Sites\WP::instance()->process_deploy_status( $job );
+
+		// var_dump($deploy_status );
+	}
+
+	$status_title   = __( 'Staging site is being created', 'dollie' );
+	$status_message = sprintf( __( 'Please pe patient while we create a staging site for <strong>%s</strong>.', 'dollie' ), $container->post_name );
+
+} elseif ( $status === 'live' ) {
+	$status_title = sprintf( __( 'Staging site: %', 'dollie' ), $staging_url );
+}
+
+\Dollie\Core\Utils\Tpl::load(
+	'notice',
+	[
+		'type'    => 'info',
+		'icon'    => 'fas fa-clone',
+		'title'   => $status_title,
+		'message' => $status_message,
+	],
+	true
+);
+
 ?>
 
-<?php if ( $staging_on ) : ?>
+<?php if ( $status === 'live' ) : ?>
 
-	<div class="dol-mt-6">
-		<form action="" method="post">
-			<input type="hidden" name="staging_change" value="1">
+    <div class="dol-mt-6">
+        <form action="" method="post">
+            <input type="hidden" name="staging_change" value="1">
 
-			<button type="submit" class="dol-bg-red-700" id="staging-form-submit">
-				<?php esc_html_e( 'Disable Staging', 'dollie' ); ?>
-			</button>
-			<a href="<?php echo esc_url( $settings_url ); ?>" class="button" target="_blank">
-				<?php esc_html_e( 'Staging Settings', 'dollie' ); ?>
-			</a>
+            <button type="submit" class="dol-bg-red-700" id="staging-form-submit">
+				<?php esc_html_e( 'Remove Staging Site', 'dollie' ); ?>
+            </button>
 			<?php wp_nonce_field( 'wpd_staging' ); ?>
-		</form>
-	</div>
+        </form>
+    </div>
 
-<?php else : ?>
+<?php elseif( $status === 'disabled' ) : ?>
 
 	<?php
 	if ( dollie()->staging_sites_limit_reached() ) :
 		?>
-		<div class="dol-mt-6">
+        <div class="dol-mt-6">
 			<?php
 			\Dollie\Core\Utils\Tpl::load(
 				'notice',
@@ -97,28 +74,31 @@ if ( isset( $_GET['staging_status'], $_GET['action'] ) ) {
 
 			return;
 			?>
-		</div>
+        </div>
 
 	<?php endif; ?>
 
-	<div class="dol-mt-6">
-		<form action="" method="post">
-			<input type="hidden" name="staging_change" value="1">
 
-			<button type="submit" id="staging-form-submit">
-				<?php esc_html_e( 'Enable Staging', 'dollie' ); ?>
-			</button>
-			<?php wp_nonce_field( 'wpd_staging' ); ?>
-		</form>
-	</div>
 <?php endif; ?>
 
-<script>
-	jQuery(document).ready(function($) {
-		$('#staging-form-submit').on('click', function(e) {
-			$(this).attr('disabled', true);
 
-			$(this).parent('form').submit();
-		});
-	});
+<div class="dol-mt-6">
+    <form action="" method="post">
+        <input type="hidden" name="staging_change" value="1">
+
+        <button type="submit" id="staging-form-submit">
+			<?php esc_html_e( 'Create a Staging Site', 'dollie' ); ?>
+        </button>
+		<?php wp_nonce_field( 'wpd_staging' ); ?>
+    </form>
+</div>
+
+<script>
+    jQuery(document).ready(function ($) {
+        $('#staging-form-submit').on('click', function (e) {
+            $(this).attr('disabled', true);
+
+            $(this).parent('form').submit();
+        });
+    });
 </script>
