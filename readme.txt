@@ -156,8 +156,11 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 
 == Changelog ==
 
+= 4.4.5 =
+* Custom domain check limit action to admin area
+
 = 4.4.4 =
-* fix Realtime customizer for standalone launch pages.
+* Fix Realtime customizer for standalone launch pages.
 * Blueprint logic improvements in admin.
 * Fix author change on container.
 * Update Admin site removal logic.
