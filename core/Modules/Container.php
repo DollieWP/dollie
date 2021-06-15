@@ -16,6 +16,7 @@ use WP_Query;
 
 /**
  * Class Container
+ *
  * @package Dollie\Core\Modules
  */
 class Container extends Singleton {
@@ -56,6 +57,7 @@ class Container extends Singleton {
 		add_action( 'acf/save_post', [ $this, 'update_all_customers_role' ] );
 		add_action( 'acf/save_post', [ $this, 'update_deployment_domain' ] );
 		add_action( 'acf/save_post', [ $this, 'update_backup_module' ], 1 );
+		add_action( 'acf/save_post', [ $this, 'update_staging_status' ], 1 );
 
 		add_action( 'acf/input/admin_footer', [ $this, 'change_role_notice' ] );
 		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
@@ -230,14 +232,14 @@ class Container extends Singleton {
 	public function remove_customer_domain_action() {
 		if ( isset( $_REQUEST['remove_customer_domain'] ) ) {
 
-			// Prevent unauthorized access
+			// Prevent unauthorized access.
 			if ( ! is_user_logged_in() ) {
 				return;
 			}
 
 			$current_query = dollie()->get_current_object();
 
-			// Prevent unauthorized access
+			// Prevent unauthorized access.
 			if ( ! current_user_can( 'manage_options' ) && ! $current_query->author != get_current_user_id() ) {
 				return;
 			}
@@ -282,7 +284,7 @@ class Container extends Singleton {
 			)
 		);
 
-		// Change the site URL back to temporary domain
+		// Change the site URL back to temporary domain.
 		$old_url = str_replace(
 			[
 				'http://',
@@ -336,8 +338,8 @@ class Container extends Singleton {
 	 * Update WP site url option
 	 *
 	 * @param $new_url
-	 * @param string $old_url
-	 * @param null $container_id
+	 * @param string  $old_url
+	 * @param null    $container_id
 	 *
 	 * @return bool|mixed
 	 */
@@ -397,16 +399,14 @@ class Container extends Singleton {
 
 		$response_data = $this->update_url( $domain, $old_url, $container->id );
 
-		if ( $response_data === false ) {
-
+		if ( false === $response_data ) {
 			Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has failed' );
-
 			return false;
 		}
 
 		Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has started', $response_data );
 
-		// Mark domain URL migration as complete
+		// Mark domain URL migration as complete.
 		update_post_meta( $container->id, 'wpd_domain_migration_complete', 'yes' );
 
 		return true;
@@ -465,17 +465,17 @@ class Container extends Singleton {
 		$request = $this->get_customer_details( $post_id );
 
 		if ( ! empty( $request ) ) {
-			// Now that we have our container details get our info
+			// Now that we have our container details get our info.
 			$details_url          = dollie()->get_container_url( $post_id ) . WP::PLATFORM_PATH . 'container/details';
 			$details_transient_id = $post_slug . '_get_container_wp_info';
 
-			// Make the request
+			// Make the request.
 			$details_request = dollie()->container_api_request( $details_url, $details_transient_id, 'container', $request->id, $force );
 
-			// Decode to PHP currently used
+			// Decode to PHP currently used.
 			$data['container_details'] = json_decode( json_encode( $details_request ), true );
 
-			// Set last viewed meta
+			// Set last viewed meta.
 			if ( $post->post_author === $current_user->ID ) {
 				update_post_meta( $post_id, 'wpd_last_viewed', time() );
 			}
@@ -499,7 +499,7 @@ class Container extends Singleton {
 				}
 			}
 
-			// get stats data
+			// Get stats data.
 			$data['site_data'] = $this->get_remote_stats( $post_id, $force );
 
 			if ( ! empty( $data['site_data'] ) && is_array( $data['site_data'] ) ) {
@@ -537,8 +537,14 @@ class Container extends Singleton {
 		return $data;
 	}
 
+	/**
+	 * Get remote stats
+	 *
+	 * @param int     $post_id
+	 * @param boolean $force
+	 * @return array
+	 */
 	public function get_remote_stats( $post_id, $force = false ) {
-
 		$post      = get_post( $post_id );
 		$post_slug = $post->post_name;
 		$request   = $this->get_customer_details( $post_id );
@@ -550,7 +556,7 @@ class Container extends Singleton {
 		$stats_url          = dollie()->get_container_url( $post_id ) . WP::PLATFORM_PATH . 'container/details/stats.php';
 		$stats_transient_id = $post_slug . '_get_container_site_info';
 
-		// Make the request
+		// Make the request.
 		$stats_request = $this->do_api_request( $stats_url, $stats_transient_id, 'container', $request->id, $force );
 
 		if ( empty( $stats_request ) ) {
@@ -582,7 +588,7 @@ class Container extends Singleton {
 
 			$container_id = get_post_meta( $container->id, 'wpd_container_id', true );
 
-			// Set up the request
+			// Set up the request.
 			$request_get_container = Api::post(
 				API::ROUTE_CONTAINER_GET,
 				[
@@ -617,7 +623,7 @@ class Container extends Singleton {
 	 * @param $url
 	 * @param $transient_id
 	 * @param $user_auth
-	 * @param null $user_pass
+	 * @param null         $user_pass
 	 *
 	 * @return array|mixed
 	 */
@@ -681,7 +687,7 @@ class Container extends Singleton {
 			// Make an API request to get our customer details.
 			$request = dollie()->get_customer_container_details( $container->id );
 
-			// Now that we have our container details get our info
+			// Now that we have our container details get our info.
 			$details_url = dollie()->get_container_url( $container->id ) . WP::PLATFORM_PATH . 'container/details';
 
 			$data = dollie()->container_api_request( $details_url, $transient_id, 'container', $request->id );
@@ -693,7 +699,7 @@ class Container extends Singleton {
 	/**
 	 * Get container login info
 	 *
-	 * @param null $container_id
+	 * @param null   $container_id
 	 * @param string $site_username
 	 *
 	 * @return mixed
@@ -788,7 +794,7 @@ class Container extends Singleton {
 
 		if ( 500 === $request['status'] ) {
 
-			// if it was already removed from dollie
+			// If it was already removed from dollie.
 			if ( 'undeploy' === $action ) {
 				wp_trash_post( $post_id );
 				Log::add( $site . ' was removed locally, no match found on dollie.io', '', 'undeploy' );
@@ -911,7 +917,6 @@ class Container extends Singleton {
 					$translated_text = __( 'Stop', 'dollie' );
 				}
 			}
-
 		}
 
 		return $translated_text;
@@ -1214,14 +1219,14 @@ class Container extends Singleton {
 
 		$container_id = $_GET['post'];
 		?>
-        <br>
-        <div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
-            <div class="dollie-inner-message">
+		<br>
+		<div style="margin-left: 0; z-index: 0" class="dollie-notice dollie-notice-error">
+			<div class="dollie-inner-message">
 				<?php if ( dollie()->is_blueprint( $container_id ) ) : ?>
 
-                    <div class="dollie-message-center">
-                        <h3><?php esc_html_e( 'Notice - How To Manage & Update This Blueprint', 'dollie' ); ?> </h3>
-                        <p>
+					<div class="dollie-message-center">
+						<h3><?php esc_html_e( 'Notice - How To Manage & Update This Blueprint', 'dollie' ); ?> </h3>
+						<p>
 							<?php
 							echo wp_kses_post(
 								sprintf(
@@ -1230,12 +1235,12 @@ class Container extends Singleton {
 								)
 							);
 							?>
-                    </div>
+					</div>
 
 				<?php else : ?>
-                    <div class="dollie-message-center">
-                        <h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
-                        <p>
+					<div class="dollie-message-center">
+						<h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
+						<p>
 							<?php
 							echo wp_kses_post(
 								sprintf(
@@ -1244,10 +1249,10 @@ class Container extends Singleton {
 								)
 							);
 							?>
-                    </div>
+					</div>
 				<?php endif; ?>
-            </div>
-        </div>
+			</div>
+		</div>
 		<?php
 	}
 
@@ -1327,6 +1332,34 @@ class Container extends Singleton {
 	}
 
 	/**
+	 * Update staging status
+	 *
+	 * @param $post_id
+	 * @return void
+	 */
+	public function update_staging_status( $post_id ) {
+		if ( 'options' !== $post_id ) {
+			return;
+		}
+
+		$changed   = false;
+		$new_value = $_POST['acf'][ acf_get_field( 'wpd_enable_staging' )['key'] ];
+
+		if ( get_field( 'wpd_enable_staging', 'options' ) !== $new_value ) {
+			$changed = true;
+		}
+
+		if ( $changed ) {
+			Api::post(
+				Api::ROUTE_CONTAINER_STAGING_SET_STATUS,
+				[
+					'status' => $new_value,
+				]
+			);
+		}
+	}
+
+	/**
 	 * Check domain availability
 	 */
 	public function check_deployment_domain_status() {
@@ -1359,18 +1392,18 @@ class Container extends Singleton {
 	 */
 	public function change_role_notice() {
 		?>
-        <script type="text/javascript">
-            (function ($) {
-                var customer_role = $('[data-name="wpd_client_site_permission"]');
-                if (customer_role.length) {
-                    var key = customer_role.data('key');
+		<script type="text/javascript">
+			(function ($) {
+				var customer_role = $('[data-name="wpd_client_site_permission"]');
+				if (customer_role.length) {
+					var key = customer_role.data('key');
 
-                    $('[name="acf[' + key + ']"]').on('change', function () {
-                        alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
-                    })
-                }
-            })(jQuery);
-        </script>
+					$('[name="acf[' + key + ']"]').on('change', function () {
+						alert('IMPORTANT! Changing the clients permission will change the permission for ALL the websites of ALL your clients. Changing to Editor will cause all your clients to have only editor role accounts on their websites. Please note that doesn\'t affect the websites launched by administrators.');
+					})
+				}
+			})(jQuery);
+		</script>
 		<?php
 	}
 
@@ -1378,7 +1411,7 @@ class Container extends Singleton {
 	 * Get container screenshot
 	 *
 	 * @param $container_uri
-	 * @param bool $regenerate
+	 * @param bool          $regenerate
 	 *
 	 * @return array|mixed|null
 	 */
