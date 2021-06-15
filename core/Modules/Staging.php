@@ -89,13 +89,10 @@ class Staging extends Singleton {
 			}
 
 			$site          = dollie()->get_current_object();
-			$rand          = rand( pow( 10, 2 ), pow( 10, 3 ) - 1 );
-			$domain        = $site->slug . '-' . $rand . '.my-staging-site.xyz';
 			$deploy_status = 'pending';
 
 			$post_body = [
 				'source'  => dollie()->get_container_url( get_the_ID() ),
-				'route'   => $domain,
 				'envVars' => [
 					'S5_DEPLOYMENT_URL' => get_site_url(),
 				],
@@ -105,17 +102,27 @@ class Staging extends Singleton {
 			$request_container_deploy  = Api::post( Api::ROUTE_CONTAINER_STAGING_DEPLOY, $post_body );
 			$response_container_deploy = Api::process_response( $request_container_deploy );
 
-			if ( ! $response_container_deploy || ! $response_container_deploy['job'] ) {
+			if ( is_array( $response_container_deploy ) && ! $response_container_deploy['job'] ) {
 				Log::add_front(
 					self::LOG_DEPLOY_FAILED,
 					dollie()->get_current_object( $site->id ),
-					$domain,
+					$response_container_deploy['route'],
 					print_r( $request_container_deploy, true )
 				);
 
 				$deploy_status = 'failed';
+			} elseif ( ! is_array( $response_container_deploy ) ) {
+				Log::add_front(
+					self::LOG_DEPLOY_FAILED,
+					dollie()->get_current_object( $site->id ),
+					'',
+					print_r( $request_container_deploy, true )
+				);
 
+				$deploy_status = 'failed';
 			}
+
+			$domain = $response_container_deploy['route'];
 
 			// Set active staging url.
 			update_post_meta( $site->id, self::OPTION_URL, $domain );
