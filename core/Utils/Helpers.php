@@ -95,10 +95,10 @@ class Helpers extends Singleton {
 	 * @param null $container_id
 	 * @param bool $temp_url
 	 *
-	 * @return mixed|string
+	 * @return string
 	 */
 	public function get_container_url( $container_id = null, $temp_url = false ) {
-		if ( $container_id === null ) {
+		if ( null === $container_id ) {
 			$container_id = $this->get_current_object()->id;
 		}
 
@@ -115,6 +115,28 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * Get container staging url
+	 *
+	 * @param null    $container_id
+	 * @param boolean $temp_url
+	 *
+	 * @return string
+	 */
+	public function get_container_staging_url( $container_id = null, $temp_url = false ) {
+		if ( null === $container_id ) {
+			$container_id = $this->get_current_object()->id;
+		}
+
+		$staging_url = get_post_meta( $container_id, '_wpd_staging_url', true );
+
+		if ( $staging_url ) {
+			$staging_url = 'https://' . $staging_url;
+		}
+
+		return strtolower( $staging_url );
+	}
+
+	/**
 	 * Get container status
 	 *
 	 * @param $container_id
@@ -126,38 +148,53 @@ class Helpers extends Singleton {
 	}
 
 	/**
-	 * @param null $container_id
-	 * @param null $container_location
+	 * Get login url for container
+	 *
+	 * @param null    $container_id
+	 * @param null    $container_location
+	 * @param boolean $staging
 	 *
 	 * @return string
 	 */
-	public function get_customer_login_url( $container_id = null, $container_location = null ) {
-		$container = dollie()->get_current_object( $container_id );
-		$url       = home_url( 'site_login_redirect?site=' . $container->id );
+	public function get_customer_login_url( $container_id = null, $container_location = null, $staging = false ) {
+		$container  = dollie()->get_current_object( $container_id );
+		$url_params = 'site_login_redirect?site=' . $container->id;
+
+		if ( $staging ) {
+			$url_params .= '&staging=1';
+		}
+
+		$url = home_url( $url_params );
 
 		if ( ! empty( $container_location ) ) {
 			$url = add_query_arg( 'location', $container_location, $url );
 		}
 
-
 		return wp_nonce_url( $url, 'get_site_login', '_nonce' );
 	}
 
 	/**
-	 * @param null $container_id
-	 * @param null $container_location
+	 * Customer login
 	 *
-	 * @return string
+	 * @param null    $container_id
+	 * @param null    $container_location
+	 * @param boolean $staging
+	 * @return void
 	 */
-	public function final_customer_login_url( $container_id = null, $container_location = null ) {
-		$container     = $this->get_current_object( $container_id );
-		$container_url = $this->get_container_url( $container->id );
+	public function final_customer_login_url( $container_id = null, $container_location = null, $staging = false ) {
+		$container = $this->get_current_object( $container_id );
+
+		if ( $staging ) {
+			$container_url = $this->get_container_staging_url( $container->id );
+		} else {
+			$container_url = $this->get_container_url( $container->id );
+		}
 
 		if ( empty( $container_url ) ) {
 			return '';
 		}
 
-		$url                 = $this->get_container_url( $container->id ) . '/wp-login.php';
+		$url                 = $container_url . '/wp-login.php';
 		$pending_role_action = get_post_meta( $container->id, '_wpd_user_role_change_pending', true );
 
 		// User role change is not yet complete.
@@ -182,7 +219,7 @@ class Helpers extends Singleton {
 			$username = Container::instance()->get_customer_username( $container->id );
 		}
 
-		$token_details = Container::instance()->get_login_token( $container->id, $username );
+		$token_details = Container::instance()->get_login_token( $container_url, $container->id, $username, $staging );
 
 		if ( empty( $token_details ) ) {
 			return $url;

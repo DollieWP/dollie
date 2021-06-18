@@ -176,7 +176,11 @@ final class WP extends Singleton {
 			wp_send_json_error();
 		}
 
-		$deploy_job_uuid = Container::instance()->get_deploy_job( $_REQUEST['container'] );
+		if ( $_REQUEST['staging'] ) {
+			$deploy_job_uuid = Container::instance()->get_staging_deploy_job( $_REQUEST['container'] );
+		} else {
+			$deploy_job_uuid = Container::instance()->get_deploy_job( $_REQUEST['container'] );
+		}
 
 		if ( ! $deploy_job_uuid ) {
 			wp_send_json_error();
@@ -199,7 +203,7 @@ final class WP extends Singleton {
 			wp_send_json_error();
 		}
 
-		if ( $data['status'] === 0 ) {
+		if ( 0 === $data['status'] ) {
 			wp_send_json_error();
 		}
 
@@ -238,7 +242,6 @@ final class WP extends Singleton {
 	 * @param null $post_id
 	 */
 	public function update_deploy_for_container( $post_id = null ) {
-
 		$dollie_obj      = dollie()->get_current_object( $post_id );
 		$deploy_job_uuid = Container::instance()->get_deploy_job( $post_id );
 
@@ -249,9 +252,9 @@ final class WP extends Singleton {
 		$data = $this->process_deploy_status( $deploy_job_uuid );
 
 		// Still pending.
-		if ( $data === false ) {
+		if ( false === $data ) {
 			return;
-		} elseif( is_wp_error( $data ) ) {
+		} elseif ( is_wp_error( $data ) ) {
 
 			Container::instance()->set_status( $post_id, 'failed' );
 

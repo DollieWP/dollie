@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
+use Dollie\Core\Modules\Sites\WP;
 
 /**
  * Class Container
@@ -31,8 +32,15 @@ class Staging extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'template_redirect', [ $this, 'staging_change_action' ] );
 		add_filter( 'dollie/log/actions', [ $this, 'log_action_filter' ], 10, 2 );
+
+		add_action( 'template_redirect', [ $this, 'create' ] );
+		add_action( 'template_redirect', [ $this, 'undeploy' ] );
+
+		add_action( 'template_redirect', [ $this, 'update_deploy' ] );
+		// add_action( 'wp_ajax_dollie_remove_staging', [ $this, 'remove_staging' ] );
+		// add_action( 'wp_ajax_dollie_sync_staging', [ $this, 'sync_staging' ] );
+		// add_action( 'wp_ajax_dollie_admin_staging', [ $this, 'admin_staging' ] );
 	}
 
 	/**
@@ -68,87 +76,164 @@ class Staging extends Singleton {
 	}
 
 	/**
-	 * Action to enable/disable staging from front-end
+	 * Create staging
+	 *
+	 * @return void
 	 */
-	public function staging_change_action() {
-		if ( ! isset( $_POST['staging_change'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'wpd_staging' ) ) {
+	public function create() {
+		if ( ! isset( $_POST['create_staging'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'wpd_staging_create' ) ) {
 			return;
 		}
 
-		if ( ! in_array( $_POST['staging_change'], [ 0, 1 ], false ) ) {
+		$staging_enabled = get_field( 'wpd_enable_staging', 'options' );
+
+		if ( ! $staging_enabled ) {
 			return;
 		}
 
-		$status = (int) $_POST['staging_change'];
+		if ( dollie()->staging_sites_limit_reached() ) {
+			return;
+		}
 
-		// Deploy staging site.
-		if ( 1 === $status ) {
-			// Make sure we can't create staging if limit is reached.
-			if ( dollie()->staging_sites_limit_reached() ) {
-				return;
-			}
+		$deploy_job_uuid = Container::instance()->get_staging_deploy_job( get_the_ID() );
 
-			$site          = dollie()->get_current_object();
-			$deploy_status = 'pending';
+		if ( $deploy_job_uuid ) {
+			return;
+		}
 
-			$post_body = [
-				'source'  => dollie()->get_container_url( get_the_ID() ),
-				'envVars' => [
-					'S5_DEPLOYMENT_URL' => get_site_url(),
-				],
-			];
+		$container_id  = get_the_ID();
+		$deploy_status = 'pending';
 
-			// Send the API request.
-			$request_container_deploy  = Api::post( Api::ROUTE_CONTAINER_STAGING_DEPLOY, $post_body );
-			$response_container_deploy = Api::process_response( $request_container_deploy );
+		$post_body = [
+			'source'  => dollie()->get_container_url( $container_id ),
+			'envVars' => [
+				'S5_DEPLOYMENT_URL' => get_site_url(),
+			],
+		];
 
-			if ( is_array( $response_container_deploy ) && ! $response_container_deploy['job'] ) {
-				Log::add_front(
-					self::LOG_DEPLOY_FAILED,
-					dollie()->get_current_object( $site->id ),
-					$response_container_deploy['route'],
-					print_r( $request_container_deploy, true )
-				);
+		// Send the API request.
+		$request_container_deploy  = Api::post( Api::ROUTE_CONTAINER_STAGING_DEPLOY, $post_body );
+		$response_container_deploy = Api::process_response( $request_container_deploy );
+		if ( is_array( $response_container_deploy ) && ! $response_container_deploy['job'] ) {
+			Log::add_front(
+				self::LOG_DEPLOY_FAILED,
+				dollie()->get_current_object( $container_id ),
+				$response_container_deploy['route'],
+				print_r( $request_container_deploy, true )
+			);
 
-				$deploy_status = 'failed';
-			} elseif ( ! is_array( $response_container_deploy ) ) {
-				Log::add_front(
-					self::LOG_DEPLOY_FAILED,
-					dollie()->get_current_object( $site->id ),
-					'',
-					print_r( $request_container_deploy, true )
-				);
+			$deploy_status = 'failed';
+		} elseif ( ! is_array( $response_container_deploy ) ) {
+			Log::add_front(
+				self::LOG_DEPLOY_FAILED,
+				dollie()->get_current_object( $container_id ),
+				'',
+				print_r( $request_container_deploy, true )
+			);
 
-				$deploy_status = 'failed';
-			}
+			$deploy_status = 'failed';
+		}
 
-			$domain = $response_container_deploy['route'];
+		$domain = $response_container_deploy['route'];
 
-			// Set active staging url.
-			update_post_meta( $site->id, self::OPTION_URL, $domain );
+		$staging_data = get_post_meta( $container_id, self::OPTION_DATA, true );
 
-			$staging_data = get_post_meta( $site->id, self::OPTION_DATA, true );
+		if ( empty( $staging_data ) ) {
+			$staging_data = [];
+		}
 
-			if ( empty( $staging_data ) ) {
-				$staging_data = [];
-			}
+		$staging_data[ $domain ] = [
+			'status' => $deploy_status,
+		];
 
-			$staging_data[ $domain ] = [
-				'status' => $deploy_status,
-			];
+		if ( 'failed' !== $deploy_status ) {
+			Log::add_front(
+				self::LOG_DEPLOY_STARTED,
+				dollie()->get_current_object( $container_id ),
+				$domain
+			);
 
-			if ( 'failed' !== $deploy_status ) {
-				$staging_data[ $domain ]['deploy_job'] = $response_container_deploy['job'];
+			Container::instance()->set_staging_deploy_job( $container_id, $response_container_deploy['job'] );
+			update_post_meta( $container_id, self::OPTION_URL, $domain );
+			update_post_meta( $container_id, self::OPTION_DATA, $staging_data );
+		}
 
-				Log::add_front(
-					self::LOG_DEPLOY_STARTED,
-					dollie()->get_current_object( $site->id ),
-					$domain
-				);
-			}
+		wp_redirect( dollie()->get_site_url( get_the_ID(), 'staging' ) );
+		die();
+	}
 
+	/**
+	 * Undeploy staging
+	 *
+	 * @return void
+	 */
+	public function undeploy() {
+		if ( ! isset( $_POST['undeploy_staging'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'wpd_staging_undeploy' ) ) {
+			return;
+		}
+
+		$container_id = get_the_ID();
+		$staging_url  = get_post_meta( $container_id, '_wpd_staging_url', true );
+		$staging_data = get_post_meta( $container_id, self::OPTION_DATA, true );
+
+		if ( ! $staging_url || ! $staging_data ) {
+			return;
+		}
+
+		$request_container_undeploy  = Api::post(
+			Api::ROUTE_CONTAINER_STAGING_UNDEPLOY,
+			[
+				'container_id' => $staging_data[ $staging_url ]['data']['id'],
+			]
+		);
+		$response_container_undeploy = Api::process_response( $request_container_undeploy );
+
+		if ( 200 === $response_container_undeploy['status'] ) {
+			delete_post_meta( $container_id, self::OPTION_URL );
+			delete_post_meta( $container_id, self::OPTION_DATA );
+		}
+
+		wp_redirect( dollie()->get_site_url( get_the_ID(), 'staging' ) );
+		die();
+	}
+
+	/**
+	 * Update deploy
+	 *
+	 * @return void
+	 */
+	public function update_deploy() {
+		$deploy_job_uuid = Container::instance()->get_staging_deploy_job( get_the_ID() );
+
+		if ( ! $deploy_job_uuid ) {
+			return;
+		}
+
+		$data         = WP::instance()->process_deploy_status( $deploy_job_uuid );
+		$site         = dollie()->get_current_object();
+		$domain       = get_post_meta( $site->id, self::OPTION_URL, true );
+		$staging_data = get_post_meta( $site->id, self::OPTION_DATA, true );
+
+		if ( false === $data ) {
+			return;
+		} elseif ( is_wp_error( $data ) ) {
+			Log::add_front(
+				self::LOG_DEPLOY_STARTED,
+				dollie()->get_current_object( $site->id ),
+				$domain
+			);
+
+			$staging_data[ $domain ]['status'] = 'failed';
 			update_post_meta( $site->id, self::OPTION_DATA, $staging_data );
+
+			return;
 		}
+
+		$staging_data[ $domain ]['status'] = 'live';
+		$staging_data[ $domain ]['data']   = $data['data']['deployment'];
+		update_post_meta( $site->id, self::OPTION_DATA, $staging_data );
+
+		Container::instance()->remove_staging_deploy_job( $site->id );
 	}
 
 }

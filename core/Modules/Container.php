@@ -699,25 +699,31 @@ class Container extends Singleton {
 	/**
 	 * Get container login info
 	 *
+	 * @param string $container_url
 	 * @param null   $container_id
 	 * @param string $site_username
+	 * @param bool   $staging
 	 *
-	 * @return mixed
+	 * @return void
 	 */
-	public function get_login_token( $container_id = null, $site_username = '' ) {
+	public function get_login_token( $container_url, $container_id = null, $site_username = '', $staging = false ) {
 		$container = dollie()->get_current_object( $container_id );
 
 		// Make an API request to get our customer details.
-		$request = dollie()->get_customer_container_details( $container->id );
-
-		$container_url = dollie()->get_container_url( $container->id );
+		if ( ! $staging ) {
+			$request = dollie()->get_customer_container_details( $container->id );
+		} else {
+			$staging_url  = get_post_meta( get_the_ID(), '_wpd_staging_url', true );
+			$staging_data = get_post_meta( $container->id, '_wpd_staging_data', true );
+			$request      = (object) $staging_data[ $staging_url ]['data'];
+		}
 
 		if ( empty( $container_url ) ) {
 			return '';
 		}
 
 		// Now that we have our container details get our info
-		$details_url = dollie()->get_container_url( $container->id ) . WP::PLATFORM_PATH . 'container/details/login.php?username=' . $site_username;
+		$details_url = $container_url . WP::PLATFORM_PATH . 'container/details/login.php?username=' . $site_username;
 
 		return dollie()->container_api_request( $details_url, null, 'container', $request->id );
 	}
@@ -1458,6 +1464,18 @@ class Container extends Singleton {
 	}
 
 	/**
+	 * Set staging deploy job
+	 *
+	 * @param $container_id
+	 * @param $job_uuid
+	 *
+	 * @return bool|int
+	 */
+	public function set_staging_deploy_job( $container_id, $job_uuid ) {
+		return update_post_meta( $container_id, 'wpd_container_staging_deploy_job', $job_uuid );
+	}
+
+	/**
 	 * Get deploy job
 	 *
 	 * @param $container_id
@@ -1469,6 +1487,17 @@ class Container extends Singleton {
 	}
 
 	/**
+	 * Get staging deploy job
+	 *
+	 * @param $container_id
+	 *
+	 * @return mixed
+	 */
+	public function get_staging_deploy_job( $container_id ) {
+		return get_post_meta( $container_id, 'wpd_container_staging_deploy_job', true );
+	}
+
+	/**
 	 * Remove deploy job
 	 *
 	 * @param $container_id
@@ -1477,6 +1506,17 @@ class Container extends Singleton {
 	 */
 	public function remove_deploy_job( $container_id ) {
 		return delete_post_meta( $container_id, 'wpd_container_deploy_job' );
+	}
+
+	/**
+	 * Remove deploy job
+	 *
+	 * @param $container_id
+	 *
+	 * @return bool
+	 */
+	public function remove_staging_deploy_job( $container_id ) {
+		return delete_post_meta( $container_id, 'wpd_container_staging_deploy_job' );
 	}
 
 	/**
