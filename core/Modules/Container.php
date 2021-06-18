@@ -672,10 +672,11 @@ class Container extends Singleton {
 	 * Get container wp info
 	 *
 	 * @param null $container_id
-	 *
+	 * @param bool $staging
+	 * 
 	 * @return mixed
 	 */
-	public function get_info( $container_id = null ) {
+	public function get_info( $container_id = null, $staging = false ) {
 		$container = dollie()->get_current_object( $container_id );
 
 		$transient_id   = $container->slug . '_get_container_wp_info';
@@ -713,7 +714,7 @@ class Container extends Singleton {
 		if ( ! $staging ) {
 			$request = dollie()->get_customer_container_details( $container->id );
 		} else {
-			$staging_url  = get_post_meta( get_the_ID(), '_wpd_staging_url', true );
+			$staging_url  = get_post_meta( $container->id, '_wpd_staging_url', true );
 			$staging_data = get_post_meta( $container->id, '_wpd_staging_data', true );
 			$request      = (object) $staging_data[ $staging_url ]['data'];
 		}

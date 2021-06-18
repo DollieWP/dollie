@@ -212,7 +212,7 @@ class Helpers extends Singleton {
 		$client_user_id = get_post_field( 'post_author', $container->id );
 		$user_role      = dollie()->get_customer_user_role( $client_user_id );
 
-		// If we are admin and visiting client site
+		// If we are admin and visiting client site.
 		if ( 'administrator' !== $user_role && current_user_can( 'manage_options' ) ) {
 			$username = get_option( 'options_wpd_admin_user_name' );
 		} else {
@@ -228,7 +228,6 @@ class Helpers extends Singleton {
 		if ( is_object( $token_details ) && isset( $token_details->Token ) && $token_details->Token ) {
 			$url .= '?s5token=' . $token_details->Token . $location;
 		} else {
-			// keep old functionality for fallback
 			$details = Container::instance()->get_info( $container->id );
 			$url    .= '?s5token=' . $details->Token . $location;
 		}
