@@ -417,6 +417,21 @@ select {
   background-color: rgba(245, 245, 245, var(--tw-bg-opacity));
 }
 
+.hover\:dol-bg-gray-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(82, 82, 82, var(--tw-bg-opacity));
+}
+
+.hover\:dol-bg-red-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(220, 38, 38, var(--tw-bg-opacity));
+}
+
+.hover\:dol-bg-green-600:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(22, 163, 74, var(--tw-bg-opacity));
+}
+
 .hover\:dol-bg-primary:hover {
   background-color: var(--d-primary);
 }
@@ -443,6 +458,25 @@ select {
 
 .hover\:dol-bg-secondary-700:hover {
   background-color: var(--d-secondary-700);
+}
+
+.focus\:dol-bg-gray-600:focus {
+  --tw-bg-opacity: 1;
+  background-color: rgba(82, 82, 82, var(--tw-bg-opacity));
+}
+
+.focus\:dol-bg-red-600:focus {
+  --tw-bg-opacity: 1;
+  background-color: rgba(220, 38, 38, var(--tw-bg-opacity));
+}
+
+.focus\:dol-bg-green-600:focus {
+  --tw-bg-opacity: 1;
+  background-color: rgba(22, 163, 74, var(--tw-bg-opacity));
+}
+
+.focus\:dol-bg-primary-600:focus {
+  background-color: var(--d-primary-600);
 }
 
 .dol-dark .dark\:dol-bg-gray-900 {
@@ -770,6 +804,11 @@ select {
 .dol-my-2 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+
+.dol-my-3 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .dol-my-4 {

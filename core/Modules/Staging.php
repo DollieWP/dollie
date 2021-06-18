@@ -36,11 +36,9 @@ class Staging extends Singleton {
 
 		add_action( 'template_redirect', [ $this, 'create' ] );
 		add_action( 'template_redirect', [ $this, 'undeploy' ] );
+		add_action( 'template_redirect', [ $this, 'sync' ] );
 
 		add_action( 'template_redirect', [ $this, 'update_deploy' ] );
-		// add_action( 'wp_ajax_dollie_remove_staging', [ $this, 'remove_staging' ] );
-		// add_action( 'wp_ajax_dollie_sync_staging', [ $this, 'sync_staging' ] );
-		// add_action( 'wp_ajax_dollie_admin_staging', [ $this, 'admin_staging' ] );
 	}
 
 	/**
@@ -114,6 +112,7 @@ class Staging extends Singleton {
 		// Send the API request.
 		$request_container_deploy  = Api::post( Api::ROUTE_CONTAINER_STAGING_DEPLOY, $post_body );
 		$response_container_deploy = Api::process_response( $request_container_deploy );
+
 		if ( is_array( $response_container_deploy ) && ! $response_container_deploy['job'] ) {
 			Log::add_front(
 				self::LOG_DEPLOY_FAILED,
@@ -159,6 +158,42 @@ class Staging extends Singleton {
 		}
 
 		wp_redirect( dollie()->get_site_url( get_the_ID(), 'staging' ) );
+		die();
+	}
+
+	/**
+	 * Sync staging
+	 *
+	 * @return void
+	 */
+	public function sync() {
+		if ( ! isset( $_POST['sync_staging'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'wpd_staging_sync' ) ) {
+			return;
+		}
+
+		$container_id = get_the_ID();
+		$domain       = get_post_meta( $container_id, self::OPTION_URL, true );
+		$staging_data = get_post_meta( $container_id, self::OPTION_DATA, true );
+
+		if ( ! $domain || ! is_array( $staging_data ) || ! isset( $staging_data[ $domain ] ) ) {
+			return;
+		}
+
+		$post_body = [
+			'source' => $domain,
+			'target' => str_replace( 'https://', '', dollie()->get_container_url( $container_id ) ),
+		];
+
+		$request_container_sync  = Api::post( Api::ROUTE_CONTAINER_STAGING_SYNC, $post_body );
+		$response_container_sync = Api::process_response( $request_container_sync );
+
+		$sync = 'success';
+
+		if ( is_array( $response_container_sync ) && 200 !== $response_container_sync['status'] ) {
+			$sync = 'failed';
+		}
+
+		wp_redirect( dollie()->get_site_url( get_the_ID(), 'staging' ) . '?sync=' . $sync );
 		die();
 	}
 

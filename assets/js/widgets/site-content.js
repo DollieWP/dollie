@@ -7,7 +7,6 @@ var DollieSiteContent = DollieSiteContent || {};
   DollieSiteContent.vars = {
     container: false,
     staging: false,
-    action: "",
     ajax_url: false,
     nonce: false,
     reloaded: false,
@@ -17,7 +16,6 @@ var DollieSiteContent = DollieSiteContent || {};
     init: function () {
       DollieSiteContent.fn.checkDynamicFields();
       DollieSiteContent.fn.deploy();
-      DollieSiteContent.fn.initStagingPanel();
     },
 
     checkDynamicFields: function () {
@@ -96,39 +94,6 @@ var DollieSiteContent = DollieSiteContent || {};
               }, 3000);
             }
           },
-        });
-      }
-    },
-
-    initStagingPanel: function () {
-      var stagingPanel = $("#dol-staging-panel");
-
-      if (stagingPanel.length) {
-        $(".dol-staging-btn").on("click", function (e) {
-          e.preventDefault();
-
-          DollieSiteContent.vars.ajax_url = $(this).data("ajax-url");
-          DollieSiteContent.vars.container = $(this).data("container");
-          DollieSiteContent.vars.action = $(this).data("action");
-          DollieSiteContent.vars.nonce = $(this).data("nonce");
-
-          DollieSiteContent.fn.stagingRequest();
-        });
-      }
-    },
-
-    stagingRequest: function () {
-      if (DollieSiteContent.vars.container) {
-        $.ajax({
-          method: "POST",
-          url: DollieSiteContent.vars.ajax_url,
-          data: {
-            container: DollieSiteContent.vars.container,
-            action: DollieSiteContent.vars.action,
-            nonce: DollieSiteContent.vars.nonce,
-          },
-          context: $(this),
-          success: function (response) {},
         });
       }
     },
