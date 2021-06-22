@@ -16,7 +16,7 @@ use Dollie\Core\Modules\Blueprints;
 class WooCommerce implements SubscriptionInterface {
 
 	const
-		SUB_STATUS_ANY = 'any',
+		SUB_STATUS_ANY    = 'any',
 		SUB_STATUS_ACTIVE = 'active';
 
 	/**
@@ -133,7 +133,7 @@ class WooCommerce implements SubscriptionInterface {
 	/**
 	 * Get subscriptions for customer
 	 *
-	 * @param string $status
+	 * @param string   $status
 	 * @param null|int $customer_id
 	 *
 	 * @return array|bool
@@ -220,7 +220,7 @@ class WooCommerce implements SubscriptionInterface {
 
 				$data['resources']['max_allowed_installs'] += $installs * $quantity;
 				$data['resources']['max_allowed_size']     += $max_size * $quantity;
-				$data['resources']['name']                 = $item_data['name'];
+				$data['resources']['name']                  = $item_data['name'];
 
 				$data['resources']['staging_max_allowed'] += $staging * $quantity;
 
@@ -371,7 +371,7 @@ class WooCommerce implements SubscriptionInterface {
 	public function get_blueprints_exception( $type = 'excluded' ) {
 
 		$data          = [];
-		$type          .= '_blueprints';
+		$type         .= '_blueprints';
 		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
 
 		if ( empty( $subscriptions ) ) {
@@ -393,6 +393,12 @@ class WooCommerce implements SubscriptionInterface {
 		return $data;
 	}
 
+	/**
+	 * Check if user has staing
+	 *
+	 * @param null|int $user_id
+	 * @return boolean
+	 */
 	public function has_staging( $user_id = null ) {
 		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return true;
@@ -406,18 +412,18 @@ class WooCommerce implements SubscriptionInterface {
 			return true;
 		}
 
-		if ( $user_id === null ) {
+		if ( null === $user_id ) {
 			$user_id = get_current_user_id();
 		}
 
 		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user_id );
 
-		// if no subscription is active
+		// If no subscription is active.
 		if ( empty( $subscriptions ) ) {
 			return false;
 		}
 
-		// apply overrides at product level
+		// Apply overrides at product level.
 		if ( isset( $subscriptions['resources']['staging_max_allowed'] ) ) {
 			return $subscriptions['resources']['staging_max_allowed'] > 0;
 		}
@@ -456,6 +462,12 @@ class WooCommerce implements SubscriptionInterface {
 		return ( $subscriptions['resources']['staging_max_allowed'] - $total_site ) <= 0;
 	}
 
+	/**
+	 * Filter blueprints
+	 *
+	 * @param array $blueprints
+	 * @return array
+	 */
 	public function filter_blueprints( $blueprints ) {
 		if ( ! empty( $blueprints ) ) {
 

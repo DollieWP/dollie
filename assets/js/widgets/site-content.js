@@ -16,6 +16,7 @@ var DollieSiteContent = DollieSiteContent || {};
     init: function () {
       DollieSiteContent.fn.checkDynamicFields();
       DollieSiteContent.fn.deploy();
+      DollieSiteContent.fn.initStaging();
     },
 
     checkDynamicFields: function () {
@@ -68,7 +69,7 @@ var DollieSiteContent = DollieSiteContent || {};
             if (!DollieSiteContent.vars.reloaded) {
               DollieSiteContent.fn.checkDeploy();
             }
-          }, 10000);
+          }, 5000);
         }
       }
     },
@@ -91,11 +92,19 @@ var DollieSiteContent = DollieSiteContent || {};
 
               setTimeout(function () {
                 location.reload();
-              }, 3000);
+              }, 5000);
             }
           },
         });
       }
+    },
+
+    initStaging: function () {
+      $("#dol-delete-staging").on("submit", function () {
+        var submit = confirm("Do you really want to delete staging?");
+
+        return submit;
+      });
     },
   };
 

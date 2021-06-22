@@ -1184,12 +1184,21 @@ class Helpers extends Singleton {
 		return preg_match( '/^[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.[a-zA-Z]{2,}$/i', $domain );
 	}
 
+	/**
+	 * Check if is preview
+	 *
+	 * @return boolean
+	 */
 	public function is_preview() {
 		return get_query_var( 'dollie_route_name' ) === 'dollie_preview';
 	}
 
+	/**
+	 * Get current site id
+	 *
+	 * @return int
+	 */
 	public function get_current_site_id() {
-
 		$current_id = get_the_ID();
 		if ( ! class_exists( '\Elementor\Plugin' ) ) {
 			return $current_id;
@@ -1215,5 +1224,62 @@ class Helpers extends Singleton {
 		}
 
 		return $current_id;
+	}
+
+	/**
+	 * Get api instance
+	 *
+	 * @return Api
+	 */
+	public function get_api() {
+		return Api::instance();
+	}
+
+	/**
+	 * Save execution
+	 *
+	 * @param int   $container_id
+	 * @param array $execution
+	 *
+	 * @return void
+	 */
+	public static function save_execution( $container_id, $execution ) {
+		Api::save_execution( $container_id, $execution );
+	}
+
+	/**
+	 * Get execution status
+	 *
+	 * @param string $execution_id
+	 * @param string $execution_type
+	 *
+	 * @return int|\WP_Error
+	 */
+	public function get_execution_status( $execution_id, $execution_type = '' ) {
+		return Api::get_execution_status( $execution_id, $execution_type );
+	}
+
+	/**
+	 * Get execution
+	 *
+	 * @param int    $container_id
+	 * @param string $execution_type
+	 *
+	 * @return null|string
+	 */
+	public function get_execution( $container_id, $execution_type ) {
+		return Api::get_execution( $container_id, $execution_type );
+	}
+
+	/**
+	 * Remove execution
+	 *
+	 * @param int    $container_id
+	 * @param string $execution_type
+	 *
+	 * @return void
+	 */
+	public function remove_execution( $container_id, $execution_type ) {
+		Api::remove_execution( $container_id, $execution_type );
 	}
 }

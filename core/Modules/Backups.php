@@ -116,7 +116,7 @@ class Backups extends Singleton {
 
 			$backup_date = explode( '_', $info[0] );
 
-			// Date of backup
+			// Date of backup.
 			$date        = strtotime( $backup_date[0] );
 			$raw_time    = str_replace( '-', ':', $backup_date[1] );
 			$pretty_time = date( 'g:i a', strtotime( $raw_time ) );
@@ -139,7 +139,7 @@ class Backups extends Singleton {
 	public function make( $container_id = null, $with_log = true ) {
 		$container = dollie()->get_current_object( $container_id );
 
-		if ( $container->id === 0 ) {
+		if ( 0 === $container->id ) {
 			return false;
 		}
 

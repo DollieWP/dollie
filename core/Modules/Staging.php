@@ -39,6 +39,7 @@ class Staging extends Singleton {
 		add_action( 'template_redirect', [ $this, 'sync' ] );
 
 		add_action( 'template_redirect', [ $this, 'update_deploy' ] );
+		add_action( 'template_redirect', [ $this, 'update_sync' ] );
 	}
 
 	/**
@@ -187,13 +188,11 @@ class Staging extends Singleton {
 		$request_container_sync  = Api::post( Api::ROUTE_CONTAINER_STAGING_SYNC, $post_body );
 		$response_container_sync = Api::process_response( $request_container_sync );
 
-		$sync = 'success';
-
-		if ( is_array( $response_container_sync ) && 200 !== $response_container_sync['status'] ) {
-			$sync = 'failed';
+		if ( $response_container_sync ) {
+			Api::save_execution( $container_id, $response_container_sync );
 		}
 
-		wp_redirect( dollie()->get_site_url( get_the_ID(), 'staging' ) . '?sync=' . $sync );
+		wp_redirect( dollie()->get_site_url( get_the_ID(), 'staging' ) );
 		die();
 	}
 
@@ -269,6 +268,31 @@ class Staging extends Singleton {
 		update_post_meta( $site->id, self::OPTION_DATA, $staging_data );
 
 		Container::instance()->remove_staging_deploy_job( $site->id );
+	}
+
+	/**
+	 * Update sync
+	 *
+	 * @return void
+	 */
+	public function update_sync() {
+		$execution = dollie()->get_execution( get_the_ID(), Api::EXECUTION_STAGING_SYNC );
+
+		if ( ! $execution ) {
+			return;
+		}
+
+		if ( 0 === $execution['status'] ) {
+			$data = dollie()->get_execution_status( $execution['id'], Api::EXECUTION_STAGING_SYNC );
+
+			if ( is_wp_error( $data ) ) {
+				dollie()->remove_execution( get_the_ID(), Api::EXECUTION_STAGING_SYNC );
+
+				return;
+			}
+
+			dollie()->save_execution( get_the_ID(), $data );
+		}
 	}
 
 }
