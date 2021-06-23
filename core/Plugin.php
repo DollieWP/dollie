@@ -144,13 +144,14 @@ class Plugin extends Singleton {
 	 * Initialize modules and shortcodes
 	 */
 	public function initialize() {
+		// Load Api.
+		Api::instance();
 
 		// Load elementor hooks.
 		Elementor\Hooks::instance();
 
 		// Load jobs.
 		ChangeContainerRoleJob::instance();
-		// SyncContainersJob::instance();
 		UpdateContainerScreenshotsJob::instance();
 		RemoveOldLogsJob::instance();
 		CustomerSubscriptionCheckJob::instance();

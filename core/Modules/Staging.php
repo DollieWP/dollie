@@ -209,6 +209,7 @@ class Staging extends Singleton {
 		$container_id = get_the_ID();
 		$staging_url  = get_post_meta( $container_id, '_wpd_staging_url', true );
 		$staging_data = get_post_meta( $container_id, self::OPTION_DATA, true );
+		$domain       = get_post_meta( $container_id, self::OPTION_URL, true );
 
 		if ( ! $staging_url || ! $staging_data ) {
 			return;
@@ -225,6 +226,12 @@ class Staging extends Singleton {
 		if ( 200 === $response_container_undeploy['status'] ) {
 			delete_post_meta( $container_id, self::OPTION_URL );
 			delete_post_meta( $container_id, self::OPTION_DATA );
+
+			Log::add_front(
+				self::LOG_UNDEPLOY,
+				dollie()->get_current_object( $container_id ),
+				$domain
+			);
 		}
 
 		wp_redirect( dollie()->get_site_url( get_the_ID(), 'staging' ) );
@@ -243,25 +250,33 @@ class Staging extends Singleton {
 			return;
 		}
 
-		$data         = WP::instance()->process_deploy_status( $deploy_job_uuid );
-		$site         = dollie()->get_current_object();
-		$domain       = get_post_meta( $site->id, self::OPTION_URL, true );
-		$staging_data = get_post_meta( $site->id, self::OPTION_DATA, true );
+		$data   = WP::instance()->process_deploy_status( $deploy_job_uuid );
+		$site   = dollie()->get_current_object();
+		$domain = get_post_meta( $site->id, self::OPTION_URL, true );
 
 		if ( false === $data ) {
 			return;
 		} elseif ( is_wp_error( $data ) ) {
 			Log::add_front(
-				self::LOG_DEPLOY_STARTED,
+				self::LOG_DEPLOY_FAILED,
 				dollie()->get_current_object( $site->id ),
 				$domain
 			);
 
-			$staging_data[ $domain ]['status'] = 'failed';
-			update_post_meta( $site->id, self::OPTION_DATA, $staging_data );
+			delete_post_meta( $site->id, self::OPTION_URL );
+			delete_post_meta( $site->id, self::OPTION_DATA );
+			Container::instance()->remove_staging_deploy_job( $site->id );
 
 			return;
 		}
+
+		Log::add_front(
+			self::LOG_DEPLOYED,
+			dollie()->get_current_object( $site->id ),
+			$domain
+		);
+
+		$staging_data = get_post_meta( $site->id, self::OPTION_DATA, true );
 
 		$staging_data[ $domain ]['status'] = 'live';
 		$staging_data[ $domain ]['data']   = $data['data']['deployment'];

@@ -84,6 +84,48 @@ class Api extends Singleton {
 	public static $last_call = null;
 
 	/**
+	 * Api constructor
+	 */
+	public function __construct() {
+		parent::__construct();
+
+		add_action( 'wp_ajax_dollie_check_execution', [ $this, 'check_execution' ] );
+	}
+
+	/**
+	 * Check execution status by AJAX
+	 */
+	public function check_execution() {
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'dollie_check_execution' ) ) {
+			wp_send_json_error();
+		}
+
+		$execution = $this->get_execution( $_REQUEST['container'], $_REQUEST['type'] );
+
+		if ( ! $execution ) {
+			wp_send_json_success();
+		}
+
+		if ( 0 === $execution['status'] ) {
+			$data = dollie()->get_execution_status( $execution['id'], $_REQUEST['type'] );
+
+			if ( is_wp_error( $data ) ) {
+				dollie()->remove_execution( get_the_ID(), $_REQUEST['type'] );
+
+				wp_send_json_success();
+			}
+
+			dollie()->save_execution( $_REQUEST['container'], $data );
+
+			if ( 0 !== $data['status'] ) {
+				wp_send_json_success();
+			}
+		}
+
+		wp_send_json_error();
+	}
+
+	/**
 	 * @param $r
 	 *
 	 * @return array
