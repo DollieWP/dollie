@@ -457,6 +457,11 @@ class WooCommerce implements SubscriptionInterface {
 	}
 
 	public function filter_blueprints( $blueprints ) {
+
+		if ( current_user_can( 'manage_options' ) ) {
+			return $blueprints;
+		}
+
 		if ( ! empty( $blueprints ) ) {
 
 			$included = $this->get_blueprints_exception( 'included' );

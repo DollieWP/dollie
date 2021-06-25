@@ -373,19 +373,29 @@ class Blueprints extends Singleton {
 	 *
 	 * @return void
 	 */
-	public function update_create_blueprint( $post_id ) {
-		$container = dollie()->get_current_object( get_the_ID() );
+	public function update_create_blueprint( $acf_id ) {
 
-		if ( strpos( $post_id, 'create_update_blueprint' ) === false || 'container' !== get_post_type() || ! dollie()->is_blueprint() || ! $container ) {
+		if ( strpos( $acf_id, 'create_update_blueprint' ) === false ) {
 			return;
 		}
 
-		$container_uri = dollie()->get_wp_site_data( 'uri', get_the_ID() );
+		$post_id = (int) str_replace( 'create_update_blueprint_', '', $acf_id );
+		if ( $post_id <= 0 ) {
+		    return;
+		}
+
+		$container = dollie()->get_current_object( $post_id );
+
+		if ( 'container' !== get_post_type( $post_id ) || ! dollie()->is_blueprint( $post_id ) ) {
+			return;
+		}
+
+		update_post_meta( $post_id, 'wpd_blueprint_created', 'yes' );
+		update_post_meta( $post_id, 'wpd_blueprint_time', @date( 'd/M/Y:H:i' ) );
+
+		$container_uri = dollie()->get_wp_site_data( 'uri', $post_id );
 
 		Api::process_response( Api::post( Api::ROUTE_BLUEPRINT_CREATE_OR_UPDATE, [ 'container_uri' => $container_uri ] ) );
-
-		update_post_meta( get_the_ID(), 'wpd_blueprint_created', 'yes' );
-		update_post_meta( get_the_ID(), 'wpd_blueprint_time', @date( 'd/M/Y:H:i' ) );
 
 		dollie()->container_screenshot( $container_uri, true );
 
