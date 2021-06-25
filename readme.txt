@@ -4,7 +4,7 @@ Tags: hosting, waas, wordpress hosting, sell hosting
 Requires at least: 5.0
 Tested up to: 5.7.2
 Requires PHP: 7.0
-Stable tag: 4.4.4
+Stable tag: 4.4.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -156,8 +156,11 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 
 == Changelog ==
 
+= 4.4.5 =
+* Custom domain check limit action to admin area
+
 = 4.4.4 =
-* fix Realtime customizer for standalone launch pages.
+* Fix Realtime customizer for standalone launch pages.
 * Blueprint logic improvements in admin.
 * Fix author change on container.
 * Update Admin site removal logic.
