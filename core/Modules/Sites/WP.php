@@ -80,7 +80,7 @@ final class WP extends Singleton {
 		$env_vars_extras = apply_filters( 'dollie/launch_site/extras_envvars', [], $domain, $user_id, $email, $blueprint, $deploy_data );
 
 		if ( $blueprint ) {
-			setcookie( Blueprints::COOKIE_NAME, '', time() - 3600, '/' );
+			setcookie( DOLLIE_BLUEPRINTS_COOKIE, '', time() - 3600, '/' );
 			update_post_meta( $post_id, 'wpd_from_blueprint', $blueprint );
 		}
 

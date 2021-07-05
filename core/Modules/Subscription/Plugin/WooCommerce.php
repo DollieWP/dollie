@@ -16,7 +16,7 @@ use Dollie\Core\Modules\Blueprints;
 class WooCommerce implements SubscriptionInterface {
 
 	const
-		SUB_STATUS_ANY = 'any',
+		SUB_STATUS_ANY    = 'any',
 		SUB_STATUS_ACTIVE = 'active';
 
 	/**
@@ -75,10 +75,10 @@ class WooCommerce implements SubscriptionInterface {
 	 * @param $order_id
 	 */
 	public function redirect_to_blueprint( $order_id ) {
-		if ( isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) && $_COOKIE[ Blueprints::COOKIE_NAME ] ) {
+		if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) {
 			$order = new \WC_Order( $order_id );
 			if ( 'failed' !== $order->status ) {
-				wp_redirect( dollie()->get_launch_page_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ Blueprints::COOKIE_NAME ] );
+				wp_redirect( dollie()->get_launch_page_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
 				exit;
 			}
 		}
@@ -133,7 +133,7 @@ class WooCommerce implements SubscriptionInterface {
 	/**
 	 * Get subscriptions for customer
 	 *
-	 * @param string $status
+	 * @param string   $status
 	 * @param null|int $customer_id
 	 *
 	 * @return array|bool
@@ -220,7 +220,7 @@ class WooCommerce implements SubscriptionInterface {
 
 				$data['resources']['max_allowed_installs'] += $installs * $quantity;
 				$data['resources']['max_allowed_size']     += $max_size * $quantity;
-				$data['resources']['name']                 = $item_data['name'];
+				$data['resources']['name']                  = $item_data['name'];
 
 				$data['resources']['staging_max_allowed'] += $staging * $quantity;
 
@@ -371,7 +371,7 @@ class WooCommerce implements SubscriptionInterface {
 	public function get_blueprints_exception( $type = 'excluded' ) {
 
 		$data          = [];
-		$type          .= '_blueprints';
+		$type         .= '_blueprints';
 		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
 
 		if ( empty( $subscriptions ) ) {

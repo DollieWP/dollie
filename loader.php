@@ -27,6 +27,9 @@ define( 'DOLLIE_MODULE_TPL_PATH', DOLLIE_PATH . 'templates/' );
 define( 'DOLLIE_ASSETS_URL', DOLLIE_URL . 'assets/' );
 define( 'DOLLIE_WIDGETS_PATH', DOLLIE_CORE_PATH . 'Widgets/' );
 
+define( 'DOLLIE_BLUEPRINTS_COOKIE', 'dollie_blueprint_id' );
+define( 'DOLLIE_BLUEPRINTS_COOKIE_PARAM', 'blueprint_id' );
+
 $dollie_domain = get_option( 'options_wpd_api_domain' );
 
 if ( get_option( 'wpd_deployment_domain' ) && get_option( 'wpd_deployment_domain_status' ) ) {
