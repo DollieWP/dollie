@@ -75,10 +75,10 @@ class WooCommerce implements SubscriptionInterface {
 	 * @param $order_id
 	 */
 	public function redirect_to_blueprint( $order_id ) {
-		if ( isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) && $_COOKIE[ Blueprints::COOKIE_NAME ] ) {
+		if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) {
 			$order = new \WC_Order( $order_id );
 			if ( 'failed' !== $order->status ) {
-				wp_redirect( dollie()->get_launch_page_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ Blueprints::COOKIE_NAME ] );
+				wp_redirect( dollie()->get_launch_page_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
 				exit;
 			}
 		}

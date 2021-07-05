@@ -977,8 +977,16 @@ class Helpers extends Singleton {
 		$user_id = $user_id ?: get_current_user_id();
 		$role    = get_user_meta( $user_id, 'wpd_client_site_permissions', true );
 
-		if ( ! $role || 'default' === $role ) {
-			$role = get_field( 'wpd_client_site_permission', 'options' );
+		if ( empty( $role ) ) {
+		    $role = 'default';
+		}
+
+		if ( 'default' === $role ) {
+		    if ( user_can( $user_id, 'manage_options' ) ) {
+			    $role = 'administrator';
+		    } else {
+			    $role = get_field( 'wpd_client_site_permission', 'options' );
+		    }
 		}
 
 		return $role ?: 'administrator';
