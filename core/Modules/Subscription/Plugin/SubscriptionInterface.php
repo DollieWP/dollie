@@ -13,10 +13,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 interface SubscriptionInterface {
 
-	public function redirect_to_blueprint( $id);
-	public function get_checkout_link( $product_id, $blueprint_id);
-	public function get_customer_subscriptions( $status = null, $customer_id = null);
-	public function has_bought_product( $user_id = 0);
+	public function redirect_to_blueprint( $id );
+	public function get_checkout_link( $args );
+	public function get_customer_subscriptions( $status = null, $customer_id = null );
+	public function has_bought_product( $user_id = 0 );
 	public function has_subscription();
 	public function sites_available();
 	public function storage_available();

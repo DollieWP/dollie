@@ -139,7 +139,6 @@ class Helpers extends Singleton {
 			$url = add_query_arg( 'location', $container_location, $url );
 		}
 
-
 		return wp_nonce_url( $url, 'get_site_login', '_nonce' );
 	}
 
@@ -927,7 +926,12 @@ class Helpers extends Singleton {
 	 * @return mixed
 	 */
 	public function get_woo_checkout_link( $product_id, $blueprint_id ) {
-		return Subscription::instance()->get_checkout_link( $product_id, $blueprint_id );
+		return Subscription::instance()->get_checkout_link(
+			[
+				'product_id'   => $product_id,
+				'blueprint_id' => $blueprint_id,
+			]
+		);
 	}
 
 	/**

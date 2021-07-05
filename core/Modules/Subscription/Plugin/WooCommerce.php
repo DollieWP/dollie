@@ -94,22 +94,21 @@ class WooCommerce implements SubscriptionInterface {
 	/**
 	 * Get checkout link
 	 *
-	 * @param $product_id
-	 * @param $blueprint_id
+	 * @param $args
 	 *
 	 * @return mixed|string|void
 	 * @throws \Exception
 	 */
-	public function get_checkout_link( $product_id, $blueprint_id ) {
+	public function get_checkout_link( $args ) {
 		if ( ! function_exists( 'wc_get_product' ) ) {
 			return '#';
 		}
 
-		$product_obj = wc_get_product( $product_id );
+		$product_obj = wc_get_product( $args['product_id'] );
 
 		$link_args = [
-			'add-to-cart'  => $product_id,
-			'blueprint_id' => $blueprint_id,
+			'add-to-cart'  => $args['product_id'],
+			'blueprint_id' => $args['blueprint_id'],
 		];
 
 		if ( method_exists( $product_obj, 'get_type' ) && $product_obj->get_type() === 'variable-subscription' ) {
@@ -127,7 +126,7 @@ class WooCommerce implements SubscriptionInterface {
 			wc_get_checkout_url()
 		);
 
-		return apply_filters( 'dollie/woo/checkout_link', $link, $product_id, $blueprint_id );
+		return apply_filters( 'dollie/woo/checkout_link', $link, $args );
 	}
 
 	/**

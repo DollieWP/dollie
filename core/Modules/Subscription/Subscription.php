@@ -52,8 +52,8 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		$this->module->redirect_to_blueprint( $id );
 	}
 
-	public function get_checkout_link( $product_id, $blueprint_id ) {
-		return $this->module->get_checkout_link( $product_id, $blueprint_id );
+	public function get_checkout_link( $args ) {
+		return $this->module->get_checkout_link( $args );
 	}
 
 	public function get_customer_subscriptions( $status = null, $customer_id = null ) {
