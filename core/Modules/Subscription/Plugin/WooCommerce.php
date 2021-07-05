@@ -6,14 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Modules\Blueprints;
+use Dollie\Core\Singleton;
 
 /**
  * Class WooCommerce
  *
  * @package Dollie\Core\Modules\Subscription\Plugin
  */
-class WooCommerce implements SubscriptionInterface {
+class WooCommerce extends Singleton implements SubscriptionInterface {
 
 	const
 		SUB_STATUS_ANY    = 'any',
@@ -405,18 +405,18 @@ class WooCommerce implements SubscriptionInterface {
 			return true;
 		}
 
-		if ( $user_id === null ) {
+		if ( null === $user_id ) {
 			$user_id = get_current_user_id();
 		}
 
 		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user_id );
 
-		// if no subscription is active
+		// If no subscription is active.
 		if ( empty( $subscriptions ) ) {
 			return false;
 		}
 
-		// apply overrides at product level
+		// Apply overrides at product level.
 		if ( isset( $subscriptions['resources']['staging_max_allowed'] ) ) {
 			return $subscriptions['resources']['staging_max_allowed'] > 0;
 		}

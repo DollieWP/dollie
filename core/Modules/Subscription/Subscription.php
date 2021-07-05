@@ -34,13 +34,14 @@ class Subscription extends Singleton implements SubscriptionInterface {
 
 		if ( ! $subscription_plugin ) {
 			$subscription_plugin = 'WooCommerce';
+
+			require_once DOLLIE_CORE_PATH . 'Modules/Subscription/Plugin/' . $subscription_plugin . '.php';
+			$class_name = '\Dollie\Core\Modules\Subscription\Plugin\\' . $subscription_plugin;
+		} else {
+			$class_name = apply_filters( 'dollie/subscription/plugin_class', '\Dollie\Core\Modules\Subscription\Plugin\\' . $subscription_plugin, $subscription_plugin );
 		}
 
-		$class_path = apply_filters( 'dollie/subscription/plugin_path', DOLLIE_CORE_PATH . 'Modules/Subscription/Plugin/' . $subscription_plugin . '.php', $subscription_plugin );
-		$class_name = apply_filters( 'dollie/subscription/plugin_class', '\Dollie\Core\Modules\Subscription\Plugin\\' . $subscription_plugin, $subscription_plugin );
-
-		require_once $class_path;
-		$this->module = new $class_name();
+		$this->module = $class_name::instance();
 
 		if ( ! $this->module instanceof SubscriptionInterface ) {
 			throw new \Exception( 'Invalid subscription plugin' );
