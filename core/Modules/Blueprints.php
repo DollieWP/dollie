@@ -18,7 +18,7 @@ use Dollie\Core\Log;
 class Blueprints extends Singleton {
 
 	/**
-	 * Backups constructor.
+	 * Blueprints constructor.
 	 */
 	public function __construct() {
 		parent::__construct();

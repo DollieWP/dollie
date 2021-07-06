@@ -585,6 +585,10 @@ class Container extends Singleton {
 
 			$container_id = get_post_meta( $container->id, 'wpd_container_id', true );
 
+			if ( empty( $container_id ) ) {
+			    return [];
+            }
+
 			// Set up the request
 			$request_get_container = Api::post(
 				API::ROUTE_CONTAINER_GET,

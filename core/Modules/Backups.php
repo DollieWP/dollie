@@ -42,11 +42,16 @@ class Backups extends Singleton {
 			$backups = $data;
 		} else {
 			$secret = get_post_meta( $container_id, 'wpd_container_secret', true );
+			$container_url = dollie()->get_container_url( $container_id, true );
+
+			if ( empty( $secret ) || empty( $container_url ) ) {
+				return [];
+			}
 
 			$request_get_backup = Api::post(
 				Api::ROUTE_BACKUP_GET,
 				[
-					'container_url'    => dollie()->get_container_url( $container_id, true ),
+					'container_url'    => $container_url,
 					'container_secret' => $secret,
 				]
 			);
