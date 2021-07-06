@@ -95,7 +95,7 @@ msgstr ""
 msgid "LetsEncrypt Failed"
 msgstr ""
 
-#: core/Log.php:311, core/Modules/ContainerFields.php:91, templates/loop/sites.php:188
+#: core/Log.php:311, core/Modules/ContainerFields.php:91, templates/loop/sites.php:157
 msgid "Blueprint Updated"
 msgstr ""
 
@@ -415,7 +415,7 @@ msgstr ""
 msgid "Choose the username that is created for your own administration access. This won't be shared with the client."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1173, templates/widgets/general/main-navigation.php:61, templates/widgets/general/sites-navigation.php:50, templates/widgets/site/site-navigation.php:26, core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:94
+#: core/Extras/AcfFields.php:1173, templates/widgets/general/main-navigation.php:61, templates/widgets/general/sites-navigation.php:50, templates/widgets/site/site-navigation.php:26, core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:72
 msgid "Blueprints"
 msgstr ""
 
@@ -545,14 +545,6 @@ msgstr ""
 
 #: core/Extras/AcfFields.php:1656
 msgid "You can fill in just your bucket name like \"my_bucket_name\" or you can point to a folder in your bucket like \"my_bucket_name/example_folder\". Every site will be backed up in its own folder."
-msgstr ""
-
-#: core/Extras/AcfFields.php:1681, core/Modules/Blueprints.php:260, templates/widgets/site/site-navigation.php:31
-msgid "Staging"
-msgstr ""
-
-#: core/Extras/AcfFields.php:1684
-msgid "Allow customers to use staging sites functionality. Each enabled staging site will add a cost to your monthly subscription. Please check with the Dollie Sales Team."
 msgstr ""
 
 #: core/Extras/AcfFields.php:1725
@@ -767,39 +759,43 @@ msgstr ""
 msgid "Set a password to also create an account."
 msgstr ""
 
-#: core/Modules/Blueprints.php:52
+#: core/Modules/Blueprints.php:49
 msgid "Please fill in the Realtime Customizer fields."
 msgstr ""
 
-#: core/Modules/Blueprints.php:94
+#: core/Modules/Blueprints.php:91
 msgid "Realtime Customizer"
 msgstr ""
 
-#: core/Modules/Blueprints.php:95
+#: core/Modules/Blueprints.php:92
 msgid "Make sure to set your site details below. We automatically launch the site with your information."
 msgstr ""
 
-#: core/Modules/Blueprints.php:270
+#: core/Modules/Blueprints.php:267
 msgid "Live"
 msgstr ""
 
-#: core/Modules/Blueprints.php:271
+#: core/Modules/Blueprints.php:268
 msgid "This Blueprint was last updated at %1$s. Made changes since then? Don’t forget to update this blueprint."
 msgstr ""
 
-#: core/Modules/Blueprints.php:261
+#: core/Modules/Blueprints.php:257, templates/widgets/site/site-navigation.php:31
+msgid "Staging"
+msgstr ""
+
+#: core/Modules/Blueprints.php:258
 msgid "This Blueprint is still in staging mode. Click here to make it available for your customers."
 msgstr ""
 
-#: core/Modules/Blueprints.php:445
+#: core/Modules/Blueprints.php:452
 msgid "The following fields were not found in the blueprint:"
 msgstr ""
 
-#: core/Modules/Blueprints.php:456
+#: core/Modules/Blueprints.php:463
 msgid "Make sure you add the missing fields into your blueprint or completly remove them from the customizer's fields and then update it."
 msgstr ""
 
-#: core/Modules/Blueprints.php:437
+#: core/Modules/Blueprints.php:444
 msgid "All customizer's fields were successfully found in the blueprint."
 msgstr ""
 
@@ -1019,35 +1015,35 @@ msgstr ""
 msgid "Items list navigation"
 msgstr ""
 
-#: core/Modules/Container.php:914
+#: core/Modules/Container.php:918
 msgid "Stop"
 msgstr ""
 
-#: core/Modules/Container.php:912
+#: core/Modules/Container.php:916
 msgid "Permanently delete sites"
 msgstr ""
 
-#: core/Modules/Container.php:929
+#: core/Modules/Container.php:933
 msgid "Assigned Customer to this Site"
 msgstr ""
 
-#: core/Modules/Container.php:1048, templates/loop/sites.php:204
+#: core/Modules/Container.php:1052, templates/loop/sites.php:173
 msgid "Customer"
 msgstr ""
 
-#: core/Modules/Container.php:1240
+#: core/Modules/Container.php:1244
 msgid "Notice - How To Manage This Site"
 msgstr ""
 
-#: core/Modules/Container.php:1245
+#: core/Modules/Container.php:1249
 msgid "We recommend managing this site on the front-end of your installation using the <a href=\"%s\">Site Dashboard</a>. Use this page to take advanced actions, like stopping or restarting your site."
 msgstr ""
 
-#: core/Modules/Container.php:1226
+#: core/Modules/Container.php:1230
 msgid "Notice - How To Manage & Update This Blueprint"
 msgstr ""
 
-#: core/Modules/Container.php:1231
+#: core/Modules/Container.php:1235
 msgid "<a href=\"%s\">Manage this Blueprint using the front-end of your dashboard.</a> Use this page to take advanced actions, like stopping/removing the blueprint completely or assigning it to another user."
 msgstr ""
 
@@ -1147,6 +1143,10 @@ msgstr ""
 msgid "Launch Site"
 msgstr ""
 
+#: core/Modules/Preview.php:242
+msgid "all"
+msgstr ""
+
 #: core/Modules/Preview.php:253
 msgid "all times"
 msgstr ""
@@ -1207,23 +1207,23 @@ msgstr ""
 msgid "Our SiteCache solution is powered partly by the WP Fastest Cache plugin. We recommend to keep this plugin activated."
 msgstr ""
 
-#: core/Utils/Helpers.php:635
+#: core/Utils/Helpers.php:634
 msgid "Sorry, we could not retrieve your site details"
 msgstr ""
 
-#: core/Utils/Helpers.php:640
+#: core/Utils/Helpers.php:639
 msgid "We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error."
 msgstr ""
 
-#: core/Utils/Helpers.php:646
+#: core/Utils/Helpers.php:645
 msgid "Retry"
 msgstr ""
 
-#: core/Utils/Helpers.php:651
+#: core/Utils/Helpers.php:650
 msgid "Create a support ticket"
 msgstr ""
 
-#: core/Utils/Helpers.php:1017
+#: core/Utils/Helpers.php:1029
 msgid "Site View"
 msgstr ""
 
@@ -1269,51 +1269,51 @@ msgstr ""
 msgid "Please finish the site setup by connecting this installation to your partner account. Simply click on the button below to continue."
 msgstr ""
 
-#: core/Utils/Notices.php:157
+#: core/Utils/Notices.php:158
 msgid "Dollie - Custom Domain Activated"
 msgstr ""
 
-#: core/Utils/Notices.php:158
+#: core/Utils/Notices.php:159
 msgid "Yey! Your custom deployment domain is ready to use. From now on, all your launched sites will use your custom domain."
 msgstr ""
 
-#: core/Utils/Notices.php:162
+#: core/Utils/Notices.php:163
 msgid "Dismiss"
 msgstr ""
 
-#: core/Utils/Notices.php:146
+#: core/Utils/Notices.php:147
 msgid "Dollie - Custom Domain is Pending"
 msgstr ""
 
-#: core/Utils/Notices.php:147
+#: core/Utils/Notices.php:148
 msgid "Your custom domain has been added, but it may take up to 24 hours for the NS records to propagate. We will constantly check your domain and automatically replace your deployment domain with the custom one, once we detect the change. In the meantime, all your deploys will use the default deployment domain."
 msgstr ""
 
-#: core/Utils/Notices.php:252
+#: core/Utils/Notices.php:253
 msgid "Dollie Notice - Trial Subscription Limit Reached"
 msgstr ""
 
-#: core/Utils/Notices.php:253
+#: core/Utils/Notices.php:254
 msgid "Your trial subscription has reached the maximum allowed deploys. Please note that your clients won't be able to deploy until you activate your subscription."
 msgstr ""
 
-#: core/Utils/Notices.php:259, core/Utils/Notices.php:237
+#: core/Utils/Notices.php:260, core/Utils/Notices.php:238
 msgid "Update Subscription"
 msgstr ""
 
-#: core/Utils/Notices.php:265, templates/widgets/site/pages/plugins.php:93, templates/widgets/site/pages/plugins.php:73
+#: core/Utils/Notices.php:266, templates/widgets/site/pages/plugins.php:93, templates/widgets/site/pages/plugins.php:73
 msgid "Check again"
 msgstr ""
 
-#: core/Utils/Notices.php:230
+#: core/Utils/Notices.php:231
 msgid "Dollie Error - No active subscription"
 msgstr ""
 
-#: core/Utils/Notices.php:231
+#: core/Utils/Notices.php:232
 msgid "It seems like your Dollie Subscription is expired or inactive. Please note that your clients won't be able to deploy until you activate your subscription."
 msgstr ""
 
-#: core/Utils/Notices.php:243
+#: core/Utils/Notices.php:244
 msgid "Re-Check Subscription Status"
 msgstr ""
 
@@ -1365,39 +1365,43 @@ msgstr ""
 msgid "Read article"
 msgstr ""
 
-#: templates/loop/sites.php:80
+#: templates/loop/sites.php:38
 msgid "Search for a site..."
 msgstr ""
 
-#: templates/loop/sites.php:267
+#: templates/loop/sites.php:236
 msgid "No sites found."
 msgstr ""
 
-#: templates/loop/sites.php:113
+#: templates/loop/sites.php:70
+msgid "You are now viewing the blueprints made by you and your team."
+msgstr ""
+
+#: templates/loop/sites.php:82
 msgid "Unnamed"
 msgstr ""
 
-#: templates/loop/sites.php:179
+#: templates/loop/sites.php:148
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites.php:182
+#: templates/loop/sites.php:151
 msgid "Version %s"
 msgstr ""
 
-#: templates/loop/sites.php:196
+#: templates/loop/sites.php:165
 msgid "Never. Update now!"
 msgstr ""
 
-#: templates/loop/sites.php:222
+#: templates/loop/sites.php:191
 msgid "Manage"
 msgstr ""
 
-#: templates/loop/sites.php:216
+#: templates/loop/sites.php:185
 msgid "Update"
 msgstr ""
 
-#: templates/loop/sites.php:233, templates/widgets/site/site-screenshot.php:33
+#: templates/loop/sites.php:202, templates/widgets/site/site-screenshot.php:33
 msgid "Admin"
 msgstr ""
 
@@ -2163,27 +2167,27 @@ msgstr ""
 msgid "You have reached the maximum amount of sites you can launch. Please upgrade your plan to add more sites."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:193
+#: templates/widgets/site/site-content.php:189
 msgid "Launching Your New Site"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:197
+#: templates/widgets/site/site-content.php:193
 msgid "Your site will be ready to go in just a moment."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:201
+#: templates/widgets/site/site-content.php:197
 msgid "Don't worry, we'll automatically reload this page once it's ready."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:204
+#: templates/widgets/site/site-content.php:200
 msgid "If you don't want to wait for a few seconds, you can navigate away. We got it covered!"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:185
+#: templates/widgets/site/site-content.php:181
 msgid "Launching New Blueprint"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:189
+#: templates/widgets/site/site-content.php:185
 msgid "Once your Blueprint has been launched you can go ahead and install your favorite plugins and themes, to make the perfect pre-made site for your customers."
 msgstr ""
 
@@ -2207,7 +2211,7 @@ msgstr ""
 msgid "Please use ACF Pro version greater than 5.9.0 or disable ACF Pro plugin"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/WooCommerce.php:317
+#: core/Modules/Subscription/Plugin/WooCommerce.php:316
 msgid "None"
 msgstr ""
 
@@ -2719,23 +2723,19 @@ msgstr ""
 msgid "The amount of space customer can use when subscribed to this product."
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:72
-msgid "Staging Sites"
-msgstr ""
-
-#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:110
+#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:88
 msgid "Included Blueprints"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:113
+#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:91
 msgid "Select which of your Blueprints are allowed to be deployed when a customer has an active subscription to this product."
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:133
+#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:111
 msgid "Excluded Blueprints"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:136
+#: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:114
 msgid "Select which of your Blueprints can not be chosen when a customer has an active subscription to this product. Use this setting if you have a lot of blueprints and only want to restrict access to a couple of them."
 msgstr ""
 

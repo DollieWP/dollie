@@ -139,7 +139,6 @@ class Helpers extends Singleton {
 			$url = add_query_arg( 'location', $container_location, $url );
 		}
 
-
 		return wp_nonce_url( $url, 'get_site_login', '_nonce' );
 	}
 
@@ -927,7 +926,12 @@ class Helpers extends Singleton {
 	 * @return mixed
 	 */
 	public function get_woo_checkout_link( $product_id, $blueprint_id ) {
-		return Subscription::instance()->get_checkout_link( $product_id, $blueprint_id );
+		return Subscription::instance()->get_checkout_link(
+			[
+				'product_id'   => $product_id,
+				'blueprint_id' => $blueprint_id,
+			]
+		);
 	}
 
 	/**
@@ -941,8 +945,16 @@ class Helpers extends Singleton {
 		$user_id = $user_id ?: get_current_user_id();
 		$role    = get_user_meta( $user_id, 'wpd_client_site_permissions', true );
 
-		if ( ! $role || 'default' === $role ) {
-			$role = get_field( 'wpd_client_site_permission', 'options' );
+		if ( empty( $role ) ) {
+		    $role = 'default';
+		}
+
+		if ( 'default' === $role ) {
+		    if ( user_can( $user_id, 'manage_options' ) ) {
+			    $role = 'administrator';
+		    } else {
+			    $role = get_field( 'wpd_client_site_permission', 'options' );
+		    }
 		}
 
 		return $role ?: 'administrator';

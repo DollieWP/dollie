@@ -165,9 +165,9 @@ class LaunchSite extends Singleton {
 		if ( ! empty( $blueprints ) && Blueprints::show_default_blueprint() ) {
 			$default_option = [
 				0 => '<img data-toggle="tooltip" data-placement="bottom" ' .
-				     ' title="' . esc_attr__( 'Default Wordpress Site', 'dollie' ) . '"' .
-				     ' class="fw-blueprint-screenshot" src="' . DOLLIE_ASSETS_URL . 'img/default-blueprint.jpg">' .
-				     esc_html__( 'No Blueprint', 'dollie' ),
+					 ' title="' . esc_attr__( 'Default Wordpress Site', 'dollie' ) . '"' .
+					 ' class="fw-blueprint-screenshot" src="' . DOLLIE_ASSETS_URL . 'img/default-blueprint.jpg">' .
+					 esc_html__( 'No Blueprint', 'dollie' ),
 			];
 		}
 		$field['choices'] = $default_option + $blueprints;
@@ -178,8 +178,8 @@ class LaunchSite extends Singleton {
 			$field['wrapper']['class'] = 'acf-hidden';
 			$field['disabled']         = 1;
 
-		} elseif ( isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) && ! is_admin() ) {
-			$field['value'] = (int) sanitize_text_field( $_COOKIE[ Blueprints::COOKIE_NAME ] );
+		} elseif ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && ! is_admin() ) {
+			$field['value'] = (int) sanitize_text_field( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
 		}
 
 		return $field;

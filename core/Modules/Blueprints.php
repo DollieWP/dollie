@@ -17,11 +17,8 @@ use Dollie\Core\Log;
  */
 class Blueprints extends Singleton {
 
-	const COOKIE_NAME = 'dollie_blueprint_id';
-	const COOKIE_GET_PARAM = 'blueprint_id';
-
 	/**
-	 * Backups constructor.
+	 * Blueprints constructor.
 	 */
 	public function __construct() {
 		parent::__construct();
@@ -79,8 +76,8 @@ class Blueprints extends Singleton {
 
 				$message .= '<div class="acf-field-text acf-field" style="width: 50%;" data-width="50">';
 				$message .= '<div class="af-label acf-label">' .
-				            '<label>' . $field['name'] . '</label>' .
-				            '</div>';
+							'<label>' . $field['name'] . '</label>' .
+							'</div>';
 				$message .= '<div class="af-input acf-input">';
 				$message .= '<input name="wpd_bp_data[' . $field['placeholder'] . ']" type="text" placeholder="' . $field['default_value'] . '"><br>';
 				$message .= '</div>';
@@ -93,8 +90,8 @@ class Blueprints extends Singleton {
 					'icon'    => 'fas fa-exclamation-circle',
 					'title'   => __( 'Realtime Customizer', 'dollie' ),
 					'message' => '<div>' . __( 'Make sure to set your site details below. We automatically launch the site with your information.', 'dollie' )
-					             . '</div>'
-					             . $message,
+								 . '</div>'
+								 . $message,
 				],
 				true
 			);
@@ -172,9 +169,9 @@ class Blueprints extends Singleton {
 					$image = get_post_meta( $site->ID, 'wpd_site_screenshot', true );
 				}
 				$value = '<img data-toggle="tooltip" data-placement="bottom" ' .
-				         'data-tooltip="' . esc_attr( get_post_meta( $site->ID, 'wpd_installation_blueprint_description', true ) ) . '" ' .
-				         'class="fw-blueprint-screenshot acf__tooltip" src=' . $image . '>' .
-				         esc_html( get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true ) );
+						 'data-tooltip="' . esc_attr( get_post_meta( $site->ID, 'wpd_installation_blueprint_description', true ) ) . '" ' .
+						 'class="fw-blueprint-screenshot acf__tooltip" src=' . $image . '>' .
+						 esc_html( get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true ) );
 			} else {
 				$value = get_post_meta( $site->ID, 'wpd_installation_blueprint_title', true );
 			}
@@ -229,13 +226,13 @@ class Blueprints extends Singleton {
 	 * Set blueprint cookie
 	 */
 	public function set_cookie() {
-		if ( isset( $_GET[ self::COOKIE_GET_PARAM ] ) && (int) $_GET[ self::COOKIE_GET_PARAM ] > 0 ) {
-			$cookie_id = sanitize_text_field( $_GET[ self::COOKIE_GET_PARAM ] );
+		if ( isset( $_GET[ DOLLIE_BLUEPRINTS_COOKIE_PARAM ] ) && (int) $_GET[ DOLLIE_BLUEPRINTS_COOKIE_PARAM ] > 0 ) {
+			$cookie_id = sanitize_text_field( $_GET[ DOLLIE_BLUEPRINTS_COOKIE_PARAM ] );
 		}
 
 		// No Cookies set? Check is parameter are valid.
 		if ( isset( $cookie_id ) ) {
-			setcookie( self::COOKIE_NAME, $cookie_id, time() + ( 86400 * 30 ), '/' );
+			setcookie( DOLLIE_BLUEPRINTS_COOKIE, $cookie_id, time() + ( 86400 * 30 ), '/' );
 		}
 	}
 
@@ -254,23 +251,23 @@ class Blueprints extends Singleton {
 		$post_id = get_the_ID();
 
 		if ( dollie()->is_blueprint_staging( $post_id ) ) { ?>
-            <div class="dol-fixed dol-w-full dol-bg-gray-700 dol-p-3 dol-text-white dol-bottom-0 dol-left-0 dol-z-50 dol-text-center">
-                <i class="fas fa-copy"></i>
-                <a class="dol-text-white hover:dol-text-white" href=" <?php echo get_permalink(); ?>/blueprints">
-                    <strong><?php esc_html_e( 'Staging', 'dollie' ); ?></strong>
-                    - <?php esc_html_e( 'This Blueprint is still in staging mode. Click here to make it available for your customers.', 'dollie' ); ?>
-                </a>
-            </div>
+			<div class="dol-fixed dol-w-full dol-bg-gray-700 dol-p-3 dol-text-white dol-bottom-0 dol-left-0 dol-z-50 dol-text-center">
+				<i class="fas fa-copy"></i>
+				<a class="dol-text-white hover:dol-text-white" href=" <?php echo get_permalink(); ?>/blueprints">
+					<strong><?php esc_html_e( 'Staging', 'dollie' ); ?></strong>
+					- <?php esc_html_e( 'This Blueprint is still in staging mode. Click here to make it available for your customers.', 'dollie' ); ?>
+				</a>
+			</div>
 			<?php
 		} else {
 			$blueprint_time = get_post_meta( $post_id, 'wpd_blueprint_time', true );
 			?>
-            <div class="dol-fixed dol-w-full dol-bg-secondary dol-p-3 dol-text-white dol-bottom-0 dol-left-0 dol-z-50 dol-text-center">
-                <a class="dol-text-white hover:dol-text-white" href="<?php echo get_permalink() . '/blueprints'; ?>">
-                    <i class="fas fa-copy"></i> <strong><?php esc_html_e( 'Live', 'dollie' ); ?></strong> -
+			<div class="dol-fixed dol-w-full dol-bg-secondary dol-p-3 dol-text-white dol-bottom-0 dol-left-0 dol-z-50 dol-text-center">
+				<a class="dol-text-white hover:dol-text-white" href="<?php echo get_permalink() . '/blueprints'; ?>">
+					<i class="fas fa-copy"></i> <strong><?php esc_html_e( 'Live', 'dollie' ); ?></strong> -
 					<?php printf( __( 'This Blueprint was last updated at %1$s. Made changes since then? Don’t forget to update this blueprint.', 'dollie' ), $blueprint_time ); ?>
-                </a>
-            </div>
+				</a>
+			</div>
 		<?php } ?>
 		<?php
 	}
@@ -373,19 +370,29 @@ class Blueprints extends Singleton {
 	 *
 	 * @return void
 	 */
-	public function update_create_blueprint( $post_id ) {
-		$container = dollie()->get_current_object( get_the_ID() );
+	public function update_create_blueprint( $acf_id ) {
 
-		if ( strpos( $post_id, 'create_update_blueprint' ) === false || 'container' !== get_post_type() || ! dollie()->is_blueprint() || ! $container ) {
+		if ( strpos( $acf_id, 'create_update_blueprint' ) === false ) {
 			return;
 		}
 
-		$container_uri = dollie()->get_wp_site_data( 'uri', get_the_ID() );
+		$post_id = (int) str_replace( 'create_update_blueprint_', '', $acf_id );
+		if ( $post_id <= 0 ) {
+			return;
+		}
+
+		$container = dollie()->get_current_object( $post_id );
+
+		if ( 'container' !== get_post_type( $post_id ) || ! dollie()->is_blueprint( $post_id ) ) {
+			return;
+		}
+
+		update_post_meta( $post_id, 'wpd_blueprint_created', 'yes' );
+		update_post_meta( $post_id, 'wpd_blueprint_time', @date( 'd/M/Y:H:i' ) );
+
+		$container_uri = dollie()->get_wp_site_data( 'uri', $post_id );
 
 		Api::process_response( Api::post( Api::ROUTE_BLUEPRINT_CREATE_OR_UPDATE, [ 'container_uri' => $container_uri ] ) );
-
-		update_post_meta( get_the_ID(), 'wpd_blueprint_created', 'yes' );
-		update_post_meta( get_the_ID(), 'wpd_blueprint_time', @date( 'd/M/Y:H:i' ) );
 
 		dollie()->container_screenshot( $container_uri, true );
 
@@ -433,29 +440,29 @@ class Blueprints extends Singleton {
 		if ( $success ) {
 			ob_start();
 			?>
-            <div class="dol-w-full dol-items-center dol-px-4 dol-py-2 dol-text-base dol-leading-6 dol-rounded dol-text-white dol-bg-green-600 dol-font-bold">
+			<div class="dol-w-full dol-items-center dol-px-4 dol-py-2 dol-text-base dol-leading-6 dol-rounded dol-text-white dol-bg-green-600 dol-font-bold">
 				<?php esc_html_e( 'All customizer\'s fields were successfully found in the blueprint.', 'dollie' ); ?>
-            </div>
+			</div>
 			<?php
 			$message = ob_get_clean();
 		} else {
 			ob_start();
 			?>
-            <div class="dol-w-full dol-items-center dol-px-4 dol-py-2 dol-text-base dol-leading-6 dol-rounded dol-text-white dol-bg-red-500">
-                <div class="dol-font-bold"><?php esc_html_e( 'The following fields were not found in the blueprint:', 'dollie' ); ?></div>
+			<div class="dol-w-full dol-items-center dol-px-4 dol-py-2 dol-text-base dol-leading-6 dol-rounded dol-text-white dol-bg-red-500">
+				<div class="dol-font-bold"><?php esc_html_e( 'The following fields were not found in the blueprint:', 'dollie' ); ?></div>
 
-                <ul>
+				<ul>
 					<?php foreach ( $response as $placeholder => $status ) : ?>
 						<?php if ( ! $status ) : ?>
-                            <li><?php echo $placeholder; ?></li>
+							<li><?php echo $placeholder; ?></li>
 						<?php endif; ?>
 					<?php endforeach; ?>
-                </ul>
+				</ul>
 
-                <div class="dol-mt-4 dol-text-sm dol-medium">
+				<div class="dol-mt-4 dol-text-sm dol-medium">
 					<?php esc_html_e( 'Make sure you add the missing fields into your blueprint or completly remove them from the customizer\'s fields and then update it.', 'dollie' ); ?>
-                </div>
-            </div>
+				</div>
+			</div>
 			<?php
 			$message = ob_get_clean();
 		}

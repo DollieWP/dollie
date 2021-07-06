@@ -30,7 +30,7 @@ class Container extends Singleton {
 		add_action( 'init', [ $this, 'register_category' ], 0 );
 		add_filter( 'init', [ $this, 'rewrite_rules_container_sub_pages' ], 20 );
 		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
-		add_action( 'init', [ $this, 'check_deployment_domain_status' ] );
+		add_action( 'admin_init', [ $this, 'check_deployment_domain_status' ] );
 
 		add_filter( 'query_vars', [ $this, 'query_vars' ] );
 		add_action( 'single_template', [ $this, 'add_acf_form_head' ], 9 );
@@ -584,6 +584,10 @@ class Container extends Singleton {
 		if ( empty( $request ) || $force === true ) {
 
 			$container_id = get_post_meta( $container->id, 'wpd_container_id', true );
+
+			if ( empty( $container_id ) ) {
+			    return [];
+            }
 
 			// Set up the request
 			$request_get_container = Api::post(
