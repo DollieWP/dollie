@@ -12,10 +12,6 @@ if ( 'stop' === $status ) :
 			<i class="fab fa-wordpress"></i>
 			<?php esc_html_e( 'Hosting for this site is currently paused.', 'dollie' ); ?>
 		</h2>
-
-		<?php if ( ! dollie()->has_subscription() ) : ?>
-
-		<?php endif; ?>
 	</div>
 	<div class="hero-section">
 		<div class="hero-inner">

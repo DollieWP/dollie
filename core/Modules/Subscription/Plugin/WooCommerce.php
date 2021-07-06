@@ -6,14 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Modules\Blueprints;
+use Dollie\Core\Singleton;
 
 /**
  * Class WooCommerce
  *
  * @package Dollie\Core\Modules\Subscription\Plugin
  */
-class WooCommerce implements SubscriptionInterface {
+class WooCommerce extends Singleton implements SubscriptionInterface {
 
 	const
 		SUB_STATUS_ANY    = 'any',
@@ -94,22 +94,21 @@ class WooCommerce implements SubscriptionInterface {
 	/**
 	 * Get checkout link
 	 *
-	 * @param $product_id
-	 * @param $blueprint_id
+	 * @param $args
 	 *
 	 * @return mixed|string|void
 	 * @throws \Exception
 	 */
-	public function get_checkout_link( $product_id, $blueprint_id ) {
+	public function get_checkout_link( $args ) {
 		if ( ! function_exists( 'wc_get_product' ) ) {
 			return '#';
 		}
 
-		$product_obj = wc_get_product( $product_id );
+		$product_obj = wc_get_product( $args['product_id'] );
 
 		$link_args = [
-			'add-to-cart'  => $product_id,
-			'blueprint_id' => $blueprint_id,
+			'add-to-cart'  => $args['product_id'],
+			'blueprint_id' => $args['blueprint_id'],
 		];
 
 		if ( method_exists( $product_obj, 'get_type' ) && $product_obj->get_type() === 'variable-subscription' ) {
@@ -127,7 +126,7 @@ class WooCommerce implements SubscriptionInterface {
 			wc_get_checkout_url()
 		);
 
-		return apply_filters( 'dollie/woo/checkout_link', $link, $product_id, $blueprint_id );
+		return apply_filters( 'dollie/woo/checkout_link', $link, $args );
 	}
 
 	/**
@@ -429,7 +428,6 @@ class WooCommerce implements SubscriptionInterface {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -447,7 +445,7 @@ class WooCommerce implements SubscriptionInterface {
 			return false;
 		}
 
-		if ( $user_id === null ) {
+		if ( null === $user_id ) {
 			$user_id = get_current_user_id();
 		}
 

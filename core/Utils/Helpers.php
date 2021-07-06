@@ -963,7 +963,12 @@ class Helpers extends Singleton {
 	 * @return mixed
 	 */
 	public function get_woo_checkout_link( $product_id, $blueprint_id ) {
-		return Subscription::instance()->get_checkout_link( $product_id, $blueprint_id );
+		return Subscription::instance()->get_checkout_link(
+			[
+				'product_id'   => $product_id,
+				'blueprint_id' => $blueprint_id,
+			]
+		);
 	}
 
 	/**
