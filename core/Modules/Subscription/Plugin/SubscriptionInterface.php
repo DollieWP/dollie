@@ -24,7 +24,7 @@ interface SubscriptionInterface {
 	public function site_limit_reached();
 	public function size_limit_reached();
 	public function get_blueprints_exception( $type = 'excluded' );
-	public function has_staging();
-	public function staging_sites_limit_reached();
+	public function has_staging( $user_id = null );
+	public function staging_sites_limit_reached( $user_id = null );
 
 }

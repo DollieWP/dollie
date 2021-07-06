@@ -93,12 +93,12 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		return $this->module->get_blueprints_exception( $type );
 	}
 
-	public function has_staging() {
-		return $this->module->has_staging();
+	public function has_staging( $user_id = null ) {
+		return $this->module->has_staging( $user_id );
 	}
 
-	public function staging_sites_limit_reached() {
-		return $this->module->staging_sites_limit_reached();
+	public function staging_sites_limit_reached( $user_id = null ) {
+		return $this->module->staging_sites_limit_reached( $user_id );
 	}
 
 	/**

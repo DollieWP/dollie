@@ -422,7 +422,6 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -440,7 +439,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			return false;
 		}
 
-		if ( $user_id === null ) {
+		if ( null === $user_id ) {
 			$user_id = get_current_user_id();
 		}
 
