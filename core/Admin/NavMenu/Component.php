@@ -509,7 +509,7 @@ endif;
 				$log_data    = get_post_meta( $notification->ID, '_wpd_log_data', true );
 				$site_id     = get_post_meta( $notification->ID, '_wpd_site_id', true );
 
-				if ( ! $log_data ) {
+				if ( ! $log_data || ! isset( $log['title'] ) ) {
 					continue;
 				}
 
