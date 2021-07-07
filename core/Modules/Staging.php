@@ -71,6 +71,13 @@ class Staging extends Singleton {
 			'link'    => false,
 		];
 
+		$actions[ self::LOG_UNDEPLOY ] = [
+			'title'   => __( 'Staging Site Has Been Removed', 'dollie' ),
+			'content' => __( sprintf( 'Staging Site %s has been successfully removed.', $values[0] ), 'dollie' ),
+			'type'    => 'deploy',
+			'link'    => false,
+		];
+
 		return $actions;
 	}
 
