@@ -6,8 +6,6 @@ if ( ! isset( $view_type ) ) {
 $list_type      = 'dol-customers-' . $view_type;
 $list_item_type = 'dol-customers-' . $view_type . '-item';
 
-$list_btn_active = $view_type === 'list' ? 'dol-switch-active' : '';
-$grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 ?>
 <div class="dol-mb-6 dol-widget-customer-search">
 	<div class="dol-flex dol-flex-wrap md:dol-justify-between">

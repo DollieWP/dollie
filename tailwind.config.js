@@ -22,7 +22,7 @@ module.exports = {
       zIndex: {
         "-1": "-1",
         500: "500",
-        99999: "99999"
+        99999: "99999",
       },
       colors: {
         primary: "var(--d-primary)",
@@ -52,9 +52,10 @@ module.exports = {
     margin: ["responsive", "last"],
     borderWidth: ["responsive", "last"],
     display: ["responsive", "group-hover"],
+    backgroundColor: ["responsive", "hover", "focus"],
   },
   purge: {
-    enabled: true,
+    enabled: false,
     content: [
       "./templates/*.php",
       "./templates/**/*.php",

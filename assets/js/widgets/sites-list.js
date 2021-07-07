@@ -9,6 +9,49 @@ var DollieSiteList = DollieSiteList || {};
       DollieSiteList.fn.pagination();
       DollieSiteList.fn.search();
       DollieSiteList.fn.toggleView();
+      DollieSiteList.fn.modalActions();
+    },
+
+    modalActions: function () {
+      $(".dol-select-all-container").on("change", function () {
+        $(".dol-sites-item input[type=checkbox]").prop(
+          "checked",
+          $(this).prop("checked")
+        );
+
+        if ($(this).is(":checked")) {
+          $(".dol-open-modal").addClass("dol-open-modal-visible");
+        } else {
+          $(".dol-open-modal").removeClass("dol-open-modal-visible");
+        }
+      });
+
+      $(".dol-open-modal").on("click", function (e) {
+        e.preventDefault();
+
+        var modalId = $(this).data("modal-id");
+        if (!modalId) {
+          return false;
+        }
+
+        $("#" + modalId).addClass("dol-modal-visible");
+      });
+
+      $(".dol-modal-close").on("click", function (e) {
+        e.preventDefault();
+
+        var modal = $(this).closest(".dol-modal");
+
+        if (!modal) {
+          return false;
+        }
+
+        modal.removeClass("dol-modal-visible");
+      });
+
+      $(".dol-apply-action").on("click", function (e) {
+        $(".dol-modal-close").trigger("click");
+      });
     },
 
     pagination: function () {

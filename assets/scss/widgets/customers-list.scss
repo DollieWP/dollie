@@ -1,232 +1,206 @@
-/* Search input */
-input[type="text"] {
-  &.dol-search-input {
-    @apply dol-pl-10 dol-pr-4 dol-py-2 dol-border-2 dol-border-solid dol-border-gray-500 dol-text-base dol-text-gray-700 dol-bg-white dol-rounded;
-
-    &::placeholder {
-      @apply dol-text-gray-600;
-    }
-
-    &:focus {
-      @apply dol-border-gray-600;
-    }
-  }
-}
-
-/* List type switch */
-.dol-list-switch {
-  @apply dol-h-full dol-px-4 dol-bg-gray-400 dol-text-gray-700 dol-flex dol-items-center dol-cursor-pointer;
-
-  &:hover {
-    @apply dol-bg-gray-500;
-  }
-
-  &.dol-switch-active {
-    @apply dol-bg-gray-500 dol-text-gray-700;
-  }
-}
-
-.dol-customers-container {
-  @apply dol-flex dol-flex-wrap;
-
-  &.dol-customers-list {
-    @apply dol--mx-2 dol--my-2;
-  }
-
-  &.dol-customers-grid {
-    @apply dol--mx-4 dol--my-4;
-  }
-
-  .dol-customers-item {
-    .dol-customers-item-inner {
-      @apply dol-flex dol-flex-wrap dol-items-center dol-bg-white dol-relative dol-overflow-hidden dol-p-4;
-
-      &:hover {
-        @apply dol-border-gray-400;
-      }
-    }
-
-    /* List styling */
-    &.dol-customers-list-item {
-      @apply dol-w-full dol-p-2;
-
-      .dol-customers-image {
-        @apply dol-w-4/12 dol-mb-2;
-
-        .dol-customers-image-box {
-          @apply dol-shadow dol-rounded dol-overflow-hidden;
-        }
-      }
-
-      .dol-customers-status {
-        @apply dol-absolute dol-top-0 dol-left-0 dol--ml-2 dol--mt-2;
-      }
-
-      .dol-customers-name {
-        @apply dol-w-8/12;
-      }
-
-      .dol-customers-version {
-        @apply dol-w-1/3 dol-mt-2;
-      }
-
-      .dol-customers-client {
-        @apply dol-w-1/3 dol-mt-2;
-      }
-
-      .dol-customers-controls {
-        @apply dol-w-full dol-text-left dol-mt-4 dol-border-0 dol-border-t dol-border-solid dol-border-gray-200 dol-pt-4;
-        width: 40%;
-      }
-    }
-
-    /* Grid styling */
-    &.dol-customers-grid-item {
-      @apply dol-w-full dol-p-4;
-
-      .dol-customers-item-inner {
-        @apply dol-p-0;
-      }
-
-      .dol-customers-image,
-      .dol-customers-name,
-      .dol-customers-version,
-      .dol-customers-client,
-      .dol-customers-controls {
-        @apply dol-w-full;
-      }
-
-      .dol-customers-status {
-        @apply dol-absolute dol-bottom-0 dol-left-0 dol-ml-4 dol-mb-4;
-      }
-
-      .dol-customers-image-box {
-        @apply dol-h-64 dol-border-0 dol-border-b dol-border-solid dol-border-gray-200 dol-relative dol-overflow-hidden;
-
-        &:before {
-          content: " ";
-          @apply dol-block dol-absolute dol-bottom-0 dol-left-0 dol-h-40 dol-w-full;
-          background: rgb(255, 255, 255);
-          background: linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0) 20%,
-            rgba(0, 0, 0, 0.5018382352941176) 100%
-          );
-        }
-      }
-
-      .dol-customers-name {
-        @apply dol-py-4;
-      }
-
-      .dol-customers-version {
-        @apply dol-px-4 dol-pb-2;
-      }
-
-      .dol-customers-client {
-        @apply dol-px-4;
-      }
-
-      .dol-customers-controls {
-        @apply dol-p-4;
-      }
-    }
-  }
-}
-
-@screen md {
+@layer components {
   .dol-customers-container {
+    @apply dol-flex dol-flex-wrap;
+
+    &.dol-customers-list {
+      @apply dol--mx-2 dol--my-2;
+    }
+
+    &.dol-customers-grid {
+      @apply dol--mx-4 dol--my-4;
+    }
+
     .dol-customers-item {
+      .dol-customers-item-inner {
+        @apply dol-flex dol-flex-wrap dol-items-center dol-bg-white dol-relative dol-overflow-hidden dol-p-4;
+
+        &:hover {
+          @apply dol-border-gray-400;
+        }
+      }
+
+      /* List styling */
       &.dol-customers-list-item {
+        @apply dol-w-full dol-p-2;
+
         .dol-customers-image {
-          @apply dol-w-2/12 dol-mb-0;
+          @apply dol-w-4/12 dol-mb-2;
+
+          .dol-customers-image-box {
+            @apply dol-shadow dol-rounded dol-overflow-hidden;
+          }
+        }
+
+        .dol-customers-status {
+          @apply dol-absolute dol-top-0 dol-left-0 dol--ml-2 dol--mt-2;
         }
 
         .dol-customers-name {
-          @apply dol-w-6/12;
+          @apply dol-w-8/12;
         }
 
         .dol-customers-version {
-          @apply dol-w-2/12 dol-mt-0;
+          @apply dol-w-1/3 dol-mt-2;
         }
 
         .dol-customers-client {
-          @apply dol-w-2/12 dol-mt-0;
+          @apply dol-w-1/3 dol-mt-2;
         }
 
         .dol-customers-controls {
-          @apply dol-text-right;
-        }
-      }
-
-      &.dol-customers-grid-item {
-        @apply dol-w-1/2;
-      }
-    }
-  }
-}
-
-@screen lg {
-  .dol-customers-container {
-    .dol-customers-item {
-      &.dol-customers-list-item {
-        .dol-customers-image {
-          @apply dol-w-1/12;
-        }
-
-        .dol-customers-name {
-          @apply dol-w-4/12;
-        }
-
-        .dol-customers-controls {
-          @apply dol-w-3/12 dol-mt-0 dol-border-0 dol-p-0;
+          @apply dol-w-full dol-text-left dol-mt-4 dol-border-0 dol-border-t dol-border-solid dol-border-gray-200 dol-pt-4;
           width: 40%;
         }
       }
 
+      /* Grid styling */
       &.dol-customers-grid-item {
-        @apply dol-w-1/3;
+        @apply dol-w-full dol-p-4;
 
-        .dol-customers-status {
-          @apply dol-ml-8;
+        .dol-customers-item-inner {
+          @apply dol-p-0;
         }
 
-        .dol-customers-name {
-          @apply dol-px-4 dol-py-6;
-        }
-
+        .dol-customers-image,
+        .dol-customers-name,
         .dol-customers-version,
         .dol-customers-client,
         .dol-customers-controls {
-          @apply dol-px-8;
+          @apply dol-w-full;
+        }
+
+        .dol-customers-status {
+          @apply dol-absolute dol-bottom-0 dol-left-0 dol-ml-4 dol-mb-4;
+        }
+
+        .dol-customers-image-box {
+          @apply dol-h-64 dol-border-0 dol-border-b dol-border-solid dol-border-gray-200 dol-relative dol-overflow-hidden;
+
+          &:before {
+            content: " ";
+            @apply dol-block dol-absolute dol-bottom-0 dol-left-0 dol-h-40 dol-w-full;
+            background: rgb(255, 255, 255);
+            background: linear-gradient(
+              180deg,
+              rgba(255, 255, 255, 0) 20%,
+              rgba(0, 0, 0, 0.5018382352941176) 100%
+            );
+          }
+        }
+
+        .dol-customers-name {
+          @apply dol-py-4;
+        }
+
+        .dol-customers-version {
+          @apply dol-px-4 dol-pb-2;
+        }
+
+        .dol-customers-client {
+          @apply dol-px-4;
         }
 
         .dol-customers-controls {
-          @apply dol-py-6;
+          @apply dol-p-4;
         }
       }
     }
   }
-}
 
-/* Pagination */
+  @screen md {
+    .dol-customers-container {
+      .dol-customers-item {
+        &.dol-customers-list-item {
+          .dol-customers-image {
+            @apply dol-w-2/12 dol-mb-0;
+          }
 
-.dol-loader {
-  @apply dol-absolute dol-mt-2 dol-w-full dol-h-full dol-bg-black dol-opacity-25 dol-z-10 dol-rounded dol-hidden;
-}
+          .dol-customers-name {
+            @apply dol-w-6/12;
+          }
 
-.dol-customers-pages {
-  @apply dol-mt-6 dol-flex dol-items-center dol-justify-center;
+          .dol-customers-version {
+            @apply dol-w-2/12 dol-mt-0;
+          }
 
-  .page-numbers {
-    @apply dol-px-4 dol-py-2 dol-bg-gray-400 dol-text-gray-700 dol-rounded dol-mx-1 dol-shadow;
+          .dol-customers-client {
+            @apply dol-w-2/12 dol-mt-0;
+          }
 
-    &.current {
-      @apply dol-bg-gray-600 dol-text-gray-800 dol-cursor-default;
+          .dol-customers-controls {
+            @apply dol-text-right;
+          }
+        }
+
+        &.dol-customers-grid-item {
+          @apply dol-w-1/2;
+        }
+      }
     }
+  }
 
-    &:hover {
-      @apply dol-bg-gray-600 dol-text-gray-800;
+  @screen lg {
+    .dol-customers-container {
+      .dol-customers-item {
+        &.dol-customers-list-item {
+          .dol-customers-image {
+            @apply dol-w-1/12;
+          }
+
+          .dol-customers-name {
+            @apply dol-w-4/12;
+          }
+
+          .dol-customers-controls {
+            @apply dol-w-3/12 dol-mt-0 dol-border-0 dol-p-0;
+            width: 40%;
+          }
+        }
+
+        &.dol-customers-grid-item {
+          @apply dol-w-1/3;
+
+          .dol-customers-status {
+            @apply dol-ml-8;
+          }
+
+          .dol-customers-name {
+            @apply dol-px-4 dol-py-6;
+          }
+
+          .dol-customers-version,
+          .dol-customers-client,
+          .dol-customers-controls {
+            @apply dol-px-8;
+          }
+
+          .dol-customers-controls {
+            @apply dol-py-6;
+          }
+        }
+      }
+    }
+  }
+
+  /* Pagination */
+
+  .dol-loader {
+    @apply dol-absolute dol-mt-2 dol-w-full dol-h-full dol-bg-black dol-opacity-25 dol-z-10 dol-rounded dol-hidden;
+  }
+
+  .dol-customers-pages {
+    @apply dol-mt-6 dol-flex dol-items-center dol-justify-center;
+
+    .page-numbers {
+      @apply dol-px-4 dol-py-2 dol-bg-gray-400 dol-text-gray-700 dol-rounded dol-mx-1 dol-shadow;
+
+      &.current {
+        @apply dol-bg-gray-600 dol-text-gray-800 dol-cursor-default;
+      }
+
+      &:hover {
+        @apply dol-bg-gray-600 dol-text-gray-800;
+      }
     }
   }
 }
