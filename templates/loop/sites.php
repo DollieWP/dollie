@@ -189,7 +189,7 @@ $actions = [
 						<div class="dol-check-wrap">
 							<label class="dol-checkbox">
 								<span class="checkbox__input">
-									<input type="checkbox" name="checkbox">
+									<input type="checkbox" name="checkbox" value="<?php echo esc_attr( get_the_ID() ); ?>">
 									<span class="checkbox__control">
 									<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' aria-hidden="true" focusable="false">
 										<path fill='none' stroke='currentColor' stroke-width='3' d='M1.73 12.91l6.37 6.37L22.79 4.59'/></svg>

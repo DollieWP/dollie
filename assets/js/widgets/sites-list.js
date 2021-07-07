@@ -4,15 +4,19 @@ var DollieSiteList = DollieSiteList || {};
   // USE STRICT
   "use strict";
 
+  DollieSiteList.vars = {
+    selectedSites: [],
+  };
+
   DollieSiteList.fn = {
     init: function () {
       DollieSiteList.fn.pagination();
       DollieSiteList.fn.search();
       DollieSiteList.fn.toggleView();
-      DollieSiteList.fn.modalActions();
+      DollieSiteList.fn.actionsAndFilters();
     },
 
-    modalActions: function () {
+    actionsAndFilters: function () {
       $(".dol-select-all-container").on("change", function () {
         $(".dol-sites-item input[type=checkbox]").prop(
           "checked",
@@ -20,6 +24,18 @@ var DollieSiteList = DollieSiteList || {};
         );
 
         if ($(this).is(":checked")) {
+          $(".dol-open-modal").addClass("dol-open-modal-visible");
+        } else {
+          $(".dol-open-modal").removeClass("dol-open-modal-visible");
+        }
+
+        DollieSiteList.fn.updateSelectedSites();
+      });
+
+      $(".dol-sites-item input[type=checkbox]").on("change", function () {
+        var checked = DollieSiteList.fn.updateSelectedSites();
+
+        if (checked) {
           $(".dol-open-modal").addClass("dol-open-modal-visible");
         } else {
           $(".dol-open-modal").removeClass("dol-open-modal-visible");
@@ -52,6 +68,21 @@ var DollieSiteList = DollieSiteList || {};
       $(".dol-apply-action").on("click", function (e) {
         $(".dol-modal-close").trigger("click");
       });
+    },
+
+    updateSelectedSites: function () {
+      var checked;
+
+      DollieSiteList.vars.selectedSites = [];
+
+      $(".dol-sites-item input[type=checkbox]").each(function (index, item) {
+        if ($(item).is(":checked")) {
+          checked = true;
+          DollieSiteList.vars.selectedSites.push($(item).val());
+        }
+      });
+
+      return checked;
     },
 
     pagination: function () {
