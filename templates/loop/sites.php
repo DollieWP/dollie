@@ -23,7 +23,7 @@ $actions = [
 
 <div id="dol-modal-id-actions" class="dol-modal">
 	<div class="dol-flex dol-justify-center dol-items-center dol-w-full dol-h-full">
-		<div class="dol-bg-white dol-rounded dol-w-1/2 dol-p-4">
+		<div class="dol-bg-white dol-rounded dol-w-2/6 dol-p-4">
 			<div class="dol-mb-4">
 				<div class="dol-flex dol-justify-between dol-items-center">
 					<div class="dol-font-bold dol-text-2xl">
