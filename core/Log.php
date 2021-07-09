@@ -48,6 +48,10 @@ class Log {
 	 */
 	public static function add( $title, $message = '', $type = 'general', $log_post_id = null, $completed = false ) {
 		if ( class_exists( \WDS_Log_Post::class ) ) {
+			if ( ! is_string( $message ) ) {
+				$message = print_r( $message, true );
+			}
+
 			return \WDS_Log_Post::log_message( 'dollie-logs', $title, $message, $type, $log_post_id, $completed );
 		}
 
@@ -115,9 +119,9 @@ class Log {
 				$headers = array( 'Content-Type: text/html; charset=UTF-8' );
 
 				// client email
-				$client = get_user_by( 'id', $object->author );
+				$client      = get_user_by( 'id', $object->author );
 				$client_site = get_post( $object->id );
-				$site_data = get_post_meta( $object->id, '_wpd_setup_data', true );
+				$site_data   = get_post_meta( $object->id, '_wpd_setup_data', true );
 
 				$to      = $client->user_email;
 				$subject = get_field( 'wpd_deployed_site_client_notification_subject', 'options' );
@@ -218,7 +222,7 @@ class Log {
 				'type'    => 'setup',
 				'link'    => false,
 			],
-			self::WP_BLUEPRINT_DEPLOY_STARTED        => [
+			self::WP_BLUEPRINT_DEPLOY_STARTED   => [
 				'title'   => __( 'Blueprint Launch Started', 'dollie' ),
 				'content' => __( sprintf( 'Launching Your New Blueprint %s. You\'ll get another notification when it is ready! ', $values[0] ), 'dollie' ),
 				'type'    => 'deploy',
@@ -230,7 +234,7 @@ class Log {
 				'type'    => 'deploy',
 				'link'    => true,
 			],
-			self::WP_BLUEPRINT_DEPLOY_FAILED         => [
+			self::WP_BLUEPRINT_DEPLOY_FAILED    => [
 				'title'   => __( 'Blueprint Launch Failed', 'dollie' ),
 				'content' => __( sprintf( 'Blueprint %s has failed to launch. Please contact our support if the issue persists.', $values[0] ), 'dollie' ),
 				'type'    => 'deploy',
