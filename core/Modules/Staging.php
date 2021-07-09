@@ -251,6 +251,11 @@ class Staging extends Singleton {
 	 * @return void
 	 */
 	public function update_deploy() {
+
+		if ( ! is_singular( 'container' ) ) {
+			return;
+		}
+
 		$deploy_job_uuid = Container::instance()->get_staging_deploy_job( get_the_ID() );
 
 		if ( ! $deploy_job_uuid ) {
@@ -263,7 +268,9 @@ class Staging extends Singleton {
 
 		if ( false === $data ) {
 			return;
-		} elseif ( is_wp_error( $data ) ) {
+		}
+
+		if ( is_wp_error( $data ) ) {
 			Log::add_front(
 				self::LOG_DEPLOY_FAILED,
 				dollie()->get_current_object( $site->id ),
@@ -298,6 +305,11 @@ class Staging extends Singleton {
 	 * @return void
 	 */
 	public function update_sync() {
+
+		if ( ! is_singular( 'container' ) ) {
+			return;
+		}
+
 		$execution = dollie()->get_execution( get_the_ID(), Api::EXECUTION_STAGING_SYNC );
 
 		if ( ! $execution ) {

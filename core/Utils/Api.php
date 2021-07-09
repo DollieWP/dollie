@@ -100,7 +100,7 @@ class Api extends Singleton {
 			wp_send_json_error();
 		}
 
-		$execution = $this->get_execution( $_REQUEST['container'], $_REQUEST['type'] );
+		$execution = self::get_execution( $_REQUEST['container'], $_REQUEST['type'] );
 
 		if ( ! $execution ) {
 			wp_send_json_success();
