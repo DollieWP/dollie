@@ -41,7 +41,7 @@ class Backups extends Singleton {
 		if ( ! $force && false !== $data ) {
 			$backups = $data;
 		} else {
-			$secret = get_post_meta( $container_id, 'wpd_container_secret', true );
+			$secret        = get_post_meta( $container_id, 'wpd_container_secret', true );
 			$container_url = dollie()->get_container_url( $container_id, true );
 
 			if ( empty( $secret ) || empty( $container_url ) ) {
@@ -63,6 +63,10 @@ class Backups extends Singleton {
 			}
 
 			$backups = dollie()->maybe_decode_json( $backups_response['body'], true );
+
+			if ( isset( $backups['body'] ) ) {
+				$backups = dollie()->maybe_decode_json( $backups['body'], true );
+			}
 		}
 
 		$total_backups = array_filter(
