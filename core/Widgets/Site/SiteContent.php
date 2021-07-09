@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Utils\Helpers;
 use Dollie\Core\Utils\Tpl;
 
 /**

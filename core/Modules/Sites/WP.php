@@ -176,7 +176,11 @@ final class WP extends Singleton {
 			wp_send_json_error();
 		}
 
-		$deploy_job_uuid = Container::instance()->get_deploy_job( $_REQUEST['container'] );
+		if ( $_REQUEST['staging'] ) {
+			$deploy_job_uuid = Container::instance()->get_staging_deploy_job( $_REQUEST['container'] );
+		} else {
+			$deploy_job_uuid = Container::instance()->get_deploy_job( $_REQUEST['container'] );
+		}
 
 		if ( ! $deploy_job_uuid ) {
 			wp_send_json_error();
@@ -199,7 +203,7 @@ final class WP extends Singleton {
 			wp_send_json_error();
 		}
 
-		if ( $data['status'] === 0 ) {
+		if ( 0 === $data['status'] ) {
 			wp_send_json_error();
 		}
 
@@ -238,7 +242,6 @@ final class WP extends Singleton {
 	 * @param null $post_id
 	 */
 	public function update_deploy_for_container( $post_id = null ) {
-
 		$dollie_obj      = dollie()->get_current_object( $post_id );
 		$deploy_job_uuid = Container::instance()->get_deploy_job( $post_id );
 
@@ -246,51 +249,20 @@ final class WP extends Singleton {
 			return;
 		}
 
-		$deploy_check_route           = str_replace( '{uuid}', $deploy_job_uuid, Api::ROUTE_CONTAINER_DEPLOY_GET );
-		$request_container_get_deploy = Api::post( $deploy_check_route, [] );
-		$data                         = Api::process_response( $request_container_get_deploy );
+		$data = $this->process_deploy_status( $deploy_job_uuid );
 
-		if ( ! $data ) {
-			Log::add_front(
-				Log::WP_SITE_DEPLOY_FAILED,
-				$dollie_obj,
-				$dollie_obj->slug,
-				print_r( $request_container_get_deploy, true )
-			);
-
-			$this->set_failed_site( $post_id );
-
+		// Still pending.
+		if ( false === $data ) {
 			return;
-		}
+		} elseif ( is_wp_error( $data ) ) {
 
-		$domain = $data['route'];
-
-		if ( 0 === $data['status'] || 4 === $data['status'] ) {
-			return;
-		}
-
-		if ( 2 === $data['status'] ) {
 			Container::instance()->set_status( $post_id, 'failed' );
 
 			Log::add_front(
 				Log::WP_SITE_DEPLOY_FAILED,
 				$dollie_obj,
 				$dollie_obj->slug,
-				print_r( $request_container_get_deploy, true )
-			);
-			$this->set_failed_site( $post_id );
-
-			return;
-		}
-
-		if ( ! isset( $data['data'] ) || empty( $data['data'] ) ) {
-			Log::add( $domain . ' API error: Deploy done but not data received', '', 'deploy' );
-
-			Log::add_front(
-				Log::WP_SITE_DEPLOY_FAILED,
-				$dollie_obj,
-				$dollie_obj->slug,
-				print_r( $request_container_get_deploy, true )
+				$data->get_error_message()
 			);
 
 			$this->set_failed_site( $post_id );
@@ -314,6 +286,40 @@ final class WP extends Singleton {
 		Container::instance()->set_status( $post_id, 'start' );
 		Container::instance()->remove_deploy_job( $post_id );
 		Container::instance()->get_container_details( $post_id );
+	}
+
+	/**
+	 * Process deploy status for a site
+	 */
+	public function process_deploy_status( $deploy_job_uuid ) {
+
+		$deploy_check_route           = str_replace( '{uuid}', $deploy_job_uuid, Api::ROUTE_CONTAINER_DEPLOY_GET );
+		$request_container_get_deploy = Api::post( $deploy_check_route, [] );
+		$data                         = Api::process_response( $request_container_get_deploy );
+
+		if ( ! $data ) {
+			return new \WP_Error( 'dollie_deploy_check', print_r( $request_container_get_deploy, true ) );
+		}
+
+		// 0 -> pending
+		// 4 -> deploying
+		if ( 0 === $data['status'] || 4 === $data['status'] ) {
+			return false;
+		}
+
+		// 2 -> failed
+		if ( 2 === $data['status'] ) {
+			return new \WP_Error( 'dollie_deploy_check', print_r( $request_container_get_deploy, true ), $data );
+		}
+
+		if ( ! isset( $data['data'] ) || empty( $data['data'] ) ) {
+			$domain = $data['route'];
+			Log::add( $domain . ' API error: Deploy done but not data received', '', 'deploy' );
+
+			return new \WP_Error( 'dollie_deploy_check', print_r( $request_container_get_deploy, true ), $data );
+		}
+
+		return $data;
 	}
 
 	/**

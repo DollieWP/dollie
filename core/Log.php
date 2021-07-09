@@ -316,6 +316,8 @@ class Log {
 
 		];
 
+		$actions = apply_filters( 'dollie/log/actions', $actions, $values );
+
 		if ( isset( $actions[ $action ] ) ) {
 			return $actions[ $action ];
 		}

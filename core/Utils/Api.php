@@ -26,7 +26,10 @@ class Api extends Singleton {
 		ROUTE_CONTAINER_SCREENSHOT             = 'containers/take-screenshot',
 		ROUTE_CONTAINER_SCREENSHOT_REGEN       = 'containers/regenerate-screenshots',
 		ROUTE_CONTAINER_BLUEPRINT_AVAILABILITY = 'containers/blueprint-availability',
-		ROUTE_CONTAINER_STAGING                 = 'containers/staging',
+		ROUTE_CONTAINER_STAGING_SET_STATUS     = 'containers/staging/status',
+		ROUTE_CONTAINER_STAGING_DEPLOY         = 'containers/staging/deploy',
+		ROUTE_CONTAINER_STAGING_UNDEPLOY       = 'containers/staging/undeploy',
+		ROUTE_CONTAINER_STAGING_SYNC           = 'containers/staging/sync',
 
 		ROUTE_DOMAIN_ADD                 = 'domain/add',
 		ROUTE_DOMAIN_UPDATE              = 'domain/update',
@@ -49,16 +52,78 @@ class Api extends Singleton {
 		ROUTE_PLUGINS_UPDATES_GET   = 'plugins/updates/get',
 		ROUTE_PLUGINS_UPDATES_APPLY = 'plugins/updates/apply',
 
-		ROUTE_WIZARD_SETUP          = 'setup',
 		ROUTE_CHECK_SUBSCRIPTION    = 'partner/check-subscription',
 		ROUTE_ADD_CUSTOM_BACKUP     = 'partner/add-custom-backup',
-		ROUTE_DISABLE_CUSTOM_BACKUP = 'partner/disable-custom-backup';
+		ROUTE_DISABLE_CUSTOM_BACKUP = 'partner/disable-custom-backup',
+
+		ROUTE_WIZARD_SETUP  = 'setup',
+		ROUTE_GET_EXECUTION = 'execution/status';
+
+	const
+		EXECUTION_STAGING_SYNC            = 'staging.sync.to.live',
+		EXECUTION_BACKUP_CREATE           = 'backup.create',
+		EXECUTION_BACKUP_APPLY            = 'backup.apply',
+		EXECUTION_BACKUP_RESTORE          = 'backup.restore',
+		EXECUTION_BACKUP_CREDENTIALS      = 'backup.credentials.change',
+		EXECUTION_BLUEPRINT_CREATE        = 'blueprint.create',
+		EXECUTION_BLUEPRINT_DEPLOY        = 'blueprint.deploy',
+		EXECUTION_BLUEPRINT_AFTER_DEPLOY  = 'blueprint.after.deploy',
+		EXECUTION_CHANGE_USER_ROLE        = 'chane.user.role',
+		EXECUTION_DYNAMIC_FIELDS_CHECK    = 'dynamic.fields.check',
+		EXECUTION_DYNAMIC_FIELDS_REPLACE  = 'dynamic.fields.replace',
+		EXECUTION_DOMAIN_UPDATE           = 'domain.update',
+		EXECUTION_DOMAIN_APPLY_CLOUDFLARE = 'domain.apply.cloudflare',
+		EXECUTION_PLUGIN_GET_UPDATES      = 'plugins.get.updates',
+		EXECUTION_PLUGIN_APPLY_UPDATES    = 'plugins.apply.updates',
+		EXECUTION_WIZARD_SETUP            = 'wizard.setup';
 
 	const API_BASE_URL = 'https://api-staging.getdollie.com/';
 	const API_URL      = self::API_BASE_URL . 'api/';
 	const PARTNERS_URL = 'https://partners.getdollie.com/';
 
 	public static $last_call = null;
+
+	/**
+	 * Api constructor
+	 */
+	public function __construct() {
+		parent::__construct();
+
+		add_action( 'wp_ajax_dollie_check_execution', [ $this, 'check_execution' ] );
+	}
+
+	/**
+	 * Check execution status by AJAX
+	 */
+	public function check_execution() {
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'dollie_check_execution' ) ) {
+			wp_send_json_error();
+		}
+
+		$execution = $this->get_execution( $_REQUEST['container'], $_REQUEST['type'] );
+
+		if ( ! $execution ) {
+			wp_send_json_success();
+		}
+
+		if ( 0 === $execution['status'] ) {
+			$data = dollie()->get_execution_status( $execution['id'], $_REQUEST['type'] );
+
+			if ( is_wp_error( $data ) ) {
+				dollie()->remove_execution( get_the_ID(), $_REQUEST['type'] );
+
+				wp_send_json_success();
+			}
+
+			dollie()->save_execution( $_REQUEST['container'], $data );
+
+			if ( 0 !== $data['status'] ) {
+				wp_send_json_success();
+			}
+		}
+
+		wp_send_json_error();
+	}
 
 	/**
 	 * @param $r
@@ -209,6 +274,79 @@ class Api extends Singleton {
 		}
 
 		return $answer;
+	}
+
+	/**
+	 * Get execution status
+	 *
+	 * @param string $execution_id
+	 * @param string $execution_type
+	 *
+	 * @return int|\WP_Error
+	 */
+	public static function get_execution_status( $execution_id, $execution_type = '' ) {
+		$data = [
+			'execution_id' => $execution_id,
+		];
+
+		if ( $execution_type ) {
+			$data['execution_type'] = $execution_type;
+		}
+
+		$response = self::process_response( self::simple_post( self::ROUTE_GET_EXECUTION, $data ) );
+
+		if ( $response ) {
+			if ( ! $response['execution_id'] ) {
+				return new \WP_Error( 'failed', __( 'Execution does not exist', 'dollie' ) );
+			}
+
+			return $response;
+		}
+
+		return new \WP_Error( 'failed', __( 'Failed to get execution status', 'dollie' ) );
+	}
+
+	/**
+	 * Get execution
+	 *
+	 * @param int    $container_id
+	 * @param string $execution_type
+	 *
+	 * @return null|string
+	 */
+	public static function get_execution( $container_id, $execution_type ) {
+		return get_post_meta( $container_id, 'dollie.' . $execution_type, true );
+	}
+
+	/**
+	 * Save execution
+	 *
+	 * @param int   $container_id
+	 * @param array $execution
+	 *
+	 * @return void
+	 */
+	public static function save_execution( $container_id, $execution ) {
+		update_post_meta(
+			$container_id,
+			'dollie.' . $execution['execution_type'],
+			[
+				'id'     => $execution['execution_id'],
+				'status' => $execution['status'],
+			]
+		);
+	}
+
+	/**
+	 * Remove execution
+	 *
+	 * @param int    $container_id
+	 * @param string $execution_type
+	 *
+	 * @return void
+	 */
+	public static function remove_execution( $container_id, $execution_type ) {
+		delete_post_meta( $container_id, 'dollie.' . $execution_type );
 	}
 
 	/**
