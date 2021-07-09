@@ -63,6 +63,10 @@ class Backups extends Singleton {
 		$total_backups = array_filter(
 			$backups,
 			static function ( $value ) {
+				if ( is_array( $value ) ) {
+					return false;
+				}
+
 				return ! ( strpos( $value, 'restore' ) !== false );
 			}
 		);
@@ -90,6 +94,10 @@ class Backups extends Singleton {
 				array_filter(
 					$backups,
 					static function ( $value ) {
+						if ( is_array( $value ) ) {
+							return false;
+						}
+
 						return ! ( false !== strpos( $value, 'restore' ) );
 					}
 				)
