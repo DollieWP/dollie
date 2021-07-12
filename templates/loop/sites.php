@@ -13,7 +13,6 @@ $grid_btn_active = 'grid' === $view_type ? 'dol-switch-active' : '';
 $actions = [
 	'restart'               => __( 'Restart', 'dollie' ),
 	'stop'                  => __( 'Stop', 'dollie' ),
-	'undeploy'              => __( 'Undeploy', 'dollie' ),
 	'update-plugins'        => __( 'Update Plugins', 'dollie' ),
 	'update-themes'         => __( 'Update Themes', 'dollie' ),
 	'create-backup'         => __( 'Create Backup', 'dollie' ),
@@ -68,7 +67,7 @@ $actions = [
 				</div>
 			</div>
 
-			<div class="">
+			<div class="dol-g">
 				<div class="">
 					<label for="per-page" class="dol-font-bold dol-uppercase dol-mb-1 dol-text-xs dol-text-gray-600"><?php esc_html_e( 'Per page', 'dollie' ); ?></label>
 					<select id="per-page" class="dol-w-20 dol-bg-white dol-rounded dol-px-3 dol-py-1 dol-border-solid dol-border-gray-300 dol-text-sm dol-text-gray-700 focus:dol-border-gray-400 focus:dol-outline-none">
