@@ -33,6 +33,13 @@ var DollieSiteList = DollieSiteList || {};
             $(this).parent().attr("data-list-type")
           );
 
+          var elementor_library = url.searchParams.get("elementor_library");
+          if (elementor_library) {
+            url = new URL(window.location);
+            url.searchParams.set("elementor_library", elementor_library);
+            url.searchParams.set("load-page", parseInt($(this).html()));
+          }
+
           var search = $(this)
             .closest(".elementor-widget-dollie-sites-listing")
             .find(".dol-search-site");
