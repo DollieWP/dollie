@@ -15,6 +15,7 @@ use Dollie\Core\Modules\Jobs\RemoveOldLogsJob;
 use Dollie\Core\Modules\ContainerFields;
 use Dollie\Core\Modules\Container;
 use Dollie\Core\Modules\ContainerRegistration;
+use Dollie\Core\Modules\Staging;
 use Dollie\Core\Modules\Logging;
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Modules\Hooks;
@@ -143,13 +144,14 @@ class Plugin extends Singleton {
 	 * Initialize modules and shortcodes
 	 */
 	public function initialize() {
+		// Load Api.
+		Api::instance();
 
 		// Load elementor hooks.
 		Elementor\Hooks::instance();
 
 		// Load jobs.
 		ChangeContainerRoleJob::instance();
-		// SyncContainersJob::instance();
 		UpdateContainerScreenshotsJob::instance();
 		RemoveOldLogsJob::instance();
 		CustomerSubscriptionCheckJob::instance();
@@ -171,6 +173,7 @@ class Plugin extends Singleton {
 		Upgrades::instance();
 		NavMenu::instance();
 		WP::instance();
+		Staging::instance();
 
 		// Shortcodes.
 		Shortcodes\Blueprints::instance();
@@ -424,6 +427,11 @@ class Plugin extends Singleton {
 
 	}
 
+	/**
+	 * Redirectt to route
+	 *
+	 * @return void
+	 */
 	public function do_route_login_redirect() {
 		if ( ! isset( $_GET['site'] ) || 0 === (int) $_GET['site'] ) {
 			wp_redirect( home_url() );
@@ -443,13 +451,19 @@ class Plugin extends Singleton {
 			exit;
 		}
 
+		$staging  = isset( $_GET['staging'] ) ? true : false;
 		$location = ! empty( $_GET['location'] ) ? esc_attr( $_GET['location'] ) : null;
-		wp_redirect( dollie()->final_customer_login_url( $container_id, $location ) );
+
+		wp_redirect( dollie()->final_customer_login_url( $container_id, $location, $staging ) );
 		exit;
 	}
 
+	/**
+	 * Load preview
+	 *
+	 * @return void
+	 */
 	public function do_route_preview() {
-
 		Tpl::load( 'preview', [], true );
 		exit;
 	}

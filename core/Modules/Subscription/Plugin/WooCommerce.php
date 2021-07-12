@@ -392,6 +392,12 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		return $data;
 	}
 
+	/**
+	 * Check if user has staing
+	 *
+	 * @param null|int $user_id
+	 * @return boolean
+	 */
 	public function has_staging( $user_id = null ) {
 		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return true;
@@ -454,6 +460,12 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		return ( $subscriptions['resources']['staging_max_allowed'] - $total_site ) <= 0;
 	}
 
+	/**
+	 * Filter blueprints
+	 *
+	 * @param array $blueprints
+	 * @return array
+	 */
 	public function filter_blueprints( $blueprints ) {
 
 		if ( current_user_can( 'manage_options' ) ) {

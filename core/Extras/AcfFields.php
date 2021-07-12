@@ -1676,7 +1676,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'append' => '',
 				'maxlength' => '',
 			),
-			/*array(
+			array(
 				'key' => 'field_60a7974f6956c',
 				'label' => __('Staging', 'dollie'),
 				'name' => 'wpd_enable_staging',
@@ -1695,7 +1695,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'ui' => 1,
 				'ui_on_text' => 'Enable',
 				'ui_off_text' => 'Disable',
-			),*/
+			),
 		),
 		'location' => array(
 			array(

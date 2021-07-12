@@ -41,7 +41,7 @@ class Backups extends Singleton {
 		if ( ! $force && false !== $data ) {
 			$backups = $data;
 		} else {
-			$secret = get_post_meta( $container_id, 'wpd_container_secret', true );
+			$secret        = get_post_meta( $container_id, 'wpd_container_secret', true );
 			$container_url = dollie()->get_container_url( $container_id, true );
 
 			if ( empty( $secret ) || empty( $container_url ) ) {
@@ -63,11 +63,19 @@ class Backups extends Singleton {
 			}
 
 			$backups = dollie()->maybe_decode_json( $backups_response['body'], true );
+
+			if ( isset( $backups['body'] ) ) {
+				$backups = dollie()->maybe_decode_json( $backups['body'], true );
+			}
 		}
 
 		$total_backups = array_filter(
 			$backups,
 			static function ( $value ) {
+				if ( is_array( $value ) ) {
+					return false;
+				}
+
 				return ! ( strpos( $value, 'restore' ) !== false );
 			}
 		);
@@ -95,6 +103,10 @@ class Backups extends Singleton {
 				array_filter(
 					$backups,
 					static function ( $value ) {
+						if ( is_array( $value ) ) {
+							return false;
+						}
+
 						return ! ( false !== strpos( $value, 'restore' ) );
 					}
 				)
@@ -121,7 +133,7 @@ class Backups extends Singleton {
 
 			$backup_date = explode( '_', $info[0] );
 
-			// Date of backup
+			// Date of backup.
 			$date        = strtotime( $backup_date[0] );
 			$raw_time    = str_replace( '-', ':', $backup_date[1] );
 			$pretty_time = date( 'g:i a', strtotime( $raw_time ) );
@@ -144,7 +156,7 @@ class Backups extends Singleton {
 	public function make( $container_id = null, $with_log = true ) {
 		$container = dollie()->get_current_object( $container_id );
 
-		if ( $container->id === 0 ) {
+		if ( 0 === $container->id ) {
 			return false;
 		}
 

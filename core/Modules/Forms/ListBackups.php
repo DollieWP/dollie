@@ -138,6 +138,10 @@ class ListBackups extends Singleton {
 
 			foreach ( $backups as $backup ) {
 
+				if ( is_array( $backup ) ) {
+					continue;
+				}
+
 				// Split info via pipe.
 				$info = explode( '|', $backup );
 				if ( 'restore' === $info[1] ) {
