@@ -49,8 +49,13 @@ $containers = new WP_Query(
 				'developer-tools' => '<i class="fas fa-code"></i> ' . __( 'Developer Tools', 'dollie' ),
 				'blueprints'      => '<i class="fas fa-copy"></i> ' . __( 'Blueprints', 'dollie' ),
 				'migrate'         => '<i class="fas fa-truck-moving"></i> ' . __( 'Migrate', 'dollie' ),
-				'delete'          => '<i class="fas fa-trash-alt"></i> ' . __( 'Delete', 'dollie' ),
 			];
+
+			if ( dollie()->has_staging() ) {
+				$menu['staging'] = '<i class="fas fa-clone"></i> ' . esc_html__( 'Staging', 'dollie' );
+			}
+
+			$menu['delete'] = '<i class="fas fa-trash-alt"></i> ' . esc_html__( 'Delete', 'dollie' );
 
 			if ( dollie()->is_blueprint( get_the_ID() ) ) {
 				unset( $menu['domains'] );

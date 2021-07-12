@@ -439,8 +439,8 @@ class Forms extends Singleton {
 			return af_get_field( 'site_blueprint' );
 		}
 
-		if ( isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) ) {
-			return $_COOKIE[ Blueprints::COOKIE_NAME ];
+		if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) ) {
+			return $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ];
 		}
 
 		return $this->get_form_arg( 'site_blueprint', $form, $args );

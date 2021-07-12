@@ -51,7 +51,7 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 								$page = 'dashboard';
 							}
 
-							if ( ! dollie()->in_array_r( $page, AccessControl::instance()->get_available_sections() ) ) {
+							if ( ! current_user_can( 'manage_options' ) && ! dollie()->in_array_r( $page, AccessControl::instance()->get_available_sections() ) ) {
 								continue;
 							}
 

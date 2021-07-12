@@ -22,6 +22,7 @@ module.exports = {
       zIndex: {
         "-1": "-1",
         500: "500",
+        99999: "99999"
       },
       colors: {
         primary: "var(--d-primary)",

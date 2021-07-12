@@ -101,7 +101,7 @@ final class Notices extends Singleton {
 		?>
 		<div class="notice dollie-notice dollie-connect-message">
 			<div class="dollie-inner-message">
-				<?php if ( isset($_GET['hosted'] ) ) { ?>
+				<?php if ( isset( $_GET['hosted'] ) ) { ?>
 				<div class="dollie-message-center">
 					<h3><?php esc_html_e( 'Welcome to Your New Dollie Website!', 'dollie' ); ?> </h3>
 					<p><?php esc_html_e( 'Please finish the site setup by connecting this installation to your partner account. Simply click on the button below to continue.', 'dollie' ); ?></p>
@@ -112,7 +112,8 @@ final class Notices extends Singleton {
 					<h3><?php esc_html_e( 'Dollie is almost ready...', 'dollie' ); ?> </h3>
 					<p><?php esc_html_e( 'Please authenticate this installation so that you can start launching your first site using Dollie!', 'dollie' ); ?></p>
 				</div>
-				<?php }
+					<?php
+				}
 				?>
 
 				<div class="dollie-msg-button-right">

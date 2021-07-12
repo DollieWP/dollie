@@ -34,13 +34,14 @@ class Subscription extends Singleton implements SubscriptionInterface {
 
 		if ( ! $subscription_plugin ) {
 			$subscription_plugin = 'WooCommerce';
+
+			require_once DOLLIE_CORE_PATH . 'Modules/Subscription/Plugin/' . $subscription_plugin . '.php';
+			$class_name = '\Dollie\Core\Modules\Subscription\Plugin\\' . $subscription_plugin;
+		} else {
+			$class_name = apply_filters( 'dollie/subscription/plugin_class', '\Dollie\Core\Modules\Subscription\Plugin\\' . $subscription_plugin, $subscription_plugin );
 		}
 
-		$class_path = apply_filters( 'dollie/subscription/plugin_path', DOLLIE_CORE_PATH . 'Modules/Subscription/Plugin/' . $subscription_plugin . '.php', $subscription_plugin );
-		$class_name = apply_filters( 'dollie/subscription/plugin_class', '\Dollie\Core\Modules\Subscription\Plugin\\' . $subscription_plugin, $subscription_plugin );
-
-		require_once $class_path;
-		$this->module = new $class_name();
+		$this->module = $class_name::instance();
 
 		if ( ! $this->module instanceof SubscriptionInterface ) {
 			throw new \Exception( 'Invalid subscription plugin' );
@@ -52,8 +53,8 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		$this->module->redirect_to_blueprint( $id );
 	}
 
-	public function get_checkout_link( $product_id, $blueprint_id ) {
-		return $this->module->get_checkout_link( $product_id, $blueprint_id );
+	public function get_checkout_link( $args ) {
+		return $this->module->get_checkout_link( $args );
 	}
 
 	public function get_customer_subscriptions( $status = null, $customer_id = null ) {
@@ -92,12 +93,12 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		return $this->module->get_blueprints_exception( $type );
 	}
 
-	public function has_staging() {
-		return $this->module->has_staging();
+	public function has_staging( $user_id = null ) {
+		return $this->module->has_staging( $user_id );
 	}
 
-	public function staging_sites_limit_reached() {
-		return $this->module->staging_sites_limit_reached();
+	public function staging_sites_limit_reached( $user_id = null ) {
+		return $this->module->staging_sites_limit_reached( $user_id );
 	}
 
 	/**

@@ -5,26 +5,24 @@ var DollieSiteContent = DollieSiteContent || {};
   "use strict";
 
   DollieSiteContent.vars = {
-    container: false,
     ajax_url: false,
     nonce: false,
     reloaded: false,
+    body: {},
   };
 
   DollieSiteContent.fn = {
     init: function () {
       DollieSiteContent.fn.checkDynamicFields();
       DollieSiteContent.fn.deploy();
+      DollieSiteContent.fn.initStaging();
+      DollieSiteContent.fn.initExecution();
     },
 
     checkDynamicFields: function () {
       var notifications = $("#dol-blueprint-notification");
 
       if (notifications.length) {
-        DollieSiteContent.vars.container = notifications.data("container");
-        DollieSiteContent.vars.ajax_url = notifications.data("ajax-url");
-        DollieSiteContent.vars.nonce = notifications.data("nonce");
-
         var hasDynamicFields = notifications.data("dynamic-fields");
 
         if (hasDynamicFields) {
@@ -32,11 +30,11 @@ var DollieSiteContent = DollieSiteContent || {};
 
           $.ajax({
             method: "POST",
-            url: DollieSiteContent.vars.ajax_url,
+            url: notifications.data("ajax-url"),
             data: {
-              container: DollieSiteContent.vars.container,
+              container: notifications.data("container"),
               action: "dollie_check_dynamic_fields",
-              nonce: DollieSiteContent.vars.nonce,
+              nonce: notifications.data("nonce"),
             },
             context: $(this),
             success: function (response) {
@@ -56,40 +54,70 @@ var DollieSiteContent = DollieSiteContent || {};
         var container = deploy.data("container");
 
         if (container) {
-          DollieSiteContent.vars.container = container;
+          var staging = deploy.data("staging");
+
           DollieSiteContent.vars.ajax_url = deploy.data("ajax-url");
-          DollieSiteContent.vars.nonce = deploy.data("nonce");
+
+          DollieSiteContent.vars.body = {
+            container: container,
+            staging: staging ? 1 : 0,
+            action: "dollie_check_deploy",
+            nonce: deploy.data("nonce"),
+          };
 
           setInterval(function () {
             if (!DollieSiteContent.vars.reloaded) {
-              DollieSiteContent.fn.checkDeploy();
+              DollieSiteContent.fn.sendRequest();
             }
-          }, 10000);
+          }, 15000);
         }
       }
     },
 
-    checkDeploy: function () {
-      if (DollieSiteContent.vars.container) {
-        $.ajax({
-          method: "POST",
-          url: DollieSiteContent.vars.ajax_url,
-          data: {
-            container: DollieSiteContent.vars.container,
-            action: "dollie_check_deploy",
-            nonce: DollieSiteContent.vars.nonce,
-          },
-          context: $(this),
-          success: function (response) {
-            if (response.success) {
-              DollieSiteContent.vars.reloaded = true;
+    sendRequest: function () {
+      $.ajax({
+        method: "POST",
+        url: DollieSiteContent.vars.ajax_url,
+        data: DollieSiteContent.vars.body,
+        context: $(this),
+        success: function (response) {
+          if (response.success) {
+            DollieSiteContent.vars.reloaded = true;
 
-              setTimeout(function () {
-                location.reload();
-              }, 3000);
-            }
-          },
-        });
+            setTimeout(function () {
+              location.reload();
+            }, 5000);
+          }
+        },
+      });
+    },
+
+    initStaging: function () {
+      $("#dol-delete-staging").on("submit", function () {
+        var submit = confirm("Do you really want to delete staging?");
+
+        return submit;
+      });
+    },
+
+    initExecution: function () {
+      var execution = $("#dol-execution-check");
+
+      if (execution.length) {
+        DollieSiteContent.vars.ajax_url = execution.data("ajax-url");
+
+        DollieSiteContent.vars.body = {
+          container: execution.data("container"),
+          type: execution.data("type"),
+          action: "dollie_check_execution",
+          nonce: execution.data("nonce"),
+        };
+
+        setInterval(function () {
+          if (!DollieSiteContent.vars.reloaded) {
+            DollieSiteContent.fn.sendRequest();
+          }
+        }, 5000);
       }
     },
   };

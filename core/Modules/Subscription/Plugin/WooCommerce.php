@@ -6,17 +6,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Modules\Blueprints;
+use Dollie\Core\Singleton;
 
 /**
  * Class WooCommerce
  *
  * @package Dollie\Core\Modules\Subscription\Plugin
  */
-class WooCommerce implements SubscriptionInterface {
+class WooCommerce extends Singleton implements SubscriptionInterface {
 
 	const
-		SUB_STATUS_ANY = 'any',
+		SUB_STATUS_ANY    = 'any',
 		SUB_STATUS_ACTIVE = 'active';
 
 	/**
@@ -75,10 +75,10 @@ class WooCommerce implements SubscriptionInterface {
 	 * @param $order_id
 	 */
 	public function redirect_to_blueprint( $order_id ) {
-		if ( isset( $_COOKIE[ Blueprints::COOKIE_NAME ] ) && $_COOKIE[ Blueprints::COOKIE_NAME ] ) {
+		if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) {
 			$order = new \WC_Order( $order_id );
 			if ( 'failed' !== $order->status ) {
-				wp_redirect( dollie()->get_launch_page_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ Blueprints::COOKIE_NAME ] );
+				wp_redirect( dollie()->get_launch_page_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
 				exit;
 			}
 		}
@@ -94,22 +94,21 @@ class WooCommerce implements SubscriptionInterface {
 	/**
 	 * Get checkout link
 	 *
-	 * @param $product_id
-	 * @param $blueprint_id
+	 * @param $args
 	 *
 	 * @return mixed|string|void
 	 * @throws \Exception
 	 */
-	public function get_checkout_link( $product_id, $blueprint_id ) {
+	public function get_checkout_link( $args ) {
 		if ( ! function_exists( 'wc_get_product' ) ) {
 			return '#';
 		}
 
-		$product_obj = wc_get_product( $product_id );
+		$product_obj = wc_get_product( $args['product_id'] );
 
 		$link_args = [
-			'add-to-cart'  => $product_id,
-			'blueprint_id' => $blueprint_id,
+			'add-to-cart'  => $args['product_id'],
+			'blueprint_id' => $args['blueprint_id'],
 		];
 
 		if ( method_exists( $product_obj, 'get_type' ) && $product_obj->get_type() === 'variable-subscription' ) {
@@ -127,13 +126,13 @@ class WooCommerce implements SubscriptionInterface {
 			wc_get_checkout_url()
 		);
 
-		return apply_filters( 'dollie/woo/checkout_link', $link, $product_id, $blueprint_id );
+		return apply_filters( 'dollie/woo/checkout_link', $link, $args );
 	}
 
 	/**
 	 * Get subscriptions for customer
 	 *
-	 * @param string $status
+	 * @param string   $status
 	 * @param null|int $customer_id
 	 *
 	 * @return array|bool
@@ -220,7 +219,7 @@ class WooCommerce implements SubscriptionInterface {
 
 				$data['resources']['max_allowed_installs'] += $installs * $quantity;
 				$data['resources']['max_allowed_size']     += $max_size * $quantity;
-				$data['resources']['name']                 = $item_data['name'];
+				$data['resources']['name']                  = $item_data['name'];
 
 				$data['resources']['staging_max_allowed'] += $staging * $quantity;
 
@@ -371,7 +370,7 @@ class WooCommerce implements SubscriptionInterface {
 	public function get_blueprints_exception( $type = 'excluded' ) {
 
 		$data          = [];
-		$type          .= '_blueprints';
+		$type         .= '_blueprints';
 		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
 
 		if ( empty( $subscriptions ) ) {
@@ -393,6 +392,12 @@ class WooCommerce implements SubscriptionInterface {
 		return $data;
 	}
 
+	/**
+	 * Check if user has staing
+	 *
+	 * @param null|int $user_id
+	 * @return boolean
+	 */
 	public function has_staging( $user_id = null ) {
 		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return true;
@@ -406,24 +411,23 @@ class WooCommerce implements SubscriptionInterface {
 			return true;
 		}
 
-		if ( $user_id === null ) {
+		if ( null === $user_id ) {
 			$user_id = get_current_user_id();
 		}
 
 		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user_id );
 
-		// if no subscription is active
+		// If no subscription is active.
 		if ( empty( $subscriptions ) ) {
 			return false;
 		}
 
-		// apply overrides at product level
+		// Apply overrides at product level.
 		if ( isset( $subscriptions['resources']['staging_max_allowed'] ) ) {
 			return $subscriptions['resources']['staging_max_allowed'] > 0;
 		}
 
 		return false;
-
 	}
 
 	/**
@@ -441,7 +445,7 @@ class WooCommerce implements SubscriptionInterface {
 			return false;
 		}
 
-		if ( $user_id === null ) {
+		if ( null === $user_id ) {
 			$user_id = get_current_user_id();
 		}
 
@@ -456,7 +460,18 @@ class WooCommerce implements SubscriptionInterface {
 		return ( $subscriptions['resources']['staging_max_allowed'] - $total_site ) <= 0;
 	}
 
+	/**
+	 * Filter blueprints
+	 *
+	 * @param array $blueprints
+	 * @return array
+	 */
 	public function filter_blueprints( $blueprints ) {
+
+		if ( current_user_can( 'manage_options' ) ) {
+			return $blueprints;
+		}
+
 		if ( ! empty( $blueprints ) ) {
 
 			$included = $this->get_blueprints_exception( 'included' );
