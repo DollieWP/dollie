@@ -87,9 +87,14 @@ class SitesList extends \Elementor\Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
+		$current_page = get_query_var( 'paged', 1 );
+		if ( isset( $_GET['elementor_library'] ) && isset( $_GET['load-page'] ) && $_GET['load-page'] ) {
+			$current_page = (int) sanitize_text_field( $_GET['load-page'] );
+		}
+
 		$args = [
 			'posts_per_page' => $settings['posts_per_page'],
-			'paged'          => get_query_var( 'paged', 1 ),
+			'paged'          => $current_page,
 			'post_type'      => 'container',
 			'post_status'    => 'publish',
 		];
@@ -160,7 +165,7 @@ class SitesList extends \Elementor\Widget_Base {
 			'settings'   => $settings,
 			'query_data' => [
 				'permalink'    => get_the_permalink(),
-				'current_page' => get_query_var( 'paged', 1 ),
+				'current_page' => $current_page,
 			],
 		];
 

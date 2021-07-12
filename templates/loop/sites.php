@@ -165,6 +165,7 @@ $grid_btn_active = $view_type === 'grid' ? 'dol-switch-active' : '';
 
 		<div class="dol-sites-pages" data-permalink="<?php echo esc_url( $query_data['permalink'] ); ?>" data-current-page="<?php echo esc_attr( $query_data['current_page'] ); ?>" data-list-type="<?php echo esc_attr( $view_type ); ?>">
 			<?php
+
 			echo paginate_links(
 				[
 					'total'        => $sites->max_num_pages,
