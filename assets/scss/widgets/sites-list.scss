@@ -37,7 +37,7 @@
   }
 
   .dol-open-modal {
-    @apply dol-hidden dol-ml-4 dol-px-4 dol-py-2 dol-bg-primary-500 dol-border-0 dol-rounded dol-text-white dol-text-sm;
+    @apply dol-hidden dol-ml-4 dol-px-4 dol-py-2 dol-bg-primary-500 dol-border-0 dol-rounded dol-text-white dol-text-sm dol-leading-none;
 
     &:hover {
       @apply dol-bg-primary-600;

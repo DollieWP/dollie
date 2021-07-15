@@ -288,9 +288,9 @@ $actions = [
 							if ( ! empty( $login_link ) ) :
 								?>
 								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-font-semibold dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary"
-								   href="<?php echo $login_link; ?>"
+								   href="<?php echo esc_url( $login_link ); ?>"
 								   data-tooltip="<?php echo esc_attr__( 'Admin', 'dollie' ); ?>">
-									<i class="fas fa-wrench"></i>
+									<i class="fas fa-sign-in-alt"></i>
 								</a>
 							<?php endif; ?>
 						</div>
