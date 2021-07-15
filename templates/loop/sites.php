@@ -10,14 +10,6 @@ $list_item_class = 'dol-sites-' . $view_type . '-item';
 $list_btn_active = 'list' === $view_type ? 'dol-switch-active' : '';
 $grid_btn_active = 'grid' === $view_type ? 'dol-switch-active' : '';
 
-$actions = [
-	'restart'               => __( 'Restart', 'dollie' ),
-	'stop'                  => __( 'Stop', 'dollie' ),
-	'update-plugins'        => __( 'Update Plugins', 'dollie' ),
-	'update-themes'         => __( 'Update Themes', 'dollie' ),
-	'create-backup'         => __( 'Create Backup', 'dollie' ),
-	'regenerate-screenshot' => __( 'Regenerate Screenshot', 'dollie' ),
-];
 ?>
 
 <div id="dol-modal-id-actions" class="dol-modal">
@@ -35,17 +27,19 @@ $actions = [
 			</div>
 
 			<div class="">
-				<select name="action" class="dol-bg-white dol-rounded dol-px-4 dol-py-2 dol-border-solid dol-border-gray-300 dol-text-base dol-text-gray-700 focus:dol-border-gray-400 focus:dol-outline-none">
-					<option value="" disabled><?php esc_html_e( 'Select action', 'dollie' ); ?></option>
+				<select name="action" class="dol-action-list dol-bg-white dol-rounded dol-px-4 dol-py-2 dol-border-solid dol-border-gray-300 dol-text-base dol-text-gray-700 focus:dol-border-gray-400 focus:dol-outline-none">
+					<option value="" disabled selected><?php esc_html_e( 'Select action', 'dollie' ); ?></option>
 
-					<?php foreach ( $actions as $type => $label ) : ?>
+					<?php foreach ( dollie()->get_allowed_bulk_commands() as $type => $label ) : ?>
 						<option value="<?php echo esc_attr( $type ); ?>"><?php echo $label; ?></option>
 					<?php endforeach; ?>
 				</select>
 			</div>
 
 			<div class="dol-mt-4">
-				<button type="button" class="dol-apply-action dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600">
+				<button type="button" class="dol-apply-action dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600"
+					data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>"
+					data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_do_bulk_action' ) ); ?>">
 					<?php esc_html_e( 'Apply', 'dollie' ); ?>
 				</button>
 			</div>

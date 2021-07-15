@@ -153,9 +153,6 @@ class SitesList extends \Elementor\Widget_Base {
 			$args['author'] = (int) $_GET['customer'];
 		}
 
-		// echo '<pre>';
-		// var_dump( $args );
-		// die();
 		$sites = new WP_Query( $args );
 
 		$view_type = isset( $_GET['list_type'] ) && in_array(

@@ -63,6 +63,8 @@ class Container extends Singleton {
 		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
 
 		add_filter( 'admin_body_class', [ $this, 'add_container_type_class' ] );
+
+		add_action( 'wp_ajax_dollie_do_bulk_action', [ $this, 'do_bulk_action' ] );
 	}
 
 	/**
@@ -1560,6 +1562,69 @@ class Container extends Singleton {
 		$classes .= dollie()->is_blueprint() ? ' dol-container-blueprint' : ' dol-container-site';
 
 		return $classes;
+	}
+
+	/**
+	 * Get allowed bulk commands
+	 *
+	 * @return array
+	 */
+	public function get_allowed_bulk_commands() {
+		return [
+			'restart'               => __( 'Restart', 'dollie' ),
+			'stop'                  => __( 'Stop', 'dollie' ),
+			'update-plugins'        => __( 'Update Plugins', 'dollie' ),
+			'update-themes'         => __( 'Update Themes', 'dollie' ),
+			'create-backup'         => __( 'Create Backup', 'dollie' ),
+			'regenerate-screenshot' => __( 'Regenerate Screenshot', 'dollie' ),
+		];
+	}
+
+	/**
+	 * Execute bulk command
+	 *
+	 * @return void
+	 */
+	public function do_bulk_action() {
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'dollie_do_bulk_action' ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.' ) ] );
+		}
+
+		$command = sanitize_text_field( $_REQUEST['command'] );
+
+		if ( ! array_key_exists( $command, $this->get_allowed_bulk_commands() ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Invalid command.' ) ] );
+		}
+
+		$posts_query = new WP_Query(
+			[
+				'post_type'      => 'container',
+				'posts_per_page' => - 1,
+				'post_status'    => 'publish',
+				'post__in'       => $_REQUEST['containers'],
+			]
+		);
+
+		$posts = $posts_query->get_posts();
+
+		$targets = [];
+
+		foreach ( $posts as $post ) {
+			$targets[] = [
+				'id'        => get_post_meta( $post->ID, 'wpd_container_id', true ),
+				'blueprint' => dollie()->is_blueprint( $post->ID ),
+			];
+		}
+
+		Api::post(
+			Api::ROUTE_CONTAINER_BULK_ACTION,
+			[
+				'targets' => $targets,
+				'command' => $command,
+			]
+		);
+
+		wp_send_json_success();
 	}
 
 }

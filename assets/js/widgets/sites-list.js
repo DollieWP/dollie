@@ -14,6 +14,7 @@ var DollieSiteList = DollieSiteList || {};
       DollieSiteList.fn.search();
       DollieSiteList.fn.toggleView();
       DollieSiteList.fn.actionsAndFilters();
+      DollieSiteList.fn.sendAction();
     },
 
     actionsAndFilters: function () {
@@ -64,9 +65,35 @@ var DollieSiteList = DollieSiteList || {};
 
         modal.removeClass("dol-modal-visible");
       });
+    },
 
+    sendAction: function () {
       $(".dol-apply-action").on("click", function (e) {
-        $(".dol-modal-close").trigger("click");
+        e.preventDefault();
+
+        if (!DollieSiteList.vars.selectedSites.length) {
+          return;
+        }
+
+        if (!$(".dol-action-list").val()) {
+          return;
+        }
+
+        $.ajax({
+          method: "POST",
+          url: $(this).data("ajax-url"),
+          data: {
+            containers: DollieSiteList.vars.selectedSites,
+            command: $(".dol-action-list").val(),
+            action: "dollie_do_bulk_action",
+            nonce: $(this).data("nonce"),
+          },
+          context: $(this),
+          success: function (response) {
+            if (response.success) {
+            }
+          },
+        });
       });
     },
 
@@ -91,6 +118,11 @@ var DollieSiteList = DollieSiteList || {};
         ".dol-sites-pages a.page-numbers",
         function (e) {
           e.preventDefault();
+
+          $(".dol-sites-item input[type=checkbox]").prop("checked", false);
+          $(".dol-select-all-container").prop("checked", false);
+          $(".dol-open-modal").removeClass("dol-open-modal-visible");
+          DollieSiteList.fn.updateSelectedSites();
 
           var elementId = $(this)
             .closest(".elementor-widget-dollie-sites-listing")
@@ -151,6 +183,11 @@ var DollieSiteList = DollieSiteList || {};
           if ($(this).val().length === 1) {
             return false;
           }
+
+          $(".dol-sites-item input[type=checkbox]").prop("checked", false);
+          $(".dol-select-all-container").prop("checked", false);
+          $(".dol-open-modal").removeClass("dol-open-modal-visible");
+          DollieSiteList.fn.updateSelectedSites();
 
           var elementId = $(this)
             .closest(".elementor-widget-dollie-sites-listing")

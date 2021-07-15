@@ -881,10 +881,30 @@ class Helpers extends Singleton {
 		return Container::instance()->get_screenshot( $container_uri, $regenerate );
 	}
 
+	/**
+	 * Regenerate screenshot
+	 *
+	 * @param array $containers
+	 * @return array
+	 */
 	public function regenerate_containers_screenshot( $containers = [] ) {
 		return Container::instance()->regenerate_screenshots( $containers );
 	}
 
+	/**
+	 * Get allowed bulk commands
+	 *
+	 * @return array
+	 */
+	public function get_allowed_bulk_commands() {
+		return Container::instance()->get_allowed_bulk_commands();
+	}
+
+	/**
+	 * Get total container size
+	 *
+	 * @return int
+	 */
 	public function get_total_container_size() {
 		return SiteInsights::instance()->get_total_container_size();
 	}
@@ -983,15 +1003,15 @@ class Helpers extends Singleton {
 		$role    = get_user_meta( $user_id, 'wpd_client_site_permissions', true );
 
 		if ( empty( $role ) ) {
-		    $role = 'default';
+			$role = 'default';
 		}
 
 		if ( 'default' === $role ) {
-		    if ( user_can( $user_id, 'manage_options' ) ) {
-			    $role = 'administrator';
-		    } else {
-			    $role = get_field( 'wpd_client_site_permission', 'options' );
-		    }
+			if ( user_can( $user_id, 'manage_options' ) ) {
+				$role = 'administrator';
+			} else {
+				$role = get_field( 'wpd_client_site_permission', 'options' );
+			}
 		}
 
 		return $role ?: 'administrator';

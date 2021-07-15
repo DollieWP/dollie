@@ -30,6 +30,7 @@ class Api extends Singleton {
 		ROUTE_CONTAINER_STAGING_DEPLOY         = 'containers/staging/deploy',
 		ROUTE_CONTAINER_STAGING_UNDEPLOY       = 'containers/staging/undeploy',
 		ROUTE_CONTAINER_STAGING_SYNC           = 'containers/staging/sync',
+		ROUTE_CONTAINER_BULK_ACTION            = 'containers/bulk-action',
 
 		ROUTE_DOMAIN_ADD                 = 'domain/add',
 		ROUTE_DOMAIN_UPDATE              = 'domain/update',
