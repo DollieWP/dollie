@@ -38,11 +38,11 @@ class DomainConnect extends Singleton {
 	 * Init ACF
 	 */
 	public function acf_init() {
-		// Form args
+		// Form args.
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 		add_filter( 'af/form/attributes/key=' . $this->form_key, [ $this, 'change_form_attributes' ] );
 
-		// Restrictions
+		// Restrictions.
 		add_filter( 'af/form/restriction/key=' . $this->form_key, [ $this, 'restrict_form' ], 10 );
 
 		// Form submission/validation actions.
@@ -67,7 +67,7 @@ class DomainConnect extends Singleton {
 		$container = Forms::get_form_container();
 		$domain    = af_get_field( 'domain_name' );
 
-		// Extra check and see if the same domain is already linked - skip
+		// Extra check and see if the same domain is already linked - skip.
 		$saved_domain = get_post_meta( $container->id, 'wpd_domains', true );
 
 		if ( $saved_domain === $domain ) {
@@ -145,7 +145,7 @@ class DomainConnect extends Singleton {
 		// We use LetsEncrypt by default.
 		update_post_meta( $container->id, 'wpd_letsencrypt_enabled', 'yes' );
 
-		// Search/replace site url
+		// Search/replace site url.
 		$replace_url_action = Container::instance()->update_url_with_domain( $domain, $container->id );
 
 		if ( false === $replace_url_action ) {
@@ -184,14 +184,14 @@ class DomainConnect extends Singleton {
 		$domain = af_get_field( 'domain_name' );
 		$ip     = dollie()->get_wp_site_data( 'ip', $container->id );
 
-		// Skip if we are using Cloudflare since it will give us a wrong IP address
+		// Skip if we are using Cloudflare since it will give us a wrong IP address.
 		if ( dollie()->is_using_cloudflare( $domain ) ) {
 			return;
 		}
 
 		$dns_valid = false;
 
-		// Check IP record with Google DNS
+		// Check IP record with Google DNS.
 		$dns_response = wp_remote_get( 'https://dns.google.com/resolve?name=' . $domain . '&type=A' );
 
 		if ( ! is_wp_error( $dns_response ) ) {
@@ -203,7 +203,7 @@ class DomainConnect extends Singleton {
 			}
 		}
 
-		// Fallback for google DNS query
+		// Fallback for google DNS query.
 		if ( false === $dns_valid ) {
 			$dns_record = dns_get_record( $domain, DNS_A );
 			if ( isset( $dns_record[0]['ip'] ) && $dns_record[0]['ip'] == $ip ) {
@@ -230,7 +230,7 @@ class DomainConnect extends Singleton {
 	 * @return bool|string
 	 */
 	public function restrict_form( $restriction = false ) {
-		// Added in case another restriction already applies
+		// Added in case another restriction already applies.
 		if ( $restriction ) {
 			return $restriction;
 		}
@@ -278,12 +278,12 @@ class DomainConnect extends Singleton {
 	private function is_form_restricted() {
 		$container = dollie()->get_current_object();
 
-		// If it already has linked domain and return an empty space as message
+		// If it already has linked domain and return an empty space as message.
 		if ( get_post_meta( $container->id, 'wpd_domains', true ) ) {
 			return true;
 		}
 
-		//If the site is a blueprint, no bueno
+		// If the site is a blueprint, no bueno.
 		if ( dollie()->is_blueprint( $container->id ) ) {
 			return true;
 		}
@@ -293,7 +293,7 @@ class DomainConnect extends Singleton {
 		$has_analytics  = get_post_meta( $container->id, 'wpd_cloudflare_zone_id', true );
 		$has_le         = get_post_meta( $container->id, 'wpd_letsencrypt_enabled', true );
 
-		// If it already has SSL return an empty space as message
+		// If it already has SSL return an empty space as message.
 		return $has_analytics || $has_le || $has_cloudflare;
 
 	}

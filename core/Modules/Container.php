@@ -1611,8 +1611,9 @@ class Container extends Singleton {
 
 		foreach ( $posts as $post ) {
 			$targets[] = [
-				'id'        => get_post_meta( $post->ID, 'wpd_container_id', true ),
-				'blueprint' => dollie()->is_blueprint( $post->ID ),
+				'id'           => get_post_meta( $post->ID, 'wpd_container_id', true ),
+				'uri'          => dollie()->get_wp_site_data( 'uri', $post->ID ),
+				'is_blueprint' => dollie()->is_blueprint( $post->ID ),
 			];
 		}
 

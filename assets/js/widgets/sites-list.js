@@ -51,6 +51,15 @@ var DollieSiteList = DollieSiteList || {};
           return false;
         }
 
+        $("#" + modalId)
+          .find(".dol-modal-error")
+          .hide();
+        $("#" + modalId)
+          .find(".dol-modal-success")
+          .hide();
+        $("#" + modalId)
+          .find(".dol-action-list")
+          .val("");
         $("#" + modalId).addClass("dol-modal-visible");
       });
 
@@ -91,6 +100,11 @@ var DollieSiteList = DollieSiteList || {};
           context: $(this),
           success: function (response) {
             if (response.success) {
+              $(this).closest(".dol-modal").find(".dol-modal-error").hide();
+              $(this).closest(".dol-modal").find(".dol-modal-success").show();
+            } else {
+              $(this).closest(".dol-modal").find(".dol-modal-success").hide();
+              $(this).closest(".dol-modal").find(".dol-modal-error").show();
             }
           },
         });

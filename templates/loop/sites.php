@@ -26,6 +26,14 @@ $grid_btn_active = 'grid' === $view_type ? 'dol-switch-active' : '';
 				</div>
 			</div>
 
+			<div class="dol-modal-success dol-hidden dol-text-sm dol-text-white dol-bg-green-500 dol-px-4 dol-py-2 dol-rounded dol-mb-3">
+				<?php esc_html_e( 'Action has been successfully sent!', 'dollie' ); ?>
+			</div>
+
+			<div class="dol-modal-error dol-hidden dol-text-sm dol-text-white dol-bg-red-500 dol-px-4 dol-py-2 dol-rounded dol-mb-3">
+				<?php esc_html_e( 'There was an error while sending the action! Please try again.', 'dollie' ); ?>
+			</div>
+
 			<div class="">
 				<select name="action" class="dol-action-list dol-bg-white dol-rounded dol-px-4 dol-py-2 dol-border-solid dol-border-gray-300 dol-text-base dol-text-gray-700 focus:dol-border-gray-400 focus:dol-outline-none">
 					<option value="" disabled selected><?php esc_html_e( 'Select action', 'dollie' ); ?></option>
