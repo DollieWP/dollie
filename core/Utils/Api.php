@@ -69,7 +69,7 @@ class Api extends Singleton {
 		EXECUTION_BLUEPRINT_CREATE        = 'blueprint.create',
 		EXECUTION_BLUEPRINT_DEPLOY        = 'blueprint.deploy',
 		EXECUTION_BLUEPRINT_AFTER_DEPLOY  = 'blueprint.after.deploy',
-		EXECUTION_CHANGE_USER_ROLE        = 'chane.user.role',
+		EXECUTION_CHANGE_USER_ROLE        = 'change.user.role',
 		EXECUTION_DYNAMIC_FIELDS_CHECK    = 'dynamic.fields.check',
 		EXECUTION_DYNAMIC_FIELDS_REPLACE  = 'dynamic.fields.replace',
 		EXECUTION_DOMAIN_UPDATE           = 'domain.update',

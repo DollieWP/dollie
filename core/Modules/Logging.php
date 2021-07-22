@@ -76,6 +76,12 @@ class Logging extends Singleton {
 				'description' => 'background-color: #F39C12',
 			];
 		}
+		if ( ! isset( $terms['Bulk'] ) ) {
+			$terms['Bulk'] = [
+				'slug'        => 'bulk',
+				'description' => 'background-color: #F39C12',
+			];
+		}
 
 		return $terms;
 	}

@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Modules\ContainerBulkActions;
 use Dollie\Core\Singleton;
 use WP_Query;
 
@@ -179,7 +180,7 @@ class Helpers extends Singleton {
 	 * @param null    $container_id
 	 * @param null    $container_location
 	 * @param boolean $staging
-	 * @return void
+	 * @return string
 	 */
 	public function final_customer_login_url( $container_id = null, $container_location = null, $staging = false ) {
 		$container = $this->get_current_object( $container_id );
@@ -863,7 +864,8 @@ class Helpers extends Singleton {
 	 * @param $url
 	 * @param $transient_id
 	 * @param $user_auth
-	 * @param null         $user_pass
+	 * @param null $user_pass
+	 * @param bool $force
 	 *
 	 * @return mixed
 	 */
@@ -897,7 +899,7 @@ class Helpers extends Singleton {
 	 * @return array
 	 */
 	public function get_allowed_bulk_commands() {
-		return Container::instance()->get_allowed_bulk_commands();
+		return ContainerBulkActions::instance()->get_allowed_commands();
 	}
 
 	/**

@@ -509,11 +509,11 @@ endif;
 				$log_data    = get_post_meta( $notification->ID, '_wpd_log_data', true );
 				$site_id     = get_post_meta( $notification->ID, '_wpd_site_id', true );
 
+				$log = Log::get_content( $log_data['action'], $log_data['values'] );
+
 				if ( ! $log_data || ! isset( $log['title'] ) ) {
 					continue;
 				}
-
-				$log = Log::get_content( $log_data['action'], $log_data['values'] );
 
 				$item_output .= '<div class="notif-item ' . $read_class . ' dol-p-5 dol-border-0 dol-border-b dol-border-gray-200 dol-border-solid">';
 				$item_output .= '<div class="notif-title dol-flex dol-justify-items-stretch dol-space-x-2">' .
