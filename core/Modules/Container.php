@@ -44,6 +44,7 @@ class Container extends Singleton {
 		add_action( 'before_delete_post', [ $this, 'run_before_delete_action' ] );
 		add_action( 'untrashed_post', [ $this, 'run_untrash_action' ] );
 		add_action( 'wp_trash_post', [ $this, 'run_trash_action' ] );
+
 		add_filter( 'gettext', [ $this, 'override_empty_trash' ], 50, 3 );
 
 		add_action( 'add_meta_boxes', [ $this, 'rename_author_box_title' ] );
@@ -859,7 +860,6 @@ class Container extends Singleton {
 			delete_post_meta( $post_id, 'wpd_scheduled_for_removal' );
 			delete_post_meta( $post_id, 'wpd_undeploy_container_at' );
 			delete_post_meta( $post_id, 'wpd_scheduled_for_undeployment' );
-			wp_trash_post( $post_id );
 
 			Log::add_front( Log::WP_SITE_UNDEPLOYED, $current_query, $site );
 		}

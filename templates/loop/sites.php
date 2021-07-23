@@ -308,6 +308,7 @@ $grid_btn_active = 'grid' === $view_type ? 'dol-switch-active' : '';
 			 data-current-page="<?php echo esc_attr( $query_data['current_page'] ); ?>"
 			 data-list-type="<?php echo esc_attr( $view_type ); ?>">
 			<?php
+
 			echo paginate_links(
 				[
 					'total'        => $sites->max_num_pages,

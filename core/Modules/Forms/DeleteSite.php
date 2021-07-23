@@ -59,9 +59,8 @@ class DeleteSite extends Singleton {
 
 		Container::instance()->remove_domain( $container->id );
 		Backups::instance()->make( $container->id, false );
-		Container::instance()->trigger( 'undeploy', $container->id );
 
-		wp_delete_post( $container->id, true );
+		wp_delete_post( $container->id, true ); // also hooks into undeploy
 
 	}
 
