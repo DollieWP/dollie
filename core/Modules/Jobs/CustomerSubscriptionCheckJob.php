@@ -140,7 +140,6 @@ class CustomerSubscriptionCheckJob extends Singleton {
 				} else {
 					// Start the containers that were stopped via S5 API.
 					Container::instance()->trigger( 'start', get_the_ID() );
-					Log::add_front( Log::WP_SITE_STARTED, dollie()->get_current_object( get_the_ID() ), get_the_title( get_the_ID() ) );
 				}
 			}
 		}
@@ -178,8 +177,7 @@ class CustomerSubscriptionCheckJob extends Singleton {
 
 				// If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
 				if ( $trigger_date < $today ) {
-					Container::instance()->trigger( 'stop', get_the_ID() );
-					Log::add_front( Log::WP_SITE_STOPPED, dollie()->get_current_object( get_the_ID() ), get_the_title( get_the_ID() ) );
+					wp_trash_post( get_the_ID() );
 				}
 			}
 		}
@@ -212,8 +210,8 @@ class CustomerSubscriptionCheckJob extends Singleton {
 
 				// If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
 				if ( $trigger_date < $today ) {
-					Container::instance()->trigger( 'undeploy', get_the_ID() );
-					Log::add_front( Log::WP_SITE_UNDEPLOYED, dollie()->get_current_object( get_the_ID() ), get_the_title( get_the_ID() ) );
+
+					wp_delete_post( get_the_ID(), true );
 				}
 			}
 		}

@@ -248,7 +248,7 @@ class Log {
 			],
 			self::WP_SITE_REMOVAL_SCHEDULED     => [
 				'title'   => __( 'Site Removal Notice', 'dollie' ),
-				'content' => __( sprintf( 'Site %s has been scheduled for removal.', $values[0] ), 'dollie' ),
+				'content' => __( sprintf( 'Site %s has been stopped and scheduled for complete removal.', $values[0] ), 'dollie' ),
 				'type'    => 'undeploy',
 				'link'    => false,
 			],
