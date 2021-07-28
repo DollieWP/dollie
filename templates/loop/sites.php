@@ -49,7 +49,7 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 			</div>
 
 			<div class="dol-mt-4">
-				<button type="button" class="dol-apply-action dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600"
+				<button type="button" class="dol-modal-submit dol-apply-action dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600"
 					data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>"
 					data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_do_bulk_action' ) ); ?>">
 					<?php esc_html_e( 'Apply', 'dollie' ); ?>
@@ -88,7 +88,7 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 			</div>
 
 			<div class="dol-mt-4">
-				<button type="button" class="dol-apply-filters dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600">
+				<button type="button" class="dol-modal-submit dol-apply-filters dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600">
 					<?php esc_html_e( 'Apply', 'dollie' ); ?>
 				</button>
 			</div>
