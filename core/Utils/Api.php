@@ -31,6 +31,7 @@ class Api extends Singleton {
 		ROUTE_CONTAINER_STAGING_UNDEPLOY       = 'containers/staging/undeploy',
 		ROUTE_CONTAINER_STAGING_SYNC           = 'containers/staging/sync',
 		ROUTE_CONTAINER_BULK_ACTION            = 'containers/bulk-action',
+		ROUTE_CONTAINER_BULK_ACTION_STATUS     = 'containers/bulk-action/status',
 
 		ROUTE_DOMAIN_ADD                 = 'domain/add',
 		ROUTE_DOMAIN_UPDATE              = 'domain/update',
@@ -78,9 +79,13 @@ class Api extends Singleton {
 		EXECUTION_PLUGIN_APPLY_UPDATES    = 'plugins.apply.updates',
 		EXECUTION_WIZARD_SETUP            = 'wizard.setup';
 
-	const API_BASE_URL = 'https://api-staging.getdollie.com/';
+	// const API_BASE_URL = 'https://api-staging.getdollie.com/';
+	// const API_URL      = self::API_BASE_URL . 'api/';
+	// const PARTNERS_URL = 'https://partners.getdollie.com/';
+
+	const API_BASE_URL = 'http://dollie-api.lcl/';
 	const API_URL      = self::API_BASE_URL . 'api/';
-	const PARTNERS_URL = 'https://partners.getdollie.com/';
+	const PARTNERS_URL = 'http://dollie-wp.lcl/';
 
 	public static $last_call = null;
 

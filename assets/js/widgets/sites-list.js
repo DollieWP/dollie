@@ -5,6 +5,7 @@ var DollieSiteList = DollieSiteList || {};
   "use strict";
 
   DollieSiteList.vars = {
+    actionInterval: false,
     selectedSites: [],
   };
 
@@ -15,14 +16,14 @@ var DollieSiteList = DollieSiteList || {};
       DollieSiteList.fn.toggleView();
       DollieSiteList.fn.actionsAndFilters();
       DollieSiteList.fn.sendAction();
+      DollieSiteList.fn.checkAction();
     },
 
     actionsAndFilters: function () {
       $(".dol-select-all-container").on("change", function () {
-        $(".dol-sites-item input[type=checkbox]").prop(
-          "checked",
-          $(this).prop("checked")
-        );
+        $(
+          ".dol-sites-item:not(.dol-sites-item-locked) input[type=checkbox]"
+        ).prop("checked", $(this).prop("checked"));
 
         if ($(this).is(":checked")) {
           $(".dol-open-modal").addClass("dol-open-modal-visible");
@@ -80,11 +81,13 @@ var DollieSiteList = DollieSiteList || {};
       $(".dol-apply-action").on("click", function (e) {
         e.preventDefault();
 
-        if (!DollieSiteList.vars.selectedSites.length) {
+        if (!$(".dol-action-list").val()) {
           return;
         }
 
-        if (!$(".dol-action-list").val()) {
+        if (!DollieSiteList.vars.selectedSites.length) {
+          $(this).closest(".dol-modal").find(".dol-modal-success").hide();
+          $(this).closest(".dol-modal").find(".dol-modal-error").show();
           return;
         }
 
@@ -102,6 +105,29 @@ var DollieSiteList = DollieSiteList || {};
             if (response.success) {
               $(this).closest(".dol-modal").find(".dol-modal-error").hide();
               $(this).closest(".dol-modal").find(".dol-modal-success").show();
+
+              if (response.data) {
+                $.each(response.data, function (index, item) {
+                  var element = $(
+                    "[data-site-name='" + item.container_uri + "']"
+                  );
+
+                  if (element.length) {
+                    element.addClass("dol-sites-item-locked");
+                    element.find(".dol-item-execution-text").html(item.text);
+                    element
+                      .find(".dol-item-execution-placeholder")
+                      .removeClass("dol-hidden");
+                    element.find(".dol-sites-controls").addClass("dol-hidden");
+                  }
+                });
+              }
+
+              $(
+                ".dol-sites-item.dol-sites-item-locked input[type=checkbox]"
+              ).prop("checked", false);
+              DollieSiteList.fn.updateSelectedSites();
+              DollieSiteList.fn.checkAction();
             } else {
               $(this).closest(".dol-modal").find(".dol-modal-success").hide();
               $(this).closest(".dol-modal").find(".dol-modal-error").show();
@@ -109,6 +135,46 @@ var DollieSiteList = DollieSiteList || {};
           },
         });
       });
+    },
+
+    checkAction: function () {
+      if ($(".dol-sites-item.dol-sites-item-locked").length) {
+        DollieSiteList.vars.actionInterval = setInterval(function () {
+          $.ajax({
+            method: "POST",
+            url: $("#dol-check-bulk-action").data("ajax-url"),
+            data: {
+              action: "dollie_check_bulk_action",
+              nonce: $("#dol-check-bulk-action").data("nonce"),
+            },
+            success: function (response) {
+              if (response.success) {
+                if (response.data.length) {
+                  $.each(response.data, function (index, item) {
+                    var element = $(
+                      "[data-site-name='" + item.container_uri + "']"
+                    );
+
+                    if (element.length) {
+                      element.removeClass("dol-sites-item-locked");
+                      element
+                        .find(".dol-item-execution-placeholder")
+                        .addClass("dol-hidden");
+                      element
+                        .find(".dol-sites-controls")
+                        .removeClass("dol-hidden");
+                    }
+                  });
+                } else {
+                  clearInterval(DollieSiteList.vars.actionInterval);
+                }
+              } else {
+                clearInterval(DollieSiteList.vars.actionInterval);
+              }
+            },
+          });
+        }, 3000);
+      }
     },
 
     updateSelectedSites: function () {

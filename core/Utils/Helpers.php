@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Modules\ContainerBulkActions;
 use Dollie\Core\Singleton;
 use WP_Query;
 
@@ -16,6 +15,7 @@ use Dollie\Core\Modules\Backups;
 use Dollie\Core\Modules\Blueprints;
 use Dollie\Core\Modules\Container;
 use Dollie\Core\Modules\SiteInsights;
+use Dollie\Core\Modules\ContainerBulkActions;
 
 /**
  * Class Helpers
@@ -864,8 +864,8 @@ class Helpers extends Singleton {
 	 * @param $url
 	 * @param $transient_id
 	 * @param $user_auth
-	 * @param null $user_pass
-	 * @param bool $force
+	 * @param null         $user_pass
+	 * @param bool         $force
 	 *
 	 * @return mixed
 	 */
@@ -900,6 +900,15 @@ class Helpers extends Singleton {
 	 */
 	public function get_allowed_bulk_commands() {
 		return ContainerBulkActions::instance()->get_allowed_commands();
+	}
+
+	/**
+	 * Get allowed bulk commands in progress
+	 *
+	 * @return array
+	 */
+	public function get_allowed_commands_in_progress() {
+		return ContainerBulkActions::instance()->get_allowed_commands_in_progress();
 	}
 
 	/**
@@ -1316,5 +1325,23 @@ class Helpers extends Singleton {
 	 */
 	public function remove_execution( $container_id, $execution_type ) {
 		Api::remove_execution( $container_id, $execution_type );
+	}
+
+	/**
+	 * Get bulk actions
+	 *
+	 * @return array
+	 */
+	public function get_bulk_actions() {
+		return ContainerBulkActions::instance()->get_bulk_actions();
+	}
+
+	/**
+	 * Check bulk actions
+	 *
+	 * @return array
+	 */
+	public function check_bulk_actions() {
+		return ContainerBulkActions::instance()->check_bulk_actions();
 	}
 }

@@ -27,8 +27,8 @@ class ContainerBulkActions extends Singleton {
 
 		add_filter( 'dollie/log/actions', [ $this, 'log_action_filter' ], 10, 2 );
 
-		add_action( 'wp_ajax_dollie_do_bulk_action', [ $this, 'do_ajax_action' ] );
-
+		add_action( 'wp_ajax_dollie_do_bulk_action', [ $this, 'do_bulk_action' ] );
+		add_action( 'wp_ajax_dollie_check_bulk_action', [ $this, 'check_bulk_action' ] );
 	}
 
 	/**
@@ -67,11 +67,27 @@ class ContainerBulkActions extends Singleton {
 	}
 
 	/**
+	 * Get allowed bulk commands in progress
+	 *
+	 * @return array
+	 */
+	public function get_allowed_commands_in_progress() {
+		return [
+			'restart'               => __( 'Restarting', 'dollie' ),
+			'stop'                  => __( 'Stopping', 'dollie' ),
+			'update-plugins'        => __( 'Updating Plugins', 'dollie' ),
+			'update-themes'         => __( 'Updating Themes', 'dollie' ),
+			'create-backup'         => __( 'Creating Backup', 'dollie' ),
+			'regenerate-screenshot' => __( 'Regenerating Screenshot', 'dollie' ),
+		];
+	}
+
+	/**
 	 * Execute bulk command
 	 *
 	 * @return void
 	 */
-	public function do_ajax_action() {
+	public function do_bulk_action() {
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'dollie_do_bulk_action' ) ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
 		}
@@ -104,23 +120,44 @@ class ContainerBulkActions extends Singleton {
 			exit;
 		}
 
-		$targets = [];
+		$targets               = [];
+		$existing_bulk_actions = $this->get_bulk_actions();
 
 		foreach ( $posts as $post ) {
-			$targets[] = [
-				'id'           => get_post_meta( $post->ID, 'wpd_container_id', true ),
-				'uri'          => dollie()->get_wp_site_data( 'uri', $post->ID ),
-				'is_blueprint' => dollie()->is_blueprint( $post->ID ),
-			];
+			$exists = false;
+			foreach ( $existing_bulk_actions as $action ) {
+				if ( $action['container_uri'] === dollie()->get_wp_site_data( 'uri', $post->ID ) ) {
+					$exists = true;
+				}
+			}
+
+			// Execute new action on container only if no other action is in progress.
+			if ( ! $exists ) {
+				$targets[] = [
+					'id'           => get_post_meta( $post->ID, 'wpd_container_id', true ),
+					'uri'          => dollie()->get_wp_site_data( 'uri', $post->ID ),
+					'is_blueprint' => dollie()->is_blueprint( $post->ID ),
+				];
+			}
 		}
 
-		$response = Api::process_response( Api::post(
-			Api::ROUTE_CONTAINER_BULK_ACTION,
-			[
-				'targets' => $targets,
-				'command' => $command,
-			]
-		) );
+		$response = Api::process_response(
+			Api::post(
+				Api::ROUTE_CONTAINER_BULK_ACTION,
+				[
+					'targets' => $targets,
+					'command' => $command,
+				]
+			)
+		);
+
+		if ( is_array( $response ) ) {
+			$this->set_bulk_actions( $response );
+
+			foreach ( $response as &$item ) {
+				$item['text'] = $this->get_allowed_commands_in_progress()[ $item['action'] ];
+			}
+		}
 
 		Log::add_front(
 			self::LOG_ACTION_STARTED,
@@ -130,7 +167,103 @@ class ContainerBulkActions extends Singleton {
 			]
 		);
 
-		wp_send_json_success();
+		wp_send_json_success( $response );
+	}
+
+	/**
+	 * Check bulk action
+	 *
+	 * @return void
+	 */
+	public function check_bulk_action() {
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'dollie_check_bulk_action' ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
+		}
+
+		wp_send_json_success( $this->check_bulk_actions() );
+	}
+
+	/**
+	 * Set bulk actions
+	 *
+	 * @param array $data
+	 * @return void
+	 */
+	public function set_bulk_actions( $data, $force = false ) {
+		if ( ! $force ) {
+			$data = array_merge( $this->get_bulk_actions(), $data );
+		}
+
+		update_option( 'wpd_container_bulk_actions', $data );
+	}
+
+	/**
+	 * Get bulk actions
+	 *
+	 * @return array
+	 */
+	public function get_bulk_actions() {
+		return get_option( 'wpd_container_bulk_actions', [] );
+	}
+
+	/**
+	 * Remove action
+	 *
+	 * @param string $container_uri
+	 * @return void
+	 */
+	public function remove_bulk_action( $container_uri ) {
+		$actions = $this->get_bulk_actions();
+
+		foreach ( $actions as $key => $action ) {
+			if ( $action['container_uri'] === $container_uri ) {
+				unset( $actions[ $key ] );
+			}
+		}
+
+		$this->set_bulk_actions( $actions );
+	}
+
+	/**
+	 * Check bulk actions
+	 *
+	 * @return array
+	 */
+	public function check_bulk_actions() {
+		$actions = $this->get_bulk_actions();
+
+		$response = [];
+		$targets  = [];
+
+		foreach ( $actions as $action ) {
+			$targets[] = $action['execution_id'];
+		}
+
+		if ( ! empty( $targets ) ) {
+			$response = Api::process_response(
+				Api::post(
+					Api::ROUTE_CONTAINER_BULK_ACTION_STATUS,
+					[
+						'targets' => $targets,
+					]
+				)
+			);
+		}
+
+		if ( ! empty( $response ) ) {
+			foreach ( $actions as $key => $action ) {
+				foreach ( $response as &$item ) {
+					if ( $item['execution_id'] === $action['execution_id'] && $item['status'] ) {
+						$item['container_uri'] = $action['container_uri'];
+						unset( $actions[ $key ] );
+					}
+				}
+			}
+
+			$this->set_bulk_actions( $actions, true );
+		}
+
+		return $response;
 	}
 
 }

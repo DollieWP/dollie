@@ -4,11 +4,15 @@ if ( ! isset( $view_type ) ) {
 	$view_type = 'list';
 }
 
-$list_class      = 'dol-sites-' . $view_type;
-$list_item_class = 'dol-sites-' . $view_type . '-item';
+$list_class = 'dol-sites-' . $view_type;
 
 $list_btn_active = 'list' === $view_type ? 'dol-switch-active' : '';
 $grid_btn_active = 'grid' === $view_type ? 'dol-switch-active' : '';
+
+dollie()->check_bulk_actions();
+
+$bulk_actions          = dollie()->get_bulk_actions();
+$allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 
 ?>
 
@@ -92,7 +96,6 @@ $grid_btn_active = 'grid' === $view_type ? 'dol-switch-active' : '';
 	</div>
 </div>
 
-
 <div class="dol-mb-6 dol-widget-site-search">
 	<div class="dol-rounded dol-p-4 dol-bg-white dol-shadow-md">
 		<div class="dol-flex dol-flex-wrap dol-items-center md:dol-justify-between">
@@ -147,6 +150,9 @@ $grid_btn_active = 'grid' === $view_type ? 'dol-switch-active' : '';
 	</div>
 </div>
 
+<div id="dol-check-bulk-action" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>"
+	data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_check_bulk_action' ) ); ?>"></div>
+
 <div class="dol-sites dol-relative">
 	<div class="dol-loader">
 		<div class="dol-flex dol-items-center dol-justify-center dol-h-full">
@@ -172,6 +178,23 @@ $grid_btn_active = 'grid' === $view_type ? 'dol-switch-active' : '';
 
 				$sites->the_post();
 
+				$list_item_class        = [];
+				$execution_lock_classes = [];
+				$btn_controls_classes   = [];
+
+				$domain           = dollie()->get_wp_site_data( 'uri', get_the_ID() );
+				$executing_action = [
+					'status'  => false,
+					'command' => '',
+				];
+
+				foreach ( $bulk_actions as $bulk_action ) {
+					if ( $bulk_action['container_uri'] === $domain ) {
+						$executing_action['status']  = true;
+						$executing_action['command'] = $allowed_bulk_commands[ $bulk_action['action'] ];
+					}
+				}
+
 				$data = [
 					'slug'       => get_post_field( 'post_name', get_the_ID() ),
 					'domain'     => get_post_meta( get_the_ID(), 'wpd_domains', true ) ?: dollie()->get_container_url( get_the_ID() ),
@@ -181,12 +204,38 @@ $grid_btn_active = 'grid' === $view_type ? 'dol-switch-active' : '';
 				];
 
 				if ( dollie()->is_blueprint( get_the_ID() ) ) {
-					$list_item_class .= ' dol-blueprint-site';
+					$list_item_class[] = 'dol-blueprint-site';
 				}
 
+				if ( ! $executing_action['status'] ) {
+					$execution_lock_classes[] = 'dol-hidden';
+				} else {
+					$btn_controls_classes[] = 'dol-hidden';
+					$list_item_class[]      = 'dol-sites-item-locked';
+				}
+
+				$list_item_class[] = 'dol-sites-' . $view_type . '-item';
+
+				$execution_lock_classes = implode( ' ', $execution_lock_classes );
+				$btn_controls_classes   = implode( ' ', $btn_controls_classes );
+				$list_item_class        = implode( ' ', $list_item_class );
+
 				?>
-				<div class="dol-sites-item <?php echo esc_attr( $list_item_class ); ?>">
-					<div class="dol-sites-item-inner dol-divide-y dol-divide-gray-200 dol-shadow dol-rounded-md dol-widget-custom dark:dol-bg-gray-800">
+				<div class="dol-sites-item <?php echo esc_attr( $list_item_class ); ?>" data-site-name="<?php echo esc_attr( $domain ); ?>">
+					<div class="dol-sites-item-inner dol-relative dol-divide-y dol-divide-gray-200 dol-shadow dol-rounded-md dol-widget-custom dark:dol-bg-gray-800">
+						<div class="<?php echo esc_attr( $execution_lock_classes ); ?> dol-item-execution-placeholder dol-absolute dol-w-full dol-h-full dol-left-0 dol-top-0 dol-bg-white dol-bg-opacity-50 dol-z-10">                                 
+							<div class="dol-flex dol-items-center dol-justify-end dol-w-full dol-h-full">
+								<div class="dol-flex dol-items-center dol-justify-center dol-text-sm dol-bg-gray-600 dol-text-white dol-font-medium dol-mx-6 dol-px-4 dol-py-2 dol-rounded-full">
+									<svg class="dol-animate-spin dol-h-4 dol-w-4 dol-text-white" xmlns="http://www.w3.org/2000/svg"
+										fill="none" viewBox="0 0 24 24">
+										<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+										<path class="dol-opacity-75" fill="currentColor"
+											d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+									</svg>
+									<span class="dol-item-execution-text dol-inline-block dol-ml-2"><?php echo esc_html( $executing_action['command'] ); ?></span>
+								</div>
+							</div>
+						</div> 
 						<div class="dol-check-wrap">
 							<label class="dol-checkbox">
 								<span class="checkbox__input">
@@ -270,7 +319,7 @@ $grid_btn_active = 'grid' === $view_type ? 'dol-switch-active' : '';
 								</div>
 							</div>
 						<?php endif; ?>
-						<div class="dol-sites-controls">
+						<div class="dol-sites-controls <?php echo esc_attr( $btn_controls_classes ); ?>">
 							<?php if ( dollie()->is_blueprint( get_the_ID() ) ) : ?>
 								<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600"
 								   href="<?php echo get_the_permalink( get_the_ID() ); ?>blueprints"
