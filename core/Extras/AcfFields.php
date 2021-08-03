@@ -467,7 +467,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Use My Own Domain', 'dollie'),
 				'name' => 'wpd_show_custom_domain_options',
 				'type' => 'true_false',
-				'instructions' => __('Add your own domain for site deployments to fully white label the sites being launched on your platform.', 'dollie'),
+				'instructions' => __('Add your own domain for site deployments to fully white label the sites being launched on your platform. Adding your own custom domain will no longer use the Default Deployment Domain.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
