@@ -515,10 +515,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5fabba25bf323',
-				'label' => __('Your Deployment Domain', 'dollie'),
+				'label' => __('My Custom Domain', 'dollie'),
 				'name' => 'wpd_api_domain_custom',
 				'type' => 'text',
-				'instructions' => __('Add your base domain name, without http(s):// or www. For example "myagency.com"', 'dollie'),
+				'instructions' => __('Add your domain name, without http(s):// or www. For example "myagency.com"', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => array(
 					array(
