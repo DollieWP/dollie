@@ -93,7 +93,7 @@ class SitesList extends \Elementor\Widget_Base {
 		}
 
 		$args = [
-			'posts_per_page' => $settings['posts_per_page'],
+			'posts_per_page' => isset( $_GET['per_page'] ) && sanitize_text_field( $_GET['per_page'] ) ? sanitize_text_field( $_GET['per_page'] ) : $settings['posts_per_page'],
 			'paged'          => $current_page,
 			'post_type'      => 'container',
 			'post_status'    => 'publish',

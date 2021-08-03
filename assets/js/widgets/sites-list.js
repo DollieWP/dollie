@@ -16,6 +16,7 @@ var DollieSiteList = DollieSiteList || {};
       DollieSiteList.fn.toggleView();
       DollieSiteList.fn.actionsAndFilters();
       DollieSiteList.fn.sendAction();
+      DollieSiteList.fn.applyFilters();
       DollieSiteList.fn.checkAction();
     },
 
@@ -79,6 +80,23 @@ var DollieSiteList = DollieSiteList || {};
         modal.removeClass("dol-modal-visible");
 
         modal.find(".dol-modal-submit").prop("disabled", true);
+      });
+    },
+
+    applyFilters: function () {
+      $(".dol-apply-filters").on("click", function (e) {
+        e.preventDefault();
+
+        var per_page = $("#per-page").val();
+
+        var searchParams = new URLSearchParams(window.location.search);
+
+        if (per_page) {
+          searchParams.set("per_page", per_page);
+        }
+
+        $(this).closest(".dol-modal").removeClass("dol-modal-visible");
+        window.location.search = searchParams.toString();
       });
     },
 
