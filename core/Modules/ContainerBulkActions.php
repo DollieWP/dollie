@@ -126,7 +126,7 @@ class ContainerBulkActions extends Singleton {
 		foreach ( $posts as $post ) {
 			$exists = false;
 			foreach ( $existing_bulk_actions as $action ) {
-				if ( $action['container_uri'] === dollie()->get_wp_site_data( 'uri', $post->ID ) ) {
+				if ( dollie()->get_wp_site_data( 'uri', $post->ID ) === $action['container_uri'] ) {
 					$exists = true;
 				}
 			}
@@ -152,6 +152,14 @@ class ContainerBulkActions extends Singleton {
 		);
 
 		if ( is_array( $response ) ) {
+			foreach ( $posts as $post ) {
+				foreach ( $response as &$item ) {
+					if ( dollie()->get_wp_site_data( 'uri', $post->ID ) === $item['container_uri'] ) {
+						$item['post_id'] = $post->ID;
+					}
+				}
+			}
+
 			$this->set_bulk_actions( $response );
 
 			foreach ( $response as &$item ) {
@@ -194,7 +202,7 @@ class ContainerBulkActions extends Singleton {
 			$data = array_merge( $this->get_bulk_actions(), $data );
 		}
 
-		update_option( 'wpd_container_bulk_actions', $data );
+		update_option( 'wpd_container_bulk_actions_' . get_current_user_id(), $data );
 	}
 
 	/**
@@ -203,7 +211,7 @@ class ContainerBulkActions extends Singleton {
 	 * @return array
 	 */
 	public function get_bulk_actions() {
-		return get_option( 'wpd_container_bulk_actions', [] );
+		return get_option( 'wpd_container_bulk_actions_' . get_current_user_id(), [] );
 	}
 
 	/**
@@ -256,6 +264,10 @@ class ContainerBulkActions extends Singleton {
 					if ( $item['execution_id'] === $action['execution_id'] && $item['status'] ) {
 						$item['container_uri'] = $action['container_uri'];
 						unset( $actions[ $key ] );
+
+						if ( in_array( $item['action'], [ 'stop', 'restart' ] ) ) {
+							Container::instance()->get_container_details( $action['post_id'], true );
+						}
 					}
 				}
 			}
