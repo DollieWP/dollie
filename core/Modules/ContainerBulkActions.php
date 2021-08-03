@@ -265,9 +265,7 @@ class ContainerBulkActions extends Singleton {
 						$item['container_uri'] = $action['container_uri'];
 						unset( $actions[ $key ] );
 
-						if ( in_array( $item['action'], [ 'stop', 'restart' ] ) ) {
-							Container::instance()->get_container_details( $action['post_id'], true );
-						}
+						Container::instance()->get_container_details( $action['post_id'], true );
 					}
 				}
 			}
