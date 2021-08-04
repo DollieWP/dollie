@@ -86,11 +86,12 @@ class ContainerBulkActions extends Singleton {
 		$bulk_actions = get_post_meta( $log_id, '_wpd_sub_logs', true );
 
 		if ( ! empty( $bulk_actions ) ) {
-			$content = '[' . get_the_date( 'Y-m-d H:i:s', $log_id ) . '] ' . $content;
+			// $content = '[' . get_the_date( 'Y-m-d H:i:s', $log_id ) . '] ' . $content;
 
 			foreach ( $bulk_actions as $bulk_log_id ) {
 				$log      = get_post( $bulk_log_id );
-				$content .= '<br> ' . '[' . get_the_date( 'Y-m-d H:i:s', $bulk_log_id ) . '] ' . $log->post_content;
+				//$content .= '<br> ' . '[' . get_the_date( 'Y-m-d H:i:s', $bulk_log_id ) . '] ' . $log->post_content;
+				$content .= '<br> ' . $log->post_content;
 			}
 		}
 
