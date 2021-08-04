@@ -181,6 +181,21 @@ class Log {
 			}
 		}
 
+		if ( get_field( 'wpd_slack_notifications', 'options' ) && get_field( 'wpd_slack_webhook_url', 'options' ) ) {
+			$slack_actions = get_field( 'wpd_slack_actions', 'options' );
+
+			if ( in_array( $action, $slack_actions ) && class_exists( '\Maknz\Slack\Client' ) ) {
+				$slack_client  = new \Maknz\Slack\Client( get_field( 'wpd_slack_webhook_url', 'options' ) );
+				$slack_content = $content['title'] . '. ' . $content['content'];
+
+				if ( $content['link'] === true ) {
+					$slack_content .= ' <' . get_permalink( $object->id ) . '|View site>';
+				}
+
+				$slack_client->send( $slack_content );
+			}
+		}
+
 		return $log_id;
 	}
 
@@ -246,7 +261,7 @@ class Log {
 				'link'    => false,
 			],
 			self::WP_SITE_BACKUP_STARTED        => [
-				'title'   => __( 'Backup Created', 'dollie' ),
+				'title'   => __( 'Backup Triggered', 'dollie' ),
 				'content' => __( sprintf( 'A new backup has been triggered for %s.', $values[0] ), 'dollie' ),
 				'type'    => 'action',
 				'link'    => true,
@@ -275,7 +290,7 @@ class Log {
 				'type'    => 'deploy',
 				'link'    => true,
 			],
-			self::WP_SITE_RESTARTED               => [
+			self::WP_SITE_RESTARTED             => [
 				'title'   => __( 'Site Restarted', 'dollie' ),
 				'content' => __( sprintf( 'Site %s has been successfully restarted.', $values[0] ), 'dollie' ),
 				'type'    => 'deploy',
@@ -332,7 +347,6 @@ class Log {
 		];
 
 		$actions = apply_filters( 'dollie/log/actions', $actions, $values, $log_id );
-
 
 		if ( isset( $actions[ $action ] ) ) {
 
