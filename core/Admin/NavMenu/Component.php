@@ -480,10 +480,10 @@ class Component {
 					'key'     => '_wpd_read',
 					'compare' => 'EXISTS',
 				],
-				/*[
+				[
 					'key'     => '_wpd_bulk_log',
 					'compare' => 'NOT EXISTS',
-				],*/
+				],
 			],
 		];
 
