@@ -17,9 +17,9 @@ use Dollie\Core\Utils\Api;
  */
 class ContainerBulkActions extends Singleton {
 
-	public const LOG_ACTION_STARTED = 'wp-bulk-action-start';
-	public const LOG_UPDATE_PLUGINS = 'wp-bulk-update-plugins';
-	public const LOG_UPDATE_THEMES = 'wp-bulk-update-themes';
+	public const LOG_ACTION_STARTED        = 'wp-bulk-action-start';
+	public const LOG_UPDATE_PLUGINS        = 'wp-bulk-update-plugins';
+	public const LOG_UPDATE_THEMES         = 'wp-bulk-update-themes';
 	public const LOG_REGENERATE_SCREENSHOT = 'wp-bulk-regenerate-screenshot';
 
 	/**
@@ -77,7 +77,7 @@ class ContainerBulkActions extends Singleton {
 	 * Log actions
 	 *
 	 * @param string $content
-	 * @param array $values
+	 * @param array  $values
 	 *
 	 * @return string
 	 */
@@ -89,7 +89,7 @@ class ContainerBulkActions extends Singleton {
 			$content = '[' . get_the_date( 'Y-m-d H:i:s', $log_id ) . '] ' . $content;
 
 			foreach ( $bulk_actions as $bulk_log_id ) {
-				$log     = get_post( $bulk_log_id );
+				$log      = get_post( $bulk_log_id );
 				$content .= '<br> ' . '[' . get_the_date( 'Y-m-d H:i:s', $bulk_log_id ) . '] ' . $log->post_content;
 			}
 		}
@@ -242,7 +242,6 @@ class ContainerBulkActions extends Singleton {
 			}
 		}
 
-
 		wp_send_json_success( $response );
 	}
 
@@ -314,6 +313,14 @@ class ContainerBulkActions extends Singleton {
 			return [];
 		}
 
+		$processing = get_option( 'wpd_container_bulk_actions_processing_' . get_current_user_id() );
+
+		if ( $processing ) {
+			return [];
+		}
+
+		update_option( 'wpd_container_bulk_actions_processing_' . get_current_user_id(), true );
+
 		$response = [];
 		$targets  = [];
 
@@ -372,9 +379,10 @@ class ContainerBulkActions extends Singleton {
 				}
 			}
 
-			//var_dump( $actions );
 			$this->set_bulk_actions( $actions, true );
 		}
+
+		update_option( 'wpd_container_bulk_actions_processing_' . get_current_user_id(), false );
 
 		return $response;
 	}
