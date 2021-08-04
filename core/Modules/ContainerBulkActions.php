@@ -350,6 +350,7 @@ class ContainerBulkActions extends Singleton {
 							$site_object = dollie()->get_current_object( $action['post_id'] );
 							$log_action  = $this->get_log_action( $action['action'] );
 
+							// Add individual log
 							$sub_log_id = Log::add_front(
 								$log_action,
 								$site_object,
