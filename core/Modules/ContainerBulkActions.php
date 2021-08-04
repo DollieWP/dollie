@@ -18,6 +18,9 @@ use Dollie\Core\Utils\Api;
 class ContainerBulkActions extends Singleton {
 
 	public const LOG_ACTION_STARTED = 'wp-bulk-action-start';
+	public const LOG_UPDATE_PLUGINS = 'wp-bulk-update-plugins';
+	public const LOG_UPDATE_THEMES = 'wp-bulk-update-themes';
+	public const LOG_REGENERATE_SCREENSHOT = 'wp-bulk-regenerate-screenshot';
 
 	/**
 	 * Container constructor.
@@ -25,7 +28,8 @@ class ContainerBulkActions extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		add_filter( 'dollie/log/actions', [ $this, 'log_action_filter' ], 10, 2 );
+		add_filter( 'dollie/log/actions', [ $this, 'log_action_filter' ], 10, 3 );
+		add_filter( 'dollie/log/actions/content', [ $this, 'log_action_content_filter' ], 10, 3 );
 
 		add_action( 'wp_ajax_dollie_do_bulk_action', [ $this, 'do_bulk_action' ] );
 		add_action( 'wp_ajax_dollie_check_bulk_action', [ $this, 'check_bulk_action' ] );
@@ -39,16 +43,60 @@ class ContainerBulkActions extends Singleton {
 	 *
 	 * @return array
 	 */
-	public function log_action_filter( $actions, $values ) {
+	public function log_action_filter( $actions, $values, $log_id ) {
 		$actions[ self::LOG_ACTION_STARTED ] = [
-			'title'   => __( 'Sites Bulk Action Started', 'dollie' ),
+			'title'   => __( 'Sites Bulk Action', 'dollie' ),
 			'content' => __( sprintf( '%s action has been sent to the selected containers.', $values[0] ), 'dollie' ),
+			'type'    => 'bulk',
+			'link'    => false,
+		];
+
+		$actions[ self::LOG_UPDATE_PLUGINS ]        = [
+			'title'   => __( 'Plugins updated', 'dollie' ),
+			'content' => __( sprintf( 'Site %s has completed updating plugins.', $values[0] ), 'dollie' ),
+			'type'    => 'bulk',
+			'link'    => false,
+		];
+		$actions[ self::LOG_UPDATE_THEMES ]         = [
+			'title'   => __( 'Themes updated', 'dollie' ),
+			'content' => __( sprintf( 'Site %s has completed updating themes.', $values[0] ), 'dollie' ),
+			'type'    => 'bulk',
+			'link'    => false,
+		];
+		$actions[ self::LOG_REGENERATE_SCREENSHOT ] = [
+			'title'   => __( 'Screenshot regenerated', 'dollie' ),
+			'content' => __( sprintf( 'Site %s has completed regenerating screenshot.', $values[0] ), 'dollie' ),
 			'type'    => 'bulk',
 			'link'    => false,
 		];
 
 		return $actions;
 	}
+
+	/**
+	 * Log actions
+	 *
+	 * @param string $content
+	 * @param array $values
+	 *
+	 * @return string
+	 */
+	public function log_action_content_filter( $content, $values, $log_id ) {
+
+		$bulk_actions = get_post_meta( $log_id, '_wpd_sub_logs', true );
+
+		if ( ! empty( $bulk_actions ) ) {
+			$content = '[' . get_the_date( 'Y-m-d H:i:s', $log_id ) . '] ' . $content;
+
+			foreach ( $bulk_actions as $bulk_log_id ) {
+				$log     = get_post( $bulk_log_id );
+				$content .= '<br> ' . '[' . get_the_date( 'Y-m-d H:i:s', $bulk_log_id ) . '] ' . $log->post_content;
+			}
+		}
+
+		return $content;
+	}
+
 
 	/**
 	 * Get allowed bulk commands
@@ -80,6 +128,24 @@ class ContainerBulkActions extends Singleton {
 			'create-backup'         => __( 'Creating Backup', 'dollie' ),
 			'regenerate-screenshot' => __( 'Regenerating Screenshot', 'dollie' ),
 		];
+	}
+
+	/**
+	 * Get allowed bulk commands in progress
+	 *
+	 * @return string
+	 */
+	public function get_log_action( $action ) {
+		$actions = [
+			'restart'               => Log::WP_SITE_RESTARTED,
+			'stop'                  => Log::WP_SITE_STOPPED,
+			'update-plugins'        => self::LOG_UPDATE_PLUGINS,
+			'update-themes'         => self::LOG_UPDATE_THEMES,
+			'create-backup'         => Log::WP_SITE_BACKUP_STARTED,
+			'regenerate-screenshot' => self::LOG_REGENERATE_SCREENSHOT,
+		];
+
+		return $actions[ $action ] ?? '';
 	}
 
 	/**
@@ -151,11 +217,20 @@ class ContainerBulkActions extends Singleton {
 			)
 		);
 
+		$log_id = Log::add_front(
+			self::LOG_ACTION_STARTED,
+			dollie()->get_current_object( $posts[0]->ID ),
+			[
+				$this->get_allowed_commands()[ $command ],
+			]
+		);
+
 		if ( is_array( $response ) ) {
 			foreach ( $posts as $post ) {
 				foreach ( $response as &$item ) {
 					if ( dollie()->get_wp_site_data( 'uri', $post->ID ) === $item['container_uri'] ) {
 						$item['post_id'] = $post->ID;
+						$item['log_id']  = $log_id;
 					}
 				}
 			}
@@ -167,13 +242,6 @@ class ContainerBulkActions extends Singleton {
 			}
 		}
 
-		Log::add_front(
-			self::LOG_ACTION_STARTED,
-			dollie()->get_current_object( $posts[0]->ID ),
-			[
-				$this->get_allowed_commands()[ $command ],
-			]
-		);
 
 		wp_send_json_success( $response );
 	}
@@ -195,6 +263,7 @@ class ContainerBulkActions extends Singleton {
 	 * Set bulk actions
 	 *
 	 * @param array $data
+	 *
 	 * @return void
 	 */
 	public function set_bulk_actions( $data, $force = false ) {
@@ -218,6 +287,7 @@ class ContainerBulkActions extends Singleton {
 	 * Remove action
 	 *
 	 * @param string $container_uri
+	 *
 	 * @return void
 	 */
 	public function remove_bulk_action( $container_uri ) {
@@ -239,6 +309,10 @@ class ContainerBulkActions extends Singleton {
 	 */
 	public function check_bulk_actions() {
 		$actions = $this->get_bulk_actions();
+
+		if ( empty( $actions ) ) {
+			return [];
+		}
 
 		$response = [];
 		$targets  = [];
@@ -263,13 +337,42 @@ class ContainerBulkActions extends Singleton {
 				foreach ( $response as &$item ) {
 					if ( $item['execution_id'] === $action['execution_id'] && $item['status'] ) {
 						$item['container_uri'] = $action['container_uri'];
+
+						if ( isset( $action['log_id'] ) ) {
+
+							$site_object = dollie()->get_current_object( $action['post_id'] );
+							$log_action  = $this->get_log_action( $action['action'] );
+
+							$sub_log_id = Log::add_front(
+								$log_action,
+								$site_object,
+								[
+									$site_object->slug,
+								]
+							);
+
+							update_post_meta( $sub_log_id, '_wpd_bulk_log', 1 );
+
+							// update parent log with sub log ids.
+							$parent_logs = get_post_meta( $action['log_id'], '_wpd_sub_logs', true );
+							if ( ! $parent_logs ) {
+								$parent_logs = [];
+							}
+
+							$parent_logs[ $sub_log_id ] = $sub_log_id;
+
+							update_post_meta( $action['log_id'], '_wpd_sub_logs', $parent_logs );
+						}
+
 						unset( $actions[ $key ] );
 
 						Container::instance()->get_container_details( $action['post_id'], true );
+						break;
 					}
 				}
 			}
 
+			//var_dump( $actions );
 			$this->set_bulk_actions( $actions, true );
 		}
 

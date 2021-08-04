@@ -205,7 +205,7 @@ var DollieSiteList = DollieSiteList || {};
             },
           });
         }
-      }, 5000);
+      }, 7000);
     },
 
     updateSelectedSites: function () {

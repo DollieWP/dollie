@@ -78,8 +78,14 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 					<label for="per-page" class="dol-font-bold dol-uppercase dol-mb-1 dol-text-xs dol-text-gray-600"><?php esc_html_e( 'Per page', 'dollie' ); ?></label>
 					<select id="per-page" class="dol-w-20 dol-bg-white dol-rounded dol-px-3 dol-py-1 dol-border-solid dol-border-gray-300 dol-text-sm dol-text-gray-700 focus:dol-border-gray-400 focus:dol-outline-none">
 						<option value="" disabled><?php esc_html_e( 'View', 'dollie' ); ?></option>
-						<?php for ( $i = 10; $i <= 50; $i = $i + 10 ) : ?>
-							<option value="<?php echo esc_attr( $i ); ?>" <?php selected( sanitize_text_field( $_GET['per_page'] ), $i ); ?>>
+						<?php
+						$per_page= 10;
+                        if (isset($_GET['per_page'])) {
+	                        $per_page = sanitize_text_field( $_GET['per_page'] );
+                        }
+
+                        for ( $i = 10; $i <= 50; $i += 10 ) : ?>
+							<option value="<?php echo esc_attr( $i ); ?>" <?php selected( $per_page, $i ); ?>>
 								<?php echo esc_html( $i ); ?>
 							</option>
 						<?php endfor; ?>

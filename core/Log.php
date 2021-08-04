@@ -24,6 +24,7 @@ class Log {
 	const WP_BLUEPRINT_DEPLOY_FAILED = 'wp-blueprint-deploy-failed';
 	const WP_SITE_REMOVAL_SCHEDULED = 'wp-site-removal-scheduled';
 	const WP_SITE_STARTED = 'wp-site-started';
+	const WP_SITE_RESTARTED = 'wp-site-restarted';
 	const WP_SITE_STOPPED = 'wp-site-stopped';
 	const WP_SITE_UNDEPLOYED = 'wp-site-undeployed';
 	const WP_SITE_DELETED = 'wp-site-deleted';
@@ -56,6 +57,10 @@ class Log {
 		}
 
 		return false;
+	}
+
+	public static function update_message( $log_post_id, $full_message = '', $title = '' ) {
+		return \WDS_Log_Post::update_message( $log_post_id, $full_message, $title );
 	}
 
 	/**
@@ -185,7 +190,7 @@ class Log {
 	 *
 	 * @return array
 	 */
-	public static function get_content( $action, $values = [] ) {
+	public static function get_content( $action, $values = [], $log_id = null ) {
 
 		if ( ! isset( $values[1] ) ) {
 			$values[1] = '';
@@ -242,7 +247,7 @@ class Log {
 			],
 			self::WP_SITE_BACKUP_STARTED        => [
 				'title'   => __( 'Backup Created', 'dollie' ),
-				'content' => __( sprintf( 'A new backup is now being made for %s.', $values[0] ), 'dollie' ),
+				'content' => __( sprintf( 'A new backup has been triggered for %s.', $values[0] ), 'dollie' ),
 				'type'    => 'action',
 				'link'    => true,
 			],
@@ -267,6 +272,12 @@ class Log {
 			self::WP_SITE_STARTED               => [
 				'title'   => __( 'Site Reactivated', 'dollie' ),
 				'content' => __( sprintf( 'Site %s has been started.', $values[0] ), 'dollie' ),
+				'type'    => 'deploy',
+				'link'    => true,
+			],
+			self::WP_SITE_RESTARTED               => [
+				'title'   => __( 'Site Restarted', 'dollie' ),
+				'content' => __( sprintf( 'Site %s has been successfully restarted.', $values[0] ), 'dollie' ),
 				'type'    => 'deploy',
 				'link'    => true,
 			],
@@ -320,9 +331,25 @@ class Log {
 
 		];
 
-		$actions = apply_filters( 'dollie/log/actions', $actions, $values );
+		$actions = apply_filters( 'dollie/log/actions', $actions, $values, $log_id );
+
 
 		if ( isset( $actions[ $action ] ) ) {
+
+			$actions[ $action ]['content'] = apply_filters( 'dollie/log/actions/content', $actions[ $action ]['content'], $values, $log_id );
+
+			if ( ! empty( $log_id ) ) {
+				$log         = get_post( $log_id );
+				$log_content = wpautop( $log->post_content );
+				$log_content = explode( '------------------------------------------------', $log_content );
+
+				if ( count( $log_content ) > 1 ) {
+					unset( $log_content[0] );
+					$log_content                   = implode( '------------------------------------------------', $log_content );
+					$actions[ $action ]['content'] .= $log_content;
+				}
+			}
+
 			return $actions[ $action ];
 		}
 

@@ -9,7 +9,7 @@ var Dollie = Dollie || {};
       markRead: ".dollie-notifications-list .notif-mark-read",
       count: ".dollie-notifications-count",
       innerWrap: ".dollie-notifications-list .notif-inner",
-      listItem: ".dollie-notifications-list .notif-item.notif-unread",
+      listItem: ".dollie-notifications-list .notif-item",
       list: ".dollie-notifications-list",
     },
     $body: $("body"),
