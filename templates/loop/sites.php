@@ -125,7 +125,9 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 					</div>
 					<input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full md:dol-w-64"
 						data-list-type="<?php echo esc_attr( $view_type ); ?>"
-						data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>" data-search-term=""
+						data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>" 
+						data-per-page=<?php echo ( isset( $_GET['per_page'] ) ? esc_attr( $_GET['per_page'] ) : '' ); ?>
+						data-search-term=""
 						placeholder="<?php esc_html_e( 'Search for a site...', 'dollie' ); ?>">
 				</div>
 

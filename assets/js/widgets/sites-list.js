@@ -316,6 +316,10 @@ var DollieSiteList = DollieSiteList || {};
           url.searchParams.set("list_type", $(this).attr("data-list-type"));
           url.searchParams.set("search", $(this).val());
 
+          if ($(this).data("per-page")) {
+            url.searchParams.set("per_page", $(this).data("per-page"));
+          }
+
           load = url.href;
 
           $.ajax({
