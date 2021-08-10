@@ -17,9 +17,9 @@ use Dollie\Core\Utils\Api;
  */
 class ContainerBulkActions extends Singleton {
 
-	public const LOG_ACTION_STARTED        = 'wp-bulk-action-start';
-	public const LOG_UPDATE_PLUGINS        = 'wp-bulk-update-plugins';
-	public const LOG_UPDATE_THEMES         = 'wp-bulk-update-themes';
+	public const LOG_ACTION_STARTED = 'wp-bulk-action-start';
+	public const LOG_UPDATE_PLUGINS = 'wp-bulk-update-plugins';
+	public const LOG_UPDATE_THEMES = 'wp-bulk-update-themes';
 	public const LOG_REGENERATE_SCREENSHOT = 'wp-bulk-regenerate-screenshot';
 
 	/**
@@ -77,7 +77,7 @@ class ContainerBulkActions extends Singleton {
 	 * Log actions
 	 *
 	 * @param string $content
-	 * @param array  $values
+	 * @param array $values
 	 *
 	 * @return string
 	 */
@@ -89,7 +89,7 @@ class ContainerBulkActions extends Singleton {
 			// $content = '[' . get_the_date( 'Y-m-d H:i:s', $log_id ) . '] ' . $content;
 
 			foreach ( $bulk_actions as $bulk_log_id ) {
-				$log      = get_post( $bulk_log_id );
+				$log = get_post( $bulk_log_id );
 				//$content .= '<br> ' . '[' . get_the_date( 'Y-m-d H:i:s', $bulk_log_id ) . '] ' . $log->post_content;
 				$content .= '<br> ' . $log->post_content;
 			}
@@ -136,7 +136,25 @@ class ContainerBulkActions extends Singleton {
 	 *
 	 * @return string
 	 */
-	public function get_log_action( $action ) {
+	public function  get_log_action( $action ) {
+		$actions = [
+			'restart'               => Log::WP_SITE_RESTARTED,
+			'stop'                  => Log::WP_SITE_STOPPED,
+			'update-plugins'        => self::LOG_UPDATE_PLUGINS,
+			'update-themes'         => self::LOG_UPDATE_THEMES,
+			'create-backup'         => Log::WP_SITE_BACKUP_STARTED,
+			'regenerate-screenshot' => self::LOG_REGENERATE_SCREENSHOT,
+		];
+
+		return $actions[ $action ] ?? '';
+	}
+
+	/**
+	 * Get allowed bulk commands in progress
+	 *
+	 * @return string
+	 */
+	public function  get_log_failed_action( $action ) {
 		$actions = [
 			'restart'               => Log::WP_SITE_RESTARTED,
 			'stop'                  => Log::WP_SITE_STOPPED,
@@ -260,49 +278,6 @@ class ContainerBulkActions extends Singleton {
 	}
 
 	/**
-	 * Set bulk actions
-	 *
-	 * @param array $data
-	 *
-	 * @return void
-	 */
-	public function set_bulk_actions( $data, $force = false ) {
-		if ( ! $force ) {
-			$data = array_merge( $this->get_bulk_actions(), $data );
-		}
-
-		update_option( 'wpd_container_bulk_actions_' . get_current_user_id(), $data );
-	}
-
-	/**
-	 * Get bulk actions
-	 *
-	 * @return array
-	 */
-	public function get_bulk_actions() {
-		return get_option( 'wpd_container_bulk_actions_' . get_current_user_id(), [] );
-	}
-
-	/**
-	 * Remove action
-	 *
-	 * @param string $container_uri
-	 *
-	 * @return void
-	 */
-	public function remove_bulk_action( $container_uri ) {
-		$actions = $this->get_bulk_actions();
-
-		foreach ( $actions as $key => $action ) {
-			if ( $action['container_uri'] === $container_uri ) {
-				unset( $actions[ $key ] );
-			}
-		}
-
-		$this->set_bulk_actions( $actions );
-	}
-
-	/**
 	 * Check bulk actions
 	 *
 	 * @return array
@@ -346,6 +321,7 @@ class ContainerBulkActions extends Singleton {
 					if ( $item['execution_id'] === $action['execution_id'] && $item['status'] ) {
 						$item['container_uri'] = $action['container_uri'];
 
+						// if we have a parent log id saved.
 						if ( isset( $action['log_id'] ) ) {
 
 							$site_object = dollie()->get_current_object( $action['post_id'] );
@@ -364,12 +340,12 @@ class ContainerBulkActions extends Singleton {
 
 							// update parent log with sub log ids.
 							$parent_logs = get_post_meta( $action['log_id'], '_wpd_sub_logs', true );
+
 							if ( ! $parent_logs ) {
 								$parent_logs = [];
 							}
 
 							$parent_logs[ $sub_log_id ] = $sub_log_id;
-
 							update_post_meta( $action['log_id'], '_wpd_sub_logs', $parent_logs );
 						}
 
@@ -389,4 +365,46 @@ class ContainerBulkActions extends Singleton {
 		return $response;
 	}
 
+	/**
+	 * Set bulk actions
+	 *
+	 * @param array $data
+	 *
+	 * @return void
+	 */
+	public function set_bulk_actions( $data, $force = false ) {
+		if ( ! $force ) {
+			$data = array_merge( $this->get_bulk_actions(), $data );
+		}
+
+		update_option( 'wpd_container_bulk_actions_' . get_current_user_id(), $data );
+	}
+
+	/**
+	 * Get bulk actions
+	 *
+	 * @return array
+	 */
+	public function get_bulk_actions() {
+		return get_option( 'wpd_container_bulk_actions_' . get_current_user_id(), [] );
+	}
+
+	/**
+	 * Remove action
+	 *
+	 * @param string $container_uri
+	 *
+	 * @return void
+	 */
+	public function remove_bulk_action( $container_uri ) {
+		$actions = $this->get_bulk_actions();
+
+		foreach ( $actions as $key => $action ) {
+			if ( $action['container_uri'] === $container_uri ) {
+				unset( $actions[ $key ] );
+			}
+		}
+
+		$this->set_bulk_actions( $actions );
+	}
 }
