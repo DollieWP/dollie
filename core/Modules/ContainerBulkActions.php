@@ -106,12 +106,12 @@ class ContainerBulkActions extends Singleton {
 	 */
 	public function get_allowed_commands() {
 		return [
-			'restart'               => __( 'Restart', 'dollie' ),
-			'stop'                  => __( 'Stop', 'dollie' ),
 			'update-plugins'        => __( 'Update Plugins', 'dollie' ),
 			'update-themes'         => __( 'Update Themes', 'dollie' ),
 			'create-backup'         => __( 'Create Backup', 'dollie' ),
 			'regenerate-screenshot' => __( 'Regenerate Screenshot', 'dollie' ),
+			'restart'               => __('Restart', 'dollie'),
+			'stop'                  => __('Stop', 'dollie'),
 		];
 	}
 
@@ -122,12 +122,12 @@ class ContainerBulkActions extends Singleton {
 	 */
 	public function get_allowed_commands_in_progress() {
 		return [
-			'restart'               => __( 'Restarting', 'dollie' ),
-			'stop'                  => __( 'Stopping', 'dollie' ),
 			'update-plugins'        => __( 'Updating Plugins', 'dollie' ),
 			'update-themes'         => __( 'Updating Themes', 'dollie' ),
 			'create-backup'         => __( 'Creating Backup', 'dollie' ),
 			'regenerate-screenshot' => __( 'Regenerating Screenshot', 'dollie' ),
+			'restart'               => __('Restarting', 'dollie'),
+			'stop'                  => __('Stopping', 'dollie'),
 		];
 	}
 
@@ -138,12 +138,12 @@ class ContainerBulkActions extends Singleton {
 	 */
 	public function  get_log_action( $action ) {
 		$actions = [
-			'restart'               => Log::WP_SITE_RESTARTED,
-			'stop'                  => Log::WP_SITE_STOPPED,
 			'update-plugins'        => self::LOG_UPDATE_PLUGINS,
 			'update-themes'         => self::LOG_UPDATE_THEMES,
 			'create-backup'         => Log::WP_SITE_BACKUP_STARTED,
 			'regenerate-screenshot' => self::LOG_REGENERATE_SCREENSHOT,
+			'restart'               => Log::WP_SITE_RESTARTED,
+			'stop'                  => Log::WP_SITE_STOPPED,
 		];
 
 		return $actions[ $action ] ?? '';
@@ -156,12 +156,12 @@ class ContainerBulkActions extends Singleton {
 	 */
 	public function  get_log_failed_action( $action ) {
 		$actions = [
-			'restart'               => Log::WP_SITE_RESTARTED,
-			'stop'                  => Log::WP_SITE_STOPPED,
 			'update-plugins'        => self::LOG_UPDATE_PLUGINS,
 			'update-themes'         => self::LOG_UPDATE_THEMES,
 			'create-backup'         => Log::WP_SITE_BACKUP_STARTED,
 			'regenerate-screenshot' => self::LOG_REGENERATE_SCREENSHOT,
+			'restart'               => Log::WP_SITE_RESTARTED,
+			'stop'                  => Log::WP_SITE_STOPPED,
 		];
 
 		return $actions[ $action ] ?? '';
