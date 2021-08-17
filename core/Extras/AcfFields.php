@@ -1546,7 +1546,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Slack Webhook URL', 'dollie'),
 				'name' => 'wpd_slack_webhook_url',
 				'type' => 'text',
-				'instructions' => __('Create an <a href="https://my.slack.com/services/new/incoming-webhook">incoming webhook</a> on your Slack account then paste the webhook URL here.', 'dollie'),
+				'instructions' => __('<a href="https://api.slack.com/apps">Create an App</a> on your Slack account, add Incoming Webhooks functionality and then paste the webhook URL here.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => array(
 					array(

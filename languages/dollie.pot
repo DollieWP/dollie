@@ -99,7 +99,7 @@ msgstr ""
 msgid "LetsEncrypt Failed"
 msgstr ""
 
-#: core/Log.php:341, core/Modules/ContainerFields.php:91, templates/loop/sites.php:307
+#: core/Log.php:341, core/Modules/ContainerFields.php:91, templates/loop/sites.php:297
 msgid "Blueprint Updated"
 msgstr ""
 
@@ -530,7 +530,7 @@ msgid "Slack Webhook URL"
 msgstr ""
 
 #: core/Extras/AcfFields.php:1549
-msgid "Create an <a href=\"https://my.slack.com/services/new/incoming-webhook\">incoming webhook</a> on your Slack account then paste the webhook URL here."
+msgid "<a href=\"https://api.slack.com/apps\">Create an App</a> on your Slack account, add Incoming Webhooks functionality and then paste the webhook URL here."
 msgstr ""
 
 #: core/Extras/AcfFields.php:1574
@@ -1047,7 +1047,7 @@ msgstr ""
 msgid "Items list navigation"
 msgstr ""
 
-#: core/Modules/Container.php:933, core/Modules/ContainerBulkActions.php:110
+#: core/Modules/Container.php:933, core/Modules/ContainerBulkActions.php:114
 msgid "Stop"
 msgstr ""
 
@@ -1059,7 +1059,7 @@ msgstr ""
 msgid "Assigned Customer to this Site"
 msgstr ""
 
-#: core/Modules/Container.php:1066, templates/loop/sites.php:323
+#: core/Modules/Container.php:1066, templates/loop/sites.php:312
 msgid "Customer"
 msgstr ""
 
@@ -1096,47 +1096,47 @@ msgid "Screenshot regenerated"
 msgstr ""
 
 #: core/Modules/ContainerBulkActions.php:109
-msgid "Restart"
-msgstr ""
-
-#: core/Modules/ContainerBulkActions.php:111
 msgid "Update Plugins"
 msgstr ""
 
-#: core/Modules/ContainerBulkActions.php:112
+#: core/Modules/ContainerBulkActions.php:110
 msgid "Update Themes"
 msgstr ""
 
-#: core/Modules/ContainerBulkActions.php:113
+#: core/Modules/ContainerBulkActions.php:111
 msgid "Create Backup"
 msgstr ""
 
-#: core/Modules/ContainerBulkActions.php:114
+#: core/Modules/ContainerBulkActions.php:112
 msgid "Regenerate Screenshot"
 msgstr ""
 
+#: core/Modules/ContainerBulkActions.php:113
+msgid "Restart"
+msgstr ""
+
 #: core/Modules/ContainerBulkActions.php:125
-msgid "Restarting"
-msgstr ""
-
-#: core/Modules/ContainerBulkActions.php:126
-msgid "Stopping"
-msgstr ""
-
-#: core/Modules/ContainerBulkActions.php:127
 msgid "Updating Plugins"
 msgstr ""
 
-#: core/Modules/ContainerBulkActions.php:128
+#: core/Modules/ContainerBulkActions.php:126
 msgid "Updating Themes"
 msgstr ""
 
-#: core/Modules/ContainerBulkActions.php:129
+#: core/Modules/ContainerBulkActions.php:127
 msgid "Creating Backup"
 msgstr ""
 
-#: core/Modules/ContainerBulkActions.php:130
+#: core/Modules/ContainerBulkActions.php:128
 msgid "Regenerating Screenshot"
+msgstr ""
+
+#: core/Modules/ContainerBulkActions.php:129
+msgid "Restarting"
+msgstr ""
+
+#: core/Modules/ContainerBulkActions.php:130
+msgid "Stopping"
 msgstr ""
 
 #: core/Modules/ContainerBulkActions.php:177, core/Modules/ContainerBulkActions.php:274
@@ -1493,75 +1493,87 @@ msgstr ""
 msgid "Read article"
 msgstr ""
 
-#: templates/loop/sites.php:25, templates/loop/sites.php:123
-msgid "Actions"
+#: templates/loop/sites.php:25
+msgid "Bulk Actions"
 msgstr ""
 
 #: templates/loop/sites.php:34
-msgid "Action has been successfully sent!"
+msgid "Success, the bulk action has started!"
 msgstr ""
 
 #: templates/loop/sites.php:38
-msgid "There was an error while sending the action! Please try again."
+msgid "Sorry, there was an error while starting the bulk action! Please try again later."
 msgstr ""
 
-#: templates/loop/sites.php:43
-msgid "Select action"
+#: templates/loop/sites.php:42
+msgid "Quickly run tasks across multiple websites with the click of a button! Please select the action you would like to run using the form below."
 msgstr ""
 
-#: templates/loop/sites.php:55, templates/loop/sites.php:98
-msgid "Apply"
+#: templates/loop/sites.php:47
+msgid "Select Bulk Action"
 msgstr ""
 
-#: templates/loop/sites.php:68
+#: templates/loop/sites.php:57
+msgid "Run Bulk Action"
+msgstr ""
+
+#: templates/loop/sites.php:70
 msgid "Filters"
 msgstr ""
 
-#: templates/loop/sites.php:78
+#: templates/loop/sites.php:80
 msgid "Per page"
 msgstr ""
 
-#: templates/loop/sites.php:80
+#: templates/loop/sites.php:82
 msgid "View"
 msgstr ""
 
-#: templates/loop/sites.php:137
+#: templates/loop/sites.php:100
+msgid "Apply"
+msgstr ""
+
+#: templates/loop/sites.php:126
+msgid "Run an Action.."
+msgstr ""
+
+#: templates/loop/sites.php:135
 msgid "Search for a site..."
 msgstr ""
 
-#: templates/loop/sites.php:387
+#: templates/loop/sites.php:369
 msgid "No sites found."
 msgstr ""
 
-#: templates/loop/sites.php:180
+#: templates/loop/sites.php:173
 msgid "You are now viewing the blueprints made by you and your team."
 msgstr ""
 
-#: templates/loop/sites.php:209
+#: templates/loop/sites.php:202
 msgid "Unnamed"
 msgstr ""
 
-#: templates/loop/sites.php:298
+#: templates/loop/sites.php:288
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites.php:301
+#: templates/loop/sites.php:291
 msgid "Version %s"
 msgstr ""
 
-#: templates/loop/sites.php:315
+#: templates/loop/sites.php:304
 msgid "Never. Update now!"
 msgstr ""
 
-#: templates/loop/sites.php:340
+#: templates/loop/sites.php:325
 msgid "Manage"
 msgstr ""
 
-#: templates/loop/sites.php:334
+#: templates/loop/sites.php:321
 msgid "Update"
 msgstr ""
 
-#: templates/loop/sites.php:351, templates/widgets/site/site-screenshot.php:33, templates/widgets/site/pages/staging.php:81
+#: templates/loop/sites.php:335, templates/widgets/site/site-screenshot.php:33, templates/widgets/site/pages/staging.php:81
 msgid "Admin"
 msgstr ""
 
