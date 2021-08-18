@@ -267,6 +267,14 @@ class Plugin extends Singleton {
 			DOLLIE_VERSION
 		);
 
+		wp_enqueue_style(
+			'dollie-tooltips',
+			DOLLIE_ASSETS_URL . 'css/dollie-tooltips.css',
+			[],
+			DOLLIE_VERSION
+		);
+
+
 		wp_register_style(
 			'swiper',
 			DOLLIE_ASSETS_URL . 'lib/swiper/swiper-bundle.min.css',
@@ -295,6 +303,16 @@ class Plugin extends Singleton {
 			DOLLIE_VERSION,
 			true
 		);
+
+		wp_register_script(
+			'dollie-tooltips',
+			DOLLIE_ASSETS_URL . 'js/dollie-tooltips.js',
+			[],
+			DOLLIE_VERSION,
+			true
+		);
+
+		wp_enqueue_script('dollie-tooltips');
 	}
 
 	/**
