@@ -318,7 +318,7 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 						<?php endif; ?>
 						<div class="dol-sites-controls <?php echo esc_attr($btn_controls_classes); ?>">
 							<?php if (dollie()->is_blueprint(get_the_ID())) : ?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_the_permalink(get_the_ID()); ?>blueprints" data-tooltip="<?php echo esc_attr__('Update', 'dollie'); ?>">
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_the_permalink(get_the_ID()); ?>blueprints" data-tooltip="<?php echo esc_attr__('Update Blueprint', 'dollie'); ?>">
 									<i class="fas fa-sync"></i>
 								</a>
 							<?php else : ?>
@@ -327,12 +327,20 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 								</a>
 							<?php endif; ?>
 
+							<?php
+							$staging_url  = get_post_meta(get_the_ID(), '_wpd_staging_url', true);
+							if ( $staging_url ) : ?>
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_the_permalink(get_the_ID()); ?>staging" data-tooltip="<?php echo esc_attr__('Visit Staging Area', 'dollie'); ?>">
+									<i class="fas fa-copy"></i>
+								</a>
+							<?php endif; ?>
+
 
 							<?php
 							$login_link = dollie()->get_customer_login_url(get_the_ID());
 							if (!empty($login_link)) :
 							?>
-								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-font-semibold dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo esc_url($login_link); ?>" data-tooltip="<?php echo esc_attr__('Admin', 'dollie'); ?>">
+								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-font-semibold dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo esc_url($login_link); ?>" data-tooltip="<?php echo esc_attr__('Login to Site as Admin', 'dollie'); ?>">
 									<i class="fas fa-sign-in-alt"></i>
 								</a>
 							<?php endif; ?>
