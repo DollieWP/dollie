@@ -860,7 +860,7 @@ if( function_exists('acf_add_local_field_group') ):
 					'class' => '',
 					'id' => '',
 				),
-				'message' => __('Fill in the fields below with your custom messages. <br><br><a target="_blank" class="btn button button-secondary" href="http://dollie-wp.lcl/?p=683?launch-splash-preview">Click here for a preview</a><br><br>Make sure to save your options first.', 'dollie'),
+				'message' => __('Fill in the fields below with your custom messages. <br><br><a target="_blank" class="btn button button-secondary" href="'. dollie()->get_latest_container_url() . '?launch-splash-preview">Click here for a preview</a><br><br>Make sure to save your options first.', 'dollie'),
 				'new_lines' => 'wpautop',
 				'esc_html' => 0,
 			),
@@ -1355,7 +1355,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Client Notification', 'dollie'),
 				'name' => 'wpd_deployed_site_client_notification_body',
 				'type' => 'wysiwyg',
-				'instructions' => __('Placeholders: 
+				'instructions' => __('Placeholders:
 	{dollie_site_url}, {dollie_site_name}, {dollie_user}, {dollie_site_email}, {dollie_site_username}, {dollie_site_password}', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
@@ -1373,7 +1373,7 @@ if( function_exists('acf_add_local_field_group') ):
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'default_value' => 'Hi, 
+				'default_value' => 'Hi,
 	Site <a href="{dollie_site_url}">{dollie_site_name}</a> has been deployed successfully.',
 				'tabs' => 'all',
 				'toolbar' => 'full',
@@ -1413,7 +1413,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Admin Notification', 'dollie'),
 				'name' => 'wpd_deployed_site_admin_notification_body',
 				'type' => 'wysiwyg',
-				'instructions' => __('Placeholders: 
+				'instructions' => __('Placeholders:
 	{dollie_site_url}, {dollie_site_name}, {dollie_user}, {dollie_site_email}, {dollie_site_username}, {dollie_site_password}', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
@@ -1431,7 +1431,7 @@ if( function_exists('acf_add_local_field_group') ):
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'default_value' => 'Hi, 
+				'default_value' => 'Hi,
 	<a href="{dollie_site_url}">{dollie_site_name}</a> site has been deployed by {dollie_user}.',
 				'tabs' => 'all',
 				'toolbar' => 'full',
