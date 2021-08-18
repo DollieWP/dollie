@@ -67,3 +67,9 @@
   top: 0;
   right: -15px;
 }
+
+.acf-field .acf-label p.tooltip__hidden,
+.acf-field p.description.tooltip__hidden,
+p.tooltip__hidden {
+  display: none;
+}
