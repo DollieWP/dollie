@@ -46,7 +46,7 @@ class ContainerBulkActions extends Singleton {
 	public function log_action_filter( $actions, $values, $log_id ) {
 		$actions[ self::LOG_ACTION_STARTED ] = [
 			'title'   => __( 'Sites Bulk Action', 'dollie' ),
-			'content' => __( sprintf( '%s action has been sent to the selected containers.', $values[0] ), 'dollie' ),
+			'content' => __( sprintf( '%s action has started on the selected sites.', $values[0] ), 'dollie' ),
 			'type'    => 'bulk',
 			'link'    => false,
 		];
