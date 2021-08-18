@@ -98,6 +98,12 @@ var DollieSiteContent = DollieSiteContent || {};
 
         return submit;
       });
+
+      $("#dol-sync-staging").on("submit", function () {
+        var submit = confirm("Do you really want to overwrite your live site with your staging site? This will apply the changes you made to your staging site to your live site.");
+
+        return submit;
+      });
     },
 
     initExecution: function () {
