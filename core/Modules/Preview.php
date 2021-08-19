@@ -118,63 +118,56 @@ class Preview {
 			while ( have_posts() ) :
 				the_post();
 
-				$checkout_link = dollie()->get_woo_checkout_link( $product_id[0], get_the_ID() );
+				$product_id = get_post_meta( get_the_ID(), 'wpd_installation_blueprint_hosting_product', true );
 
-				if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
+				if ( $product_id ) {
+					$checkout_link = dollie()->get_woo_checkout_link( $product_id[0], get_the_ID() );
 
-					if (
-						( isset( $_SERVER['HTTPS'] ) && ( $_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1 ) ) ||
-						( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' )
-					) {
-						$protocol = 'https://';
+					if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
+
+						$screenshot = dollie()->get_site_screenshot( get_the_ID(), false );
+
+						$theme_array[] = [
+							'active'      => 1,
+							'id'          => get_the_ID(),
+							'title'       => get_the_title( get_the_ID() ),
+							'title_short' => get_the_title( get_the_ID() ),
+							'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
+							'buy'         => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
+							'login_url'   => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
+							'thumb'       => [
+								'url' => $screenshot,
+							],
+							'info'        => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ),
+							'preload'     => '0',
+						];
 					} else {
-						$protocol = 'http://';
+
+						if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
+							$image = get_field( 'wpd_blueprint_custom_image' );
+						} else {
+							$image = get_post_meta( get_the_ID(), 'wpd_site_screenshot', true );
+						}
+
+						$theme_array[] = [
+							'active'      => 1,
+							'id'          => get_the_ID(),
+							'title'       => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true ),
+							'title_short' => get_post_field( 'post_name', get_the_ID() ),
+							'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
+							'buy'         => $checkout_link,
+							'login_url'   => dollie()->get_customer_login_url( get_the_ID() ),
+							'thumb'       => [
+								'url' => $image,
+							],
+							'info'        => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ),
+							'tag'         => 'tag',
+							'year'        => '2019',
+							'preload'     => '0',
+							'badge'       => 'Pro',
+						];
 					}
-
-					$screenshot = dollie()->get_site_screenshot(get_the_ID(), false);
-
-					$theme_array[] = [
-						'active'      => 1,
-						'id'          => get_the_ID(),
-						'title'       => get_the_title(get_the_ID()),
-						'title_short' => get_the_title(get_the_ID()),
-						'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
-						'buy'         => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
-						'login_url'   => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
-						'thumb'       => [
-							'url' => $screenshot,
-						],
-						'info'        => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ),
-						'preload'     => '0',
-					];
-				} else {
-
-					$image = '';
-					if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
-						$image = get_field( 'wpd_blueprint_custom_image' );
-					} else {
-						$image = get_post_meta( get_the_ID(), 'wpd_site_screenshot', true );
-					}
-
-					$theme_array[] = [
-						'active'      => 1,
-						'id'          => get_the_ID(),
-						'title'       => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true ),
-						'title_short' => get_post_field( 'post_name', get_the_ID() ),
-						'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
-						'buy'         => $checkout_link,
-						'login_url'   => dollie()->get_customer_login_url( get_the_ID() ),
-						'thumb'       => [
-							'url' => $image,
-						],
-						'info'        => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ),
-						'tag'         => 'tag',
-						'year'        => '2019',
-						'preload'     => '0',
-						'badge'       => 'Pro',
-					];
 				}
-
 			endwhile;
 		else :
 			$no_sites = true;
