@@ -1301,13 +1301,15 @@ class Container extends Singleton {
 				delete_option( 'wpd_deployment_delay_status' );
 			}
 		} elseif ( $domain && $domain !== $saved_domain && Helpers::instance()->is_valid_domain( $domain ) ) {
-			Api::post( Api::ROUTE_DOMAIN_ADD, [ 'name' => $domain ] );
+			$response = Api::process_response( Api::post( Api::ROUTE_DOMAIN_ADD, [ 'name' => $domain ] ) );
 
-			update_option( 'wpd_deployment_domain', $domain );
-			update_option( 'wpd_deployment_domain_status', false );
-			update_option( 'deployment_domain_notice', false );
-			delete_transient( 'wpd_deployment_domain_delay' );
-			delete_option( 'wpd_deployment_delay_status' );
+			if ( $response ) {
+				update_option( 'wpd_deployment_domain', $domain );
+				update_option( 'wpd_deployment_domain_status', false );
+				update_option( 'deployment_domain_notice', false );
+				delete_transient( 'wpd_deployment_domain_delay' );
+				delete_option( 'wpd_deployment_delay_status' );
+			}
 		}
 	}
 
