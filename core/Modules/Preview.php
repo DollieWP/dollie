@@ -73,7 +73,7 @@ class Preview {
 				$gp_args = [
 					'author'         => $author,
 					'post_type'      => 'container',
-					'posts_per_page' => 1000,
+					'posts_per_page' => 20,
 					'meta_key'       => 'wpd_setup_complete',
 					'meta_value'     => 'yes',
 				];
@@ -81,7 +81,7 @@ class Preview {
 				$gp_args = [
 					'author'         => get_current_user_id(),
 					'post_type'      => 'container',
-					'posts_per_page' => 1000,
+					'posts_per_page' => 50,
 					'meta_key'       => 'wpd_blueprint_created',
 					'meta_value'     => 'yes',
 				];
@@ -141,8 +141,8 @@ class Preview {
 						'title'       => get_post_field( 'post_name', get_the_ID() ),
 						'title_short' => get_post_field( 'post_name', get_the_ID() ),
 						'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
-						'buy'         => dollie()->get_customer_login_url( get_the_ID(), get_post_field( 'post_name' ) ),
-						'login_url'   => dollie()->get_customer_login_url( get_the_ID(), get_post_field( 'post_name' ) ),
+						'buy'         => dollie()->get_customer_login_url( get_the_ID() ),
+						'login_url'   => dollie()->get_customer_login_url( get_the_ID() ),
 						'thumb'       => [
 							'url' => $screenshot,
 						],
@@ -168,7 +168,7 @@ class Preview {
 						'title_short' => get_post_field( 'post_name', get_the_ID() ),
 						'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
 						'buy'         => $checkout_link,
-						'login_url'   => dollie()->get_customer_login_url( get_the_ID(), get_post_field( 'post_name' ) ),
+						'login_url'   => dollie()->get_customer_login_url( get_the_ID() ),
 						'thumb'       => [
 							'url' => $image,
 						],
@@ -189,6 +189,12 @@ class Preview {
 		// Config
 		$products = [];
 
+		if (isset($_GET['type']) && 'my-sites' === $_GET['type']) {
+			$button_text = __('Login to Site', 'dollie');
+		} else {
+			$button_text = __('Launch Site', 'dollie');
+		}
+
 		$logo = get_field( 'wpd_dashboard_preview_logo', 'option' ) ?: '';
 
 		$config = [
@@ -204,7 +210,7 @@ class Preview {
 			'responsiveDevices' => true,
 			'responsiveDevice'  => 'desktop',
 			'buyButton'         => true,
-			'buyButtonText'     => __( 'Launch Site', 'dollie' ),
+			'buyButtonText'     => $button_text,
 			'closeIframe'       => true,
 			'preload'           => false,
 			'items'             => $theme_array,

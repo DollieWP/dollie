@@ -142,12 +142,18 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 				</div>
 
 				<div class="dol-inline-flex dol-items-center dol-rounded dol-overflow-hidden dol-mb-4 md:dol-mb-0 dol-h-10 md:dol-h-auto">
-					<span class="dol-list-switch dol-inline-flex <?php echo esc_attr($list_btn_active); ?>" data-list-type="list">
-						<i class="fas fa-list"></i>
+					<span data-tooltip="<?php echo esc_attr__('Show your sites in the List view', 'dollie'); ?>" class="dol-list-switch dol-inline-flex <?php echo esc_attr($list_btn_active); ?>" data-list-type="list">
+						<i class=" fas fa-list"></i>
 					</span>
-					<span class="dol-list-switch dol-inline-flex <?php echo esc_attr($grid_btn_active); ?>" data-list-type="grid">
-						<i class="fas fa-th"></i>
+					<span data-tooltip="<?php echo esc_attr__('Show your sites in the Grid view', 'dollie'); ?>" class="dol-list-switch dol-inline-flex <?php echo esc_attr($grid_btn_active); ?>" data-list-type="grid">
+						<i class=" fas fa-th"></i>
 					</span>
+					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=
+					my-sites">
+						<span data-tooltip="<?php echo esc_attr__('Show your sites using the Live Preview bar', 'dollie'); ?>"  class="dol-layout-preview dol-inline-flex dol-preview-bar-layout" data-list-type="layout">
+							<i class=" fas fa-desktop"></i>
+						</span>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -329,7 +335,7 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 
 							<?php
 							$staging_url  = get_post_meta(get_the_ID(), '_wpd_staging_url', true);
-							if ( $staging_url ) : ?>
+							if ($staging_url) : ?>
 								<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_the_permalink(get_the_ID()); ?>staging" data-tooltip="<?php echo esc_attr__('Visit Staging Area', 'dollie'); ?>">
 									<i class="fas fa-copy"></i>
 								</a>
