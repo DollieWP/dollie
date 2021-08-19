@@ -118,12 +118,6 @@ class Preview {
 			while ( have_posts() ) :
 				the_post();
 
-				$product_id = get_field( 'wpd_installation_blueprint_hosting_product' );
-
-				if ( empty( $product_id ) ) {
-					continue;
-				}
-
 				$checkout_link = dollie()->get_woo_checkout_link( $product_id[0], get_the_ID() );
 
 				if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
@@ -137,13 +131,13 @@ class Preview {
 						$protocol = 'http://';
 					}
 
-					$screenshot = $protocol . $_SERVER['SERVER_NAME'] . dirname( $_SERVER['REQUEST_URI'] ) . '/assets/images/no-screenshot.png';
+					$screenshot = dollie()->get_site_screenshot(get_the_ID(), false);
 
 					$theme_array[] = [
 						'active'      => 1,
 						'id'          => get_the_ID(),
-						'title'       => get_post_field( 'post_name', get_the_ID() ),
-						'title_short' => get_post_field( 'post_name', get_the_ID() ),
+						'title'       => get_the_title(get_the_ID()),
+						'title_short' => get_the_title(get_the_ID()),
 						'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
 						'buy'         => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
 						'login_url'   => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
@@ -151,10 +145,7 @@ class Preview {
 							'url' => $screenshot,
 						],
 						'info'        => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ),
-						'tag'         => 'tag',
-						'year'        => '2019',
 						'preload'     => '0',
-						'badge'       => 'Pro',
 					];
 				} else {
 
