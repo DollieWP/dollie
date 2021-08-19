@@ -134,21 +134,21 @@ class PluginUpdates extends Singleton {
 			$data = '';
 			ob_start();
 			?>
-			<div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden dol-my-6">
-				<div class="dol-flex dol-items-center dol-bg-green-500">
-					<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-green-600 dol-flex dol-items-center dol-justify-center">
-						<i class="fas fa-shield-alt dol-text-white dol-text-2xl"></i>
-					</div>
-					<h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
+            <div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden dol-my-6">
+                <div class="dol-flex dol-items-center dol-bg-green-500">
+                    <div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-green-600 dol-flex dol-items-center dol-justify-center">
+                        <i class="fas fa-shield-alt dol-text-white dol-text-2xl"></i>
+                    </div>
+                    <h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
 						<?php esc_html_e( 'Everything is up to date', 'dollie' ); ?>
-					</h4>
-				</div>
-				<div class="dol-px-4 dol-py-2 lg:dol-px-8 lg:dol-py-6 dol-bg-gray-100">
-					<div>
+                    </h4>
+                </div>
+                <div class="dol-px-4 dol-py-2 lg:dol-px-8 lg:dol-py-6 dol-bg-gray-100">
+                    <div>
 						<?php esc_html_e( 'There are no plugins available to update. Good job!', 'dollie' ); ?>
-					</div>
-				</div>
-			</div>
+                    </div>
+                </div>
+            </div>
 			<?php
 			$data .= ob_get_clean();
 
@@ -214,7 +214,10 @@ class PluginUpdates extends Singleton {
 		}
 
 		foreach ( $updates as $key => $update ) {
-			$updates[ $key ] = json_decode( $update, true );
+			if ( ! is_array( $update ) ) {
+				$update = json_decode( $update, true );
+		    }
+			$updates[ $key ] = $update;
 		}
 
 		set_transient( 'dollie_get_plugin_updates_' . $container_uri, $updates, 15 );
