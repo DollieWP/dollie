@@ -55,7 +55,7 @@ module.exports = {
     backgroundColor: ["responsive", "hover", "focus"],
   },
   purge: {
-    enabled: false,
+    enabled: true,
     content: [
       "./templates/*.php",
       "./templates/**/*.php",
