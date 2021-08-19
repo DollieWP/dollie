@@ -15,7 +15,8 @@
   }
 
   /* List type switch */
-  .dol-list-switch {
+  .dol-list-switch,
+  .dol-layout-preview {
     @apply dol-h-full dol-p-3 dol-bg-gray-200 dol-text-gray-700 dol-flex dol-items-center dol-cursor-pointer;
 
     &:hover {
@@ -84,7 +85,7 @@
           @apply dol-bg-white;
         }
       }
-      
+
       &.dol-sites-item-selected {
         .dol-sites-item-inner {
           @apply dol-bg-black;
@@ -182,7 +183,6 @@
     .dol-sites-container {
       .dol-sites-item {
         &.dol-sites-list-item {
-
           .dol-check-wrap {
             @apply dol-w-1/12;
           }

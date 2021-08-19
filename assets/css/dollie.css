@@ -265,7 +265,7 @@ input[type="text"].dol-search-input:focus {
 
 /* List type switch */
 
-.dol-list-switch {
+.dol-list-switch, .dol-layout-preview {
   --tw-bg-opacity: 1;
   background-color: rgba(229, 229, 229, var(--tw-bg-opacity));
   cursor: pointer;
@@ -277,12 +277,12 @@ input[type="text"].dol-search-input:focus {
   color: rgba(64, 64, 64, var(--tw-text-opacity));
 }
 
-.dol-list-switch:hover {
+.dol-list-switch:hover, .dol-layout-preview:hover {
   --tw-bg-opacity: 1;
   background-color: rgba(212, 212, 212, var(--tw-bg-opacity));
 }
 
-.dol-list-switch.dol-switch-active {
+.dol-list-switch.dol-switch-active, .dol-layout-preview.dol-switch-active {
   --tw-bg-opacity: 1;
   background-color: rgba(212, 212, 212, var(--tw-bg-opacity));
   --tw-text-opacity: 1;
