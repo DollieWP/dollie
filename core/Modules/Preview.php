@@ -145,8 +145,8 @@ class Preview {
 						'title'       => get_post_field( 'post_name', get_the_ID() ),
 						'title_short' => get_post_field( 'post_name', get_the_ID() ),
 						'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
-						'buy'         => dollie()->get_customer_login_url( get_the_ID() ),
-						'login_url'   => dollie()->get_customer_login_url( get_the_ID() ),
+						'buy'         => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
+						'login_url'   => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
 						'thumb'       => [
 							'url' => $screenshot,
 						],
@@ -194,9 +194,9 @@ class Preview {
 		$products = [];
 
 		if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
-			$button_text = __( 'Login to Site', 'dollie' );
+			$button_text = esc_html__( 'Login to Site', 'dollie' );
 		} else {
-			$button_text = __( 'Launch Site', 'dollie' );
+			$button_text = esc_html__( 'Launch Site', 'dollie' );
 		}
 
 		$logo = get_field( 'wpd_dashboard_preview_logo', 'option' ) ?: '';
@@ -329,8 +329,9 @@ class Preview {
 										<?php } ?>
 										<?php if ( $config->buyButton ) { ?>
                                             <div class="product-buttons">
-                                                <a id="buy" class="btn btn-success" href="#"
-                                                   style="display:none"><?php echo esc_html( $config->buyButtonText ); ?></a>
+                                                <a id="buy" class="btn btn-success" href="#" style="display:none">
+													<?php echo esc_html( $config->buyButtonText ); ?>
+                                                </a>
                                             </div>
 										<?php } ?>
 										<?php if ( $config->responsiveDevices ) { ?>
