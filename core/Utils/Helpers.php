@@ -15,6 +15,7 @@ use Dollie\Core\Modules\Backups;
 use Dollie\Core\Modules\Blueprints;
 use Dollie\Core\Modules\Container;
 use Dollie\Core\Modules\SiteInsights;
+use Dollie\Core\Modules\ContainerBulkActions;
 
 /**
  * Class Helpers
@@ -179,7 +180,7 @@ class Helpers extends Singleton {
 	 * @param null    $container_id
 	 * @param null    $container_location
 	 * @param boolean $staging
-	 * @return void
+	 * @return string
 	 */
 	public function final_customer_login_url( $container_id = null, $container_location = null, $staging = false ) {
 		$container = $this->get_current_object( $container_id );
@@ -864,6 +865,7 @@ class Helpers extends Singleton {
 	 * @param $transient_id
 	 * @param $user_auth
 	 * @param null         $user_pass
+	 * @param bool         $force
 	 *
 	 * @return mixed
 	 */
@@ -881,10 +883,39 @@ class Helpers extends Singleton {
 		return Container::instance()->get_screenshot( $container_uri, $regenerate );
 	}
 
+	/**
+	 * Regenerate screenshot
+	 *
+	 * @param array $containers
+	 * @return array
+	 */
 	public function regenerate_containers_screenshot( $containers = [] ) {
 		return Container::instance()->regenerate_screenshots( $containers );
 	}
 
+	/**
+	 * Get allowed bulk commands
+	 *
+	 * @return array
+	 */
+	public function get_allowed_bulk_commands() {
+		return ContainerBulkActions::instance()->get_allowed_commands();
+	}
+
+	/**
+	 * Get allowed bulk commands in progress
+	 *
+	 * @return array
+	 */
+	public function get_allowed_commands_in_progress() {
+		return ContainerBulkActions::instance()->get_allowed_commands_in_progress();
+	}
+
+	/**
+	 * Get total container size
+	 *
+	 * @return int
+	 */
 	public function get_total_container_size() {
 		return SiteInsights::instance()->get_total_container_size();
 	}
@@ -983,15 +1014,15 @@ class Helpers extends Singleton {
 		$role    = get_user_meta( $user_id, 'wpd_client_site_permissions', true );
 
 		if ( empty( $role ) ) {
-		    $role = 'default';
+			$role = 'default';
 		}
 
 		if ( 'default' === $role ) {
-		    if ( user_can( $user_id, 'manage_options' ) ) {
-			    $role = 'administrator';
-		    } else {
-			    $role = get_field( 'wpd_client_site_permission', 'options' );
-		    }
+			if ( user_can( $user_id, 'manage_options' ) ) {
+				$role = 'administrator';
+			} else {
+				$role = get_field( 'wpd_client_site_permission', 'options' );
+			}
 		}
 
 		return $role ?: 'administrator';
@@ -1294,5 +1325,23 @@ class Helpers extends Singleton {
 	 */
 	public function remove_execution( $container_id, $execution_type ) {
 		Api::remove_execution( $container_id, $execution_type );
+	}
+
+	/**
+	 * Get bulk actions
+	 *
+	 * @return array
+	 */
+	public function get_bulk_actions() {
+		return ContainerBulkActions::instance()->get_bulk_actions();
+	}
+
+	/**
+	 * Check bulk actions
+	 *
+	 * @return array
+	 */
+	public function check_bulk_actions() {
+		return ContainerBulkActions::instance()->check_bulk_actions();
 	}
 }

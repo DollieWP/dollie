@@ -13,7 +13,7 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
                     <div class="dol-sites-status dol-absolute dol-top-3 dol-right-4">
                         <span class="dol-flex dol-h-4 dol-w-4 dol-relative">
                             <a href="<?php echo get_the_permalink(); ?>/?update-details">
-                                <i class="fas fa-sync-alt dol-text-gray-300 dol-text-xl"></i>
+                                <i data-tooltip="Regenerate the screenshot and site details." class="fas fa-sync-alt dol-text-gray-300 dol-text-xl"></i>
                             </a>
                         </span>
                     </div>

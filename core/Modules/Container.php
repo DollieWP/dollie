@@ -44,6 +44,7 @@ class Container extends Singleton {
 		add_action( 'before_delete_post', [ $this, 'run_before_delete_action' ] );
 		add_action( 'untrashed_post', [ $this, 'run_untrash_action' ] );
 		add_action( 'wp_trash_post', [ $this, 'run_trash_action' ] );
+
 		add_filter( 'gettext', [ $this, 'override_empty_trash' ], 50, 3 );
 
 		add_action( 'add_meta_boxes', [ $this, 'rename_author_box_title' ] );
@@ -63,6 +64,7 @@ class Container extends Singleton {
 		add_action( 'edit_form_after_title', [ $this, 'add_container_manager_notice' ] );
 
 		add_filter( 'admin_body_class', [ $this, 'add_container_type_class' ] );
+
 	}
 
 	/**
@@ -401,6 +403,7 @@ class Container extends Singleton {
 
 		if ( false === $response_data ) {
 			Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has failed' );
+
 			return false;
 		}
 
@@ -445,6 +448,7 @@ class Container extends Singleton {
 	 * Get container details
 	 *
 	 * @param $post_id
+	 * @param bool    $force
 	 *
 	 * @return array
 	 */
@@ -542,7 +546,8 @@ class Container extends Singleton {
 	 *
 	 * @param int     $post_id
 	 * @param boolean $force
-	 * @return array
+	 *
+	 * @return array|bool
 	 */
 	public function get_remote_stats( $post_id, $force = false ) {
 		$post      = get_post( $post_id );
@@ -589,8 +594,8 @@ class Container extends Singleton {
 			$container_id = get_post_meta( $container->id, 'wpd_container_id', true );
 
 			if ( empty( $container_id ) ) {
-			    return [];
-            }
+				return [];
+			}
 
 			// Set up the request
 			$request_get_container = Api::post(
@@ -625,9 +630,10 @@ class Container extends Singleton {
 	 * Do container request
 	 *
 	 * @param $url
-	 * @param $transient_id
-	 * @param $user_auth
-	 * @param null         $user_pass
+	 * @param null $transient_id
+	 * @param null $user_auth
+	 * @param null $user_pass
+	 * @param bool $force
 	 *
 	 * @return array|mixed
 	 */
@@ -709,7 +715,7 @@ class Container extends Singleton {
 	 * @param string $site_username
 	 * @param bool   $staging
 	 *
-	 * @return void
+	 * @return object|string
 	 */
 	public function get_login_token( $container_url, $container_id = null, $site_username = '', $staging = false ) {
 		$container = dollie()->get_current_object( $container_id );
@@ -854,7 +860,6 @@ class Container extends Singleton {
 			delete_post_meta( $post_id, 'wpd_scheduled_for_removal' );
 			delete_post_meta( $post_id, 'wpd_undeploy_container_at' );
 			delete_post_meta( $post_id, 'wpd_scheduled_for_undeployment' );
-			wp_trash_post( $post_id );
 
 			Log::add_front( Log::WP_SITE_UNDEPLOYED, $current_query, $site );
 		}
@@ -1296,13 +1301,15 @@ class Container extends Singleton {
 				delete_option( 'wpd_deployment_delay_status' );
 			}
 		} elseif ( $domain && $domain !== $saved_domain && Helpers::instance()->is_valid_domain( $domain ) ) {
-			Api::post( Api::ROUTE_DOMAIN_ADD, [ 'name' => $domain ] );
+			$response = Api::process_response( Api::post( Api::ROUTE_DOMAIN_ADD, [ 'name' => $domain ] ) );
 
-			update_option( 'wpd_deployment_domain', $domain );
-			update_option( 'wpd_deployment_domain_status', false );
-			update_option( 'deployment_domain_notice', false );
-			delete_transient( 'wpd_deployment_domain_delay' );
-			delete_option( 'wpd_deployment_delay_status' );
+			if ( $response ) {
+				update_option( 'wpd_deployment_domain', $domain );
+				update_option( 'wpd_deployment_domain_status', false );
+				update_option( 'deployment_domain_notice', false );
+				delete_transient( 'wpd_deployment_domain_delay' );
+				delete_option( 'wpd_deployment_delay_status' );
+			}
 		}
 	}
 
@@ -1346,6 +1353,7 @@ class Container extends Singleton {
 	 * Update staging status
 	 *
 	 * @param $post_id
+	 *
 	 * @return void
 	 */
 	public function update_staging_status( $post_id ) {

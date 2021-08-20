@@ -93,7 +93,7 @@ class SitesList extends \Elementor\Widget_Base {
 		}
 
 		$args = [
-			'posts_per_page' => $settings['posts_per_page'],
+			'posts_per_page' => isset( $_GET['per_page'] ) && sanitize_text_field( $_GET['per_page'] ) ? sanitize_text_field( $_GET['per_page'] ) : $settings['posts_per_page'],
 			'paged'          => $current_page,
 			'post_type'      => 'container',
 			'post_status'    => 'publish',
@@ -102,42 +102,51 @@ class SitesList extends \Elementor\Widget_Base {
 		$meta_query = [];
 
 		if ( isset( $_GET['search'] ) && $_GET['search'] ) {
-			$meta_query[] = [
+			$meta_query['search'][] = [
 				'key'     => 'wpd_installation_name',
 				'value'   => sanitize_text_field( $_GET['search'] ),
 				'compare' => 'LIKE',
 			];
-			$meta_query[] = [
+
+			$meta_query['search'][] = [
 				'key'     => 'wpd_domains',
 				'value'   => sanitize_text_field( $_GET['search'] ),
 				'compare' => 'LIKE',
 			];
+
+			$meta_query['search']['relation'] = 'OR';
 		}
 
 		if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) {
-			$meta_query[] = [
+			$meta_query['blueprint'][] = [
 				'key'     => 'wpd_is_blueprint',
 				'value'   => 'yes',
 				'compare' => '=',
 			];
 		} else {
-			$meta_query[] = [
+			$meta_query['blueprint'][] = [
 				'key'     => 'wpd_is_blueprint',
 				'value'   => 'no',
 				'compare' => '=',
 			];
 
-			$meta_query[] = [
+			$meta_query['blueprint'][] = [
 				'key'     => 'wpd_is_blueprint',
 				'compare' => 'NOT EXISTS',
 			];
+
+			$meta_query['blueprint']['relation'] = 'OR';
 		}
 
 		if ( count( $meta_query ) ) {
-			$args['meta_query'] = $meta_query;
-
-			if ( count( $meta_query ) > 1 ) {
-				$args['meta_query']['relation'] = 'OR';
+			if ( isset( $meta_query['search'] ) && isset( $meta_query['blueprint'] ) ) {
+				$args['meta_query'][]           = $meta_query['search'];
+				$args['meta_query'][]           = $meta_query['blueprint'];
+				$args['meta_query']['relation'] = 'AND';
+			} elseif ( isset( $meta_query['search'] ) ) {
+				$args['meta_query'] = $meta_query['search'];
+			} elseif ( isset( $meta_query['blueprint'] ) ) {
+				$args['meta_query'] = $meta_query['blueprint'];
 			}
 		}
 

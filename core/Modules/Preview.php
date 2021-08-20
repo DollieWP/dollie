@@ -73,7 +73,7 @@ class Preview {
 				$gp_args = [
 					'author'         => $author,
 					'post_type'      => 'container',
-					'posts_per_page' => 1000,
+					'posts_per_page' => 20,
 					'meta_key'       => 'wpd_setup_complete',
 					'meta_value'     => 'yes',
 				];
@@ -81,7 +81,7 @@ class Preview {
 				$gp_args = [
 					'author'         => get_current_user_id(),
 					'post_type'      => 'container',
-					'posts_per_page' => 1000,
+					'posts_per_page' => 50,
 					'meta_key'       => 'wpd_blueprint_created',
 					'meta_value'     => 'yes',
 				];
@@ -118,68 +118,55 @@ class Preview {
 			while ( have_posts() ) :
 				the_post();
 
-				$product_id    = get_field( 'wpd_installation_blueprint_hosting_product' );
-				$product_obj   = wc_get_product( $product_id[0] );
-				$checkout_link = dollie()->get_woo_checkout_link( $product_id[0], get_the_ID() );
 
 				if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
 
-					if (
-						( isset( $_SERVER['HTTPS'] ) && ( $_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1 ) ) ||
-						( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https' )
-					) {
-						$protocol = 'https://';
-					} else {
-						$protocol = 'http://';
-					}
-
-					$screenshot = $protocol . $_SERVER['SERVER_NAME'] . dirname( $_SERVER['REQUEST_URI'] ) . '/assets/images/no-screenshot.png';
+					$screenshot = dollie()->get_site_screenshot( get_the_ID(), false );
 
 					$theme_array[] = [
 						'active'      => 1,
 						'id'          => get_the_ID(),
-						'title'       => get_post_field( 'post_name', get_the_ID() ),
-						'title_short' => get_post_field( 'post_name', get_the_ID() ),
+						'title'       => get_the_title( get_the_ID() ),
+						'title_short' => get_the_title( get_the_ID() ),
 						'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
-						'buy'         => dollie()->get_customer_login_url( get_the_ID(), get_post_field( 'post_name' ) ),
-						'login_url'   => dollie()->get_customer_login_url( get_the_ID(), get_post_field( 'post_name' ) ),
+						'buy'         => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
+						'login_url'   => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
 						'thumb'       => [
 							'url' => $screenshot,
 						],
 						'info'        => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ),
-						'tag'         => 'tag',
-						'year'        => '2019',
 						'preload'     => '0',
-						'badge'       => 'Pro',
 					];
 				} else {
+					$product_id    = get_post_meta( get_the_ID(), 'wpd_installation_blueprint_hosting_product', true );
+					$checkout_link = dollie()->get_woo_checkout_link( $product_id[0], get_the_ID() );
 
-					$image = '';
-					if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
-						$image = get_field( 'wpd_blueprint_custom_image' );
-					} else {
-						$image = get_post_meta( get_the_ID(), 'wpd_site_screenshot', true );
+					if ( $product_id ) {
+						if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
+							$image = get_field( 'wpd_blueprint_custom_image' );
+						} else {
+							$image = get_post_meta( get_the_ID(), 'wpd_site_screenshot', true );
+						}
+
+						$theme_array[] = [
+							'active'      => 1,
+							'id'          => get_the_ID(),
+							'title'       => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true ),
+							'title_short' => get_post_field( 'post_name', get_the_ID() ),
+							'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
+							'buy'         => $checkout_link,
+							'login_url'   => dollie()->get_customer_login_url( get_the_ID() ),
+							'thumb'       => [
+								'url' => $image,
+							],
+							'info'        => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ),
+							'tag'         => 'tag',
+							'year'        => '2019',
+							'preload'     => '0',
+							'badge'       => 'Pro',
+						];
 					}
-
-					$theme_array[] = [
-						'active'      => 1,
-						'id'          => get_the_ID(),
-						'title'       => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true ),
-						'title_short' => get_post_field( 'post_name', get_the_ID() ),
-						'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
-						'buy'         => $checkout_link,
-						'login_url'   => dollie()->get_customer_login_url( get_the_ID(), get_post_field( 'post_name' ) ),
-						'thumb'       => [
-							'url' => $image,
-						],
-						'info'        => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ),
-						'tag'         => 'tag',
-						'year'        => '2019',
-						'preload'     => '0',
-						'badge'       => 'Pro',
-					];
 				}
-
 			endwhile;
 		else :
 			$no_sites = true;
@@ -188,6 +175,12 @@ class Preview {
 
 		// Config
 		$products = [];
+
+		if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
+			$button_text = esc_html__( 'Login to Site', 'dollie' );
+		} else {
+			$button_text = esc_html__( 'Launch Site', 'dollie' );
+		}
 
 		$logo = get_field( 'wpd_dashboard_preview_logo', 'option' ) ?: '';
 
@@ -204,7 +197,7 @@ class Preview {
 			'responsiveDevices' => true,
 			'responsiveDevice'  => 'desktop',
 			'buyButton'         => true,
-			'buyButtonText'     => __( 'Launch Site', 'dollie' ),
+			'buyButtonText'     => $button_text,
 			'closeIframe'       => true,
 			'preload'           => false,
 			'items'             => $theme_array,
@@ -223,9 +216,11 @@ class Preview {
 		// Init Tags
 		$product_tags = [];
 		foreach ( $products as $product_key => $product ) {
-			$tag = $product->tag;
-			if ( $tag ) {
+
+			if ( isset( $product->tag ) ) {
+				$tag      = $product->tag;
 				$is_found = false;
+
 				foreach ( $product_tags as $key => $value ) {
 					if ( $tag == $key ) {
 						$product_tags[ $tag ] = $value + 1;
@@ -244,13 +239,18 @@ class Preview {
 		// Init Years
 		$product_years = [];
 		foreach ( $products as $product ) {
-			$year = $product->year;
-			if ( $year && ! in_array( $year, $product_years, true ) ) {
-				$product_years[] = $year;
+			if ( isset( $product->year ) ) {
+				$year = $product->year;
+				if ( $year && ! in_array( $year, $product_years, true ) ) {
+					$product_years[] = $year;
+				}
 			}
 		}
-		arsort( $product_years );
+		if ( ! empty( $product_years ) ) {
+			arsort( $product_years );
+		}
 		array_unshift( $product_years, esc_html__( 'all times', 'dollie' ) );
+
 
 		// Setup Active Product
 		$product_id = null;
@@ -269,85 +269,86 @@ class Preview {
 		}
 
 		if ( $config && $config->preload ) { ?>
-			<div class="page-loader">
-				<div class="loader-wrap">
-					<div class="loader">
+            <div class="page-loader">
+                <div class="loader-wrap">
+                    <div class="loader">
 
-					</div>
-				</div>
-			</div>
+                    </div>
+                </div>
+            </div>
 		<?php } ?>
 
-		<div class="livepreview-wrap">
-			<div class="page">
+        <div class="livepreview-wrap">
+            <div class="page">
 				<?php if ( $config && count( $products ) > 0 ) { ?>
-					<div id="header" class="header">
-						<div class="container">
-							<div class="row">
-								<div class="hidden-xs col-sm-2 col-md-2">
+                    <div id="header" class="header">
+                        <div class="container">
+                            <div class="row">
+                                <div class="hidden-xs col-sm-2 col-md-2">
 									<?php if ( $config && $config->logo ) { ?>
 										<?php if ( $config->logo->href ) { ?>
-											<a class="logo" href="<?php echo esc_url( $config->logo->href ); ?>"
-											   target="<?php echo( $config->logo->blank ? '_blank' : '_self' ); ?>">
-												<img src="<?php echo esc_url( $config->logo->url ); ?>">
-											</a>
+                                            <a class="logo" href="<?php echo esc_url( $config->logo->href ); ?>"
+                                               target="<?php echo( $config->logo->blank ? '_blank' : '_self' ); ?>">
+                                                <img src="<?php echo esc_url( $config->logo->url ); ?>">
+                                            </a>
 										<?php } else { ?>
-											<div class="logo">
-												<img src="<?php echo esc_url( $config->logo->url ); ?>">
-											</div>
+                                            <div class="logo">
+                                                <img src="<?php echo esc_url( $config->logo->url ); ?>">
+                                            </div>
 										<?php } ?>
 									<?php } ?>
-								</div>
-								<div class="col-xs-5 col-sm-6 col-md-4">
+                                </div>
+                                <div class="col-xs-5 col-sm-6 col-md-4">
 									<?php if ( $config->productList ) { ?>
-										<div id="product-toggle" class="product-toggle">
-											<span id="product-name" class="product-name">&nbsp;</span>
-											<span class="product-btn">
+                                        <div id="product-toggle" class="product-toggle">
+                                            <span id="product-name" class="product-name">&nbsp;</span>
+                                            <span class="product-btn">
 											<i class="product-show fa fa-angle-down"></i>
 											<i class="product-hide fa fa-angle-up"></i>
 										</span>
-										</div>
+                                        </div>
 									<?php } ?>
-								</div>
-								<div class="col-xs-7 col-sm-4 col-md-6">
-									<div class="product-toolbar clearfix">
+                                </div>
+                                <div class="col-xs-7 col-sm-4 col-md-6">
+                                    <div class="product-toolbar clearfix">
 										<?php if ( $config->closeIframe ) { ?>
-											<a id="product-frame-close" class="product-frame-close" href="#"
-											   title="<?php esc_html_e( 'close iframe', 'dollie' ); ?>">
-												<span class="dashicons dashicons-no-alt"></span>
-											</a>
+                                            <a id="product-frame-close" class="product-frame-close" href="#"
+                                               title="<?php esc_html_e( 'close iframe', 'dollie' ); ?>">
+                                                <span class="dashicons dashicons-no-alt"></span>
+                                            </a>
 										<?php } ?>
 										<?php if ( $config->buyButton ) { ?>
-											<div class="product-buttons">
-												<a id="buy" class="btn btn-success" href="#"
-												   style="display:none"><?php echo esc_html( $config->buyButtonText ); ?></a>
-											</div>
+                                            <div class="product-buttons">
+                                                <a id="buy" class="btn btn-success" href="#" style="display:none">
+													<?php echo esc_html( $config->buyButtonText ); ?>
+                                                </a>
+                                            </div>
 										<?php } ?>
 										<?php if ( $config->responsiveDevices ) { ?>
-											<div id="product-devices" class="product-devices hidden-sm hidden-xs">
-												<a href="#" class="desktop" data-device="desktop" title="Desktop"></a>
-												<a href="#" class="tabletlandscape" data-device="tabletlandscape"
-												   title="<?php esc_html_e( 'Tablet Landscape (1024x768)', 'dollie' ); ?>"></a>
-												<a href="#" class="tabletportrait" data-device="tabletportrait"
-												   title="<?php esc_html_e( 'Tablet Portrait (768x1024)', 'dollie' ); ?>"></a>
-												<a href="#" class="mobilelandscape" data-device="mobilelandscape"
-												   title="<?php esc_html_e( 'Mobile Landscape (480x320)', 'dollie' ); ?>"></a>
-												<a href="#" class="mobileportrait" data-device="mobileportrait"
-												   title="<?php esc_html_e( 'Mobile Portrait (320x480)', 'dollie' ); ?>"></a>
-											</div>
+                                            <div id="product-devices" class="product-devices hidden-sm hidden-xs">
+                                                <a href="#" class="desktop" data-device="desktop" title="Desktop"></a>
+                                                <a href="#" class="tabletlandscape" data-device="tabletlandscape"
+                                                   title="<?php esc_html_e( 'Tablet Landscape (1024x768)', 'dollie' ); ?>"></a>
+                                                <a href="#" class="tabletportrait" data-device="tabletportrait"
+                                                   title="<?php esc_html_e( 'Tablet Portrait (768x1024)', 'dollie' ); ?>"></a>
+                                                <a href="#" class="mobilelandscape" data-device="mobilelandscape"
+                                                   title="<?php esc_html_e( 'Mobile Landscape (480x320)', 'dollie' ); ?>"></a>
+                                                <a href="#" class="mobileportrait" data-device="mobileportrait"
+                                                   title="<?php esc_html_e( 'Mobile Portrait (320x480)', 'dollie' ); ?>"></a>
+                                            </div>
 										<?php } ?>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div id="products" class="products-wrap">
-						<div class="container">
-							<div class="products">
-								<div id="filters" class="filters hidden-xs">
-									<div class="row">
-										<div class="col-sm-8">
-											<div id="filter-tags" class="filter filter-tags">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="products" class="products-wrap">
+                        <div class="container">
+                            <div class="products">
+                                <div id="filters" class="filters hidden-xs">
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <div id="filter-tags" class="filter filter-tags">
 												<?php
 												$len  = sizeof( $product_tags );
 												$data = '';
@@ -357,13 +358,13 @@ class Preview {
 
 													$data .= '<ul>' . PHP_EOL;
 													foreach ( $product_tags as $tag => $count ) {
-														$tag   = strtolower( $tag );
+														$tag  = strtolower( $tag );
 														$data .= '<li><a href="#" data-tag="' . ( $index == 0 ? '*' : $tag ) . '">' . $tag . ' <span>(' . $count . ')</span></a></li>' . PHP_EOL;
 														$index ++;
 														if ( $index == 3 && $len > 3 ) {
-															$data  .= '<li class="has-child">' . PHP_EOL;
-															$data  .= '<a href="#">' . esc_html__( 'More +', 'dollie' ) . '</a>' . PHP_EOL;
-															$data  .= '<ul>' . PHP_EOL;
+															$data   .= '<li class="has-child">' . PHP_EOL;
+															$data   .= '<a href="#">' . esc_html__( 'More +', 'dollie' ) . '</a>' . PHP_EOL;
+															$data   .= '<ul>' . PHP_EOL;
 															$isMode = true;
 														}
 													}
@@ -376,17 +377,17 @@ class Preview {
 													echo wp_kses_post( $data );
 												}
 												?>
-											</div>
-										</div>
-										<div class="col-sm-4">
-											<div id="filter-search" class="filter filter-search">
-												<input type="text"
-													   placeholder="<?php esc_html_e( 'Search', 'dollie' ); ?>">
-											</div>
-										</div>
-									</div>
-								</div>
-								<div id="product-list" class="product-list">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div id="filter-search" class="filter filter-search">
+                                                <input type="text"
+                                                       placeholder="<?php esc_html_e( 'Search', 'dollie' ); ?>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="product-list" class="product-list">
 									<?php
 									$index = 0;
 									$data  = '';
@@ -410,7 +411,7 @@ class Preview {
 										$data .= '<div class="col-xs-6 col-sm-3">' . PHP_EOL;
 										$data .= '<div class="product' . ( $active ? ' active' : '' ) . '" data-product="' . htmlspecialchars( json_encode( $product ), ENT_QUOTES, 'UTF-8' ) . '" data-product-id="' . $product->id . '">' . PHP_EOL;
 
-										if ( $product->badge ) {
+										if ( isset( $product->badge ) ) {
 											$data .= '<span class="badge">' . $product->badge . '</span>' . PHP_EOL;
 										}
 
@@ -431,25 +432,25 @@ class Preview {
 									}
 									echo wp_kses_post( $data );
 									?>
-								</div>
-								<div id="pagination" class="pagination">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="iframe-wrap">
-						<div class="iframe-loader">
-							<div class="loader-wrap">
-								<div class="loader">
-									<div class="loader-inner"></div>
-								</div>
-							</div>
-						</div>
-						<iframe id="iframe" class="iframe border" src="" frameborder="0"></iframe>
-					</div>
+                                </div>
+                                <div id="pagination" class="pagination">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="iframe-wrap">
+                        <div class="iframe-loader">
+                            <div class="loader-wrap">
+                                <div class="loader">
+                                    <div class="loader-inner"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <iframe id="iframe" class="iframe border" src="" frameborder="0"></iframe>
+                    </div>
 				<?php } ?>
-			</div>
-		</div>
+            </div>
+        </div>
 		<?php
 	}
 }

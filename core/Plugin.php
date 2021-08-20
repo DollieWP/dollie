@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Admin\NavMenu\Component as NavMenu;
+use Dollie\Core\Modules\ContainerBulkActions;
 use Dollie\Core\Modules\Subscription\Subscription;
 use Dollie\Core\Modules\AccessControl;
 use Dollie\Core\Modules\Backups;
@@ -164,6 +165,7 @@ class Plugin extends Singleton {
 		Subscription::instance();
 		ContainerFields::instance();
 		Container::instance();
+		ContainerBulkActions::instance();
 		ContainerRegistration::instance();
 		Logging::instance();
 		Hooks::instance();
@@ -265,6 +267,14 @@ class Plugin extends Singleton {
 			DOLLIE_VERSION
 		);
 
+		wp_enqueue_style(
+			'dollie-tooltips',
+			DOLLIE_ASSETS_URL . 'css/dollie-tooltips.css',
+			[],
+			DOLLIE_VERSION
+		);
+
+
 		wp_register_style(
 			'swiper',
 			DOLLIE_ASSETS_URL . 'lib/swiper/swiper-bundle.min.css',
@@ -285,6 +295,24 @@ class Plugin extends Singleton {
 			'1.1.0',
 			true
 		);
+
+		wp_register_script(
+			'dollie-layout-alpine',
+			DOLLIE_ASSETS_URL . 'js/alpine.min.js',
+			[],
+			DOLLIE_VERSION,
+			true
+		);
+
+		wp_register_script(
+			'dollie-tooltips',
+			DOLLIE_ASSETS_URL . 'js/dollie-tooltips.js',
+			[],
+			DOLLIE_VERSION,
+			true
+		);
+
+		wp_enqueue_script('dollie-tooltips');
 	}
 
 	/**

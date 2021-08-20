@@ -28,7 +28,16 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 				];
 
 				if ( dollie()->has_staging() ) {
-					$menu['staging'] = '<i class="fas fa-clone"></i>' . esc_html__( 'Staging', 'dollie' );
+					$staging_url  = get_post_meta($current_id, '_wpd_staging_url', true);
+					if ( $staging_url ) {
+					$menu['staging'] = '<i class="fas fa-clone"></i>' . esc_html__( 'Staging', 'dollie' ) . '<span style="display: inline-block; margin-left: 2px;"; class="dol-flex dol-h-3 dol-w-3 dol-relative">
+										<span style="
+    top: 7px"; class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w-full dol-rounded-full dol-bg-green-500 dol-opacity-75"></span>
+										<span class="dol-relative dol-inline-flex dol-rounded-full dol-h-3 dol-w-3 dol-bg-green-600"></span>
+									</span>';
+					} else {
+						$menu['staging'] = '<i class="fas fa-clone"></i>' . esc_html__( 'Staging', 'dollie' );
+					}
 				}
 
 				$menu['delete'] = '<i class="fas fa-trash-alt"></i>' . esc_html__( 'Delete', 'dollie' );

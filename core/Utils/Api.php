@@ -30,6 +30,8 @@ class Api extends Singleton {
 		ROUTE_CONTAINER_STAGING_DEPLOY         = 'containers/staging/deploy',
 		ROUTE_CONTAINER_STAGING_UNDEPLOY       = 'containers/staging/undeploy',
 		ROUTE_CONTAINER_STAGING_SYNC           = 'containers/staging/sync',
+		ROUTE_CONTAINER_BULK_ACTION            = 'containers/bulk-action',
+		ROUTE_CONTAINER_BULK_ACTION_STATUS     = 'containers/bulk-action/status',
 
 		ROUTE_DOMAIN_ADD                 = 'domain/add',
 		ROUTE_DOMAIN_UPDATE              = 'domain/update',
@@ -68,7 +70,7 @@ class Api extends Singleton {
 		EXECUTION_BLUEPRINT_CREATE        = 'blueprint.create',
 		EXECUTION_BLUEPRINT_DEPLOY        = 'blueprint.deploy',
 		EXECUTION_BLUEPRINT_AFTER_DEPLOY  = 'blueprint.after.deploy',
-		EXECUTION_CHANGE_USER_ROLE        = 'chane.user.role',
+		EXECUTION_CHANGE_USER_ROLE        = 'change.user.role',
 		EXECUTION_DYNAMIC_FIELDS_CHECK    = 'dynamic.fields.check',
 		EXECUTION_DYNAMIC_FIELDS_REPLACE  = 'dynamic.fields.replace',
 		EXECUTION_DOMAIN_UPDATE           = 'domain.update',

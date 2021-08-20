@@ -19,19 +19,6 @@ class SitesNavigation extends \Elementor\Widget_Base {
 		return 'dollie-sites-navigation';
 	}
 
-	public function __construct($data = [], $args = null)
-	{
-		parent::__construct($data, $args);
-
-		wp_register_script(
-			'dollie-layout-alpine',
-			'https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js',
-			[],
-			DOLLIE_VERSION,
-			true
-		);
-	}
-
 	public function get_title() {
 		return esc_html__( 'Sites Navigation', 'dollie' );
 	}

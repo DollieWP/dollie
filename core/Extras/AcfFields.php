@@ -467,7 +467,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Use My Own Domain', 'dollie'),
 				'name' => 'wpd_show_custom_domain_options',
 				'type' => 'true_false',
-				'instructions' => __('Add your own domain for site deployments to fully white label the sites being launched on your platform.', 'dollie'),
+				'instructions' => __('Add your own domain for site deployments to fully white label the sites being launched on your platform. Adding your own custom domain will no longer use the Default Deployment Domain.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -515,10 +515,10 @@ if( function_exists('acf_add_local_field_group') ):
 			),
 			array(
 				'key' => 'field_5fabba25bf323',
-				'label' => __('Your Deployment Domain', 'dollie'),
+				'label' => __('My Custom Domain', 'dollie'),
 				'name' => 'wpd_api_domain_custom',
 				'type' => 'text',
-				'instructions' => __('Add your base domain name, without http(s):// or www. For example "myagency.com"', 'dollie'),
+				'instructions' => __('Add your domain name, without http(s):// or www. For example "myagency.com"', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => array(
 					array(
@@ -860,7 +860,7 @@ if( function_exists('acf_add_local_field_group') ):
 					'class' => '',
 					'id' => '',
 				),
-				'message' => __('Fill in the fields below with your custom messages. <br><br><a target="_blank" class="btn button button-secondary" href="http://dollie-wp.lcl/?p=683?launch-splash-preview">Click here for a preview</a><br><br>Make sure to save your options first.', 'dollie'),
+				'message' => __('Fill in the fields below with your custom messages. <br><br><a target="_blank" class="btn button button-secondary" href="'. dollie()->get_latest_container_url() . '?launch-splash-preview">Click here for a preview</a><br><br>Make sure to save your options first.', 'dollie'),
 				'new_lines' => 'wpautop',
 				'esc_html' => 0,
 			),
@@ -1355,7 +1355,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Client Notification', 'dollie'),
 				'name' => 'wpd_deployed_site_client_notification_body',
 				'type' => 'wysiwyg',
-				'instructions' => __('Placeholders: 
+				'instructions' => __('Placeholders:
 	{dollie_site_url}, {dollie_site_name}, {dollie_user}, {dollie_site_email}, {dollie_site_username}, {dollie_site_password}', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
@@ -1373,7 +1373,7 @@ if( function_exists('acf_add_local_field_group') ):
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'default_value' => 'Hi, 
+				'default_value' => 'Hi,
 	Site <a href="{dollie_site_url}">{dollie_site_name}</a> has been deployed successfully.',
 				'tabs' => 'all',
 				'toolbar' => 'full',
@@ -1413,7 +1413,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Admin Notification', 'dollie'),
 				'name' => 'wpd_deployed_site_admin_notification_body',
 				'type' => 'wysiwyg',
-				'instructions' => __('Placeholders: 
+				'instructions' => __('Placeholders:
 	{dollie_site_url}, {dollie_site_name}, {dollie_user}, {dollie_site_email}, {dollie_site_username}, {dollie_site_password}', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => array(
@@ -1431,7 +1431,7 @@ if( function_exists('acf_add_local_field_group') ):
 					'id' => '',
 				),
 				'hide_admin' => 0,
-				'default_value' => 'Hi, 
+				'default_value' => 'Hi,
 	<a href="{dollie_site_url}">{dollie_site_name}</a> site has been deployed by {dollie_user}.',
 				'tabs' => 'all',
 				'toolbar' => 'full',
@@ -1520,6 +1520,101 @@ if( function_exists('acf_add_local_field_group') ):
 				'toolbar' => 'full',
 				'media_upload' => 1,
 				'delay' => 0,
+			),
+			array(
+				'key' => 'field_610a65429a5b9',
+				'label' => __('Slack Notifications', 'dollie'),
+				'name' => 'wpd_slack_notifications',
+				'type' => 'true_false',
+				'instructions' => __('Enable Slack notifications on certain Dollie actions.', 'dollie'),
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'message' => '',
+				'default_value' => 0,
+				'ui' => 1,
+				'ui_on_text' => '',
+				'ui_off_text' => '',
+			),
+			array(
+				'key' => 'field_610a657c9a5ba',
+				'label' => __('Slack Webhook URL', 'dollie'),
+				'name' => 'wpd_slack_webhook_url',
+				'type' => 'text',
+				'instructions' => __('<a href="https://api.slack.com/apps">Create an App</a> on your Slack account, add Incoming Webhooks functionality and then paste the webhook URL here.', 'dollie'),
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_610a65429a5b9',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'default_value' => '',
+				'placeholder' => '',
+				'prepend' => '',
+				'append' => '',
+				'maxlength' => '',
+			),
+			array(
+				'key' => 'field_610a66159a5bb',
+				'label' => __('Slack Actions', 'dollie'),
+				'name' => 'wpd_slack_actions',
+				'type' => 'checkbox',
+				'instructions' => __('Check the action you want to trigger a Slack notification for.', 'dollie'),
+				'required' => 0,
+				'conditional_logic' => array(
+					array(
+						array(
+							'field' => 'field_610a65429a5b9',
+							'operator' => '==',
+							'value' => '1',
+						),
+					),
+				),
+				'wrapper' => array(
+					'width' => '',
+					'class' => '',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'choices' => array(
+					'wp-site-deploy-start' => 'Site Launch Started',
+					'wp-site-deployed' => 'Site Launch Completed',
+					'wp-site-deploy-failed' => 'Site Launch Failed',
+					'wp-site-backup-started' => 'Backup Triggered',
+					'wp-site-removal-scheduled' => 'Site Scheduled for Removal',
+					'wp-site-started' => 'Site Started',
+					'wp-site-restarted' => 'Site Restarted',
+					'wp-site-stopped' => 'Site Stopped',
+					'wp-site-undeployed' => 'Site Removed',
+					'wp-site-domain-linked' => 'Domain Added',
+					'wp-site-domain-link-error' => 'Domain Setup Error',
+					'wp-blueprint-deploy-start' => 'Blueprint Launch Started',
+					'wp-blueprint-deployed' => 'Blueprint Launch Completed',
+					'wp-blueprint-deploy-failed' => 'Blueprint Launch Failed',
+					'wp-site-blueprint-deployed' => 'Blueprint Updated',
+				),
+				'allow_custom' => 0,
+				'default_value' => array(
+				),
+				'layout' => 'vertical',
+				'toggle' => 0,
+				'return_format' => 'value',
+				'save_custom' => 0,
 			),
 			array(
 				'key' => 'field_6059e3baf19d0',

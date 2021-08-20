@@ -27,10 +27,10 @@ class Singleton {
 	/**
 	 * Don't allow clone
 	 */
-	final private function __clone() {
+	private function __clone() {
 	}
 
-	final private function __wakeup() {
+	public function __wakeup() {
 	}
 
 	/**
