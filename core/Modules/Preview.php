@@ -118,30 +118,30 @@ class Preview {
 			while ( have_posts() ) :
 				the_post();
 
+
+				if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
+
+					$screenshot = dollie()->get_site_screenshot( get_the_ID(), false );
+
+					$theme_array[] = [
+						'active'      => 1,
+						'id'          => get_the_ID(),
+						'title'       => get_the_title( get_the_ID() ),
+						'title_short' => get_the_title( get_the_ID() ),
+						'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
+						'buy'         => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
+						'login_url'   => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
+						'thumb'       => [
+							'url' => $screenshot,
+						],
+						'info'        => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ),
+						'preload'     => '0',
+					];
+				} else {
+					$product_id    = get_post_meta( get_the_ID(), 'wpd_installation_blueprint_hosting_product', true );
 					$checkout_link = dollie()->get_woo_checkout_link( $product_id[0], get_the_ID() );
 
-					if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
-
-						$screenshot = dollie()->get_site_screenshot( get_the_ID(), false );
-
-						$theme_array[] = [
-							'active'      => 1,
-							'id'          => get_the_ID(),
-							'title'       => get_the_title( get_the_ID() ),
-							'title_short' => get_the_title( get_the_ID() ),
-							'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
-							'buy'         => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
-							'login_url'   => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
-							'thumb'       => [
-								'url' => $screenshot,
-							],
-							'info'        => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ),
-							'preload'     => '0',
-						];
-					} else {
-
-					$product_id = get_post_meta(get_the_ID(), 'wpd_installation_blueprint_hosting_product', true);
-					if ($product_id) {
+					if ( $product_id ) {
 						if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
 							$image = get_field( 'wpd_blueprint_custom_image' );
 						} else {
@@ -216,9 +216,11 @@ class Preview {
 		// Init Tags
 		$product_tags = [];
 		foreach ( $products as $product_key => $product ) {
-			$tag = $product->tag;
-			if ( $tag ) {
+
+			if ( isset( $product->tag ) ) {
+				$tag      = $product->tag;
 				$is_found = false;
+
 				foreach ( $product_tags as $key => $value ) {
 					if ( $tag == $key ) {
 						$product_tags[ $tag ] = $value + 1;
@@ -237,13 +239,18 @@ class Preview {
 		// Init Years
 		$product_years = [];
 		foreach ( $products as $product ) {
-			$year = $product->year;
-			if ( $year && ! in_array( $year, $product_years, true ) ) {
-				$product_years[] = $year;
+			if ( isset( $product->year ) ) {
+				$year = $product->year;
+				if ( $year && ! in_array( $year, $product_years, true ) ) {
+					$product_years[] = $year;
+				}
 			}
 		}
-		arsort( $product_years );
+		if ( ! empty( $product_years ) ) {
+			arsort( $product_years );
+		}
 		array_unshift( $product_years, esc_html__( 'all times', 'dollie' ) );
+
 
 		// Setup Active Product
 		$product_id = null;
@@ -404,7 +411,7 @@ class Preview {
 										$data .= '<div class="col-xs-6 col-sm-3">' . PHP_EOL;
 										$data .= '<div class="product' . ( $active ? ' active' : '' ) . '" data-product="' . htmlspecialchars( json_encode( $product ), ENT_QUOTES, 'UTF-8' ) . '" data-product-id="' . $product->id . '">' . PHP_EOL;
 
-										if ( $product->badge ) {
+										if ( isset( $product->badge ) ) {
 											$data .= '<span class="badge">' . $product->badge . '</span>' . PHP_EOL;
 										}
 
