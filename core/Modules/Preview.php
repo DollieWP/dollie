@@ -118,9 +118,6 @@ class Preview {
 			while ( have_posts() ) :
 				the_post();
 
-				$product_id = get_post_meta( get_the_ID(), 'wpd_installation_blueprint_hosting_product', true );
-
-				if ( $product_id ) {
 					$checkout_link = dollie()->get_woo_checkout_link( $product_id[0], get_the_ID() );
 
 					if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
@@ -143,6 +140,8 @@ class Preview {
 						];
 					} else {
 
+					$product_id = get_post_meta(get_the_ID(), 'wpd_installation_blueprint_hosting_product', true);
+					if ($product_id) {
 						if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
 							$image = get_field( 'wpd_blueprint_custom_image' );
 						} else {
