@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '0373761ff6aefa2da840e785cde521377d711acc',
+    'reference' => '90abaee94098922349eaf561e9312dd61fb41b63',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '0373761ff6aefa2da840e785cde521377d711acc',
+      'reference' => '90abaee94098922349eaf561e9312dd61fb41b63',
     ),
     'appsero/client' => 
     array (
@@ -67,12 +67,12 @@
     ),
     'mexitek/phpcolors' => 
     array (
-      'pretty_version' => 'v1.0.2',
-      'version' => '1.0.2.0',
+      'pretty_version' => 'v1.0.3',
+      'version' => '1.0.3.0',
       'aliases' => 
       array (
       ),
-      'reference' => '4b1ccc920b5fc3749a575c171d2f12fca0ecfded',
+      'reference' => 'a74808eaf7cd918681aab0cd30f142025556bc8a',
     ),
     'nubs/random-name-generator' => 
     array (

@@ -99,11 +99,11 @@ msgstr ""
 msgid "LetsEncrypt Failed"
 msgstr ""
 
-#: core/Log.php:341, core/Modules/ContainerFields.php:91, templates/loop/sites.php:297
+#: core/Log.php:341, core/Modules/ContainerFields.php:91, templates/loop/sites.php:303
 msgid "Blueprint Updated"
 msgstr ""
 
-#: core/Plugin.php:381, core/Modules/Options.php:288, templates/widgets/launch/launch-site.php:35
+#: core/Plugin.php:399, core/Modules/Options.php:288, templates/widgets/launch/launch-site.php:35
 msgid "Connect with Dollie"
 msgstr ""
 
@@ -335,10 +335,6 @@ msgstr ""
 msgid "Launch Site Wizard"
 msgstr ""
 
-#: core/Extras/AcfFields.php:863
-msgid "Fill in the fields below with your custom messages. <br><br><a target=\"_blank\" class=\"btn button button-secondary\" href=\"http://dollie-wp.lcl/?p=683?launch-splash-preview\">Click here for a preview</a><br><br>Make sure to save your options first."
-msgstr ""
-
 #: core/Extras/AcfFields.php:869
 msgid "Step 1"
 msgstr ""
@@ -477,7 +473,7 @@ msgstr ""
 
 #: core/Extras/AcfFields.php:1358, core/Extras/AcfFields.php:1416
 msgid ""
-"Placeholders: \n"
+"Placeholders:\n"
 "	{dollie_site_url}, {dollie_site_name}, {dollie_user}, {dollie_site_email}, {dollie_site_username}, {dollie_site_password}"
 msgstr ""
 
@@ -575,7 +571,7 @@ msgstr ""
 msgid "You can fill in just your bucket name like \"my_bucket_name\" or you can point to a folder in your bucket like \"my_bucket_name/example_folder\". Every site will be backed up in its own folder."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1776, core/Modules/Blueprints.php:257, templates/widgets/general/sites-navigation.php:55, templates/widgets/site/site-navigation.php:31
+#: core/Extras/AcfFields.php:1776, core/Modules/Blueprints.php:257, templates/widgets/general/sites-navigation.php:55, templates/widgets/site/site-navigation.php:39, templates/widgets/site/site-navigation.php:33
 msgid "Staging"
 msgstr ""
 
@@ -1059,7 +1055,7 @@ msgstr ""
 msgid "Assigned Customer to this Site"
 msgstr ""
 
-#: core/Modules/Container.php:1066, templates/loop/sites.php:312
+#: core/Modules/Container.php:1066, templates/loop/sites.php:318
 msgid "Customer"
 msgstr ""
 
@@ -1247,11 +1243,15 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: core/Modules/Preview.php:207, core/Widgets/Dashboard/LaunchSite.php:25, core/Widgets/Launch/LaunchSite.php:32
+#: core/Modules/Preview.php:182, core/Widgets/Dashboard/LaunchSite.php:25, core/Widgets/Launch/LaunchSite.php:32
 msgid "Launch Site"
 msgstr ""
 
-#: core/Modules/Preview.php:253
+#: core/Modules/Preview.php:180
+msgid "Login to Site"
+msgstr ""
+
+#: core/Modules/Preview.php:252
 msgid "all times"
 msgstr ""
 
@@ -1259,27 +1259,27 @@ msgstr ""
 msgid "close iframe"
 msgstr ""
 
-#: core/Modules/Preview.php:330
+#: core/Modules/Preview.php:331
 msgid "Tablet Landscape (1024x768)"
 msgstr ""
 
-#: core/Modules/Preview.php:332
+#: core/Modules/Preview.php:333
 msgid "Tablet Portrait (768x1024)"
 msgstr ""
 
-#: core/Modules/Preview.php:334
+#: core/Modules/Preview.php:335
 msgid "Mobile Landscape (480x320)"
 msgstr ""
 
-#: core/Modules/Preview.php:336
+#: core/Modules/Preview.php:337
 msgid "Mobile Portrait (320x480)"
 msgstr ""
 
-#: core/Modules/Preview.php:365
+#: core/Modules/Preview.php:366
 msgid "More +"
 msgstr ""
 
-#: core/Modules/Preview.php:384
+#: core/Modules/Preview.php:385
 msgid "Search"
 msgstr ""
 
@@ -1541,40 +1541,56 @@ msgstr ""
 msgid "Search for a site..."
 msgstr ""
 
-#: templates/loop/sites.php:369
+#: templates/loop/sites.php:145
+msgid "Show your sites in the List view"
+msgstr ""
+
+#: templates/loop/sites.php:148
+msgid "Show your sites in the Grid view"
+msgstr ""
+
+#: templates/loop/sites.php:153
+msgid "Show your sites using the Live Preview bar"
+msgstr ""
+
+#: templates/loop/sites.php:383
 msgid "No sites found."
 msgstr ""
 
-#: templates/loop/sites.php:173
+#: templates/loop/sites.php:179
 msgid "You are now viewing the blueprints made by you and your team."
 msgstr ""
 
-#: templates/loop/sites.php:202
+#: templates/loop/sites.php:208
 msgid "Unnamed"
 msgstr ""
 
-#: templates/loop/sites.php:288
+#: templates/loop/sites.php:294
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites.php:291
+#: templates/loop/sites.php:297
 msgid "Version %s"
 msgstr ""
 
-#: templates/loop/sites.php:304
+#: templates/loop/sites.php:310
 msgid "Never. Update now!"
 msgstr ""
 
-#: templates/loop/sites.php:325
+#: templates/loop/sites.php:331
 msgid "Manage"
 msgstr ""
 
-#: templates/loop/sites.php:321
-msgid "Update"
+#: templates/loop/sites.php:327, templates/widgets/site/pages/blueprints.php:101
+msgid "Update Blueprint"
 msgstr ""
 
-#: templates/loop/sites.php:335, templates/widgets/site/site-screenshot.php:33, templates/widgets/site/pages/staging.php:81
-msgid "Admin"
+#: templates/loop/sites.php:339
+msgid "Visit Staging Area"
+msgstr ""
+
+#: templates/loop/sites.php:349
+msgid "Login to Site as Admin"
 msgstr ""
 
 #: templates/site/link-domain.php:4
@@ -1795,7 +1811,7 @@ msgstr ""
 msgid "Please type the unique name of your site. Your site name is shown in the sidebar and in your URL address bar."
 msgstr ""
 
-#: core/Modules/Forms/DeleteSite.php:89, templates/widgets/general/sites-navigation.php:58, templates/widgets/site/site-navigation.php:34, templates/widgets/site/pages/staging.php:88
+#: core/Modules/Forms/DeleteSite.php:89, templates/widgets/general/sites-navigation.php:58, templates/widgets/site/site-navigation.php:43
 msgid "Delete"
 msgstr ""
 
@@ -1871,7 +1887,7 @@ msgstr ""
 msgid "There are no plugins available to update. Good job!"
 msgstr ""
 
-#: core/Modules/Forms/PluginUpdates.php:233
+#: core/Modules/Forms/PluginUpdates.php:236
 msgid "Update Plugins!"
 msgstr ""
 
@@ -2379,6 +2395,10 @@ msgstr ""
 msgid "Visit"
 msgstr ""
 
+#: templates/widgets/site/site-screenshot.php:33
+msgid "Admin"
+msgstr ""
+
 #: core/Extras/options-page-for-acf/inc/ACF_Location_Options_Page.php:91
 msgid "Please use ACF Pro version greater than 5.9.0 or disable ACF Pro plugin"
 msgstr ""
@@ -2443,10 +2463,6 @@ msgstr ""
 
 #: templates/widgets/site/pages/blueprints.php:85
 msgid "Checking field integrity..."
-msgstr ""
-
-#: templates/widgets/site/pages/blueprints.php:101
-msgid "Update Blueprint"
 msgstr ""
 
 #: templates/widgets/site/pages/blueprints.php:114
@@ -2827,11 +2843,11 @@ msgstr ""
 msgid "Staging site is disabled"
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:26
+#: templates/widgets/site/pages/staging.php:26, templates/widgets/site/pages/staging.php:33
 msgid "Here you can easily manage your staging site for <strong>%s</strong>. Staging allows you to conduct different tests before applying them to your live site."
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:33
+#: templates/widgets/site/pages/staging.php:32
 msgid "Staging site: %s"
 msgstr ""
 
@@ -2843,15 +2859,15 @@ msgstr ""
 msgid "Please be patient while we create a staging site for <strong>%s</strong>. The process might take up to 5 minutes."
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:129
+#: templates/widgets/site/pages/staging.php:161
 msgid "Create Staging Site"
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:114
+#: templates/widgets/site/pages/staging.php:146
 msgid "You have reached your staging sites limit. Please upgrade your subscription!"
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:102
+#: templates/widgets/site/pages/staging.php:134
 msgid "Syncing is in process. You will be able to see your changes on the production site in a few minutes."
 msgstr ""
 
@@ -2863,8 +2879,16 @@ msgstr ""
 msgid "Staging has been successfully synced."
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:75
-msgid "Publish To Live"
+#: templates/widgets/site/pages/staging.php:88
+msgid "Sync Staging with Live Site"
+msgstr ""
+
+#: templates/widgets/site/pages/staging.php:111
+msgid "Delete Your Staging Site"
+msgstr ""
+
+#: templates/widgets/site/pages/staging.php:126
+msgid "Admin Login to Staging Site"
 msgstr ""
 
 #: templates/widgets/site/pages/themes.php:23
@@ -2989,22 +3013,6 @@ msgstr ""
 
 #: templates/widgets/site/pages/developer-tools/details.php:63
 msgid "Your site is running PHP version %s"
-msgstr ""
-
-#: templates/widgets/site/pages/developer-tools/details.php:98
-msgid "Redis Object Caching is Enabled"
-msgstr ""
-
-#: templates/widgets/site/pages/developer-tools/details.php:102
-msgid "Disable Caching"
-msgstr ""
-
-#: templates/widgets/site/pages/developer-tools/details.php:78
-msgid "Redis Object Caching is Disabled"
-msgstr ""
-
-#: templates/widgets/site/pages/developer-tools/details.php:82
-msgid "Get Redis Cache"
 msgstr ""
 
 #: templates/widgets/site/pages/developer-tools/performance.php:2
