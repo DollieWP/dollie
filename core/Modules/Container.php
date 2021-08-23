@@ -31,7 +31,7 @@ class Container extends Singleton {
 		add_action( 'init', [ $this, 'register_category' ], 0 );
 		add_filter( 'init', [ $this, 'rewrite_rules_container_sub_pages' ], 20 );
 		add_action( 'init', [ $this, 'set_default_view_time_total_containers' ] );
-		add_action( 'admin_init', [ $this, 'check_deployment_domain_status' ] );
+		add_action( 'init', [ $this, 'check_deployment_domain_status' ] );
 
 		add_filter( 'query_vars', [ $this, 'query_vars' ] );
 		add_action( 'single_template', [ $this, 'add_acf_form_head' ], 9 );
@@ -1301,15 +1301,13 @@ class Container extends Singleton {
 				delete_option( 'wpd_deployment_delay_status' );
 			}
 		} elseif ( $domain && $domain !== $saved_domain && Helpers::instance()->is_valid_domain( $domain ) ) {
-			$response = Api::process_response( Api::post( Api::ROUTE_DOMAIN_ADD, [ 'name' => $domain ] ) );
+			Api::post( Api::ROUTE_DOMAIN_ADD, [ 'name' => $domain ] );
 
-			if ( $response ) {
-				update_option( 'wpd_deployment_domain', $domain );
-				update_option( 'wpd_deployment_domain_status', false );
-				update_option( 'deployment_domain_notice', false );
-				delete_transient( 'wpd_deployment_domain_delay' );
-				delete_option( 'wpd_deployment_delay_status' );
-			}
+			update_option( 'wpd_deployment_domain', $domain );
+			update_option( 'wpd_deployment_domain_status', false );
+			update_option( 'deployment_domain_notice', false );
+			delete_transient( 'wpd_deployment_domain_delay' );
+			delete_option( 'wpd_deployment_delay_status' );
 		}
 	}
 
@@ -1382,7 +1380,7 @@ class Container extends Singleton {
 	 * Check domain availability
 	 */
 	public function check_deployment_domain_status() {
-		if ( ! Api::get_auth_token() ) {
+		if ( ! Api::get_auth_token() || ! is_admin() ) {
 			return;
 		}
 
