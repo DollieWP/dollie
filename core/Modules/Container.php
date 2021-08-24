@@ -1272,7 +1272,6 @@ class Container extends Singleton {
 		<?php
 	}
 
-
 	/**
 	 * Update deployment domain
 	 *
@@ -1290,21 +1289,34 @@ class Container extends Singleton {
 			$domain = str_replace( [ 'https://', 'http://' ], '', $domain );
 		}
 
-		if ( $saved_domain && ! $domain ) {
-			$request_remove_domain  = Api::post( Api::ROUTE_DOMAIN_REMOVE );
-			$response_remove_domain = Api::process_response( $request_remove_domain );
+		if ( ! get_field( 'wpd_show_custom_domain_options', $post_id ) && $saved_domain ) {
+			$this->remove_deployment_domain();
+		} else {
+			if ( $saved_domain && ! $domain ) {
+				$this->remove_deployment_domain();
+			} elseif ( $domain && $domain !== $saved_domain && Helpers::instance()->is_valid_domain( $domain ) ) {
+				Api::post( Api::ROUTE_DOMAIN_ADD, [ 'name' => $domain ] );
 
-			if ( ! $response_remove_domain['domain'] && ! $response_remove_domain['status'] ) {
-				update_option( 'wpd_deployment_domain', false );
+				update_option( 'wpd_deployment_domain', $domain );
+				update_option( 'wpd_deployment_domain_status', false );
 				update_option( 'deployment_domain_notice', false );
 				delete_transient( 'wpd_deployment_domain_delay' );
 				delete_option( 'wpd_deployment_delay_status' );
 			}
-		} elseif ( $domain && $domain !== $saved_domain && Helpers::instance()->is_valid_domain( $domain ) ) {
-			Api::post( Api::ROUTE_DOMAIN_ADD, [ 'name' => $domain ] );
+		}
+	}
 
-			update_option( 'wpd_deployment_domain', $domain );
-			update_option( 'wpd_deployment_domain_status', false );
+	/**
+	 * Remove existing deployment domain
+	 *
+	 * @return void
+	 */
+	private function remove_deployment_domain() {
+		$request_remove_domain  = Api::post( Api::ROUTE_DOMAIN_REMOVE );
+		$response_remove_domain = Api::process_response( $request_remove_domain );
+
+		if ( ! $response_remove_domain['domain'] && ! $response_remove_domain['status'] ) {
+			update_option( 'wpd_deployment_domain', false );
 			update_option( 'deployment_domain_notice', false );
 			delete_transient( 'wpd_deployment_domain_delay' );
 			delete_option( 'wpd_deployment_delay_status' );
