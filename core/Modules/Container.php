@@ -1,5 +1,4 @@
 <?php
-
 namespace Dollie\Core\Modules;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -617,7 +616,7 @@ class Container extends Singleton {
 			$request = dollie()->maybe_decode_json( $request_response['body'], true );
 
 			// Set Transient.
-			set_transient( $transient, $request, MINUTE_IN_SECONDS * 15 );
+			set_transient( $transient, $request, DAY_IN_SECONDS * 100 );
 
 			// Update Post Meta.
 			WP::instance()->store_container_data( $container->id, $request );
@@ -671,7 +670,17 @@ class Container extends Singleton {
 			}
 
 			if ( isset( $transient_name ) ) {
-				set_transient( $transient_name, $request, MINUTE_IN_SECONDS * 30 );
+
+				//Add new refresh time with fallback.
+				$refresh_time       = get_field('wpd_site_refresh_time', 'option');
+
+				if (isset( $refresh_time) ) {
+					$refresh = $refresh_time;
+				} else {
+					$refresh = 900;
+				}
+
+				set_transient( $transient_name, $request, $refresh );
 			}
 		}
 
