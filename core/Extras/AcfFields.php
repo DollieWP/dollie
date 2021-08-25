@@ -629,7 +629,7 @@ if( function_exists('acf_add_local_field_group') ):
 				'label' => __('Site Dashboard Refresh Time', 'dollie'),
 				'name' => 'wpd_site_refresh_time',
 				'type' => 'select',
-				'instructions' => '',
+				'instructions' => 'When one of your customers visits their site dashboard it fetches the data from their WordPress installation. By default this data is updated every 15 minutes. If your customers are using your dashboard heavily to update plugins/themes, we recommend to set this to a shorter time.',
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
