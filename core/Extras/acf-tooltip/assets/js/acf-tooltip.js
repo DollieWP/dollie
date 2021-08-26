@@ -152,7 +152,7 @@
           at: acfTooltip.at
         },
         content: {
-          attr: "data-tooltip"
+          attr: "data-tooltip-old"
         },
         hide: {
           fixed: true,
