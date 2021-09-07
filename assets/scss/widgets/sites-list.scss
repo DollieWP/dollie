@@ -35,6 +35,20 @@
     &.dol-modal-visible {
       @apply dol-block;
     }
+
+    .dol-tab-action {
+      &.dol-tab-active {
+        @apply dol-bg-gray-700;
+      }
+    }
+
+    .dol-tab-inner {
+      @apply dol-hidden;
+
+      &.dol-tab-active {
+        @apply dol-block;
+      }
+    }
   }
 
   .dol-open-modal {

@@ -18,6 +18,7 @@ var DollieSiteList = DollieSiteList || {};
       DollieSiteList.fn.sendAction();
       DollieSiteList.fn.applyFilters();
       DollieSiteList.fn.checkAction();
+      DollieSiteList.fn.recurringAction();
     },
 
     actionsAndFilters: function () {
@@ -80,6 +81,53 @@ var DollieSiteList = DollieSiteList || {};
         modal.removeClass("dol-modal-visible");
 
         modal.find(".dol-modal-submit").prop("disabled", true);
+
+        $(".dol-tab-action").each(function (index, item) {
+          $(item).removeClass("dol-tab-active");
+          $(item).removeClass("dol-callback-called");
+        });
+
+        $(".dol-tab-inner").each(function (index, item) {
+          $(item).removeClass("dol-tab-active");
+        });
+
+        $(".dol-tab-action-initial").addClass("dol-tab-active");
+        $("#dol-bulk-actions").addClass("dol-tab-active");
+        $("#dol-new-schedules-container").html("");
+      });
+
+      $(".dol-tab-action").on("click", function (e) {
+        e.preventDefault();
+
+        if ($(this).hasClass("dol-tab-active")) {
+          return false;
+        }
+
+        var target = $(this).data("tab-name");
+
+        if (!$(target).length) {
+          return false;
+        }
+
+        $(".dol-tab-action").each(function (index, item) {
+          $(item).removeClass("dol-tab-active");
+        });
+
+        $(".dol-tab-inner").each(function (index, item) {
+          $(item).removeClass("dol-tab-active");
+        });
+
+        $(target).addClass("dol-tab-active");
+        $(this).addClass("dol-tab-active");
+
+        if ($(this).data("tab-callback")) {
+          if ($(this).hasClass("dol-callback-called")) {
+            return;
+          }
+
+          DollieSiteList.fn[$(this).data("tab-callback")]();
+          $(this).addClass("dol-callback-called");
+        }
       });
     },
 
@@ -206,6 +254,115 @@ var DollieSiteList = DollieSiteList || {};
           });
         }
       }, 10000);
+    },
+
+    getRecurringActions: function () {
+      if (!DollieSiteList.vars.selectedSites.length) {
+        return;
+      }
+
+      $.ajax({
+        method: "POST",
+        url: $("#dol-recurring-action").data("ajax-url"),
+        data: {
+          containers: DollieSiteList.vars.selectedSites,
+          action: "dollie_get_recurring_action",
+          nonce: $("#dol-recurring-action").data("nonce"),
+        },
+        context: $(this),
+        beforeSend: function () {},
+        success: function (response) {
+          if (response.success) {
+            if ($.isArray(response.data) && !response.data.length) {
+              $("#dol-no-schedules").removeClass("dol-hidden");
+              $("#dol-existing-schedules").addClass("dol-hidden");
+            } else {
+            }
+          }
+        },
+      });
+    },
+
+    recurringAction: function () {
+      $(document).on("submit", "#dol-schedule-form", function (e) {
+        e.preventDefault();
+
+        $.ajax({
+          method: "POST",
+          url: $(this).attr("action"),
+          data: {
+            data: $(this).serialize(),
+            action: "dollie_create_recurring_action",
+            nonce: $(this).data("nonce"),
+          },
+          context: $(this),
+          beforeSend: function () {},
+          success: function (response) {
+            if (response.success) {
+            }
+          },
+        });
+      });
+
+      $(document).on(
+        "change",
+        ".dol-action-selector input[type='checkbox']",
+        function () {
+          if ($(this).is(":checked")) {
+            $(this)
+              .closest(".dol-action-selector")
+              .find(".dol-interval-container")
+              .removeClass("dol-hidden");
+          } else {
+            $(this)
+              .closest(".dol-action-selector")
+              .find(".dol-interval-container")
+              .addClass("dol-hidden");
+          }
+        }
+      );
+
+      $(document).on("click", ".dol-remove-schedule-item", function (e) {
+        e.preventDefault();
+
+        $(this)
+          .closest(".dol-schedule-list-item")
+          .fadeOut(300, function () {
+            $(this).remove();
+          });
+      });
+
+      $(".dol-get-schedule-template").on("click", function (e) {
+        e.preventDefault();
+
+        if (!DollieSiteList.vars.selectedSites.length) {
+          return;
+        }
+
+        $.ajax({
+          method: "POST",
+          url: $(this).data("ajax-url"),
+          data: {
+            containers: DollieSiteList.vars.selectedSites,
+            action: "dollie_get_selected_sites",
+            nonce: $(this).data("nonce"),
+          },
+          context: $(this),
+          beforeSend: function () {},
+          success: function (response) {
+            if (response.success) {
+              var newContainer = $("#dol-new-schedules-container");
+              newContainer.html("");
+              newContainer.append(response.data);
+              newContainer
+                .find(".dol-schedule-list")
+                .addClass("dol-overflow-y-scroll")
+                .css("max-height", "420px");
+              $(this).hide();
+            }
+          },
+        });
+      });
     },
 
     updateSelectedSites: function () {

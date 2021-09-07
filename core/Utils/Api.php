@@ -18,20 +18,22 @@ use Dollie\Core\Singleton;
 class Api extends Singleton {
 
 	const
-		ROUTE_CONTAINER_GET                    = 'containers',
-		ROUTE_CONTAINER_DEPLOY                 = 'containers/deploy',
-		ROUTE_CONTAINER_DEPLOY_GET             = 'containers/deploy/{uuid}',
-		ROUTE_CONTAINER_TRIGGER                = 'containers/trigger',
-		ROUTE_CONTAINER_CHANGE_USER_ROLE       = 'containers/change-user-role',
-		ROUTE_CONTAINER_SCREENSHOT             = 'containers/take-screenshot',
-		ROUTE_CONTAINER_SCREENSHOT_REGEN       = 'containers/regenerate-screenshots',
-		ROUTE_CONTAINER_BLUEPRINT_AVAILABILITY = 'containers/blueprint-availability',
-		ROUTE_CONTAINER_STAGING_SET_STATUS     = 'containers/staging/status',
-		ROUTE_CONTAINER_STAGING_DEPLOY         = 'containers/staging/deploy',
-		ROUTE_CONTAINER_STAGING_UNDEPLOY       = 'containers/staging/undeploy',
-		ROUTE_CONTAINER_STAGING_SYNC           = 'containers/staging/sync',
-		ROUTE_CONTAINER_BULK_ACTION            = 'containers/bulk-action',
-		ROUTE_CONTAINER_BULK_ACTION_STATUS     = 'containers/bulk-action/status',
+		ROUTE_CONTAINER_GET                     = 'containers',
+		ROUTE_CONTAINER_DEPLOY                  = 'containers/deploy',
+		ROUTE_CONTAINER_DEPLOY_GET              = 'containers/deploy/{uuid}',
+		ROUTE_CONTAINER_TRIGGER                 = 'containers/trigger',
+		ROUTE_CONTAINER_CHANGE_USER_ROLE        = 'containers/change-user-role',
+		ROUTE_CONTAINER_SCREENSHOT              = 'containers/take-screenshot',
+		ROUTE_CONTAINER_SCREENSHOT_REGEN        = 'containers/regenerate-screenshots',
+		ROUTE_CONTAINER_BLUEPRINT_AVAILABILITY  = 'containers/blueprint-availability',
+		ROUTE_CONTAINER_STAGING_SET_STATUS      = 'containers/staging/status',
+		ROUTE_CONTAINER_STAGING_DEPLOY          = 'containers/staging/deploy',
+		ROUTE_CONTAINER_STAGING_UNDEPLOY        = 'containers/staging/undeploy',
+		ROUTE_CONTAINER_STAGING_SYNC            = 'containers/staging/sync',
+		ROUTE_CONTAINER_BULK_ACTION             = 'containers/bulk-action',
+		ROUTE_CONTAINER_BULK_ACTION_STATUS      = 'containers/bulk-action/status',
+		ROUTE_CONTAINER_RECURRING_ACTION_GET    = 'containers/recurring-action',
+		ROUTE_CONTAINER_RECURRING_ACTION_CREATE = 'containers/recurring-action/create',
 
 		ROUTE_DOMAIN_ADD                 = 'domain/add',
 		ROUTE_DOMAIN_UPDATE              = 'domain/update',
@@ -79,9 +81,13 @@ class Api extends Singleton {
 		EXECUTION_PLUGIN_APPLY_UPDATES    = 'plugins.apply.updates',
 		EXECUTION_WIZARD_SETUP            = 'wizard.setup';
 
-	const API_BASE_URL = 'https://api-staging.getdollie.com/';
+	// const API_BASE_URL = 'https://api-staging.getdollie.com/';
+	// const API_URL      = self::API_BASE_URL . 'api/';
+	// const PARTNERS_URL = 'https://partners.getdollie.com/';
+
+	const API_BASE_URL = 'http://dollie-api.lcl/';
 	const API_URL      = self::API_BASE_URL . 'api/';
-	const PARTNERS_URL = 'https://partners.getdollie.com/';
+	const PARTNERS_URL = 'http://dollie-wp.lcl/';
 
 	public static $last_call = null;
 
