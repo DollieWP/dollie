@@ -73,7 +73,7 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 				</div>
 
 				<div class="dol-text dol-text-base dol-text-gray-500 dol-mb-3">
-					<?php esc_html_e( 'These are the already scheduled actions. Each action will be performed at the selected time on the selected container.', 'dollie' ); ?>
+					<?php esc_html_e( 'These are the already scheduled actions. Each action will be performed at the selected time on the selected site(s).', 'dollie' ); ?>
 				</div>
 
 				<div id="dol-existing-schedules-container" class="dol-mb-6">
@@ -96,11 +96,11 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 				</div>
 
 				<div class="dol-text dol-text-base dol-text-gray-500 dol-mb-3">
-					<?php esc_html_e( 'Setup new schedule action for the selected containers.', 'dollie' ); ?>
+					<?php esc_html_e( 'Setup new schedule action for the selected site(s).', 'dollie' ); ?>
 				</div>
 
 				<div id="dol-new-schedules-container" class="dol-mb-3">
-					
+
 				</div>
 
 				<button type="button" class="dol-get-schedule-template dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_selected_sites' ) ); ?>">
