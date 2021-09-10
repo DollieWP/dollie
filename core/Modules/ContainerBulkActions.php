@@ -184,18 +184,7 @@ class ContainerBulkActions extends Singleton {
 			wp_send_json_error( [ 'message' => esc_html__( 'No sites selected.', 'dollie' ) ] );
 		}
 
-		$query_args = [
-			'post_type'      => 'container',
-			'posts_per_page' => - 1,
-			'post_status'    => 'publish',
-			'post__in'       => $_REQUEST['containers'],
-		];
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			$query_args['author'] = get_current_user_id();
-		}
-
-		$posts = get_posts( $query_args );
+		$posts = dollie()->get_containers_data( $_REQUEST['containers'] );
 
 		if ( empty( $posts ) ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'There has been something wrong with your request.', 'dollie' ) ] );

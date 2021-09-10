@@ -1271,6 +1271,33 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * Get containers data
+	 *
+	 * @param array $data
+	 * @return array
+	 */
+	public function get_containers_data( $data ) {
+		$containers_ids = [];
+
+		foreach ( $data as $container ) {
+			$container_ids[] = $container['id'];
+		}
+
+		$query_args = [
+			'post_type'      => 'container',
+			'posts_per_page' => - 1,
+			'post_status'    => 'publish',
+			'post__in'       => $containers_ids,
+		];
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			$query_args['author'] = get_current_user_id();
+		}
+
+		return get_posts( $query_args );
+	}
+
+	/**
 	 * Get api instance
 	 *
 	 * @return Api
