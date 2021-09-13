@@ -268,7 +268,11 @@ class ContainerRecurringActions extends Singleton {
 			$data[]['container_id'] = $container_id;
 		}
 
-		$posts = dollie()->get_containers_data( $data, 'container_id' );
+		if ( ! empty( $data ) ) {
+			$posts = dollie()->get_containers_data( $data, 'container_id' );
+		} else {
+			$posts = [];
+		}
 
 		$targets = [];
 		foreach ( $posts as $post ) {
@@ -325,12 +329,12 @@ class ContainerRecurringActions extends Singleton {
 										if ( ! array_key_exists( $command_name, $target['commands'] ) ) {
 											continue;}
 										?>
-											<div class="dol-3/12 dol-p-2">
-												<div class="dol-rounded dol-px-4 dol-py-2 dol-border dol-border-solid dol-border-gray-300">
-													<div class="dol-font-medium dol-text-sm"><?php echo $command_text; ?></div>
-													<div class="dol-text-xs dol-text-right"><?php echo $this->get_allowed_intervals()[ $target['commands'][ $command_name ] ]; ?></div>
-												</div>
+										<div class="dol-3/12 dol-p-2">
+											<div class="dol-rounded dol-px-4 dol-py-2 dol-border dol-border-solid dol-border-gray-300">
+												<div class="dol-font-medium dol-text-sm"><?php echo $command_text; ?></div>
+												<div class="dol-text-xs dol-text-right"><?php echo $this->get_allowed_intervals()[ $target['commands'][ $command_name ] ]; ?></div>
 											</div>
+										</div>
 									<?php endforeach; ?>
 								</div>
 							</div>
