@@ -25,8 +25,11 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 						<div class="dol-tab-action dol-tab-action-initial dol-tab-active dol-text-md dol-cursor-pointer dol-px-8 dol-py-3" data-tab-name="#dol-bulk-actions">
 							<?php esc_html_e( 'Bulk Actions', 'dollie' ); ?>
 						</div>
-						<div class="dol-tab-action dol-text-md dol-cursor-pointer dol-px-8 dol-py-3" data-tab-name="#dol-schedule-actions" data-tab-callback="getRecurringActions">
-							<?php esc_html_e( 'Schedule Actions', 'dollie' ); ?>
+						<div class="dol-tab-action dol-text-md dol-cursor-pointer dol-px-8 dol-py-3" data-tab-name="#dol-scheduled-actions" data-tab-callback="getScheduledActions">
+							<?php esc_html_e( 'Scheduled Actions', 'dollie' ); ?>
+						</div>
+						<div class="dol-tab-action dol-text-md dol-cursor-pointer dol-px-8 dol-py-3" data-tab-name="#dol-create-schedule" data-tab-callback="getScheduleTemplate">
+							<?php esc_html_e( 'Create New Schedule', 'dollie' ); ?>
 						</div>
 					</div>
 					<div class="dol-px-4">
@@ -67,9 +70,31 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 					</button>
 				</div>
 			</div>
-			<div id="dol-schedule-actions" class="dol-tab-inner dol-p-8">
+			<div id="dol-scheduled-actions" class="dol-tab-inner dol-p-8">
 				<div class="dol-mb-2 dol-font-bold dol-text-2xl">
-					<?php esc_html_e( 'Schedules', 'dollie' ); ?>
+					<?php esc_html_e( 'Scheduled Actions', 'dollie' ); ?>
+				</div>
+
+				<div class="dol-text dol-text-base dol-text-gray-500 dol-mb-3">
+					<?php esc_html_e( 'Here are all your scheduled actions.', 'dollie' ); ?>
+				</div>
+
+				<div id="dol-schedule-history">
+
+				</div>
+				<div id="dol-loading-history" class="dol-hidden" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_schedule_history' ) ); ?>">
+					<div class="dol-spinner dol-flex dol-items-center dol-text-gray-500">
+						<svg class="dol-animate-spin dol-mr-3 dol-h-5 dol-w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+							<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+							<path class="dol-opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+						</svg>
+						<span><?php esc_html_e( 'Fetching schedules...', 'dollie' ); ?></span>
+					</div>
+				</div>
+			</div>
+			<div id="dol-create-schedule" class="dol-tab-inner dol-p-8">
+				<div class="dol-mb-2 dol-font-bold dol-text-2xl">
+					<?php esc_html_e( 'Create New Schedule', 'dollie' ); ?>
 				</div>
 
 				<div class="dol-text dol-text-base dol-text-gray-500 dol-mb-3">
@@ -85,7 +110,7 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 							<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
 							<path class="dol-opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
 						</svg>
-						<span><?php esc_html_e( 'Fetching schedules...', 'dollie' ); ?></span>
+						<span><?php esc_html_e( 'Fetching template...', 'dollie' ); ?></span>
 					</div>
 				</div>
 			</div>

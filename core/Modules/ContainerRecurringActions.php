@@ -24,7 +24,7 @@ class ContainerRecurringActions extends Singleton {
 
 		add_action( 'wp_ajax_dollie_create_recurring_action', [ $this, 'create_recurring_action' ] );
 		add_action( 'wp_ajax_dollie_get_selected_sites', [ $this, 'get_selected_sites' ] );
-
+		add_action( 'wp_ajax_dollie_get_schedule_history', [ $this, 'get_schedule_history' ] );
 	}
 
 	/**
@@ -176,11 +176,11 @@ class ContainerRecurringActions extends Singleton {
 			)
 		);
 
-		foreach ( $targets as &$target ) {
+		foreach ( $targets as $key => $target ) {
 			foreach ( $response as $container_id => $data ) {
-				if ( $target['container_id'] === $container_id ) {
+				if ( $targets[ $key ]['container_id'] === $container_id ) {
 					foreach ( $data as $commands ) {
-						$target['commands'][ $commands['action'] ] = $commands['period'];
+						$targets[ $key ]['commands'][ $commands['action'] ] = $commands['period'];
 					}
 				}
 			}
@@ -197,7 +197,7 @@ class ContainerRecurringActions extends Singleton {
 							<?php esc_html_e( 'Site', 'dollie' ); ?>
 							</div>
 							<div class="dol-w-8/12 dol-px-4 dol-py-2">
-							<?php esc_html_e( 'Action', 'dollie' ); ?>
+							<?php esc_html_e( 'Actions', 'dollie' ); ?>
 							</div>
 						</li>
 					</ul>
@@ -239,6 +239,105 @@ class ContainerRecurringActions extends Singleton {
 					<i class="fas fa-tools dol-mr-2"></i> <?php esc_html_e( 'Update', 'dollie' ); ?>
 				</button>
 			</form>
+		<?php
+
+		$response = ob_get_clean();
+
+		wp_send_json_success( $response );
+	}
+
+	/**
+	 * Get schedule history
+	 *
+	 * @return void
+	 */
+	public function get_schedule_history() {
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'dollie_get_schedule_history' ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
+		}
+
+		$response = Api::process_response(
+			Api::post(
+				Api::ROUTE_CONTAINER_RECURRING_ACTION_GET,
+			)
+		);
+
+		$data = [];
+
+		foreach ( $response as $container_id => $item ) {
+			$data[]['container_id'] = $container_id;
+		}
+
+		$posts = dollie()->get_containers_data( $data, 'container_id' );
+
+		$targets = [];
+		foreach ( $posts as $post ) {
+			$container_id = get_post_meta( $post->ID, 'wpd_container_id', true );
+
+			if ( $container_id ) {
+				$targets[] = [
+					'id'           => $post->ID,
+					'name'         => get_the_title( $post->ID ),
+					'url'          => dollie()->get_site_url( $post->ID ),
+					'container_id' => $container_id,
+					'commands'     => [],
+				];
+
+				$targets_for_api[] = $container_id;
+			}
+		}
+
+		foreach ( $targets as $key => $target ) {
+			foreach ( $response as $container_id => $data ) {
+				if ( $targets[ $key ]['container_id'] === $container_id ) {
+					foreach ( $data as $commands ) {
+						$targets[ $key ]['commands'][ $commands['action'] ] = $commands['period'];
+					}
+				}
+			}
+		}
+
+		?>
+			<div class="dol-rounded dol-overflow-hidden">
+				<ul class="dol-list-none dol-m-0 dol-p-0">
+					<li class="dol-flex dol-font-bold dol-text-white dol-bg-gray-700">
+						<div class="dol-w-4/12 dol-px-4 dol-py-2">
+						<?php esc_html_e( 'Site', 'dollie' ); ?>
+						</div>
+						<div class="dol-w-8/12 dol-px-4 dol-py-2">
+						<?php esc_html_e( 'Actions', 'dollie' ); ?>
+						</div>
+					</li>
+				</ul>
+				<ul class="dol-schedule-list dol-list-none dol-m-0 dol-p-0 dol-border dol-border-solid dol-border-gray-200">
+				<?php foreach ( $targets as $target ) : ?>
+						<li class="dol-schedule-list-item dol-flex dol-py-2 dol-border-b dol-border-solid dol-border-gray-200">
+							<div class="dol-w-4/12 dol-px-4 dol-py-2">
+								<div class="dol-font-bold"><?php echo $target['name']; ?></div>
+								<div class="dol-text-sm dol-mt-1 dol-truncate">
+									<a href="<?php echo esc_url( $target['url'] ); ?>" target="_blank"><?php echo $target['url']; ?></a>
+								</div>
+							</div>
+							<div class="dol-w-8/12 dol-px-4 dol-py-2">
+								<div class="dol-flex dol-items-center">
+									<?php foreach ( $this->get_allowed_commands() as $command_name => $command_text ) : ?>
+										<?php
+										if ( ! array_key_exists( $command_name, $target['commands'] ) ) {
+											continue;}
+										?>
+											<div class="dol-3/12 dol-p-2">
+												<div class="dol-rounded dol-px-4 dol-py-2 dol-bg-gray-600 dol-text-white">
+													<div class="dol-font-medium dol-text-sm"><?php echo $command_text; ?></div>
+													<div class="dol-text-xs dol-text-right"><?php echo $this->get_allowed_intervals()[ $target['commands'][ $command_name ] ]; ?></div>
+												</div>
+											</div>
+									<?php endforeach; ?>
+								</div>
+							</div>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
 		<?php
 
 		$response = ob_get_clean();

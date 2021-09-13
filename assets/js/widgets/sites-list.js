@@ -256,7 +256,35 @@ var DollieSiteList = DollieSiteList || {};
       }, 10000);
     },
 
-    getRecurringActions: function () {
+    getScheduledActions: function () {
+      $.ajax({
+        method: "POST",
+        url: $("#dol-loading-history").data("ajax-url"),
+        data: {
+          action: "dollie_get_schedule_history",
+          nonce: $("#dol-loading-history").data("nonce"),
+        },
+        beforeSend: function () {
+          $("#dol-loading-history").removeClass("dol-hidden");
+        },
+        complete: function () {
+          $("#dol-loading-history").addClass("dol-hidden");
+        },
+        success: function (response) {
+          if (response.success) {
+            var newContainer = $("#dol-schedule-history");
+            newContainer.html("");
+            newContainer.append(response.data);
+            newContainer
+              .find(".dol-schedule-list")
+              .addClass("dol-overflow-y-scroll")
+              .css("max-height", "420px");
+          }
+        },
+      });
+    },
+
+    getScheduleTemplate: function () {
       if (!DollieSiteList.vars.selectedSites.length) {
         return;
       }
@@ -307,7 +335,8 @@ var DollieSiteList = DollieSiteList || {};
           success: function (response) {
             if (response.success) {
               $("#dol-schedules").html("");
-              DollieSiteList.fn.getRecurringActions();
+              DollieSiteList.fn.getScheduleTemplate();
+              DollieSiteList.fn.getScheduledActions();
             }
           },
         });
