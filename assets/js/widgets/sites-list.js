@@ -356,8 +356,44 @@ var DollieSiteList = DollieSiteList || {};
               .find(".dol-interval-container")
               .addClass("dol-hidden");
           }
+
+          if ($(this).data("bulk")) {
+            var bulkCheck = $(this);
+            $(
+              ".dol-schedule-list input[type='checkbox'][value='" +
+                $(this).attr("value") +
+                "'"
+            ).each(function (index, item) {
+              $(item).prop("checked", bulkCheck.is(":checked"));
+
+              if ($(item).is(":checked")) {
+                $(item)
+                  .closest(".dol-action-selector")
+                  .find(".dol-interval-container")
+                  .removeClass("dol-hidden");
+              } else {
+                $(item)
+                  .closest(".dol-action-selector")
+                  .find(".dol-interval-container")
+                  .addClass("dol-hidden");
+              }
+            });
+          }
         }
       );
+
+      $(document).on("change", ".dol-action-selector select", function () {
+        if (!$(this).data("bulk")) {
+          return;
+        }
+
+        var bulkSelect = $(this);
+        $(
+          ".dol-schedule-list select[data-for='" + $(this).data("for") + "'"
+        ).each(function (index, item) {
+          $(item).val(bulkSelect.val()).trigger("change");
+        });
+      });
 
       $(document).on("click", ".dol-delete-schedule", function () {
         $.ajax({

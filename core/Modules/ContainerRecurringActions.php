@@ -220,13 +220,36 @@ class ContainerRecurringActions extends Singleton {
 		?>
 			<form action="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" method="POST" id="dol-schedule-form" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_create_recurring_action' ) ); ?>">
 				<div class="dol-rounded dol-overflow-hidden">
+					<div class="dol-border dol-bg-gray-100 dol-py-4">
+						<div class="dol-font-bold dol-text-lg dol-pb-2 dol-px-4"><?php esc_html_e( 'Bulk Apply', 'dollie' ); ?></div>
+						<div class="dol-flex dol-flex-wrap">
+							<?php foreach ( $this->get_allowed_commands() as $command_name => $command_text ) : ?>
+								<div class="dol-action-selector dol-w-3/12 dol-px-4">
+									<div class="dol-action-container dol-py-2">
+										<label class="dol-flex dol-items-center dol-space-x-3">
+											<input type="checkbox" data-bulk="yes" class="dol-appearance-none dol-h-4 dol-w-4 dol-border dol-border-gray-300 dol-rounded-md checked:dol-bg-blue-600 checked:dol-border-transparent focus:dol-outline-none" value="<?php echo $command_name; ?>">
+											<span class="dol-text-sm"><?php echo $command_text; ?></span>
+										</label>
+									</div>
+									<div class="dol-interval-container dol-hidden dol-mt-1">
+										<select class="dol-py-1 dol-pr-6 dol-border-gray-300 dol-rounded dol-text-sm" data-bulk="yes" data-for="<?php echo $command_name; ?>">
+											<option value="" selected disabled><?php esc_html_e( 'Select Interval', 'dollie' ); ?></option>
+											<?php foreach ( $this->get_allowed_intervals() as $interval_name => $interval_text ) : ?>
+												<option value="<?php echo $interval_name; ?>"><?php echo $interval_text; ?></option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+								</div>
+							<?php endforeach; ?>
+						</div>
+					</div>
 					<ul class="dol-list-none dol-m-0 dol-p-0">
 						<li class="dol-flex dol-font-bold dol-text-white dol-bg-gray-700">
 							<div class="dol-w-4/12 dol-px-4 dol-py-2">
-							<?php esc_html_e( 'Site', 'dollie' ); ?>
+								<?php esc_html_e( 'Site', 'dollie' ); ?>
 							</div>
 							<div class="dol-w-8/12 dol-px-4 dol-py-2">
-							<?php esc_html_e( 'Actions', 'dollie' ); ?>
+								<?php esc_html_e( 'Actions', 'dollie' ); ?>
 							</div>
 						</li>
 					</ul>
@@ -249,7 +272,7 @@ class ContainerRecurringActions extends Singleton {
 												</label>
 											</div>
 											<div class="dol-w-5/12 dol-interval-container <?php echo ( ! array_key_exists( $command_name, $target['commands'] ) ? esc_attr( 'dol-hidden' ) : '' ); ?>">
-												<select name="interval[<?php echo esc_attr( $target['id'] ); ?>][<?php echo $command_name; ?>]" class="dol-py-1 dol-pl-2 dol-pr-6 dol-border-gray-300 dol-rounded dol-text-sm">
+												<select name="interval[<?php echo esc_attr( $target['id'] ); ?>][<?php echo $command_name; ?>]" data-for="<?php echo $command_name; ?>" class="dol-py-1 dol-pl-2 dol-pr-6 dol-border-gray-300 dol-rounded dol-text-sm">
 													<option value="" selected disabled><?php esc_html_e( 'Select Interval', 'dollie' ); ?></option>
 													<?php foreach ( $this->get_allowed_intervals() as $interval_name => $interval_text ) : ?>
 														<option value="<?php echo $interval_name; ?>" <?php array_key_exists( $command_name, $target['commands'] ) ? selected( $target['commands'][ $command_name ], $interval_name ) : ''; ?>><?php echo $interval_text; ?></option>
