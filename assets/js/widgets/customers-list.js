@@ -49,7 +49,7 @@ var DollieCustomersList = DollieCustomersList || {};
             beforeSend: function () {
               $(this)
                 .closest(".elementor-widget-dollie-customers-listing")
-                .find(".dol-loader")
+                .find(".dol-loader[data-for='pagination']")
                 .show();
             },
             complete: function () {},
@@ -95,7 +95,7 @@ var DollieCustomersList = DollieCustomersList || {};
             url: load,
             context: $(this),
             beforeSend: function () {
-              parent.find(".dol-loader").show();
+              parent.find(".dol-loader[data-for='pagination']").show();
             },
             complete: function () {},
             success: function (response) {

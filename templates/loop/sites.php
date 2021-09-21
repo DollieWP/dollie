@@ -79,7 +79,7 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 					<?php esc_html_e( 'Here are all your scheduled actions.', 'dollie' ); ?>
 				</div>
 
-				<div id="dol-schedule-history">
+				<div id="dol-schedule-history" class="dol-relative">
 
 				</div>
 				<div id="dol-loading-history" class="dol-hidden" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_schedule_history' ) ); ?>">
@@ -101,7 +101,7 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 					<?php esc_html_e( 'Setup scheduled actions for the selected containers.', 'dollie' ); ?>
 				</div>
 
-				<div id="dol-schedules">
+				<div id="dol-schedules" class="dol-relative">
 
 				</div>
 				<div id="dol-loading-schedules" class="dol-hidden" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_selected_sites' ) ); ?>">
@@ -222,7 +222,7 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 <div id="dol-recurring-action" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_recurring_action' ) ); ?>"></div>
 
 <div class="dol-sites dol-relative">
-	<div class="dol-loader">
+	<div class="dol-loader" data-for="pagination">
 		<div class="dol-flex dol-items-center dol-justify-center dol-h-full">
 			<svg class="dol-animate-spin dol-h-10 dol-w-10 dol-text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 				<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

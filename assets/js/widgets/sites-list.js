@@ -256,7 +256,7 @@ var DollieSiteList = DollieSiteList || {};
       }, 10000);
     },
 
-    getScheduledActions: function () {
+    getScheduledActions: function (success = false) {
       $.ajax({
         method: "POST",
         url: $("#dol-loading-history").data("ajax-url"),
@@ -265,10 +265,10 @@ var DollieSiteList = DollieSiteList || {};
           nonce: $("#dol-loading-history").data("nonce"),
         },
         beforeSend: function () {
-          $("#dol-loading-history").removeClass("dol-hidden");
+          if (!success) $("#dol-loading-history").removeClass("dol-hidden");
         },
         complete: function () {
-          $("#dol-loading-history").addClass("dol-hidden");
+          if (!success) $("#dol-loading-history").addClass("dol-hidden");
         },
         success: function (response) {
           if (response.success) {
@@ -279,12 +279,20 @@ var DollieSiteList = DollieSiteList || {};
               .find(".dol-schedule-list")
               .addClass("dol-overflow-y-scroll")
               .css("max-height", "420px");
+
+            if (success) {
+              $(".dol-recurring-delete-success").show();
+
+              setTimeout(function () {
+                $(".dol-recurring-delete-success").hide();
+              }, 5000);
+            }
           }
         },
       });
     },
 
-    getScheduleTemplate: function () {
+    getScheduleTemplate: function (success = false) {
       if (!DollieSiteList.vars.selectedSites.length) {
         return;
       }
@@ -312,6 +320,14 @@ var DollieSiteList = DollieSiteList || {};
               .find(".dol-schedule-list")
               .addClass("dol-overflow-y-scroll")
               .css("max-height", "420px");
+
+            if (success) {
+              $(".dol-recurring-success").show();
+
+              setTimeout(function () {
+                $(".dol-recurring-success").hide();
+              }, 5000);
+            }
           }
         },
       });
@@ -320,6 +336,10 @@ var DollieSiteList = DollieSiteList || {};
     recurringAction: function () {
       $(document).on("submit", "#dol-schedule-form", function (e) {
         e.preventDefault();
+
+        var loader = $(this)
+          .parent()
+          .find(".dol-loader[data-for='recurring-actions-create']");
 
         $.ajax({
           method: "POST",
@@ -330,11 +350,20 @@ var DollieSiteList = DollieSiteList || {};
             nonce: $(this).data("nonce"),
           },
           dataType: "json",
-          beforeSend: function () {},
+          beforeSend: function () {
+            if (loader.length) {
+              loader.show();
+            }
+          },
+          onComplete: function () {
+            if (loader.length) {
+              loader.hide();
+            }
+          },
           success: function (response) {
             if (response.success) {
               $("#dol-schedules").html("");
-              DollieSiteList.fn.getScheduleTemplate();
+              DollieSiteList.fn.getScheduleTemplate(true);
               DollieSiteList.fn.getScheduledActions();
             }
           },
@@ -396,6 +425,10 @@ var DollieSiteList = DollieSiteList || {};
       });
 
       $(document).on("click", ".dol-delete-schedule", function () {
+        var loader = $(this)
+          .closest("#dol-schedule-history")
+          .find(".dol-loader[data-for='recurring-actions-delete']");
+
         $.ajax({
           method: "POST",
           url: $(this).data("ajax-url"),
@@ -405,10 +438,19 @@ var DollieSiteList = DollieSiteList || {};
             nonce: $(this).data("nonce"),
           },
           dataType: "json",
-          beforeSend: function () {},
+          beforeSend: function () {
+            if (loader.length) {
+              loader.show();
+            }
+          },
+          onComplete: function () {
+            if (loader.length) {
+              loader.hide();
+            }
+          },
           success: function (response) {
             if (response.success) {
-              DollieSiteList.fn.getScheduledActions();
+              DollieSiteList.fn.getScheduledActions(true);
             }
           },
         });
@@ -486,7 +528,7 @@ var DollieSiteList = DollieSiteList || {};
             beforeSend: function () {
               $(this)
                 .closest(".elementor-widget-dollie-sites-listing")
-                .find(".dol-loader")
+                .find(".dol-loader[data-for='pagination']")
                 .show();
             },
             complete: function () {},
@@ -542,7 +584,7 @@ var DollieSiteList = DollieSiteList || {};
             beforeSend: function () {
               $(this)
                 .closest(".elementor-widget-dollie-sites-listing")
-                .find(".dol-loader")
+                .find(".dol-loader[data-for='pagination']")
                 .show();
             },
             complete: function () {},

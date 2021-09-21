@@ -218,6 +218,17 @@ class ContainerRecurringActions extends Singleton {
 		ob_start();
 
 		?>
+			<div class="dol-recurring-success dol-hidden dol-text-sm dol-text-white dol-bg-green-500 dol-px-4 dol-py-2 dol-rounded dol-mb-3">
+				<?php esc_html_e( 'Schedule created successfully!', 'dollie' ); ?>
+			</div>
+			<div class="dol-loader dol-mt-0" data-for="recurring-actions-create">
+				<div class="dol-flex dol-items-center dol-justify-center dol-h-full">
+					<svg class="dol-animate-spin dol-h-10 dol-w-10 dol-text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+						<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+						<path class="dol-opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+					</svg>
+				</div>
+			</div>
 			<form action="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" method="POST" id="dol-schedule-form" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_create_recurring_action' ) ); ?>">
 				<div class="dol-rounded dol-overflow-hidden">
 					<div class="dol-border dol-bg-gray-100 dol-py-4">
@@ -357,6 +368,17 @@ class ContainerRecurringActions extends Singleton {
 
 		?>
 			<?php if ( ! empty( $targets ) ) : ?>
+				<div class="dol-recurring-delete-success dol-hidden dol-text-sm dol-text-white dol-bg-green-500 dol-px-4 dol-py-2 dol-rounded dol-mb-3">
+					<?php esc_html_e( 'Schedule deleted successfully!', 'dollie' ); ?>
+				</div>
+				<div class="dol-loader dol-mt-0" data-for="recurring-actions-delete">
+					<div class="dol-flex dol-items-center dol-justify-center dol-h-full">
+						<svg class="dol-animate-spin dol-h-10 dol-w-10 dol-text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+							<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+							<path class="dol-opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+						</svg>
+					</div>
+				</div>
 				<div class="dol-rounded dol-overflow-hidden">
 					<ul class="dol-list-none dol-m-0 dol-p-0">
 						<li class="dol-flex dol-font-bold dol-text-white dol-bg-gray-700">

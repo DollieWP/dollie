@@ -26,7 +26,7 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 </div>
 
 <div class="dol-customers dol-relative">
-	<div class="dol-loader">
+	<div class="dol-loader"  data-for="pagination">
 		<div class="dol-flex dol-items-center dol-justify-center dol-h-full">
 			<svg class="dol-animate-spin dol-h-10 dol-w-10 dol-text-white" xmlns="http://www.w3.org/2000/svg"
 				 fill="none" viewBox="0 0 24 24">
