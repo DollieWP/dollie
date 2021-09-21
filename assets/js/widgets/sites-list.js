@@ -321,7 +321,6 @@ var DollieSiteList = DollieSiteList || {};
       $(document).on("submit", "#dol-schedule-form", function (e) {
         e.preventDefault();
 
-        console.log($(this).serialize());
         $.ajax({
           method: "POST",
           url: $(this).attr("action"),
@@ -359,6 +358,25 @@ var DollieSiteList = DollieSiteList || {};
           }
         }
       );
+
+      $(document).on("click", ".dol-delete-schedule", function () {
+        $.ajax({
+          method: "POST",
+          url: $(this).data("ajax-url"),
+          data: {
+            target: $(this).data("container-id"),
+            action: "dollie_delete_recurring_action",
+            nonce: $(this).data("nonce"),
+          },
+          dataType: "json",
+          beforeSend: function () {},
+          success: function (response) {
+            if (response.success) {
+              DollieSiteList.fn.getScheduledActions();
+            }
+          },
+        });
+      });
     },
 
     updateSelectedSites: function () {

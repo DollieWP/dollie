@@ -1379,11 +1379,11 @@ msgstr ""
 msgid "Awesome, database is now at the latest version!"
 msgstr ""
 
-#: core/Utils/Api.php:308
+#: core/Utils/Api.php:304
 msgid "Execution does not exist"
 msgstr ""
 
-#: core/Utils/Api.php:314
+#: core/Utils/Api.php:310
 msgid "Failed to get execution status"
 msgstr ""
 

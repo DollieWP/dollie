@@ -23,6 +23,7 @@ class ContainerRecurringActions extends Singleton {
 		parent::__construct();
 
 		add_action( 'wp_ajax_dollie_create_recurring_action', [ $this, 'create_recurring_action' ] );
+		add_action( 'wp_ajax_dollie_delete_recurring_action', [ $this, 'remove_scheduled_container' ] );
 		add_action( 'wp_ajax_dollie_get_selected_sites', [ $this, 'get_selected_sites' ] );
 		add_action( 'wp_ajax_dollie_get_schedule_history', [ $this, 'get_schedule_history' ] );
 	}
@@ -130,6 +131,34 @@ class ContainerRecurringActions extends Singleton {
 		);
 
 		wp_send_json_success( $response );
+	}
+
+	/**
+	 * Remove scheduled action
+	 *
+	 * @return void
+	 */
+	public function remove_scheduled_container() {
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'dollie_delete_recurring_action' ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
+		}
+
+		if ( ! isset( $_REQUEST['target'] ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
+		}
+
+		$container_id = sanitize_text_field( $_REQUEST['target'] );
+
+		Api::process_response(
+			Api::post(
+				Api::ROUTE_CONTAINER_RECURRING_ACTION_DELETE,
+				[
+					'target' => $container_id,
+				]
+			)
+		);
+
+		wp_send_json_success();
 	}
 
 	/**
@@ -301,47 +330,58 @@ class ContainerRecurringActions extends Singleton {
 			}
 		}
 
+		ob_start();
+
 		?>
-			<div class="dol-rounded dol-overflow-hidden">
-				<ul class="dol-list-none dol-m-0 dol-p-0">
-					<li class="dol-flex dol-font-bold dol-text-white dol-bg-gray-700">
-						<div class="dol-w-4/12 dol-px-4 dol-py-2">
-						<?php esc_html_e( 'Site', 'dollie' ); ?>
-						</div>
-						<div class="dol-w-8/12 dol-px-4 dol-py-2">
-						<?php esc_html_e( 'Actions', 'dollie' ); ?>
-						</div>
-					</li>
-				</ul>
-				<ul class="dol-schedule-list dol-list-none dol-m-0 dol-p-0 dol-border dol-border-solid dol-border-gray-200">
-				<?php foreach ( $targets as $target ) : ?>
-						<li class="dol-schedule-list-item dol-flex dol-py-2 dol-border-b dol-border-solid dol-border-gray-200">
+			<?php if ( ! empty( $targets ) ) : ?>
+				<div class="dol-rounded dol-overflow-hidden">
+					<ul class="dol-list-none dol-m-0 dol-p-0">
+						<li class="dol-flex dol-font-bold dol-text-white dol-bg-gray-700">
 							<div class="dol-w-4/12 dol-px-4 dol-py-2">
-								<div class="dol-font-bold"><?php echo $target['name']; ?></div>
-								<div class="dol-text-sm dol-mt-1 dol-truncate">
-									<a href="<?php echo esc_url( $target['url'] ); ?>" target="_blank"><?php echo $target['url']; ?></a>
-								</div>
+							<?php esc_html_e( 'Site', 'dollie' ); ?>
 							</div>
 							<div class="dol-w-8/12 dol-px-4 dol-py-2">
-								<div class="dol-flex dol-items-center">
-									<?php foreach ( $this->get_allowed_commands() as $command_name => $command_text ) : ?>
-										<?php
-										if ( ! array_key_exists( $command_name, $target['commands'] ) ) {
-											continue;}
-										?>
-										<div class="dol-3/12 dol-p-2">
-											<div class="dol-rounded dol-px-4 dol-py-2 dol-border dol-border-solid dol-border-gray-300">
-												<div class="dol-font-medium dol-text-sm"><?php echo $command_text; ?></div>
-												<div class="dol-text-xs dol-text-right"><?php echo $this->get_allowed_intervals()[ $target['commands'][ $command_name ] ]; ?></div>
-											</div>
-										</div>
-									<?php endforeach; ?>
-								</div>
+							<?php esc_html_e( 'Actions', 'dollie' ); ?>
 							</div>
 						</li>
-					<?php endforeach; ?>
-				</ul>
-			</div>
+					</ul>
+					<ul class="dol-schedule-list dol-list-none dol-m-0 dol-p-0 dol-border dol-border-solid dol-border-gray-200">
+					<?php foreach ( $targets as $target ) : ?>
+							<li class="dol-schedule-list-item dol-flex dol-border-b dol-border-solid dol-border-gray-200">
+								<div class="dol-w-4/12 dol-p-4">
+									<div class="dol-font-bold"><?php echo $target['name']; ?></div>
+									<div class="dol-text-sm dol-mt-1 dol-truncate">
+										<a href="<?php echo esc_url( $target['url'] ); ?>" target="_blank"><?php echo $target['url']; ?></a>
+									</div>
+									<div class="dol-mt-1">
+										<span class="dol-delete-schedule dol-text-red-600 dol-text-xs dol-p-0 hover:dol-text-red-700 dol-cursor-pointer" data-container-id="<?php echo esc_attr( $target['container_id'] ); ?>" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_delete_recurring_action' ) ); ?>">
+											<i class="fas fa-times dol-mr-1"></i> <?php esc_html_e( 'Remove', 'dollie' ); ?>
+										</span>
+									</div>
+								</div>
+								<div class="dol-w-8/12 dol-px-4 dol-py-2">
+									<div class="dol-flex dol-items-center">
+										<?php foreach ( $this->get_allowed_commands() as $command_name => $command_text ) : ?>
+											<?php
+											if ( ! array_key_exists( $command_name, $target['commands'] ) ) {
+												continue;}
+											?>
+											<div class="dol-3/12 dol-p-2">
+												<div class="dol-rounded dol-px-4 dol-py-2 dol-border dol-border-solid dol-border-gray-300">
+													<div class="dol-font-medium dol-text-sm"><?php echo $command_text; ?></div>
+													<div class="dol-text-xs dol-text-right"><?php echo $this->get_allowed_intervals()[ $target['commands'][ $command_name ] ]; ?></div>
+												</div>
+											</div>
+										<?php endforeach; ?>
+									</div>
+								</div>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</div>
+			<?php else : ?>
+				<div class="dol-text-sm dol-text-gray-600"><?php esc_html_e( 'You don\'t have any scheduled actions yet.', 'dollie' ); ?></div>
+			<?php endif; ?>
 		<?php
 
 		$response = ob_get_clean();
