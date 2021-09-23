@@ -52,7 +52,7 @@ module.exports = {
     margin: ["responsive", "last"],
     borderWidth: ["responsive", "last"],
     display: ["responsive", "group-hover"],
-    backgroundColor: ["responsive", "hover", "focus"],
+    backgroundColor: ["responsive", "hover", "focus", "odd", "even"],
   },
   purge: {
     enabled: false,
