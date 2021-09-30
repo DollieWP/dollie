@@ -973,7 +973,7 @@ msgstr ""
 msgid "Filter items list"
 msgstr ""
 
-#: core/Modules/Container.php:104, core/Modules/ContainerRecurringActions.php:385
+#: core/Modules/Container.php:104
 msgid "Site"
 msgstr ""
 
@@ -1111,11 +1111,11 @@ msgstr ""
 msgid "Screenshot regenerated"
 msgstr ""
 
-#: core/Modules/ContainerBulkActions.php:106, core/Modules/ContainerRecurringActions.php:38
+#: core/Modules/ContainerBulkActions.php:106, core/Modules/ContainerRecurringActions.php:39
 msgid "Update Plugins"
 msgstr ""
 
-#: core/Modules/ContainerBulkActions.php:107, core/Modules/ContainerRecurringActions.php:39
+#: core/Modules/ContainerBulkActions.php:107, core/Modules/ContainerRecurringActions.php:40
 msgid "Update Themes"
 msgstr ""
 
@@ -1123,11 +1123,11 @@ msgstr ""
 msgid "Create Backup"
 msgstr ""
 
-#: core/Modules/ContainerBulkActions.php:109, core/Modules/ContainerRecurringActions.php:40
+#: core/Modules/ContainerBulkActions.php:109, core/Modules/ContainerRecurringActions.php:41
 msgid "Regenerate Screenshot"
 msgstr ""
 
-#: core/Modules/ContainerBulkActions.php:110, core/Modules/ContainerRecurringActions.php:41
+#: core/Modules/ContainerBulkActions.php:110, core/Modules/ContainerRecurringActions.php:42
 msgid "Restart"
 msgstr ""
 
@@ -1155,7 +1155,7 @@ msgstr ""
 msgid "Stopping"
 msgstr ""
 
-#: core/Modules/ContainerBulkActions.php:174, core/Modules/ContainerBulkActions.php:260, core/Modules/ContainerRecurringActions.php:67, core/Modules/ContainerRecurringActions.php:71, core/Modules/ContainerRecurringActions.php:143, core/Modules/ContainerRecurringActions.php:147, core/Modules/ContainerRecurringActions.php:171, core/Modules/ContainerRecurringActions.php:318
+#: core/Modules/ContainerBulkActions.php:174, core/Modules/ContainerBulkActions.php:260, core/Modules/ContainerRecurringActions.php:68, core/Modules/ContainerRecurringActions.php:72, core/Modules/ContainerRecurringActions.php:132, core/Modules/ContainerRecurringActions.php:136, core/Modules/ContainerRecurringActions.php:159, core/Modules/ContainerRecurringActions.php:163, core/Modules/ContainerRecurringActions.php:187, core/Modules/ContainerRecurringActions.php:317
 msgid "Invalid request."
 msgstr ""
 
@@ -1167,7 +1167,7 @@ msgstr ""
 msgid "No sites selected."
 msgstr ""
 
-#: core/Modules/ContainerBulkActions.php:190, core/Modules/ContainerRecurringActions.php:85
+#: core/Modules/ContainerBulkActions.php:190, core/Modules/ContainerRecurringActions.php:98
 msgid "There has been something wrong with your request."
 msgstr ""
 
@@ -1183,72 +1183,108 @@ msgstr ""
 msgid "Size"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:52
+#: core/Modules/ContainerRecurringActions.php:53
 msgid "Daily"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:53
+#: core/Modules/ContainerRecurringActions.php:54
 msgid "Twice a day"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:54
+#: core/Modules/ContainerRecurringActions.php:55
 msgid "Weekly"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:55
+#: core/Modules/ContainerRecurringActions.php:56
 msgid "Montly"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:56
+#: core/Modules/ContainerRecurringActions.php:57
 msgid "Twice a month"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:177
+#: core/Modules/ContainerRecurringActions.php:80
+msgid "Invalid schedule name."
+msgstr ""
+
+#: core/Modules/ContainerRecurringActions.php:84
+msgid "Action not allowed."
+msgstr ""
+
+#: core/Modules/ContainerRecurringActions.php:88
+msgid "Interval not allowed."
+msgstr ""
+
+#: core/Modules/ContainerRecurringActions.php:193
 msgid "Something went wrong with your request."
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:222
-msgid "Schedule created successfully!"
+#: core/Modules/ContainerRecurringActions.php:217
+msgid "Schedule created successfully! You can see all the scheduled actions in the \"Scheduled actions\" tab."
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:237
+#: core/Modules/ContainerRecurringActions.php:232
+msgid "Schedule Name"
+msgstr ""
+
+#: core/Modules/ContainerRecurringActions.php:233
+msgid "My schedule's name"
+msgstr ""
+
+#: core/Modules/ContainerRecurringActions.php:236, core/Modules/ContainerRecurringActions.php:411
 msgid "Action"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:239
+#: core/Modules/ContainerRecurringActions.php:238
 msgid "Select Action"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:246
+#: core/Modules/ContainerRecurringActions.php:245
 msgid "Interval"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:248
+#: core/Modules/ContainerRecurringActions.php:247
 msgid "Select Interval"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:268
+#: core/Modules/ContainerRecurringActions.php:267
 msgid "Select all"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:301
+#: core/Modules/ContainerRecurringActions.php:300
 msgid "Save"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:427
+#: core/Modules/ContainerRecurringActions.php:474
 msgid "You don't have any scheduled actions yet."
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:371
+#: core/Modules/ContainerRecurringActions.php:383
 msgid "Schedule deleted successfully!"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:388
-msgid "Actions"
+#: core/Modules/ContainerRecurringActions.php:415
+msgid "Interval details"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:402
+#: core/Modules/ContainerRecurringActions.php:419, core/Modules/Options.php:339
+msgid "Logs"
+msgstr ""
+
+#: core/Modules/ContainerRecurringActions.php:420
+msgid "Hide logs"
+msgstr ""
+
+#: core/Modules/ContainerRecurringActions.php:420
+msgid "Show logs"
+msgstr ""
+
+#: core/Modules/ContainerRecurringActions.php:424
 msgid "Remove"
+msgstr ""
+
+#: core/Modules/ContainerRecurringActions.php:439
+msgid "There are no logs available yet!"
 msgstr ""
 
 #: core/Modules/Forms.php:134
@@ -1305,10 +1341,6 @@ msgstr ""
 
 #: core/Modules/Options.php:329, core/Modules/Options.php:395, core/Modules/Forms/QuickLaunch.php:103, templates/widgets/launch/form.php:21
 msgid "Launch New Site"
-msgstr ""
-
-#: core/Modules/Options.php:339
-msgid "Logs"
 msgstr ""
 
 #: core/Modules/Options.php:361
@@ -1411,11 +1443,11 @@ msgstr ""
 msgid "Awesome, database is now at the latest version!"
 msgstr ""
 
-#: core/Utils/Api.php:309
+#: core/Utils/Api.php:306
 msgid "Execution does not exist"
 msgstr ""
 
-#: core/Utils/Api.php:315
+#: core/Utils/Api.php:312
 msgid "Failed to get execution status"
 msgstr ""
 
