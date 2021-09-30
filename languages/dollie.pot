@@ -99,7 +99,7 @@ msgstr ""
 msgid "LetsEncrypt Failed"
 msgstr ""
 
-#: core/Log.php:341, core/Modules/ContainerFields.php:91, templates/loop/sites.php:362
+#: core/Log.php:341, core/Modules/ContainerFields.php:91, templates/loop/sites.php:361
 msgid "Blueprint Updated"
 msgstr ""
 
@@ -1075,7 +1075,7 @@ msgstr ""
 msgid "Assigned Customer to this Site"
 msgstr ""
 
-#: core/Modules/Container.php:1075, templates/loop/sites.php:377
+#: core/Modules/Container.php:1075, templates/loop/sites.php:376
 msgid "Customer"
 msgstr ""
 
@@ -1701,43 +1701,43 @@ msgstr ""
 msgid "Show your sites using the Live Preview bar"
 msgstr ""
 
-#: templates/loop/sites.php:443
+#: templates/loop/sites.php:442
 msgid "No sites found."
 msgstr ""
 
-#: templates/loop/sites.php:238
+#: templates/loop/sites.php:236
 msgid "You are now viewing the blueprints made by you and your team."
 msgstr ""
 
-#: templates/loop/sites.php:267
+#: templates/loop/sites.php:266
 msgid "Unnamed"
 msgstr ""
 
-#: templates/loop/sites.php:353
+#: templates/loop/sites.php:352
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites.php:356
+#: templates/loop/sites.php:355
 msgid "Version %s"
 msgstr ""
 
-#: templates/loop/sites.php:369
+#: templates/loop/sites.php:368
 msgid "Never. Update now!"
 msgstr ""
 
-#: templates/loop/sites.php:390
+#: templates/loop/sites.php:389
 msgid "Manage"
 msgstr ""
 
-#: templates/loop/sites.php:386, templates/widgets/site/pages/blueprints.php:101
+#: templates/loop/sites.php:385, templates/widgets/site/pages/blueprints.php:101
 msgid "Update Blueprint"
 msgstr ""
 
-#: templates/loop/sites.php:399
+#: templates/loop/sites.php:398
 msgid "Visit Staging Area"
 msgstr ""
 
-#: templates/loop/sites.php:409
+#: templates/loop/sites.php:408
 msgid "Login to Site as Admin"
 msgstr ""
 
