@@ -1271,6 +1271,56 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * Get containers data
+	 *
+	 * @param array  $data
+	 * @param string $with
+	 * @return array
+	 */
+	public function get_containers_data( $data, $with = 'post_id' ) {
+		$args = [
+			'post_type'      => 'container',
+			'posts_per_page' => - 1,
+			'post_status'    => 'publish',
+		];
+
+		if ( 'post_id' === $with ) {
+			$ids = [];
+
+			foreach ( $data as $container ) {
+				$ids[] = (int) $container['id'];
+			}
+
+			$args['post__in'] = $ids;
+		} elseif ( 'container_id' === $with ) {
+			$containers_ids = [];
+
+			foreach ( $data as $container ) {
+				$containers_ids[] = $container['container_id'];
+			}
+
+			$args['meta_query'] = [
+				[
+					'key'     => 'wpd_container_id',
+					'value'   => $containers_ids,
+					'compare' => 'IN',
+				],
+			];
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			$args['author'] = get_current_user_id();
+		}
+
+		$posts = new WP_Query( $args );
+		$posts = $posts->get_posts();
+
+		wp_reset_postdata();
+
+		return $posts;
+	}
+
+	/**
 	 * Get api instance
 	 *
 	 * @return Api

@@ -11,15 +11,15 @@ use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 
 /**
- * Class Container
+ * Class ContainerBulkActions
  *
  * @package Dollie\Core\Modules
  */
 class ContainerBulkActions extends Singleton {
 
-	public const LOG_ACTION_STARTED = 'wp-bulk-action-start';
-	public const LOG_UPDATE_PLUGINS = 'wp-bulk-update-plugins';
-	public const LOG_UPDATE_THEMES = 'wp-bulk-update-themes';
+	public const LOG_ACTION_STARTED        = 'wp-bulk-action-start';
+	public const LOG_UPDATE_PLUGINS        = 'wp-bulk-update-plugins';
+	public const LOG_UPDATE_THEMES         = 'wp-bulk-update-themes';
 	public const LOG_REGENERATE_SCREENSHOT = 'wp-bulk-regenerate-screenshot';
 
 	/**
@@ -77,7 +77,7 @@ class ContainerBulkActions extends Singleton {
 	 * Log actions
 	 *
 	 * @param string $content
-	 * @param array $values
+	 * @param array  $values
 	 *
 	 * @return string
 	 */
@@ -86,18 +86,15 @@ class ContainerBulkActions extends Singleton {
 		$bulk_actions = get_post_meta( $log_id, '_wpd_sub_logs', true );
 
 		if ( ! empty( $bulk_actions ) ) {
-			// $content = '[' . get_the_date( 'Y-m-d H:i:s', $log_id ) . '] ' . $content;
 
 			foreach ( $bulk_actions as $bulk_log_id ) {
-				$log = get_post( $bulk_log_id );
-				//$content .= '<br> ' . '[' . get_the_date( 'Y-m-d H:i:s', $bulk_log_id ) . '] ' . $log->post_content;
+				$log      = get_post( $bulk_log_id );
 				$content .= '<br> ' . $log->post_content;
 			}
 		}
 
 		return $content;
 	}
-
 
 	/**
 	 * Get allowed bulk commands
@@ -110,8 +107,8 @@ class ContainerBulkActions extends Singleton {
 			'update-themes'         => __( 'Update Themes', 'dollie' ),
 			'create-backup'         => __( 'Create Backup', 'dollie' ),
 			'regenerate-screenshot' => __( 'Regenerate Screenshot', 'dollie' ),
-			'restart'               => __('Restart', 'dollie'),
-			'stop'                  => __('Stop', 'dollie'),
+			'restart'               => __( 'Restart', 'dollie' ),
+			'stop'                  => __( 'Stop', 'dollie' ),
 		];
 	}
 
@@ -126,8 +123,8 @@ class ContainerBulkActions extends Singleton {
 			'update-themes'         => __( 'Updating Themes', 'dollie' ),
 			'create-backup'         => __( 'Creating Backup', 'dollie' ),
 			'regenerate-screenshot' => __( 'Regenerating Screenshot', 'dollie' ),
-			'restart'               => __('Restarting', 'dollie'),
-			'stop'                  => __('Stopping', 'dollie'),
+			'restart'               => __( 'Restarting', 'dollie' ),
+			'stop'                  => __( 'Stopping', 'dollie' ),
 		];
 	}
 
@@ -136,7 +133,7 @@ class ContainerBulkActions extends Singleton {
 	 *
 	 * @return string
 	 */
-	public function  get_log_action( $action ) {
+	public function get_log_action( $action ) {
 		$actions = [
 			'update-plugins'        => self::LOG_UPDATE_PLUGINS,
 			'update-themes'         => self::LOG_UPDATE_THEMES,
@@ -154,7 +151,7 @@ class ContainerBulkActions extends Singleton {
 	 *
 	 * @return string
 	 */
-	public function  get_log_failed_action( $action ) {
+	public function get_log_failed_action( $action ) {
 		$actions = [
 			'update-plugins'        => self::LOG_UPDATE_PLUGINS,
 			'update-themes'         => self::LOG_UPDATE_THEMES,
@@ -187,18 +184,7 @@ class ContainerBulkActions extends Singleton {
 			wp_send_json_error( [ 'message' => esc_html__( 'No sites selected.', 'dollie' ) ] );
 		}
 
-		$query_args = [
-			'post_type'      => 'container',
-			'posts_per_page' => - 1,
-			'post_status'    => 'publish',
-			'post__in'       => $_REQUEST['containers'],
-		];
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			$query_args['author'] = get_current_user_id();
-		}
-
-		$posts = get_posts( $query_args );
+		$posts = dollie()->get_containers_data( $_REQUEST['containers'] );
 
 		if ( empty( $posts ) ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'There has been something wrong with your request.', 'dollie' ) ] );

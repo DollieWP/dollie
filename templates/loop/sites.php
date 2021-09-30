@@ -18,44 +18,101 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 
 <div id="dol-modal-id-actions" class="dol-modal">
 	<div class="dol-flex dol-justify-center dol-items-center dol-w-full dol-h-full">
-		<div class="dol-bg-white dol-rounded dol-w-2/4 dol-p-8">
-			<div class="dol-mb-4">
+		<div class="dol-bg-white dol-rounded dol-w-2/4 dol-overflow-hidden">
+			<div class="dol-shadow-sm dol-bg-gray-100">
 				<div class="dol-flex dol-justify-between dol-items-center">
-					<div class="dol-font-bold dol-text-2xl">
-						<?php esc_html_e( 'Bulk Actions', 'dollie' ); ?>
+					<div class="dol-bg-gray-500 dol-text-white dol-font-medium dol-flex dol-flex-row">
+						<div class="dol-tab-action dol-tab-action-initial dol-tab-active dol-text-md dol-cursor-pointer dol-px-8 dol-py-3" data-tab-name="#dol-bulk-actions">
+							<?php esc_html_e( 'Bulk Actions', 'dollie' ); ?>
+						</div>
+						<div class="dol-tab-action dol-text-md dol-cursor-pointer dol-px-8 dol-py-3" data-tab-name="#dol-scheduled-actions" data-tab-callback="getScheduledActions">
+							<?php esc_html_e( 'Scheduled Actions', 'dollie' ); ?>
+						</div>
+						<div class="dol-tab-action dol-text-md dol-cursor-pointer dol-px-8 dol-py-3" data-tab-name="#dol-create-schedule" data-tab-callback="getScheduleTemplate">
+							<?php esc_html_e( 'Create New Schedule', 'dollie' ); ?>
+						</div>
 					</div>
-					<div class="">
+					<div class="dol-px-4">
 						<span class="dol-modal-close dol-cursor-pointer"><i class="fas fa-times"></i></span>
 					</div>
 				</div>
 			</div>
+			<div id="dol-bulk-actions" class="dol-tab-inner dol-tab-active dol-p-8">
+				<div class="dol-mb-2 dol-font-bold dol-text-2xl">
+					<?php esc_html_e( 'Bulk Actions', 'dollie' ); ?>
+				</div>
 
-			<div class="dol-modal-success dol-hidden dol-text-sm dol-text-white dol-bg-green-500 dol-px-4 dol-py-2 dol-rounded dol-mb-3">
-				<?php esc_html_e( 'Success, the bulk action has started!', 'dollie' ); ?>
+				<div class="dol-text dol-text-base dol-text-gray-500 dol-mb-3">
+					<?php esc_html_e( 'Quickly run tasks across multiple websites with the click of a button! Please select the action you would like to run using the form below.', 'dollie' ); ?>
+				</div>
+
+				<div class="dol-modal-success dol-hidden dol-text-sm dol-text-white dol-bg-green-500 dol-px-4 dol-py-2 dol-rounded dol-mb-3">
+					<?php esc_html_e( 'Success, the bulk action has started!', 'dollie' ); ?>
+				</div>
+
+				<div class="dol-modal-error dol-hidden dol-text-sm dol-text-white dol-bg-red-500 dol-px-4 dol-py-2 dol-rounded dol-mb-3">
+					<?php esc_html_e( 'Sorry, there was an error while starting the bulk action! Please try again later.', 'dollie' ); ?>
+				</div>
+
+				<div class="">
+					<select name="action" class="dol-action-list dol-bg-white dol-rounded dol-px-4 dol-py-2 dol-border-solid dol-border-gray-300 dol-text-base dol-text-gray-700 focus:dol-border-gray-400 focus:dol-outline-none">
+						<option value="" disabled selected><?php esc_html_e( 'Select Bulk Action', 'dollie' ); ?></option>
+
+						<?php foreach ( dollie()->get_allowed_bulk_commands() as $type => $label ) : ?>
+							<option value="<?php echo esc_attr( $type ); ?>"><?php echo $label; ?></option>
+						<?php endforeach; ?>
+					</select>
+				</div>
+
+				<div class="dol-mt-4">
+					<button type="button" class="dol-modal-submit dol-apply-action dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_do_bulk_action' ) ); ?>">
+						<i class="fas fa-tools dol-mr-2"></i> <?php esc_html_e( 'Run Bulk Action', 'dollie' ); ?>
+					</button>
+				</div>
 			</div>
+			<div id="dol-scheduled-actions" class="dol-tab-inner dol-p-8">
+				<div class="dol-mb-2 dol-font-bold dol-text-2xl">
+					<?php esc_html_e( 'Scheduled Actions', 'dollie' ); ?>
+				</div>
 
-			<div class="dol-modal-error dol-hidden dol-text-sm dol-text-white dol-bg-red-500 dol-px-4 dol-py-2 dol-rounded dol-mb-3">
-				<?php esc_html_e( 'Sorry, there was an error while starting the bulk action! Please try again later.', 'dollie' ); ?>
+				<div class="dol-text dol-text-base dol-text-gray-500 dol-mb-3">
+					<?php esc_html_e( 'Here are all your scheduled actions.', 'dollie' ); ?>
+				</div>
+
+				<div id="dol-schedule-history" class="dol-relative">
+
+				</div>
+				<div id="dol-loading-history" class="dol-hidden" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_schedule_history' ) ); ?>">
+					<div class="dol-spinner dol-flex dol-items-center dol-text-gray-500">
+						<svg class="dol-animate-spin dol-mr-3 dol-h-5 dol-w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+							<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+							<path class="dol-opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+						</svg>
+						<span><?php esc_html_e( 'Fetching schedules...', 'dollie' ); ?></span>
+					</div>
+				</div>
 			</div>
+			<div id="dol-create-schedule" class="dol-tab-inner dol-p-8">
+				<div class="dol-mb-2 dol-font-bold dol-text-2xl">
+					<?php esc_html_e( 'Create New Schedule', 'dollie' ); ?>
+				</div>
 
-			<div class="dol-text dol-text-base dol-text-gray-500 dol-mb-4 mt-4">
-				<?php esc_html_e( 'Quickly run tasks across multiple websites with the click of a button! Please select the action you would like to run using the form below.', 'dollie' ); ?>
-			</div>
+				<div class="dol-text dol-text-base dol-text-gray-500 dol-mb-3">
+					<?php esc_html_e( 'Setup scheduled actions for the selected containers.', 'dollie' ); ?>
+				</div>
 
-			<div class="">
-				<select name="action" class="dol-action-list dol-bg-white dol-rounded dol-px-4 dol-py-2 dol-border-solid dol-border-gray-300 dol-text-base dol-text-gray-700 focus:dol-border-gray-400 focus:dol-outline-none">
-					<option value="" disabled selected><?php esc_html_e( 'Select Bulk Action', 'dollie' ); ?></option>
+				<div id="dol-schedules" class="dol-relative">
 
-					<?php foreach ( dollie()->get_allowed_bulk_commands() as $type => $label ) : ?>
-						<option value="<?php echo esc_attr( $type ); ?>"><?php echo $label; ?></option>
-					<?php endforeach; ?>
-				</select>
-			</div>
-
-			<div class="dol-mt-4">
-				<button type="button" class="dol-modal-submit dol-apply-action dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_do_bulk_action' ) ); ?>">
-					<i class="fas fa-tools"></i> <?php esc_html_e( 'Run Bulk Action', 'dollie' ); ?>
-				</button>
+				</div>
+				<div id="dol-loading-schedules" class="dol-hidden" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_selected_sites' ) ); ?>">
+					<div class="dol-spinner dol-flex dol-items-center dol-text-gray-500">
+						<svg class="dol-animate-spin dol-mr-3 dol-h-5 dol-w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+							<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+							<path class="dol-opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+						</svg>
+						<span><?php esc_html_e( 'Fetching template...', 'dollie' ); ?></span>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -124,7 +181,7 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 				</div>
 
 				<button type="button" data-modal-id="dol-modal-id-actions" class="dol-open-modal">
-					<i class="fas fa-tools"></i> <?php esc_html_e( 'Run an Action..', 'dollie' ); ?>
+					<i class="fas fa-tools dol-mr-2"></i> <?php esc_html_e( 'Run Actions', 'dollie' ); ?>
 				</button>
 			</div>
 
@@ -162,9 +219,10 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 </div>
 
 <div id="dol-check-bulk-action" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_check_bulk_action' ) ); ?>"></div>
+<div id="dol-recurring-action" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_recurring_action' ) ); ?>"></div>
 
 <div class="dol-sites dol-relative">
-	<div class="dol-loader">
+	<div class="dol-loader" data-for="pagination">
 		<div class="dol-flex dol-items-center dol-justify-center dol-h-full">
 			<svg class="dol-animate-spin dol-h-10 dol-w-10 dol-text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 				<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -173,14 +231,13 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 		</div>
 	</div>
 	<?php if ( $sites->have_posts() ) : ?>
+		<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
+			<div class="dol-bg-primary dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full dol-text-sm dol-mb-3">
+				<?php esc_html_e( 'You are now viewing the blueprints made by you and your team.', 'dollie' ); ?>
+			</div>
+		<?php endif; ?>
+			
 		<div class="dol-sites-container <?php echo esc_attr( $list_class ); ?>">
-
-			<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
-				<div class="dol-bg-primary dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full">
-					<?php esc_html_e( 'You are now viewing the blueprints made by you and your team.', 'dollie' ); ?>
-				</div>
-			<?php endif; ?>
-
 			<?php while ( $sites->have_posts() ) : ?>
 				<?php
 
@@ -278,13 +335,13 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 						<div class="dol-sites-name">
 							<div class="dol-px-4">
 								<div class="dol-font-bold dol-text-lg dol-cursor-default">
-									<a class="dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600" href="<?php echo dollie()->get_site_url( get_the_ID() ); ?>" target="_blank">
+									<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600" href="<?php echo dollie()->get_site_url( get_the_ID() ); ?>" target="_blank">
 										<?php echo esc_html( $data['name'] ); ?>
 									</a>
 								</div>
 
 								<div class="dol-flex dol-items-center">
-									<a class="dol-text-brand-500 hover:dol-text-brand-600 dol-text-sm dol-leading-normal dol-truncate" href="<?php echo esc_url( $data['domain'] ); ?>" target="_blank">
+									<a class="dol-item-url dol-text-brand-500 hover:dol-text-brand-600 dol-text-sm dol-leading-normal dol-truncate" href="<?php echo esc_url( $data['domain'] ); ?>" target="_blank">
 										<?php echo esc_html( $data['domain'] ); ?>
 									</a>
 								</div>

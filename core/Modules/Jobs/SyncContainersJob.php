@@ -10,6 +10,7 @@ use Dollie\Core\Modules\Sites\WP;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
+use Dollie\Core\Modules\Container;
 
 /**
  * Class SyncContainersJob
@@ -56,8 +57,6 @@ class SyncContainersJob extends Singleton {
 
 		$containers = dollie()->maybe_decode_json( $containers_response['body'], true );
 
-		$synced_container_ids = [];
-
 		if ( ! $containers || ! is_array( $containers ) || isset( $containers['error'] ) ) {
 			return [];
 		}
@@ -71,13 +70,15 @@ class SyncContainersJob extends Singleton {
 			]
 		);
 
+		$synced_container_ids = [];
+
 		foreach ( $containers as $key => $container ) {
 			$domain = '';
 
 			if ( $container['uri'] ) {
 				$full_url        = parse_url( $container['uri'] );
 				$stripped_domain = explode( '.', $full_url['host'] );
-				$domain          = $stripped_domain[0] === 'www' ? $stripped_domain[1] : $stripped_domain[0];
+				$domain          = 'www' === $stripped_domain[0] ? $stripped_domain[1] : $stripped_domain[0];
 			}
 
 			// Skip if no domain.
@@ -94,7 +95,7 @@ class SyncContainersJob extends Singleton {
 				$author = wp_get_current_user();
 			}
 
-			$current_container_id = false;
+			$current_container_exists = false;
 
 			foreach ( $client_containers as $client_container ) {
 				$container_id = get_post_meta( $client_container->ID, 'wpd_container_id', true );
@@ -103,24 +104,23 @@ class SyncContainersJob extends Singleton {
 					continue;
 				}
 
-				$current_container_id = true;
+				$current_container_exists = true;
 
 				// Trash container if is not deployed.
 				if ( 'Running' !== $container['status'] ) {
 					wp_trash_post( $client_container->ID );
 				}
 
-				// Trash container if is not deployed.
+				// Plublish container if is not deployed.
 				if ( 'Running' === $container['status'] ) {
 					wp_publish_post( $client_container->ID );
+					$synced_container_ids[] = $client_container->ID;
 				}
-
-				$synced_container_ids[] = $client_container->ID;
 			}
 
 			// If no such container found, create one with details from server's container.
-			if ( ! $current_container_id && 'Running' === $container['status'] ) {
-				$container_post_id = wp_insert_post(
+			if ( ! $current_container_exists && 'Running' === $container['status'] ) {
+				$new_container_post_id = wp_insert_post(
 					[
 						'post_type'   => 'container',
 						'post_status' => 'publish',
@@ -138,12 +138,14 @@ class SyncContainersJob extends Singleton {
 					]
 				);
 
+				Container::instance()->get_container_details( $new_container_post_id, true );
+
 				Log::add( 'Container added from sync ' . $domain );
-				$synced_container_ids[] = $container_post_id;
+				$synced_container_ids[] = $new_container_post_id;
 			}
 		}
 
-		// Delete posts if they have no corresponding container.
+		// Trash posts if they have no corresponding container.
 		$stored_containers = get_posts(
 			[
 				'post_type'   => 'container',
@@ -152,9 +154,7 @@ class SyncContainersJob extends Singleton {
 		);
 
 		foreach ( $stored_containers as $stored_container ) {
-			$container_id = get_post_meta( $stored_container->ID, 'wpd_container_id', true );
-
-			if ( ! in_array( $container_id, $synced_container_ids, false ) ) {
+			if ( ! in_array( $stored_container->ID, $synced_container_ids, false ) ) {
 				wp_trash_post( $stored_container->ID );
 			}
 		}

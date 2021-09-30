@@ -18,6 +18,7 @@ var DollieSiteList = DollieSiteList || {};
       DollieSiteList.fn.sendAction();
       DollieSiteList.fn.applyFilters();
       DollieSiteList.fn.checkAction();
+      DollieSiteList.fn.recurringAction();
     },
 
     actionsAndFilters: function () {
@@ -80,6 +81,53 @@ var DollieSiteList = DollieSiteList || {};
         modal.removeClass("dol-modal-visible");
 
         modal.find(".dol-modal-submit").prop("disabled", true);
+
+        $(".dol-tab-action").each(function (index, item) {
+          $(item).removeClass("dol-tab-active");
+          $(item).removeClass("dol-callback-called");
+        });
+
+        $(".dol-tab-inner").each(function (index, item) {
+          $(item).removeClass("dol-tab-active");
+        });
+
+        $(".dol-tab-action-initial").addClass("dol-tab-active");
+        $("#dol-bulk-actions").addClass("dol-tab-active");
+        $("#dol-schedules").html("");
+      });
+
+      $(".dol-tab-action").on("click", function (e) {
+        e.preventDefault();
+
+        if ($(this).hasClass("dol-tab-active")) {
+          return false;
+        }
+
+        var target = $(this).data("tab-name");
+
+        if (!$(target).length) {
+          return false;
+        }
+
+        $(".dol-tab-action").each(function (index, item) {
+          $(item).removeClass("dol-tab-active");
+        });
+
+        $(".dol-tab-inner").each(function (index, item) {
+          $(item).removeClass("dol-tab-active");
+        });
+
+        $(target).addClass("dol-tab-active");
+        $(this).addClass("dol-tab-active");
+
+        if ($(this).data("tab-callback")) {
+          if ($(this).hasClass("dol-callback-called")) {
+            return;
+          }
+
+          DollieSiteList.fn[$(this).data("tab-callback")]();
+          $(this).addClass("dol-callback-called");
+        }
       });
     },
 
@@ -208,6 +256,291 @@ var DollieSiteList = DollieSiteList || {};
       }, 10000);
     },
 
+    getScheduledActions: function (success = false) {
+      $.ajax({
+        method: "POST",
+        url: $("#dol-loading-history").data("ajax-url"),
+        data: {
+          action: "dollie_get_schedule_history",
+          nonce: $("#dol-loading-history").data("nonce"),
+        },
+        beforeSend: function () {
+          if (!success) $("#dol-loading-history").removeClass("dol-hidden");
+        },
+        complete: function () {
+          if (!success) $("#dol-loading-history").addClass("dol-hidden");
+        },
+        success: function (response) {
+          if (response.success) {
+            var newContainer = $("#dol-schedule-history");
+            newContainer.html("");
+            newContainer.append(response.data);
+            newContainer
+              .find(".dol-schedule-list")
+              .addClass("dol-overflow-y-scroll")
+              .css("max-height", "580px");
+            newContainer
+              .find(".dol-schedule-container-list")
+              .addClass("dol-overflow-y-scroll")
+              .css("max-height", "280px");
+            newContainer
+              .find(".dol-schedule-container-logs")
+              .addClass("dol-overflow-y-scroll")
+              .css("max-height", "280px");
+
+            if (success) {
+              $(".dol-recurring-delete-success").show();
+
+              setTimeout(function () {
+                $(".dol-recurring-delete-success").hide();
+              }, 5000);
+            }
+          }
+        },
+      });
+    },
+
+    getScheduleTemplate: function (success = false) {
+      if (!DollieSiteList.vars.selectedSites.length) {
+        return;
+      }
+
+      $.ajax({
+        method: "POST",
+        url: $("#dol-loading-schedules").data("ajax-url"),
+        data: {
+          containers: DollieSiteList.vars.selectedSites,
+          action: "dollie_get_selected_sites",
+          nonce: $("#dol-loading-schedules").data("nonce"),
+        },
+        beforeSend: function () {
+          $("#dol-loading-schedules").removeClass("dol-hidden");
+        },
+        complete: function () {
+          $("#dol-loading-schedules").addClass("dol-hidden");
+        },
+        success: function (response) {
+          if (response.success) {
+            var newContainer = $("#dol-schedules");
+            newContainer.html("");
+            newContainer.append(response.data);
+            newContainer
+              .find(".dol-schedule-create-list")
+              .addClass("dol-overflow-y-scroll")
+              .css("max-height", "420px");
+
+            if (success) {
+              $(".dol-recurring-success").show();
+
+              setTimeout(function () {
+                $(".dol-recurring-success").hide();
+              }, 5000);
+            }
+          }
+        },
+      });
+    },
+
+    recurringAction: function () {
+      $(document).on("change", ".dol-select-all-schedule", function () {
+        $(".dol-schedule-create-list input[type=checkbox]")
+          .prop("checked", $(this).prop("checked"))
+          .trigger("change");
+      });
+
+      $(document).on(
+        "change",
+        ".dol-schedule-create-list input[type=checkbox]",
+        function () {
+          if (
+            $(".dol-schedule-create-list input[type=checkbox]").is(":checked")
+          ) {
+            $(".dol-schedule-create-list input[type=checkbox]").removeAttr(
+              "required"
+            );
+          } else {
+            $(".dol-schedule-create-list input[type=checkbox]").attr(
+              "required",
+              "required"
+            );
+          }
+        }
+      );
+
+      $(document).on("click", ".dol-show-logs", function () {
+        if ($(this).hasClass("dol-logs-visible")) {
+          $(this)
+            .closest(".dol-schedule-accordion-content")
+            .find(".dol-schedule-container-list")
+            .removeClass("dol-hidden");
+          $(this)
+            .closest(".dol-schedule-accordion-content")
+            .find(".dol-schedule-container-logs")
+            .addClass("dol-hidden");
+
+          $(this).removeClass("dol-logs-visible");
+          $(this).html($(this).data("show-log"));
+        } else {
+          $(this)
+            .closest(".dol-schedule-accordion-content")
+            .find(".dol-schedule-container-list")
+            .addClass("dol-hidden");
+          $(this)
+            .closest(".dol-schedule-accordion-content")
+            .find(".dol-schedule-container-logs")
+            .removeClass("dol-hidden");
+
+          $(this).addClass("dol-logs-visible");
+          $(this).html($(this).data("hide-log"));
+        }
+      });
+
+      $(document).on("submit", "#dol-schedule-form", function (e) {
+        e.preventDefault();
+
+        var loader = $(this)
+          .parent()
+          .find(".dol-loader[data-for='recurring-actions-create']");
+
+        $.ajax({
+          method: "POST",
+          url: $(this).attr("action"),
+          data: {
+            data: $(this).serialize(),
+            action: "dollie_create_recurring_action",
+            nonce: $(this).data("nonce"),
+          },
+          dataType: "json",
+          beforeSend: function () {
+            if (loader.length) {
+              loader.show();
+            }
+          },
+          onComplete: function () {
+            if (loader.length) {
+              loader.hide();
+            }
+          },
+          success: function (response) {
+            if (response.success) {
+              $("#dol-schedules").html("");
+              DollieSiteList.fn.getScheduleTemplate(true);
+              DollieSiteList.fn.getScheduledActions();
+            }
+          },
+        });
+      });
+
+      $(document).on("click", ".dol-delete-schedule", function () {
+        var loader = $(this)
+          .closest(".dol-schedule-list-item")
+          .find(".dol-loader[data-for='recurring-actions-delete']");
+
+        $.ajax({
+          method: "POST",
+          url: $(this).data("ajax-url"),
+          data: {
+            uuid: $(this).data("uuid"),
+            action: "dollie_delete_recurring_action",
+            nonce: $(this).data("nonce"),
+          },
+          dataType: "json",
+          context: $(this),
+          beforeSend: function () {
+            if (loader.length) {
+              loader.show();
+            }
+          },
+          onComplete: function () {
+            if (loader.length) {
+              loader.hide();
+            }
+          },
+          success: function (response) {
+            if (response.success && response.data) {
+              $(this)
+                .closest(".dol-schedule-list-item")
+                .fadeOut(300, function () {
+                  $(this).remove();
+                });
+            }
+          },
+        });
+      });
+
+      $(document).on("click", ".dol-delete-recurring-container", function () {
+        var loader = $(this)
+          .closest(".dol-schedule-container-item")
+          .find(".dol-loader[data-for='recurring-container-delete']");
+
+        $.ajax({
+          method: "POST",
+          url: $(this).data("ajax-url"),
+          data: {
+            uuid: $(this).data("uuid"),
+            container_id: $(this).data("container-id"),
+            action: "dollie_delete_recurring_container",
+            nonce: $(this).data("nonce"),
+          },
+          dataType: "json",
+          context: $(this),
+          beforeSend: function () {
+            if (loader.length) {
+              loader.show();
+            }
+          },
+          onComplete: function () {
+            if (loader.length) {
+              loader.hide();
+            }
+          },
+          success: function (response) {
+            if (response.success && response.data) {
+              $(this)
+                .closest(".dol-schedule-container-item")
+                .fadeOut(300, function () {
+                  $(this).remove();
+                });
+            }
+          },
+        });
+      });
+
+      $(document).on(
+        "click",
+        ".dol-schedule-list .dol-schedule-accordion",
+        function () {
+          var alreadyOpened = $(this).hasClass("dol-schedule-accordion-opened");
+
+          $(".dol-schedule-list .dol-schedule-accordion").each(function (
+            index,
+            item
+          ) {
+            $(item).removeClass("dol-schedule-accordion-opened");
+            $(item).find(".dol-acc-closed").removeClass("dol-hidden");
+            $(item).find(".dol-acc-opened").addClass("dol-hidden");
+            $(item)
+              .parent()
+              .find(".dol-schedule-accordion-content")
+              .removeClass("dol-flex")
+              .addClass("dol-hidden");
+          });
+
+          if (!alreadyOpened) {
+            $(this).addClass("dol-schedule-accordion-opened");
+            $(this).find(".dol-acc-closed").addClass("dol-hidden");
+            $(this).find(".dol-acc-opened").removeClass("dol-hidden");
+
+            $(this)
+              .parent()
+              .find(".dol-schedule-accordion-content")
+              .removeClass("dol-hidden")
+              .addClass("dol-flex");
+          }
+        }
+      );
+    },
+
     updateSelectedSites: function () {
       var checked;
 
@@ -216,7 +549,13 @@ var DollieSiteList = DollieSiteList || {};
       $(".dol-sites-item input[type=checkbox]").each(function (index, item) {
         if ($(item).is(":checked")) {
           checked = true;
-          DollieSiteList.vars.selectedSites.push($(item).val());
+          DollieSiteList.vars.selectedSites.push({
+            id: $(item).val(),
+            url: $(item)
+              .closest(".dol-sites-item")
+              .find(".dol-item-url")
+              .attr("href"),
+          });
         }
       });
 
@@ -273,7 +612,7 @@ var DollieSiteList = DollieSiteList || {};
             beforeSend: function () {
               $(this)
                 .closest(".elementor-widget-dollie-sites-listing")
-                .find(".dol-loader")
+                .find(".dol-loader[data-for='pagination']")
                 .show();
             },
             complete: function () {},
@@ -329,7 +668,7 @@ var DollieSiteList = DollieSiteList || {};
             beforeSend: function () {
               $(this)
                 .closest(".elementor-widget-dollie-sites-listing")
-                .find(".dol-loader")
+                .find(".dol-loader[data-for='pagination']")
                 .show();
             },
             complete: function () {},

@@ -35,6 +35,20 @@
     &.dol-modal-visible {
       @apply dol-block;
     }
+
+    .dol-tab-action {
+      &.dol-tab-active {
+        @apply dol-bg-gray-700;
+      }
+    }
+
+    .dol-tab-inner {
+      @apply dol-hidden;
+
+      &.dol-tab-active {
+        @apply dol-block;
+      }
+    }
   }
 
   .dol-open-modal {
@@ -299,7 +313,7 @@
   .checkbox__control {
     display: inline-grid;
     width: 1em;
-    height: 1em;
+    height: 100%;
     border-radius: 0.25em;
     border: 0.1em solid currentColor;
 
