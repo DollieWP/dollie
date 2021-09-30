@@ -231,14 +231,13 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 		</div>
 	</div>
 	<?php if ( $sites->have_posts() ) : ?>
+		<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
+			<div class="dol-bg-primary dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full dol-text-sm dol-mb-3">
+				<?php esc_html_e( 'You are now viewing the blueprints made by you and your team.', 'dollie' ); ?>
+			</div>
+		<?php endif; ?>
+			
 		<div class="dol-sites-container <?php echo esc_attr( $list_class ); ?>">
-
-			<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
-				<div class="dol-bg-primary dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full">
-					<?php esc_html_e( 'You are now viewing the blueprints made by you and your team.', 'dollie' ); ?>
-				</div>
-			<?php endif; ?>
-
 			<?php while ( $sites->have_posts() ) : ?>
 				<?php
 
