@@ -98,7 +98,7 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 				</div>
 
 				<div class="dol-text dol-text-base dol-text-gray-500 dol-mb-3">
-					<?php esc_html_e( 'Setup scheduled actions for the selected containers.', 'dollie' ); ?>
+					<?php esc_html_e( 'Setup scheduled actions for the selected sites.', 'dollie' ); ?>
 				</div>
 
 				<div id="dol-schedules" class="dol-relative">
@@ -236,7 +236,7 @@ $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 				<?php esc_html_e( 'You are now viewing the blueprints made by you and your team.', 'dollie' ); ?>
 			</div>
 		<?php endif; ?>
-			
+
 		<div class="dol-sites-container <?php echo esc_attr( $list_class ); ?>">
 			<?php while ( $sites->have_posts() ) : ?>
 				<?php
