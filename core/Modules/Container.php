@@ -966,7 +966,7 @@ class Container extends Singleton {
 			return $query;
 		}
 
-		if ( ! isset( $_GET['post_type'] ) || $_GET['post_type'] !== 'container' ) {
+		if ( ! isset( $_GET['post_type'] ) || 'container' !== $_GET['post_type'] ) {
 			return $query;
 		}
 

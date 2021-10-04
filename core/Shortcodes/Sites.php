@@ -42,10 +42,6 @@ final class Sites extends Singleton implements Base {
 	 * @return bool|false|mixed|string
 	 */
 	public function shortcode( $atts ) {
-		// if ( ! current_user_can( 'manage_options' ) ) {
-		// return false;
-		// }
-
 		if ( isset( $_GET['dollie_db_update'] ) ) {
 			return false;
 		}
