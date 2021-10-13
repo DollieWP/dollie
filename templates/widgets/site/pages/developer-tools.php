@@ -75,7 +75,7 @@ if ( empty( $data ) ) : ?>
 	$customer_details = \Dollie\Core\Modules\Container::instance()->get_customer_details( get_the_ID() );
 
 	if ( 'code-editor' === $page ) {
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'widgets/site/pages/developer-tools/codiad',
 			[
 				'data' => $data,
@@ -83,7 +83,7 @@ if ( empty( $data ) ) : ?>
 			true
 		);
 	} elseif ( 'database' === $page ) {
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'widgets/site/pages/developer-tools/adminer',
 			[
 				'data'             => $data,
@@ -92,7 +92,7 @@ if ( empty( $data ) ) : ?>
 			true
 		);
 	} elseif ( 'shell' === $page ) {
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'widgets/site/pages/developer-tools/shell',
 			[
 				'data' => $data,
@@ -100,7 +100,7 @@ if ( empty( $data ) ) : ?>
 			true
 		);
 	} else {
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'widgets/site/pages/developer-tools/details',
 			[
 				'data'             => $data,

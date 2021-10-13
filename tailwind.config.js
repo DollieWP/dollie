@@ -55,7 +55,7 @@ module.exports = {
     backgroundColor: ["responsive", "hover", "focus", "odd", "even"],
   },
   purge: {
-    enabled: true,
+    enabled: false,
     content: [
       "./templates/**/*",
       "./core/Admin/**/*",

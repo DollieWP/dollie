@@ -16,6 +16,7 @@ use Dollie\Core\Modules\Blueprints;
 use Dollie\Core\Modules\Container;
 use Dollie\Core\Modules\SiteInsights;
 use Dollie\Core\Modules\ContainerBulkActions;
+use Dollie\Core\Modules\Domain;
 
 /**
  * Class Helpers
@@ -942,33 +943,6 @@ class Helpers extends Singleton {
 	}
 
 	/**
-	 * Check if a domain is using CloudFlare
-	 *
-	 * @param $domain
-	 *
-	 * @return bool
-	 */
-	public function is_using_cloudflare( $domain ) {
-		// Check NS record with Google DNS
-		$ns_response = wp_remote_get( 'https://dns.google.com/resolve?name=' . $domain . '&type=NS' );
-		if ( ! is_wp_error( $ns_response ) ) {
-			$ns_record = wp_remote_retrieve_body( $ns_response );
-			$ns_record = @json_decode( $ns_record, true );
-
-			if ( is_array( $ns_record ) && isset( $ns_record['Answer'] ) ) {
-				foreach ( $ns_record['Answer'] as $item ) {
-					if ( strpos( $item['data'], 'cloudflare' ) !== false ) {
-
-						return true;
-					}
-				}
-			}
-		}
-
-		return false;
-	}
-
-	/**
 	 * Get site preview link.
 	 *
 	 * @param string $type url|path
@@ -1393,5 +1367,50 @@ class Helpers extends Singleton {
 	 */
 	public function check_bulk_actions() {
 		return ContainerBulkActions::instance()->check_bulk_actions();
+	}
+
+	/**
+	 * Load template
+	 *
+	 * @param string  $template
+	 * @param array   $args
+	 * @param boolean $echo
+	 * @return void|string
+	 */
+	public function load_template( $template, $args, $echo = false ) {
+		if ( $echo ) {
+			\Dollie\Core\Utils\Tpl::load( $template, $args, $echo );
+		} else {
+			return \Dollie\Core\Utils\Tpl::load( $template, $args, $echo );
+		}
+	}
+
+	/**
+	 * Get domain allowed caa tags
+	 *
+	 * @return array
+	 */
+	public function get_domain_allowed_caa_tags() {
+		return Domain::instance()->allowed_caa_tags();
+	}
+
+	/**
+	 * Get domain records
+	 *
+	 * @param string $container_uri
+	 * @return array|bool
+	 */
+	public function get_domain_records( $container_uri ) {
+		return Domain::instance()->get_records( $container_uri );
+	}
+
+	/**
+	 * Get domain existing records
+	 *
+	 * @param string $domain
+	 * @return array|bool
+	 */
+	public function get_domain_existing_records( $domain ) {
+		return Domain::instance()->get_existing_records( $domain );
 	}
 }

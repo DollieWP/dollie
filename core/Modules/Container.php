@@ -1,4 +1,5 @@
 <?php
+
 namespace Dollie\Core\Modules;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -250,16 +251,30 @@ class Container extends Singleton {
 	}
 
 	/**
+	 * Remove domain
+	 *
 	 * @param null|int $post_id
 	 */
 	public function remove_domain( $post_id = null ) {
-
 		$container = dollie()->get_current_object( $post_id );
 		$post_id   = $container->id;
 
 		$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
 		$route_id     = get_post_meta( $post_id, 'wpd_domain_id', true );
 		$www_route_id = get_post_meta( $post_id, 'wpd_www_domain_id', true );
+		$zone_id      = get_post_meta( $post_id, 'wpd_domain_zone', true );
+
+		if ( $zone_id ) {
+			Api::process_response(
+				Api::post(
+					Api::ROUTE_DOMAIN_REMOVE,
+					[
+						'container_uri' => dollie()->get_wp_site_data( 'uri', $post_id ),
+						'normal'        => 'yes',
+					]
+				)
+			);
+		}
 
 		if ( ! $route_id || ! $www_route_id ) {
 			return;
@@ -330,6 +345,9 @@ class Container extends Singleton {
 		delete_post_meta( $post_id, 'wpd_domains' );
 		delete_post_meta( $post_id, 'wpd_www_domain_id' );
 		delete_post_meta( $post_id, 'wpd_cloudflare_email' );
+		delete_post_meta( $post_id, 'wpd_domain_dns_manager' );
+		delete_post_meta( $post_id, 'wpd_domain_pending' );
+		delete_post_meta( $post_id, 'wpd_domain_zone' );
 
 		wp_redirect( get_site_url() . '/site/' . $container->slug . '/?get-details' );
 		exit();
@@ -401,6 +419,7 @@ class Container extends Singleton {
 		$response_data = $this->update_url( $domain, $old_url, $container->id );
 
 		if ( false === $response_data ) {
+			update_post_meta( $container->id, 'wpd_domain_migration_complete', 'no' );
 			Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has failed' );
 
 			return false;
@@ -671,10 +690,10 @@ class Container extends Singleton {
 
 			if ( isset( $transient_name ) ) {
 
-				//Add new refresh time with fallback.
-				$refresh_time       = get_field('wpd_site_refresh_time', 'option');
+				// Add new refresh time with fallback.
+				$refresh_time = get_field( 'wpd_site_refresh_time', 'option' );
 
-				if (isset( $refresh_time) ) {
+				if ( isset( $refresh_time ) ) {
 					$refresh = $refresh_time;
 				} else {
 					$refresh = 900;
@@ -1414,7 +1433,7 @@ class Container extends Singleton {
 				update_option( 'wpd_deployment_domain_status', true );
 				delete_option( 'wpd_deployment_delay_status' );
 			} elseif ( ! $delay_status ) {
-				$request_check_domain  = Api::post( Api::ROUTE_DOMAIN_CHECK );
+				$request_check_domain  = Api::post( Api::ROUTE_DOMAIN_CHECK_DEPLOYMENT_ZONE );
 				$response_check_domain = Api::process_response( $request_check_domain );
 
 				if ( $response_check_domain['domain'] === $domain && $response_check_domain['status'] ) {

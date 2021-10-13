@@ -6,8 +6,15 @@
   padding-left: 0;
 }
 
-[type=checkbox] {
-  -webkit-appearance: auto;
-  -moz-appearance: auto;
-  appearance: auto;
+@layer components {
+
+  [type=radio],
+  [type=checkbox] {
+    @apply dol-ring-0 #{!important};
+
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    appearance: auto;
+  }
+
 }

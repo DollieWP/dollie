@@ -1,39 +1,39 @@
 <div id="dol-staging-panel">
 	<?php
 
-	if (!\Elementor\Plugin::instance()->editor->is_edit_mode()) {
-		wp_enqueue_script('dollie-site-content');
+	if ( ! \Elementor\Plugin::instance()->editor->is_edit_mode() ) {
+		wp_enqueue_script( 'dollie-site-content' );
 	}
 
-	$container       = get_post(get_the_ID());
-	$staging_enabled = get_field('wpd_enable_staging', 'options');
+	$container       = get_post( get_the_ID() );
+	$staging_enabled = get_field( 'wpd_enable_staging', 'options' );
 
-	if (!$staging_enabled) {
+	if ( ! $staging_enabled ) {
 		return;
 	}
 
-	$staging_data = get_post_meta(get_the_ID(), '_wpd_staging_data', true);
-	$staging_url  = get_post_meta(get_the_ID(), '_wpd_staging_url', true);
-	$deploy_job   = get_post_meta(get_the_ID(), '_wpd_staging_deploy_job', true);
+	$staging_data = get_post_meta( get_the_ID(), '_wpd_staging_data', true );
+	$staging_url  = get_post_meta( get_the_ID(), '_wpd_staging_url', true );
+	$deploy_job   = get_post_meta( get_the_ID(), '_wpd_staging_deploy_job', true );
 
 	$staging_status = 'disabled';
 
-	if ($staging_url) {
-		$staging_status = $staging_data[$staging_url]['status'];
+	if ( $staging_url ) {
+		$staging_status = $staging_data[ $staging_url ]['status'];
 	}
 
-	$status_title   = __('Staging site is disabled', 'dollie');
-	$status_message = sprintf(__('Here you can easily manage your staging site for <strong>%s</strong>. Staging allows you to conduct different tests before applying them to your live site.', 'dollie'), $container->post_name);
+	$status_title   = __( 'Staging site is disabled', 'dollie' );
+	$status_message = sprintf( __( 'Here you can easily manage your staging site for <strong>%s</strong>. Staging allows you to conduct different tests before applying them to your live site.', 'dollie' ), $container->post_name );
 
-	if ('pending' === $staging_status) {
-		$status_title   = __('Staging site is being created', 'dollie');
-		$status_message = sprintf(__('Please be patient while we create a staging site for <strong>%s</strong>. The process might take up to 5 minutes.', 'dollie'), $container->post_name);
-	} elseif ('live' === $staging_status) {
-		$status_title = sprintf(__('Staging site: %s', 'dollie'), '<a class="dol-text-white" target="_blank" href="https://' . $staging_url . '">' . $staging_url . '</a>');
-		$status_message = sprintf(__('Here you can easily manage your staging site for <strong>%s</strong>. Staging allows you to conduct different tests before applying them to your live site.', 'dollie'), '<a target="_blank" href="https://'. $staging_url .'">' .$container->post_name . '</a>');
+	if ( 'pending' === $staging_status ) {
+		$status_title   = __( 'Staging site is being created', 'dollie' );
+		$status_message = sprintf( __( 'Please be patient while we create a staging site for <strong>%s</strong>. The process might take up to 5 minutes.', 'dollie' ), $container->post_name );
+	} elseif ( 'live' === $staging_status ) {
+		$status_title   = sprintf( __( 'Staging site: %s', 'dollie' ), '<a class="dol-text-white" target="_blank" href="https://' . $staging_url . '">' . $staging_url . '</a>' );
+		$status_message = sprintf( __( 'Here you can easily manage your staging site for <strong>%s</strong>. Staging allows you to conduct different tests before applying them to your live site.', 'dollie' ), '<a target="_blank" href="https://' . $staging_url . '">' . $container->post_name . '</a>' );
 	}
 
-	\Dollie\Core\Utils\Tpl::load(
+	dollie()->load_template(
 		'notice',
 		[
 			'type'    => 'info',
@@ -46,25 +46,25 @@
 
 	?>
 
-	<?php if ('pending' === $staging_status) : ?>
-		<div id="dol-deploying-site" class="dol-hidden" data-container="<?php echo esc_attr(get_the_ID()); ?>" data-nonce="<?php echo esc_attr(wp_create_nonce('check_deploy_nonce')); ?>" data-ajax-url="<?php echo esc_attr(admin_url('admin-ajax.php')); ?>" data-staging="1"></div>
-	<?php elseif ('live' === $staging_status) : ?>
+	<?php if ( 'pending' === $staging_status ) : ?>
+		<div id="dol-deploying-site" class="dol-hidden" data-container="<?php echo esc_attr( get_the_ID() ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'check_deploy_nonce' ) ); ?>" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-staging="1"></div>
+	<?php elseif ( 'live' === $staging_status ) : ?>
 		<?php
-		$execution = dollie()->get_execution(get_the_ID(), dollie()->get_api()::EXECUTION_STAGING_SYNC);
+		$execution = dollie()->get_execution( get_the_ID(), dollie()->get_api()::EXECUTION_STAGING_SYNC );
 		?>
 
-		<?php if (!$execution || 0 !== $execution['status']) : ?>
-			<?php if ($execution && 1 === $execution['status']) : ?>
+		<?php if ( ! $execution || 0 !== $execution['status'] ) : ?>
+			<?php if ( $execution && 1 === $execution['status'] ) : ?>
 				<div class="dol-my-3 dol-bg-green-500 dol-text-white dol-rounded dol-px-6 dol-py-3">
-					<?php esc_html_e('Staging has been successfully synced.', 'dollie'); ?>
+					<?php esc_html_e( 'Staging has been successfully synced.', 'dollie' ); ?>
 				</div>
-			<?php elseif ($execution && 2 === $execution['status']) : ?>
+			<?php elseif ( $execution && 2 === $execution['status'] ) : ?>
 				<div class="dol-my-3 dol-bg-red-500 dol-text-white dol-rounded dol-px-6 dol-py-3">
-					<?php esc_html_e('Syncing failed. Please try again.', 'dollie'); ?>
+					<?php esc_html_e( 'Syncing failed. Please try again.', 'dollie' ); ?>
 				</div>
 			<?php endif; ?>
 
-			<?php dollie()->remove_execution(get_the_ID(), dollie()->get_api()::EXECUTION_STAGING_SYNC); ?>
+			<?php dollie()->remove_execution( get_the_ID(), dollie()->get_api()::EXECUTION_STAGING_SYNC ); ?>
 
 			<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-mt-5 dol-text-xl">
 				Staging Management </h2>
@@ -85,9 +85,9 @@
 
 									<button type="submit" class="dol-bg-green-500 hover:dol-bg-green-600 focus:dol-bg-green-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
 
-										<?php esc_html_e('Sync Staging with Live Site', 'dollie'); ?>
+										<?php esc_html_e( 'Sync Staging with Live Site', 'dollie' ); ?>
 									</button>
-									<?php wp_nonce_field('wpd_staging_sync'); ?>
+									<?php wp_nonce_field( 'wpd_staging_sync' ); ?>
 
 								</span>
 							</div>
@@ -108,9 +108,9 @@
 									<input type="hidden" name="undeploy_staging" value="1">
 
 									<button type="submit" class="dol-bg-red-500 hover:dol-bg-red-600 focus:dol-bg-red-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
-										<?php esc_html_e('Delete Your Staging Site', 'dollie'); ?>
+										<?php esc_html_e( 'Delete Your Staging Site', 'dollie' ); ?>
 									</button>
-									<?php wp_nonce_field('wpd_staging_undeploy'); ?>
+									<?php wp_nonce_field( 'wpd_staging_undeploy' ); ?>
 								</form>
 							</span>
 						</div>
@@ -121,29 +121,29 @@
 
 			<div class="dol-mt-6">
 
-				<a href="<?php echo dollie()->get_customer_login_url(get_the_ID(), null, true); ?>" target="_blank" class="dol-inline-block dol-bg-gray-500 hover:dol-bg-gray-600 focus:dol-bg-gray-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
+				<a href="<?php echo dollie()->get_customer_login_url( get_the_ID(), null, true ); ?>" target="_blank" class="dol-inline-block dol-bg-gray-500 hover:dol-bg-gray-600 focus:dol-bg-gray-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
 					<i class="fas fa-tools dol-mr-1"></i>
-					<?php esc_html_e('Admin Login to Staging Site', 'dollie'); ?>
+					<?php esc_html_e( 'Admin Login to Staging Site', 'dollie' ); ?>
 				</a>
 
 			</div>
 		<?php else : ?>
-			<div class="dol-hidden" id="dol-execution-check" data-ajax-url="<?php echo esc_attr(admin_url('admin-ajax.php')); ?>" data-container="<?php echo esc_attr(get_the_ID()); ?>" data-type="<?php echo esc_attr(dollie()->get_api()::EXECUTION_STAGING_SYNC); ?>" data-nonce="<?php echo esc_attr(wp_create_nonce('dollie_check_execution')); ?>">
+			<div class="dol-hidden" id="dol-execution-check" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-container="<?php echo esc_attr( get_the_ID() ); ?>" data-type="<?php echo esc_attr( dollie()->get_api()::EXECUTION_STAGING_SYNC ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_check_execution' ) ); ?>">
 			</div>
 			<div class="dol-my-3 dol-bg-primary-500 dol-text-white dol-rounded dol-px-6 dol-py-3">
-				<?php esc_html_e('Syncing is in process. You will be able to see your changes on the production site in a few minutes.', 'dollie'); ?>
+				<?php esc_html_e( 'Syncing is in process. You will be able to see your changes on the production site in a few minutes.', 'dollie' ); ?>
 			</div>
 		<?php endif; ?>
-	<?php elseif ('disabled' === $staging_status) : ?>
-		<?php if (dollie()->staging_sites_limit_reached()) : ?>
+	<?php elseif ( 'disabled' === $staging_status ) : ?>
+		<?php if ( dollie()->staging_sites_limit_reached() ) : ?>
 			<div class="dol-mt-6">
 				<?php
-				\Dollie\Core\Utils\Tpl::load(
+				dollie()->load_template(
 					'notice',
 					[
 						'icon'  => 'fas fa-exclamation-circle',
 						'type'  => 'error',
-						'title' => esc_html__('You have reached your staging sites limit. Please upgrade your subscription!', 'dollie'),
+						'title' => esc_html__( 'You have reached your staging sites limit. Please upgrade your subscription!', 'dollie' ),
 					],
 					true
 				);
@@ -158,9 +158,9 @@
 
 					<button type="submit" class="dol-bg-primary-500 hover:dol-bg-primary-600 focus:dol-bg-primary-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
 						<i class="fas fa-rocket dol-text-white dol-mr-1"></i>
-						<?php esc_html_e('Create Staging Site', 'dollie'); ?>
+						<?php esc_html_e( 'Create Staging Site', 'dollie' ); ?>
 					</button>
-					<?php wp_nonce_field('wpd_staging_create'); ?>
+					<?php wp_nonce_field( 'wpd_staging_create' ); ?>
 				</form>
 			</div>
 		<?php endif; ?>

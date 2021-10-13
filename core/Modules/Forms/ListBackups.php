@@ -92,7 +92,7 @@ class ListBackups extends Singleton {
 
 		if ( false === $backups ) {
 
-			return \Dollie\Core\Utils\Tpl::load(
+			return dollie()->load_template(
 				'notice',
 				[
 					'type'         => 'info',

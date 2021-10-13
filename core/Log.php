@@ -13,28 +13,28 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Log {
 
-	const WP_SITE_DEPLOY_STARTED = 'wp-site-deploy-start';
-	const WP_SITE_DEPLOYED = 'wp-site-deployed';
-	const WP_SITE_DEPLOY_FAILED = 'wp-site-deploy-failed';
-	const WP_SITE_SETUP_COMPLETED = 'wp-site-setup-completed';
-	const WP_SITE_SETUP_FAILED = 'wp-site-setup-failed';
-	const WP_SITE_BACKUP_STARTED = 'wp-site-backup-started';
-	const WP_BLUEPRINT_DEPLOY_STARTED = 'wp-blueprint-deploy-start';
-	const WP_BLUEPRINT_DEPLOYED = 'wp-blueprint-deployed';
-	const WP_BLUEPRINT_DEPLOY_FAILED = 'wp-blueprint-deploy-failed';
-	const WP_SITE_REMOVAL_SCHEDULED = 'wp-site-removal-scheduled';
-	const WP_SITE_STARTED = 'wp-site-started';
-	const WP_SITE_RESTARTED = 'wp-site-restarted';
-	const WP_SITE_STOPPED = 'wp-site-stopped';
-	const WP_SITE_UNDEPLOYED = 'wp-site-undeployed';
-	const WP_SITE_DELETED = 'wp-site-deleted';
-	const WP_SITE_DOMAIN_LINKED = 'wp-site-domain-linked';
-	const WP_SITE_DOMAIN_ADDED = 'wp-site-domain-added';
-	const WP_SITE_DOMAIN_LINK_ERROR = 'wp-site-domain-link-error';
-	const WP_SITE_CLOUDFLARE_LINKED = 'wp-site-cloudflare-linked';
+	const WP_SITE_DEPLOY_STARTED        = 'wp-site-deploy-start';
+	const WP_SITE_DEPLOYED              = 'wp-site-deployed';
+	const WP_SITE_DEPLOY_FAILED         = 'wp-site-deploy-failed';
+	const WP_SITE_SETUP_COMPLETED       = 'wp-site-setup-completed';
+	const WP_SITE_SETUP_FAILED          = 'wp-site-setup-failed';
+	const WP_SITE_BACKUP_STARTED        = 'wp-site-backup-started';
+	const WP_BLUEPRINT_DEPLOY_STARTED   = 'wp-blueprint-deploy-start';
+	const WP_BLUEPRINT_DEPLOYED         = 'wp-blueprint-deployed';
+	const WP_BLUEPRINT_DEPLOY_FAILED    = 'wp-blueprint-deploy-failed';
+	const WP_SITE_REMOVAL_SCHEDULED     = 'wp-site-removal-scheduled';
+	const WP_SITE_STARTED               = 'wp-site-started';
+	const WP_SITE_RESTARTED             = 'wp-site-restarted';
+	const WP_SITE_STOPPED               = 'wp-site-stopped';
+	const WP_SITE_UNDEPLOYED            = 'wp-site-undeployed';
+	const WP_SITE_DELETED               = 'wp-site-deleted';
+	const WP_SITE_DOMAIN_LINKED         = 'wp-site-domain-linked';
+	const WP_SITE_DOMAIN_ADDED          = 'wp-site-domain-added';
+	const WP_SITE_DOMAIN_LINK_ERROR     = 'wp-site-domain-link-error';
+	const WP_SITE_CLOUDFLARE_LINKED     = 'wp-site-cloudflare-linked';
 	const WP_SITE_CLOUDFLARE_ZONE_ADDED = 'wp-site-cloudflare-zone-added';
-	const WP_SITE_LETSENCRYPT_FAILED = 'wp-site-letsencrypt_failed';
-	const WP_SITE_BLUEPRINT_DEPLOYED = 'wp-site-blueprint-deployed';
+	const WP_SITE_LETSENCRYPT_FAILED    = 'wp-site-letsencrypt_failed';
+	const WP_SITE_BLUEPRINT_DEPLOYED    = 'wp-site-blueprint-deployed';
 
 	/**
 	 * Add logs using WDS_Log_Post
@@ -42,8 +42,8 @@ class Log {
 	 * @param $title
 	 * @param string $message
 	 * @param string $type
-	 * @param null $log_post_id
-	 * @param false $completed
+	 * @param null   $log_post_id
+	 * @param false  $completed
 	 *
 	 * @return false|int|\WP_Error The ID of the log post, or WP_Error upon failure.
 	 */
@@ -66,10 +66,10 @@ class Log {
 	/**
 	 * Add user notification
 	 *
-	 * @param string $action Log action for content retrieval
+	 * @param string       $action Log action for content retrieval
 	 * @param object|array $object Object with Site ID, Slug, Author
 	 * @param array|string $values Values for content replacement
-	 * @param string $extra_content
+	 * @param string       $extra_content
 	 *
 	 * @return false|int|\WP_Error
 	 */
@@ -121,7 +121,7 @@ class Log {
 
 			if ( get_field( 'wpd_deployed_site_notification', 'options' ) ) {
 
-				$headers = array( 'Content-Type: text/html; charset=UTF-8' );
+				$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
 
 				// client email
 				$client      = get_user_by( 'id', $object->author );
@@ -138,7 +138,7 @@ class Log {
 						'{dollie_user}',
 						'{dollie_site_email}',
 						'{dollie_site_username}',
-						'{dollie_site_password}'
+						'{dollie_site_password}',
 					],
 					[
 						get_permalink( $object->id ),
@@ -146,7 +146,7 @@ class Log {
 						$client->user_login,
 						$site_data['email'],
 						$site_data['username'],
-						$site_data['password']
+						$site_data['password'],
 					],
 					$message
 				);
@@ -164,7 +164,7 @@ class Log {
 						'{dollie_user}',
 						'{dollie_site_email}',
 						'{dollie_site_username}',
-						'{dollie_site_password}'
+						'{dollie_site_password}',
 					],
 					[
 						get_permalink( $object->id ),
@@ -172,7 +172,7 @@ class Log {
 						$client->user_login,
 						$site_data['email'],
 						$site_data['username'],
-						$site_data['password']
+						$site_data['password'],
 					],
 					$message
 				);
@@ -201,7 +201,7 @@ class Log {
 
 	/**
 	 * @param string $action
-	 * @param array $values
+	 * @param array  $values
 	 *
 	 * @return array
 	 */
@@ -359,7 +359,7 @@ class Log {
 
 				if ( count( $log_content ) > 1 ) {
 					unset( $log_content[0] );
-					$log_content                   = implode( '------------------------------------------------', $log_content );
+					$log_content                    = implode( '------------------------------------------------', $log_content );
 					$actions[ $action ]['content'] .= $log_content;
 				}
 			}

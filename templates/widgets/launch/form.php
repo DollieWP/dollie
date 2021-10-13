@@ -1,7 +1,7 @@
 <?php
 
 if ( ! dollie()->has_partner_subscription() || ( dollie()->is_partner_subscription_trial() && 0 === dollie()->get_partner_subscription_credits() ) ) {
-	\Dollie\Core\Utils\Tpl::load(
+	dollie()->load_template(
 		'notice',
 		[
 			'type'    => 'warning',
@@ -31,7 +31,7 @@ if ( current_user_can( 'manage_options' ) || dollie()->has_subscription() ) {
 	return;
 }
 
-\Dollie\Core\Utils\Tpl::load(
+dollie()->load_template(
 	'notice',
 	[
 		'type'    => 'error',

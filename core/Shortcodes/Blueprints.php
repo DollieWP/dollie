@@ -11,6 +11,7 @@ use WP_Query;
 
 /**
  * Class Blueprints
+ *
  * @package Dollie\Core\Shortcodes
  */
 final class Blueprints extends Singleton implements Base {
@@ -48,7 +49,7 @@ final class Blueprints extends Singleton implements Base {
 				'orderby'            => 'post_date',
 				'order'              => 'DESC',
 				'category'           => '',
-				//'template'           => 'loop/blueprints',
+				// 'template'           => 'loop/blueprints',
 				'id'                 => '',
 				'checkout-url'       => '',
 				'launch-button-text' => '',
@@ -85,7 +86,7 @@ final class Blueprints extends Singleton implements Base {
 					'taxonomy' => 'container_category',
 					'field'    => 'slug',
 					'terms'    => $a['category'],
-				]
+				],
 			];
 		}
 
@@ -102,14 +103,14 @@ final class Blueprints extends Singleton implements Base {
 			while ( $query->have_posts() ) {
 				$query->the_post();
 
-				//Include template
-				\Dollie\Core\Utils\Tpl::load(
+				// Include template
+				dollie()->load_template(
 					'loop/blueprints',
 					[
-						'query' => $query,
+						'query'              => $query,
 						'launch_button_text' => $a['launch-button-text'],
-						'view_demo_text' => $a['view-demo-text'],
-						'checkout_url' => $a['checkout-url'],
+						'view_demo_text'     => $a['view-demo-text'],
+						'checkout_url'       => $a['checkout-url'],
 					],
 					true
 				);

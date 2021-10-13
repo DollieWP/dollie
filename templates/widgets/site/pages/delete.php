@@ -2,7 +2,7 @@
 	<?php
 
 	$container = get_post( get_the_ID() );
-	\Dollie\Core\Utils\Tpl::load(
+	dollie()->load_template(
 		'notice',
 		[
 			'type'    => 'info',

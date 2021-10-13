@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Utils\Tpl;
-
 /**
  * Class WooNavigation
  *
@@ -40,7 +38,7 @@ class WooNavigation extends \Elementor\Widget_Base {
 			'settings' => $this->get_settings_for_display(),
 		];
 
-		Tpl::load( 'widgets/general/woo-navigation', $data, true );
+		dollie()->load_template( 'widgets/general/woo-navigation', $data, true );
 	}
 
 }
