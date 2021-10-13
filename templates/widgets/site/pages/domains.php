@@ -27,7 +27,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 		?>
 	</div>
 
-<?php elseif ( empty( $domain ) ) : ?>
+<?php elseif ( ! empty( $domain ) ) : ?>
 
 	<?php if ( 'no' === $domain_wizard_complete ) : ?>
 
