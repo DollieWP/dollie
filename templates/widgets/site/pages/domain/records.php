@@ -34,7 +34,7 @@
 						data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" 
 						data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_remove_record' ) ); ?>"
 						data-record-id="<?php echo esc_attr( $record['id'] ); ?>"
-						data-container-id="<?php echo esc_attr( get_the_ID() ); ?>">
+						data-container-id="<?php echo esc_attr( $container_id ); ?>">
 						<i class="far fa-times"></i>
 					</span>
 				</div>

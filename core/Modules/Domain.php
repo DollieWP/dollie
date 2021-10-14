@@ -98,10 +98,19 @@ class Domain extends Singleton {
 
 		$response = json_decode( wp_remote_retrieve_body( $request ), true );
 
-		if ( 200 === $response['status'] ) {
+		if ( 201 === $response['status'] ) {
 			$records = dollie()->get_domain_records( $container_uri );
 
-			wp_send_json_success( dollie()->load_template( 'widgets/site/pages/domain/records', [ 'records' => $records ], false ) );
+			wp_send_json_success(
+				dollie()->load_template(
+					'widgets/site/pages/domain/records',
+					[
+						'records'      => $records,
+						'container_id' => $params['container_id'],
+					],
+					false
+				)
+			);
 			exit;
 		}
 

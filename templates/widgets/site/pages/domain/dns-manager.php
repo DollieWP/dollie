@@ -62,7 +62,16 @@
 
 			<div id="dol-dns-manager-list">
 				<?php $records = dollie()->get_domain_records( dollie()->get_wp_site_data( 'uri', get_the_ID() ) ); ?>
-				<?php dollie()->load_template( 'widgets/site/pages/domain/records', [ 'records' => $records ], true ); ?>
+				<?php
+				dollie()->load_template(
+					'widgets/site/pages/domain/records',
+					[
+						'records'      => $records,
+						'container_id' => get_the_ID(),
+					],
+					true
+				);
+				?>
 			</div>
 		</div>
 	</div>
