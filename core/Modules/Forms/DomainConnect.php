@@ -64,7 +64,8 @@ class DomainConnect extends Singleton {
 		}
 
 		$container = Forms::get_form_container();
-		$domain    = af_get_field( 'domain_name' );
+		$domain    = trim( af_get_field( 'domain_name' ) );
+		$domain    = str_replace( [ 'http://', 'https://' ], '', $domain );
 		$allow_dns = af_get_field( 'allow_dns' );
 
 		// Extra check and see if the same domain is already linked - skip.

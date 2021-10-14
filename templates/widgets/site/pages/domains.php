@@ -19,7 +19,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 			[
 				'type'    => 'info',
 				'icon'    => 'fas fa-exclamation-circle',
-				'title'   => sprintf( __( '"%s" is being checked', 'dollie' ), get_post_meta( get_the_ID(), 'wpd_domain_pending', true ) ),
+				'title'   => sprintf( __( 'Plase hold on whilst "%s" is getting ready to be used', 'dollie' ), get_post_meta( get_the_ID(), 'wpd_domain_pending', true ) ),
 				'message' => __( 'Your domain\'s nameservers are being checked. Once we confirm all your nameservers are set correctly, we will automatically replace your website\'s URL and enable the DNS manager.', 'dollie' ),
 			],
 			true

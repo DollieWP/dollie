@@ -22,6 +22,8 @@ class Domain extends Singleton {
 	 */
 	public function __construct() {
 		add_action( 'template_redirect', [ $this, 'validate_domain' ] );
+		add_action( 'template_redirect', [ $this, 'remove_domain' ] );
+
 		add_action( 'wp_ajax_dollie_create_record', [ $this, 'create_record' ] );
 		add_action( 'wp_ajax_dollie_remove_record', [ $this, 'remove_record' ] );
 	}
@@ -80,23 +82,32 @@ class Domain extends Singleton {
 		$params = [];
 		parse_str( $_REQUEST['data'], $params );
 
+		$container_uri = dollie()->get_wp_site_data( 'uri', $params['container_id'] );
+
 		$request = Api::post(
 			Api::ROUTE_DOMAIN_RECORDS_ADD,
 			[
-				'type'     => $params['type'],
-				'hostname' => $params['hostname'],
-				'content'  => $params['content'],
-				'priority' => isset( $params['priority'] ) ? $params['priority'] : '',
-				'ttl'      => $params['ttl'],
+				'container_uri' => $container_uri,
+				'type'          => $params['type'],
+				'hostname'      => $params['hostname'],
+				'content'       => $params['content'],
+				'priority'      => isset( $params['priority'] ) ? $params['priority'] : '',
+				'ttl'           => $params['ttl'],
 			]
 		);
 
-		// todo: Handle response
-		$response = Api::process_response( $request );
+		$response = json_decode( wp_remote_retrieve_body( $request ), true );
+		echo '<pre>';
+		var_dump( $response );
+		die();
+		if ( 200 === $response['status'] ) {
+			$records = dollie()->get_domain_records( $container_uri );
 
-		$records = dollie()->get_domain_records( dollie()->get_wp_site_data( 'uri', get_the_ID() ) );
+			wp_send_json_success( dollie()->load_template( 'widgets/site/pages/domain/records', [ 'records' => $records ], false ) );
+			exit;
+		}
 
-		wp_send_json_success( dollie()->load_template( 'widgets/site/pages/domain/records', [ 'records' => $records ], false ) );
+		wp_send_json_error();
 	}
 
 	/**
@@ -104,12 +115,35 @@ class Domain extends Singleton {
 	 *
 	 * @return void
 	 */
-	public function remove_records() {
+	public function remove_record() {
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'dollie_remove_record' ) ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
 		}
 
-		wp_send_json_success();
+		if ( ! isset( $_POST['record_id'] ) || ! isset( $_POST['container_id'] ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
+		}
+
+		$params = $_POST;
+
+		$container_uri = dollie()->get_wp_site_data( 'uri', $params['container_id'] );
+
+		$request = Api::post(
+			Api::ROUTE_DOMAIN_RECORDS_REMOVE,
+			[
+				'container_uri' => $container_uri,
+				'record_id'     => $params['record_id'] . 'asdad',
+			]
+		);
+
+		$response = json_decode( wp_remote_retrieve_body( $request ), true );
+
+		if ( 200 === $response['status'] ) {
+			wp_send_json_success();
+			exit;
+		}
+
+		wp_send_json_error();
 	}
 
 	/**
@@ -231,7 +265,7 @@ class Domain extends Singleton {
 			update_post_meta( $container->id, 'wpd_domains', $domain );
 			update_post_meta( $container->id, 'wpd_letsencrypt_enabled', 'yes' );
 
-			Container::instance()->update_url_with_domain( $domain, $container->id );
+			$this->update_url_with_domain( $domain, $container->id );
 			Backups::instance()->make();
 
 			Log::add_front( Log::WP_SITE_DOMAIN_LINKED, $container, [ $domain, $container->slug ] );
@@ -239,6 +273,211 @@ class Domain extends Singleton {
 			// Update our container details so that the new domain will be used to make container HTTP requests.
 			dollie()->flush_container_details();
 		}
+
+		return true;
+	}
+
+	/**
+	 * Remove customer domain
+	 */
+	public function remove_domain() {
+		if ( isset( $_REQUEST['remove_customer_domain'] ) ) {
+
+			// Prevent unauthorized access.
+			if ( ! is_user_logged_in() ) {
+				return;
+			}
+
+			$current_query = dollie()->get_current_object();
+
+			// Prevent unauthorized access.
+			if ( ! current_user_can( 'manage_options' ) && ! $current_query->author != get_current_user_id() ) {
+				return;
+			}
+
+			$this->remove_route( $current_query->id );
+		}
+	}
+
+	/**
+	 * Remove domain
+	 *
+	 * @param null|int $post_id
+	 */
+	public function remove_route( $post_id = null ) {
+		$container = dollie()->get_current_object( $post_id );
+		$post_id   = $container->id;
+
+		$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
+		$route_id     = get_post_meta( $post_id, 'wpd_domain_id', true );
+		$www_route_id = get_post_meta( $post_id, 'wpd_www_domain_id', true );
+
+		if ( ! $route_id || ! $www_route_id ) {
+			return;
+		}
+
+		Api::process_response(
+			Api::post(
+				Api::ROUTE_DOMAIN_ROUTES_DELETE,
+				[
+					'container_id' => $container_id,
+					'route_id'     => $route_id,
+				]
+			)
+		);
+
+		Api::process_response(
+			Api::post(
+				Api::ROUTE_DOMAIN_ROUTES_DELETE,
+				[
+					'container_id' => $container_id,
+					'route_id'     => $www_route_id,
+				]
+			)
+		);
+
+		// Change the site URL back to temporary domain.
+		$old_url = str_replace(
+			[
+				'http://',
+				'https://',
+			],
+			'',
+			get_post_meta( $post_id, 'wpd_domains', true )
+		);
+
+		$new_url = str_replace(
+			[
+				'http://',
+				'https://',
+			],
+			'',
+			dollie()->get_wp_site_data( 'uri', $post_id )
+		);
+
+		$this->update_url(
+			$new_url,
+			'www.' . $old_url,
+			$container->id
+		);
+
+		sleep( 5 );
+
+		$this->update_url(
+			$new_url,
+			$old_url,
+			$container->id
+		);
+
+		$zone_id = get_post_meta( $post_id, 'wpd_domain_zone', true );
+
+		if ( $zone_id ) {
+			Api::process_response(
+				Api::post(
+					Api::ROUTE_DOMAIN_REMOVE,
+					[
+						'container_uri' => dollie()->get_wp_site_data( 'uri', $post_id ),
+						'normal'        => 'yes',
+					]
+				)
+			);
+		}
+
+		dollie()->flush_container_details();
+
+		delete_post_meta( $post_id, 'wpd_domain_migration_complete' );
+		delete_post_meta( $post_id, 'wpd_cloudflare_zone_id' );
+		delete_post_meta( $post_id, 'wpd_cloudflare_id' );
+		delete_post_meta( $post_id, 'wpd_cloudflare_active' );
+		delete_post_meta( $post_id, 'wpd_cloudflare_api' );
+		delete_post_meta( $post_id, 'wpd_domain_id' );
+		delete_post_meta( $post_id, 'wpd_letsencrypt_enabled' );
+		delete_post_meta( $post_id, 'wpd_domains' );
+		delete_post_meta( $post_id, 'wpd_www_domain_id' );
+		delete_post_meta( $post_id, 'wpd_cloudflare_email' );
+		delete_post_meta( $post_id, 'wpd_domain_dns_manager' );
+		delete_post_meta( $post_id, 'wpd_domain_pending' );
+		delete_post_meta( $post_id, 'wpd_domain_zone' );
+
+		wp_redirect( get_site_url() . '/site/' . $container->slug . '/?get-details' );
+		exit();
+	}
+
+	/**
+	 * Update WP site url option
+	 *
+	 * @param $new_url
+	 * @param string  $old_url
+	 * @param null    $container_id
+	 *
+	 * @return bool|mixed
+	 */
+	public function update_url( $new_url, $old_url = '', $container_id = null ) {
+
+		if ( empty( $new_url ) ) {
+			return false;
+		}
+
+		$container = dollie()->get_current_object( $container_id );
+
+		if ( empty( $old_url ) ) {
+			$old_url = str_replace(
+				[
+					'http://',
+					'https://',
+				],
+				'',
+				dollie()->get_container_url( $container->id )
+			);
+		}
+
+		$request_domain_update = Api::post(
+			Api::ROUTE_DOMAIN_UPDATE,
+			[
+				'container_uri' => dollie()->get_wp_site_data( 'uri', $container->id ),
+				'route'         => $new_url,
+				'install'       => $old_url,
+			]
+		);
+
+		return Api::process_response( $request_domain_update );
+	}
+
+	/**
+	 * @param null $domain
+	 * @param null $container_id
+	 *
+	 * @return bool
+	 */
+	public function update_url_with_domain( $domain = null, $container_id = null ) {
+		$container = dollie()->get_current_object( $container_id );
+
+		if ( empty( $domain ) ) {
+			$domain = get_post_meta( $container->id, 'wpd_domains', true );
+		}
+
+		$old_url = str_replace(
+			[
+				'http://',
+				'https://',
+			],
+			'',
+			dollie()->get_container_url( $container->id )
+		);
+
+		$response_data = $this->update_url( $domain, $old_url, $container->id );
+
+		if ( false === $response_data ) {
+			update_post_meta( $container->id, 'wpd_domain_migration_complete', 'no' );
+			Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has failed' );
+
+			return false;
+		}
+
+		Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has started', $response_data );
+
+		// Mark domain URL migration as complete.
+		update_post_meta( $container->id, 'wpd_domain_migration_complete', 'yes' );
 
 		return true;
 	}

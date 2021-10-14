@@ -166,6 +166,7 @@ var DollieSiteContent = DollieSiteContent || {};
             nonce: $(this).data("nonce"),
           },
           dataType: "json",
+          context: $(this),
           beforeSend: function () {
             if (loader.length) {
               loader.show();
@@ -178,6 +179,52 @@ var DollieSiteContent = DollieSiteContent || {};
 
             if (response.success) {
               $("#dol-dns-manager-list").html(response.data);
+              $(this).trigger("reset");
+            }
+          },
+          error: function (request, status, error) {
+            if (loader.length) {
+              loader.hide();
+            }
+          },
+        });
+      });
+
+      $(document).on("click", ".dol-dns-record-remove", function (e) {
+        e.preventDefault();
+
+        var loader = $(this)
+          .parent()
+          .parent()
+          .find(".dol-loader[data-for='remove-dns-records']");
+
+        $.ajax({
+          method: "POST",
+          url: $(this).data("ajax-url"),
+          data: {
+            record_id: $(this).data("record-id"),
+            container_id: $(this).data("container-id"),
+            action: "dollie_remove_record",
+            nonce: $(this).data("nonce"),
+          },
+          dataType: "json",
+          context: $(this),
+          beforeSend: function () {
+            if (loader.length) {
+              loader.show();
+            }
+          },
+          success: function (response) {
+            if (loader.length) {
+              loader.hide();
+            }
+
+            if (response.success) {
+              $(this)
+                .closest(".dol-dns-record-item")
+                .fadeOut(300, function () {
+                  $(this).remove();
+                });
             }
           },
           error: function (request, status, error) {

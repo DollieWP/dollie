@@ -1,5 +1,6 @@
 <form method="POST" class="dol-dns-record-form" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_create_record' ) ); ?>">
 	<input type="hidden" name="type" value="CNAME">
+	<input type="hidden" name="container_id" value="<?php echo esc_attr( get_the_ID() ); ?>">
 	<div class="dol-flex dol-flex-wrap dol--mx-2">
 		<div class="dol-w-4/12 dol-px-2">
 			<label for="dol-cname-hostname" class="dol-text-xs dol-font-bold dol-uppercase dol-mb-2"><?php esc_html_e( 'Hostname' ); ?></label>
