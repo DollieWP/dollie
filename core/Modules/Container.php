@@ -488,7 +488,7 @@ class Container extends Singleton {
 
 		if ( ! empty( $request ) ) {
 			// Now that we have our container details get our info.
-			$details_url          = dollie()->get_container_url( $post_id ) . WP::PLATFORM_PATH . 'container/details';
+			$details_url          = dollie()->get_container_url( $post_id ) . WP::PLATFORM_PATH . 'container/details/index.php';
 			$details_transient_id = $post_slug . '_get_container_wp_info';
 
 			// Make the request.
@@ -727,7 +727,7 @@ class Container extends Singleton {
 			$request = dollie()->get_customer_container_details( $container->id );
 
 			// Now that we have our container details get our info.
-			$details_url = dollie()->get_container_url( $container->id ) . WP::PLATFORM_PATH . 'container/details';
+			$details_url = dollie()->get_container_url( $container->id ) . WP::PLATFORM_PATH . 'container/details/index.php';
 
 			$data = dollie()->container_api_request( $details_url, $transient_id, 'container', $request->id );
 		}
