@@ -274,7 +274,7 @@ class Log {
 			],
 			self::WP_SITE_UNDEPLOYED            => [
 				'title'   => __( 'Site Removed', 'dollie' ),
-				'content' => __( sprintf( 'Site %s was removed.', $values[0] ), 'dollie' ),
+				'content' => __( sprintf( 'Site %s was removed.', str_replace( '__trashed', '', $values[0] ) ), 'dollie' ),
 				'type'    => 'undeploy',
 				'link'    => false,
 			],
