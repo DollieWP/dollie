@@ -97,9 +97,7 @@ class Domain extends Singleton {
 		);
 
 		$response = json_decode( wp_remote_retrieve_body( $request ), true );
-		echo '<pre>';
-		var_dump( $response );
-		die();
+
 		if ( 200 === $response['status'] ) {
 			$records = dollie()->get_domain_records( $container_uri );
 
