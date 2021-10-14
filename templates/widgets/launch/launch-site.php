@@ -1,7 +1,7 @@
 <?php
 if ( isset( $_GET['payment-status'] ) ) {
 
-	\Dollie\Core\Utils\Tpl::load(
+	dollie()->load_template(
 		'notice',
 		[
 			'type'         => 'success',
@@ -23,7 +23,7 @@ if ( isset( $_GET['payment-status'] ) ) {
 
 if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
 
-	\Dollie\Core\Utils\Tpl::load(
+	dollie()->load_template(
 		'notice',
 		[
 			'type'         => 'error',
@@ -44,7 +44,7 @@ if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
 }
 
 if ( dollie()->size_limit_reached() ) {
-	\Dollie\Core\Utils\Tpl::load(
+	dollie()->load_template(
 		'notice',
 		[
 			'type'         => 'error',
@@ -58,7 +58,7 @@ if ( dollie()->size_limit_reached() ) {
 }
 
 if ( dollie()->site_limit_reached() ) {
-	\Dollie\Core\Utils\Tpl::load(
+	dollie()->load_template(
 		'notice',
 		[
 			'type'         => 'error',
@@ -72,4 +72,4 @@ if ( dollie()->site_limit_reached() ) {
 }
 
 // Load form
-\Dollie\Core\Utils\Tpl::load( 'widgets/launch/form', [ 'settings' => $settings ], true );
+dollie()->load_template( 'widgets/launch/form', [ 'settings' => $settings ], true );

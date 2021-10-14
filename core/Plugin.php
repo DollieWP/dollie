@@ -25,6 +25,7 @@ use Dollie\Core\Modules\Options;
 use Dollie\Core\Modules\Security;
 use Dollie\Core\Modules\Upgrades;
 use Dollie\Core\Modules\WooCommerce;
+use Dollie\Core\Modules\Domain;
 use Dollie\Core\Modules\Sites\WP;
 
 use Dollie\Core\Modules\Jobs\ChangeContainerRoleJob;
@@ -37,7 +38,6 @@ use Dollie\Core\Utils\Notices;
 use Dollie\Core\Routing\Processor;
 use Dollie\Core\Routing\Route;
 use Dollie\Core\Routing\Router;
-use Dollie\Core\Utils\Tpl;
 
 /**
  * Class Plugin
@@ -178,6 +178,7 @@ class Plugin extends Singleton {
 		NavMenu::instance();
 		WP::instance();
 		Staging::instance();
+		Domain::instance();
 
 		// Shortcodes.
 		Shortcodes\Blueprints::instance();
@@ -435,7 +436,7 @@ class Plugin extends Singleton {
 			'dollie_blockquote'
 		);
 
-		return \Dollie\Core\Utils\Tpl::load(
+		return dollie()->load_template(
 			'notice',
 			[
 				'type'         => $atts['type'],
@@ -485,7 +486,7 @@ class Plugin extends Singleton {
 	 * @return void
 	 */
 	public function do_route_preview() {
-		Tpl::load( 'preview', [], true );
+		dollie()->load_template( 'preview', [], true );
 		exit;
 	}
 

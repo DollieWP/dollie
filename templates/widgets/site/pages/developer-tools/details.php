@@ -5,7 +5,7 @@
 </h2>
 
 <?php
-\Dollie\Core\Utils\Tpl::load(
+dollie()->load_template(
 	'notice',
 	[
 		'type'         => 'info',
@@ -55,7 +55,7 @@
 	$php     = explode( '.', $data['container_details']['PHP Version'] );
 	$message = $php[0] === '7' ? esc_html__( 'If your site is compatible with the latest version of PHP7 we recommend upgrading to the latest PHP7 version because it provides superior performance.', 'dollie' ) : esc_html__( 'PHP 5.6 is not as fast as PHP7, but virtually all plugins and themes support it.', 'dollie' );
 
-	\Dollie\Core\Utils\Tpl::load(
+	dollie()->load_template(
 		'notice',
 		[
 			'type'    => 'info',

@@ -1,0 +1,23 @@
+@layer components {
+  .dol-dns-tabs {
+    @apply dol-list-none dol-p-0 dol-mb-2 dol-flex dol-border-0 dol-border-b dol-border-solid dol-border-gray-200 dol-font-bold dol-text-gray-500;
+  
+    .dol-dns-menu-item {
+      &.dol-dns-menu-item-active {
+        @apply dol-text-gray-800 dol-border-gray-200;
+      }
+
+      @apply dol-px-4 dol-pb-2 dol-cursor-pointer dol-border-0 dol-border-b-2 dol-border-solid dol-border-transparent hover:dol-text-gray-800 hover:dol-border-gray-200;
+    }
+  }
+
+  .dol-dns-tabs-content {
+    .dol-dns-tab {
+      @apply dol-hidden;
+
+      &.dol-dns-tab-active {
+        @apply dol-block;
+      }
+    }
+  }
+}

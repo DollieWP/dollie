@@ -11,7 +11,6 @@ use Dollie\Core\Singleton;
 use Dollie\Core\Modules\Jobs\SyncContainersJob;
 
 use Dollie\Core\Utils\Api;
-use Dollie\Core\Utils\Tpl;
 
 /**
  * Class Options
@@ -425,14 +424,14 @@ class Options extends Singleton {
 			$containers = SyncContainersJob::instance()->run();
 		}
 
-		Tpl::load( 'admin/tools-page', [ 'containers' => $containers ], true );
+		dollie()->load_template( 'admin/tools-page', [ 'containers' => $containers ], true );
 	}
 
 	/**
 	 * Api page content
 	 */
 	public function dollie_api_content() {
-		Tpl::load( 'admin/api-page', [], true );
+		dollie()->load_template( 'admin/api-page', [], true );
 	}
 
 	/**

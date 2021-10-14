@@ -84,7 +84,7 @@ class Blueprints extends Singleton {
 				$message .= '</div>';
 			}
 
-			\Dollie\Core\Utils\Tpl::load(
+			dollie()->load_template(
 				'notice',
 				[
 					'icon'    => 'fas fa-exclamation-circle',

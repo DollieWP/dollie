@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Tpl;
 use WP_Query;
 
 /**
@@ -111,7 +110,7 @@ final class Sites extends Singleton implements Base {
 			],
 		];
 
-		Tpl::load( 'loop/sites', $data, true );
+		dollie()->load_template( 'loop/sites', $data, true );
 	}
 
 }

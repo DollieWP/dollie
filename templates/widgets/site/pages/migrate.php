@@ -1,6 +1,6 @@
 <?php
 
-\Dollie\Core\Utils\Tpl::load(
+dollie()->load_template(
 	'notice',
 	[
 		'type'         => 'success',

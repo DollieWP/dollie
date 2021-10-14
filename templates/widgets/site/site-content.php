@@ -222,7 +222,7 @@ if ( 'stop' === $status ) :
 	}
 
 	if ( 'plugins' === $sub_page ) {
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'widgets/site/pages/plugins',
 			[
 				'data'    => $data,
@@ -231,7 +231,7 @@ if ( 'stop' === $status ) :
 			true
 		);
 	} elseif ( 'themes' === $sub_page ) {
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'widgets/site/pages/themes',
 			[
 				'data' => $data,
@@ -239,7 +239,11 @@ if ( 'stop' === $status ) :
 			true
 		);
 	} elseif ( 'domains' === $sub_page ) {
-		\Dollie\Core\Utils\Tpl::load(
+		if ( ! \Elementor\Plugin::instance()->editor->is_edit_mode() ) {
+			wp_enqueue_script( 'dollie-site-content' );
+		}
+
+		dollie()->load_template(
 			'widgets/site/pages/domains',
 			[
 				'data' => $data,
@@ -247,7 +251,7 @@ if ( 'stop' === $status ) :
 			true
 		);
 	} elseif ( 'migrate' === $sub_page ) {
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'widgets/site/pages/migrate',
 			[
 				'data' => $data,
@@ -255,7 +259,7 @@ if ( 'stop' === $status ) :
 			true
 		);
 	} elseif ( 'backups' === $sub_page ) {
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'widgets/site/pages/backups',
 			[
 				'data' => $data,
@@ -263,7 +267,7 @@ if ( 'stop' === $status ) :
 			true
 		);
 	} elseif ( 'updates' === $sub_page ) {
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'widgets/site/pages/updates',
 			[
 				'data' => $data,
@@ -271,7 +275,7 @@ if ( 'stop' === $status ) :
 			true
 		);
 	} elseif ( 'developer-tools' === $sub_page ) {
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'widgets/site/pages/developer-tools',
 			[
 				'data' => $data,
@@ -283,7 +287,7 @@ if ( 'stop' === $status ) :
 			wp_enqueue_script( 'dollie-site-content' );
 		}
 
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'widgets/site/pages/blueprints',
 			[
 				'data'    => $data,
@@ -292,7 +296,7 @@ if ( 'stop' === $status ) :
 			true
 		);
 	} elseif ( 'delete' === $sub_page ) {
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'widgets/site/pages/delete',
 			[
 				'data' => $data,
@@ -300,7 +304,7 @@ if ( 'stop' === $status ) :
 			true
 		);
 	} elseif ( 'staging' === $sub_page && dollie()->has_staging() ) {
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'widgets/site/pages/staging',
 			[
 				'data' => $data,
@@ -308,7 +312,7 @@ if ( 'stop' === $status ) :
 			true
 		);
 	} else {
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'widgets/site/pages/dashboard',
 			[
 				'data'    => $data,

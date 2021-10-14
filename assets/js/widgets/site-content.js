@@ -17,6 +17,7 @@ var DollieSiteContent = DollieSiteContent || {};
       DollieSiteContent.fn.deploy();
       DollieSiteContent.fn.initStaging();
       DollieSiteContent.fn.initExecution();
+      DollieSiteContent.fn.initDns();
     },
 
     checkDynamicFields: function () {
@@ -100,7 +101,9 @@ var DollieSiteContent = DollieSiteContent || {};
       });
 
       $("#dol-sync-staging").on("submit", function () {
-        var submit = confirm("Do you really want to overwrite your live site with your staging site? This will apply the changes you made to your staging site to your live site.");
+        var submit = confirm(
+          "Do you really want to overwrite your live site with your staging site? This will apply the changes you made to your staging site to your live site."
+        );
 
         return submit;
       });
@@ -125,6 +128,65 @@ var DollieSiteContent = DollieSiteContent || {};
           }
         }, 5000);
       }
+    },
+
+    initDns: function () {
+      $(".dol-dns-tabs .dol-dns-menu-item").on("click", function () {
+        if ($(this).hasClass("dol-dns-menu-item-active")) {
+          return false;
+        }
+
+        $(".dol-dns-tabs .dol-dns-menu-item").each(function (index, item) {
+          $(item).removeClass("dol-dns-menu-item-active");
+        });
+
+        $(this).addClass("dol-dns-menu-item-active");
+
+        $(".dol-dns-tabs-content .dol-dns-tab").each(function (index, item) {
+          $(item).removeClass("dol-dns-tab-active");
+        });
+
+        $($(this).data("tab")).addClass("dol-dns-tab-active");
+      });
+
+      $(".dol-dns-record-form").on("submit", function (e) {
+        e.preventDefault();
+
+        var loader = $(this)
+          .parent()
+          .parent()
+          .find(".dol-loader[data-for='add-dns-records']");
+
+        $.ajax({
+          method: "POST",
+          url: $(this).attr("action"),
+          data: {
+            data: $(this).serialize(),
+            action: "dollie_create_record",
+            nonce: $(this).data("nonce"),
+          },
+          dataType: "json",
+          beforeSend: function () {
+            if (loader.length) {
+              loader.show();
+            }
+          },
+          success: function (response) {
+            if (loader.length) {
+              loader.hide();
+            }
+
+            if (response.success) {
+              $("#dol-dns-manager-list").html(response.data);
+            }
+          },
+          error: function (request, status, error) {
+            if (loader.length) {
+              loader.hide();
+            }
+          },
+        });
+      });
     },
   };
 
