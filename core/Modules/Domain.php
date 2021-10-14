@@ -130,7 +130,7 @@ class Domain extends Singleton {
 			Api::ROUTE_DOMAIN_RECORDS_REMOVE,
 			[
 				'container_uri' => $container_uri,
-				'record_id'     => $params['record_id'] . 'asdad',
+				'record_id'     => $params['record_id'],
 			]
 		);
 
