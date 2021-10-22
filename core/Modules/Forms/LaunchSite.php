@@ -87,8 +87,15 @@ class LaunchSite extends Singleton {
 		do_action( 'dollie/launch/validate/after' );
 	}
 
+	/**
+	 * Process submitted data
+	 *
+	 * @param [type] $form
+	 * @param [type] $fields
+	 * @param [type] $args
+	 * @return void
+	 */
 	public function submission_callback( $form, $fields, $args ) {
-
 		$blueprint   = Forms::instance()->get_form_blueprint( $form, $args );
 		$domain      = af_get_field( 'site_url' );
 		$deploy_data = [

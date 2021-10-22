@@ -832,6 +832,13 @@ class Helpers extends Singleton {
 	/**
 	 * @return boolean
 	 */
+	public function has_partner_credits() {
+		return Subscription::instance()->has_partner_credits();
+	}
+
+	/**
+	 * @return boolean
+	 */
 	public function is_partner_subscription_trial() {
 		return Subscription::instance()->is_partner_subscription_trial();
 	}
