@@ -6,6 +6,7 @@
 		<div class="dol-px-4 dol-py-2 lg:dol-px-8 lg:dol-py-6 dol-bg-ash-100">
 			<?php if ( wcs_user_has_subscription( '', '', 'active' ) ) : ?>
 				<ul class="dol-list-none dol-p-0 dol-m-0">
+					<?php do_action( 'dollie/before/subscription/list' ); ?>
 					<li>
 						<div class="dol-flex dol-flex-wrap">
 							<div class="dol-w-1/2 md:dol-w-2/6 lg:dol-w-1/6 dol-text-ash-800">
@@ -55,6 +56,7 @@
 							</div>
 						</div>
 					</li>
+					<?php do_action( 'dollie/after/subscription/list' ); ?>
 				</ul>
 			<?php else : ?>
 				<div>

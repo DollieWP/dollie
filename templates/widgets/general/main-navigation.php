@@ -8,6 +8,8 @@ $active_class = [
 	'view-blueprint'   => dollie()->get_sites_page_id() === get_the_ID() ? 'dol-nav-active' : '',
 ];
 
+do_action( 'dollie/before/main-menu' );
+
 ?>
 
 <ul class="dol-list-none dol-p-0 dol-m-0 dol-widget-main-nav">
@@ -63,3 +65,5 @@ $active_class = [
 		</li>
 	<?php endif; ?>
 </ul>
+
+<?php do_action( 'dollie/after/main-menu' ); ?>
