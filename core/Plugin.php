@@ -197,15 +197,15 @@ class Plugin extends Singleton {
 	 * Load routes
 	 */
 	private function load_routes() {
-		if ( ! get_option( 'options_wpd_enable_site_preview', 1 ) ) {
-			return;
-		}
 
 		$router       = new Router( 'dollie_route_name' );
 		$this->routes = [
-			'dollie_preview'        => new Route( '/' . dollie()->get_preview_url( 'path' ), 'route_preview' ),
 			'dollie_login_redirect' => new Route( '/site_login_redirect', 'route_login_redirect' ),
 		];
+
+		if ( get_option( 'options_wpd_enable_site_preview', 1 ) ) {
+			$this->routes['dollie_preview'] = new Route( '/' . dollie()->get_preview_url( 'path' ), 'route_preview' );
+		}
 
 		Processor::init( $router, $this->routes );
 	}
@@ -420,7 +420,7 @@ class Plugin extends Singleton {
 	/**
 	 * Register blockquote shortcode
 	 *
-	 * @param array  $atts
+	 * @param array $atts
 	 * @param string $content
 	 *
 	 * @return string
