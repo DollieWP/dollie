@@ -64,6 +64,7 @@ module.exports = {
       "./core/Widgets/**/*",
       "./assets/js/**/*",
       "./core/tailwind-whitelist.txt",
+      "./core/Extras/**/*",
     ],
     options: {
       safelist: {

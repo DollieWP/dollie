@@ -652,171 +652,169 @@ msgstr ""
 
 #: core/Extras/AcfFormFields.php:111
 msgid ""
-"<div class=\"dol-bg-gray-100 dol-py-2 dol-px-4 dol-rounded\">\n"
-"<h5 class=\"dol-text-base dol-font-bold\">Register your domain name</h5>\n"
-"<p class=\"dol-text-sm\">We are not selling domains directly.</p> \n"
-"<p class=\"dol-text-sm\">If you have not registered your own domain yet, this is the time to do so! We recommend <a href=\"https://namecheap.com\" target=\"_blank\">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar. \n"
-"<strong>Go ahead, register your domain and come back to this form to continue the domain setup!</strong></p>\n"
-"</div>"
+"<h5>Register your domain name</h5>\n"
+"<p>We are not selling domains directly.</p> \n"
+"<p>If you have not registered your own domain yet, this is the time to do so! We recommend <a href=\"https://namecheap.com\" target=\"_blank\">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar. \n"
+"<strong>Go ahead, register your domain and come back to this form to continue the domain setup!</strong></p>"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:125
+#: core/Extras/AcfFormFields.php:123
 msgid "Your Domain Name"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:128
+#: core/Extras/AcfFormFields.php:126
 msgid "Please type your domain name without \"www.\" or \"http(s)://\""
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:145
+#: core/Extras/AcfFormFields.php:143
 msgid "Allow us to manage your DNS records?"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:170
+#: core/Extras/AcfFormFields.php:168
 msgid "message"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:190
+#: core/Extras/AcfFormFields.php:188
 msgid "{dollie_tpl_domain_not_managed}"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:196
+#: core/Extras/AcfFormFields.php:194
 msgid "message (copy)"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:216
+#: core/Extras/AcfFormFields.php:214
 msgid "{dollie_tpl_domain_managed}"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:248
+#: core/Extras/AcfFormFields.php:246
 msgid "Confirm Site Name"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:251
+#: core/Extras/AcfFormFields.php:249
 msgid "Please type the name of the site to confirm deletion, this can not be undone."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:294
+#: core/Extras/AcfFormFields.php:292
 msgid "Choose Your URL"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:297
+#: core/Extras/AcfFormFields.php:295
 msgid "Please choose a temporary URL for your site. This will be the place where you can work on your site used until you are ready to go live and connect your own domain."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:314
+#: core/Extras/AcfFormFields.php:312
 msgid "Site Type"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:340, core/Modules/Forms.php:378
+#: core/Extras/AcfFormFields.php:338, core/Modules/Forms.php:378
 msgid "Select a Blueprint (optional)"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:343
+#: core/Extras/AcfFormFields.php:341
 msgid "Carefully crafted site designs made by our team which you can use as a starting point for your new site."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:370
+#: core/Extras/AcfFormFields.php:368
 msgid "Advanced Settings"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:373
+#: core/Extras/AcfFormFields.php:371
 msgid "Configure site details like default admin username and password."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:398
+#: core/Extras/AcfFormFields.php:396
 msgid "Admin Email"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:401
+#: core/Extras/AcfFormFields.php:399
 msgid "This is the email address you use to login to your WordPress admin."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:417
+#: core/Extras/AcfFormFields.php:415
 msgid "Admin Username"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:420
+#: core/Extras/AcfFormFields.php:418
 msgid "The username you use to login to your WordPress admin."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:445
+#: core/Extras/AcfFormFields.php:443
 msgid "Admin Password"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:471
+#: core/Extras/AcfFormFields.php:469
 msgid "Site Name"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:474
+#: core/Extras/AcfFormFields.php:472
 msgid "You can always change this later."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:499
+#: core/Extras/AcfFormFields.php:497
 msgid "Site Description"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:502
+#: core/Extras/AcfFormFields.php:500
 msgid "This is shown in several areas across your site. It's also shown in the visitors browser window title. You can always change it later."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:553
+#: core/Extras/AcfFormFields.php:551
 msgid "Available Backups"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:575
+#: core/Extras/AcfFormFields.php:573
 msgid "What would you like to restore?"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:602
+#: core/Extras/AcfFormFields.php:600
 msgid "You are about to restore your site"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:643
+#: core/Extras/AcfFormFields.php:641
 msgid "Choose Your Caching Method"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:646
+#: core/Extras/AcfFormFields.php:644
 msgid ""
 "<strong>PoweredCache</strong> - Recommended. Control cache settings on the WordPress level via the PoweredCache page in your WP admin. <br>\n"
 "<strong>WPRocket</strong> - Recommended if you're using WPRocket."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:672
+#: core/Extras/AcfFormFields.php:670
 msgid "PHP Version"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:717
+#: core/Extras/AcfFormFields.php:715
 msgid ""
 "<div class=\"alert alert-danger\">\n"
 "Whilst PHP7 gives your site a big performance boost not all plugins and themes are yet compatible with PHP7. Please make sure to test your site functionality before you decide to use PHP7 </div>"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:753
+#: core/Extras/AcfFormFields.php:751
 msgid "Plugins to Update"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:801
+#: core/Extras/AcfFormFields.php:799
 msgid "Your Name"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:804
+#: core/Extras/AcfFormFields.php:802
 msgid "Please enter your name"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:821
+#: core/Extras/AcfFormFields.php:819
 msgid "Email"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:824
+#: core/Extras/AcfFormFields.php:822
 msgid "We need your email to launch the site"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:840, core/Widgets/General/Login.php:279, core/Widgets/General/Login.php:292
+#: core/Extras/AcfFormFields.php:838, core/Widgets/General/Login.php:279, core/Widgets/General/Login.php:292
 msgid "Password"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:843
+#: core/Extras/AcfFormFields.php:841
 msgid "Set a password to also create an account."
 msgstr ""
 

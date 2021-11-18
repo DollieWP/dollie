@@ -298,11 +298,12 @@ class Domain extends Singleton {
 			$current_query = dollie()->get_current_object();
 
 			// Prevent unauthorized access.
-			if ( ! current_user_can( 'manage_options' ) && ! $current_query->author != get_current_user_id() ) {
+			if ( ! current_user_can( 'manage_options' ) && $current_query->author != get_current_user_id() ) {
 				return;
 			}
 
 			$this->remove_route( $current_query->id );
+
 		}
 	}
 

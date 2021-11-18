@@ -1,5 +1,5 @@
 <?php
-
+var_dump(dollie()->has_partner_credits());
 if ( ! dollie()->has_partner_subscription() || ! dollie()->has_partner_credits() || ( dollie()->is_partner_subscription_trial() && 0 === dollie()->get_partner_subscription_credits() ) ) {
 	dollie()->load_template(
 		'notice',

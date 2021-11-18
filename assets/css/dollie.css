@@ -5,9 +5,12 @@
       [type='password'],
       [type='number'],
       [type='date'],
+      [type='datetime-local'],
       [type='month'],
       [type='search'],
+      [type='tel'],
       [type='time'],
+      [type='week'],
       [multiple],
       textarea,
       select
@@ -27,7 +30,7 @@
   line-height: 1.5rem;
 }
 
-[type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='month']:focus, [type='search']:focus, [type='time']:focus, [multiple]:focus, textarea:focus, select:focus {
+[type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
   --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
@@ -221,7 +224,7 @@ select {
   top: 11px;
 }
 
-.acf-field input[type="text"], .acf-field input[type="password"], .acf-field input[type="date"], .acf-field input[type="email"], .acf-field input[type="month"], .acf-field input[type="number"], .acf-field input[type="search"], .acf-field input[type="time"], .acf-field input[type="url"], .acf-field textarea, .acf-field select {
+.acf-field input[type="text"], .acf-field input[type="password"], .acf-field input[type="date"], .acf-field input[type="datetime"], .acf-field input[type="datetime-local"], .acf-field input[type="email"], .acf-field input[type="month"], .acf-field input[type="number"], .acf-field input[type="search"], .acf-field input[type="tel"], .acf-field input[type="time"], .acf-field input[type="url"], .acf-field input[type="week"], .acf-field textarea, .acf-field select {
   --tw-border-opacity: 1;
   border-color: rgba(163, 163, 163, var(--tw-border-opacity));
   border-radius: 0.25rem;
@@ -229,11 +232,111 @@ select {
   border-width: 2px;
 }
 
-.acf-field input[type="text"], .acf-field input[type="password"], .acf-field input[type="date"], .acf-field input[type="email"], .acf-field input[type="month"], .acf-field input[type="number"], .acf-field input[type="search"], .acf-field input[type="time"], .acf-field input[type="url"], .acf-field textarea, .acf-field select {
+.acf-field input[type="text"], .acf-field input[type="password"], .acf-field input[type="date"], .acf-field input[type="datetime"], .acf-field input[type="datetime-local"], .acf-field input[type="email"], .acf-field input[type="month"], .acf-field input[type="number"], .acf-field input[type="search"], .acf-field input[type="tel"], .acf-field input[type="time"], .acf-field input[type="url"], .acf-field input[type="week"], .acf-field textarea, .acf-field select {
   padding-top: 0.5rem !important;
   padding-bottom: 0.5rem !important;
   padding-left: 0.75rem !important;
   padding-right: 0.75rem !important;
+}
+
+.acf-form .acf-field .acf-notice, .acf-form .acf-notice {
+  border-radius: 0.25rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 0px;
+  margin-bottom: 1.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.acf-form .acf-field .acf-notice.-error, .acf-form .acf-notice.-error {
+  --tw-bg-opacity: 1;
+  background-color: rgba(220, 38, 38, var(--tw-bg-opacity));
+  border-width: 0px;
+}
+
+.acf-form .acf-field .acf-notice p, .acf-form .acf-notice p {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+
+.acf-form .acf-field .acf-notice .acf-notice-dismiss,
+    .acf-form .acf-notice .acf-notice-dismiss {
+  top: 14px;
+  right: 14px;
+}
+
+.acf-form .acf-field .acf-notice.-error {
+  --tw-bg-opacity: 1;
+  background-color: rgba(254, 202, 202, var(--tw-bg-opacity));
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 1rem;
+}
+
+.acf-form .acf-field .acf-notice.-error p {
+  --tw-text-opacity: 1;
+  color: rgba(220, 38, 38, var(--tw-text-opacity));
+}
+
+.acf-form .acf-fields > .acf-field {
+  border-width: 0px;
+  margin-bottom: 1rem;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.acf-form .acf-fields > .acf-field .acf-label label {
+  font-weight: 600;
+  --tw-text-opacity: 1;
+  color: rgba(23, 23, 23, var(--tw-text-opacity));
+}
+
+.acf-form .acf-fields > .acf-field .acf-label label .acf__tooltip {
+  margin-left: 0.5rem;
+  fill: currentColor;
+  --tw-text-opacity: 1;
+  color: rgba(64, 64, 64, var(--tw-text-opacity));
+}
+
+.acf-form .acf-form-submit {
+  margin-top: 1rem;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.acf-form .acf-form-submit input, .acf-form .acf-form-submit button {
+  --tw-bg-opacity: 1;
+  background-color: rgba(239, 68, 68, var(--tw-bg-opacity));
+  border-radius: 0.25rem;
+  border-width: 0px;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+
+.acf-form .acf-form-submit input:hover, .acf-form .acf-form-submit button:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(220, 38, 38, var(--tw-bg-opacity));
+  border-width: 0px;
+  --tw-text-opacity: 1;
+  color: rgba(255, 255, 255, var(--tw-text-opacity));
+}
+
+.acf-form .acf-form-submit input:focus, .acf-form .acf-form-submit button:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 
 /* Search input */
