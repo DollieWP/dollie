@@ -320,62 +320,67 @@ class Domain extends Singleton {
 		$route_id     = get_post_meta( $post_id, 'wpd_domain_id', true );
 		$www_route_id = get_post_meta( $post_id, 'wpd_www_domain_id', true );
 
-		if ( ! $route_id || ! $www_route_id ) {
-			return;
+		if ( $route_id ) {
+			Api::process_response(
+				Api::post(
+					Api::ROUTE_DOMAIN_ROUTES_DELETE,
+					[
+						'container_id' => $container_id,
+						'route_id'     => $route_id,
+					]
+				)
+			);
+
 		}
 
-		Api::process_response(
-			Api::post(
-				Api::ROUTE_DOMAIN_ROUTES_DELETE,
-				[
-					'container_id' => $container_id,
-					'route_id'     => $route_id,
-				]
-			)
-		);
-
-		Api::process_response(
-			Api::post(
-				Api::ROUTE_DOMAIN_ROUTES_DELETE,
-				[
-					'container_id' => $container_id,
-					'route_id'     => $www_route_id,
-				]
-			)
-		);
+		if ( $www_route_id ) {
+			Api::process_response(
+				Api::post(
+					Api::ROUTE_DOMAIN_ROUTES_DELETE,
+					[
+						'container_id' => $container_id,
+						'route_id'     => $www_route_id,
+					]
+				)
+			);
+		}
 
 		// Change the site URL back to temporary domain.
-		$old_url = str_replace(
-			[
-				'http://',
-				'https://',
-			],
-			'',
-			get_post_meta( $post_id, 'wpd_domains', true )
-		);
+		$old_domain = get_post_meta( $post_id, 'wpd_domains', true );
 
-		$new_url = str_replace(
-			[
-				'http://',
-				'https://',
-			],
-			'',
-			dollie()->get_wp_site_data( 'uri', $post_id )
-		);
+		if ( $old_domain ) {
+			$old_url = str_replace(
+				[
+					'http://',
+					'https://',
+				],
+				'',
+				$old_domain
+			);
 
-		$this->update_url(
-			$new_url,
-			'www.' . $old_url,
-			$container->id
-		);
+			$new_url = str_replace(
+				[
+					'http://',
+					'https://',
+				],
+				'',
+				dollie()->get_wp_site_data( 'uri', $post_id )
+			);
 
-		sleep( 5 );
+			$this->update_url(
+				$new_url,
+				'www.' . $old_url,
+				$container->id
+			);
 
-		$this->update_url(
-			$new_url,
-			$old_url,
-			$container->id
-		);
+			sleep( 5 );
+
+			$this->update_url(
+				$new_url,
+				$old_url,
+				$container->id
+			);
+		}
 
 		$zone_id = get_post_meta( $post_id, 'wpd_domain_zone', true );
 
