@@ -1386,9 +1386,9 @@ class Helpers extends Singleton {
 	 */
 	public function load_template( $template, $args, $echo = false ) {
 		if ( $echo ) {
-			\Dollie\Core\Utils\Tpl::load( $template, $args, $echo );
+			Tpl::load( $template, $args, $echo );
 		} else {
-			return \Dollie\Core\Utils\Tpl::load( $template, $args, $echo );
+			return Tpl::load( $template, $args, $echo );
 		}
 	}
 
