@@ -304,6 +304,9 @@ class Domain extends Singleton {
 
 			$this->remove_route( $current_query->id );
 
+			wp_redirect( get_site_url() . '/site/' . $current_query->slug . '/?get-details' );
+			exit();
+
 		}
 	}
 
@@ -412,8 +415,6 @@ class Domain extends Singleton {
 		delete_post_meta( $post_id, 'wpd_domain_pending' );
 		delete_post_meta( $post_id, 'wpd_domain_zone' );
 
-		wp_redirect( get_site_url() . '/site/' . $container->slug . '/?get-details' );
-		exit();
 	}
 
 	/**

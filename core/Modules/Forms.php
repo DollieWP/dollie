@@ -514,6 +514,7 @@ class Forms extends Singleton {
 					'has_domain'   => $domain,
 					'ip'           => $ip,
 					'platform_url' => $url,
+					'current_query' => $current_query
 				]
 			);
 

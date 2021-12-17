@@ -99,7 +99,7 @@ msgstr ""
 msgid "LetsEncrypt Failed"
 msgstr ""
 
-#: core/Log.php:341, core/Modules/ContainerFields.php:91, templates/loop/sites.php:361
+#: core/Log.php:341, core/Modules/ContainerFields.php:91, templates/loop/sites.php:412
 msgid "Blueprint Updated"
 msgstr ""
 
@@ -1082,7 +1082,7 @@ msgstr ""
 msgid "Assigned Customer to this Site"
 msgstr ""
 
-#: core/Modules/Container.php:886, templates/loop/sites.php:376
+#: core/Modules/Container.php:886, templates/loop/sites.php:428
 msgid "Customer"
 msgstr ""
 
@@ -1660,127 +1660,127 @@ msgstr ""
 msgid "Read article"
 msgstr ""
 
-#: templates/loop/sites.php:26, templates/loop/sites.php:42
+#: templates/loop/sites.php:27, templates/loop/sites.php:45
 msgid "Bulk Actions"
 msgstr ""
 
-#: templates/loop/sites.php:29, templates/loop/sites.php:75
+#: templates/loop/sites.php:31, templates/loop/sites.php:83
 msgid "Scheduled Actions"
 msgstr ""
 
-#: templates/loop/sites.php:32, templates/loop/sites.php:97
+#: templates/loop/sites.php:35, templates/loop/sites.php:110
 msgid "Create New Schedule"
 msgstr ""
 
-#: templates/loop/sites.php:46
+#: templates/loop/sites.php:49
 msgid "Quickly run tasks across multiple websites with the click of a button! Please select the action you would like to run using the form below."
 msgstr ""
 
-#: templates/loop/sites.php:50
+#: templates/loop/sites.php:53
 msgid "Success, the bulk action has started!"
 msgstr ""
 
-#: templates/loop/sites.php:54
+#: templates/loop/sites.php:57
 msgid "Sorry, there was an error while starting the bulk action! Please try again later."
 msgstr ""
 
-#: templates/loop/sites.php:59
+#: templates/loop/sites.php:64
 msgid "Select Bulk Action"
 msgstr ""
 
-#: templates/loop/sites.php:69
+#: templates/loop/sites.php:77
 msgid "Run Bulk Action"
 msgstr ""
 
-#: templates/loop/sites.php:79
+#: templates/loop/sites.php:87
 msgid "Here are all your scheduled actions."
 msgstr ""
 
-#: templates/loop/sites.php:91
+#: templates/loop/sites.php:104
 msgid "Fetching schedules..."
 msgstr ""
 
-#: templates/loop/sites.php:101
+#: templates/loop/sites.php:114
 msgid "Setup scheduled actions for the selected sites."
 msgstr ""
 
-#: templates/loop/sites.php:113
+#: templates/loop/sites.php:131
 msgid "Fetching template..."
 msgstr ""
 
-#: templates/loop/sites.php:127
+#: templates/loop/sites.php:145
 msgid "Filters"
 msgstr ""
 
-#: templates/loop/sites.php:137
+#: templates/loop/sites.php:156
 msgid "Per page"
 msgstr ""
 
-#: templates/loop/sites.php:139
+#: templates/loop/sites.php:159
 msgid "View"
 msgstr ""
 
-#: templates/loop/sites.php:158
+#: templates/loop/sites.php:179
 msgid "Apply"
 msgstr ""
 
-#: templates/loop/sites.php:184
+#: templates/loop/sites.php:207
 msgid "Run Actions"
 msgstr ""
 
-#: templates/loop/sites.php:193
+#: templates/loop/sites.php:221
 msgid "Search for a site..."
 msgstr ""
 
-#: templates/loop/sites.php:203
+#: templates/loop/sites.php:232
 msgid "Show your sites in the List view"
 msgstr ""
 
-#: templates/loop/sites.php:206
+#: templates/loop/sites.php:237
 msgid "Show your sites in the Grid view"
 msgstr ""
 
-#: templates/loop/sites.php:211
+#: templates/loop/sites.php:244
 msgid "Show your sites using the Live Preview bar"
 msgstr ""
 
-#: templates/loop/sites.php:442
+#: templates/loop/sites.php:505
 msgid "No sites found."
 msgstr ""
 
-#: templates/loop/sites.php:236
+#: templates/loop/sites.php:274
 msgid "You are now viewing the blueprints made by you and your team."
 msgstr ""
 
-#: templates/loop/sites.php:266
+#: templates/loop/sites.php:304
 msgid "Unnamed"
 msgstr ""
 
-#: templates/loop/sites.php:352
+#: templates/loop/sites.php:403
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites.php:355
+#: templates/loop/sites.php:406
 msgid "Version %s"
 msgstr ""
 
-#: templates/loop/sites.php:368
+#: templates/loop/sites.php:420
 msgid "Never. Update now!"
 msgstr ""
 
-#: templates/loop/sites.php:389
+#: templates/loop/sites.php:445
 msgid "Manage"
 msgstr ""
 
-#: templates/loop/sites.php:385, templates/widgets/site/pages/blueprints.php:101
+#: templates/loop/sites.php:439, templates/widgets/site/pages/blueprints.php:101
 msgid "Update Blueprint"
 msgstr ""
 
-#: templates/loop/sites.php:398
+#: templates/loop/sites.php:457
 msgid "Visit Staging Area"
 msgstr ""
 
-#: templates/loop/sites.php:408
+#: templates/loop/sites.php:469
 msgid "Login to Site as Admin"
 msgstr ""
 
@@ -2570,7 +2570,7 @@ msgstr ""
 msgid "Please use ACF Pro version greater than 5.9.0 or disable ACF Pro plugin"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/WooCommerce.php:316
+#: core/Modules/Subscription/Plugin/WooCommerce.php:319
 msgid "None"
 msgstr ""
 
