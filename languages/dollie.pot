@@ -2850,6 +2850,10 @@ msgstr ""
 msgid "Remove Domain"
 msgstr ""
 
+#: templates/widgets/site/pages/domains.php:103
+msgid "Your current domain IP information:"
+msgstr ""
+
 #: templates/widgets/site/pages/domains.php:22
 msgid "Plase hold on whilst \"%s\" is getting ready to be used"
 msgstr ""
@@ -3262,6 +3266,18 @@ msgstr ""
 msgid "There are no DNS records or we failed to fetch them."
 msgstr ""
 
+#: templates/widgets/site/pages/domain/connect/dns-ip-table.php:3
+msgid "TYPE"
+msgstr ""
+
+#: templates/widgets/site/pages/domain/connect/dns-ip-table.php:4
+msgid "CONTENT"
+msgstr ""
+
+#: templates/widgets/site/pages/domain/connect/dns-ip-table.php:5
+msgid "IP ADDRESS"
+msgstr ""
+
 #: templates/widgets/site/pages/domain/connect/managed.php:4
 msgid "Set your domain's nameservers"
 msgstr ""
@@ -3294,27 +3310,15 @@ msgstr ""
 msgid "Replace the IP address for the \"@\" and \"www\" like the following:"
 msgstr ""
 
-#: templates/widgets/site/pages/domain/connect/not-managed.php:21
-msgid "TYPE"
-msgstr ""
-
-#: templates/widgets/site/pages/domain/connect/not-managed.php:22
-msgid "CONTENT"
-msgstr ""
-
-#: templates/widgets/site/pages/domain/connect/not-managed.php:23
-msgid "IP ADDRESS"
-msgstr ""
-
-#: templates/widgets/site/pages/domain/connect/not-managed.php:38
+#: templates/widgets/site/pages/domain/connect/not-managed.php:31
 msgid "Important Note: You only need to change the @ and WWW records"
 msgstr ""
 
-#: templates/widgets/site/pages/domain/connect/not-managed.php:40
+#: templates/widgets/site/pages/domain/connect/not-managed.php:33
 msgid "Your domain might have multiple DNS records set up. Make sure to change only the \"@\" and \"www\" records."
 msgstr ""
 
-#: templates/widgets/site/pages/domain/connect/not-managed.php:41
+#: templates/widgets/site/pages/domain/connect/not-managed.php:34
 msgid "If you don't have the records you can create them."
 msgstr ""
 
