@@ -1418,6 +1418,10 @@ msgstr ""
 msgid "Login to Site"
 msgstr ""
 
+#: core/Modules/Preview.php:237
+msgid "all"
+msgstr ""
+
 #: core/Modules/Preview.php:252
 msgid "all times"
 msgstr ""

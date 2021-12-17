@@ -197,8 +197,8 @@ class Plugin extends Singleton {
 	 * Load routes
 	 */
 	private function load_routes() {
+		$router = new Router( 'dollie_route_name' );
 
-		$router       = new Router( 'dollie_route_name' );
 		$this->routes = [
 			'dollie_login_redirect' => new Route( '/site_login_redirect', 'route_login_redirect' ),
 		];
@@ -214,7 +214,6 @@ class Plugin extends Singleton {
 	 * Register ACF fields
 	 */
 	public function acf_add_local_field_groups() {
-
 		require DOLLIE_CORE_PATH . 'Extras/AcfFields.php';
 		require DOLLIE_CORE_PATH . 'Extras/AcfFormFields.php';
 	}
@@ -283,6 +282,7 @@ class Plugin extends Singleton {
 			[],
 			'6.4.15'
 		);
+
 		wp_register_script(
 			'swiper',
 			DOLLIE_ASSETS_URL . 'lib/swiper/swiper-bundle.min.js',
@@ -290,6 +290,7 @@ class Plugin extends Singleton {
 			'6.4.15',
 			true
 		);
+
 		wp_register_script(
 			'jquery-fitvids',
 			DOLLIE_ASSETS_URL . 'lib/jquery.fitvids.min.js',
@@ -393,7 +394,6 @@ class Plugin extends Singleton {
 	 * @return string
 	 */
 	public function get_api_access_link( $button = false ) {
-
 		return sprintf(
 			'<a href="%s" class="%s">%s</a>',
 			$this->get_api_access_url(),
@@ -420,7 +420,7 @@ class Plugin extends Singleton {
 	/**
 	 * Register blockquote shortcode
 	 *
-	 * @param array $atts
+	 * @param array  $atts
 	 * @param string $content
 	 *
 	 * @return string
