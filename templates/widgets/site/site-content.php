@@ -247,6 +247,7 @@ if ( 'stop' === $status ) :
 			'widgets/site/pages/domains',
 			[
 				'data' => $data,
+                'current_query' => dollie()->get_current_object()
 			],
 			true
 		);
