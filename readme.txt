@@ -2,7 +2,7 @@
 Contributors: GetDollie
 Tags: hosting, waas, wordpress hosting, sell hosting
 Requires at least: 5.0
-Tested up to: 5.8.0
+Tested up to: 5.8.2
 Requires PHP: 7.0
 Stable tag: 4.8.0
 License: GPLv3
@@ -155,6 +155,11 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 6. **Developer Tools.** The Developer Tools allow you to quickly manage sites on your platform, or allow your customers to do that themselves.
 
 == Changelog ==
+
+= 4.8.0 =
+* Introducing DNS Manager. Move you domain nameservers to us and we'll let you manage DNS records right from your site dashboard.
+* Add IP information to Domain tab when the domain is already connected
+* Fixes and UI improvements
 
 = 4.7.1 =
 * Optimize Dollie CSS file

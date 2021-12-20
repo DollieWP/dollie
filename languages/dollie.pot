@@ -1418,10 +1418,6 @@ msgstr ""
 msgid "Login to Site"
 msgstr ""
 
-#: core/Modules/Preview.php:237
-msgid "all"
-msgstr ""
-
 #: core/Modules/Preview.php:252
 msgid "all times"
 msgstr ""
@@ -2806,7 +2802,7 @@ msgstr ""
 msgid "You are about to completely remove <strong>%s</strong> site. Please be aware that the site will be deleted from our infrastructure and can't be recovered."
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools.php:17, templates/widgets/site/pages/developer-tools/codiad.php:29
+#: templates/widgets/site/pages/developer-tools.php:17, templates/widgets/site/pages/developer-tools/codiad.php:36
 msgid "Code Editor"
 msgstr ""
 
@@ -2814,7 +2810,7 @@ msgstr ""
 msgid "Database"
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools.php:25, templates/widgets/site/pages/developer-tools/shell.php:27
+#: templates/widgets/site/pages/developer-tools.php:25, templates/widgets/site/pages/developer-tools/shell.php:34
 msgid "WP CLI"
 msgstr ""
 
@@ -3154,11 +3150,11 @@ msgstr ""
 msgid "Open Database Manager"
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/codiad.php:38
+#: templates/widgets/site/pages/developer-tools/codiad.php:45
 msgid "Code is Poetry..."
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/codiad.php:43
+#: templates/widgets/site/pages/developer-tools/codiad.php:52
 msgid "Load the Code Editor"
 msgstr ""
 
@@ -3206,11 +3202,11 @@ msgstr ""
 msgid "Performance"
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/shell.php:36
+#: templates/widgets/site/pages/developer-tools/shell.php:43
 msgid "Have fun, but don't forget to make backups!"
 msgstr ""
 
-#: templates/widgets/site/pages/developer-tools/shell.php:41
+#: templates/widgets/site/pages/developer-tools/shell.php:50
 msgid "Load the WP-CLI Terminal"
 msgstr ""
 
