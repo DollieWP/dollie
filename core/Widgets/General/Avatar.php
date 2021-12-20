@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Utils\Tpl;
-
 /**
  * Class Avatar
  *
@@ -44,7 +42,7 @@ class Avatar extends \Elementor\Widget_Base {
 			'settings' => $this->get_settings_for_display(),
 		];
 
-		Tpl::load( 'widgets/general/avatar', $data, true );
+		dollie()->load_template( 'widgets/general/avatar', $data, true );
 	}
 
 }

@@ -29,7 +29,7 @@
     "gulp-zip": "^5.0.2",
     "postcss": "^8.2.4",
     "pump": "^3.0.0",
-    "tailwindcss": "^2.0.2"
+    "tailwindcss": "^2.2.16"
   },
   "dependencies": {
     "@tailwindcss/forms": "^0.2.1",

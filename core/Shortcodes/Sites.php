@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Tpl;
 use WP_Query;
 
 /**
@@ -42,10 +41,6 @@ final class Sites extends Singleton implements Base {
 	 * @return bool|false|mixed|string
 	 */
 	public function shortcode( $atts ) {
-		// if ( ! current_user_can( 'manage_options' ) ) {
-		// return false;
-		// }
-
 		if ( isset( $_GET['dollie_db_update'] ) ) {
 			return false;
 		}
@@ -115,7 +110,7 @@ final class Sites extends Singleton implements Base {
 			],
 		];
 
-		Tpl::load( 'loop/sites', $data, true );
+		dollie()->load_template( 'loop/sites', $data, true );
 	}
 
 }

@@ -25,6 +25,7 @@ use Dollie\Core\Modules\Options;
 use Dollie\Core\Modules\Security;
 use Dollie\Core\Modules\Upgrades;
 use Dollie\Core\Modules\WooCommerce;
+use Dollie\Core\Modules\Domain;
 use Dollie\Core\Modules\Sites\WP;
 
 use Dollie\Core\Modules\Jobs\ChangeContainerRoleJob;
@@ -37,7 +38,6 @@ use Dollie\Core\Utils\Notices;
 use Dollie\Core\Routing\Processor;
 use Dollie\Core\Routing\Route;
 use Dollie\Core\Routing\Router;
-use Dollie\Core\Utils\Tpl;
 
 /**
  * Class Plugin
@@ -178,6 +178,7 @@ class Plugin extends Singleton {
 		NavMenu::instance();
 		WP::instance();
 		Staging::instance();
+		Domain::instance();
 
 		// Shortcodes.
 		Shortcodes\Blueprints::instance();
@@ -196,15 +197,15 @@ class Plugin extends Singleton {
 	 * Load routes
 	 */
 	private function load_routes() {
-		if ( ! get_option( 'options_wpd_enable_site_preview', 1 ) ) {
-			return;
-		}
+		$router = new Router( 'dollie_route_name' );
 
-		$router       = new Router( 'dollie_route_name' );
 		$this->routes = [
-			'dollie_preview'        => new Route( '/' . dollie()->get_preview_url( 'path' ), 'route_preview' ),
 			'dollie_login_redirect' => new Route( '/site_login_redirect', 'route_login_redirect' ),
 		];
+
+		if ( get_option( 'options_wpd_enable_site_preview', 1 ) ) {
+			$this->routes['dollie_preview'] = new Route( '/' . dollie()->get_preview_url( 'path' ), 'route_preview' );
+		}
 
 		Processor::init( $router, $this->routes );
 	}
@@ -213,7 +214,6 @@ class Plugin extends Singleton {
 	 * Register ACF fields
 	 */
 	public function acf_add_local_field_groups() {
-
 		require DOLLIE_CORE_PATH . 'Extras/AcfFields.php';
 		require DOLLIE_CORE_PATH . 'Extras/AcfFormFields.php';
 	}
@@ -282,6 +282,7 @@ class Plugin extends Singleton {
 			[],
 			'6.4.15'
 		);
+
 		wp_register_script(
 			'swiper',
 			DOLLIE_ASSETS_URL . 'lib/swiper/swiper-bundle.min.js',
@@ -289,6 +290,7 @@ class Plugin extends Singleton {
 			'6.4.15',
 			true
 		);
+
 		wp_register_script(
 			'jquery-fitvids',
 			DOLLIE_ASSETS_URL . 'lib/jquery.fitvids.min.js',
@@ -392,7 +394,6 @@ class Plugin extends Singleton {
 	 * @return string
 	 */
 	public function get_api_access_link( $button = false ) {
-
 		return sprintf(
 			'<a href="%s" class="%s">%s</a>',
 			$this->get_api_access_url(),
@@ -435,7 +436,7 @@ class Plugin extends Singleton {
 			'dollie_blockquote'
 		);
 
-		return \Dollie\Core\Utils\Tpl::load(
+		return dollie()->load_template(
 			'notice',
 			[
 				'type'         => $atts['type'],
@@ -485,7 +486,7 @@ class Plugin extends Singleton {
 	 * @return void
 	 */
 	public function do_route_preview() {
-		Tpl::load( 'preview', [], true );
+		dollie()->load_template( 'preview', [], true );
 		exit;
 	}
 

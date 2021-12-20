@@ -59,8 +59,8 @@ class LaunchSite extends Singleton {
 		$domain    = af_get_field( 'site_url' );
 		$site_type = af_get_field( 'site_type' );
 
-		if ( ! preg_match( '/^[a-zA-Z0-9-_]+$/', $domain ) ) {
-			af_add_error( 'site_url', esc_html__( 'Site URL can only contain letters, numbers, dash and underscore', 'dollie' ) );
+		if ( ! preg_match( '/^[a-zA-Z0-9-]+$/', $domain ) ) {
+			af_add_error( 'site_url', esc_html__( 'Site URL can only contain letters, numbers and dash.', 'dollie' ) );
 		}
 
 		// Check if domain does not already exists.
@@ -77,18 +77,25 @@ class LaunchSite extends Singleton {
 		}
 
 		if ( 'blueprint' === $site_type ) {
-			$blueprint_availability = Api::process_response( Api::post( Api::ROUTE_CONTAINER_BLUEPRINT_AVAILABILITY, [ 'route' => $domain . '.wp-site.xyz' ] ) );
+			$blueprint_availability = Api::process_response( Api::post( Api::ROUTE_BLUEPRINT_AVAILABILITY, [ 'route' => $domain . '.wp-site.xyz' ] ) );
 
 			if ( ! $blueprint_availability ['status'] ) {
-				af_add_error( 'site_url', esc_html__( 'This site name is not available in our blueprints workspace. Please try another name.', 'dollie' ) );
+				af_add_error( 'site_url', esc_html__( 'This blueprint name is not available. Please try again using another name.', 'dollie' ) );
 			}
 		}
 
 		do_action( 'dollie/launch/validate/after' );
 	}
 
+	/**
+	 * Process submitted data
+	 *
+	 * @param [type] $form
+	 * @param [type] $fields
+	 * @param [type] $args
+	 * @return void
+	 */
 	public function submission_callback( $form, $fields, $args ) {
-
 		$blueprint   = Forms::instance()->get_form_blueprint( $form, $args );
 		$domain      = af_get_field( 'site_url' );
 		$deploy_data = [

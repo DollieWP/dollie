@@ -257,7 +257,7 @@ if ( empty( $data ) || empty( $data['site_data'] ) || ( $data['site_data']['Inst
 
 		<?php
 
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'loop/posts',
 			[
 				'title' => __( 'From your blog', 'dollie' ),

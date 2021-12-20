@@ -38,7 +38,7 @@
 		</div>
 		<?php
 		$message = ob_get_clean();
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'notice',
 			[
 				'type'    => 'info',
@@ -106,7 +106,7 @@
 
 		<?php
 		$message = ob_get_clean();
-		\Dollie\Core\Utils\Tpl::load(
+		dollie()->load_template(
 			'notice',
 			[
 				'type'    => 'info',
@@ -120,10 +120,10 @@
 	</div>
 
 	<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-widget-blueprint-settings">
-        <div class=" dol-flex dol-items-center dol-bg-primary-600 dol-border-0 dol-border-b">
-            <div class="dol-p-4 lg:dol-px-8 dol-flex dol-items-center dol-justify-center dol-h-full">
-                <i class="fal fa-cogs dol-text-white dol-text-xl md:dol-text-2xl"></i>
-            </div>
+		<div class=" dol-flex dol-items-center dol-bg-primary-600 dol-border-0 dol-border-b">
+			<div class="dol-p-4 lg:dol-px-8 dol-flex dol-items-center dol-justify-center dol-h-full">
+				<i class="fal fa-cogs dol-text-white dol-text-xl md:dol-text-2xl"></i>
+			</div>
 			<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
 				<?php esc_html_e( 'Blueprint Settings', 'dollie' ); ?>
 			</h4>

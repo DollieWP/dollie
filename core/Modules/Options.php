@@ -11,7 +11,6 @@ use Dollie\Core\Singleton;
 use Dollie\Core\Modules\Jobs\SyncContainersJob;
 
 use Dollie\Core\Utils\Api;
-use Dollie\Core\Utils\Tpl;
 
 /**
  * Class Options
@@ -21,14 +20,14 @@ use Dollie\Core\Utils\Tpl;
 class Options extends Singleton {
 
 
-	const PANEL_SLUG = 'wpd_platform_setup',
-		API_SLUG     = 'wpd_api';
+	const PANEL_SLUG = 'wpd_platform_setup';
+	const API_SLUG   = 'wpd_api';
 
 	/**
 	 * Options constructor.
 	 */
 	public function __construct() {
-		 parent::__construct();
+		parent::__construct();
 
 		$api_menu_priority = 2;
 
@@ -55,6 +54,8 @@ class Options extends Singleton {
 		add_action( 'load-edit.php', [ $this, 'add_info_banners' ] );
 
 		add_filter( 'admin_body_class', [ $this, 'add_staging_body_class' ] );
+		add_filter( 'current_screen', [ $this, 'update_blueprints_counter' ] );
+		add_filter( 'views_edit-container', [ $this, 'update_blueprints_filters' ] );
 
 		add_action( 'admin_init', [ Api::instance(), 'process_token' ] );
 		add_action( 'admin_init', [ $this, 'disconnect_dollie' ] );
@@ -93,7 +94,7 @@ class Options extends Singleton {
 	 * @return bool
 	 */
 	public function is_live() {
-		 return dollie()->is_live();
+		return dollie()->is_live();
 	}
 
 	/**
@@ -242,7 +243,6 @@ class Options extends Singleton {
 	public function dollie_adminbar_menu() {
 		global $wp_admin_bar;
 
-		// Admin only
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
@@ -384,8 +384,8 @@ class Options extends Singleton {
 		];
 
 		$launch_site = dollie()->get_launch_page_id();
-		if ( $launch_site ) {
 
+		if ( $launch_site ) {
 			array_splice(
 				$submenu[ self::PANEL_SLUG ],
 				2,
@@ -399,6 +399,7 @@ class Options extends Singleton {
 				]
 			);
 		}
+
 		array_splice(
 			$submenu[ self::PANEL_SLUG ],
 			2,
@@ -423,14 +424,14 @@ class Options extends Singleton {
 			$containers = SyncContainersJob::instance()->run();
 		}
 
-		Tpl::load( 'admin/tools-page', [ 'containers' => $containers ], true );
+		dollie()->load_template( 'admin/tools-page', [ 'containers' => $containers ], true );
 	}
 
 	/**
 	 * Api page content
 	 */
 	public function dollie_api_content() {
-		Tpl::load( 'admin/api-page', [], true );
+		dollie()->load_template( 'admin/api-page', [], true );
 	}
 
 	/**
@@ -496,88 +497,152 @@ class Options extends Singleton {
 		<?php
 	}
 
+	/**
+	 * Display info banners
+	 *
+	 * @return void
+	 */
 	public function add_info_banners() {
 		$screen = get_current_screen();
-		// Only edit post screen:
+
 		if ( 'edit-container' === $screen->id ) {
-			add_action(
-				'all_admin_notices',
-				static function () {
-					if ( empty( $_GET['blueprint'] ) ) {
-						?>
-					<div class="dollie-notice">
-						<h3>
-							The Site Manager
-						</h3>
-						<p>
-							<?php
-							printf(
-								'Below you will find all of your sites launched by you and your customers. Remember: You can also view all the sites launched by your customers in the <a href="%s">Sites Directory</a>.',
-								esc_url( dollie()->get_sites_page_url() )
-							);
-							?>
-						</p>
-					</div>
-				<?php } else { ?>
-				<div class="dollie-notice">
-					<h3>
-						Your Site Blueprints
-					</h3>
-					<p>
-						<?php
-						printf(
-							'Below you will find all the Blueprints you have created. Want to add a new Blueprint? <a href="%s">Launch a Blueprint</a>.',
-							esc_url( dollie()->get_launch_blueprint_page_url() )
-						);
-						?>
-					</p>
-				</div>
-						<?php
-				}
-				}
-			);
+			add_action( 'all_admin_notices', [ $this, 'site_info_banner' ] );
 		}
 
-		// Only edit post screen:
 		if ( 'edit-dollie-logs' === $screen->id ) {
-			add_action(
-				'all_admin_notices',
-				static function () {
-					?>
-				<div class="dollie-notice">
-					<h3>
-						The Activity Log
-					</h3>
-					<p>
-						The activity log keeps track of everything you need to know regarding your sites,
-						actions taken by your customers and recurring crons/maintenance jobs that run on
-						your
-						installation.
-					</p>
-				</div>
-					<?php
-				}
-			);
+			add_action( 'all_admin_notices', [ $this, 'blueprint_info_banner' ] );
 		}
-		// Only edit post screen:
+
 		if ( 'edit-af_form' === $screen->id ) {
-			add_action(
-				'all_admin_notices',
-				static function () {
-					?>
-				<div class="dollie-notice">
-					<h3>
-						Dollie Forms
-					</h3>
-					<p>
-						These forms can be embedded easily to further customize the experience for your
-						customers. Please only edit these forms if you're a developer and you have good
-						knowledge of the Dollie platform and it's API.
-					</p>
-				</div>
+			add_action( 'all_admin_notices', [ $this, 'form_info_banner' ] );
+		}
+	}
+
+	/**
+	 * Site info banner
+	 *
+	 * @return void
+	 */
+	public function site_info_banner() {
+		?>
+		<?php if ( empty( $_GET['blueprint'] ) ) : ?>
+			<div class="dollie-notice">
+				<h3>
+					<?php esc_html_e( 'The Site Manager', 'dollie' ); ?>
+				</h3>
+				<p>
 					<?php
+					printf(
+						'%s <a href="%s">%s</a>.',
+						esc_html__( 'Below you will find all of your sites launched by you and your customers. Remember: You can also view all the sites launched by your customers in the', 'dollie' ),
+						esc_url( dollie()->get_sites_page_url() ),
+						esc_html__( 'Sites Directory', 'dollie' )
+					);
+					?>
+				</p>
+			</div>
+		<?php else : ?>
+			<div class="dollie-notice">
+				<h3>
+					<?php esc_html_e( 'Your Site Blueprints', 'dollie' ); ?>
+				</h3>
+				<p>
+					<?php
+					printf(
+						'%s <a href="%s">%s</a>.',
+						esc_html__( 'Below you will find all the Blueprints you have created. Want to add a new Blueprint?', 'dollie' ),
+						esc_url( dollie()->get_launch_blueprint_page_url() ),
+						esc_html__( 'Launch a Blueprint', 'dollie' )
+					);
+					?>
+				</p>
+			</div>
+		<?php endif; ?>
+		<?php
+	}
+
+	/**
+	 * Blueprints info banner
+	 *
+	 * @return void
+	 */
+	public function blueprint_info_banner() {
+		?>
+		<div class="dollie-notice">
+			<h3>
+				<?php esc_html_e( 'The Activity Log', 'dollie' ); ?>
+			</h3>
+			<p>
+				<?php esc_html_e( 'The activity log keeps track of everything you need to know regarding your sites, actions taken by your customers and recurring crons/maintenance jobs that run on your installation.', 'dollie' ); ?>
+			</p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Forms info banner
+	 *
+	 * @return void
+	 */
+	public function form_info_banner() {
+		?>
+		<div class="dollie-notice">
+			<h3>
+				<?php esc_html_e( 'Dollie Forms', 'dollie' ); ?>
+			</h3>
+			<p>
+				<?php esc_html_e( 'These forms can be embedded easily to further customize the experience for your customers. Please only edit these forms if you\'re a developer and you have good knowledge of the Dollie platform and it\'s API.', 'dollie' ); ?>
+			</p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Update posts counter for blueprints
+	 *
+	 * @param obj $screen
+	 * @return void
+	 */
+	public function update_blueprints_counter( $screen ) {
+		if ( 'edit-container' === $screen->id && ! empty( $_GET['blueprint'] ) ) {
+			add_filter(
+				'wp_count_posts',
+				static function ( $counts ) {
+					$args = [
+						'posts_per_page' => -1,
+						'post_type'      => 'container',
+						'post_status'    => 'publish',
+						'meta_query'     => [
+							'relation' => 'OR',
+							[
+								'key'     => 'wpd_is_blueprint',
+								'value'   => 'yes',
+								'compare' => '=',
+							],
+						],
+					];
+
+					$blueprints = new \WP_Query( $args );
+
+					$counts->publish = $blueprints->found_posts;
+
+					return $counts;
 				}
 			);
 		}
+	}
+
+	/**
+	 * Update filters for blueprints
+	 *
+	 * @param array $views
+	 * @return array
+	 */
+	public function update_blueprints_filters( $views ) {
+		if ( ! empty( $_GET['blueprint'] ) && isset( $views['mine'] ) ) {
+			unset( $views['mine'] );
+		}
+
+		return $views;
 	}
 }

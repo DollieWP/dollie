@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Utils\Tpl;
 use Elementor\Controls_Manager;
 
 /**
@@ -86,7 +85,6 @@ class LaunchSite extends \Elementor\Widget_Base {
 			]
 		);
 
-
 		$this->end_controls_section();
 	}
 
@@ -95,7 +93,7 @@ class LaunchSite extends \Elementor\Widget_Base {
 			'settings' => $this->get_settings_for_display(),
 		];
 
-		Tpl::load( 'widgets/launch/launch-site', $data, true );
+		dollie()->load_template( 'widgets/launch/launch-site', $data, true );
 	}
 
 }

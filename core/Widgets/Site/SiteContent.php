@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Utils\Tpl;
-
 /**
  * Class SiteContent
  *
@@ -67,7 +65,7 @@ class SiteContent extends \Elementor\Widget_Base {
 		if ( get_post_type() !== 'container' && ! $elementor_builder ) {
 			esc_html_e( 'This widget will only show content when you visit a Single Dollie Site.', 'dollie' );
 		} else {
-			Tpl::load( 'widgets/site/site-content', $data, true );
+			dollie()->load_template( 'widgets/site/site-content', $data, true );
 		}
 	}
 

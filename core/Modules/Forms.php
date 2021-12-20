@@ -15,7 +15,6 @@ use Dollie\Core\Modules\Forms\PluginUpdates;
 use Dollie\Core\Modules\Forms\DeleteSite;
 use Dollie\Core\Modules\Forms\QuickLaunch;
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Tpl;
 
 /**
  * Class Forms
@@ -493,11 +492,11 @@ class Forms extends Singleton {
 	}
 
 	/**
-	 * Add migration instruction to form
+	 * Replace form placeholders
 	 *
 	 * @param $field
 	 *
-	 * @return string|string[]
+	 * @return string|array
 	 */
 	public function add_acf_placeholders( $field ) {
 		if ( isset( $field['message'] ) && $field['message'] ) {
@@ -509,8 +508,20 @@ class Forms extends Singleton {
 			$url    = dollie()->get_wp_site_data( 'uri', $current_query->id );
 			$domain = get_post_meta( $current_query->id, 'wpd_domains', true ) ?: '';
 
-			$tpl_link_domain = Tpl::load(
-				'site/link-domain',
+			$tpl_domain_not_managed = dollie()->load_template(
+				'widgets/site/pages/domain/connect/not-managed',
+				[
+					'has_domain'   => $domain,
+					'ip'           => $ip,
+					'platform_url' => $url,
+					'current_query' => $current_query
+				]
+			);
+
+			$field['message'] = str_replace( '{dollie_tpl_domain_not_managed}', $tpl_domain_not_managed, $field['message'] );
+
+			$tpl_domain_managed = dollie()->load_template(
+				'widgets/site/pages/domain/connect/managed',
 				[
 					'has_domain'   => $domain,
 					'ip'           => $ip,
@@ -518,17 +529,17 @@ class Forms extends Singleton {
 				]
 			);
 
-			$field['message'] = str_replace( '{dollie_tpl_link_domain}', $tpl_link_domain, $field['message'] );
+			$field['message'] = str_replace( '{dollie_tpl_domain_managed}', $tpl_domain_managed, $field['message'] );
 
 			if ( is_user_logged_in() ) {
 				$user             = wp_get_current_user();
 				$field['message'] = str_replace( '{dollie_user_display_name}', $user->display_name, $field['message'] );
 			}
 
-			// Support link
+			// Support link.
 			$field['message'] = str_replace( '{dollie_support_link}', dollie()->get_support_link(), $field['message'] );
 
-			// Allow shortcodes
+			// Allow shortcodes.
 			$field['message'] = do_shortcode( $field['message'] );
 		}
 

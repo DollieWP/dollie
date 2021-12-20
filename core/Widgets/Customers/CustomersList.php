@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Utils\Tpl;
 use Elementor\Controls_Manager;
 use WP_User_Query;
 
@@ -95,16 +94,16 @@ class CustomersList extends \Elementor\Widget_Base {
 		$customers_per_page = $settings['customers_per_page'];
 
 		$args = [
-			array( 'role__in' => array( 'author', 'subscriber', 'customer' ) ),
+			[ 'role__in' => [ 'author', 'subscriber', 'customer' ] ],
 			'number' => $customers_per_page, // How many per page
-			'paged'  => $current_page // What page to get, starting from 1.
+			'paged'  => $current_page, // What page to get, starting from 1.
 		];
 
 		if ( isset( $_GET['search'] ) && $_GET['search'] ) {
 			$searchword = sanitize_text_field( $_GET['search'] );
 			$parts      = explode( ' ', $searchword );
 
-			$args['search_columns'] = array( 'display_name' );
+			$args['search_columns'] = [ 'display_name' ];
 			$args['search']         = "*{$searchword}*";
 			$args['orderby']        = 'display_name';
 			$args['order']          = 'ASC';
@@ -115,16 +114,16 @@ class CustomersList extends \Elementor\Widget_Base {
 				$args['meta_query']['relation'] = 'OR';
 
 				foreach ( $parts as $part ) {
-					$args['meta_query'][] = array(
+					$args['meta_query'][] = [
 						'key'     => 'first_name',
 						'value'   => $part,
-						'compare' => 'LIKE'
-					);
-					$args['meta_query'][] = array(
+						'compare' => 'LIKE',
+					];
+					$args['meta_query'][] = [
 						'key'     => 'last_name',
 						'value'   => $part,
-						'compare' => 'LIKE'
-					);
+						'compare' => 'LIKE',
+					];
 				}
 			}
 		}
@@ -150,13 +149,13 @@ class CustomersList extends \Elementor\Widget_Base {
 			'view_type'       => $view_type,
 			'settings'        => $settings,
 			'current_page'    => $current_page,
-			'query_data' => [
+			'query_data'      => [
 				'permalink'    => get_the_permalink(),
 				'current_page' => get_query_var( 'paged', 1 ),
 			],
 		];
 
-		Tpl::load( 'loop/customers', $data, true );
+		dollie()->load_template( 'loop/customers', $data, true );
 	}
 
 }

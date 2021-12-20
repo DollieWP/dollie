@@ -6,9 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Log;
 use Dollie\Core\Modules\Backups;
-use Dollie\Core\Modules\Container;
+use Dollie\Core\Modules\Domain;
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Singleton;
 
@@ -37,7 +36,6 @@ class DeleteSite extends Singleton {
 	 * Init ACF
 	 */
 	public function acf_init() {
-
 		// Form args
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
@@ -54,10 +52,9 @@ class DeleteSite extends Singleton {
 	 * @param $args
 	 */
 	public function submission_callback( $form, $fields, $args ) {
-
 		$container = Forms::get_form_container();
 
-		Container::instance()->remove_domain( $container->id );
+		Domain::instance()->remove_route( $container->id );
 		Backups::instance()->make( $container->id, false );
 
 		wp_delete_post( $container->id, true ); // also hooks into undeploy

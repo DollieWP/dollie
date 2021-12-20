@@ -1,6 +1,6 @@
 <?php
 
-\Dollie\Core\Utils\Tpl::load(
+dollie()->load_template(
 	'loop/posts',
 	[
 		'title' => __( 'Latest news', 'dollie' ),

@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Utils\Tpl;
 use Elementor\Controls_Manager;
 use WP_Query;
 
@@ -178,7 +177,7 @@ class SitesList extends \Elementor\Widget_Base {
 			],
 		];
 
-		Tpl::load( 'loop/sites', $data, true );
+		dollie()->load_template( 'loop/sites', $data, true );
 	}
 
 }

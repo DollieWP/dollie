@@ -130,7 +130,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	}
 
 	/**
-	 * Check if partner subscription
+	 * Check if partner has subscription
 	 *
 	 * @return boolean
 	 */
@@ -142,6 +142,15 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		}
 
 		return $subscription['active'];
+	}
+
+	/**
+	 * Check if partner has credits
+	 *
+	 * @return boolean
+	 */
+	public function has_partner_credits() {
+		return apply_filters( 'dollie/subscription/has_credits', true );
 	}
 
 	/**

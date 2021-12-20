@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Utils\Tpl;
-
 use Elementor\Controls_Manager;
 
 /**
@@ -31,9 +29,8 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 		return 'eicon-inner-section';
 	}
 
-	public function get_script_depends()
-	{
-		return ['dollie-layout-alpine'];
+	public function get_script_depends() {
+		return [ 'dollie-layout-alpine' ];
 	}
 
 	public function get_categories() {
@@ -45,7 +42,7 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'header_section',
 			[
-				'label' => __('Header Area', 'dollie'),
+				'label' => __( 'Header Area', 'dollie' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -53,21 +50,19 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 		$this->add_control(
 			'header',
 			[
-				'label'   => __('Header template', 'dollie'),
-				'type' => Controls_Manager::SELECT2,
-				'options' => $this::get_saved_data('section'),
+				'label'   => __( 'Header template', 'dollie' ),
+				'type'    => Controls_Manager::SELECT2,
+				'options' => $this::get_saved_data( 'section' ),
 				'default' => 'Select',
 			]
 		);
 
-
 		$this->end_controls_section();
-
 
 		$this->start_controls_section(
 			'sidebar_section',
 			[
-				'label' => __('Sidebar Area', 'dollie'),
+				'label' => __( 'Sidebar Area', 'dollie' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -75,9 +70,9 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 		$this->add_control(
 			'sidebar',
 			[
-				'label'   => __('Sidebar template', 'dollie'),
-				'type' => Controls_Manager::SELECT2,
-				'options' => $this::get_saved_data('section'),
+				'label'   => __( 'Sidebar template', 'dollie' ),
+				'type'    => Controls_Manager::SELECT2,
+				'options' => $this::get_saved_data( 'section' ),
 				'default' => 'Select',
 			]
 		);
@@ -87,7 +82,7 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'content_section',
 			[
-				'label' => __('Content Area', 'dollie'),
+				'label' => __( 'Content Area', 'dollie' ),
 				'tab'   => Controls_Manager::TAB_CONTENT,
 			]
 		);
@@ -95,56 +90,54 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 		$this->add_control(
 			'content',
 			[
-				'label'   => __('Content Template', 'dollie'),
-				'type' => Controls_Manager::SELECT2,
-				'options' => $this::get_saved_data('section'),
+				'label'   => __( 'Content Template', 'dollie' ),
+				'type'    => Controls_Manager::SELECT2,
+				'options' => $this::get_saved_data( 'section' ),
 				'default' => 'Select',
 			]
 		);
 
 		$this->end_controls_section();
 
-
 	}
 
-	private static function get_saved_data($type = 'page')
-    {
+	private static function get_saved_data( $type = 'page' ) {
 
-        $template_type = $type . '_templates';
+		$template_type = $type . '_templates';
 
-        $templates_list = array();
+		$templates_list = [];
 
-            $posts = get_posts(
-                array(
-                    'post_type' => 'elementor_library',
-                    'orderby' => 'title',
-                    'order' => 'ASC',
-                    'posts_per_page' => '-1',
-                )
-            );
+			$posts = get_posts(
+				[
+					'post_type'      => 'elementor_library',
+					'orderby'        => 'title',
+					'order'          => 'ASC',
+					'posts_per_page' => '-1',
+				]
+			);
 
-            foreach ($posts as $post) {
+		foreach ( $posts as $post ) {
 
-                $templates_list[] = array(
-                    'id' => $post->ID,
-                    'name' => $post->post_title,
-                );
-            }
+			$templates_list[] = [
+				'id'   => $post->ID,
+				'name' => $post->post_title,
+			];
+		}
 
-            self::${$template_type}[-1] = __('Select', 'dollie');
+			self::${$template_type}[-1] = __( 'Select', 'dollie' );
 
-            if (count($templates_list)) {
-                foreach ($templates_list as $saved_row) {
+		if ( count( $templates_list ) ) {
+			foreach ( $templates_list as $saved_row ) {
 
-                    $content_id = $saved_row['id'];
-                    $content_id = apply_filters('wpml_object_id', $content_id);
-                    self::${$template_type}[$content_id] = $saved_row['name'];
+				$content_id                            = $saved_row['id'];
+				$content_id                            = apply_filters( 'wpml_object_id', $content_id );
+				self::${$template_type}[ $content_id ] = $saved_row['name'];
 
-                }
-            } else {
-                self::${$template_type}['no_template'] = __('Sorry, No Elementor templates have been found.', 'dollie');
-            }
-        return self::${$template_type};
+			}
+		} else {
+			self::${$template_type}['no_template'] = __( 'Sorry, No Elementor templates have been found.', 'dollie' );
+		}
+		return self::${$template_type};
 	}
 
 	protected function render() {
@@ -152,7 +145,7 @@ class LayoutSidebarContent extends \Elementor\Widget_Base {
 			'settings' => $this->get_settings_for_display(),
 		];
 
-		Tpl::load( 'widgets/layout/sidebar-content-layout', $data, true );
+		dollie()->load_template( 'widgets/layout/sidebar-content-layout', $data, true );
 	}
 
 }
