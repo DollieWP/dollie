@@ -19,7 +19,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 			[
 				'type'    => 'info',
 				'icon'    => 'fas fa-exclamation-circle',
-				'title'   => sprintf( __( 'Plase hold on whilst "%s" is getting ready to be used', 'dollie' ), get_post_meta( get_the_ID(), 'wpd_domain_pending', true ) ),
+				'title'   => sprintf( __( 'Please hold on whilst "%s" is getting ready to be used', 'dollie' ), get_post_meta( get_the_ID(), 'wpd_domain_pending', true ) ),
 				'message' => __( 'Your domain\'s nameservers are being checked. Once we confirm all your nameservers are set correctly, we will automatically replace your website\'s URL and enable the DNS manager.', 'dollie' ),
 			],
 			true
@@ -81,6 +81,9 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 
 	<?php endif; ?>
 
+<?php endif; ?>
+
+<?php if ( ! empty( $domain ) || 'pending' === $dns_manager ) : ?>
     <div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
         <div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
             <h4 class="dol-p-0 dol-m-0 dol-font-bold dol-text-base md:dol-text-xl">
@@ -113,10 +116,8 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 
 <?php endif; ?>
 
-<div class="dol-mt-6">
-	<?php
-
-	echo do_shortcode( '[dollie_form form="form_dollie_domain_connect"]' );
-
-	?>
-</div>
+<?php if ( ! \Dollie\Core\Modules\Forms\DomainConnect::instance()->is_form_restricted() ) : ?>
+    <div class="dol-mt-6">
+		<?php echo do_shortcode( '[dollie_form form="form_dollie_domain_connect"]' ); ?>
+    </div>
+<?php endif; ?>
