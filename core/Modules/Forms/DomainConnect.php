@@ -237,7 +237,7 @@ class DomainConnect extends Singleton {
 	 *
 	 * @return bool
 	 */
-	private function is_form_restricted() {
+	public function is_form_restricted() {
 		$container = dollie()->get_current_object();
 
 		// If submitted domain with dns manager on, restrict it.
