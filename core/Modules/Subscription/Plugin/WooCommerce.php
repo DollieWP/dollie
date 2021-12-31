@@ -30,6 +30,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		add_filter( 'dollie/required_plugins', [ $this, 'required_woocommerce' ] );
 
 		add_filter( 'dollie/blueprints', [ $this, 'filter_blueprints' ] );
+
 	}
 
 	/**
@@ -332,15 +333,23 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			return false;
 		}
 
-		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
-
-		if ( ! is_array( $subscription ) || empty( $subscription ) ) {
+		if ( current_user_can( 'manage_options' ) ) {
 			return false;
 		}
 
-		$total_site = (int) dollie()->count_customer_containers( get_current_user_id() );
+		if ( ! $this->has_subscription() ) {
+			return true;
+		}
 
-		return $this->has_subscription() && ( $subscription['resources']['max_allowed_installs'] - $total_site ) <= 0 && ! current_user_can( 'manage_options' );
+		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
+
+		if ( ! is_array( $subscription ) || empty( $subscription ) ) {
+			return true;
+		}
+
+		$total_sites = (int) dollie()->count_customer_containers( get_current_user_id() );
+
+		return $total_sites >= $subscription['resources']['max_allowed_installs'];
 	}
 
 	/**
