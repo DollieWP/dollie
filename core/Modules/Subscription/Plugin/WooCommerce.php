@@ -270,7 +270,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			return true;
 		}
 
-		$subscription = $this->get_customer_subscriptions();
+		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
 
 		return $subscription ? (bool) $subscription['plans'] : $subscription;
 	}
