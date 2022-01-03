@@ -6,31 +6,6 @@ if( function_exists('acf_add_local_field_group') ):
 		'title' => 'Blueprints',
 		'fields' => array(
 			array(
-				'key' => 'field_5affdce12d99a',
-				'label' => __('Show this Blueprint?', 'dollie'),
-				'name' => 'wpd_is_blueprint',
-				'type' => 'radio',
-				'instructions' => __('Set this to "No" if you would like to (temporary) make this Blueprint unavailable', 'dollie'),
-				'required' => 0,
-				'conditional_logic' => 0,
-				'wrapper' => array(
-					'width' => '',
-					'class' => '',
-					'id' => '',
-				),
-				'hide_admin' => 0,
-				'choices' => array(
-					'no' => 'No',
-					'yes' => 'Yes',
-				),
-				'allow_null' => 0,
-				'other_choice' => 0,
-				'default_value' => 'no',
-				'layout' => 'vertical',
-				'return_format' => 'value',
-				'save_other_choice' => 0,
-			),
-			array(
 				'key' => 'field_5db6f0c97158f',
 				'label' => __('Private Blueprint?', 'dollie'),
 				'name' => 'wpd_private_blueprint',
