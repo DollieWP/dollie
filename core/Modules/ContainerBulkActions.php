@@ -419,8 +419,6 @@ class ContainerBulkActions extends Singleton {
 			$plugins_data     = [];
 
 			if ( false !== $plugins_response ) {
-				$plugins_data = [];
-
 				foreach ( $plugins_response as $container_uri => $data ) {
 					foreach ( $data as $plugin ) {
 						$plugins_data[] = [
@@ -458,14 +456,30 @@ class ContainerBulkActions extends Singleton {
 			$themes_data     = [];
 
 			if ( false !== $themes_response ) {
-				foreach ( $posts as $post ) {
-					foreach ( $themes_response as $container_uri => $data ) {
-						if ( $container_uri === dollie()->get_wp_site_data( 'uri', $post->ID ) ) {
-							$themes_data[ $post->ID ] = [
-								'site_title' => $post->post_title,
-								'url'        => $container_uri,
-								'themes'     => $data,
-							];
+				foreach ( $themes_response as $container_uri => $data ) {
+					foreach ( $data as $theme ) {
+						$themes_data[] = [
+							'title' => $theme['title'],
+							'name'  => $theme['name'],
+						];
+					}
+				}
+
+				$themes_data = array_unique( $themes_data, SORT_REGULAR );
+
+				foreach ( $themes_response as $container_uri => $data ) {
+					foreach ( $data as $theme ) {
+						foreach ( $posts as $post ) {
+							if ( $container_uri === dollie()->get_wp_site_data( 'uri', $post->ID ) ) {
+								foreach ( $themes_data as &$theme_data ) {
+									if ( $theme_data['name'] === $theme['name'] ) {
+										$theme_data['sites'][ $post->ID ] = [
+											'title' => $post->post_title,
+											'url'   => $container_uri,
+										];
+									}
+								}
+							}
 						}
 					}
 				}

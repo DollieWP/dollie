@@ -165,20 +165,13 @@ var DollieSiteList = DollieSiteList || {};
 
         var command_data = [];
 
-        if ($(".dol-plugins-list").length) {
-          $.each($(".dol-plugins-list .dol-plugin-site:checked"), function () {
-            command_data.push({
-              id: $(this).val(),
-              value: $(this).attr("name"),
-            });
-          });
-        } else if ($(".dol-themes-list").length) {
+        if ($(".dol-resources-list").length) {
           $.each(
-            $(".dol-themes-list input[type='checkbox']:checked"),
+            $(".dol-resources-list .dol-resource-site:checked"),
             function () {
               command_data.push({
-                id: $(this).attr("name"),
-                value: $(this).val(),
+                id: $(this).val(),
+                value: $(this).attr("name"),
               });
             }
           );
@@ -238,8 +231,7 @@ var DollieSiteList = DollieSiteList || {};
               $("#dol-resources-list").addClass("dol-hidden");
               $("#dol-resources-list .dol-spinner").removeClass("dol-hidden");
 
-              $("#dol-resources-list").find(".dol-plugins-list").remove();
-              $("#dol-resources-list").find(".dol-themes-list").remove();
+              $("#dol-resources-list").find(".dol-resources-list").remove();
             } else {
               $(this).closest(".dol-modal").find(".dol-modal-success").hide();
               $(this).closest(".dol-modal").find(".dol-modal-error").show();
@@ -252,37 +244,37 @@ var DollieSiteList = DollieSiteList || {};
     },
 
     getBulkOptions: function () {
-      $(document).on("click", ".dol-toggle-plugin-details", function () {
+      $(document).on("click", ".dol-toggle-resource-details", function () {
         $(this)
           .closest("ul")
-          .find(".dol-toggle-plugin-details")
+          .find(".dol-toggle-resource-details")
           .each(function (index, item) {
-            $(item).removeClass("dol-toggle-plugin-active");
+            $(item).removeClass("dol-toggle-resource-active");
             $(item).find(".dol-open").removeClass("dol-hidden");
             $(item).find(".dol-close").addClass("dol-hidden");
 
             $("#" + $(item).data("item")).addClass("dol-hidden");
           });
 
-        $(this).addClass("dol-toggle-plugin-active");
+        $(this).addClass("dol-toggle-resource-active");
         $(this).find(".dol-open").addClass("dol-hidden");
         $(this).find(".dol-close").removeClass("dol-hidden");
 
         $("#" + $(this).data("item")).removeClass("dol-hidden");
       });
 
-      $(document).on("change", ".dol-plugin-item", function () {
+      $(document).on("change", ".dol-resource-item", function () {
         $(this)
           .closest("li")
-          .find(".dol-plugin-site")
+          .find(".dol-resource-site")
           .prop("checked", $(this).prop("checked"));
       });
 
-      $(document).on("change", ".dol-plugin-site", function () {
+      $(document).on("change", ".dol-resource-site", function () {
         var oneChecked = false;
         $(this)
           .closest("ul")
-          .find(".dol-plugin-site")
+          .find(".dol-resource-site")
           .each(function (index, item) {
             if ($(item).is(":checked")) {
               oneChecked = true;
@@ -290,8 +282,8 @@ var DollieSiteList = DollieSiteList || {};
           });
 
         $(this)
-          .closest(".dol-plugin-entry")
-          .find(".dol-plugin-item")
+          .closest(".dol-resource-entry")
+          .find(".dol-resource-item")
           .prop("checked", oneChecked);
       });
 
@@ -313,8 +305,7 @@ var DollieSiteList = DollieSiteList || {};
             $("#dol-resources-list").addClass("dol-hidden");
             $("#dol-resources-list .dol-spinner").removeClass("dol-hidden");
 
-            $("#dol-resources-list").find(".dol-plugins-list").remove();
-            $("#dol-resources-list").find(".dol-themes-list").remove();
+            $("#dol-resources-list").find(".dol-resources-list").remove();
           }
 
           fetchResourceRequest = $.ajax({
@@ -332,8 +323,7 @@ var DollieSiteList = DollieSiteList || {};
                 .find(".dol-spinner")
                 .removeClass("dol-hidden");
 
-              $("#dol-resources-list").find(".dol-plugins-list").remove();
-              $("#dol-resources-list").find(".dol-themes-list").remove();
+              $("#dol-resources-list").find(".dol-resources-list").remove();
             },
             success: function (response) {
               fetchResourceRequest = null;
@@ -343,22 +333,13 @@ var DollieSiteList = DollieSiteList || {};
                 .addClass("dol-hidden");
 
               var newContainer = $("#dol-resources-list");
-              newContainer.find(".dol-plugins-list").remove();
-              newContainer.find(".dol-themes-list").remove();
+              newContainer.find(".dol-resources-list").remove();
               newContainer.append(response.data);
 
-              var pluginsContainer = newContainer.find(".dol-plugins-list");
+              var resourceContainer = newContainer.find(".dol-resources-list");
 
-              if (pluginsContainer) {
-                pluginsContainer
-                  .addClass("dol-overflow-y-scroll")
-                  .css("max-height", "580px");
-              }
-
-              var themesContainer = newContainer.find(".dol-themes-list");
-
-              if (themesContainer) {
-                themesContainer
+              if (resourceContainer) {
+                resourceContainer
                   .addClass("dol-overflow-y-scroll")
                   .css("max-height", "580px");
               }
@@ -369,8 +350,7 @@ var DollieSiteList = DollieSiteList || {};
         } else {
           $("#dol-resources-list").addClass("dol-hidden");
           $("#dol-resources-list .dol-spinner").removeClass("dol-hidden");
-          $("#dol-resources-list").find(".dol-plugins-list").remove();
-          $("#dol-resources-list").find(".dol-themes-list").remove();
+          $("#dol-resources-list").find(".dol-resources-list").remove();
 
           $(".dol-send-bulk-action").prop("disabled", false);
         }
