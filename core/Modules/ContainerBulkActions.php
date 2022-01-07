@@ -83,7 +83,6 @@ class ContainerBulkActions extends Singleton {
 	 * @return string
 	 */
 	public function log_action_content_filter( $content, $values, $log_id ) {
-
 		$bulk_actions = get_post_meta( $log_id, '_wpd_sub_logs', true );
 
 		if ( ! empty( $bulk_actions ) ) {
@@ -420,14 +419,32 @@ class ContainerBulkActions extends Singleton {
 			$plugins_data     = [];
 
 			if ( false !== $plugins_response ) {
-				foreach ( $posts as $post ) {
-					foreach ( $plugins_response as $container_uri => $data ) {
-						if ( $container_uri === dollie()->get_wp_site_data( 'uri', $post->ID ) ) {
-							$plugins_data[ $post->ID ] = [
-								'site_title' => $post->post_title,
-								'url'        => $container_uri,
-								'plugins'    => $data,
-							];
+				$plugins_data = [];
+
+				foreach ( $plugins_response as $container_uri => $data ) {
+					foreach ( $data as $plugin ) {
+						$plugins_data[] = [
+							'title' => $plugin['title'],
+							'name'  => $plugin['name'],
+						];
+					}
+				}
+
+				$plugins_data = array_unique( $plugins_data, SORT_REGULAR );
+
+				foreach ( $plugins_response as $container_uri => $data ) {
+					foreach ( $data as $plugin ) {
+						foreach ( $posts as $post ) {
+							if ( $container_uri === dollie()->get_wp_site_data( 'uri', $post->ID ) ) {
+								foreach ( $plugins_data as &$plugin_data ) {
+									if ( $plugin_data['name'] === $plugin['name'] ) {
+										$plugin_data['sites'][ $post->ID ] = [
+											'title' => $post->post_title,
+											'url'   => $container_uri,
+										];
+									}
+								}
+							}
 						}
 					}
 				}

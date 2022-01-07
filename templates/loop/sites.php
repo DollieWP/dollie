@@ -166,7 +166,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 				?>
 				<div class="dol-sites-item <?php echo esc_attr( $list_item_class ); ?>"
 					 data-site-name="<?php echo esc_attr( $domain ); ?>">
-					<div class="dol-sites-item-inner dol-relative dol-divide-y dol-divide-gray-200 dol-shadow dol-rounded-md dol-widget-custom dark:dol-bg-gray-800">
+					<div class="dol-sites-item-inner dol-relative dol-divide-y dol-divide-gray-200 dol-shadow dol-rounded-md dol-widget-custom">
 						<div class="<?php echo esc_attr( $execution_lock_classes ); ?> dol-item-execution-placeholder dol-absolute dol-w-full dol-h-full dol-left-0 dol-top-0 dol-bg-white dol-bg-opacity-50 dol-z-10">
 							<div class="dol-flex dol-items-center dol-justify-end dol-w-full dol-h-full">
 								<div class="dol-flex dol-items-center dol-justify-center dol-text-sm dol-bg-gray-600 dol-text-white dol-font-medium dol-mx-6 dol-px-4 dol-py-2 dol-rounded-full">

@@ -200,7 +200,7 @@ add_action( 'wp_head', 'dol_customizer_css' );
  * @since 1.0.0
  */
 function dol_widgets_layout() {
-	echo apply_filters( 'dol_update_widget_classes', 'dol-bg-white dol-shadow dol-rounded-md dol-widget-custom dark:dol-bg-gray-800' );
+	echo apply_filters( 'dol_update_widget_classes', 'dol-bg-white dol-shadow dol-rounded-md dol-widget-custom' );
 }
 
 add_action( 'dol_add_widget_classes', 'dol_widgets_layout' );

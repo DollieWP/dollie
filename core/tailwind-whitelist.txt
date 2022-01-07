@@ -1,6 +1,4 @@
 ## This file contains some specific utility classes that should never be purged when building the Dollie Tailwind styles because they are dynamic can be modified via filters/actions/options in the future.
-dark
-dol-dark
 dol-p-sm
 dol-p-md
 dol-p-lg

@@ -2,30 +2,41 @@
 	<?php if ( empty( $plugins_data ) ) : ?>
 		<?php esc_html_e( 'There are no plugins available for the selected sites!', 'dollie' ); ?>
 	<?php else : ?>
-		<ul class="dol-list-none dol-p-0 dol-m-0 dol-mr-4">
-			<?php foreach ( $plugins_data as $id => $data ) : ?>
-				<li class="dol-mb-4">
-					<div class="dol-border-0 dol-border-l-4 dol-border-solid dol-border-gray-100 dol-overflow-hidden">
-						<div class="dol-font-bold dol-px-4 dol-py-2 dol-bg-gray-100">
-							<?php echo esc_html( $data['site_title'] ); ?>
-							<span class="dol-text-xs dol-font-normal">
-								<?php
-									printf(
-										'(<a href="%s" target="_blank">%s</a>)',
-										$data['url'],
-										$data['url']
-									)
-								?>
-							</span>
-						</div>
-						<div class="dol-grid dol-grid-cols-5 dol-gap-4 dol-p-4">
-							<?php foreach ( $data['plugins'] as $plugin ) : ?>
-								<label class="dol-flex dol-items-center dol-border dol-border-solid dol-border-gray-100 dol-rounded dol-px-4 dol-py-2">
-									<input type="checkbox" value="<?php echo esc_attr( $plugin['name'] ); ?>" name="<?php echo esc_attr( $id ); ?>" checked="checked">
-									<span class="dol-ml-2 dol-text-xs"><?php echo esc_html( $plugin['title'] ); ?></span>
-								</label>
+		<ul class="dol-list-none dol-p-0 dol-m-0 dol-mr-4 dol-divide-solid dol-divide-y dol-divide-gray-300 dol-border dol-border-solid dol-border-gray-300 dol-rounded">
+			<?php foreach ( $plugins_data as $key => $plugin ) : ?>
+				<li class="dol-plugin-entry dol-px-4">
+					<div class="dol-flex dol-justify-between dol-items-center">
+						<label class="dol-flex dol-items-center dol-py-4">
+							<input type="checkbox" class="dol-plugin-item" value="<?php echo esc_attr( $plugin['name'] ); ?>" name="" checked="checked">
+							<span class="dol-rounded-full dol-bg-gray-200 dol-text-gray-700 dol-px-2 dol-py-1 dol-ml-4 dol-text-xs dol-leading-none"><?php echo esc_html( count( $plugin['sites'] ) ); ?></span>
+							<span class="dol-ml-2 dol-font-bold"><?php echo esc_html( $plugin['title'] ); ?></span>
+						</label>
+						<span class="dol-toggle-plugin-details hover:dol-cursor-pointer dol-text-gray-600" 
+							data-item="dol-plugin-content-<?php echo esc_attr( $key ); ?>">
+							<span class="dol-open"><i class="fas fa-angle-right"></i></span>
+							<span class="dol-close dol-hidden"><i class="fas fa-angle-up"></i></span>
+						</span>
+					</div>
+					<div id="dol-plugin-content-<?php echo esc_attr( $key ); ?>" class="dol-plugin-items dol-hidden dol-border-0 dol-border-t dol-border-solid dol-border-gray-100 dol-p-2">
+						<ul class="dol-list-none dol-p-0 dol-m-0 dol-ml-2">
+							<?php foreach ( $plugin['sites'] as $id => $site ) : ?>
+								<li>
+									<label class="dol-flex dol-items-center dol-px-4 dol-py-2">
+										<input type="checkbox" class="dol-plugin-site" value="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $plugin['name'] ); ?>" checked="checked">
+										<span class="dol-ml-2 dol-text-sm"><?php echo esc_html( $site['title'] ); ?></span>
+										<span class="dol-text-xs dol-ml-2">
+											<?php
+												printf(
+													'(<a href="%s" target="_blank">%s</a>)',
+													$site['url'],
+													$site['url']
+												)
+											?>
+										</span>
+									</label>
+								</li>
 							<?php endforeach; ?>
-						</div>
+						</ul>
 					</div>
 				</li>
 			<?php endforeach; ?>

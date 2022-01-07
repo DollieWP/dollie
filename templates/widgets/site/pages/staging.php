@@ -71,7 +71,7 @@
 
 			<ul class="dol-grid dol-grid-cols-1 dol-gap-4 sm:dol-gap-4 sm:dol-grid-cols-2 dol-mt-3 dol-p-0 dol-m-0">
 				<form id="dol-sync-staging" action="" method="post" class="dol-inline-block">
-					<li class="dol-relative dol-col-span-1 dol-flex dol-bg-white dol-shadow dol-rounded-md dol-widget-custom dark:dol-bg-gray-800">
+					<li class="dol-relative dol-col-span-1 dol-flex dol-bg-white dol-shadow dol-rounded-md dol-widget-custom">
 						<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-green-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
 							<i class="fas fas fa-sync dol-text-white dol-text-xl"></i>
 						</div>
@@ -95,7 +95,7 @@
 					</li>
 				</form>
 
-				<li class="dol-relative dol-col-span-1 dol-flex dol-bg-white dol-shadow dol-rounded-md dol-widget-custom dark:dol-bg-gray-800">
+				<li class="dol-relative dol-col-span-1 dol-flex dol-bg-white dol-shadow dol-rounded-md dol-widget-customs">
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-red-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
 						<i class="fas fa-trash-alt dol-text-white dol-text-xl"></i>
 					</div>

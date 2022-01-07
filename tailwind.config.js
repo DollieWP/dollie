@@ -1,6 +1,5 @@
 const colors = require("tailwindcss/colors");
 module.exports = {
-  darkMode: "class",
   prefix: "dol-",
   theme: {
     colors: {
@@ -8,9 +7,11 @@ module.exports = {
       current: "currentColor",
       black: colors.black,
       white: colors.white,
-      gray: colors.trueGray,
+      gray: colors.neutral,
       red: colors.red,
-      green: colors.green,
+      green: colors.emerald,
+      yellow: colors.amber,
+      purple: colors.violet,
     },
     extend: {
       transitionDuration: {
@@ -48,30 +49,16 @@ module.exports = {
       },
     },
   },
-  variants: {
-    margin: ["responsive", "last"],
-    borderWidth: ["responsive", "last"],
-    display: ["responsive", "group-hover"],
-    backgroundColor: ["responsive", "hover", "focus", "odd", "even"],
-  },
-  purge: {
-    enabled: true,
-    content: [
-      "./templates/**/*",
-      "./core/Admin/**/*",
-      "./core/Modules/**/*",
-      "./core/Shortcodes/**/*",
-      "./core/Widgets/**/*",
-      "./assets/js/**/*",
-      "./core/tailwind-whitelist.txt",
-      "./core/Extras/**/*",
-    ],
-    options: {
-      safelist: {
-        //standard: [/dark/]
-      },
-    },
-  },
+  content: [
+    "./templates/**/*",
+    "./core/Admin/**/*",
+    "./core/Modules/**/*",
+    "./core/Shortcodes/**/*",
+    "./core/Widgets/**/*",
+    "./assets/js/**/*",
+    "./core/tailwind-whitelist.txt",
+    "./core/Extras/**/*",
+  ],
   corePlugins: {
     preflight: false,
   },

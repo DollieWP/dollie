@@ -20,13 +20,13 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 
 				<div class="dol-flex dol-flex-wrap dol-rounded dol-overflow-hidden dol-mt-2">
 					<div class="dol-w-full md:dol-w-1/2">
-						<a class="dol-block dol-text-gray-600 dol-text-center dol-text-sm dol-font-bold dol-bg-gray-200 hover:dol-bg-primary-100 dark:dol-bg-gray-900 dark:dol-text-gray-200 dol-px-4 dol-py-2" href="<?php echo dollie()->get_container_url( $current_id ); ?>" target="_blank">
+						<a class="dol-block dol-text-gray-600 dol-text-center dol-text-sm dol-font-bold dol-bg-gray-200 hover:dol-bg-primary-100 dol-px-4 dol-py-2" href="<?php echo dollie()->get_container_url( $current_id ); ?>" target="_blank">
 							<i class="fas fa-external-link-alt dol-mr-1"></i>
 							<?php esc_html_e( 'Visit', 'dollie' ); ?>
 						</a>
 					</div>
 					<div class="dol-w-full md:dol-w-1/2">
-						<a class="dol-block dol-text-center dol-text-sm dol-font-bold dol-bg-secondary-200 hover: hover:dol-bg-primary-300 dol-text-secondary-600 dol-px-4 dol-py-2 dark:dol-bg-secondary-700 dark:dol-text-gray-200" href="<?php echo dollie()->get_customer_login_url( $current_id ); ?>" target="_blank">
+						<a class="dol-block dol-text-center dol-text-sm dol-font-bold dol-bg-secondary-200 hover: hover:dol-bg-primary-300 dol-text-secondary-600 dol-px-4 dol-py-2" href="<?php echo dollie()->get_customer_login_url( $current_id ); ?>" target="_blank">
 							<i class="fas fa-tools dol-mr-1"></i>
 							<?php esc_html_e( 'Admin', 'dollie' ); ?>
 						</a>

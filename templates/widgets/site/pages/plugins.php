@@ -121,7 +121,7 @@
 			<?php
 			foreach ( $plugins_list as $plugin ) :
 				?>
-				<div class="dol-w-full dol-flex dol-flex-wrap dol-items-center dol-p-4 lg:dol-px-8 dol-border-0 dol-border-b <?php do_action( 'dol_add_widget_classes' ); ?> last:dol-border-0 dol-relative dol-group hover:dol-bg-ash-100">
+				<div class="dol-w-full dol-flex dol-flex-wrap dol-items-center dol-p-4 lg:dol-px-8 dol-border-0 dol-border-b last:dol-border-0 dol-relative dol-group hover:dol-bg-ash-100">
 					<div class="dol-absolute dol-w-2 dol-h-full dol-bg-gray-200 dol-left-0 dol-top-0 dol-hidden md:group-hover:dol-block"></div>
 					<div class="dol-w-full dol-mb-4 md:dol-mb-0 md:dol-w-5/12 lg:dol-w-6/12">
 						<span class="dol-block dol-text-ash-600 dol-text-xs dol-font-bold dol-uppercase md:dol-hidden">

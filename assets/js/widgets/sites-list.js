@@ -166,15 +166,12 @@ var DollieSiteList = DollieSiteList || {};
         var command_data = [];
 
         if ($(".dol-plugins-list").length) {
-          $.each(
-            $(".dol-plugins-list input[type='checkbox']:checked"),
-            function () {
-              command_data.push({
-                id: $(this).attr("name"),
-                value: $(this).val(),
-              });
-            }
-          );
+          $.each($(".dol-plugins-list .dol-plugin-site:checked"), function () {
+            command_data.push({
+              id: $(this).val(),
+              value: $(this).attr("name"),
+            });
+          });
         } else if ($(".dol-themes-list").length) {
           $.each(
             $(".dol-themes-list input[type='checkbox']:checked"),
@@ -255,6 +252,49 @@ var DollieSiteList = DollieSiteList || {};
     },
 
     getBulkOptions: function () {
+      $(document).on("click", ".dol-toggle-plugin-details", function () {
+        $(this)
+          .closest("ul")
+          .find(".dol-toggle-plugin-details")
+          .each(function (index, item) {
+            $(item).removeClass("dol-toggle-plugin-active");
+            $(item).find(".dol-open").removeClass("dol-hidden");
+            $(item).find(".dol-close").addClass("dol-hidden");
+
+            $("#" + $(item).data("item")).addClass("dol-hidden");
+          });
+
+        $(this).addClass("dol-toggle-plugin-active");
+        $(this).find(".dol-open").addClass("dol-hidden");
+        $(this).find(".dol-close").removeClass("dol-hidden");
+
+        $("#" + $(this).data("item")).removeClass("dol-hidden");
+      });
+
+      $(document).on("change", ".dol-plugin-item", function () {
+        $(this)
+          .closest("li")
+          .find(".dol-plugin-site")
+          .prop("checked", $(this).prop("checked"));
+      });
+
+      $(document).on("change", ".dol-plugin-site", function () {
+        var oneChecked = false;
+        $(this)
+          .closest("ul")
+          .find(".dol-plugin-site")
+          .each(function (index, item) {
+            if ($(item).is(":checked")) {
+              oneChecked = true;
+            }
+          });
+
+        $(this)
+          .closest(".dol-plugin-entry")
+          .find(".dol-plugin-item")
+          .prop("checked", oneChecked);
+      });
+
       $(".dol-send-bulk-action").prop("disabled", true);
 
       var fetchResourceRequest = null;
