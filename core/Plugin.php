@@ -405,11 +405,9 @@ class Plugin extends Singleton {
 	/**
 	 * Get api access link
 	 *
-	 * @param bool $button
-	 *
 	 * @return string
 	 */
-	public function get_api_access_url( $button = false ) {
+	public function get_api_access_url() {
 		$url_data = [
 			'origin' => admin_url( 'admin.php?page=wpd_platform_setup' ),
 		];

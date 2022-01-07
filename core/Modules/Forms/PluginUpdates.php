@@ -116,16 +116,14 @@ class PluginUpdates extends Singleton {
 			return $restriction;
 		}
 
-		$plugin_updates = $this->get_all_plugin_updates();
+		$plugins = dollie()->get_container_plugins();
 
 		$needs_upgrade = false;
-		if ( false !== $plugin_updates ) {
-			foreach ( $plugin_updates as $update ) {
-				foreach ( $update as $plugin ) {
-					if ( 'available' === $plugin['update'] ) {
-						$needs_upgrade = true;
-						break;
-					}
+		if ( false !== $plugins ) {
+			foreach ( $plugins as $plugin ) {
+				if ( 'available' === $plugin['update'] ) {
+					$needs_upgrade = true;
+					break;
 				}
 			}
 		}
@@ -134,21 +132,21 @@ class PluginUpdates extends Singleton {
 			$data = '';
 			ob_start();
 			?>
-            <div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden dol-my-6">
-                <div class="dol-flex dol-items-center dol-bg-green-500">
-                    <div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-green-600 dol-flex dol-items-center dol-justify-center">
-                        <i class="fas fa-shield-alt dol-text-white dol-text-2xl"></i>
-                    </div>
-                    <h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
+			<div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden dol-my-6">
+				<div class="dol-flex dol-items-center dol-bg-green-500">
+					<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-green-600 dol-flex dol-items-center dol-justify-center">
+						<i class="fas fa-shield-alt dol-text-white dol-text-2xl"></i>
+					</div>
+					<h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
 						<?php esc_html_e( 'Everything is up to date', 'dollie' ); ?>
-                    </h4>
-                </div>
-                <div class="dol-px-4 dol-py-2 lg:dol-px-8 lg:dol-py-6 dol-bg-gray-100">
-                    <div>
+					</h4>
+				</div>
+				<div class="dol-px-4 dol-py-2 lg:dol-px-8 lg:dol-py-6 dol-bg-gray-100">
+					<div>
 						<?php esc_html_e( 'There are no plugins available to update. Good job!', 'dollie' ); ?>
-                    </div>
-                </div>
-            </div>
+					</div>
+				</div>
+			</div>
 			<?php
 			$data .= ob_get_clean();
 
@@ -166,22 +164,20 @@ class PluginUpdates extends Singleton {
 	 * @return mixed
 	 */
 	public function populate_plugins( $field ) {
-		$plugin_updates = $this->get_all_plugin_updates();
+		$plugins = dollie()->get_container_plugins();
 
 		$choices = [];
 
-		if ( ! $plugin_updates ) {
+		if ( ! $plugins ) {
 			return $field;
 		}
 
-		foreach ( $plugin_updates as $update ) {
-			foreach ( $update as $plugin ) {
-				if ( 'must-use' === $plugin['status'] || 'none' === $plugin['update'] ) {
-					continue;
-				}
-
-				$choices[ $plugin['name'] ] = $plugin['title'] . ' ' . $plugin['version'];
+		foreach ( $plugins as $plugin ) {
+			if ( 'none' === $plugin['update'] ) {
+				continue;
 			}
+
+			$choices[ $plugin['name'] ] = $plugin['title'] . ' ' . $plugin['version'];
 		}
 
 		if ( ! empty( $choices ) ) {
@@ -189,40 +185,6 @@ class PluginUpdates extends Singleton {
 		}
 
 		return $field;
-	}
-
-
-	/**
-	 * Get available plugin updates for container
-	 *
-	 * @return mixed|string
-	 */
-	private function get_all_plugin_updates() {
-		$current_query = dollie()->get_current_object();
-		$container_uri = dollie()->get_wp_site_data( 'uri', $current_query->id );
-
-		if ( $updates = get_transient( 'dollie_get_plugin_updates_' . $container_uri ) ) {
-			return $updates;
-		}
-
-		$request = Api::post( Api::ROUTE_PLUGINS_UPDATES_GET, [ 'container_uri' => $container_uri ] );
-
-		$updates = Api::process_response( $request );
-
-		if ( ! $updates ) {
-			return false;
-		}
-
-		foreach ( $updates as $key => $update ) {
-			if ( ! is_array( $update ) ) {
-				$update = json_decode( $update, true );
-		    }
-			$updates[ $key ] = $update;
-		}
-
-		set_transient( 'dollie_get_plugin_updates_' . $container_uri, $updates, 15 );
-
-		return $updates;
 	}
 
 	/**

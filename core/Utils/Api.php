@@ -60,8 +60,13 @@ class Api extends Singleton {
 		ROUTE_BLUEPRINT_CHECK_DYNAMIC_FIELDS = 'blueprint/check-dynamic-fields',
 		ROUTE_BLUEPRINT_AVAILABILITY         = 'blueprint/availability',
 
-		ROUTE_PLUGINS_UPDATES_GET   = 'plugins/updates/get',
+		ROUTE_PLUGINS_LIST_GET      = 'plugins/list/get',
+		ROUTE_PLUGINS_BULK_LIST_GET = 'plugins/bulk/list/get',
 		ROUTE_PLUGINS_UPDATES_APPLY = 'plugins/updates/apply',
+
+		ROUTE_THEMES_LIST_GET      = 'themes/list/get',
+		ROUTE_THEMES_BULK_LIST_GET = 'themes/bulk/list/get',
+		ROUTE_THEMES_UPDATES_APPLY = 'themes/updates/apply',
 
 		ROUTE_CHECK_SUBSCRIPTION    = 'partner/check-subscription',
 		ROUTE_ADD_CUSTOM_BACKUP     = 'partner/add-custom-backup',
@@ -88,9 +93,9 @@ class Api extends Singleton {
 		EXECUTION_PLUGIN_APPLY_UPDATES    = 'plugins.apply.updates',
 		EXECUTION_WIZARD_SETUP            = 'wizard.setup';
 
-	const API_BASE_URL = 'https://api.getdollie.com/';
+	const API_BASE_URL = 'http://dollie-api.lcl/';
 	const API_URL      = self::API_BASE_URL . 'api/';
-	const PARTNERS_URL = 'https://partners.getdollie.com/';
+	const PARTNERS_URL = 'http://dollie-wp.lcl/';
 
 	public static $last_call = null;
 

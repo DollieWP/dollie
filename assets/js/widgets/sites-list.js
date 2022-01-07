@@ -15,9 +15,10 @@ var DollieSiteList = DollieSiteList || {};
       DollieSiteList.fn.search();
       DollieSiteList.fn.toggleView();
       DollieSiteList.fn.actionsAndFilters();
-      DollieSiteList.fn.sendAction();
       DollieSiteList.fn.applyFilters();
-      DollieSiteList.fn.checkAction();
+      DollieSiteList.fn.sendBulkAction();
+      DollieSiteList.fn.getBulkOptions();
+      DollieSiteList.fn.checkBulkAction();
       DollieSiteList.fn.recurringAction();
     },
 
@@ -148,8 +149,8 @@ var DollieSiteList = DollieSiteList || {};
       });
     },
 
-    sendAction: function () {
-      $(".dol-apply-action").on("click", function (e) {
+    sendBulkAction: function () {
+      $(".dol-send-bulk-action").on("click", function (e) {
         e.preventDefault();
 
         if (!$(".dol-action-list").val()) {
@@ -162,12 +163,37 @@ var DollieSiteList = DollieSiteList || {};
           return;
         }
 
+        var command_data = [];
+
+        if ($(".dol-plugins-list").length) {
+          $.each(
+            $(".dol-plugins-list input[type='checkbox']:checked"),
+            function () {
+              command_data.push({
+                id: $(this).attr("name"),
+                value: $(this).val(),
+              });
+            }
+          );
+        } else if ($(".dol-themes-list").length) {
+          $.each(
+            $(".dol-themes-list input[type='checkbox']:checked"),
+            function () {
+              command_data.push({
+                id: $(this).attr("name"),
+                value: $(this).val(),
+              });
+            }
+          );
+        }
+
         $.ajax({
           method: "POST",
           url: $(this).data("ajax-url"),
           data: {
             containers: DollieSiteList.vars.selectedSites,
             command: $(".dol-action-list").val(),
+            command_data: command_data,
             action: "dollie_do_bulk_action",
             nonce: $(this).data("nonce"),
           },
@@ -201,14 +227,22 @@ var DollieSiteList = DollieSiteList || {};
                 ".dol-sites-item.dol-sites-item-locked input[type=checkbox]"
               ).prop("checked", false);
               DollieSiteList.fn.updateSelectedSites();
-              DollieSiteList.fn.checkAction();
+              DollieSiteList.fn.checkBulkAction();
 
               var btn = $(this);
               setTimeout(function () {
                 btn.closest(".dol-modal").removeClass("dol-modal-visible");
                 $(".dol-open-modal").removeClass("dol-open-modal-visible");
-                $(".dol-select-all-container").prop("checked", false);
+                $(".dol-select-all-container")
+                  .prop("checked", false)
+                  .trigger("change");
               }, 2000);
+
+              $("#dol-resources-list").addClass("dol-hidden");
+              $("#dol-resources-list .dol-spinner").removeClass("dol-hidden");
+
+              $("#dol-resources-list").find(".dol-plugins-list").remove();
+              $("#dol-resources-list").find(".dol-themes-list").remove();
             } else {
               $(this).closest(".dol-modal").find(".dol-modal-success").hide();
               $(this).closest(".dol-modal").find(".dol-modal-error").show();
@@ -220,7 +254,90 @@ var DollieSiteList = DollieSiteList || {};
       });
     },
 
-    checkAction: function () {
+    getBulkOptions: function () {
+      $(".dol-send-bulk-action").prop("disabled", true);
+
+      var fetchResourceRequest = null;
+
+      $("#dol-bulk-action-type").on("change", function () {
+        if (
+          $(this).val() === "update-plugins" ||
+          $(this).val() === "update-themes"
+        ) {
+          $(".dol-send-bulk-action").prop("disabled", true);
+
+          if (fetchResourceRequest) {
+            fetchResourceRequest.abort();
+            fetchResourceRequest = null;
+
+            $("#dol-resources-list").addClass("dol-hidden");
+            $("#dol-resources-list .dol-spinner").removeClass("dol-hidden");
+
+            $("#dol-resources-list").find(".dol-plugins-list").remove();
+            $("#dol-resources-list").find(".dol-themes-list").remove();
+          }
+
+          fetchResourceRequest = $.ajax({
+            method: "POST",
+            url: $("#dol-resources-list").data("ajax-url"),
+            data: {
+              containers: DollieSiteList.vars.selectedSites,
+              command: $(this).val(),
+              action: "dollie_get_bulk_action_data",
+              nonce: $("#dol-resources-list").data("nonce"),
+            },
+            beforeSend: function () {
+              $("#dol-resources-list").removeClass("dol-hidden");
+              $("#dol-resources-list")
+                .find(".dol-spinner")
+                .removeClass("dol-hidden");
+
+              $("#dol-resources-list").find(".dol-plugins-list").remove();
+              $("#dol-resources-list").find(".dol-themes-list").remove();
+            },
+            success: function (response) {
+              fetchResourceRequest = null;
+
+              $("#dol-resources-list")
+                .find(".dol-spinner")
+                .addClass("dol-hidden");
+
+              var newContainer = $("#dol-resources-list");
+              newContainer.find(".dol-plugins-list").remove();
+              newContainer.find(".dol-themes-list").remove();
+              newContainer.append(response.data);
+
+              var pluginsContainer = newContainer.find(".dol-plugins-list");
+
+              if (pluginsContainer) {
+                pluginsContainer
+                  .addClass("dol-overflow-y-scroll")
+                  .css("max-height", "580px");
+              }
+
+              var themesContainer = newContainer.find(".dol-themes-list");
+
+              if (themesContainer) {
+                themesContainer
+                  .addClass("dol-overflow-y-scroll")
+                  .css("max-height", "580px");
+              }
+
+              $(".dol-send-bulk-action").prop("disabled", false);
+            },
+          });
+        } else {
+          $("#dol-resources-list").addClass("dol-hidden");
+          $("#dol-resources-list .dol-spinner").removeClass("dol-hidden");
+          $("#dol-resources-list").find(".dol-plugins-list").remove();
+          $("#dol-resources-list").find(".dol-themes-list").remove();
+
+          $(".dol-send-bulk-action").prop("disabled", false);
+        }
+      });
+    },
+
+    checkBulkAction: function () {
       DollieSiteList.vars.actionInterval = setInterval(function () {
         if ($(".dol-sites-item.dol-sites-item-locked").length) {
           $.ajax({

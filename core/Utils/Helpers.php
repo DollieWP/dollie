@@ -882,6 +882,8 @@ class Helpers extends Singleton {
 	}
 
 	/**
+	 * Get container screenshot
+	 *
 	 * @param $container_uri
 	 * @param bool          $regenerate
 	 *
@@ -899,6 +901,46 @@ class Helpers extends Singleton {
 	 */
 	public function regenerate_containers_screenshot( $containers = [] ) {
 		return Container::instance()->regenerate_screenshots( $containers );
+	}
+
+	/**
+	 * Get plugins
+	 *
+	 * @param string $container_uri
+	 * @return bool|array
+	 */
+	public function get_container_plugins( $container_uri = null ) {
+		return Container::instance()->get_plugins( $container_uri );
+	}
+
+	/**
+	 * Get plugins bulk
+	 *
+	 * @param string $containers
+	 * @return bool|array
+	 */
+	public function get_containers_plugins( $containers ) {
+		return Container::instance()->get_plugins_bulk( $containers );
+	}
+
+	/**
+	 * Get themes
+	 *
+	 * @param string $container_uri
+	 * @return bool|array
+	 */
+	public function get_container_themes( $container_uri = null ) {
+		return Container::instance()->get_themes( $container_uri );
+	}
+
+	/**
+	 * Get themes bulk
+	 *
+	 * @param string $containers
+	 * @return bool|array
+	 */
+	public function get_containers_themes( $containers ) {
+		return Container::instance()->get_themes_bulk( $containers );
 	}
 
 	/**
