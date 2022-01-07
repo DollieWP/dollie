@@ -191,7 +191,7 @@ class ContainerBulkActions extends Singleton {
 		$posts = dollie()->get_containers_data( $_REQUEST['containers'] );
 
 		if ( empty( $posts ) ) {
-			wp_send_json_error( [ 'message' => esc_html__( 'There has been something wrong with your request.', 'dollie' ) ] );
+			wp_send_json_error( [ 'message' => esc_html__( 'No matching sites were found for your selection.', 'dollie' ) ] );
 			exit;
 		}
 
@@ -403,7 +403,7 @@ class ContainerBulkActions extends Singleton {
 		$posts   = dollie()->get_containers_data( $_REQUEST['containers'] );
 
 		if ( empty( $posts ) ) {
-			wp_send_json_error( [ 'message' => esc_html__( 'There has been something wrong with your request.', 'dollie' ) ] );
+			wp_send_json_error( [ 'message' => esc_html__( 'No matching sites were found for your selection.', 'dollie' ) ] );
 			exit;
 		}
 
