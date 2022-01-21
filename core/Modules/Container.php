@@ -126,6 +126,8 @@ class Container extends Singleton {
 				'feeds'      => false,
 			],
 			'show_in_rest'        => false,
+            'capability_type' => [ 'wpd_site', 'wpd_sites' ],
+            'map_meta_cap' => true,
 		];
 
 		$args = apply_filters( 'dollie/cpt/container/args', $args );
