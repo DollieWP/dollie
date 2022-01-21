@@ -39,13 +39,19 @@ class AccessControl extends Singleton {
 		add_filter( 'wp_dropdown_users_args', [ $this, 'allow_all_authors' ], 10, 2 );
 
 		add_action( 'init', [ $this, 'sites_capabilities' ] );
-		add_filter('acf/save_post' , [ $this, 'acf_remove_cap_option' ], 10, 1 );
+		add_filter( 'acf/save_post', [ $this, 'acf_remove_cap_option' ], 10, 1 );
 
 		add_filter( 'acf/load_field/name=wpd_view_sites_permission', [ $this, 'acf_set_roles' ] );
 		add_filter( 'acf/load_field/name=manage_sites_permission', [ $this, 'acf_set_roles' ] );
 		add_filter( 'acf/load_field/name=delete_sites_permission', [ $this, 'acf_set_roles' ] );
 
 	}
+
+	/**
+	 * Remove option on ACF options save
+	 *
+	 * @param $post_id
+	 */
 	public function acf_remove_cap_option( $post_id ) {
 		if ( 'options' !== $post_id ) {
 			return;
@@ -54,12 +60,22 @@ class AccessControl extends Singleton {
 		delete_option( 'wpd_capabilities_added' );
 	}
 
+	/**
+	 * Populate the roles for ACF option
+	 *
+	 * @param $field
+	 *
+	 * @return mixed
+	 */
 	public function acf_set_roles( $field ) {
 		$field['choices'] = $this->get_roles();
 
 		return $field;
 	}
 
+	/**
+	 * Update capabilities for user roles
+	 */
 	public function sites_capabilities() {
 
 		$option_name = 'wpd_capabilities_added';
@@ -115,6 +131,16 @@ class AccessControl extends Singleton {
 		$settings_update = get_field( 'manage_sites_permission', 'options' );
 		$settings_delete = get_field( 'delete_sites_permission', 'options' );
 
+		if ( empty( $settings_view ) ) {
+			$settings_view = [];
+		}
+		if ( empty( $settings_update ) ) {
+			$settings_update = [];
+		}
+		if ( empty( $settings_delete ) ) {
+			$settings_delete = [];
+		}
+
 		$roles = $this->get_roles();
 
 		// Set the capabilities from Dollie settings.
@@ -125,6 +151,7 @@ class AccessControl extends Singleton {
 				$default_mappings[ $wp_role ] = [];
 			}
 
+			// View
 			if ( in_array( $wp_role, $settings_view, true ) ) {
 				$default_mappings[ $wp_role ] += array_merge( $view, $view_others );
 			} elseif ( ! empty( $default_mappings[ $wp_role ] ) ) {
@@ -133,6 +160,7 @@ class AccessControl extends Singleton {
 				$default_mappings[ $wp_role ] = array_diff( $default_mappings[ $wp_role ], $view_others );
 			}
 
+			// Update
 			if ( in_array( $wp_role, $settings_update, true ) ) {
 				$default_mappings[ $wp_role ] += array_merge( $update, $update_others );
 			} elseif ( ! empty( $default_mappings[ $wp_role ] ) ) {
@@ -141,6 +169,7 @@ class AccessControl extends Singleton {
 				$default_mappings[ $wp_role ] = array_diff( $default_mappings[ $wp_role ], $update_others );
 			}
 
+			// Delete
 			if ( in_array( $wp_role, $settings_delete, true ) ) {
 				$default_mappings[ $wp_role ] += array_merge( $delete, $delete_others );
 

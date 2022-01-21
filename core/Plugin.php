@@ -54,7 +54,7 @@ class Plugin extends Singleton {
 	/**
 	 * @var string
 	 */
-	public static $minimum_elementor_version = '2.0.0';
+	public static $minimum_elementor_version = '3.0.0';
 
 	/**
 	 * Plugin constructor.

@@ -31,7 +31,7 @@ class Options extends Singleton {
 
 		$api_menu_priority = 2;
 
-		if ( $this->is_live() || defined( 'DOLLIE_DEV' ) && DOLLIE_DEV ) {
+		if ( $this->is_live() || ( defined( 'DOLLIE_DEV' ) && DOLLIE_DEV ) ) {
 			$api_menu_priority = 99;
 			add_action( 'init', [ $this, 'add_acf_options_page' ] );
 
@@ -409,6 +409,18 @@ class Options extends Singleton {
 					esc_html__( 'View Blueprints', 'dollie' ),
 					'manage_options',
 					get_admin_url() . 'edit.php?post_type=container&blueprint=yes',
+				],
+			]
+		);
+		array_splice(
+			$submenu[ self::PANEL_SLUG ],
+			2,
+			0,
+			[
+				[
+					esc_html__( 'View Sites', 'dollie' ),
+					'edit_wpd_sites',
+					get_admin_url() . 'edit.php?post_type=container',
 				],
 			]
 		);

@@ -109,7 +109,7 @@ class Container extends Singleton {
 			'hierarchical'        => true,
 			'public'              => true,
 			'show_ui'             => true,
-			'show_in_menu'        => 'wpd_platform_setup',
+			'show_in_menu'        => false,
 			'menu_position'       => - 10,
 			'show_in_admin_bar'   => true,
 			'show_in_nav_menus'   => true,
