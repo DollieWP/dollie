@@ -9,7 +9,7 @@ import translate from "./translate";
 import { tailwindBuild, tailwindWatch } from "./tailwind";
 import build from "./build";
 
-const release = series(tailwindBuild, tailwindWatch, translate, build);
+const release = series(tailwindBuild, translate, build);
 
 export default release;
 
