@@ -16,6 +16,14 @@ use Dollie\Core\Singleton;
 class AccessControl extends Singleton {
 
 	/**
+	 * Custom capabilities of custom post type
+	 */
+	private static $custom_caps = [
+		'singular' => 'wpd_site',
+		'plural'   => 'wpd_sites'
+	];
+
+	/**
 	 * AccessControl constructor.
 	 */
 	public function __construct() {
@@ -25,10 +33,135 @@ class AccessControl extends Singleton {
 		add_action( 'template_redirect', [ $this, 'protect_launch_site' ] );
 		add_action( 'template_redirect', [ $this, 'protect_container_access' ], 1 );
 		add_action( 'template_redirect', [ $this, 'disable_blueprint_domain_access' ], 1 );
-		add_action( 'admin_init', [ $this, 'admin_access_only' ], 100 );
+		//add_action( 'admin_init', [ $this, 'admin_access_only' ], 100 );
 		add_action( 'user_has_cap', [ $this, 'restrict_form_delete' ], 10, 3 );
 
 		add_filter( 'wp_dropdown_users_args', [ $this, 'allow_all_authors' ], 10, 2 );
+
+		add_action( 'init', [ $this, 'sites_capabilities' ] );
+		add_filter( 'acf/load_field/name=wpd_view_sites_permission', [ $this, 'acf_set_roles' ] );
+		add_filter( 'acf/load_field/name=manage_sites_permission', [ $this, 'acf_set_roles' ] );
+		add_filter( 'acf/load_field/name=delete_sites_permission', [ $this, 'acf_set_roles' ] );
+
+	}
+
+	public function acf_set_roles( $field ) {
+		$field['choices'] = $this->get_roles();
+
+		return $field;
+	}
+
+	public function sites_capabilities() {
+
+		$singular = self::$custom_caps['singular'];
+		$plural   = self::$custom_caps['plural'];
+
+		$view        = [
+			"read_{$singular}",
+		];
+		$view_others = [
+			"read_private_{$plural}",
+		];
+
+		$update        = [
+			"edit_{$singular}",
+			"edit_{$plural}",
+			"publish_{$plural}",
+			"edit_published_{$plural}",
+		];
+		$update_others = [
+			"edit_others_{$plural}",
+			"edit_private_{$plural}",
+		];
+
+		$delete = [
+			"delete_{$singular}",
+			"delete_{$plural}",
+			"delete_published_{$plural}",
+		];
+
+		$delete_others = [
+			"delete_private_{$plural}",
+			"delete_others_{$plural}",
+		];
+
+		$all = array_merge( $view, $view_others, $update, $update_others, $delete, $delete_others );
+
+		$default_mappings = [
+			'subscriber'    => $view,
+			'author'        => array_merge( $view, $update, $delete ),
+			'editor'        => array_merge( $view, $update, $delete ),
+			'customer'      => array_merge( $view, $update, $delete ),
+			'administrator' => $all
+		];
+
+		// Get role settings.
+		$settings_view   = get_field( 'wpd_view_sites_permission', 'options' );
+		$settings_update = get_field( 'manage_sites_permission', 'options' );
+		$settings_delete = get_field( 'delete_sites_permission', 'options' );
+
+		$roles = $this->get_roles();
+
+		// Set the capabilities from Dollie settings.
+		foreach ( $roles as $wp_role => $wp_role_name ) {
+
+			// init role
+			if ( ! isset( $default_mappings[ $wp_role ] ) ) {
+				$default_mappings[ $wp_role ] = [];
+			}
+
+			if ( in_array( $wp_role, $settings_view, true ) ) {
+				$default_mappings[ $wp_role ] += array_merge( $view, $view_others );
+			} elseif ( ! empty( $default_mappings[ $wp_role ] ) ) {
+
+				//Keep any other capabilities
+				$default_mappings[ $wp_role ] = array_diff( $default_mappings[ $wp_role ], $view_others );
+			}
+
+			if ( in_array( $wp_role, $settings_update, true ) ) {
+				$default_mappings[ $wp_role ] += array_merge( $update, $update_others );
+			} elseif ( ! empty( $default_mappings[ $wp_role ] ) ) {
+
+				//Keep any other capabilities
+				$default_mappings[ $wp_role ] = array_diff( $default_mappings[ $wp_role ], $update_others );
+			}
+
+			if ( in_array( $wp_role, $settings_delete, true ) ) {
+				$default_mappings[ $wp_role ] += array_merge( $delete, $delete_others );
+
+			} elseif ( ! empty( $default_mappings[ $wp_role ] ) ) {
+
+				//Keep any other capabilities
+				$default_mappings[ $wp_role ] = array_diff( $default_mappings[ $wp_role ], $delete_others );
+			}
+		}
+
+		// set roles capabilities
+		foreach ( $default_mappings as $role => $mapping ) {
+
+			$role = get_role( $role );
+
+			if ( $role ) {
+				foreach ( $all as $cap ) {
+					if ( ! in_array( $cap, $mapping, true ) ) {
+						$role->remove_cap( $cap );
+						continue;
+					}
+
+					$role->add_cap( $cap );
+				}
+			}
+		}
+
+	}
+
+	private function get_roles() {
+		global $wp_roles;
+		$roles = $wp_roles->get_names();
+
+		unset( $roles['subscriber'], $roles['contributor'], $roles['author'], $roles['administrator'] );
+
+		return $roles;
 	}
 
 	/**
