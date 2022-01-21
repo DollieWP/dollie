@@ -39,10 +39,19 @@ class AccessControl extends Singleton {
 		add_filter( 'wp_dropdown_users_args', [ $this, 'allow_all_authors' ], 10, 2 );
 
 		add_action( 'init', [ $this, 'sites_capabilities' ] );
+		add_filter('acf/save_post' , [ $this, 'acf_remove_cap_option' ], 10, 1 );
+
 		add_filter( 'acf/load_field/name=wpd_view_sites_permission', [ $this, 'acf_set_roles' ] );
 		add_filter( 'acf/load_field/name=manage_sites_permission', [ $this, 'acf_set_roles' ] );
 		add_filter( 'acf/load_field/name=delete_sites_permission', [ $this, 'acf_set_roles' ] );
 
+	}
+	public function acf_remove_cap_option( $post_id ) {
+		if ( 'options' !== $post_id ) {
+			return;
+		}
+
+		delete_option( 'wpd_capabilities_added' );
 	}
 
 	public function acf_set_roles( $field ) {
@@ -52,6 +61,12 @@ class AccessControl extends Singleton {
 	}
 
 	public function sites_capabilities() {
+
+		$option_name = 'wpd_capabilities_added';
+
+		if ( get_option( $option_name ) ) {
+			return;
+		}
 
 		$singular = self::$custom_caps['singular'];
 		$plural   = self::$custom_caps['plural'];
@@ -152,6 +167,8 @@ class AccessControl extends Singleton {
 				}
 			}
 		}
+
+		update_option( $option_name, 1 );
 
 	}
 
