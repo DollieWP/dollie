@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Modules\AccessControl;
 use Dollie\Core\Singleton;
 use WP_Query;
 
@@ -119,7 +120,7 @@ class Helpers extends Singleton {
 	/**
 	 * Get container staging url
 	 *
-	 * @param null    $container_id
+	 * @param null $container_id
 	 * @param boolean $temp_url
 	 *
 	 * @return string
@@ -152,8 +153,8 @@ class Helpers extends Singleton {
 	/**
 	 * Get login url for container
 	 *
-	 * @param null    $container_id
-	 * @param null    $container_location
+	 * @param null $container_id
+	 * @param null $container_location
 	 * @param boolean $staging
 	 *
 	 * @return string
@@ -178,9 +179,10 @@ class Helpers extends Singleton {
 	/**
 	 * Customer login
 	 *
-	 * @param null    $container_id
-	 * @param null    $container_location
+	 * @param null $container_id
+	 * @param null $container_location
 	 * @param boolean $staging
+	 *
 	 * @return string
 	 */
 	public function final_customer_login_url( $container_id = null, $container_location = null, $staging = false ) {
@@ -231,7 +233,7 @@ class Helpers extends Singleton {
 			$url .= '?s5token=' . $token_details->Token . $location;
 		} else {
 			$details = Container::instance()->get_info( $container->id );
-			$url    .= '?s5token=' . $details->Token . $location;
+			$url     .= '?s5token=' . $details->Token . $location;
 		}
 
 		return $url;
@@ -489,7 +491,7 @@ class Helpers extends Singleton {
 			[
 				'author'        => $user_id,
 				'post_type'     => 'container',
-				'post_per_page' => -1,
+				'post_per_page' => - 1,
 				'post_status'   => 'publish',
 				'meta_query'    => [
 					[
@@ -645,7 +647,7 @@ class Helpers extends Singleton {
 
 	/**
 	 * @param $site_id
-	 * @param string  $page
+	 * @param string $page
 	 *
 	 * @return string
 	 */
@@ -664,33 +666,33 @@ class Helpers extends Singleton {
 	 */
 	public function could_not_connect_message() {
 		?>
-		<div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden">
-			<div class="dol-flex dol-items-center dol-bg-red-600">
-				<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-red-700 dol-flex dol-items-center dol-justify-center">
-					<i class="fas fa-exclamation-circle dol-text-white dol-text-2xl"></i>
-				</div>
-				<h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
+        <div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden">
+            <div class="dol-flex dol-items-center dol-bg-red-600">
+                <div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-red-700 dol-flex dol-items-center dol-justify-center">
+                    <i class="fas fa-exclamation-circle dol-text-white dol-text-2xl"></i>
+                </div>
+                <h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
 					<?php esc_html_e( 'Sorry, we could not retrieve your site details', 'dollie' ); ?>
-				</h4>
-			</div>
-			<div class="dol-px-4 dol-py-2 lg:dol-px-8 lg:dol-py-6 dol-bg-gray-100">
-				<div class="dol-mb-4">
+                </h4>
+            </div>
+            <div class="dol-px-4 dol-py-2 lg:dol-px-8 lg:dol-py-6 dol-bg-gray-100">
+                <div class="dol-mb-4">
 					<?php esc_html_e( 'We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error.', 'dollie' ); ?>
-				</div>
+                </div>
 
-				<div>
-					<a href="<?php echo esc_url( get_permalink() . '?get-details' ); ?>"
-					   class="dol-text-sm dol-text-white hover:dol-text-white dol-inline-block dol-px-4 dol-py-2 dol-bg-gray-800 hover:dol-bg-gray-900 dol-rounded">
+                <div>
+                    <a href="<?php echo esc_url( get_permalink() . '?get-details' ); ?>"
+                       class="dol-text-sm dol-text-white hover:dol-text-white dol-inline-block dol-px-4 dol-py-2 dol-bg-gray-800 hover:dol-bg-gray-900 dol-rounded">
 						<?php esc_html_e( 'Retry', 'dollie' ); ?>
-					</a>
+                    </a>
 
-					<a href="<?php echo esc_url( get_site_url() . '/support' ); ?>"
-					   class="dol-text-sm dol-text-white hover:dol-text-white dol-inline-block dol-px-4 dol-py-2 dol-bg-gray-500 hover:dol-bg-gray-600 dol-rounded">
+                    <a href="<?php echo esc_url( get_site_url() . '/support' ); ?>"
+                       class="dol-text-sm dol-text-white hover:dol-text-white dol-inline-block dol-px-4 dol-py-2 dol-bg-gray-500 hover:dol-bg-gray-600 dol-rounded">
 						<?php esc_html_e( 'Create a support ticket', 'dollie' ); ?>
-					</a>
-				</div>
-			</div>
-		</div>
+                    </a>
+                </div>
+            </div>
+        </div>
 		<?php
 	}
 
@@ -872,8 +874,8 @@ class Helpers extends Singleton {
 	 * @param $url
 	 * @param $transient_id
 	 * @param $user_auth
-	 * @param null         $user_pass
-	 * @param bool         $force
+	 * @param null $user_pass
+	 * @param bool $force
 	 *
 	 * @return mixed
 	 */
@@ -885,7 +887,7 @@ class Helpers extends Singleton {
 	 * Get container screenshot
 	 *
 	 * @param $container_uri
-	 * @param bool          $regenerate
+	 * @param bool $regenerate
 	 *
 	 * @return mixed
 	 */
@@ -897,6 +899,7 @@ class Helpers extends Singleton {
 	 * Regenerate screenshot
 	 *
 	 * @param array $containers
+	 *
 	 * @return array
 	 */
 	public function regenerate_containers_screenshot( $containers = [] ) {
@@ -907,6 +910,7 @@ class Helpers extends Singleton {
 	 * Get plugins
 	 *
 	 * @param string $container_uri
+	 *
 	 * @return bool|array
 	 */
 	public function get_container_plugins( $container_uri = null ) {
@@ -917,6 +921,7 @@ class Helpers extends Singleton {
 	 * Get plugins bulk
 	 *
 	 * @param string $containers
+	 *
 	 * @return bool|array
 	 */
 	public function get_containers_plugins( $containers ) {
@@ -927,6 +932,7 @@ class Helpers extends Singleton {
 	 * Get themes
 	 *
 	 * @param string $container_uri
+	 *
 	 * @return bool|array
 	 */
 	public function get_container_themes( $container_uri = null ) {
@@ -937,6 +943,7 @@ class Helpers extends Singleton {
 	 * Get themes bulk
 	 *
 	 * @param string $containers
+	 *
 	 * @return bool|array
 	 */
 	public function get_containers_themes( $containers ) {
@@ -1054,7 +1061,7 @@ class Helpers extends Singleton {
 	/**
 	 * @param $needle
 	 * @param $haystack
-	 * @param bool     $strict
+	 * @param bool $strict
 	 *
 	 * @return bool
 	 */
@@ -1272,8 +1279,8 @@ class Helpers extends Singleton {
 		}
 
 		$elementor_builder = \Elementor\Plugin::instance()->editor->is_edit_mode()
-							 || \Elementor\Plugin::instance()->preview->is_preview()
-							 || isset( $_GET['elementor_library'] );
+		                     || \Elementor\Plugin::instance()->preview->is_preview()
+		                     || isset( $_GET['elementor_library'] );
 
 		if ( $elementor_builder ) {
 
@@ -1296,8 +1303,9 @@ class Helpers extends Singleton {
 	/**
 	 * Get containers data
 	 *
-	 * @param array  $data
+	 * @param array $data
 	 * @param string $with
+	 *
 	 * @return array
 	 */
 	public function get_containers_data( $data, $with = 'post_id' ) {
@@ -1355,7 +1363,7 @@ class Helpers extends Singleton {
 	/**
 	 * Save execution
 	 *
-	 * @param int   $container_id
+	 * @param int $container_id
 	 * @param array $execution
 	 *
 	 * @return void
@@ -1379,7 +1387,7 @@ class Helpers extends Singleton {
 	/**
 	 * Get execution
 	 *
-	 * @param int    $container_id
+	 * @param int $container_id
 	 * @param string $execution_type
 	 *
 	 * @return null|string
@@ -1391,7 +1399,7 @@ class Helpers extends Singleton {
 	/**
 	 * Remove execution
 	 *
-	 * @param int    $container_id
+	 * @param int $container_id
 	 * @param string $execution_type
 	 *
 	 * @return void
@@ -1421,9 +1429,10 @@ class Helpers extends Singleton {
 	/**
 	 * Load template
 	 *
-	 * @param string  $template
-	 * @param array   $args
+	 * @param string $template
+	 * @param array $args
 	 * @param boolean $echo
+	 *
 	 * @return void|string
 	 */
 	public function load_template( $template, $args, $echo = false ) {
@@ -1447,6 +1456,7 @@ class Helpers extends Singleton {
 	 * Get domain records
 	 *
 	 * @param string $container_uri
+	 *
 	 * @return array|bool
 	 */
 	public function get_domain_records( $container_uri ) {
@@ -1457,9 +1467,22 @@ class Helpers extends Singleton {
 	 * Get domain existing records
 	 *
 	 * @param string $domain
+	 *
 	 * @return array|bool
 	 */
 	public function get_domain_existing_records( $domain ) {
 		return Domain::instance()->get_existing_records( $domain );
+	}
+
+	public function can_view_all_sites( $user_id = null ) {
+		return AccessControl::instance()->can_view_all_sites( $user_id );
+	}
+
+	public function can_manage_all_sites( $user_id = null ) {
+		return AccessControl::instance()->can_manage_all_sites( $user_id );
+	}
+
+	public function can_delete_all_sites( $user_id = null ) {
+		return AccessControl::instance()->can_delete_all_sites( $user_id );
 	}
 }

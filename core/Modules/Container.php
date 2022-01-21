@@ -126,7 +126,7 @@ class Container extends Singleton {
 				'feeds'      => false,
 			],
 			'show_in_rest'        => false,
-            'capability_type' => [ 'wpd_site', 'wpd_sites' ],
+            'capability_type' => 'wpd_site',
             'map_meta_cap' => true,
 		];
 

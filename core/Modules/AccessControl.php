@@ -45,6 +45,51 @@ class AccessControl extends Singleton {
 		add_filter( 'acf/load_field/name=manage_sites_permission', [ $this, 'acf_set_roles' ] );
 		add_filter( 'acf/load_field/name=delete_sites_permission', [ $this, 'acf_set_roles' ] );
 
+		add_filter( 'pre_get_posts', [ $this, 'sites_for_current_author' ] );
+
+	}
+
+	public function can_view_all_sites( $user_id = null ) {
+		if ( empty( $user_id ) ) {
+			$user_id = get_current_user_id();
+		}
+
+		return user_can( $user_id, 'read_private_wpd_sites' );
+	}
+
+	public function can_manage_all_sites( $user_id = null ) {
+		if ( empty( $user_id ) ) {
+			$user_id = get_current_user_id();
+		}
+
+		return user_can( $user_id, 'edit_others_wpd_sites' );
+	}
+
+	public function can_delete_all_sites( $user_id = null ) {
+		if ( empty( $user_id ) ) {
+			$user_id = get_current_user_id();
+		}
+
+		return user_can( $user_id, 'delete_others__wpd_sites' );
+	}
+
+	public function sites_for_current_author( $query ) {
+		if ( ! is_admin() ) {
+			return $query;
+		}
+
+		global $pagenow;
+
+		if ( 'edit.php' !== $pagenow || ! isset( $_GET['post_type'] ) || $_GET['post_type'] !== 'container' ) {
+			return $query;
+		}
+
+		if ( ! $this->can_view_all_sites() ) {
+
+			$query->set( 'author', get_current_user_id() );
+		}
+
+		return $query;
 	}
 
 	/**
@@ -153,7 +198,7 @@ class AccessControl extends Singleton {
 
 			// View
 			if ( in_array( $wp_role, $settings_view, true ) ) {
-				$default_mappings[ $wp_role ] += array_merge( $view, $view_others );
+				$default_mappings[ $wp_role ] = array_merge( $default_mappings[ $wp_role ], $view, $view_others );
 			} elseif ( ! empty( $default_mappings[ $wp_role ] ) ) {
 
 				//Keep any other capabilities
@@ -162,7 +207,8 @@ class AccessControl extends Singleton {
 
 			// Update
 			if ( in_array( $wp_role, $settings_update, true ) ) {
-				$default_mappings[ $wp_role ] += array_merge( $update, $update_others );
+
+				$default_mappings[ $wp_role ] = array_merge( $default_mappings[ $wp_role ], $update, $update_others );
 			} elseif ( ! empty( $default_mappings[ $wp_role ] ) ) {
 
 				//Keep any other capabilities
@@ -171,7 +217,7 @@ class AccessControl extends Singleton {
 
 			// Delete
 			if ( in_array( $wp_role, $settings_delete, true ) ) {
-				$default_mappings[ $wp_role ] += array_merge( $delete, $delete_others );
+				$default_mappings[ $wp_role ] = array_merge( $default_mappings[ $wp_role ], $delete, $delete_others );
 
 			} elseif ( ! empty( $default_mappings[ $wp_role ] ) ) {
 

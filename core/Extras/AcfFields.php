@@ -1240,12 +1240,30 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'maxlength'         => '',
 				),
 				array(
+					'key' => 'field_61eadc8bdf23f',
+					'label' => __('ACL Settings', 'dollie'),
+					'name' => '',
+					'type' => 'message',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'hide_admin' => 0,
+					'message' => __('With these settings you can enable access to Site Management features to other user roles besides the Administrator role. Be careful with this setting and make sure that you carefully assign the correct user roles to your team members before changing these settings', 'dollie'),
+					'new_lines' => 'wpautop',
+					'esc_html' => 0,
+				),
+				array(
 					'key' => 'field_61ea98ea16f3c',
 					'label' => __('View Sites Permission', 'dollie'),
 					'name' => 'wpd_view_sites_permission',
 					'type' => 'checkbox',
-					'instructions' => __('Grant specific User Roles the VIEW permission on all of your Sites. 
-This will allow those roles to view your sites.', 'dollie'),
+					'instructions' => __('Grant specific User Roles the VIEW permission on all platform Sites. 
+This will allow those roles to view all platform sites.', 'dollie'),
 					'required' => 0,
 					'conditional_logic' => 0,
 					'wrapper' => array(
@@ -1272,8 +1290,8 @@ This will allow those roles to view your sites.', 'dollie'),
 					'label' => __('Manage Sites Permission', 'dollie'),
 					'name' => 'manage_sites_permission',
 					'type' => 'checkbox',
-					'instructions' => __('Grant specific User Roles the MANAGE permission on all of your Sites. 
-This will allow those roles to update and manage sites.', 'dollie'),
+					'instructions' => __('Grant specific User Roles the MANAGE permission on all platform Sites. 
+This will allow those roles to update and manage all platform sites.', 'dollie'),
 					'required' => 0,
 					'conditional_logic' => 0,
 					'wrapper' => array(
@@ -1300,8 +1318,8 @@ This will allow those roles to update and manage sites.', 'dollie'),
 					'label' => __('Delete Sites Permission', 'dollie'),
 					'name' => 'delete_sites_permission',
 					'type' => 'checkbox',
-					'instructions' => __('Grant specific User Roles the DELETE permission on all of your Sites. 
-This will allow those roles to remove sites.', 'dollie'),
+					'instructions' => __('Grant specific User Roles the DELETE permission on all platform Sites. 
+This will allow those roles to remove all platform sites.', 'dollie'),
 					'required' => 0,
 					'conditional_logic' => 0,
 					'wrapper' => array(
