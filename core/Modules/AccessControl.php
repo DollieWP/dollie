@@ -310,36 +310,39 @@ class AccessControl extends Singleton {
 	 * Protect container access
 	 */
 	public function protect_container_access() {
-		global $wp_query;
 
 		$sub_page = get_query_var( 'sub_page' );
-		if ( ! current_user_can( 'manage_options' ) ) {
 
-			if ( is_post_type_archive( 'container' ) ) {
+		if ( dollie()->can_manage_all_sites() ) {
+			return;
+		}
+
+		if ( is_post_type_archive( 'container' ) ) {
+			wp_redirect( get_site_url( null, '/' ) );
+			exit();
+		}
+
+		if ( is_singular( 'container' ) ) {
+
+			global $post;
+			$current_user_id = get_current_user_id();
+
+			// If something wrong with the logged in user or post author.
+			if ( empty( $current_user_id ) || empty( (int) $post->post_author ) ) {
 				wp_redirect( get_site_url( null, '/' ) );
 				exit();
 			}
 
-			if ( is_singular( 'container' ) ) {
+			// Is site owner?
+			if ( $post && (int) $post->post_author !== get_current_user_id() ) {
+				wp_redirect( get_site_url( null, '/' ) );
+				exit();
+			}
 
-				global $post;
-				$current_user_id = get_current_user_id();
-				if ( empty( $current_user_id ) || empty( (int) $post->post_author ) ) {
-					wp_redirect( get_site_url( null, '/' ) );
-					exit();
-				}
-
-				// Is site owner?
-				if ( $post && (int) $post->post_author !== get_current_user_id() ) {
-					wp_redirect( get_site_url( null, '/' ) );
-					exit();
-				}
-
-				// Has access to the specific section?
-				if ( $sub_page && ! dollie()->in_array_r( $sub_page, $this->get_available_sections() ) ) {
-					wp_redirect( get_permalink() );
-					exit();
-				}
+			// Has access to the specific section?
+			if ( $sub_page && ! dollie()->in_array_r( $sub_page, $this->get_available_sections() ) ) {
+				wp_redirect( get_permalink() );
+				exit();
 			}
 		}
 	}
