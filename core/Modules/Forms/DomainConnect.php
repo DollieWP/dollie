@@ -41,6 +41,10 @@ class DomainConnect extends Singleton {
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 		add_filter( 'af/form/attributes/key=' . $this->form_key, [ $this, 'change_form_attributes' ] );
 
+		// Form fields & attributes.
+		add_filter( 'af/form/field_attributes/key=' . $this->form_key, [ $this, 'field_attributes_visibility' ], 10, 4 );
+		add_filter( 'af/field/before_render/name=allow_dns', [ $this, 'field_visibility' ], 10, 3 );
+
 		// Restrictions.
 		add_filter( 'af/form/restriction/key=' . $this->form_key, [ $this, 'restrict_form' ], 10 );
 
@@ -67,6 +71,11 @@ class DomainConnect extends Singleton {
 		$domain    = trim( af_get_field( 'domain_name' ) );
 		$domain    = str_replace( [ 'http://', 'https://' ], '', $domain );
 		$allow_dns = af_get_field( 'allow_dns' );
+
+		// Force to classic domain connect if DNS manager is not enabled globally
+		if ( ! get_field( 'wpd_enable_dns_manager', 'options' ) ) {
+			$allow_dns = 'no';
+		}
 
 		// Extra check and see if the same domain is already linked - skip.
 		$saved_domain = get_post_meta( $container->id, 'wpd_domains', true );
@@ -151,12 +160,6 @@ class DomainConnect extends Singleton {
 		$records = dollie()->get_domain_existing_records( $domain );
 		$ip      = dollie()->get_wp_site_data( 'ip', $container->id );
 
-		// if ( dollie()->is_using_cloudflare( $domain ) ) {
-		// af_add_error( 'domain_name', __( 'This domain is using cloudflare and we cannot check for the correct IP!', 'dollie' ) );
-
-		// return;
-		// }
-
 		if ( 'no' === af_get_field( 'allow_dns' ) ) {
 			if ( empty( $records ) ) {
 				af_add_error( 'domain_name', __( 'Cannot fetch domain\'s records. Make sure this is a valid domain name and try again.', 'dollie' ) );
@@ -233,6 +236,43 @@ class DomainConnect extends Singleton {
 	}
 
 	/**
+	 * Field label visibility
+	 *
+	 * @param array $attributes
+	 * @param array $field
+	 * @param array $form
+	 * @param array $args
+	 * @return array
+	 */
+	public function field_attributes_visibility( $attributes, $field, $form, $args ) {
+		$dns_manager_enabled = get_field( 'wpd_enable_dns_manager', 'options' );
+
+		if ( ! $dns_manager_enabled && 'allow_dns' === $attributes['data-name'] ) {
+			$attributes['class'] .= ' acf-hidden';
+		}
+
+		return $attributes;
+	}
+
+	/**
+	 * Field visibility
+	 *
+	 * @param array $field
+	 * @param array $form
+	 * @param array $args
+	 * @return array
+	 */
+	public function field_visibility( $field, $form, $args ) {
+		$dns_manager_enabled = get_field( 'wpd_enable_dns_manager', 'options' );
+
+		if ( ! $dns_manager_enabled ) {
+			$field['class'] .= ' acf-hidden';
+		}
+
+		return $field;
+	}
+
+	/**
 	 * Check if form is restricted
 	 *
 	 * @return bool
@@ -241,7 +281,8 @@ class DomainConnect extends Singleton {
 		$container = dollie()->get_current_object();
 
 		// If submitted domain with dns manager on, restrict it.
-		if ( get_post_meta( $container->id, 'wpd_domain_dns_manager', true ) ) {
+		$dns_manager_enabled = get_field( 'wpd_enable_dns_manager', 'options' );
+		if ( $dns_manager_enabled && get_post_meta( $container->id, 'wpd_domain_dns_manager', true ) ) {
 			return true;
 		}
 
