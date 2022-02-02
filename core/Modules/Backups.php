@@ -54,6 +54,7 @@ class Backups extends Singleton
 		);
 
 		if (false === $backups_response || 500 === $backups_response['status'] || $backups_response['body'] == 0) {
+
 			//Grab the last known backup points if connection fails.
 			$backups = get_post_meta($container_id, 'wpd_installation_backups_listing', true);
 			update_post_meta($container_id, 'wpd_installation_backups_outdated', 'yes');
