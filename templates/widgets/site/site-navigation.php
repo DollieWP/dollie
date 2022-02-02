@@ -64,10 +64,10 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 								continue;
 							}
 
-							$active_class = $sub_page === $page ? ' dol-text-primary' : 'dol-font-normal dol-text-gray-400 dark:dol-text-gray-300';
+							$active_class = $sub_page === $page ? 'dol-text-primary' : 'dol-text-gray-400';
 							?>
-							<li class="dol-m-0 dol-p-2">
-								<a class="<?php echo esc_attr( $active_class ); ?> dol-nav-btn dol-nav-btn-secondary dol-font-semibold dol-pt-1 dol-pb-1"
+							<li class="dol-my-2">
+								<a class="dol-flex dol-items-center dol-nav-btn-secondary dol-font-semibold <?php echo esc_attr( $active_class ); ?>"
 								   href="<?php echo dollie()->get_site_url( $current_id, $page ); ?>">
 									<?php echo $title; ?>
 								</a>

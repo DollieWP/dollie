@@ -2,7 +2,7 @@
 
 namespace Dollie\Core\Modules;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
@@ -15,7 +15,8 @@ use Dollie\Core\Log;
  *
  * @package Dollie\Core\Modules
  */
-class Backups extends Singleton {
+class Backups extends Singleton
+{
 
 	/**
 	 * Get backups
@@ -25,64 +26,63 @@ class Backups extends Singleton {
 	 *
 	 * @return array|mixed
 	 */
-	public function get( $container_id = null, $force = false ) {
+	public function get($container_id = null, $force = false)
+	{
 
-		$current_query  = dollie()->get_current_object( $container_id );
+		$current_query  = dollie()->get_current_object($container_id);
 		$container_id   = $current_query->id;
 		$container_slug = $current_query->slug;
 
-		if ( 0 === $container_id ) {
+		// if (0 === $container_id) {
+		// 	return [];
+		// }
+
+
+		$secret        = get_post_meta($container_id, 'wpd_container_secret', true);
+		$container_url = dollie()->get_container_url($container_id, true);
+
+		if (empty($secret) || empty($container_url)) {
 			return [];
 		}
 
-		$backups_transient_name = 'dollie_' . $container_slug . '_backups_data';
-		$data                   = get_transient( $backups_transient_name );
+		$request_get_backup = Api::post(
+			Api::ROUTE_BACKUP_GET,
+			[
+				'container_url'    => $container_url,
+				'container_secret' => $secret,
+			]
+		);
 
-		if ( ! $force && false !== $data ) {
-			$backups = $data;
+		if (false === $backups_response || 500 === $backups_response['status'] || $backups_response['body'] == 0) {
+
+			//Grab the last known backup points if connection fails.
+			$backups = get_post_meta($container_id, 'wpd_installation_backups_listing', true);
+			update_post_meta($container_id, 'wpd_installation_backups_outdated', 'yes');
 		} else {
-			$secret        = get_post_meta( $container_id, 'wpd_container_secret', true );
-			$container_url = dollie()->get_container_url( $container_id, true );
-
-			if ( empty( $secret ) || empty( $container_url ) ) {
-				return [];
-			}
-
-			$request_get_backup = Api::post(
-				Api::ROUTE_BACKUP_GET,
-				[
-					'container_url'    => $container_url,
-					'container_secret' => $secret,
-				]
-			);
-
-			$backups_response = Api::process_response( $request_get_backup, null );
-
-			if ( false === $backups_response || 500 === $backups_response['status'] ) {
-				return false;
-			}
-
-			$backups = dollie()->maybe_decode_json( $backups_response['body'], true );
-
-			if ( isset( $backups['body'] ) ) {
-				$backups = dollie()->maybe_decode_json( $backups['body'], true );
-			}
+			$backups = dollie()->maybe_decode_json($backups_response['body'], true);
+			update_post_meta($container_id, 'wpd_installation_backups_listing', $backups);
+			update_post_meta($container_id, 'wpd_installation_backups_outdated_notice', 'no');
 		}
+
+		if (isset($backups['body'])) {
+			$backups = dollie()->maybe_decode_json($backups['body'], true);
+		}
+
 
 		$total_backups = array_filter(
 			$backups,
-			static function ( $value ) {
-				if ( is_array( $value ) ) {
+			static function ($value) {
+				if (is_array($value)) {
 					return false;
 				}
 
-				return ! ( strpos( $value, 'restore' ) !== false );
+				return !(strpos($value, 'restore') !== false);
 			}
 		);
 
-		update_post_meta( $container_id, 'wpd_installation_backups_available', count( $total_backups ) );
+		update_post_meta($container_id, 'wpd_installation_backups_available', count($total_backups));
 
-		set_transient( $backups_transient_name, $backups, 15 );
+		set_transient($backups_transient_name, $backups, 15);
 
 		return $backups;
 	}
@@ -94,52 +94,53 @@ class Backups extends Singleton {
 	 *
 	 * @return mixed
 	 */
-	public function count( $container_id = null ) {
-		$container = dollie()->get_current_object( $container_id );
-		$backups   = $this->get( $container->id );
+	public function count($container_id = null)
+	{
+		$container = dollie()->get_current_object($container_id);
+		$backups   = $this->get($container->id);
 
-		if ( false !== $backups ) {
+		if (false !== $backups) {
 			return count(
 				array_filter(
 					$backups,
-					static function ( $value ) {
-						if ( is_array( $value ) ) {
+					static function ($value) {
+						if (is_array($value)) {
 							return false;
 						}
 
-						return ! ( false !== strpos( $value, 'restore' ) );
+						return !(false !== strpos($value, 'restore'));
 					}
 				)
 			);
 		}
 
 		return false;
-
 	}
 
 	/**
 	 * @return array
 	 */
-	public function get_site_restores() {
+	public function get_site_restores()
+	{
 		$backups  = $this->get();
 		$restores = [];
 
-		foreach ( $backups as $backup ) {
-			$info = explode( '|', $backup );
+		foreach ($backups as $backup) {
+			$info = explode('|', $backup);
 
-			if ( 'restore' !== $info[1] ) {
+			if ('restore' !== $info[1]) {
 				continue;
 			}
 
-			$backup_date = explode( '_', $info[0] );
+			$backup_date = explode('_', $info[0]);
 
 			// Date of backup.
-			$date        = strtotime( $backup_date[0] );
-			$raw_time    = str_replace( '-', ':', $backup_date[1] );
-			$pretty_time = date( 'g:i a', strtotime( $raw_time ) );
+			$date        = strtotime($backup_date[0]);
+			$raw_time    = str_replace('-', ':', $backup_date[1]);
+			$pretty_time = date('g:i a', strtotime($raw_time));
 			$time        = ' at ' . $pretty_time . '';
 
-			$restores[] = date( 'd F y', $date ) . $time;
+			$restores[] = date('d F y', $date) . $time;
 		}
 
 		return $restores;
@@ -153,22 +154,22 @@ class Backups extends Singleton {
 	 *
 	 * @return bool
 	 */
-	public function make( $container_id = null, $with_log = true ) {
-		$container = dollie()->get_current_object( $container_id );
+	public function make($container_id = null, $with_log = true)
+	{
+		$container = dollie()->get_current_object($container_id);
 
-		if ( 0 === $container->id ) {
+		if (0 === $container->id) {
 			return false;
 		}
 
-		$container_uri = dollie()->get_wp_site_data( 'uri', $container->id );
+		$container_uri = dollie()->get_wp_site_data('uri', $container->id);
 
-		Api::process_response( Api::post( Api::ROUTE_BACKUP_CREATE, [ 'container_uri' => $container_uri ] ) );
+		Api::process_response(Api::post(Api::ROUTE_BACKUP_CREATE, ['container_uri' => $container_uri]));
 
-		if ( $with_log ) {
-			Log::add_front( Log::WP_SITE_BACKUP_STARTED, $container, $container->slug );
+		if ($with_log) {
+			Log::add_front(Log::WP_SITE_BACKUP_STARTED, $container, $container->slug);
 		}
 
 		return true;
 	}
-
 }

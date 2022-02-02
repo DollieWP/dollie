@@ -33,6 +33,7 @@ class ContainerBulkActions extends Singleton {
 
 		add_action( 'wp_ajax_dollie_do_bulk_action', [ $this, 'do_bulk_action' ] );
 		add_action( 'wp_ajax_dollie_check_bulk_action', [ $this, 'check_bulk_action' ] );
+		add_action( 'wp_ajax_dollie_get_bulk_action_data', [ $this, 'get_action_data' ] );
 	}
 
 	/**
@@ -82,7 +83,6 @@ class ContainerBulkActions extends Singleton {
 	 * @return string
 	 */
 	public function log_action_content_filter( $content, $values, $log_id ) {
-
 		$bulk_actions = get_post_meta( $log_id, '_wpd_sub_logs', true );
 
 		if ( ! empty( $bulk_actions ) ) {
@@ -172,22 +172,25 @@ class ContainerBulkActions extends Singleton {
 	public function do_bulk_action() {
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'dollie_do_bulk_action' ) ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
+			exit;
 		}
 
 		$command = sanitize_text_field( $_REQUEST['command'] );
 
 		if ( ! array_key_exists( $command, $this->get_allowed_commands() ) ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'Invalid command.', 'dollie' ) ] );
+			exit;
 		}
 
 		if ( empty( $_REQUEST['containers'] ) ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'No sites selected.', 'dollie' ) ] );
+			exit;
 		}
 
 		$posts = dollie()->get_containers_data( $_REQUEST['containers'] );
 
 		if ( empty( $posts ) ) {
-			wp_send_json_error( [ 'message' => esc_html__( 'There has been something wrong with your request.', 'dollie' ) ] );
+			wp_send_json_error( [ 'message' => esc_html__( 'No matching sites were found for your selection.', 'dollie' ) ] );
 			exit;
 		}
 
@@ -212,12 +215,44 @@ class ContainerBulkActions extends Singleton {
 			}
 		}
 
+		$send_request = true;
+		$command_data = [];
+
+		if ( ( 'update-plugins' === $command || 'update-themes' === $command ) ) {
+			if ( ! isset( $_REQUEST['command_data'] ) || ! is_array( $_REQUEST['command_data'] ) || empty( $_REQUEST['command_data'] ) ) {
+				$send_request = false;
+			} else {
+				$command_data = $_REQUEST['command_data'];
+
+				foreach ( $command_data as &$item ) {
+					foreach ( $posts as $post ) {
+						if ( (int) $item['id'] === $post->ID ) {
+							$item['container_uri'] = dollie()->get_wp_site_data( 'uri', $post->ID );
+						}
+					}
+				}
+			}
+		}
+
+		if ( ! $send_request ) {
+			if ( 'update-plugins' === $command ) {
+				wp_send_json_error( [ 'message' => esc_html__( 'Please select at least one plugin to update.', 'dollie' ) ] );
+				exit;
+			}
+
+			if ( 'update-themes' === $command ) {
+				wp_send_json_error( [ 'message' => esc_html__( 'Please select at least one theme to update.', 'dollie' ) ] );
+				exit;
+			}
+		}
+
 		$response = Api::process_response(
 			Api::post(
 				Api::ROUTE_CONTAINER_BULK_ACTION,
 				[
-					'targets' => $targets,
-					'command' => $command,
+					'targets'      => $targets,
+					'command'      => $command,
+					'command_data' => $command_data,
 				]
 			)
 		);
@@ -258,6 +293,7 @@ class ContainerBulkActions extends Singleton {
 	public function check_bulk_action() {
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'dollie_check_bulk_action' ) ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
+			exit;
 		}
 
 		wp_send_json_success( $this->check_bulk_actions() );
@@ -349,6 +385,110 @@ class ContainerBulkActions extends Singleton {
 		update_option( 'wpd_container_bulk_actions_processing_' . get_current_user_id(), false );
 
 		return $response;
+	}
+
+	/**
+	 * Get action data
+	 *
+	 * @return void
+	 */
+	public function get_action_data() {
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'dollie_get_bulk_action_data' ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
+			exit;
+		}
+
+		$command = sanitize_text_field( $_REQUEST['command'] );
+		$posts   = dollie()->get_containers_data( $_REQUEST['containers'] );
+
+		if ( empty( $posts ) ) {
+			wp_send_json_error( [ 'message' => esc_html__( 'No matching sites were found for your selection.', 'dollie' ) ] );
+			exit;
+		}
+
+		$containers = [];
+
+		foreach ( $posts as $post ) {
+			$containers[] = dollie()->get_wp_site_data( 'uri', $post->ID );
+		}
+
+		$data = '';
+
+		if ( 'update-plugins' === $command ) {
+			$plugins_response = dollie()->get_containers_plugins( $containers );
+			$plugins_data     = [];
+
+			if ( false !== $plugins_response ) {
+				foreach ( $plugins_response as $container_uri => $data ) {
+					foreach ( $data as $plugin ) {
+						$plugins_data[] = [
+							'title' => $plugin['title'],
+							'name'  => $plugin['name'],
+						];
+					}
+				}
+
+				$plugins_data = array_unique( $plugins_data, SORT_REGULAR );
+
+				foreach ( $plugins_response as $container_uri => $data ) {
+					foreach ( $data as $plugin ) {
+						foreach ( $posts as $post ) {
+							if ( $container_uri === dollie()->get_wp_site_data( 'uri', $post->ID ) ) {
+								foreach ( $plugins_data as &$plugin_data ) {
+									if ( $plugin_data['name'] === $plugin['name'] ) {
+										$plugin_data['sites'][ $post->ID ] = [
+											'title' => $post->post_title,
+											'url'   => $container_uri,
+										];
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			$data = dollie()->load_template( 'loop/parts/modal-actions/parts/plugins', [ 'plugins_data' => $plugins_data ] );
+		}
+
+		if ( 'update-themes' === $command ) {
+			$themes_response = dollie()->get_containers_themes( $containers );
+			$themes_data     = [];
+
+			if ( false !== $themes_response ) {
+				foreach ( $themes_response as $container_uri => $data ) {
+					foreach ( $data as $theme ) {
+						$themes_data[] = [
+							'title' => $theme['title'],
+							'name'  => $theme['name'],
+						];
+					}
+				}
+
+				$themes_data = array_unique( $themes_data, SORT_REGULAR );
+
+				foreach ( $themes_response as $container_uri => $data ) {
+					foreach ( $data as $theme ) {
+						foreach ( $posts as $post ) {
+							if ( $container_uri === dollie()->get_wp_site_data( 'uri', $post->ID ) ) {
+								foreach ( $themes_data as &$theme_data ) {
+									if ( $theme_data['name'] === $theme['name'] ) {
+										$theme_data['sites'][ $post->ID ] = [
+											'title' => $post->post_title,
+											'url'   => $container_uri,
+										];
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			$data = dollie()->load_template( 'loop/parts/modal-actions/parts/themes', [ 'themes_data' => $themes_data ] );
+		}
+
+		wp_send_json_success( $data );
 	}
 
 	/**

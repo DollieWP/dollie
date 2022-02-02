@@ -6,7 +6,8 @@
   "scripts": {
     "translate": "gulp translate",
     "build": "gulp",
-    "build-tailwind": "gulp tailwind"
+    "build:tailwind": "gulp tailwindBuild",
+    "watch:tailwind": "gulp tailwindWatch"
   },
   "repository": {
     "type": "git",
@@ -15,7 +16,8 @@
   "author": "Dollie",
   "license": "ISC",
   "devDependencies": {
-    "autoprefixer": "^10.0.2",
+    "@tailwindcss/forms": "^0.4.0",
+    "autoprefixer": "^10.4.1",
     "del": "^5.1.0",
     "gulp": "^4.0.2",
     "gulp-csso": "^4.0.1",
@@ -27,12 +29,11 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-wp-pot": "^2.4.3",
     "gulp-zip": "^5.0.2",
-    "postcss": "^8.2.4",
+    "postcss": "^8.4.5",
     "pump": "^3.0.0",
-    "tailwindcss": "^2.2.16"
+    "tailwindcss": "^3.0.11"
   },
   "dependencies": {
-    "@tailwindcss/forms": "^0.2.1",
     "esm": "^3.2.25",
     "kutty": "^0.4.1"
   }

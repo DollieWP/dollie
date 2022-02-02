@@ -414,7 +414,6 @@ class Domain extends Singleton {
 		delete_post_meta( $post_id, 'wpd_domain_dns_manager' );
 		delete_post_meta( $post_id, 'wpd_domain_pending' );
 		delete_post_meta( $post_id, 'wpd_domain_zone' );
-
 	}
 
 	/**

@@ -109,7 +109,7 @@ class Container extends Singleton {
 			'hierarchical'        => true,
 			'public'              => true,
 			'show_ui'             => true,
-			'show_in_menu'        => 'wpd_platform_setup',
+			'show_in_menu'        => false,
 			'menu_position'       => - 10,
 			'show_in_admin_bar'   => true,
 			'show_in_nav_menus'   => true,
@@ -126,6 +126,8 @@ class Container extends Singleton {
 				'feeds'      => false,
 			],
 			'show_in_rest'        => false,
+            'capability_type' => 'wpd_site',
+            'map_meta_cap' => true,
 		];
 
 		$args = apply_filters( 'dollie/cpt/container/args', $args );
@@ -1292,6 +1294,140 @@ class Container extends Singleton {
 		);
 
 		return Api::process_response( $request_screenshot );
+	}
+
+	/**
+	 * Get plugins list
+	 *
+	 * @param string $container_uri
+	 *
+	 * @return bool|array
+	 */
+	public function get_plugins( $container_uri = null ) {
+		if ( ! $container_uri ) {
+			$current_query = dollie()->get_current_object();
+			$container_uri = dollie()->get_wp_site_data( 'uri', $current_query->id );
+		}
+
+		if ( $plugins = get_transient( 'dollie_get_plugins_list_' . $container_uri ) ) {
+			return $plugins;
+		}
+
+		$request = Api::post( Api::ROUTE_PLUGINS_LIST_GET, [ 'container_uri' => $container_uri ] );
+
+		$plugins = Api::process_response( $request );
+
+		if ( ! $plugins ) {
+			return false;
+		}
+
+		foreach ( $plugins as $key => $plugin ) {
+			if ( ! is_array( $plugin ) ) {
+				$plugin = @json_decode( $plugin, true );
+			}
+
+			$plugins[ $key ] = $plugin;
+		}
+
+		if ( count( $plugins ) === 1 && isset( $plugins[0] ) ) {
+			$plugins = $plugins[0];
+		} else {
+			$plugins = [];
+		}
+
+		set_transient( 'dollie_get_plugins_list_' . $container_uri, $plugins, 15 );
+
+		return $plugins;
+	}
+
+	/**
+	 * Get plugins bulk list
+	 *
+	 * @param string $containers
+	 *
+	 * @return bool|array
+	 */
+	public function get_plugins_bulk( $containers = [] ) {
+		if ( ! is_array( $containers ) ) {
+			return false;
+		}
+
+		$request = Api::post( Api::ROUTE_PLUGINS_BULK_LIST_GET, [ 'containers' => $containers ] );
+
+		$plugins = Api::process_response( $request );
+
+		if ( ! $plugins ) {
+			return false;
+		}
+
+		return $plugins;
+	}
+
+	/**
+	 * Get themes list
+	 *
+	 * @param string $container_uri
+	 *
+	 * @return bool|array
+	 */
+	public function get_themes( $container_uri = null ) {
+		if ( ! $container_uri ) {
+			$current_query = dollie()->get_current_object();
+			$container_uri = dollie()->get_wp_site_data( 'uri', $current_query->id );
+		}
+
+		if ( $themes = get_transient( 'dollie_get_themes_list_' . $container_uri ) ) {
+			return $themes;
+		}
+
+		$request = Api::post( Api::ROUTE_THEMES_LIST_GET, [ 'container_uri' => $container_uri ] );
+
+		$themes = Api::process_response( $request );
+
+		if ( ! $themes ) {
+			return false;
+		}
+
+		foreach ( $themes as $key => $theme ) {
+			if ( ! is_array( $theme ) ) {
+				$theme = @json_decode( $theme, true );
+			}
+
+			$themes[ $key ] = $theme;
+		}
+
+		if ( count( $themes ) === 1 && isset( $themes[0] ) ) {
+			$themes = $themes[0];
+		} else {
+			$themes = [];
+		}
+
+		set_transient( 'dollie_get_themes_list_' . $container_uri, $themes, 15 );
+
+		return $themes;
+	}
+
+	/**
+	 * Get themes bulk list
+	 *
+	 * @param string $containers
+	 *
+	 * @return bool|array
+	 */
+	public function get_themes_bulk( $containers = [] ) {
+		if ( ! is_array( $containers ) ) {
+			return false;
+		}
+
+		$request = Api::post( Api::ROUTE_THEMES_BULK_LIST_GET, [ 'containers' => $containers ] );
+
+		$themes = Api::process_response( $request );
+
+		if ( ! $themes ) {
+			return false;
+		}
+
+		return $themes;
 	}
 
 	/**
