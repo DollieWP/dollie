@@ -28,6 +28,17 @@
 				printf(_n('You have %s backup available!', 'You have %s backups available!', $available_backups, 'dollie'), $available_backups);
 				?>
 			</span>
+
+			<?php if (dollie()->has_site_backup_notice(get_the_ID())) : ?>
+				<div class="dol-flex dol-items-center dol-bg-gray-100 dol-mt-2 dol-mb-2">
+					<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-flex dol-items-center dol-justify-center dol-h-full dol-bg-gray-200">
+						<i class="fas fa-info dol-text-l md:dol-text-2xl"></i>
+					</div>
+					<span class="dol-block dol-px-4 lg:dol-px-8 lg:dol-py-2 dol-m-0 dol-p-0 dol-font-bold dol-text dol-text-sm md:dol-text-l">
+						Your backup listing might be slightly out-of-date. This should resolve itself automatically.</span>
+				</div>
+			<?php endif; ?>
+
 			<?php
 			$backups_list = do_shortcode('[dollie_form form="form_dollie_list_backups"]');
 			echo $backups_list;
