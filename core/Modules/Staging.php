@@ -111,7 +111,7 @@ class Staging extends Singleton {
 		$deploy_status = 'pending';
 
 		$post_body = [
-			'source'  => dollie()->get_container_url( $container_id ),
+			'source'  => dollie()->get_wp_site_data('uri', $container_id),
 			'envVars' => [
 				'S5_DEPLOYMENT_URL' => get_site_url(),
 			],
