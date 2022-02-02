@@ -2,9 +2,9 @@
 Contributors: GetDollie
 Tags: hosting, waas, wordpress hosting, sell hosting
 Requires at least: 5.0
-Tested up to: 5.8.2
+Tested up to: 5.9
 Requires PHP: 7.0
-Stable tag: 4.8.0
+Stable tag: 4.9.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -155,6 +155,17 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 6. **Developer Tools.** The Developer Tools allow you to quickly manage sites on your platform, or allow your customers to do that themselves.
 
 == Changelog ==
+
+= 4.9.0 =
+* New feature: Allow plugin/theme selection on bulk update
+* Implement custom capabilities for site post type
+* Better UI for plugin bulk update selection
+* Allow just clients with active subscription to launch sites.
+* Allow to remove the domain when is pending NS change
+* Remove the Show blueprint option since it removes the site marked as blueprint
+* Update messaging for admin on launch site with no active subscription
+* Domain connect UI fixes
+* Use correct container URL for staging request
 
 = 4.8.0 =
 * Introducing DNS Manager. Move you domain nameservers to us and we'll let you manage DNS records right from your site dashboard.
