@@ -2,7 +2,7 @@
 
 namespace Dollie\Core\Modules;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
 	exit; // Exit if accessed directly.
 }
 
@@ -17,7 +17,8 @@ use Dollie\Core\Utils\Api;
  *
  * @package Dollie\Core\Modules
  */
-class Options extends Singleton {
+class Options extends Singleton
+{
 
 
 	const PANEL_SLUG = 'wpd_platform_setup';
@@ -26,39 +27,40 @@ class Options extends Singleton {
 	/**
 	 * Options constructor.
 	 */
-	public function __construct() {
+	public function __construct()
+	{
 		parent::__construct();
 
 		$api_menu_priority = 2;
 
-		if ( $this->is_live() || ( defined( 'DOLLIE_DEV' ) && DOLLIE_DEV ) ) {
+		if ($this->is_live() || (defined('DOLLIE_DEV') && DOLLIE_DEV)) {
 			$api_menu_priority = 99;
-			add_action( 'init', [ $this, 'add_acf_options_page' ] );
+			add_action('init', [$this, 'add_acf_options_page']);
 
-			if ( is_admin() ) {
-				add_action( 'acf/input/admin_head', [ $this, 'add_api_boxes_before' ], 1 );
+			if (is_admin()) {
+				add_action('acf/input/admin_head', [$this, 'add_api_boxes_before'], 1);
 			}
 		}
 
-		add_action( 'admin_menu', [ $this, 'add_staging_menu_page' ], 1 );
-		add_action( 'admin_menu', [ $this, 'dollie_submenus' ], 99 );
-		add_action( 'admin_menu', [ $this, 'dollie_submenu_api' ], $api_menu_priority );
-		add_action( 'admin_menu', [ $this, 'add_external_menu_links' ], 100 );
-		add_action( 'admin_menu', [ $this, 'remove_duplicate_admin_menu' ], 100 );
-		add_action( 'admin_menu', [ $this, 'remove_duplicate_forms_menu' ], 100 );
-		add_action( 'admin_footer', [ $this, 'external_menu_scripts' ] );
+		add_action('admin_menu', [$this, 'add_staging_menu_page'], 1);
+		add_action('admin_menu', [$this, 'dollie_submenus'], 99);
+		add_action('admin_menu', [$this, 'dollie_submenu_api'], $api_menu_priority);
+		add_action('admin_menu', [$this, 'add_external_menu_links'], 100);
+		add_action('admin_menu', [$this, 'remove_duplicate_admin_menu'], 100);
+		add_action('admin_menu', [$this, 'remove_duplicate_forms_menu'], 100);
+		add_action('admin_footer', [$this, 'external_menu_scripts']);
 
-		add_action( 'wp_before_admin_bar_render', [ $this, 'dollie_adminbar_menu' ], 2000 );
-		add_filter( 'acf/load_field/name=wpd_api_domain', [ $this, 'dollie_domain_readonly' ] );
+		add_action('wp_before_admin_bar_render', [$this, 'dollie_adminbar_menu'], 2000);
+		add_filter('acf/load_field/name=wpd_api_domain', [$this, 'dollie_domain_readonly']);
 
-		add_action( 'load-edit.php', [ $this, 'add_info_banners' ] );
+		add_action('load-edit.php', [$this, 'add_info_banners']);
 
-		add_filter( 'admin_body_class', [ $this, 'add_staging_body_class' ] );
-		add_filter( 'current_screen', [ $this, 'update_blueprints_counter' ] );
-		add_filter( 'views_edit-container', [ $this, 'update_blueprints_filters' ] );
+		add_filter('admin_body_class', [$this, 'add_staging_body_class']);
+		add_filter('current_screen', [$this, 'update_blueprints_counter']);
+		add_filter('views_edit-container', [$this, 'update_blueprints_filters']);
 
-		add_action( 'admin_init', [ Api::instance(), 'process_token' ] );
-		add_action( 'admin_init', [ $this, 'disconnect_dollie' ] );
+		add_action('admin_init', [Api::instance(), 'process_token']);
+		add_action('admin_init', [$this, 'disconnect_dollie']);
 	}
 
 	/**
@@ -66,7 +68,8 @@ class Options extends Singleton {
 	 *
 	 * @return mixed
 	 */
-	public function dollie_domain_readonly( $field ) {
+	public function dollie_domain_readonly($field)
+	{
 		$field['readonly'] = 1;
 
 		return $field;
@@ -75,15 +78,16 @@ class Options extends Singleton {
 	/**
 	 * Disconnect from API
 	 */
-	public function disconnect_dollie() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+	public function disconnect_dollie()
+	{
+		if (!current_user_can('manage_options')) {
 			return;
 		}
 
-		if ( isset( $_GET['disconnect_dollie'] ) ) {
+		if (isset($_GET['disconnect_dollie'])) {
 			Api::delete_auth_token();
 
-			wp_redirect( admin_url( 'admin.php?page=' . self::PANEL_SLUG ) );
+			wp_redirect(admin_url('admin.php?page=' . self::PANEL_SLUG));
 			exit;
 		}
 	}
@@ -93,21 +97,23 @@ class Options extends Singleton {
 	 *
 	 * @return bool
 	 */
-	public function is_live() {
+	public function is_live()
+	{
 		return dollie()->is_live();
 	}
 
 	/**
 	 * Test acf page option
 	 */
-	public function add_acf_options_page() {
-		if ( ! function_exists( 'acf_add_options_page' ) ) {
+	public function add_acf_options_page()
+	{
+		if (!function_exists('acf_add_options_page')) {
 			return;
 		}
 
 		$args = [
-			'page_title'  => __( 'Settings', 'dollie' ),
-			'menu_title'  => __( 'Dollie (Live)', 'dollie' ),
+			'page_title'  => __('Settings', 'dollie'),
+			'menu_title'  => __('Dollie (Live)', 'dollie'),
 			'menu_slug'   => self::PANEL_SLUG,
 			'capability'  => 'manage_options',
 			'position'    => '4',
@@ -117,21 +123,22 @@ class Options extends Singleton {
 			'autoload'    => true,
 		];
 
-		acf_add_options_page( $args );
+		acf_add_options_page($args);
 	}
 
 	/**
 	 * Test menu page
 	 */
-	public function add_staging_menu_page() {
-		$page_title = __( 'Dollie (Staging)', 'dollie' );
+	public function add_staging_menu_page()
+	{
+		$page_title = __('Dollie (Staging)', 'dollie');
 
-		if ( $this->is_live() ) {
-			$title    = __( 'Settings', 'dollie' );
+		if ($this->is_live()) {
+			$title    = __('Settings', 'dollie');
 			$callback = '';
 		} else {
 			$title    = $page_title;
-			$callback = [ $this, 'dollie_api_content' ];
+			$callback = [$this, 'dollie_api_content'];
 		}
 
 		add_menu_page(
@@ -148,8 +155,9 @@ class Options extends Singleton {
 	/**
 	 * Submenus
 	 */
-	public function dollie_submenus() {
-		if ( defined( 'DOLLIE_DEV' ) && DOLLIE_DEV ) {
+	public function dollie_submenus()
+	{
+		if (defined('DOLLIE_DEV') && DOLLIE_DEV) {
 			add_submenu_page(
 				self::PANEL_SLUG,
 				'Forms',
@@ -159,14 +167,14 @@ class Options extends Singleton {
 			);
 		}
 
-		if ( defined( 'DOLLIE_DEV' ) && DOLLIE_DEV && $this->is_live() ) {
+		if (defined('DOLLIE_DEV') && DOLLIE_DEV && $this->is_live()) {
 			add_submenu_page(
 				self::PANEL_SLUG,
 				'Tools',
 				'Tools',
 				'manage_options',
 				'wpd_tools',
-				[ $this, 'dollie_tools_content' ]
+				[$this, 'dollie_tools_content']
 			);
 		}
 	}
@@ -174,10 +182,11 @@ class Options extends Singleton {
 	/**
 	 * Api Submenu
 	 */
-	public function dollie_submenu_api() {
+	public function dollie_submenu_api()
+	{
 		$url = self::API_SLUG;
 
-		if ( ! $this->is_live() ) {
+		if (!$this->is_live()) {
 			$url = self::PANEL_SLUG;
 		}
 
@@ -187,35 +196,37 @@ class Options extends Singleton {
 			'API',
 			'manage_options',
 			$url,
-			[ $this, 'dollie_api_content' ]
+			[$this, 'dollie_api_content']
 		);
 	}
 
 	/**
 	 * Remove duplicated admin menu
 	 */
-	public function remove_duplicate_admin_menu() {
-		 global $menu;
+	public function remove_duplicate_admin_menu()
+	{
+		global $menu;
 		$entries = [];
-		foreach ( $menu as $key => $values ) {
-			if ( self::PANEL_SLUG === $values[2] ) {
+		foreach ($menu as $key => $values) {
+			if (self::PANEL_SLUG === $values[2]) {
 				$entries[] = $key;
 			}
 		}
 
-		if ( count( $entries ) > 1 ) {
-			unset( $menu[ $entries[0] ] );
+		if (count($entries) > 1) {
+			unset($menu[$entries[0]]);
 		}
 	}
 
 	/**
 	 * Remove duplicated forms menu
 	 */
-	public function remove_duplicate_forms_menu() {
-		 global $menu;
-		foreach ( $menu as $key => $values ) {
-			if ( 'edit.php?post_type=af_form' === $values[2] ) {
-				unset( $menu[ $key ] );
+	public function remove_duplicate_forms_menu()
+	{
+		global $menu;
+		foreach ($menu as $key => $values) {
+			if ('edit.php?post_type=af_form' === $values[2]) {
+				unset($menu[$key]);
 				break;
 			}
 		}
@@ -226,24 +237,26 @@ class Options extends Singleton {
 	 *
 	 * @return void
 	 */
-	public function external_menu_scripts() {
-		?>
+	public function external_menu_scripts()
+	{
+?>
 		<script type="text/javascript">
 			jQuery(document).ready(function($) {
-				$('#dol-url-partner-dashboard').parent().attr('target','_blank');
-				$('#dol-url-support').parent().attr('target','_blank');
+				$('#dol-url-partner-dashboard').parent().attr('target', '_blank');
+				$('#dol-url-support').parent().attr('target', '_blank');
 			});
 		</script>
-		<?php
+	<?php
 	}
 
 	/**
 	 * Admin bar menu
 	 */
-	public function dollie_adminbar_menu() {
+	public function dollie_adminbar_menu()
+	{
 		global $wp_admin_bar;
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if (!current_user_can('manage_options')) {
 			return;
 		}
 
@@ -251,10 +264,10 @@ class Options extends Singleton {
 
 		$iconurl = DOLLIE_URL . 'assets/img/active.png';
 
-		if ( $this->is_live() ) {
-			$menu_title = __( 'Dollie (Live)', 'dollie' );
+		if ($this->is_live()) {
+			$menu_title = __('Dollie (Live)', 'dollie');
 		} else {
-			$menu_title = __( 'Dollie (Staging)', 'dollie' );
+			$menu_title = __('Dollie (Staging)', 'dollie');
 		}
 
 		$iconspan = '<span class="custom-icon" style="
@@ -281,11 +294,11 @@ class Options extends Singleton {
 			]
 		);
 
-		if ( ! $this->is_live() ) {
+		if (!$this->is_live()) {
 			$wp_admin_bar->add_menu(
 				[
 					'parent' => $menu_id,
-					'title'  => __( 'Connect with Dollie', 'dollie' ),
+					'title'  => __('Connect with Dollie', 'dollie'),
 					'id'     => 'dwb-go-live',
 					'href'   => \Dollie\Core\Plugin::instance()->get_api_access_url(),
 				]
@@ -295,40 +308,40 @@ class Options extends Singleton {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => esc_html__( 'Settings', 'dollie' ),
+				'title'  => esc_html__('Settings', 'dollie'),
 				'id'     => 'dab-settings',
 				'href'   => get_admin_url() . 'admin.php?page=' . self::PANEL_SLUG,
-				'meta'   => [ 'target' => '' ],
+				'meta'   => ['target' => ''],
 			]
 		);
 
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => esc_html__( 'View Sites', 'dollie' ),
+				'title'  => esc_html__('View Sites', 'dollie'),
 				'id'     => 'dab-site',
 				'href'   => get_admin_url() . 'edit.php?post_type=container',
-				'meta'   => [ 'target' => '' ],
+				'meta'   => ['target' => ''],
 			]
 		);
 
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => esc_html__( 'View Blueprints', 'dollie' ),
+				'title'  => esc_html__('View Blueprints', 'dollie'),
 				'id'     => 'dab-blueprints',
 				'href'   => get_admin_url() . 'edit.php?post_type=container&blueprint=yes',
-				'meta'   => [ 'target' => '' ],
+				'meta'   => ['target' => ''],
 			]
 		);
 
-		if ( $launch_site ) {
+		if ($launch_site) {
 			$wp_admin_bar->add_menu(
 				[
 					'parent' => $menu_id,
-					'title'  => esc_html__( 'Launch New Site', 'dollie' ),
+					'title'  => esc_html__('Launch New Site', 'dollie'),
 					'id'     => 'dwb-launch',
-					'href'   => get_permalink( $launch_site ),
+					'href'   => get_permalink($launch_site),
 				]
 			);
 		}
@@ -336,21 +349,21 @@ class Options extends Singleton {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => esc_html__( 'Logs', 'dollie' ),
+				'title'  => esc_html__('Logs', 'dollie'),
 				'id'     => 'dab-logs',
 				'href'   => get_admin_url() . 'edit.php?post_type=dollie-logs',
-				'meta'   => [ 'target' => '' ],
+				'meta'   => ['target' => ''],
 			]
 		);
 
-		if ( defined( 'DOLLIE_DEV' ) && DOLLIE_DEV ) {
+		if (defined('DOLLIE_DEV') && DOLLIE_DEV) {
 			$wp_admin_bar->add_menu(
 				[
 					'parent' => $menu_id,
-					'title'  => esc_html__( 'Forms' ),
+					'title'  => esc_html__('Forms'),
 					'id'     => 'dab-forms',
 					'href'   => get_admin_url() . 'edit.php?post_type=af_form',
-					'meta'   => [ 'target' => '' ],
+					'meta'   => ['target' => ''],
 				]
 			);
 		}
@@ -358,7 +371,7 @@ class Options extends Singleton {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => esc_html__( 'Visit Partner Dashboard', 'dollie' ),
+				'title'  => esc_html__('Visit Partner Dashboard', 'dollie'),
 				'id'     => 'dwb-partner',
 				'href'   => 'https://partners.getdollie.com',
 			]
@@ -368,57 +381,58 @@ class Options extends Singleton {
 	/**
 	 * Add external links menu
 	 */
-	public function add_external_menu_links() {
-		 global $submenu;
+	public function add_external_menu_links()
+	{
+		global $submenu;
 
-		$submenu[ self::PANEL_SLUG ][] = [
-			'<div id="dol-url-partner-dashboard">' . esc_html__( 'Partner Dashboard', 'dollie' ) . '</div>',
+		$submenu[self::PANEL_SLUG][] = [
+			'<div id="dol-url-partner-dashboard">' . esc_html__('Partner Dashboard', 'dollie') . '</div>',
 			'manage_options',
 			'https://partners.getdollie.com',
 		];
 
-		$submenu[ self::PANEL_SLUG ][] = [
-			'<div id="dol-url-support">' . esc_html__( 'Support', 'dollie' ) . '</div>',
+		$submenu[self::PANEL_SLUG][] = [
+			'<div id="dol-url-support">' . esc_html__('Support', 'dollie') . '</div>',
 			'manage_options',
 			'https://partners.getdollie.com/?redirect=support',
 		];
 
 		$launch_site = dollie()->get_launch_page_id();
 
-		if ( $launch_site ) {
+		if ($launch_site) {
 			array_splice(
-				$submenu[ self::PANEL_SLUG ],
+				$submenu[self::PANEL_SLUG],
 				2,
 				0,
 				[
 					[
-						esc_html__( 'Launch New Site', 'dollie' ),
+						esc_html__('Launch New Site', 'dollie'),
 						'manage_options',
-						get_permalink( $launch_site ),
+						get_permalink($launch_site),
 					],
 				]
 			);
 		}
 
 		array_splice(
-			$submenu[ self::PANEL_SLUG ],
+			$submenu[self::PANEL_SLUG],
 			2,
 			0,
 			[
 				[
-					esc_html__( 'View Blueprints', 'dollie' ),
+					esc_html__('View Blueprints', 'dollie'),
 					'manage_options',
 					get_admin_url() . 'edit.php?post_type=container&blueprint=yes',
 				],
 			]
 		);
 		array_splice(
-			$submenu[ self::PANEL_SLUG ],
+			$submenu[self::PANEL_SLUG],
 			2,
 			0,
 			[
 				[
-					esc_html__( 'View Sites', 'dollie' ),
+					esc_html__('View Sites', 'dollie'),
 					'edit_wpd_sites',
 					get_admin_url() . 'edit.php?post_type=container',
 				],
@@ -429,21 +443,23 @@ class Options extends Singleton {
 	/**
 	 * Tools page content
 	 */
-	public function dollie_tools_content() {
+	public function dollie_tools_content()
+	{
 		$containers = [];
 
-		if ( array_key_exists( 'synchronize', $_POST ) ) {
+		if (array_key_exists('synchronize', $_POST)) {
 			$containers = SyncContainersJob::instance()->run();
 		}
 
-		dollie()->load_template( 'admin/tools-page', [ 'containers' => $containers ], true );
+		dollie()->load_template('admin/tools-page', ['containers' => $containers], true);
 	}
 
 	/**
 	 * Api page content
 	 */
-	public function dollie_api_content() {
-		dollie()->load_template( 'admin/api-page', [], true );
+	public function dollie_api_content()
+	{
+		dollie()->load_template('admin/api-page', [], true);
 	}
 
 	/**
@@ -453,8 +469,9 @@ class Options extends Singleton {
 	 *
 	 * @return string
 	 */
-	public function add_staging_body_class( $classes ) {
-		if ( ! $this->is_live() ) {
+	public function add_staging_body_class($classes)
+	{
+		if (!$this->is_live()) {
 			$classes .= ' dollie_is_staging';
 		}
 
@@ -464,9 +481,10 @@ class Options extends Singleton {
 	/**
 	 * Api status box
 	 */
-	public function add_api_boxes_before() {
+	public function add_api_boxes_before()
+	{
 		$screen = get_current_screen();
-		if ( $screen && 'toplevel_page_' . self::PANEL_SLUG === $screen->id ) {
+		if ($screen && 'toplevel_page_' . self::PANEL_SLUG === $screen->id) {
 			add_meta_box(
 				'custom-mb-before-acf',
 				'CUSTOM MB BEFORE ACF',
@@ -487,46 +505,81 @@ class Options extends Singleton {
 	 * @param $post
 	 * @param array $args
 	 */
-	public function add_api_boxes_callback( $post, $args = [] ) {
+	public function add_api_boxes_callback($post, $args = [])
+	{
 		$token  = Api::get_auth_token();
-		$status = __( 'Inactive', 'dollie' );
+		$status = __('Inactive', 'dollie');
 		$class  = 'api-inactive';
 
-		if ( $token ) {
-			$status = __( 'Active', 'dollie' );
+		if ($token) {
+			$status = __('Active', 'dollie');
 			$class  = 'api-active';
 		}
 
-		?>
-		<div class="notice dollie-notice <?php echo esc_attr( $class ); ?>">
+		$args = array(
+			"post_type" => "product",
+			"status" => "publish",
+			"meta_query" => array(
+				array(
+					'key'     => 'wpd_',
+					'compare_key' => 'LIKE',
+				),
+			),
+		);
+		$query = new \WP_Query($args);
+
+	?>
+		<div class="notice dollie-notice <?php echo esc_attr($class); ?>">
 			<div class="dollie-inner-message">
 				<h2>
-					API Status: <span class="<?php echo esc_attr( $class ); ?>-span"><?php echo $status; ?></span>
+					API Status: <span class="<?php echo esc_attr($class); ?>-span"><?php echo $status; ?></span>
 				</h2>
+				<?php
+				if (get_field('wpd_charge_for_deployments', 'options') == true && $token) {
+					if ($query->have_posts()) : ?>
+						<hr>
+						<h2>
+							Product Setup <span class="api-active-span">Complete</span>
+						</h2>
+						<strong>One or more WooCommmerce products with Dollie settings are found</strong>
+						<hr>
+					<?php else : ?>
+						<hr>
+						<h2>
+							Product Setup <span class="api-inactive-span">Not complete</span>
+						</h2>
+						<strong>No Dollie products are currently configured in your WooCommerce store. <a href="<?php echo get_admin_url(); ?>/post-new.php?post_type=product">Why don't you add one now?</a></strong>
+						<hr>
+				<?php endif;
+				}
+				?>
 			</div>
 		</div>
 
-		<?php
+	<?php
 	}
+
+
 
 	/**
 	 * Display info banners
 	 *
 	 * @return void
 	 */
-	public function add_info_banners() {
+	public function add_info_banners()
+	{
 		$screen = get_current_screen();
 
-		if ( 'edit-container' === $screen->id ) {
-			add_action( 'all_admin_notices', [ $this, 'site_info_banner' ] );
+		if ('edit-container' === $screen->id) {
+			add_action('all_admin_notices', [$this, 'site_info_banner']);
 		}
 
-		if ( 'edit-dollie-logs' === $screen->id ) {
-			add_action( 'all_admin_notices', [ $this, 'blueprint_info_banner' ] );
+		if ('edit-dollie-logs' === $screen->id) {
+			add_action('all_admin_notices', [$this, 'blueprint_info_banner']);
 		}
 
-		if ( 'edit-af_form' === $screen->id ) {
-			add_action( 'all_admin_notices', [ $this, 'form_info_banner' ] );
+		if ('edit-af_form' === $screen->id) {
+			add_action('all_admin_notices', [$this, 'form_info_banner']);
 		}
 	}
 
@@ -535,20 +588,21 @@ class Options extends Singleton {
 	 *
 	 * @return void
 	 */
-	public function site_info_banner() {
-		?>
-		<?php if ( empty( $_GET['blueprint'] ) ) : ?>
+	public function site_info_banner()
+	{
+	?>
+		<?php if (empty($_GET['blueprint'])) : ?>
 			<div class="dollie-notice">
 				<h3>
-					<?php esc_html_e( 'The Site Manager', 'dollie' ); ?>
+					<?php esc_html_e('The Site Manager', 'dollie'); ?>
 				</h3>
 				<p>
 					<?php
 					printf(
 						'%s <a href="%s">%s</a>.',
-						esc_html__( 'Below you will find all of your sites launched by you and your customers. Remember: You can also view all the sites launched by your customers in the', 'dollie' ),
-						esc_url( dollie()->get_sites_page_url() ),
-						esc_html__( 'Sites Directory', 'dollie' )
+						esc_html__('Below you will find all of your sites launched by you and your customers. Remember: You can also view all the sites launched by your customers in the', 'dollie'),
+						esc_url(dollie()->get_sites_page_url()),
+						esc_html__('Sites Directory', 'dollie')
 					);
 					?>
 				</p>
@@ -556,21 +610,21 @@ class Options extends Singleton {
 		<?php else : ?>
 			<div class="dollie-notice">
 				<h3>
-					<?php esc_html_e( 'Your Site Blueprints', 'dollie' ); ?>
+					<?php esc_html_e('Your Site Blueprints', 'dollie'); ?>
 				</h3>
 				<p>
 					<?php
 					printf(
 						'%s <a href="%s">%s</a>.',
-						esc_html__( 'Below you will find all the Blueprints you have created. Want to add a new Blueprint?', 'dollie' ),
-						esc_url( dollie()->get_launch_blueprint_page_url() ),
-						esc_html__( 'Launch a Blueprint', 'dollie' )
+						esc_html__('Below you will find all the Blueprints you have created. Want to add a new Blueprint?', 'dollie'),
+						esc_url(dollie()->get_launch_blueprint_page_url()),
+						esc_html__('Launch a Blueprint', 'dollie')
 					);
 					?>
 				</p>
 			</div>
 		<?php endif; ?>
-		<?php
+	<?php
 	}
 
 	/**
@@ -578,17 +632,18 @@ class Options extends Singleton {
 	 *
 	 * @return void
 	 */
-	public function blueprint_info_banner() {
-		?>
+	public function blueprint_info_banner()
+	{
+	?>
 		<div class="dollie-notice">
 			<h3>
-				<?php esc_html_e( 'The Activity Log', 'dollie' ); ?>
+				<?php esc_html_e('The Activity Log', 'dollie'); ?>
 			</h3>
 			<p>
-				<?php esc_html_e( 'The activity log keeps track of everything you need to know regarding your sites, actions taken by your customers and recurring crons/maintenance jobs that run on your installation.', 'dollie' ); ?>
+				<?php esc_html_e('The activity log keeps track of everything you need to know regarding your sites, actions taken by your customers and recurring crons/maintenance jobs that run on your installation.', 'dollie'); ?>
 			</p>
 		</div>
-		<?php
+	<?php
 	}
 
 	/**
@@ -596,17 +651,18 @@ class Options extends Singleton {
 	 *
 	 * @return void
 	 */
-	public function form_info_banner() {
-		?>
+	public function form_info_banner()
+	{
+	?>
 		<div class="dollie-notice">
 			<h3>
-				<?php esc_html_e( 'Dollie Forms', 'dollie' ); ?>
+				<?php esc_html_e('Dollie Forms', 'dollie'); ?>
 			</h3>
 			<p>
-				<?php esc_html_e( 'These forms can be embedded easily to further customize the experience for your customers. Please only edit these forms if you\'re a developer and you have good knowledge of the Dollie platform and it\'s API.', 'dollie' ); ?>
+				<?php esc_html_e('These forms can be embedded easily to further customize the experience for your customers. Please only edit these forms if you\'re a developer and you have good knowledge of the Dollie platform and it\'s API.', 'dollie'); ?>
 			</p>
 		</div>
-		<?php
+<?php
 	}
 
 	/**
@@ -615,11 +671,12 @@ class Options extends Singleton {
 	 * @param obj $screen
 	 * @return void
 	 */
-	public function update_blueprints_counter( $screen ) {
-		if ( 'edit-container' === $screen->id && ! empty( $_GET['blueprint'] ) ) {
+	public function update_blueprints_counter($screen)
+	{
+		if ('edit-container' === $screen->id && !empty($_GET['blueprint'])) {
 			add_filter(
 				'wp_count_posts',
-				static function ( $counts ) {
+				static function ($counts) {
 					$args = [
 						'posts_per_page' => -1,
 						'post_type'      => 'container',
@@ -634,7 +691,7 @@ class Options extends Singleton {
 						],
 					];
 
-					$blueprints = new \WP_Query( $args );
+					$blueprints = new \WP_Query($args);
 
 					$counts->publish = $blueprints->found_posts;
 
@@ -650,9 +707,10 @@ class Options extends Singleton {
 	 * @param array $views
 	 * @return array
 	 */
-	public function update_blueprints_filters( $views ) {
-		if ( ! empty( $_GET['blueprint'] ) && isset( $views['mine'] ) ) {
-			unset( $views['mine'] );
+	public function update_blueprints_filters($views)
+	{
+		if (!empty($_GET['blueprint']) && isset($views['mine'])) {
+			unset($views['mine']);
 		}
 
 		return $views;
