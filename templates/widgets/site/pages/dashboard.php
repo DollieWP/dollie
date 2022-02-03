@@ -27,7 +27,7 @@ if ( empty( $data ) || empty( $data['site_data'] ) || ( $data['site_data']['Inst
 
 		<?php
 		$active   = $data['site_data']['Active Plugins'] ?? 0;
-		$security = get_transient( 'dollie_security_check_failed_' . $install );
+		//$security = get_transient( 'dollie_security_check_failed_' . $install );
 
 		if ( is_array( $active ) ) {
 			$active = count( $active );

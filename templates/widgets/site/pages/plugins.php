@@ -45,62 +45,6 @@
 		<?php esc_html_e( 'Plugins', 'dollie' ); ?>
 	</h2>
 
-	<?php if ( get_transient( 'dollie_security_check_failed_' . $install ) === 'failed' ) : ?>
-		<div class="dol-my-6">
-			<?php ob_start(); ?>
-
-			<a class="dol-font-semibold"
-			   href="<?php echo esc_url( dollie()->get_customer_login_url() ); ?>&redirect_to=<?php echo dollie()->get_container_url(); ?>%2Fwp-admin%2Fupdate-core.php">
-				<?php esc_html_e( 'Visit your dashboard', 'dollie' ); ?>
-			</a>
-			<?php esc_html_e( 'and update or remove the following plugin(s):', 'dollie' ); ?>
-
-			<div class="dol-mt-2 dol-text-bold">
-				<?php echo get_transient( 'dollie_security_check_message_' . $install ); ?>
-			</div>
-
-			<?php
-			$message = ob_get_clean();
-			dollie()->load_template(
-				'notice',
-				[
-					'type'    => 'error',
-					'icon'    => 'fas fa-exclamation-triangle',
-					'title'   => __( 'SiteGuard has found some critical security issues', 'dollie' ),
-					'message' => $message,
-					'links'   => [
-						[
-							'title' => __( 'Check again', 'dollie' ),
-							'url'   => trailingslashit( get_permalink() ) . 'plugins' . '?run-security-check',
-						],
-					],
-				],
-				true
-			);
-			?>
-		</div>
-	<?php else : ?>
-		<div class="dol-my-6">
-			<?php
-			dollie()->load_template(
-				'notice',
-				[
-					'icon'    => 'fas fa-shield-alt',
-					'title'   => __( 'SiteGuard has found no issues', 'dollie' ),
-					'message' => __( 'There are no insecure plugins or themes found on your site. Good job!', 'dollie' ),
-					'links'   => [
-						[
-							'title' => __( 'Check again', 'dollie' ),
-							'url'   => trailingslashit( get_permalink() ) . 'plugins' . '?run-security-check',
-						],
-					],
-				],
-				true
-			);
-			?>
-		</div>
-	<?php endif; ?>
-
 	<div class="dol-flex dol-flex-wrap dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden">
 		<div class="dol-hidden dol-w-full md:dol-flex dol-flex-wrap dol-items-center dol-bg-primary-600 dol-p-4 lg:dol-px-8 dol-font-bold dol-text-white">
 			<div class="dol-w-5/12 lg:dol-w-6/12 dol-text-left">
