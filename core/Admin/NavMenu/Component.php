@@ -572,7 +572,7 @@ class Component {
 
 			wp_enqueue_script( 'dollie-notifications' );
 
-			$footer_output = '<div class="transform dollie-notifications-list dol-z-99999 dol-h-full dol-fixed dol-top-0 dol-right-0 dol-leading-normal dol-text-left ol-leading-4 dol-text-gray-700 dol-bg-white dol-hidden dol-rounded dol-shadow-md dol-ease-in-out dol-transition-all dol-duration-300 dol-z-30 dol-translate-x-0"' .
+			$footer_output = '<div class="transform dollie-notifications-list dol-z-99999 dol-h-full dol-fixed dol-top-0 dol-right-0 dol-leading-normal dol-text-left ol-leading-4 dol-text-gray-700 dol-bg-white dol-hidden dol-rounded dol-shadow-md dol-ease-in-out dol-transition-all dol-duration-300 dol-translate-x-0"' .
 			                 ' data-nonce="' . wp_create_nonce( 'dollie-notifications' ) . '"' . '>';
 
 			$footer_output .= '<div class="notif-header">' .

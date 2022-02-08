@@ -180,7 +180,7 @@ class Staging extends Singleton {
 		}
 
 		$container_id = get_the_ID();
-		$domain       = get_post_meta( $container_id, self::OPTION_URL, true );
+		$domain       = dollie()->get_container_url( $container_id );
 		$staging_data = get_post_meta( $container_id, self::OPTION_DATA, true );
 
 		if ( ! $domain || ! is_array( $staging_data ) || ! isset( $staging_data[ $domain ] ) ) {
@@ -264,7 +264,7 @@ class Staging extends Singleton {
 
 		$data   = WP::instance()->process_deploy_status( $deploy_job_uuid );
 		$site   = dollie()->get_current_object();
-		$domain = get_post_meta( $site->id, self::OPTION_URL, true );
+		$domain = dollie()->get_container_url( $site->id );
 
 		if ( false === $data ) {
 			return;

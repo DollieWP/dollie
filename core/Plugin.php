@@ -22,7 +22,7 @@ use Dollie\Core\Modules\Logging;
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Modules\Hooks;
 use Dollie\Core\Modules\Options;
-use Dollie\Core\Modules\Security;
+//use Dollie\Core\Modules\Security;
 use Dollie\Core\Modules\Upgrades;
 use Dollie\Core\Modules\WooCommerce;
 use Dollie\Core\Modules\Domain;
@@ -172,7 +172,7 @@ class Plugin extends Singleton {
 		Logging::instance();
 		Hooks::instance();
 		Options::instance();
-		Security::instance();
+		//Security::instance();
 		WooCommerce::instance();
 		Upgrades::instance();
 		NavMenu::instance();
