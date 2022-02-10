@@ -113,6 +113,12 @@ class SitesList extends \Elementor\Widget_Base {
 				'compare' => 'LIKE',
 			];
 
+			$meta_query['search'][] = [
+				'key'     => 'wpd_container_uri',
+				'value'   => sanitize_text_field($_GET['search']),
+				'compare' => 'LIKE',
+			];
+
 			$meta_query['search']['relation'] = 'OR';
 		}
 
