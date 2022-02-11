@@ -219,16 +219,20 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 						</div>
 						<div class="dol-sites-name">
 							<div class="dol-px-4">
-								<div class="dol-font-bold dol-text-lg dol-cursor-default">
-									<a class="dol-item-name dol-text-normal dol-leading-normal dol-text-gray-600"
-									   href="<?php echo dollie()->get_site_url( get_the_ID() ); ?>" target="_blank">
+								<div class="dol-font-bold dol-text-lg dol-cursor-default dol-truncate">
+									<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600"
+									   href="<?php echo dollie()->get_site_url( get_the_ID() ); ?>"
+                                       title="<?php echo esc_attr( $data['name'] ); ?>"
+                                       target="_blank">
 										<?php echo esc_html( $data['name'] ); ?>
 									</a>
 								</div>
 
-								<div class="dol-flex dol-items-center">
-									<a class="dol-item-url dol-text-brand-500 hover:dol-text-brand-600 dol-text-sm dol-leading-normal"
-									   href="<?php echo esc_url( $data['domain'] ); ?>" target="_blank">
+								<div class="dol-flex dol-items-center dol-truncate">
+									<a class="dol-item-url dol-text-brand-500 hover:dol-text-brand-600 dol-text-sm dol-leading-normal dol-truncate"
+									   href="<?php echo esc_url( $data['domain'] ); ?>"
+                                       title="<?php echo esc_html( $data['domain'] ); ?>"
+                                       target="_blank">
 										<?php echo esc_html( $data['domain'] ); ?>
 									</a>
 								</div>

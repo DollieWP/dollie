@@ -99,11 +99,11 @@ msgstr ""
 msgid "LetsEncrypt Failed"
 msgstr ""
 
-#: core/Log.php:341, core/Modules/ContainerFields.php:91, templates/loop/sites.php:248
+#: core/Log.php:341, core/Modules/ContainerFields.php:91, templates/loop/sites.php:252
 msgid "Blueprint Updated"
 msgstr ""
 
-#: core/Plugin.php:401, core/Modules/Options.php:288, templates/widgets/launch/launch-site.php:35
+#: core/Plugin.php:401, core/Modules/Options.php:301, templates/widgets/launch/launch-site.php:35
 msgid "Connect with Dollie"
 msgstr ""
 
@@ -111,511 +111,565 @@ msgstr ""
 msgid "Dollie"
 msgstr ""
 
-#: core/Extras/AcfFields.php:10
+#: core/Extras/AcfFields.php:11
 msgid "Private Blueprint?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:13
+#: core/Extras/AcfFields.php:14
 msgid "Optionally make this Blueprint only available to users with the admin role."
 msgstr ""
 
-#: core/Extras/AcfFields.php:35
+#: core/Extras/AcfFields.php:36
 msgid "Blueprint Title"
 msgstr ""
 
-#: core/Extras/AcfFields.php:38, core/Extras/AcfFields.php:65
+#: core/Extras/AcfFields.php:39, core/Extras/AcfFields.php:66
 msgid "This is shown when using the shortcode [dollie-blueprints] on your pages."
 msgstr ""
 
-#: core/Extras/AcfFields.php:62
+#: core/Extras/AcfFields.php:63
 msgid "Blueprint Description"
 msgstr ""
 
-#: core/Extras/AcfFields.php:89
+#: core/Extras/AcfFields.php:90
 msgid "Link to Hosting Product"
 msgstr ""
 
-#: core/Extras/AcfFields.php:92
+#: core/Extras/AcfFields.php:93
 msgid "By linking this blueprint directly to a hosting product you can enable one-click checkout + deployment for your new customers."
 msgstr ""
 
-#: core/Extras/AcfFields.php:126
+#: core/Extras/AcfFields.php:127
 msgid "Blueprint Image"
 msgstr ""
 
-#: core/Extras/AcfFields.php:151
+#: core/Extras/AcfFields.php:152
 msgid "Upload Your Custom Image"
 msgstr ""
 
-#: core/Extras/AcfFields.php:154
+#: core/Extras/AcfFields.php:155
 msgid "Ideal dimensions are 700 x 525 PX"
 msgstr ""
 
-#: core/Extras/AcfFields.php:207, core/Modules/ContainerFields.php:104, core/Modules/ContainerFields.php:94, templates/widgets/site/pages/plugins.php:110
+#: core/Extras/AcfFields.php:210, core/Modules/ContainerFields.php:104, core/Modules/ContainerFields.php:94, templates/widgets/site/pages/plugins.php:54
 msgid "Status"
 msgstr ""
 
-#: core/Extras/AcfFields.php:232
+#: core/Extras/AcfFields.php:235
 msgid "Notes"
 msgstr ""
 
-#: core/Extras/AcfFields.php:235
+#: core/Extras/AcfFields.php:238
 msgid "Did something custom for this container? Leave notes here."
 msgstr ""
 
-#: core/Extras/AcfFields.php:275
+#: core/Extras/AcfFields.php:280
 msgid "Active Dollie Subscription"
 msgstr ""
 
-#: core/Extras/AcfFields.php:295
+#: core/Extras/AcfFields.php:300
 msgid "Stop Container at.."
 msgstr ""
 
-#: core/Extras/AcfFields.php:314
+#: core/Extras/AcfFields.php:319
 msgid "Containers undeployed?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:357, core/Extras/AcfFields.php:1177
+#: core/Extras/AcfFields.php:364, core/Extras/AcfFields.php:1191
 msgid "Client Deployed Site Permissions"
 msgstr ""
 
-#: core/Extras/AcfFields.php:360
+#: core/Extras/AcfFields.php:367
 msgid "Choose the user role given to the user when deploying a site. Default inherits from Dollie - Settings - Access Control"
 msgstr ""
 
-#: core/Extras/AcfFields.php:405
+#: core/Extras/AcfFields.php:414
 msgid "Core"
 msgstr ""
 
-#: core/Extras/AcfFields.php:421
+#: core/Extras/AcfFields.php:430
 msgid "Domain Settings"
 msgstr ""
 
-#: core/Extras/AcfFields.php:433, core/Extras/AcfFields.php:555, core/Extras/AcfFields.php:598
+#: core/Extras/AcfFields.php:442, core/Extras/AcfFields.php:567, core/Extras/AcfFields.php:610
 msgid "This is where you connect your domain."
 msgstr ""
 
-#: core/Extras/AcfFields.php:439
+#: core/Extras/AcfFields.php:448
 msgid "Default Deployment Domain"
 msgstr ""
 
-#: core/Extras/AcfFields.php:442
+#: core/Extras/AcfFields.php:451
 msgid "The default domain that is being used for the sites deployed by you or your customers. Once you are ready to go live we recommend you add your own domain below"
 msgstr ""
 
-#: core/Extras/AcfFields.php:460
+#: core/Extras/AcfFields.php:469
 msgid "Use My Own Domain"
 msgstr ""
 
-#: core/Extras/AcfFields.php:463
+#: core/Extras/AcfFields.php:472
 msgid "Add your own domain for site deployments to fully white label the sites being launched on your platform. Adding your own custom domain will no longer use the Default Deployment Domain."
 msgstr ""
 
-#: core/Extras/AcfFields.php:480
+#: core/Extras/AcfFields.php:489
 msgid "Important - Read this first"
 msgstr ""
 
-#: core/Extras/AcfFields.php:504
+#: core/Extras/AcfFields.php:513
 msgid ""
 "<h3>Please read the guide before you continue.</h3><br>\n"
-"	Follow along with the <a target=\"_blank\" href=\"https://partners.getdollie.com/?redirect=knowledge-base/domain-setup/\">Domain Setup Guide</a> in the partner dashboard to have your domain added in no time, without any hassle."
+"            Follow along with the <a target=\"_blank\" href=\"https://partners.getdollie.com/?redirect=knowledge-base/domain-setup/\">Domain Setup Guide</a> in the partner dashboard to have your domain added in no time, without any hassle."
 msgstr ""
 
-#: core/Extras/AcfFields.php:511
+#: core/Extras/AcfFields.php:523
 msgid "My Custom Domain"
 msgstr ""
 
-#: core/Extras/AcfFields.php:514
+#: core/Extras/AcfFields.php:526
 msgid "Add your domain name, without http(s):// or www. For example \"myagency.com\""
 msgstr ""
 
-#: core/Extras/AcfFields.php:543
+#: core/Extras/AcfFields.php:555
 msgid "Subscription Settings"
 msgstr ""
 
-#: core/Extras/AcfFields.php:561
+#: core/Extras/AcfFields.php:573
 msgid "Subscription Plugin"
 msgstr ""
 
-#: core/Extras/AcfFields.php:564
+#: core/Extras/AcfFields.php:576
 msgid "Choose which plugin should be used to handle user subscriptions."
 msgstr ""
 
-#: core/Extras/AcfFields.php:586
+#: core/Extras/AcfFields.php:598
 msgid "Performance Settings"
 msgstr ""
 
-#: core/Extras/AcfFields.php:604
+#: core/Extras/AcfFields.php:616
 msgid "Site Dashboard Refresh Time"
 msgstr ""
 
-#: core/Extras/AcfFields.php:632
+#: core/Extras/AcfFields.php:619
+msgid "When one of your customers visits their site dashboard it fetches the data from their WordPress installation. By default this data is updated every 15 minutes. If your customers are using your dashboard heavily to update plugins/themes, we recommend to set this to a shorter time."
+msgstr ""
+
+#: core/Extras/AcfFields.php:644
 msgid "Pages"
 msgstr ""
 
-#: core/Extras/AcfFields.php:648
+#: core/Extras/AcfFields.php:660
 msgid "Launch Site Page"
 msgstr ""
 
-#: core/Extras/AcfFields.php:651
+#: core/Extras/AcfFields.php:663
 msgid "This page contains the (Elementor) template for launching a new site"
 msgstr ""
 
-#: core/Extras/AcfFields.php:670
+#: core/Extras/AcfFields.php:682
 msgid "Launch Blueprint Page"
 msgstr ""
 
-#: core/Extras/AcfFields.php:673
+#: core/Extras/AcfFields.php:685
 msgid "This page contains the (Elementor) template for launching a new Blueprint"
 msgstr ""
 
-#: core/Extras/AcfFields.php:692
+#: core/Extras/AcfFields.php:704
 msgid "Customer Dashboard Page"
 msgstr ""
 
-#: core/Extras/AcfFields.php:695
+#: core/Extras/AcfFields.php:707
 msgid "This page contains the (Elementor) template for the Customer Dashboard"
 msgstr ""
 
-#: core/Extras/AcfFields.php:714
+#: core/Extras/AcfFields.php:726
 msgid "Customer Login Page"
 msgstr ""
 
-#: core/Extras/AcfFields.php:717
+#: core/Extras/AcfFields.php:729
 msgid "This page contains the (Elementor) template for the customer login."
 msgstr ""
 
-#: core/Extras/AcfFields.php:736
+#: core/Extras/AcfFields.php:748
 msgid "Sites Page"
 msgstr ""
 
-#: core/Extras/AcfFields.php:739
+#: core/Extras/AcfFields.php:751
 msgid "This page contains the (Elementor) template for the global site overview"
 msgstr ""
 
-#: core/Extras/AcfFields.php:759
+#: core/Extras/AcfFields.php:771
 msgid "Site Template"
 msgstr ""
 
-#: core/Extras/AcfFields.php:762
+#: core/Extras/AcfFields.php:774
 msgid "Choose the Elementor template that is being used for the Single Site design"
 msgstr ""
 
-#: core/Extras/AcfFields.php:783
+#: core/Extras/AcfFields.php:794
 msgid "Support Link"
 msgstr ""
 
-#: core/Extras/AcfFields.php:786
+#: core/Extras/AcfFields.php:797
 msgid "This is the URL we use when directing users to submit a ticket for support."
 msgstr ""
 
-#: core/Extras/AcfFields.php:800
+#: core/Extras/AcfFields.php:811
 msgid "Branding"
 msgstr ""
 
-#: core/Extras/AcfFields.php:816
+#: core/Extras/AcfFields.php:827
 msgid "Newsfeed URL"
 msgstr ""
 
-#: core/Extras/AcfFields.php:819
+#: core/Extras/AcfFields.php:830
 msgid "The link to the WordPress installation you want to show news from. Use the \"Latest News\" Dollie widget to show them."
 msgstr ""
 
-#: core/Extras/AcfFields.php:833
+#: core/Extras/AcfFields.php:844
 msgid "Amount of Posts to show in the \"Latest News\" dashboard widget"
 msgstr ""
 
-#: core/Extras/AcfFields.php:855
+#: core/Extras/AcfFields.php:866
 msgid "Default Site Screenshot Placeholder"
 msgstr ""
 
-#: core/Extras/AcfFields.php:858
+#: core/Extras/AcfFields.php:869
 msgid ""
 "<strong>Recommended size: 700x460px</strong><br>\n"
-"	This is the default screenshot image shown until a live screenshot is generated."
+"            This is the default screenshot image shown until a live screenshot is generated."
 msgstr ""
 
-#: core/Extras/AcfFields.php:881
+#: core/Extras/AcfFields.php:895
 msgid "Custom Launch Messages"
 msgstr ""
 
-#: core/Extras/AcfFields.php:884
+#: core/Extras/AcfFields.php:898
 msgid "Enable this if you would like to show custom messages whilst a new site is being launched."
 msgstr ""
 
-#: core/Extras/AcfFields.php:901
+#: core/Extras/AcfFields.php:915
 msgid "Launch Site Wizard"
 msgstr ""
 
-#: core/Extras/AcfFields.php:926
+#: core/Extras/AcfFields.php:934
+msgid "Fill in the fields below with your custom messages. <br><br><a target=\"_blank\" class=\"btn button button-secondary\" href=\"http://dollie-wp.lcl/site/2022-test-2/?launch-splash-preview\">Click here for a preview</a><br><br>Make sure to save your options first."
+msgstr ""
+
+#: core/Extras/AcfFields.php:940
 msgid "Step 1"
 msgstr ""
 
-#: core/Extras/AcfFields.php:929
+#: core/Extras/AcfFields.php:943
 msgid "This is the first screen shown as soon as someone presses the \"Launch Site\" button."
 msgstr ""
 
-#: core/Extras/AcfFields.php:953
+#: core/Extras/AcfFields.php:967
 msgid "Step 2"
 msgstr ""
 
-#: core/Extras/AcfFields.php:956
+#: core/Extras/AcfFields.php:970
 msgid "This is the second screen shown as soon as someone presses the \"Launch Site\" button."
 msgstr ""
 
-#: core/Extras/AcfFields.php:980
+#: core/Extras/AcfFields.php:994
 msgid "Step 3"
 msgstr ""
 
-#: core/Extras/AcfFields.php:983
+#: core/Extras/AcfFields.php:997
 msgid "This is the third screen shown as soon as someone presses the \"Launch Site\" button."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1007
+#: core/Extras/AcfFields.php:1021
 msgid "Step 4"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1010
+#: core/Extras/AcfFields.php:1024
 msgid "This is the final screen shown as soon as someone presses the \"Launch Site\" button. This only shows if the site deploy takes longer than usual."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1034
+#: core/Extras/AcfFields.php:1048
 msgid "Access Control"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1050
+#: core/Extras/AcfFields.php:1064
 msgid "Charge For Launching Sites?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1053
+#: core/Extras/AcfFields.php:1067
 msgid "Would you like to charge your customers for launching websites? If you have this set to \"off\" anyone can launch sites on your platform without having a paid (WooCommerce) subscription."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1069
+#: core/Extras/AcfFields.php:1083
 msgid "Enable Site Management Access?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1072
+#: core/Extras/AcfFields.php:1086
 msgid "Would you like to give your clients/customers the ability to manage their own sites or would you like to restrict this functionality to your team (Administrators) only?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1088
+#: core/Extras/AcfFields.php:1102
 msgid "Available Site Management Features"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1091
+#: core/Extras/AcfFields.php:1105
 msgid "Depending on the customers you bring in, you can choose to disable certain sections of the customer dashboard."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1139
+#: core/Extras/AcfFields.php:1153
 msgid "Available Developer Tabs"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1142
+#: core/Extras/AcfFields.php:1156
 msgid "Depending on the customers you bring in, you can choose to disable certain sections of the developer dashboard."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1180
+#: core/Extras/AcfFields.php:1194
 msgid "Choose the user role given to the users when deploying a site. Warning, this will change the user roles for all client sites"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1202
+#: core/Extras/AcfFields.php:1216
 msgid "Administrator User Name"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1205
+#: core/Extras/AcfFields.php:1219
 msgid "Choose the username that is created for your own administration access. This won't be shared with the client."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1230, templates/widgets/general/main-navigation.php:63, templates/widgets/general/sites-navigation.php:50, templates/widgets/site/site-navigation.php:26, core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:94
+#: core/Extras/AcfFields.php:1244
+msgid "ACL Settings"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1256
+msgid "With these settings you can enable access to Site Management features to other user roles besides the Administrator role. Be careful with this setting and make sure that you carefully assign the correct user roles to your team members before changing these settings"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1262
+msgid "View Sites Permission"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1265
+msgid ""
+"Grant specific User Roles the VIEW permission on all platform Sites. \n"
+"This will allow those roles to view all platform sites."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1290
+msgid "Manage Sites Permission"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1293
+msgid ""
+"Grant specific User Roles the MANAGE permission on all platform Sites. \n"
+"This will allow those roles to update and manage all platform sites."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1318
+msgid "Delete Sites Permission"
+msgstr ""
+
+#: core/Extras/AcfFields.php:1321
+msgid ""
+"Grant specific User Roles the DELETE permission on all platform Sites. \n"
+"This will allow those roles to remove all platform sites."
+msgstr ""
+
+#: core/Extras/AcfFields.php:1346, templates/widgets/general/main-navigation.php:63, templates/widgets/general/sites-navigation.php:50, templates/widgets/site/site-navigation.php:26, core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:94
 msgid "Blueprints"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1246
+#: core/Extras/AcfFields.php:1362
 msgid "Enable Blueprint Site Preview"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1249
+#: core/Extras/AcfFields.php:1365
 msgid "Site Previews allows you to quickly showcase the available Site Blueprints you've created. Ideal if you are building for WaaS / SaaS platform."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1266
+#: core/Extras/AcfFields.php:1382
 msgid "Site Preview Link"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1269
+#: core/Extras/AcfFields.php:1385
 msgid "The link to where your Site Preview will shown. By default you can visit it by going to your-site.com/preview after you have created your first Blueprint"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1294
+#: core/Extras/AcfFields.php:1410
 msgid "Site Preview Logo"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1297
+#: core/Extras/AcfFields.php:1413
 msgid "The logo that is shown in the Site Preview."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1327
+#: core/Extras/AcfFields.php:1443
 msgid "Show Default Blueprint"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1330
+#: core/Extras/AcfFields.php:1446
 msgid "When launching a new site, show or hide the Default Blueprint option."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1347, core/Admin/NavMenu/Component.php:581
+#: core/Extras/AcfFields.php:1463, core/Admin/NavMenu/Component.php:581
 msgid "Notifications"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1364
+#: core/Extras/AcfFields.php:1480
 msgid "Deployed Site Email notification"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1367
+#: core/Extras/AcfFields.php:1483
 msgid "An email will be automatically sent when a site has been deployed."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1384
+#: core/Extras/AcfFields.php:1500
 msgid "Client Notification Subject"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1412
+#: core/Extras/AcfFields.php:1528
 msgid "Client Notification"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1415, core/Extras/AcfFields.php:1473
+#: core/Extras/AcfFields.php:1531, core/Extras/AcfFields.php:1592
 msgid ""
 "Placeholders:\n"
-"	{dollie_site_url}, {dollie_site_name}, {dollie_user}, {dollie_site_email}, {dollie_site_username}, {dollie_site_password}"
+"            {dollie_site_url}, {dollie_site_name}, {dollie_user}, {dollie_site_email}, {dollie_site_username}, {dollie_site_password}"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1442
+#: core/Extras/AcfFields.php:1561
 msgid "Admin Notification Subject"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1470
+#: core/Extras/AcfFields.php:1589
 msgid "Admin Notification"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1500
+#: core/Extras/AcfFields.php:1622
 msgid "Daily Site Status Digest"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1503
+#: core/Extras/AcfFields.php:1625
 msgid "Daily email digest with sites scheduled to be stopped or removed."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1520
+#: core/Extras/AcfFields.php:1642
 msgid "Email Digest Subject"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1523
+#: core/Extras/AcfFields.php:1645
 msgid ""
 "Placeholders:\n"
-"{dollie_sites_stopped_count}, {dollie_sites_removal_count}"
+"    {dollie_sites_stopped_count}, {dollie_sites_removal_count}"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1549
+#: core/Extras/AcfFields.php:1674
 msgid "Email Digest Content"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1552
+#: core/Extras/AcfFields.php:1677
 msgid ""
 "Placeholders:\n"
-"{dollie_sites_stopped_list}, {dollie_sites_removal_list}"
+"    {dollie_sites_stopped_list}, {dollie_sites_removal_list}"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1583
+#: core/Extras/AcfFields.php:1711
 msgid "Slack Notifications"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1586
+#: core/Extras/AcfFields.php:1714
 msgid "Enable Slack notifications on certain Dollie actions."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1603
+#: core/Extras/AcfFields.php:1731
 msgid "Slack Webhook URL"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1606
+#: core/Extras/AcfFields.php:1734
 msgid "<a href=\"https://api.slack.com/apps\">Create an App</a> on your Slack account, add Incoming Webhooks functionality and then paste the webhook URL here."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1631
+#: core/Extras/AcfFields.php:1759
 msgid "Slack Actions"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1634
+#: core/Extras/AcfFields.php:1762
 msgid "Check the action you want to trigger a Slack notification for."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1678
+#: core/Extras/AcfFields.php:1805
 msgid "Modules"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1695
+#: core/Extras/AcfFields.php:1822
 msgid "Custom Backup Location"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1698
+#: core/Extras/AcfFields.php:1825
 msgid ""
 "<strong>This feature is part of our Enterprise solution. Please contact Dollie team to enable this feature on your account.</strong><br>\n"
-"	Once this is enabled on your account, all deployed sites will be configured with the settings you set here."
+"            Once this is enabled on your account, all deployed sites will be configured with the settings you set here."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1716
+#: core/Extras/AcfFields.php:1846
 msgid "Provider"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1749
+#: core/Extras/AcfFields.php:1879
 msgid "Access Key"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1777
+#: core/Extras/AcfFields.php:1907
 msgid "Secret Key"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1805
+#: core/Extras/AcfFields.php:1935
 msgid "Bucket Name"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1808
+#: core/Extras/AcfFields.php:1938
 msgid "You can fill in just your bucket name like \"my_bucket_name\" or you can point to a folder in your bucket like \"my_bucket_name/example_folder\". Every site will be backed up in its own folder."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1833, core/Modules/Blueprints.php:257, templates/widgets/general/sites-navigation.php:55, templates/widgets/site/site-navigation.php:39, templates/widgets/site/site-navigation.php:33
+#: core/Extras/AcfFields.php:1963, core/Modules/Blueprints.php:257, templates/widgets/general/sites-navigation.php:55, templates/widgets/site/site-navigation.php:39, templates/widgets/site/site-navigation.php:33
 msgid "Staging"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1836
+#: core/Extras/AcfFields.php:1966
 msgid "Allow customers to use staging sites functionality. Each enabled staging site will add a cost to your monthly subscription. Please check with the Dollie Sales Team."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1877
-msgid "Confirmation"
-msgstr ""
-
-#: core/Extras/AcfFields.php:1890
-msgid "Yes, deploy new blueprint version!"
-msgstr ""
-
-#: core/Extras/AcfFields.php:1926
-msgid "Realtime Content Customizer"
-msgstr ""
-
-#: core/Extras/AcfFields.php:1929
-msgid "Here you can define custom placeholders for data that can be searched and replaced when a site is deployed using this blueprint."
-msgstr ""
-
-#: core/Extras/AcfFields.php:1946
-msgid "Name"
-msgstr ""
-
-#: core/Extras/AcfFields.php:1966
-msgid "Placeholder"
+#: core/Extras/AcfFields.php:1983
+msgid "DNS Manager"
 msgstr ""
 
 #: core/Extras/AcfFields.php:1986
+msgid "Simple yet powerful DNS manager for customer's website domain. Customers can choose if they want to connect the domain the easy way (just by pointing A records to the website's IP) or if they want us to manage their DNS by adding our nameservers to their domain registrar."
+msgstr ""
+
+#: core/Extras/AcfFields.php:2029
+msgid "Confirmation"
+msgstr ""
+
+#: core/Extras/AcfFields.php:2042
+msgid "Yes, deploy new blueprint version!"
+msgstr ""
+
+#: core/Extras/AcfFields.php:2079
+msgid "Realtime Content Customizer"
+msgstr ""
+
+#: core/Extras/AcfFields.php:2082
+msgid "Here you can define custom placeholders for data that can be searched and replaced when a site is deployed using this blueprint."
+msgstr ""
+
+#: core/Extras/AcfFields.php:2099
+msgid "Name"
+msgstr ""
+
+#: core/Extras/AcfFields.php:2119
+msgid "Placeholder"
+msgstr ""
+
+#: core/Extras/AcfFields.php:2139
 msgid "Suggested value"
 msgstr ""
 
@@ -896,7 +950,7 @@ msgstr ""
 msgid "Parent Site:"
 msgstr ""
 
-#: core/Modules/Container.php:81, core/Modules/Container.php:88, core/Modules/Options.php:308, templates/loop/customers.php:83
+#: core/Modules/Container.php:81, core/Modules/Container.php:88, core/Modules/Options.php:321, core/Modules/Options.php:435, templates/loop/customers.php:83
 msgid "View Sites"
 msgstr ""
 
@@ -980,117 +1034,117 @@ msgstr ""
 msgid "Platform Sites"
 msgstr ""
 
-#: core/Modules/Container.php:141
+#: core/Modules/Container.php:143
 msgctxt "Taxonomy General Name"
 msgid "Blueprint Categories"
 msgstr ""
 
-#: core/Modules/Container.php:142
+#: core/Modules/Container.php:144
 msgctxt "Taxonomy Singular Name"
 msgid "Blueprint Category"
 msgstr ""
 
-#: core/Modules/Container.php:143
+#: core/Modules/Container.php:145
 msgid "Taxonomy"
 msgstr ""
 
-#: core/Modules/Container.php:144
+#: core/Modules/Container.php:146
 msgid "All Items"
 msgstr ""
 
-#: core/Modules/Container.php:145
+#: core/Modules/Container.php:147
 msgid "Parent Item"
 msgstr ""
 
-#: core/Modules/Container.php:146
+#: core/Modules/Container.php:148
 msgid "Parent Item:"
 msgstr ""
 
-#: core/Modules/Container.php:147
+#: core/Modules/Container.php:149
 msgid "New Item Name"
 msgstr ""
 
-#: core/Modules/Container.php:148
+#: core/Modules/Container.php:150
 msgid "Add New Item"
 msgstr ""
 
-#: core/Modules/Container.php:149
+#: core/Modules/Container.php:151
 msgid "Edit Item"
 msgstr ""
 
-#: core/Modules/Container.php:150
+#: core/Modules/Container.php:152
 msgid "Update Item"
 msgstr ""
 
-#: core/Modules/Container.php:151
+#: core/Modules/Container.php:153
 msgid "View Item"
 msgstr ""
 
-#: core/Modules/Container.php:152
+#: core/Modules/Container.php:154
 msgid "Separate items with commas"
 msgstr ""
 
-#: core/Modules/Container.php:153
+#: core/Modules/Container.php:155
 msgid "Add or remove items"
 msgstr ""
 
-#: core/Modules/Container.php:154
+#: core/Modules/Container.php:156
 msgid "Choose from the most used"
 msgstr ""
 
-#: core/Modules/Container.php:155
+#: core/Modules/Container.php:157
 msgid "Popular Items"
 msgstr ""
 
-#: core/Modules/Container.php:156
+#: core/Modules/Container.php:158
 msgid "Search Items"
 msgstr ""
 
-#: core/Modules/Container.php:157
+#: core/Modules/Container.php:159
 msgid "Not Found"
 msgstr ""
 
-#: core/Modules/Container.php:158
+#: core/Modules/Container.php:160
 msgid "No items"
 msgstr ""
 
-#: core/Modules/Container.php:159
+#: core/Modules/Container.php:161
 msgid "Items list"
 msgstr ""
 
-#: core/Modules/Container.php:160
+#: core/Modules/Container.php:162
 msgid "Items list navigation"
 msgstr ""
 
-#: core/Modules/Container.php:754, core/Modules/ContainerBulkActions.php:111
+#: core/Modules/Container.php:756, core/Modules/ContainerBulkActions.php:111
 msgid "Stop"
 msgstr ""
 
-#: core/Modules/Container.php:752
+#: core/Modules/Container.php:754
 msgid "Permanently delete sites"
 msgstr ""
 
-#: core/Modules/Container.php:767
+#: core/Modules/Container.php:769
 msgid "Assigned Customer to this Site"
 msgstr ""
 
-#: core/Modules/Container.php:886, templates/loop/sites.php:264
+#: core/Modules/Container.php:888, templates/loop/sites.php:268
 msgid "Customer"
 msgstr ""
 
-#: core/Modules/Container.php:1078
+#: core/Modules/Container.php:1080
 msgid "Notice - How To Manage This Site"
 msgstr ""
 
-#: core/Modules/Container.php:1083
+#: core/Modules/Container.php:1085
 msgid "We recommend managing this site on the front-end of your installation using the <a href=\"%s\">Site Dashboard</a>. Use this page to take advanced actions, like stopping or restarting your site."
 msgstr ""
 
-#: core/Modules/Container.php:1064
+#: core/Modules/Container.php:1066
 msgid "Notice - How To Manage & Update This Blueprint"
 msgstr ""
 
-#: core/Modules/Container.php:1069
+#: core/Modules/Container.php:1071
 msgid "<a href=\"%s\">Manage this Blueprint using the front-end of your dashboard.</a> Use this page to take advanced actions, like stopping/removing the blueprint completely or assigning it to another user."
 msgstr ""
 
@@ -1278,7 +1332,7 @@ msgstr ""
 msgid "Interval details"
 msgstr ""
 
-#: core/Modules/ContainerRecurringActions.php:419, core/Modules/Options.php:339
+#: core/Modules/ContainerRecurringActions.php:419, core/Modules/Options.php:352
 msgid "Logs"
 msgstr ""
 
@@ -1310,7 +1364,7 @@ msgstr ""
 msgid "Possible shortcode attributes: "
 msgstr ""
 
-#: core/Modules/Forms.php:336, core/Modules/Options.php:109, core/Modules/Options.php:130, core/Modules/Options.php:298
+#: core/Modules/Forms.php:336, core/Modules/Options.php:115, core/Modules/Options.php:137, core/Modules/Options.php:311
 msgid "Settings"
 msgstr ""
 
@@ -1338,79 +1392,79 @@ msgstr ""
 msgid "Redirect to site page after form submit. Success Message will be ignored"
 msgstr ""
 
-#: core/Modules/Options.php:110, core/Modules/Options.php:255
+#: core/Modules/Options.php:116, core/Modules/Options.php:268
 msgid "Dollie (Live)"
 msgstr ""
 
-#: core/Modules/Options.php:127, core/Modules/Options.php:257
+#: core/Modules/Options.php:134, core/Modules/Options.php:270
 msgid "Dollie (Staging)"
 msgstr ""
 
-#: core/Modules/Options.php:318, core/Modules/Options.php:409
+#: core/Modules/Options.php:331, core/Modules/Options.php:423
 msgid "View Blueprints"
 msgstr ""
 
-#: core/Modules/Options.php:329, core/Modules/Options.php:395, core/Modules/Forms/QuickLaunch.php:103, templates/widgets/launch/form.php:21
+#: core/Modules/Options.php:342, core/Modules/Options.php:409, core/Modules/Forms/QuickLaunch.php:103, templates/widgets/launch/form.php:31
 msgid "Launch New Site"
 msgstr ""
 
-#: core/Modules/Options.php:361
+#: core/Modules/Options.php:374
 msgid "Visit Partner Dashboard"
 msgstr ""
 
-#: core/Modules/Options.php:375
+#: core/Modules/Options.php:389
 msgid "Partner Dashboard"
 msgstr ""
 
-#: core/Modules/Options.php:381
+#: core/Modules/Options.php:395
 msgid "Support"
 msgstr ""
 
-#: core/Modules/Options.php:480
+#: core/Modules/Options.php:511
 msgid "Inactive"
 msgstr ""
 
-#: core/Modules/Options.php:484, templates/widgets/site/pages/plugins.php:154
+#: core/Modules/Options.php:515, templates/widgets/site/pages/plugins.php:98
 msgid "Active"
 msgstr ""
 
-#: core/Modules/Options.php:547
+#: core/Modules/Options.php:613
 msgid "Your Site Blueprints"
 msgstr ""
 
-#: core/Modules/Options.php:553
+#: core/Modules/Options.php:619
 msgid "Below you will find all the Blueprints you have created. Want to add a new Blueprint?"
 msgstr ""
 
-#: core/Modules/Options.php:555
+#: core/Modules/Options.php:621
 msgid "Launch a Blueprint"
 msgstr ""
 
-#: core/Modules/Options.php:531
+#: core/Modules/Options.php:597
 msgid "The Site Manager"
 msgstr ""
 
-#: core/Modules/Options.php:537
+#: core/Modules/Options.php:603
 msgid "Below you will find all of your sites launched by you and your customers. Remember: You can also view all the sites launched by your customers in the"
 msgstr ""
 
-#: core/Modules/Options.php:539
+#: core/Modules/Options.php:605
 msgid "Sites Directory"
 msgstr ""
 
-#: core/Modules/Options.php:573
+#: core/Modules/Options.php:640
 msgid "The Activity Log"
 msgstr ""
 
-#: core/Modules/Options.php:576
+#: core/Modules/Options.php:643
 msgid "The activity log keeps track of everything you need to know regarding your sites, actions taken by your customers and recurring crons/maintenance jobs that run on your installation."
 msgstr ""
 
-#: core/Modules/Options.php:591
+#: core/Modules/Options.php:659
 msgid "Dollie Forms"
 msgstr ""
 
-#: core/Modules/Options.php:594
+#: core/Modules/Options.php:662
 msgid "These forms can be embedded easily to further customize the experience for your customers. Please only edit these forms if you're a developer and you have good knowledge of the Dollie platform and it's API."
 msgstr ""
 
@@ -1498,31 +1552,31 @@ msgstr ""
 msgid "Failed to get execution status"
 msgstr ""
 
-#: core/Utils/Helpers.php:73
+#: core/Utils/Helpers.php:74
 msgid "We strongly recommend to keep this plugin active and installed at all times."
 msgstr ""
 
-#: core/Utils/Helpers.php:77
+#: core/Utils/Helpers.php:78
 msgid "Our SiteCache solution is powered partly by the WP Fastest Cache plugin. We recommend to keep this plugin activated."
 msgstr ""
 
-#: core/Utils/Helpers.php:673
+#: core/Utils/Helpers.php:675
 msgid "Sorry, we could not retrieve your site details"
 msgstr ""
 
-#: core/Utils/Helpers.php:678
+#: core/Utils/Helpers.php:680
 msgid "We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error."
 msgstr ""
 
-#: core/Utils/Helpers.php:684
+#: core/Utils/Helpers.php:686
 msgid "Retry"
 msgstr ""
 
-#: core/Utils/Helpers.php:689
+#: core/Utils/Helpers.php:691
 msgid "Create a support ticket"
 msgstr ""
 
-#: core/Utils/Helpers.php:1120
+#: core/Utils/Helpers.php:1133
 msgid "Site View"
 msgstr ""
 
@@ -1600,7 +1654,7 @@ msgstr ""
 msgid "Update Subscription"
 msgstr ""
 
-#: core/Utils/Notices.php:266, templates/widgets/site/pages/plugins.php:93, templates/widgets/site/pages/plugins.php:73
+#: core/Utils/Notices.php:266
 msgid "Check again"
 msgstr ""
 
@@ -1684,7 +1738,7 @@ msgstr ""
 msgid "Show your sites using the Live Preview bar"
 msgstr ""
 
-#: templates/loop/sites.php:341
+#: templates/loop/sites.php:345
 msgid "No sites found."
 msgstr ""
 
@@ -1696,31 +1750,31 @@ msgstr ""
 msgid "Unnamed"
 msgstr ""
 
-#: templates/loop/sites.php:239
+#: templates/loop/sites.php:243
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites.php:242
+#: templates/loop/sites.php:246
 msgid "Version %s"
 msgstr ""
 
-#: templates/loop/sites.php:256
+#: templates/loop/sites.php:260
 msgid "Never. Update now!"
 msgstr ""
 
-#: templates/loop/sites.php:281
+#: templates/loop/sites.php:285
 msgid "Manage"
 msgstr ""
 
-#: templates/loop/sites.php:275, templates/widgets/site/pages/blueprints.php:101
+#: templates/loop/sites.php:279, templates/widgets/site/pages/blueprints.php:101
 msgid "Update Blueprint"
 msgstr ""
 
-#: templates/loop/sites.php:293
+#: templates/loop/sites.php:297
 msgid "Visit Staging Area"
 msgstr ""
 
-#: templates/loop/sites.php:305
+#: templates/loop/sites.php:309
 msgid "Login to Site as Admin"
 msgstr ""
 
@@ -1922,23 +1976,23 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: core/Modules/Forms/DomainConnect.php:123, core/Modules/Forms/DomainConnect.php:98
+#: core/Modules/Forms/DomainConnect.php:132, core/Modules/Forms/DomainConnect.php:107
 msgid "Sorry, we could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href=\"%s\" class=\"dol-text-white\">Contact Support</a>"
 msgstr ""
 
-#: core/Modules/Forms/DomainConnect.php:144
+#: core/Modules/Forms/DomainConnect.php:153
 msgid "We are sorry but an error occurred. Please try again or contact support!"
 msgstr ""
 
-#: core/Modules/Forms/DomainConnect.php:162
+#: core/Modules/Forms/DomainConnect.php:165
 msgid "Cannot fetch domain's records. Make sure this is a valid domain name and try again."
 msgstr ""
 
-#: core/Modules/Forms/DomainConnect.php:176
+#: core/Modules/Forms/DomainConnect.php:179
 msgid "Your domain DNS A record is not yet pointing to our IP address. Please make sure the A records are set correctly and try again."
 msgstr ""
 
-#: core/Modules/Forms/DomainConnect.php:215
+#: core/Modules/Forms/DomainConnect.php:218
 msgid "Connect Domain"
 msgstr ""
 
@@ -2446,19 +2500,23 @@ msgstr ""
 msgid "Your Account"
 msgstr ""
 
-#: templates/widgets/launch/form.php:9
-msgid "Sorry, Launching a new site is currently not possible."
-msgstr ""
-
-#: templates/widgets/launch/form.php:10
+#: templates/widgets/launch/form.php:5
 msgid "We are hard at work at our infrastructure, please come back to this page at a later time."
 msgstr ""
 
-#: templates/widgets/launch/form.php:39
+#: templates/widgets/launch/form.php:9
+msgid "Your Dollie subscription is inactive. Please check your subscription status on our <a href=\"%s\">partners website</a>."
+msgstr ""
+
+#: templates/widgets/launch/form.php:19
+msgid "Sorry, Launching a new site is currently not possible."
+msgstr ""
+
+#: templates/widgets/launch/form.php:49
 msgid "Sorry, You have no active subscription"
 msgstr ""
 
-#: templates/widgets/launch/form.php:40
+#: templates/widgets/launch/form.php:50
 msgid "Please sign-up for a one of our subscriptions to launch a new website!"
 msgstr ""
 
@@ -2518,19 +2576,19 @@ msgstr ""
 msgid "Hosting for this site is currently paused."
 msgstr ""
 
-#: templates/widgets/site/site-screenshot.php:45
+#: templates/widgets/site/site-screenshot.php:44
 msgid "Launching Site"
 msgstr ""
 
-#: templates/widgets/site/site-screenshot.php:43
+#: templates/widgets/site/site-screenshot.php:42
 msgid "Launching Blueprint"
 msgstr ""
 
-#: templates/widgets/site/site-screenshot.php:25, templates/widgets/site/pages/plugins.php:167
+#: templates/widgets/site/site-screenshot.php:24, templates/widgets/site/pages/plugins.php:111
 msgid "Visit"
 msgstr ""
 
-#: templates/widgets/site/site-screenshot.php:31
+#: templates/widgets/site/site-screenshot.php:30
 msgid "Admin"
 msgstr ""
 
@@ -2590,7 +2648,7 @@ msgstr ""
 msgid "Create a backup of your site so you can restore it anytime in the future."
 msgstr ""
 
-#: templates/widgets/site/pages/backups.php:36
+#: templates/widgets/site/pages/backups.php:47
 msgid "No backups available."
 msgstr ""
 
@@ -2600,11 +2658,11 @@ msgid_plural "You have %s backups available!"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/widgets/site/pages/backups.php:44
+#: templates/widgets/site/pages/backups.php:55
 msgid "Restore history"
 msgstr ""
 
-#: templates/widgets/site/pages/backups.php:58
+#: templates/widgets/site/pages/backups.php:69
 msgid "You have never restored your site."
 msgstr ""
 
@@ -2822,23 +2880,23 @@ msgstr ""
 msgid "WP CLI"
 msgstr ""
 
-#: templates/widgets/site/pages/domains.php:63
+#: templates/widgets/site/pages/domains.php:83
 msgid "\"%s\" is linked to this site!"
 msgstr ""
 
-#: templates/widgets/site/pages/domains.php:64
+#: templates/widgets/site/pages/domains.php:84
 msgid "Congrats! Your are using a live domain for this site."
 msgstr ""
 
-#: templates/widgets/site/pages/domains.php:38
+#: templates/widgets/site/pages/domains.php:58
 msgid "Site URL replacement is not complete "
 msgstr ""
 
-#: templates/widgets/site/pages/domains.php:43
+#: templates/widgets/site/pages/domains.php:63
 msgid "Your domain <strong>%s</strong> is connected but the URL replacement wasn't complete."
 msgstr ""
 
-#: templates/widgets/site/pages/domains.php:49
+#: templates/widgets/site/pages/domains.php:69
 msgid "Replace URL now"
 msgstr ""
 
@@ -2850,19 +2908,31 @@ msgstr ""
 msgid "Your domain's nameservers are being checked. Once we confirm all your nameservers are set correctly, we will automatically replace your website's URL and enable the DNS manager."
 msgstr ""
 
-#: templates/widgets/site/pages/domains.php:90
+#: templates/widgets/site/pages/domains.php:31
+msgid "Your domain will get validated once we detect the following nameservers attached to it."
+msgstr ""
+
+#: templates/widgets/site/pages/domains.php:37
+msgid "Want to change the domain or have you typed in the wrong domain name? You can cancel at any time and try again!"
+msgstr ""
+
+#: templates/widgets/site/pages/domains.php:43
+msgid "Cancel"
+msgstr ""
+
+#: templates/widgets/site/pages/domains.php:110
 msgid "Remove your linked domain"
 msgstr ""
 
-#: templates/widgets/site/pages/domains.php:94
+#: templates/widgets/site/pages/domains.php:114
 msgid "Have you changed your domain name? You can unlink your current domain by pressing the button below. Once you have removed your current domain you can add your new domain."
 msgstr ""
 
-#: templates/widgets/site/pages/domains.php:100
+#: templates/widgets/site/pages/domains.php:120
 msgid "Remove Domain"
 msgstr ""
 
-#: templates/widgets/site/pages/domains.php:106
+#: templates/widgets/site/pages/domains.php:126
 msgid "Your current domain IP information:"
 msgstr ""
 
@@ -2958,43 +3028,23 @@ msgstr ""
 msgid "Press <strong>Migrate</strong> and sit back and enjoy the show. Depending on the size of your site and the speed of your current host this process could take up to a couple of hours. Do not worry, this is completely normal! We will send you an email when the migration has completed so you can easily continue to this setup wizard."
 msgstr ""
 
-#: templates/widgets/site/pages/plugins.php:89
-msgid "SiteGuard has found no issues"
-msgstr ""
-
-#: templates/widgets/site/pages/plugins.php:90
-msgid "There are no insecure plugins or themes found on your site. Good job!"
-msgstr ""
-
-#: templates/widgets/site/pages/plugins.php:54
-msgid "Visit your dashboard"
-msgstr ""
-
-#: templates/widgets/site/pages/plugins.php:56
-msgid "and update or remove the following plugin(s):"
-msgstr ""
-
-#: templates/widgets/site/pages/plugins.php:69
-msgid "SiteGuard has found some critical security issues"
-msgstr ""
-
-#: templates/widgets/site/pages/plugins.php:107
+#: templates/widgets/site/pages/plugins.php:51
 msgid "Plugin Name"
 msgstr ""
 
-#: templates/widgets/site/pages/plugins.php:113
+#: templates/widgets/site/pages/plugins.php:57
 msgid "Version"
 msgstr ""
 
-#: templates/widgets/site/pages/plugins.php:116
+#: templates/widgets/site/pages/plugins.php:60
 msgid "Developer"
 msgstr ""
 
-#: templates/widgets/site/pages/plugins.php:128
+#: templates/widgets/site/pages/plugins.php:72
 msgid "Plugin"
 msgstr ""
 
-#: templates/widgets/site/pages/plugins.php:156
+#: templates/widgets/site/pages/plugins.php:100
 msgid "Disabled"
 msgstr ""
 
@@ -3050,15 +3100,15 @@ msgstr ""
 msgid "Please be patient while we create a staging site for <strong>%s</strong>. The process might take up to 5 minutes."
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:161
+#: templates/widgets/site/pages/staging.php:183
 msgid "Create Staging Site"
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:146
+#: templates/widgets/site/pages/staging.php:168
 msgid "You have reached your staging sites limit. Please upgrade your subscription!"
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:134
+#: templates/widgets/site/pages/staging.php:156
 msgid "Syncing is in process. You will be able to see your changes on the production site in a few minutes."
 msgstr ""
 
@@ -3070,15 +3120,23 @@ msgstr ""
 msgid "Staging has been successfully synced."
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:88
+#: templates/widgets/site/pages/staging.php:80
+msgid "Your Staging SFTP Details"
+msgstr ""
+
+#: templates/widgets/site/pages/staging.php:87, templates/widgets/site/pages/developer-tools/details.php:15
+msgid "Quick Connect!"
+msgstr ""
+
+#: templates/widgets/site/pages/staging.php:110
 msgid "Sync Staging with Live Site"
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:111
+#: templates/widgets/site/pages/staging.php:133
 msgid "Delete Your Staging Site"
 msgstr ""
 
-#: templates/widgets/site/pages/staging.php:126
+#: templates/widgets/site/pages/staging.php:148
 msgid "Admin Login to Staging Site"
 msgstr ""
 
@@ -3180,10 +3238,6 @@ msgstr ""
 
 #: templates/widgets/site/pages/developer-tools/details.php:13
 msgid "Your SFTP Details"
-msgstr ""
-
-#: templates/widgets/site/pages/developer-tools/details.php:15
-msgid "Quick Connect!"
 msgstr ""
 
 #: templates/widgets/site/pages/developer-tools/details.php:25
@@ -3311,7 +3365,7 @@ msgid "Point your domain to our server"
 msgstr ""
 
 #: templates/widgets/site/pages/domain/connect/not-managed.php:8
-msgid "Login to Your Domain Management account. This can be CloudFlare or your domain registrar."
+msgid "Login to Your Domain Management account. This can be CloudFlare or your domain registrar. If you are using Cloudflare make sure to \"unproxy\" the A records that are pointing to the IPs below during the domain attach process."
 msgstr ""
 
 #: templates/widgets/site/pages/domain/connect/not-managed.php:11
