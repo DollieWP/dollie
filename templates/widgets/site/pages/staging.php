@@ -107,7 +107,7 @@
 
 									<button type="submit" class="dol-bg-green-500 hover:dol-bg-green-600 focus:dol-bg-green-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
 
-										<?php esc_html_e('Sync Staging with Live Site', 'dollie'); ?>
+										<?php esc_html_e('Sync from Staging to Live', 'dollie'); ?>
 									</button>
 									<?php wp_nonce_field('wpd_staging_sync'); ?>
 

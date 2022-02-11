@@ -180,7 +180,7 @@ class Staging extends Singleton {
 		}
 
 		$container_id = get_the_ID();
-		$domain = get_post_meta($site->id, self::OPTION_URL, true);
+		$domain = get_post_meta( $container_id, self::OPTION_URL, true);
 		$staging_data = get_post_meta( $container_id, self::OPTION_DATA, true );
 
 		if ( ! $domain || ! is_array( $staging_data ) || ! isset( $staging_data[ $domain ] ) ) {

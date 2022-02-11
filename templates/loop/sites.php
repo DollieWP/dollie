@@ -222,8 +222,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 								<div class="dol-font-bold dol-text-lg dol-cursor-default dol-truncate">
 									<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600"
 									   href="<?php echo dollie()->get_site_url( get_the_ID() ); ?>"
-                                       title="<?php echo esc_attr( $data['name'] ); ?>"
-                                       target="_blank">
+                                       title="<?php echo esc_attr( $data['name'] ); ?>">
 										<?php echo esc_html( $data['name'] ); ?>
 									</a>
 								</div>
