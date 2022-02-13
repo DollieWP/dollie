@@ -21,7 +21,7 @@ dollie()->load_template(
 
 <div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-my-6">
 	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
-		<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
+		<h4 class="dol-m-0 dol-p-0 dol-text-white dol-text-base md:dol-text-xl">
 			<?php esc_html_e( 'SFTP Details', 'dollie' ); ?>
 		</h4>
 	</div>

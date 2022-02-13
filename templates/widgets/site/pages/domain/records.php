@@ -2,7 +2,7 @@
 	<div class="dol-text-sm"><?php esc_html_e( 'There are no DNS records or we failed to fetch them.', 'dollie' ); ?></div>
 <?php else : ?>
 	<div class="dol-rounded dol-overflow-hidden">
-		<div class="dol-flex dol-flex-wrap dol-font-bold dol-border-0 dol-border-b dol-border-solid dol-border-gray-200 dol-bg-gray-100">
+		<div class="dol-flex dol-flex-wrap dol-border-0 dol-border-b dol-border-solid dol-border-gray-200 dol-bg-gray-100">
 			<div class="dol-w-1/12 dol-p-2"><?php esc_html_e( 'Type', 'dollie' ); ?></div>
 			<div class="dol-w-3/12 dol-p-2"><?php esc_html_e( 'Hostname', 'dollie' ); ?></div>
 			<div class="dol-w-5/12 dol-p-2"><?php esc_html_e( 'Value', 'dollie' ); ?></div>
@@ -31,7 +31,7 @@
 				<div class="dol-w-2/12 dol-p-2"><?php echo esc_html( $record['ttl'] ); ?></div>
 				<div class="dol-w-1/12 dol-p-2 dol-text-center">
 					<span class="dol-dns-record-remove dol-cursor-pointer dol-text-gray-500 hover:dol-text-secondary-600"
-						data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" 
+						data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>"
 						data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_remove_record' ) ); ?>"
 						data-record-id="<?php echo esc_attr( $record['id'] ); ?>"
 						data-container-id="<?php echo esc_attr( $container_id ); ?>">

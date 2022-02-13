@@ -205,7 +205,7 @@
 					<main class="dol-relative dol-flex-1 dol-overflow-y-auto focus:dol-outline-none" tabindex="0" x-data="" x-init="$el.focus()">
 						<div class="dol-py-6">
 							<div class="dol-px-4 dol-mx-auto dol-max-w-7xl sm:dol-px-6 md:dol-px-8">
-								<h1 class="dol-text-2xl dol-font-semibold dol-text-gray-900">Dashboard</h1>
+								<h1 class="dol-text-2xl dol-text-gray-900">Dashboard</h1>
 							</div>
 							<div class="dol-px-4 dol-mx-auto dol-max-w-7xl sm:dol-px-6 md:dol-px-8">
 								<!-- Replace with your content -->

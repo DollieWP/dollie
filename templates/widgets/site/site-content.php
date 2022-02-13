@@ -168,7 +168,7 @@ if ( 'stop' === $status ) :
 		</div>
 
 	<?php else : ?>
-		<div class="dol-mt-1 dol-text-md dol-font-semibold div-loader-wrap dol-text-l dol-text-center dol-p-6">
+		<div class="dol-mt-1 dol-text-md div-loader-wrap dol-text-l dol-text-center dol-p-6">
 			<div class="dol-py-8 dol-flex dol-flex-col dol-items-center dol-justify-center">
 				<svg class="dol-animate-spin dol-h-16 dol-w-16 dol-text-flame-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 					<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -181,7 +181,7 @@ if ( 'stop' === $status ) :
 					<?php esc_html_e( 'Launching New Blueprint', 'dollie' ); ?>
 				</div>
 
-				<div class="dol-mt-1 dol-text-md dol-font-semibold dol-text-gray-500">
+				<div class="dol-mt-1 dol-text-md dol-text-gray-500">
 					<?php esc_html_e( 'Once your Blueprint has been launched you can go ahead and install your favorite plugins and themes, to make the perfect pre-made site for your customers.', 'dollie' ); ?>
 				</div>
 			<?php else : ?>
@@ -189,7 +189,7 @@ if ( 'stop' === $status ) :
 					<?php esc_html_e( 'Launching Your New Site', 'dollie' ); ?>
 				</div>
 
-				<div class="dol-mt-1 dol-text-md dol-font-semibold dol-text-gray-500">
+				<div class="dol-mt-1 dol-text-md dol-text-gray-500">
 					<?php esc_html_e( 'Your site will be ready to go in just a moment.', 'dollie' ); ?>
 				</div>
 

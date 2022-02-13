@@ -56,7 +56,7 @@ if ( ! empty( $args_default['links'] ) ) {
 				<i class="<?php echo esc_attr( $args_default['icon'] ); ?> dol-text-white dol-text-xl md:dol-text-2xl"></i>
 			</div>
 		<?php endif; ?>
-		<span class="dol-block dol-px-4 lg:dol-px-8 lg:dol-py-2 dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-sm md:dol-text-xl">
+		<span class="dol-block dol-px-4 lg:dol-px-8 lg:dol-py-2 dol-m-0 dol-p-0 dol-text-white dol-text-sm md:dol-text-xl">
 			<?php echo wp_kses_post( $args_default['title'] ); ?>
 		</span>
 	</div>

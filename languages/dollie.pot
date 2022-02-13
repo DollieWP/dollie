@@ -691,7 +691,7 @@ msgstr ""
 #: core/Extras/AcfFormFields.php:79
 msgid ""
 "<div class=\"dol-bg-gray-100 dol-py-2 dol-px-4 dol-rounded\">\n"
-"<h5 class=\"dol-text-base dol-font-bold\">Migration tip</h5>\n"
+"<h5 class=\"dol-text-base\">Migration tip</h5>\n"
 "<p class=\"dol-text-sm\">Do you already have an active site on this domain and want to keep the content? Head on to the Migration tab and follow the instructions to migrate your existing site. After that you can start the domain connect wizard.</p>\n"
 "</div>"
 msgstr ""

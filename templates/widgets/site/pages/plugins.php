@@ -46,7 +46,7 @@
 	</h2>
 
 	<div class="dol-flex dol-flex-wrap dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden">
-		<div class="dol-hidden dol-w-full md:dol-flex dol-flex-wrap dol-items-center dol-bg-primary-600 dol-p-4 lg:dol-px-8 dol-font-bold dol-text-white">
+		<div class="dol-hidden dol-w-full md:dol-flex dol-flex-wrap dol-items-center dol-bg-primary-600 dol-p-4 lg:dol-px-8 dol-text-white">
 			<div class="dol-w-5/12 lg:dol-w-6/12 dol-text-left">
 				<?php _e( 'Plugin Name', 'dollie' ); ?>
 			</div>
@@ -68,14 +68,14 @@
 				<div class="dol-w-full dol-flex dol-flex-wrap dol-items-center dol-p-4 lg:dol-px-8 dol-border-0 dol-border-b last:dol-border-0 dol-relative dol-group hover:dol-bg-ash-100">
 					<div class="dol-absolute dol-w-2 dol-h-full dol-bg-gray-200 dol-left-0 dol-top-0 dol-hidden md:group-hover:dol-block"></div>
 					<div class="dol-w-full dol-mb-4 md:dol-mb-0 md:dol-w-5/12 lg:dol-w-6/12">
-						<span class="dol-block dol-text-ash-600 dol-text-xs dol-font-bold dol-uppercase md:dol-hidden">
+						<span class="dol-block dol-text-ash-600 dol-text-xs dol-uppercase md:dol-hidden">
 							<?php esc_html_e( 'Plugin', 'dollie' ); ?>
 						</span>
 						<span class="dol-font-bold dol-block dol-truncate dol-pr-6">
 							<?php echo esc_html( $plugin['Name'] ); ?>
 						</span>
 					</div>
-					<div class="dol-w-4/12 md:dol-w-2/12 dol-flex dol-flex-wrap dol-items-center dol-font-bold dol-text-sm dol-text-ash-800">
+					<div class="dol-w-4/12 md:dol-w-2/12 dol-flex dol-flex-wrap dol-items-center dol-text-sm dol-text-ash-800">
 						<?php
 						$status_class = [
 							'animated' => 'dol-bg-green-500',
@@ -101,7 +101,7 @@
 						}
 						?>
 					</div>
-					<div class="dol-w-4/12 md:dol-w-2/12 dol-text-center dol-text-sm dol-text-ash-700 dol-font-semibold">
+					<div class="dol-w-4/12 md:dol-w-2/12 dol-text-center dol-text-sm dol-text-ash-700">
 						<?php echo esc_html( $plugin['Version'] ); ?>
 					</div>
 					<div class="dol-w-4/12 md:dol-w-3/12 lg:dol-w-2/12 dol-text-right">

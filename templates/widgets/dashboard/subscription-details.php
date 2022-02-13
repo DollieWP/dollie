@@ -1,7 +1,7 @@
 <?php if ( class_exists( 'WooCommerce' ) && get_option( 'options_wpd_charge_for_deployments' ) === '1' ) : ?>
 	<div class=" dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-widget-subscription">
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary">
-			<h4 class="dol-text-white dol-text-lg dol-font-bold dol-m-0"><?php esc_html_e( 'Plan details', 'dollie' ); ?></h4>
+			<h4 class="dol-text-white dol-text-lg dol-m-0"><?php esc_html_e( 'Plan details', 'dollie' ); ?></h4>
 		</div>
 		<div class="dol-px-4 dol-py-2 lg:dol-px-8 lg:dol-py-6 dol-bg-ash-100">
 			<?php if ( wcs_user_has_subscription( '', '', 'active' ) ) : ?>
@@ -12,7 +12,7 @@
 							<div class="dol-w-1/2 md:dol-w-2/6 lg:dol-w-1/6 dol-text-ash-800">
 								<?php esc_html_e( 'Current plan', 'dollie' ); ?>
 							</div>
-							<div class="dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-font-semibold dol-text-ash-800">
+							<div class="dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-text-ash-800">
 								<?php echo dollie()->subscription_name(); ?>
 							</div>
 						</div>
@@ -22,7 +22,7 @@
 							<div class="dol-w-1/2 md:dol-w-2/6 lg:dol-w-1/6 dol-text-ash-800">
 								<?php esc_html_e( 'Remaining sites', 'dollie' ); ?>
 							</div>
-							<div class="dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-font-semibold dol-text-ash-800">
+							<div class="dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-text-ash-800">
 								<?php echo dollie()->sites_available(); ?>
 							</div>
 						</div>
@@ -32,7 +32,7 @@
 							<div class="dol-w-1/2 md:dol-w-2/6 lg:dol-w-1/6 dol-text-ash-800">
 								<?php esc_html_e( 'Available storage' ); ?>
 							</div>
-							<div class="dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-font-semibold dol-text-ash-800">
+							<div class="dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-text-ash-800">
 								<?php
 
 								$available_storage = dollie()->storage_available();
@@ -51,7 +51,7 @@
 							<div class="dol-w-1/2 md:dol-w-2/6 lg:dol-w-1/6 dol-text-ash-800">
 								<?php esc_html_e( 'Used storage', 'dollie' ); ?>
 							</div>
-							<div class="dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-font-semibold dol-text-ash-800">
+							<div class="dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-text-ash-800">
 								<?php echo dollie()->convert_to_readable_size( dollie()->get_total_container_size() ); ?>
 							</div>
 						</div>

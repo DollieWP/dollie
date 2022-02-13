@@ -70,14 +70,14 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 							</div>
 						</div>
 						<div class="dol-customers-controls">
-							<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600"
+							<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600"
 							   href="<?php echo get_edit_user_link( $customer->ID ); ?>">
 								<i class="fas fa-cog"></i>
 								<span class="dol-ml-1"><?php esc_html_e( 'Manage Customer', 'dollie' ); ?></span>
 							</a>
 
 
-							<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-font-semibold dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary"
+							<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary"
 							   href="<?php echo dollie()->get_sites_page_url(); ?>?customer=<?php echo $customer->ID; ?>">
 								<i class="fas fa-wrench"></i>
 								<span class="dol-ml-1"><?php esc_html_e( 'View Sites', 'dollie' ); ?></span>

@@ -25,8 +25,10 @@ $containers = new WP_Query(
 <?php if ( $containers->have_posts() ) : ?>
 	<ul class="dol-list-none dol-p-0 dol-m-0 dol-widget-sites-nav">
 		<li class="dol-m-0">
-			<span class="dol-block dol-font-bold dol-text-primary-400 dol-uppercase dol-py-2">
-				<?php echo dollie()->get_sites_page_title(); ?>
+			<span class="dol-block dol-text-primary-400 dol-uppercase dol-py-2">
+				<?php
+				\Elementor\Icons_Manager::render_icon($settings['icon'], ['aria-hidden' => 'true']);
+				echo dollie()->get_sites_page_title(); ?>
 			</span>
 		</li>
 		<?php

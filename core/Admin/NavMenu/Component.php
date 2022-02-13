@@ -514,7 +514,7 @@ class Component {
 
 				$item_output .= '<div class="notif-item ' . $read_class . ' dol-p-5 dol-border-0 dol-border-b dol-border-gray-200 dol-border-solid">';
 				$item_output .= '<div class="notif-title dol-flex dol-justify-items-stretch dol-space-x-2">' .
-				                '<div class="dol-flex-grow dol-font-bold">' .
+				                '<div class="dol-flex-grow">' .
 				                esc_html( $log['title'] ) .
 				                '</div>' .
 				                '<div class="notif-date dol-flex-shrink dol-text-right dol-text-gray-500">' .
@@ -577,7 +577,7 @@ class Component {
 
 			$footer_output .= '<div class="notif-header">' .
 			                  '<div class="notif-header-title dol-flex dol-justify-items-stretch dol-space-x-4 dol-p-5 dol-border-0 dol-border-b dol-border-gray-200 dol-border-solid">' .
-			                  '<div class="dol-text-lg dol-font-semibold dol-flex-grow">' .
+			                  '<div class="dol-text-lg dol-flex-grow">' .
 			                  esc_html__( 'Notifications', 'dollie' ) .
 			                  ' <span class="dollie-notifications-count">%notif_count%</span>' .
 			                  '</div>' .

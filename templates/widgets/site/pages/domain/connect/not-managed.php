@@ -1,6 +1,6 @@
 <div class="dol-rounded dol-overflow-hidden">
 	<div class="dol-bg-gray-100 dol-p-4">
-		<h5 class="dol-text-base dol-font-bold dol-mt-0 dol-mb-2">
+		<h5 class="dol-text-base dol-mt-0 dol-mb-2">
 			<?php esc_html_e( 'Point your domain to our server', 'dollie' ); ?>
 		</h5>
 		<ul class="dol-text-sm dol-list-inside dol-p-0">

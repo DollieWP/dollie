@@ -4,7 +4,7 @@
 
 <div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-my-6">
 	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
-		<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
+		<h4 class="dol-m-0 dol-p-0 dol-text-white dol-text-base md:dol-text-xl">
 			<?php esc_html_e( 'Connection Details', 'dollie' ); ?>
 		</h4>
 	</div>
@@ -13,7 +13,7 @@
 			<?php esc_html_e( 'You can securely access your database by using the login details below.', 'dollie' ); ?>
 		</div>
 		<div>
-			<div class="dol-mb-1 dol-font-semibold">
+			<div class="dol-mb-1">
 				<?php _e( '<strong>Tip:</strong> Run \'<code>wp db export</code>\' in your WP-CLI terminal to quickly create a database backup!', 'dollie' ); ?>
 			</div>
 

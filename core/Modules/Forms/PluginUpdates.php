@@ -137,7 +137,7 @@ class PluginUpdates extends Singleton {
 					<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-green-600 dol-flex dol-items-center dol-justify-center">
 						<i class="fas fa-shield-alt dol-text-white dol-text-2xl"></i>
 					</div>
-					<h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
+					<h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-text-white dol-text-base md:dol-text-xl">
 						<?php esc_html_e( 'Everything is up to date', 'dollie' ); ?>
 					</h4>
 				</div>
