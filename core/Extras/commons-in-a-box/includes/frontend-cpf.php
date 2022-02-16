@@ -6,7 +6,7 @@
  *
  * @since 1.0.5
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Frontend
  */
 
@@ -14,8 +14,8 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 // setup globals for bbPress
-cbox()->plugins->cpf = new stdClass;
-cbox()->plugins->cpf->is_setup = function_exists( 'custom_profile_filters_for_buddypress_init' );
+dollie_setup()->plugins->cpf = new stdClass;
+dollie_setup()->plugins->cpf->is_setup = function_exists( 'custom_profile_filters_for_buddypress_init' );
 
 /**
  * Hotfixes and workarounds for CPF.

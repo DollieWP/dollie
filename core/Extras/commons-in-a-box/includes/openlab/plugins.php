@@ -4,7 +4,7 @@
  *
  * Part of the OpenLab package.
  *
- * @package    Commons_In_A_Box
+ * @package    Dollie_Setup
  * @subpackage Package
  * @since      1.1.0
  */
@@ -42,7 +42,7 @@ class CBox_Plugins_OpenLab {
 		call_user_func( $instance, array(
 			'plugin_name'       => 'BuddyPress',
 			'dollie_setup_name'         => __( 'BuddyPress', 'commons-in-a-box' ),
-			'dollie_setup_description'  => __( 'BuddyPress provides the core functionality of Commons In A Box, including groups and user profiles.', 'commons-in-a-box' ),
+			'dollie_setup_description'  => __( 'BuddyPress provides the core functionality of Dollie Setup, including groups and user profiles.', 'commons-in-a-box' ),
 			'version'           => '9.2.0',
 			'documentation_url' => 'http://commonsinabox.org/documentation/plugins/buddypress-plugin',
 			'admin_settings'    => 'options-general.php?page=bp-components',
@@ -55,7 +55,7 @@ class CBox_Plugins_OpenLab {
 			'dollie_setup_name'         => __( 'OpenLab Core', 'commons-in-a-box' ),
 			'dollie_setup_description'  => __( 'Core functionality for DOLLIE_SETUP-OpenLab.', 'commons-in-a-box' ),
 			'version'           => '1.3.2',
-			'download_url'      => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/cbox-openlab-core-1.3.2.zip',
+			'download_url'      => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/dollie_setup-openlab-core-1.3.2.zip',
 			//'documentation_url' => 'http://commonsinabox.org/documentation/plugins/buddypress-plugin',
 		) );
 

@@ -135,7 +135,7 @@ class Plugin extends Singleton {
 		}
 
 		// Load TGM Class
-		if (!class_exists('Commons_In_A_Box')) {
+		if (!class_exists('Dollie_Setup')) {
 			require_once DOLLIE_CORE_PATH . 'Extras/commons-in-a-box/loader.php';
 		}
 

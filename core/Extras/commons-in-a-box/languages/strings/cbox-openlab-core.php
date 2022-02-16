@@ -1,6 +1,6 @@
 <?php
 /**
- * cbox-openlab-core
+ * dollie_setup-openlab-core
  *
  * This is a dummy PHP file meant to be picked up by GlotPress for
  * translation purposes on wordpress.org.

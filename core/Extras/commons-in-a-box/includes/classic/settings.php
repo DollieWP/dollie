@@ -4,7 +4,7 @@
  *
  * Part of the CLassic package.
  *
- * @package    Commons_In_A_Box
+ * @package    Dollie_Setup
  * @subpackage Package
  * @since      1.1.0
  */
@@ -14,7 +14,7 @@
  *
  * @since 1.0-beta2
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Adminstration
  */
 
@@ -160,11 +160,11 @@ class CBox_Settings_Classic {
 
 		// add our settings page
 		$page = add_submenu_page(
-			'cbox',
-			__( 'Commons In A Box Settings', 'commons-in-a-box' ),
+			'dollie_setup',
+			__( 'Dollie Setup Settings', 'commons-in-a-box' ),
 			__( 'Settings', 'commons-in-a-box' ),
 			'install_plugins', // todo - map cap?
-			'cbox-settings',
+			'dollie_setup-settings',
 			array( $this, 'admin_page' )
 		);
 
@@ -177,7 +177,7 @@ class CBox_Settings_Classic {
 	 * Validates settings submitted from the settings admin page.
 	 */
 	public function validate_settings() {
-		if ( empty( $_REQUEST['cbox-settings-save'] ) )
+		if ( empty( $_REQUEST['dollie_setup-settings-save'] ) )
 			return;
 
 		check_admin_referer( 'dollie_setup_settings_options' );
@@ -201,7 +201,7 @@ class CBox_Settings_Classic {
 	public function admin_page() {
 	?>
 		<div class="wrap">
-			<h2><?php _e( 'Commons In A Box Settings', 'commons-in-a-box' ); ?></h2>
+			<h2><?php _e( 'Dollie Setup Settings', 'commons-in-a-box' ); ?></h2>
 
 			<p><?php _e( 'DOLLIE_SETUP can configure some important options for certain plugins.', 'commons-in-a-box' ); ?>
 
@@ -210,7 +210,7 @@ class CBox_Settings_Classic {
 
 				<?php wp_nonce_field( 'dollie_setup_settings_options' ); ?>
 
-				<p><input type="submit" value="<?php _e( 'Save Changes', 'commons-in-a-box' ); ?>" class="button-primary" name="cbox-settings-save" /></p>
+				<p><input type="submit" value="<?php _e( 'Save Changes', 'commons-in-a-box' ); ?>" class="button-primary" name="dollie_setup-settings-save" /></p>
 			</form>
 		</div>
 
@@ -222,7 +222,7 @@ class CBox_Settings_Classic {
 	 */
 	private function render_options() {
 		// get all installed DOLLIE_SETUP plugins
-		$dollie_setup_plugins = cbox()->plugins->get_plugins();
+		$dollie_setup_plugins = dollie_setup()->plugins->get_plugins();
 
 		// get all DOLLIE_SETUP plugins by name
 		$active = CBox_Admin_Plugins::organize_plugins_by_state( $dollie_setup_plugins );

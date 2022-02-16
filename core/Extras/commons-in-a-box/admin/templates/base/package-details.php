@@ -27,19 +27,19 @@
 				<div class="dol-flex dol-mb-6">
 					<div>
 
-						<?php if (dollie_setup_get_theme_prop('name', $_GET['cbox-package-details'])) : ?>
+						<?php if (dollie_setup_get_theme_prop('name', $_GET['dollie_setup-package-details'])) : ?>
 
-							<?php if (dollie_setup_get_theme_prop('screenshot_url', $_GET['cbox-package-details'])) : ?>
-								<a class="thickbox" title="<?php esc_html_e('Screenshot of theme', 'commons-in-a-box'); ?>" href="<?php echo esc_url(dollie_setup_get_theme_prop('screenshot_url', $_GET['cbox-package-details'])); ?>" style="float:right; margin-left:2em;"><img width="200" src="<?php echo esc_url(dollie_setup_get_theme_prop('screenshot_url', $_GET['cbox-package-details'])); ?>" alt="" /></a>
+							<?php if (dollie_setup_get_theme_prop('screenshot_url', $_GET['dollie_setup-package-details'])) : ?>
+								<a class="thickbox" title="<?php esc_html_e('Screenshot of theme', 'commons-in-a-box'); ?>" href="<?php echo esc_url(dollie_setup_get_theme_prop('screenshot_url', $_GET['dollie_setup-package-details'])); ?>" style="float:right; margin-left:2em;"><img width="200" src="<?php echo esc_url(dollie_setup_get_theme_prop('screenshot_url', $_GET['dollie_setup-package-details'])); ?>" alt="" /></a>
 							<?php endif; ?>
 
 							<h3><?php esc_html_e('Theme', 'commons-in-a-box'); ?></h3>
-							<?php dollie_setup_get_template_part('package-details-theme', $_GET['cbox-package-details']); ?>
+							<?php dollie_setup_get_template_part('package-details-theme', $_GET['dollie_setup-package-details']); ?>
 
 						<?php endif; ?>
 
 						<h3><?php esc_html_e('Plugins', 'commons-in-a-box'); ?></h3>
-						<?php dollie_setup_get_template_part('package-details-plugins', $_GET['cbox-package-details']); ?>
+						<?php dollie_setup_get_template_part('package-details-plugins', $_GET['dollie_setup-package-details']); ?>
 
 					</div>
 					<div class="dol-ml-12 dol-flex-shrink-0">

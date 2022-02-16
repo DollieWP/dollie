@@ -13,11 +13,11 @@ use DOLLIE_SETUP\Admin\Upgrades\List_Table;
 function setup_upgrades_page()
 {
 	$subpage = add_submenu_page(
-		'cbox',
+		'dollie_setup',
 		esc_html__('Upgrades', 'commons-in-a-box'),
 		esc_html__('Upgrades', 'commons-in-a-box'),
 		'install_plugins',
-		'cbox-upgrades',
+		'dollie_setup-upgrades',
 		__NAMESPACE__ . '\\upgrades_page'
 	);
 
@@ -33,23 +33,23 @@ add_action('dollie_setup_admin_menu', __NAMESPACE__ . '\\setup_upgrades_page');
 function enqueue_assets()
 {
 	wp_enqueue_style(
-		'cbox-upgrade-styles',
-		cbox()->plugin_url('assets/css/upgrades.css'),
+		'dollie_setup-upgrade-styles',
+		dollie_setup()->plugin_url('assets/css/upgrades.css'),
 		[],
-		cbox()->version
+		dollie_setup()->version
 	);
 
 	wp_enqueue_script(
-		'cbox-upgrade-script',
-		cbox()->plugin_url('assets/js/upgrades.js'),
+		'dollie_setup-upgrade-script',
+		dollie_setup()->plugin_url('assets/js/upgrades.js'),
 		['jquery'],
-		cbox()->version,
+		dollie_setup()->version,
 		true
 	);
 
-	wp_localize_script('cbox-upgrade-script', 'DOLLIE_SETUPUpgrades', [
+	wp_localize_script('dollie_setup-upgrade-script', 'DOLLIE_SETUPUpgrades', [
 		'ajaxUrl'  => admin_url('admin-ajax.php'),
-		'nonce'    => wp_create_nonce('cbox-upgrades'),
+		'nonce'    => wp_create_nonce('dollie_setup-upgrades'),
 		'upgrade'  => isset($_GET['id']) ? sanitize_key($_GET['id']) : null,
 		'delay'    => 0,
 		'text'     => [
@@ -128,31 +128,31 @@ function upgrades_view()
 	$name       = $is_bulk ? __('Bulk upgrade', 'commons-in-a-box') : $upgrade->name;
 	$percentage = $upgrade->get_percentage();
 	$style      = $percentage > 0 ? 'style="width: ' . $percentage . '%"' : '';
-	$go_back    = dollie_setup_admin_prop('url', 'admin.php?page=cbox-upgrades');
+	$go_back    = dollie_setup_admin_prop('url', 'admin.php?page=dollie_setup-upgrades');
 ?>
-	<div class="cbox-upgrade">
+	<div class="dollie_setup-upgrade">
 		<h3><?php echo esc_html($name); ?></h3>
-		<div class="cbox-upgrade-main">
-			<ul class="cbox-upgrade-stats">
+		<div class="dollie_setup-upgrade-main">
+			<ul class="dollie_setup-upgrade-stats">
 				<?php if ($is_bulk) : ?>
 					<li>
-						<strong><?php esc_html_e('Name:', 'commons-in-a-box'); ?></strong> <span id="cbox-upgrade-name"><?php echo esc_html($upgrade->name); ?></span>
+						<strong><?php esc_html_e('Name:', 'commons-in-a-box'); ?></strong> <span id="dollie_setup-upgrade-name"><?php echo esc_html($upgrade->name); ?></span>
 					</li>
 				<?php endif; ?>
 				<li>
-					<strong><?php esc_html_e('Total:', 'commons-in-a-box'); ?></strong> <span id="cbox-upgrade-total"><?php echo $upgrade->get_items_count(); ?></span>
+					<strong><?php esc_html_e('Total:', 'commons-in-a-box'); ?></strong> <span id="dollie_setup-upgrade-total"><?php echo $upgrade->get_items_count(); ?></span>
 				</li>
 				<li>
-					<strong><?php esc_html_e('Processed:', 'commons-in-a-box'); ?></strong> <span id="cbox-upgrade-processed"><?php echo $upgrade->get_processed_count(); ?></span> <span id="cbox-upgrade-percentage">(<?php echo $percentage; ?>%)</span>
+					<strong><?php esc_html_e('Processed:', 'commons-in-a-box'); ?></strong> <span id="dollie_setup-upgrade-processed"><?php echo $upgrade->get_processed_count(); ?></span> <span id="dollie_setup-upgrade-percentage">(<?php echo $percentage; ?>%)</span>
 				</li>
 			</ul>
-			<div class="cbox-upgrade-progress-bar">
-				<div class="cbox-upgrade-progress-bar-inner" <?php echo $style; ?>></div>
+			<div class="dollie_setup-upgrade-progress-bar">
+				<div class="dollie_setup-upgrade-progress-bar-inner" <?php echo $style; ?>></div>
 			</div>
 		</div>
-		<div class="cbox-upgrade-actions">
-			<button class="button-primary" id="cbox-upgrade-start"><?php esc_html_e('Start', 'commons-in-a-box'); ?></button>
-			<button class="button" id="cbox-upgrade-pause"><?php esc_html_e('Pause', 'commons-in-a-box'); ?></button>
+		<div class="dollie_setup-upgrade-actions">
+			<button class="button-primary" id="dollie_setup-upgrade-start"><?php esc_html_e('Start', 'commons-in-a-box'); ?></button>
+			<button class="button" id="dollie_setup-upgrade-pause"><?php esc_html_e('Pause', 'commons-in-a-box'); ?></button>
 		</div>
 	</div>
 	<p>

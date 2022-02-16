@@ -1,4 +1,4 @@
-<div class="metabox-holder postbox getting-started-cbox-classic">
+<div class="metabox-holder postbox getting-started-dollie_setup-classic">
 	<div class="stuffbox">
 		<h3><?php esc_html_e( 'Getting Started with Commons in A Box Classic', 'commons-in-a-box' ); ?></h3>
 	</div>
@@ -9,7 +9,7 @@
 			<!-- SETTINGS -->
 			<div class="welcome-panel-column">
 				<h4><span class="icon16 icon-settings"></span> <?php _e( 'Settings', 'commons-in-a-box' ); ?></h4>
-				<p><?php _e( "Commons In A Box works by pulling together a number of independent WordPress and BuddyPress plugins. Customize your site by exploring the settings pages for these plugins below.", 'commons-in-a-box' ); ?></p>
+				<p><?php _e( "Dollie Setup works by pulling together a number of independent WordPress and BuddyPress plugins. Customize your site by exploring the settings pages for these plugins below.", 'commons-in-a-box' ); ?></p>
 				<ul>
 
 				<?php
@@ -27,7 +27,7 @@
 
 				<div class="login postbox">
 					<div class="message" style="text-align:center;">
-						<strong><?php printf( __( '<a href="%s">Manage all your DOLLIE_SETUP plugins here</a>', 'commons-in-a-box' ), esc_url( self_admin_url( 'admin.php?page=cbox-plugins' ) ) ); ?></strong>
+						<strong><?php printf( __( '<a href="%s">Manage all your DOLLIE_SETUP plugins here</a>', 'commons-in-a-box' ), esc_url( self_admin_url( 'admin.php?page=dollie_setup-plugins' ) ) ); ?></strong>
 					</div>
 				</div>
 			</div>
@@ -40,7 +40,7 @@
 
 					if ( $theme->errors() ) :
 						echo '<p>';
-						printf( __( '<a href="%1$s">Install the %2$s theme to get started</a>.', 'commons-in-a-box' ), wp_nonce_url( self_admin_url( 'admin.php?page=cbox&amp;cbox-action=install-theme' ), 'dollie_setup_install_theme' ), esc_attr( dollie_setup_get_theme_prop( 'name' ) ) );
+						printf( __( '<a href="%1$s">Install the %2$s theme to get started</a>.', 'commons-in-a-box' ), wp_nonce_url( self_admin_url( 'admin.php?page=dollie_setup&amp;dollie_setup-action=install-theme' ), 'dollie_setup_install_theme' ), esc_attr( dollie_setup_get_theme_prop( 'name' ) ) );
 						echo '</p>';
 					else:
 
@@ -68,7 +68,7 @@
 								<div class="login postbox">
 									<div class="message" style="text-align:center;">
 										<strong><?php printf( '<a href="%1$s" data-confirm="%2$s" onclick="return confirm( this.getAttribute( \'data-confirm\' ) );">%3$s</a>',
-											wp_nonce_url( self_admin_url( 'admin.php?page=cbox&amp;cbox-action=install-theme' ), 'dollie_setup_install_theme' ),
+											wp_nonce_url( self_admin_url( 'admin.php?page=dollie_setup&amp;dollie_setup-action=install-theme' ), 'dollie_setup_install_theme' ),
 											sprintf( esc_html__( "This will activate the %s theme on your site.\n\nAre you sure you want to continue?", 'commons-in-a-box' ), esc_attr( dollie_setup_get_theme_prop( 'name' ) ) ),
 											sprintf( esc_html__( 'Like the %s theme? Install it!', 'commons-in-a-box' ), esc_attr( dollie_setup_get_theme_prop( 'name' ) ) ) ); ?></strong>
 									</div>

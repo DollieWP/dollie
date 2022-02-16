@@ -9,7 +9,7 @@ use DOLLIE_SETUP\Upgrades\Upgrade_Registry;
  * @return void
  */
 function handle_upgrade() {
-	if ( ! check_ajax_referer( 'cbox-upgrades', '_ajax_nonce', false ) ) {
+	if ( ! check_ajax_referer( 'dollie_setup-upgrades', '_ajax_nonce', false ) ) {
 		wp_send_json_error( [
 			'message' => esc_html__( 'Permission denied.', 'commons-in-a-box' ),
 		] );

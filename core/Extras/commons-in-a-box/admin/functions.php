@@ -4,7 +4,7 @@
  *
  * @since 0.3
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Adminstration
  */
 
@@ -49,7 +49,7 @@ function dollie_setup_is_setup() {
  * @since 0.3
  *
  * @uses dollie_setup_get_installed_revision_date() Gets the DOLLIE_SETUP revision date from the DB
- * @uses dollie_setup_get_current_revision_date() Gets the current DOLLIE_SETUP revision date from Commons_In_A_Box::setup_globals()
+ * @uses dollie_setup_get_current_revision_date() Gets the current DOLLIE_SETUP revision date from Dollie_Setup::setup_globals()
  * @return bool
  */
 function dollie_setup_is_upgraded() {
@@ -69,8 +69,8 @@ function dollie_setup_is_upgraded() {
  *  bundled with DOLLIE_SETUP.
  */
 function dollie_setup_get_theme_to_update() {
-	if ( isset( cbox()->theme_to_update ) ) {
-		return cbox()->theme_to_update;
+	if ( isset( dollie_setup()->theme_to_update ) ) {
+		return dollie_setup()->theme_to_update;
 	}
 
 	if ( is_multisite() ) {
@@ -108,7 +108,7 @@ function dollie_setup_get_theme_to_update() {
 	}
 
 	// set marker so we don't have to do this again
-	cbox()->theme_to_update = $retval;
+	dollie_setup()->theme_to_update = $retval;
 
 	return $retval;
 }
@@ -131,7 +131,7 @@ function dollie_setup_version() {
 	 * @return string The DOLLIE_SETUP version
 	 */
 	function dollie_setup_get_version() {
-		return cbox()->version;
+		return dollie_setup()->version;
 	}
 
 /**
@@ -142,7 +142,7 @@ function dollie_setup_version() {
  * @return mixed String of date on success. Boolean false on failure
  */
 function dollie_setup_bump_revision_date() {
-	update_site_option( '_dollie_setup_revision_date', cbox()->revision_date );
+	update_site_option( '_dollie_setup_revision_date', dollie_setup()->revision_date );
 }
 
 /**
@@ -435,7 +435,7 @@ function dollie_setup_disable_ssl_verification( $args, $url ) {
  * ZIP file or not.  This will be used later when renaming the source folder.
  *
  * Note: The directory in DOLLIE_SETUP bundled ZIP files must resemble the format of
- * 'slug-VERSION'. eg. 'cbox-theme-1.1.0'.
+ * 'slug-VERSION'. eg. 'dollie_setup-theme-1.1.0'.
  *
  * @since 1.1.2.
  *
@@ -448,7 +448,7 @@ function dollie_setup_upgrader_add_meta_for_zip( $retval ) {
 	}
 
 	// Add our meta.
-	$retval['hook_extra']['cbox-zip'] = true;
+	$retval['hook_extra']['dollie_setup-zip'] = true;
 
 	return $retval;
 }
@@ -514,7 +514,7 @@ function dollie_setup_rename_github_folder( $source, $remote_source, $obj, $hook
 	};
 
 	// Handle bundled ZIP files before checking DOLLIE_SETUP admin installer.
-	if ( ! empty( $hook_extra['cbox-zip'] ) ) {
+	if ( ! empty( $hook_extra['dollie_setup-zip'] ) ) {
 		return $renamer( $source );
 	}
 

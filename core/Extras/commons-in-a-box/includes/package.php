@@ -2,7 +2,7 @@
 /**
  * Packages API: Base class
  *
- * @package    Commons_In_A_Box
+ * @package    Dollie_Setup
  * @subpackage Package
  * @since      1.1.0
  */
@@ -190,7 +190,7 @@ abstract class CBox_Package {
 			add_action( 'dollie_setup_plugins_loaded', array( get_called_class(), 'plugin_registrar' ) );
 
 			// Perform plugin registration.
-			$instance = clone cbox()->plugins;
+			$instance = clone dollie_setup()->plugins;
 			/** This hook is documented in /commons-in-a-box/includes/plugins.php */
 			do_action_ref_array( 'dollie_setup_plugins_loaded', array( $instance ) );
 
@@ -250,8 +250,8 @@ abstract class CBox_Package {
 		return array(
 			'template_path' => DOLLIE_SETUP_PLUGIN_DIR . 'admin/templates/' . sanitize_file_name( strtolower( static::$name ) ) . '/',
 			'icon_url'      => includes_url( 'images/crystal/archive.png' ),
-			'badge_url'     => cbox()->plugin_url( 'admin/images/logo-dollie_setup_vert.png' ),
-			'badge_url_2x'  => cbox()->plugin_url( 'admin/images/logo-dollie_setup_vert-2x.png' ),
+			'badge_url'     => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup_vert.png' ),
+			'badge_url_2x'  => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup_vert-2x.png' ),
 			'network'       => false
 		);
 	}
@@ -268,7 +268,7 @@ abstract class CBox_Package {
 			'tab_plugin_required' => __( 'Core Plugins', 'commons-in-a-box' ),
 			'tab_plugin_optional' => __( 'Optional Plugins', 'commons-in-a-box' ),
 			'tab_plugin_install'  => __( 'Member Site Plugins', 'commons-in-a-box' ),
-			'dashboard_header'    => sprintf( esc_html__( 'Welcome to Commons In A Box %s', 'commons-in-a-box' ), dollie_setup_get_package_prop( 'name' ) )
+			'dashboard_header'    => sprintf( esc_html__( 'Welcome to Dollie Setup %s', 'commons-in-a-box' ), dollie_setup_get_package_prop( 'name' ) )
 		);
 	}
 

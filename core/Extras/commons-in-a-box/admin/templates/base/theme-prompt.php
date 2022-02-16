@@ -5,4 +5,4 @@
 
 	<p><?php esc_html_e( 'One last step!', 'commons-in-a-box' ); ?></p>
 
-	<p><?php printf( __( 'The %1$s Theme is the final piece of the Commons In A Box %2$s experience.', 'commons-in-a-box' ), dollie_setup_get_theme_prop( 'name' ), dollie_setup_get_package_prop( 'name' ) ); ?></p>
+	<p><?php printf( __( 'The %1$s Theme is the final piece of the Dollie Setup %2$s experience.', 'commons-in-a-box' ), dollie_setup_get_theme_prop( 'name' ), dollie_setup_get_package_prop( 'name' ) ); ?></p>

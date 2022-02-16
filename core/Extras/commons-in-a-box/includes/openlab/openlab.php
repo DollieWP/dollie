@@ -2,7 +2,7 @@
 /**
  * Package: OpenLab Core class
  *
- * @package    Commons_In_A_Box
+ * @package    Dollie_Setup
  * @subpackage Package
  * @since      1.1.0
  */
@@ -35,10 +35,10 @@ class CBox_Package_OpenLab extends CBox_Package {
 	protected static function config() {
 		return array(
 			'network'           => true,
-			'icon_url'          => cbox()->plugin_url( 'admin/images/logo-cbox-ol_vert.png' ),
-			'badge_url'         => cbox()->plugin_url( 'admin/images/logo-cbox-ol_vert.png' ),
-			'badge_url_2x'      => cbox()->plugin_url( 'admin/images/logo-cbox-ol_vert-2x.png' ),
-			'documentation_url' => 'http://commonsinabox.org/cbox-openlab-overview/?modal=1'
+			'icon_url'          => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup-ol_vert.png' ),
+			'badge_url'         => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup-ol_vert.png' ),
+			'badge_url_2x'      => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup-ol_vert-2x.png' ),
+			'documentation_url' => 'http://commonsinabox.org/dollie_setup-openlab-overview/?modal=1'
 		);
 	}
 
@@ -66,7 +66,7 @@ class CBox_Package_OpenLab extends CBox_Package {
 			'version'        => '1.3.2',
 			'directory_name' => 'openlab-theme',
 			'download_url'   => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/openlab-theme-1.3.2.zip',
-			'screenshot_url' => cbox()->plugin_url( 'admin/images/screenshot_openlab_theme.png' ),
+			'screenshot_url' => dollie_setup()->plugin_url( 'admin/images/screenshot_openlab_theme.png' ),
 			'force_install'  => true
 		);
 	}
@@ -87,7 +87,7 @@ class CBox_Package_OpenLab extends CBox_Package {
 	 * @since 1.2.0
 	 */
 	public static function upgrader() {
-		do_action( 'cboxol_register_upgrader' );
+		do_action( 'dollie_setupol_register_upgrader' );
 	}
 
 	/**
@@ -112,6 +112,6 @@ class CBox_Package_OpenLab extends CBox_Package {
 	 */
 	public static function deactivate() {
 		// Deactivate DOLLIE_SETUP-OpenLab-Core plugin, as it's OL-specific only.
-		deactivate_plugins( 'cbox-openlab-core/cbox-openlab-core.php', true );
+		deactivate_plugins( 'dollie_setup-openlab-core/dollie_setup-openlab-core.php', true );
 	}
 }

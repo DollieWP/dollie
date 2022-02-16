@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Commons In A Box
+Plugin Name: Dollie Setup
 Plugin URI: http://commonsinabox.org
 Description: A suite of community and collaboration tools for WordPress, designed especially for academic communities
 Version: 1.3.2
@@ -16,11 +16,11 @@ Domain Path: /languages
 // Exit if accessed directly
 if ( !defined( 'ABSPATH' ) ) exit;
 
-class Commons_In_A_Box {
+class Dollie_Setup {
 	/**
 	 * Holds the single-running DOLLIE_SETUP object
 	 *
-	 * @var Commons_In_A_Box
+	 * @var Dollie_Setup
 	 */
 	private static $instance = false;
 
@@ -54,7 +54,7 @@ class Commons_In_A_Box {
 	/**
 	 * Private constructor. Intentionally left empty.
 	 *
-	 * Instantiate this class by using {@link cbox()} or {@link Commons_In_A_Box::init()}.
+	 * Instantiate this class by using {@link dollie_setup()} or {@link Dollie_Setup::init()}.
 	 *
 	 * @since 0.1
 	 */
@@ -202,10 +202,10 @@ class Commons_In_A_Box {
 
 		// WP-CLI integration
 		if ( defined( 'WP_CLI' ) ) {
-			\WP_CLI::add_command( 'cbox',         '\DOLLIE_SETUP\CLI\Core' );
-			\WP_CLI::add_command( 'cbox package', '\DOLLIE_SETUP\CLI\Package' );
-			\WP_CLI::add_command( 'cbox update',  '\DOLLIE_SETUP\CLI\Update' );
-			\WP_CLI::add_command( 'cbox upgrade', '\DOLLIE_SETUP\CLI\Upgrade' );
+			\WP_CLI::add_command( 'dollie_setup',         '\DOLLIE_SETUP\CLI\Core' );
+			\WP_CLI::add_command( 'dollie_setup package', '\DOLLIE_SETUP\CLI\Package' );
+			\WP_CLI::add_command( 'dollie_setup update',  '\DOLLIE_SETUP\CLI\Update' );
+			\WP_CLI::add_command( 'dollie_setup upgrade', '\DOLLIE_SETUP\CLI\Upgrade' );
 		}
 
 		/**
@@ -213,7 +213,7 @@ class Commons_In_A_Box {
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param Commons_In_A_Box $this
+		 * @param Dollie_Setup $this
 		 */
 		do_action( 'dollie_setup_load_components', $this );
 	}
@@ -402,27 +402,27 @@ class Commons_In_A_Box {
 	 */
 	public function plugin_url( $path = '' ) {
 		if ( ! empty( $path ) && is_string( $path ) )
-			return esc_url( cbox()->plugin_url . $path );
+			return esc_url( dollie_setup()->plugin_url . $path );
 		else
-			return cbox()->plugin_url;
+			return dollie_setup()->plugin_url;
 	}
 
 }
 
 /**
- * The main function responsible for returning the Commons In A Box instance
+ * The main function responsible for returning the Dollie Setup instance
  * to functions everywhere.
  *
  * Use this function like you would a global variable, except without needing
  * to declare the global.
  *
- * Example: <?php $cbox = cbox(); ?>
+ * Example: <?php $dollie_setup = dollie_setup(); ?>
  *
- * @return Commons_In_A_Box
+ * @return Dollie_Setup
  */
-function cbox() {
-	return Commons_In_A_Box::init();
+function dollie_setup() {
+	return Dollie_Setup::init();
 }
 
 // Vroom!
-cbox();
+dollie_setup();

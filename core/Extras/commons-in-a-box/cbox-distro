@@ -14,7 +14,7 @@
 #      /includes/zip/ folder.
 #   2. Switch references to all Github links in DOLLIE_SETUP to the local filepath
 #
-# If you don't need to re-download all Github assets, use 'cbox-distro no-dl'
+# If you don't need to re-download all Github assets, use 'dollie_setup-distro no-dl'
 # to just modify the filepath references.
 #
 # Confirm that the changes are accurate, then commit and deploy to wp.org!

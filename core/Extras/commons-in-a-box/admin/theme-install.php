@@ -2,7 +2,7 @@
 /**
  * DOLLIE_SETUP's Theme Installer
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Themes
  */
 
@@ -20,7 +20,7 @@ if ( ! class_exists( 'Plugin_Upgrader' ) )
  *
  * @since 0.3
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Themes
  */
 class CBox_Theme_Installer extends Theme_Upgrader {
@@ -204,7 +204,7 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 	public function remove_theme_actions( $actions ) {
 		unset( $actions );
 
-		$actions['theme_page'] = '<a href="' . self_admin_url( 'admin.php?page=cbox' ) . '" class="button-primary">' . __( 'Continue to DOLLIE_SETUP Dashboard &rarr;', 'commons-in-a-box' ) . '</a>';
+		$actions['theme_page'] = '<a href="' . self_admin_url( 'admin.php?page=dollie_setup' ) . '" class="button-primary">' . __( 'Continue to DOLLIE_SETUP Dashboard &rarr;', 'commons-in-a-box' ) . '</a>';
 		return $actions;
 	}
 }

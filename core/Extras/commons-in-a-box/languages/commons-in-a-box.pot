@@ -1,8 +1,8 @@
 # Copyright (C) 2022 CUNY Academic Commons
-# This file is distributed under the same license as the Commons In A Box plugin.
+# This file is distributed under the same license as the Dollie Setup plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Commons In A Box 1.3.2\n"
+"Project-Id-Version: Dollie Setup 1.3.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/commons-in-a-box\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,7 +16,7 @@ msgstr ""
 
 #. Plugin Name of the plugin
 #: admin/admin-loader.php:597
-msgid "Commons In A Box"
+msgid "Dollie Setup"
 msgstr ""
 
 #. Plugin URI of the plugin
@@ -61,7 +61,7 @@ msgstr ""
 
 #: includes/package.php:271
 #: admin/templates/classic/changelog.php:3
-msgid "Welcome to Commons In A Box %s"
+msgid "Welcome to Dollie Setup %s"
 msgstr ""
 
 #: includes/frontend-bbpress.php:325
@@ -92,7 +92,7 @@ msgstr ""
 
 #: includes/classic/plugins.php:43
 #: includes/openlab/plugins.php:45
-msgid "BuddyPress provides the core functionality of Commons In A Box, including groups and user profiles."
+msgid "BuddyPress provides the core functionality of Dollie Setup, including groups and user profiles."
 msgstr ""
 
 #: includes/classic/plugins.php:81
@@ -125,7 +125,7 @@ msgstr ""
 
 #: includes/classic/plugins.php:124
 #: includes/openlab/plugins.php:147
-#: languages/strings/cbox-openlab-core.php:686
+#: languages/strings/dollie_setup-openlab-core.php:686
 msgid "Invite Anyone"
 msgstr ""
 
@@ -236,7 +236,7 @@ msgstr ""
 
 #: includes/classic/settings.php:164
 #: includes/classic/settings.php:207
-msgid "Commons In A Box Settings"
+msgid "Dollie Setup Settings"
 msgstr ""
 
 #: includes/classic/settings.php:165
@@ -256,7 +256,7 @@ msgstr ""
 
 #: includes/classic/settings.php:216
 #: languages/strings/openlab-theme.php:279
-#: languages/strings/cbox-openlab-core.php:542
+#: languages/strings/dollie_setup-openlab-core.php:542
 msgid "Save Changes"
 msgstr ""
 
@@ -290,7 +290,7 @@ msgid "Allow your members to attach documents to groups."
 msgstr ""
 
 #: includes/openlab/plugins.php:182
-#: languages/strings/cbox-openlab-core.php:360
+#: languages/strings/dollie_setup-openlab-core.php:360
 msgid "Portfolio"
 msgstr ""
 
@@ -386,7 +386,7 @@ msgid "In the Spotlight: %s"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:19
-#: languages/strings/cbox-openlab-core.php:608
+#: languages/strings/dollie_setup-openlab-core.php:608
 msgid "See More"
 msgstr ""
 
@@ -466,7 +466,7 @@ msgid "<strong>WARNING:</strong> This process cannot be undone."
 msgstr ""
 
 #: languages/strings/openlab-theme.php:41
-#: languages/strings/cbox-openlab-core.php:598
+#: languages/strings/dollie_setup-openlab-core.php:598
 msgid "Submit"
 msgstr ""
 
@@ -665,12 +665,12 @@ msgid "The page you requested could not be found. Please use the menu above to f
 msgstr ""
 
 #: languages/strings/openlab-theme.php:123
-#: languages/strings/cbox-openlab-core.php:198
+#: languages/strings/dollie_setup-openlab-core.php:198
 msgid "Main Menu"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:124
-#: languages/strings/cbox-openlab-core.php:442
+#: languages/strings/dollie_setup-openlab-core.php:442
 msgid "About Menu"
 msgstr ""
 
@@ -707,7 +707,7 @@ msgid "Powered by:"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:133
-#: languages/strings/cbox-openlab-core.php:450
+#: languages/strings/dollie_setup-openlab-core.php:450
 msgid "DOLLIE_SETUP-OL Logo"
 msgstr ""
 
@@ -882,7 +882,7 @@ msgid "Post in"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:212
-#: languages/strings/cbox-openlab-core.php:605
+#: languages/strings/dollie_setup-openlab-core.php:605
 msgid "My Profile"
 msgstr ""
 
@@ -953,7 +953,7 @@ msgid "Separate tags with commas (for example: <em>orchestra, snare drum, piccol
 msgstr ""
 
 #: languages/strings/openlab-theme.php:235
-#: languages/strings/cbox-openlab-core.php:539
+#: languages/strings/dollie_setup-openlab-core.php:539
 msgid "Parent"
 msgstr ""
 
@@ -966,17 +966,17 @@ msgid "(Optional) Assigning a parent Doc means that a link to the parent will ap
 msgstr ""
 
 #: languages/strings/openlab-theme.php:239
-#: languages/strings/cbox-openlab-core.php:541
+#: languages/strings/dollie_setup-openlab-core.php:541
 msgid "Save"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:240
-#: languages/strings/cbox-openlab-core.php:506
+#: languages/strings/dollie_setup-openlab-core.php:506
 msgid "Cancel"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:241
-#: languages/strings/cbox-openlab-core.php:511
+#: languages/strings/dollie_setup-openlab-core.php:511
 msgid "Delete"
 msgstr ""
 
@@ -993,7 +993,7 @@ msgid "I'm still editing!"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:245
-#: languages/strings/cbox-openlab-core.php:597
+#: languages/strings/dollie_setup-openlab-core.php:597
 msgid "Search"
 msgstr ""
 
@@ -1030,7 +1030,7 @@ msgid "Read"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:262
-#: languages/strings/cbox-openlab-core.php:514
+#: languages/strings/dollie_setup-openlab-core.php:514
 msgid "Edit"
 msgstr ""
 
@@ -1087,7 +1087,7 @@ msgid "Edit Profile"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:276
-#: languages/strings/cbox-openlab-core.php:671
+#: languages/strings/dollie_setup-openlab-core.php:671
 msgid "(required)"
 msgstr ""
 
@@ -1096,7 +1096,7 @@ msgid "Clear"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:278
-#: languages/strings/cbox-openlab-core.php:527
+#: languages/strings/dollie_setup-openlab-core.php:527
 msgid "Member Type"
 msgstr ""
 
@@ -1195,12 +1195,12 @@ msgid "Last Name"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:306
-#: languages/strings/cbox-openlab-core.php:606
+#: languages/strings/dollie_setup-openlab-core.php:606
 msgid "Accept"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:307
-#: languages/strings/cbox-openlab-core.php:607
+#: languages/strings/dollie_setup-openlab-core.php:607
 msgid "Reject"
 msgstr ""
 
@@ -1344,7 +1344,7 @@ msgid "Registering for %s is easy. Just fill in the fields below and we'll get a
 msgstr ""
 
 #: languages/strings/openlab-theme.php:362
-#: languages/strings/cbox-openlab-core.php:757
+#: languages/strings/dollie_setup-openlab-core.php:757
 msgid "Username"
 msgstr ""
 
@@ -1532,7 +1532,7 @@ msgstr ""
 #. translators: group administrator name
 #. translators: user name
 #: languages/strings/openlab-theme.php:410
-#: languages/strings/cbox-openlab-core.php:612
+#: languages/strings/dollie_setup-openlab-core.php:612
 msgid "Profile picture of %s"
 msgstr ""
 
@@ -1712,7 +1712,7 @@ msgid "view clones"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:461
-#: languages/strings/cbox-openlab-core.php:35
+#: languages/strings/dollie_setup-openlab-core.php:35
 #: admin/templates/classic/changelog.php:16
 #: admin/templates/classic/welcome-description.php:7
 #: admin/templates/openlab/changelog.php:16
@@ -1807,7 +1807,7 @@ msgid "Narrow down your results using the search filters."
 msgstr ""
 
 #: languages/strings/openlab-theme.php:500
-#: languages/strings/cbox-openlab-core.php:622
+#: languages/strings/dollie_setup-openlab-core.php:622
 msgid "Visit Site"
 msgstr ""
 
@@ -1995,7 +1995,7 @@ msgid "Not %s?"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:556
-#: languages/strings/cbox-openlab-core.php:640
+#: languages/strings/dollie_setup-openlab-core.php:640
 msgid "Log Out"
 msgstr ""
 
@@ -2004,7 +2004,7 @@ msgid "Need Help?"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:558
-#: languages/strings/cbox-openlab-core.php:641
+#: languages/strings/dollie_setup-openlab-core.php:641
 msgid "Sign Up"
 msgstr ""
 
@@ -2021,12 +2021,12 @@ msgid "Sign Up to become a member!"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:562
-#: languages/strings/cbox-openlab-core.php:758
+#: languages/strings/dollie_setup-openlab-core.php:758
 msgid "Password"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:563
-#: languages/strings/cbox-openlab-core.php:761
+#: languages/strings/dollie_setup-openlab-core.php:761
 msgid "Forgot Password?"
 msgstr ""
 
@@ -2035,7 +2035,7 @@ msgid "Keep me logged in"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:565
-#: languages/strings/cbox-openlab-core.php:760
+#: languages/strings/dollie_setup-openlab-core.php:760
 msgid "Log In"
 msgstr ""
 
@@ -2072,7 +2072,7 @@ msgid "Enter keyword"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:574
-#: languages/strings/cbox-openlab-core.php:415
+#: languages/strings/dollie_setup-openlab-core.php:415
 msgid "About"
 msgstr ""
 
@@ -2216,7 +2216,7 @@ msgid "Controls the text on the middle of the community-wide footer."
 msgstr ""
 
 #: languages/strings/openlab-theme.php:618
-#: languages/strings/cbox-openlab-core.php:441
+#: languages/strings/dollie_setup-openlab-core.php:441
 msgid "Calendar"
 msgstr ""
 
@@ -2289,7 +2289,7 @@ msgid "Sent Invitations"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:647
-#: languages/strings/cbox-openlab-core.php:64
+#: languages/strings/dollie_setup-openlab-core.php:64
 msgid "Home"
 msgstr ""
 
@@ -2450,12 +2450,12 @@ msgid "Help Tags"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:689
-#: languages/strings/cbox-openlab-core.php:417
+#: languages/strings/dollie_setup-openlab-core.php:417
 msgid "Help"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:690
-#: languages/strings/cbox-openlab-core.php:501
+#: languages/strings/dollie_setup-openlab-core.php:501
 msgid "Add New"
 msgstr ""
 
@@ -2864,7 +2864,7 @@ msgid "View all Help"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:819
-#: languages/strings/cbox-openlab-core.php:599
+#: languages/strings/dollie_setup-openlab-core.php:599
 msgid "People"
 msgstr ""
 
@@ -2929,7 +2929,7 @@ msgid "&rarr;"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:851
-#: languages/strings/cbox-openlab-core.php:120
+#: languages/strings/dollie_setup-openlab-core.php:120
 msgid "Group Details"
 msgstr ""
 
@@ -3333,7 +3333,7 @@ msgid "Additional Description/HTML"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:967
-#: languages/strings/cbox-openlab-core.php:492
+#: languages/strings/dollie_setup-openlab-core.php:492
 #: admin/templates/openlab/getting-started.php:24
 msgid "Academic Units"
 msgstr ""
@@ -3528,7 +3528,7 @@ msgid "Nothing to show."
 msgstr ""
 
 #: languages/strings/openlab-theme.php:1023
-#: languages/strings/cbox-openlab-core.php:31
+#: languages/strings/dollie_setup-openlab-core.php:31
 msgid "Title:"
 msgstr ""
 
@@ -3541,7 +3541,7 @@ msgid "- Select Group Type -"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:1026
-#: languages/strings/cbox-openlab-core.php:431
+#: languages/strings/dollie_setup-openlab-core.php:431
 msgid "What's Happening?"
 msgstr ""
 
@@ -3554,7 +3554,7 @@ msgid "What's Happening"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:1029
-#: languages/strings/cbox-openlab-core.php:432
+#: languages/strings/dollie_setup-openlab-core.php:432
 msgid "Who's Online?"
 msgstr ""
 
@@ -3563,7 +3563,7 @@ msgid "Avatars of recently active members."
 msgstr ""
 
 #: languages/strings/openlab-theme.php:1031
-#: languages/strings/cbox-openlab-core.php:433
+#: languages/strings/dollie_setup-openlab-core.php:433
 msgid "New Members"
 msgstr ""
 
@@ -3588,12 +3588,12 @@ msgid "Friends"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:1037
-#: languages/strings/cbox-openlab-core.php:392
+#: languages/strings/dollie_setup-openlab-core.php:392
 msgid "Portfolio Home"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:1038
-#: languages/strings/cbox-openlab-core.php:624
+#: languages/strings/dollie_setup-openlab-core.php:624
 #: admin/admin-loader.php:611
 msgid "Dashboard"
 msgstr ""
@@ -3611,12 +3611,12 @@ msgid "Calendar: Upcoming"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:1042
-#: languages/strings/cbox-openlab-core.php:423
+#: languages/strings/dollie_setup-openlab-core.php:423
 msgid "Search Results"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:1043
-#: languages/strings/cbox-openlab-core.php:421
+#: languages/strings/dollie_setup-openlab-core.php:421
 msgid "Contact Us"
 msgstr ""
 
@@ -3636,2499 +3636,2499 @@ msgstr ""
 msgid "Our help is licensed under Creative Commons copyright."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:11
+#: languages/strings/dollie_setup-openlab-core.php:11
 msgid "Attribution (CC BY)"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:12
+#: languages/strings/dollie_setup-openlab-core.php:12
 msgid "Attribution-ShareAlike (CC BY-SA)"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:13
+#: languages/strings/dollie_setup-openlab-core.php:13
 msgid "Attribution-NoDerivs (CC BY-ND)"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:14
+#: languages/strings/dollie_setup-openlab-core.php:14
 msgid "Attribution-NonCommercial (CC BY-NC)"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:15
+#: languages/strings/dollie_setup-openlab-core.php:15
 msgid "Attribution-NonCommercial-ShareAlike (CC BY-NC-SA)"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:16
+#: languages/strings/dollie_setup-openlab-core.php:16
 msgid "Attribution-NonCommercial-NoDerivs (CC BY-NC-ND)"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:17
+#: languages/strings/dollie_setup-openlab-core.php:17
 msgid "Public Domain, CC0"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:18
+#: languages/strings/dollie_setup-openlab-core.php:18
 msgid "Public Domain"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:19
+#: languages/strings/dollie_setup-openlab-core.php:19
 msgid "Creative Commons License"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:20
+#: languages/strings/dollie_setup-openlab-core.php:20
 msgid "Learn more."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:21
+#: languages/strings/dollie_setup-openlab-core.php:21
 msgid "Link to license"
 msgstr ""
 
 #. translators: 1. Link to site author; 2. Linked name of CC license.
-#: languages/strings/cbox-openlab-core.php:24
+#: languages/strings/dollie_setup-openlab-core.php:24
 msgid "Except where otherwise noted, this site by %1$s is distributed under the following license: %2$s."
 msgstr ""
 
 #. translators: Linked  of CC license.
-#: languages/strings/cbox-openlab-core.php:28
+#: languages/strings/dollie_setup-openlab-core.php:28
 msgid "Except where otherwise noted, this site is distributed under the following license: %s"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:30
+#: languages/strings/dollie_setup-openlab-core.php:30
 msgid "License"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:32
+#: languages/strings/dollie_setup-openlab-core.php:32
 msgid "Site Author:"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:33
+#: languages/strings/dollie_setup-openlab-core.php:33
 msgid "Site Author URL:"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:34
+#: languages/strings/dollie_setup-openlab-core.php:34
 msgid "Choose a License:"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:36
+#: languages/strings/dollie_setup-openlab-core.php:36
 msgid "Sharing"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:37
+#: languages/strings/dollie_setup-openlab-core.php:37
 msgid "Logged-in members can clone."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:38
+#: languages/strings/dollie_setup-openlab-core.php:38
 msgid "Group Type Settings"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:39
+#: languages/strings/dollie_setup-openlab-core.php:39
 msgid "A list of Courses that have contributed to your Course."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:40
+#: languages/strings/dollie_setup-openlab-core.php:40
 msgid "Provides a link for others to clone your Course."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:41
+#: languages/strings/dollie_setup-openlab-core.php:41
 msgid "Clone this Course"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:42
+#: languages/strings/dollie_setup-openlab-core.php:42
 msgid "A list of Projects that have contributed to your Project."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:43
+#: languages/strings/dollie_setup-openlab-core.php:43
 msgid "Provides a link for others to clone your Project."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:44
+#: languages/strings/dollie_setup-openlab-core.php:44
 msgid "Clone this Project"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:45
+#: languages/strings/dollie_setup-openlab-core.php:45
 msgid "A list of Clubs that have contributed to your Club."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:46
+#: languages/strings/dollie_setup-openlab-core.php:46
 msgid "Provides a link for others to clone your Club."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:47
+#: languages/strings/dollie_setup-openlab-core.php:47
 msgid "Clone this Club"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:48
+#: languages/strings/dollie_setup-openlab-core.php:48
 msgid "A list of Portfolios that have contributed to your Portfolio."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:49
+#: languages/strings/dollie_setup-openlab-core.php:49
 msgid "Provides a link for others to clone your Portfolio."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:50
+#: languages/strings/dollie_setup-openlab-core.php:50
 msgid "Clone this Portfolio"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:51
+#: languages/strings/dollie_setup-openlab-core.php:51
 msgid "The Add to Portfolio feature saves selected posts, pages, and comments that you have authored on Course, Project, and Club sites directly to your Portfolio site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:52
+#: languages/strings/dollie_setup-openlab-core.php:52
 msgid "Group Creators"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:53
+#: languages/strings/dollie_setup-openlab-core.php:53
 msgid "This setting enables other faculty to clone your Course. If enabled, other faculty can reuse, remix, transform, and build upon the material in this course. Attribution to original Course authors will be included."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:54
+#: languages/strings/dollie_setup-openlab-core.php:54
 msgid "Note: Cloning copies the project home, site set-up, and all documents, files, discussions and posts you've created. Posts will be set to \"draft\" mode. The clone will not copy membership or member-created documents, files, discussions, comments or posts."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:55
+#: languages/strings/dollie_setup-openlab-core.php:55
 msgid "This setting enables other members to clone your Project. If enabled, other members can reuse, remix, transform, and build upon the material in this project. Attribution to original Project authors will be included."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:56
+#: languages/strings/dollie_setup-openlab-core.php:56
 msgid "Note: Cloning copies the club home, site set-up, and all documents, files, discussions and posts you've created. Posts will be set to \"draft\" mode. The clone will not copy membership or member-created documents, files, discussions, comments or posts."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:57
+#: languages/strings/dollie_setup-openlab-core.php:57
 msgid "This setting enables other members to clone your Club. If enabled, other members can reuse, remix, transform, and build upon the material in this club. Attribution to original Club authors will be included."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:58
+#: languages/strings/dollie_setup-openlab-core.php:58
 msgid "\"Open\" setting for group sites"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:59
+#: languages/strings/dollie_setup-openlab-core.php:59
 msgid "Open and Cloneable Badges"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:60
+#: languages/strings/dollie_setup-openlab-core.php:60
 msgctxt "Cloneable badge name"
 msgid "Cloneable"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:61
+#: languages/strings/dollie_setup-openlab-core.php:61
 msgctxt "Cloneable badge short name"
 msgid "Cloneable"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:62
+#: languages/strings/dollie_setup-openlab-core.php:62
 msgctxt "Open badge name"
 msgid "Open"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:63
+#: languages/strings/dollie_setup-openlab-core.php:63
 msgctxt "Open badge short name"
 msgid "Open"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:65
+#: languages/strings/dollie_setup-openlab-core.php:65
 msgid "Add to Portfolio"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:66
+#: languages/strings/dollie_setup-openlab-core.php:66
 msgid "Added to My Portfolio"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:67
+#: languages/strings/dollie_setup-openlab-core.php:67
 msgid "No academic unit type found"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:68
+#: languages/strings/dollie_setup-openlab-core.php:68
 msgid "OK"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:69
+#: languages/strings/dollie_setup-openlab-core.php:69
 msgid "Cannot delete type."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:70
+#: languages/strings/dollie_setup-openlab-core.php:70
 msgid "No term found by that ID."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:71
+#: languages/strings/dollie_setup-openlab-core.php:71
 msgid "No academic unit found"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:72
+#: languages/strings/dollie_setup-openlab-core.php:72
 msgid "Cannot delete academic unit."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:73
+#: languages/strings/dollie_setup-openlab-core.php:73
 msgid "No item type found by that ID."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:74
+#: languages/strings/dollie_setup-openlab-core.php:74
 msgid "Type cannot be deleted"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:75
+#: languages/strings/dollie_setup-openlab-core.php:75
 msgid "Could not create signup code."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:76
+#: languages/strings/dollie_setup-openlab-core.php:76
 msgctxt "Group Type label"
 msgid "Course Code"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:77
+#: languages/strings/dollie_setup-openlab-core.php:77
 msgid "The label for the \"Course Code\" input when editing Course settings."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:78
+#: languages/strings/dollie_setup-openlab-core.php:78
 msgid "Course Information"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:79
+#: languages/strings/dollie_setup-openlab-core.php:79
 msgid "The label for the course settings section containing Course Code and other catalog data."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:80
+#: languages/strings/dollie_setup-openlab-core.php:80
 msgid "Course Information Help Text"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:81
+#: languages/strings/dollie_setup-openlab-core.php:81
 msgid "The helper text in the Course Information admin section of a Course."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:82
+#: languages/strings/dollie_setup-openlab-core.php:82
 msgid "Create Item"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:83
+#: languages/strings/dollie_setup-openlab-core.php:83
 msgid "The text used for \"Create\" links."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:84
+#: languages/strings/dollie_setup-openlab-core.php:84
 msgid "Create/Clone Item"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:85
+#: languages/strings/dollie_setup-openlab-core.php:85
 msgid "The text used for \"Create/Clone\" links."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:86
+#: languages/strings/dollie_setup-openlab-core.php:86
 msgid "Item Creation"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:87
+#: languages/strings/dollie_setup-openlab-core.php:87
 msgid "The label used for the first step of the creation/edit process."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:88
+#: languages/strings/dollie_setup-openlab-core.php:88
 msgid "Creation Explanatory Text"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:89
+#: languages/strings/dollie_setup-openlab-core.php:89
 msgid "Displayed near the top of the creation screen."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:90
+#: languages/strings/dollie_setup-openlab-core.php:90
 msgid "Name Help Text"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:91
+#: languages/strings/dollie_setup-openlab-core.php:91
 msgid "Used to clarify the \"Name\" field when creating or editing an item."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:92
+#: languages/strings/dollie_setup-openlab-core.php:92
 msgid "Avatar Help Text"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:93
+#: languages/strings/dollie_setup-openlab-core.php:93
 msgid "Used to clarify the \"Upload Avatar\" field when creating or editing an item."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:94
+#: languages/strings/dollie_setup-openlab-core.php:94
 msgid "Avatar Help Text - \"Can't Decide\""
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:95
+#: languages/strings/dollie_setup-openlab-core.php:95
 msgid "Used below the avatar selection panel when creating or editing an item."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:96
+#: languages/strings/dollie_setup-openlab-core.php:96
 msgid "URL Help Text"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:97
+#: languages/strings/dollie_setup-openlab-core.php:97
 msgid "Used to clarify the \"URL\" field when creating or editing an item."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:98
+#: languages/strings/dollie_setup-openlab-core.php:98
 msgid "Privacy Help Text"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:99
+#: languages/strings/dollie_setup-openlab-core.php:99
 msgid "Describes group privacy settings when creating or editing a group."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:100
+#: languages/strings/dollie_setup-openlab-core.php:100
 msgid "Privacy Help Text - New Group"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:101
+#: languages/strings/dollie_setup-openlab-core.php:101
 msgid "Provides additional context for privacy settings when creating a new group."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:102
+#: languages/strings/dollie_setup-openlab-core.php:102
 msgid "Privacy Help Text - Public Content"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:103
+#: languages/strings/dollie_setup-openlab-core.php:103
 msgid "Describes what \"Public\" means for content visibility during group creation or editing."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:104
+#: languages/strings/dollie_setup-openlab-core.php:104
 msgid "Privacy Help Text - Public Directory"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:105
+#: languages/strings/dollie_setup-openlab-core.php:105
 msgid "Describes what \"Public\" means for visibility in directories during group creation or editing."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:106
+#: languages/strings/dollie_setup-openlab-core.php:106
 msgid "Privacy Help Text - Public Membership"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:107
+#: languages/strings/dollie_setup-openlab-core.php:107
 msgid "Describes how \"Public\" affects community members' ability to join the group during group creation or editing."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:108
+#: languages/strings/dollie_setup-openlab-core.php:108
 msgid "Privacy Help Text - Private Content"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:109
+#: languages/strings/dollie_setup-openlab-core.php:109
 msgid "Describes group content that is limited to group members."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:110
+#: languages/strings/dollie_setup-openlab-core.php:110
 msgid "Privacy Help Text - Membership By Request"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:111
+#: languages/strings/dollie_setup-openlab-core.php:111
 msgid "Describes membership requirements for groups that allow for membership requests."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:112
+#: languages/strings/dollie_setup-openlab-core.php:112
 msgid "Privacy Help Text - Private Directory"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:113
+#: languages/strings/dollie_setup-openlab-core.php:113
 msgid "Describes groups that are hidden from directories and search results."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:114
+#: languages/strings/dollie_setup-openlab-core.php:114
 msgid "Privacy Help Text - Membership By Invitation"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:115
+#: languages/strings/dollie_setup-openlab-core.php:115
 msgid "Describes membership requirements for groups can only be joined by invitation."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:116
+#: languages/strings/dollie_setup-openlab-core.php:116
 msgid "Group Home"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:117
+#: languages/strings/dollie_setup-openlab-core.php:117
 msgid "Used to create a Home link in a group's nav menus."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:118
+#: languages/strings/dollie_setup-openlab-core.php:118
 msgid "Group Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:119
+#: languages/strings/dollie_setup-openlab-core.php:119
 msgid "Used in group directories and elsewhere to create links to the group's site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:121
+#: languages/strings/dollie_setup-openlab-core.php:121
 msgid "Used in group admin navigation."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:122
+#: languages/strings/dollie_setup-openlab-core.php:122
 msgctxt "Group Type label"
 msgid "My Groups"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:123
+#: languages/strings/dollie_setup-openlab-core.php:123
 msgid "Used in personal navigation and on member profiles."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:124
+#: languages/strings/dollie_setup-openlab-core.php:124
 msgctxt "Group Type label"
 msgid "My Portfolio"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:125
+#: languages/strings/dollie_setup-openlab-core.php:125
 msgctxt "Group Type label"
 msgid "My Portfolio Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:126
+#: languages/strings/dollie_setup-openlab-core.php:126
 msgid "Used as the link to a user's own portfolio site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:127
+#: languages/strings/dollie_setup-openlab-core.php:127
 msgctxt "Member Type plural label"
 msgid "Plural"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:128
+#: languages/strings/dollie_setup-openlab-core.php:128
 msgid "Used in directory titles."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:129
+#: languages/strings/dollie_setup-openlab-core.php:129
 msgctxt "Group Type label"
 msgid "Section Code"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:130
+#: languages/strings/dollie_setup-openlab-core.php:130
 msgid "The label for the \"Section Code\" input when editing Course settings."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:131
+#: languages/strings/dollie_setup-openlab-core.php:131
 msgctxt "Member Type singular label"
 msgid "Singular"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:132
+#: languages/strings/dollie_setup-openlab-core.php:132
 msgid "Used wherever a specific member's Type is mentioned, such as the User Edit interface."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:133
+#: languages/strings/dollie_setup-openlab-core.php:133
 msgctxt "Group Type label"
 msgid "Status: Open"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:134
+#: languages/strings/dollie_setup-openlab-core.php:134
 msgid "Used to describe a group that is open and either has no site or has a site that is also open."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:135
+#: languages/strings/dollie_setup-openlab-core.php:135
 msgctxt "Group Type label"
 msgid "Status: Open, Community Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:136
+#: languages/strings/dollie_setup-openlab-core.php:136
 msgid "Used to describe a group that is open and has a site that is visible only to community members."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:137
+#: languages/strings/dollie_setup-openlab-core.php:137
 msgctxt "Group Type label"
 msgid "Status: Open, Private Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:138
+#: languages/strings/dollie_setup-openlab-core.php:138
 msgid "Used to describe a group that is open and has a site that is private."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:139
+#: languages/strings/dollie_setup-openlab-core.php:139
 msgctxt "Group Type label"
 msgid "Status: Private"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:140
+#: languages/strings/dollie_setup-openlab-core.php:140
 msgid "Used to describe a group that is private and has no site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:141
+#: languages/strings/dollie_setup-openlab-core.php:141
 msgctxt "Group Type label"
 msgid "Status: Private, Community Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:142
+#: languages/strings/dollie_setup-openlab-core.php:142
 msgid "Used to describe a group that is private and has a site that is visible only to community members."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:143
+#: languages/strings/dollie_setup-openlab-core.php:143
 msgctxt "Group Type label"
 msgid "Status: Private, Open Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:144
+#: languages/strings/dollie_setup-openlab-core.php:144
 msgid "Used to describe a group that is private and has an open site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:145
+#: languages/strings/dollie_setup-openlab-core.php:145
 msgctxt "Group Type label"
 msgid "Status: Private, Private Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:146
+#: languages/strings/dollie_setup-openlab-core.php:146
 msgid "Used to describe a group that is private and has a site that is private."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:147
+#: languages/strings/dollie_setup-openlab-core.php:147
 msgid "Visit Group Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:148
+#: languages/strings/dollie_setup-openlab-core.php:148
 msgid "Used in group navigation and elsewhere to create links to the group's site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:149
+#: languages/strings/dollie_setup-openlab-core.php:149
 msgid "Site Help Text"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:150
+#: languages/strings/dollie_setup-openlab-core.php:150
 msgid "Help text displayed at the top of the Associated Site section of group edit/creation."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:151
+#: languages/strings/dollie_setup-openlab-core.php:151
 msgid "Site Address Help Text"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:152
+#: languages/strings/dollie_setup-openlab-core.php:152
 msgid "Text describing the choice of URL when creating a group site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:153
+#: languages/strings/dollie_setup-openlab-core.php:153
 msgid "Site Feed Check Help Text"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:154
+#: languages/strings/dollie_setup-openlab-core.php:154
 msgid "Text describing the \"Check\" button for external feeds when creating a group site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:155
+#: languages/strings/dollie_setup-openlab-core.php:155
 msgctxt "Group Type label"
 msgid "Visit Portfolio Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:156
+#: languages/strings/dollie_setup-openlab-core.php:156
 msgid "Used as the link to another user's portfolio site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:157
+#: languages/strings/dollie_setup-openlab-core.php:157
 msgid "Settings Help Text - Discussion"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:158
+#: languages/strings/dollie_setup-openlab-core.php:158
 msgid "Help text for the Discussion Settings panel."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:159
+#: languages/strings/dollie_setup-openlab-core.php:159
 msgid "Settings Help Text - Calendar"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:160
+#: languages/strings/dollie_setup-openlab-core.php:160
 msgid "Help text for the Calendar Settings panel."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:161
+#: languages/strings/dollie_setup-openlab-core.php:161
 msgid "Settings Help Text - Calendar, Members Only"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:162
+#: languages/strings/dollie_setup-openlab-core.php:162
 msgid "Help text for the \"Members Only\" option on the Calendar Settings panel."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:163
+#: languages/strings/dollie_setup-openlab-core.php:163
 msgid "Settings Help Text - Calendar, Admins Only"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:164
+#: languages/strings/dollie_setup-openlab-core.php:164
 msgid "Help text for the \"Admins and Mods Only\" option on the Calendar Settings panel."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:165
+#: languages/strings/dollie_setup-openlab-core.php:165
 msgid "Settings Help Text - Related Links"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:166
+#: languages/strings/dollie_setup-openlab-core.php:166
 msgid "Help text for the Related Links List Settings panel."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:167
+#: languages/strings/dollie_setup-openlab-core.php:167
 msgid "Settings Help Text - Portfolio List"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:168
+#: languages/strings/dollie_setup-openlab-core.php:168
 msgid "Help text for the Portfolio List Settings panel."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:169
+#: languages/strings/dollie_setup-openlab-core.php:169
 msgid "Settings Help Text - Sharing"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:170
+#: languages/strings/dollie_setup-openlab-core.php:170
 msgid "Help text for the Sharing Settings panel."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:171
+#: languages/strings/dollie_setup-openlab-core.php:171
 msgid "Settings Help Text - Add to Portfolio"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:172
+#: languages/strings/dollie_setup-openlab-core.php:172
 msgid "Help text for the Add to Portfolio Settings panel."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:173
+#: languages/strings/dollie_setup-openlab-core.php:173
 msgid "Invite Members To Group"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:174
+#: languages/strings/dollie_setup-openlab-core.php:174
 msgid "Used in group invitation navigation."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:175
+#: languages/strings/dollie_setup-openlab-core.php:175
 msgid "Invite Community Members To Group"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:176
+#: languages/strings/dollie_setup-openlab-core.php:176
 msgid "Used as a header on group creation/settings panel."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:177
+#: languages/strings/dollie_setup-openlab-core.php:177
 msgid "Search for Community Members to Invite to Group"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:178
+#: languages/strings/dollie_setup-openlab-core.php:178
 msgid "Used as help text when inviting community members to a group."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:179
+#: languages/strings/dollie_setup-openlab-core.php:179
 msgid "Group Contact"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:180
+#: languages/strings/dollie_setup-openlab-core.php:180
 msgid "The label for the Group Contact feature."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:181
+#: languages/strings/dollie_setup-openlab-core.php:181
 msgid "Group Contact Help Text"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:182
+#: languages/strings/dollie_setup-openlab-core.php:182
 msgid "Help text for the Group Contact feature."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:183
+#: languages/strings/dollie_setup-openlab-core.php:183
 msgid "Group Discussion"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:184
+#: languages/strings/dollie_setup-openlab-core.php:184
 msgid "Used for forum navigation."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:185
+#: languages/strings/dollie_setup-openlab-core.php:185
 msgid "Clone Credits Widget Description"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:186
+#: languages/strings/dollie_setup-openlab-core.php:186
 msgid "Describes the Clone Credits widget."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:187
+#: languages/strings/dollie_setup-openlab-core.php:187
 msgid "Shareable Content Widget Description"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:188
+#: languages/strings/dollie_setup-openlab-core.php:188
 msgid "Describes the Shareable Content widget."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:189
+#: languages/strings/dollie_setup-openlab-core.php:189
 msgid "Clone This Group"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:190
+#: languages/strings/dollie_setup-openlab-core.php:190
 msgid "Used in the Shareable Content widget."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:191
+#: languages/strings/dollie_setup-openlab-core.php:191
 msgid "Used in the \"Add to Portfolio\" dialog on sites."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:192
+#: languages/strings/dollie_setup-openlab-core.php:192
 msgid "Added to my Portfolio"
 msgstr ""
 
 #. translators: Group type name
-#: languages/strings/cbox-openlab-core.php:195
+#: languages/strings/dollie_setup-openlab-core.php:195
 msgid "Site Template - %s"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:197
+#: languages/strings/dollie_setup-openlab-core.php:197
 msgid "Welcome! This is your first post. Edit or delete it, then start blogging!"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:199
+#: languages/strings/dollie_setup-openlab-core.php:199
 msgid "sample-page"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:200
+#: languages/strings/dollie_setup-openlab-core.php:200
 msgid "Signup code is incorrect."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:201
+#: languages/strings/dollie_setup-openlab-core.php:201
 msgctxt "Academic Unit Type plural label"
 msgid "Plural"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:202
+#: languages/strings/dollie_setup-openlab-core.php:202
 msgctxt "Academic Unit Type singular label"
 msgid "Singular"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:203
+#: languages/strings/dollie_setup-openlab-core.php:203
 msgid "Used on group and member profiles."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:204
+#: languages/strings/dollie_setup-openlab-core.php:204
 msgid "Students"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:205
+#: languages/strings/dollie_setup-openlab-core.php:205
 msgid "Student"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:206
+#: languages/strings/dollie_setup-openlab-core.php:206
 msgid "Faculty"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:207
+#: languages/strings/dollie_setup-openlab-core.php:207
 msgid "Staff"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:208
+#: languages/strings/dollie_setup-openlab-core.php:208
 msgid "Alumni"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:209
+#: languages/strings/dollie_setup-openlab-core.php:209
 msgid "Courses"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:210
+#: languages/strings/dollie_setup-openlab-core.php:210
 msgid "Syllabus"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:211
+#: languages/strings/dollie_setup-openlab-core.php:211
 msgid "This is a default syllabus page. Enter your syllabus here, or delete this page if you don't wish to use it."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:212
+#: languages/strings/dollie_setup-openlab-core.php:212
 msgid "Assignments"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:213
+#: languages/strings/dollie_setup-openlab-core.php:213
 msgid "This is a default assignments page. Enter your assignments here, or delete this page if you don't wish to use it."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:214
+#: languages/strings/dollie_setup-openlab-core.php:214
 msgid "Sample Assignment"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:215
+#: languages/strings/dollie_setup-openlab-core.php:215
 msgid "Course"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:216
+#: languages/strings/dollie_setup-openlab-core.php:216
 msgid "Create/Clone Course"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:217
+#: languages/strings/dollie_setup-openlab-core.php:217
 msgid "Course Creation"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:218
+#: languages/strings/dollie_setup-openlab-core.php:218
 msgid "Set up the name, URL, avatar, and other settings and permissions for your course. These settings affect the course home, discussion, docs, and files."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:219
+#: languages/strings/dollie_setup-openlab-core.php:219
 msgid "Please choose your course name carefully. A clear name will make it easier for others to find your course. We recommend keeping the name under 50 characters."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:220
+#: languages/strings/dollie_setup-openlab-core.php:220
 msgid "Upload an image to use as an avatar for this course. The image will be shown on the course home page, and in search results."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:221
+#: languages/strings/dollie_setup-openlab-core.php:221
 msgid "Can't decide? You can upload a photo once the course is created."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:222
+#: languages/strings/dollie_setup-openlab-core.php:222
 msgid "Choose a unique URL that will be the home for your course."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:223
+#: languages/strings/dollie_setup-openlab-core.php:223
 msgid "These settings affect how others view your course."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:224
+#: languages/strings/dollie_setup-openlab-core.php:224
 msgid "You may change these settings later in the course settings."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:225
+#: languages/strings/dollie_setup-openlab-core.php:225
 msgid "Course and related content and activity will be visible to the public."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:226
+#: languages/strings/dollie_setup-openlab-core.php:226
 msgid "Course will be listed in the \"Courses\" directory, in search results, and may be displayed on the community home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:227
+#: languages/strings/dollie_setup-openlab-core.php:227
 msgid "Any community member may join this course."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:228
+#: languages/strings/dollie_setup-openlab-core.php:228
 msgid "Course content and activity will only be visible to members of the course."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:229
+#: languages/strings/dollie_setup-openlab-core.php:229
 msgid "Only community members who request membership and are accepted may join this course."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:230
+#: languages/strings/dollie_setup-openlab-core.php:230
 msgid "Course will NOT be listed in the \"Courses\" directory, in search results, or on the community home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:231
+#: languages/strings/dollie_setup-openlab-core.php:231
 msgid "Only community members who are invited may join this course."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:232
+#: languages/strings/dollie_setup-openlab-core.php:232
 msgid "Course Details"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:233
+#: languages/strings/dollie_setup-openlab-core.php:233
 msgid "My Courses"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:234
+#: languages/strings/dollie_setup-openlab-core.php:234
 msgid "Course Code"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:235
+#: languages/strings/dollie_setup-openlab-core.php:235
 msgid "The following fields are not required, but including this information will make it easier for others to find your Course."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:236
+#: languages/strings/dollie_setup-openlab-core.php:236
 msgid "Section Code"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:237
+#: languages/strings/dollie_setup-openlab-core.php:237
 msgid "Course Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:238
+#: languages/strings/dollie_setup-openlab-core.php:238
 msgid "This Course is OPEN."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:239
+#: languages/strings/dollie_setup-openlab-core.php:239
 msgid "This Course is OPEN, but only logged-in community members may view the corresponding Site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:240
+#: languages/strings/dollie_setup-openlab-core.php:240
 msgid "This Course is OPEN, but the corresponding Site is PRIVATE."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:241
+#: languages/strings/dollie_setup-openlab-core.php:241
 msgid "This Course is PRIVATE."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:242
+#: languages/strings/dollie_setup-openlab-core.php:242
 msgid "This Course is PRIVATE, but all logged-in community members may view the corresponding Site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:243
+#: languages/strings/dollie_setup-openlab-core.php:243
 msgid "This Course is PRIVATE, but the corresponding Site is OPEN to all visitors."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:244
+#: languages/strings/dollie_setup-openlab-core.php:244
 msgid "This Course is PRIVATE, and you must be a member to view the corresponding Site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:245
+#: languages/strings/dollie_setup-openlab-core.php:245
 msgid "Each course can also have an optional associated site. This is a WordPress site that all members of your course can access and contribute to."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:246
+#: languages/strings/dollie_setup-openlab-core.php:246
 msgid "Take a moment to consider an address for the site associated with your course. You will not be able to change it once you've created it."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:247
+#: languages/strings/dollie_setup-openlab-core.php:247
 msgid "Note: Please click the Check button to search for Post and Comment feeds for your external site. Doing so will push new activity to the course page. If no feeds are detected, you may type in the Post and Comment feed URLs directly or just leave blank."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:248
+#: languages/strings/dollie_setup-openlab-core.php:248
 msgid "Visit Course Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:249
+#: languages/strings/dollie_setup-openlab-core.php:249
 msgid "Course Home"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:250
+#: languages/strings/dollie_setup-openlab-core.php:250
 msgid "These settings enable or disable the discussion forum on your course home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:251
+#: languages/strings/dollie_setup-openlab-core.php:251
 msgid "These settings determine who can create an event for your course calendar and for the community-wide calendar."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:252
+#: languages/strings/dollie_setup-openlab-core.php:252
 msgid "Any course member may connect events to this course."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:253
+#: languages/strings/dollie_setup-openlab-core.php:253
 msgid "Only administrators and moderators may connect events to this course."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:254
+#: languages/strings/dollie_setup-openlab-core.php:254
 msgid "These settings enable or disable the related links list display on your course home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:255
+#: languages/strings/dollie_setup-openlab-core.php:255
 msgid "These settings enable or disable the member portfolio list display on your course home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:256
+#: languages/strings/dollie_setup-openlab-core.php:256
 msgid "Invite Members to Course"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:257
+#: languages/strings/dollie_setup-openlab-core.php:257
 msgid "Invite Community Members to Course"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:258
+#: languages/strings/dollie_setup-openlab-core.php:258
 msgid "Search for Community Members to invite to your course"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:259
+#: languages/strings/dollie_setup-openlab-core.php:259
 msgid "By default, you are the sole faculty member associated with this Course. You may add or remove faculty once your Course has more members."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:260
+#: languages/strings/dollie_setup-openlab-core.php:260
 msgid "Course Discussion"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:261
+#: languages/strings/dollie_setup-openlab-core.php:261
 msgid "Projects"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:262
+#: languages/strings/dollie_setup-openlab-core.php:262
 msgid "Project"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:263
+#: languages/strings/dollie_setup-openlab-core.php:263
 msgid "Create Project"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:264
+#: languages/strings/dollie_setup-openlab-core.php:264
 msgid "Project Creation"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:265
+#: languages/strings/dollie_setup-openlab-core.php:265
 msgid "Set up the name, URL, avatar, and other settings and permissions for your project. These settings affect the project home, discussion, docs, and files."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:266
+#: languages/strings/dollie_setup-openlab-core.php:266
 msgid "Please choose your project name carefully. A clear name will make it easier for others to find your project. We recommend keeping the name under 50 characters."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:267
+#: languages/strings/dollie_setup-openlab-core.php:267
 msgid "Upload an image to use as an avatar for this project. The image will be shown on the project home page, and in search results."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:268
+#: languages/strings/dollie_setup-openlab-core.php:268
 msgid "Can't decide? You can upload a photo once the project is created."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:269
+#: languages/strings/dollie_setup-openlab-core.php:269
 msgid "Choose a unique URL that will be the home for your project."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:270
+#: languages/strings/dollie_setup-openlab-core.php:270
 msgid "These settings affect how others view your project."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:271
+#: languages/strings/dollie_setup-openlab-core.php:271
 msgid "You may change these settings later in the project settings."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:272
+#: languages/strings/dollie_setup-openlab-core.php:272
 msgid "Project and related content and activity will be visible to the public."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:273
+#: languages/strings/dollie_setup-openlab-core.php:273
 msgid "Project will be listed in the \"Projects\" directory, in search results, and may be displayed on the community home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:274
+#: languages/strings/dollie_setup-openlab-core.php:274
 msgid "Any community member may join this project."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:275
+#: languages/strings/dollie_setup-openlab-core.php:275
 msgid "Project content and activity will only be visible to members of the project."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:276
+#: languages/strings/dollie_setup-openlab-core.php:276
 msgid "Only community members who request membership and are accepted may join this project."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:277
+#: languages/strings/dollie_setup-openlab-core.php:277
 msgid "Project will NOT be listed in the \"Projects\" directory, in search results, or on the community home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:278
+#: languages/strings/dollie_setup-openlab-core.php:278
 msgid "Only community members who are invited may join this project."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:279
+#: languages/strings/dollie_setup-openlab-core.php:279
 msgid "Project Details"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:280
+#: languages/strings/dollie_setup-openlab-core.php:280
 msgid "My Projects"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:281
+#: languages/strings/dollie_setup-openlab-core.php:281
 msgid "Project Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:282
+#: languages/strings/dollie_setup-openlab-core.php:282
 msgid "This Project is OPEN."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:283
+#: languages/strings/dollie_setup-openlab-core.php:283
 msgid "This Project is OPEN, but only logged-in community members may view the corresponding Site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:284
+#: languages/strings/dollie_setup-openlab-core.php:284
 msgid "This Project is OPEN, but the corresponding Site is PRIVATE."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:285
+#: languages/strings/dollie_setup-openlab-core.php:285
 msgid "This Project is PRIVATE."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:286
+#: languages/strings/dollie_setup-openlab-core.php:286
 msgid "This Project is PRIVATE, but all logged-in community members may view the corresponding Site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:287
+#: languages/strings/dollie_setup-openlab-core.php:287
 msgid "This Project is PRIVATE, but the corresponding Site is OPEN to all visitors."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:288
+#: languages/strings/dollie_setup-openlab-core.php:288
 msgid "This Project is PRIVATE, and you must be a member to view the corresponding Site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:289
+#: languages/strings/dollie_setup-openlab-core.php:289
 msgid "Each project can also have an optional associated site. This is a WordPress site that all members of your project can access and contribute to."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:290
+#: languages/strings/dollie_setup-openlab-core.php:290
 msgid "Take a moment to consider an address for the site associated with your project. You will not be able to change it once you've created it."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:291
+#: languages/strings/dollie_setup-openlab-core.php:291
 msgid "Note: Please click the Check button to search for Post and Comment feeds for your external site. Doing so will push new activity to the project page. If no feeds are detected, you may type in the Post and Comment feed URLs directly or just leave blank."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:292
+#: languages/strings/dollie_setup-openlab-core.php:292
 msgid "Visit Project Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:293
+#: languages/strings/dollie_setup-openlab-core.php:293
 msgid "Project Home"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:294
+#: languages/strings/dollie_setup-openlab-core.php:294
 msgid "These settings enable or disable the discussion forum on your project home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:295
+#: languages/strings/dollie_setup-openlab-core.php:295
 msgid "These settings determine who can create an event for your project calendar and for the community-wide calendar."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:296
+#: languages/strings/dollie_setup-openlab-core.php:296
 msgid "Any project member may connect events to this project."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:297
+#: languages/strings/dollie_setup-openlab-core.php:297
 msgid "Only administrators and moderators may connect events to this project."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:298
+#: languages/strings/dollie_setup-openlab-core.php:298
 msgid "These settings enable or disable the related links list display on your project home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:299
+#: languages/strings/dollie_setup-openlab-core.php:299
 msgid "These settings enable or disable the member portfolio list display on your project home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:300
+#: languages/strings/dollie_setup-openlab-core.php:300
 msgid "Invite Members to Project"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:301
+#: languages/strings/dollie_setup-openlab-core.php:301
 msgid "Invite Community Members to Project"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:302
+#: languages/strings/dollie_setup-openlab-core.php:302
 msgid "Search for Community Members to invite to your project"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:303
+#: languages/strings/dollie_setup-openlab-core.php:303
 msgid "Project Contact"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:304
+#: languages/strings/dollie_setup-openlab-core.php:304
 msgid "By default, you are the Project Contact. You may add or remove Project Contacts once your Project has more members."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:305
+#: languages/strings/dollie_setup-openlab-core.php:305
 msgid "Project Discussion"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:306
+#: languages/strings/dollie_setup-openlab-core.php:306
 msgid "Clubs"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:307
+#: languages/strings/dollie_setup-openlab-core.php:307
 msgid "Club"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:308
+#: languages/strings/dollie_setup-openlab-core.php:308
 msgid "Create Club"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:309
+#: languages/strings/dollie_setup-openlab-core.php:309
 msgid "Club Creation"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:310
+#: languages/strings/dollie_setup-openlab-core.php:310
 msgid "Set up the name, URL, avatar, and other settings and permissions for your club. These settings affect the club home, discussion, docs, and files."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:311
+#: languages/strings/dollie_setup-openlab-core.php:311
 msgid "Please choose your club name carefully. A clear name will make it easier for others to find your club. We recommend keeping the name under 50 characters."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:312
+#: languages/strings/dollie_setup-openlab-core.php:312
 msgid "Upload an image to use as an avatar for this club. The image will be shown on the club home page, and in search results."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:313
+#: languages/strings/dollie_setup-openlab-core.php:313
 msgid "Can't decide? You can upload a photo once the club is created."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:314
+#: languages/strings/dollie_setup-openlab-core.php:314
 msgid "Choose a unique URL that will be the home for your club."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:315
+#: languages/strings/dollie_setup-openlab-core.php:315
 msgid "These settings affect how others view your club."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:316
+#: languages/strings/dollie_setup-openlab-core.php:316
 msgid "You may change these settings later in the club settings."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:317
+#: languages/strings/dollie_setup-openlab-core.php:317
 msgid "Club and related content and activity will be visible to the public."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:318
+#: languages/strings/dollie_setup-openlab-core.php:318
 msgid "Club will be listed in the \"Clubs\" directory, in search results, and may be displayed on the community home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:319
+#: languages/strings/dollie_setup-openlab-core.php:319
 msgid "Any community member may join this club."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:320
+#: languages/strings/dollie_setup-openlab-core.php:320
 msgid "Club content and activity will only be visible to members of the club."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:321
+#: languages/strings/dollie_setup-openlab-core.php:321
 msgid "Only community members who request membership and are accepted may join this club."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:322
+#: languages/strings/dollie_setup-openlab-core.php:322
 msgid "Club will NOT be listed in the \"Clubs\" directory, in search results, or on the community home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:323
+#: languages/strings/dollie_setup-openlab-core.php:323
 msgid "Only community members who are invited may join this club."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:324
+#: languages/strings/dollie_setup-openlab-core.php:324
 msgid "Club Details"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:325
+#: languages/strings/dollie_setup-openlab-core.php:325
 msgid "My Clubs"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:326
+#: languages/strings/dollie_setup-openlab-core.php:326
 msgid "Club Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:327
+#: languages/strings/dollie_setup-openlab-core.php:327
 msgid "This Club is OPEN."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:328
+#: languages/strings/dollie_setup-openlab-core.php:328
 msgid "This Club is OPEN, but only logged-in community members may view the corresponding Site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:329
+#: languages/strings/dollie_setup-openlab-core.php:329
 msgid "This Club is OPEN, but the corresponding Site is PRIVATE."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:330
+#: languages/strings/dollie_setup-openlab-core.php:330
 msgid "This Club is PRIVATE."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:331
+#: languages/strings/dollie_setup-openlab-core.php:331
 msgid "This Club is PRIVATE, but all logged-in community members may view the corresponding Site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:332
+#: languages/strings/dollie_setup-openlab-core.php:332
 msgid "This Club is PRIVATE, but the corresponding Site is OPEN to all visitors."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:333
+#: languages/strings/dollie_setup-openlab-core.php:333
 msgid "This Club is PRIVATE, and you must be a member to view the corresponding Site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:334
+#: languages/strings/dollie_setup-openlab-core.php:334
 msgid "Each club can also have an optional associated site. This is a WordPress site that all members of your club can access and contribute to."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:335
+#: languages/strings/dollie_setup-openlab-core.php:335
 msgid "Take a moment to consider an address for the site associated with your club. You will not be able to change it once you've created it."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:336
+#: languages/strings/dollie_setup-openlab-core.php:336
 msgid "Note: Please click the Check button to search for Post and Comment feeds for your external site. Doing so will push new activity to the club page. If no feeds are detected, you may type in the Post and Comment feed URLs directly or just leave blank."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:337
+#: languages/strings/dollie_setup-openlab-core.php:337
 msgid "Visit Club Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:338
+#: languages/strings/dollie_setup-openlab-core.php:338
 msgid "Club Home"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:339
+#: languages/strings/dollie_setup-openlab-core.php:339
 msgid "These settings enable or disable the discussion forum on your club home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:340
+#: languages/strings/dollie_setup-openlab-core.php:340
 msgid "These settings determine who can create an event for your club calendar and for the community-wide calendar."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:341
+#: languages/strings/dollie_setup-openlab-core.php:341
 msgid "Any club member may connect events to this club."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:342
+#: languages/strings/dollie_setup-openlab-core.php:342
 msgid "Only administrators and moderators may connect events to this club."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:343
+#: languages/strings/dollie_setup-openlab-core.php:343
 msgid "These settings enable or disable the related links list display on your club home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:344
+#: languages/strings/dollie_setup-openlab-core.php:344
 msgid "These settings enable or disable the member portfolio list display on your club home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:345
+#: languages/strings/dollie_setup-openlab-core.php:345
 msgid "Invite Members to Club"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:346
+#: languages/strings/dollie_setup-openlab-core.php:346
 msgid "Invite Community Members to Club"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:347
+#: languages/strings/dollie_setup-openlab-core.php:347
 msgid "Search for Community Members to invite to your club"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:348
+#: languages/strings/dollie_setup-openlab-core.php:348
 msgid "Club Contact"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:349
+#: languages/strings/dollie_setup-openlab-core.php:349
 msgid "By default, you are the Club Contact. You may add or remove Club Contacts once your Club has more members."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:350
+#: languages/strings/dollie_setup-openlab-core.php:350
 msgid "Club Discussion"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:351
+#: languages/strings/dollie_setup-openlab-core.php:351
 msgid "Portfolios"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:352
+#: languages/strings/dollie_setup-openlab-core.php:352
 msgid "About Me"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:353
+#: languages/strings/dollie_setup-openlab-core.php:353
 msgid "This is a good place to introduce yourself and explain what visitors will find on this site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:354
+#: languages/strings/dollie_setup-openlab-core.php:354
 msgid "Academics"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:355
+#: languages/strings/dollie_setup-openlab-core.php:355
 msgid "On this page, give an overview of your academic goals. Then edit the sub-section page Sample Course or create additional sub-section pages with a selection of your best academic work."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:356
+#: languages/strings/dollie_setup-openlab-core.php:356
 msgid "Sample Course"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:357
+#: languages/strings/dollie_setup-openlab-core.php:357
 msgid "Career"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:358
+#: languages/strings/dollie_setup-openlab-core.php:358
 msgid "This is a good place to describe your professional goals and give an overview of your career experience. Then edit the sub-section page Resume or create additional sub-section pages to develop the career section of your portfolio."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:359
+#: languages/strings/dollie_setup-openlab-core.php:359
 msgid "Resume"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:361
+#: languages/strings/dollie_setup-openlab-core.php:361
 msgid "Create Portfolio"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:362
+#: languages/strings/dollie_setup-openlab-core.php:362
 msgid "Portfolio Creation"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:363
+#: languages/strings/dollie_setup-openlab-core.php:363
 msgid "Set up the name, URL, avatar, and other settings and permissions for your portfolio. These settings affect the portfolio home, discussion, docs, and files."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:364
+#: languages/strings/dollie_setup-openlab-core.php:364
 msgid "The suggested Portfolio Name below uses your first and last name. If you do not wish to use your full name, you may change it now or at any time in the future."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:365
+#: languages/strings/dollie_setup-openlab-core.php:365
 msgid "Upload an image to use as an avatar for this portfolio. The image will be shown on the portfolio home page, and in search results."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:366
+#: languages/strings/dollie_setup-openlab-core.php:366
 msgid "Can't decide? You can upload a photo once the portfolio is created."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:367
+#: languages/strings/dollie_setup-openlab-core.php:367
 msgid "Choose a unique URL that will be the home for your portfolio."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:368
+#: languages/strings/dollie_setup-openlab-core.php:368
 msgid "These settings affect how others view your portfolio."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:369
+#: languages/strings/dollie_setup-openlab-core.php:369
 msgid "You may change these settings later in the portfolio settings."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:370
+#: languages/strings/dollie_setup-openlab-core.php:370
 msgid "Portfolio and related content and activity will be visible to the public."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:371
+#: languages/strings/dollie_setup-openlab-core.php:371
 msgid "Portfolio will be listed in the \"Portfolios\" directory, in search results, and may be displayed on the community home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:372
+#: languages/strings/dollie_setup-openlab-core.php:372
 msgid "Any community member may join this portfolio."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:373
+#: languages/strings/dollie_setup-openlab-core.php:373
 msgid "Portfolio content and activity will only be visible to members of the portfolio."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:374
+#: languages/strings/dollie_setup-openlab-core.php:374
 msgid "Only community members who request membership and are accepted may join this portfolio."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:375
+#: languages/strings/dollie_setup-openlab-core.php:375
 msgid "Portfolio will NOT be listed in the \"Portfolios\" directory, in search results, or on the community home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:376
+#: languages/strings/dollie_setup-openlab-core.php:376
 msgid "Only community members who are invited may join this portfolio."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:377
+#: languages/strings/dollie_setup-openlab-core.php:377
 msgid "Portfolio Details"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:378
+#: languages/strings/dollie_setup-openlab-core.php:378
 msgid "My Portfolio"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:379
+#: languages/strings/dollie_setup-openlab-core.php:379
 msgid "My Portfolio Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:380
+#: languages/strings/dollie_setup-openlab-core.php:380
 msgid "This Portfolio is OPEN."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:381
+#: languages/strings/dollie_setup-openlab-core.php:381
 msgid "This Portfolio is OPEN, but only logged-in community members may view the corresponding Site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:382
+#: languages/strings/dollie_setup-openlab-core.php:382
 msgid "This Portfolio is OPEN, but the corresponding Site is PRIVATE."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:383
+#: languages/strings/dollie_setup-openlab-core.php:383
 msgid "This Portfolio is PRIVATE."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:384
+#: languages/strings/dollie_setup-openlab-core.php:384
 msgid "This Portfolio is PRIVATE, but all logged-in community members may view the corresponding Site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:385
+#: languages/strings/dollie_setup-openlab-core.php:385
 msgid "This Portfolio is PRIVATE, but the corresponding Site is OPEN to all visitors."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:386
+#: languages/strings/dollie_setup-openlab-core.php:386
 msgid "This Portfolio is PRIVATE, and you must be a member to view the corresponding Site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:387
+#: languages/strings/dollie_setup-openlab-core.php:387
 msgid "Visit Portfolio Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:388
+#: languages/strings/dollie_setup-openlab-core.php:388
 msgid "Each portfolio is associated with a WordPress site. The site is where portfolio owners display their work and accomplishments."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:389
+#: languages/strings/dollie_setup-openlab-core.php:389
 msgid "Take a moment to consider an address for the site associated with your portfolio. You will not be able to change it once you've created it."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:390
+#: languages/strings/dollie_setup-openlab-core.php:390
 msgid "Note: Please click the Check button to search for Post and Comment feeds for your external site. Doing so will push new activity to the portfolio page. If no feeds are detected, you may type in the Post and Comment feed URLs directly or just leave blank."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:391
+#: languages/strings/dollie_setup-openlab-core.php:391
 msgid "Portfolio Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:393
+#: languages/strings/dollie_setup-openlab-core.php:393
 msgid "These settings enable or disable the related links list display on your portfolio home page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:394
+#: languages/strings/dollie_setup-openlab-core.php:394
 msgid "Invite Members to Portfolio"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:395
+#: languages/strings/dollie_setup-openlab-core.php:395
 msgid "Invite Community Members to Portfolio"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:396
+#: languages/strings/dollie_setup-openlab-core.php:396
 msgid "Search for Community Members to invite to your portfolio"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:397
+#: languages/strings/dollie_setup-openlab-core.php:397
 msgid "Porfolio Contact"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:398
+#: languages/strings/dollie_setup-openlab-core.php:398
 msgid "By default, you are the Portfolio Contact. You may add or remove Portfolio Contacts once your Portfolio has more members."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:399
+#: languages/strings/dollie_setup-openlab-core.php:399
 msgid "Portfolio Discussion"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:400
+#: languages/strings/dollie_setup-openlab-core.php:400
 msgid "Academic"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:401
+#: languages/strings/dollie_setup-openlab-core.php:401
 msgid "Coursework"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:402
+#: languages/strings/dollie_setup-openlab-core.php:402
 msgid "Research"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:403
+#: languages/strings/dollie_setup-openlab-core.php:403
 msgid "Resource"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:404
+#: languages/strings/dollie_setup-openlab-core.php:404
 msgid "Schools"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:405
+#: languages/strings/dollie_setup-openlab-core.php:405
 msgid "School"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:406
+#: languages/strings/dollie_setup-openlab-core.php:406
 msgid "Departments"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:407
+#: languages/strings/dollie_setup-openlab-core.php:407
 msgid "Department"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:408
+#: languages/strings/dollie_setup-openlab-core.php:408
 msgid "Arts and Sciences"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:409
+#: languages/strings/dollie_setup-openlab-core.php:409
 msgid "English"
 msgstr ""
 
 #. translators: link to Dashboard > Pages > About
-#: languages/strings/cbox-openlab-core.php:412
+#: languages/strings/dollie_setup-openlab-core.php:412
 msgid "If you are the administrator, visit %s to modify this text."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:414
+#: languages/strings/dollie_setup-openlab-core.php:414
 msgid "Dashboard > Pages"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:416
+#: languages/strings/dollie_setup-openlab-core.php:416
 msgid "This page can contain an introduction to your site, institution, and/or organization."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:418
+#: languages/strings/dollie_setup-openlab-core.php:418
 msgid "This section can contain help and support documentation, as well as answers to frequently asked questions for your site's members and visitors."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:419
+#: languages/strings/dollie_setup-openlab-core.php:419
 msgid "Terms of Use"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:420
+#: languages/strings/dollie_setup-openlab-core.php:420
 msgid "This page can contain the Terms of Service for your site. Terms of Service are the rules that a visitor or member must abide by while using your site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:422
+#: languages/strings/dollie_setup-openlab-core.php:422
 msgid "This page can contain contact information for the administrators of your site, which visitors to the site can use when they have questions, want to provide feedback, or need help."
 msgstr ""
 
 #. translators: 1: TOS URL, 2: TOS page title
-#: languages/strings/cbox-openlab-core.php:426
+#: languages/strings/dollie_setup-openlab-core.php:426
 msgid "By clicking \"Complete Sign Up\", you are agreeing to the <a href=\"%1$s\">%2$s</a>."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:428
+#: languages/strings/dollie_setup-openlab-core.php:428
 msgid "Use this space to highlight content from around your network."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:429
+#: languages/strings/dollie_setup-openlab-core.php:429
 msgid "Featured Item"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:430
+#: languages/strings/dollie_setup-openlab-core.php:430
 msgid "In The Spotlight"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:434
+#: languages/strings/dollie_setup-openlab-core.php:434
 msgid "The footer areas can be used to display general information about your site, such as contact information and links to terms of service."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:435
+#: languages/strings/dollie_setup-openlab-core.php:435
 msgid "Footer area 1"
 msgstr ""
 
 #. translators: link to Customizer
-#: languages/strings/cbox-openlab-core.php:438
+#: languages/strings/dollie_setup-openlab-core.php:438
 msgid "Modify the text of this and other widgets using the <a href=\"%s\">Customizer</a>."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:440
+#: languages/strings/dollie_setup-openlab-core.php:440
 msgid "Footer area 2"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:443
+#: languages/strings/dollie_setup-openlab-core.php:443
 msgid "Share Information Here"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:444
+#: languages/strings/dollie_setup-openlab-core.php:444
 msgid "Site administrators can customize the slider area with images and text to welcome new members, highlight features, share important announcements, publicize events, and more."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:445
+#: languages/strings/dollie_setup-openlab-core.php:445
 msgid "Welcome to DOLLIE_SETUP OpenLab!"
 msgstr ""
 
 #. translators: link to DOLLIE_SETUP OpenLab documentation
-#: languages/strings/cbox-openlab-core.php:448
+#: languages/strings/dollie_setup-openlab-core.php:448
 msgid "Read our <a href=\"%s\">documentation</a> to learn more about how you can use DOLLIE_SETUP OpenLab to create a commons for open learning."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:451
+#: languages/strings/dollie_setup-openlab-core.php:451
 msgid "Customize this footer"
 msgstr ""
 
 #. translators: link to DOLLIE_SETUP OpenLab Brand Settings admin page
-#: languages/strings/cbox-openlab-core.php:454
+#: languages/strings/dollie_setup-openlab-core.php:454
 msgid "You can customize the contents of this footer to meet the needs of your community: see the <a href=\"%s\">Brand Settings documentation</a> for details."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:456
+#: languages/strings/dollie_setup-openlab-core.php:456
 msgid "Include"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:457
+#: languages/strings/dollie_setup-openlab-core.php:457
 msgid "Index"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:458
+#: languages/strings/dollie_setup-openlab-core.php:458
 msgid "Exclude"
 msgstr ""
 
 #. translators: A single line translators comment.
-#: languages/strings/cbox-openlab-core.php:461
+#: languages/strings/dollie_setup-openlab-core.php:461
 msgid "A"
 msgstr ""
 
 #. translators: A multiline translators comment.
-#: languages/strings/cbox-openlab-core.php:465
+#: languages/strings/dollie_setup-openlab-core.php:465
 msgid "B"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:467
+#: languages/strings/dollie_setup-openlab-core.php:467
 msgid "String"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:468
+#: languages/strings/dollie_setup-openlab-core.php:468
 msgctxt "a string"
 msgid "String"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:469
+#: languages/strings/dollie_setup-openlab-core.php:469
 msgid "1 Star"
 msgid_plural "%s Stars"
 msgstr[0] ""
 
-#: languages/strings/cbox-openlab-core.php:470
+#: languages/strings/dollie_setup-openlab-core.php:470
 msgctxt "Post type general name"
 msgid "Member Types"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:471
+#: languages/strings/dollie_setup-openlab-core.php:471
 msgctxt "Post type singular name"
 msgid "Member Type"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:472
+#: languages/strings/dollie_setup-openlab-core.php:472
 msgid "Add New Member Type"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:473
+#: languages/strings/dollie_setup-openlab-core.php:473
 msgid "New Member Type"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:474
+#: languages/strings/dollie_setup-openlab-core.php:474
 msgid "Edit Member Type"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:475
+#: languages/strings/dollie_setup-openlab-core.php:475
 msgid "View Member Type"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:476
+#: languages/strings/dollie_setup-openlab-core.php:476
 msgid "All Member Types"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:477
+#: languages/strings/dollie_setup-openlab-core.php:477
 msgid "Search Member Types"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:478
+#: languages/strings/dollie_setup-openlab-core.php:478
 msgid "No member types found."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:479
+#: languages/strings/dollie_setup-openlab-core.php:479
 msgid "No member types found in Trash."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:480
+#: languages/strings/dollie_setup-openlab-core.php:480
 msgid "No member type exists for this slug."
 msgstr ""
 
 #. translators: link to registration settings panel
-#: languages/strings/cbox-openlab-core.php:483
+#: languages/strings/dollie_setup-openlab-core.php:483
 msgid "Member Types are used to organize your site’s users. Members are able to choose their own Member Type according to the rules that you configure on this page, as well as in %s."
 msgstr ""
 
 #. translators: link to registration settings panel
-#: languages/strings/cbox-openlab-core.php:487
+#: languages/strings/dollie_setup-openlab-core.php:487
 msgid "Registration settings"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:489
+#: languages/strings/dollie_setup-openlab-core.php:489
 msgid "This user does not have a member type."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:490
+#: languages/strings/dollie_setup-openlab-core.php:490
 #: admin/templates/openlab/getting-started.php:16
 msgid "Member Settings"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:491
+#: languages/strings/dollie_setup-openlab-core.php:491
 #: admin/templates/openlab/getting-started.php:20
 msgid "Group Settings"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:493
+#: languages/strings/dollie_setup-openlab-core.php:493
 #: admin/templates/openlab/getting-started.php:28
 msgid "Brand Settings"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:494
+#: languages/strings/dollie_setup-openlab-core.php:494
 #: admin/templates/openlab/getting-started.php:32
 msgid "Communication Settings"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:495
+#: languages/strings/dollie_setup-openlab-core.php:495
 msgctxt "\"Name\" label for adding new academic units"
 msgid "Name"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:496
+#: languages/strings/dollie_setup-openlab-core.php:496
 msgid "Define a parent/child relationship to indicate which category from the parent Academic Unit Type this new category should be associated with."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:497
+#: languages/strings/dollie_setup-openlab-core.php:497
 msgctxt "Header for Action column in admin tables"
 msgid "Action"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:498
+#: languages/strings/dollie_setup-openlab-core.php:498
 msgctxt "\"Add\" button text"
 msgid "Add"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:499
+#: languages/strings/dollie_setup-openlab-core.php:499
 msgid "Add email domain"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:500
+#: languages/strings/dollie_setup-openlab-core.php:500
 msgid "Add New Academic Unit"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:502
+#: languages/strings/dollie_setup-openlab-core.php:502
 msgid "Add New Category"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:503
+#: languages/strings/dollie_setup-openlab-core.php:503
 msgctxt "placeholder for new item type form"
 msgid "Add New Type"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:504
+#: languages/strings/dollie_setup-openlab-core.php:504
 msgid "Associated with Group Types"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:505
+#: languages/strings/dollie_setup-openlab-core.php:505
 msgid "Associated with Member Types"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:507
+#: languages/strings/dollie_setup-openlab-core.php:507
 msgctxt "Column header for signup code value"
 msgid "Code"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:508
+#: languages/strings/dollie_setup-openlab-core.php:508
 msgid "Confirmation Text"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:509
+#: languages/strings/dollie_setup-openlab-core.php:509
 msgid "The text that appears just above the \"Complete Sign Up\" button on the registration form."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:510
+#: languages/strings/dollie_setup-openlab-core.php:510
 msgctxt "Column header"
 msgid "Count"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:512
+#: languages/strings/dollie_setup-openlab-core.php:512
 msgid "Are you sure you want to delete this content?"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:513
+#: languages/strings/dollie_setup-openlab-core.php:513
 msgctxt "Domain from email domain whitelist"
 msgid "Domain"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:515
+#: languages/strings/dollie_setup-openlab-core.php:515
 msgid "Editing"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:516
+#: languages/strings/dollie_setup-openlab-core.php:516
 msgid "Email Domain Whitelist"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:517
+#: languages/strings/dollie_setup-openlab-core.php:517
 msgid "To limit new user registrations to one or multiple email domains, include them here. Only users with emails matching the whitelisted domain(s) will be allowed to register for accounts. Wildcards are supported for multiple formats of the same base domain (e.g. *.schoolname.edu)."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:518
+#: languages/strings/dollie_setup-openlab-core.php:518
 msgid "Enter Signup Code"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:519
+#: languages/strings/dollie_setup-openlab-core.php:519
 msgid "Form Customization"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:520
+#: languages/strings/dollie_setup-openlab-core.php:520
 msgid "Use these settings to customize the registration form."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:521
+#: languages/strings/dollie_setup-openlab-core.php:521
 msgid "Save Form Customization Settings"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:522
+#: languages/strings/dollie_setup-openlab-core.php:522
 msgctxt "Column header for signup code table"
 msgid "Group"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:523
+#: languages/strings/dollie_setup-openlab-core.php:523
 msgctxt "item type Name label"
 msgid "Name"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:524
+#: languages/strings/dollie_setup-openlab-core.php:524
 msgctxt "subheader for item type labels"
 msgid "Labels"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:525
+#: languages/strings/dollie_setup-openlab-core.php:525
 msgid "Members may create courses"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:526
+#: languages/strings/dollie_setup-openlab-core.php:526
 msgid "Members may change Type to"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:528
+#: languages/strings/dollie_setup-openlab-core.php:528
 msgctxt "table header"
 msgid "Name"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:529
+#: languages/strings/dollie_setup-openlab-core.php:529
 msgctxt "radio button option"
 msgid "No"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:530
+#: languages/strings/dollie_setup-openlab-core.php:530
 msgid "Registration is currently open for all email domains. Enter one or more domains to restrict registration by email address."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:531
+#: languages/strings/dollie_setup-openlab-core.php:531
 msgctxt "null dropdown option"
 msgid "None"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:532
+#: languages/strings/dollie_setup-openlab-core.php:532
 msgid "Currently, users may select any Member Type when creating or editing their accounts. To restrict access to a Member Type, create a corresponding Signup Code below."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:533
+#: languages/strings/dollie_setup-openlab-core.php:533
 msgid "There are no units of this type."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:534
+#: languages/strings/dollie_setup-openlab-core.php:534
 msgctxt "disabled label for item type"
 msgid "(Off)"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:535
+#: languages/strings/dollie_setup-openlab-core.php:535
 msgid "On/off toggle"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:536
+#: languages/strings/dollie_setup-openlab-core.php:536
 msgid "Optional"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:537
+#: languages/strings/dollie_setup-openlab-core.php:537
 msgid "Used when displaying lists of types throughout the site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:538
+#: languages/strings/dollie_setup-openlab-core.php:538
 msgid "Order"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:540
+#: languages/strings/dollie_setup-openlab-core.php:540
 #: admin/templates/base/plugins-required-header.php:3
 msgid "Required"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:543
+#: languages/strings/dollie_setup-openlab-core.php:543
 msgid "Saved!"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:544
+#: languages/strings/dollie_setup-openlab-core.php:544
 msgid "Saving"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:545
+#: languages/strings/dollie_setup-openlab-core.php:545
 msgctxt "subheader for item type settings"
 msgid "Settings"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:546
+#: languages/strings/dollie_setup-openlab-core.php:546
 msgid "Select All"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:547
+#: languages/strings/dollie_setup-openlab-core.php:547
 msgid "Select Group"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:548
+#: languages/strings/dollie_setup-openlab-core.php:548
 msgid "Select Member Type"
 msgstr ""
 
 #. translators: Unit name
-#: languages/strings/cbox-openlab-core.php:551
+#: languages/strings/dollie_setup-openlab-core.php:551
 msgctxt "checkbox screen reader text"
 msgid "Select Unit: %s"
 msgstr ""
 
 #. translators: Unit name
-#: languages/strings/cbox-openlab-core.php:555
+#: languages/strings/dollie_setup-openlab-core.php:555
 msgid "Signup Code"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:557
+#: languages/strings/dollie_setup-openlab-core.php:557
 msgid "Sign Up Codes"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:558
+#: languages/strings/dollie_setup-openlab-core.php:558
 msgid "Registration codes let you restrict access to specific member account types (e.g faculty, staff, student). Each code can be associated with a group, so that users registering with the code will automatically be added to the group when their registration is complete. These account codes do not allow users to bypass the Email Domain Whitelist above."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:559
+#: languages/strings/dollie_setup-openlab-core.php:559
 msgctxt "subheader for template site settings section"
 msgid "Template"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:560
+#: languages/strings/dollie_setup-openlab-core.php:560
 msgctxt "template site dashboard link"
 msgid "Dashboard"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:561
+#: languages/strings/dollie_setup-openlab-core.php:561
 msgid "When a group of this type creates a site, default settings and data will be copied from the group type's template site. Use the links below to view and configure the template site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:562
+#: languages/strings/dollie_setup-openlab-core.php:562
 msgctxt "template site view link"
 msgid "View Template"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:563
+#: languages/strings/dollie_setup-openlab-core.php:563
 msgid "Note: This Group Type is designed for Courses."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:564
+#: languages/strings/dollie_setup-openlab-core.php:564
 msgid "Note: This Group Type is designed for Portfolios."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:565
+#: languages/strings/dollie_setup-openlab-core.php:565
 #: admin/plugins.php:652
 #: admin/plugins.php:664
 #: admin/plugins.php:821
 msgid "Update"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:566
+#: languages/strings/dollie_setup-openlab-core.php:566
 msgctxt "radio button option"
 msgid "Yes"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:567
+#: languages/strings/dollie_setup-openlab-core.php:567
 msgctxt "Member Types admin label"
 msgid "Types"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:568
+#: languages/strings/dollie_setup-openlab-core.php:568
 msgctxt "Registration admin label"
 msgid "Registration"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:569
+#: languages/strings/dollie_setup-openlab-core.php:569
 msgctxt "Member profile fields admin label"
 msgid "Profile Fields"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:570
+#: languages/strings/dollie_setup-openlab-core.php:570
 msgctxt "Group Types admin label"
 msgid "Types"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:571
+#: languages/strings/dollie_setup-openlab-core.php:571
 msgctxt "Group categories admin label"
 msgid "Group Categories"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:572
+#: languages/strings/dollie_setup-openlab-core.php:572
 msgctxt "Group settings admin label"
 msgid "Badges"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:573
+#: languages/strings/dollie_setup-openlab-core.php:573
 msgctxt "Communication Settings admin label"
 msgid "Email"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:574
+#: languages/strings/dollie_setup-openlab-core.php:574
 msgctxt "Communication Settings admin label"
 msgid "Invitations"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:575
+#: languages/strings/dollie_setup-openlab-core.php:575
 msgid "Visual"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:576
+#: languages/strings/dollie_setup-openlab-core.php:576
 msgid "Customize your site’s look, including the color scheme, custom logo, homepage layout, widgets and more."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:577
+#: languages/strings/dollie_setup-openlab-core.php:577
 msgid "Customize"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:578
+#: languages/strings/dollie_setup-openlab-core.php:578
 msgid "Copy"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:579
+#: languages/strings/dollie_setup-openlab-core.php:579
 msgid "View and change the copy on your About, Help, Terms of Use, and other pages through the Edit and Preview links for each page below."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:580
+#: languages/strings/dollie_setup-openlab-core.php:580
 msgid "Preview"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:581
+#: languages/strings/dollie_setup-openlab-core.php:581
 msgid "About Page"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:582
+#: languages/strings/dollie_setup-openlab-core.php:582
 msgid "Help Page"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:583
+#: languages/strings/dollie_setup-openlab-core.php:583
 msgid "This section can contain help and support documentation and answers to frequently asked questions for your site’s members and visitors."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:584
+#: languages/strings/dollie_setup-openlab-core.php:584
 msgid "Terms of Service"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:585
+#: languages/strings/dollie_setup-openlab-core.php:585
 msgid "This page can contain the Terms of Service for your site. Terms of Service are the rules that a user must abide by while using your site."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:586
+#: languages/strings/dollie_setup-openlab-core.php:586
 msgid "Contact Page"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:587
+#: languages/strings/dollie_setup-openlab-core.php:587
 msgid "This page can contain contact information for the administrators of your site, which visitors to the site can use when they have questions, comments, or need help."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:588
+#: languages/strings/dollie_setup-openlab-core.php:588
 msgid "This placeholder page is used to display search results. This page's contents are generated dynamically, but you can edit the page title and slug."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:589
+#: languages/strings/dollie_setup-openlab-core.php:589
 msgid "Profile fields can be customized to only be available to specific member types. Use the link below to access the Network Admin Dashboard to be able to specify which fields are available for each member type."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:590
+#: languages/strings/dollie_setup-openlab-core.php:590
 msgid "Network Admin > Users > Profile Fields"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:591
+#: languages/strings/dollie_setup-openlab-core.php:591
 msgid "Red"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:592
+#: languages/strings/dollie_setup-openlab-core.php:592
 msgid "Blue"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:593
+#: languages/strings/dollie_setup-openlab-core.php:593
 msgid "Green"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:594
+#: languages/strings/dollie_setup-openlab-core.php:594
 msgid "Site Logo"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:595
+#: languages/strings/dollie_setup-openlab-core.php:595
 msgctxt "Home page banner link title"
 msgid "Home"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:596
+#: languages/strings/dollie_setup-openlab-core.php:596
 msgid "Open Search"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:600
+#: languages/strings/dollie_setup-openlab-core.php:600
 msgid "Menu"
 msgstr ""
 
 #. translators: display name of logged-in user
-#: languages/strings/cbox-openlab-core.php:603
+#: languages/strings/dollie_setup-openlab-core.php:603
 msgid "Hi, %1$s"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:609
+#: languages/strings/dollie_setup-openlab-core.php:609
 msgid "Activity"
 msgstr ""
 
 #. translators: Site name
-#: languages/strings/cbox-openlab-core.php:616
+#: languages/strings/dollie_setup-openlab-core.php:616
 msgid "Network Admin: %s"
 msgstr ""
 
 #. translators: Network main site name
-#: languages/strings/cbox-openlab-core.php:620
+#: languages/strings/dollie_setup-openlab-core.php:620
 msgid "Global Dashboard: %s"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:623
+#: languages/strings/dollie_setup-openlab-core.php:623
 msgid "Edit Site"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:625
+#: languages/strings/dollie_setup-openlab-core.php:625
 msgctxt "add new from admin bar"
 msgid "Link"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:626
+#: languages/strings/dollie_setup-openlab-core.php:626
 msgctxt "add new from admin bar"
 msgid "User"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:627
+#: languages/strings/dollie_setup-openlab-core.php:627
 msgctxt "admin bar menu group label"
 msgid "Add New"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:628
+#: languages/strings/dollie_setup-openlab-core.php:628
 msgctxt "admin bar menu group label"
 msgid "Dashboard"
 msgstr ""
 
 #. translators: Number of comments awaiting moderation
-#: languages/strings/cbox-openlab-core.php:631
+#: languages/strings/dollie_setup-openlab-core.php:631
 msgid "%s comment awaiting moderation"
 msgid_plural "%s comments awaiting moderation"
 msgstr[0] ""
 
-#: languages/strings/cbox-openlab-core.php:633
+#: languages/strings/dollie_setup-openlab-core.php:633
 msgid "Comments"
 msgstr ""
 
 #. translators: user name
-#: languages/strings/cbox-openlab-core.php:636
+#: languages/strings/dollie_setup-openlab-core.php:636
 msgid "Hi, %s"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:638
+#: languages/strings/dollie_setup-openlab-core.php:638
 msgid "My Account"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:639
+#: languages/strings/dollie_setup-openlab-core.php:639
 msgid "Edit My Profile"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:642
+#: languages/strings/dollie_setup-openlab-core.php:642
 msgid "Group Types allow your site's groups to be categorized in various ways. Each group type gets its own directory, and groups of different types may differ in functionality and appearance."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:643
+#: languages/strings/dollie_setup-openlab-core.php:643
 msgctxt "Post type general name"
 msgid "Group Types"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:644
+#: languages/strings/dollie_setup-openlab-core.php:644
 msgctxt "Post type singular name"
 msgid "Group Type"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:645
+#: languages/strings/dollie_setup-openlab-core.php:645
 msgid "Add New Group Type"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:646
+#: languages/strings/dollie_setup-openlab-core.php:646
 msgid "New Group Type"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:647
+#: languages/strings/dollie_setup-openlab-core.php:647
 msgid "Edit Group Type"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:648
+#: languages/strings/dollie_setup-openlab-core.php:648
 msgid "View Group Type"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:649
+#: languages/strings/dollie_setup-openlab-core.php:649
 msgid "All Group Types"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:650
+#: languages/strings/dollie_setup-openlab-core.php:650
 msgid "Search Group Types"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:651
+#: languages/strings/dollie_setup-openlab-core.php:651
 msgid "No group types found."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:652
+#: languages/strings/dollie_setup-openlab-core.php:652
 msgid "No group types found in Trash."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:653
+#: languages/strings/dollie_setup-openlab-core.php:653
 msgid "No group type found by that slug."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:654
+#: languages/strings/dollie_setup-openlab-core.php:654
 msgid "This group does not have a type."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:655
+#: languages/strings/dollie_setup-openlab-core.php:655
 msgid "No group type found."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:656
+#: languages/strings/dollie_setup-openlab-core.php:656
 msgid "Creator(s)"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:657
+#: languages/strings/dollie_setup-openlab-core.php:657
 msgid "Creators will be listed in the acknowledgements on the group Profile."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:658
+#: languages/strings/dollie_setup-openlab-core.php:658
 msgid "The people listed below will be acknowledged as the group&#8217;s Creators. You can add additional creators by typing their name in the box below and selecting it from the dropdown list."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:659
+#: languages/strings/dollie_setup-openlab-core.php:659
 msgid "Add a creator:"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:660
+#: languages/strings/dollie_setup-openlab-core.php:660
 msgid "Select an OpenLab member"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:661
+#: languages/strings/dollie_setup-openlab-core.php:661
 msgid "Enter the name of a non-member"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:662
+#: languages/strings/dollie_setup-openlab-core.php:662
 msgid "Additional Text"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:663
+#: languages/strings/dollie_setup-openlab-core.php:663
 msgid "Below you can add additional information that will appear in the Acknowledgements section on the group Profile. It will not appear on clones of this group."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:664
+#: languages/strings/dollie_setup-openlab-core.php:664
 msgctxt "Post type general name"
 msgid "Academic Unit Types"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:665
+#: languages/strings/dollie_setup-openlab-core.php:665
 msgctxt "Post type general name"
 msgid "Academic Units"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:666
+#: languages/strings/dollie_setup-openlab-core.php:666
 msgid "Academic Units allow your members to identify themselves and their groups with the appropriate divisions within your institution. Create the top-level unit types that best describe how your institution is organized - for example, Departments that are located within Divisions - and then define the specific units within each type. Members will then be able to associate themselves with these units when editing their profiles or when administering their groups."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:667
+#: languages/strings/dollie_setup-openlab-core.php:667
 msgid "Please choose whether this academic unit should be a required or optional choice, or not an available choice for any of the following member types."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:668
+#: languages/strings/dollie_setup-openlab-core.php:668
 msgid "No academic unit type found."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:669
+#: languages/strings/dollie_setup-openlab-core.php:669
 msgid "No academic unit found."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:670
+#: languages/strings/dollie_setup-openlab-core.php:670
 msgid "Please make sure you fill in all required fields before saving."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:672
+#: languages/strings/dollie_setup-openlab-core.php:672
 msgid "Acknowledgements: Created by:"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:673
+#: languages/strings/dollie_setup-openlab-core.php:673
 msgid "It is based on the following:"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:674
+#: languages/strings/dollie_setup-openlab-core.php:674
 msgid "Acknowledgements: Based on the following:"
 msgstr ""
 
 #. translators: Acknowledgements text.
-#: languages/strings/cbox-openlab-core.php:677
+#: languages/strings/dollie_setup-openlab-core.php:677
 msgid "Acknowledgements: %s"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:679
+#: languages/strings/dollie_setup-openlab-core.php:679
 msgid "Email Appearance"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:680
+#: languages/strings/dollie_setup-openlab-core.php:680
 msgid "Customize the visual design of emails that will be sent to community members."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:681
+#: languages/strings/dollie_setup-openlab-core.php:681
 msgid "Email Templates"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:682
+#: languages/strings/dollie_setup-openlab-core.php:682
 msgid "Manage the content that’s included in emails sent automatically to members based on triggers (e.g. a welcome email sent to new members of a group)."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:683
+#: languages/strings/dollie_setup-openlab-core.php:683
 msgid "Group Email Options"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:684
+#: languages/strings/dollie_setup-openlab-core.php:684
 msgid "Update settings related to Daily Digests & Weekly Summaries of group activities in your community; toggle global unsubscribe links; modify group admin abilities related to email subscription settings; and establish spam prevention guidelines."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:685
+#: languages/strings/dollie_setup-openlab-core.php:685
 msgid "Members of your community can be sent various notifications via email. Manage all settings related to emails here."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:687
+#: languages/strings/dollie_setup-openlab-core.php:687
 msgid "Manage the invite email content template, control which member types are able to send various kinds of invitations, control address book integration, view sent invitations and related statistics."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:688
+#: languages/strings/dollie_setup-openlab-core.php:688
 msgid "Invite Anyone allows community members to invite non-members to your community and its groups via email."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:689
+#: languages/strings/dollie_setup-openlab-core.php:689
 msgid "OpenLab Badges"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:690
+#: languages/strings/dollie_setup-openlab-core.php:690
 msgid "Create and manage group badges on the Badges admin page."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:691
+#: languages/strings/dollie_setup-openlab-core.php:691
 msgid "OpenLab Badges allows the network administrator to create custom badges that can be awarded to groups. These badges are displayed in group directories and on group home pages, and can be used to find and filter groups in the directories."
 msgstr ""
 
 #. translators: portfolio owner's display name
-#: languages/strings/cbox-openlab-core.php:694
+#: languages/strings/dollie_setup-openlab-core.php:694
 msgid "%s's Portfolio"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:696
+#: languages/strings/dollie_setup-openlab-core.php:696
 msgid "Group categories make it easier to organize and discover groups. Group administrators can add the categories you create here to their groups, which will then be filterable by category on group directory pages."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:697
+#: languages/strings/dollie_setup-openlab-core.php:697
 msgctxt "Post type general name"
 msgid "Signup Codes"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:698
+#: languages/strings/dollie_setup-openlab-core.php:698
 msgid "Registration management allows you to control who can create accounts and what types of accounts different types of users can create."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:699
+#: languages/strings/dollie_setup-openlab-core.php:699
 msgid "No signup code found."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:700
+#: languages/strings/dollie_setup-openlab-core.php:700
 msgid "No email provided."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:701
+#: languages/strings/dollie_setup-openlab-core.php:701
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:702
+#: languages/strings/dollie_setup-openlab-core.php:702
 msgid "Sorry, that email address is not allowed!"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:703
+#: languages/strings/dollie_setup-openlab-core.php:703
 msgid "Sorry, that email address is already used!"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:704
+#: languages/strings/dollie_setup-openlab-core.php:704
 msgid "Click \"Complete Sign Up\" to continue."
 msgstr ""
 
 #. translators: 1. Link to author, 2. Link to post, 3. Link to group
-#: languages/strings/cbox-openlab-core.php:707
+#: languages/strings/dollie_setup-openlab-core.php:707
 msgid "%1$s wrote a new blog post %2$s in the group %3$s"
 msgstr ""
 
 #. translators: 1. Link to commenter, 2. Link to post, 3. Link to group
-#: languages/strings/cbox-openlab-core.php:711
+#: languages/strings/dollie_setup-openlab-core.php:711
 msgid "%1$s commented on %2$s in the group %3$s"
 msgstr ""
 
 #. translators: 1. Post link, 2. Group link
-#: languages/strings/cbox-openlab-core.php:715
+#: languages/strings/dollie_setup-openlab-core.php:715
 msgid "A new post %1$s was published in %2$s"
 msgstr ""
 
 #. translators: 1. Post link, 2. Group link
-#: languages/strings/cbox-openlab-core.php:719
+#: languages/strings/dollie_setup-openlab-core.php:719
 msgid "A new comment was posted on the post %1$s in %2$s"
 msgstr ""
 
 #. translators: 1. Link to Posts admin page, 2. Link to Pages admin page, 3. Link to Menus admin page
-#: languages/strings/cbox-openlab-core.php:723
+#: languages/strings/dollie_setup-openlab-core.php:723
 msgid "Please Note: Posts and pages from the site you cloned are set to \"draft\" until you publish or delete them via %1$s and %2$s. Custom menus will need to be reactivated via %3$s."
 msgstr ""
 
 #. translators: 1. Link to Posts admin page, 2. Link to Pages admin page, 3. Link to Menus admin page
-#: languages/strings/cbox-openlab-core.php:727
+#: languages/strings/dollie_setup-openlab-core.php:727
 msgid "Posts"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:729
+#: languages/strings/dollie_setup-openlab-core.php:729
 msgid "Pages"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:730
+#: languages/strings/dollie_setup-openlab-core.php:730
 msgid "Appearance > Menu"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:731
+#: languages/strings/dollie_setup-openlab-core.php:731
 msgid "Dismiss"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:732
+#: languages/strings/dollie_setup-openlab-core.php:732
 msgid "Select a source blog."
 msgstr ""
 
 #. translators: 1. login of user who created new site, 2. URL of the new site, 3. title of the new site
-#: languages/strings/cbox-openlab-core.php:735
+#: languages/strings/dollie_setup-openlab-core.php:735
 msgid ""
 "New site created by %1$1s\n"
 "\n"
@@ -6137,144 +6137,144 @@ msgid ""
 msgstr ""
 
 #. translators: site name
-#: languages/strings/cbox-openlab-core.php:742
+#: languages/strings/dollie_setup-openlab-core.php:742
 msgid "[%s] New Blog Created"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:744
+#: languages/strings/dollie_setup-openlab-core.php:744
 msgid "Site Created"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:745
+#: languages/strings/dollie_setup-openlab-core.php:745
 msgid "Blog Copied"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:746
+#: languages/strings/dollie_setup-openlab-core.php:746
 msgid "Site names can only contain lowercase letters (a-z) and numbers."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:747
+#: languages/strings/dollie_setup-openlab-core.php:747
 msgid "URLs can contain only alphanumeric characters, hyphens, and underscores."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:748
+#: languages/strings/dollie_setup-openlab-core.php:748
 msgid "That site URL is already taken. Please try another."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:749
+#: languages/strings/dollie_setup-openlab-core.php:749
 msgid "That URL is not allowed"
 msgstr ""
 
 #. translators: %s: minimum site name length
-#: languages/strings/cbox-openlab-core.php:752
+#: languages/strings/dollie_setup-openlab-core.php:752
 msgid "Site name must be at least %s character."
 msgid_plural "Site name must be at least %s characters."
 msgstr[0] ""
 
-#: languages/strings/cbox-openlab-core.php:754
+#: languages/strings/dollie_setup-openlab-core.php:754
 msgid "DOLLIE_SETUP OpenLab"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:755
+#: languages/strings/dollie_setup-openlab-core.php:755
 msgid "Add to Menu"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:756
+#: languages/strings/dollie_setup-openlab-core.php:756
 msgctxt "customizer menu type label"
 msgid "Custom Link"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:759
+#: languages/strings/dollie_setup-openlab-core.php:759
 msgid "Keep Me Logged In"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:762
+#: languages/strings/dollie_setup-openlab-core.php:762
 msgid "Posted a comment on a PressForward feed item."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:763
+#: languages/strings/dollie_setup-openlab-core.php:763
 msgid "PressForward Comments"
 msgstr ""
 
 #. translators: 1. commenter link, 2. post link, 3. site link
-#: languages/strings/cbox-openlab-core.php:766
+#: languages/strings/dollie_setup-openlab-core.php:766
 msgid "%1$s posted a comment on the feed item %2$s on the site %3$s"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:768
+#: languages/strings/dollie_setup-openlab-core.php:768
 msgid "Term meta cannot be added to terms that are shared between taxonomies."
 msgstr ""
 
 #. translators: 1. required BP version, 2. required WP version
-#: languages/strings/cbox-openlab-core.php:771
+#: languages/strings/dollie_setup-openlab-core.php:771
 msgid "BP Customizable Group Categories requires at least version %1$s of BuddyPress and version %2$s of WordPress."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:773
+#: languages/strings/dollie_setup-openlab-core.php:773
 msgid "BP Customizable Group Categories requires to be activated on the blog where BuddyPress is activated."
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:774
+#: languages/strings/dollie_setup-openlab-core.php:774
 msgctxt "taxonomy general name"
 msgid "Group Categories"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:775
+#: languages/strings/dollie_setup-openlab-core.php:775
 msgctxt "taxonomy singular name"
 msgid "Group Tag"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:776
+#: languages/strings/dollie_setup-openlab-core.php:776
 msgid "Category Groups"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:777
+#: languages/strings/dollie_setup-openlab-core.php:777
 msgctxt "admin page title"
 msgid "Group Categories"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:778
+#: languages/strings/dollie_setup-openlab-core.php:778
 msgctxt "admin menu title"
 msgid "Group Categories"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:779
+#: languages/strings/dollie_setup-openlab-core.php:779
 msgctxt "admin page title"
 msgid "All Categories"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:780
+#: languages/strings/dollie_setup-openlab-core.php:780
 msgctxt "admin menu title"
 msgid "All Categories"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:781
+#: languages/strings/dollie_setup-openlab-core.php:781
 msgctxt "admin page title"
 msgid "Sort Group Categories"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:782
+#: languages/strings/dollie_setup-openlab-core.php:782
 msgctxt "admin menu title"
 msgid "Sort Group Categories"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:783
+#: languages/strings/dollie_setup-openlab-core.php:783
 msgid "Groups"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:784
+#: languages/strings/dollie_setup-openlab-core.php:784
 msgid "Cheatin&#8217; uh?"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:785
+#: languages/strings/dollie_setup-openlab-core.php:785
 msgid "Invalid taxonomy"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:786
+#: languages/strings/dollie_setup-openlab-core.php:786
 msgid "You attempted to edit an item that doesn&#8217;t exist. Perhaps it was deleted?"
 msgstr ""
 
-#: languages/strings/cbox-openlab-core.php:787
+#: languages/strings/dollie_setup-openlab-core.php:787
 msgid "An error has occurred. Please reload the page and try again."
 msgstr ""
 
@@ -6460,7 +6460,7 @@ msgid "Return to package selection"
 msgstr ""
 
 #: admin/admin-loader.php:493
-msgid "Please note: This theme is <strong>required</strong> for use with Commons In A Box %s."
+msgid "Please note: This theme is <strong>required</strong> for use with Dollie Setup %s."
 msgstr ""
 
 #: admin/admin-loader.php:496
@@ -6494,7 +6494,7 @@ msgstr ""
 
 #: admin/admin-loader.php:610
 #: admin/admin-loader.php:662
-msgid "Commons In A Box Dashboard"
+msgid "Dollie Setup Dashboard"
 msgstr ""
 
 #: admin/admin-loader.php:712
@@ -6502,7 +6502,7 @@ msgid "Select a Package"
 msgstr ""
 
 #: admin/admin-loader.php:714
-msgid "Commons In A Box includes two packages, each containing selected WordPress plugins and a WordPress theme. The packages are designed to make it easier for you to install and configure your site. Select the package that best suits your needs."
+msgid "Dollie Setup includes two packages, each containing selected WordPress plugins and a WordPress theme. The packages are designed to make it easier for you to install and configure your site. Select the package that best suits your needs."
 msgstr ""
 
 #: admin/admin-loader.php:736
@@ -6546,7 +6546,7 @@ msgid "Required Plugins"
 msgstr ""
 
 #: admin/admin-loader.php:785
-msgid "Before you can use Commons In A Box %s, we'll need to install some required plugins. Click 'Continue' to get set up."
+msgid "Before you can use Dollie Setup %s, we'll need to install some required plugins. Click 'Continue' to get set up."
 msgstr ""
 
 #: admin/admin-loader.php:789
@@ -6562,7 +6562,7 @@ msgid "You're almost finished with the installation process."
 msgstr ""
 
 #: admin/admin-loader.php:804
-msgid "Did you know Commons In A Box %s comes prebundled with a few recommended plugins?  These plugins help to add functionality to your existing WordPress site."
+msgid "Did you know Dollie Setup %s comes prebundled with a few recommended plugins?  These plugins help to add functionality to your existing WordPress site."
 msgstr ""
 
 #: admin/admin-loader.php:806
@@ -6578,7 +6578,7 @@ msgid "Upgrade Available"
 msgstr ""
 
 #: admin/admin-loader.php:866
-msgid "Commons In A Box %s requires WordPress %s"
+msgid "Dollie Setup %s requires WordPress %s"
 msgstr ""
 
 #: admin/admin-loader.php:868
@@ -6626,7 +6626,7 @@ msgid "Installing plugins..."
 msgstr ""
 
 #: admin/admin-loader.php:1082
-msgid "Commons In A Box is almost ready!"
+msgid "Dollie Setup is almost ready!"
 msgstr ""
 
 #: admin/admin-loader.php:1116
@@ -6654,7 +6654,7 @@ msgid "Other Network Plugins"
 msgstr ""
 
 #: admin/plugins.php:384
-msgid "Commons In A Box Plugins"
+msgid "Dollie Setup Plugins"
 msgstr ""
 
 #: admin/plugins.php:385
@@ -6802,11 +6802,11 @@ msgid "One last step!"
 msgstr ""
 
 #: admin/templates/base/theme-prompt.php:8
-msgid "The %1$s Theme is the final piece of the Commons In A Box %2$s experience."
+msgid "The %1$s Theme is the final piece of the Dollie Setup %2$s experience."
 msgstr ""
 
 #: admin/templates/base/plugins-optional-header.php:2
-msgid "The following plugins work well with Commons In A Box %s, but they require a bit of additional setup, so we do not install them by default."
+msgid "The following plugins work well with Dollie Setup %s, but they require a bit of additional setup, so we do not install them by default."
 msgstr ""
 
 #: admin/templates/base/plugins-optional-header.php:3
@@ -6819,7 +6819,7 @@ msgid "To update, check the plugins you want to update and click 'Update'."
 msgstr ""
 
 #: admin/templates/base/plugins-required-header.php:5
-msgid "Commons In A Box %s requires the following plugins."
+msgid "Dollie Setup %s requires the following plugins."
 msgstr ""
 
 #: admin/templates/base/plugins-install-only-header.php:2
@@ -6859,7 +6859,7 @@ msgid "Recommended"
 msgstr ""
 
 #: admin/templates/base/plugins-recommended-header.php:3
-msgid "The following plugins are recommended during initial Commons In A Box %s setup.  We like them, but feel free to deactivate them if you don't need certain functionality."
+msgid "The following plugins are recommended during initial Dollie Setup %s setup.  We like them, but feel free to deactivate them if you don't need certain functionality."
 msgstr ""
 
 #: admin/templates/base/package-details-plugins.php:2
@@ -6925,7 +6925,7 @@ msgid "DOLLIE_SETUP Classic is designed for communities of all kinds. It is used
 msgstr ""
 
 #: admin/templates/classic/welcome-description.php:3
-msgid "Commons In A Box was made possible by a generous grant from the <a href=\"%1$s\" target=\"_blank\">Alfred P. Sloan Foundation</a> that allowed us to turn the infrastructure that successfully powers the <a href=\"%2$s\" target=\"_blank\">CUNY Academic Commons</a> into a distributable, easy-to-install package."
+msgid "Dollie Setup was made possible by a generous grant from the <a href=\"%1$s\" target=\"_blank\">Alfred P. Sloan Foundation</a> that allowed us to turn the infrastructure that successfully powers the <a href=\"%2$s\" target=\"_blank\">CUNY Academic Commons</a> into a distributable, easy-to-install package."
 msgstr ""
 
 #: admin/templates/classic/welcome-description.php:6
@@ -6943,7 +6943,7 @@ msgid "Getting Started with Commons in A Box Classic"
 msgstr ""
 
 #: admin/templates/classic/getting-started.php:12
-msgid "Commons In A Box works by pulling together a number of independent WordPress and BuddyPress plugins. Customize your site by exploring the settings pages for these plugins below."
+msgid "Dollie Setup works by pulling together a number of independent WordPress and BuddyPress plugins. Customize your site by exploring the settings pages for these plugins below."
 msgstr ""
 
 #: admin/templates/classic/getting-started.php:21
@@ -7006,7 +7006,7 @@ msgid "The DOLLIE_SETUP Classic package includes several required plugins that p
 msgstr ""
 
 #: admin/templates/openlab/changelog.php:3
-msgid "Welcome to Commons In A Box OpenLab %s"
+msgid "Welcome to Dollie Setup OpenLab %s"
 msgstr ""
 
 #: admin/templates/openlab/changelog.php:25
@@ -7026,11 +7026,11 @@ msgid "The following plugins influence the community aspects of your site, but t
 msgstr ""
 
 #: admin/templates/openlab/welcome-description.php:1
-msgid "Commons In A Box OpenLab is designed for teaching, learning, and collaboration. It allows faculty members, departments, and entire institutions to create commons spaces for open learning."
+msgid "Dollie Setup OpenLab is designed for teaching, learning, and collaboration. It allows faculty members, departments, and entire institutions to create commons spaces for open learning."
 msgstr ""
 
 #: admin/templates/openlab/welcome-description.php:3
-msgid "Commons In A Box OpenLab is a collaboration between <a href=\"%1$s\" target=\"_blank\">The Graduate Center, CUNY</a> and <a href=\"%2$s\" target=\"_blank\">New York City College of Technology</a>. It is being created with funding from the National Endowment for the Humanities' <a href=\"%3$s\" target=\"_blank\">Office of Digital Humanities</a>."
+msgid "Dollie Setup OpenLab is a collaboration between <a href=\"%1$s\" target=\"_blank\">The Graduate Center, CUNY</a> and <a href=\"%2$s\" target=\"_blank\">New York City College of Technology</a>. It is being created with funding from the National Endowment for the Humanities' <a href=\"%3$s\" target=\"_blank\">Office of Digital Humanities</a>."
 msgstr ""
 
 #: admin/templates/openlab/package-details.php:5

@@ -9,10 +9,10 @@ use WP_CLI;
  * ## EXAMPLES
  *
  *     # Display the DOLLIE_SETUP version
- *     $ wp cbox version
+ *     $ wp dollie_setup version
  *     1.0.15
  *
- * @package cbox
+ * @package dollie_setup
  */
 class Core extends \WP_CLI_Command {
 	/**
@@ -20,16 +20,16 @@ class Core extends \WP_CLI_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     $ wp cbox status
+	 *     $ wp dollie_setup status
 	 *     Current DOLLIE_SETUP package: Classic
 	 *
-	 *     Current theme: Commons In A Box. No update available.
+	 *     Current theme: Dollie Setup. No update available.
 	 *
 	 *     Active DOLLIE_SETUP plugins are all up-to-date.
 	 */
 	public function status( $args, $assoc_args ) {
 		if ( ! dollie_setup_get_current_package_id() ) {
-			// @todo Add 'wp cbox install' command of some sort.
+			// @todo Add 'wp dollie_setup install' command of some sort.
 			WP_CLI::error( 'A DOLLIE_SETUP package is not active on the site.  Please install DOLLIE_SETUP before running this command.' );
 		}
 
@@ -39,7 +39,7 @@ class Core extends \WP_CLI_Command {
 		// Theme status.
 		$theme = dollie_setup_get_theme_to_update();
 		if ( ! empty( $theme ) ) {
-			WP_CLI::line( 'The theme has an update. Run "wp cbox update theme" to update the theme.' );
+			WP_CLI::line( 'The theme has an update. Run "wp dollie_setup update theme" to update the theme.' );
 		} else {
 			$dollie_setup_theme    = dollie_setup_get_package_prop( 'theme' );
 			$current_theme = dollie_setup_get_theme();
@@ -127,7 +127,7 @@ class Core extends \WP_CLI_Command {
 
 		if ( $show_plugin_notice ) {
 			WP_CLI::line( '' );
-			WP_CLI::line( 'Run "wp cbox update plugins" to update the plugins.' );
+			WP_CLI::line( 'Run "wp dollie_setup update plugins" to update the plugins.' );
 		} elseif ( $show_active_notice ) {
 			WP_CLI::line( '' );
 			WP_CLI::line( 'Active DOLLIE_SETUP plugins are all up-to-date.' );
@@ -140,10 +140,10 @@ class Core extends \WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Display the WordPress version
-	 *     $ wp cbox version
+	 *     $ wp dollie_setup version
 	 *     1.0.15
 	 */
 	public function version( $args, $assoc_args ) {
-		WP_CLI::line( cbox()->version );
+		WP_CLI::line( dollie_setup()->version );
 	}
 }

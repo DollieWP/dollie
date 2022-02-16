@@ -4,7 +4,7 @@
  *
  * @since 1.1.0 Admin code split from {@link CBox_Plugins}
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  */
 
 /**
@@ -380,11 +380,11 @@ class CBox_Admin_Plugins {
 		if ( dollie_setup_is_setup() ) {
 			// add our plugins page
 			$plugin_page = add_submenu_page(
-				'cbox',
-				__( 'Commons In A Box Plugins', 'commons-in-a-box' ),
+				'dollie_setup',
+				__( 'Dollie Setup Plugins', 'commons-in-a-box' ),
 				__( 'Plugins', 'commons-in-a-box' ),
 				'install_plugins', // todo - map cap?
-				'cbox-plugins',
+				'dollie_setup-plugins',
 				array( $this, 'admin_page' )
 			);
 
@@ -405,20 +405,20 @@ class CBox_Admin_Plugins {
 	 */
 	public function validate_dollie_setup_dashboard() {
 		// form submission
-		if ( ! empty( $_REQUEST['cbox-update'] ) ) {
+		if ( ! empty( $_REQUEST['dollie_setup-update'] ) ) {
 			// verify nonce
 			check_admin_referer( 'dollie_setup_update' );
 
 			// see if any plugins were submitted
 			// if so, set a reference variable to note that DOLLIE_SETUP is updating
 			if ( ! empty( $_REQUEST['dollie_setup_plugins'] ) ) {
-				cbox()->update = true;
+				dollie_setup()->update = true;
 			}
 		}
 
 		// deactivate a single plugin from the DOLLIE_SETUP dashboard
 		// basically a copy and paste of the code available in /wp-admin/plugins.php
-		if ( ! empty( $_REQUEST['cbox-action'] ) && ! empty( $_REQUEST['plugin'] ) ) {
+		if ( ! empty( $_REQUEST['dollie_setup-action'] ) && ! empty( $_REQUEST['plugin'] ) ) {
 			$plugin = $_REQUEST['plugin'];
 
 			if ( ! current_user_can('activate_plugins') ) {
@@ -431,10 +431,10 @@ class CBox_Admin_Plugins {
 			$type = ! empty( $qs['type'] ) ? esc_attr( $qs['type'] ) : '';
 
 			// Set redirect URL
-			$url = self_admin_url( 'admin.php?page=cbox-plugins' );
+			$url = self_admin_url( 'admin.php?page=dollie_setup-plugins' );
 			$url = ! empty( $type ) ? add_query_arg( 'type', $type, $url ) : $url;
 
-			switch( $_REQUEST['cbox-action'] ) {
+			switch( $_REQUEST['dollie_setup-action'] ) {
 				case 'deactivate' :
 					check_admin_referer('deactivate-plugin_' . $plugin);
 
@@ -633,7 +633,7 @@ class CBox_Admin_Plugins {
 	public function admin_page() {
 		dollie_setup_get_template_part('wrapper-header');
 		// show this page during update
-		$is_update = isset( cbox()->update ) ? cbox()->update : false;
+		$is_update = isset( dollie_setup()->update ) ? dollie_setup()->update : false;
 		if ( $is_update ) {
 			$this->update_screen();
 		}
@@ -641,7 +641,7 @@ class CBox_Admin_Plugins {
 		// if upgrade process is finished, show regular plugins page
 		else {
 			$type = ! empty( $_GET['type'] ) ? $_GET['type'] : '';
-			$url  = self_admin_url( 'admin.php?page=cbox-plugins' );
+			$url  = self_admin_url( 'admin.php?page=dollie_setup-plugins' );
 			$url  = ! empty( $type ) ? add_query_arg( 'type', esc_attr( $_GET['type'] ), $url ) : $url;
 
 			$plugin_types = array(
@@ -663,7 +663,7 @@ class CBox_Admin_Plugins {
 				);
 			}
 	?>
-			<div class="wrap cbox-admin-wrap">
+			<div class="wrap dollie_setup-admin-wrap">
 				<h2><?php printf( __( '%1$s Plugins: %2$s', 'commons-in-a-box' ), dollie_setup_get_package_prop( 'name' ), $plugin_types[ '' === $type ? 'required' : $type ]['label'] ); ?></h2>
 
 				<h2 class="nav-tab-wrapper wp-clearfix">
@@ -672,13 +672,13 @@ class CBox_Admin_Plugins {
 					<?php endforeach; ?>
 				</h2>
 
-				<div class="cbox-admin-content cbox-plugins-content">
+				<div class="dollie_setup-admin-content dollie_setup-plugins-content">
 
 				<form method="post" action="<?php echo $url; ?>">
 					<?php if ( '' === $type ) { $type = 'required'; } ?>
 					<?php if ( ! empty( $plugin_types[ $type ] ) ) : ?>
 
-						<div id="<?php echo esc_attr( $type ); ?>" class="cbox-plugins-section">
+						<div id="<?php echo esc_attr( $type ); ?>" class="dollie_setup-plugins-section">
 							<h2><?php echo esc_html( $plugin_types[ $type ]['label']  ); ?></h2>
 
 							<?php dollie_setup_get_template_part( "plugins-{$type}-header" ); ?>
@@ -688,7 +688,7 @@ class CBox_Admin_Plugins {
 
 						<?php if ( 'required' === $type && CBox_Plugins::get_plugins( 'recommended' ) ) : ?>
 
-							<div id="recommended" class="cbox-plugins-section">
+							<div id="recommended" class="dollie_setup-plugins-section">
 								<?php dollie_setup_get_template_part( 'plugins-recommended-header' ); ?>
 
 								<?php self::render_plugin_table( 'type=recommended' ); ?>
@@ -758,7 +758,7 @@ jQuery('a[data-uninstall="1"]').confirm({
 	private function update_screen() {
 
 		// if we're not in the middle of an update, stop now!
-		$is_update = isset( cbox()->update ) ? cbox()->update : false;
+		$is_update = isset( dollie_setup()->update ) ? dollie_setup()->update : false;
 		if ( ! $is_update )
 			return;
 
@@ -802,7 +802,7 @@ jQuery('a[data-uninstall="1"]').confirm({
 	 * @return str Deactivation link
 	 */
 	public static function deactivate_link( $loader ) {
-		return self_admin_url( 'admin.php?page=cbox-plugins&amp;cbox-action=deactivate&amp;plugin=' . urlencode( $loader ) . '&amp;_wpnonce=' . wp_create_nonce( 'deactivate-plugin_' . $loader ) );
+		return self_admin_url( 'admin.php?page=dollie_setup-plugins&amp;dollie_setup-action=deactivate&amp;plugin=' . urlencode( $loader ) . '&amp;_wpnonce=' . wp_create_nonce( 'deactivate-plugin_' . $loader ) );
 	}
 
 	/**
@@ -830,7 +830,7 @@ jQuery('a[data-uninstall="1"]').confirm({
 			<thead>
 				<tr>
 					<th scope="col" class="manage-column check-column"><label for="plugins-select-all-<?php echo esc_attr( $r['type'] ); ?>" class="screen-reader-text"><?php esc_html_e( 'Select all', 'commons-in-a-box' ); ?></label><input type="checkbox" id="plugins-select-all-<?php echo esc_attr( $r['type'] ); ?>" /></th>
-					<th scope="col" id="<?php _e( $r['type'] ); ?>-name" class="manage-column column-name column-cbox-plugin-name"><?php _e( 'Plugin', 'commons-in-a-box' ); ?></th>
+					<th scope="col" id="<?php _e( $r['type'] ); ?>-name" class="manage-column column-name column-dollie_setup-plugin-name"><?php _e( 'Plugin', 'commons-in-a-box' ); ?></th>
 					<th scope="col" id="<?php _e( $r['type'] ); ?>-description" class="manage-column column-description"><?php _e( 'Description', 'commons-in-a-box' ); ?></th>
 				</tr>
 			</thead>
@@ -838,7 +838,7 @@ jQuery('a[data-uninstall="1"]').confirm({
 			<tfoot>
 				<tr>
 					<th scope="col" class="manage-column check-column"><label for="plugins-select-all<?php echo esc_attr( $r['type'] ); ?>-2" class="screen-reader-text"><?php esc_html_e( 'Select all', 'commons-in-a-box' ); ?></label><input type="checkbox" id="plugins-select-all<?php echo esc_attr( $r['type'] ); ?>-2" /></th>
-					<th scope="col" class="manage-column column-name column-cbox-plugin-name"><?php _e( 'Plugin', 'commons-in-a-box' ); ?></th>
+					<th scope="col" class="manage-column column-name column-dollie_setup-plugin-name"><?php _e( 'Plugin', 'commons-in-a-box' ); ?></th>
 					<th scope="col" class="manage-column column-description"><?php _e( 'Description', 'commons-in-a-box' ); ?></th>
 				</tr>
 			</tfoot>
@@ -860,7 +860,7 @@ jQuery('a[data-uninstall="1"]').confirm({
 					$css_class = 'activate' == $state && CBox_Plugins::is_plugin_type( $plugin, 'install-only' ) ? 'active' : '';
 					$css_class = '' === $css_class ? $state == 'deactivate' ? 'active' : 'action-required' : $css_class;
 			?>
-				<tr id="<?php echo sanitize_title( $plugin ); ?>" class="cbox-plugin-row-<?php echo $css_class; ?>">
+				<tr id="<?php echo sanitize_title( $plugin ); ?>" class="dollie_setup-plugin-row-<?php echo $css_class; ?>">
 					<th scope='row' class='check-column'>
 						<?php if ( 'activate' == $state && CBox_Plugins::is_plugin_type( $plugin, 'install-only' ) ) : ?>
 							<img src="<?php echo admin_url( 'images/yes.png' ); ?>" alt="" style="margin-left:7px;" /><span class="screen-reader-text"><?php esc_attr_e( 'Plugin is already installed', 'commons-in-a-box' ); ?></span>
@@ -924,7 +924,7 @@ jQuery('a[data-uninstall="1"]').confirm({
 								$plugin_row_links[] = sprintf(
 									'<a data-uninstall="1" title="%s" href="%s">%s</a>',
 									sprintf( __( "Uninstall %s", 'commons-in-a-box' ), $plugin ),
-									self_admin_url( 'admin.php?page=cbox-plugins&amp;cbox-action=uninstall&amp;plugin=' . urlencode( $plugin ) . '&amp;_wpnonce=' . wp_create_nonce( 'bulk-plugins' ) ),
+									self_admin_url( 'admin.php?page=dollie_setup-plugins&amp;dollie_setup-action=uninstall&amp;plugin=' . urlencode( $plugin ) . '&amp;_wpnonce=' . wp_create_nonce( 'bulk-plugins' ) ),
 									__( "Uninstall", 'commons-in-a-box' )
 								);
 							}
@@ -982,12 +982,12 @@ jQuery('a[data-uninstall="1"]').confirm({
 				// Notice for plugins that are activated network-wide, but shouldn't be.
 				if ( false === $data['network'] && is_multisite() && is_plugin_active_for_network( $loader ) ) : ?>
 
-					<tr class="cbox-plugin-network-active">
+					<tr class="dollie_setup-plugin-network-active">
 						<td colspan="3"><div class="inline notice notice-error notice-alt"><p>
 							<?php printf( esc_html__( '%1$s is network-activated, but we recommend only activating this plugin on the main site.', 'commons-in-a-box' ), $plugin ); ?>
 							<?php printf(
 								'<a href="%1$s">%2$s</a>',
-								self_admin_url( 'admin.php?page=cbox-plugins&amp;cbox-action=network-deactivate&amp;plugin=' . urlencode( $plugin ) . '&amp;_wpnonce=' . wp_create_nonce( 'network-deactivate-plugin_' . $plugin ) ),
+								self_admin_url( 'admin.php?page=dollie_setup-plugins&amp;dollie_setup-action=network-deactivate&amp;plugin=' . urlencode( $plugin ) . '&amp;_wpnonce=' . wp_create_nonce( 'network-deactivate-plugin_' . $plugin ) ),
 								esc_html__( '(Change)', 'commons-in-a-box' )
 							); ?>
 						</p></div></td>
@@ -1001,7 +1001,7 @@ jQuery('a[data-uninstall="1"]').confirm({
 		</table>
 
 		<?php if ( 'required' !== $r['type'] ) : ?>
-			<p><input type="submit" value="<?php echo 'install-only' === $r['type'] ? esc_html( 'Install', 'commons-in-a-box' ) : $r['submit_btn_text']; ?>" class="button-primary" id="cbox-update-<?php echo esc_attr( $r['type'] ); ?>" name="cbox-update" /></p>
+			<p><input type="submit" value="<?php echo 'install-only' === $r['type'] ? esc_html( 'Install', 'commons-in-a-box' ) : $r['submit_btn_text']; ?>" class="button-primary" id="dollie_setup-update-<?php echo esc_attr( $r['type'] ); ?>" name="dollie_setup-update" /></p>
 		<?php endif; ?>
 
 	<?php

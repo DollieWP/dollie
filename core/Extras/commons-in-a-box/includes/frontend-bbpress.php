@@ -6,7 +6,7 @@
  *
  * @since 1.0.1
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Frontend
  */
 
@@ -14,8 +14,8 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 // setup globals for bbPress
-cbox()->plugins->bbpress = new stdClass;
-cbox()->plugins->bbpress->is_setup = function_exists( 'bbp_activation' );
+dollie_setup()->plugins->bbpress = new stdClass;
+dollie_setup()->plugins->bbpress->is_setup = function_exists( 'bbp_activation' );
 
 /**
  * Hotfixes and workarounds for bbPress.

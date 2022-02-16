@@ -1,4 +1,4 @@
-=== Commons In A Box ===
+=== Dollie Setup ===
 Contributors: cuny-academic-commons, boonebgorges, r-a-y
 Tags: commons, cuny, community, education, academic, buddypress
 Requires at least: 4.9.8
@@ -11,9 +11,9 @@ A platform for easy and powerful community websites. Powered by BuddyPress.
 
 == Description ==
 
-Commons In A Box (DOLLIE_SETUP) dramatically lowers the barrier to building community sites on WordPress. DOLLIE_SETUP helps you to install BuddyPress along with a number of carefully selected and vetted BuddyPress plugins, so that you don’t have to worry about which plugins are best and which are compatible with each other.
+Dollie Setup (DOLLIE_SETUP) dramatically lowers the barrier to building community sites on WordPress. DOLLIE_SETUP helps you to install BuddyPress along with a number of carefully selected and vetted BuddyPress plugins, so that you don’t have to worry about which plugins are best and which are compatible with each other.
 
-Commons In A Box (DOLLIE_SETUP) includes a choice of two packages that can be customized to meet the needs of your community:
+Dollie Setup (DOLLIE_SETUP) includes a choice of two packages that can be customized to meet the needs of your community:
 
 **DOLLIE_SETUP Classic is designed for communities of all kinds.** It is used by groups and organizations to create flexible social networks where members can collaborate on projects, publish research, and create repositories of knowledge.
 
@@ -30,15 +30,15 @@ Visit [commonsinabox.org](https://commonsinabox.org/) for support and documentat
 
 == Installation ==
 
-Before you start, make sure to check out the [Technical Guide](http://commonsinabox.org/cbox-technical-guide), which explains the technical requirements for Commons In A Box (DOLLIE_SETUP).
+Before you start, make sure to check out the [Technical Guide](http://commonsinabox.org/dollie_setup-technical-guide), which explains the technical requirements for Dollie Setup (DOLLIE_SETUP).
 
 When you’re ready, there are two ways to download DOLLIE_SETUP :
 1. Search for it in the plugins section of your WordPress Dashboard and install it as you would any other WordPress plugin.
 1. Download it from the WordPress plugin repository: [https://wordpress.org/plugins/commons-in-a-box](https://wordpress.org/plugins/commons-in-a-box/)
 
-Once you’ve downloaded and installed DOLLIE_SETUP, you’ll be able to choose which package you wish to use: DOLLIE_SETUP Classic or DOLLIE_SETUP OpenLab. See our documentation for step-by-step instructions for installing [DOLLIE_SETUP Classic](http://commonsinabox.org/cbox-classic-installation-guide) or [DOLLIE_SETUP OpenLab](http://commonsinabox.org/openlab-installation-guide).
+Once you’ve downloaded and installed DOLLIE_SETUP, you’ll be able to choose which package you wish to use: DOLLIE_SETUP Classic or DOLLIE_SETUP OpenLab. See our documentation for step-by-step instructions for installing [DOLLIE_SETUP Classic](http://commonsinabox.org/dollie_setup-classic-installation-guide) or [DOLLIE_SETUP OpenLab](http://commonsinabox.org/openlab-installation-guide).
 
-If you want to find out more before you begin, you can read our [Documentation](http://commonsinabox.org/cbox-documentation), visit our [Showcase](http://commonsinabox.org/cbox-showcase), or try a [Demo](http://commonsinabox.org/demo).
+If you want to find out more before you begin, you can read our [Documentation](http://commonsinabox.org/dollie_setup-documentation), visit our [Showcase](http://commonsinabox.org/dollie_setup-showcase), or try a [Demo](http://commonsinabox.org/demo).
 
 == Frequently Asked Questions ==
 
@@ -46,9 +46,9 @@ If you want to find out more before you begin, you can read our [Documentation](
 
 Support forums and robust documentation are available at [commonsinabox.org](http://commonsinabox.org).
 
-= Can I use Commons In A Box if I have an existing WordPress site? =
+= Can I use Dollie Setup if I have an existing WordPress site? =
 
-It is possible to install Commons In A Box on an existing WordPress site, and it can also be integrated into existing Multisite and BuddyPress setups. However, please read [our documentation](http://commonsinabox.org/installing-cbox) for more details.
+It is possible to install Dollie Setup on an existing WordPress site, and it can also be integrated into existing Multisite and BuddyPress setups. However, please read [our documentation](http://commonsinabox.org/installing-dollie_setup) for more details.
 
 == Screenshots ==
 
@@ -137,7 +137,7 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 
 = 1.2.0 =
 * Classic: Improved compatibility with WordPress 5.5
-* Classic: Improved confirmation before installing or activating cbox-theme.
+* Classic: Improved confirmation before installing or activating dollie_setup-theme.
 * Classic: Localization improvements.
 * Classic: Password strength meters for settings and registration pages.
 * OpenLab: New Badges tool for groups.
@@ -197,7 +197,7 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 
 = 1.1.0 =
 * Added "package" functionality
-* Introducing the OpenLab package. See http://commonsinabox.org/cbox-openlab-overview/ for more details.
+* Introducing the OpenLab package. See http://commonsinabox.org/dollie_setup-openlab-overview/ for more details.
 * Updated plugins: BuddyPress 3.2.0, BuddyPress Docs 2.1.1, BuddyPress Reply By Email 1.0-RC7
 * Classic improvements: Improved accessibility for theme; improved compatibility with updated versions of WP and BP; improved PHP 7.2 compatibility
 
@@ -230,7 +230,7 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 = 1.0.12 =
 * Compatibility with WordPress 4.4 and BuddyPress 2.4
 * Updated plugins: BuddyPress Group Email Subscription 3.6.0, BuddyPress Groupblog 1.8.12, Invite Anyone 1.3.9
-* Fixed bug that could cause errors when installing Commons In A Box on top of an existing BuddyPress installation.
+* Fixed bug that could cause errors when installing Dollie Setup on top of an existing BuddyPress installation.
 * Theme improvements: Fixed problems with CSS and JS assets on SSL-optional sites; Fixed PHP notices in Recent Posts widget; Allowed slider settings to be filtered by child theme; Enabled Composer support for theme management
 
 = 1.0.11 =
@@ -301,8 +301,8 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 
 = 1.0 =
 * Updated plugins: BuddyPress Group Email Subscription 3.3.1, BuddyPress Docs 1.2.8
-* Better support for child themes of cbox-theme
-* Fixed fatal error that sometimes occurred when activating Commons In A Box
+* Better support for child themes of dollie_setup-theme
+* Fixed fatal error that sometimes occurred when activating Dollie Setup
 * Better PHP 5.4 support
 * Theme improvements: Better support for third-party plugin navigation, improved styling on the Messages panel
 
@@ -326,6 +326,6 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 
 == Credits ==
 
-Commons In A Box is a generalized, distributable version of the platform powering the [CUNY Academic Commons](https://commons.gc.cuny.edu). DOLLIE_SETUP OpenLab is modeled on the [OpenLab at City Tech](https://openlab.citytech.cuny.edu/).
+Dollie Setup is a generalized, distributable version of the platform powering the [CUNY Academic Commons](https://commons.gc.cuny.edu). DOLLIE_SETUP OpenLab is modeled on the [OpenLab at City Tech](https://openlab.citytech.cuny.edu/).
 
-Commons In A Box is developed by a team based at [The Graduate Center, CUNY](https://www.gc.cuny.edu). It was originally made possible by a grant from the [Alfred P. Sloan Foundation](https://sloan.org). DOLLIE_SETUP OpenLab, a collaboration with [New York City College of Technology](http://www.citytech.cuny.edu), was created with funding from the National Endowment for the Humanities’ [Office of Digital Humanities](https://www.neh.gov/divisions/odh). DOLLIE_SETUP receives continuing support from the City University of New York and The Graduate Center, CUNY.
+Dollie Setup is developed by a team based at [The Graduate Center, CUNY](https://www.gc.cuny.edu). It was originally made possible by a grant from the [Alfred P. Sloan Foundation](https://sloan.org). DOLLIE_SETUP OpenLab, a collaboration with [New York City College of Technology](http://www.citytech.cuny.edu), was created with funding from the National Endowment for the Humanities’ [Office of Digital Humanities](https://www.neh.gov/divisions/odh). DOLLIE_SETUP receives continuing support from the City University of New York and The Graduate Center, CUNY.

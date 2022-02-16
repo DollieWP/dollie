@@ -9,9 +9,9 @@ use WP_CLI;
  * ## EXAMPLES
  *
  *     # List the available DOLLIE_SETUP packages.
- *     $ wp cbox package list
+ *     $ wp dollie_setup package list
  *
- * @package cbox
+ * @package dollie_setup
  */
 class Package extends \WP_CLI_Command {
 	/**
@@ -50,11 +50,11 @@ class Package extends \WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Lists all available DOLLIE_SETUP packages.
-	 *     $ wp cbox package list
+	 *     $ wp dollie_setup package list
 	 *     +---------+---------+---------------+--------------+--------+
 	 *     | Package | Name    | Theme         | Network      | Active |
 	 *     +---------+---------+---------------+--------------+--------+
-	 *     | classic | Classic | cbox-theme    | Not required | Yes    |
+	 *     | classic | Classic | dollie_setup-theme    | Not required | Yes    |
 	 *     | openlab | OpenLab | openlab-theme | Required     | No     |
 	 *     +---------+---------+---------------+--------------+--------+
 	 *
@@ -120,7 +120,7 @@ class Package extends \WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Lists all registered plugins for the 'classic' package
-	 *     $ wp cbox package list-plugins classic
+	 *     $ wp dollie_setup package list-plugins classic
 	 *
 	 * @subcommand list-plugins
 	 */

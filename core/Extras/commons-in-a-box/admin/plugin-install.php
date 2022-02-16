@@ -2,7 +2,7 @@
 /**
  * DOLLIE_SETUP's Plugin Upgrade and Install API
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Plugins
  */
 
@@ -23,7 +23,7 @@ if ( ! class_exists( 'Plugin_Dependencies' ) )
  *
  * @since 0.2
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Plugins
  */
 class CBox_Plugin_Upgrader extends Plugin_Upgrader {
@@ -331,7 +331,7 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
  *
  * Extends the {@link Bulk_Plugin_Upgrader_Skin} class.
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Plugins
  */
 class CBox_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
@@ -507,12 +507,12 @@ class CBox_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 		// DOLLIE_SETUP hasn't been installed ever.
 		if ( ! dollie_setup_get_installed_revision_date() && empty( $redirect_link ) ) {
 			$redirect_text = __( 'Continue to the DOLLIE_SETUP dashboard', 'commons-in-a-box' );
-			$redirect_link = self_admin_url( 'admin.php?page=cbox' );
+			$redirect_link = self_admin_url( 'admin.php?page=dollie_setup' );
 		}
 
 		// default fallback
 		if ( '' === $redirect_link ) {
-			$redirect_link = self_admin_url( 'admin.php?page=cbox-plugins' );
+			$redirect_link = self_admin_url( 'admin.php?page=dollie_setup-plugins' );
 			$redirect_text = __( 'Return to the DOLLIE_SETUP Plugins page', 'commons-in-a-box' );
 
 			if ( ! empty( $_GET['type'] ) ) {
@@ -551,7 +551,7 @@ class CBox_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
  *
  * @since 0.2
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Plugins
  */
 class CBox_Updater {
@@ -640,7 +640,7 @@ class CBox_Updater {
 			// tell the installer that this is the first step
 			$skin_args['step_one'] = 'upgrade';
 
-			echo '<h3>' . __( 'Upgrading Existing Plugins...', 'cbox' ) . '</h3>';
+			echo '<h3>' . __( 'Upgrading Existing Plugins...', 'dollie_setup' ) . '</h3>';
 
 			// instantiate the upgrader
 			// we add our custom arguments to the skin
@@ -661,7 +661,7 @@ class CBox_Updater {
 
 			$skin_args['install_strings'] = true;
 
-			echo '<h3>' . __( 'Installing Plugins...', 'cbox' ) . '</h3>';
+			echo '<h3>' . __( 'Installing Plugins...', 'dollie_setup' ) . '</h3>';
 
 			// instantiate the upgrader
 			// we add our custom arguments to the skin
@@ -674,12 +674,12 @@ class CBox_Updater {
 
 		// if no upgrades or installs are available, move on to activations
 		} elseif( self::$is_activate ) {
-			echo '<h3>' . __( 'Activating Plugins...', 'cbox' ) . '</h3>';
+			echo '<h3>' . __( 'Activating Plugins...', 'dollie_setup' ) . '</h3>';
 
 			$activate = CBox_Plugin_Upgrader::bulk_activate( $plugins['activate'] );
 		?>
 
-			<p><?php _e( 'Plugins activated.', 'cbox' ); ?></p>
+			<p><?php _e( 'Plugins activated.', 'dollie_setup' ); ?></p>
 
 			<p><?php CBox_Bulk_Plugin_Upgrader_Skin::after_updater( $settings ); ?></p>
 		<?php
@@ -849,7 +849,7 @@ class CBox_Updater {
 			// If DOLLIE_SETUP plugin manifest is empty, must load package data again.
 			if ( empty( $dollie_setup_plugins ) ) {
 				/** This hook is documented in admin/plugins-loader.php */
-				do_action( 'dollie_setup_plugins_loaded', cbox()->plugins );
+				do_action( 'dollie_setup_plugins_loaded', dollie_setup()->plugins );
 
 				$dollie_setup_plugins = CBox_Plugins::get_plugins();
 			}

@@ -105,7 +105,7 @@
 											</ul>
 										</div>
 										<div class="dol-mt-6">
-											<a href="#" class="dol-w-full dol-flex dol-justify-center dol-items-center dol-px-4 dol-py-2 dol-border dol-border-gray-300 dol-shadow-sm dol-text-sm dol-font-medium dol-rounded-md dol-text-gray-700 dol-bg-white hover:dol-bg-gray-50"> <?php printf(__('<a href="%s">Manage all your Dollie plugins here</a>', 'commons-in-a-box'), esc_url(self_admin_url('admin.php?page=cbox-plugins'))); ?> </a>
+											<a href="#" class="dol-w-full dol-flex dol-justify-center dol-items-center dol-px-4 dol-py-2 dol-border dol-border-gray-300 dol-shadow-sm dol-text-sm dol-font-medium dol-rounded-md dol-text-gray-700 dol-bg-white hover:dol-bg-gray-50"> <?php printf(__('<a href="%s">Manage all your Dollie plugins here</a>', 'commons-in-a-box'), esc_url(self_admin_url('admin.php?page=dollie_setup-plugins'))); ?> </a>
 										</div>
 									</div>
 

@@ -9,9 +9,9 @@ use WP_CLI;
  * ## EXAMPLES
  *
  *     # Updates the DOLLIE_SETUP theme.
- *     $ wp cbox update theme
+ *     $ wp dollie_setup update theme
  *
- * @package cbox
+ * @package dollie_setup
  */
 class Update extends \WP_CLI_Command {
 	/**
@@ -20,13 +20,13 @@ class Update extends \WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Updates the DOLLIE_SETUP plugins and theme.
-	 *     $ wp cbox update all
+	 *     $ wp dollie_setup update all
 	 */
 	public function all( $args, $assoc_args ) {
-		WP_CLI::runcommand( 'cbox update plugins --yes' );
+		WP_CLI::runcommand( 'dollie_setup update plugins --yes' );
 
 		WP_CLI::line( 'Updating theme...' );
-		WP_CLI::runcommand( 'cbox update theme' );
+		WP_CLI::runcommand( 'dollie_setup update theme' );
 	}
 
 	/**
@@ -34,11 +34,11 @@ class Update extends \WP_CLI_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     $ wp cbox update theme
-	 *     Downloading install package from http://github.com/cuny-academic-commons/cbox-theme/archive/1.0.15.zip...
+	 *     $ wp dollie_setup update theme
+	 *     Downloading install package from http://github.com/cuny-academic-commons/dollie_setup-theme/archive/1.0.15.zip...
 	 *     Unpacking the package...
 	 *     Installing the theme...
-	 *     Renamed Github-based project from 'cbox-theme-1.0.15' to 'cbox-theme'.
+	 *     Renamed Github-based project from 'dollie_setup-theme-1.0.15' to 'dollie_setup-theme'.
 	 *     Removing the old version of the theme...
 	 *     Theme updated successfully.
 	 *     Success: Installed 1 of 1 themes.
@@ -78,7 +78,7 @@ class Update extends \WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Updates the DOLLIE_SETUP plugins, but will ask for confirmation before doing so.
-	 *     $ wp cbox update plugins
+	 *     $ wp dollie_setup update plugins
 	 *     Attempting to update the following plugins:
 	 *     +----------------------+-------------+-------------+
 	 *     | Plugin               | Old Version | New Version |
@@ -100,7 +100,7 @@ class Update extends \WP_CLI_Command {
 	 *     Success: Installed 2 of 2 plugins.
 	 *
 	 *     # Updates the DOLLIE_SETUP plugins, without confirmation.
-	 *     $ wp cbox update plugins --yes
+	 *     $ wp dollie_setup update plugins --yes
 	 */
 	public function plugins( $args, $assoc_args ) {
 		if ( ! class_exists( '\CBox_Plugin_Upgrader' ) ) {

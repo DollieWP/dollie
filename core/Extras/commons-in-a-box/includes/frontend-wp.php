@@ -6,7 +6,7 @@
  *
  * @since 1.0.2
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Frontend
  */
 
@@ -15,8 +15,8 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 // setup globals for WordPress
 // not technically a plugin, but we sometimes need to modify WP core behavior
-cbox()->plugins->wp = new stdClass;
-cbox()->plugins->wp->is_setup = true; // WordPress is always available :)
+dollie_setup()->plugins->wp = new stdClass;
+dollie_setup()->plugins->wp->is_setup = true; // WordPress is always available :)
 
 /**
  * Modifies the 'Updates' menu item in the WP Toolbar to omit numbers.
@@ -39,7 +39,7 @@ class CBox_WP_Toolbar_Updates {
 	public function setup_hooks() {
 		// Create menu items on sub-sites if necessary.
 		add_action( 'admin_bar_menu', function() {
-			if ( ! isset( cbox()->package_plugins ) || ! function_exists( 'buddypress' ) ) {
+			if ( ! isset( dollie_setup()->package_plugins ) || ! function_exists( 'buddypress' ) ) {
 				return;
 			}
 
@@ -47,7 +47,7 @@ class CBox_WP_Toolbar_Updates {
 			$plugins = CBox_Plugins::get_plugins();
 
 			// bbPress
-			if ( isset( $plugins['bbPress'] ) && false === $plugins['bbPress']['network'] && false === cbox()->plugins->bbpress->is_setup ) {
+			if ( isset( $plugins['bbPress'] ) && false === $plugins['bbPress']['network'] && false === dollie_setup()->plugins->bbpress->is_setup ) {
 				require __DIR__ . '/frontend-adminbar-bbpress.php';
 			}
 

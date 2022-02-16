@@ -89,7 +89,7 @@ class List_Table extends \WP_List_Table {
 	 */
 	public function column_name( $item ) {
 		$url = add_query_arg( [
-			'page'   => 'cbox-upgrades',
+			'page'   => 'dollie_setup-upgrades',
 			'action' => 'view',
 			'id'     => $item->id,
 		], self_admin_url( 'admin.php' ) );
@@ -127,7 +127,7 @@ class List_Table extends \WP_List_Table {
 		}
 
 		$url = add_query_arg( [
-			'page'   => 'cbox-upgrades',
+			'page'   => 'dollie_setup-upgrades',
 			'action' => 'view',
 			'id'     => 'all',
 		], self_admin_url( 'admin.php' ) );

@@ -10,9 +10,9 @@ use DOLLIE_SETUP\Upgrades\Upgrade_Registry;
  * ## EXAMPLES
  *
  *     # List the available upgrades.
- *     $ wp cbox upgrade list
+ *     $ wp dollie_setup upgrade list
  *
- * @package cbox
+ * @package dollie_setup
  */
 class Upgrade extends \WP_CLI_Command {
 	/**
@@ -46,7 +46,7 @@ class Upgrade extends \WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # List the available upgrades.
-	 *     $ wp cbox upgrade list
+	 *     $ wp dollie_setup upgrade list
 	 *
 	 * @subcommand list
 	 */
@@ -90,7 +90,7 @@ class Upgrade extends \WP_CLI_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     $ wp cbox upgrade run upgrade_nav_menus
+	 *     $ wp dollie_setup upgrade run upgrade_nav_menus
 	 */
 	public function run( $args, $assoc_args ) {
 		list( $id ) = $args;

@@ -6,7 +6,7 @@
  *
  * @since 1.0-beta2
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Frontend
  */
 
@@ -14,8 +14,8 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 // setup globals for GES
-cbox()->plugins->ges = new stdClass;
-cbox()->plugins->ges->is_setup = function_exists( 'ass_loader' );
+dollie_setup()->plugins->ges = new stdClass;
+dollie_setup()->plugins->ges->is_setup = function_exists( 'ass_loader' );
 
 /**
  * Changes the default group subscription to "All Mail" from "No Email".

@@ -4,7 +4,7 @@
  *
  * @since 1.0-beta2
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Frontend
  */
 
@@ -38,7 +38,7 @@ class CBox_Frontend {
 
 		// setup our DOLLIE_SETUP plugins object
 		// this will hold some plugin-specific references
-		cbox()->plugins = new stdClass;
+		dollie_setup()->plugins = new stdClass;
 
 		add_action( 'plugins_loaded', array( $this, 'setup' ), 100 );
 	}
@@ -114,8 +114,8 @@ class CBox_Frontend {
 		$plugins = array_keys( $this->settings );
 
 		foreach ( $plugins as $plugin ) {
-			if ( file_exists( cbox()->plugin_dir . "includes/frontend-{$plugin}.php" ) ) {
-				require( cbox()->plugin_dir . "includes/frontend-{$plugin}.php" );
+			if ( file_exists( dollie_setup()->plugin_dir . "includes/frontend-{$plugin}.php" ) ) {
+				require( dollie_setup()->plugin_dir . "includes/frontend-{$plugin}.php" );
 			}
 		}
 	}
@@ -130,7 +130,7 @@ class CBox_Frontend {
 
 		foreach( $this->settings as $plugin => $classes ) {
 			// if our plugin is not setup, stop loading hooks now!
-			$is_setup = isset( cbox()->plugins->$plugin->is_setup ) ? cbox()->plugins->$plugin->is_setup : false;
+			$is_setup = isset( dollie_setup()->plugins->$plugin->is_setup ) ? dollie_setup()->plugins->$plugin->is_setup : false;
 
 			if ( ! $is_setup )
 				continue;

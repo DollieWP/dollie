@@ -4,7 +4,7 @@
  *
  * @since 0.1
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Plugins
  */
 
@@ -194,7 +194,7 @@ class CBox_Plugins {
 	 * @since 1.1.0
 	 */
 	public static function backup() {
-		cbox()->temp_plugins = self::$plugins;
+		dollie_setup()->temp_plugins = self::$plugins;
 		self::$plugins = array();
 	}
 
@@ -204,9 +204,9 @@ class CBox_Plugins {
 	 * @since 1.1.0
 	 */
 	public static function restore() {
-		if ( isset( cbox()->temp_plugins ) ) {
-			self::$plugins = cbox()->temp_plugins;
-			unset( cbox()->temp_plugins );
+		if ( isset( dollie_setup()->temp_plugins ) ) {
+			self::$plugins = dollie_setup()->temp_plugins;
+			unset( dollie_setup()->temp_plugins );
 		}
 	}
 }

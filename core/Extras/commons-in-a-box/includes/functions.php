@@ -1,10 +1,10 @@
 <?php
 /**
- * Global functions needed throughout Commons In A Box.
+ * Global functions needed throughout Dollie Setup.
  *
  * @since 1.0
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Functions
  */
 
@@ -100,14 +100,14 @@ function dollie_setup_is_main_site() {
 
 /**
  * Returns the current DOLLIE_SETUP revision date as set in
- * {@link Commons_In_A_Box::setup_globals()}.
+ * {@link Dollie_Setup::setup_globals()}.
  *
  * @since 0.3
  *
  * @return int The current DOLLIE_SETUP revision date as a unix timestamp.
  */
 function dollie_setup_get_current_revision_date() {
-	return strtotime( cbox()->revision_date );
+	return strtotime( dollie_setup()->revision_date );
 }
 
 /**

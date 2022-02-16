@@ -4,7 +4,7 @@
  *
  * Part of the CLassic package.
  *
- * @package    Commons_In_A_Box
+ * @package    Dollie_Setup
  * @subpackage Package
  * @since      1.1.0
  */

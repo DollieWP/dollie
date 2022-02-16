@@ -16,12 +16,12 @@
 add_action(
     'activated_plugin',
 	function( $plugin ) {
-        if ( 'cbox-openlab-core/cbox-openlab-core.php' !== $plugin ) {
+        if ( 'dollie_setup-openlab-core/dollie_setup-openlab-core.php' !== $plugin ) {
             return;
         }
 
         // If DOLLIE_SETUP-OL is installed already, bail.
-        $ver = get_site_option( 'cboxol_ver' );
+        $ver = get_site_option( 'dollie_setupol_ver' );
         if ( ! empty( $ver ) ) {
             return;
         }

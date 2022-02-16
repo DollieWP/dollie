@@ -5,7 +5,7 @@
  *
  * @since 0.2
  *
- * @package Commons_In_A_Box
+ * @package Dollie_Setup
  * @subpackage Adminstration
  */
 
@@ -87,7 +87,7 @@ class CBox_Admin
 	public function upgrader()
 	{
 		// Ensure we're on a DOLLIE_SETUP page.
-		if (empty($_GET['page']) || false === strpos($_GET['page'], 'cbox')) {
+		if (empty($_GET['page']) || false === strpos($_GET['page'], 'dollie_setup')) {
 			return;
 		}
 
@@ -105,12 +105,12 @@ class CBox_Admin
 	public function catch_form_submission()
 	{
 		// no package / reset package.
-		if (isset($_REQUEST['cbox-package'])) {
+		if (isset($_REQUEST['dollie_setup-package'])) {
 			// verify nonce
 			check_admin_referer('dollie_setup_select_package');
 
 			// We want to select a new package.
-			if (empty($_REQUEST['cbox-package'])) {
+			if (empty($_REQUEST['dollie_setup-package'])) {
 				$current = get_site_option('_dollie_setup_current_package');
 				if (!empty($current)) {
 					/**
@@ -128,33 +128,33 @@ class CBox_Admin
 
 				// We've selected a package.
 			} else {
-				update_site_option('_dollie_setup_current_package', $_REQUEST['cbox-package']);
+				update_site_option('_dollie_setup_current_package', $_REQUEST['dollie_setup-package']);
 			}
 
 			// Redirect to required plugins installation, if necessary.
 			if ('required-plugins' === dollie_setup_get_setup_step()) {
-				$url = self_admin_url('admin.php?page=cbox&cbox-virgin-setup=1&cbox-virgin-nonce=' . wp_create_nonce('dollie_setup_virgin_setup'));
+				$url = self_admin_url('admin.php?page=dollie_setup&dollie_setup-virgin-setup=1&dollie_setup-virgin-nonce=' . wp_create_nonce('dollie_setup_virgin_setup'));
 			} else {
-				$url = self_admin_url('admin.php?page=cbox');
+				$url = self_admin_url('admin.php?page=dollie_setup');
 			}
 
 			wp_redirect($url);
 			die();
 
 			// Package details.
-		} elseif (!empty($_GET['cbox-package-details'])) {
+		} elseif (!empty($_GET['dollie_setup-package-details'])) {
 			// verify nonce
 			check_admin_referer('dollie_setup_package_details');
 
-			cbox()->setup = 'package-details';
+			dollie_setup()->setup = 'package-details';
 
 			// virgin setup
-		} elseif (!empty($_REQUEST['cbox-virgin-setup'])) {
+		} elseif (!empty($_REQUEST['dollie_setup-virgin-setup'])) {
 			// verify nonce
-			check_admin_referer('dollie_setup_virgin_setup', 'cbox-virgin-nonce');
+			check_admin_referer('dollie_setup_virgin_setup', 'dollie_setup-virgin-nonce');
 
 			// set reference pointer for later use
-			cbox()->setup = 'virgin-setup';
+			dollie_setup()->setup = 'virgin-setup';
 
 			$url  = '';
 			$step = dollie_setup_get_setup_step();
@@ -162,13 +162,13 @@ class CBox_Admin
 			// Redirect to a specific installation step, if necessary.
 			if ('' === dollie_setup_get_setup_step()) {
 				if (dollie_setup_get_theme_prop('download_url') && dollie_setup_get_theme_prop('directory_name') !== dollie_setup_get_theme()->template) {
-					$url = self_admin_url('admin.php?page=cbox&cbox-action=theme-prompt&_wpnonce=' . wp_create_nonce('dollie_setup_theme_prompt'));
+					$url = self_admin_url('admin.php?page=dollie_setup&dollie_setup-action=theme-prompt&_wpnonce=' . wp_create_nonce('dollie_setup_theme_prompt'));
 				}
 			}
 
 			// Required plugins are already installed.
 			if ('' === $url && 'required-plugins' !== $step) {
-				$url = self_admin_url('admin.php?page=cbox');
+				$url = self_admin_url('admin.php?page=dollie_setup');
 			}
 
 			if ($url) {
@@ -177,18 +177,18 @@ class CBox_Admin
 			}
 
 			// BP installed, but no DOLLIE_SETUP
-		} elseif (!empty($_REQUEST['cbox-recommended-nonce'])) {
+		} elseif (!empty($_REQUEST['dollie_setup-recommended-nonce'])) {
 			// verify nonce
-			check_admin_referer('dollie_setup_bp_installed', 'cbox-recommended-nonce');
+			check_admin_referer('dollie_setup_bp_installed', 'dollie_setup-recommended-nonce');
 
 			// set reference pointer for later use
-			cbox()->setup = 'install';
+			dollie_setup()->setup = 'install';
 
 			// If no plugins to install, redirect back to DOLLIE_SETUP dashboard
 			if (empty($_REQUEST['dollie_setup_plugins'])) {
 				// DOLLIE_SETUP and DOLLIE_SETUP theme hasn't been installed ever, so prompt for install.
 				if (!dollie_setup_get_installed_revision_date() && dollie_setup_get_theme_prop('directory_name') !== dollie_setup_get_theme()->template) {
-					cbox()->setup = 'theme-prompt';
+					dollie_setup()->setup = 'theme-prompt';
 
 					// Bump the revision date in the DB after updating
 				} else {
@@ -197,21 +197,21 @@ class CBox_Admin
 					});
 					do_action('dollie_setup_after_updater');
 
-					wp_redirect(self_admin_url('admin.php?page=cbox'));
+					wp_redirect(self_admin_url('admin.php?page=dollie_setup'));
 					exit;
 				}
 			}
 
 			// plugin upgrades available
-		} elseif (!empty($_REQUEST['cbox-action']) && $_REQUEST['cbox-action'] == 'upgrade') {
+		} elseif (!empty($_REQUEST['dollie_setup-action']) && $_REQUEST['dollie_setup-action'] == 'upgrade') {
 			// verify nonce
 			check_admin_referer('dollie_setup_upgrade');
 
 			// set reference pointer for later use
-			cbox()->setup = 'upgrade';
+			dollie_setup()->setup = 'upgrade';
 
-			if (!empty($_REQUEST['cbox-themes']))
-				cbox()->theme_upgrades = $_REQUEST['cbox-themes'];
+			if (!empty($_REQUEST['dollie_setup-themes']))
+				dollie_setup()->theme_upgrades = $_REQUEST['dollie_setup-themes'];
 
 			// bump the revision date in the DB after updating
 			add_action('dollie_setup_after_updater', function () {
@@ -219,11 +219,11 @@ class CBox_Admin
 			});
 
 			// theme prompt
-		} elseif (!empty($_REQUEST['cbox-action']) && $_REQUEST['cbox-action'] == 'theme-prompt') {
+		} elseif (!empty($_REQUEST['dollie_setup-action']) && $_REQUEST['dollie_setup-action'] == 'theme-prompt') {
 			check_admin_referer('dollie_setup_theme_prompt');
 
 			// DOLLIE_SETUP theme doesn't exist, so set reference pointer for later use
-			cbox()->setup = 'theme-prompt';
+			dollie_setup()->setup = 'theme-prompt';
 
 			// bump the revision date in the DB after updating
 			add_action('dollie_setup_after_updater', function () {
@@ -231,11 +231,11 @@ class CBox_Admin
 			});
 
 			// install DOLLIE_SETUP theme
-		} elseif (!empty($_REQUEST['cbox-action']) && $_REQUEST['cbox-action'] == 'install-theme') {
+		} elseif (!empty($_REQUEST['dollie_setup-action']) && $_REQUEST['dollie_setup-action'] == 'install-theme') {
 			// verify nonce
 			check_admin_referer('dollie_setup_install_theme');
 
-			// get cbox theme
+			// get dollie_setup theme
 			$theme = dollie_setup_get_theme(dollie_setup_get_theme_prop('directory_name'));
 
 			// DOLLIE_SETUP theme exists! so let's activate it and redirect to the
@@ -260,60 +260,60 @@ class CBox_Admin
 				// so that we can run the setup on next pageload
 				update_site_option('_dollie_setup_theme_activated', '1');
 
-				wp_redirect(self_admin_url('admin.php?page=cbox'));
+				wp_redirect(self_admin_url('admin.php?page=dollie_setup'));
 				return;
 			}
 
 			// DOLLIE_SETUP theme doesn't exist, so set reference pointer for later use
-			cbox()->setup = 'install-theme';
+			dollie_setup()->setup = 'install-theme';
 
 			// theme upgrades available
-		} elseif (!empty($_REQUEST['cbox-action']) && $_REQUEST['cbox-action'] == 'upgrade-theme') {
+		} elseif (!empty($_REQUEST['dollie_setup-action']) && $_REQUEST['dollie_setup-action'] == 'upgrade-theme') {
 			// verify nonce
 			check_admin_referer('dollie_setup_upgrade_theme');
 
 			// set reference pointers for later use
-			cbox()->setup = 'upgrade-theme';
-			cbox()->theme_upgrades = $_REQUEST['cbox-themes'];
+			dollie_setup()->setup = 'upgrade-theme';
+			dollie_setup()->theme_upgrades = $_REQUEST['dollie_setup-themes'];
 		}
 
 		// Complete step.
-		if (!empty($_GET['cbox-action']) && 'complete' === $_GET['cbox-action'] && !dollie_setup_get_installed_revision_date()) {
+		if (!empty($_GET['dollie_setup-action']) && 'complete' === $_GET['dollie_setup-action'] && !dollie_setup_get_installed_revision_date()) {
 			dollie_setup_bump_revision_date();
 
-			wp_redirect(self_admin_url('admin.php?page=cbox'));
+			wp_redirect(self_admin_url('admin.php?page=dollie_setup'));
 			die();
 		}
 
 		// Redirect to certain pages if necessary.
-		if (!dollie_setup_is_setup() && empty($_GET['cbox-action'])) {
+		if (!dollie_setup_is_setup() && empty($_GET['dollie_setup-action'])) {
 			$redirect = '';
 			switch (dollie_setup_get_setup_step()) {
 				case 'required-plugins':
 					// Set setup flag for required plugins page.
-					cbox()->setup = 'virgin-setup';
+					dollie_setup()->setup = 'virgin-setup';
 					break;
 
 				case 'plugin-update':
-					$redirect = add_query_arg('_wpnonce', wp_create_nonce('dollie_setup_upgrade'), dollie_setup_admin_prop('url', 'admin.php?page=cbox&cbox-action=upgrade'));
+					$redirect = add_query_arg('_wpnonce', wp_create_nonce('dollie_setup_upgrade'), dollie_setup_admin_prop('url', 'admin.php?page=dollie_setup&dollie_setup-action=upgrade'));
 					break;
 
 				case 'theme-prompt':
-					$redirect = add_query_arg('_wpnonce', wp_create_nonce('dollie_setup_theme_prompt'), dollie_setup_admin_prop('url', 'admin.php?page=cbox&cbox-action=theme-prompt'));
+					$redirect = add_query_arg('_wpnonce', wp_create_nonce('dollie_setup_theme_prompt'), dollie_setup_admin_prop('url', 'admin.php?page=dollie_setup&dollie_setup-action=theme-prompt'));
 					break;
 
 				case 'theme-update':
-					$redirect = dollie_setup_admin_prop('url', 'admin.php?page=cbox&cbox-action=upgrade-theme&cbox-themes=' . esc_attr(dollie_setup_get_theme_prop('directory_name')));
+					$redirect = dollie_setup_admin_prop('url', 'admin.php?page=dollie_setup&dollie_setup-action=upgrade-theme&dollie_setup-themes=' . esc_attr(dollie_setup_get_theme_prop('directory_name')));
 					$redirect = add_query_arg('_wpnonce', wp_create_nonce('dollie_setup_upgrade_theme'), $redirect);
 					break;
 
 				case 'upgrades-available':
-					$redirect = dollie_setup_admin_prop('url', 'admin.php?page=cbox-upgrades');
+					$redirect = dollie_setup_admin_prop('url', 'admin.php?page=dollie_setup-upgrades');
 					break;
 
 				case '':
 					dollie_setup_bump_revision_date();
-					$redirect = self_admin_url('admin.php?page=cbox');
+					$redirect = self_admin_url('admin.php?page=dollie_setup');
 					break;
 			}
 
@@ -324,7 +324,7 @@ class CBox_Admin
 		}
 
 		// Remove admin notice during setup mode.
-		$is_setup = isset(cbox()->setup) ? cbox()->setup : false;
+		$is_setup = isset(dollie_setup()->setup) ? dollie_setup()->setup : false;
 		if ($is_setup) {
 			remove_action(is_network_admin() ? 'network_admin_notices' : 'admin_notices', array($this, 'display_notice'));
 		}
@@ -338,7 +338,7 @@ class CBox_Admin
 	private function setup_screen()
 	{
 		// do something different for each DOLLIE_SETUP setup condition
-		switch (cbox()->setup) {
+		switch (dollie_setup()->setup) {
 				/*
 			 * Required plugins installation.
 			 *
@@ -368,20 +368,20 @@ class CBox_Admin
 				if (!dollie_setup_get_installed_revision_date()) {
 					if (!empty($recommended)) {
 						$options = array(
-							'redirect_link' => self_admin_url('admin.php?page=cbox&cbox-virgin-setup=1&cbox-virgin-nonce=' . wp_create_nonce('dollie_setup_virgin_setup')),
+							'redirect_link' => self_admin_url('admin.php?page=dollie_setup&dollie_setup-virgin-setup=1&dollie_setup-virgin-nonce=' . wp_create_nonce('dollie_setup_virgin_setup')),
 							'redirect_text' => __('Continue to recommended plugins', 'commons-in-a-box')
 						);
 
 						// Add theme step if recommended plugins are already active.
 					} elseif (dollie_setup_get_theme_prop('download_url') && dollie_setup_get_theme_prop('directory_name') !== dollie_setup_get_theme()->template) {
 						$options = array(
-							'redirect_link' => wp_nonce_url(self_admin_url('admin.php?page=cbox&amp;cbox-action=theme-prompt'), 'dollie_setup_theme_prompt'),
+							'redirect_link' => wp_nonce_url(self_admin_url('admin.php?page=dollie_setup&amp;dollie_setup-action=theme-prompt'), 'dollie_setup_theme_prompt'),
 							'redirect_text' => __('Continue to theme installation', 'commons-in-a-box')
 						);
 					}
 				} else {
 					$options = array(
-						'redirect_link' => self_admin_url('admin.php?page=cbox'),
+						'redirect_link' => self_admin_url('admin.php?page=dollie_setup'),
 						'redirect_text' => __('Continue to dashboard', 'commons-in-a-box')
 					);
 				}
@@ -392,7 +392,7 @@ class CBox_Admin
 
 				break;
 			case 'package-details':
-				$package = sanitize_title($_GET['cbox-package-details']);
+				$package = sanitize_title($_GET['dollie_setup-package-details']);
 				// some HTML markup!
 				echo '<div class="wrap">';
 				echo '<h2>' . sprintf(esc_html__('Confirm DOLLIE_SETUP %s Installation', 'commons-in-a-box'), dollie_setup_get_package_prop('name', $package)) . '</h2>';
@@ -403,12 +403,12 @@ class CBox_Admin
 
 
 
-			<form method="post" action="<?php echo self_admin_url('admin.php?page=cbox'); ?>" style="margin-top:2em; text-align:right;">
+			<form method="post" action="<?php echo self_admin_url('admin.php?page=dollie_setup'); ?>" style="margin-top:2em; text-align:right;">
 				<?php wp_nonce_field('dollie_setup_select_package'); ?>
 
-				<input type="hidden" name="cbox-package" value="<?php echo $package; ?>" />
+				<input type="hidden" name="dollie_setup-package" value="<?php echo $package; ?>" />
 
-				<a class="button button-secondary" href="<?php echo self_admin_url('admin.php?page=cbox'); ?>" style="margin:0 15px 0 0;"><?php esc_html_e('Return to dashboard', 'commons-in-a-box'); ?></a>
+				<a class="button button-secondary" href="<?php echo self_admin_url('admin.php?page=dollie_setup'); ?>" style="margin:0 15px 0 0;"><?php esc_html_e('Return to dashboard', 'commons-in-a-box'); ?></a>
 
 				<input type="submit" value="<?php esc_html_e('Install', 'commons-in-a-box'); ?>" class="button-primary" name="package-details" />
 			</form>
@@ -433,10 +433,10 @@ class CBox_Admin
 
 				// Prompt for theme install afterwards, if available.
 				if (dollie_setup_get_theme_prop('download_url') && dollie_setup_get_theme_prop('directory_name') !== dollie_setup_get_theme()->template) {
-					$url  = wp_nonce_url(self_admin_url('admin.php?page=cbox&amp;cbox-action=theme-prompt'), 'dollie_setup_theme_prompt');
+					$url  = wp_nonce_url(self_admin_url('admin.php?page=dollie_setup&amp;dollie_setup-action=theme-prompt'), 'dollie_setup_theme_prompt');
 					$text = __('Continue to theme installation', 'commons-in-a-box');
 				} else {
-					$url  = self_admin_url('admin.php?page=cbox');
+					$url  = self_admin_url('admin.php?page=dollie_setup');
 					$text = __('Continue to the DOLLIE_SETUP Dashboard', 'commons-in-a-box');
 				}
 
@@ -460,12 +460,12 @@ class CBox_Admin
 				if (dollie_setup_get_theme_to_update()) {
 					$title = esc_html__('Upgrading DOLLIE_SETUP Plugins and Themes', 'commons-in-a-box');
 
-					$redirect_link = wp_nonce_url(self_admin_url('admin.php?page=cbox&cbox-action=upgrade-theme&cbox-themes=' . dollie_setup_get_theme_prop('directory_name')), 'dollie_setup_upgrade_theme');
+					$redirect_link = wp_nonce_url(self_admin_url('admin.php?page=dollie_setup&dollie_setup-action=upgrade-theme&dollie_setup-themes=' . dollie_setup_get_theme_prop('directory_name')), 'dollie_setup_upgrade_theme');
 					$redirect_text = sprintf(__("Now, let's upgrade the %s theme &rarr;", 'commons-in-a-box'), esc_attr(dollie_setup_get_theme_prop('name')));
 				} else {
 					$title = esc_html__('Upgrading DOLLIE_SETUP Plugins', 'commons-in-a-box');
 
-					$redirect_link = self_admin_url('admin.php?page=cbox');
+					$redirect_link = self_admin_url('admin.php?page=dollie_setup');
 					$redirect_text = __('Continue to the DOLLIE_SETUP Dashboard', 'commons-in-a-box');
 				}
 
@@ -502,8 +502,8 @@ class CBox_Admin
 				// Theme needs to be force-installed.
 				if (dollie_setup_get_theme_prop('force_install')) {
 					$bail_text = esc_html__('Return to package selection', 'commons-in-a-box');
-					$bail_link = esc_url(wp_nonce_url(self_admin_url('admin.php?page=cbox&amp;cbox-package=0'), 'dollie_setup_select_package'));
-					$warning = sprintf(__('Please note: This theme is <strong>required</strong> for use with Commons In A Box %s.', 'commons-in-a-box'), dollie_setup_get_package_prop('name'));
+					$bail_link = esc_url(wp_nonce_url(self_admin_url('admin.php?page=dollie_setup&amp;dollie_setup-package=0'), 'dollie_setup_select_package'));
+					$warning = sprintf(__('Please note: This theme is <strong>required</strong> for use with Dollie Setup %s.', 'commons-in-a-box'), dollie_setup_get_package_prop('name'));
 					$warning = sprintf('<p>%s</p>', $warning);
 					$warning .= sprintf(
 						'<p>%s</p>',
@@ -513,7 +513,7 @@ class CBox_Admin
 					// Theme installation is optional.
 				} else {
 					$bail_text = esc_html__('Skip', 'commons-in-a-box');
-					$bail_link = self_admin_url('admin.php?page=cbox&amp;cbox-action=complete');
+					$bail_link = self_admin_url('admin.php?page=dollie_setup&amp;dollie_setup-action=complete');
 					$warning = sprintf(
 						'<p>%s</p>',
 						sprintf(esc_html__('Please note: Clicking on "%1$s" will change your current theme.  If you would rather keep your existing theme, click on the "%2$s" link.', 'commons-in-a-box'), $btn_text, $bail_text)
@@ -532,7 +532,7 @@ class CBox_Admin
 				echo '<div style="margin-top:2em;">';
 				printf('<a href="%1$s" style="display:inline-block; margin:5px 15px 0 0;">%2$s</a>', $bail_link, $bail_text);
 
-				printf('<a href="%1$s" class="button button-primary">%2$s</a>', wp_nonce_url(self_admin_url('admin.php?page=cbox&amp;cbox-action=install-theme'), 'dollie_setup_install_theme'), $btn_text);
+				printf('<a href="%1$s" class="button button-primary">%2$s</a>', wp_nonce_url(self_admin_url('admin.php?page=dollie_setup&amp;dollie_setup-action=install-theme'), 'dollie_setup_install_theme'), $btn_text);
 				echo '</div>';
 
 				echo '</div>';
@@ -541,7 +541,7 @@ class CBox_Admin
 
 				break;
 
-				// install the cbox theme
+				// install the dollie_setup theme
 			case 'install-theme':
 				dollie_setup_get_template_part('wrapper-header');
 				// include the DOLLIE_SETUP Theme Installer
@@ -569,14 +569,14 @@ class CBox_Admin
 				echo '<div class="wrap">';
 				echo '<h2>' . esc_html__('Upgrading Theme', 'commons-in-a-box') . '</h2>';
 
-				// get cbox theme specs
+				// get dollie_setup theme specs
 				$upgrader = new CBox_Theme_Installer(new Bulk_Theme_Upgrader_Skin());
 
 				// Modifies the theme action links that get displayed after theme installation
 				// is complete.
 				add_filter('update_bulk_theme_complete_actions', array($upgrader, 'remove_theme_actions'));
 
-				$upgrader->bulk_upgrade(cbox()->theme_upgrades);
+				$upgrader->bulk_upgrade(dollie_setup()->theme_upgrades);
 
 				echo '</div>';
 				dollie_setup_get_template_part('wrapper-footer');
@@ -618,23 +618,23 @@ class CBox_Admin
 	 */
 	public function admin_menu()
 	{
-		$name = dollie_setup_get_package_prop('name') ? sprintf(__('DOLLIE_SETUP %s', 'commons-in-a-box'), dollie_setup_get_package_prop('name')) : __('Commons In A Box', 'commons-in-a-box');
+		$name = dollie_setup_get_package_prop('name') ? sprintf(__('DOLLIE_SETUP %s', 'commons-in-a-box'), dollie_setup_get_package_prop('name')) : __('Dollie Setup', 'commons-in-a-box');
 		$page = add_menu_page(
 			$name,
 			$name,
 			'install_plugins', // todo - map cap?
-			'cbox',
+			'dollie_setup',
 			array($this, 'admin_page'),
 			'none',
 			2
 		);
 
 		$subpage = add_submenu_page(
-			'cbox',
-			__('Commons In A Box Dashboard', 'commons-in-a-box'),
+			'dollie_setup',
+			__('Dollie Setup Dashboard', 'commons-in-a-box'),
 			__('Dashboard', 'commons-in-a-box'),
 			'install_plugins', // todo - map cap?
-			'cbox',
+			'dollie_setup',
 			array($this, 'admin_page')
 		);
 
@@ -665,7 +665,7 @@ class CBox_Admin
 	 */
 	public function admin_page()
 	{
-		$is_setup = isset(cbox()->setup) ? cbox()->setup : false;
+		$is_setup = isset(dollie_setup()->setup) ? dollie_setup()->setup : false;
 
 		// what's new page
 		if ($this->is_changelog()) {
@@ -679,7 +679,7 @@ class CBox_Admin
 		} else {
 			?>
 			<div class="wrap">
-				<h2><?php _e('Commons In A Box Dashboard', 'commons-in-a-box'); ?></h2>
+				<h2><?php _e('Dollie Setup Dashboard', 'commons-in-a-box'); ?></h2>
 
 				<?php $this->steps(); ?>
 				<?php $this->upgrades(); ?>
@@ -737,10 +737,10 @@ class CBox_Admin
 				<div style="text-align:center;">
 					<h2><?php _e('Select a Package', 'commons-in-a-box'); ?></h2>
 
-					<p><?php esc_html_e('Commons In A Box includes two packages, each containing selected WordPress plugins and a WordPress theme. The packages are designed to make it easier for you to install and configure your site. Select the package that best suits your needs.', 'commons-in-a-box'); ?></p>
+					<p><?php esc_html_e('Dollie Setup includes two packages, each containing selected WordPress plugins and a WordPress theme. The packages are designed to make it easier for you to install and configure your site. Select the package that best suits your needs.', 'commons-in-a-box'); ?></p>
 				</div>
 
-				<form method="post" action="<?php echo self_admin_url('admin.php?page=cbox'); ?>">
+				<form method="post" action="<?php echo self_admin_url('admin.php?page=dollie_setup'); ?>">
 					<div class="wp-list-table widefat">
 						<div id="the-list">
 
@@ -759,7 +759,7 @@ class CBox_Admin
 
 										<div class="action-links">
 											<ul class="plugin-action-buttons">
-												<li><a href="<?php echo $incompatible ? '#' : wp_nonce_url(self_admin_url('admin.php?page=cbox&amp;cbox-package-details=' . $package), 'dollie_setup_package_details'); ?>" class="button <?php echo $incompatible ? 'disabled' : 'activate-now'; ?>" aria-label="<?php printf(esc_html__('Select %s', 'commons-in-a-box'), dollie_setup_get_package_prop('name', $package)); ?>"><?php esc_html_e('Select', 'commons-in-a-box'); ?></a></li>
+												<li><a href="<?php echo $incompatible ? '#' : wp_nonce_url(self_admin_url('admin.php?page=dollie_setup&amp;dollie_setup-package-details=' . $package), 'dollie_setup_package_details'); ?>" class="button <?php echo $incompatible ? 'disabled' : 'activate-now'; ?>" aria-label="<?php printf(esc_html__('Select %s', 'commons-in-a-box'), dollie_setup_get_package_prop('name', $package)); ?>"><?php esc_html_e('Select', 'commons-in-a-box'); ?></a></li>
 												<li><a href="<?php echo esc_url(dollie_setup_get_package_prop('documentation_url', $package)); ?>?TB_iframe=true&amp;width=600&amp;height=550" class="thickbox open-plugin-details-modal" aria-label="<?php printf(esc_attr__('More information about %s', 'commons-in-a-box'), dollie_setup_get_package_prop('name', $package)); ?>" data-title="<?php echo esc_attr(dollie_setup_get_package_prop('name', $package)); ?>"><?php esc_html_e('More Details', 'commons-in-a-box'); ?></a></li>
 											</ul>
 										</div>
@@ -809,12 +809,12 @@ class CBox_Admin
 
 				<h2><?php _e('Required Plugins', 'commons-in-a-box'); ?></h2>
 
-				<form method="post" action="<?php echo self_admin_url('admin.php?page=cbox'); ?>">
-					<p class="submitted-on"><?php printf(__("Before you can use Commons In A Box %s, we'll need to install some required plugins. Click 'Continue' to get set up.", 'commons-in-a-box'), dollie_setup_get_package_prop('name')); ?></p>
+				<form method="post" action="<?php echo self_admin_url('admin.php?page=dollie_setup'); ?>">
+					<p class="submitted-on"><?php printf(__("Before you can use Dollie Setup %s, we'll need to install some required plugins. Click 'Continue' to get set up.", 'commons-in-a-box'), dollie_setup_get_package_prop('name')); ?></p>
 
-					<?php wp_nonce_field('dollie_setup_virgin_setup', 'cbox-virgin-nonce'); ?>
+					<?php wp_nonce_field('dollie_setup_virgin_setup', 'dollie_setup-virgin-nonce'); ?>
 
-					<p><input type="submit" value="<?php _e('Continue &rarr;', 'commons-in-a-box'); ?>" class="button-primary" name="cbox-virgin-setup" /></p>
+					<p><input type="submit" value="<?php _e('Continue &rarr;', 'commons-in-a-box'); ?>" class="button-primary" name="dollie_setup-virgin-setup" /></p>
 				</form>
 
 			<?php
@@ -826,14 +826,14 @@ class CBox_Admin
 
 				<h2><?php _e('Recommended Plugins', 'commons-in-a-box'); ?></h2>
 
-				<form id="cbox-recommended" method="post" action="<?php echo self_admin_url('admin.php?page=cbox'); ?>">
+				<form id="dollie_setup-recommended" method="post" action="<?php echo self_admin_url('admin.php?page=dollie_setup'); ?>">
 					<p class="submitted-on"><?php _e("You're almost finished with the installation process.", 'commons-in-a-box'); ?></p>
 
-					<p class="submitted-on"><?php printf(__("Did you know Commons In A Box %s comes prebundled with a few recommended plugins?  These plugins help to add functionality to your existing WordPress site.", 'commons-in-a-box'), dollie_setup_get_package_prop('name')); ?>
+					<p class="submitted-on"><?php printf(__("Did you know Dollie Setup %s comes prebundled with a few recommended plugins?  These plugins help to add functionality to your existing WordPress site.", 'commons-in-a-box'), dollie_setup_get_package_prop('name')); ?>
 
 					<p class="submitted-on"><?php _e("We have automatically selected the following plugins to install for you. However, feel free to uncheck some of these plugins based on your site's needs.", 'commons-in-a-box'); ?></p>
 
-					<?php wp_nonce_field('dollie_setup_bp_installed', 'cbox-recommended-nonce'); ?>
+					<?php wp_nonce_field('dollie_setup_bp_installed', 'dollie_setup-recommended-nonce'); ?>
 
 					<?php
 					CBox_Admin_Plugins::render_plugin_table(array(
@@ -847,17 +847,17 @@ class CBox_Admin
 
 				<script>
 					jQuery(function() {
-						cboxRecommendedChecked();
-						jQuery("#cbox-recommended input[type='checkbox']").change(function() {
-							cboxRecommendedChecked();
+						dollie_setupRecommendedChecked();
+						jQuery("#dollie_setup-recommended input[type='checkbox']").change(function() {
+							dollie_setupRecommendedChecked();
 						})
 					})
 
-					function cboxRecommendedChecked() {
-						if (jQuery("#cbox-recommended input:checked").length > 0) {
-							jQuery("#cbox-update-recommended").val("<?php echo esc_html('Install', 'commons-in-a-box'); ?>");
+					function dollie_setupRecommendedChecked() {
+						if (jQuery("#dollie_setup-recommended input:checked").length > 0) {
+							jQuery("#dollie_setup-update-recommended").val("<?php echo esc_html('Install', 'commons-in-a-box'); ?>");
 						} else {
-							jQuery("#cbox-update-recommended").val("<?php echo esc_html('Continue', 'commons-in-a-box'); ?>");
+							jQuery("#dollie_setup-update-recommended").val("<?php echo esc_html('Continue', 'commons-in-a-box'); ?>");
 						}
 					}
 				</script>
@@ -884,16 +884,16 @@ class CBox_Admin
 
 		// check DOLLIE_SETUP plugin header's 'Core' header for version requirements
 		// if exists, WordPress needs to be upgraded
-		if (!empty($requirements['Commons In A Box']['core'])) {
-			$version = $requirements['Commons In A Box']['core'];
+		if (!empty($requirements['Dollie Setup']['core'])) {
+			$version = $requirements['Dollie Setup']['core'];
 			?>
 
-			<div id="cbox-upgrades" class="secondary-panel">
+			<div id="dollie_setup-upgrades" class="secondary-panel">
 				<h2><?php _e('Upgrade Available', 'commons-in-a-box'); ?></h2>
 
 				<div class="login postbox">
 					<div class="message">
-						<p><?php printf(__('Commons In A Box %s requires WordPress %s', 'commons-in-a-box'), dollie_setup_get_version(), $version); ?>
+						<p><?php printf(__('Dollie Setup %s requires WordPress %s', 'commons-in-a-box'), dollie_setup_get_version(), $version); ?>
 							<br />
 							<a class="button-secondary" href="<?php echo network_admin_url('update-core.php'); ?>"><?php _e('Upgrade now!', 'commons-in-a-box'); ?></a>
 						</p>
@@ -964,7 +964,7 @@ class CBox_Admin
 		if (!$show_notice)
 			return;
 
-		cbox()->show_notice = true;
+		dollie_setup()->show_notice = true;
 	}
 
 	/**
@@ -975,16 +975,16 @@ class CBox_Admin
 	public function notice_css()
 	{
 		// if our notice marker isn't set, stop now!
-		$show_notice = isset(cbox()->show_notice) ? cbox()->show_notice : false;
+		$show_notice = isset(dollie_setup()->show_notice) ? dollie_setup()->show_notice : false;
 		if (!$show_notice)
 			return;
 
-		$icon_url    = cbox()->plugin_url('admin/images/logo-dollie_setup_icon.png?ver='    . cbox()->version);
-		$icon_url_2x = cbox()->plugin_url('admin/images/logo-dollie_setup_icon-2x.png?ver=' . cbox()->version);
+		$icon_url    = dollie_setup()->plugin_url('admin/images/logo-dollie_setup_icon.png?ver='    . dollie_setup()->version);
+		$icon_url_2x = dollie_setup()->plugin_url('admin/images/logo-dollie_setup_icon-2x.png?ver=' . dollie_setup()->version);
 		?>
 
 		<style type="text/css">
-			#cbox-nag {
+			#dollie_setup-nag {
 				position: relative;
 				min-height: 69px;
 
@@ -1000,16 +1000,16 @@ class CBox_Admin
 				text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 			}
 
-			#cbox-nag strong {
+			#dollie_setup-nag strong {
 				color: #3A87AD;
 			}
 
-			#cbox-nag a {
+			#dollie_setup-nag a {
 				color: #005580;
 				text-decoration: underline;
 			}
 
-			#cbox-nag a.callout {
+			#dollie_setup-nag a.callout {
 				background-color: #FAA732;
 				background-image: -moz-linear-gradient(center top, #FBB450, #F89406);
 				background-repeat: repeat-x;
@@ -1031,12 +1031,12 @@ class CBox_Admin
 				vertical-align: middle;
 			}
 
-			#cbox-nag a.callout:hover {
+			#dollie_setup-nag a.callout:hover {
 				background-color: #f89406;
 				background-position: 0 -15px;
 			}
 
-			#cbox-nag .cbox-icon {
+			#dollie_setup-nag .dollie_setup-icon {
 				position: absolute;
 				left: 15px;
 				top: 20px;
@@ -1051,7 +1051,7 @@ class CBox_Admin
 			only screen and (-moz-min-device-pixel-ratio: 1.5),
 			only screen and (-o-min-device-pixel-ratio: 3/2),
 			only screen and (min-device-pixel-ratio: 1.5) {
-				#cbox-nag .cbox-icon {
+				#dollie_setup-nag .dollie_setup-icon {
 					background-image: url(<?php echo $icon_url_2x; ?>);
 					background-size: 48px 47px;
 				}
@@ -1071,8 +1071,8 @@ class CBox_Admin
 	public function display_notice()
 	{
 		// If our notice marker isn't set or if we're on the DOLLIE_SETUP page, stop now!
-		$show_notice = isset(cbox()->show_notice) ? cbox()->show_notice : false;
-		if (!$show_notice || 'cbox' === get_current_screen()->parent_base) {
+		$show_notice = isset(dollie_setup()->show_notice) ? dollie_setup()->show_notice : false;
+		if (!$show_notice || 'dollie_setup' === get_current_screen()->parent_base) {
 			return;
 		}
 
@@ -1081,7 +1081,7 @@ class CBox_Admin
 			case 'no-package':
 			case 'required-plugins':
 				$notice_text = __("Let's get started!", 'commons-in-a-box');
-				$button_link = dollie_setup_admin_prop('url', 'admin.php?page=cbox');
+				$button_link = dollie_setup_admin_prop('url', 'admin.php?page=dollie_setup');
 				$button_text = __('Click here to get set up', 'commons-in-a-box');
 				break;
 
@@ -1089,13 +1089,13 @@ class CBox_Admin
 				$notice_text = sprintf(__('The %1$s theme needs an update.', 'commons-in-a-box'), esc_attr(dollie_setup_get_theme_prop('name')));
 				$button_text = __('Update the theme &rarr;', 'commons-in-a-box');
 
-				$button_link = dollie_setup_admin_prop('url', 'admin.php?page=cbox&cbox-action=upgrade-theme&cbox-themes=' . esc_attr(dollie_setup_get_theme_prop('directory_name')));
+				$button_link = dollie_setup_admin_prop('url', 'admin.php?page=dollie_setup&dollie_setup-action=upgrade-theme&dollie_setup-themes=' . esc_attr(dollie_setup_get_theme_prop('directory_name')));
 				$button_link = add_query_arg('_wpnonce', wp_create_nonce('dollie_setup_upgrade_theme'), $button_link);
 				break;
 
 			case 'recommended-plugins':
 				$notice_text = __('You only have one last thing to do. We promise!', 'commons-in-a-box');
-				$button_link = dollie_setup_admin_prop('url', 'admin.php?page=cbox');
+				$button_link = dollie_setup_admin_prop('url', 'admin.php?page=dollie_setup');
 				$button_text = __('Click here to finish up!', 'commons-in-a-box');
 				break;
 
@@ -1104,9 +1104,9 @@ class CBox_Admin
 				$notice_text = esc_html__('There are some upgrades available.', 'commons-in-a-box');
 				$button_text = esc_html__('Click here to update', 'commons-in-a-box');
 
-				$button_link = add_query_arg('_wpnonce', wp_create_nonce('dollie_setup_upgrade'), dollie_setup_admin_prop('url', 'admin.php?page=cbox&cbox-action=upgrade'));
+				$button_link = add_query_arg('_wpnonce', wp_create_nonce('dollie_setup_upgrade'), dollie_setup_admin_prop('url', 'admin.php?page=dollie_setup&dollie_setup-action=upgrade'));
 				if ('upgrades-available' === dollie_setup_get_setup_step()) {
-					$button_link = dollie_setup_admin_prop('url', 'admin.php?page=cbox-upgrades');
+					$button_link = dollie_setup_admin_prop('url', 'admin.php?page=dollie_setup-upgrades');
 				}
 				break;
 
@@ -1116,9 +1116,9 @@ class CBox_Admin
 		}
 
 		// change variables if we're still in setup phase
-		$is_setup = isset(cbox()->setup) ? cbox()->setup : false;
+		$is_setup = isset(dollie_setup()->setup) ? dollie_setup()->setup : false;
 		if ($is_setup) {
-			if ('upgrade-theme' == cbox()->setup) {
+			if ('upgrade-theme' == dollie_setup()->setup) {
 				$notice_text = __('Upgrading theme...', 'commons-in-a-box');
 			} else {
 				$notice_text = __('Installing plugins...', 'commons-in-a-box');
@@ -1126,14 +1126,14 @@ class CBox_Admin
 		}
 	?>
 
-		<div id="cbox-nag" class="updated">
-			<strong><?php _e("Commons In A Box is almost ready!", 'commons-in-a-box'); ?></strong> <?php echo $notice_text; ?>
+		<div id="dollie_setup-nag" class="updated">
+			<strong><?php _e("Dollie Setup is almost ready!", 'commons-in-a-box'); ?></strong> <?php echo $notice_text; ?>
 
-			<?php if (empty($_REQUEST['page']) || (!empty($_REQUEST['page']) && 'cbox' !== $_REQUEST['page'])) : ?>
+			<?php if (empty($_REQUEST['page']) || (!empty($_REQUEST['page']) && 'dollie_setup' !== $_REQUEST['page'])) : ?>
 				<p><a class="callout" href="<?php echo $button_link; ?>"><?php echo $button_text; ?></a></p>
 			<?php endif; ?>
 
-			<div class="cbox-icon"></div>
+			<div class="dollie_setup-icon"></div>
 		</div>
 	<?php
 	}
@@ -1169,7 +1169,7 @@ class CBox_Admin
 			if ($single_site)
 				echo '<p>' . __("Don't forget that DOLLIE_SETUP plugins can be managed from the DOLLIE_SETUP plugins page!", 'commons-in-a-box') . '</p>';
 
-			echo '<p style="margin-bottom:2.1em;">' . sprintf(__('You can <a href="%s">manage your DOLLIE_SETUP plugins here</a>.', 'commons-in-a-box'), dollie_setup_admin_prop('url', 'admin.php?page=cbox-plugins')) . '</p>';
+			echo '<p style="margin-bottom:2.1em;">' . sprintf(__('You can <a href="%s">manage your DOLLIE_SETUP plugins here</a>.', 'commons-in-a-box'), dollie_setup_admin_prop('url', 'admin.php?page=dollie_setup-plugins')) . '</p>';
 
 			if ($single_site)
 				echo '<h3>' . sprintf(__('Plugins on %s', 'commons-in-a-box'), get_bloginfo('name')) . '</h3>';

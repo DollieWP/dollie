@@ -2,4 +2,4 @@
 
 	<h3><?php _e( 'Required', 'commons-in-a-box' ); ?></h3>
 
-	<p><?php printf( __( 'Commons In A Box %s requires the following plugins.', 'commons-in-a-box' ), dollie_setup_get_package_prop( 'name' ) ); ?></p>
+	<p><?php printf( __( 'Dollie Setup %s requires the following plugins.', 'commons-in-a-box' ), dollie_setup_get_package_prop( 'name' ) ); ?></p>

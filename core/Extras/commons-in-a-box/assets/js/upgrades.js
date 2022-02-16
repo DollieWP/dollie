@@ -18,7 +18,7 @@
 				upgrade: DOLLIE_SETUPUpgrades.upgrade
 			},
 			beforeSend: function() {
-				$('#cbox-upgrade-start')
+				$('#dollie_setup-upgrade-start')
 					.text( DOLLIE_SETUPUpgrades.text.processing )
 					.prop( 'disabled', true );
 			},
@@ -28,7 +28,7 @@
 				if ( ! response.data.is_finished ) {
 					processNextItem();
 				} else {
-					$('#cbox-upgrade-start').text( DOLLIE_SETUPUpgrades.text.start );
+					$('#dollie_setup-upgrade-start').text( DOLLIE_SETUPUpgrades.text.start );
 				}
 			},
 			error: function( error ) {
@@ -43,19 +43,19 @@
 		var percentage = data.percentage;
 
 		if ( data.name ) {
-			$('#cbox-upgrade-name').text( data.name );
+			$('#dollie_setup-upgrade-name').text( data.name );
 		}
 
-		$('.cbox-upgrade-progress-bar-inner').css( 'width', percentage +'%' );
-		$('#cbox-upgrade-total').text( data.total_items );
-		$('#cbox-upgrade-processed').text( data.total_processed );
-		$('#cbox-upgrade-percentage').text( '(' +percentage+ '%)' );
+		$('.dollie_setup-upgrade-progress-bar-inner').css( 'width', percentage +'%' );
+		$('#dollie_setup-upgrade-total').text( data.total_items );
+		$('#dollie_setup-upgrade-processed').text( data.total_processed );
+		$('#dollie_setup-upgrade-percentage').text( '(' +percentage+ '%)' );
 
 		if ( data.is_finished ) {
-			$('#cbox-upgrade-start, #cbox-upgrade-pause').prop( 'disabled', true );
+			$('#dollie_setup-upgrade-start, #dollie_setup-upgrade-pause').prop( 'disabled', true );
 		}
 	} );
 
-	$(document).on( 'click', '#cbox-upgrade-start', processNextItem );
-	$(document).on( 'click', '#cbox-upgrade-pause', pauseUpgrade );
+	$(document).on( 'click', '#dollie_setup-upgrade-start', processNextItem );
+	$(document).on( 'click', '#dollie_setup-upgrade-pause', pauseUpgrade );
 } )( jQuery );
