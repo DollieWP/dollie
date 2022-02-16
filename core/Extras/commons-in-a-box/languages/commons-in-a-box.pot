@@ -251,7 +251,7 @@ msgid "Settings saved."
 msgstr ""
 
 #: includes/classic/settings.php:209
-msgid "CBOX can configure some important options for certain plugins."
+msgid "DOLLIE_SETUP can configure some important options for certain plugins."
 msgstr ""
 
 #: includes/classic/settings.php:216
@@ -270,7 +270,7 @@ msgid "OpenLab Core"
 msgstr ""
 
 #: includes/openlab/plugins.php:56
-msgid "Core functionality for CBOX-OpenLab."
+msgid "Core functionality for DOLLIE_SETUP-OpenLab."
 msgstr ""
 
 #: includes/openlab/plugins.php:93
@@ -708,7 +708,7 @@ msgstr ""
 
 #: languages/strings/openlab-theme.php:133
 #: languages/strings/cbox-openlab-core.php:450
-msgid "CBOX-OL Logo"
+msgid "DOLLIE_SETUP-OL Logo"
 msgstr ""
 
 #: languages/strings/openlab-theme.php:134
@@ -5264,19 +5264,19 @@ msgid "Site administrators can customize the slider area with images and text to
 msgstr ""
 
 #: languages/strings/cbox-openlab-core.php:445
-msgid "Welcome to CBOX OpenLab!"
+msgid "Welcome to DOLLIE_SETUP OpenLab!"
 msgstr ""
 
-#. translators: link to CBOX OpenLab documentation
+#. translators: link to DOLLIE_SETUP OpenLab documentation
 #: languages/strings/cbox-openlab-core.php:448
-msgid "Read our <a href=\"%s\">documentation</a> to learn more about how you can use CBOX OpenLab to create a commons for open learning."
+msgid "Read our <a href=\"%s\">documentation</a> to learn more about how you can use DOLLIE_SETUP OpenLab to create a commons for open learning."
 msgstr ""
 
 #: languages/strings/cbox-openlab-core.php:451
 msgid "Customize this footer"
 msgstr ""
 
-#. translators: link to CBOX OpenLab Brand Settings admin page
+#. translators: link to DOLLIE_SETUP OpenLab Brand Settings admin page
 #: languages/strings/cbox-openlab-core.php:454
 msgid "You can customize the contents of this footer to meet the needs of your community: see the <a href=\"%s\">Brand Settings documentation</a> for details."
 msgstr ""
@@ -6172,7 +6172,7 @@ msgid_plural "Site name must be at least %s characters."
 msgstr[0] ""
 
 #: languages/strings/cbox-openlab-core.php:754
-msgid "CBOX OpenLab"
+msgid "DOLLIE_SETUP OpenLab"
 msgstr ""
 
 #: languages/strings/cbox-openlab-core.php:755
@@ -6390,11 +6390,11 @@ msgid "Plugins activated."
 msgstr ""
 
 #: admin/plugin-install.php:507
-msgid "Continue to the CBOX dashboard"
+msgid "Continue to the DOLLIE_SETUP dashboard"
 msgstr ""
 
 #: admin/plugin-install.php:514
-msgid "Return to the CBOX Plugins page"
+msgid "Return to the DOLLIE_SETUP Plugins page"
 msgstr ""
 
 #: admin/admin-loader.php:352
@@ -6415,7 +6415,7 @@ msgid "Continue to dashboard"
 msgstr ""
 
 #: admin/admin-loader.php:388
-msgid "Confirm CBOX %s Installation"
+msgid "Confirm DOLLIE_SETUP %s Installation"
 msgstr ""
 
 #: admin/admin-loader.php:399
@@ -6432,11 +6432,11 @@ msgstr ""
 
 #: admin/admin-loader.php:427
 #: admin/admin-loader.php:457
-msgid "Continue to the CBOX Dashboard"
+msgid "Continue to the DOLLIE_SETUP Dashboard"
 msgstr ""
 
 #: admin/admin-loader.php:448
-msgid "Upgrading CBOX Plugins and Themes"
+msgid "Upgrading DOLLIE_SETUP Plugins and Themes"
 msgstr ""
 
 #: admin/admin-loader.php:451
@@ -6444,7 +6444,7 @@ msgid "Now, let's upgrade the %s theme &rarr;"
 msgstr ""
 
 #: admin/admin-loader.php:454
-msgid "Upgrading CBOX Plugins"
+msgid "Upgrading DOLLIE_SETUP Plugins"
 msgstr ""
 
 #: admin/admin-loader.php:484
@@ -6489,7 +6489,7 @@ msgid "Upgrading Theme"
 msgstr ""
 
 #: admin/admin-loader.php:597
-msgid "CBOX %s"
+msgid "DOLLIE_SETUP %s"
 msgstr ""
 
 #: admin/admin-loader.php:610
@@ -6630,19 +6630,19 @@ msgid "Commons In A Box is almost ready!"
 msgstr ""
 
 #: admin/admin-loader.php:1116
-msgid "CBOX Plugins"
+msgid "DOLLIE_SETUP Plugins"
 msgstr ""
 
 #: admin/admin-loader.php:1118
-msgid "CBOX Network Plugins"
+msgid "DOLLIE_SETUP Network Plugins"
 msgstr ""
 
 #: admin/admin-loader.php:1121
-msgid "Don't forget that CBOX plugins can be managed from the CBOX plugins page!"
+msgid "Don't forget that DOLLIE_SETUP plugins can be managed from the DOLLIE_SETUP plugins page!"
 msgstr ""
 
 #: admin/admin-loader.php:1123
-msgid "You can <a href=\"%s\">manage your CBOX plugins here</a>."
+msgid "You can <a href=\"%s\">manage your DOLLIE_SETUP plugins here</a>."
 msgstr ""
 
 #: admin/admin-loader.php:1126
@@ -6693,7 +6693,7 @@ msgid "Are you sure you want to continue uninstalling?"
 msgstr ""
 
 #: admin/plugins.php:774
-msgid "Update CBOX"
+msgid "Update DOLLIE_SETUP"
 msgstr ""
 
 #: admin/plugins.php:833
@@ -6780,15 +6780,15 @@ msgid "(Change)"
 msgstr ""
 
 #: admin/templates/base/package-details-intro.php:4
-msgid "Welcome to CBOX %1$s! If this is a new WordPress Multisite installation, just click Install to continue. If you are adding CBOX %1$s to an existing installation, please consult the <a href=\"%2$s\">documentation</a> before continuing."
+msgid "Welcome to DOLLIE_SETUP %1$s! If this is a new WordPress Multisite installation, just click Install to continue. If you are adding DOLLIE_SETUP %1$s to an existing installation, please consult the <a href=\"%2$s\">documentation</a> before continuing."
 msgstr ""
 
 #: admin/templates/base/package-details-intro.php:8
-msgid "Welcome to CBOX %1$s! If this is a new WordPress installation, just click Install to continue. If you are adding CBOX %1$s to an existing installation, please consult the <a href=\"%2$s\">documentation</a> before continuing."
+msgid "Welcome to DOLLIE_SETUP %1$s! If this is a new WordPress installation, just click Install to continue. If you are adding DOLLIE_SETUP %1$s to an existing installation, please consult the <a href=\"%2$s\">documentation</a> before continuing."
 msgstr ""
 
 #: admin/templates/base/package-details-theme.php:2
-msgid "The CBOX %s theme will change how your site looks, and will alter its architecture. Any widgets or menus that you currently have set will need to be reconfigured under the Appearance menu in the Dashboard."
+msgid "The DOLLIE_SETUP %s theme will change how your site looks, and will alter its architecture. Any widgets or menus that you currently have set will need to be reconfigured under the Appearance menu in the Dashboard."
 msgstr ""
 
 #: admin/templates/base/theme-prompt.php:3
@@ -6863,7 +6863,7 @@ msgid "The following plugins are recommended during initial Commons In A Box %s 
 msgstr ""
 
 #: admin/templates/base/package-details-plugins.php:2
-msgid "CBOX %s will install and activate plugins that you do not already have installed."
+msgid "DOLLIE_SETUP %s will install and activate plugins that you do not already have installed."
 msgstr ""
 
 #: admin/templates/base/footer.php:4
@@ -6913,15 +6913,15 @@ msgstr ""
 
 #: admin/templates/classic/changelog.php:59
 #: admin/templates/openlab/changelog.php:53
-msgid "<a href=\"%s\">Return to the CBOX dashboard &rarr;</a>"
+msgid "<a href=\"%s\">Return to the DOLLIE_SETUP dashboard &rarr;</a>"
 msgstr ""
 
 #: admin/templates/classic/description.php:2
-msgid "<strong>CBOX Classic is designed for communities of all kinds.</strong> It is used by groups and organizations to create flexible social networks where members can collaborate on projects, publish research, and create repositories of knowledge."
+msgid "<strong>DOLLIE_SETUP Classic is designed for communities of all kinds.</strong> It is used by groups and organizations to create flexible social networks where members can collaborate on projects, publish research, and create repositories of knowledge."
 msgstr ""
 
 #: admin/templates/classic/welcome-description.php:1
-msgid "CBOX Classic is designed for communities of all kinds. It is used by groups and organizations to create flexible social networks where members can collaborate on projects, publish research, and create repositories of knowledge."
+msgid "DOLLIE_SETUP Classic is designed for communities of all kinds. It is used by groups and organizations to create flexible social networks where members can collaborate on projects, publish research, and create repositories of knowledge."
 msgstr ""
 
 #: admin/templates/classic/welcome-description.php:3
@@ -6955,7 +6955,7 @@ msgid "Info..."
 msgstr ""
 
 #: admin/templates/classic/getting-started.php:30
-msgid "<a href=\"%s\">Manage all your CBOX plugins here</a>"
+msgid "<a href=\"%s\">Manage all your DOLLIE_SETUP plugins here</a>"
 msgstr ""
 
 #: admin/templates/classic/getting-started.php:43
@@ -7002,7 +7002,7 @@ msgid "<a href=\"%1$s\">Configure the %2$s theme here</a>"
 msgstr ""
 
 #: admin/templates/classic/package-details-plugins.php:2
-msgid "The CBOX Classic package includes several required plugins that provide important features such as groups, user profiles, discussion forums, collaborative document editing, and other functionality. These plugins may interact with any existing plugins you have installed."
+msgid "The DOLLIE_SETUP Classic package includes several required plugins that provide important features such as groups, user profiles, discussion forums, collaborative document editing, and other functionality. These plugins may interact with any existing plugins you have installed."
 msgstr ""
 
 #: admin/templates/openlab/changelog.php:3
@@ -7018,7 +7018,7 @@ msgid "Fixed incorrect \"Contact Us\" URL."
 msgstr ""
 
 #: admin/templates/openlab/description.php:2
-msgid "<strong>New! CBOX OpenLab is specifically designed for teaching, learning, and collaboration</strong>. It allows faculty members, departments, and entire institutions to create commons spaces for open learning."
+msgid "<strong>New! DOLLIE_SETUP OpenLab is specifically designed for teaching, learning, and collaboration</strong>. It allows faculty members, departments, and entire institutions to create commons spaces for open learning."
 msgstr ""
 
 #: admin/templates/openlab/plugins-optional-header.php:2
@@ -7034,11 +7034,11 @@ msgid "Commons In A Box OpenLab is a collaboration between <a href=\"%1$s\" targ
 msgstr ""
 
 #: admin/templates/openlab/package-details.php:5
-msgid "The CBOX OpenLab theme will change how your site looks, and will alter its architecture."
+msgid "The DOLLIE_SETUP OpenLab theme will change how your site looks, and will alter its architecture."
 msgstr ""
 
 #: admin/templates/openlab/package-details.php:8
-msgid "The CBOX OpenLab package includes several required plugins that provide important features such as groups, user profiles, discussion forums, collaborative document editing, and other functionality. These plugins may interact with any existing plugins you have installed."
+msgid "The DOLLIE_SETUP OpenLab package includes several required plugins that provide important features such as groups, user profiles, discussion forums, collaborative document editing, and other functionality. These plugins may interact with any existing plugins you have installed."
 msgstr ""
 
 #: admin/templates/openlab/getting-started.php:4
@@ -7046,7 +7046,7 @@ msgid "Getting Started with Commons in A Box OpenLab"
 msgstr ""
 
 #: admin/templates/openlab/getting-started.php:8
-msgid "We've assembled some links to get you started. Check out our <a href=\"%1$s\" target=\"_blank\">documentation</a> for detailed instructions. Questions? Post them on our <a href=\"%2$s\" target=\"_blank\">CBOX OpenLab Support Forum</a>."
+msgid "We've assembled some links to get you started. Check out our <a href=\"%1$s\" target=\"_blank\">documentation</a> for detailed instructions. Questions? Post them on our <a href=\"%2$s\" target=\"_blank\">DOLLIE_SETUP OpenLab Support Forum</a>."
 msgstr ""
 
 #: admin/templates/openlab/getting-started.php:13
@@ -7074,7 +7074,7 @@ msgid "Manage email and other communication settings, including email template c
 msgstr ""
 
 #: admin/theme-install.php:205
-msgid "Continue to CBOX Dashboard &rarr;"
+msgid "Continue to DOLLIE_SETUP Dashboard &rarr;"
 msgstr ""
 
 #: lib/wp-plugin-dependencies/plugin-dependencies.php:595

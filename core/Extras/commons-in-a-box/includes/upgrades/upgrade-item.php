@@ -1,5 +1,5 @@
 <?php
-namespace CBOX\Upgrades;
+namespace DOLLIE_SETUP\Upgrades;
 
 class Upgrade_Item {
 

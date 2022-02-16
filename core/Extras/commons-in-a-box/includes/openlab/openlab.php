@@ -8,7 +8,7 @@
  */
 
 /**
- * The "OpenLab" CBOX package.
+ * The "OpenLab" DOLLIE_SETUP package.
  *
  * For plugin manifest, see {@link CBox_Plugins_OpenLab}.
  *
@@ -62,10 +62,10 @@ class CBox_Package_OpenLab extends CBox_Package {
 	 */
 	protected static function theme() {
 		return array(
-			'name'           => 'CBOX OpenLab',
+			'name'           => 'DOLLIE_SETUP OpenLab',
 			'version'        => '1.3.2',
 			'directory_name' => 'openlab-theme',
-			'download_url'   => CBOX_PLUGIN_DIR . 'includes/zip/openlab-theme-1.3.2.zip',
+			'download_url'   => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/openlab-theme-1.3.2.zip',
 			'screenshot_url' => cbox()->plugin_url( 'admin/images/screenshot_openlab_theme.png' ),
 			'force_install'  => true
 		);
@@ -111,7 +111,7 @@ class CBox_Package_OpenLab extends CBox_Package {
 	 * @since 1.1.0
 	 */
 	public static function deactivate() {
-		// Deactivate CBOX-OpenLab-Core plugin, as it's OL-specific only.
+		// Deactivate DOLLIE_SETUP-OpenLab-Core plugin, as it's OL-specific only.
 		deactivate_plugins( 'cbox-openlab-core/cbox-openlab-core.php', true );
 	}
 }

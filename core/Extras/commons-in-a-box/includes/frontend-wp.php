@@ -2,7 +2,7 @@
 /**
  * WordPress Mods
  *
- * The following are modifications that CBOX does to WordPress.
+ * The following are modifications that DOLLIE_SETUP does to WordPress.
  *
  * @since 1.0.2
  *
@@ -21,7 +21,7 @@ cbox()->plugins->wp->is_setup = true; // WordPress is always available :)
 /**
  * Modifies the 'Updates' menu item in the WP Toolbar to omit numbers.
  *
- * This is done because CBOX doesn't load its plugin code on the frontend.
+ * This is done because DOLLIE_SETUP doesn't load its plugin code on the frontend.
  * And we want to avoid confusion for site admins when they see an update
  * count that is different than the update count in the admin area.
  *
@@ -113,7 +113,7 @@ add_action( 'wp', function() {
 	$dir = wp_upload_dir();
 
 	$htaccess = trailingslashit( $dir['basedir'] ) . '.htaccess';
-	if ( true !== apply_filters( 'cbox_create_uploads_htaccess', true ) || file_exists( $htaccess ) ) {
+	if ( true !== apply_filters( 'dollie_setup_create_uploads_htaccess', true ) || file_exists( $htaccess ) ) {
 		return;
 	}
 
@@ -121,7 +121,7 @@ add_action( 'wp', function() {
 		require ABSPATH . '/wp-admin/includes/misc.php';
 	}
 
-	insert_with_markers( $htaccess, 'CBOX PHP BLOCK', array(
+	insert_with_markers( $htaccess, 'DOLLIE_SETUP PHP BLOCK', array(
 		'<FilesMatch "\.(php|php\.)$">',
 		'Order Allow,Deny',
 		'Deny from all',

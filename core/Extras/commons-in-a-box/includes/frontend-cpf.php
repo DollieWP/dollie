@@ -2,7 +2,7 @@
 /**
  * Custom Profile Filters for BuddyPress Mods
  *
- * The following are modifications that CBOX does to the CPF plugin.
+ * The following are modifications that DOLLIE_SETUP does to the CPF plugin.
  *
  * @since 1.0.5
  *

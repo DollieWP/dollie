@@ -1,6 +1,6 @@
 <?php
 /**
- * CBOX Admin Common Functions
+ * DOLLIE_SETUP Admin Common Functions
  *
  * @since 0.3
  *
@@ -12,31 +12,31 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Check to see if CBOX is correctly setup.
+ * Check to see if DOLLIE_SETUP is correctly setup.
  *
  * @since 0.3
  *
- * @uses cbox_get_installed_revision_date() Get the CBOX revision date from the DB
- * @uses cbox_is_upgraded() Check to see if CBOX just upgraded
- * @uses cbox_is_bp_maintenance_mode() Check to see if BuddyPress is in maintenance mode
+ * @uses dollie_setup_get_installed_revision_date() Get the DOLLIE_SETUP revision date from the DB
+ * @uses dollie_setup_is_upgraded() Check to see if DOLLIE_SETUP just upgraded
+ * @uses dollie_setup_is_bp_maintenance_mode() Check to see if BuddyPress is in maintenance mode
  * @return bool
  */
-function cbox_is_setup() {
+function dollie_setup_is_setup() {
 	// we haven't saved the revision date into the DB yet
-	if ( ! cbox_get_installed_revision_date() )
+	if ( ! dollie_setup_get_installed_revision_date() )
 		return false;
 
-	// CBOX is installed, but we just upgraded to a
-	// newer version of CBOX
-	if ( cbox_is_upgraded() )
+	// DOLLIE_SETUP is installed, but we just upgraded to a
+	// newer version of DOLLIE_SETUP
+	if ( dollie_setup_is_upgraded() )
 		return false;
 
-	if ( cbox_get_setup_step() ) {
+	if ( dollie_setup_get_setup_step() ) {
 		return false;
 	}
 
 	// theme needs an update
-	if ( cbox_get_theme_to_update() ) {
+	if ( dollie_setup_get_theme_to_update() ) {
 		return false;
 	}
 
@@ -44,37 +44,37 @@ function cbox_is_setup() {
 }
 
 /**
- * Check to see if CBOX has just upgraded.
+ * Check to see if DOLLIE_SETUP has just upgraded.
  *
  * @since 0.3
  *
- * @uses cbox_get_installed_revision_date() Gets the CBOX revision date from the DB
- * @uses cbox_get_current_revision_date() Gets the current CBOX revision date from Commons_In_A_Box::setup_globals()
+ * @uses dollie_setup_get_installed_revision_date() Gets the DOLLIE_SETUP revision date from the DB
+ * @uses dollie_setup_get_current_revision_date() Gets the current DOLLIE_SETUP revision date from Commons_In_A_Box::setup_globals()
  * @return bool
  */
-function cbox_is_upgraded() {
-	if ( cbox_get_installed_revision_date() && ( cbox_get_current_revision_date() > cbox_get_installed_revision_date() ) )
+function dollie_setup_is_upgraded() {
+	if ( dollie_setup_get_installed_revision_date() && ( dollie_setup_get_current_revision_date() > dollie_setup_get_installed_revision_date() ) )
 		return true;
 
 	return false;
 }
 
 /**
- * Get the CBOX theme that needs to be updated.
+ * Get the DOLLIE_SETUP theme that needs to be updated.
  *
  * @since 1.0.8
  *
  * @return string|bool Returns the theme name needing an update; otherwise
  *  boolean false if theme is already updated or if current theme is not
- *  bundled with CBOX.
+ *  bundled with DOLLIE_SETUP.
  */
-function cbox_get_theme_to_update() {
+function dollie_setup_get_theme_to_update() {
 	if ( isset( cbox()->theme_to_update ) ) {
 		return cbox()->theme_to_update;
 	}
 
 	if ( is_multisite() ) {
-		$current_theme = cbox_get_theme();
+		$current_theme = dollie_setup_get_theme();
 	} else {
 		$current_theme = wp_get_theme();
 	}
@@ -82,12 +82,12 @@ function cbox_get_theme_to_update() {
 	$retval = false;
 
 	// get our package theme specs
-	$package_theme = cbox_get_package_prop( 'theme' );
+	$package_theme = dollie_setup_get_package_prop( 'theme' );
 	if ( empty( $package_theme['download_url'] ) ) {
 		return $retval;
 	}
 
-	// if current theme is not the CBOX package theme, no need to proceed!
+	// if current theme is not the DOLLIE_SETUP package theme, no need to proceed!
 	if ( ! empty( $package_theme ) ) {
 		$check = true;
 		if ( $current_theme->get_template() != $package_theme['directory_name'] ) {
@@ -95,12 +95,12 @@ function cbox_get_theme_to_update() {
 		}
 
 		// child theme support
-		// if child theme, we need to grab the CBOX parent theme's data
+		// if child theme, we need to grab the DOLLIE_SETUP parent theme's data
 		if ( true === $check && $current_theme->get_stylesheet() != $package_theme['directory_name'] ) {
-			$current_theme = cbox_get_theme( $package_theme['directory_name'] );
+			$current_theme = dollie_setup_get_theme( $package_theme['directory_name'] );
 		}
 
-		// check if current CBOX theme is less than our internal spec
+		// check if current DOLLIE_SETUP theme is less than our internal spec
 		// if so, we want to update it!
 		if ( true === $check && version_compare( $current_theme->Version, $package_theme['version'] ) < 0 ) {
 			$retval = $package_theme['directory_name'];
@@ -114,52 +114,52 @@ function cbox_get_theme_to_update() {
 }
 
 /**
- * Outputs the CBOX version
+ * Outputs the DOLLIE_SETUP version
  *
  * @since 0.3
  *
- * @uses cbox_get_version() To get the CBOX version
+ * @uses dollie_setup_get_version() To get the DOLLIE_SETUP version
  */
-function cbox_version() {
-	echo cbox_get_version();
+function dollie_setup_version() {
+	echo dollie_setup_get_version();
 }
 	/**
-	 * Return the CBOX version
+	 * Return the DOLLIE_SETUP version
 	 *
 	 * @since 0.3
 	 *
-	 * @return string The CBOX version
+	 * @return string The DOLLIE_SETUP version
 	 */
-	function cbox_get_version() {
+	function dollie_setup_get_version() {
 		return cbox()->version;
 	}
 
 /**
- * Bumps the CBOX revision date in the DB
+ * Bumps the DOLLIE_SETUP revision date in the DB
  *
  * @since 0.3
  *
  * @return mixed String of date on success. Boolean false on failure
  */
-function cbox_bump_revision_date() {
-	update_site_option( '_cbox_revision_date', cbox()->revision_date );
+function dollie_setup_bump_revision_date() {
+	update_site_option( '_dollie_setup_revision_date', cbox()->revision_date );
 }
 
 /**
- * Get the current CBOX setup step.
+ * Get the current DOLLIE_SETUP setup step.
  *
- * This should only be used if {@link cbox_is_setup()} returns false.
+ * This should only be used if {@link dollie_setup_is_setup()} returns false.
  *
  * @since 0.3
  *
- * @uses cbox_is_bp_maintenance_mode() Check to see if BuddyPress is in maintenance mode
- * @return string The current CBOX setup step.
+ * @uses dollie_setup_is_bp_maintenance_mode() Check to see if BuddyPress is in maintenance mode
+ * @return string The current DOLLIE_SETUP setup step.
  */
-function cbox_get_setup_step() {
+function dollie_setup_get_setup_step() {
 	$step = '';
 
 	// No package.
-	if ( ! cbox_get_current_package_id() ) {
+	if ( ! dollie_setup_get_current_package_id() ) {
 		return 'no-package';
 
 	// Plugin updates available.
@@ -167,7 +167,7 @@ function cbox_get_setup_step() {
 		return 'plugin-update';
 
 	// Theme update available.
-	} elseif ( cbox_get_theme_to_update() ) {
+	} elseif ( dollie_setup_get_theme_to_update() ) {
 		return 'theme-update';
 
 	// Haven't installed before.
@@ -181,7 +181,7 @@ function cbox_get_setup_step() {
 			$step = 'required-plugins';
 
 		// Recommended plugins.
-		} elseif ( ! cbox_get_installed_revision_date() ) {
+		} elseif ( ! dollie_setup_get_installed_revision_date() ) {
 			$recommended = CBox_Admin_Plugins::organize_plugins_by_state( CBox_Plugins::get_plugins( 'recommended' ) );
 			unset( $recommended['deactivate'] );
 
@@ -189,7 +189,7 @@ function cbox_get_setup_step() {
 				$step = 'recommended-plugins';
 
 			// Theme install.
-			} elseif ( cbox_get_theme_prop( 'download_url' ) ) {
+			} elseif ( dollie_setup_get_theme_prop( 'download_url' ) ) {
 				$step = 'theme-prompt';
 			}
 		}
@@ -197,7 +197,7 @@ function cbox_get_setup_step() {
 
 	// Upgrades.
 	if ( empty( $step ) ) {
-		$items = CBOX\Upgrades\Upgrade_Registry::get_instance()->get_all_registered();
+		$items = DOLLIE_SETUP\Upgrades\Upgrade_Registry::get_instance()->get_all_registered();
 		if ( ! empty( $items ) ) {
 			$step = 'upgrades-available';
 		}
@@ -207,7 +207,7 @@ function cbox_get_setup_step() {
 }
 
 /**
- * Get a specific admin property for use with CBOX.
+ * Get a specific admin property for use with DOLLIE_SETUP.
  *
  * @since 1.1.0
  *
@@ -215,14 +215,14 @@ function cbox_get_setup_step() {
  * @param  mixed  $arg  Function argument passed for use.
  * @return string
  */
-function cbox_admin_prop( $prop = '', $arg = '' ) {
+function dollie_setup_admin_prop( $prop = '', $arg = '' ) {
 	$retval = '';
 
 	if ( 'menu' === $prop ) {
 		$retval = is_network_admin() ? 'network_admin_menu' : 'admin_menu';
 	} elseif ( 'url' === $prop ) {
 		$retval = self_admin_url( $arg );
-		if ( ! cbox_is_main_site() ) {
+		if ( ! dollie_setup_is_main_site() ) {
 			$retval = network_admin_url( $arg );
 		}
 	}
@@ -237,9 +237,9 @@ function cbox_admin_prop( $prop = '', $arg = '' ) {
  *
  * @param string|null $stylesheet Directory name for the theme. Optional. Defaults to current theme.
  */
-function cbox_get_theme( $stylesheet = '' ) {
-	if ( ! cbox_is_main_site() ) {
-		switch_to_blog( cbox_get_main_site_id() );
+function dollie_setup_get_theme( $stylesheet = '' ) {
+	if ( ! dollie_setup_is_main_site() ) {
+		switch_to_blog( dollie_setup_get_main_site_id() );
 		$switched = true;
 	}
 
@@ -260,7 +260,7 @@ function cbox_get_theme( $stylesheet = '' ) {
  * @uses wp_get_theme() To get the current theme's info
  * @return bool
  */
-function cbox_is_theme_bp_compatible() {
+function dollie_setup_is_theme_bp_compatible() {
 	global $bp;
 
 	// buddypress isn't installed, so stop!
@@ -296,33 +296,33 @@ function cbox_is_theme_bp_compatible() {
 /** TEMPLATE *************************************************************/
 
 /**
- * Locate the highest priority CBOX admin template file that exists.
+ * Locate the highest priority DOLLIE_SETUP admin template file that exists.
  *
- * Tries to see if a registered CBOX package has a template file.  If not,
+ * Tries to see if a registered DOLLIE_SETUP package has a template file.  If not,
  * fall back to the 'base' template.  Similar to {@link locate_template()}.
  *
  * @since 1.1.0
  *
  * @param  string|array $template_names Template file(s) to search for, in order.
- * @param  string       $package_id     The CBOX package to grab the template for.
+ * @param  string       $package_id     The DOLLIE_SETUP package to grab the template for.
  * @param  bool         $load           If true the template file will be loaded if it is found.
  * @param  bool         $require_once   Whether to require_once or require. Default true. Has no effect if $load is false.
  * @return string The template filename if one is located.
  */
-function cbox_locate_template( $template_names, $package_id = '', $load = false, $require_once = true ) {
+function dollie_setup_locate_template( $template_names, $package_id = '', $load = false, $require_once = true ) {
 	$located = '';
 	foreach ( (array) $template_names as $template_name ) {
 		if ( ! $template_name ) {
 			continue;
 		}
 
-		$template_path = cbox_get_package_prop( 'template_path', $package_id );
+		$template_path = dollie_setup_get_package_prop( 'template_path', $package_id );
 		if ( ! empty( $template_path ) && file_exists( trailingslashit( $template_path ) . $template_name ) ) {
 			$located = trailingslashit( $template_path ) . $template_name;
 			break;
 
-		} elseif ( file_exists( CBOX_PLUGIN_DIR . 'admin/templates/base/' . $template_name ) ) {
-			$located = CBOX_PLUGIN_DIR . 'admin/templates/base/' . $template_name;
+		} elseif ( file_exists( DOLLIE_SETUP_PLUGIN_DIR . 'admin/templates/base/' . $template_name ) ) {
+			$located = DOLLIE_SETUP_PLUGIN_DIR . 'admin/templates/base/' . $template_name;
 			break;
 		}
 	}
@@ -335,17 +335,17 @@ function cbox_locate_template( $template_names, $package_id = '', $load = false,
 }
 
 /**
- * Load a CBOX admin template part.
+ * Load a DOLLIE_SETUP admin template part.
  *
  * Basically, almost the same as {@link get_template_part()}.
  *
  * @since 1.1.0
  *
  * @param string $slug       The slug name for the generic template.
- * @param string $package_id Optional. The CBOX package to grab the template for. Defaults to current
+ * @param string $package_id Optional. The DOLLIE_SETUP package to grab the template for. Defaults to current
  *                           package if available.
  */
-function cbox_get_template_part( $slug, $package_id = '' ) {
+function dollie_setup_get_template_part( $slug, $package_id = '' ) {
 	$templates = array();
 	$templates[] = "{$slug}.php";
 
@@ -358,11 +358,11 @@ function cbox_get_template_part( $slug, $package_id = '' ) {
 	 * @since 1.1.0
 	 *
 	 * @param string $slug       The slug name for the generic template.
-	 * @param string $package_id The CBOX package to grab the template for.
+	 * @param string $package_id The DOLLIE_SETUP package to grab the template for.
 	 */
-	do_action( 'cbox_get_template_part', $slug, $package_id );
+	do_action( 'dollie_setup_get_template_part', $slug, $package_id );
 
-	cbox_locate_template( $templates, $package_id, true, false );
+	dollie_setup_locate_template( $templates, $package_id, true, false );
 
 	/**
 	 * Fires after the specified template part file is loaded.
@@ -373,9 +373,9 @@ function cbox_get_template_part( $slug, $package_id = '' ) {
 	 * @since 1.1.0
 	 *
 	 * @param string $slug       The slug name for the generic template.
-	 * @param string $package_id The CBOX package to grab the template for.
+	 * @param string $package_id The DOLLIE_SETUP package to grab the template for.
 	 */
-	do_action( 'cbox_after_get_template_part', $slug, $package_id );
+	do_action( 'dollie_setup_after_get_template_part', $slug, $package_id );
 }
 
 /**
@@ -383,12 +383,12 @@ function cbox_get_template_part( $slug, $package_id = '' ) {
  *
  * @since 1.1.0
  */
-function cbox_welcome_panel_classes() {
+function dollie_setup_welcome_panel_classes() {
 	// Default class for our welcome panel container.
 	$classes = 'welcome-panel';
 
 	// Get our user's welcome panel setting.
-	$option = get_user_meta( get_current_user_id(), 'show_cbox_welcome_panel', true );
+	$option = get_user_meta( get_current_user_id(), 'show_dollie_setup_welcome_panel', true );
 
 	// If welcome panel option isn't set, set it to "1" to show the panel by default
 	if ( $option === '' ) {
@@ -420,7 +420,7 @@ function cbox_welcome_panel_classes() {
  * @param str $url The URL we want to download.
  * @return array Request args.
  */
-function cbox_disable_ssl_verification( $args, $url ) {
+function dollie_setup_disable_ssl_verification( $args, $url ) {
 	// disable SSL verification for Github links
 	if ( strpos( $url, 'api.getdollie.com' ) !== false )
 		$args['sslverify'] = false;
@@ -429,12 +429,12 @@ function cbox_disable_ssl_verification( $args, $url ) {
 }
 
 /**
- * Add custom meta to the WordPress upgrader for CBOX ZIP files.
+ * Add custom meta to the WordPress upgrader for DOLLIE_SETUP ZIP files.
  *
- * We need to add a marker to let us know whether we're parsing a CBOX bundled
+ * We need to add a marker to let us know whether we're parsing a DOLLIE_SETUP bundled
  * ZIP file or not.  This will be used later when renaming the source folder.
  *
- * Note: The directory in CBOX bundled ZIP files must resemble the format of
+ * Note: The directory in DOLLIE_SETUP bundled ZIP files must resemble the format of
  * 'slug-VERSION'. eg. 'cbox-theme-1.1.0'.
  *
  * @since 1.1.2.
@@ -442,7 +442,7 @@ function cbox_disable_ssl_verification( $args, $url ) {
  * @param array $retval Current upgrader meta.
  * @return array
  */
-function cbox_upgrader_add_meta_for_zip( $retval ) {
+function dollie_setup_upgrader_add_meta_for_zip( $retval ) {
 	if ( false === strpos( $retval['package'], 'commons-in-a-box/includes/zip' ) ) {
 		return $retval;
 	}
@@ -452,7 +452,7 @@ function cbox_upgrader_add_meta_for_zip( $retval ) {
 
 	return $retval;
 }
-add_filter( 'upgrader_package_options', 'cbox_upgrader_add_meta_for_zip' );
+add_filter( 'upgrader_package_options', 'dollie_setup_upgrader_add_meta_for_zip' );
 
 /**
  * Renames downloaded Github folder to a cleaner directory name.
@@ -471,7 +471,7 @@ add_filter( 'upgrader_package_options', 'cbox_upgrader_add_meta_for_zip' );
  * @param array $hook_extra    Extra information from the upgrader.
  * @return str Filepath to temporary folder.
  */
-function cbox_rename_github_folder( $source, $remote_source, $obj, $hook_extra ) {
+function dollie_setup_rename_github_folder( $source, $remote_source, $obj, $hook_extra ) {
 	// OUr utility renamer function.
 	$renamer = function( $temp ) {
 		global $wp_filesystem;
@@ -513,7 +513,7 @@ function cbox_rename_github_folder( $source, $remote_source, $obj, $hook_extra )
 		}
 	};
 
-	// Handle bundled ZIP files before checking CBOX admin installer.
+	// Handle bundled ZIP files before checking DOLLIE_SETUP admin installer.
 	if ( ! empty( $hook_extra['cbox-zip'] ) ) {
 		return $renamer( $source );
 	}
@@ -542,7 +542,7 @@ function cbox_rename_github_folder( $source, $remote_source, $obj, $hook_extra )
 			break;
 
 		default :
-			// Not a CBOX install? return the regular $source now!
+			// Not a DOLLIE_SETUP install? return the regular $source now!
 			return $source;
 
 			break;

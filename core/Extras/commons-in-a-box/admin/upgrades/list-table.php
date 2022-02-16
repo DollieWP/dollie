@@ -1,7 +1,7 @@
 <?php
-namespace CBOX\Admin\Upgrades;
+namespace DOLLIE_SETUP\Admin\Upgrades;
 
-use CBOX\Upgrades\Upgrade_Registry;
+use DOLLIE_SETUP\Upgrades\Upgrade_Registry;
 
 if ( ! class_exists( '\WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';

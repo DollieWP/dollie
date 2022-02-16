@@ -1,21 +1,21 @@
 <?php
-namespace CBOX\CLI;
+namespace DOLLIE_SETUP\CLI;
 
 use WP_CLI;
 
 /**
- * Commands applicable to a CBOX package.
+ * Commands applicable to a DOLLIE_SETUP package.
  *
  * ## EXAMPLES
  *
- *     # List the available CBOX packages.
+ *     # List the available DOLLIE_SETUP packages.
  *     $ wp cbox package list
  *
  * @package cbox
  */
 class Package extends \WP_CLI_Command {
 	/**
-	 * Lists all available CBOX packages.
+	 * Lists all available DOLLIE_SETUP packages.
 	 *
 	 * ## OPTIONS
 	 *
@@ -35,7 +35,7 @@ class Package extends \WP_CLI_Command {
 	 *
 	 * ## AVAILABLE FIELDS
 	 *
-	 * These fields will be displayed by default for each CBOX package:
+	 * These fields will be displayed by default for each DOLLIE_SETUP package:
 	 *
 	 * * Package
 	 * * Name
@@ -49,7 +49,7 @@ class Package extends \WP_CLI_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     # Lists all available CBOX packages.
+	 *     # Lists all available DOLLIE_SETUP packages.
 	 *     $ wp cbox package list
 	 *     +---------+---------+---------------+--------------+--------+
 	 *     | Package | Name    | Theme         | Network      | Active |
@@ -61,7 +61,7 @@ class Package extends \WP_CLI_Command {
 	 * @subcommand list
 	 */
 	public function list_( $args, $assoc_args ) {
-		$packages = cbox_get_packages();
+		$packages = dollie_setup_get_packages();
 
 		$r = array_merge( array(
 			'format' => 'table',
@@ -74,27 +74,27 @@ class Package extends \WP_CLI_Command {
 
 		// Rare that this will happen, but sanity check!
 		if ( empty( $packages ) ) {
-			WP_CLI::error( 'No CBOX packages are available.' );
+			WP_CLI::error( 'No DOLLIE_SETUP packages are available.' );
 		}
 
 		$items = array();
 		$i = 0;
 		$description_enabled = array_search( 'Description', $r['fields'] );
 		foreach ( $packages as $package => $class ) {
-			$theme = cbox_get_theme_prop( 'directory_name', $package );
+			$theme = dollie_setup_get_theme_prop( 'directory_name', $package );
 
 			$items[$i] = array(
 				'Package' => $package,
-				'Name'    => cbox_get_package_prop( 'name', $package ),
+				'Name'    => dollie_setup_get_package_prop( 'name', $package ),
 				'Theme'   => $theme ? $theme : 'No theme available',
-				'Network' => cbox_get_package_prop( 'network', $package ) ? 'Required' : 'Not required',
-				'Active'  => cbox_get_current_package_id() === $package ? 'Yes' : 'No',
+				'Network' => dollie_setup_get_package_prop( 'network', $package ) ? 'Required' : 'Not required',
+				'Active'  => dollie_setup_get_current_package_id() === $package ? 'Yes' : 'No',
 			);
 
 			if ( $description_enabled ) {
 				// Description is stored in template part.
 				ob_start();
-				cbox_get_template_part( 'description', $package );
+				dollie_setup_get_template_part( 'description', $package );
 				$description = ob_get_clean();
 				$description = strip_tags( $description );
 				$description = str_replace( array( "\t", "\n" ), ' ', $description );
@@ -125,11 +125,11 @@ class Package extends \WP_CLI_Command {
 	 * @subcommand list-plugins
 	 */
 	public function list_plugins( $args, $assoc_args ) {
-		$packages = cbox_get_packages();
+		$packages = dollie_setup_get_packages();
 
 		// Error messaging.
 		if ( empty( $packages ) ) {
-			WP_CLI::error( 'No CBOX packages are available.' );
+			WP_CLI::error( 'No DOLLIE_SETUP packages are available.' );
 		}
 		if ( empty( $packages[ $args[0] ] ) ) {
 			WP_CLI::error( "Package '{$args[0]}' does not exist." );

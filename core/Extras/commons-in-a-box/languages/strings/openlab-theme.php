@@ -130,7 +130,7 @@ __( 'The sidebar at the left side of the home page.', 'commons-in-a-box' );
 __( 'Home Main', 'commons-in-a-box' );
 __( 'The main section of the home page. Generally used for group type widgets.', 'commons-in-a-box' );
 __( 'Powered by:', 'commons-in-a-box' );
-__( 'CBOX-OL Logo', 'commons-in-a-box' );
+__( 'DOLLIE_SETUP-OL Logo', 'commons-in-a-box' );
 __( 'top', 'commons-in-a-box' );
 __( 'Site Activity', 'commons-in-a-box' );
 

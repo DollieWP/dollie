@@ -1,8 +1,8 @@
 <?php
 
-function cbox_frontend_adminbar_bbpress() {
+function dollie_setup_frontend_adminbar_bbpress() {
 	// Get plugin meta.
-	$plugin_meta = get_file_data( realpath( CBOX_PLUGIN_DIR ) . '/../bbpress/bbpress.php', array(
+	$plugin_meta = get_file_data( realpath( DOLLIE_SETUP_PLUGIN_DIR ) . '/../bbpress/bbpress.php', array(
 		// We only care about the 'Version' header.
 		'Version' => 'Version',
 	), 'plugin' );
@@ -21,18 +21,18 @@ function cbox_frontend_adminbar_bbpress() {
 	$forums_link = trailingslashit( $user_domain . 'forums' );
 
 	// Engagements - only available in v2.6.0.
-	if ( version_compare( $plugin_meta['Version'], '2.6') >= 0 && (bool) apply_filters( 'bbp_is_engagements_active', (bool) get_blog_option( cbox_get_main_site_id(), '_bbp_enable_engagements', 1 ) ) ) {
-		$my_engagements_link   = trailingslashit( $forums_link . apply_filters( 'bbp_get_user_engagements_slug', get_blog_option( cbox_get_main_site_id(), '_bbp_user_engagements_slug', 'engagements' ) ) );
+	if ( version_compare( $plugin_meta['Version'], '2.6') >= 0 && (bool) apply_filters( 'bbp_is_engagements_active', (bool) get_blog_option( dollie_setup_get_main_site_id(), '_bbp_enable_engagements', 1 ) ) ) {
+		$my_engagements_link   = trailingslashit( $forums_link . apply_filters( 'bbp_get_user_engagements_slug', get_blog_option( dollie_setup_get_main_site_id(), '_bbp_user_engagements_slug', 'engagements' ) ) );
 	}
 
 	// Favorites
-	if ( (bool) apply_filters( 'bbp_is_favorites_active', (bool) get_blog_option( cbox_get_main_site_id(), '_bbp_enable_favorites', 1 ) ) ) {
-		$my_favorites_link     = trailingslashit( $forums_link . apply_filters( 'bbp_get_user_favorites_slug', get_blog_option( cbox_get_main_site_id(), '_bbp_user_favs_slug', 'favorites' ) ) );
+	if ( (bool) apply_filters( 'bbp_is_favorites_active', (bool) get_blog_option( dollie_setup_get_main_site_id(), '_bbp_enable_favorites', 1 ) ) ) {
+		$my_favorites_link     = trailingslashit( $forums_link . apply_filters( 'bbp_get_user_favorites_slug', get_blog_option( dollie_setup_get_main_site_id(), '_bbp_user_favs_slug', 'favorites' ) ) );
 	}
 
 	// Subscriptions
-	if ( (bool) apply_filters( 'bbp_is_subscriptions_active', (bool) get_blog_option( cbox_get_main_site_id(), '_bbp_enable_subscriptions', 1 ) ) ) {
-		$my_subscriptions_link = trailingslashit( $forums_link . apply_filters( 'bbp_get_user_subscriptions_slug', get_blog_option( cbox_get_main_site_id(), '_bbp_user_subs_slug', 'subscriptions' ) ) );
+	if ( (bool) apply_filters( 'bbp_is_subscriptions_active', (bool) get_blog_option( dollie_setup_get_main_site_id(), '_bbp_enable_subscriptions', 1 ) ) ) {
+		$my_subscriptions_link = trailingslashit( $forums_link . apply_filters( 'bbp_get_user_subscriptions_slug', get_blog_option( dollie_setup_get_main_site_id(), '_bbp_user_subs_slug', 'subscriptions' ) ) );
 	}
 
 	// Add the "My Account" sub menus
@@ -48,7 +48,7 @@ function cbox_frontend_adminbar_bbpress() {
 		'parent' => 'my-account-' . $id,
 		'id'     => 'my-account-' . $id . '-topics',
 		'title'  => __( 'Topics Started', 'bbpress' ),
-		'href'   => trailingslashit( $forums_link . apply_filters( 'bbp_get_topic_archive_slug', get_blog_option( cbox_get_main_site_id(), '_bbp_topic_archive_slug', 'topics' ) ) )
+		'href'   => trailingslashit( $forums_link . apply_filters( 'bbp_get_topic_archive_slug', get_blog_option( dollie_setup_get_main_site_id(), '_bbp_topic_archive_slug', 'topics' ) ) )
 	);
 
 	// Replies
@@ -56,7 +56,7 @@ function cbox_frontend_adminbar_bbpress() {
 		'parent' => 'my-account-' . $id,
 		'id'     => 'my-account-' . $id . '-replies',
 		'title'  => __( 'Replies Created', 'bbpress' ),
-		'href'   => trailingslashit( $forums_link . apply_filters( 'bbp_get_topic_archive_slug', get_blog_option( cbox_get_main_site_id(), '_bbp_reply_archive_slug', 'replies' ) ) )
+		'href'   => trailingslashit( $forums_link . apply_filters( 'bbp_get_topic_archive_slug', get_blog_option( dollie_setup_get_main_site_id(), '_bbp_reply_archive_slug', 'replies' ) ) )
 	);
 
 	// Engagements
@@ -94,7 +94,7 @@ function cbox_frontend_adminbar_bbpress() {
 		$GLOBALS['wp_admin_bar']->add_menu( $n );
 	}
 }
-add_action( 'bp_setup_admin_bar', 'cbox_frontend_adminbar_bbpress', 75 );
+add_action( 'bp_setup_admin_bar', 'dollie_setup_frontend_adminbar_bbpress', 75 );
 
 /*
  * Ensure bbPress' 'forums' component is registered to BP notifications.
@@ -126,14 +126,14 @@ add_filter( 'bp_notifications_get_notifications_for_user', function( $retval, $i
 
 	$title_attr  = __( 'Topic Replies', 'bbpress' );
 
-	$topic_id = bp_notifications_get_meta( $id, 'cbox_bbp_reply_topic_id' );
+	$topic_id = bp_notifications_get_meta( $id, 'dollie_setup_bbp_reply_topic_id' );
 	if ( ! empty( $topic_id ) ) {
-		$topic_title = bp_notifications_get_meta( $id, 'cbox_bbp_topic_title' );
+		$topic_title = bp_notifications_get_meta( $id, 'dollie_setup_bbp_topic_title' );
 		$n_args      = array(
 			'action'   => 'bbp_mark_read',
 			'topic_id' => $topic_id
 		);
-		$topic_link  = wp_nonce_url( add_query_arg( $n_args, bp_notifications_get_meta( $id, 'cbox_bbp_reply_permalink' ) ), 'bbp_mark_topic_' . $topic_id );
+		$topic_link  = wp_nonce_url( add_query_arg( $n_args, bp_notifications_get_meta( $id, 'dollie_setup_bbp_reply_permalink' ) ), 'bbp_mark_topic_' . $topic_id );
 
 	// No topic meta, so add generic title and link.
 	} else {

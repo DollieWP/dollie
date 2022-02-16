@@ -1,6 +1,6 @@
 <?php
 
-function cbox_frontend_adminbar_bpdocs() {
+function dollie_setup_frontend_adminbar_bpdocs() {
 	$nav  = array();
 	$id   = 'bp_docs';
 
@@ -55,4 +55,4 @@ function cbox_frontend_adminbar_bpdocs() {
 		$GLOBALS['wp_admin_bar']->add_menu( $n );
 	}
 }
-add_action( 'bp_setup_admin_bar', 'cbox_frontend_adminbar_bpdocs', 80 );
+add_action( 'bp_setup_admin_bar', 'dollie_setup_frontend_adminbar_bpdocs', 80 );

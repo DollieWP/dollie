@@ -1,11 +1,11 @@
 <?php
-namespace CBOX\CLI;
+namespace DOLLIE_SETUP\CLI;
 
 use WP_CLI;
-use CBOX\Upgrades\Upgrade_Registry;
+use DOLLIE_SETUP\Upgrades\Upgrade_Registry;
 
 /**
- * Commands applicable to a CBOX Upgrades API.
+ * Commands applicable to a DOLLIE_SETUP Upgrades API.
  *
  * ## EXAMPLES
  *
@@ -95,7 +95,7 @@ class Upgrade extends \WP_CLI_Command {
 	public function run( $args, $assoc_args ) {
 		list( $id ) = $args;
 
-		/** @var \CBOX\Upgrades\Upgrade */
+		/** @var \DOLLIE_SETUP\Upgrades\Upgrade */
 		$upgrade = Upgrade_Registry::get_instance()->get_registered( $id );
 
 		if ( ! $upgrade ) {

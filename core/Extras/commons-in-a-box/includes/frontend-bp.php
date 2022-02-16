@@ -2,7 +2,7 @@
 /**
  * BuddyPress Mods
  *
- * If BuddyPress settings are toggled under the CBOX admin settings page,
+ * If BuddyPress settings are toggled under the DOLLIE_SETUP admin settings page,
  * setup the code for each setting here.
  *
  * @since 1.0-beta2

@@ -1,6 +1,6 @@
 <?php
 /**
- * CBOX Frontend.
+ * DOLLIE_SETUP Frontend.
  *
  * @since 1.0-beta2
  *
@@ -12,7 +12,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Things CBOX does on the frontend of the site.
+ * Things DOLLIE_SETUP does on the frontend of the site.
  *
  * @since 1.0-beta2
  */
@@ -27,7 +27,7 @@ class CBox_Frontend {
 		 *
 		 * @since 1.1.0
 		 */
-		do_action( 'cbox_frontend_includes' );
+		do_action( 'dollie_setup_frontend_includes' );
 
 		// setup globals
 		$this->setup_globals();
@@ -36,7 +36,7 @@ class CBox_Frontend {
 		if ( empty( $this->settings ) )
 			return;
 
-		// setup our CBOX plugins object
+		// setup our DOLLIE_SETUP plugins object
 		// this will hold some plugin-specific references
 		cbox()->plugins = new stdClass;
 
@@ -66,8 +66,8 @@ class CBox_Frontend {
 	 */
 	private function setup_globals() {
 		// get our admin settings; this is highly specific to the Classic package...
-		$settings_key   = cbox_get_package_prop( 'settings_key' );
-		$this->settings = ! empty( $settings_key ) ? (array) get_blog_option( cbox_get_main_site_id(), $settings_key ) : array();
+		$settings_key   = dollie_setup_get_package_prop( 'settings_key' );
+		$this->settings = ! empty( $settings_key ) ? (array) get_blog_option( dollie_setup_get_main_site_id(), $settings_key ) : array();
 
 		// setup autoload classes
 		$this->setup_autoload();
@@ -83,7 +83,7 @@ class CBox_Frontend {
 	 */
 	private function setup_autoload() {
 		// setup internal autoload variable
-		// will hold plugins and classes that need to be autoloaded by CBOX
+		// will hold plugins and classes that need to be autoloaded by DOLLIE_SETUP
 		$this->autoload = array();
 
 		// WordPress
@@ -107,10 +107,10 @@ class CBox_Frontend {
 	 * Includes.
 	 *
 	 * We conditionally load up specific PHP files depending if a setting was
-	 * saved under the CBOX admin settings page.
+	 * saved under the DOLLIE_SETUP admin settings page.
 	 */
 	private function includes() {
-		// get plugins from CBOX settings
+		// get plugins from DOLLIE_SETUP settings
 		$plugins = array_keys( $this->settings );
 
 		foreach ( $plugins as $plugin ) {
@@ -124,7 +124,7 @@ class CBox_Frontend {
 	 * Setup our hooks.
 	 *
 	 * We conditionally add our hooks depending if a setting was saved under the
-	 * CBOX admin settings page or if it is explicitly autoloaded by CBOX.
+	 * DOLLIE_SETUP admin settings page or if it is explicitly autoloaded by DOLLIE_SETUP.
 	 */
 	private function setup_hooks() {
 

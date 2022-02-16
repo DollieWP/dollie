@@ -1,25 +1,25 @@
 <?php
-namespace CBOX\CLI;
+namespace DOLLIE_SETUP\CLI;
 
 use WP_CLI;
 
 /**
- * Commands applicable to updating CBOX.
+ * Commands applicable to updating DOLLIE_SETUP.
  *
  * ## EXAMPLES
  *
- *     # Updates the CBOX theme.
+ *     # Updates the DOLLIE_SETUP theme.
  *     $ wp cbox update theme
  *
  * @package cbox
  */
 class Update extends \WP_CLI_Command {
 	/**
-	 * Updates the CBOX plugins and theme, if applicable.
+	 * Updates the DOLLIE_SETUP plugins and theme, if applicable.
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     # Updates the CBOX plugins and theme.
+	 *     # Updates the DOLLIE_SETUP plugins and theme.
 	 *     $ wp cbox update all
 	 */
 	public function all( $args, $assoc_args ) {
@@ -30,7 +30,7 @@ class Update extends \WP_CLI_Command {
 	}
 
 	/**
-	 * Updates the CBOX theme.
+	 * Updates the DOLLIE_SETUP theme.
 	 *
 	 * ## EXAMPLES
 	 *
@@ -45,12 +45,12 @@ class Update extends \WP_CLI_Command {
 	 */
 	public function theme( $args, $assoc_args ) {
 		// check for theme upgrades
-		$theme = cbox_get_theme_to_update();
+		$theme = dollie_setup_get_theme_to_update();
 		if ( empty( $theme ) ) {
-			$cbox_theme_name    = cbox_get_theme_prop( 'name' );
-			$current_theme_name = cbox_get_theme()->get( 'Name' );
-			if ( $cbox_theme_name && $cbox_theme_name === $current_theme_name ) {
-				WP_CLI::success( 'You are already running the latest version of the theme, ' . cbox_get_theme_prop( 'directory_name' ) );
+			$dollie_setup_theme_name    = dollie_setup_get_theme_prop( 'name' );
+			$current_theme_name = dollie_setup_get_theme()->get( 'Name' );
+			if ( $dollie_setup_theme_name && $dollie_setup_theme_name === $current_theme_name ) {
+				WP_CLI::success( 'You are already running the latest version of the theme, ' . dollie_setup_get_theme_prop( 'directory_name' ) );
 			} else {
 			}
 
@@ -58,12 +58,12 @@ class Update extends \WP_CLI_Command {
 		}
 
 		// Sanity check.
-		if ( $theme !== cbox_get_theme_prop( 'directory_name' ) ) {
+		if ( $theme !== dollie_setup_get_theme_prop( 'directory_name' ) ) {
 			WP_CLI::error( 'Package theme does not match' );
 		}
 
 		// Run the update, using WP-CLI's native 'theme' command.
-		WP_CLI::runcommand( 'theme install ' . cbox_get_theme_prop( 'download_url' ) . ' --force' );
+		WP_CLI::runcommand( 'theme install ' . dollie_setup_get_theme_prop( 'download_url' ) . ' --force' );
 	}
 
 	/**
@@ -77,7 +77,7 @@ class Update extends \WP_CLI_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     # Updates the CBOX plugins, but will ask for confirmation before doing so.
+	 *     # Updates the DOLLIE_SETUP plugins, but will ask for confirmation before doing so.
 	 *     $ wp cbox update plugins
 	 *     Attempting to update the following plugins:
 	 *     +----------------------+-------------+-------------+
@@ -99,15 +99,15 @@ class Update extends \WP_CLI_Command {
 	 *     Plugin updated successfully.
 	 *     Success: Installed 2 of 2 plugins.
 	 *
-	 *     # Updates the CBOX plugins, without confirmation.
+	 *     # Updates the DOLLIE_SETUP plugins, without confirmation.
 	 *     $ wp cbox update plugins --yes
 	 */
 	public function plugins( $args, $assoc_args ) {
 		if ( ! class_exists( '\CBox_Plugin_Upgrader' ) ) {
-			require_once CBOX_PLUGIN_DIR . 'admin/plugin-install.php';
+			require_once DOLLIE_SETUP_PLUGIN_DIR . 'admin/plugin-install.php';
 		}
 
-		$cbox_plugins = \CBox_Plugins::get_plugins();
+		$dollie_setup_plugins = \CBox_Plugins::get_plugins();
 		$dependencies = \CBox_Plugins::get_plugins( 'dependency' );
 
 		// (1) Do required plugins first.
@@ -128,7 +128,7 @@ class Update extends \WP_CLI_Command {
 				if ( ! empty( $dependencies[$plugin]['download_url'] ) ) {
 					$urls[] = $dependencies[$plugin]['download_url'];
 				} else {
-					$urls[] = $cbox_plugins[$plugin]['download_url'];
+					$urls[] = $dollie_setup_plugins[$plugin]['download_url'];
 				}
 			}
 
@@ -178,13 +178,13 @@ class Update extends \WP_CLI_Command {
 			$items[$plugin] = array(
 				'Plugin'      => $plugin,
 				'Old Version' => \Plugin_Dependencies::$all_plugins[$loader]['Version'],
-				'New Version' => isset( $cbox_plugins[$plugin]['version'] ) ? $cbox_plugins[$plugin]['version'] : $dependencies[$plugin]['version']
+				'New Version' => isset( $dollie_setup_plugins[$plugin]['version'] ) ? $dollie_setup_plugins[$plugin]['version'] : $dependencies[$plugin]['version']
 			);
 
 			if ( ! empty( $dependencies[$plugin]['download_url'] ) ) {
 				$urls[] = $dependencies[$plugin]['download_url'];
 			} else {
-				$urls[] = $cbox_plugins[$plugin]['download_url'];
+				$urls[] = $dollie_setup_plugins[$plugin]['download_url'];
 			}
 		}
 

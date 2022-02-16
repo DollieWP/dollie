@@ -2,7 +2,7 @@
 /**
  * BuddyPress Group Email Subscription (GES) Mods
  *
- * The following are modifications that CBOX does to GES.
+ * The following are modifications that DOLLIE_SETUP does to GES.
  *
  * @since 1.0-beta2
  *
@@ -57,7 +57,7 @@ class CBox_GES_All_Mail {
  * When activity is created by bbPress 2.x, swap out the BP activity content
  * with the reply/topic full text
  *
- * This class is loaded if enabled from the CBOX Settings page.
+ * This class is loaded if enabled from the DOLLIE_SETUP Settings page.
  *
  * @since 1.0-beta4
  */

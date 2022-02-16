@@ -1,6 +1,6 @@
 <?php
 /**
- * CBOX's Theme Installer
+ * DOLLIE_SETUP's Theme Installer
  *
  * @package Commons_In_A_Box
  * @subpackage Themes
@@ -14,7 +14,7 @@ if ( ! class_exists( 'Plugin_Upgrader' ) )
 	require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 /**
- * CBOX's custom theme upgrader.
+ * DOLLIE_SETUP's custom theme upgrader.
  *
  * Extends the {@link Theme_Upgrader} class to allow for our custom required spec.
  *
@@ -38,17 +38,17 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 		$this->init();
 		$this->install_strings();
 
-		add_filter( 'upgrader_source_selection',      'cbox_rename_github_folder',                 1,  4 );
+		add_filter( 'upgrader_source_selection',      'dollie_setup_rename_github_folder',                 1,  4 );
 		add_filter( 'upgrader_source_selection',      array( $this, 'check_package' ) );
 		add_filter( 'upgrader_post_install',          array( $this, 'activate_post_install' ),     99, 3 );
-		add_filter( 'http_request_args',              'cbox_disable_ssl_verification',             10, 2 );
+		add_filter( 'http_request_args',              'dollie_setup_disable_ssl_verification',             10, 2 );
 		add_filter( 'install_theme_complete_actions', array( $this, 'remove_theme_actions' ) );
 
-		$this->options['url'] = cbox_get_theme_prop( 'download_url' );
+		$this->options['url'] = dollie_setup_get_theme_prop( 'download_url' );
 
 		$this->run( array(
-			// get download URL for the CBOX theme
-			'package'           => cbox_get_theme_prop( 'download_url' ),
+			// get download URL for the DOLLIE_SETUP theme
+			'package'           => dollie_setup_get_theme_prop( 'download_url' ),
 
 			'destination'       => WP_CONTENT_DIR . '/themes',
 
@@ -58,10 +58,10 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 			'clear_working'     => true
 		) );
 
-		remove_filter( 'upgrader_source_selection',      'cbox_rename_github_folder',              1 );
+		remove_filter( 'upgrader_source_selection',      'dollie_setup_rename_github_folder',              1 );
 		remove_filter( 'upgrader_source_selection',      array( $this, 'check_package' ) );
 		remove_filter( 'upgrader_post_install',          array( $this, 'activate_post_install' ),  99 );
-		remove_filter( 'http_request_args',              'cbox_disable_ssl_verification',          10 );
+		remove_filter( 'http_request_args',              'dollie_setup_disable_ssl_verification',          10 );
 		remove_filter( 'install_theme_complete_actions', array( $this, 'remove_theme_actions' ) );
 
 		if ( ! $this->result || is_wp_error($this->result) )
@@ -78,7 +78,7 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 	 *
 	 * Why? So we can use our custom download URLs from Github.
 	 *
-	 * @param str $upgrades The value from cbox_get_theme_to_update()
+	 * @param str $upgrades The value from dollie_setup_get_theme_to_update()
 	 */
 	function bulk_upgrade( $upgrades = false, $args = array() ) {
 		if ( empty( $upgrades ) )
@@ -92,13 +92,13 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 		$this->bulk = true;
 		$this->upgrade_strings();
 
-		add_filter( 'upgrader_source_selection',  'cbox_rename_github_folder',        1,  4 );
+		add_filter( 'upgrader_source_selection',  'dollie_setup_rename_github_folder',        1,  4 );
 		add_filter( 'upgrader_pre_install',       array( $this, 'current_before' ),   10, 2 );
 		add_filter( 'upgrader_post_install',      array( $this, 'current_after' ),    10, 2 );
 		add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_theme' ), 10, 4 );
-		add_filter( 'http_request_args',          'cbox_disable_ssl_verification',    10, 2 );
+		add_filter( 'http_request_args',          'dollie_setup_disable_ssl_verification',    10, 2 );
 
-		cbox_get_template_part('wrapper-header');
+		dollie_setup_get_template_part('wrapper-header');
 		$this->skin->header();
 
 		// Connect to the Filesystem first.
@@ -110,14 +110,14 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 
 		$this->skin->bulk_header();
 
-		// Start maintenance mode because CBOX theme is already active by the time
+		// Start maintenance mode because DOLLIE_SETUP theme is already active by the time
 		// we're checking this
 		$this->maintenance_mode( true );
 
 		$results = $themes = array();
 
-		// @todo Potential to have multiple themes attached to a CBOX package...
-		$themes[] = cbox_get_package_prop( 'theme' );
+		// @todo Potential to have multiple themes attached to a DOLLIE_SETUP package...
+		$themes[] = dollie_setup_get_package_prop( 'theme' );
 
 		$this->update_count   = count( $themes );
 		$this->update_current = 0;
@@ -150,14 +150,14 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 		$this->skin->bulk_footer();
 
 		$this->skin->footer();
-		cbox_get_template_part('wrapper-footer');
+		dollie_setup_get_template_part('wrapper-footer');
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter( 'upgrader_source_selection',  'cbox_rename_github_folder',        1 );
+		remove_filter( 'upgrader_source_selection',  'dollie_setup_rename_github_folder',        1 );
 		remove_filter( 'upgrader_pre_install',       array( $this, 'current_before' ),   10 );
 		remove_filter( 'upgrader_post_install',      array( $this, 'current_after' ),    10 );
 		remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_theme' ), 10 );
-		remove_filter( 'http_request_args',          'cbox_disable_ssl_verification',    10 );
+		remove_filter( 'http_request_args',          'dollie_setup_disable_ssl_verification',    10 );
 
 		return $results;
 	}
@@ -165,18 +165,18 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 	/** CUSTOM HOOKS **************************************************/
 
 	/**
-	 * Activates the CBOX theme post-install.
+	 * Activates the DOLLIE_SETUP theme post-install.
 	 *
 	 * @uses switch_theme() To switch the current theme to something else.
 	 */
 	public function activate_post_install( $bool, $hook_extra, $result ) {
 		// get our theme directory names
-		$directory_name = cbox_get_theme_prop( 'directory_name' );
+		$directory_name = dollie_setup_get_theme_prop( 'directory_name' );
 
 		if ( ! empty( $result['destination_name'] ) && $result['destination_name'] == $directory_name ) {
 			// if BP_ROOT_BLOG is defined and we're not on the root blog, switch to it
-			if ( ! cbox_is_main_site() ) {
-				switch_to_blog( cbox_get_main_site_id() );
+			if ( ! dollie_setup_is_main_site() ) {
+				switch_to_blog( dollie_setup_get_main_site_id() );
 				$switched = true;
 			}
 
@@ -191,7 +191,7 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 
 			// Mark the theme as having just been activated
 			// so that we can run the setup on next pageload
-			update_site_option( '_cbox_theme_activated', '1' );
+			update_site_option( '_dollie_setup_theme_activated', '1' );
 		}
 
 		return $bool;
@@ -204,7 +204,7 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 	public function remove_theme_actions( $actions ) {
 		unset( $actions );
 
-		$actions['theme_page'] = '<a href="' . self_admin_url( 'admin.php?page=cbox' ) . '" class="button-primary">' . __( 'Continue to CBOX Dashboard &rarr;', 'commons-in-a-box' ) . '</a>';
+		$actions['theme_page'] = '<a href="' . self_admin_url( 'admin.php?page=cbox' ) . '" class="button-primary">' . __( 'Continue to DOLLIE_SETUP Dashboard &rarr;', 'commons-in-a-box' ) . '</a>';
 		return $actions;
 	}
 }

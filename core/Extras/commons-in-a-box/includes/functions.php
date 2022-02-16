@@ -21,7 +21,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
  * @since 1.0
  * @return bool
  */
-function cbox_is_admin() {
+function dollie_setup_is_admin() {
 	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 		// if we're in the admin area, WP_NETWORK_ADMIN will be defined.
 		// admin-ajax.php does not define this so this is a good check to see
@@ -48,7 +48,7 @@ function cbox_is_admin() {
  *
  * @return int
  */
-function cbox_get_main_site_id() {
+function dollie_setup_get_main_site_id() {
 	/*
 	 * BuddyPress has precedence; not using bp_get_root_blog_id() b/c BuddyPress
 	 * might not be active by the time this function is called.
@@ -82,7 +82,7 @@ function cbox_get_main_site_id() {
  *
  * @return bool True if main site, false otherwise.
  */
-function cbox_is_main_site() {
+function dollie_setup_is_main_site() {
 	// Always true on single site instances.
 	if ( ! is_multisite() ) {
 		return true;
@@ -90,7 +90,7 @@ function cbox_is_main_site() {
 
 	// Check against current site.
 	$site_id = (int) get_current_blog_id();
-	if ( $site_id === cbox_get_main_site_id() ) {
+	if ( $site_id === dollie_setup_get_main_site_id() ) {
 		return true;
 	}
 
@@ -99,36 +99,36 @@ function cbox_is_main_site() {
 }
 
 /**
- * Returns the current CBOX revision date as set in
+ * Returns the current DOLLIE_SETUP revision date as set in
  * {@link Commons_In_A_Box::setup_globals()}.
  *
  * @since 0.3
  *
- * @return int The current CBOX revision date as a unix timestamp.
+ * @return int The current DOLLIE_SETUP revision date as a unix timestamp.
  */
-function cbox_get_current_revision_date() {
+function dollie_setup_get_current_revision_date() {
 	return strtotime( cbox()->revision_date );
 }
 
 /**
- * Returns the CBOX revision date from the current CBOX install.
+ * Returns the DOLLIE_SETUP revision date from the current DOLLIE_SETUP install.
  *
  * @since 0.3
  *
- * @return mixed Integer of the installed CBOX unix timestamp on success.  Boolean false on failure.
+ * @return mixed Integer of the installed DOLLIE_SETUP unix timestamp on success.  Boolean false on failure.
  */
-function cbox_get_installed_revision_date() {
-	return strtotime( get_site_option( '_cbox_revision_date' ) );
+function dollie_setup_get_installed_revision_date() {
+	return strtotime( get_site_option( '_dollie_setup_revision_date' ) );
 }
 
 /**
- * Get all registered CBOX packages.
+ * Get all registered DOLLIE_SETUP packages.
  *
  * @since 1.1.0
  *
  * @return array Key/value pairs (package name => class name)
  */
-function cbox_get_packages() {
+function dollie_setup_get_packages() {
 	/*
 	 * Make some packages mandatory.
 	 *
@@ -147,29 +147,29 @@ function cbox_get_packages() {
 	 * @var array $packages Array key is your internal package name, value is class name to
 	 *                      instantiate the class.
 	 */
-	$third_party = apply_filters( 'cbox_register_packages', array() );
+	$third_party = apply_filters( 'dollie_setup_register_packages', array() );
 
 	return $default + (array) $third_party;
 }
 
 /**
- * Get the current, active CBOX package.
+ * Get the current, active DOLLIE_SETUP package.
  *
  * @since 1.1.0
  */
-function cbox_get_current_package_id() {
-	$current = get_site_option( '_cbox_current_package' );
+function dollie_setup_get_current_package_id() {
+	$current = get_site_option( '_dollie_setup_current_package' );
 
 	// We've never saved a package into the DB before.
-	if ( cbox_get_installed_revision_date() && empty( $current ) ) {
+	if ( dollie_setup_get_installed_revision_date() && empty( $current ) ) {
 		/*
 		 * If installed date is before 2018/09/01, save as 'classic' for backpat.
 		 *
 		 * @todo Change date to whenever we launch v1.1.0
 		 */
-		if ( cbox_get_installed_revision_date() < strtotime( '2018/09/01 UTC' ) ) {
+		if ( dollie_setup_get_installed_revision_date() < strtotime( '2018/09/01 UTC' ) ) {
 			$current = 'classic';
-			update_site_option( '_cbox_current_package', $current );
+			update_site_option( '_dollie_setup_current_package', $current );
 		}
 	}
 
@@ -177,24 +177,24 @@ function cbox_get_current_package_id() {
 }
 
 /**
- * Get a specific property from a registered CBOX package.
+ * Get a specific property from a registered DOLLIE_SETUP package.
  *
  * @since 1.1.0
  *
- * @param  string $prop       The property to fetch from the CBOX package.
- * @param  string $package_id The CBOX package to query. If empty, falls back to current package ID.
+ * @param  string $prop       The property to fetch from the DOLLIE_SETUP package.
+ * @param  string $package_id The DOLLIE_SETUP package to query. If empty, falls back to current package ID.
  * @return mixed|false        Boolean false on failure, any other type on success.
  */
-function cbox_get_package_prop( $prop = '', $package_id = '' ) {
+function dollie_setup_get_package_prop( $prop = '', $package_id = '' ) {
 	if ( empty( $package_id ) ) {
-		$package_id = cbox_get_current_package_id();
+		$package_id = dollie_setup_get_current_package_id();
 	}
 
 	if ( empty( $package_id ) ) {
 		return false;
 	}
 
-	$packages = cbox_get_packages();
+	$packages = dollie_setup_get_packages();
 	if ( isset( $packages[$package_id] ) && class_exists( $packages[$package_id] ) ) {
 		// Name is set early.
 		if ( 'name' === $prop ) {
@@ -239,24 +239,24 @@ function cbox_get_package_prop( $prop = '', $package_id = '' ) {
 }
 
 /**
- * Get a specific property from a registered CBOX package's theme.
+ * Get a specific property from a registered DOLLIE_SETUP package's theme.
  *
  * @since 1.1.0
  *
- * @param  string $prop       The property to fetch from the CBOX package theme.
- * @param  string $package_id The CBOX package to query. If empty, falls back to current package ID.
+ * @param  string $prop       The property to fetch from the DOLLIE_SETUP package theme.
+ * @param  string $package_id The DOLLIE_SETUP package to query. If empty, falls back to current package ID.
  * @return mixed|false        Boolean false on failure, any other type on success.
  */
-function cbox_get_theme_prop( $prop = '', $package_id = '' ) {
+function dollie_setup_get_theme_prop( $prop = '', $package_id = '' ) {
 	if ( empty( $package_id ) ) {
-		$package_id = cbox_get_current_package_id();
+		$package_id = dollie_setup_get_current_package_id();
 	}
 
 	if ( empty( $package_id ) ) {
 		return false;
 	}
 
-	$theme = cbox_get_package_prop( 'theme', $package_id );
+	$theme = dollie_setup_get_package_prop( 'theme', $package_id );
 	if ( false === $theme ) {
 		return false;
 	}
@@ -269,24 +269,24 @@ function cbox_get_theme_prop( $prop = '', $package_id = '' ) {
 }
 
 /**
- * Get a specific string from a registered CBOX package.
+ * Get a specific string from a registered DOLLIE_SETUP package.
  *
  * @since 1.1.0
  *
- * @param  string $prop       The string to fetch from the CBOX package.
- * @param  string $package_id The CBOX package to query. If empty, falls back to current package ID.
+ * @param  string $prop       The string to fetch from the DOLLIE_SETUP package.
+ * @param  string $package_id The DOLLIE_SETUP package to query. If empty, falls back to current package ID.
  * @return string
  */
-function cbox_get_string( $string = '', $package_id = '' ) {
+function dollie_setup_get_string( $string = '', $package_id = '' ) {
 	if ( empty( $package_id ) ) {
-		$package_id = cbox_get_current_package_id();
+		$package_id = dollie_setup_get_current_package_id();
 	}
 
 	if ( empty( $package_id ) ) {
 		return '';
 	}
 
-	$strings = cbox_get_package_prop( 'strings', $package_id );
+	$strings = dollie_setup_get_package_prop( 'strings', $package_id );
 	if ( false === $strings ) {
 		return '';
 	}

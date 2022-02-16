@@ -1,14 +1,14 @@
 <?php
-namespace CBOX\CLI;
+namespace DOLLIE_SETUP\CLI;
 
 use WP_CLI;
 
 /**
- * Updates and manages a CBOX installation.
+ * Updates and manages a DOLLIE_SETUP installation.
  *
  * ## EXAMPLES
  *
- *     # Display the CBOX version
+ *     # Display the DOLLIE_SETUP version
  *     $ wp cbox version
  *     1.0.15
  *
@@ -16,39 +16,39 @@ use WP_CLI;
  */
 class Core extends \WP_CLI_Command {
 	/**
-	 * Displays current CBOX status.
+	 * Displays current DOLLIE_SETUP status.
 	 *
 	 * ## EXAMPLES
 	 *
 	 *     $ wp cbox status
-	 *     Current CBOX package: Classic
+	 *     Current DOLLIE_SETUP package: Classic
 	 *
 	 *     Current theme: Commons In A Box. No update available.
 	 *
-	 *     Active CBOX plugins are all up-to-date.
+	 *     Active DOLLIE_SETUP plugins are all up-to-date.
 	 */
 	public function status( $args, $assoc_args ) {
-		if ( ! cbox_get_current_package_id() ) {
+		if ( ! dollie_setup_get_current_package_id() ) {
 			// @todo Add 'wp cbox install' command of some sort.
-			WP_CLI::error( 'A CBOX package is not active on the site.  Please install CBOX before running this command.' );
+			WP_CLI::error( 'A DOLLIE_SETUP package is not active on the site.  Please install DOLLIE_SETUP before running this command.' );
 		}
 
-		WP_CLI::line( 'Current CBOX package: ' . cbox_get_package_prop( 'name' ) );
+		WP_CLI::line( 'Current DOLLIE_SETUP package: ' . dollie_setup_get_package_prop( 'name' ) );
 		WP_CLI::line( '' );
 
 		// Theme status.
-		$theme = cbox_get_theme_to_update();
+		$theme = dollie_setup_get_theme_to_update();
 		if ( ! empty( $theme ) ) {
 			WP_CLI::line( 'The theme has an update. Run "wp cbox update theme" to update the theme.' );
 		} else {
-			$cbox_theme    = cbox_get_package_prop( 'theme' );
-			$current_theme = cbox_get_theme();
+			$dollie_setup_theme    = dollie_setup_get_package_prop( 'theme' );
+			$current_theme = dollie_setup_get_theme();
 
-			if ( $cbox_theme['name'] && $cbox_theme['directory_name'] === $current_theme->get_template() ) {
-				WP_CLI::line( 'Current theme: ' . $cbox_theme['name'] . '. No update available.' );
-			} elseif ( $cbox_theme['name'] ) {
-				WP_CLI::line( 'Current theme: ' . $current_theme->get( 'Name' ) . '. The CBOX bundled theme, ' . $cbox_theme['name'] . ', is available, but not activated.' );
-				WP_CLI::line( 'You can activate the theme by running "wp theme activate ' .  $cbox_theme['directory_name'] . '"' );
+			if ( $dollie_setup_theme['name'] && $dollie_setup_theme['directory_name'] === $current_theme->get_template() ) {
+				WP_CLI::line( 'Current theme: ' . $dollie_setup_theme['name'] . '. No update available.' );
+			} elseif ( $dollie_setup_theme['name'] ) {
+				WP_CLI::line( 'Current theme: ' . $current_theme->get( 'Name' ) . '. The DOLLIE_SETUP bundled theme, ' . $dollie_setup_theme['name'] . ', is available, but not activated.' );
+				WP_CLI::line( 'You can activate the theme by running "wp theme activate ' .  $dollie_setup_theme['directory_name'] . '"' );
 			}
 		}
 
@@ -63,7 +63,7 @@ class Core extends \WP_CLI_Command {
 			WP_CLI::line( '' );
 			WP_CLI::line( 'The following active plugins have an update available:' );
 
-			$cbox_plugins = \CBox_Plugins::get_plugins();
+			$dollie_setup_plugins = \CBox_Plugins::get_plugins();
 			$dependencies = \CBox_Plugins::get_plugins( 'dependency' );
 
 			foreach ( $plugins as $plugin ) {
@@ -71,7 +71,7 @@ class Core extends \WP_CLI_Command {
 				$items[] = array(
 					'Plugin'          => $plugin,
 					'Current Version' => \Plugin_Dependencies::$all_plugins[$loader]['Version'],
-					'New Version'     => isset( $cbox_plugins[$plugin]['version'] ) ? $cbox_plugins[$plugin]['version'] : $dependencies[$plugin]['version']
+					'New Version'     => isset( $dollie_setup_plugins[$plugin]['version'] ) ? $dollie_setup_plugins[$plugin]['version'] : $dependencies[$plugin]['version']
 				);
 			}
 
@@ -81,13 +81,13 @@ class Core extends \WP_CLI_Command {
 		}
 
 		// Required plugins check.
-		if ( ! isset( $cbox_plugins ) ) {
-			$cbox_plugins = \CBox_Plugins::get_plugins( 'required' );
+		if ( ! isset( $dollie_setup_plugins ) ) {
+			$dollie_setup_plugins = \CBox_Plugins::get_plugins( 'required' );
 		} else {
-			$cbox_plugins = $cbox_plugins['required'];
+			$dollie_setup_plugins = $dollie_setup_plugins['required'];
 		}
 
-		$required = \CBox_Admin_Plugins::organize_plugins_by_state( $cbox_plugins );
+		$required = \CBox_Admin_Plugins::organize_plugins_by_state( $dollie_setup_plugins );
 		unset( $required['deactivate'] );
 
 		if ( ! empty( $required ) ) {
@@ -116,7 +116,7 @@ class Core extends \WP_CLI_Command {
 					$loader = \Plugin_Dependencies::get_pluginloader_by_name( $plugin );
 					$items[] = array(
 						'Plugin'  => $plugin,
-						'Version' => isset( $cbox_plugins[$plugin]['version'] ) ? $cbox_plugins[$plugin]['version'] : $dependencies[$plugin]['version'],
+						'Version' => isset( $dollie_setup_plugins[$plugin]['version'] ) ? $dollie_setup_plugins[$plugin]['version'] : $dependencies[$plugin]['version'],
 						'Action'  => $action
 					);
 				}
@@ -130,12 +130,12 @@ class Core extends \WP_CLI_Command {
 			WP_CLI::line( 'Run "wp cbox update plugins" to update the plugins.' );
 		} elseif ( $show_active_notice ) {
 			WP_CLI::line( '' );
-			WP_CLI::line( 'Active CBOX plugins are all up-to-date.' );
+			WP_CLI::line( 'Active DOLLIE_SETUP plugins are all up-to-date.' );
 		}
 	}
 
 	/**
-	 * Displays the CBOX version.
+	 * Displays the DOLLIE_SETUP version.
 	 *
 	 * ## EXAMPLES
 	 *

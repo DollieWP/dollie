@@ -11,32 +11,32 @@ A platform for easy and powerful community websites. Powered by BuddyPress.
 
 == Description ==
 
-Commons In A Box (CBOX) dramatically lowers the barrier to building community sites on WordPress. CBOX helps you to install BuddyPress along with a number of carefully selected and vetted BuddyPress plugins, so that you don’t have to worry about which plugins are best and which are compatible with each other.
+Commons In A Box (DOLLIE_SETUP) dramatically lowers the barrier to building community sites on WordPress. DOLLIE_SETUP helps you to install BuddyPress along with a number of carefully selected and vetted BuddyPress plugins, so that you don’t have to worry about which plugins are best and which are compatible with each other.
 
-Commons In A Box (CBOX) includes a choice of two packages that can be customized to meet the needs of your community:
+Commons In A Box (DOLLIE_SETUP) includes a choice of two packages that can be customized to meet the needs of your community:
 
-**CBOX Classic is designed for communities of all kinds.** It is used by groups and organizations to create flexible social networks where members can collaborate on projects, publish research, and create repositories of knowledge.
+**DOLLIE_SETUP Classic is designed for communities of all kinds.** It is used by groups and organizations to create flexible social networks where members can collaborate on projects, publish research, and create repositories of knowledge.
 
-**CBOX OpenLab is specifically designed for teaching, learning, and collaboration.** It allows faculty members, departments, and entire institutions to create commons spaces for open learning.
+**DOLLIE_SETUP OpenLab is specifically designed for teaching, learning, and collaboration.** It allows faculty members, departments, and entire institutions to create commons spaces for open learning.
 
 Both packages feature:
 - Robust out-of-the-box functionality;
 - An intuitive setup process that guides site administrators through installation and customization;
 - Responsive design for easy use on many devices, including tablets and smartphones;
-- Ensured compatibility with a core set of plugins – when it’s time to update, you simply update CBOX and we take care of the rest;
+- Ensured compatibility with a core set of plugins – when it’s time to update, you simply update DOLLIE_SETUP and we take care of the rest;
 - Compatibility with many additional WordPress and BuddyPress plugins and themes.
 
 Visit [commonsinabox.org](https://commonsinabox.org/) for support and documentation.
 
 == Installation ==
 
-Before you start, make sure to check out the [Technical Guide](http://commonsinabox.org/cbox-technical-guide), which explains the technical requirements for Commons In A Box (CBOX).
+Before you start, make sure to check out the [Technical Guide](http://commonsinabox.org/cbox-technical-guide), which explains the technical requirements for Commons In A Box (DOLLIE_SETUP).
 
-When you’re ready, there are two ways to download CBOX :
+When you’re ready, there are two ways to download DOLLIE_SETUP :
 1. Search for it in the plugins section of your WordPress Dashboard and install it as you would any other WordPress plugin.
 1. Download it from the WordPress plugin repository: [https://wordpress.org/plugins/commons-in-a-box](https://wordpress.org/plugins/commons-in-a-box/)
 
-Once you’ve downloaded and installed CBOX, you’ll be able to choose which package you wish to use: CBOX Classic or CBOX OpenLab. See our documentation for step-by-step instructions for installing [CBOX Classic](http://commonsinabox.org/cbox-classic-installation-guide) or [CBOX OpenLab](http://commonsinabox.org/openlab-installation-guide).
+Once you’ve downloaded and installed DOLLIE_SETUP, you’ll be able to choose which package you wish to use: DOLLIE_SETUP Classic or DOLLIE_SETUP OpenLab. See our documentation for step-by-step instructions for installing [DOLLIE_SETUP Classic](http://commonsinabox.org/cbox-classic-installation-guide) or [DOLLIE_SETUP OpenLab](http://commonsinabox.org/openlab-installation-guide).
 
 If you want to find out more before you begin, you can read our [Documentation](http://commonsinabox.org/cbox-documentation), visit our [Showcase](http://commonsinabox.org/cbox-showcase), or try a [Demo](http://commonsinabox.org/demo).
 
@@ -52,10 +52,10 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 
 == Screenshots ==
 
-1. CBOX Classic dashboard
-2. CBOX Classic homepage
-3. CBOX OpenLab dashboard
-4. CBOX-OL homepage
+1. DOLLIE_SETUP Classic dashboard
+2. DOLLIE_SETUP Classic homepage
+3. DOLLIE_SETUP OpenLab dashboard
+4. DOLLIE_SETUP-OL homepage
 
 == Changelog ==
 
@@ -85,7 +85,7 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 * Add an admin email notification when a forum post is marked as Pending.
 * Improved behavior when restoring a forum topic from trash/spam.
 * Classic: Add highlighting to unread group forum threads.
-* Classic: Improve bbPress redirect behavior after CBOX installation.
+* Classic: Improve bbPress redirect behavior after DOLLIE_SETUP installation.
 * Classic: Improved labels in theme options panel.
 * Classic: Compatibility with BP bulk notifications management.
 * OpenLab: Introduce the 'Creators' feature, allowing greater customization over the way a group's Acknowledgements are displayed and inherited by clones.
@@ -153,7 +153,7 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 * OpenLab: Fixed bug that could cause an invalid default theme to be installed on group-type template sites.
 * OpenLab: Fixed bug in the way that network toolbar loads on subdomain installations.
 * OpenLab: Accessibility improvements for Dashboard admin panels.
-* OpenLab: Added CLI tools for performing data migrations after CBOX upgrade.
+* OpenLab: Added CLI tools for performing data migrations after DOLLIE_SETUP upgrade.
 * OpenLab: Fixed text visibility bug when editing a group event.
 * OpenLab: Performance improvements related to user-defined strings.
 * OpenLab: Improved compatibility between network toolbar and latest versions of Block Editor.
@@ -168,7 +168,7 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 
 = 1.1.2 =
 * Classic: Improved compatibility with BP Customizer settings when using the Nouveau template pack.
-* Classic: Fixed a bug with tab navigation in CBOX THeme options.
+* Classic: Fixed a bug with tab navigation in DOLLIE_SETUP THeme options.
 * Classic: Fixed an issues with making searches on BuddyPress directory pages.
 * OpenLab: Hide "Group Home" link from site navs when the group is inaccessible to current user.
 * OpenLab: Fixed bug with BuddyPress Docs edit mode.
@@ -176,7 +176,7 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 * OpenLab: Fixed incorrect "Recent Docs" and "Recent Discussions" subheaders when WordPress is installed in a subdirectory.
 * OpenLab: Improved language regarding "Professor(s)" in group headers.
 * OpenLab: Fix bug that could prevent site admins from accessing Dashboard > Plugins in some cases.
-* Improvements to the behavior of network-activated CBOX plugins.
+* Improvements to the behavior of network-activated DOLLIE_SETUP plugins.
 * Fixed bug in WP-CLI tools that caused theme update to unzip to wrong location in some cases.
 * Improved compatibility with Multi-Network setups.
 * Updated plugins (Classic): BuddyPress 4.4.0, BuddyPress Docs 2.1.3, BuddyPress Group Email Subscription 3.9.4, BP Reply By Email 1.0-RC8
@@ -203,8 +203,8 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 
 = 1.0.17 =
 * Update plugins: BuddyPress 2.9.4, BuddyPress Docs 2.0.1, BuddyPress Group Email Subscription 3.8.2, BuddyPress Groupblog 1.9.0, BP MPO Activity Filter 1.2.1, BP Reply By Email 1.0-RC6, CAC Featured Content 1.0.9, Invite Anyone 1.3.20
-* Introduce new technique for setting plugin defaults at the time of CBOX setup.
-* Fix bug that caused BuddyPress Notifications component not to be activated at CBOX setup.
+* Introduce new technique for setting plugin defaults at the time of DOLLIE_SETUP setup.
+* Fix bug that caused BuddyPress Notifications component not to be activated at DOLLIE_SETUP setup.
 * Fix bug that causes bbPress topic replies not to go through in certain cases.
 * Theme improvements: Add search form to Members directory and to Manage > Members page in groups.
 
@@ -242,7 +242,7 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 * Compatibility with WordPress 4.2 and BuddyPress 2.2
 * Fixed bug that could cause fatal errors in some cases where bbPress is not network-activated
 * Updated plugins: bbPress 2.5.7, BP Group Announcements 1.0.5, BP Groupblog 1.8.11, BuddyPress 2.2.3.1, BuddyPress Docs 1.8.6, BuddyPress Docs Wiki add-on 1.0.9, BuddyPress Group Email Subscription 3.5.1, CAC Featured Content 1.0.5, External Group Blogs 1.6.0, Invite Anyone 1.3.7
-* Theme improvements: Added an option to the Recent Blog Posts widget that allows the inclusion of groupblog-related posts; Improved styling for forum topic headers; Fixed bug where theme admin panel JavaScript did not load on some setups; Fixed bug that prevented media uploads in the theme admin on some setups; Updated registration templates to match recent versions of BuddyPress; Added support for the DiRT Directory Client plugin; Improved appearance of CBOX Theme's mobile menu with the WP Admin Bar; Improved appearance of form fields on IE; Improved compatibility with bxSlider; Improved localizability of some strings; Improved appearance of groupblog navigation item.
+* Theme improvements: Added an option to the Recent Blog Posts widget that allows the inclusion of groupblog-related posts; Improved styling for forum topic headers; Fixed bug where theme admin panel JavaScript did not load on some setups; Fixed bug that prevented media uploads in the theme admin on some setups; Updated registration templates to match recent versions of BuddyPress; Added support for the DiRT Directory Client plugin; Improved appearance of DOLLIE_SETUP Theme's mobile menu with the WP Admin Bar; Improved appearance of form fields on IE; Improved compatibility with bxSlider; Improved localizability of some strings; Improved appearance of groupblog navigation item.
 
 = 1.0.9 =
 * Compatibility with WordPress 4.0 and BuddyPress 2.1
@@ -272,7 +272,7 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 
 = 1.0.5 =
 * Updated plugins: BuddyPress 1.8, BuddyPress Docs 1.4.5, BuddyPress Docs Wiki 1.0.4, BuddyPress Group Email Subscription 3.4, BP Groupblog 1.8.4, BuddyPress Reply By Email 1.0-RC2, Invite Anyone 1.0.23, External Group Blogs 1.5.2
-* New CBOX option: For BuddyPress group pages, set the default tab to "Forum" instead of "Activity".
+* New DOLLIE_SETUP option: For BuddyPress group pages, set the default tab to "Forum" instead of "Activity".
 * For bbPress, reinstates the TinyMCE editor that was disabled since v2.3.
 * Fixed bug in Custom Profile Filters for BuddyPress that caused some social networking fields to render incorrectly
 * Theme improvements: Fix visibility of second-level dropdown menus; on multisite installs, allow admins to set a different front page on sub-sites and also allow usage of the homepage slider on sub-sites; fixed bug that prevented the Comments section from appearing on BuddyPress Docs pages; improved compatibility with BP Docs Wiki; fix 'New Topic' button for group forums; various compatibility fixes for IE8; fix some debug notices; improve the appearance of comments on Docs; improve localizability; improve WP 3.6 compatibility; allow some HTML in slider excerpt; fix styling when slider is disabled; ensure that slider can display more than 8 items; improve documentation on how to get set up with the slider
@@ -284,7 +284,7 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 
 = 1.0.3 =
 * Updated plugins: BuddyPress 1.7.1, BuddyPress Docs 1.3.4, BuddyPress Group Email Subscription 3.3.2, Invite Anyone 1.0.21, bbPress 2.3.2, More Privacy Options 3.5, BP Groupblog 1.8.2, Bebop 1.3.2
-* Properly activate the CBOX Theme when installing BuddyPress on a secondary site
+* Properly activate the DOLLIE_SETUP Theme when installing BuddyPress on a secondary site
 * Workaround a bbPress 2.2.x role permissions bug when a user creates a new site in BuddyPress
 * Theme improvements: Support for BuddyPress 1.7.x; removes the Site Features slider limit
 
@@ -326,6 +326,6 @@ It is possible to install Commons In A Box on an existing WordPress site, and it
 
 == Credits ==
 
-Commons In A Box is a generalized, distributable version of the platform powering the [CUNY Academic Commons](https://commons.gc.cuny.edu). CBOX OpenLab is modeled on the [OpenLab at City Tech](https://openlab.citytech.cuny.edu/).
+Commons In A Box is a generalized, distributable version of the platform powering the [CUNY Academic Commons](https://commons.gc.cuny.edu). DOLLIE_SETUP OpenLab is modeled on the [OpenLab at City Tech](https://openlab.citytech.cuny.edu/).
 
-Commons In A Box is developed by a team based at [The Graduate Center, CUNY](https://www.gc.cuny.edu). It was originally made possible by a grant from the [Alfred P. Sloan Foundation](https://sloan.org). CBOX OpenLab, a collaboration with [New York City College of Technology](http://www.citytech.cuny.edu), was created with funding from the National Endowment for the Humanities’ [Office of Digital Humanities](https://www.neh.gov/divisions/odh). CBOX receives continuing support from the City University of New York and The Graduate Center, CUNY.
+Commons In A Box is developed by a team based at [The Graduate Center, CUNY](https://www.gc.cuny.edu). It was originally made possible by a grant from the [Alfred P. Sloan Foundation](https://sloan.org). DOLLIE_SETUP OpenLab, a collaboration with [New York City College of Technology](http://www.citytech.cuny.edu), was created with funding from the National Endowment for the Humanities’ [Office of Digital Humanities](https://www.neh.gov/divisions/odh). DOLLIE_SETUP receives continuing support from the City University of New York and The Graduate Center, CUNY.

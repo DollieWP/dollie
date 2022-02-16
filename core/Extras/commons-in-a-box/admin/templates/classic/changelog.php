@@ -1,11 +1,11 @@
 
 		<div class="wrap about-wrap">
-			<h1><?php printf( __( 'Welcome to Commons In A Box %s', 'commons-in-a-box' ), cbox_get_version() ); ?></h1>
+			<h1><?php printf( __( 'Welcome to Commons In A Box %s', 'commons-in-a-box' ), dollie_setup_get_version() ); ?></h1>
 
-			<div class="about-text" style="min-height:90px;"><?php printf( __( 'Thank you for updating to the latest version!', 'commons-in-a-box' ), cbox_get_version() ); ?></div>
+			<div class="about-text" style="min-height:90px;"><?php printf( __( 'Thank you for updating to the latest version!', 'commons-in-a-box' ), dollie_setup_get_version() ); ?></div>
 
 			<div class="cbox-badge">
-				<img src="<?php echo esc_url( cbox_get_package_prop( 'badge_url' ) ); ?>" srcset="<?php echo esc_url( cbox_get_package_prop( 'badge_url_2x' ) ); ?> 2x" alt="<?php esc_attr_e( 'Badge', 'commons-in-a-box' ); ?>" />
+				<img src="<?php echo esc_url( dollie_setup_get_package_prop( 'badge_url' ) ); ?>" srcset="<?php echo esc_url( dollie_setup_get_package_prop( 'badge_url_2x' ) ); ?> 2x" alt="<?php esc_attr_e( 'Badge', 'commons-in-a-box' ); ?>" />
 			</div>
 
 			<h2 class="nav-tab-wrapper">
@@ -56,7 +56,7 @@
 			-->
 
 			<div class="return-to-dashboard">
-				<?php printf( __( '<a href="%s">Return to the CBOX dashboard &rarr;</a>', 'commons-in-a-box' ), self_admin_url( 'admin.php?page=cbox' ) ); ?>
+				<?php printf( __( '<a href="%s">Return to the DOLLIE_SETUP dashboard &rarr;</a>', 'commons-in-a-box' ), self_admin_url( 'admin.php?page=cbox' ) ); ?>
 			</div>
 
 		</div>

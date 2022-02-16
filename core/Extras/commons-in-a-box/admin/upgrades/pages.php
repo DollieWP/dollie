@@ -1,9 +1,9 @@
 <?php
 
-namespace CBOX\Admin\Upgrades;
+namespace DOLLIE_SETUP\Admin\Upgrades;
 
-use CBOX\Upgrades\Upgrade_Registry;
-use CBOX\Admin\Upgrades\List_Table;
+use DOLLIE_SETUP\Upgrades\Upgrade_Registry;
+use DOLLIE_SETUP\Admin\Upgrades\List_Table;
 
 /**
  * Setup sub-menu page for Upgrades.
@@ -23,7 +23,7 @@ function setup_upgrades_page()
 
 	add_action("admin_print_scripts-{$subpage}", __NAMESPACE__ . '\\enqueue_assets');
 }
-add_action('cbox_admin_menu', __NAMESPACE__ . '\\setup_upgrades_page');
+add_action('dollie_setup_admin_menu', __NAMESPACE__ . '\\setup_upgrades_page');
 
 /**
  * Load upgrade page assets.
@@ -47,7 +47,7 @@ function enqueue_assets()
 		true
 	);
 
-	wp_localize_script('cbox-upgrade-script', 'CBOXUpgrades', [
+	wp_localize_script('cbox-upgrade-script', 'DOLLIE_SETUPUpgrades', [
 		'ajaxUrl'  => admin_url('admin-ajax.php'),
 		'nonce'    => wp_create_nonce('cbox-upgrades'),
 		'upgrade'  => isset($_GET['id']) ? sanitize_key($_GET['id']) : null,
@@ -67,7 +67,7 @@ function enqueue_assets()
 function upgrades_page()
 {
 	$action = isset($_GET['action']) ? $_GET['action'] : 'list';
-	cbox_get_template_part('wrapper-header');
+	dollie_setup_get_template_part('wrapper-header');
 ?>
 	<div class="wrap">
 		<h2><?php esc_html_e('Upgrades', 'commons-in-a-box'); ?></a></h2>
@@ -78,7 +78,7 @@ function upgrades_page()
 		<?php endif; ?>
 	</div>
 <?php
-	cbox_get_template_part('wrapper-footer');
+	dollie_setup_get_template_part('wrapper-footer');
 }
 
 /**
@@ -88,7 +88,7 @@ function upgrades_page()
  */
 function upgrades_list_table()
 {
-	require CBOX_PLUGIN_DIR . 'admin/upgrades/list-table.php';
+	require DOLLIE_SETUP_PLUGIN_DIR . 'admin/upgrades/list-table.php';
 
 	$list_table = new List_Table();
 ?>
@@ -113,10 +113,10 @@ function upgrades_view()
 	if ($is_bulk) {
 		$upgrades = $registry->get_all_registered();
 
-		/** @var \CBOX\Upgrades\Upgrade */
+		/** @var \DOLLIE_SETUP\Upgrades\Upgrade */
 		$upgrade = !empty($upgrades) ? reset($upgrades) : null;
 	} else {
-		/** @var \CBOX\Upgrades\Upgrade */
+		/** @var \DOLLIE_SETUP\Upgrades\Upgrade */
 		$upgrade = $registry->get_registered($id);
 	}
 
@@ -128,7 +128,7 @@ function upgrades_view()
 	$name       = $is_bulk ? __('Bulk upgrade', 'commons-in-a-box') : $upgrade->name;
 	$percentage = $upgrade->get_percentage();
 	$style      = $percentage > 0 ? 'style="width: ' . $percentage . '%"' : '';
-	$go_back    = cbox_admin_prop('url', 'admin.php?page=cbox-upgrades');
+	$go_back    = dollie_setup_admin_prop('url', 'admin.php?page=cbox-upgrades');
 ?>
 	<div class="cbox-upgrade">
 		<h3><?php echo esc_html($name); ?></h3>

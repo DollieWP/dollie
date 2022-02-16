@@ -10,7 +10,7 @@
  */
 
 /**
- * Plugin manifest for the CBOX Classic package.
+ * Plugin manifest for the DOLLIE_SETUP Classic package.
  *
  * @since 1.1.0
  */
@@ -39,8 +39,8 @@ class CBox_Plugins_Classic {
 		// BuddyPress
 		call_user_func( $instance, array(
 			'plugin_name'       => 'WooCommerce',
-			'cbox_name'         => __( 'WooCommerce', 'commons-in-a-box' ),
-			'cbox_description'  => __( 'WooCommerce provides the core functionality for selling your platform services with Dollie.', 'commons-in-a-box' ),
+			'dollie_setup_name'         => __( 'WooCommerce', 'commons-in-a-box' ),
+			'dollie_setup_description'  => __( 'WooCommerce provides the core functionality for selling your platform services with Dollie.', 'commons-in-a-box' ),
 			'version'           => '6.2.0',
 			'documentation_url' => 'https://partners.getdollie.com/?s=WooCommerce&ht-kb-search=1&lang=',
 			'admin_settings'    => 'admin.php?page=wc-settings',
@@ -49,8 +49,8 @@ class CBox_Plugins_Classic {
 
 		call_user_func( $instance, array(
 			'plugin_name'       => 'WooCommerce Subscriptions',
-			'cbox_name'         => __( 'WooCommerce Subscription', 'commons-in-a-box' ),
-			'cbox_description'  => __( 'WooCommerce subscriptions gives you the ability to set up recurring subscriptions for your customers directly tied to your services.', 'commons-in-a-box' ),
+			'dollie_setup_name'         => __( 'WooCommerce Subscription', 'commons-in-a-box' ),
+			'dollie_setup_description'  => __( 'WooCommerce subscriptions gives you the ability to set up recurring subscriptions for your customers directly tied to your services.', 'commons-in-a-box' ),
 			'version'           => '3.1.6',
 			'documentation_url' => 'https://partners.getdollie.com/?s=WooCommerce&ht-kb-search=1&lang=',
 			'admin_settings'    => 'admin.php?page=wc-settings',
@@ -61,8 +61,8 @@ class CBox_Plugins_Classic {
 			$instance,
 			array(
 				'plugin_name'       => 'Elementor',
-				'cbox_name'         => __('Elementor', 'commons-in-a-box'),
-				'cbox_description'  => __('The Elementor Page Builder allows you to fully customize your Customer/Client Dashboard quickly and easily.', 'commons-in-a-box'),
+				'dollie_setup_name'         => __('Elementor', 'commons-in-a-box'),
+				'dollie_setup_description'  => __('The Elementor Page Builder allows you to fully customize your Customer/Client Dashboard quickly and easily.', 'commons-in-a-box'),
 				'version'           => '3.5.5',
 				'documentation_url' => 'https://partners.getdollie.com/?s=Elementor&ht-kb-search=1&lang=',
 				'admin_settings'    => 'admin.php?page=elementor',
@@ -71,7 +71,7 @@ class CBox_Plugins_Classic {
 		);
 
 		/**
-		 * Register CBOX's dependency plugins internally.
+		 * Register DOLLIE_SETUP's dependency plugins internally.
 		 *
 		 * The reason why this is done is Plugin Dependencies (PD) does not know the download URL for dependent plugins.
 		 * So if a dependent plugin is deemed incompatible by PD (either not installed or incompatible version),
@@ -93,7 +93,7 @@ class CBox_Plugins_Classic {
 			array(
 				'plugin_name'  => 'WooCommerce Subscriptions',
 				'type'         => 'dependency',
-				'download_url' => CBOX_PLUGIN_DIR . 'includes/zip/woocommerce-subscriptions-3.1.6.zip'
+				'download_url' => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/woocommerce-subscriptions-3.1.6.zip'
 			)
 		);
 
@@ -119,8 +119,8 @@ class CBox_Plugins_Classic {
 		call_user_func( $instance, array(
 			'plugin_name'       => 'User Switching',
 			'type'              => 'user-switching',
-			'cbox_name'         => __( 'User Switching', 'commons-in-a-box' ),
-			'cbox_description'  => __( 'Allows you to quickly log in as one of your clients or customers.', 'commons-in-a-box' ),
+			'dollie_setup_name'         => __( 'User Switching', 'commons-in-a-box' ),
+			'dollie_setup_description'  => __( 'Allows you to quickly log in as one of your clients or customers.', 'commons-in-a-box' ),
 			'version'           => '1.5.8',
 			'download_url'      => 'https://downloads.wordpress.org/plugin/user-switching.1.5.8.zip',
 			'documentation_url' => 'https://wordpress.org/plugins/user-switching',
@@ -136,8 +136,8 @@ class CBox_Plugins_Classic {
 		call_user_func( $instance, array(
 			'plugin_name'       => 'Two Factor Authentication',
 			'type'              => 'recommended',
-			'cbox_name'         => __( 'Two Factor Authentication', 'commons-in-a-box' ),
-			'cbox_description'  => __( 'Allows an easy way for you to secure your Administration user accounts, by setting up two factor login auth.', 'commons-in-a-box' ),
+			'dollie_setup_name'         => __( 'Two Factor Authentication', 'commons-in-a-box' ),
+			'dollie_setup_description'  => __( 'Allows an easy way for you to secure your Administration user accounts, by setting up two factor login auth.', 'commons-in-a-box' ),
 			'version'           => '0.7.1',
 			'download_url'      => 'https://downloads.wordpress.org/plugin/two-factor.zip',
 			'documentation_url' => 'https://wordpress.org/plugins/two-factor/',
@@ -159,8 +159,8 @@ class CBox_Plugins_Classic {
 		call_user_func($instance, array(
 			'plugin_name'       => 'fluentSMTP',
 			'type'              => 'optional',
-			'cbox_name'         => __('FluentSMTP Email', 'commons-in-a-box'),
-			'cbox_description'  => __('Our recommendation for sending reliably delivered emails from your Dollie installation to your clients/customers.', 'commons-in-a-box'),
+			'dollie_setup_name'         => __('FluentSMTP Email', 'commons-in-a-box'),
+			'dollie_setup_description'  => __('Our recommendation for sending reliably delivered emails from your Dollie installation to your clients/customers.', 'commons-in-a-box'),
 			'version'           => '2.1.0',
 			'download_url'      => 'https://downloads.wordpress.org/plugin/fluent-smtp.2.1.0.zip',
 			'documentation_url' => 'https://fluentsmtp.com/docs/',
@@ -171,11 +171,11 @@ class CBox_Plugins_Classic {
 		// call_user_func( $instance, array(
 		// 	'plugin_name'       => 'External Group Blogs',
 		// 	'type'              => 'optional',
-		// 	'cbox_name'         => __( 'External RSS Feeds for Groups', 'commons-in-a-box' ),
-		// 	'cbox_description'  => __( 'Gives group creators and administrators the ability to attach external RSS feeds to groups.', 'commons-in-a-box' ),
+		// 	'dollie_setup_name'         => __( 'External RSS Feeds for Groups', 'commons-in-a-box' ),
+		// 	'dollie_setup_description'  => __( 'Gives group creators and administrators the ability to attach external RSS feeds to groups.', 'commons-in-a-box' ),
 		// 	'depends'           => 'BuddyPress (>=1.5)',
 		// 	'version'           => '1.6.2',
-		// 	'download_url'      => CBOX_PLUGIN_DIR . 'includes/zip/external-group-blogs-1.6.2.zip',
+		// 	'download_url'      => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/external-group-blogs-1.6.2.zip',
 		// 	'documentation_url' => 'http://commonsinabox.org/documentation/plugins/buddypress-external-group-rss',
 		// 	'network'           => false
 		// ) );
@@ -185,11 +185,11 @@ class CBox_Plugins_Classic {
 		// call_user_func( $instance, array(
 		// 	'plugin_name'       => 'BuddyPress Reply By Email',
 		// 	'type'              => 'optional',
-		// 	'cbox_name'         => __( 'Reply By Email', 'commons-in-a-box' ),
-		// 	'cbox_description'  => __( "Reply to content from all over the community from the comfort of your email inbox", 'commons-in-a-box' ),
+		// 	'dollie_setup_name'         => __( 'Reply By Email', 'commons-in-a-box' ),
+		// 	'dollie_setup_description'  => __( "Reply to content from all over the community from the comfort of your email inbox", 'commons-in-a-box' ),
 		// 	'version'           => '1.0-RC10',
 		// 	'depends'           => 'BuddyPress (>=1.5)',
-		// 	'download_url'      => CBOX_PLUGIN_DIR . 'includes/zip/bp-reply-by-email-1.0-RC10.zip',
+		// 	'download_url'      => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/bp-reply-by-email-1.0-RC10.zip',
 		// 	'documentation_url' => 'http://commonsinabox.org/documentation/plugins/buddypress-reply-by-email',
 		// 	'admin_settings'    => is_multisite() ? 'options-general.php?page=bp-rbe' : 'admin.php?page=bp-rbe',
 		// 	'network_settings'  => 'root-blog-only'

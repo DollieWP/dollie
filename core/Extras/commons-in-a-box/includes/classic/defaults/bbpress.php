@@ -11,7 +11,7 @@
  * - Don't let bbPress redirect to its about page after activating.
  * - Create a forum category to house BuddyPress group forums if necessary.
  *
- * @since 1.1.0 This logic was moved out of the CBOX plugin-install.php file.
+ * @since 1.1.0 This logic was moved out of the DOLLIE_SETUP plugin-install.php file.
  */
 add_action( 'activated_plugin', function( $plugin ) {
 	if ( 'bbpress/bbpress.php' !== $plugin ) {
@@ -24,7 +24,7 @@ add_action( 'activated_plugin', function( $plugin ) {
 	/** If BP bundled forums exists, stop now! *********************/
 
 	// stop if our bb-config-location was found
-	$option = get_blog_option( cbox_get_main_site_id(), 'bb-config-location' );
+	$option = get_blog_option( dollie_setup_get_main_site_id(), 'bb-config-location' );
 	if ( file_exists( $option ) ) {
 		return;
 	}
@@ -35,7 +35,7 @@ add_action( 'activated_plugin', function( $plugin ) {
 	add_filter( 'posts_where', function( $where, $wp_query ) {
 		global $wpdb;
 
-		if ( $post_title = $wp_query->get( 'cbox_post_title' ) ) {
+		if ( $post_title = $wp_query->get( 'dollie_setup_post_title' ) ) {
 			$where .= " AND {$wpdb->posts}.post_title = '" . esc_sql( $post_title ) . "'";
 		}
 
@@ -45,7 +45,7 @@ add_action( 'activated_plugin', function( $plugin ) {
 	// do our search
 	$search = new WP_Query( array(
 		'post_type'       => bbp_get_forum_post_type(),
-		'cbox_post_title' => __( 'Group Forums', 'bbpress' )
+		'dollie_setup_post_title' => __( 'Group Forums', 'bbpress' )
 	) );
 
 	/** No match, create our forum! ********************************/
@@ -58,6 +58,6 @@ add_action( 'activated_plugin', function( $plugin ) {
 		) );
 
 		// update the bbP marker for group forums
-		update_blog_option( cbox_get_main_site_id(), '_bbp_group_forums_root_id', $forum_id );
+		update_blog_option( dollie_setup_get_main_site_id(), '_bbp_group_forums_root_id', $forum_id );
 	}
 } );

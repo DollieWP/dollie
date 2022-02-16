@@ -1,6 +1,6 @@
 <?php
 /**
- * CBOX's Plugin Upgrade and Install API
+ * DOLLIE_SETUP's Plugin Upgrade and Install API
  *
  * @package Commons_In_A_Box
  * @subpackage Plugins
@@ -14,10 +14,10 @@ require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
 
 // add the Plugin Dependencies plugin; just in case this file is called outside the admin area
 if ( ! class_exists( 'Plugin_Dependencies' ) )
-	require_once( CBOX_LIB_DIR . 'wp-plugin-dependencies/plugin-dependencies.php' );
+	require_once( DOLLIE_SETUP_LIB_DIR . 'wp-plugin-dependencies/plugin-dependencies.php' );
 
 /**
- * CBOX's custom plugin upgrader.
+ * DOLLIE_SETUP's custom plugin upgrader.
  *
  * Extends the {@link Plugin_Upgrader} class to allow for our custom required spec.
  *
@@ -31,7 +31,7 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 	/**
 	 * Overrides the parent {@link Plugin_Upgrader::bulk_upgrader()} method.
 	 *
-	 * Uses CBOX's own registered upgrade links.
+	 * Uses DOLLIE_SETUP's own registered upgrade links.
 	 *
 	 * @param str $plugins Array of plugin names
 	 */
@@ -48,11 +48,11 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 		$dependency = CBox_Plugins::get_plugins( 'dependency' );
 		$current    = CBox_Plugins::get_plugins();
 
-		add_filter( 'upgrader_source_selection',  'cbox_rename_github_folder',         1,  4 );
+		add_filter( 'upgrader_source_selection',  'dollie_setup_rename_github_folder',         1,  4 );
 		add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ), 10, 4 );
-		add_filter( 'http_request_args',          'cbox_disable_ssl_verification',     10, 2 );
+		add_filter( 'http_request_args',          'dollie_setup_disable_ssl_verification',     10, 2 );
 
-		cbox_get_template_part('wrapper-header');
+		dollie_setup_get_template_part('wrapper-header');
 		$this->skin->header();
 
 		// Connect to the Filesystem first.
@@ -75,8 +75,8 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 			 * BuddyPress supports a different root blog ID, so if BuddyPress is activated
 			 * we need to switch to that blog to get the correct active plugins list.
 			 */
-			if ( false === $current[ $plugin ]['network'] && ! cbox_is_main_site() ) {
-				switch_to_blog( cbox_get_main_site_id() );
+			if ( false === $current[ $plugin ]['network'] && ! dollie_setup_is_main_site() ) {
+				switch_to_blog( dollie_setup_get_main_site_id() );
 				$switched = true;
 			}
 
@@ -121,8 +121,8 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 			 * BuddyPress supports a different root blog ID, so if BuddyPress is activated
 			 * we need to switch to that blog to get the correct active plugins list.
 			 */
-			if ( false === $current[ $plugin ]['network'] && ! cbox_is_main_site() ) {
-				switch_to_blog( cbox_get_main_site_id() );
+			if ( false === $current[ $plugin ]['network'] && ! dollie_setup_is_main_site() ) {
+				switch_to_blog( dollie_setup_get_main_site_id() );
 				$switched = true;
 			}
 
@@ -154,12 +154,12 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 		$this->skin->bulk_footer();
 
 		$this->skin->footer();
-		cbox_get_template_part('wrapper-footer');
+		dollie_setup_get_template_part('wrapper-footer');
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter( 'upgrader_source_selection',  'cbox_rename_github_folder',     1 );
+		remove_filter( 'upgrader_source_selection',  'dollie_setup_rename_github_folder',     1 );
 		remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ) );
-		remove_filter( 'http_request_args',          'cbox_disable_ssl_verification', 10 );
+		remove_filter( 'http_request_args',          'dollie_setup_disable_ssl_verification', 10 );
 
 		// Force refresh of plugin update information.
 		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
@@ -184,9 +184,9 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 		$dependency = CBox_Plugins::get_plugins( 'dependency' );
 		$required = CBox_Plugins::get_plugins();
 
-		add_filter( 'upgrader_source_selection', 'cbox_rename_github_folder',     1,  4 );
+		add_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder',     1,  4 );
 		add_filter( 'upgrader_source_selection', array( $this, 'check_package' ) );
-		add_filter( 'http_request_args',         'cbox_disable_ssl_verification', 10, 2 );
+		add_filter( 'http_request_args',         'dollie_setup_disable_ssl_verification', 10, 2 );
 
 		$this->skin->header();
 
@@ -238,9 +238,9 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 		$this->skin->footer();
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter( 'upgrader_source_selection', 'cbox_rename_github_folder',     1 );
+		remove_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder',     1 );
 		remove_filter( 'upgrader_source_selection', array( $this, 'check_package' ) );
-		remove_filter( 'http_request_args',         'cbox_disable_ssl_verification', 10 );
+		remove_filter( 'http_request_args',         'dollie_setup_disable_ssl_verification', 10 );
 
 		// Force refresh of plugin update information.
 		wp_clean_plugins_cache();
@@ -283,8 +283,8 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 			 * BuddyPress supports a different root blog ID, so if BuddyPress is activated
 			 * we need to switch to that blog to get the correct active plugins list.
 			 */
-			if ( false === $network_activate && ! cbox_is_main_site() ) {
-				switch_to_blog( cbox_get_main_site_id() );
+			if ( false === $network_activate && ! dollie_setup_is_main_site() ) {
+				switch_to_blog( dollie_setup_get_main_site_id() );
 				$switched = true;
 			}
 
@@ -327,7 +327,7 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 }
 
 /**
- * The UI for CBOX's updater.
+ * The UI for DOLLIE_SETUP's updater.
  *
  * Extends the {@link Bulk_Plugin_Upgrader_Skin} class.
  *
@@ -417,7 +417,7 @@ class CBox_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 		}
 
 		// process is completed!
-		// show link to CBOX dashboard
+		// show link to DOLLIE_SETUP dashboard
 		else {
 			usleep(500000);
 
@@ -504,16 +504,16 @@ class CBox_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 			// phpcs:enable
 		}
 
-		// CBOX hasn't been installed ever.
-		if ( ! cbox_get_installed_revision_date() && empty( $redirect_link ) ) {
-			$redirect_text = __( 'Continue to the CBOX dashboard', 'commons-in-a-box' );
+		// DOLLIE_SETUP hasn't been installed ever.
+		if ( ! dollie_setup_get_installed_revision_date() && empty( $redirect_link ) ) {
+			$redirect_text = __( 'Continue to the DOLLIE_SETUP dashboard', 'commons-in-a-box' );
 			$redirect_link = self_admin_url( 'admin.php?page=cbox' );
 		}
 
 		// default fallback
 		if ( '' === $redirect_link ) {
 			$redirect_link = self_admin_url( 'admin.php?page=cbox-plugins' );
-			$redirect_text = __( 'Return to the CBOX Plugins page', 'commons-in-a-box' );
+			$redirect_text = __( 'Return to the DOLLIE_SETUP Plugins page', 'commons-in-a-box' );
 
 			if ( ! empty( $_GET['type'] ) ) {
 				$redirect_link = add_query_arg( 'type', esc_attr( $_GET['type'] ), $redirect_link );
@@ -523,7 +523,7 @@ class CBox_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 		echo '<br /><a class="button-primary" href="' . esc_url( $redirect_link ) . '">' . esc_attr( $redirect_text ) . '</a>';
 
 		// extra hook to do stuff after the updater has run
-		do_action( 'cbox_after_updater' );
+		do_action( 'dollie_setup_after_updater' );
 	}
 
 	/**
@@ -545,7 +545,7 @@ class CBox_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 }
 
 /**
- * CBOX Updater.
+ * DOLLIE_SETUP Updater.
  *
  * Wraps the bulk-upgrading, bulk-installing and bulk-activating process into one!
  *
@@ -609,11 +609,11 @@ class CBox_Updater {
 		$plugins = self::parse_plugins( $plugins );
 
 		/**
-		 * Hook to do something before the CBOX updater fires.
+		 * Hook to do something before the DOLLIE_SETUP updater fires.
 		 *
 		 * @since 1.1.0
 		 */
-		do_action( 'cbox_before_updater' );
+		do_action( 'dollie_setup_before_updater' );
 
 		// this tells WP_Upgrader to activate the plugin after any upgrade or successful install
 		add_filter( 'upgrader_post_install', array( &$this, 'activate_post_install' ), 10, 3 );
@@ -621,7 +621,7 @@ class CBox_Updater {
 		// start the whole damn thing!
 		// We always try to upgrade plugins first.  Next, we install plugins that are not available.
 		// Lastly, we activate any plugins needed.
-		cbox_get_template_part('wrapper-header');
+		dollie_setup_get_template_part('wrapper-header');
 		// let's see if upgrades are available; if so, start with that
 		if ( self::$is_upgrade ) {
 			// if installs are available as well, this tells CBox_Plugin_Upgrader
@@ -683,7 +683,7 @@ class CBox_Updater {
 
 			<p><?php CBox_Bulk_Plugin_Upgrader_Skin::after_updater( $settings ); ?></p>
 		<?php
-			cbox_get_template_part('wrapper-footer');
+			dollie_setup_get_template_part('wrapper-footer');
 		}
 	}
 
@@ -711,15 +711,15 @@ class CBox_Updater {
 		 * it doesn't know about.
 		 */
 		if ( ! empty( $plugins['install'] ) ) {
-			$cbox_plugins = CBox_Plugins::get_plugins();
+			$dollie_setup_plugins = CBox_Plugins::get_plugins();
 			$dependencies = array_flip( array_keys( CBox_Plugins::get_plugins( 'dependency' ) ) );
 
 			foreach ( $plugins['install'] as $plugin ) {
-				if ( ! isset( $cbox_plugins[ $plugin ]['depends'] ) ) {
+				if ( ! isset( $dollie_setup_plugins[ $plugin ]['depends'] ) ) {
 					continue;
 				}
 
-				foreach ( Plugin_Dependencies::parse_field( $cbox_plugins[ $plugin ]['depends'] ) as $dep ) {
+				foreach ( Plugin_Dependencies::parse_field( $dollie_setup_plugins[ $plugin ]['depends'] ) as $dep ) {
 					// a dependent name can contain a version number, so let's get just the name
 					$plugin_name = rtrim( strtok( $dep, '(' ) );
 
@@ -730,7 +730,7 @@ class CBox_Updater {
 					}
 
 					if ( isset( $requirement['not-installed'] ) ) {
-						// Check if uninstalled plugin is part of our CBOX plugin spec.
+						// Check if uninstalled plugin is part of our DOLLIE_SETUP plugin spec.
 						foreach ( $requirement['not-installed'] as $i => $_plugin ) {
 							if ( ! isset( $dependencies[ $_plugin ] ) ) {
 								unset( $requirement['not-installed'][$i] );
@@ -844,20 +844,20 @@ class CBox_Updater {
 		}
 
 		if ( '' !== $plugin ) {
-			$cbox_plugins = CBox_Plugins::get_plugins();
+			$dollie_setup_plugins = CBox_Plugins::get_plugins();
 
-			// If CBOX plugin manifest is empty, must load package data again.
-			if ( empty( $cbox_plugins ) ) {
+			// If DOLLIE_SETUP plugin manifest is empty, must load package data again.
+			if ( empty( $dollie_setup_plugins ) ) {
 				/** This hook is documented in admin/plugins-loader.php */
-				do_action( 'cbox_plugins_loaded', cbox()->plugins );
+				do_action( 'dollie_setup_plugins_loaded', cbox()->plugins );
 
-				$cbox_plugins = CBox_Plugins::get_plugins();
+				$dollie_setup_plugins = CBox_Plugins::get_plugins();
 			}
 
 			if ( ! is_multisite() ) {
 				$network_activate = false;
-			} elseif ( isset( $cbox_plugins[ $plugin_name ] ) ) {
-				$network_activate = $cbox_plugins[ $plugin_name ]['network'];
+			} elseif ( isset( $dollie_setup_plugins[ $plugin_name ] ) ) {
+				$network_activate = $dollie_setup_plugins[ $plugin_name ]['network'];
 			} else {
 				$dependency = CBox_Plugins::get_plugins( 'dependency' );
 				$network_activate = $dependency[ $plugin_name ]['network'];
@@ -869,8 +869,8 @@ class CBox_Updater {
 			 * BuddyPress supports a different root blog ID, so if BuddyPress is activated
 			 * we need to switch to that blog to get the correct active plugins list.
 			 */
-			if ( false === $network_activate && ! cbox_is_main_site() ) {
-				switch_to_blog( cbox_get_main_site_id() );
+			if ( false === $network_activate && ! dollie_setup_is_main_site() ) {
+				switch_to_blog( dollie_setup_get_main_site_id() );
 				$switched = true;
 			}
 

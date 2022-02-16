@@ -13,13 +13,13 @@
 			url: ajaxurl,
 			type: 'POST',
 			data: {
-				_ajax_nonce: CBOXUpgrades.nonce,
-				action: 'cbox_handle_upgrade',
-				upgrade: CBOXUpgrades.upgrade
+				_ajax_nonce: DOLLIE_SETUPUpgrades.nonce,
+				action: 'dollie_setup_handle_upgrade',
+				upgrade: DOLLIE_SETUPUpgrades.upgrade
 			},
 			beforeSend: function() {
 				$('#cbox-upgrade-start')
-					.text( CBOXUpgrades.text.processing )
+					.text( DOLLIE_SETUPUpgrades.text.processing )
 					.prop( 'disabled', true );
 			},
 			success: function( response ) {
@@ -28,7 +28,7 @@
 				if ( ! response.data.is_finished ) {
 					processNextItem();
 				} else {
-					$('#cbox-upgrade-start').text( CBOXUpgrades.text.start );
+					$('#cbox-upgrade-start').text( DOLLIE_SETUPUpgrades.text.start );
 				}
 			},
 			error: function( error ) {

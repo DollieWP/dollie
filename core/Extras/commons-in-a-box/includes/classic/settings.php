@@ -22,7 +22,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Setup the CBOX settings area for the Classic package.
+ * Setup the DOLLIE_SETUP settings area for the Classic package.
  *
  * @since 1.0-beta2
  * @since 1.1.0 Renamed class from CBox_Settings to CBox_Settings_Classic.
@@ -43,7 +43,7 @@ class CBox_Settings_Classic {
 	 *
 	 * @var string
 	 */
-	public static $settings_key = '_cbox_admin_settings';
+	public static $settings_key = '_dollie_setup_admin_settings';
 
 	/**
 	 * Constructor.
@@ -59,8 +59,8 @@ class CBox_Settings_Classic {
 	private function setup_hooks() {
 		add_action( 'admin_init',      array( $this, 'register_settings_hook' ) );
 
-		// setup the CBOX plugin menu
-		add_action( 'cbox_admin_menu', array( $this, 'setup_settings_page' ), 20 );
+		// setup the DOLLIE_SETUP plugin menu
+		add_action( 'dollie_setup_admin_menu', array( $this, 'setup_settings_page' ), 20 );
 	}
 
 	/** SETTINGS-SPECIFIC *********************************************/
@@ -124,7 +124,7 @@ class CBox_Settings_Classic {
 	}
 
 	/**
-	 * Register a plugin's settings in CBOX.
+	 * Register a plugin's settings in DOLLIE_SETUP.
 	 *
 	 * Updates our private, static $settings variable in the process.
 	 *
@@ -151,11 +151,11 @@ class CBox_Settings_Classic {
 	/** ADMIN PAGE-SPECIFIC *******************************************/
 
 	/**
-	 * Setup CBOX's settings menu item.
+	 * Setup DOLLIE_SETUP's settings menu item.
 	 */
 	public function setup_settings_page() {
-		// see if CBOX is fully setup
-		if ( ! cbox_is_setup() )
+		// see if DOLLIE_SETUP is fully setup
+		if ( ! dollie_setup_is_setup() )
 			return;
 
 		// add our settings page
@@ -168,7 +168,7 @@ class CBox_Settings_Classic {
 			array( $this, 'admin_page' )
 		);
 
-		// validate any settings changes submitted from the CBOX settings page
+		// validate any settings changes submitted from the DOLLIE_SETUP settings page
 		add_action( "load-{$page}", array( $this, 'validate_settings' ) );
 
 	}
@@ -180,10 +180,10 @@ class CBox_Settings_Classic {
 		if ( empty( $_REQUEST['cbox-settings-save'] ) )
 			return;
 
-		check_admin_referer( 'cbox_settings_options' );
+		check_admin_referer( 'dollie_setup_settings_options' );
 
 		// get submitted values
-		$submitted = (array) $_REQUEST['cbox_settings'];
+		$submitted = (array) $_REQUEST['dollie_setup_settings'];
 
 		// update settings
 		bp_update_option( self::$settings_key, $submitted );
@@ -203,12 +203,12 @@ class CBox_Settings_Classic {
 		<div class="wrap">
 			<h2><?php _e( 'Commons In A Box Settings', 'commons-in-a-box' ); ?></h2>
 
-			<p><?php _e( 'CBOX can configure some important options for certain plugins.', 'commons-in-a-box' ); ?>
+			<p><?php _e( 'DOLLIE_SETUP can configure some important options for certain plugins.', 'commons-in-a-box' ); ?>
 
 			<form method="post" action="">
 				<?php $this->render_options(); ?>
 
-				<?php wp_nonce_field( 'cbox_settings_options' ); ?>
+				<?php wp_nonce_field( 'dollie_setup_settings_options' ); ?>
 
 				<p><input type="submit" value="<?php _e( 'Save Changes', 'commons-in-a-box' ); ?>" class="button-primary" name="cbox-settings-save" /></p>
 			</form>
@@ -221,11 +221,11 @@ class CBox_Settings_Classic {
 	 * Renders all our checkboxes on the settings admin page.
 	 */
 	private function render_options() {
-		// get all installed CBOX plugins
-		$cbox_plugins = cbox()->plugins->get_plugins();
+		// get all installed DOLLIE_SETUP plugins
+		$dollie_setup_plugins = cbox()->plugins->get_plugins();
 
-		// get all CBOX plugins by name
-		$active = CBox_Admin_Plugins::organize_plugins_by_state( $cbox_plugins );
+		// get all DOLLIE_SETUP plugins by name
+		$active = CBox_Admin_Plugins::organize_plugins_by_state( $dollie_setup_plugins );
 
 		// sanity check.  will probably never encounter this use-case.
 		if ( empty( $active ) )
@@ -235,7 +235,7 @@ class CBox_Settings_Classic {
 		$active = array_flip( $active['deactivate'] );
 
 		// get saved settings
-		$cbox_settings = bp_get_option( self::$settings_key );
+		$dollie_setup_settings = bp_get_option( self::$settings_key );
 
 		// parse and output settings
 		foreach( self::$settings as $plugin => $settings ) {
@@ -257,7 +257,7 @@ class CBox_Settings_Classic {
 				<tr valign="top">
 					<th scope="row"><?php echo $setting['label']; ?></th>
 					<td>
-						<input id="<?php echo sanitize_title( $setting['label'] ); ?>" name="cbox_settings[<?php echo $key;?>][]" type="checkbox" value="<?php echo $setting['class_name']; ?>" <?php $this->is_checked( $setting['class_name'], $cbox_settings, $key ); ?>  />
+						<input id="<?php echo sanitize_title( $setting['label'] ); ?>" name="dollie_setup_settings[<?php echo $key;?>][]" type="checkbox" value="<?php echo $setting['class_name']; ?>" <?php $this->is_checked( $setting['class_name'], $dollie_setup_settings, $key ); ?>  />
 						<label for="<?php echo sanitize_title( $setting['label'] ); ?>"><?php echo $setting['description']; ?></label>
 					</td>
 				</tr>

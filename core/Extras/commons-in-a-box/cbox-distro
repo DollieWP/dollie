@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# CBOX wp.org distro script
+# DOLLIE_SETUP wp.org distro script
 #
 # Before using:
 #   1. Ensure that 1.0.x branch has pinned all plugins to latest version.
@@ -12,7 +12,7 @@
 # By default, this bash script will:
 #   1. Download all Github plugins and themes and place them in the
 #      /includes/zip/ folder.
-#   2. Switch references to all Github links in CBOX to the local filepath
+#   2. Switch references to all Github links in DOLLIE_SETUP to the local filepath
 #
 # If you don't need to re-download all Github assets, use 'cbox-distro no-dl'
 # to just modify the filepath references.
@@ -50,15 +50,15 @@ if $download ; then
 fi
 
 # plugins - replace references of github links to internal file paths
-sed -i.bak -E "s,'(http|https)://github.com/[^/]*/,CBOX_PLUGIN_DIR . 'includes/zip/,g
+sed -i.bak -E "s,'(http|https)://github.com/[^/]*/,DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/,g
 s,/archive/,-,g" includes/classic/plugins.php
-sed -i.bak -E "s,'(http|https)://github.com/[^/]*/,CBOX_PLUGIN_DIR . 'includes/zip/,g
+sed -i.bak -E "s,'(http|https)://github.com/[^/]*/,DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/,g
 s,/archive/,-,g" includes/openlab/plugins.php
 
 # themes - replace references of github links to internal file paths
-sed -i.bak -E "s,'(http|https)://github.com/[^/]*/,CBOX_PLUGIN_DIR . 'includes/zip/,g
+sed -i.bak -E "s,'(http|https)://github.com/[^/]*/,DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/,g
 s,/archive/,-,g" includes/classic/classic.php
-sed -i.bak -E "s,'(http|https)://github.com/[^/]*/,CBOX_PLUGIN_DIR . 'includes/zip/,g
+sed -i.bak -E "s,'(http|https)://github.com/[^/]*/,DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/,g
 s,/archive/,-,g" includes/openlab/openlab.php
 
 # remove .bak files needed during sed replacement

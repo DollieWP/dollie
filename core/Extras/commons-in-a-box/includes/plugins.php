@@ -12,7 +12,7 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Core plugin class for CBOX.
+ * Core plugin class for DOLLIE_SETUP.
  *
  * @since 0.1
  */
@@ -30,33 +30,33 @@ class CBox_Plugins {
 	 */
 	public function __construct() {
 		// Admin code.
-		add_action( 'cbox_plugins_loaded', function() {
-			if ( ! cbox_is_admin() ) {
+		add_action( 'dollie_setup_plugins_loaded', function() {
+			if ( ! dollie_setup_is_admin() ) {
 				return;
 			}
 
 			// Add the Plugin Dependencies plugin
 			if ( ! class_exists( 'Plugin_Dependencies' ) ) {
-				require_once CBOX_LIB_DIR . 'wp-plugin-dependencies/plugin-dependencies.php';
+				require_once DOLLIE_SETUP_LIB_DIR . 'wp-plugin-dependencies/plugin-dependencies.php';
 			}
 
 			// Load up admin plugins code.
-			require_once CBOX_PLUGIN_DIR . 'admin/plugins.php';
+			require_once DOLLIE_SETUP_PLUGIN_DIR . 'admin/plugins.php';
 			CBox_Admin_Plugins::init();
 		}, 90 );
 
 		/**
-		 * Hook to declare when the CBOX plugins code is loaded at its earliest.
+		 * Hook to declare when the DOLLIE_SETUP plugins code is loaded at its earliest.
 		 *
 		 * @since 1.1.0
 		 *
 		 * @param CBox_Plugins $this
 		 */
-		do_action( 'cbox_plugins_loaded', $this );
+		do_action( 'dollie_setup_plugins_loaded', $this );
 	}
 
 	/**
-	 * Register a plugin in CBOX.
+	 * Register a plugin in DOLLIE_SETUP.
 	 *
 	 * Updates our private, static $plugins variable in the process.
 	 *
@@ -69,8 +69,8 @@ class CBox_Plugins {
 	 *     @type string $type              Required. Either 'required', 'recommended', 'optional', 'install-only' or
 	 *                                     'dependency'. If set to 'install-only', $network and $hide are
 	 *                                     always set to boolean false.
-	 *     @type string $cbox_name         Custom name for the plugin.
-	 *     @type string $cbox_description  Custom short description for the plugin.
+	 *     @type string $dollie_setup_name         Custom name for the plugin.
+	 *     @type string $dollie_setup_description  Custom short description for the plugin.
 	 *     @type string $depends           Defined plugin dependencies for the plugin. See
 	 *                                     {@link Plugin_Dependencies::parse_requirements()} for syntax.
 	 *     @type string $version           Plugin version number.
@@ -89,8 +89,8 @@ class CBox_Plugins {
 		$defaults = array(
 			'plugin_name'       => false,
 			'type'              => 'required',
-			'cbox_name'         => false,
-			'cbox_description'  => false,
+			'dollie_setup_name'         => false,
+			'dollie_setup_description'  => false,
 			'depends'           => false,
 			'version'           => false,
 			'download_url'      => false,
@@ -127,17 +127,17 @@ class CBox_Plugins {
 	}
 
 	/**
-	 * Helper method to grab all CBOX plugins of a certain type.
+	 * Helper method to grab all DOLLIE_SETUP plugins of a certain type.
 	 *
 	 * @since 1.1.0 $type can be passed as '' to return all plugins sorted by type as key.
 	 *
-	 * @param string $type Type of CBOX plugin. Either 'all', 'required', 'recommended', 'optional',
+	 * @param string $type Type of DOLLIE_SETUP plugin. Either 'all', 'required', 'recommended', 'optional',
 	 *                     'install-only', 'dependency'. If empty, all plugins are returned by type.
-	 * @param string $omit_type The type of CBOX plugin to omit from returning
+	 * @param string $omit_type The type of DOLLIE_SETUP plugin to omit from returning
 	 * @return mixed Array of plugins on success. Boolean false on failure.
 	 */
 	public static function get_plugins( $type = 'all', $omit_type = false ) {
-		// if type is 'all', we want all CBOX plugins regardless of type
+		// if type is 'all', we want all DOLLIE_SETUP plugins regardless of type
 		if ( $type == 'all' ) {
 			$plugins = self::$plugins;
 			if ( empty( $plugins ) ) {
@@ -167,12 +167,12 @@ class CBox_Plugins {
 	}
 
 	/**
-	 * Helper method to check if a CBOX plugin is a certain type.
+	 * Helper method to check if a DOLLIE_SETUP plugin is a certain type.
 	 *
 	 * @since 1.1.0
 	 *
 	 * @param  string $plugin_name Full plugin name.
-	 * @param  string $type        Type of CBOX plugin. Either 'all', 'required', 'recommended', 'optional',
+	 * @param  string $type        Type of DOLLIE_SETUP plugin. Either 'all', 'required', 'recommended', 'optional',
 	 *                            'install-only', 'dependency'.
 	 * @return bool
 	 */

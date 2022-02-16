@@ -1,7 +1,7 @@
 <?php
-namespace CBOX\Upgrades;
+namespace DOLLIE_SETUP\Upgrades;
 
-use CBOX\Upgrades\Upgrade_Registry;
+use DOLLIE_SETUP\Upgrades\Upgrade_Registry;
 
 /**
  * AJAX callback for upgrade process.
@@ -29,11 +29,11 @@ function handle_upgrade() {
 	if ( $is_bulk ) {
 		$upgrades = $registry->get_all_registered();
 
-		/** @var \CBOX\Upgrades\Upgrade */
+		/** @var \DOLLIE_SETUP\Upgrades\Upgrade */
 		$upgrade = ! empty( $upgrades ) ? reset( $upgrades ) : null;
 		$total   = count( $upgrades );
 	} else {
-		/** @var \CBOX\Upgrades\Upgrade */
+		/** @var \DOLLIE_SETUP\Upgrades\Upgrade */
 		$upgrade = $registry->get_registered( $id );
 		$total   = 1;
 	}
@@ -81,4 +81,4 @@ function handle_upgrade() {
 		'percentage'      => $percentage,
 	] );
 }
-add_action( 'wp_ajax_cbox_handle_upgrade', __NAMESPACE__ . '\\handle_upgrade' );
+add_action( 'wp_ajax_dollie_setup_handle_upgrade', __NAMESPACE__ . '\\handle_upgrade' );

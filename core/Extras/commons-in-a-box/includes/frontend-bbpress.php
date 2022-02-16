@@ -2,7 +2,7 @@
 /**
  * bbPress Mods
  *
- * The following are modifications that CBOX does to the bbPress plugin.
+ * The following are modifications that DOLLIE_SETUP does to the bbPress plugin.
  *
  * @since 1.0.1
  *
@@ -219,9 +219,9 @@ class CBox_BBP_Autoload {
 			}
 
 			// Save some meta.
-			bp_notifications_update_meta( $n->id, 'cbox_bbp_reply_permalink', bbp_get_reply_url( $n->item_id ) );
-			bp_notifications_update_meta( $n->id, 'cbox_bbp_topic_title',     bbp_get_topic_title( $n->item_id ) );
-			bp_notifications_update_meta( $n->id, 'cbox_bbp_reply_topic_id',  bbp_get_reply_topic_id( $n->item_id ) );
+			bp_notifications_update_meta( $n->id, 'dollie_setup_bbp_reply_permalink', bbp_get_reply_url( $n->item_id ) );
+			bp_notifications_update_meta( $n->id, 'dollie_setup_bbp_topic_title',     bbp_get_topic_title( $n->item_id ) );
+			bp_notifications_update_meta( $n->id, 'dollie_setup_bbp_reply_topic_id',  bbp_get_reply_topic_id( $n->item_id ) );
 		} );
 	}
 
@@ -948,7 +948,7 @@ You are receiving this email because you are a moderator for the %4$s forum.', '
 			 *
 			 * @since 1.3.0
 			 */
-			$enable_css = apply_filters( 'cbox_bbp_unread_inline_css', true );
+			$enable_css = apply_filters( 'dollie_setup_bbp_unread_inline_css', true );
 
 			if ( false === $enable_css ) {
 				return;

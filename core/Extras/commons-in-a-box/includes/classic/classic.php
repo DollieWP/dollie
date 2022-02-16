@@ -8,7 +8,7 @@
  */
 
 /**
- * The "classic" CBOX package.
+ * The "classic" DOLLIE_SETUP package.
  *
  * For plugin manifest, see {@link CBox_Plugins_Classic}.
  * For admin settings page, see {@link CBox_Settings_Classic}.
@@ -35,8 +35,8 @@ class CBox_Package_Classic extends CBox_Package {
 	 */
 	protected static function config() {
 		return array(
-			'icon_url'          => cbox()->plugin_url( 'admin/images/logo-cbox_icon-2x.png' ),
-			'settings_key'      => '_cbox_admin_settings',
+			'icon_url'          => cbox()->plugin_url( 'admin/images/logo-dollie_setup_icon-2x.png' ),
+			'settings_key'      => '_dollie_setup_admin_settings',
 			'documentation_url' => 'http://commonsinabox.org/cbox-classic-overview/?modal=1'
 		);
 	}
@@ -51,9 +51,9 @@ class CBox_Package_Classic extends CBox_Package {
 			'name'           => 'Hello Dollie Theme',
 			'version'        => '1.0.0',
 			'directory_name' => 'hello-dollie',
-			'download_url'   => CBOX_PLUGIN_DIR . 'includes/zip/hello-dollie-1.0.0.zip',
+			'download_url'   => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/hello-dollie-1.0.0.zip',
 			'admin_settings' => 'themes.php',
-			'screenshot_url' => cbox()->plugin_url( 'admin/images/screenshot_cbox_theme.png' ),
+			'screenshot_url' => cbox()->plugin_url( 'admin/images/screenshot_dollie_setup_theme.png' ),
 		);
 	}
 
@@ -67,11 +67,11 @@ class CBox_Package_Classic extends CBox_Package {
 	         * Trigger Infinity's activation hook
 	         *
 		 * Infinity, and therefore cbox-theme, runs certain setup routines at
-	         * 'infinity_dashboard_activated'. We need to run this hook just after CBOX
+	         * 'infinity_dashboard_activated'. We need to run this hook just after DOLLIE_SETUP
 	         * activates a theme, so we do that here.
 	         */
-		add_action( 'cbox_classic_theme_activated', function() {
-			if ( ! cbox_get_installed_revision_date() ) {
+		add_action( 'dollie_setup_classic_theme_activated', function() {
+			if ( ! dollie_setup_get_installed_revision_date() ) {
 				remove_action( 'infinity_dashboard_activated', 'infinity_dashboard_activated_redirect', 99 );
 			}
 

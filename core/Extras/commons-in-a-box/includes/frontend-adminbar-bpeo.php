@@ -1,6 +1,6 @@
 <?php
 
-function cbox_frontend_adminbar_bpeo() {
+function dollie_setup_frontend_adminbar_bpeo() {
 	$nav  = array();
 
 	$events_slug = defined( 'BPEO_EVENTS_SLUG' )      ? BPEO_EVENTS_SLUG      : 'events';
@@ -35,4 +35,4 @@ function cbox_frontend_adminbar_bpeo() {
 		$GLOBALS['wp_admin_bar']->add_menu( $n );
 	}
 }
-add_action( 'bp_setup_admin_bar', 'cbox_frontend_adminbar_bpeo', 45 );
+add_action( 'bp_setup_admin_bar', 'dollie_setup_frontend_adminbar_bpeo', 45 );

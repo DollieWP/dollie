@@ -442,15 +442,15 @@ __( 'Calendar', 'commons-in-a-box' );
 __( 'About Menu', 'commons-in-a-box' );
 __( 'Share Information Here', 'commons-in-a-box' );
 __( 'Site administrators can customize the slider area with images and text to welcome new members, highlight features, share important announcements, publicize events, and more.', 'commons-in-a-box' );
-__( 'Welcome to CBOX OpenLab!', 'commons-in-a-box' );
+__( 'Welcome to DOLLIE_SETUP OpenLab!', 'commons-in-a-box' );
 
-/* translators: link to CBOX OpenLab documentation */
-__( 'Read our <a href="%s">documentation</a> to learn more about how you can use CBOX OpenLab to create a commons for open learning.', 'commons-in-a-box' );
+/* translators: link to DOLLIE_SETUP OpenLab documentation */
+__( 'Read our <a href="%s">documentation</a> to learn more about how you can use DOLLIE_SETUP OpenLab to create a commons for open learning.', 'commons-in-a-box' );
 
-__( 'CBOX-OL Logo', 'commons-in-a-box' );
+__( 'DOLLIE_SETUP-OL Logo', 'commons-in-a-box' );
 __( 'Customize this footer', 'commons-in-a-box' );
 
-/* translators: link to CBOX OpenLab Brand Settings admin page */
+/* translators: link to DOLLIE_SETUP OpenLab Brand Settings admin page */
 __( 'You can customize the contents of this footer to meet the needs of your community: see the <a href="%s">Brand Settings documentation</a> for details.', 'commons-in-a-box' );
 
 __( 'Include', 'commons-in-a-box' );
@@ -751,7 +751,7 @@ __( 'That URL is not allowed', 'commons-in-a-box' );
 /* translators: %s: minimum site name length */
 _n_noop( 'Site name must be at least %s character.', 'Site name must be at least %s characters.', 'commons-in-a-box' );
 
-__( 'CBOX OpenLab', 'commons-in-a-box' );
+__( 'DOLLIE_SETUP OpenLab', 'commons-in-a-box' );
 __( 'Add to Menu', 'commons-in-a-box' );
 _x( 'Custom Link', 'customizer menu type label', 'commons-in-a-box' );
 __( 'Username', 'commons-in-a-box' );

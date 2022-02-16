@@ -8,7 +8,7 @@
  */
 
 /**
- * Base class to register a CBOX package.
+ * Base class to register a DOLLIE_SETUP package.
  *
  * @since 1.1.0
  */
@@ -77,14 +77,14 @@ abstract class CBox_Package {
 		$this->custom_init();
 
 		// Deactivation routine.
-		add_action( 'cbox_package_' . cbox_get_current_package_id() . '_deactivation', array( get_called_class(), 'deactivate' ) );
+		add_action( 'dollie_setup_package_' . dollie_setup_get_current_package_id() . '_deactivation', array( get_called_class(), 'deactivate' ) );
 
 		// Handle plugin registration.
-		add_action( 'cbox_plugins_loaded', array( get_called_class(), 'plugin_registrar' ) );
+		add_action( 'dollie_setup_plugins_loaded', array( get_called_class(), 'plugin_registrar' ) );
 
 		// Automatically handle settings registration here.
-		add_action( 'cbox_load_components', function( $i ) {
-			if ( ! cbox_is_admin() || false === strpos( get_called_class(), 'CBox_Package_' ) ) {
+		add_action( 'dollie_setup_load_components', function( $i ) {
+			if ( ! dollie_setup_is_admin() || false === strpos( get_called_class(), 'CBox_Package_' ) ) {
 				return;
 			}
 
@@ -95,7 +95,7 @@ abstract class CBox_Package {
 		} );
 
 		// Plugin defaults.
-		add_action( 'cbox_before_updater', function() {
+		add_action( 'dollie_setup_before_updater', function() {
 			add_action( 'activate_plugin', function( $plugin_file ) {
 				$plugin_dir = substr( $plugin_file, 0, strpos( $plugin_file, '/' ) );
 				$class = new ReflectionClass( get_called_class() );
@@ -171,10 +171,10 @@ abstract class CBox_Package {
 	 * @return array
 	 */
 	public static function get_plugins() {
-		$packages = cbox_get_packages();
+		$packages = dollie_setup_get_packages();
 
 		// If we're already done this before, load existing plugin list.
-		if ( $packages[ cbox_get_current_package_id() ] === get_called_class() ) {
+		if ( $packages[ dollie_setup_get_current_package_id() ] === get_called_class() ) {
 			$plugins = CBox_Plugins::get_plugins( '' );
 
 		// Fetch the plugin list for the package.  This isn't elegant...
@@ -183,24 +183,24 @@ abstract class CBox_Package {
 
 			// Backup current plugins list and package registrar.
 			CBox_Plugins::backup();
-			$backup = $wp_filter['cbox_plugins_loaded']->callbacks[10];
-			unset( $wp_filter['cbox_plugins_loaded']->callbacks[10] );
+			$backup = $wp_filter['dollie_setup_plugins_loaded']->callbacks[10];
+			unset( $wp_filter['dollie_setup_plugins_loaded']->callbacks[10] );
 
 			// Load up plugin registrar.
-			add_action( 'cbox_plugins_loaded', array( get_called_class(), 'plugin_registrar' ) );
+			add_action( 'dollie_setup_plugins_loaded', array( get_called_class(), 'plugin_registrar' ) );
 
 			// Perform plugin registration.
 			$instance = clone cbox()->plugins;
 			/** This hook is documented in /commons-in-a-box/includes/plugins.php */
-			do_action_ref_array( 'cbox_plugins_loaded', array( $instance ) );
+			do_action_ref_array( 'dollie_setup_plugins_loaded', array( $instance ) );
 
 			// Fetch package plugins.
 			$plugins = $instance::get_plugins( '' );
 
 			// Clean-up and restore.
-			$wp_filter['cbox_plugins_loaded']->callbacks[10] = $backup;
+			$wp_filter['dollie_setup_plugins_loaded']->callbacks[10] = $backup;
 			unset( $instance, $backup );
-			remove_action( 'cbox_plugins_loaded', array( get_called_class(), 'plugin_registrar' ) );
+			remove_action( 'dollie_setup_plugins_loaded', array( get_called_class(), 'plugin_registrar' ) );
 			CBox_Plugins::restore();
 		}
 
@@ -236,7 +236,7 @@ abstract class CBox_Package {
 	 *     Array of parameters.
 	 *     @var bool   $network           Whether the package requires multisite. Default: false.
 	 *     @var string $template_path     Absolute filepath for custom admin template parts. If your package is not
-	 *                                    bundled with CBOX and you need to override the default admin templates,
+	 *                                    bundled with DOLLIE_SETUP and you need to override the default admin templates,
 	 *                                    then override this parameter.
 	 *     @var string $settings_key      Used to fetch settings with {@link get_option()}.
 	 *     @var string $documentation_url Optional. Documentation URL. Currently used in package selection screen's
@@ -248,10 +248,10 @@ abstract class CBox_Package {
 	 */
 	protected static function config() {
 		return array(
-			'template_path' => CBOX_PLUGIN_DIR . 'admin/templates/' . sanitize_file_name( strtolower( static::$name ) ) . '/',
+			'template_path' => DOLLIE_SETUP_PLUGIN_DIR . 'admin/templates/' . sanitize_file_name( strtolower( static::$name ) ) . '/',
 			'icon_url'      => includes_url( 'images/crystal/archive.png' ),
-			'badge_url'     => cbox()->plugin_url( 'admin/images/logo-cbox_vert.png' ),
-			'badge_url_2x'  => cbox()->plugin_url( 'admin/images/logo-cbox_vert-2x.png' ),
+			'badge_url'     => cbox()->plugin_url( 'admin/images/logo-dollie_setup_vert.png' ),
+			'badge_url_2x'  => cbox()->plugin_url( 'admin/images/logo-dollie_setup_vert-2x.png' ),
 			'network'       => false
 		);
 	}
@@ -268,7 +268,7 @@ abstract class CBox_Package {
 			'tab_plugin_required' => __( 'Core Plugins', 'commons-in-a-box' ),
 			'tab_plugin_optional' => __( 'Optional Plugins', 'commons-in-a-box' ),
 			'tab_plugin_install'  => __( 'Member Site Plugins', 'commons-in-a-box' ),
-			'dashboard_header'    => sprintf( esc_html__( 'Welcome to Commons In A Box %s', 'commons-in-a-box' ), cbox_get_package_prop( 'name' ) )
+			'dashboard_header'    => sprintf( esc_html__( 'Welcome to Commons In A Box %s', 'commons-in-a-box' ), dollie_setup_get_package_prop( 'name' ) )
 		);
 	}
 

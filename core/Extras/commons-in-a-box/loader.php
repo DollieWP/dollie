@@ -18,7 +18,7 @@ if ( !defined( 'ABSPATH' ) ) exit;
 
 class Commons_In_A_Box {
 	/**
-	 * Holds the single-running CBOX object
+	 * Holds the single-running DOLLIE_SETUP object
 	 *
 	 * @var Commons_In_A_Box
 	 */
@@ -68,11 +68,11 @@ class Commons_In_A_Box {
 	 * @todo Figure out a reliable way to use plugin_dir_path()
 	 */
 	private function constants() {
-		if ( ! defined( 'CBOX_PLUGIN_DIR' ) )
-			define( 'CBOX_PLUGIN_DIR', trailingslashit( dirname( __FILE__ ) ) );
+		if ( ! defined( 'DOLLIE_SETUP_PLUGIN_DIR' ) )
+			define( 'DOLLIE_SETUP_PLUGIN_DIR', trailingslashit( dirname( __FILE__ ) ) );
 
-		if ( ! defined( 'CBOX_LIB_DIR' ) )
-			define( 'CBOX_LIB_DIR',    trailingslashit( CBOX_PLUGIN_DIR . 'lib' ) );
+		if ( ! defined( 'DOLLIE_SETUP_LIB_DIR' ) )
+			define( 'DOLLIE_SETUP_LIB_DIR',    trailingslashit( DOLLIE_SETUP_PLUGIN_DIR . 'lib' ) );
 
 	}
 
@@ -85,18 +85,18 @@ class Commons_In_A_Box {
 
 		/** VERSION ***********************************************************/
 
-		// CBOX version
+		// DOLLIE_SETUP version
 		$this->version       = '1.3.2';
 
-		// UTC date of CBOX version release
+		// UTC date of DOLLIE_SETUP version release
 		$this->revision_date = '2022-01-20 17:00 UTC';
 
 		/** FILESYSTEM ********************************************************/
 
-		// the absolute directory CBOX is running from
-		$this->plugin_dir    = constant( 'CBOX_PLUGIN_DIR' );
+		// the absolute directory DOLLIE_SETUP is running from
+		$this->plugin_dir    = constant( 'DOLLIE_SETUP_PLUGIN_DIR' );
 
-		// the URL to the CBOX directory
+		// the URL to the DOLLIE_SETUP directory
 		$this->plugin_url    = plugin_dir_url( __FILE__ );
 	}
 
@@ -111,7 +111,7 @@ class Commons_In_A_Box {
 		require( $this->plugin_dir . 'includes/plugins.php' );
 
 		// Admin.
-		if ( cbox_is_admin() ) {
+		if ( dollie_setup_is_admin() ) {
 			require( $this->plugin_dir . 'admin/admin-loader.php' );
 
 		// frontend
@@ -140,12 +140,12 @@ class Commons_In_A_Box {
 	 */
 	private function setup_actions() {
 		// Package hooks.
-		add_action( 'cbox_admin_loaded',      array( $this, 'load_package' ), 11 );
-		add_action( 'cbox_frontend_includes', array( $this, 'load_package_frontend' ) );
+		add_action( 'dollie_setup_admin_loaded',      array( $this, 'load_package' ), 11 );
+		add_action( 'dollie_setup_frontend_includes', array( $this, 'load_package_frontend' ) );
 
 		// Add actions to plugin activation and deactivation hooks
-		add_action( 'activate_'   . plugin_basename( __FILE__ ), function() { do_action( 'cbox_activation' ); } );
-		add_action( 'deactivate_' . plugin_basename( __FILE__ ), function() { do_action( 'cbox_deactivation' ); } );
+		add_action( 'activate_'   . plugin_basename( __FILE__ ), function() { do_action( 'dollie_setup_activation' ); } );
+		add_action( 'deactivate_' . plugin_basename( __FILE__ ), function() { do_action( 'dollie_setup_deactivation' ); } );
 
 		// localization
 		add_action( 'init', array( $this, 'localization' ), 0 );
@@ -156,11 +156,11 @@ class Commons_In_A_Box {
 		 * This could be improved...
 		 */
 		if ( defined( 'WP_CLI') ) {
-			add_filter( 'upgrader_source_selection', 'cbox_rename_github_folder', 1, 4 );
-			add_action( 'cbox_plugins_loaded', function() {
+			add_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder', 1, 4 );
+			add_action( 'dollie_setup_plugins_loaded', function() {
 				require_once ABSPATH . 'wp-admin/includes/plugin.php';
 			}, 91 );
-			add_action( 'cbox_plugins_loaded', array( 'Plugin_Dependencies', 'init' ), 91 );
+			add_action( 'dollie_setup_plugins_loaded', array( 'Plugin_Dependencies', 'init' ), 91 );
 		}
 
 		// Upgrader routine.
@@ -168,8 +168,8 @@ class Commons_In_A_Box {
 			// Ensure we're in the admin area or WP CLI.
 			if ( is_admin() || defined( 'WP_CLI') ) {
 				// Ensure upgrader items are registered.
-				$packages = cbox_get_packages();
-				$current  = cbox_get_current_package_id();
+				$packages = dollie_setup_get_packages();
+				$current  = dollie_setup_get_current_package_id();
 				if ( isset( $packages[ $current ] ) && class_exists( $packages[ $current ] ) ) {
 					call_user_func( array( $packages[ $current ], 'upgrader' ) );
 				}
@@ -177,9 +177,9 @@ class Commons_In_A_Box {
 
 			// AJAX handler.
 			if ( wp_doing_ajax() && ! empty( $_POST['action'] ) &&
-				( 0 === strpos( $_POST['action'], 'cbox_' ) && false !== strpos( $_POST['action'], '_upgrade' ) )
+				( 0 === strpos( $_POST['action'], 'dollie_setup_' ) && false !== strpos( $_POST['action'], '_upgrade' ) )
 			) {
-				require CBOX_PLUGIN_DIR . 'includes/upgrades/ajax-handler.php';
+				require DOLLIE_SETUP_PLUGIN_DIR . 'includes/upgrades/ajax-handler.php';
 			}
 		} );
 	}
@@ -191,7 +191,7 @@ class Commons_In_A_Box {
 	 */
 	private function load_components() {
 		// admin area
-		if ( cbox_is_admin() ) {
+		if ( dollie_setup_is_admin() ) {
 			$this->admin    = new CBox_Admin;
 			$this->plugins  = new CBox_Plugins;
 
@@ -202,10 +202,10 @@ class Commons_In_A_Box {
 
 		// WP-CLI integration
 		if ( defined( 'WP_CLI' ) ) {
-			\WP_CLI::add_command( 'cbox',         '\CBOX\CLI\Core' );
-			\WP_CLI::add_command( 'cbox package', '\CBOX\CLI\Package' );
-			\WP_CLI::add_command( 'cbox update',  '\CBOX\CLI\Update' );
-			\WP_CLI::add_command( 'cbox upgrade', '\CBOX\CLI\Upgrade' );
+			\WP_CLI::add_command( 'cbox',         '\DOLLIE_SETUP\CLI\Core' );
+			\WP_CLI::add_command( 'cbox package', '\DOLLIE_SETUP\CLI\Package' );
+			\WP_CLI::add_command( 'cbox update',  '\DOLLIE_SETUP\CLI\Update' );
+			\WP_CLI::add_command( 'cbox upgrade', '\DOLLIE_SETUP\CLI\Upgrade' );
 		}
 
 		/**
@@ -215,13 +215,13 @@ class Commons_In_A_Box {
 		 *
 		 * @param Commons_In_A_Box $this
 		 */
-		do_action( 'cbox_load_components', $this );
+		do_action( 'dollie_setup_load_components', $this );
 	}
 
 	/** HOOKS *********************************************************/
 
 	/**
-	 * Loads the active package into CBOX.
+	 * Loads the active package into DOLLIE_SETUP.
 	 *
 	 * @since 1.1.0
 	 */
@@ -229,13 +229,13 @@ class Commons_In_A_Box {
 		// Package autoloader.
 		$this->package_autoloader();
 
-		$current = cbox_get_current_package_id();
+		$current = dollie_setup_get_current_package_id();
 		if ( empty( $current ) ) {
 			return;
 		}
 
 		// Load our package.
-		$packages = cbox_get_packages();
+		$packages = dollie_setup_get_packages();
 		if ( isset( $packages[$current] ) && class_exists( $packages[$current] ) ) {
 			$this->package = call_user_func( array( $packages[$current], 'init' ) );
 		}
@@ -248,11 +248,11 @@ class Commons_In_A_Box {
 	 */
 	public function load_package_frontend() {
 		// Minimal package code needed for main site.
-		if ( cbox_is_main_site() ) {
+		if ( dollie_setup_is_main_site() ) {
 			$this->package_autoloader();
 
 		// Multisite: Load up all package code on sub-sites and if user is logged in.
-		} elseif ( is_multisite() && cbox_get_current_package_id() ) {
+		} elseif ( is_multisite() && dollie_setup_get_current_package_id() ) {
 			$this->load_package();
 
 			/**
@@ -291,7 +291,7 @@ class Commons_In_A_Box {
 	 */
 	public function localization() {
 		// If we're on not on the main site, bail.
-		if ( ! cbox_is_main_site() ) {
+		if ( ! dollie_setup_is_main_site() ) {
 			return;
 		}
 
@@ -319,7 +319,7 @@ class Commons_In_A_Box {
 	 */
 	public function cli_autoloader() {
 		spl_autoload_register( function( $class ) {
-			$prefix = 'CBOX\\CLI\\';
+			$prefix = 'DOLLIE_SETUP\\CLI\\';
 			$base_dir = __DIR__ . '/includes/CLI/';
 
 			// Does the class use the namespace prefix?
@@ -393,12 +393,12 @@ class Commons_In_A_Box {
 	}
 
 	/**
-	 * Get the plugin URL for CBOX.
+	 * Get the plugin URL for DOLLIE_SETUP.
 	 *
 	 * @since 1.0-beta1
 	 *
-	 * @param str $path Path relative to the CBOX plugin URL.
-	 * @return str CBOX plugin URL with optional path appended.
+	 * @param str $path Path relative to the DOLLIE_SETUP plugin URL.
+	 * @return str DOLLIE_SETUP plugin URL with optional path appended.
 	 */
 	public function plugin_url( $path = '' ) {
 		if ( ! empty( $path ) && is_string( $path ) )
