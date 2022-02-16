@@ -192,6 +192,7 @@ function dol_customizer_css() {
 } // end dol_customizer_css
 
 add_action( 'wp_head', 'dol_customizer_css' );
+add_action('admin_head', 'dol_customizer_css');
 
 
 /**

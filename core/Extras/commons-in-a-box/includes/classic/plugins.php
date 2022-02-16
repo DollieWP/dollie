@@ -132,17 +132,17 @@ class CBox_Plugins_Classic {
 		// BuddyPress Docs Wiki
 
 
-		// // Custom Profile Filters for BuddyPress
-		// call_user_func( $instance, array(
-		// 	'plugin_name'       => 'Two Factor Authentication',
-		// 	'type'              => 'recommended',
-		// 	'cbox_name'         => __( 'Two Factor Authentication', 'commons-in-a-box' ),
-		// 	'cbox_description'  => __( 'Allows an easy way for you to secure your Administration user accounts, by setting up two factor login auth.', 'commons-in-a-box' ),
-		// 	'version'           => '0.7.1',
-		// 	'download_url'      => 'https://downloads.wordpress.org/plugin/two-factor.zip',
-		// 	'documentation_url' => 'https://wordpress.org/plugins/two-factor/',
-		// 	'network'           => false
-		// ) );
+		// Custom Profile Filters for BuddyPress
+		call_user_func( $instance, array(
+			'plugin_name'       => 'Two Factor Authentication',
+			'type'              => 'recommended',
+			'cbox_name'         => __( 'Two Factor Authentication', 'commons-in-a-box' ),
+			'cbox_description'  => __( 'Allows an easy way for you to secure your Administration user accounts, by setting up two factor login auth.', 'commons-in-a-box' ),
+			'version'           => '0.7.1',
+			'download_url'      => 'https://downloads.wordpress.org/plugin/two-factor.zip',
+			'documentation_url' => 'https://wordpress.org/plugins/two-factor/',
+			'network'           => false
+		) );
 
 	}
 

@@ -98,6 +98,7 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 		add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_theme' ), 10, 4 );
 		add_filter( 'http_request_args',          'cbox_disable_ssl_verification',    10, 2 );
 
+		cbox_get_template_part('wrapper-header');
 		$this->skin->header();
 
 		// Connect to the Filesystem first.
@@ -149,6 +150,7 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 		$this->skin->bulk_footer();
 
 		$this->skin->footer();
+		cbox_get_template_part('wrapper-footer');
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
 		remove_filter( 'upgrader_source_selection',  'cbox_rename_github_folder',        1 );

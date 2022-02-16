@@ -35,7 +35,7 @@ class CBox_Admin_Plugins {
 		// prevent CBOX plugins from being seen in the regular Plugins table and from WP updates
 		if ( ! $this->is_override() ) {
 			// exclude CBOX plugins from the "Plugins" list table
-			add_filter( 'all_plugins',                   array( $this, 'exclude_cbox_plugins' ) );
+			//add_filter( 'all_plugins',                   array( $this, 'exclude_cbox_plugins' ) );
 
 			// remove CBOX plugins from WP's update plugins routine
 			add_filter( 'site_transient_update_plugins', array( $this, 'remove_cbox_plugins_from_updates' ) );
@@ -827,7 +827,7 @@ jQuery('a[data-uninstall="1"]').confirm({
 		//$requirements = Plugin_Dependencies::get_requirements();
 	?>
 
-		<table class="widefat fixed plugins">
+		<table class="fixed widefat plugins">
 			<thead>
 				<tr>
 					<th scope="col" class="manage-column check-column"><label for="plugins-select-all-<?php echo esc_attr( $r['type'] ); ?>" class="screen-reader-text"><?php esc_html_e( 'Select all', 'commons-in-a-box' ); ?></label><input type="checkbox" id="plugins-select-all-<?php echo esc_attr( $r['type'] ); ?>" /></th>
@@ -984,7 +984,7 @@ jQuery('a[data-uninstall="1"]').confirm({
 				if ( false === $data['network'] && is_multisite() && is_plugin_active_for_network( $loader ) ) : ?>
 
 					<tr class="cbox-plugin-network-active">
-						<td colspan="3"><div class="notice inline notice-error notice-alt"><p>
+						<td colspan="3"><div class="inline notice notice-error notice-alt"><p>
 							<?php printf( esc_html__( '%1$s is network-activated, but we recommend only activating this plugin on the main site.', 'commons-in-a-box' ), $plugin ); ?>
 							<?php printf(
 								'<a href="%1$s">%2$s</a>',

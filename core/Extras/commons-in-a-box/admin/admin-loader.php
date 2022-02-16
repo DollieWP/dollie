@@ -393,7 +393,6 @@ class CBox_Admin
 				echo '</div>';
 
 				break;
-
 			case 'package-details':
 				$package = sanitize_title($_GET['cbox-package-details']);
 				// some HTML markup!
@@ -404,15 +403,18 @@ class CBox_Admin
 				cbox_get_template_part('package-details', $package);
 ?>
 
-				<form method="post" action="<?php echo self_admin_url('admin.php?page=cbox'); ?>" style="margin-top:2em; text-align:right;">
-					<?php wp_nonce_field('cbox_select_package'); ?>
 
-					<input type="hidden" name="cbox-package" value="<?php echo $package; ?>" />
 
-					<a class="button button-secondary" href="<?php echo self_admin_url('admin.php?page=cbox'); ?>" style="margin:0 15px 0 0;"><?php esc_html_e('Return to dashboard', 'commons-in-a-box'); ?></a>
+			<form method="post" action="<?php echo self_admin_url('admin.php?page=cbox'); ?>" style="margin-top:2em; text-align:right;">
+				<?php wp_nonce_field('cbox_select_package'); ?>
 
-					<input type="submit" value="<?php esc_html_e('Install', 'commons-in-a-box'); ?>" class="button-primary" name="package-details" />
-				</form>
+				<input type="hidden" name="cbox-package" value="<?php echo $package; ?>" />
+
+				<a class="button button-secondary" href="<?php echo self_admin_url('admin.php?page=cbox'); ?>" style="margin:0 15px 0 0;"><?php esc_html_e('Return to dashboard', 'commons-in-a-box'); ?></a>
+
+				<input type="submit" value="<?php esc_html_e('Install', 'commons-in-a-box'); ?>" class="button-primary" name="package-details" />
+			</form>
+
 
 			<?php
 				echo '</div>';
@@ -489,6 +491,7 @@ class CBox_Admin
 
 				// prompt for theme install
 			case 'theme-prompt':
+				cbox_get_template_part('wrapper-header');
 				$directory_name = cbox_get_theme_prop('directory_name');
 
 				// Button text.
@@ -536,10 +539,13 @@ class CBox_Admin
 
 				echo '</div>';
 
+				cbox_get_template_part('wrapper-footer');
+
 				break;
 
 				// install the cbox theme
 			case 'install-theme':
+				cbox_get_template_part('wrapper-header');
 				// include the CBOX Theme Installer
 				if (!class_exists('CBox_Theme_Installer')) {
 					require(CBOX_PLUGIN_DIR . 'admin/theme-install.php');
@@ -550,10 +556,13 @@ class CBox_Admin
 				$cbox_theme = new CBox_Theme_Installer(new Theme_Installer_Skin(compact('title')));
 				$cbox_theme->install();
 
+				cbox_get_template_part('wrapper-footer');
+
 				break;
 
 				// upgrade CBOX themes
 			case 'upgrade-theme':
+				cbox_get_template_part('wrapper-header');
 				// include the CBOX Theme Installer
 				if (!class_exists('CBox_Theme_Installer'))
 					require(CBOX_PLUGIN_DIR . 'admin/theme-install.php');
@@ -572,6 +581,7 @@ class CBox_Admin
 				$upgrader->bulk_upgrade(cbox()->theme_upgrades);
 
 				echo '</div>';
+				cbox_get_template_part('wrapper-footer');
 
 				break;
 		}
@@ -722,14 +732,81 @@ class CBox_Admin
 			return;
 
 		// do something different depending on the setup step
+		cbox_get_template_part('wrapper-header');
 		switch (cbox_get_setup_step()) {
 				// (0) No package.
 			case 'no-package':
+			?>
 
+				<?php 	//Load our Welcome Wiza
+				cbox_get_template_part('wizard'); ?>
 
-				cbox_get_template_part('wizard');
+				<div style="text-align:center;">
+					<h2><?php _e('Select a Package', 'commons-in-a-box'); ?></h2>
 
+					<p><?php esc_html_e('Commons In A Box includes two packages, each containing selected WordPress plugins and a WordPress theme. The packages are designed to make it easier for you to install and configure your site. Select the package that best suits your needs.', 'commons-in-a-box'); ?></p>
+				</div>
 
+				<form method="post" action="<?php echo self_admin_url('admin.php?page=cbox'); ?>">
+					<div class="wp-list-table widefat">
+						<div id="the-list">
+
+							<?php foreach (cbox_get_packages() as $package => $class) :
+								$incompatible = !is_multisite() && true === cbox_get_package_prop('network', $package);
+							?>
+
+								<div class="plugin-card plugin-card-<?php echo sanitize_html_class(cbox_get_package_prop('name', $package)); ?>" style="width:100%; margin-left:0;">
+									<div class="plugin-card-top">
+										<div class="name column-name">
+											<h3><?php esc_attr_e(cbox_get_package_prop('name', $package)); ?>
+
+												<img src="<?php echo esc_url(cbox_get_package_prop('icon_url', $package)); ?>" class="plugin-icon" alt="">
+											</h3>
+										</div>
+
+										<div class="action-links">
+											<ul class="plugin-action-buttons">
+												<li><a href="<?php echo $incompatible ? '#' : wp_nonce_url(self_admin_url('admin.php?page=cbox&amp;cbox-package-details=' . $package), 'cbox_package_details'); ?>" class="button <?php echo $incompatible ? 'disabled' : 'activate-now'; ?>" aria-label="<?php printf(esc_html__('Select %s', 'commons-in-a-box'), cbox_get_package_prop('name', $package)); ?>"><?php esc_html_e('Select', 'commons-in-a-box'); ?></a></li>
+												<li><a href="<?php echo esc_url(cbox_get_package_prop('documentation_url', $package)); ?>?TB_iframe=true&amp;width=600&amp;height=550" class="thickbox open-plugin-details-modal" aria-label="<?php printf(esc_attr__('More information about %s', 'commons-in-a-box'), cbox_get_package_prop('name', $package)); ?>" data-title="<?php echo esc_attr(cbox_get_package_prop('name', $package)); ?>"><?php esc_html_e('More Details', 'commons-in-a-box'); ?></a></li>
+											</ul>
+										</div>
+
+										<div class="desc column-description">
+											<?php cbox_get_template_part('description', $package); ?>
+											<!--<p class="authors"> <cite>By <a href="">CBOX Team</a></cite></p>-->
+										</div>
+									</div>
+
+									<div class="plugin-card-bottom">
+										<div class="column-updated">
+											<?php if (cbox_get_theme_prop('force_install', $package)) : ?>
+												<span class="update-now theme-required"><?php esc_html_e('Theme required; existing theme will be replaced during installation.', 'commons-in-a-box'); ?></span>
+											<?php else : ?>
+												<span class="update-now theme-optional"><?php esc_html_e('Theme optional; theme installation can be skipped.', 'commons-in-a-box'); ?></span>
+											<?php endif; ?>
+										</div>
+
+										<div class="column-compatibility">
+											<?php if ($incompatible) : ?>
+												<span class="compatibility-incompatible"><?php _e('Requires WordPress Multisite.', 'commons-in-a-box'); ?> <?php printf('<a href="%1$s" target="_blank">%2$s</a>', 'https://codex.wordpress.org/Create_A_Network', esc_html__(
+																																								'Find out how to convert to a WordPress Multisite network here.',
+																																								'commons-in-a-box'
+																																							)); ?></span>
+											<?php else : ?>
+												<span class="compatibility-compatible"><?php _e('<strong>Compatible</strong> with your version of WordPress', 'commons-in-a-box'); ?></span>
+											<?php endif; ?>
+										</div>
+									</div>
+
+								</div>
+
+							<?php endforeach; ?>
+
+						</div>
+					</div>
+				</form>
+
+			<?php
 				break;
 
 				// (1) required plugins need to be installed/upgraded first if necessary.
@@ -795,6 +872,7 @@ class CBox_Admin
 			<?php
 				break;
 		} // end switch()
+		cbox_get_template_part('wrapper-footer');
 	}
 
 	/**

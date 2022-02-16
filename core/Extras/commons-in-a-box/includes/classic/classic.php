@@ -51,8 +51,8 @@ class CBox_Package_Classic extends CBox_Package {
 			'name'           => 'Hello Dollie Theme',
 			'version'        => '1.0.0',
 			'directory_name' => 'hello-dollie',
-			'download_url'   => CBOX_PLUGIN_DIR . 'includes/zip/hello-dollie-1.0.1.zip',
-			'admin_settings' => 'themes.php?page=infinity-theme',
+			'download_url'   => CBOX_PLUGIN_DIR . 'includes/zip/hello-dollie-1.0.0.zip',
+			'admin_settings' => 'themes.php',
 			'screenshot_url' => cbox()->plugin_url( 'admin/images/screenshot_cbox_theme.png' ),
 		);
 	}

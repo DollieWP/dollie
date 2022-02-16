@@ -52,6 +52,7 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 		add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ), 10, 4 );
 		add_filter( 'http_request_args',          'cbox_disable_ssl_verification',     10, 2 );
 
+		cbox_get_template_part('wrapper-header');
 		$this->skin->header();
 
 		// Connect to the Filesystem first.
@@ -153,6 +154,7 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 		$this->skin->bulk_footer();
 
 		$this->skin->footer();
+		cbox_get_template_part('wrapper-footer');
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
 		remove_filter( 'upgrader_source_selection',  'cbox_rename_github_folder',     1 );
@@ -619,7 +621,7 @@ class CBox_Updater {
 		// start the whole damn thing!
 		// We always try to upgrade plugins first.  Next, we install plugins that are not available.
 		// Lastly, we activate any plugins needed.
-
+		cbox_get_template_part('wrapper-header');
 		// let's see if upgrades are available; if so, start with that
 		if ( self::$is_upgrade ) {
 			// if installs are available as well, this tells CBox_Plugin_Upgrader
@@ -681,6 +683,7 @@ class CBox_Updater {
 
 			<p><?php CBox_Bulk_Plugin_Upgrader_Skin::after_updater( $settings ); ?></p>
 		<?php
+			cbox_get_template_part('wrapper-footer');
 		}
 	}
 
