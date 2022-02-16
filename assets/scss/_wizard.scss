@@ -1,7 +1,22 @@
 .toplevel_page_cbox {
+  height: 100%;
   #message,
   .wrap > h2 {
     display: none;
+  }
+
+  .dol-sites-container {
+    img {
+      max-width: 100%;
+    }
+  }
+
+  p {
+    margin: 2px;
+  }
+
+  #wpbody-content .dol-sites-name {
+    width: 41.333333%;
   }
 }
 

@@ -12,6 +12,10 @@ module.exports = {
       green: colors.emerald,
       yellow: colors.amber,
       purple: colors.violet,
+        sky: colors.sky,
+        teal: colors.teal,
+        cyan: colors.cyan,
+        rose: colors.rose,
     },
     extend: {
       transitionDuration: {
@@ -63,5 +67,8 @@ module.exports = {
   corePlugins: {
     preflight: false,
   },
-  plugins: [require("@tailwindcss/forms")],
+  plugins:  [
+      require("@tailwindcss/forms"),
+      require('@tailwindcss/line-clamp')
+    ],
 };

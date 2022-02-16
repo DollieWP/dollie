@@ -171,9 +171,6 @@ class CBox_Settings_Classic {
 		// validate any settings changes submitted from the CBOX settings page
 		add_action( "load-{$page}", array( $this, 'validate_settings' ) );
 
-		// inline CSS
-		add_action( "admin_head-{$page}", array( 'CBox_Admin', 'dashboard_css' ) );
-		//add_action( "admin_head-{$page}", array( $this, 'inline_css' ) );
 	}
 
 	/**

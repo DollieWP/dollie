@@ -394,9 +394,6 @@ class CBox_Admin_Plugins {
 			// validate any settings changes submitted from the CBOX plugins page
 			add_action( "load-{$plugin_page}",       array( $this, 'validate_cbox_dashboard' ) );
 
-			// inline CSS
-			add_action( "admin_head-{$plugin_page}", array( 'CBox_Admin', 'dashboard_css' ) );
-			add_action( "admin_head-{$plugin_page}", array( $this, 'inline_css' ) );
 		}
 	}
 
@@ -634,6 +631,7 @@ class CBox_Admin_Plugins {
 	 * @since 0.3
 	 */
 	public function admin_page() {
+		cbox_get_template_part('wrapper-header');
 		// show this page during update
 		$is_update = isset( cbox()->update ) ? cbox()->update : false;
 		if ( $is_update ) {
@@ -748,6 +746,7 @@ jQuery('a[data-uninstall="1"]').confirm({
 
 			</div>
 	<?php
+			cbox_get_template_part('wrapper-footer');
 		}
 	}
 
