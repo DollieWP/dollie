@@ -65,7 +65,7 @@ class CBox_Frontend {
 	 * @since 1.0.1
 	 */
 	private function setup_globals() {
-		// get our admin settings; this is highly specific to the Classic package...
+		// get our admin settings; this is highly specific to the Agency package...
 		$settings_key   = dollie_setup_get_package_prop( 'settings_key' );
 		$this->settings = ! empty( $settings_key ) ? (array) get_blog_option( dollie_setup_get_main_site_id(), $settings_key ) : array();
 

@@ -37,12 +37,12 @@ if $download ; then
 
 	# plugins - grab all github links and download them to /includes/zip/
 	# requires wget
-	grep -o --null "https\?://github\.com.*\w" includes/classic/plugins.php | awk '{split($0,a,"/"); b[0] = "wget --no-check-certificate " $0 " -O includes/zip/" a[5] "-" a[7]; print b[0]; b[0] | getline v; close(b[0]); }'
+	grep -o --null "https\?://github\.com.*\w" includes/agency/plugins.php | awk '{split($0,a,"/"); b[0] = "wget --no-check-certificate " $0 " -O includes/zip/" a[5] "-" a[7]; print b[0]; b[0] | getline v; close(b[0]); }'
 	grep -o --null "https\?://github\.com.*\w" includes/openlab/plugins.php | awk '{split($0,a,"/"); b[0] = "wget --no-check-certificate " $0 " -O includes/zip/" a[5] "-" a[7]; print b[0]; b[0] | getline v; close(b[0]); }'
 
 	# themes - grab all github links and download them to /includes/zip/
 	# requires wget
-	grep -o --null "https\?://github\.com.*\w" includes/classic/classic.php | awk '{split($0,a,"/"); b[0] = "wget --no-check-certificate " $0 " -O includes/zip/" a[5] "-" a[7]; print b[0]; b[0] | getline v; close(b[0]); }'
+	grep -o --null "https\?://github\.com.*\w" includes/agency/agency.php | awk '{split($0,a,"/"); b[0] = "wget --no-check-certificate " $0 " -O includes/zip/" a[5] "-" a[7]; print b[0]; b[0] | getline v; close(b[0]); }'
 	grep -o --null "https\?://github\.com.*\w" includes/openlab/openlab.php | awk '{split($0,a,"/"); b[0] = "wget --no-check-certificate " $0 " -O includes/zip/" a[5] "-" a[7]; print b[0]; b[0] | getline v; close(b[0]); }'
 
 	# output message
@@ -51,13 +51,13 @@ fi
 
 # plugins - replace references of github links to internal file paths
 sed -i.bak -E "s,'(http|https)://github.com/[^/]*/,DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/,g
-s,/archive/,-,g" includes/classic/plugins.php
+s,/archive/,-,g" includes/agency/plugins.php
 sed -i.bak -E "s,'(http|https)://github.com/[^/]*/,DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/,g
 s,/archive/,-,g" includes/openlab/plugins.php
 
 # themes - replace references of github links to internal file paths
 sed -i.bak -E "s,'(http|https)://github.com/[^/]*/,DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/,g
-s,/archive/,-,g" includes/classic/classic.php
+s,/archive/,-,g" includes/agency/agency.php
 sed -i.bak -E "s,'(http|https)://github.com/[^/]*/,DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/,g
 s,/archive/,-,g" includes/openlab/openlab.php
 

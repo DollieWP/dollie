@@ -5,5 +5,5 @@
 <ul class="subsubsub">
 <li><a href="<?php echo dollie_setup_admin_prop( 'url', 'admin.php?page=dollie_setup&amp;whatsnew=1' ); ?>"><?php esc_html_e( "What's New", 'dollie-setup' ); ?></a> |</li>
 <li><a href="http://commonsinabox.org/project-team" target="_blank"><?php esc_html_e( 'Credits', 'dollie-setup' ); ?></a> |</li>
-<li><a href="http://commonsinabox.org/dollie_setup-classic-overview" target="_blank"><?php _e( 'Documentation', 'dollie-setup' ); ?></a></li>
+<li><a href="http://commonsinabox.org/dollie_setup-agency-overview" target="_blank"><?php _e( 'Documentation', 'dollie-setup' ); ?></a></li>
 </ul>

@@ -1,6 +1,6 @@
 <?php
 /**
- * Package: Classic Settings class
+ * Package: Agency Settings class
  *
  * Part of the CLassic package.
  *
@@ -10,7 +10,7 @@
  */
 
 /**
- * Admin settings page for the Classic package.
+ * Admin settings page for the Agency package.
  *
  * @since 1.0-beta2
  *
@@ -22,12 +22,12 @@
 if ( !defined( 'ABSPATH' ) ) exit;
 
 /**
- * Setup the DOLLIE_SETUP settings area for the Classic package.
+ * Setup the DOLLIE_SETUP settings area for the Agency package.
  *
  * @since 1.0-beta2
- * @since 1.1.0 Renamed class from CBox_Settings to CBox_Settings_Classic.
+ * @since 1.1.0 Renamed class from CBox_Settings to CBox_Settings_Agency.
  */
-class CBox_Settings_Classic {
+class CBox_Settings_Agency {
 
 	/**
 	 * Static variable to hold our various settings
@@ -37,7 +37,7 @@ class CBox_Settings_Classic {
 	private static $settings = array();
 
 	/**
-	 * The settings options key used by the Classic package
+	 * The settings options key used by the Agency package
 	 *
 	 * @since 1.1.0
 	 *

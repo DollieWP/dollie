@@ -181,7 +181,7 @@ class Settings_Footer extends Tab_Base {
 			[
 				'name' => 'hello_footer_background',
 				'label' => __( 'Background', 'hello-dollie' ),
-				'types' => [ 'classic', 'gradient' ],
+				'types' => [ 'agency', 'gradient' ],
 				'selector' => '.site-footer',
 			]
 		);

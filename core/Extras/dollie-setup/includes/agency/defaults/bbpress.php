@@ -1,6 +1,6 @@
 <?php
 /**
- * Classic: Set defaults for the bbPress plugin during initial activation.
+ * Agency: Set defaults for the bbPress plugin during initial activation.
  *
  * @since 1.1.0
  */

@@ -1,6 +1,6 @@
 <?php
 /**
- * Package: Classic Plugins class
+ * Package: Agency Plugins class
  *
  * Part of the CLassic package.
  *
@@ -10,11 +10,11 @@
  */
 
 /**
- * Plugin manifest for the DOLLIE_SETUP Classic package.
+ * Plugin manifest for the DOLLIE_SETUP Agency package.
  *
  * @since 1.1.0
  */
-class CBox_Plugins_Classic {
+class CBox_Plugins_Agency {
 	/**
 	 * Initiator.
 	 *

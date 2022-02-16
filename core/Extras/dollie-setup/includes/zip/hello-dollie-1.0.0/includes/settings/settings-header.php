@@ -177,7 +177,7 @@ class Settings_Header extends Tab_Base {
 			[
 				'name' => 'hello_header_background',
 				'label' => __( 'Background', 'hello-dollie' ),
-				'types' => [ 'classic', 'gradient' ],
+				'types' => [ 'agency', 'gradient' ],
 				'selector' => '.site-header',
 			]
 		);

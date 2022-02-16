@@ -15,7 +15,7 @@ Dollie Setup (DOLLIE_SETUP) dramatically lowers the barrier to building communit
 
 Dollie Setup (DOLLIE_SETUP) includes a choice of two packages that can be customized to meet the needs of your community:
 
-**DOLLIE_SETUP Classic is designed for communities of all kinds.** It is used by groups and organizations to create flexible social networks where members can collaborate on projects, publish research, and create repositories of knowledge.
+**DOLLIE_SETUP Agency is designed for communities of all kinds.** It is used by groups and organizations to create flexible social networks where members can collaborate on projects, publish research, and create repositories of knowledge.
 
 **DOLLIE_SETUP OpenLab is specifically designed for teaching, learning, and collaboration.** It allows faculty members, departments, and entire institutions to create commons spaces for open learning.
 
@@ -36,7 +36,7 @@ When you’re ready, there are two ways to download DOLLIE_SETUP :
 1. Search for it in the plugins section of your WordPress Dashboard and install it as you would any other WordPress plugin.
 1. Download it from the WordPress plugin repository: [https://wordpress.org/plugins/dollie-setup](https://wordpress.org/plugins/dollie-setup/)
 
-Once you’ve downloaded and installed DOLLIE_SETUP, you’ll be able to choose which package you wish to use: DOLLIE_SETUP Classic or DOLLIE_SETUP OpenLab. See our documentation for step-by-step instructions for installing [DOLLIE_SETUP Classic](http://commonsinabox.org/dollie_setup-classic-installation-guide) or [DOLLIE_SETUP OpenLab](http://commonsinabox.org/openlab-installation-guide).
+Once you’ve downloaded and installed DOLLIE_SETUP, you’ll be able to choose which package you wish to use: DOLLIE_SETUP Agency or DOLLIE_SETUP OpenLab. See our documentation for step-by-step instructions for installing [DOLLIE_SETUP Agency](http://commonsinabox.org/dollie_setup-agency-installation-guide) or [DOLLIE_SETUP OpenLab](http://commonsinabox.org/openlab-installation-guide).
 
 If you want to find out more before you begin, you can read our [Documentation](http://commonsinabox.org/dollie_setup-documentation), visit our [Showcase](http://commonsinabox.org/dollie_setup-showcase), or try a [Demo](http://commonsinabox.org/demo).
 
@@ -52,21 +52,21 @@ It is possible to install Dollie Setup on an existing WordPress site, and it can
 
 == Screenshots ==
 
-1. DOLLIE_SETUP Classic dashboard
-2. DOLLIE_SETUP Classic homepage
+1. DOLLIE_SETUP Agency dashboard
+2. DOLLIE_SETUP Agency homepage
 3. DOLLIE_SETUP OpenLab dashboard
 4. DOLLIE_SETUP-OL homepage
 
 == Changelog ==
 
 = 1.3.2 =
-* Updated plugins (Classic): BuddyPress 9.2.0, bbPress 2.6.9
+* Updated plugins (Agency): BuddyPress 9.2.0, bbPress 2.6.9
 * Updated plugins (OpenLab): BuddyPress 9.2.0, bbPress 2.6.9, Event Organiser 3.10.8
 * Fixed order in which localizations are loaded.
 * OpenLab: Fixed incorrect Contact Us link URL.
 
 = 1.3.1 =
-* Updated plugins (Classic): BuddyPress 9.1.1, BuddyPress Group Email Subscription 4.0.1, Invite Anyone 1.4.2
+* Updated plugins (Agency): BuddyPress 9.1.1, BuddyPress Group Email Subscription 4.0.1, Invite Anyone 1.4.2
 * Updated plugins (OpenLab): BuddyPress 9.1.1, BuddyPress Group Email Subscription 4.0.1, Invite Anyone 1.4.2, OpenLab Private Comments 1.1.1, PressForward 5.2.8, WP Grade Comments 1.4.4
 * Improved compatibility with PHP 8.0+.
 * OpenLab: Improved behavior of oEmbed videos on mobile devices.
@@ -76,7 +76,7 @@ It is possible to install Dollie Setup on an existing WordPress site, and it can
 * OpenLab: Fixed inconsistent email subscription settings in various parts of the settings panels.
 
 = 1.3.0 =
-* Updated plugins (Classic): BP Reply By Email 1.0-RC10, BuddyPress 9.0.0, BuddyPress Docs 2.1.6, BuddyPress Docs Wiki 1.0.11, External Group Blogs 1.6.2
+* Updated plugins (Agency): BP Reply By Email 1.0-RC10, BuddyPress 9.0.0, BuddyPress Docs 2.1.6, BuddyPress Docs Wiki 1.0.11, External Group Blogs 1.6.2
 * Updated plugins (OpenLab): BP Reply By Email 1.0-RC10, BuddyPress 9.0.0, BuddyPress Docs 2.1.6, Event Organiser 3.10.7, PressForward 5.2.6, WP Grade Comments 1.4.0
 * Compatibility with WordPress 5.8 and BuddyPress 9.0.0.
 * Compatibility with BuddyPress 8.0.0's selectable signup profile fields.
@@ -84,10 +84,10 @@ It is possible to install Dollie Setup on an existing WordPress site, and it can
 * Fixed bug that prevented Pending forum topics from being viewed on the front end.
 * Add an admin email notification when a forum post is marked as Pending.
 * Improved behavior when restoring a forum topic from trash/spam.
-* Classic: Add highlighting to unread group forum threads.
-* Classic: Improve bbPress redirect behavior after DOLLIE_SETUP installation.
-* Classic: Improved labels in theme options panel.
-* Classic: Compatibility with BP bulk notifications management.
+* Agency: Add highlighting to unread group forum threads.
+* Agency: Improve bbPress redirect behavior after DOLLIE_SETUP installation.
+* Agency: Improved labels in theme options panel.
+* Agency: Compatibility with BP bulk notifications management.
 * OpenLab: Introduce the 'Creators' feature, allowing greater customization over the way a group's Acknowledgements are displayed and inherited by clones.
 * OpenLab: Introduce the 'OpenLab Private Comments' site plugin, which allows users to post comments that are visible only to the site owner.
 * OpenLab: Introduce the 'OpenLab Attributions' site plugins, a powerful tool for generating and displaying inline attributions into post content.
@@ -100,7 +100,7 @@ It is possible to install Dollie Setup on an existing WordPress site, and it can
 * OpenLab: Accessibility and contrast improvements to the Messages panel.
 
 = 1.2.4 =
-* Updated plugins (Classic): BuddyPress 6.4.0
+* Updated plugins (Agency): BuddyPress 6.4.0
 * Updated plugins (OpenLab): BuddyPress 6.4.0
 * Compatibility with WordPress 5.6+.
 * Compatibility with latest versions of jQuery, as included in WordPress 5.6+.
@@ -113,7 +113,7 @@ It is possible to install Dollie Setup on an existing WordPress site, and it can
 * OpenLab: Fixed bug that made it impossible to save an empty value for "Term" in a Course
 
 = 1.2.3 =
-* Updated plugins (Classic): bbPress 2.6.6, BuddyPress 6.3.0, BuddyPress Docs 2.1.5, BP Reply By Email 1.0-RC9
+* Updated plugins (Agency): bbPress 2.6.6, BuddyPress 6.3.0, BuddyPress Docs 2.1.5, BP Reply By Email 1.0-RC9
 * Updated plugins (OpenLab): bbPress 2.6.6, BuddyPress 6.3.0, BuddyPress Docs 2.1.5, BP Reply By Email 1.0-RC9, Event Organiser 3.10.2
 * Improved markup on Welcome page for better cross-browser appearance.
 * OpenLab: Improvements to Dashboard menu positioning when scrolling.
@@ -126,7 +126,7 @@ It is possible to install Dollie Setup on an existing WordPress site, and it can
 * OpenLab: Improved data cleanup after a site is manually deleted via the Network Admin.
 * OpenLab: Improvements to 404 template.
 * OpenLab: Improved backward compatibility for the display of group contacts.
-* Classic: Improvements to registration page markup for better plugin compatibility.
+* Agency: Improvements to registration page markup for better plugin compatibility.
 
 = 1.2.2 =
 * OpenLab: Fixed bug that caused Search Results page not to be installed properly on upgrade from 1.1.x.
@@ -136,10 +136,10 @@ It is possible to install Dollie Setup on an existing WordPress site, and it can
 * OpenLab: Fixed bug that may cause fatal errors during 1.2.0 plugin upgrade routine.
 
 = 1.2.0 =
-* Classic: Improved compatibility with WordPress 5.5
-* Classic: Improved confirmation before installing or activating dollie_setup-theme.
-* Classic: Localization improvements.
-* Classic: Password strength meters for settings and registration pages.
+* Agency: Improved compatibility with WordPress 5.5
+* Agency: Improved confirmation before installing or activating dollie_setup-theme.
+* Agency: Localization improvements.
+* Agency: Password strength meters for settings and registration pages.
 * OpenLab: New Badges tool for groups.
 * OpenLab: New import and export tools for Portfolios.
 * OpenLab: New search results landing page for groups, with improved sidebar filters.
@@ -163,13 +163,13 @@ It is possible to install Dollie Setup on an existing WordPress site, and it can
 * OpenLab: Improved filterability of "lost password" length in homepage login box.
 * OpenLab: Improved "current page" highlighting on main nav menu.
 * OpenLab: Fixed bug that prevented group action buttons ("Join Group", etc) from being shown to network administrators.
-* Updated plugins (Classic): bbPress 2.6.5, BP Groupblog 1.9.2, BP MPO Activity Filter 1.3.2, BuddyPress 6.1.0, BuddyPress Docs 2.1.4, BuddyPress Group Email Subscription 4.0.0, Invite Anyone 1.4.1
+* Updated plugins (Agency): bbPress 2.6.5, BP Groupblog 1.9.2, BP MPO Activity Filter 1.3.2, BuddyPress 6.1.0, BuddyPress Docs 2.1.4, BuddyPress Group Email Subscription 4.0.0, Invite Anyone 1.4.1
 * Updated plugins (OpenLab): bbPress 2.6.5, BuddyPress 6.1.0, BuddyPress Docs 2.1.4, BuddyPress Event Organiser 1.2.0, BuddyPress Group Email Subscription 4.0.0, Event Organiser 3.10.0, Invite Anyone 1.4.1, PressForward 5.2.3, WP Grade Comments 1.3.2
 
 = 1.1.2 =
-* Classic: Improved compatibility with BP Customizer settings when using the Nouveau template pack.
-* Classic: Fixed a bug with tab navigation in DOLLIE_SETUP THeme options.
-* Classic: Fixed an issues with making searches on BuddyPress directory pages.
+* Agency: Improved compatibility with BP Customizer settings when using the Nouveau template pack.
+* Agency: Fixed a bug with tab navigation in DOLLIE_SETUP THeme options.
+* Agency: Fixed an issues with making searches on BuddyPress directory pages.
 * OpenLab: Hide "Group Home" link from site navs when the group is inaccessible to current user.
 * OpenLab: Fixed bug with BuddyPress Docs edit mode.
 * OpenLab: Improved appearance of single page/post content.
@@ -179,7 +179,7 @@ It is possible to install Dollie Setup on an existing WordPress site, and it can
 * Improvements to the behavior of network-activated DOLLIE_SETUP plugins.
 * Fixed bug in WP-CLI tools that caused theme update to unzip to wrong location in some cases.
 * Improved compatibility with Multi-Network setups.
-* Updated plugins (Classic): BuddyPress 4.4.0, BuddyPress Docs 2.1.3, BuddyPress Group Email Subscription 3.9.4, BP Reply By Email 1.0-RC8
+* Updated plugins (Agency): BuddyPress 4.4.0, BuddyPress Docs 2.1.3, BuddyPress Group Email Subscription 3.9.4, BP Reply By Email 1.0-RC8
 * Updated plugins (OpenLab): BuddyPress 4.4.0, BuddyPress Docs 2.1.3, BuddyPress Docs In Group 1.0.2, BuddyPress Group Email Subscription 3.9.4, BP Group Documents 1.12.3, BP Reply By Email 1.0-RC8, PressForward 5.2.2, WP Grade Comments 1.3.1
 
 = 1.1.1 =
@@ -192,14 +192,14 @@ It is possible to install Dollie Setup on an existing WordPress site, and it can
 * Improvements to CLI update tools.
 * Improved compatibility with BuddyPress 4.0+ privacy and data export tools.
 * Localization improvements.
-* Updated plugins (Classic): BP Group Announcements 1.0.6, BP MPO Activity Filter 1.3.1, BP Groupblog 1.9.1, BuddyPress 4.2.0, BuddyPress Docs 2.1.2, Invite Anyone 1.4.0
+* Updated plugins (Agency): BP Group Announcements 1.0.6, BP MPO Activity Filter 1.3.1, BP Groupblog 1.9.1, BuddyPress 4.2.0, BuddyPress Docs 2.1.2, Invite Anyone 1.4.0
 * Updated plugins (OpenLab): Anthologize 0.8.0, Braille 0.0.6, BuddyPress 4.2.0, BuddyPress Docs 2.1.2, Event Organiser 3.7.4, Invite Anyone 1.4.0
 
 = 1.1.0 =
 * Added "package" functionality
 * Introducing the OpenLab package. See http://commonsinabox.org/dollie_setup-openlab-overview/ for more details.
 * Updated plugins: BuddyPress 3.2.0, BuddyPress Docs 2.1.1, BuddyPress Reply By Email 1.0-RC7
-* Classic improvements: Improved accessibility for theme; improved compatibility with updated versions of WP and BP; improved PHP 7.2 compatibility
+* Agency improvements: Improved accessibility for theme; improved compatibility with updated versions of WP and BP; improved PHP 7.2 compatibility
 
 = 1.0.17 =
 * Update plugins: BuddyPress 2.9.4, BuddyPress Docs 2.0.1, BuddyPress Group Email Subscription 3.8.2, BuddyPress Groupblog 1.9.0, BP MPO Activity Filter 1.2.1, BP Reply By Email 1.0-RC6, CAC Featured Content 1.0.9, Invite Anyone 1.3.20

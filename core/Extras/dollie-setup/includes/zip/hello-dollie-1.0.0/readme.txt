@@ -196,7 +196,7 @@ Source: https://stocksnap.io/photo/4B83RD7BV9
 * Tweak: Update style for `img`, `textarea`, 'label'
 
 = 1.2.0 - 2019-02-12 =
-* New: Added classic-editor.css for Classic editor
+* New: Added agency-editor.css for Agency editor
 * Tweak: A lot of changes to match theme review guidelines
 * Tweak: Updated theme screenshot
 

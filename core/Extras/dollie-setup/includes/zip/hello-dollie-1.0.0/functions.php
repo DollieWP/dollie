@@ -65,7 +65,7 @@ if ( ! function_exists( 'hello_dollie_setup' ) ) {
 			/*
 			 * Editor Style.
 			 */
-			add_editor_style( 'classic-editor.css' );
+			add_editor_style( 'agency-editor.css' );
 
 			/*
 			 * Gutenberg wide images.

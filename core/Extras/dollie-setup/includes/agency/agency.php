@@ -1,6 +1,6 @@
 <?php
 /**
- * Package: Classic Core class
+ * Package: Agency Core class
  *
  * @package    Dollie_Setup
  * @subpackage Package
@@ -8,20 +8,20 @@
  */
 
 /**
- * The "classic" DOLLIE_SETUP package.
+ * The "agency" DOLLIE_SETUP package.
  *
- * For plugin manifest, see {@link CBox_Plugins_Classic}.
- * For admin settings page, see {@link CBox_Settings_Classic}.
+ * For plugin manifest, see {@link CBox_Plugins_Agency}.
+ * For admin settings page, see {@link CBox_Settings_Agency}.
  *
  * @todo Name subject to change.
  *
  * @since 1.1.0
  */
-class CBox_Package_Classic extends CBox_Package {
+class CBox_Package_Agency extends CBox_Package {
 	/**
 	 * @var string Display name for our package.
 	 */
-	public static $name = 'Classic';
+	public static $name = 'Agency';
 
 	/**
 	 * @var array Configuration holder.
@@ -37,7 +37,7 @@ class CBox_Package_Classic extends CBox_Package {
 		return array(
 			'icon_url'          => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup_icon-2x.png' ),
 			'settings_key'      => '_dollie_setup_admin_settings',
-			'documentation_url' => 'http://commonsinabox.org/dollie_setup-classic-overview/?modal=1'
+			'documentation_url' => 'http://commonsinabox.org/dollie_setup-agency-overview/?modal=1'
 		);
 	}
 
@@ -70,7 +70,7 @@ class CBox_Package_Classic extends CBox_Package {
 	         * 'infinity_dashboard_activated'. We need to run this hook just after DOLLIE_SETUP
 	         * activates a theme, so we do that here.
 	         */
-		add_action( 'dollie_setup_classic_theme_activated', function() {
+		add_action( 'dollie_setup_agency_theme_activated', function() {
 			if ( ! dollie_setup_get_installed_revision_date() ) {
 				remove_action( 'infinity_dashboard_activated', 'infinity_dashboard_activated_redirect', 99 );
 			}

@@ -54,7 +54,7 @@ class Package extends \WP_CLI_Command {
 	 *     +---------+---------+---------------+--------------+--------+
 	 *     | Package | Name    | Theme         | Network      | Active |
 	 *     +---------+---------+---------------+--------------+--------+
-	 *     | classic | Classic | dollie_setup-theme    | Not required | Yes    |
+	 *     | agency | Agency | dollie_setup-theme    | Not required | Yes    |
 	 *     | openlab | OpenLab | openlab-theme | Required     | No     |
 	 *     +---------+---------+---------------+--------------+--------+
 	 *
@@ -119,8 +119,8 @@ class Package extends \WP_CLI_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     # Lists all registered plugins for the 'classic' package
-	 *     $ wp dollie_setup package list-plugins classic
+	 *     # Lists all registered plugins for the 'agency' package
+	 *     $ wp dollie_setup package list-plugins agency
 	 *
 	 * @subcommand list-plugins
 	 */

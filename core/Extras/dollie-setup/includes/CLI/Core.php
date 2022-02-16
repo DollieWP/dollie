@@ -21,7 +21,7 @@ class Core extends \WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     $ wp dollie_setup status
-	 *     Current DOLLIE_SETUP package: Classic
+	 *     Current DOLLIE_SETUP package: Agency
 	 *
 	 *     Current theme: Dollie Setup. No update available.
 	 *

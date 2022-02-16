@@ -135,7 +135,7 @@ function dollie_setup_get_packages() {
 	 * @todo Might remove this restriction later.
 	 */
 	$default = array(
-		'classic' => 'CBox_Package_Classic',
+		'agency' => 'CBox_Package_Agency',
 		'openlab' => 'CBox_Package_OpenLab',
 		'waas' => 'CBox_Package_Waas',
 	);
@@ -164,12 +164,12 @@ function dollie_setup_get_current_package_id() {
 	// We've never saved a package into the DB before.
 	if ( dollie_setup_get_installed_revision_date() && empty( $current ) ) {
 		/*
-		 * If installed date is before 2018/09/01, save as 'classic' for backpat.
+		 * If installed date is before 2018/09/01, save as 'agency' for backpat.
 		 *
 		 * @todo Change date to whenever we launch v1.1.0
 		 */
 		if ( dollie_setup_get_installed_revision_date() < strtotime( '2018/09/01 UTC' ) ) {
-			$current = 'classic';
+			$current = 'agency';
 			update_site_option( '_dollie_setup_current_package', $current );
 		}
 	}
