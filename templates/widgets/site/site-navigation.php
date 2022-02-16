@@ -67,7 +67,7 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 							$active_class = $sub_page === $page ? 'dol-text-primary' : 'dol-text-gray-400';
 							?>
 							<li class="dol-my-2">
-								<a class="dol-flex dol-items-center dol-nav-btn-secondary dol-font-semibold <?php echo esc_attr( $active_class ); ?>"
+								<a class="dol-flex dol-items-center dol-nav-btn-secondary <?php echo esc_attr( $active_class ); ?>"
 								   href="<?php echo dollie()->get_site_url( $current_id, $page ); ?>">
 									<?php echo $title; ?>
 								</a>

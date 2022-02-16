@@ -78,7 +78,7 @@ We\'ll walk you through all the steps required to link your own domain to your s
 					'hide_admin'        => 0,
 					'message'           => __(
 						'<div class="dol-bg-gray-100 dol-py-2 dol-px-4 dol-rounded">
-<h5 class="dol-text-base dol-font-bold">Migration tip</h5>
+<h5 class="dol-text-base">Migration Tip</h5>
 <p class="dol-text-sm">Do you already have an active site on this domain and want to keep the content? Head on to the Migration tab and follow the instructions to migrate your existing site. After that you can start the domain connect wizard.</p>
 </div>',
 						'dollie'
@@ -110,8 +110,8 @@ We\'ll walk you through all the steps required to link your own domain to your s
 					'hide_admin'        => 0,
 					'message'           => __(
 						'<h5>Register your domain name</h5>
-<p>We are not selling domains directly.</p> 
-<p>If you have not registered your own domain yet, this is the time to do so! We recommend <a href="https://namecheap.com" target="_blank">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar. 
+<p>We are not selling domains directly.</p>
+<p>If you have not registered your own domain yet, this is the time to do so! We recommend <a href="https://namecheap.com" target="_blank">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar.
 <strong>Go ahead, register your domain and come back to this form to continue the domain setup!</strong></p>',
 						'dollie'
 					),

@@ -13,7 +13,7 @@
 		</div>
 	</div>
 	<div class="dol-w-full md:dol-w-2/6 dol-flex dol-items-center dol-justify-end dol-mt-8 md:dol-mt-0">
-		<a href="<?php echo get_permalink(dollie()->get_launch_page_id()); ?>" class="dol-border dol-border-solid dol-border-primary-700 dol-block dol-w-full md:dol-inline-block md:dol-w-auto dol-text-center dol-text-white dol-text-lg dol-font-semibold dol-px-8 dol-py-4 dol-bg-primary-600 dol-rounded dol-tracking-wider hover:dol-text-white hover:dol-shadow-lg">
+		<a href="<?php echo get_permalink(dollie()->get_launch_page_id()); ?>" class="dol-border dol-border-solid dol-border-primary-700 dol-block dol-w-full md:dol-inline-block md:dol-w-auto dol-text-center dol-text-white dol-text-lg dol-px-8 dol-py-4 dol-bg-primary-600 dol-rounded dol-tracking-wider hover:dol-text-white hover:dol-shadow-lg">
 			<?php _e('Launch', 'dollie'); ?>
 		</a>
 	</div>

@@ -22,7 +22,7 @@ if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
 <li class="dol-m-0 dol-col-span-1 dol-flex dol-flex-col <?php do_action( 'dol_add_widget_classes' ); ?> dol-divide-y dol-divide-gray-200 dol-p-0 dol-widget-blueprint">
 	<img class="dol-w-100 dol-h-100 dol-flex-shrink-0 dol-mx-auto" src="<?php echo $image; ?>" alt="">
 	<div class="dol-flex-1 dol-flex dol-flex-col dol-p-6">
-		<h3 class="dol-mt-6 dol-text-gray-900 dol-text-xl dol-font-bold"><?php echo get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true ); ?></h3>
+		<h3 class="dol-mt-6 dol-text-gray-900 dol-text-xl"><?php echo get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true ); ?></h3>
 		<div class="dol-mt-1 dol-flex-grow dol-flex dol-flex-col dol-justify-between">
 			<span class="dol-text-gray-500 dol-text-l"><?php echo get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ); ?></span>
 		</div>

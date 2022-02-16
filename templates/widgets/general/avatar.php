@@ -15,7 +15,7 @@ $user_name  = count( $user_parts ) > 1 ? $user_parts[0] . ' ' . $user_parts[1][0
 				 alt="<?php echo esc_attr( $user_name ); ?>">
 		</a>
 	</div>
-	<a class="dol-inline-block dol-mt-2 dol-font-bold dol-uppercase hover:dol-text-primary-700"
+	<a class="dol-inline-block dol-mt-2 dol-uppercase hover:dol-text-primary-700"
 	   href="<?php echo get_site_url(); ?>/my-account">
 		<?php echo esc_html( $user_name ); ?>
 	</a>

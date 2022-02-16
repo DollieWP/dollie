@@ -15,7 +15,7 @@ do_action( 'dollie/before/main-menu' );
 <ul class="dol-list-none dol-p-0 dol-m-0 dol-widget-main-nav">
 	<li class="dol-mb-4">
 		<a href="<?php echo esc_html( dollie()->get_launch_page_url() ); ?>"
-		   class="dol-nav-btn dol-font-semibold dol-bg-secondary dol-text-white <?php echo esc_attr( $active_class['launch-site'] ); ?>">
+		   class="dol-nav-btn dol-bg-secondary dol-text-white <?php echo esc_attr( $active_class['launch-site'] ); ?>">
 			<span class="dol-inline-block dol-text-center dol-w-8"><i class="fas fa-rocket"></i></span>
 			<?php echo esc_html( dollie()->get_launch_page_title() ); ?>
 		</a>
@@ -24,7 +24,7 @@ do_action( 'dollie/before/main-menu' );
 	<?php if ( current_user_can( 'manage_options' ) ) : ?>
 		<li class="dol-mb-4">
 			<a href="<?php echo dollie()->get_launch_blueprint_page_url(); ?>"
-			   class="dol-nav-btn dol-font-semibold <?php echo esc_attr( $active_class['launch-blueprint'] ); ?>">
+			   class="dol-nav-btn <?php echo esc_attr( $active_class['launch-blueprint'] ); ?>">
 				<span class="dol-inline-block dol-text-center dol-w-8"><i class="fas fa-copy"></i></span>
 				<?php echo dollie()->get_launch_blueprint_page_title(); ?>
 			</a>
@@ -33,7 +33,7 @@ do_action( 'dollie/before/main-menu' );
 
 	<li class="dol-mb-1">
 		<a href="<?php echo dollie()->get_dashboard_page_url(); ?>"
-		   class="dol-nav-btn dol-font-semibold <?php echo esc_attr( $active_class['dashboard'] ); ?>">
+		   class="dol-nav-btn <?php echo esc_attr( $active_class['dashboard'] ); ?>">
 			<span class="dol-inline-block dol-text-center dol-w-8"><i class="fas fa-columns"></i></span>
 			<?php echo dollie()->get_dashboard_page_title(); ?>
 		</a>
@@ -41,7 +41,7 @@ do_action( 'dollie/before/main-menu' );
 
 	<li class="dol-m-0">
 		<a href="<?php echo dollie()->get_sites_page_url(); ?>"
-		   class="dol-nav-btn dol-font-semibold 
+		   class="dol-nav-btn
 		   <?php
 			if ( ! isset( $_GET['blueprints'] ) || ! $_GET['blueprints'] ) {
 				?>
@@ -54,7 +54,7 @@ do_action( 'dollie/before/main-menu' );
 	<?php if ( current_user_can( 'manage_options' ) ) : ?>
 		<li class="dol-m-0">
 			<a href="<?php echo dollie()->get_sites_page_url(); ?>?blueprints=yes"
-			   class="dol-nav-btn dol-font-semibold 
+			   class="dol-nav-btn
 			   <?php
 				if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) {
 					?>

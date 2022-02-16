@@ -28,7 +28,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 
 		<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mt-6">
 			<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
-				<h4 class="dol-text-lg dol-font-bold"><?php esc_html_e( 'Your domain will get validated once we detect the following nameservers attached to it.', 'dollie' ); ?></h4>
+				<h4 class="dol-text-lg"><?php esc_html_e( 'Your domain will get validated once we detect the following nameservers attached to it.', 'dollie' ); ?></h4>
 				<ul class="dol-m-0">
 					<li>pdns1.stratus5.com</li>
 					<li>pdns2.stratus5.com</li>
@@ -54,7 +54,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 		<div class="dol-my-6">
 			<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
 				<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
-					<h4 class="dol-p-0 dol-m-0 dol-font-bold  dol-text-base md:dol-text-xl">
+					<h4 class="dol-p-0 dol-m-0  dol-text-base md:dol-text-xl">
 						<?php esc_html_e( 'Site URL replacement is not complete ', 'dollie' ); ?>
 					</h4>
 				</div>
@@ -106,7 +106,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 <?php if ( ! empty( $domain ) || 'pending' === $dns_manager ) : ?>
 	<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
-			<h4 class="dol-p-0 dol-m-0 dol-font-bold dol-text-base md:dol-text-xl">
+			<h4 class="dol-p-0 dol-m-0 dol-text-base md:dol-text-xl">
 				<?php esc_html_e( 'Remove your linked domain', 'dollie' ); ?>
 			</h4>
 		</div>
@@ -122,7 +122,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 			</form>
 		</div>
 	</div>
-	<p class="dol-mt-2 dol-font-bold">
+	<p class="dol-mt-2">
 		<?php esc_html_e( 'Your current domain IP information:', 'dollie' ); ?></p>
 	<?php
 	dollie()->load_template(

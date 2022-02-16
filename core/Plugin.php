@@ -133,6 +133,11 @@ class Plugin extends Singleton {
 			require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/requirements.php';
 		}
 
+		// WP Thumb
+		if (!class_exists('WP_Thumb')) {
+			require_once DOLLIE_CORE_PATH . 'Extras/WPThumb/wpthumb.php';
+		}
+
 		// Load logger.
 		if ( ! class_exists( '\AF' ) && ! ( is_admin() && isset( $_GET['action'] ) && 'activate' === $_GET['action'] ) ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/advanced-forms/advanced-forms.php';

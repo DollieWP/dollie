@@ -60,7 +60,7 @@ class CustomersList extends \Elementor\Widget_Base {
 		$this->add_control(
 			'customers_per_page',
 			[
-				'label'   => __( 'Customers per page', 'dollie' ),
+				'label'   => __( 'Customers Per Page', 'dollie' ),
 				'type'    => Controls_Manager::NUMBER,
 				'min'     => - 1,
 				'max'     => 40,

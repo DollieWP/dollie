@@ -219,16 +219,19 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 						</div>
 						<div class="dol-sites-name">
 							<div class="dol-px-4">
-								<div class="dol-font-bold dol-text-lg dol-cursor-default">
+								<div class="dol-font-bold dol-text-lg dol-cursor-default dol-truncate">
 									<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600"
-									   href="<?php echo dollie()->get_site_url( get_the_ID() ); ?>" target="_blank">
+									   href="<?php echo dollie()->get_site_url( get_the_ID() ); ?>"
+                                       title="<?php echo esc_attr( $data['name'] ); ?>">
 										<?php echo esc_html( $data['name'] ); ?>
 									</a>
 								</div>
 
-								<div class="dol-flex dol-items-center">
+								<div class="dol-flex dol-items-center dol-truncate">
 									<a class="dol-item-url dol-text-brand-500 hover:dol-text-brand-600 dol-text-sm dol-leading-normal dol-truncate"
-									   href="<?php echo esc_url( $data['domain'] ); ?>" target="_blank">
+									   href="<?php echo esc_url( $data['domain'] ); ?>"
+                                       title="<?php echo esc_html( $data['domain'] ); ?>"
+                                       target="_blank">
 										<?php echo esc_html( $data['domain'] ); ?>
 									</a>
 								</div>
@@ -270,13 +273,13 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 						<?php endif; ?>
 						<div class="dol-sites-controls <?php echo esc_attr( $btn_controls_classes ); ?>">
 							<?php if ( dollie()->is_blueprint( get_the_ID() ) ) : ?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600"
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600"
 								   href="<?php echo get_the_permalink( get_the_ID() ); ?>blueprints"
 								   data-tooltip="<?php echo esc_attr__( 'Update Blueprint', 'dollie' ); ?>">
 									<i class="fas fa-sync"></i>
 								</a>
 							<?php else : ?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600"
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600"
 								   href="<?php echo dollie()->get_site_url( get_the_ID() ); ?>"
 								   data-tooltip="<?php echo esc_attr__( 'Manage', 'dollie' ); ?>">
 									<i data-tooltip="Carefully crafted site designs made by our team which you can use as a starting point for your new site."
@@ -288,7 +291,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 							$staging_url = get_post_meta( get_the_ID(), '_wpd_staging_url', true );
 							if ( $staging_url ) :
 								?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-font-semibold dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600"
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600"
 								   href="<?php echo get_the_permalink( get_the_ID() ); ?>staging"
 								   data-tooltip="<?php echo esc_attr__( 'Visit Staging Area', 'dollie' ); ?>">
 									<i class="fas fa-copy"></i>
@@ -300,7 +303,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 							$login_link = dollie()->get_customer_login_url( get_the_ID() );
 							if ( ! empty( $login_link ) ) :
 								?>
-								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-font-semibold dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary"
+								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary"
 								   href="<?php echo esc_url( $login_link ); ?>"
 								   data-tooltip="<?php echo esc_attr__( 'Login to Site as Admin', 'dollie' ); ?>">
 									<i class="fas fa-sign-in-alt"></i>
@@ -337,7 +340,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 		</div>
 	<?php else : ?>
 		<div class="dol-flex dol-items-center dol-justify-center dol-h-40">
-			<div class="dol-text-2xl dol-text-ash-600 dol-font-bold">
+			<div class="dol-text-2xl dol-text-ash-600">
 				<?php esc_html_e( 'No sites found.', 'dollie' ); ?>
 			</div>
 		</div>

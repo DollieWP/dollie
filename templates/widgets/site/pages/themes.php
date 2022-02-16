@@ -10,7 +10,7 @@
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
 			<div class="dol-flex dol-flex-wrap">
 				<div class="dol-w-full lg:dol-w-3/6">
-					<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-base md:dol-text-xl dol-text-white">
+					<h4 class="dol-m-0 dol-p-0 dol-text-base md:dol-text-xl dol-text-white">
 						<?php echo esc_html( $data['site_data']['Theme Name'] ); ?>
 						<span class="dol-text-sm">
 							<?php echo esc_html( $data['site_data']['Theme Version'] ); ?>

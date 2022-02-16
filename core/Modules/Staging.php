@@ -111,7 +111,7 @@ class Staging extends Singleton {
 		$deploy_status = 'pending';
 
 		$post_body = [
-			'source'  => dollie()->get_wp_site_data('uri', $container_id),
+			'source'  => dollie()->get_container_url($container_id),
 			'envVars' => [
 				'S5_DEPLOYMENT_URL' => get_site_url(),
 			],
@@ -180,7 +180,7 @@ class Staging extends Singleton {
 		}
 
 		$container_id = get_the_ID();
-		$domain       = dollie()->get_container_url( $container_id );
+		$domain = get_post_meta( $container_id, self::OPTION_URL, true);
 		$staging_data = get_post_meta( $container_id, self::OPTION_DATA, true );
 
 		if ( ! $domain || ! is_array( $staging_data ) || ! isset( $staging_data[ $domain ] ) ) {
@@ -264,7 +264,7 @@ class Staging extends Singleton {
 
 		$data   = WP::instance()->process_deploy_status( $deploy_job_uuid );
 		$site   = dollie()->get_current_object();
-		$domain = dollie()->get_container_url( $site->id );
+		$domain = get_post_meta( $site->id, self::OPTION_URL, true );
 
 		if ( false === $data ) {
 			return;

@@ -1,4 +1,4 @@
-<div class="dol-mb-2 dol-font-bold dol-text-2xl">
+<div class="dol-mb-2 dol-text-2xl">
 	<?php esc_html_e( 'Scheduled Actions', 'dollie' ); ?>
 </div>
 

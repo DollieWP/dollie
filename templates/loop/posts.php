@@ -42,7 +42,7 @@ if ( $posts ) :
 							<?php echo esc_html( strip_tags( $post->excerpt->rendered ) ); ?>
 						</div>
 						<div>
-							<a target="_blank" class="dol-btn dol-btn-secondary dol-font-bold dol-nav-active" href="<?php echo esc_html( $post->link ); ?>">
+							<a target="_blank" class="dol-btn dol-btn-secondary dol-nav-active" href="<?php echo esc_html( $post->link ); ?>">
 								<span class="dol-flex dol-items-center">
 									<?php esc_html_e( 'Read article', 'dollie' ); ?>
 									<i class="fas fa-angle-right dol-ml-2"></i>

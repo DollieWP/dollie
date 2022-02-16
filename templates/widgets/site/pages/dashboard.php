@@ -11,7 +11,7 @@ if ( empty( $data ) || empty( $data['site_data'] ) || ( $data['site_data']['Inst
 
 		<?php if ( current_user_can( 'manage_options' ) && dollie()->count_total_containers() === 1 ) : ?>
 			<div class="dol-mb-6">
-				<h4 class="dol-text-primary-800 dol-mb-2 dol-font-bold dol-text-xl lg:dol-text-2xl">
+				<h4 class="dol-text-primary-800 dol-mb-2 dol-text-xl lg:dol-text-2xl">
 					<?php esc_html_e( 'Setup Wizard - Your first site was deployed successfully!', 'dollie' ); ?>
 				</h4>
 				<p class="dol-p-0 dol-m-0 dol-text-ash-700">
@@ -147,7 +147,7 @@ if ( empty( $data ) || empty( $data['site_data'] ) || ( $data['site_data']['Inst
 											<?php esc_html_e( 'Backup Status', 'dollie' ); ?>
 										</dt>
 										<dd class="dol-m-0 dol-flex dol-items-baseline">
-											<div class="dol-text-2xl dol-leading-8 dol-font-semibold dol-text-gray-900">
+											<div class="dol-text-2xl dol-leading-8 dol-text-gray-900">
 												<?php
 												$available_backups = dollie()->get_site_total_backups();
 												?>
@@ -157,7 +157,7 @@ if ( empty( $data ) || empty( $data['site_data'] ) || ( $data['site_data']['Inst
 													<span><?php esc_html_e( 'No backups yet.', 'dollie' ); ?></span>
 												<?php endif; ?>
 											</div>
-											<div class="dol-ml-2 dol-flex dol-items-baseline dol-text-sm dol-leading-5 dol-font-semibold dol-text-green-600">
+											<div class="dol-ml-2 dol-flex dol-items-baseline dol-text-sm dol-leading-5 dol-text-green-600">
 												<svg class="dol-self-center dol-flex-shrink-0 dol-h-5 dol-w-5"
 													 fill="currentColor" viewBox="0 0 20 20">
 													<path fill-rule="evenodd"

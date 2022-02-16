@@ -9,9 +9,9 @@
 						<label class="dol-flex dol-items-center dol-py-4">
 							<input type="checkbox" class="dol-resource-item" value="<?php echo esc_attr( $theme['name'] ); ?>" name="" checked="checked">
 							<span class="dol-rounded-full dol-bg-gray-200 dol-text-gray-700 dol-px-2 dol-py-1 dol-ml-4 dol-text-xs dol-leading-none"><?php echo esc_html( count( $theme['sites'] ) ); ?></span>
-							<span class="dol-ml-2 dol-font-bold"><?php echo esc_html( $theme['title'] ); ?></span>
+							<span class="dol-ml-2"><?php echo esc_html( $theme['title'] ); ?></span>
 						</label>
-						<span class="dol-toggle-resource-details hover:dol-cursor-pointer dol-text-gray-600" 
+						<span class="dol-toggle-resource-details hover:dol-cursor-pointer dol-text-gray-600"
 							data-item="dol-resource-content-<?php echo esc_attr( $key ); ?>">
 							<span class="dol-open"><i class="fas fa-angle-right"></i></span>
 							<span class="dol-close dol-hidden"><i class="fas fa-angle-up"></i></span>

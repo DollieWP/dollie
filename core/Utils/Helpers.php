@@ -304,7 +304,10 @@ class Helpers extends Singleton {
 			return $image;
 		}
 
-		$image_tag = '<img width="700" class="dol-block dol-object-cover" alt="' . esc_attr( $site ) . '" src="' . $image . '" />';
+		//Resize image and store locally
+		$local_image = wpthumb($image, 'width=700&height=99999&crop=0' );
+
+		$image_tag = '<img width="700" class="dol-block dol-object-cover" alt="' . esc_attr( $site ) . '" src="' . $local_image . '" />';
 
 		if ( $deploying ) {
 			return $image_tag;
@@ -671,7 +674,7 @@ class Helpers extends Singleton {
                 <div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-red-700 dol-flex dol-items-center dol-justify-center">
                     <i class="fas fa-exclamation-circle dol-text-white dol-text-2xl"></i>
                 </div>
-                <h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-font-bold dol-text-white dol-text-base md:dol-text-xl">
+                <h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-text-white dol-text-base md:dol-text-xl">
 					<?php esc_html_e( 'Sorry, we could not retrieve your site details', 'dollie' ); ?>
                 </h4>
             </div>
