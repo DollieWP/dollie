@@ -62,7 +62,7 @@ module.exports = {
     "./assets/js/**/*",
     "./core/tailwind-whitelist.txt",
     "./core/Extras/**/*",
-    "./core/Extras/commons-in-a-box/admin/templates/**/*"
+    "./core/Extras/dollie-setup/admin/templates/**/*"
   ],
   corePlugins: {
     preflight: false,
