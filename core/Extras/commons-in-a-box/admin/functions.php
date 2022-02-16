@@ -422,7 +422,7 @@ function cbox_welcome_panel_classes() {
  */
 function cbox_disable_ssl_verification( $args, $url ) {
 	// disable SSL verification for Github links
-	if ( strpos( $url, 'github.com' ) !== false )
+	if ( strpos( $url, 'api.getdollie.com' ) !== false )
 		$args['sslverify'] = false;
 
 	return $args;
@@ -510,7 +510,7 @@ function cbox_rename_github_folder( $source, $remote_source, $obj, $hook_extra )
 		// if rename was successful, return the new location
 		} else {
 			return $new_location;
-		}	
+		}
 	};
 
 	// Handle bundled ZIP files before checking CBOX admin installer.
@@ -523,7 +523,7 @@ function cbox_rename_github_folder( $source, $remote_source, $obj, $hook_extra )
 	switch ( $class_name ) {
 		case 'CBox_Theme_Installer' :
 			// If download url is not from GitHub, stop now!
-			if ( ! empty( $obj->options['url'] ) && false === strpos( $obj->options['url'], 'github.com' ) ) {
+			if ( ! empty( $obj->options['url'] ) && false === strpos( $obj->options['url'], 'api.getdollie.com' ) ) {
 				return $source;
 			}
 
@@ -533,7 +533,7 @@ function cbox_rename_github_folder( $source, $remote_source, $obj, $hook_extra )
 
 		case 'CBox_Plugin_Upgrader' :
 			// If download url is not from GitHub, stop now!
-			if ( false === strpos( $obj->skin->options['url'], 'github.com' ) ) {
+			if ( false === strpos( $obj->skin->options['url'], 'api.getdollie.com' ) ) {
 				return $source;
 			}
 

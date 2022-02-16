@@ -47,15 +47,15 @@ class CBox_Plugins_Classic {
 			'network_settings'  => 'admin.php?page=wc-settings'
 		) );
 
-		// call_user_func( $instance, array(
-		// 	'plugin_name'       => 'WooCommerce Subscription',
-		// 	'cbox_name'         => __( 'WooCommerce Subscription', 'commons-in-a-box' ),
-		// 	'cbox_description'  => __( 'WooCommerce subscriptions gives you the ability to set up recurring subscriptions for your customers directly tied to your services.', 'commons-in-a-box' ),
-		// 	'version'           => '3.0.10',
-		// 	'documentation_url' => 'https://partners.getdollie.com/?s=WooCommerce&ht-kb-search=1&lang=',
-		// 	'admin_settings'    => 'admin.php?page=wc-settings',
-		// 	'network_settings'  => 'admin.php?page=wc-settings'
-		// ) );
+		call_user_func( $instance, array(
+			'plugin_name'       => 'WooCommerce Subscriptions',
+			'cbox_name'         => __( 'WooCommerce Subscription', 'commons-in-a-box' ),
+			'cbox_description'  => __( 'WooCommerce subscriptions gives you the ability to set up recurring subscriptions for your customers directly tied to your services.', 'commons-in-a-box' ),
+			'version'           => '3.1.6',
+			'documentation_url' => 'https://partners.getdollie.com/?s=WooCommerce&ht-kb-search=1&lang=',
+			'admin_settings'    => 'admin.php?page=wc-settings',
+			'network_settings'  => 'admin.php?page=wc-settings'
+		) );
 
 		call_user_func(
 			$instance,
@@ -88,14 +88,14 @@ class CBox_Plugins_Classic {
 			'download_url' => 'https://downloads.wordpress.org/plugin/woocommerce.6.2.0.zip'
 		) );
 
-		// call_user_func(
-		// 	$instance,
-		// 	array(
-		// 		'plugin_name'  => 'WooCommerce Subscriptions',
-		// 		'type'         => 'dependency',
-		// 		'download_url' => 'https://api.getdollie.com/releases/?action=download&slug=woocommerce-subscriptions'
-		// 	)
-		// );
+		call_user_func(
+			$instance,
+			array(
+				'plugin_name'  => 'WooCommerce Subscriptions',
+				'type'         => 'dependency',
+				'download_url' => CBOX_PLUGIN_DIR . 'includes/zip/woocommerce-subscriptions-3.1.6.zip'
+			)
+		);
 
 		call_user_func(
 			$instance,
