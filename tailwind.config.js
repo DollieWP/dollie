@@ -58,6 +58,7 @@ module.exports = {
     "./assets/js/**/*",
     "./core/tailwind-whitelist.txt",
     "./core/Extras/**/*",
+    "./core/Extras/commons-in-a-box/admin/templates/**/*"
   ],
   corePlugins: {
     preflight: false,
