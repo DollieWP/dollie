@@ -84,6 +84,7 @@ class Plugin extends Singleton {
 
 		add_action( 'route_login_redirect', [ $this, 'do_route_login_redirect' ] );
 		add_action( 'route_preview', [ $this, 'do_route_preview' ] );
+		add_action('route_wizard', [$this, 'do_route_wizard']);
 
 	}
 
@@ -131,6 +132,21 @@ class Plugin extends Singleton {
 		if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/class-tgm-plugin-activation.php';
 			require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/requirements.php';
+		}
+
+		// Load TGM Class
+		if (!class_exists('Commons_In_A_Box')) {
+			require_once DOLLIE_CORE_PATH . 'Extras/commons-in-a-box/loader.php';
+		}
+
+		// Load TGM Class
+		if (!class_exists('OCDI_Plugin')) {
+			require_once DOLLIE_CORE_PATH . 'Extras/one-click-demo-import/one-click-demo-import.php';
+		}
+
+		// WP Thumb
+		if (!class_exists('WP_Thumb')) {
+			require_once DOLLIE_CORE_PATH . 'Extras/WPThumb/wpthumb.php';
 		}
 
 		// Load logger.
@@ -206,6 +222,10 @@ class Plugin extends Singleton {
 		if ( get_option( 'options_wpd_enable_site_preview', 1 ) ) {
 			$this->routes['dollie_preview'] = new Route( '/' . dollie()->get_preview_url( 'path' ), 'route_preview' );
 		}
+
+		//if (get_option('options_wpd_enable_site_preview', 1)) {
+			$this->routes['dollie_wizard'] = new Route('/wizard', 'route_wizard');
+		//}
 
 		Processor::init( $router, $this->routes );
 	}
@@ -325,7 +345,9 @@ class Plugin extends Singleton {
 	 */
 	public function load_admin_scripts() {
 		wp_register_style( 'dollie-custom-css', DOLLIE_ASSETS_URL . 'css/admin.css', [], DOLLIE_VERSION );
+		wp_register_style('dollie-custom-admin', DOLLIE_ASSETS_URL . 'css/dollie.css', [], DOLLIE_VERSION);
 		wp_enqueue_style( 'dollie-custom-css' );
+		wp_enqueue_style('dollie-custom-admin');
 
 		wp_enqueue_script( 'dollie-custom-js', DOLLIE_ASSETS_URL . 'js/admin.js', [], DOLLIE_VERSION );
 	}
@@ -485,6 +507,12 @@ class Plugin extends Singleton {
 	 */
 	public function do_route_preview() {
 		dollie()->load_template( 'preview', [], true );
+		exit;
+	}
+
+	public function do_route_wizard()
+	{
+		dollie()->load_template('wizard', [], true);
 		exit;
 	}
 
