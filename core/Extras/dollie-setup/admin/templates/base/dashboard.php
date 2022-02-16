@@ -1,4 +1,4 @@
-<?php dollie_setup_get_template_part('wrapper-header'); ?>
+<?php //dollie_setup_get_template_part('wrapper-header'); ?>
 <div class="dol-min-h-full dol-mt-8 dol-pt-[100px]">
 	<main class="dol-pb-8 dol--mt-24">
 		<div class="dol-max-w-3xl dol-px-4 dol-mx-auto sm:dol-px-6 lg:dol-max-w-7xl lg:dol-px-8">
@@ -194,4 +194,4 @@
 	</main>
 
 </div>
-<?php dollie_setup_get_template_part('wrapper-footer'); ?>
+<?php //dollie_setup_get_template_part('wrapper-footer'); ?>

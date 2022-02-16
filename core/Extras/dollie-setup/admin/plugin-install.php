@@ -52,7 +52,7 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 		add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ), 10, 4 );
 		add_filter( 'http_request_args',          'dollie_setup_disable_ssl_verification',     10, 2 );
 
-		dollie_setup_get_template_part('wrapper-header');
+		//dollie_setup_get_template_part('wrapper-header');
 		$this->skin->header();
 
 		// Connect to the Filesystem first.
@@ -621,7 +621,7 @@ class CBox_Updater {
 		// start the whole damn thing!
 		// We always try to upgrade plugins first.  Next, we install plugins that are not available.
 		// Lastly, we activate any plugins needed.
-		dollie_setup_get_template_part('wrapper-header');
+		//dollie_setup_get_template_part('wrapper-header');
 		// let's see if upgrades are available; if so, start with that
 		if ( self::$is_upgrade ) {
 			// if installs are available as well, this tells CBox_Plugin_Upgrader
@@ -683,7 +683,7 @@ class CBox_Updater {
 
 			<p><?php CBox_Bulk_Plugin_Upgrader_Skin::after_updater( $settings ); ?></p>
 		<?php
-			dollie_setup_get_template_part('wrapper-footer');
+			//dollie_setup_get_template_part('wrapper-footer');
 		}
 	}
 
