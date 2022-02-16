@@ -304,7 +304,10 @@ class Helpers extends Singleton {
 			return $image;
 		}
 
-		$image_tag = '<img width="700" class="dol-block dol-object-cover" alt="' . esc_attr( $site ) . '" src="' . $image . '" />';
+		//Resize image and store locally
+		$local_image = wpthumb($image, 'width=700&height=99999&crop=0' );
+
+		$image_tag = '<img width="700" class="dol-block dol-object-cover" alt="' . esc_attr( $site ) . '" src="' . $local_image . '" />';
 
 		if ( $deploying ) {
 			return $image_tag;
