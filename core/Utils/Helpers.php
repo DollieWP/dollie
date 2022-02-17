@@ -456,9 +456,8 @@ class Helpers extends Singleton {
 	/**
 	 * @return int
 	 */
-	public function has_products()
+	public function has_products($type = null )
 	{
-
 		$args = array(
 			"post_type" => 'product',
 			"status" => "publish",
@@ -475,8 +474,22 @@ class Helpers extends Singleton {
 		$query = new \WP_Query($product_arg);
 
 		if ( $query->have_posts() ) {
-			return true;
+			if (!$type) {
+				return true;
+			} else {
+				return $query;
+			}
 		}
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_products()
+	{
+		//Return the Query
+		$query = $this->has_products(1);
+		return $query;
 	}
 
 	/**
