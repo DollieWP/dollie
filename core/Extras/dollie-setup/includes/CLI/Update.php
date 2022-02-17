@@ -47,8 +47,8 @@ class Update extends \WP_CLI_Command {
 		// check for theme upgrades
 		$theme = dollie_setup_get_theme_to_update();
 		if ( empty( $theme ) ) {
-			$dollie_setup_theme_name    = dollie_setup_get_theme_prop( 'name' );
-			$current_theme_name = dollie_setup_get_theme()->get( 'Name' );
+			$dollie_setup_theme_name = dollie_setup_get_theme_prop( 'name' );
+			$current_theme_name      = dollie_setup_get_theme()->get( 'Name' );
 			if ( $dollie_setup_theme_name && $dollie_setup_theme_name === $current_theme_name ) {
 				WP_CLI::success( 'You are already running the latest version of the theme, ' . dollie_setup_get_theme_prop( 'directory_name' ) );
 			} else {
@@ -103,19 +103,19 @@ class Update extends \WP_CLI_Command {
 	 *     $ wp dollie_setup update plugins --yes
 	 */
 	public function plugins( $args, $assoc_args ) {
-		if ( ! class_exists( '\CBox_Plugin_Upgrader' ) ) {
+		if ( ! class_exists( '\Dollie_Setup_Plugin_Upgrader' ) ) {
 			require_once DOLLIE_SETUP_PLUGIN_DIR . 'admin/plugin-install.php';
 		}
 
-		$dollie_setup_plugins = \CBox_Plugins::get_plugins();
-		$dependencies = \CBox_Plugins::get_plugins( 'dependency' );
+		$dollie_setup_plugins = \Dollie_Setup_Plugins::get_plugins();
+		$dependencies         = \Dollie_Setup_Plugins::get_plugins( 'dependency' );
 
 		// (1) Do required plugins first.
-		$required = \CBox_Plugins::get_plugins( 'required' );
-		$required = \CBox_Admin_Plugins::organize_plugins_by_state( $required );
+		$required = \Dollie_Setup_Plugins::get_plugins( 'required' );
+		$required = \Dollie_Setup_Admin_Plugins::organize_plugins_by_state( $required );
 		unset( $required['deactivate'] );
 
-		$required = \CBox_Updater::parse_plugins( $required );
+		$required = \Dollie_Setup_Updater::parse_plugins( $required );
 
 		$activate = $urls = [];
 
@@ -125,10 +125,10 @@ class Update extends \WP_CLI_Command {
 			WP_CLI::line( 'Installing missing required plugins:' );
 
 			foreach ( $required['install'] as $plugin ) {
-				if ( ! empty( $dependencies[$plugin]['download_url'] ) ) {
-					$urls[] = $dependencies[$plugin]['download_url'];
+				if ( ! empty( $dependencies[ $plugin ]['download_url'] ) ) {
+					$urls[] = $dependencies[ $plugin ]['download_url'];
 				} else {
-					$urls[] = $dollie_setup_plugins[$plugin]['download_url'];
+					$urls[] = $dollie_setup_plugins[ $plugin ]['download_url'];
 				}
 			}
 
@@ -151,14 +151,14 @@ class Update extends \WP_CLI_Command {
 
 		// (2) Activate missing plugins.
 		if ( ! empty( $activate ) ) {
-			\CBox_Plugin_Upgrader::bulk_activate( $activate );
+			\Dollie_Setup_Plugin_Upgrader::bulk_activate( $activate );
 
 			WP_CLI::line( 'Activated missing required plugins: ' . wp_sprintf_l( '%l', $activate ) . '.' );
 			WP_CLI::line( '' );
 		}
 
 		// (3) Do upgrades here.
-		$plugins = \CBox_Admin_Plugins::get_upgrades( 'active' );
+		$plugins = \Dollie_Setup_Admin_Plugins::get_upgrades( 'active' );
 
 		if ( empty( $plugins ) ) {
 			if ( ! empty( $required ) ) {
@@ -174,17 +174,17 @@ class Update extends \WP_CLI_Command {
 		$urls = [];
 
 		foreach ( $plugins as $plugin ) {
-			$loader = \Plugin_Dependencies::get_pluginloader_by_name( $plugin );
-			$items[$plugin] = array(
+			$loader           = \Plugin_Dependencies::get_pluginloader_by_name( $plugin );
+			$items[ $plugin ] = array(
 				'Plugin'      => $plugin,
-				'Old Version' => \Plugin_Dependencies::$all_plugins[$loader]['Version'],
-				'New Version' => isset( $dollie_setup_plugins[$plugin]['version'] ) ? $dollie_setup_plugins[$plugin]['version'] : $dependencies[$plugin]['version']
+				'Old Version' => \Plugin_Dependencies::$all_plugins[ $loader ]['Version'],
+				'New Version' => isset( $dollie_setup_plugins[ $plugin ]['version'] ) ? $dollie_setup_plugins[ $plugin ]['version'] : $dependencies[ $plugin ]['version'],
 			);
 
-			if ( ! empty( $dependencies[$plugin]['download_url'] ) ) {
-				$urls[] = $dependencies[$plugin]['download_url'];
+			if ( ! empty( $dependencies[ $plugin ]['download_url'] ) ) {
+				$urls[] = $dependencies[ $plugin ]['download_url'];
 			} else {
-				$urls[] = $dollie_setup_plugins[$plugin]['download_url'];
+				$urls[] = $dollie_setup_plugins[ $plugin ]['download_url'];
 			}
 		}
 

@@ -14,7 +14,9 @@ Domain Path: /languages
 */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 class Dollie_Setup {
 	/**
@@ -29,7 +31,7 @@ class Dollie_Setup {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @var object Extended class of {@link CBox_Package}
+	 * @var object Extended class of {@link Dollie_Setup_Package}
 	 */
 	private $package;
 
@@ -68,11 +70,13 @@ class Dollie_Setup {
 	 * @todo Figure out a reliable way to use plugin_dir_path()
 	 */
 	private function constants() {
-		if ( ! defined( 'DOLLIE_SETUP_PLUGIN_DIR' ) )
+		if ( ! defined( 'DOLLIE_SETUP_PLUGIN_DIR' ) ) {
 			define( 'DOLLIE_SETUP_PLUGIN_DIR', trailingslashit( dirname( __FILE__ ) ) );
+		}
 
-		if ( ! defined( 'DOLLIE_SETUP_LIB_DIR' ) )
-			define( 'DOLLIE_SETUP_LIB_DIR',    trailingslashit( DOLLIE_SETUP_PLUGIN_DIR . 'lib' ) );
+		if ( ! defined( 'DOLLIE_SETUP_LIB_DIR' ) ) {
+			define( 'DOLLIE_SETUP_LIB_DIR', trailingslashit( DOLLIE_SETUP_PLUGIN_DIR . 'lib' ) );
+		}
 
 	}
 
@@ -83,21 +87,21 @@ class Dollie_Setup {
 	 */
 	private function setup_globals() {
 
-		/** VERSION ***********************************************************/
+		/** VERSION */
 
 		// DOLLIE_SETUP version
-		$this->version       = '1.3.2';
+		$this->version = '1.3.2';
 
 		// UTC date of DOLLIE_SETUP version release
 		$this->revision_date = '2022-01-20 17:00 UTC';
 
-		/** FILESYSTEM ********************************************************/
+		/** FILESYSTEM */
 
 		// the absolute directory DOLLIE_SETUP is running from
-		$this->plugin_dir    = constant( 'DOLLIE_SETUP_PLUGIN_DIR' );
+		$this->plugin_dir = constant( 'DOLLIE_SETUP_PLUGIN_DIR' );
 
 		// the URL to the DOLLIE_SETUP directory
-		$this->plugin_url    = plugin_dir_url( __FILE__ );
+		$this->plugin_url = plugin_dir_url( __FILE__ );
 	}
 
 	/**
@@ -107,24 +111,24 @@ class Dollie_Setup {
 	 */
 	private function includes() {
 		// pertinent functions used everywhere
-		require( $this->plugin_dir . 'includes/functions.php' );
-		require( $this->plugin_dir . 'includes/plugins.php' );
+		require $this->plugin_dir . 'includes/functions.php';
+		require $this->plugin_dir . 'includes/plugins.php';
 
 		// Admin.
 		if ( dollie_setup_is_admin() ) {
-			require( $this->plugin_dir . 'admin/admin-loader.php' );
+			require $this->plugin_dir . 'admin/admin-loader.php';
 
-		// frontend
+			// frontend
 		} else {
-			require( $this->plugin_dir . 'includes/frontend.php' );
+			require $this->plugin_dir . 'includes/frontend.php';
 		}
 
 		// Upgrades API - runs in admin area and on AJAX.
 		if ( is_admin() || defined( 'WP_CLI' ) ) {
 			// @todo maybe use autoloader.
-			require( $this->plugin_dir . 'includes/upgrades/upgrade-item.php' );
-			require( $this->plugin_dir . 'includes/upgrades/upgrade.php' );
-			require( $this->plugin_dir . 'includes/upgrades/upgrade-registry.php' );
+			require $this->plugin_dir . 'includes/upgrades/upgrade-item.php';
+			require $this->plugin_dir . 'includes/upgrades/upgrade.php';
+			require $this->plugin_dir . 'includes/upgrades/upgrade-registry.php';
 		}
 
 		// WP-CLI integration
@@ -140,12 +144,22 @@ class Dollie_Setup {
 	 */
 	private function setup_actions() {
 		// Package hooks.
-		add_action( 'dollie_setup_admin_loaded',      array( $this, 'load_package' ), 11 );
+		add_action( 'dollie_setup_admin_loaded', array( $this, 'load_package' ), 11 );
 		add_action( 'dollie_setup_frontend_includes', array( $this, 'load_package_frontend' ) );
 
 		// Add actions to plugin activation and deactivation hooks
-		add_action( 'activate_'   . plugin_basename( __FILE__ ), function() { do_action( 'dollie_setup_activation' ); } );
-		add_action( 'deactivate_' . plugin_basename( __FILE__ ), function() { do_action( 'dollie_setup_deactivation' ); } );
+		add_action(
+			'activate_' . plugin_basename( __FILE__ ),
+			function() {
+				do_action( 'dollie_setup_activation' );
+			}
+		);
+		add_action(
+			'deactivate_' . plugin_basename( __FILE__ ),
+			function() {
+				do_action( 'dollie_setup_deactivation' );
+			}
+		);
 
 		// localization
 		add_action( 'init', array( $this, 'localization' ), 0 );
@@ -155,33 +169,40 @@ class Dollie_Setup {
 		 *
 		 * This could be improved...
 		 */
-		if ( defined( 'WP_CLI') ) {
+		if ( defined( 'WP_CLI' ) ) {
 			add_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder', 1, 4 );
-			add_action( 'dollie_setup_plugins_loaded', function() {
-				require_once ABSPATH . 'wp-admin/includes/plugin.php';
-			}, 91 );
+			add_action(
+				'dollie_setup_plugins_loaded',
+				function() {
+					require_once ABSPATH . 'wp-admin/includes/plugin.php';
+				},
+				91
+			);
 			add_action( 'dollie_setup_plugins_loaded', array( 'Plugin_Dependencies', 'init' ), 91 );
 		}
 
 		// Upgrader routine.
-		add_action( 'wp_loaded', function() {
-			// Ensure we're in the admin area or WP CLI.
-			if ( is_admin() || defined( 'WP_CLI') ) {
-				// Ensure upgrader items are registered.
-				$packages = dollie_setup_get_packages();
-				$current  = dollie_setup_get_current_package_id();
-				if ( isset( $packages[ $current ] ) && class_exists( $packages[ $current ] ) ) {
-					call_user_func( array( $packages[ $current ], 'upgrader' ) );
+		add_action(
+			'wp_loaded',
+			function() {
+				// Ensure we're in the admin area or WP CLI.
+				if ( is_admin() || defined( 'WP_CLI' ) ) {
+					// Ensure upgrader items are registered.
+					$packages = dollie_setup_get_packages();
+					$current  = dollie_setup_get_current_package_id();
+					if ( isset( $packages[ $current ] ) && class_exists( $packages[ $current ] ) ) {
+						call_user_func( array( $packages[ $current ], 'upgrader' ) );
+					}
+				}
+
+				// AJAX handler.
+				if ( wp_doing_ajax() && ! empty( $_POST['action'] ) &&
+				( 0 === strpos( $_POST['action'], 'dollie_setup_' ) && false !== strpos( $_POST['action'], '_upgrade' ) )
+				) {
+					require DOLLIE_SETUP_PLUGIN_DIR . 'includes/upgrades/ajax-handler.php';
 				}
 			}
-
-			// AJAX handler.
-			if ( wp_doing_ajax() && ! empty( $_POST['action'] ) &&
-				( 0 === strpos( $_POST['action'], 'dollie_setup_' ) && false !== strpos( $_POST['action'], '_upgrade' ) )
-			) {
-				require DOLLIE_SETUP_PLUGIN_DIR . 'includes/upgrades/ajax-handler.php';
-			}
-		} );
+		);
 	}
 
 	/**
@@ -192,19 +213,19 @@ class Dollie_Setup {
 	private function load_components() {
 		// admin area
 		if ( dollie_setup_is_admin() ) {
-			$this->admin    = new CBox_Admin;
-			$this->plugins  = new CBox_Plugins;
+			$this->admin   = new Dollie_Setup_Admin();
+			$this->plugins = new Dollie_Setup_Plugins();
 
-		// frontend
+			// frontend
 		} else {
-			$this->frontend = new CBox_Frontend;
+			$this->frontend = new Dollie_Setup_Frontend();
 		}
 
 		// WP-CLI integration
 		if ( defined( 'WP_CLI' ) ) {
-			\WP_CLI::add_command( 'dollie_setup',         '\DOLLIE_SETUP\CLI\Core' );
+			\WP_CLI::add_command( 'dollie_setup', '\DOLLIE_SETUP\CLI\Core' );
 			\WP_CLI::add_command( 'dollie_setup package', '\DOLLIE_SETUP\CLI\Package' );
-			\WP_CLI::add_command( 'dollie_setup update',  '\DOLLIE_SETUP\CLI\Update' );
+			\WP_CLI::add_command( 'dollie_setup update', '\DOLLIE_SETUP\CLI\Update' );
 			\WP_CLI::add_command( 'dollie_setup upgrade', '\DOLLIE_SETUP\CLI\Upgrade' );
 		}
 
@@ -236,8 +257,8 @@ class Dollie_Setup {
 
 		// Load our package.
 		$packages = dollie_setup_get_packages();
-		if ( isset( $packages[$current] ) && class_exists( $packages[$current] ) ) {
-			$this->package = call_user_func( array( $packages[$current], 'init' ) );
+		if ( isset( $packages[ $current ] ) && class_exists( $packages[ $current ] ) ) {
+			$this->package = call_user_func( array( $packages[ $current ], 'init' ) );
 		}
 	}
 
@@ -251,7 +272,7 @@ class Dollie_Setup {
 		if ( dollie_setup_is_main_site() ) {
 			$this->package_autoloader();
 
-		// Multisite: Load up all package code on sub-sites and if user is logged in.
+			// Multisite: Load up all package code on sub-sites and if user is logged in.
 		} elseif ( is_multisite() && dollie_setup_get_current_package_id() ) {
 			$this->load_package();
 
@@ -270,12 +291,12 @@ class Dollie_Setup {
 	 * @since 1.1.1
 	 */
 	public function init_package() {
-		$plugins = get_site_option( 'active_sitewide_plugins' );
-		$loader  = plugin_basename( __FILE__ );
-		$is_network_active = isset( $plugins[$loader] );
+		$plugins           = get_site_option( 'active_sitewide_plugins' );
+		$loader            = plugin_basename( __FILE__ );
+		$is_network_active = isset( $plugins[ $loader ] );
 
 		if ( $is_network_active && is_user_logged_in() ) {
-			self::$instance->package_plugins = new CBox_Plugins;
+			self::$instance->package_plugins = new Dollie_Setup_Plugins();
 		}
 	}
 
@@ -297,7 +318,7 @@ class Dollie_Setup {
 
 		/** This filter is documented in /wp-includes/i10n.php */
 		$locale = apply_filters( 'plugin_locale', get_locale(), 'dollie-setup' );
-		$mofile = sprintf( '%1%s%2$s-%3$s.mo', trailingslashit( constant( 'WP_LANG_DIR' ) ) , 'dollie-setup', $locale );
+		$mofile = sprintf( '%1%s%2$s-%3$s.mo', trailingslashit( constant( 'WP_LANG_DIR' ) ), 'dollie-setup', $locale );
 
 		// This is for custom localizations located at /wp-content/languages/.
 		$load = load_textdomain( 'dollie-setup', $mofile );
@@ -318,27 +339,29 @@ class Dollie_Setup {
 	 * @since 1.1.0
 	 */
 	public function cli_autoloader() {
-		spl_autoload_register( function( $class ) {
-			$prefix = 'DOLLIE_SETUP\\CLI\\';
-			$base_dir = __DIR__ . '/includes/CLI/';
+		spl_autoload_register(
+			function( $class ) {
+				$prefix   = 'DOLLIE_SETUP\\CLI\\';
+				$base_dir = __DIR__ . '/includes/CLI/';
 
-			// Does the class use the namespace prefix?
-			$len = strlen( $prefix );
-			if ( strncmp( $prefix, $class, $len ) !== 0 ) {
-				return;
+				// Does the class use the namespace prefix?
+				$len = strlen( $prefix );
+				if ( strncmp( $prefix, $class, $len ) !== 0 ) {
+					  return;
+				}
+
+				// Get the relative class name.
+				$relative_class = substr( $class, $len );
+
+				// Swap directory separators and namespace to create filename.
+				$file = $base_dir . str_replace( '\\', '/', $relative_class ) . '.php';
+
+				// If the file exists, require it.
+				if ( file_exists( $file ) ) {
+					require $file;
+				}
 			}
-
-			// Get the relative class name.
-			$relative_class = substr( $class, $len );
-
-			// Swap directory separators and namespace to create filename.
-			$file = $base_dir . str_replace( '\\', '/', $relative_class ) . '.php';
-
-			// If the file exists, require it.
-			if ( file_exists( $file ) ) {
-				require $file;
-			}
-		} );
+		);
 	}
 
 	/**
@@ -361,23 +384,23 @@ class Dollie_Setup {
 		$subdir = $relative_class = '';
 
 		// Package prefix.
-		$prefix = 'CBox_Package';
+		$prefix = 'Dollie_Setup_Package';
 		if ( $class === $prefix ) {
 			$relative_class = 'package';
 		} elseif ( false !== strpos( $class, $prefix ) ) {
-			$subdir = '/';
-			$subdir .= $relative_class = strtolower( substr( $class, 13 ) );
+			$subdir  = '/';
+			$subdir .= $relative_class = strtolower( substr( $class, 21 ) );
 		}
 
 		// Plugins prefix.
-		if ( false !== strpos( $class, 'CBox_Plugins_' ) ) {
-			$subdir = '/' . strtolower( substr( $class, 13 ) );
+		if ( false !== strpos( $class, 'Dollie_Setup_Plugins_' ) ) {
+			$subdir         = '/' . strtolower( substr( $class, 21 ) );
 			$relative_class = 'plugins';
 		}
 
 		// Settings prefix.
-		if ( false !== strpos( $class, 'CBox_Settings_' ) ) {
-			$subdir = '/' . strtolower( substr( $class, 14 ) );
+		if ( false !== strpos( $class, 'Dollie_Setup_Settings_' ) ) {
+			$subdir         = '/' . strtolower( substr( $class, 22 ) );
 			$relative_class = 'settings';
 		}
 
@@ -401,10 +424,11 @@ class Dollie_Setup {
 	 * @return str DOLLIE_SETUP plugin URL with optional path appended.
 	 */
 	public function plugin_url( $path = '' ) {
-		if ( ! empty( $path ) && is_string( $path ) )
+		if ( ! empty( $path ) && is_string( $path ) ) {
 			return esc_url( dollie_setup()->plugin_url . $path );
-		else
+		} else {
 			return dollie_setup()->plugin_url;
+		}
 	}
 
 }

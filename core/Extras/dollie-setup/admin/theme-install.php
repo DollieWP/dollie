@@ -7,11 +7,14 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 // require the WP_Upgrader class so we can extend it!
-if ( ! class_exists( 'Plugin_Upgrader' ) )
-	require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+if ( ! class_exists( 'Plugin_Upgrader' ) ) {
+	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+}
 
 /**
  * DOLLIE_SETUP's custom theme upgrader.
@@ -23,7 +26,7 @@ if ( ! class_exists( 'Plugin_Upgrader' ) )
  * @package Dollie_Setup
  * @subpackage Themes
  */
-class CBox_Theme_Installer extends Theme_Upgrader {
+class Dollie_Setup_Theme_Installer extends Theme_Upgrader {
 
 	/**
 	 * Overrides the {@link Theme_Upgrader::install()} method.
@@ -31,41 +34,47 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 	 * Why? So we can use our custom download URLs from Github.
 	 */
 	function install( $package = false, $args = array() ) {
-		$args = wp_parse_args( $args, array(
-			'clear_update_cache' => true,
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'clear_update_cache' => true,
+			)
+		);
 
 		$this->init();
 		$this->install_strings();
 
-		add_filter( 'upgrader_source_selection',      'dollie_setup_rename_github_folder',                 1,  4 );
-		add_filter( 'upgrader_source_selection',      array( $this, 'check_package' ) );
-		add_filter( 'upgrader_post_install',          array( $this, 'activate_post_install' ),     99, 3 );
-		add_filter( 'http_request_args',              'dollie_setup_disable_ssl_verification',             10, 2 );
+		add_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder', 1, 4 );
+		add_filter( 'upgrader_source_selection', array( $this, 'check_package' ) );
+		add_filter( 'upgrader_post_install', array( $this, 'activate_post_install' ), 99, 3 );
+		add_filter( 'http_request_args', 'dollie_setup_disable_ssl_verification', 10, 2 );
 		add_filter( 'install_theme_complete_actions', array( $this, 'remove_theme_actions' ) );
 
 		$this->options['url'] = dollie_setup_get_theme_prop( 'download_url' );
 
-		$this->run( array(
-			// get download URL for the DOLLIE_SETUP theme
-			'package'           => dollie_setup_get_theme_prop( 'download_url' ),
+		$this->run(
+			array(
+				// get download URL for the DOLLIE_SETUP theme
+				'package'           => dollie_setup_get_theme_prop( 'download_url' ),
 
-			'destination'       => WP_CONTENT_DIR . '/themes',
+				'destination'       => WP_CONTENT_DIR . '/themes',
 
-			// do not overwrite files
-			'clear_destination' => false,
+				// do not overwrite files
+				'clear_destination' => false,
 
-			'clear_working'     => true
-		) );
+				'clear_working'     => true,
+			)
+		);
 
-		remove_filter( 'upgrader_source_selection',      'dollie_setup_rename_github_folder',              1 );
-		remove_filter( 'upgrader_source_selection',      array( $this, 'check_package' ) );
-		remove_filter( 'upgrader_post_install',          array( $this, 'activate_post_install' ),  99 );
-		remove_filter( 'http_request_args',              'dollie_setup_disable_ssl_verification',          10 );
+		remove_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder', 1 );
+		remove_filter( 'upgrader_source_selection', array( $this, 'check_package' ) );
+		remove_filter( 'upgrader_post_install', array( $this, 'activate_post_install' ), 99 );
+		remove_filter( 'http_request_args', 'dollie_setup_disable_ssl_verification', 10 );
 		remove_filter( 'install_theme_complete_actions', array( $this, 'remove_theme_actions' ) );
 
-		if ( ! $this->result || is_wp_error($this->result) )
+		if ( ! $this->result || is_wp_error( $this->result ) ) {
 			return $this->result;
+		}
 
 		// Refresh the Theme Update information
 		wp_clean_themes_cache( $args['clear_update_cache'] );
@@ -81,24 +90,28 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 	 * @param str $upgrades The value from dollie_setup_get_theme_to_update()
 	 */
 	function bulk_upgrade( $upgrades = false, $args = array() ) {
-		if ( empty( $upgrades ) )
+		if ( empty( $upgrades ) ) {
 			return false;
+		}
 
-		$args = wp_parse_args( $args, array(
-			'clear_update_cache' => true,
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'clear_update_cache' => true,
+			)
+		);
 
 		$this->init();
 		$this->bulk = true;
 		$this->upgrade_strings();
 
-		add_filter( 'upgrader_source_selection',  'dollie_setup_rename_github_folder',        1,  4 );
-		add_filter( 'upgrader_pre_install',       array( $this, 'current_before' ),   10, 2 );
-		add_filter( 'upgrader_post_install',      array( $this, 'current_after' ),    10, 2 );
+		add_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder', 1, 4 );
+		add_filter( 'upgrader_pre_install', array( $this, 'current_before' ), 10, 2 );
+		add_filter( 'upgrader_post_install', array( $this, 'current_after' ), 10, 2 );
 		add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_theme' ), 10, 4 );
-		add_filter( 'http_request_args',          'dollie_setup_disable_ssl_verification',    10, 2 );
+		add_filter( 'http_request_args', 'dollie_setup_disable_ssl_verification', 10, 2 );
 
-		dollie_setup_get_template_part('wrapper-header');
+		dollie_setup_get_template_part( 'wrapper-header' );
 		$this->skin->header();
 
 		// Connect to the Filesystem first.
@@ -127,19 +140,22 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 			$this->skin->theme_info = $this->theme_info( $theme['directory_name'] );
 			$this->options['url']   = $theme['download_url'];
 
-			$result = $this->run( array(
-				'package'           => $theme['download_url'],
-				'destination'       => WP_CONTENT_DIR . '/themes',
-				'clear_destination' => true,
-				'clear_working'     => true,
-				'hook_extra'        => array( 'theme' => $theme['directory_name'] )
-			) );
+			$result = $this->run(
+				array(
+					'package'           => $theme['download_url'],
+					'destination'       => WP_CONTENT_DIR . '/themes',
+					'clear_destination' => true,
+					'clear_working'     => true,
+					'hook_extra'        => array( 'theme' => $theme['directory_name'] ),
+				)
+			);
 
 			$results[ $theme['directory_name'] ] = $this->result;
 
 			// Prevent credentials auth screen from displaying multiple times
-			if ( false === $result )
+			if ( false === $result ) {
 				break;
+			}
 		} //end foreach $plugins
 
 		$this->maintenance_mode( false );
@@ -150,14 +166,14 @@ class CBox_Theme_Installer extends Theme_Upgrader {
 		$this->skin->bulk_footer();
 
 		$this->skin->footer();
-		dollie_setup_get_template_part('wrapper-footer');
+		dollie_setup_get_template_part( 'wrapper-footer' );
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter( 'upgrader_source_selection',  'dollie_setup_rename_github_folder',        1 );
-		remove_filter( 'upgrader_pre_install',       array( $this, 'current_before' ),   10 );
-		remove_filter( 'upgrader_post_install',      array( $this, 'current_after' ),    10 );
+		remove_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder', 1 );
+		remove_filter( 'upgrader_pre_install', array( $this, 'current_before' ), 10 );
+		remove_filter( 'upgrader_post_install', array( $this, 'current_after' ), 10 );
 		remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_theme' ), 10 );
-		remove_filter( 'http_request_args',          'dollie_setup_disable_ssl_verification',    10 );
+		remove_filter( 'http_request_args', 'dollie_setup_disable_ssl_verification', 10 );
 
 		return $results;
 	}

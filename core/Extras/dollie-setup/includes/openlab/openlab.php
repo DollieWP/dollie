@@ -10,13 +10,13 @@
 /**
  * The "OpenLab" DOLLIE_SETUP package.
  *
- * For plugin manifest, see {@link CBox_Plugins_OpenLab}.
+ * For plugin manifest, see {@link Dollie_Setup_Plugins_OpenLab}.
  *
  * @todo Name subject to change.
  *
  * @since 1.1.0
  */
-class CBox_Package_OpenLab extends CBox_Package {
+class Dollie_Setup_Package_OpenLab extends Dollie_Setup_Package {
 	/**
 	 * @var string Display name for our package.
 	 */
@@ -38,7 +38,7 @@ class CBox_Package_OpenLab extends CBox_Package {
 			'icon_url'          => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup-ol_vert.png' ),
 			'badge_url'         => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup-ol_vert.png' ),
 			'badge_url_2x'      => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup-ol_vert-2x.png' ),
-			'documentation_url' => 'http://commonsinabox.org/dollie_setup-openlab-overview/?modal=1'
+			'documentation_url' => 'http://commonsinabox.org/dollie_setup-openlab-overview/?modal=1',
 		);
 	}
 
@@ -51,7 +51,7 @@ class CBox_Package_OpenLab extends CBox_Package {
 	 */
 	protected static function strings() {
 		return array(
-			'tab_plugin_optional' => __( 'Community Features', 'dollie-setup' )
+			'tab_plugin_optional' => __( 'Community Features', 'dollie-setup' ),
 		);
 	}
 
@@ -67,7 +67,7 @@ class CBox_Package_OpenLab extends CBox_Package {
 			'directory_name' => 'openlab-theme',
 			'download_url'   => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/openlab-theme-1.3.2.zip',
 			'screenshot_url' => dollie_setup()->plugin_url( 'admin/images/screenshot_openlab_theme.png' ),
-			'force_install'  => true
+			'force_install'  => true,
 		);
 	}
 

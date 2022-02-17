@@ -41,19 +41,19 @@ class Core extends \WP_CLI_Command {
 		if ( ! empty( $theme ) ) {
 			WP_CLI::line( 'The theme has an update. Run "wp dollie_setup update theme" to update the theme.' );
 		} else {
-			$dollie_setup_theme    = dollie_setup_get_package_prop( 'theme' );
-			$current_theme = dollie_setup_get_theme();
+			$dollie_setup_theme = dollie_setup_get_package_prop( 'theme' );
+			$current_theme      = dollie_setup_get_theme();
 
 			if ( $dollie_setup_theme['name'] && $dollie_setup_theme['directory_name'] === $current_theme->get_template() ) {
 				WP_CLI::line( 'Current theme: ' . $dollie_setup_theme['name'] . '. No update available.' );
 			} elseif ( $dollie_setup_theme['name'] ) {
 				WP_CLI::line( 'Current theme: ' . $current_theme->get( 'Name' ) . '. The DOLLIE_SETUP bundled theme, ' . $dollie_setup_theme['name'] . ', is available, but not activated.' );
-				WP_CLI::line( 'You can activate the theme by running "wp theme activate ' .  $dollie_setup_theme['directory_name'] . '"' );
+				WP_CLI::line( 'You can activate the theme by running "wp theme activate ' . $dollie_setup_theme['directory_name'] . '"' );
 			}
 		}
 
 		// Active plugin status.
-		$plugins = \CBox_Admin_Plugins::get_upgrades( 'active' );
+		$plugins            = \Dollie_Setup_Admin_Plugins::get_upgrades( 'active' );
 		$show_plugin_notice = $show_active_notice = false;
 		if ( ! empty( $plugins ) ) {
 			$show_plugin_notice = true;
@@ -63,15 +63,15 @@ class Core extends \WP_CLI_Command {
 			WP_CLI::line( '' );
 			WP_CLI::line( 'The following active plugins have an update available:' );
 
-			$dollie_setup_plugins = \CBox_Plugins::get_plugins();
-			$dependencies = \CBox_Plugins::get_plugins( 'dependency' );
+			$dollie_setup_plugins = \Dollie_Setup_Plugins::get_plugins();
+			$dependencies         = \Dollie_Setup_Plugins::get_plugins( 'dependency' );
 
 			foreach ( $plugins as $plugin ) {
-				$loader = \Plugin_Dependencies::get_pluginloader_by_name( $plugin );
+				$loader  = \Plugin_Dependencies::get_pluginloader_by_name( $plugin );
 				$items[] = array(
 					'Plugin'          => $plugin,
-					'Current Version' => \Plugin_Dependencies::$all_plugins[$loader]['Version'],
-					'New Version'     => isset( $dollie_setup_plugins[$plugin]['version'] ) ? $dollie_setup_plugins[$plugin]['version'] : $dependencies[$plugin]['version']
+					'Current Version' => \Plugin_Dependencies::$all_plugins[ $loader ]['Version'],
+					'New Version'     => isset( $dollie_setup_plugins[ $plugin ]['version'] ) ? $dollie_setup_plugins[ $plugin ]['version'] : $dependencies[ $plugin ]['version'],
 				);
 			}
 
@@ -82,12 +82,12 @@ class Core extends \WP_CLI_Command {
 
 		// Required plugins check.
 		if ( ! isset( $dollie_setup_plugins ) ) {
-			$dollie_setup_plugins = \CBox_Plugins::get_plugins( 'required' );
+			$dollie_setup_plugins = \Dollie_Setup_Plugins::get_plugins( 'required' );
 		} else {
 			$dollie_setup_plugins = $dollie_setup_plugins['required'];
 		}
 
-		$required = \CBox_Admin_Plugins::organize_plugins_by_state( $dollie_setup_plugins );
+		$required = \Dollie_Setup_Admin_Plugins::organize_plugins_by_state( $dollie_setup_plugins );
 		unset( $required['deactivate'] );
 
 		if ( ! empty( $required ) ) {
@@ -99,25 +99,25 @@ class Core extends \WP_CLI_Command {
 			WP_CLI::line( 'The following plugins are required and need to be either activated or installed:' );
 
 			if ( ! isset( $dependencies ) ) {
-				$dependencies = \CBox_Plugins::get_plugins( 'dependency' );
+				$dependencies = \Dollie_Setup_Plugins::get_plugins( 'dependency' );
 			}
 
 			foreach ( $required as $state => $plugins ) {
 				switch ( $state ) {
-					case 'activate' :
+					case 'activate':
 						$action = 'Requires activation';
 						break;
 
-					case 'install' :
+					case 'install':
 						$action = 'Requires installation';
 						break;
 				}
 				foreach ( $plugins as $plugin ) {
-					$loader = \Plugin_Dependencies::get_pluginloader_by_name( $plugin );
+					$loader  = \Plugin_Dependencies::get_pluginloader_by_name( $plugin );
 					$items[] = array(
 						'Plugin'  => $plugin,
-						'Version' => isset( $dollie_setup_plugins[$plugin]['version'] ) ? $dollie_setup_plugins[$plugin]['version'] : $dependencies[$plugin]['version'],
-						'Action'  => $action
+						'Version' => isset( $dollie_setup_plugins[ $plugin ]['version'] ) ? $dollie_setup_plugins[ $plugin ]['version'] : $dependencies[ $plugin ]['version'],
+						'Action'  => $action,
 					);
 				}
 			}

@@ -135,9 +135,9 @@ function dollie_setup_get_packages() {
 	 * @todo Might remove this restriction later.
 	 */
 	$default = array(
-		'agency' => 'CBox_Package_Agency',
-		'openlab' => 'CBox_Package_OpenLab',
-		'waas' => 'CBox_Package_Waas',
+		'agency' => 'Dollie_Setup_Package_Agency',
+		'openlab' => 'Dollie_Setup_Package_OpenLab',
+		'waas' => 'Dollie_Setup_Package_Waas',
 	);
 
 	/**

@@ -26,7 +26,7 @@ if ( ! class_exists( 'Plugin_Dependencies' ) )
  * @package Dollie_Setup
  * @subpackage Plugins
  */
-class CBox_Plugin_Upgrader extends Plugin_Upgrader {
+class Dollie_Setup_Plugin_Upgrader extends Plugin_Upgrader {
 
 	/**
 	 * Overrides the parent {@link Plugin_Upgrader::bulk_upgrader()} method.
@@ -45,8 +45,8 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 		$this->upgrade_strings();
 
 		// download URLs for each plugin should be registered in either the following:
-		$dependency = CBox_Plugins::get_plugins( 'dependency' );
-		$current    = CBox_Plugins::get_plugins();
+		$dependency = Dollie_Setup_Plugins::get_plugins( 'dependency' );
+		$current    = Dollie_Setup_Plugins::get_plugins();
 
 		add_filter( 'upgrader_source_selection',  'dollie_setup_rename_github_folder',         1,  4 );
 		add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ), 10, 4 );
@@ -170,7 +170,7 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 	/**
 	 * Bulk install plugins.
 	 *
-	 * Download links for plugins are listed in {@link CBox_Plugins::get_plugins()}.
+	 * Download links for plugins are listed in {@link Dollie_Setup_Plugins::get_plugins()}.
 	 *
 	 * @param str $plugins Array of plugin names
 	 */
@@ -181,8 +181,8 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 		$this->install_strings();
 
 		// download URLs for each plugin should be registered in either the following:
-		$dependency = CBox_Plugins::get_plugins( 'dependency' );
-		$required = CBox_Plugins::get_plugins();
+		$dependency = Dollie_Setup_Plugins::get_plugins( 'dependency' );
+		$required = Dollie_Setup_Plugins::get_plugins();
 
 		add_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder',     1,  4 );
 		add_filter( 'upgrader_source_selection', array( $this, 'check_package' ) );
@@ -258,12 +258,12 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
 		if ( empty( $plugins ) )
 			return false;
 
-		$current    = CBox_Plugins::get_plugins();
-		$dependency = CBox_Plugins::get_plugins( 'dependency' );
+		$current    = Dollie_Setup_Plugins::get_plugins();
+		$dependency = Dollie_Setup_Plugins::get_plugins( 'dependency' );
 
 		foreach ( $plugins as $i => $plugin ) {
 			// Do not activate if plugin is install-only.
-			if ( true === CBox_Plugins::is_plugin_type( $plugin, 'install-only' ) ) {
+			if ( true === Dollie_Setup_Plugins::is_plugin_type( $plugin, 'install-only' ) ) {
 				continue;
 			}
 
@@ -334,7 +334,7 @@ class CBox_Plugin_Upgrader extends Plugin_Upgrader {
  * @package Dollie_Setup
  * @subpackage Plugins
  */
-class CBox_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
+class Dollie_Setup_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 
 
 	/**
@@ -392,8 +392,8 @@ class CBox_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 
 			usleep(500000);
 
- 			$installer = new CBox_Plugin_Upgrader(
- 				new CBox_Bulk_Plugin_Upgrader_Skin( $skin_args )
+ 			$installer = new Dollie_Setup_Plugin_Upgrader(
+ 				new Dollie_Setup_Bulk_Plugin_Upgrader_Skin( $skin_args )
  			);
 
  			$installer->bulk_install( $this->options['install_plugins'] );
@@ -407,7 +407,7 @@ class CBox_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 
 			usleep(500000);
 
- 			$activate = CBox_Plugin_Upgrader::bulk_activate( $this->options['activate_plugins'] );
+ 			$activate = Dollie_Setup_Plugin_Upgrader::bulk_activate( $this->options['activate_plugins'] );
  		?>
 
 			<p><?php _e( 'Plugins activated.', 'dollie-setup' ); ?></p>
@@ -485,7 +485,7 @@ class CBox_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 	/**
 	 * Do some stuff after the updater has finished running.
 	 *
-	 * @param string $redirect_link Redirect link with anchor text. This is used if CBox_Bulk_Plugin_Upgrader_Skin doesn't have one.
+	 * @param string $redirect_link Redirect link with anchor text. This is used if Dollie_Setup_Bulk_Plugin_Upgrader_Skin doesn't have one.
 	 * @since 0.3
 	 */
 	public static function after_updater( $args = array() ) {
@@ -554,7 +554,7 @@ class CBox_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
  * @package Dollie_Setup
  * @subpackage Plugins
  */
-class CBox_Updater {
+class Dollie_Setup_Updater {
 
 	private static $is_upgrade  = false;
 	private static $is_install  = false;
@@ -624,14 +624,14 @@ class CBox_Updater {
 		//dollie_setup_get_template_part('wrapper-header');
 		// let's see if upgrades are available; if so, start with that
 		if ( self::$is_upgrade ) {
-			// if installs are available as well, this tells CBox_Plugin_Upgrader
+			// if installs are available as well, this tells Dollie_Setup_Plugin_Upgrader
 			// to install plugins after the upgrader is done
 			if ( self::$is_install ) {
 				$skin_args['install_plugins'] = $plugins['install'];
 				$skin_args['install_strings'] = true;
 			}
 
-			// if activations are available as well, this tells CBox_Plugin_Upgrader
+			// if activations are available as well, this tells Dollie_Setup_Plugin_Upgrader
 			// to activate plugins after the upgrader is done
 			if ( self::$is_activate ) {
 				$skin_args['activate_plugins'] = $plugins['activate'];
@@ -644,8 +644,8 @@ class CBox_Updater {
 
 			// instantiate the upgrader
 			// we add our custom arguments to the skin
-			$installer = new CBox_Plugin_Upgrader(
-				new CBox_Bulk_Plugin_Upgrader_Skin( $skin_args )
+			$installer = new Dollie_Setup_Plugin_Upgrader(
+				new Dollie_Setup_Bulk_Plugin_Upgrader_Skin( $skin_args )
 			);
 
 			// now start the upgrade!
@@ -653,7 +653,7 @@ class CBox_Updater {
 
 		// if no upgrades are available, move on to installs
 		} elseif( self::$is_install ) {
-			// if activations are available as well, this tells CBox_Plugin_Upgrader
+			// if activations are available as well, this tells Dollie_Setup_Plugin_Upgrader
 			// to activate plugins after the upgrader is done
 			if ( self::$is_activate ) {
 				$skin_args['activate_plugins'] = $plugins['activate'];
@@ -665,8 +665,8 @@ class CBox_Updater {
 
 			// instantiate the upgrader
 			// we add our custom arguments to the skin
-			$installer = new CBox_Plugin_Upgrader(
-				new CBox_Bulk_Plugin_Upgrader_Skin( $skin_args )
+			$installer = new Dollie_Setup_Plugin_Upgrader(
+				new Dollie_Setup_Bulk_Plugin_Upgrader_Skin( $skin_args )
 			);
 
 			// now start the install!
@@ -676,12 +676,12 @@ class CBox_Updater {
 		} elseif( self::$is_activate ) {
 			echo '<h3>' . __( 'Activating Plugins...', 'dollie_setup' ) . '</h3>';
 
-			$activate = CBox_Plugin_Upgrader::bulk_activate( $plugins['activate'] );
+			$activate = Dollie_Setup_Plugin_Upgrader::bulk_activate( $plugins['activate'] );
 		?>
 
 			<p><?php _e( 'Plugins activated.', 'dollie_setup' ); ?></p>
 
-			<p><?php CBox_Bulk_Plugin_Upgrader_Skin::after_updater( $settings ); ?></p>
+			<p><?php Dollie_Setup_Bulk_Plugin_Upgrader_Skin::after_updater( $settings ); ?></p>
 		<?php
 			//dollie_setup_get_template_part('wrapper-footer');
 		}
@@ -692,7 +692,7 @@ class CBox_Updater {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @param  array $plugins Same as $plugins in CBox_Updater::__construct().
+	 * @param  array $plugins Same as $plugins in Dollie_Setup_Updater::__construct().
 	 * @return array
 	 */
 	public static function parse_plugins( $plugins = [] ) {
@@ -711,8 +711,8 @@ class CBox_Updater {
 		 * it doesn't know about.
 		 */
 		if ( ! empty( $plugins['install'] ) ) {
-			$dollie_setup_plugins = CBox_Plugins::get_plugins();
-			$dependencies = array_flip( array_keys( CBox_Plugins::get_plugins( 'dependency' ) ) );
+			$dollie_setup_plugins = Dollie_Setup_Plugins::get_plugins();
+			$dependencies = array_flip( array_keys( Dollie_Setup_Plugins::get_plugins( 'dependency' ) ) );
 
 			foreach ( $plugins['install'] as $plugin ) {
 				if ( ! isset( $dollie_setup_plugins[ $plugin ]['depends'] ) ) {
@@ -835,23 +835,23 @@ class CBox_Updater {
 		}
 
 		// Do not activate if plugin is install-only.
-		if ( true === CBox_Plugins::is_plugin_type( $plugin_name, 'install-only' ) ) {
+		if ( true === Dollie_Setup_Plugins::is_plugin_type( $plugin_name, 'install-only' ) ) {
 			// Allow activation if this is also a dependent plugin.
-			$dependency = CBox_Plugins::get_plugins( 'dependency' );
+			$dependency = Dollie_Setup_Plugins::get_plugins( 'dependency' );
 			if ( empty( $dependency[ $plugin_name ] ) ) {
 				return $bool;
 			}
 		}
 
 		if ( '' !== $plugin ) {
-			$dollie_setup_plugins = CBox_Plugins::get_plugins();
+			$dollie_setup_plugins = Dollie_Setup_Plugins::get_plugins();
 
 			// If DOLLIE_SETUP plugin manifest is empty, must load package data again.
 			if ( empty( $dollie_setup_plugins ) ) {
 				/** This hook is documented in admin/plugins-loader.php */
 				do_action( 'dollie_setup_plugins_loaded', dollie_setup()->plugins );
 
-				$dollie_setup_plugins = CBox_Plugins::get_plugins();
+				$dollie_setup_plugins = Dollie_Setup_Plugins::get_plugins();
 			}
 
 			if ( ! is_multisite() ) {
@@ -859,7 +859,7 @@ class CBox_Updater {
 			} elseif ( isset( $dollie_setup_plugins[ $plugin_name ] ) ) {
 				$network_activate = $dollie_setup_plugins[ $plugin_name ]['network'];
 			} else {
-				$dependency = CBox_Plugins::get_plugins( 'dependency' );
+				$dependency = Dollie_Setup_Plugins::get_plugins( 'dependency' );
 				$network_activate = $dependency[ $plugin_name ]['network'];
 			}
 

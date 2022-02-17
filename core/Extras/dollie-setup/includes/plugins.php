@@ -9,14 +9,16 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Core plugin class for DOLLIE_SETUP.
  *
  * @since 0.1
  */
-class CBox_Plugins {
+class Dollie_Setup_Plugins {
 
 	/**
 	 * Static variable to hold our various plugins
@@ -30,27 +32,31 @@ class CBox_Plugins {
 	 */
 	public function __construct() {
 		// Admin code.
-		add_action( 'dollie_setup_plugins_loaded', function() {
-			if ( ! dollie_setup_is_admin() ) {
-				return;
-			}
+		add_action(
+			'dollie_setup_plugins_loaded',
+			function() {
+				if ( ! dollie_setup_is_admin() ) {
+					return;
+				}
 
-			// Add the Plugin Dependencies plugin
-			if ( ! class_exists( 'Plugin_Dependencies' ) ) {
-				require_once DOLLIE_SETUP_LIB_DIR . 'wp-plugin-dependencies/plugin-dependencies.php';
-			}
+				// Add the Plugin Dependencies plugin
+				if ( ! class_exists( 'Plugin_Dependencies' ) ) {
+					require_once DOLLIE_SETUP_LIB_DIR . 'wp-plugin-dependencies/plugin-dependencies.php';
+				}
 
-			// Load up admin plugins code.
-			require_once DOLLIE_SETUP_PLUGIN_DIR . 'admin/plugins.php';
-			CBox_Admin_Plugins::init();
-		}, 90 );
+				// Load up admin plugins code.
+				require_once DOLLIE_SETUP_PLUGIN_DIR . 'admin/plugins.php';
+				Dollie_Setup_Admin_Plugins::init();
+			},
+			90
+		);
 
 		/**
 		 * Hook to declare when the DOLLIE_SETUP plugins code is loaded at its earliest.
 		 *
 		 * @since 1.1.0
 		 *
-		 * @param CBox_Plugins $this
+		 * @param Dollie_Setup_Plugins $this
 		 */
 		do_action( 'dollie_setup_plugins_loaded', $this );
 	}
@@ -87,18 +93,18 @@ class CBox_Plugins {
 	 */
 	public function register_plugin( $args = '' ) {
 		$defaults = array(
-			'plugin_name'       => false,
-			'type'              => 'required',
-			'dollie_setup_name'         => false,
-			'dollie_setup_description'  => false,
-			'depends'           => false,
-			'version'           => false,
-			'download_url'      => false,
-			'documentation_url' => false,
-			'admin_settings'    => false,
-			'network_settings'  => false,
-			'network'           => true,
-			'hide'              => null
+			'plugin_name'              => false,
+			'type'                     => 'required',
+			'dollie_setup_name'        => false,
+			'dollie_setup_description' => false,
+			'depends'                  => false,
+			'version'                  => false,
+			'download_url'             => false,
+			'documentation_url'        => false,
+			'admin_settings'           => false,
+			'network_settings'         => false,
+			'network'                  => true,
+			'hide'                     => null,
 		);
 
 		$r = wp_parse_args( $args, $defaults );
@@ -107,12 +113,12 @@ class CBox_Plugins {
 			return false;
 		}
 
-		switch( $r['type'] ) {
-			case 'required' :
-			case 'recommended' :
-			case 'optional' :
-			case 'install-only' :
-			case 'dependency' :
+		switch ( $r['type'] ) {
+			case 'required':
+			case 'recommended':
+			case 'optional':
+			case 'install-only':
+			case 'dependency':
 				self::$plugins[ $r['type'] ][ $r['plugin_name'] ] = $r;
 				unset( self::$plugins[ $r['type'] ][ $r['plugin_name'] ]['plugin_name'] );
 
@@ -148,8 +154,9 @@ class CBox_Plugins {
 			unset( $plugins['dependency'] );
 
 			// if $omit_type was passed, use it to remove the plugin type we don't want
-			if ( ! empty( $omit_type ) )
-				unset( $plugins[$omit_type] );
+			if ( ! empty( $omit_type ) ) {
+				unset( $plugins[ $omit_type ] );
+			}
 
 			// flatten associative array
 			return call_user_func_array( 'array_merge', array_values( $plugins ) );
@@ -160,10 +167,11 @@ class CBox_Plugins {
 			return self::$plugins;
 		}
 
-		if ( empty( self::$plugins[$type] ) )
+		if ( empty( self::$plugins[ $type ] ) ) {
 			return false;
+		}
 
-		return self::$plugins[$type];
+		return self::$plugins[ $type ];
 	}
 
 	/**
@@ -195,7 +203,7 @@ class CBox_Plugins {
 	 */
 	public static function backup() {
 		dollie_setup()->temp_plugins = self::$plugins;
-		self::$plugins = array();
+		self::$plugins               = array();
 	}
 
 	/**

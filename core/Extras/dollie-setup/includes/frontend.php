@@ -9,14 +9,16 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Things DOLLIE_SETUP does on the frontend of the site.
  *
  * @since 1.0-beta2
  */
-class CBox_Frontend {
+class Dollie_Setup_Frontend {
 
 	/**
 	 * Constructor.
@@ -33,12 +35,13 @@ class CBox_Frontend {
 		$this->setup_globals();
 
 		// if no settings exist, stop now!
-		if ( empty( $this->settings ) )
+		if ( empty( $this->settings ) ) {
 			return;
+		}
 
 		// setup our DOLLIE_SETUP plugins object
 		// this will hold some plugin-specific references
-		dollie_setup()->plugins = new stdClass;
+		dollie_setup()->plugins = new stdClass();
 
 		add_action( 'plugins_loaded', array( $this, 'setup' ), 100 );
 	}
@@ -88,19 +91,19 @@ class CBox_Frontend {
 
 		// WordPress
 		$this->autoload['wp']   = array();
-		$this->autoload['wp'][] = 'CBox_WP_Toolbar_Updates';
+		$this->autoload['wp'][] = 'Dollie_Setup_WP_Toolbar_Updates';
 
 		// bbPress
 		$this->autoload['bbpress']   = array();
-		$this->autoload['bbpress'][] = 'CBox_BBP_Autoload';
+		$this->autoload['bbpress'][] = 'Dollie_Setup_BBP_Autoload';
 
 		// Group Email Subscription
 		$this->autoload['ges']   = array();
-		$this->autoload['ges'][] = 'CBox_GES_All_Mail';
+		$this->autoload['ges'][] = 'Dollie_Setup_GES_All_Mail';
 
 		// Custom Profile Filters for BuddyPress
 		$this->autoload['cpf']   = array();
-		$this->autoload['cpf'][] = 'CBox_CPF_Rehook_Social_Fields';
+		$this->autoload['cpf'][] = 'Dollie_Setup_CPF_Rehook_Social_Fields';
 	}
 
 	/**
@@ -115,7 +118,7 @@ class CBox_Frontend {
 
 		foreach ( $plugins as $plugin ) {
 			if ( file_exists( dollie_setup()->plugin_dir . "includes/frontend-{$plugin}.php" ) ) {
-				require( dollie_setup()->plugin_dir . "includes/frontend-{$plugin}.php" );
+				require dollie_setup()->plugin_dir . "includes/frontend-{$plugin}.php";
 			}
 		}
 	}
@@ -128,12 +131,13 @@ class CBox_Frontend {
 	 */
 	private function setup_hooks() {
 
-		foreach( $this->settings as $plugin => $classes ) {
+		foreach ( $this->settings as $plugin => $classes ) {
 			// if our plugin is not setup, stop loading hooks now!
 			$is_setup = isset( dollie_setup()->plugins->$plugin->is_setup ) ? dollie_setup()->plugins->$plugin->is_setup : false;
 
-			if ( ! $is_setup )
+			if ( ! $is_setup ) {
 				continue;
+			}
 
 			// sanity check
 			$classes = array_unique( $classes );
@@ -142,8 +146,9 @@ class CBox_Frontend {
 			foreach ( $classes as $class ) {
 				// sanity check!
 				// make sure our hook is available
-				if ( ! is_callable( array( $class, 'init' ) ) )
+				if ( ! is_callable( array( $class, 'init' ) ) ) {
 					continue;
+				}
 
 				// load our hook
 				// @todo this hook might need to be configured at the settings level

@@ -12,7 +12,7 @@
  *
  * @since 1.1.0
  */
-abstract class CBox_Package {
+abstract class Dollie_Setup_Package {
 	/**
 	 * Name of your package. Required. Must be extended.
 	 *
@@ -35,14 +35,14 @@ abstract class CBox_Package {
 	 *
 	 * @since 1.1.0
 	 */
-	//protected static $config = array();
+	// protected static $config = array();
 
 	/**
 	 * Theme properties.
 	 *
 	 * @since 1.1.0
 	 *
-	 * @var array See {@link CBox_Package::register_theme()} for parameters.
+	 * @var array See {@link Dollie_Setup_Package::register_theme()} for parameters.
 	 */
 	public static $theme = array();
 
@@ -51,7 +51,7 @@ abstract class CBox_Package {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @var array See {@link CBox_Package::register_strings()} for parameters.
+	 * @var array See {@link Dollie_Setup_Package::register_strings()} for parameters.
 	 */
 	public static $strings = array();
 
@@ -83,32 +83,41 @@ abstract class CBox_Package {
 		add_action( 'dollie_setup_plugins_loaded', array( get_called_class(), 'plugin_registrar' ) );
 
 		// Automatically handle settings registration here.
-		add_action( 'dollie_setup_load_components', function( $i ) {
-			if ( ! dollie_setup_is_admin() || false === strpos( get_called_class(), 'CBox_Package_' ) ) {
-				return;
-			}
+		add_action(
+			'dollie_setup_load_components',
+			function( $i ) {
+				if ( ! dollie_setup_is_admin() || false === strpos( get_called_class(), 'Dollie_Setup_Package_' ) ) {
+					return;
+				}
 
-			$settings_class = 'CBox_Settings_' . substr( get_called_class(), 13 );
-			if ( class_exists( $settings_class ) ) {
-				$i->settings = new $settings_class;
+				$settings_class = 'Dollie_Setup_Settings_' . substr( get_called_class(), 13 );
+				if ( class_exists( $settings_class ) ) {
+					$i->settings = new $settings_class();
+				}
 			}
-		} );
+		);
 
 		// Plugin defaults.
-		add_action( 'dollie_setup_before_updater', function() {
-			add_action( 'activate_plugin', function( $plugin_file ) {
-				$plugin_dir = substr( $plugin_file, 0, strpos( $plugin_file, '/' ) );
-				$class = new ReflectionClass( get_called_class() );
+		add_action(
+			'dollie_setup_before_updater',
+			function() {
+				add_action(
+					'activate_plugin',
+					function( $plugin_file ) {
+						$plugin_dir = substr( $plugin_file, 0, strpos( $plugin_file, '/' ) );
+						$class      = new ReflectionClass( get_called_class() );
 
-				/*
-				 * Handle individual plugin activation routine if available.
-				 */
-				$file = dirname( $class->getFileName() ) . '/defaults/' . $plugin_dir . '.php';
-				if ( file_exists( $file ) ) {
-					require $file;
-				}
-			} );
-		} );
+						/*
+						* Handle individual plugin activation routine if available.
+						*/
+						$file = dirname( $class->getFileName() ) . '/defaults/' . $plugin_dir . '.php';
+						if ( file_exists( $file ) ) {
+							require $file;
+						}
+					}
+				);
+			}
+		);
 	}
 
 	/**
@@ -117,9 +126,9 @@ abstract class CBox_Package {
 	 * @since 1.1.0
 	 */
 	public static function set_props() {
-		static::$config  = array_merge( (array) self::config(),  (array) static::config() );
+		static::$config  = array_merge( (array) self::config(), (array) static::config() );
 		static::$strings = array_merge( (array) self::strings(), (array) static::strings() );
-		static::$theme   = array_merge( (array) self::theme(),   (array) static::theme() );
+		static::$theme   = array_merge( (array) self::theme(), (array) static::theme() );
 	}
 
 	/**
@@ -138,17 +147,17 @@ abstract class CBox_Package {
 	 */
 	public static function plugin_registrar( $i ) {
 		$class = get_called_class();
-		if ( false === strpos( $class, 'CBox_Package_' ) ) {
+		if ( false === strpos( $class, 'Dollie_Setup_Package_' ) ) {
 			return;
 		}
 
 		// Try to automatically load plugins manifest class if found.
-		$plugins_class = 'CBox_Plugins_' . substr( $class, 13 );
+		$plugins_class = 'Dollie_Setup_Plugins_' . substr( $class, 13 );
 
 		if ( class_exists( $plugins_class ) ) {
 			call_user_func( array( $plugins_class, 'init' ), array( $i, 'register_plugin' ) );
 
-		// Else, use the register_plugins() method to do plugin registration.
+			// Else, use the register_plugins() method to do plugin registration.
 		} else {
 			static::register_plugins( array( $i, 'register_plugin' ) );
 		}
@@ -159,7 +168,7 @@ abstract class CBox_Package {
 	 *
 	 * @since 1.1.0
 	 *
-	 * @param callable $instance {@see CBox_Plugins::register_plugin()}.
+	 * @param callable $instance {@see Dollie_Setup_Plugins::register_plugin()}.
 	 */
 	protected static function register_plugins( $instance ) {}
 
@@ -175,14 +184,14 @@ abstract class CBox_Package {
 
 		// If we're already done this before, load existing plugin list.
 		if ( $packages[ dollie_setup_get_current_package_id() ] === get_called_class() ) {
-			$plugins = CBox_Plugins::get_plugins( '' );
+			$plugins = Dollie_Setup_Plugins::get_plugins( '' );
 
-		// Fetch the plugin list for the package.  This isn't elegant...
+			// Fetch the plugin list for the package.  This isn't elegant...
 		} else {
 			global $wp_filter;
 
 			// Backup current plugins list and package registrar.
-			CBox_Plugins::backup();
+			Dollie_Setup_Plugins::backup();
 			$backup = $wp_filter['dollie_setup_plugins_loaded']->callbacks[10];
 			unset( $wp_filter['dollie_setup_plugins_loaded']->callbacks[10] );
 
@@ -201,7 +210,7 @@ abstract class CBox_Package {
 			$wp_filter['dollie_setup_plugins_loaded']->callbacks[10] = $backup;
 			unset( $instance, $backup );
 			remove_action( 'dollie_setup_plugins_loaded', array( get_called_class(), 'plugin_registrar' ) );
-			CBox_Plugins::restore();
+			Dollie_Setup_Plugins::restore();
 		}
 
 		return $plugins;
@@ -252,7 +261,7 @@ abstract class CBox_Package {
 			'icon_url'      => includes_url( 'images/crystal/archive.png' ),
 			'badge_url'     => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup_vert.png' ),
 			'badge_url_2x'  => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup_vert-2x.png' ),
-			'network'       => false
+			'network'       => false,
 		);
 	}
 
@@ -268,7 +277,7 @@ abstract class CBox_Package {
 			'tab_plugin_required' => __( 'Core Plugins', 'dollie-setup' ),
 			'tab_plugin_optional' => __( 'Optional Plugins', 'dollie-setup' ),
 			'tab_plugin_install'  => __( 'Member Site Plugins', 'dollie-setup' ),
-			'dashboard_header'    => sprintf( esc_html__( 'Welcome to Dollie Setup %s', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) )
+			'dashboard_header'    => sprintf( esc_html__( 'Welcome to Dollie Setup %s', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ),
 		);
 	}
 

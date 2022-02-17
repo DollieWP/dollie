@@ -9,7 +9,9 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Check to see if DOLLIE_SETUP is correctly setup.
@@ -23,13 +25,15 @@ if ( !defined( 'ABSPATH' ) ) exit;
  */
 function dollie_setup_is_setup() {
 	// we haven't saved the revision date into the DB yet
-	if ( ! dollie_setup_get_installed_revision_date() )
+	if ( ! dollie_setup_get_installed_revision_date() ) {
 		return false;
+	}
 
 	// DOLLIE_SETUP is installed, but we just upgraded to a
 	// newer version of DOLLIE_SETUP
-	if ( dollie_setup_is_upgraded() )
+	if ( dollie_setup_is_upgraded() ) {
 		return false;
+	}
 
 	if ( dollie_setup_get_setup_step() ) {
 		return false;
@@ -53,8 +57,9 @@ function dollie_setup_is_setup() {
  * @return bool
  */
 function dollie_setup_is_upgraded() {
-	if ( dollie_setup_get_installed_revision_date() && ( dollie_setup_get_current_revision_date() > dollie_setup_get_installed_revision_date() ) )
+	if ( dollie_setup_get_installed_revision_date() && ( dollie_setup_get_current_revision_date() > dollie_setup_get_installed_revision_date() ) ) {
 		return true;
+	}
 
 	return false;
 }
@@ -130,9 +135,9 @@ function dollie_setup_version() {
 	 *
 	 * @return string The DOLLIE_SETUP version
 	 */
-	function dollie_setup_get_version() {
-		return dollie_setup()->version;
-	}
+function dollie_setup_get_version() {
+	return dollie_setup()->version;
+}
 
 /**
  * Bumps the DOLLIE_SETUP revision date in the DB
@@ -162,33 +167,33 @@ function dollie_setup_get_setup_step() {
 	if ( ! dollie_setup_get_current_package_id() ) {
 		return 'no-package';
 
-	// Plugin updates available.
-	} elseif ( CBox_Admin_Plugins::get_upgrades( 'active' ) ) {
+		// Plugin updates available.
+	} elseif ( Dollie_Setup_Admin_Plugins::get_upgrades( 'active' ) ) {
 		return 'plugin-update';
 
-	// Theme update available.
+		// Theme update available.
 	} elseif ( dollie_setup_get_theme_to_update() ) {
 		return 'theme-update';
 
-	// Haven't installed before.
+		// Haven't installed before.
 	} else {
 		// Get required plugins.
-		$required = CBox_Admin_Plugins::organize_plugins_by_state( CBox_Plugins::get_plugins( 'required' ) );
+		$required = Dollie_Setup_Admin_Plugins::organize_plugins_by_state( Dollie_Setup_Plugins::get_plugins( 'required' ) );
 		unset( $required['deactivate'] );
 
 		// Check to see if required plugins are needed.
 		if ( ! empty( $required ) ) {
 			$step = 'required-plugins';
 
-		// Recommended plugins.
+			// Recommended plugins.
 		} elseif ( ! dollie_setup_get_installed_revision_date() ) {
-			$recommended = CBox_Admin_Plugins::organize_plugins_by_state( CBox_Plugins::get_plugins( 'recommended' ) );
+			$recommended = Dollie_Setup_Admin_Plugins::organize_plugins_by_state( Dollie_Setup_Plugins::get_plugins( 'recommended' ) );
 			unset( $recommended['deactivate'] );
 
 			if ( ! empty( $recommended ) ) {
 				$step = 'recommended-plugins';
 
-			// Theme install.
+				// Theme install.
 			} elseif ( dollie_setup_get_theme_prop( 'download_url' ) ) {
 				$step = 'theme-prompt';
 			}
@@ -264,18 +269,20 @@ function dollie_setup_is_theme_bp_compatible() {
 	global $bp;
 
 	// buddypress isn't installed, so stop!
-	if ( empty( $bp ) )
+	if ( empty( $bp ) ) {
 		return false;
+	}
 
 	// if we're on BP 1.7, we don't need to worry about theme compatibility
-	if ( class_exists( 'BP_Theme_Compat' ) )
+	if ( class_exists( 'BP_Theme_Compat' ) ) {
 		return true;
+	}
 
 	// If the theme supports 'buddypress', we're good!
 	if ( current_theme_supports( 'buddypress' ) ) {
 		return true;
 
-	// If the theme doesn't support BP, do some additional checks
+		// If the theme doesn't support BP, do some additional checks
 	} else {
 		// Bail if theme is a derivative of bp-default
 		if ( in_array( 'bp-default', array( get_template(), get_stylesheet() ) ) ) {
@@ -346,7 +353,7 @@ function dollie_setup_locate_template( $template_names, $package_id = '', $load 
  *                           package if available.
  */
 function dollie_setup_get_template_part( $slug, $package_id = '' ) {
-	$templates = array();
+	$templates   = array();
 	$templates[] = "{$slug}.php";
 
 	/**
@@ -417,13 +424,14 @@ function dollie_setup_welcome_panel_classes() {
  * @since 0.3
  *
  * @param array $args Request args.
- * @param str $url The URL we want to download.
+ * @param str   $url The URL we want to download.
  * @return array Request args.
  */
 function dollie_setup_disable_ssl_verification( $args, $url ) {
 	// disable SSL verification for Github links
-	if ( strpos( $url, 'api.getdollie.com' ) !== false )
+	if ( strpos( $url, 'api.getdollie.com' ) !== false ) {
 		$args['sslverify'] = false;
+	}
 
 	return $args;
 }
@@ -493,7 +501,7 @@ function dollie_setup_rename_github_folder( $source, $remote_source, $obj, $hook
 		// if so, we need to strip further back
 		if ( is_numeric( $previous ) ) {
 			$from_back = strlen( $source ) - $pos + 1;
-			$pos = strrpos( $source, '-', -$from_back );
+			$pos       = strrpos( $source, '-', -$from_back );
 		}
 
 		// get rid of branch name in github directory
@@ -507,7 +515,7 @@ function dollie_setup_rename_github_folder( $source, $remote_source, $obj, $hook
 		if ( $rename === false ) {
 			return $source;
 
-		// if rename was successful, return the new location
+			// if rename was successful, return the new location
 		} else {
 			return $new_location;
 		}
@@ -521,7 +529,7 @@ function dollie_setup_rename_github_folder( $source, $remote_source, $obj, $hook
 	$class_name = get_class( $obj );
 
 	switch ( $class_name ) {
-		case 'CBox_Theme_Installer' :
+		case 'Dollie_Setup_Theme_Installer':
 			// If download url is not from GitHub, stop now!
 			if ( ! empty( $obj->options['url'] ) && false === strpos( $obj->options['url'], 'api.getdollie.com' ) ) {
 				return $source;
@@ -531,7 +539,7 @@ function dollie_setup_rename_github_folder( $source, $remote_source, $obj, $hook
 
 			break;
 
-		case 'CBox_Plugin_Upgrader' :
+		case 'Dollie_Setup_Plugin_Upgrader':
 			// If download url is not from GitHub, stop now!
 			if ( false === strpos( $obj->skin->options['url'], 'api.getdollie.com' ) ) {
 				return $source;
@@ -541,7 +549,7 @@ function dollie_setup_rename_github_folder( $source, $remote_source, $obj, $hook
 
 			break;
 
-		default :
+		default:
 			// Not a DOLLIE_SETUP install? return the regular $source now!
 			return $source;
 

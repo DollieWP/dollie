@@ -10,14 +10,14 @@
 /**
  * The "agency" DOLLIE_SETUP package.
  *
- * For plugin manifest, see {@link CBox_Plugins_Agency}.
- * For admin settings page, see {@link CBox_Settings_Agency}.
+ * For plugin manifest, see {@link Dollie_Setup_Plugins_Agency}.
+ * For admin settings page, see {@link Dollie_Setup_Settings_Agency}.
  *
  * @todo Name subject to change.
  *
  * @since 1.1.0
  */
-class CBox_Package_Agency extends CBox_Package {
+class Dollie_Setup_Package_Agency extends Dollie_Setup_Package {
 	/**
 	 * @var string Display name for our package.
 	 */
@@ -37,7 +37,7 @@ class CBox_Package_Agency extends CBox_Package {
 		return array(
 			'icon_url'          => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup_icon-2x.png' ),
 			'settings_key'      => '_dollie_setup_admin_settings',
-			'documentation_url' => 'http://commonsinabox.org/dollie_setup-agency-overview/?modal=1'
+			'documentation_url' => 'http://commonsinabox.org/dollie_setup-agency-overview/?modal=1',
 		);
 	}
 
@@ -64,18 +64,21 @@ class CBox_Package_Agency extends CBox_Package {
 	 */
 	protected function custom_init() {
 		/**
-	         * Trigger Infinity's activation hook
-	         *
+			 * Trigger Infinity's activation hook
+			 *
 		 * Infinity, and therefore dollie_setup-theme, runs certain setup routines at
-	         * 'infinity_dashboard_activated'. We need to run this hook just after DOLLIE_SETUP
-	         * activates a theme, so we do that here.
-	         */
-		add_action( 'dollie_setup_agency_theme_activated', function() {
-			if ( ! dollie_setup_get_installed_revision_date() ) {
-				remove_action( 'infinity_dashboard_activated', 'infinity_dashboard_activated_redirect', 99 );
-			}
+			 * 'infinity_dashboard_activated'. We need to run this hook just after DOLLIE_SETUP
+			 * activates a theme, so we do that here.
+			 */
+		add_action(
+			'dollie_setup_agency_theme_activated',
+			function() {
+				if ( ! dollie_setup_get_installed_revision_date() ) {
+					remove_action( 'infinity_dashboard_activated', 'infinity_dashboard_activated_redirect', 99 );
+				}
 
-			do_action( 'infinity_dashboard_activated' );
-		} );
+				do_action( 'infinity_dashboard_activated' );
+			}
+		);
 	}
 }

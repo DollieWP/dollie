@@ -2,7 +2,7 @@
 /**
  * Plugins code for the admin area.
  *
- * @since 1.1.0 Admin code split from {@link CBox_Plugins}
+ * @since 1.1.0 Admin code split from {@link Dollie_Setup_Plugins}
  *
  * @package Dollie_Setup
  */
@@ -12,7 +12,7 @@
  *
  * @since 1.1.0
  */
-class CBox_Admin_Plugins {
+class Dollie_Setup_Admin_Plugins {
 	public static function init() {
 		return new self();
 	}
@@ -24,18 +24,18 @@ class CBox_Admin_Plugins {
 	 */
 	protected function __construct() {
 		// load PD on admin menu hook.
-		add_action( 'dollie_setup_admin_menu',                       array( 'Plugin_Dependencies', 'init' ), 0 );
+		add_action( 'dollie_setup_admin_menu', array( 'Plugin_Dependencies', 'init' ), 0 );
 
 		// setup the DOLLIE_SETUP plugin menu
-		add_action( 'dollie_setup_admin_menu',                       array( $this, 'setup_plugins_page' ) );
+		add_action( 'dollie_setup_admin_menu', array( $this, 'setup_plugins_page' ) );
 
 		// filter PD's dependency list
-		add_filter( 'scr_plugin_dependency_before_parse',    array( $this, 'filter_pd_dependencies' ) );
+		add_filter( 'scr_plugin_dependency_before_parse', array( $this, 'filter_pd_dependencies' ) );
 
 		// prevent DOLLIE_SETUP plugins from being seen in the regular Plugins table and from WP updates
 		if ( ! $this->is_override() ) {
 			// exclude DOLLIE_SETUP plugins from the "Plugins" list table
-			//add_filter( 'all_plugins',                   array( $this, 'exclude_dollie_setup_plugins' ) );
+			// add_filter( 'all_plugins',                   array( $this, 'exclude_dollie_setup_plugins' ) );
 
 			// remove DOLLIE_SETUP plugins from WP's update plugins routine
 			add_filter( 'site_transient_update_plugins', array( $this, 'remove_dollie_setup_plugins_from_updates' ) );
@@ -51,7 +51,7 @@ class CBox_Admin_Plugins {
 	 *
 	 * To do this, add the following code snippet to wp-config.php
 	 *
-	 * 	define( 'DOLLIE_SETUP_OVERRIDE_PLUGINS', true );
+	 *  define( 'DOLLIE_SETUP_OVERRIDE_PLUGINS', true );
 	 *
 	 * @return bool
 	 */
@@ -67,12 +67,12 @@ class CBox_Admin_Plugins {
 	public function filter_pd_dependencies( $plugins ) {
 		$plugins_by_name = Plugin_Dependencies::$plugins_by_name;
 
-		foreach( CBox_Plugins::get_plugins() as $plugin => $data ) {
+		foreach ( Dollie_Setup_Plugins::get_plugins() as $plugin => $data ) {
 			// try and see if our required plugin is installed
 			$loader = ! empty( $plugins_by_name[ $plugin ] ) ? $plugins_by_name[ $plugin ] : false;
 
 			// if plugin is installed and if the plugin doesn't already have predefined dependencies, add our custom deps!
-			if( ! empty( $loader ) && ! empty( $data['depends'] ) && empty( $plugins[ $loader ]['Depends'] ) ) {
+			if ( ! empty( $loader ) && ! empty( $data['depends'] ) && empty( $plugins[ $loader ]['Depends'] ) ) {
 				$plugins[ $loader ]['Depends'] = $data['depends'];
 			}
 		}
@@ -90,22 +90,22 @@ class CBox_Admin_Plugins {
 			return $plugins;
 		}
 
-		$plugins_by_name = Plugin_Dependencies::$plugins_by_name;
-		$dollie_setup_plugins    = CBox_Plugins::get_plugins();
+		$plugins_by_name      = Plugin_Dependencies::$plugins_by_name;
+		$dollie_setup_plugins = Dollie_Setup_Plugins::get_plugins();
 
 		if ( is_multisite() ) {
-			$dependency = CBox_Plugins::get_plugins( 'dependency' );
+			$dependency = Dollie_Setup_Plugins::get_plugins( 'dependency' );
 			if ( ! empty( $dependency ) ) {
 				$dollie_setup_plugins = $dollie_setup_plugins + $dependency;
 			}
 		}
 
-		foreach( $dollie_setup_plugins as $plugin => $data ) {
+		foreach ( $dollie_setup_plugins as $plugin => $data ) {
 			// try and see if our required plugin is installed
 			$loader = ! empty( $plugins_by_name[ $plugin ] ) ? $plugins_by_name[ $plugin ] : false;
 
 			// if our DOLLIE_SETUP plugin is found, get rid of it
-			if( ! empty( $loader ) && ! empty( $plugins[ $loader ] ) ) {
+			if ( ! empty( $loader ) && ! empty( $plugins[ $loader ] ) ) {
 				// We want to show the plugin, so bail.
 				if ( false === $data['hide'] ) {
 					continue;
@@ -125,7 +125,7 @@ class CBox_Admin_Plugins {
 	public function remove_dollie_setup_plugins_from_updates( $plugins ) {
 		$i = 0;
 
-		foreach ( CBox_Plugins::get_plugins() as $plugin => $data ) {
+		foreach ( Dollie_Setup_Plugins::get_plugins() as $plugin => $data ) {
 			// get the plugin loader file
 			$plugin_loader = Plugin_Dependencies::get_pluginloader_by_name( $plugin );
 
@@ -159,9 +159,9 @@ class CBox_Admin_Plugins {
 			$loader = Plugin_Dependencies::get_pluginloader_by_name( $plugin );
 
 			// get the required plugin's state
-			$state  = self::get_plugin_state( $loader, $data );
+			$state = self::get_plugin_state( $loader, $data );
 
-			$organized_plugins[$state][] = esc_attr( $plugin );
+			$organized_plugins[ $state ][] = esc_attr( $plugin );
 		}
 
 		return $organized_plugins;
@@ -183,8 +183,8 @@ class CBox_Admin_Plugins {
 
 		// BuddyPress complicates things due to a different root blog ID.
 		if ( ! dollie_setup_is_main_site() ) {
-			$dollie_setup_plugins = CBox_Plugins::get_plugins();
-			$plugin_data  = get_plugin_data( WP_PLUGIN_DIR . '/' . $loader );
+			$dollie_setup_plugins = Dollie_Setup_Plugins::get_plugins();
+			$plugin_data          = get_plugin_data( WP_PLUGIN_DIR . '/' . $loader );
 
 			// 'network' flag is false, so switch to root blog.
 			if ( false === $dollie_setup_plugins[ $plugin_data['Name'] ]['network'] ) {
@@ -192,7 +192,7 @@ class CBox_Admin_Plugins {
 				$is_active = is_plugin_active( $loader );
 				restore_current_blog();
 
-			// 'network' flag is true.
+				// 'network' flag is true.
 			} else {
 				$is_active = is_plugin_active_for_network( $loader );
 			}
@@ -211,8 +211,8 @@ class CBox_Admin_Plugins {
 	 *
 	 * @since 0.2
 	 *
-	 * @param str $loader The required plugin's loader filename
- 	 * @param array $data The required plugin's data. See $this->register_required_plugins().
+	 * @param str   $loader The required plugin's loader filename
+	 * @param array $data The required plugin's data. See $this->register_required_plugins().
 	 */
 	public static function get_plugin_state( $loader, $data ) {
 		$state = false;
@@ -220,19 +220,21 @@ class CBox_Admin_Plugins {
 		// plugin exists
 		if ( $loader ) {
 			// if plugin is active, set state to 'deactivate'
-			if ( self::is_plugin_active( $loader ) )
+			if ( self::is_plugin_active( $loader ) ) {
 				$state = 'deactivate';
-			else
+			} else {
 				$state = 'activate';
+			}
 
 			// a required version was passed
 			if ( ! empty( $data['version'] ) ) {
 				// get the current, installed plugin's version
-				$current_version = Plugin_Dependencies::$all_plugins[$loader]['Version'];
+				$current_version = Plugin_Dependencies::$all_plugins[ $loader ]['Version'];
 
 				// if current plugin is older than required plugin version, set state to 'upgrade'
-				if ( version_compare( $current_version, $data['version'] ) < 0  )
+				if ( version_compare( $current_version, $data['version'] ) < 0 ) {
 					$state = 'upgrade';
+				}
 			}
 		}
 		// plugin doesn't exist
@@ -252,10 +254,10 @@ class CBox_Admin_Plugins {
 	 * @return array of DOLLIE_SETUP plugin names that require upgrading
 	 */
 	public static function get_upgrades( $type = 'all' ) {
-		$dollie_setup_plugins = CBox_Plugins::get_plugins();
+		$dollie_setup_plugins = Dollie_Setup_Plugins::get_plugins();
 
 		// Make sure dependency plugins are checked as well.
-		$dependencies = CBox_Plugins::get_plugins( 'dependency' );
+		$dependencies = Dollie_Setup_Plugins::get_plugins( 'dependency' );
 		if ( ! empty( $dependencies ) ) {
 			foreach ( $dependencies as $plugin => $data ) {
 				// If plugin is already listed, skip.
@@ -271,18 +273,19 @@ class CBox_Admin_Plugins {
 		// Get all DOLLIE_SETUP plugins that require upgrades.
 		$upgrades = self::organize_plugins_by_state( $dollie_setup_plugins );
 
-		if ( empty( $upgrades['upgrade'] ) )
+		if ( empty( $upgrades['upgrade'] ) ) {
 			return false;
+		}
 
 		$upgrades = $upgrades['upgrade'];
 
 		switch ( $type ) {
-			case 'all' :
+			case 'all':
 				return $upgrades;
 
 				break;
 
-			case 'active' :
+			case 'active':
 				// get all active plugins
 				$active_plugins = array_flip( Plugin_Dependencies::$active_plugins );
 
@@ -293,12 +296,13 @@ class CBox_Admin_Plugins {
 					$loader = Plugin_Dependencies::get_pluginloader_by_name( $plugin );
 
 					// if the plugin is active, add it to our plugin array
-					if ( isset( $active_plugins[$loader] ) )
+					if ( isset( $active_plugins[ $loader ] ) ) {
 						$plugins[] = $plugin;
+					}
 				}
 
 				// Get install-only plugins as well.
-				$install_only_plugins = CBox_Plugins::get_plugins( 'install-only' );
+				$install_only_plugins = Dollie_Setup_Plugins::get_plugins( 'install-only' );
 				if ( ! empty( $install_only_plugins ) ) {
 					$install_only_plugins = array_intersect( $upgrades, array_keys( $install_only_plugins ) );
 
@@ -307,8 +311,9 @@ class CBox_Admin_Plugins {
 					}
 				}
 
-				if ( empty( $plugins ) )
+				if ( empty( $plugins ) ) {
 					return false;
+				}
 
 				return $plugins;
 
@@ -326,13 +331,14 @@ class CBox_Admin_Plugins {
 	 */
 	public static function get_settings() {
 		// get all installed DOLLIE_SETUP plugins
-		$dollie_setup_plugins = CBox_Plugins::get_plugins();
+		$dollie_setup_plugins = Dollie_Setup_Plugins::get_plugins();
 
 		// get active DOLLIE_SETUP plugins
 		$active = self::organize_plugins_by_state( $dollie_setup_plugins );
 
-		if ( empty( $active ) )
+		if ( empty( $active ) ) {
 			return false;
+		}
 
 		$active = isset( $active['deactivate'] ) ? $active['deactivate'] : array();
 
@@ -340,27 +346,26 @@ class CBox_Admin_Plugins {
 
 		foreach ( $active as $plugin ) {
 			// network DOLLIE_SETUP install and DOLLIE_SETUP plugin has a network settings page
-			if ( is_network_admin() && ! empty( $dollie_setup_plugins[$plugin]['network_settings'] ) ) {
+			if ( is_network_admin() && ! empty( $dollie_setup_plugins[ $plugin ]['network_settings'] ) ) {
 				// if network plugin's settings resides on the root blog,
 				// then make sure we use the root blog's domain to generate the admin settings URL
-				if ( $dollie_setup_plugins[$plugin]['network_settings'] == 'root-blog-only' ) {
+				if ( $dollie_setup_plugins[ $plugin ]['network_settings'] == 'root-blog-only' ) {
 					// sanity check!
 					// make sure BP is active so we can use bp_core_get_root_domain()
 					if ( in_array( 'BuddyPress', $active ) ) {
-						$settings[$plugin] = bp_core_get_root_domain() . '/wp-admin/' . $dollie_setup_plugins[$plugin]['admin_settings'];
+						$settings[ $plugin ] = bp_core_get_root_domain() . '/wp-admin/' . $dollie_setup_plugins[ $plugin ]['admin_settings'];
 					}
 				}
 				// if the network plugin resides in the network area, use network_admin_url()!
 				else {
-					$settings[$plugin] = network_admin_url( $dollie_setup_plugins[$plugin]['network_settings'] );
+					$settings[ $plugin ] = network_admin_url( $dollie_setup_plugins[ $plugin ]['network_settings'] );
 				}
 			}
 
 			// single-site DOLLIE_SETUP install and DOLLIE_SETUP plugin has an admin settings page
-			elseif( ! is_network_admin() && ! empty( $dollie_setup_plugins[$plugin]['admin_settings'] ) ) {
-				$settings[$plugin] = admin_url( $dollie_setup_plugins[$plugin]['admin_settings'] );
+			elseif ( ! is_network_admin() && ! empty( $dollie_setup_plugins[ $plugin ]['admin_settings'] ) ) {
+				$settings[ $plugin ] = admin_url( $dollie_setup_plugins[ $plugin ]['admin_settings'] );
 			}
-
 		}
 
 		return $settings;
@@ -389,10 +394,10 @@ class CBox_Admin_Plugins {
 			);
 
 			// load Plugin Dependencies plugin on the DOLLIE_SETUP plugins page
-			add_action( "load-{$plugin_page}",       array( 'Plugin_Dependencies', 'init' ) );
+			add_action( "load-{$plugin_page}", array( 'Plugin_Dependencies', 'init' ) );
 
 			// validate any settings changes submitted from the DOLLIE_SETUP plugins page
-			add_action( "load-{$plugin_page}",       array( $this, 'validate_dollie_setup_dashboard' ) );
+			add_action( "load-{$plugin_page}", array( $this, 'validate_dollie_setup_dashboard' ) );
 
 		}
 	}
@@ -421,7 +426,7 @@ class CBox_Admin_Plugins {
 		if ( ! empty( $_REQUEST['dollie_setup-action'] ) && ! empty( $_REQUEST['plugin'] ) ) {
 			$plugin = $_REQUEST['plugin'];
 
-			if ( ! current_user_can('activate_plugins') ) {
+			if ( ! current_user_can( 'activate_plugins' ) ) {
 				wp_die( __( 'You do not have sufficient permissions to deactivate plugins for this site.' ) );
 			}
 
@@ -434,22 +439,22 @@ class CBox_Admin_Plugins {
 			$url = self_admin_url( 'admin.php?page=dollie_setup-plugins' );
 			$url = ! empty( $type ) ? add_query_arg( 'type', $type, $url ) : $url;
 
-			switch( $_REQUEST['dollie_setup-action'] ) {
-				case 'deactivate' :
-					check_admin_referer('deactivate-plugin_' . $plugin);
+			switch ( $_REQUEST['dollie_setup-action'] ) {
+				case 'deactivate':
+					check_admin_referer( 'deactivate-plugin_' . $plugin );
 
 					// if plugin is already deactivated, redirect to DOLLIE_SETUP dashboard and stop!
 					if ( ! self::is_plugin_active( $plugin ) ) {
 						wp_safe_redirect( $url );
 						exit;
 
-					// start deactivating!
+						// start deactivating!
 					} else {
 						// Deactivate dependent plugins.
-						$deactivated = call_user_func( array( 'Plugin_Dependencies', "deactivate_cascade" ), (array) $plugin );
+						$deactivated = call_user_func( array( 'Plugin_Dependencies', 'deactivate_cascade' ), (array) $plugin );
 
 						// Save markers.
-						set_site_transient( "dollie_setup_deactivate_cascade", $deactivated );
+						set_site_transient( 'dollie_setup_deactivate_cascade', $deactivated );
 
 						// Multisite
 						if ( is_multisite() ) {
@@ -475,15 +480,16 @@ class CBox_Admin_Plugins {
 								unset( $switched );
 							}
 
-						// Single site.
+							// Single site.
 						} else {
 							// Deactivate the main plugin in question.
 							deactivate_plugins( $plugin, false );
 
 						}
 
-						if ( ! is_network_admin() )
-							update_option('recently_activated', array($plugin => time()) + (array)get_option('recently_activated'));
+						if ( ! is_network_admin() ) {
+							update_option( 'recently_activated', array( $plugin => time() ) + (array) get_option( 'recently_activated' ) );
+						}
 
 						wp_safe_redirect( add_query_arg( 'deactivate', 'true', $url ) );
 						exit;
@@ -491,8 +497,8 @@ class CBox_Admin_Plugins {
 
 					break;
 
-				case 'network-deactivate' :
-					check_admin_referer('network-deactivate-plugin_' . $plugin);
+				case 'network-deactivate':
+					check_admin_referer( 'network-deactivate-plugin_' . $plugin );
 
 					if ( ! is_multisite() ) {
 						wp_safe_redirect( $url );
@@ -523,18 +529,18 @@ class CBox_Admin_Plugins {
 
 					break;
 
-				case 'uninstall' :
+				case 'uninstall':
 					check_admin_referer( 'bulk-plugins' );
 
 					$result = true;
-					if ( CBox_Plugins::is_plugin_type( $plugin, 'install-only' ) ) {
+					if ( Dollie_Setup_Plugins::is_plugin_type( $plugin, 'install-only' ) ) {
 						$loader = Plugin_Dependencies::get_pluginloader_by_name( $plugin );
 						$result = delete_plugins( (array) $loader );
 
 						if ( is_wp_error( $result ) ) {
 							$result = 0;
 
-						// If plugin was activated on the DOLLIE_SETUP site, refresh active plugins list.
+							// If plugin was activated on the DOLLIE_SETUP site, refresh active plugins list.
 						} elseif ( ! is_wp_error( $result ) && self::is_plugin_active( $loader ) ) {
 							// Switch to DOLLIE_SETUP main site ID, if necessary.
 							if ( ! dollie_setup_is_main_site() ) {
@@ -563,9 +569,12 @@ class CBox_Admin_Plugins {
 		if ( ! empty( $_REQUEST['deactivate'] ) ) {
 			// add an admin notice
 			$prefix = is_network_admin() ? 'network_' : '';
-			add_action( $prefix . 'admin_notices', function() {
-				echo '<div class="updated"><p>' . __( 'Plugin deactivated.', 'dollie-setup' ) . '</p></div>';
-			} );
+			add_action(
+				$prefix . 'admin_notices',
+				function() {
+					echo '<div class="updated"><p>' . __( 'Plugin deactivated.', 'dollie-setup' ) . '</p></div>';
+				}
+			);
 
 			// if PD deactivated any other dependent plugins, show admin notice here
 			// basically a copy-n-paste of Plugin_Dependencies::generate_dep_list()
@@ -573,15 +582,16 @@ class CBox_Admin_Plugins {
 			delete_site_transient( 'dollie_setup_deactivate_cascade' );
 
 			// if no other plugins were deactivated, stop now!
-			if ( empty( $deactivated ) )
+			if ( empty( $deactivated ) ) {
 				return;
+			}
 
 			$text = __( 'The following plugins have also been deactivated:', 'dollie-setup' );
 
 			// render each plugin as a list item
 			// not really a fan of the code below, but it's from Plugin Dependencies
 			$all_plugins = Plugin_Dependencies::$all_plugins;
-			$dep_list = '';
+			$dep_list    = '';
 			foreach ( $deactivated as $dep ) {
 				$plugin_ids = Plugin_Dependencies::get_providers( $dep );
 
@@ -591,7 +601,7 @@ class CBox_Admin_Plugins {
 					$list = array();
 					foreach ( $plugin_ids as $plugin_id ) {
 						$name = isset( $all_plugins[ $plugin_id ]['Name'] ) ? $all_plugins[ $plugin_id ]['Name'] : $plugin_id;
-						//$list[] = html( 'a', array( 'href' => '#' . sanitize_title( $name ) ), $name );
+						// $list[] = html( 'a', array( 'href' => '#' . sanitize_title( $name ) ), $name );
 						$list[] = $name;
 					}
 					$name = implode( ' or ', $list );
@@ -601,27 +611,38 @@ class CBox_Admin_Plugins {
 			}
 
 			// now add the admin notice for any other deactivated plugins by PD
-			add_action( $prefix . 'admin_notices', function() {
-				echo html( 'div', array( 'class' => 'updated' ),
-					html( 'p', '$text', html( 'ul', array( 'class' => 'dep-list' ), '$dep_list' ) )
-				);
-			} );
+			add_action(
+				$prefix . 'admin_notices',
+				function() {
+					echo html(
+						'div',
+						array( 'class' => 'updated' ),
+						html( 'p', '$text', html( 'ul', array( 'class' => 'dep-list' ), '$dep_list' ) )
+					);
+				}
+			);
 		}
 
 		// Uninstall notice.
 		if ( ! empty( $_REQUEST['uninstall'] ) ) {
 			$prefix = is_network_admin() ? 'network_' : '';
-			add_action( $prefix . 'admin_notices', function() {
-				echo '<div class="updated"><p>' . __( 'Plugin uninstalled.', 'dollie-setup' ) . '</p></div>';
-			} );
+			add_action(
+				$prefix . 'admin_notices',
+				function() {
+					echo '<div class="updated"><p>' . __( 'Plugin uninstalled.', 'dollie-setup' ) . '</p></div>';
+				}
+			);
 		}
 
 		// Network-deactivate notice.
 		if ( ! empty( $_REQUEST['network-deactivate'] ) ) {
 			$prefix = is_network_admin() ? 'network_' : '';
-			add_action( $prefix . 'admin_notices', function() {
-				echo '<div class="updated"><p>' . __( 'Plugin network-deactivated.', 'dollie-setup' ) . '</p></div>';
-			} );
+			add_action(
+				$prefix . 'admin_notices',
+				function() {
+					echo '<div class="updated"><p>' . __( 'Plugin network-deactivated.', 'dollie-setup' ) . '</p></div>';
+				}
+			);
 		}
 	}
 
@@ -631,7 +652,7 @@ class CBox_Admin_Plugins {
 	 * @since 0.3
 	 */
 	public function admin_page() {
-		dollie_setup_get_template_part('wrapper-header');
+		dollie_setup_get_template_part( 'wrapper-header' );
 		// show this page during update
 		$is_update = isset( dollie_setup()->update ) ? dollie_setup()->update : false;
 		if ( $is_update ) {
@@ -647,22 +668,22 @@ class CBox_Admin_Plugins {
 			$plugin_types = array(
 				'required' => array(
 					'label'      => dollie_setup_get_string( 'tab_plugin_required' ),
-					'submit_btn' => __( 'Update', 'dollie-setup' )
-				)
+					'submit_btn' => __( 'Update', 'dollie-setup' ),
+				),
 			);
-			if ( CBox_Plugins::get_plugins( 'optional' ) ) {
+			if ( Dollie_Setup_Plugins::get_plugins( 'optional' ) ) {
 				$plugin_types['optional'] = array(
 					'label'      => dollie_setup_get_string( 'tab_plugin_optional' ),
-					'submit_btn' => __( 'Activate', 'dollie-setup' )
+					'submit_btn' => __( 'Activate', 'dollie-setup' ),
 				);
 			}
-			if ( CBox_Plugins::get_plugins( 'install-only' ) ) {
+			if ( Dollie_Setup_Plugins::get_plugins( 'install-only' ) ) {
 				$plugin_types['install-only'] = array(
 					'label'      => dollie_setup_get_string( 'tab_plugin_install' ),
-					'submit_btn' => __( 'Update', 'dollie-setup' )
+					'submit_btn' => __( 'Update', 'dollie-setup' ),
 				);
 			}
-	?>
+			?>
 			<div class="wrap dollie_setup-admin-wrap">
 				<h2><?php printf( __( '%1$s Plugins: %2$s', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ), $plugin_types[ '' === $type ? 'required' : $type ]['label'] ); ?></h2>
 
@@ -675,18 +696,28 @@ class CBox_Admin_Plugins {
 				<div class="dollie_setup-admin-content dollie_setup-plugins-content">
 
 				<form method="post" action="<?php echo $url; ?>">
-					<?php if ( '' === $type ) { $type = 'required'; } ?>
+					<?php
+					if ( '' === $type ) {
+						$type = 'required'; }
+					?>
 					<?php if ( ! empty( $plugin_types[ $type ] ) ) : ?>
 
 						<div id="<?php echo esc_attr( $type ); ?>" class="dollie_setup-plugins-section">
-							<h2><?php echo esc_html( $plugin_types[ $type ]['label']  ); ?></h2>
+							<h2><?php echo esc_html( $plugin_types[ $type ]['label'] ); ?></h2>
 
 							<?php dollie_setup_get_template_part( "plugins-{$type}-header" ); ?>
 
-							<?php self::render_plugin_table( array( 'type' => $type, 'submit_btn_text' => $plugin_types[ $type ]['submit_btn'] ) ); ?>
+							<?php
+							self::render_plugin_table(
+								array(
+									'type'            => $type,
+									'submit_btn_text' => $plugin_types[ $type ]['submit_btn'],
+								)
+							);
+							?>
 						</div>
 
-						<?php if ( 'required' === $type && CBox_Plugins::get_plugins( 'recommended' ) ) : ?>
+						<?php if ( 'required' === $type && Dollie_Setup_Plugins::get_plugins( 'recommended' ) ) : ?>
 
 							<div id="recommended" class="dollie_setup-plugins-section">
 								<?php dollie_setup_get_template_part( 'plugins-recommended-header' ); ?>
@@ -721,7 +752,7 @@ jQuery('a[data-uninstall="1"]').confirm({
 	useBootstrap: false,
 	bgOpacity: 0.7,
 	buttons: {
-	        no: {
+			no: {
 			text: '<?php esc_attr_e( 'No', 'dollie-setup' ); ?>',
 			action: function() {}
 		},
@@ -745,8 +776,8 @@ jQuery('a[data-uninstall="1"]').confirm({
 				</div>
 
 			</div>
-	<?php
-			dollie_setup_get_template_part('wrapper-footer');
+			<?php
+			dollie_setup_get_template_part( 'wrapper-footer' );
 		}
 	}
 
@@ -759,21 +790,23 @@ jQuery('a[data-uninstall="1"]').confirm({
 
 		// if we're not in the middle of an update, stop now!
 		$is_update = isset( dollie_setup()->update ) ? dollie_setup()->update : false;
-		if ( ! $is_update )
+		if ( ! $is_update ) {
 			return;
+		}
 
 		$plugins = $_REQUEST['dollie_setup_plugins'];
 
 		// include the DOLLIE_SETUP Plugin Upgrade and Install API
-		if ( ! class_exists( 'CBox_Plugin_Upgrader' ) )
-			require( DOLLIE_SETUP_PLUGIN_DIR . 'admin/plugin-install.php' );
+		if ( ! class_exists( 'Dollie_Setup_Plugin_Upgrader' ) ) {
+			require DOLLIE_SETUP_PLUGIN_DIR . 'admin/plugin-install.php';
+		}
 
 		// some HTML markup!
 		echo '<div class="wrap">';
-		echo '<h2>' . esc_html__('Update DOLLIE_SETUP', 'dollie-setup' ) . '</h2>';
+		echo '<h2>' . esc_html__( 'Update DOLLIE_SETUP', 'dollie-setup' ) . '</h2>';
 
 		// start the upgrade!
-		$installer = new CBox_Updater( $plugins );
+		$installer = new Dollie_Setup_Updater( $plugins );
 
 		echo '</div>';
 	}
@@ -784,11 +817,11 @@ jQuery('a[data-uninstall="1"]').confirm({
 	 * @since 0.3
 	 */
 	public function inline_css() {
-	?>
+		?>
 		<style type="text/css">
 			.dep-list li {list-style:disc; margin-left:1.5em;}
 		</style>
-	<?php
+		<?php
 	}
 
 
@@ -817,14 +850,14 @@ jQuery('a[data-uninstall="1"]').confirm({
 			'type'            => 'required', // 'required' (default), 'recommended', 'optional', 'dependency'
 			'omit_activated'  => false,      // if set to true, this omits activated plugins from showing up in the plugin table
 			'check_all'       => false,      // if set to true, this will mark all the checkboxes in the plugin table as checked
-			'submit_btn_text' => __( 'Update', 'dollie-setup' )
+			'submit_btn_text' => __( 'Update', 'dollie-setup' ),
 		);
 
 		$r = wp_parse_args( $args, $defaults );
 
 		// get unfulfilled requirements for all plugins
-		//$requirements = Plugin_Dependencies::get_requirements();
-	?>
+		// $requirements = Plugin_Dependencies::get_requirements();
+		?>
 
 		<table class="fixed widefat plugins">
 			<thead>
@@ -846,23 +879,24 @@ jQuery('a[data-uninstall="1"]').confirm({
 			<tbody>
 
 			<?php
-				foreach ( CBox_Plugins::get_plugins( $r['type'] ) as $plugin => $data ) :
-					// attempt to get the plugin loader file
-					$loader = Plugin_Dependencies::get_pluginloader_by_name( $plugin );
-					$settings = self::get_settings();
+			foreach ( Dollie_Setup_Plugins::get_plugins( $r['type'] ) as $plugin => $data ) :
+				// attempt to get the plugin loader file
+				$loader   = Plugin_Dependencies::get_pluginloader_by_name( $plugin );
+				$settings = self::get_settings();
 
-					// get the required plugin's state
-					$state  = self::get_plugin_state( $loader, $data );
+				// get the required plugin's state
+				$state = self::get_plugin_state( $loader, $data );
 
-					if ( $r['omit_activated'] && $state == 'deactivate' )
-						continue;
+				if ( $r['omit_activated'] && $state == 'deactivate' ) {
+					continue;
+				}
 
-					$css_class = 'activate' == $state && CBox_Plugins::is_plugin_type( $plugin, 'install-only' ) ? 'active' : '';
-					$css_class = '' === $css_class ? $state == 'deactivate' ? 'active' : 'action-required' : $css_class;
-			?>
+				$css_class = 'activate' == $state && Dollie_Setup_Plugins::is_plugin_type( $plugin, 'install-only' ) ? 'active' : '';
+				$css_class = '' === $css_class ? $state == 'deactivate' ? 'active' : 'action-required' : $css_class;
+				?>
 				<tr id="<?php echo sanitize_title( $plugin ); ?>" class="dollie_setup-plugin-row-<?php echo $css_class; ?>">
 					<th scope='row' class='check-column'>
-						<?php if ( 'activate' == $state && CBox_Plugins::is_plugin_type( $plugin, 'install-only' ) ) : ?>
+					<?php if ( 'activate' == $state && Dollie_Setup_Plugins::is_plugin_type( $plugin, 'install-only' ) ) : ?>
 							<img src="<?php echo admin_url( 'images/yes.png' ); ?>" alt="" style="margin-left:7px;" /><span class="screen-reader-text"><?php esc_attr_e( 'Plugin is already installed', 'dollie-setup' ); ?></span>
 
 						<?php elseif ( 'deactivate' !== $state ) : ?>
@@ -875,66 +909,66 @@ jQuery('a[data-uninstall="1"]').confirm({
 					</th>
 
 					<td class="plugin-title">
-						<?php if ( 'action-required' === $css_class ) : ?>
+					<?php if ( 'action-required' === $css_class ) : ?>
 							<label for="dollie_setup_plugins_<?php echo sanitize_title( $plugin ); ?>">
 						<?php endif; ?>
 
 						<strong><?php echo $data['dollie_setup_name']; ?></strong>
 
-						<?php if ( 'action-required' === $css_class ) : ?>
+					<?php if ( 'action-required' === $css_class ) : ?>
 							</label>
 						<?php endif; ?>
 
 						<!-- start - plugin row links -->
-						<?php
-							$plugin_row_links = array();
+					<?php
+						$plugin_row_links = array();
 
-							// settings link
-							if ( ! empty( $settings[ $plugin ] ) ) {
-								$plugin_row_links[] = sprintf(
-									'<a title="%s" href="%s">%s</a>',
-									__( "Click here to view this plugin's settings page", 'dollie-setup' ),
-									$settings[ $plugin ],
-									__( "Settings", 'dollie-setup' )
-								);
-							}
+						// settings link
+					if ( ! empty( $settings[ $plugin ] ) ) {
+						$plugin_row_links[] = sprintf(
+							'<a title="%s" href="%s">%s</a>',
+							__( "Click here to view this plugin's settings page", 'dollie-setup' ),
+							$settings[ $plugin ],
+							__( 'Settings', 'dollie-setup' )
+						);
+					}
 
-							// info link
-							if ( ! empty( $data['documentation_url'] ) && $state != 'upgrade' ) {
-								$plugin_row_links[] = sprintf(
-									'<a title="%s" href="%s" target="_blank">%s</a>',
-									__( "Click here for documentation on this plugin, from commonsinabox.org", 'dollie-setup' ),
-									esc_url( $data['documentation_url'] ),
-									__( "Info", 'dollie-setup' )
-								);
-							}
+						// info link
+					if ( ! empty( $data['documentation_url'] ) && $state != 'upgrade' ) {
+						$plugin_row_links[] = sprintf(
+							'<a title="%s" href="%s" target="_blank">%s</a>',
+							__( 'Click here for documentation on this plugin, from commonsinabox.org', 'dollie-setup' ),
+							esc_url( $data['documentation_url'] ),
+							__( 'Info', 'dollie-setup' )
+						);
+					}
 
-							// deactivate link - only show for non-required and non-install plugins.
-							if ( 'deactivate' === $state && 'required' !== $r['type'] && 'install-only' !== $r['type'] ) {
-								$plugin_row_links[] = sprintf(
-									'<a title="%s" href="%s">%s</a>',
-									__( "Deactivate this plugin.", 'dollie-setup' ),
-									self::deactivate_link( $loader ),
-									__( "Deactivate", 'dollie-setup' )
-								);
-							}
+						// deactivate link - only show for non-required and non-install plugins.
+					if ( 'deactivate' === $state && 'required' !== $r['type'] && 'install-only' !== $r['type'] ) {
+						$plugin_row_links[] = sprintf(
+							'<a title="%s" href="%s">%s</a>',
+							__( 'Deactivate this plugin.', 'dollie-setup' ),
+							self::deactivate_link( $loader ),
+							__( 'Deactivate', 'dollie-setup' )
+						);
+					}
 
-							// Uninstall - only for install-only plugins.
-							if ( 'install-only' == $r['type'] && 'install' !== $state ) {
-								$plugin_row_links[] = sprintf(
-									'<a data-uninstall="1" title="%s" href="%s">%s</a>',
-									sprintf( __( "Uninstall %s", 'dollie-setup' ), $plugin ),
-									self_admin_url( 'admin.php?page=dollie_setup-plugins&amp;dollie_setup-action=uninstall&amp;plugin=' . urlencode( $plugin ) . '&amp;_wpnonce=' . wp_create_nonce( 'bulk-plugins' ) ),
-									__( "Uninstall", 'dollie-setup' )
-								);
-							}
-						?>
+						// Uninstall - only for install-only plugins.
+					if ( 'install-only' == $r['type'] && 'install' !== $state ) {
+						$plugin_row_links[] = sprintf(
+							'<a data-uninstall="1" title="%s" href="%s">%s</a>',
+							sprintf( __( 'Uninstall %s', 'dollie-setup' ), $plugin ),
+							self_admin_url( 'admin.php?page=dollie_setup-plugins&amp;dollie_setup-action=uninstall&amp;plugin=' . urlencode( $plugin ) . '&amp;_wpnonce=' . wp_create_nonce( 'bulk-plugins' ) ),
+							__( 'Uninstall', 'dollie-setup' )
+						);
+					}
+					?>
 
 						<div class="row-actions-visible">
 							<p><?php echo implode( ' | ', $plugin_row_links ); ?></p>
 
-							<?php /* upgrade notice */ ?>
-							<?php if ( $state == 'upgrade' ) : ?>
+						<?php /* upgrade notice */ ?>
+						<?php if ( $state == 'upgrade' ) : ?>
 								<div class="plugin-card"><p class="update-now" title="<?php _e( "Select the checkbox and click on 'Update' to upgrade this plugin.", 'dollie-setup' ); ?>"><?php _e( 'Update available.', 'dollie-setup' ); ?></p></div>
 							<?php endif; ?>
 						</div>
@@ -945,34 +979,35 @@ jQuery('a[data-uninstall="1"]').confirm({
 						<div class="plugin-description">
 							<p><?php echo $data['dollie_setup_description']; ?></p>
 
-							<?php
-								// parse dependencies if available
-								// @todo this needs to reference PD's list instead of our internal one...
-								if( $data['depends'] ) :
-									$deps = array();
+						<?php
+							// parse dependencies if available
+							// @todo this needs to reference PD's list instead of our internal one...
+						if ( $data['depends'] ) :
+							$deps = array();
 
-									echo '<p>';
-									_e( 'Requires: ', 'dollie-setup' );
+							echo '<p>';
+							_e( 'Requires: ', 'dollie-setup' );
 
-									foreach( Plugin_Dependencies::parse_field( $data['depends'] ) as $dependency ) :
-										// a dependent name can contain a version number, so let's get just the name
-										$plugin_name = rtrim( strtok( $dependency, '(' ) );
+							foreach ( Plugin_Dependencies::parse_field( $data['depends'] ) as $dependency ) :
+								// a dependent name can contain a version number, so let's get just the name
+								$plugin_name = rtrim( strtok( $dependency, '(' ) );
 
-										$dep_str    = $dependency;
-										$dep_loader = Plugin_Dependencies::get_pluginloader_by_name( $plugin_name );
+								$dep_str    = $dependency;
+								$dep_loader = Plugin_Dependencies::get_pluginloader_by_name( $plugin_name );
 
-										if ( $dep_loader && self::is_plugin_active( $dep_loader ) )
-											$dep_str .= ' <span class="enabled">' . __( '(enabled)', 'dollie-setup' ) . '</span>';
-										elseif( $dep_loader )
-											$dep_str .= ' <span class="disabled">' . __( '(disabled)', 'dollie-setup' ) . '</span>';
-										else
-											$dep_str .= ' <span class="not-installed">' . sprintf( __( '(automatically installed with %s)', 'dollie-setup' ), $data['dollie_setup_name'] ) . '</span>';
-										$deps[] = $dep_str;
-									endforeach;
+								if ( $dep_loader && self::is_plugin_active( $dep_loader ) ) {
+									$dep_str .= ' <span class="enabled">' . __( '(enabled)', 'dollie-setup' ) . '</span>';
+								} elseif ( $dep_loader ) {
+									$dep_str .= ' <span class="disabled">' . __( '(disabled)', 'dollie-setup' ) . '</span>';
+								} else {
+									$dep_str .= ' <span class="not-installed">' . sprintf( __( '(automatically installed with %s)', 'dollie-setup' ), $data['dollie_setup_name'] ) . '</span>';
+								}
+								$deps[] = $dep_str;
+								endforeach;
 
-									echo implode( ', ', $deps ) . '</p>';
+							echo implode( ', ', $deps ) . '</p>';
 								endif;
-							?>
+						?>
 						</div>
 
 					</td>
@@ -980,16 +1015,19 @@ jQuery('a[data-uninstall="1"]').confirm({
 
 				<?php
 				// Notice for plugins that are activated network-wide, but shouldn't be.
-				if ( false === $data['network'] && is_multisite() && is_plugin_active_for_network( $loader ) ) : ?>
+				if ( false === $data['network'] && is_multisite() && is_plugin_active_for_network( $loader ) ) :
+					?>
 
 					<tr class="dollie_setup-plugin-network-active">
 						<td colspan="3"><div class="inline notice notice-error notice-alt"><p>
 							<?php printf( esc_html__( '%1$s is network-activated, but we recommend only activating this plugin on the main site.', 'dollie-setup' ), $plugin ); ?>
-							<?php printf(
+							<?php
+							printf(
 								'<a href="%1$s">%2$s</a>',
 								self_admin_url( 'admin.php?page=dollie_setup-plugins&amp;dollie_setup-action=network-deactivate&amp;plugin=' . urlencode( $plugin ) . '&amp;_wpnonce=' . wp_create_nonce( 'network-deactivate-plugin_' . $plugin ) ),
 								esc_html__( '(Change)', 'dollie-setup' )
-							); ?>
+							);
+							?>
 						</p></div></td>
 					</tr>
 
@@ -1004,6 +1042,6 @@ jQuery('a[data-uninstall="1"]').confirm({
 			<p><input type="submit" value="<?php echo 'install-only' === $r['type'] ? esc_html( 'Install', 'dollie-setup' ) : $r['submit_btn_text']; ?>" class="button-primary" id="dollie_setup-update-<?php echo esc_attr( $r['type'] ); ?>" name="dollie_setup-update" /></p>
 		<?php endif; ?>
 
-	<?php
+		<?php
 	}
 }
