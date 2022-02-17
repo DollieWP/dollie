@@ -456,6 +456,32 @@ class Helpers extends Singleton {
 	/**
 	 * @return int
 	 */
+	public function has_products()
+	{
+
+		$args = array(
+			"post_type" => 'product',
+			"status" => "publish",
+			"meta_query" => array(
+				array(
+					'key'     => 'wpd_',
+					'compare_key' => 'LIKE',
+				),
+			),
+		);
+
+		$product_arg = apply_filters('dollie_product_query', $args);
+
+		$query = new \WP_Query($product_arg);
+
+		if ( $query->have_posts() ) {
+			return true;
+		}
+	}
+
+	/**
+	 * @return int
+	 */
 	public function count_total_blueprints() {
 		$query = new WP_Query(
 			[
