@@ -409,15 +409,15 @@ class Dollie_Setup_Admin {
 
 
 
-			<form method="post" action="<?php echo self_admin_url( 'admin.php?page=dollie_setup' ); ?>" style="margin-top:2em; text-align:right;">
-				<?php wp_nonce_field( 'dollie_setup_select_package' ); ?>
+				<form method="post" action="<?php echo self_admin_url( 'admin.php?page=dollie_setup' ); ?>" style="margin-top:2em; text-align:right;">
+					<?php wp_nonce_field( 'dollie_setup_select_package' ); ?>
 
-				<input type="hidden" name="dollie_setup-package" value="<?php echo $package; ?>" />
+					<input type="hidden" name="dollie_setup-package" value="<?php echo $package; ?>" />
 
-				<a class="button button-secondary" href="<?php echo self_admin_url( 'admin.php?page=dollie_setup' ); ?>" style="margin:0 15px 0 0;"><?php esc_html_e( 'Return to dashboard', 'dollie-setup' ); ?></a>
+					<a class="button button-secondary" href="<?php echo self_admin_url( 'admin.php?page=dollie_setup' ); ?>" style="margin:0 15px 0 0;"><?php esc_html_e( 'Return to dashboard', 'dollie-setup' ); ?></a>
 
-				<input type="submit" value="<?php esc_html_e( 'Install', 'dollie-setup' ); ?>" class="button-primary" name="package-details" />
-			</form>
+					<input type="submit" value="<?php esc_html_e('Continue with '. $_GET['dollie_setup-package-details'].' Setup', 'dollie-setup' ); ?>" class="button-primary" name="package-details" />
+				</form>
 
 
 				<?php
@@ -505,6 +505,7 @@ class Dollie_Setup_Admin {
 			case 'theme-prompt':
 				dollie_setup_get_template_part( 'wrapper-header' );
 				$directory_name = dollie_setup_get_theme_prop( 'directory_name' );
+				$current_theme = wp_get_theme();
 
 				// Button text.
 				if ( ! empty( $directory_name ) && dollie_setup_get_theme( $directory_name )->exists() ) {
@@ -519,19 +520,12 @@ class Dollie_Setup_Admin {
 					$bail_link = esc_url( wp_nonce_url( self_admin_url( 'admin.php?page=dollie_setup&amp;dollie_setup-package=0' ), 'dollie_setup_select_package' ) );
 					$warning   = sprintf( __( 'Please note: This theme is <strong>required</strong> for use with Dollie Setup %s.', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) );
 					$warning   = sprintf( '<p>%s</p>', $warning );
-					$warning  .= sprintf(
-						'<p>%s</p>',
-						sprintf( __( 'Clicking on "%1$s" will change your current theme. If you do not wish to change the theme, please click "%2$s" and choose a different package.', 'dollie-setup' ), $btn_text, $bail_text )
-					);
 
 					// Theme installation is optional.
 				} else {
-					$bail_text = esc_html__( 'Skip', 'dollie-setup' );
+					$bail_text = esc_html__( 'Keep Using ', 'dollie-setup' ) . ' ' . esc_html($current_theme->get('Name'). ' Theme');
 					$bail_link = self_admin_url( 'admin.php?page=dollie_setup&amp;dollie_setup-action=complete' );
-					$warning   = sprintf(
-						'<p>%s</p>',
-						sprintf( esc_html__( 'Please note: Clicking on "%1$s" will change your current theme.  If you would rather keep your existing theme, click on the "%2$s" link.', 'dollie-setup' ), $btn_text, $bail_text )
-					);
+
 				}
 
 				// some HTML markup!
@@ -880,9 +874,9 @@ class Dollie_Setup_Admin {
 
 					function dollie_setupRecommendedChecked() {
 						if (jQuery("#dollie_setup-recommended input:checked").length > 0) {
-							jQuery("#dollie_setup-update-recommended").val("<?php echo esc_html( 'Install', 'dollie-setup' ); ?>");
+							jQuery("#dollie_setup-update-recommended").val("<?php echo esc_html( 'Install Selected Plugins', 'dollie-setup' ); ?>");
 						} else {
-							jQuery("#dollie_setup-update-recommended").val("<?php echo esc_html( 'Continue', 'dollie-setup' ); ?>");
+							jQuery("#dollie_setup-update-recommended").val("<?php echo esc_html( 'Continue without Installing...', 'dollie-setup' ); ?>");
 						}
 					}
 				</script>

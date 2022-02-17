@@ -597,6 +597,7 @@ class Dollie_Setup_Updater {
 	 * }
 	 */
 	function __construct( $plugins = false, $settings = array() ) {
+		dollie_setup_get_template_part('wrapper-header');
 		$skin_args = array();
 
 		if ( ! empty( $plugins['upgrade'] ) ) {
@@ -704,6 +705,8 @@ class Dollie_Setup_Updater {
 			<?php
 			// dollie_setup_get_template_part('wrapper-footer');
 		}
+		dollie_setup_get_template_part('wrapper-footer');
+
 	}
 
 	/**

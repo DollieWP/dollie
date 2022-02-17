@@ -63,22 +63,7 @@ class Dollie_Setup_Package_Agency extends Dollie_Setup_Package {
 	 * @since 1.1.0
 	 */
 	protected function custom_init() {
-		/**
-			 * Trigger Infinity's activation hook
-			 *
-		 * Infinity, and therefore dollie_setup-theme, runs certain setup routines at
-			 * 'infinity_dashboard_activated'. We need to run this hook just after DOLLIE_SETUP
-			 * activates a theme, so we do that here.
-			 */
-		add_action(
-			'dollie_setup_agency_theme_activated',
-			function() {
-				if ( ! dollie_setup_get_installed_revision_date() ) {
-					remove_action( 'infinity_dashboard_activated', 'infinity_dashboard_activated_redirect', 99 );
-				}
-
-				do_action( 'infinity_dashboard_activated' );
-			}
-		);
+		// echo 'Hallo';
+		// die();
 	}
 }

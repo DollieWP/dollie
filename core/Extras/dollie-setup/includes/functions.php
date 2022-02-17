@@ -161,18 +161,18 @@ function dollie_setup_get_packages() {
 function dollie_setup_get_current_package_id() {
 	$current = get_site_option( '_dollie_setup_current_package' );
 
-	// We've never saved a package into the DB before.
-	if ( dollie_setup_get_installed_revision_date() && empty( $current ) ) {
-		/*
-		 * If installed date is before 2018/09/01, save as 'agency' for backpat.
-		 *
-		 * @todo Change date to whenever we launch v1.1.0
-		 */
-		if ( dollie_setup_get_installed_revision_date() < strtotime( '2018/09/01 UTC' ) ) {
-			$current = 'agency';
-			update_site_option( '_dollie_setup_current_package', $current );
-		}
-	}
+	// // We've never saved a package into the DB before.
+	// if ( dollie_setup_get_installed_revision_date() && empty( $current ) ) {
+	// 	/*
+	// 	 * If installed date is before 2018/09/01, save as 'agency' for backpat.
+	// 	 *
+	// 	 * @todo Change date to whenever we launch v1.1.0
+	// 	 */
+	// 	if ( dollie_setup_get_installed_revision_date() < strtotime( '2018/09/01 UTC' ) ) {
+	// 		$current = 'agency';
+	// 		update_site_option( '_dollie_setup_current_package', $current );
+	// 	}
+	// }
 
 	return $current;
 }

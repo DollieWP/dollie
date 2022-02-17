@@ -117,10 +117,6 @@ class Dollie_Setup {
 		// Admin.
 		if ( dollie_setup_is_admin() ) {
 			require $this->plugin_dir . 'admin/admin-loader.php';
-
-			// frontend
-		} else {
-			require $this->plugin_dir . 'includes/frontend.php';
 		}
 
 		// Upgrades API - runs in admin area and on AJAX.
@@ -215,10 +211,6 @@ class Dollie_Setup {
 		if ( dollie_setup_is_admin() ) {
 			$this->admin   = new Dollie_Setup_Admin();
 			$this->plugins = new Dollie_Setup_Plugins();
-
-			// frontend
-		} else {
-			$this->frontend = new Dollie_Setup_Frontend();
 		}
 
 		// WP-CLI integration
