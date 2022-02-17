@@ -9188,6 +9188,8 @@ body[class*="dollie_setup"] {
   body[class*="dollie_setup"] #message,
   body[class*="dollie_setup"] .wrap > h2 {
     display: none; }
+  body[class*="dollie_setup"] a {
+    text-decoration: none; }
   body[class*="dollie_setup"] #wpbody-content {
     font-size: 15px; }
   body[class*="dollie_setup"] img {
