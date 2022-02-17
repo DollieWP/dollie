@@ -9208,8 +9208,7 @@ body[class*="dollie_setup"] {
     color: rgb(255 255 255 / var(--tw-text-opacity));
     --tw-border-opacity: 1;
     border-color: rgb(229 229 229 / var(--tw-border-opacity)); }
-
-#wpbody-content .error {
+  body[class*="dollie_setup"] #wpbody-content .error {
     --tw-bg-opacity: 1;
     background-color: rgb(254 226 226 / var(--tw-bg-opacity));
     border-width: 1px;
@@ -9223,8 +9222,7 @@ body[class*="dollie_setup"] {
     padding-bottom: 0.75rem;
     border-radius: 0.25rem;
     position: relative; }
-
-#wpbody-content .updated {
+  body[class*="dollie_setup"] #wpbody-content .updated {
     --tw-bg-opacity: 1;
     background-color: rgb(209 250 229 / var(--tw-bg-opacity));
     border-width: 1px;
@@ -9238,8 +9236,7 @@ body[class*="dollie_setup"] {
     padding-bottom: 0.75rem;
     border-radius: 0.25rem;
     position: relative; }
-
-#wpbody-content .update-messages {
+  body[class*="dollie_setup"] #wpbody-content .update-messages {
     padding: 1rem;
     border-width: 1px;
     --tw-border-opacity: 1;
