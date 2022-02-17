@@ -7,14 +7,17 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 // require the WP_Upgrader class so we can extend it!
-require_once( ABSPATH . 'wp-admin/includes/class-wp-upgrader.php' );
+require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
 // add the Plugin Dependencies plugin; just in case this file is called outside the admin area
-if ( ! class_exists( 'Plugin_Dependencies' ) )
-	require_once( DOLLIE_SETUP_LIB_DIR . 'wp-plugin-dependencies/plugin-dependencies.php' );
+if ( ! class_exists( 'Plugin_Dependencies' ) ) {
+	require_once DOLLIE_SETUP_LIB_DIR . 'wp-plugin-dependencies/plugin-dependencies.php';
+}
 
 /**
  * DOLLIE_SETUP's custom plugin upgrader.
@@ -36,9 +39,12 @@ class Dollie_Setup_Plugin_Upgrader extends Plugin_Upgrader {
 	 * @param str $plugins Array of plugin names
 	 */
 	function bulk_upgrade( $plugins, $args = array() ) {
-		$parsed_args = wp_parse_args( $args, array(
-			'clear_update_cache' => true,
-		) );
+		$parsed_args = wp_parse_args(
+			$args,
+			array(
+				'clear_update_cache' => true,
+			)
+		);
 
 		$this->init();
 		$this->bulk = true;
@@ -48,15 +54,15 @@ class Dollie_Setup_Plugin_Upgrader extends Plugin_Upgrader {
 		$dependency = Dollie_Setup_Plugins::get_plugins( 'dependency' );
 		$current    = Dollie_Setup_Plugins::get_plugins();
 
-		add_filter( 'upgrader_source_selection',  'dollie_setup_rename_github_folder',         1,  4 );
+		add_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder', 1, 4 );
 		add_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ), 10, 4 );
-		add_filter( 'http_request_args',          'dollie_setup_disable_ssl_verification',     10, 2 );
+		add_filter( 'http_request_args', 'dollie_setup_disable_ssl_verification', 10, 2 );
 
-		//dollie_setup_get_template_part('wrapper-header');
+		// dollie_setup_get_template_part('wrapper-header');
 		$this->skin->header();
 
 		// Connect to the Filesystem first.
-		$res = $this->fs_connect( array(WP_CONTENT_DIR, WP_PLUGIN_DIR) );
+		$res = $this->fs_connect( array( WP_CONTENT_DIR, WP_PLUGIN_DIR ) );
 		if ( ! $res ) {
 			$this->skin->footer();
 			return false;
@@ -91,24 +97,26 @@ class Dollie_Setup_Plugin_Upgrader extends Plugin_Upgrader {
 			$maintenance = $maintenance || $is_active;
 		}
 
-		if ( $maintenance )
-			$this->maintenance_mode(true);
+		if ( $maintenance ) {
+			$this->maintenance_mode( true );
+		}
 
 		$results = array();
 
-		$this->update_count = count($plugins);
+		$this->update_count   = count( $plugins );
 		$this->update_current = 0;
 		foreach ( $plugins as $plugin ) {
 			$this->update_current++;
 			$this->skin->plugin_info['Title'] = $plugin;
 
 			// set the download URL
-			if ( ! empty( $dependency[$plugin]['download_url'] ) )
-				$download_url = $dependency[$plugin]['download_url'];
-			elseif ( ! empty( $current[$plugin]['download_url'] ) )
-				$download_url = $current[$plugin]['download_url'];
-			else
+			if ( ! empty( $dependency[ $plugin ]['download_url'] ) ) {
+				$download_url = $dependency[ $plugin ]['download_url'];
+			} elseif ( ! empty( $current[ $plugin ]['download_url'] ) ) {
+				$download_url = $current[ $plugin ]['download_url'];
+			} else {
 				$download_url = false;
+			}
 
 			$this->skin->options['url'] = $download_url;
 
@@ -133,33 +141,36 @@ class Dollie_Setup_Plugin_Upgrader extends Plugin_Upgrader {
 				unset( $switched );
 			}
 
-			$result = $this->run( array(
-				'package'           => $download_url,
-				'destination'       => WP_PLUGIN_DIR,
-				'clear_destination' => true,
-				'clear_working'     => true,
-				'is_multi'          => true,
-				'hook_extra'        => array( 'plugin' => $plugin_loader )
-			) );
+			$result = $this->run(
+				array(
+					'package'           => $download_url,
+					'destination'       => WP_PLUGIN_DIR,
+					'clear_destination' => true,
+					'clear_working'     => true,
+					'is_multi'          => true,
+					'hook_extra'        => array( 'plugin' => $plugin_loader ),
+				)
+			);
 
-			$results[$plugin_loader] = $this->result;
+			$results[ $plugin_loader ] = $this->result;
 
 			// Prevent credentials auth screen from displaying multiple times
-			if ( false === $result )
+			if ( false === $result ) {
 				break;
+			}
 		} //end foreach $plugins
 
-		$this->maintenance_mode(false);
+		$this->maintenance_mode( false );
 
 		$this->skin->bulk_footer();
 
 		$this->skin->footer();
-		dollie_setup_get_template_part('wrapper-footer');
+		dollie_setup_get_template_part( 'wrapper-footer' );
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter( 'upgrader_source_selection',  'dollie_setup_rename_github_folder',     1 );
+		remove_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder', 1 );
 		remove_filter( 'upgrader_clear_destination', array( $this, 'delete_old_plugin' ) );
-		remove_filter( 'http_request_args',          'dollie_setup_disable_ssl_verification', 10 );
+		remove_filter( 'http_request_args', 'dollie_setup_disable_ssl_verification', 10 );
 
 		// Force refresh of plugin update information.
 		wp_clean_plugins_cache( $parsed_args['clear_update_cache'] );
@@ -182,16 +193,16 @@ class Dollie_Setup_Plugin_Upgrader extends Plugin_Upgrader {
 
 		// download URLs for each plugin should be registered in either the following:
 		$dependency = Dollie_Setup_Plugins::get_plugins( 'dependency' );
-		$required = Dollie_Setup_Plugins::get_plugins();
+		$required   = Dollie_Setup_Plugins::get_plugins();
 
-		add_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder',     1,  4 );
+		add_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder', 1, 4 );
 		add_filter( 'upgrader_source_selection', array( $this, 'check_package' ) );
-		add_filter( 'http_request_args',         'dollie_setup_disable_ssl_verification', 10, 2 );
+		add_filter( 'http_request_args', 'dollie_setup_disable_ssl_verification', 10, 2 );
 
 		$this->skin->header();
 
 		// Connect to the Filesystem first.
-		$res = $this->fs_connect( array(WP_CONTENT_DIR, WP_PLUGIN_DIR) );
+		$res = $this->fs_connect( array( WP_CONTENT_DIR, WP_PLUGIN_DIR ) );
 		if ( ! $res ) {
 			$this->skin->footer();
 			return false;
@@ -201,36 +212,40 @@ class Dollie_Setup_Plugin_Upgrader extends Plugin_Upgrader {
 
 		$results = array();
 
-		$this->update_count = count( $plugins);
+		$this->update_count   = count( $plugins );
 		$this->update_current = 0;
 		foreach ( $plugins as $plugin ) {
 			$this->update_current++;
 			$this->skin->plugin_info['Title'] = $plugin;
 
 			// set the download URL
-			if ( ! empty( $dependency[$plugin]['download_url'] ) )
-				$download_url = $dependency[$plugin]['download_url'];
-			elseif ( ! empty( $required[$plugin]['download_url'] ) )
-				$download_url = $required[$plugin]['download_url'];
-			else
+			if ( ! empty( $dependency[ $plugin ]['download_url'] ) ) {
+				$download_url = $dependency[ $plugin ]['download_url'];
+			} elseif ( ! empty( $required[ $plugin ]['download_url'] ) ) {
+				$download_url = $required[ $plugin ]['download_url'];
+			} else {
 				$download_url = false;
+			}
 
 			$this->skin->options['url'] = $download_url;
 
-			$result = $this->run( array(
-				'package'           => $download_url,
-				'destination'       => WP_PLUGIN_DIR,
-				'clear_destination' => false, //Do not overwrite files.
-				'clear_working'     => true,
-				'is_multi'          => true,
-				'hook_extra'        => array()
-			) );
+			$result = $this->run(
+				array(
+					'package'           => $download_url,
+					'destination'       => WP_PLUGIN_DIR,
+					'clear_destination' => false, // Do not overwrite files.
+					'clear_working'     => true,
+					'is_multi'          => true,
+					'hook_extra'        => array(),
+				)
+			);
 
-			//$results[$plugin_loader] = $this->result;
+			// $results[$plugin_loader] = $this->result;
 
 			// Prevent credentials auth screen from displaying multiple times
-			if ( false === $result )
+			if ( false === $result ) {
 				break;
+			}
 		} //end foreach $plugins
 
 		$this->skin->bulk_footer();
@@ -238,9 +253,9 @@ class Dollie_Setup_Plugin_Upgrader extends Plugin_Upgrader {
 		$this->skin->footer();
 
 		// Cleanup our hooks, in case something else does a upgrade on this connection.
-		remove_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder',     1 );
+		remove_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder', 1 );
 		remove_filter( 'upgrader_source_selection', array( $this, 'check_package' ) );
-		remove_filter( 'http_request_args',         'dollie_setup_disable_ssl_verification', 10 );
+		remove_filter( 'http_request_args', 'dollie_setup_disable_ssl_verification', 10 );
 
 		// Force refresh of plugin update information.
 		wp_clean_plugins_cache();
@@ -255,8 +270,9 @@ class Dollie_Setup_Plugin_Upgrader extends Plugin_Upgrader {
 	 */
 	public static function bulk_activate( $plugins ) {
 
-		if ( empty( $plugins ) )
+		if ( empty( $plugins ) ) {
 			return false;
+		}
 
 		$current    = Dollie_Setup_Plugins::get_plugins();
 		$dependency = Dollie_Setup_Plugins::get_plugins( 'dependency' );
@@ -313,10 +329,11 @@ class Dollie_Setup_Plugin_Upgrader extends Plugin_Upgrader {
 		}
 
 		if ( ! is_network_admin() ) {
-			$recent = (array) get_option('recently_activated' );
+			$recent = (array) get_option( 'recently_activated' );
 
-			foreach ( $plugins as $plugin )
+			foreach ( $plugins as $plugin ) {
 				unset( $recent[ $plugin ] );
+			}
 
 			update_option( 'recently_activated', $recent );
 		}
@@ -346,18 +363,19 @@ class Dollie_Setup_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 		parent::add_strings();
 
 		// if first step is bulk-upgrading, then stop string overrides!
-		if ( ! empty( $this->options['step_one'] ) && $this->options['step_one'] == 'upgrade' )
+		if ( ! empty( $this->options['step_one'] ) && $this->options['step_one'] == 'upgrade' ) {
 			return;
+		}
 
 		// if we're bulk-installing, switch up the strings!
 		if ( ! empty( $this->options['install_strings'] ) ) {
 			$this->upgrader->strings['skin_before_update_header'] = __( 'Installing Plugin %1$s (%2$d/%3$d)', 'dollie-setup' );
 
-			$this->upgrader->strings['skin_upgrade_start']        = __( 'The installation process is starting. This process may take a while, so please be patient.', 'dollie-setup' );
-			$this->upgrader->strings['skin_update_failed_error']  = __( 'An error occurred while installing %1$s: <strong>%2$s</strong>.', 'dollie-setup' );
-			$this->upgrader->strings['skin_update_failed']        = __( 'The installation of %1$s failed.', 'dollie-setup' );
-			$this->upgrader->strings['skin_update_successful']    = __( '%1$s installed successfully.', 'dollie-setup' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details', 'dollie-setup' ) . '</span><span class="hidden">' . __( 'Hide Details', 'dollie-setup' ) . '</span>.</a>';
-			$this->upgrader->strings['skin_upgrade_end']          = __( 'Plugins finished installing.', 'dollie-setup' );
+			$this->upgrader->strings['skin_upgrade_start']       = __( 'The installation process is starting. This process may take a while, so please be patient.', 'dollie-setup' );
+			$this->upgrader->strings['skin_update_failed_error'] = __( 'An error occurred while installing %1$s: <strong>%2$s</strong>.', 'dollie-setup' );
+			$this->upgrader->strings['skin_update_failed']       = __( 'The installation of %1$s failed.', 'dollie-setup' );
+			$this->upgrader->strings['skin_update_successful']   = __( '%1$s installed successfully.', 'dollie-setup' ) . ' <a onclick="%2$s" href="#" class="hide-if-no-js"><span>' . __( 'Show Details', 'dollie-setup' ) . '</span><span class="hidden">' . __( 'Hide Details', 'dollie-setup' ) . '</span>.</a>';
+			$this->upgrader->strings['skin_upgrade_end']         = __( 'Plugins finished installing.', 'dollie-setup' );
 		}
 	}
 
@@ -370,15 +388,15 @@ class Dollie_Setup_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 	function bulk_footer() {
 		// install plugins after the upgrader is done if available
 		if ( ! empty( $this->options['install_plugins'] ) ) {
-			if (! empty( $this->options['activate_plugins'] ) ) {
+			if ( ! empty( $this->options['activate_plugins'] ) ) {
 				$skin_args['activate_plugins'] = $this->options['activate_plugins'];
 			}
 
-			if (! empty( $this->options['redirect_link'] ) ) {
+			if ( ! empty( $this->options['redirect_link'] ) ) {
 				$skin_args['redirect_link'] = $this->options['redirect_link'];
 			}
 
-			if (! empty( $this->options['redirect_text'] ) ) {
+			if ( ! empty( $this->options['redirect_text'] ) ) {
 				$skin_args['redirect_text'] = $this->options['redirect_text'];
 			}
 
@@ -386,40 +404,40 @@ class Dollie_Setup_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 
 			echo '<p>' . __( 'Plugins updated.', 'dollie-setup' ) . '</p>';
 
-			usleep(500000);
+			usleep( 500000 );
 
 			echo '<h3>' . __( 'Now Installing Plugins...', 'dollie-setup' ) . '</h3>';
 
-			usleep(500000);
+			usleep( 500000 );
 
- 			$installer = new Dollie_Setup_Plugin_Upgrader(
- 				new Dollie_Setup_Bulk_Plugin_Upgrader_Skin( $skin_args )
- 			);
+			$installer = new Dollie_Setup_Plugin_Upgrader(
+				new Dollie_Setup_Bulk_Plugin_Upgrader_Skin( $skin_args )
+			);
 
- 			$installer->bulk_install( $this->options['install_plugins'] );
+			$installer->bulk_install( $this->options['install_plugins'] );
 		}
 
 		// activate plugins after the upgrader / installer is done if available
 		elseif ( ! empty( $this->options['activate_plugins'] ) ) {
-			usleep(500000);
+			usleep( 500000 );
 
 			echo '<h3>' . __( 'Now Activating Plugins...', 'dollie-setup' ) . '</h3>';
 
-			usleep(500000);
+			usleep( 500000 );
 
- 			$activate = Dollie_Setup_Plugin_Upgrader::bulk_activate( $this->options['activate_plugins'] );
- 		?>
+			$activate = Dollie_Setup_Plugin_Upgrader::bulk_activate( $this->options['activate_plugins'] );
+			?>
 
 			<p><?php _e( 'Plugins activated.', 'dollie-setup' ); ?></p>
 
 			<p><?php self::after_updater( $this->options ); ?></p>
- 		<?php
+			<?php
 		}
 
 		// process is completed!
 		// show link to DOLLIE_SETUP dashboard
 		else {
-			usleep(500000);
+			usleep( 500000 );
 
 			$args = ! empty( $this->options ) ? $this->options : array();
 			self::after_updater( $args );
@@ -433,14 +451,14 @@ class Dollie_Setup_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 		$title = $this->plugin_info['Title'];
 
 		if ( ! empty( $this->options['install_plugins'] ) ) {
-			$current = $this->upgrader->update_current;
+			$current                        = $this->upgrader->update_current;
 			$this->upgrader->update_current = 'install-' . $current;
 		}
 
 		$this->in_loop = true;
-		printf( '<h4>' . $this->upgrader->strings['skin_before_update_header'] . ' <img alt="" src="' . admin_url( 'images/wpspin_light.gif' ) . '" class="hidden waiting-' . $this->upgrader->update_current . '" style="vertical-align:middle;" /></h4>',  $title, $this->upgrader->update_current, $this->upgrader->update_count);
-		echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js($this->upgrader->update_current) . '\').show();</script>';
-		echo '<div class="update-messages hide-if-js" id="progress-' . esc_attr($this->upgrader->update_current) . '"><p>';
+		printf( '<h4>' . $this->upgrader->strings['skin_before_update_header'] . ' <img alt="" src="' . admin_url( 'images/wpspin_light.gif' ) . '" class="hidden waiting-' . $this->upgrader->update_current . '" style="vertical-align:middle;" /></h4>', $title, $this->upgrader->update_current, $this->upgrader->update_count );
+		echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js( $this->upgrader->update_current ) . '\').show();</script>';
+		echo '<div class="update-messages hide-if-js" id="progress-' . esc_attr( $this->upgrader->update_current ) . '"><p>';
 
 		if ( ! empty( $this->options['install_plugins'] ) ) {
 			$this->upgrader->update_current = $current;
@@ -456,22 +474,23 @@ class Dollie_Setup_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 		$title = $this->plugin_info['Title'];
 
 		if ( ! empty( $this->options['install_plugins'] ) ) {
-			$current = $this->upgrader->update_current;
+			$current                        = $this->upgrader->update_current;
 			$this->upgrader->update_current = 'install-' . $current;
 		}
 
 		echo '</p></div>';
 		if ( $this->error || ! $this->result ) {
-			if ( $this->error )
-				echo '<div class="error"><p>' . sprintf($this->upgrader->strings['skin_update_failed_error'], $title, $this->error) . '</p></div>';
-			else
-				echo '<div class="error"><p>' . sprintf($this->upgrader->strings['skin_update_failed'], $title) . '</p></div>';
+			if ( $this->error ) {
+				echo '<div class="error"><p>' . sprintf( $this->upgrader->strings['skin_update_failed_error'], $title, $this->error ) . '</p></div>';
+			} else {
+				echo '<div class="error"><p>' . sprintf( $this->upgrader->strings['skin_update_failed'], $title ) . '</p></div>';
+			}
 
-			echo '<script type="text/javascript">jQuery(\'#progress-' . esc_js($this->upgrader->update_current) . '\').show();</script>';
+			echo '<script type="text/javascript">jQuery(\'#progress-' . esc_js( $this->upgrader->update_current ) . '\').show();</script>';
 		}
-		if ( !empty($this->result) && !is_wp_error($this->result) ) {
-			echo '<div class="updated"><p>' . sprintf($this->upgrader->strings['skin_update_successful'], $title, 'jQuery(\'#progress-' . esc_js($this->upgrader->update_current) . '\').toggle();jQuery(\'span\', this).toggle(); return false;') . '</p></div>';
-			echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js($this->upgrader->update_current) . '\').hide();</script>';
+		if ( ! empty( $this->result ) && ! is_wp_error( $this->result ) ) {
+			echo '<div class="updated"><p>' . sprintf( $this->upgrader->strings['skin_update_successful'], $title, 'jQuery(\'#progress-' . esc_js( $this->upgrader->update_current ) . '\').toggle();jQuery(\'span\', this).toggle(); return false;' ) . '</p></div>';
+			echo '<script type="text/javascript">jQuery(\'.waiting-' . esc_js( $this->upgrader->update_current ) . '\').hide();</script>';
 		}
 
 		if ( ! empty( $this->options['install_plugins'] ) ) {
@@ -496,7 +515,7 @@ class Dollie_Setup_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 			$redirect_link = ! empty( $args['redirect_link'] ) ? $args['redirect_link'] : '';
 			$redirect_text = ! empty( $args['redirect_text'] ) ? $args['redirect_text'] : '';
 
-		// if a redirect link is passed during the class constructor, use it
+			// if a redirect link is passed during the class constructor, use it
 		} elseif ( ! self::_is_static() && ! empty( $this->options['redirect_link'] ) && ! empty( $this->options['redirect_text'] ) ) {
 			// phpcs:disable
 			$redirect_link = $this->options['redirect_link'];
@@ -581,11 +600,11 @@ class Dollie_Setup_Updater {
 		$skin_args = array();
 
 		if ( ! empty( $plugins['upgrade'] ) ) {
-			self::$is_upgrade  = true;
+			self::$is_upgrade = true;
 		}
 
 		if ( ! empty( $plugins['install'] ) ) {
-			self::$is_install  = true;
+			self::$is_install = true;
 		}
 
 		if ( ! empty( $plugins['activate'] ) ) {
@@ -621,7 +640,7 @@ class Dollie_Setup_Updater {
 		// start the whole damn thing!
 		// We always try to upgrade plugins first.  Next, we install plugins that are not available.
 		// Lastly, we activate any plugins needed.
-		//dollie_setup_get_template_part('wrapper-header');
+		// dollie_setup_get_template_part('wrapper-header');
 		// let's see if upgrades are available; if so, start with that
 		if ( self::$is_upgrade ) {
 			// if installs are available as well, this tells Dollie_Setup_Plugin_Upgrader
@@ -651,8 +670,8 @@ class Dollie_Setup_Updater {
 			// now start the upgrade!
 			$installer->bulk_upgrade( $plugins['upgrade'] );
 
-		// if no upgrades are available, move on to installs
-		} elseif( self::$is_install ) {
+			// if no upgrades are available, move on to installs
+		} elseif ( self::$is_install ) {
 			// if activations are available as well, this tells Dollie_Setup_Plugin_Upgrader
 			// to activate plugins after the upgrader is done
 			if ( self::$is_activate ) {
@@ -672,18 +691,18 @@ class Dollie_Setup_Updater {
 			// now start the install!
 			$installer->bulk_install( $plugins['install'] );
 
-		// if no upgrades or installs are available, move on to activations
-		} elseif( self::$is_activate ) {
+			// if no upgrades or installs are available, move on to activations
+		} elseif ( self::$is_activate ) {
 			echo '<h3>' . __( 'Activating Plugins...', 'dollie_setup' ) . '</h3>';
 
 			$activate = Dollie_Setup_Plugin_Upgrader::bulk_activate( $plugins['activate'] );
-		?>
+			?>
 
 			<p><?php _e( 'Plugins activated.', 'dollie_setup' ); ?></p>
 
 			<p><?php Dollie_Setup_Bulk_Plugin_Upgrader_Skin::after_updater( $settings ); ?></p>
-		<?php
-			//dollie_setup_get_template_part('wrapper-footer');
+			<?php
+			// dollie_setup_get_template_part('wrapper-footer');
 		}
 	}
 
@@ -698,7 +717,7 @@ class Dollie_Setup_Updater {
 	public static function parse_plugins( $plugins = [] ) {
 		// dependency-time!
 		// flatten the associative array to make dependency checks easier
-		$plugin_list = call_user_func_array( 'array_merge', $plugins );
+		$plugin_list = call_user_func_array( 'array_merge', array_values( $plugins ) );
 
 		// get requirements
 		$requirements = (array) Plugin_Dependencies::get_requirements();
@@ -712,7 +731,7 @@ class Dollie_Setup_Updater {
 		 */
 		if ( ! empty( $plugins['install'] ) ) {
 			$dollie_setup_plugins = Dollie_Setup_Plugins::get_plugins();
-			$dependencies = array_flip( array_keys( Dollie_Setup_Plugins::get_plugins( 'dependency' ) ) );
+			$dependencies         = array_flip( array_keys( Dollie_Setup_Plugins::get_plugins( 'dependency' ) ) );
 
 			foreach ( $plugins['install'] as $plugin ) {
 				if ( ! isset( $dollie_setup_plugins[ $plugin ]['depends'] ) ) {
@@ -733,7 +752,7 @@ class Dollie_Setup_Updater {
 						// Check if uninstalled plugin is part of our DOLLIE_SETUP plugin spec.
 						foreach ( $requirement['not-installed'] as $i => $_plugin ) {
 							if ( ! isset( $dependencies[ $_plugin ] ) ) {
-								unset( $requirement['not-installed'][$i] );
+								unset( $requirement['not-installed'][ $i ] );
 							}
 						}
 					}
@@ -749,16 +768,16 @@ class Dollie_Setup_Updater {
 		// loop through each submitted plugin and check for any dependencies
 		foreach ( $plugin_list as $plugin ) {
 			// we have dependents!
-			if ( ! empty( $requirements[$plugin] ) ) {
+			if ( ! empty( $requirements[ $plugin ] ) ) {
 
 				// now loop through each dependent plugin state and add that plugin to our list
 				// before we start the whole process!
-				foreach ( $requirements[$plugin] as $dep_state => $dep_plugins ) {
-					switch( $dep_state ) {
-						case 'inactive' :
+				foreach ( $requirements[ $plugin ] as $dep_state => $dep_plugins ) {
+					switch ( $dep_state ) {
+						case 'inactive':
 							if ( ! self::$is_activate ) {
 								$plugins['activate'] = array();
-								self::$is_activate = true;
+								self::$is_activate   = true;
 							}
 
 							// push dependent plugins to the beginning of the activation plugins list
@@ -766,10 +785,10 @@ class Dollie_Setup_Updater {
 
 							break;
 
-						case 'not-installed' :
+						case 'not-installed':
 							if ( ! self::$is_install ) {
 								$plugins['install'] = array();
-								self::$is_install = true;
+								self::$is_install   = true;
 							}
 
 							// push dependent plugins to the beginning of the installation plugins list
@@ -777,10 +796,10 @@ class Dollie_Setup_Updater {
 
 							break;
 
-						case 'incompatible' :
+						case 'incompatible':
 							if ( ! self::$is_upgrade ) {
 								$plugins['upgrade'] = array();
-								self::$is_upgrade = true;
+								self::$is_upgrade   = true;
 							}
 
 							$plugin_names = wp_list_pluck( $dep_plugins, 'name' );
@@ -795,7 +814,7 @@ class Dollie_Setup_Updater {
 		}
 
 		foreach ( $plugins as $state => $p ) {
-			$plugins[$state] = array_unique( $p );
+			$plugins[ $state ] = array_unique( $p );
 		}
 
 		return $plugins;
@@ -805,7 +824,7 @@ class Dollie_Setup_Updater {
 	 * Activates a plugin after upgrading or installing a plugin
 	 */
 	public function activate_post_install( $bool, $hook_extra, $result ) {
-		$plugin = '';
+		$plugin           = '';
 		$network_activate = $install_only = false;
 
 		// activates a plugin post-upgrade
@@ -815,7 +834,7 @@ class Dollie_Setup_Updater {
 			$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin );
 			$plugin_name = $plugin_data['Name'];
 
-		// activates a plugin post-install
+			// activates a plugin post-install
 		} elseif ( ! empty( $result['destination_name'] ) ) {
 			// Fetch data for plugin.
 			$plugin_data = get_plugins( '/' . $result['destination_name'] );
@@ -859,7 +878,7 @@ class Dollie_Setup_Updater {
 			} elseif ( isset( $dollie_setup_plugins[ $plugin_name ] ) ) {
 				$network_activate = $dollie_setup_plugins[ $plugin_name ]['network'];
 			} else {
-				$dependency = Dollie_Setup_Plugins::get_plugins( 'dependency' );
+				$dependency       = Dollie_Setup_Plugins::get_plugins( 'dependency' );
 				$network_activate = $dependency[ $plugin_name ]['network'];
 			}
 

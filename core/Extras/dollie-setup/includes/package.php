@@ -90,7 +90,7 @@ abstract class Dollie_Setup_Package {
 					return;
 				}
 
-				$settings_class = 'Dollie_Setup_Settings_' . substr( get_called_class(), 13 );
+				$settings_class = 'Dollie_Setup_Settings_' . substr( get_called_class(), 21 );
 				if ( class_exists( $settings_class ) ) {
 					$i->settings = new $settings_class();
 				}
@@ -152,7 +152,7 @@ abstract class Dollie_Setup_Package {
 		}
 
 		// Try to automatically load plugins manifest class if found.
-		$plugins_class = 'Dollie_Setup_Plugins_' . substr( $class, 13 );
+		$plugins_class = 'Dollie_Setup_Plugins_' . substr( $class, 21 );
 
 		if ( class_exists( $plugins_class ) ) {
 			call_user_func( array( $plugins_class, 'init' ), array( $i, 'register_plugin' ) );
