@@ -169,6 +169,8 @@ class Helpers extends Singleton {
 
 		$url = home_url( $url_params );
 
+		$container_location = apply_filters( 'dollie/site/login_url/location', $container_location );
+
 		if ( ! empty( $container_location ) ) {
 			$url = add_query_arg( 'location', $container_location, $url );
 		}
@@ -305,7 +307,7 @@ class Helpers extends Singleton {
 		}
 
 		//Resize image and store locally
-		$local_image = wpthumb($image, 'width=700&height=99999&crop=0' );
+		$local_image = wpthumb( $image, 'width=700&height=99999&crop=0' );
 
 		$image_tag = '<img width="700" class="dol-block dol-object-cover" alt="' . esc_attr( $site ) . '" src="' . $local_image . '" />';
 

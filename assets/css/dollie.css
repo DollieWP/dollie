@@ -1641,10 +1641,10 @@ input[type="text"].dol-search-input:focus {
 .dol-text-base {
     font-size: 1rem;
     line-height: 1.5rem; }
-.dol-font-bold {
-    font-weight: 700; }
 .dol-font-medium {
     font-weight: 500; }
+.dol-font-bold {
+    font-weight: 700; }
 .dol-font-semibold {
     font-weight: 600; }
 .dol-font-normal {
@@ -1822,6 +1822,8 @@ input[type="text"].dol-search-input:focus {
     transition-timing-function: cubic-bezier(0, 0, 0.2, 1); }
 .dol-ease-in {
     transition-timing-function: cubic-bezier(0.4, 0, 1, 1); }
+.\[http\:\/\/codex\.wordpress\.org\/WordPress_Coding_Standards\] {
+    http: //codex.wordpress.org/WordPress Coding Standards; }
 .last\:dol-border-0:last-child {
     border-width: 0px; }
 .odd\:dol-bg-white:nth-child(odd) {

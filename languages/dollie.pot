@@ -99,11 +99,11 @@ msgstr ""
 msgid "LetsEncrypt Failed"
 msgstr ""
 
-#: core/Log.php:341, core/Modules/ContainerFields.php:91, templates/loop/sites.php:252
+#: core/Log.php:341, core/Modules/ContainerFields.php:91, templates/loop/sites.php:251
 msgid "Blueprint Updated"
 msgstr ""
 
-#: core/Plugin.php:401, core/Modules/Options.php:301, templates/widgets/launch/launch-site.php:35
+#: core/Plugin.php:406, core/Modules/Options.php:301, templates/widgets/launch/launch-site.php:35
 msgid "Connect with Dollie"
 msgstr ""
 
@@ -473,7 +473,7 @@ msgid ""
 "This will allow those roles to remove all platform sites."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1346, templates/widgets/general/main-navigation.php:63, templates/widgets/general/sites-navigation.php:50, templates/widgets/site/site-navigation.php:26, core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:94
+#: core/Extras/AcfFields.php:1346, templates/widgets/general/main-navigation.php:63, templates/widgets/general/sites-navigation.php:55, templates/widgets/site/site-navigation.php:26, core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:94
 msgid "Blueprints"
 msgstr ""
 
@@ -629,7 +629,7 @@ msgstr ""
 msgid "You can fill in just your bucket name like \"my_bucket_name\" or you can point to a folder in your bucket like \"my_bucket_name/example_folder\". Every site will be backed up in its own folder."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1963, core/Modules/Blueprints.php:257, templates/widgets/general/sites-navigation.php:55, templates/widgets/site/site-navigation.php:39, templates/widgets/site/site-navigation.php:33
+#: core/Extras/AcfFields.php:1963, core/Modules/Blueprints.php:257, templates/widgets/general/sites-navigation.php:60, templates/widgets/site/site-navigation.php:39, templates/widgets/site/site-navigation.php:33
 msgid "Staging"
 msgstr ""
 
@@ -691,7 +691,7 @@ msgstr ""
 #: core/Extras/AcfFormFields.php:79
 msgid ""
 "<div class=\"dol-bg-gray-100 dol-py-2 dol-px-4 dol-rounded\">\n"
-"<h5 class=\"dol-text-base\">Migration tip</h5>\n"
+"<h5 class=\"dol-text-base\">Migration Tip</h5>\n"
 "<p class=\"dol-text-sm\">Do you already have an active site on this domain and want to keep the content? Head on to the Migration tab and follow the instructions to migrate your existing site. After that you can start the domain connect wizard.</p>\n"
 "</div>"
 msgstr ""
@@ -699,8 +699,8 @@ msgstr ""
 #: core/Extras/AcfFormFields.php:111
 msgid ""
 "<h5>Register your domain name</h5>\n"
-"<p>We are not selling domains directly.</p> \n"
-"<p>If you have not registered your own domain yet, this is the time to do so! We recommend <a href=\"https://namecheap.com\" target=\"_blank\">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar. \n"
+"<p>We are not selling domains directly.</p>\n"
+"<p>If you have not registered your own domain yet, this is the time to do so! We recommend <a href=\"https://namecheap.com\" target=\"_blank\">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar.\n"
 "<strong>Go ahead, register your domain and come back to this form to continue the domain setup!</strong></p>"
 msgstr ""
 
@@ -1128,7 +1128,7 @@ msgstr ""
 msgid "Assigned Customer to this Site"
 msgstr ""
 
-#: core/Modules/Container.php:888, templates/loop/sites.php:268
+#: core/Modules/Container.php:888, templates/loop/sites.php:267
 msgid "Customer"
 msgstr ""
 
@@ -1560,23 +1560,23 @@ msgstr ""
 msgid "Our SiteCache solution is powered partly by the WP Fastest Cache plugin. We recommend to keep this plugin activated."
 msgstr ""
 
-#: core/Utils/Helpers.php:675
+#: core/Utils/Helpers.php:678
 msgid "Sorry, we could not retrieve your site details"
 msgstr ""
 
-#: core/Utils/Helpers.php:680
+#: core/Utils/Helpers.php:683
 msgid "We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error."
 msgstr ""
 
-#: core/Utils/Helpers.php:686
+#: core/Utils/Helpers.php:689
 msgid "Retry"
 msgstr ""
 
-#: core/Utils/Helpers.php:691
+#: core/Utils/Helpers.php:694
 msgid "Create a support ticket"
 msgstr ""
 
-#: core/Utils/Helpers.php:1133
+#: core/Utils/Helpers.php:1136
 msgid "Site View"
 msgstr ""
 
@@ -1738,7 +1738,7 @@ msgstr ""
 msgid "Show your sites using the Live Preview bar"
 msgstr ""
 
-#: templates/loop/sites.php:345
+#: templates/loop/sites.php:344
 msgid "No sites found."
 msgstr ""
 
@@ -1750,31 +1750,31 @@ msgstr ""
 msgid "Unnamed"
 msgstr ""
 
-#: templates/loop/sites.php:243
+#: templates/loop/sites.php:242
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites.php:246
+#: templates/loop/sites.php:245
 msgid "Version %s"
 msgstr ""
 
-#: templates/loop/sites.php:260
+#: templates/loop/sites.php:259
 msgid "Never. Update now!"
 msgstr ""
 
-#: templates/loop/sites.php:285
+#: templates/loop/sites.php:284
 msgid "Manage"
 msgstr ""
 
-#: templates/loop/sites.php:279, templates/widgets/site/pages/blueprints.php:101
+#: templates/loop/sites.php:278, templates/widgets/site/pages/blueprints.php:101
 msgid "Update Blueprint"
 msgstr ""
 
-#: templates/loop/sites.php:297
+#: templates/loop/sites.php:296
 msgid "Visit Staging Area"
 msgstr ""
 
-#: templates/loop/sites.php:309
+#: templates/loop/sites.php:308
 msgid "Login to Site as Admin"
 msgstr ""
 
@@ -1972,7 +1972,7 @@ msgstr ""
 msgid "Please type the unique name of your site. Your site name is shown in the sidebar and in your URL address bar."
 msgstr ""
 
-#: core/Modules/Forms/DeleteSite.php:86, templates/widgets/general/sites-navigation.php:58, templates/widgets/site/site-navigation.php:43
+#: core/Modules/Forms/DeleteSite.php:86, templates/widgets/general/sites-navigation.php:63, templates/widgets/site/site-navigation.php:43
 msgid "Delete"
 msgstr ""
 
@@ -2081,7 +2081,7 @@ msgid "Content"
 msgstr ""
 
 #: core/Widgets/Customers/CustomersList.php:63
-msgid "Customers per page"
+msgid "Customers Per Page"
 msgstr ""
 
 #: core/Widgets/Dashboard/LatestNews.php:21
@@ -2304,7 +2304,7 @@ msgstr ""
 msgid "Main Navigation"
 msgstr ""
 
-#: core/Widgets/General/SitesNavigation.php:21
+#: core/Widgets/General/SitesNavigation.php:32
 msgid "Sites Navigation"
 msgstr ""
 
@@ -2464,35 +2464,35 @@ msgstr ""
 msgid "Used storage"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:43, templates/widgets/site/site-navigation.php:19
+#: templates/widgets/general/sites-navigation.php:48, templates/widgets/site/site-navigation.php:19
 msgid "Dashboard"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:44, templates/widgets/site/site-navigation.php:20, templates/widgets/site/pages/blueprints.php:194, templates/widgets/site/pages/plugins.php:45
+#: templates/widgets/general/sites-navigation.php:49, templates/widgets/site/site-navigation.php:20, templates/widgets/site/pages/blueprints.php:194, templates/widgets/site/pages/plugins.php:45
 msgid "Plugins"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:45, templates/widgets/site/site-navigation.php:21, templates/widgets/site/pages/blueprints.php:195
+#: templates/widgets/general/sites-navigation.php:50, templates/widgets/site/site-navigation.php:21, templates/widgets/site/pages/blueprints.php:195
 msgid "Themes"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:46, templates/widgets/site/site-navigation.php:22, templates/widgets/site/pages/domains.php:2
+#: templates/widgets/general/sites-navigation.php:51, templates/widgets/site/site-navigation.php:22, templates/widgets/site/pages/domains.php:2
 msgid "Domains"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:47, templates/widgets/site/site-navigation.php:23, templates/widgets/site/pages/backups.php:18
+#: templates/widgets/general/sites-navigation.php:52, templates/widgets/site/site-navigation.php:23, templates/widgets/site/pages/backups.php:18
 msgid "Backups"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:48, templates/widgets/site/site-navigation.php:24, templates/widgets/site/pages/updates.php:2
+#: templates/widgets/general/sites-navigation.php:53, templates/widgets/site/site-navigation.php:24, templates/widgets/site/pages/updates.php:2
 msgid "Updates"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:49, templates/widgets/site/site-navigation.php:25
+#: templates/widgets/general/sites-navigation.php:54, templates/widgets/site/site-navigation.php:25
 msgid "Developer Tools"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:51, templates/widgets/site/site-navigation.php:27
+#: templates/widgets/general/sites-navigation.php:56, templates/widgets/site/site-navigation.php:27
 msgid "Migrate"
 msgstr ""
 
@@ -3129,7 +3129,7 @@ msgid "Quick Connect!"
 msgstr ""
 
 #: templates/widgets/site/pages/staging.php:110
-msgid "Sync Staging with Live Site"
+msgid "Sync from Staging to Live"
 msgstr ""
 
 #: templates/widgets/site/pages/staging.php:133
