@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-<?php // dollie_setup_get_template_part('wrapper-header'); ?>
-=======
+
 <?php //dollie_setup_get_template_part('wrapper-header');
 ?>
->>>>>>> Add Dollie News to Admin Dashboard
 <div class="dol-min-h-full dol-mt-8 dol-pt-[100px]">
 	<main class="dol-pb-8 dol--mt-24">
 		<div class="dol-max-w-3xl dol-px-4 dol-mx-auto sm:dol-px-6 lg:dol-max-w-7xl lg:dol-px-8">
@@ -55,24 +52,6 @@
 						Recent Launched Sites
 					</h2>
 
-<<<<<<< HEAD
-					$args = [
-						'posts_per_page' => 3,
-						'post_type'      => 'container',
-						'post_status'    => 'publish',
-					];
-
-					$sites = new WP_Query( $args );
-
-					$data = [
-						'sites'      => $sites,
-						'query_data' => [
-							'permalink' => get_the_permalink(),
-						],
-					];
-
-					dollie()->load_template( 'loop/sites-dashboard', $data, true );
-=======
 					<section aria-labelledby="profile-overview-title">
 						<?php
 						$args = [
@@ -102,12 +81,9 @@
 						$data = [
 							'posts'    => dollie()->get_dashboard_posts()
 						];
->>>>>>> Add Dollie News to Admin Dashboard
-
 						dollie()->load_template('widgets/dashboard/dollie-news', $data, true);
 						?>
 					</section>
-
 
 
 				</div>
@@ -237,9 +213,4 @@
 	</main>
 
 </div>
-<<<<<<< HEAD
 <?php // dollie_setup_get_template_part('wrapper-footer'); ?>
-=======
-<?php //dollie_setup_get_template_part('wrapper-footer');
-?>
->>>>>>> Add Dollie News to Admin Dashboard
