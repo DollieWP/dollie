@@ -1,16 +1,5 @@
 <?php
 $token  = \Dollie\Core\Utils\Api::get_auth_token();
-$args = array(
-	"post_type" => "product",
-	"status" => "publish",
-	"meta_query" => array(
-		array(
-			'key'     => 'wpd_',
-			'compare_key' => 'LIKE',
-		),
-	),
-);
-$query = new \WP_Query($args);
 ?>
 
 
@@ -20,7 +9,7 @@ $query = new \WP_Query($args);
 
 		<?php if ($token) : ?>
 			<li>
-				<a href="<?php echo DOLLIE_ADMIN_URL; ?>" class="dol-block hover:dol-bg-gray-50">
+				<a href="#" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
 						<div class="dol-min-w-0 dol-flex-1 dol-flex dol-items-center">
 							<div class="dol-flex-shrink-0">
@@ -97,9 +86,9 @@ $query = new \WP_Query($args);
 		<?php endif; ?>
 
 		<?php
-		if ( get_field('wpd_charge_for_deployments', 'options') == true && dollie()->has_products() == true ) { ?>
+		if (get_field('wpd_charge_for_deployments', 'options') == true && dollie()->has_products() == true) { ?>
 			<li>
-				<a href="<?php echo DOLLIE_ADMIN_URL; ?>" class="dol-block hover:dol-bg-gray-50">
+				<a href="#" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
 						<div class="dol-min-w-0 dol-flex-1 dol-flex dol-items-center">
 							<div class="dol-flex-shrink-0">
@@ -137,9 +126,9 @@ $query = new \WP_Query($args);
 					</div>
 				</a>
 			</li>
-			<?php } else { ?>
+		<?php } else { ?>
 			<li>
-				<a href="<?php echo DOLLIE_ADMIN_URL; ?>" class="dol-block hover:dol-bg-gray-50">
+				<a href="<?php echo get_admin_url(); ?>post-new.php?post_type=product" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
 						<div class="dol-min-w-0 dol-flex-1 dol-flex dol-items-center">
 							<div class="dol-flex-shrink-0">
@@ -152,7 +141,7 @@ $query = new \WP_Query($args);
 									<p class="dol-text-sm dol-font-medium dol-text-red-600 dol-truncate"><?php esc_html_e('WooCommerce Setup', 'dollie'); ?></p>
 									<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
 										<!-- Heroicon name: solid/mail -->
-										<span class="dol-truncate">No WooCommerce Products with Dollie Found</span>
+										<span class="dol-truncate">No Products with Dollie Settings Found</span>
 									</p>
 								</div>
 								<div class="dol-hidden dol-mt-3 md:dol-block">

@@ -1,5 +1,5 @@
 <?php
-namespace DOLLIE_SETUP\CLI;
+namespace Dollie_Setup\CLI;
 
 use WP_CLI;
 

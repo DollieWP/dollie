@@ -1,8 +1,8 @@
 <?php
-namespace DOLLIE_SETUP\Upgrades;
+namespace Dollie_Setup\Upgrades;
 
 /**
- * DOLLIE_SETUP\Upgrades\Upgrade class.
+ * Dollie_Setup\Upgrades\Upgrade class.
  *
  * Extend this class to create custom upgrades.
  *
@@ -37,7 +37,7 @@ abstract class Upgrade {
 	/**
 	 * Data store of upgrade items.
 	 *
-	 * @var DOLLIE_SETUP\Upgrades\Upgrade_Item[]
+	 * @var Dollie_Setup\Upgrades\Upgrade_Item[]
 	 */
 	protected $items = [];
 
@@ -49,7 +49,7 @@ abstract class Upgrade {
 	}
 
 	/**
-	 * To setup the upgrade data use the push() method to add DOLLIE_SETUP\Upgrades\Upgrade_Item instances to the queue.
+	 * To setup the upgrade data use the push() method to add Dollie_Setup\Upgrades\Upgrade_Item instances to the queue.
 	 *
 	 * Note: If the operation of obtaining data is expensive, cache it to avoid slowdowns.
 	 *
@@ -65,7 +65,7 @@ abstract class Upgrade {
 	 * - true - If the item was processed successfully.
 	 * - WP_Error instance - If there was an error. Add message to display it in the admin area.
 	 *
-	 * @param DOLLIE_SETUP\Upgrades\Upgrade_Item $item
+	 * @param Dollie_Setup\Upgrades\Upgrade_Item $item
 	 *
 	 * @return \WP_Error|bool
 	 */
@@ -82,7 +82,7 @@ abstract class Upgrade {
 	/**
 	 * Queues the item for processing.
 	 *
-	 * @param DOLLIE_SETUP\Upgrades\Upgrade_Item $item
+	 * @param Dollie_Setup\Upgrades\Upgrade_Item $item
 	 */
 	protected function push( $item ) {
 		if ( ! is_array( $this->items ) ) {
@@ -96,9 +96,9 @@ abstract class Upgrade {
 	/**
 	 * Get next upgrade item.
 	 *
-	 * @param DOLLIE_SETUP\Upgrades\Upgrade_Item $item
+	 * @param Dollie_Setup\Upgrades\Upgrade_Item $item
 	 *
-	 * @return DOLLIE_SETUP\Upgrades\Upgrade_Item|bool
+	 * @return Dollie_Setup\Upgrades\Upgrade_Item|bool
 	 */
 	public function get_next_item() {
 		$processed = $this->get_processed_items();
@@ -125,7 +125,7 @@ abstract class Upgrade {
 	/**
 	 * Check if upgrade item was processed.
 	 *
-	 * @param DOLLIE_SETUP\Upgrades\Upgrade_Item $item
+	 * @param Dollie_Setup\Upgrades\Upgrade_Item $item
 	 *
 	 * @return bool
 	 */

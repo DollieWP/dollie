@@ -202,7 +202,7 @@ function dollie_setup_get_setup_step() {
 
 	// Upgrades.
 	if ( empty( $step ) ) {
-		$items = DOLLIE_SETUP\Upgrades\Upgrade_Registry::get_instance()->get_all_registered();
+		$items = Dollie_Setup\Upgrades\Upgrade_Registry::get_instance()->get_all_registered();
 		if ( ! empty( $items ) ) {
 			$step = 'upgrades-available';
 		}

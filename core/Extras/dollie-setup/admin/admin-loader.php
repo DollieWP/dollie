@@ -631,7 +631,7 @@ class Dollie_Setup_Admin {
 	 * Setup admin menu and any dependent page hooks.
 	 */
 	public function admin_menu() {
-		$name = dollie_setup_get_package_prop( 'name' ) ? sprintf( __( 'DOLLIE_SETUP %s', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ) : __( 'Dollie Setup', 'dollie-setup' );
+		$name = dollie_setup_get_package_prop( 'name' ) ? sprintf( __( 'Dollie for %s', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ) : __( 'Dollie Setup', 'dollie-setup' );
 		$page = add_menu_page(
 			$name,
 			$name,

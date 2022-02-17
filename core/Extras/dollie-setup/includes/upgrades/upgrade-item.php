@@ -1,5 +1,5 @@
 <?php
-namespace DOLLIE_SETUP\Upgrades;
+namespace Dollie_Setup\Upgrades;
 
 class Upgrade_Item {
 

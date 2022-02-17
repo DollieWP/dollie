@@ -61,8 +61,8 @@ class Dollie_Setup_Settings_Agency {
 	private function setup_hooks() {
 		add_action( 'admin_init', array( $this, 'register_settings_hook' ) );
 
-		// setup the DOLLIE_SETUP plugin menu
-		add_action( 'dollie_setup_admin_menu', array( $this, 'setup_settings_page' ), 20 );
+		// UNUSED
+		//add_action( 'dollie_setup_admin_menu', array( $this, 'setup_settings_page' ), 20 );
 	}
 
 	/** SETTINGS-SPECIFIC *********************************************/

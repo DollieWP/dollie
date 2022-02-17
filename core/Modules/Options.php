@@ -44,6 +44,7 @@ class Options extends Singleton
 
 		add_action('admin_menu', [$this, 'add_staging_menu_page'], 1);
 		add_action('admin_menu', [$this, 'dollie_submenus'], 99);
+		add_action('admin_menu', [$this, 'dollie_setup_submenus'], 1);
 		add_action('admin_menu', [$this, 'dollie_submenu_api'], $api_menu_priority);
 		add_action('admin_menu', [$this, 'add_external_menu_links'], 100);
 		add_action('admin_menu', [$this, 'remove_duplicate_admin_menu'], 100);
@@ -117,7 +118,7 @@ class Options extends Singleton
 			'menu_slug'   => self::PANEL_SLUG,
 			'capability'  => 'manage_options',
 			'position'    => '4',
-			'parent_slug' => '',
+			'parent_slug' => 'dollie_setup',
 			'icon_url'    => false,
 			'redirect'    => true,
 			'autoload'    => true,
@@ -177,6 +178,19 @@ class Options extends Singleton
 				[$this, 'dollie_tools_content']
 			);
 		}
+
+	}
+
+	public function dollie_setup_submenus()
+	{
+
+		add_submenu_page(
+			self::PANEL_SLUG,
+			'Dashboard',
+			'Dashboard',
+			'manage_options',
+			'admin.php?page=dollie_setup'
+		);
 	}
 
 	/**
@@ -308,6 +322,17 @@ class Options extends Singleton
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
+				'title'  => esc_html__('Dashboard', 'dollie'),
+				'id'     => 'dab-dashboard',
+				'href'   => get_admin_url() . 'admin.php?page=dollie_setup',
+				'meta'   => ['target' => ''],
+			]
+		);
+
+
+		$wp_admin_bar->add_menu(
+			[
+				'parent' => $menu_id,
 				'title'  => esc_html__('Settings', 'dollie'),
 				'id'     => 'dab-settings',
 				'href'   => get_admin_url() . 'admin.php?page=' . self::PANEL_SLUG,
@@ -385,14 +410,14 @@ class Options extends Singleton
 	{
 		global $submenu;
 
-		$submenu[self::PANEL_SLUG][] = [
+		$submenu['dollie_setup'][] = [
 			'<div id="dol-url-partner-dashboard">' . esc_html__('Partner Dashboard', 'dollie') . '</div>',
 			'manage_options',
 			'https://partners.getdollie.com',
 		];
 
-		$submenu[self::PANEL_SLUG][] = [
-			'<div id="dol-url-support">' . esc_html__('Support', 'dollie') . '</div>',
+		$submenu['dollie_setup'][] = [
+			'<div id="dol-url-support">' . esc_html__('Support', 'dollie') . '</div><hr>',
 			'manage_options',
 			'https://partners.getdollie.com/?redirect=support',
 		];
@@ -401,7 +426,7 @@ class Options extends Singleton
 
 		if ($launch_site) {
 			array_splice(
-				$submenu[self::PANEL_SLUG],
+				$submenu['dollie_setup'],
 				2,
 				0,
 				[
@@ -415,7 +440,7 @@ class Options extends Singleton
 		}
 
 		array_splice(
-			$submenu[self::PANEL_SLUG],
+			$submenu['dollie_setup'],
 			2,
 			0,
 			[
@@ -427,7 +452,7 @@ class Options extends Singleton
 			]
 		);
 		array_splice(
-			$submenu[self::PANEL_SLUG],
+			$submenu['dollie_setup'],
 			2,
 			0,
 			[
@@ -507,56 +532,8 @@ class Options extends Singleton
 	 */
 	public function add_api_boxes_callback($post, $args = [])
 	{
-		$token  = Api::get_auth_token();
-		$status = __('Inactive', 'dollie');
-		$class  = 'api-inactive';
+		dollie_setup_get_template_part('setup-complete');
 
-		if ($token) {
-			$status = __('Active', 'dollie');
-			$class  = 'api-active';
-		}
-
-		$args = array(
-			"post_type" => "product",
-			"status" => "publish",
-			"meta_query" => array(
-				array(
-					'key'     => 'wpd_',
-					'compare_key' => 'LIKE',
-				),
-			),
-		);
-		$query = new \WP_Query($args);
-
-	?>
-		<div class="notice dollie-notice <?php echo esc_attr($class); ?>">
-			<div class="dollie-inner-message">
-				<h2>
-					API Status: <span class="<?php echo esc_attr($class); ?>-span"><?php echo $status; ?></span>
-				</h2>
-				<?php
-				if (get_field('wpd_charge_for_deployments', 'options') == true && $token) {
-					if ($query->have_posts()) : ?>
-						<hr>
-						<h2>
-							Product Setup <span class="api-active-span">Complete</span>
-						</h2>
-						<strong>One or more WooCommmerce products with Dollie settings are found</strong>
-						<hr>
-					<?php else : ?>
-						<hr>
-						<h2>
-							Product Setup <span class="api-inactive-span">Not complete</span>
-						</h2>
-						<strong>No Dollie products are currently configured in your WooCommerce store. <a href="<?php echo get_admin_url(); ?>/post-new.php?post_type=product">Why don't you add one now?</a></strong>
-						<hr>
-				<?php endif;
-				}
-				?>
-			</div>
-		</div>
-
-	<?php
 	}
 
 

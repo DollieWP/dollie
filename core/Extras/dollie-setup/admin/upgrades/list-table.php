@@ -1,7 +1,7 @@
 <?php
-namespace DOLLIE_SETUP\Admin\Upgrades;
+namespace Dollie_Setup\Admin\Upgrades;
 
-use DOLLIE_SETUP\Upgrades\Upgrade_Registry;
+use Dollie_Setup\Upgrades\Upgrade_Registry;
 
 if ( ! class_exists( '\WP_List_Table' ) ) {
 	require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';

@@ -27,13 +27,13 @@ add_action(
         }
 
         // Include autoloader.
-        if ( ! interface_exists( '\DOLLIE_SETUP\OL\ItemType', false ) ) {
+        if ( ! interface_exists( '\Dollie_Setup\OL\ItemType', false ) ) {
             include_once DOLLIE_SETUPOL_PLUGIN_DIR . 'autoload.php';
         }
 
         require_once DOLLIE_SETUPOL_PLUGIN_DIR . 'includes/upgrades.php';
 
-        $items = DOLLIE_SETUP\Upgrades\Upgrade_Registry::get_instance()->get_all_registered();
+        $items = Dollie_Setup\Upgrades\Upgrade_Registry::get_instance()->get_all_registered();
         foreach ( $items as $item ) {
             if ( ! get_option( $item::FLAG, false ) ) {
                 $item->finish();

@@ -1,19 +1,19 @@
 <?php
-namespace DOLLIE_SETUP\Upgrades;
+namespace Dollie_Setup\Upgrades;
 
 class Upgrade_Registry {
 
 	/**
 	 * Registered upgrades.
 	 *
-	 * @var DOLLIE_SETUP\Upgrades\Upgrade[]
+	 * @var Dollie_Setup\Upgrades\Upgrade[]
 	 */
 	private $upgrades = [];
 
 	/**
 	 * Container for the main instance of the class.
 	 *
-	 * @var DOLLIE_SETUP\Upgrades\Upgrade_Registry|null
+	 * @var Dollie_Setup\Upgrades\Upgrade_Registry|null
 	 */
 	private static $instance = null;
 
@@ -21,7 +21,7 @@ class Upgrade_Registry {
 	 * Register a upgrade.
 	 *
 	 * @param string                $id    Unique identifier of the upgrade.
-	 * @param DOLLIE_SETUP\Upgrades\Upgrade $upgrade Upgrade object.
+	 * @param Dollie_Setup\Upgrades\Upgrade $upgrade Upgrade object.
 	 * @return bool
 	 */
 	public function register( $id, $upgrade ) {
@@ -35,7 +35,7 @@ class Upgrade_Registry {
 	 * Retrieves a registered upgrade.
 	 *
 	 * @param string $id Upgrade id.
-	 * @return DOLLIE_SETUP\Upgrades\Upgrade|null The registered upgrade, or null if it is not registered.
+	 * @return Dollie_Setup\Upgrades\Upgrade|null The registered upgrade, or null if it is not registered.
 	 */
 	public function get_registered( $id ) {
 		if ( ! $this->is_registered( $id ) ) {
@@ -48,7 +48,7 @@ class Upgrade_Registry {
 	/**
 	 * Retrieves all registered upgrades.
 	 *
-	 * @return DOLLIE_SETUP\Upgrades\Upgrade[] Associative array of `$upgrade_id => $upgrade` pairs.
+	 * @return Dollie_Setup\Upgrades\Upgrade[] Associative array of `$upgrade_id => $upgrade` pairs.
 	 */
 	public function get_all_registered() {
 		return $this->upgrades;
@@ -69,7 +69,7 @@ class Upgrade_Registry {
 	 *
 	 * The instance will be created if it does not exist yet.
 	 *
-	 * @return DOLLIE_SETUP\Upgrades\Upgrade_Registry The main instance.
+	 * @return Dollie_Setup\Upgrades\Upgrade_Registry The main instance.
 	 */
 	public static function get_instance() {
 		if ( null === self::$instance ) {

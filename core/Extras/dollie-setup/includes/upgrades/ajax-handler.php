@@ -1,7 +1,7 @@
 <?php
-namespace DOLLIE_SETUP\Upgrades;
+namespace Dollie_Setup\Upgrades;
 
-use DOLLIE_SETUP\Upgrades\Upgrade_Registry;
+use Dollie_Setup\Upgrades\Upgrade_Registry;
 
 /**
  * AJAX callback for upgrade process.
@@ -29,11 +29,11 @@ function handle_upgrade() {
 	if ( $is_bulk ) {
 		$upgrades = $registry->get_all_registered();
 
-		/** @var \DOLLIE_SETUP\Upgrades\Upgrade */
+		/** @var \Dollie_Setup\Upgrades\Upgrade */
 		$upgrade = ! empty( $upgrades ) ? reset( $upgrades ) : null;
 		$total   = count( $upgrades );
 	} else {
-		/** @var \DOLLIE_SETUP\Upgrades\Upgrade */
+		/** @var \Dollie_Setup\Upgrades\Upgrade */
 		$upgrade = $registry->get_registered( $id );
 		$total   = 1;
 	}

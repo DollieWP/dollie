@@ -223,10 +223,10 @@ class Dollie_Setup {
 
 		// WP-CLI integration
 		if ( defined( 'WP_CLI' ) ) {
-			\WP_CLI::add_command( 'dollie_setup', '\DOLLIE_SETUP\CLI\Core' );
-			\WP_CLI::add_command( 'dollie_setup package', '\DOLLIE_SETUP\CLI\Package' );
-			\WP_CLI::add_command( 'dollie_setup update', '\DOLLIE_SETUP\CLI\Update' );
-			\WP_CLI::add_command( 'dollie_setup upgrade', '\DOLLIE_SETUP\CLI\Upgrade' );
+			\WP_CLI::add_command( 'dollie_setup', '\Dollie_Setup\CLI\Core' );
+			\WP_CLI::add_command( 'dollie_setup package', '\Dollie_Setup\CLI\Package' );
+			\WP_CLI::add_command( 'dollie_setup update', '\Dollie_Setup\CLI\Update' );
+			\WP_CLI::add_command( 'dollie_setup upgrade', '\Dollie_Setup\CLI\Upgrade' );
 		}
 
 		/**
@@ -341,7 +341,7 @@ class Dollie_Setup {
 	public function cli_autoloader() {
 		spl_autoload_register(
 			function( $class ) {
-				$prefix   = 'DOLLIE_SETUP\\CLI\\';
+				$prefix   = 'Dollie_Setup\\CLI\\';
 				$base_dir = __DIR__ . '/includes/CLI/';
 
 				// Does the class use the namespace prefix?

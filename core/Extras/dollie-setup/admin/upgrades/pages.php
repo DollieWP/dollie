@@ -1,9 +1,9 @@
 <?php
 
-namespace DOLLIE_SETUP\Admin\Upgrades;
+namespace Dollie_Setup\Admin\Upgrades;
 
-use DOLLIE_SETUP\Upgrades\Upgrade_Registry;
-use DOLLIE_SETUP\Admin\Upgrades\List_Table;
+use Dollie_Setup\Upgrades\Upgrade_Registry;
+use Dollie_Setup\Admin\Upgrades\List_Table;
 
 /**
  * Setup sub-menu page for Upgrades.
@@ -12,16 +12,22 @@ use DOLLIE_SETUP\Admin\Upgrades\List_Table;
  */
 function setup_upgrades_page()
 {
-	$subpage = add_submenu_page(
-		'dollie_setup',
-		esc_html__('Upgrades', 'dollie-setup'),
-		esc_html__('Upgrades', 'dollie-setup'),
-		'install_plugins',
-		'dollie_setup-upgrades',
-		__NAMESPACE__ . '\\upgrades_page'
-	);
+	//Only show updates when available
+	$updates = Upgrade_Registry::get_instance()->get_all_registered();
 
-	add_action("admin_print_scripts-{$subpage}", __NAMESPACE__ . '\\enqueue_assets');
+	if (!empty($updates)) {
+		$subpage = add_submenu_page(
+			'dollie_setup',
+			esc_html__('Upgrades', 'dollie-setup'),
+			esc_html__('Upgrades', 'dollie-setup'),
+			'install_plugins',
+			'dollie_setup-upgrades',
+			__NAMESPACE__ . '\\upgrades_page'
+		);
+
+		add_action("admin_print_scripts-{$subpage}", __NAMESPACE__ . '\\enqueue_assets');
+	}
+
 }
 add_action('dollie_setup_admin_menu', __NAMESPACE__ . '\\setup_upgrades_page');
 
@@ -113,10 +119,10 @@ function upgrades_view()
 	if ($is_bulk) {
 		$upgrades = $registry->get_all_registered();
 
-		/** @var \DOLLIE_SETUP\Upgrades\Upgrade */
+		/** @var \Dollie_Setup\Upgrades\Upgrade */
 		$upgrade = !empty($upgrades) ? reset($upgrades) : null;
 	} else {
-		/** @var \DOLLIE_SETUP\Upgrades\Upgrade */
+		/** @var \Dollie_Setup\Upgrades\Upgrade */
 		$upgrade = $registry->get_registered($id);
 	}
 

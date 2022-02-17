@@ -1,8 +1,8 @@
 <?php
-namespace DOLLIE_SETUP\CLI;
+namespace Dollie_Setup\CLI;
 
 use WP_CLI;
-use DOLLIE_SETUP\Upgrades\Upgrade_Registry;
+use Dollie_Setup\Upgrades\Upgrade_Registry;
 
 /**
  * Commands applicable to a DOLLIE_SETUP Upgrades API.
@@ -95,7 +95,7 @@ class Upgrade extends \WP_CLI_Command {
 	public function run( $args, $assoc_args ) {
 		list( $id ) = $args;
 
-		/** @var \DOLLIE_SETUP\Upgrades\Upgrade */
+		/** @var \Dollie_Setup\Upgrades\Upgrade */
 		$upgrade = Upgrade_Registry::get_instance()->get_registered( $id );
 
 		if ( ! $upgrade ) {
