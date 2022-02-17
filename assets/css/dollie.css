@@ -1197,6 +1197,8 @@ input[type="text"].dol-search-input:focus {
     margin-top: -6rem; }
 .dol--mr-1 {
     margin-right: -0.25rem; }
+.dol-mr-1\.5 {
+    margin-right: 0.375rem; }
 .dol-block {
     display: block; }
 .dol-inline-block {
@@ -1245,6 +1247,8 @@ input[type="text"].dol-search-input:focus {
     height: 0.5rem; }
 .dol-h-20 {
     height: 5rem; }
+.dol-h-12 {
+    height: 3rem; }
 .dol-min-h-full {
     min-height: 100%; }
 .dol-w-8 {
@@ -1301,6 +1305,8 @@ input[type="text"].dol-search-input:focus {
     width: 66.666667%; }
 .dol-w-9\/12 {
     width: 75%; }
+.dol-w-12 {
+    width: 3rem; }
 .dol-min-w-0 {
     min-width: 0px; }
 .dol-max-w-7xl {
@@ -1825,6 +1831,9 @@ input[type="text"].dol-search-input:focus {
 .dol-text-red-600 {
     --tw-text-opacity: 1;
     color: rgb(220 38 38 / var(--tw-text-opacity)); }
+.dol-text-green-400 {
+    --tw-text-opacity: 1;
+    color: rgb(52 211 153 / var(--tw-text-opacity)); }
 .dol-underline {
     -webkit-text-decoration-line: underline;
             text-decoration-line: underline; }
@@ -2099,6 +2108,8 @@ input[type="text"].dol-search-input:focus {
         --tw-divide-x-reverse: 0;
         border-right-width: calc(1px * var(--tw-divide-x-reverse));
         border-left-width: calc(1px * calc(1 - var(--tw-divide-x-reverse))); }
+    .sm\:dol-rounded-md {
+        border-radius: 0.375rem; }
     .sm\:dol-p-6 {
         padding: 1.5rem; }
     .sm\:dol-px-6 {
@@ -2132,12 +2143,16 @@ input[type="text"].dol-search-input:focus {
         margin-left: 1.5rem; }
     .md\:dol-mr-1 {
         margin-right: 0.25rem; }
+    .md\:dol-block {
+        display: block; }
     .md\:dol-inline-block {
         display: inline-block; }
     .md\:dol-inline {
         display: inline; }
     .md\:dol-flex {
         display: flex; }
+    .md\:dol-grid {
+        display: grid; }
     .md\:dol-hidden {
         display: none; }
     .md\:dol-h-auto {
@@ -2166,8 +2181,12 @@ input[type="text"].dol-search-input:focus {
         width: 60%; }
     .md\:dol-flex-shrink-0 {
         flex-shrink: 0; }
+    .md\:dol-grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .md\:dol-justify-between {
         justify-content: space-between; }
+    .md\:dol-gap-4 {
+        gap: 1rem; }
     .md\:dol-bg-secondary {
         background-color: var(--d-secondary); }
     .md\:dol-p-10 {
