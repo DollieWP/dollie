@@ -15,7 +15,7 @@
 					if (!empty($customers->results)) {
 						foreach ($customers->results as $customer) {
 					?>
-							<li class="dol-py-4">
+							<li class="dol-py-3">
 								<div class="dol-flex dol-items-center dol-space-x-4">
 									<div class="dol-flex-shrink-0">
 										<?php echo get_avatar($customer->ID, '100', '', '', ['class' => 'dol-w-8 dol-h-8 dol-rounded-full']); ?>

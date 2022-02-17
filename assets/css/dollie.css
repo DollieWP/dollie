@@ -1590,6 +1590,12 @@ input[type="text"].dol-search-input:focus {
 .dol-bg-black {
     --tw-bg-opacity: 1;
     background-color: rgb(0 0 0 / var(--tw-bg-opacity)); }
+.dol-bg-green-400 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(52 211 153 / var(--tw-bg-opacity)); }
+.dol-bg-red-400 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(248 113 113 / var(--tw-bg-opacity)); }
 .dol-bg-opacity-50 {
     --tw-bg-opacity: 0.5; }
 .dol-object-cover {
@@ -1834,6 +1840,18 @@ input[type="text"].dol-search-input:focus {
 .dol-text-green-400 {
     --tw-text-opacity: 1;
     color: rgb(52 211 153 / var(--tw-text-opacity)); }
+.dol-text-red-400 {
+    --tw-text-opacity: 1;
+    color: rgb(248 113 113 / var(--tw-text-opacity)); }
+.dol-text-green-200 {
+    --tw-text-opacity: 1;
+    color: rgb(167 243 208 / var(--tw-text-opacity)); }
+.dol-text-green-100 {
+    --tw-text-opacity: 1;
+    color: rgb(209 250 229 / var(--tw-text-opacity)); }
+.dol-text-red-100 {
+    --tw-text-opacity: 1;
+    color: rgb(254 226 226 / var(--tw-text-opacity)); }
 .dol-underline {
     -webkit-text-decoration-line: underline;
             text-decoration-line: underline; }
@@ -9214,8 +9232,7 @@ body[class*="dollie_setup"] {
   body[class*="dollie_setup"] img {
     max-width: 100%; }
   body[class*="dollie_setup"] p {
-    margin: 2px;
-    font-size: inherit; }
+    margin: 2px; }
   body[class*="dollie_setup"] #wpbody-content .dol-sites-name {
     width: 41.333333%; }
   @media (min-width: 1280px) {
