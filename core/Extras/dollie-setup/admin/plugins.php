@@ -387,8 +387,8 @@ class Dollie_Setup_Admin_Plugins {
 			$plugin_page = add_submenu_page(
 				'dollie_setup',
 				__( 'Dollie Setup Plugins', 'dollie-setup' ),
-				__( 'Plugins', 'dollie-setup' ),
-				'install_plugins', // todo - map cap?
+				__( 'Core Plugins', 'dollie-setup' ),
+				'manage_options', // todo - map cap?
 				'dollie_setup-plugins',
 				array( $this, 'admin_page' )
 			);

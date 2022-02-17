@@ -114,10 +114,10 @@ class Options extends Singleton
 
 		$args = [
 			'page_title'  => __('Settings', 'dollie'),
-			'menu_title'  => __('Dollie (Live)', 'dollie'),
+			'menu_title'  => __('Settings <span class="dol-status dol-live">Live<span>', 'dollie'),
 			'menu_slug'   => self::PANEL_SLUG,
 			'capability'  => 'manage_options',
-			'position'    => '4',
+			'position'    => '99',
 			'parent_slug' => 'dollie_setup',
 			'icon_url'    => false,
 			'redirect'    => true,
@@ -132,7 +132,7 @@ class Options extends Singleton
 	 */
 	public function add_staging_menu_page()
 	{
-		$page_title = __('Dollie (Staging)', 'dollie');
+		$page_title = __('Dollie <span class="dol-status dol-staging">Staging<span>', 'dollie');
 
 		if ($this->is_live()) {
 			$title    = __('Settings', 'dollie');
@@ -343,7 +343,7 @@ class Options extends Singleton
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => esc_html__('View Sites', 'dollie'),
+				'title'  => '<span class="dol-divider-sites"></span><div id="dol-sites">' . esc_html__('View Sites', 'dollie') . '</div>',
 				'id'     => 'dab-site',
 				'href'   => get_admin_url() . 'edit.php?post_type=container',
 				'meta'   => ['target' => ''],
@@ -410,24 +410,26 @@ class Options extends Singleton
 	{
 		global $submenu;
 
-		$submenu['dollie_setup'][] = [
-			'<div id="dol-url-partner-dashboard">' . esc_html__('Partner Dashboard', 'dollie') . '</div>',
-			'manage_options',
-			'https://partners.getdollie.com',
-		];
-
-		$submenu['dollie_setup'][] = [
-			'<div id="dol-url-support">' . esc_html__('Support', 'dollie') . '</div><hr>',
-			'manage_options',
-			'https://partners.getdollie.com/?redirect=support',
-		];
 
 		$launch_site = dollie()->get_launch_page_id();
+
+		array_splice(
+			$submenu['dollie_setup'],
+			5,
+			0,
+			[
+				[
+					'<span class="dol-divider-sites"></span><div id="dol-sites">' . esc_html__('View Sites', 'dollie') . '</div>',
+					'edit_wpd_sites',
+					get_admin_url() . 'edit.php?post_type=container',
+				],
+			]
+		);
 
 		if ($launch_site) {
 			array_splice(
 				$submenu['dollie_setup'],
-				2,
+				5,
 				0,
 				[
 					[
@@ -441,7 +443,7 @@ class Options extends Singleton
 
 		array_splice(
 			$submenu['dollie_setup'],
-			2,
+			5,
 			0,
 			[
 				[
@@ -451,18 +453,19 @@ class Options extends Singleton
 				],
 			]
 		);
-		array_splice(
-			$submenu['dollie_setup'],
-			2,
-			0,
-			[
-				[
-					esc_html__('View Sites', 'dollie'),
-					'edit_wpd_sites',
-					get_admin_url() . 'edit.php?post_type=container',
-				],
-			]
-		);
+
+
+		$submenu['dollie_setup'][] = [
+			'<span class="dol-divider-support"></span><div id="dol-url-support">' . esc_html__('Support', 'dollie') . '</div>',
+			'manage_options',
+			'https://partners.getdollie.com/?redirect=support',
+		];
+
+		$submenu['dollie_setup'][] = [
+			'<div id="dol-url-partner-dashboard">' . esc_html__('Documentation', 'dollie') . '</div>',
+			'manage_options',
+			'https://partners.getdollie.com/knowledge-base',
+		];
 	}
 
 	/**

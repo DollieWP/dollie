@@ -1,8 +1,65 @@
-#adminmenuwrap .toplevel_page_wpd_platform_setup .wp-menu-image {
+#adminmenuwrap .toplevel_page_wpd_platform_setup .wp-menu-image,
+#adminmenuwrap .toplevel_page_dollie_setup .wp-menu-image {
   background: url("../img/active.png") no-repeat scroll center center / 63% auto
     rgba(0, 0, 0, 0) !important;
   opacity: 0.8;
 }
+
+.toplevel_page_wpd_platform_setup {
+  display: none !important;
+}
+
+.dol-divider-support {
+  //border: 1px solid #0000001f;
+  display: block;
+  margin-bottom: 10px;
+  // letter-spacing: 1px;
+
+  &::before {
+    content: "Support";
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #999;
+    letter-spacing: 1px;
+  }
+}
+
+.dol-status {
+  text-transform: uppercase;
+  font-size: 8px;
+  display: inline-block;
+  padding: 1.5px 4px;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 2px;
+  border: 1px solid #333;
+  letter-spacing: 1.2px;
+  position: relative;
+  top: -1px;
+
+  &.dol-live {
+    background: #33d399;
+  }
+  &.dol-staging {
+    background: #efa041;
+  }
+}
+
+.dol-divider-sites {
+  //border: 1px solid #0000001f;
+  display: block;
+  margin-bottom: 10px;
+  // letter-spacing: 1px;
+
+  &::before {
+    content: "Sites";
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #999;
+    letter-spacing: 1px;
+  }
+}
+
 #adminmenuwrap .toplevel_page_wpd_platform_setup a:hover .wp-menu-image {
   opacity: 1;
 }
@@ -29,33 +86,32 @@
 }
 
 #wp-admin-bar-dab-integrations {
-    border-top: 1px solid #4c4c4c;
-    margin-top: 10px !important;
+  border-top: 1px solid #4c4c4c;
+  margin-top: 10px !important;
 
-    &::before {
-      content: 'External Links';
-      position: relative;
-      display: block !important;
-    }
+  &::before {
+    content: "External Links";
+    position: relative;
+    display: block !important;
+  }
 }
 
-
 #dollie-integrations-menu {
-    border-top: 1px solid #585656;
-    padding-top: 12px;
-    display: block;
-    margin-left: -12px;
-    margin-right: -12px;
-    padding-left: 12px;
-    margin-top: 6px;
+  border-top: 1px solid #585656;
+  padding-top: 12px;
+  display: block;
+  margin-left: -12px;
+  margin-right: -12px;
+  padding-left: 12px;
+  margin-top: 6px;
 
-    .dashicons.dashicons-awards {
-      font-size: 116%;
-      position: relative;
-      top: 3px;
-      margin-left: -4px;
-      margin-right: -3px;
-    }
+  .dashicons.dashicons-awards {
+    font-size: 116%;
+    position: relative;
+    top: 3px;
+    margin-left: -4px;
+    margin-right: -3px;
+  }
 }
 
 .toplevel_page_wpd_platform_setup {
