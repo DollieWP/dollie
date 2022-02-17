@@ -169,7 +169,7 @@ class Helpers extends Singleton {
 
 		$url = home_url( $url_params );
 
-		$container_location = apply_filters( 'dollie/site/login_url/location', $container_location );
+		$container_location = apply_filters( 'dollie/site/login_url/location', $container_location, $container );
 
 		if ( ! empty( $container_location ) ) {
 			$url = add_query_arg( 'location', $container_location, $url );
@@ -207,6 +207,7 @@ class Helpers extends Singleton {
 		if ( $pending_role_action ) {
 			return '';
 		}
+
 
 		if ( null !== $container_location ) {
 			$location = '&location=' . $container_location;
