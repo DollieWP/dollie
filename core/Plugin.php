@@ -479,6 +479,8 @@ class Plugin extends Singleton {
 		$staging  = isset( $_GET['staging'] ) ? true : false;
 		$location = ! empty( $_GET['location'] ) ? esc_attr( $_GET['location'] ) : null;
 
+		do_action( 'dollie/site/login/before_redirect', $location );
+
 		wp_redirect( dollie()->final_customer_login_url( $container_id, $location, $staging ) );
 		exit;
 	}
