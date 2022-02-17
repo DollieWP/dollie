@@ -9190,13 +9190,16 @@ body[class*="dollie_setup"] {
     display: none; }
   body[class*="dollie_setup"] #wpbody-content {
     font-size: 15px; }
-  body[class*="dollie_setup"] .dol-sites-container img {
+  body[class*="dollie_setup"] img {
     max-width: 100%; }
   body[class*="dollie_setup"] p {
     margin: 2px;
     font-size: inherit; }
   body[class*="dollie_setup"] #wpbody-content .dol-sites-name {
     width: 41.333333%; }
+  @media (min-width: 1280px) {
+    body[class*="dollie_setup"] .xl\:dol-w-4\/12 {
+      width: 29.6%; } }
   body[class*="dollie_setup"] .button-primary {
     padding: 12px 30px;
     font-weight: 700;

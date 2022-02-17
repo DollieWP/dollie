@@ -40,6 +40,29 @@ class SiteInsights extends Singleton {
 	}
 
 	/**
+	 * Get site posts
+	 *
+	 * @return array|mixed
+	 */
+	public function get_dashboard_news()
+	{
+		$data = get_transient('dollie_dashboard_news');
+
+		if (empty($data)) {
+			$response = wp_remote_get('https://getdollie.com/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=3&_embed');
+
+			if (is_wp_error($response)) {
+				return [];
+			}
+
+			set_transient('dollie_dashboard_news', $response, 3600);
+			$data = $response;
+		}
+
+		return json_decode(wp_remote_retrieve_body($data));
+	}
+
+	/**
 	 * Get total container size
 	 *
 	 * @return int|mixed
