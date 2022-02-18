@@ -1122,6 +1122,26 @@ class Helpers extends Singleton {
 		return $role ?: 'administrator';
 	}
 
+	public function get_user_type_string()
+	{
+		$package_string = dollie_setup_get_string('user_type');
+		if ( $package_string ) {
+			return dollie_setup_get_string('user_type');
+		} else {
+			return __('Customer', 'dollie-setup');
+		}
+	}
+
+	public function get_user_type_plural_string()
+	{
+		$package_string = dollie_setup_get_string('user_type_plural');
+		if ( $package_string ) {
+			return dollie_setup_get_string('user_type_plural');
+		} else {
+			return __('Customers', 'dollie-setup');
+		}
+	}
+
 	/**
 	 * @param $needle
 	 * @param $haystack

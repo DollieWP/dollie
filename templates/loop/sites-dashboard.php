@@ -132,7 +132,7 @@ if (!isset($view_type)) {
 						<?php else : ?>
 							<div class="dol-sites-client dol-cursor-default dol-text-sm">
 								<div class="dol-font-semibold dol-text-gray-500">
-									<?php esc_html_e('Customer', 'dollie'); ?>
+									<?php echo dollie()->get_user_type_plural_string(); ?>
 								</div>
 								<div class="dol-font-bold ">
 									<?php echo get_the_author(); ?>

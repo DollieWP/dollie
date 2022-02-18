@@ -141,7 +141,7 @@ class Dollie_Setup {
 	private function setup_actions() {
 		// Package hooks.
 		add_action( 'dollie_setup_admin_loaded', array( $this, 'load_package' ), 11 );
-		add_action( 'dollie_setup_frontend_includes', array( $this, 'load_package_frontend' ) );
+		add_action( 'init', array( $this, 'load_package_frontend' ) );
 
 		// Add actions to plugin activation and deactivation hooks
 		add_action(

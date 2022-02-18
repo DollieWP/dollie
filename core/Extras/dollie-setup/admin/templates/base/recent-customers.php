@@ -2,7 +2,9 @@
 <section aria-labelledby="recent-hires-title">
 	<div class="dol-overflow-hidden dol-bg-white dol-rounded-lg dol-shadow">
 		<div class="dol-p-6">
-			<h2 class="dol-text-base dol-font-medium dol-text-gray-900" id="recent-hires-title">New Clients</h2>
+			<h2 class="dol-text-base dol-font-medium dol-text-gray-900" id="recent-hires-title">
+				New <?php echo dollie()->get_user_type_plural_string();?>
+			</h2>
 			<div class="dol-flow-root dol-mt-6">
 				<ul role="list" class="dol--my-5 dol-divide-y dol-divide-gray-200">
 

@@ -34,7 +34,7 @@ class Dollie_Setup_Package_Waas extends Dollie_Setup_Package {
 	 */
 	protected static function config() {
 		return array(
-			'network'           => true,
+			'network'           => false,
 			'icon_url'          => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup-ol_vert.png' ),
 			'badge_url'         => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup-ol_vert.png' ),
 			'badge_url_2x'      => dollie_setup()->plugin_url( 'admin/images/logo-dollie_setup-ol_vert-2x.png' ),
@@ -60,58 +60,16 @@ class Dollie_Setup_Package_Waas extends Dollie_Setup_Package {
 	 *
 	 * @since 1.1.0
 	 */
-	protected static function theme() {
+	protected static function theme()
+	{
 		return array(
-			'name'           => 'DOLLIE_SETUP OpenLab',
-			'version'        => '1.3.2',
-			'directory_name' => 'openlab-theme',
-			'download_url'   => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/openlab-theme-1.3.2.zip',
-			'screenshot_url' => dollie_setup()->plugin_url( 'admin/images/screenshot_openlab_theme.png' ),
-			'force_install'  => true,
+			'name'           => 'Hello Dollie Theme',
+			'version'        => '1.0.0',
+			'directory_name' => 'hello-dollie',
+			'download_url'   => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/hello-dollie-1.0.0.zip',
+			'admin_settings' => 'themes.php',
+			'screenshot_url' => dollie_setup()->plugin_url('admin/images/screenshot_dollie_setup_theme.png'),
 		);
 	}
 
-	/**
-	 * Custom hooks used during package initialization.
-	 *
-	 * @since 1.1.0
-	 */
-	protected function custom_init() {
-		add_filter( 'site_option_menu_items', array( __CLASS__, 'menu_items_cb' ) );
-		add_filter( 'default_site_option_menu_items', array( __CLASS__, 'menu_items_cb' ) );
-	}
-
-	/**
-	 * Register upgrader.
-	 *
-	 * @since 1.2.0
-	 */
-	public static function upgrader() {
-		do_action( 'dollie_setupol_register_upgrader' );
-	}
-
-	/**
-	 * Callback for forcing the Plugins page to be available to non-super-admins.
-	 *
-	 * @since 1.1.1
-	 *
-	 * @param array
-	 * @return array
-	 */
-	public static function menu_items_cb( $retval ) {
-		if ( empty( $retval['plugins'] ) ) {
-			$retval['plugins'] = 1;
-		}
-		return $retval;
-	}
-
-	/**
-	 * Deactivation routine.
-	 *
-	 * @since 1.1.0
-	 */
-	public static function deactivate() {
-		// Deactivate DOLLIE_SETUP-OpenLab-Core plugin, as it's OL-specific only.
-		deactivate_plugins( 'dollie_setup-openlab-core/dollie_setup-openlab-core.php', true );
-	}
 }

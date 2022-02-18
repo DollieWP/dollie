@@ -26,7 +26,7 @@ $first_name = $user->first_name;
 		<div class="dol-grid dol-grid-cols-1 dol-border-t dol-border-gray-200 dol-divide-y dol-divide-gray-200 dol-bg-gray-50 sm:dol-grid-cols-3 sm:dol-divide-y-0 sm:dol-divide-x">
 			<div class="dol-px-6 dol-py-5 dol-text-sm dol-font-medium dol-text-center">
 				<span class="dol-text-gray-900"><?php echo dollie()->count_total_containers(); ?></span>
-				<span class="dol-text-gray-600">Customer Sites</span>
+				<span class="dol-text-gray-600"><?php printf( esc_html__('%s Sites', 'dollie-setup' ), dollie()->get_user_type_string() );?></span>
 			</div>
 
 			<div class="dol-px-6 dol-py-5 dol-text-sm dol-font-medium dol-text-center">
