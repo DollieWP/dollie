@@ -1043,6 +1043,14 @@ class Helpers extends Singleton {
 	/**
 	 * @return mixed
 	 */
+	public function get_dashboard_kb_articles()
+	{
+		return SiteInsights::instance()->get_kb_articles();
+	}
+
+	/**
+	 * @return mixed
+	 */
 	public function get_latest_container_posts() {
 		return SiteInsights::instance()->get_latest_container_posts();
 	}

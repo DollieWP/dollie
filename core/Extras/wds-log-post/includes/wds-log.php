@@ -44,10 +44,10 @@ class WDSLP_Wds_Log extends CPT_Core {
 				'menu_icon'         => 'dashicons-book-alt',
 				'map_meta_cap' => true,
 				'show_in_admin_bar' => false,
-				'show_in_menu' => 'wpd_platform_setup',
+				'show_in_menu' => false,
 				'public'            => false,
 				'hierarchical'      => false,
-				'menu_position'     => 100,
+				'menu_position'     => 9999999999,
 				'capabilities' => array(
 					'create_posts'  => is_multisite() ? 'do_not_allow' : false, // Removes support for the "Add New" function (use 'do_not_allow' instead of false for multisite set ups)
 					'delete_posts'  => 'delete_posts',

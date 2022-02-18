@@ -212,4 +212,6 @@ class Dollie_Setup_Plugins_Agency {
 		// 'network_settings'  => 'root-blog-only'
 		// ) );
 	}
+
 }
+

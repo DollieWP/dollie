@@ -178,7 +178,6 @@ class Options extends Singleton
 				[$this, 'dollie_tools_content']
 			);
 		}
-
 	}
 
 	public function dollie_setup_submenus()
@@ -466,6 +465,12 @@ class Options extends Singleton
 			'manage_options',
 			'https://partners.getdollie.com/knowledge-base',
 		];
+
+		$submenu['dollie_setup'][] = [
+			'<div id="dol-logs">' . esc_html__('Logs', 'dollie') . '</div>',
+			'manage_options',
+			get_admin_url() . 'edit.php?post_type=dollie-logs',
+		];
 	}
 
 	/**
@@ -535,8 +540,7 @@ class Options extends Singleton
 	 */
 	public function add_api_boxes_callback($post, $args = [])
 	{
-		dollie_setup_get_template_part('setup-complete');
-
+		//dollie_setup_get_template_part('setup-complete');
 	}
 
 
@@ -642,7 +646,7 @@ class Options extends Singleton
 				<?php esc_html_e('These forms can be embedded easily to further customize the experience for your customers. Please only edit these forms if you\'re a developer and you have good knowledge of the Dollie platform and it\'s API.', 'dollie'); ?>
 			</p>
 		</div>
-<?php
+	<?php
 	}
 
 	/**
@@ -696,3 +700,48 @@ class Options extends Singleton
 		return $views;
 	}
 }
+
+new add_boxes_to_options_page();
+
+class add_boxes_to_options_page
+{
+
+	public function __construct()
+	{
+		add_action('acf/input/admin_head', array($this, 'add_boxes_before'), 1);
+		add_action('acf/input/admin_head', array($this, 'add_boxes_after'), 20);
+	} // end public function __construct
+
+	public function add_boxes_before()
+	{
+		$screen = get_current_screen();
+		if ($screen->id == 'toplevel_page_wpd_platform_setup') {
+			add_meta_box('custom-mb-before-acf', 'CUSTOM MB BEFORE ACF', array($this, 'callback_top'), 'acf_options_page', 'normal', 'side');
+		}
+	} // end public function add_boxes_before
+
+	public function add_boxes_after()
+	{
+		$screen = get_current_screen();
+		if ($screen->id == 'toplevel_page_wpd_platform_setup') {
+			add_meta_box('custom-mb-after-acf', 'CUSTOM MB AFTER ACF', array($this, 'callback_top'), 'acf_options_page', 'side', 'high');
+		}
+	} // end public function add_boxes_after
+
+	public function callback_top($post, $args = array())
+	{
+		dollie_setup_get_template_part('recent-kb');
+	?>
+
+	<?php
+																						} // end public function callback_top
+
+																						public function callback_bot($post, $args = array())
+																						{
+																							?><div><?php echo '<pre>';
+																							var_dump($post);
+																							var_dump($args);
+																							echo '</pre>'; ?></div><?php
+																						} // end public function callback_bot
+
+																					} // end class add_boxes_to

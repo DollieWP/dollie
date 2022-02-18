@@ -63,7 +63,9 @@ class Dollie_Setup_Package_Agency extends Dollie_Setup_Package {
 	 * @since 1.1.0
 	 */
 	protected function custom_init() {
-		// echo 'Hallo';
-		// die();
+
+		$package_dir = sanitize_file_name(strtolower(static::$name));
+		//Load our Package Setup File
+		require_once DOLLIE_SETUP_PLUGIN_DIR . 'includes/' . $package_dir .  '/defaults/setup.php';
 	}
 }

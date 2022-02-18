@@ -76,6 +76,7 @@ abstract class Dollie_Setup_Package {
 		// Custom init method.
 		$this->custom_init();
 
+
 		// Deactivation routine.
 		add_action( 'dollie_setup_package_' . dollie_setup_get_current_package_id() . '_deactivation', array( get_called_class(), 'deactivate' ) );
 
