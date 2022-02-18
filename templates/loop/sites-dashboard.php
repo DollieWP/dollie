@@ -164,7 +164,7 @@ if (!isset($view_type)) {
 							$login_link = dollie()->get_customer_login_url(get_the_ID());
 							if (!empty($login_link)) :
 							?>
-								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo esc_url($login_link); ?>" data-tooltip="<?php echo esc_attr__('Login to Site as Admin', 'dollie'); ?>">
+								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo esc_url($login_link); ?>" data-tooltip="<?php printf(esc_html__('Login to %s as Admin', 'dollie-setup'), dollie()->get_site_type_string()); ?>">
 									<i class="fas fa-sign-in-alt"></i>
 								</a>
 							<?php endif; ?>

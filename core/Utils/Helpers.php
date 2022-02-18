@@ -1142,6 +1142,26 @@ class Helpers extends Singleton {
 		}
 	}
 
+	public function get_site_type_string()
+	{
+		$package_string = dollie_setup_get_string('site_type');
+		if ($package_string) {
+			return dollie_setup_get_string('site_type');
+		} else {
+			return __('Site', 'dollie-setup');
+		}
+	}
+
+	public function get_site_type_plural_string()
+	{
+		$package_string = dollie_setup_get_string('site_type_plural');
+		if ($package_string) {
+			return dollie_setup_get_string('site_type_plural');
+		} else {
+			return __('Sites', 'dollie-setup');
+		}
+	}
+
 	/**
 	 * @param $needle
 	 * @param $haystack

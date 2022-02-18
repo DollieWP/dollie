@@ -701,47 +701,47 @@ class Options extends Singleton
 	}
 }
 
-new add_boxes_to_options_page();
+// new add_boxes_to_options_page();
 
-class add_boxes_to_options_page
-{
+// class add_boxes_to_options_page
+// {
 
-	public function __construct()
-	{
-		add_action('acf/input/admin_head', array($this, 'add_boxes_before'), 1);
-		add_action('acf/input/admin_head', array($this, 'add_boxes_after'), 20);
-	} // end public function __construct
+// 	public function __construct()
+// 	{
+// 		add_action('acf/input/admin_head', array($this, 'add_boxes_before'), 1);
+// 		add_action('acf/input/admin_head', array($this, 'add_boxes_after'), 20);
+// 	} // end public function __construct
 
-	public function add_boxes_before()
-	{
-		$screen = get_current_screen();
-		if ($screen->id == 'toplevel_page_wpd_platform_setup') {
-			add_meta_box('custom-mb-before-acf', 'CUSTOM MB BEFORE ACF', array($this, 'callback_top'), 'acf_options_page', 'normal', 'side');
-		}
-	} // end public function add_boxes_before
+// 	public function add_boxes_before()
+// 	{
+// 		$screen = get_current_screen();
+// 		if ($screen->id == 'toplevel_page_wpd_platform_setup') {
+// 			add_meta_box('custom-mb-before-acf', 'CUSTOM MB BEFORE ACF', array($this, 'callback_top'), 'acf_options_page', 'normal', 'side');
+// 		}
+// 	} // end public function add_boxes_before
 
-	public function add_boxes_after()
-	{
-		$screen = get_current_screen();
-		if ($screen->id == 'toplevel_page_wpd_platform_setup') {
-			add_meta_box('custom-mb-after-acf', 'CUSTOM MB AFTER ACF', array($this, 'callback_top'), 'acf_options_page', 'side', 'high');
-		}
-	} // end public function add_boxes_after
+// 	public function add_boxes_after()
+// 	{
+// 		$screen = get_current_screen();
+// 		if ($screen->id == 'toplevel_page_wpd_platform_setup') {
+// 			add_meta_box('custom-mb-after-acf', 'CUSTOM MB AFTER ACF', array($this, 'callback_top'), 'acf_options_page', 'side', 'high');
+// 		}
+// 	} // end public function add_boxes_after
 
-	public function callback_top($post, $args = array())
-	{
-		dollie_setup_get_template_part('recent-kb');
-	?>
+// 	public function callback_top($post, $args = array())
+// 	{
+// 		dollie_setup_get_template_part('recent-kb');
+// 	?>
 
-	<?php
-																						} // end public function callback_top
+// 	<?php
+// 																						} // end public function callback_top
 
-																						public function callback_bot($post, $args = array())
-																						{
-																							?><div><?php echo '<pre>';
-																							var_dump($post);
-																							var_dump($args);
-																							echo '</pre>'; ?></div><?php
-																						} // end public function callback_bot
+// 																						public function callback_bot($post, $args = array())
+// 																						{
+// 																							?><div><?php echo '<pre>';
+// 																							var_dump($post);
+// 																							var_dump($args);
+// 																							echo '</pre>'; ?></div><?php
+// 																						} // end public function callback_bot
 
-																					} // end class add_boxes_to
+// 																					} // end class add_boxes_to

@@ -14,7 +14,7 @@ $first_name = $user->first_name;
 						<img class="dol-w-20 dol-h-20 dol-mx-auto dol-rounded-full" src="<?php echo esc_url(DOLLIE_ASSETS_URL . 'wizard/agency.svg'); ?>" alt="">
 					</div>
 					<div class="dol-mt-4 dol-text-center sm:dol-mt-0 sm:dol-pt-1 sm:dol-text-left">
-						<p class="dol-text-sm dol-font-medium dol-text-gray-600">Welcome back <?php echo $first_name;?></p>
+						<p class="dol-text-sm dol-font-medium dol-text-gray-600">Welcome back <?php echo $first_name; ?></p>
 						<p class="dol-text-xxl dol-font-bold dol-text-gray-900 sm:dol-text-2xl">Your Agency Dashboard</p>
 					</div>
 				</div>
@@ -26,17 +26,17 @@ $first_name = $user->first_name;
 		<div class="dol-grid dol-grid-cols-1 dol-border-t dol-border-gray-200 dol-divide-y dol-divide-gray-200 dol-bg-gray-50 sm:dol-grid-cols-3 sm:dol-divide-y-0 sm:dol-divide-x">
 			<div class="dol-px-6 dol-py-5 dol-text-sm dol-font-medium dol-text-center">
 				<span class="dol-text-gray-900"><?php echo dollie()->count_total_containers(); ?></span>
-				<span class="dol-text-gray-600"><?php printf( esc_html__('%s Sites', 'dollie-setup' ), dollie()->get_user_type_string() );?></span>
+				<span class="dol-text-gray-600"><?php printf(esc_html__('%s %s', 'dollie-setup'), dollie()->get_user_type_string(), dollie()->get_site_type_plural_string()); ?></span>
 			</div>
 
 			<div class="dol-px-6 dol-py-5 dol-text-sm dol-font-medium dol-text-center">
 				<span class="dol-text-gray-900"><?php echo dollie()->count_total_blueprints(); ?></span>
-				<span class="dol-text-gray-600">Site Blueprints</span>
+				<span class="dol-text-gray-600"><?php printf(esc_html__('%s Blueprints', 'dollie-setup'), dollie()->get_site_type_string()); ?></span>
 			</div>
 
 			<div class="dol-px-6 dol-py-5 dol-text-sm dol-font-medium dol-text-center">
 				<span class="dol-text-gray-900"><?php echo dollie()->count_customer_staging_sites(); ?></span>
-				<span class="dol-text-gray-600">Staging Sites</span>
+				<span class="dol-text-gray-600"><?php printf(esc_html__('Staging %s', 'dollie-setup'), dollie()->get_site_type_plural_string()); ?></span>
 			</div>
 		</div>
 	</div>

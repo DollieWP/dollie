@@ -3,7 +3,7 @@
 	<div class="dol-overflow-hidden dol-bg-white dol-rounded-lg dol-shadow">
 		<div class="dol-p-6">
 			<h2 class="dol-text-base dol-font-medium dol-text-gray-900" id="recent-hires-title">
-				New <?php echo dollie()->get_user_type_plural_string();?>
+				New <?php echo dollie()->get_user_type_plural_string(); ?>
 			</h2>
 			<div class="dol-flow-root dol-mt-6">
 				<ul role="list" class="dol--my-5 dol-divide-y dol-divide-gray-200">
@@ -24,7 +24,7 @@
 									</div>
 									<div class="dol-flex-1 dol-min-w-0">
 										<p class="dol-text-sm dol-font-medium dol-text-gray-900 dol-truncate"><?php echo $customer->display_name; ?></p>
-										<p class="dol-text-sm dol-text-gray-500 dol-truncate"><?php echo dollie()->count_customer_containers($customer->ID); ?> Sites</p>
+										<p class="dol-text-sm dol-text-gray-500 dol-truncate"><?php echo dollie()->count_customer_containers($customer->ID); ?> <?php echo dollie()->get_site_type_plural_string(); ?></p>
 									</div>
 									<div>
 										<a href="<?php echo get_edit_user_link($customer->ID); ?>" class="dol-inline-flex dol-items-center dol-shadow-sm dol-px-2.5 dol-py-0.5 dol-border dol-border-gray-300 dol-text-sm dol-leading-5 dol-font-medium dol-rounded-full dol-text-gray-700 dol-bg-white hover:dol-bg-gray-50"> Edit Client </a>

@@ -56,7 +56,7 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 						</div>
 						<div class="dol-customers-version dol-cursor-default dol-text-sm">
 							<div class="dol-font-semibold dol-text-gray-500">
-								<?php esc_html_e('Sites', 'dollie'); ?>
+								<?php echo dollie()->get_site_type_plural_string(); ?>
 							</div>
 							<div class="dol-font-bold ">
 								<?php echo dollie()->count_customer_containers($customer->ID); ?>
@@ -71,7 +71,7 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 
 							<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo dollie()->get_sites_page_url(); ?>?customer=<?php echo $customer->ID; ?>">
 								<i class="fas fa-wrench"></i>
-								<span class="dol-ml-1"><?php esc_html_e('View Sites', 'dollie'); ?></span>
+								<span class="dol-ml-1"><?php printf(esc_html__('View %s', 'dollie-setup'), dollie()->get_site_type_string()); ?></span>
 							</a>
 						</div>
 					</div>

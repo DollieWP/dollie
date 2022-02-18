@@ -28,7 +28,7 @@ if ( ! dollie()->has_partner_subscription() || ! dollie()->has_partner_credits()
 if ( current_user_can( 'manage_options' ) || dollie()->has_subscription() ) {
 	if ( ! dollie()->site_limit_reached() && ! dollie()->size_limit_reached() && ! dollie()->staging_limit_reached() ) {
 		$form_type         = $settings['type'] ?? 'site';
-		$button_text       = isset( $settings['button_text'] ) && $settings['button_text'] ? $settings['button_text'] : esc_html__( 'Launch New Site', 'dollie' );
+		$button_text       = isset( $settings['button_text'] ) && $settings['button_text'] ? $settings['button_text'] : esc_html__( 'Launch New ', 'dollie' );
 		$advanced_settings = (bool) $settings['advanced_settings'];
 
 		echo do_shortcode(
