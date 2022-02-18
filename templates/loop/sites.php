@@ -47,7 +47,7 @@ dollie()->load_template('loop/parts/modal-filters', [], true);
 					<div class="dol-absolute dol-left-0 dol-top-0 dol-ml-4 dol-flex dol-items-center dol-h-full">
 						<i class="fas fa-search dol-text-ash-500"></i>
 					</div>
-					<input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full md:dol-w-64" data-list-type="<?php echo esc_attr($view_type); ?>" data-permalink="<?php echo esc_attr($query_data['permalink']); ?>" data-per-page=<?php echo (isset($_GET['per_page']) ? esc_attr($_GET['per_page']) : ''); ?> data-search-term="" placeholder="<?php esc_html_e('Search for a site...', 'dollie'); ?>">
+					<input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full md:dol-w-64" data-list-type="<?php echo esc_attr($view_type); ?>" data-permalink="<?php echo esc_attr($query_data['permalink']); ?>" data-per-page=<?php echo (isset($_GET['per_page']) ? esc_attr($_GET['per_page']) : ''); ?> data-search-term="" placeholder="<?php printf(esc_html__('Search for a %s', 'dollie-setup'), dollie()->get_site_type_string()); ?>">
 				</div>
 
 				<div class="dol-mx-3 dol-inline-block">
@@ -57,15 +57,15 @@ dollie()->load_template('loop/parts/modal-filters', [], true);
 				</div>
 
 				<div class="dol-inline-flex dol-items-center dol-rounded dol-overflow-hidden dol-mb-4 md:dol-mb-0 dol-h-10 md:dol-h-auto">
-					<span data-tooltip="<?php echo esc_attr__('Show your sites in the List view', 'dollie'); ?>" class="dol-list-switch dol-inline-flex <?php echo esc_attr($list_btn_active); ?>" data-list-type="list">
+					<span data-tooltip="<?php printf(esc_html__('Show your %s in the List View', 'dollie-setup'), dollie()->get_site_type_plural_string()); ?>" class="dol-list-switch dol-inline-flex <?php echo esc_attr($list_btn_active); ?>" data-list-type="list">
 						<i class=" fas fa-list"></i>
 					</span>
-					<span data-tooltip="<?php echo esc_attr__('Show your sites in the Grid view', 'dollie'); ?>" class="dol-list-switch dol-inline-flex <?php echo esc_attr($grid_btn_active); ?>" data-list-type="grid">
+					<span data-tooltip="<?php printf(esc_html__('Show your %s in the Grid View', 'dollie-setup'), dollie()->get_site_type_plural_string()); ?>" class="dol-list-switch dol-inline-flex <?php echo esc_attr($grid_btn_active); ?>" data-list-type="grid">
 						<i class=" fas fa-th"></i>
 					</span>
 					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=
 					my-sites">
-						<span data-tooltip="<?php echo esc_attr__('Show your sites using the Live Preview bar', 'dollie'); ?>" class="dol-layout-preview dol-inline-flex dol-preview-bar-layout" data-list-type="layout">
+						<span data-tooltip="<?php printf(esc_html__('Show Your %s using the Live Preview Bar', 'dollie-setup'), dollie()->get_site_type_plural_string()); ?>" class="dol-layout-preview dol-inline-flex dol-preview-bar-layout" data-list-type="layout">
 							<i class=" fas fa-desktop"></i>
 						</span>
 					</a>
@@ -248,7 +248,7 @@ dollie()->load_template('loop/parts/modal-filters', [], true);
 								</a>
 							<?php else : ?>
 								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo dollie()->get_site_url(get_the_ID()); ?>" data-tooltip="<?php echo esc_attr__('Manage', 'dollie'); ?>">
-									<i data-tooltip="Carefully crafted site designs made by our team which you can use as a starting point for your new site." class="fas fa-cog svg-tooltip acf__tooltip"></i>
+									<i data-tooltip="<?php printf(esc_html__('Visit the dashboard for this %s ', 'dollie-setup'), dollie()->get_site_type_string()); ?>" class="fas fa-cog svg-tooltip acf__tooltip"></i>
 								</a>
 							<?php endif; ?>
 
@@ -300,7 +300,7 @@ dollie()->load_template('loop/parts/modal-filters', [], true);
 	<?php else : ?>
 		<div class="dol-flex dol-items-center dol-justify-center dol-h-40">
 			<div class="dol-text-2xl dol-text-ash-600">
-				<?php esc_html_e('No sites found.', 'dollie'); ?>
+				<?php printf(esc_html__('No %s Found', 'dollie-setup'), dollie()->get_site_type_plural_string()); ?>
 			</div>
 		</div>
 	<?php endif; ?>

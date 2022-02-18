@@ -28,11 +28,11 @@ if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
 		[
 			'type'         => 'error',
 			'icon'         => 'fas fa-exclamation-circle',
-			'title'        => __( 'Dollie is not connected!', 'dollie' ),
-			'message'      => __( 'You need to connect your site to Dollie so you can start deploying sites.', 'dollie' ),
+			'title'        => __( 'Not Connected to Dollie', 'dollie' ),
+			'message'      => __( 'Please connect to the Dollie API so you can start launching sites on your platform.', 'dollie' ),
 			'links'        => [
 				[
-					'title' => __( 'Connect with Dollie', 'dollie' ),
+					'title' => __( 'Connect to Dollie API', 'dollie' ),
 					'url'   => \Dollie\Core\Plugin::instance()->get_api_access_url(),
 				],
 			],
@@ -64,7 +64,7 @@ if ( dollie()->site_limit_reached() ) {
 			'type'         => 'error',
 			'icon'         => 'fas fa-exclamation-circle',
 			'title'        => __( 'You have reached your site limit', 'dollie' ),
-			'message'      => __( 'You have reached the maximum amount of sites you can launch. Please upgrade your plan to add more sites.', 'dollie' ),
+			'message'      => sprintf( esc_html__('You have reached the maximum amount of %s you can launch. Upgrade your plan or reach out to our team directly.', 'dollie-setup' ), dollie()->get_site_type_string() ),
 			'bottom_space' => true,
 		],
 		true

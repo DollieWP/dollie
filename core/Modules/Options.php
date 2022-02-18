@@ -363,7 +363,7 @@ class Options extends Singleton
 			$wp_admin_bar->add_menu(
 				[
 					'parent' => $menu_id,
-					'title'  => esc_html__('Launch New Site', 'dollie'),
+					'title'  => esc_html__('Launch New ' . dollie()->get_site_type_string(), 'dollie'),
 					'id'     => 'dwb-launch',
 					'href'   => get_permalink($launch_site),
 				]
@@ -432,7 +432,7 @@ class Options extends Singleton
 				0,
 				[
 					[
-						esc_html__('Launch New Site', 'dollie'),
+						sprintf(esc_html__('Launch New %s', 'dollie-setup'), dollie()->get_site_type_string()),
 						'manage_options',
 						get_permalink($launch_site),
 					],

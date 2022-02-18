@@ -21,7 +21,7 @@ if ('stop' === $status) :
 						<h2 class="text-white">
 							<i class="fab fa-wordpress"></i>
 							<?php
-							sprintf(esc_html__('Service for this %s is current on hold.', 'dollie-setup'), dollie()->get_site_type_string());
+							printf(esc_html__('Service for this %s is current on hold.', 'dollie-setup'), dollie()->get_site_type_string());
 							?>
 						</h2>
 					</div>
@@ -54,7 +54,7 @@ if ('stop' === $status) :
 						</div>
 						<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
 							<?php
-							sprintf(esc_html__('When a %s fails to launch it usually means there is a misconfiguration in your
+							printf(esc_html__('When a %s fails to launch it usually means there is a misconfiguration in your
 							Dollie API settings. Please double check your email, password and domain', 'dollie-setup'), dollie()->get_site_type_string());
 							?>
 							<a class="text-white" href="<?php echo admin_url('admin.php?page=wpd_platform_setup'); ?>" data-clear="text-white"><?php esc_html_e('settings', 'dollie'); ?> </a>.
@@ -74,7 +74,7 @@ if ('stop' === $status) :
 						</div>
 						<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
 							<?php
-							sprintf(esc_html__('We were unable to launch your new %s on our platform at this time.
+							printf(esc_html__('We were unable to launch your new %s on our platform at this time.
 							Our team is notified and will be looking into this issue immediately. We will reach out to
 							you as soon as we can.', 'dollie-setup'), dollie()->get_site_type_string());
 							?>
@@ -200,13 +200,13 @@ if ('stop' === $status) :
 			<?php else : ?>
 				<div class="dol-font-bold dol-mt-6 dol-text-2xl dol-uppercase">
 					<?php
-					sprintf(esc_html__('Launching Your New %s', 'dollie-setup'), dollie()->get_site_type_string());
+					printf(esc_html__('Launching Your New %s', 'dollie-setup'), dollie()->get_site_type_string());
 					?>
 				</div>
 
 				<div class="dol-mt-1 dol-text-md dol-text-gray-500">
 					<?php
-					sprintf(esc_html__('Your %s will be ready to go in just a moment.', 'dollie-setup'), dollie()->get_site_type_string());
+					printf(esc_html__('Your %s will be ready to go in just a moment.', 'dollie-setup'), dollie()->get_site_type_string());
 					?>
 				</div>
 

@@ -180,7 +180,7 @@ if (!isset($view_type)) {
 	<?php else : ?>
 		<div class="dol-flex dol-items-center dol-justify-center dol-h-40">
 			<div class="dol-text-2xl dol-text-ash-600">
-				<?php esc_html_e('No sites found.', 'dollie'); ?>
+				<?php printf(esc_html__('No %s Found', 'dollie-setup'), dollie()->get_site_type_plural_string()); ?>
 			</div>
 		</div>
 	<?php endif; ?>

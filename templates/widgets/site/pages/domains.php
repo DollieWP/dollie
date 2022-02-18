@@ -54,7 +54,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 		<div class="dol-my-6">
 			<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
 				<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
-					<h4 class="dol-p-0 dol-m-0  dol-text-base md:dol-text-xl">
+					<h4 class="dol-p-0 dol-m-0 dol-text-base md:dol-text-xl">
 						<?php esc_html_e( 'Site URL replacement is not complete ', 'dollie' ); ?>
 					</h4>
 				</div>
@@ -80,7 +80,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 				'notice',
 				[
 					'icon'    => 'fas fa-exclamation-circle',
-					'title'   => sprintf( __( '"%s" is linked to this site!', 'dollie' ), $domain ),
+					'title'   => sprintf( __( '"%s" is now linked to this %s!', 'dollie' ), $domain, dollie()->get_site_type_string() ),
 					'message' => __( 'Congrats! Your are using a live domain for this site.', 'dollie' ),
 				],
 				true

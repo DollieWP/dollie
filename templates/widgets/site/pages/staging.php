@@ -22,15 +22,15 @@
 		$staging_status = $staging_data[$staging_url]['status'];
 	}
 
-	$status_title   = __('Staging site is disabled', 'dollie');
-	$status_message = sprintf(__('Here you can easily manage your staging site for <strong>%s</strong>. Staging allows you to conduct different tests before applying them to your live site.', 'dollie'), $container->post_name);
+	$status_title   = __('Staging is disabled', 'dollie');
+	$status_message = sprintf(__('Here you can set up a staging area for <strong>%s</strong>. Staging allows you to safely  test out anything you\'d like on an exacy copy of your live %s.', 'dollie'), $container->post_name, dollie()->get_site_type_string());
 
 	if ('pending' === $staging_status) {
-		$status_title   = __('Staging site is being created', 'dollie');
-		$status_message = sprintf(__('Please be patient while we create a staging site for <strong>%s</strong>. The process might take up to 5 minutes.', 'dollie'), $container->post_name);
+		$status_title   = __('Staging Area is being created', 'dollie');
+		$status_message = sprintf(__('Please be patient while we create a staging area for <strong>%s</strong>. The process might take up to 5 minutes.', 'dollie'), $container->post_name);
 	} elseif ('live' === $staging_status) {
-		$status_title   = sprintf(__('Staging site: %s', 'dollie'), '<a class="dol-text-white" target="_blank" href="https://' . $staging_url . '">' . $staging_url . '</a>');
-		$status_message = sprintf(__('Here you can easily manage your staging site for <strong>%s</strong>. Staging allows you to conduct different tests before applying them to your live site.', 'dollie'), '<a target="_blank" href="https://' . $staging_url . '">' . $container->post_name . '</a>');
+		$status_title   = sprintf(__('Staging area: %s', 'dollie'), '<a class="dol-text-white" target="_blank" href="https://' . $staging_url . '">' . $staging_url . '</a>');
+		$status_message = sprintf(__('Here you can manage the staging area for <strong>%s</strong>. Staging allows you to safely test out anything you\'d like on an exacy copy of your live %s.', 'dollie'), '<a target="_blank" href="https://' . $staging_url . '">' . $container->post_name . '</a>', dollie()->get_site_type_string());
 	}
 
 	dollie()->load_template(
@@ -67,7 +67,7 @@
 			<?php dollie()->remove_execution(get_the_ID(), dollie()->get_api()::EXECUTION_STAGING_SYNC); ?>
 
 			<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-mt-5 dol-text-xl">
-				Staging Management </h2>
+				<?php esc_html_e( 'Staging Management', 'dollie' ); ?></h2>
 
 			<?php
 			$details = $staging_data[$staging_url]['data'];
@@ -131,7 +131,7 @@
 
 									<button type="submit" class="dol-bg-red-500 hover:dol-bg-red-600 focus:dol-bg-red-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
 										<?php
-										sprintf(esc_html__('Delete Your Staging %s', 'dollie-setup'), dollie()->get_site_type_string());
+										printf(esc_html__('Delete Your Staging %s', 'dollie-setup'), dollie()->get_site_type_string());
 										?>
 									</button>
 									<?php wp_nonce_field('wpd_staging_undeploy'); ?>
@@ -148,7 +148,7 @@
 				<a href="<?php echo dollie()->get_customer_login_url(get_the_ID(), null, true); ?>" target="_blank" class="dol-inline-block dol-bg-gray-500 hover:dol-bg-gray-600 focus:dol-bg-gray-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
 					<i class="fas fa-tools dol-mr-1"></i>
 					<?php
-					sprintf(esc_html__('Login to Staging %s', 'dollie-setup'), dollie()->get_site_type_string());
+					printf(esc_html__('Login to Staging %s', 'dollie-setup'), dollie()->get_site_type_string());
 					?>
 				</a>
 
@@ -169,7 +169,7 @@
 					[
 						'icon'  => 'fas fa-exclamation-circle',
 						'type'  => 'error',
-						'title' => esc_html__('You have reached your staging sites limit. Please upgrade your subscription!', 'dollie'),
+						'title' => esc_html__('You have reached your staging area limit. Please upgrade your subscription!', 'dollie'),
 					],
 					true
 				);
@@ -185,7 +185,7 @@
 					<button type="submit" class="dol-bg-primary-500 hover:dol-bg-primary-600 focus:dol-bg-primary-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
 						<i class="fas fa-rocket dol-text-white dol-mr-1"></i>
 						<?php
-						sprintf(esc_html__('Create Staging %s', 'dollie-setup'), dollie()->get_site_type_string());
+						printf(esc_html__('Create Staging %s', 'dollie-setup'), dollie()->get_site_type_string());
 						?>
 					</button>
 					<?php wp_nonce_field('wpd_staging_create'); ?>

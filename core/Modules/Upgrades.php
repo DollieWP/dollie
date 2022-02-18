@@ -205,7 +205,7 @@ class Upgrades extends Singleton {
 		// Update Page IDs.
 		$pages_data = [
 			'launch-site'    => [
-				'title'    => 'Launch New Site',
+				'title'    => sprintf(esc_html__('Launch New %s', 'dollie-setup'), dollie()->get_site_type_string()),
 				'template' => 'page-templates/dollie-launch-site.php',
 				'option'   => 'options_wpd_launch_page_id',
 			],
@@ -276,7 +276,7 @@ class Upgrades extends Singleton {
 	private function _upgrade_400() {
 		$pages_data = [
 			'launch-site'    => [
-				'title'     => 'Launch New Site',
+				'title'     => sprintf(esc_html__('Launch New %s', 'dollie-setup'), dollie()->get_site_type_string()),
 				'option'    => 'options_wpd_launch_page_id',
 				'tpl'       => 'elementor_header_footer',
 				'post_type' => 'page',

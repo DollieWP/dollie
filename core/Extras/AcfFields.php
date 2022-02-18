@@ -657,10 +657,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'               => 'field_5e5557eda4c7c',
-					'label'             => __( 'Launch Site Page', 'dollie' ),
+					'label'             => sprintf(esc_html__('Launch New %s Page', 'dollie-setup'), dollie()->get_site_type_string()),
 					'name'              => 'wpd_launch_page_id',
 					'type'              => 'post_object',
-					'instructions'      => __( 'This page contains the (Elementor) template for launching a new site', 'dollie' ),
+					'instructions'      => sprintf(esc_html__('This page contains the (Elementor) template for launching a new %s', 'dollie-setup'), dollie()->get_site_type_string()),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
@@ -912,7 +912,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'               => 'field_5db808224473a',
-					'label'             => __( 'Launch Site Wizard', 'dollie' ),
+					'label'             => sprintf(esc_html__('Launch %s Wizard', 'dollie-setup'), dollie()->get_site_type_string()),
 					'name'              => '',
 					'type'              => 'message',
 					'instructions'      => '',
@@ -940,7 +940,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'label'             => __( 'Step 1', 'dollie' ),
 					'name'              => 'wpd_launch_step_1',
 					'type'              => 'wysiwyg',
-					'instructions'      => __( 'This is the first screen shown as soon as someone presses the "Launch Site" button.', 'dollie' ),
+					'instructions'      => __( 'This is the first screen shown during launch.', 'dollie' ),
 					'required'          => 0,
 					'conditional_logic' => array(
 						array(
@@ -967,7 +967,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'label'             => __( 'Step 2', 'dollie' ),
 					'name'              => 'wpd_launch_step_2',
 					'type'              => 'wysiwyg',
-					'instructions'      => __( 'This is the second screen shown as soon as someone presses the "Launch Site" button.', 'dollie' ),
+					'instructions'      => __('This is the 2nd screen shown during launch.', 'dollie'),
 					'required'          => 0,
 					'conditional_logic' => array(
 						array(
@@ -994,7 +994,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'label'             => __( 'Step 3', 'dollie' ),
 					'name'              => 'wpd_launch_step_3',
 					'type'              => 'wysiwyg',
-					'instructions'      => __( 'This is the third screen shown as soon as someone presses the "Launch Site" button.', 'dollie' ),
+					'instructions'      => __('This is the 3rd screen shown during launch.', 'dollie'),
 					'required'          => 0,
 					'conditional_logic' => array(
 						array(
@@ -1021,7 +1021,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'label'             => __( 'Step 4', 'dollie' ),
 					'name'              => 'wpd_launch_step_4',
 					'type'              => 'wysiwyg',
-					'instructions'      => __( 'This is the final screen shown as soon as someone presses the "Launch Site" button. This only shows if the site deploy takes longer than usual.', 'dollie' ),
+					'instructions'      => __('This is the final screen shown during launch. Usually only shown when a launch takes longer than usual.', 'dollie'),
 					'required'          => 0,
 					'conditional_logic' => array(
 						array(
@@ -1061,10 +1061,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'               => 'field_5e2eb1ca86e3d',
-					'label'             => __( 'Charge For Launching Sites?', 'dollie' ),
+					'label'             =>	sprintf(esc_html__('Charge for Launching %s', 'dollie-setup'), dollie()->get_site_type_plural_string()),
 					'name'              => 'wpd_charge_for_deployments',
 					'type'              => 'true_false',
-					'instructions'      => __( 'Would you like to charge your customers for launching websites? If you have this set to "off" anyone can launch sites on your platform without having a paid (WooCommerce) subscription.', 'dollie' ),
+					'instructions'      =>	sprintf(esc_html__('Would you like to charge your customers for launching %s? If you have this set to "off" anyone can launch %s on your platform without having an active subscription.', 'dollie-setup'), dollie()->get_site_type_plural_string(), dollie()->get_site_type_plural_string()),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
@@ -1080,10 +1080,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'               => 'field_5b094ea3fe6ea',
-					'label'             => __( 'Enable Site Management Access?', 'dollie' ),
+					'label'             => sprintf(esc_html__('Enable %s Dashboard for %s', 'dollie-setup'), dollie()->get_site_type_string(), dollie()->get_user_type_plural_string()),
 					'name'              => 'wpd_allow_site_dashboard_access',
 					'type'              => 'true_false',
-					'instructions'      => __( 'Would you like to give your clients/customers the ability to manage their own sites or would you like to restrict this functionality to your team (Administrators) only?', 'dollie' ),
+					'instructions'      =>	sprintf(esc_html__('Would you like to give your %s the ability to manage their own %s or would you like to restrict this functionality to your team only?', 'dollie-setup'), dollie()->get_user_type_plural_string(), dollie()->get_site_type_plural_string()),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
@@ -1099,10 +1099,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'               => 'field_5b06c0124f11a',
-					'label'             => __( 'Available Site Management Features', 'dollie' ),
+					'label'             =>	sprintf(esc_html__('%s Dashboard Features', 'dollie-setup'), dollie()->get_site_type_string()),
 					'name'              => 'available_sections',
 					'type'              => 'checkbox',
-					'instructions'      => __( 'Depending on the customers you bring in, you can choose to disable certain sections of the customer dashboard.', 'dollie' ),
+					'instructions'      =>	sprintf(esc_html__('Depending on the type of %s you focus on, you can choose to disable certain (advanced) features of the %s Dashboard.', 'dollie-setup'), dollie()->get_user_type_plural_string(), dollie()->get_site_type_string()),
 					'required'          => 0,
 					'conditional_logic' => array(
 						array(
@@ -1150,10 +1150,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'               => 'field_58861a3cc49b2',
-					'label'             => __( 'Available Developer Tabs', 'dollie' ),
+					'label'             => __( 'Available Developer Features', 'dollie' ),
 					'name'              => 'available_features_developers',
 					'type'              => 'checkbox',
-					'instructions'      => __( 'Depending on the customers you bring in, you can choose to disable certain sections of the developer dashboard.', 'dollie' ),
+					'instructions'      =>	sprintf(esc_html__('Disable certain (advanced) features of the %s Developer Tools.', 'dollie-setup'), dollie()->get_site_type_string()),
 					'required'          => 0,
 					'conditional_logic' => array(
 						array(
@@ -1188,10 +1188,11 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'               => 'field_5efc4a49d5752',
-					'label'             => __( 'Client Deployed Site Permissions', 'dollie' ),
+					'label'             =>
+					sprintf(esc_html__('Default %s Role for Launched %s', 'dollie-setup'), dollie()->get_user_type_string(), dollie()->get_site_type_plural_string()),
 					'name'              => 'wpd_client_site_permission',
 					'type'              => 'radio',
-					'instructions'      => __( 'Choose the user role given to the users when deploying a site. Warning, this will change the user roles for all client sites', 'dollie' ),
+					'instructions'      => sprintf(__('Set the default user role inside the %s after launch. This setting allows you to lock down new %s with restricted permissions for your %s. Only your team is given the ability to manage the %s as an administrator. <strong>Warning, when active this will change the user roles for all existing %s</strong>.', 'dollie-setup'), dollie()->get_site_type_string(), dollie()->get_site_type_plural_string(), dollie()->get_user_type_string(), dollie()->get_site_type_string(), dollie()->get_site_type_plural_string() ),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
@@ -1241,7 +1242,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key' => 'field_61eadc8bdf23f',
-					'label' => __('ACL Settings', 'dollie'),
+					'label' => __('Dollie Administration Settings', 'dollie'),
 					'name' => '',
 					'type' => 'message',
 					'instructions' => '',
@@ -1249,21 +1250,20 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'conditional_logic' => 0,
 					'wrapper' => array(
 						'width' => '',
-						'class' => '',
+						'class' => 'dollie-field-break show-description',
 						'id' => '',
 					),
 					'hide_admin' => 0,
-					'message' => __('With these settings you can enable access to Site Management features to other user roles besides the Administrator role. Be careful with this setting and make sure that you carefully assign the correct user roles to your team members before changing these settings', 'dollie'),
+					'message'      => sprintf(__('With these settings you can control which User Roles inside this installation can have access to manage the %s launched by your %s. This is in addition to the Administrator role (you). For example you could allow someone of your support team to view and manage all %s, but not delete any. <br><br><strong>Be careful with these settings and make sure that you carefully assign the correct user roles to your team members before enabling these settings. Configuration errors can easily give someone access to %s of others.</strong>', 'dollie-setup'), dollie()->get_site_type_plural_string(), dollie()->get_user_type_plural_string(), dollie()->get_site_type_plural_string(), dollie()->get_site_type_plural_string()),
 					'new_lines' => 'wpautop',
 					'esc_html' => 0,
 				),
 				array(
 					'key' => 'field_61ea98ea16f3c',
-					'label' => __('View Sites Permission', 'dollie'),
+					'label' => sprintf(esc_html__('View All %s', 'dollie-setup'), dollie()->get_site_type_plural_string()),
 					'name' => 'wpd_view_sites_permission',
 					'type' => 'checkbox',
-					'instructions' => __('Grant specific User Roles the VIEW permission on all platform Sites. 
-This will allow those roles to view all platform sites.', 'dollie'),
+					'instructions' => sprintf(esc_html__('Grant specific User Roles the VIEW permission on all %s', 'dollie-setup'), dollie()->get_site_type_plural_string()),
 					'required' => 0,
 					'conditional_logic' => 0,
 					'wrapper' => array(
@@ -1287,11 +1287,10 @@ This will allow those roles to view all platform sites.', 'dollie'),
 				),
 				array(
 					'key' => 'field_61ea99b016f3d',
-					'label' => __('Manage Sites Permission', 'dollie'),
+					'label' => sprintf(esc_html__('Manage All %s', 'dollie-setup'), dollie()->get_site_type_plural_string()),
 					'name' => 'manage_sites_permission',
 					'type' => 'checkbox',
-					'instructions' => __('Grant specific User Roles the MANAGE permission on all platform Sites. 
-This will allow those roles to update and manage all platform sites.', 'dollie'),
+					'instructions' => sprintf(esc_html__('Grant specific User Roles the ability to VIEW and MANAGE all %s', 'dollie-setup'), dollie()->get_site_type_plural_string()),
 					'required' => 0,
 					'conditional_logic' => 0,
 					'wrapper' => array(
@@ -1315,11 +1314,10 @@ This will allow those roles to update and manage all platform sites.', 'dollie')
 				),
 				array(
 					'key' => 'field_61ea99d116f3e',
-					'label' => __('Delete Sites Permission', 'dollie'),
+					'label' => sprintf(esc_html__('Delete %s', 'dollie-setup'), dollie()->get_site_type_plural_string()),
 					'name' => 'delete_sites_permission',
 					'type' => 'checkbox',
-					'instructions' => __('Grant specific User Roles the DELETE permission on all platform Sites. 
-This will allow those roles to remove all platform sites.', 'dollie'),
+					'instructions' => sprintf(esc_html__('Grant specific User Roles the ability to DELETE %s', 'dollie-setup'), dollie()->get_site_type_plural_string()),
 					'required' => 0,
 					'conditional_logic' => 0,
 					'wrapper' => array(
@@ -1359,10 +1357,10 @@ This will allow those roles to remove all platform sites.', 'dollie'),
 				),
 				array(
 					'key'               => 'field_5b097b1dd50cc',
-					'label'             => __( 'Enable Blueprint Site Preview', 'dollie' ),
+					'label'             => __( 'Enable Blueprint Preview', 'dollie' ),
 					'name'              => 'wpd_enable_site_preview',
 					'type'              => 'true_false',
-					'instructions'      => __( 'Site Previews allows you to quickly showcase the available Site Blueprints you\'ve created. Ideal if you are building for WaaS / SaaS platform.', 'dollie' ),
+					'instructions'      => __( 'Previews allows you to quickly showcase the available Blueprints you\'ve created. Ideal if you are building a WaaS / SaaS platform.', 'dollie' ),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
@@ -1379,10 +1377,10 @@ This will allow those roles to remove all platform sites.', 'dollie'),
 				),
 				array(
 					'key'               => 'field_5b094db7fe6e9',
-					'label'             => __( 'Site Preview Link', 'dollie' ),
+					'label'             => __( 'Preview Link', 'dollie' ),
 					'name'              => 'wpd_site_preview_path',
 					'type'              => 'text',
-					'instructions'      => __( 'The link to where your Site Preview will shown. By default you can visit it by going to your-site.com/preview after you have created your first Blueprint', 'dollie' ),
+					'instructions'      => __( 'The link to where your Preview will shown. By default you can visit it by going to your-site.com/preview after you have created your first Blueprint', 'dollie' ),
 					'required'          => 0,
 					'conditional_logic' => array(
 						array(
@@ -1407,10 +1405,10 @@ This will allow those roles to remove all platform sites.', 'dollie'),
 				),
 				array(
 					'key'               => 'field_5fc8e845150e2',
-					'label'             => __( 'Site Preview Logo', 'dollie' ),
+					'label'             => __( 'Preview Logo', 'dollie' ),
 					'name'              => 'wpd_dashboard_preview_logo',
 					'type'              => 'image',
-					'instructions'      => __( 'The logo that is shown in the Site Preview.', 'dollie' ),
+					'instructions'      => __( 'The logo that is shown in the Preview.', 'dollie' ),
 					'required'          => 0,
 					'conditional_logic' => array(
 						array(
@@ -1443,7 +1441,7 @@ This will allow those roles to remove all platform sites.', 'dollie'),
 					'label'             => __( 'Show Default Blueprint', 'dollie' ),
 					'name'              => 'wpd_show_default_blueprint',
 					'type'              => 'true_false',
-					'instructions'      => __( 'When launching a new site, show or hide the Default Blueprint option.', 'dollie' ),
+					'instructions'      => __( 'When launching a new site, show or hide the default Blueprint.', 'dollie' ),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
@@ -1477,7 +1475,7 @@ This will allow those roles to remove all platform sites.', 'dollie'),
 				),
 				array(
 					'key'               => 'field_6041ed2ed94cd',
-					'label'             => __( 'Deployed Site Email notification', 'dollie' ),
+					'label'             => __( 'Email Notifications', 'dollie' ),
 					'name'              => 'wpd_deployed_site_notification',
 					'type'              => 'true_false',
 					'instructions'      => __( 'An email will be automatically sent when a site has been deployed.', 'dollie' ),
@@ -1550,7 +1548,7 @@ This will allow those roles to remove all platform sites.', 'dollie'),
 					),
 					'hide_admin'        => 0,
 					'default_value'     => 'Hi,
-            Site <a href="{dollie_site_url}">{dollie_site_name}</a> has been deployed successfully.',
+            Site <a href="{dollie_site_url}">{dollie_site_name}</a> has been launched successfully.',
 					'tabs'              => 'all',
 					'toolbar'           => 'full',
 					'media_upload'      => 1,
@@ -1611,7 +1609,7 @@ This will allow those roles to remove all platform sites.', 'dollie'),
 					),
 					'hide_admin'        => 0,
 					'default_value'     => 'Hi,
-            <a href="{dollie_site_url}">{dollie_site_name}</a> site has been deployed by {dollie_user}.',
+            <a href="{dollie_site_url}">{dollie_site_name}</a> has been launched by {dollie_user}.',
 					'tabs'              => 'all',
 					'toolbar'           => 'full',
 					'media_upload'      => 1,
@@ -1622,7 +1620,7 @@ This will allow those roles to remove all platform sites.', 'dollie'),
 					'label'             => __( 'Daily Site Status Digest', 'dollie' ),
 					'name'              => 'wpd_email_digest_notification',
 					'type'              => 'true_false',
-					'instructions'      => __( 'Daily email digest with sites scheduled to be stopped or removed.', 'dollie' ),
+					'instructions'      => __( 'Daily email digest with everything scheduled to be stopped or removed.', 'dollie' ),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
@@ -1697,7 +1695,7 @@ This will allow those roles to remove all platform sites.', 'dollie'),
 					'hide_admin'        => 0,
 					'default_value'     => '<h4>The following sites are scheduled to be stopped in the near future:</h4>
     <p>{dollie_sites_stopped_list}</p>
-    <p>Please make sure that all of the above containers are indeed meant to be stopped due to cancelled subscriptions or manual removal.</p>
+    <p>Please make sure that all of the above sites are indeed meant to be stopped due to cancelled subscriptions or manual removal.</p>
     <h4>The following containers are scheduled to be completely removed in the near future:</h4>
     <p>{dollie_sites_removal_list}</p>
     <p>Once a site has been completely removed from our infrastructure it can only be restored in emergency situations.</p>',

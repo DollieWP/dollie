@@ -26,7 +26,7 @@ use Dollie\Core\Utils\Api;
 		</div>
 
 		<h3>API TOKEN</h3>
-		<p><?php esc_html_e( 'This is the token that connects your site to Dollie infrastructure.', 'dollie' ); ?></p>
+		<p><?php esc_html_e( 'This is the token that links your site and partner account to the Dollie API.', 'dollie' ); ?></p>
 
 		<input style="width: 400px" type="text" readonly
 			   value="<?php echo esc_attr( Api::get_auth_token() ); ?>">
