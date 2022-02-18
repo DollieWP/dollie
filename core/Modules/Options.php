@@ -731,11 +731,8 @@ class Options extends Singleton
 // 	public function callback_top($post, $args = array())
 // 	{
 // 		dollie_setup_get_template_part('recent-kb');
-// 	?>
-
-// 	<?php
+//
 // 																						} // end public function callback_top
-
 // 																						public function callback_bot($post, $args = array())
 // 																						{
 // 																							?><div><?php echo '<pre>';
@@ -743,5 +740,5 @@ class Options extends Singleton
 // 																							var_dump($args);
 // 																							echo '</pre>'; ?></div><?php
 // 																						} // end public function callback_bot
-
+//
 // 																					} // end class add_boxes_to
