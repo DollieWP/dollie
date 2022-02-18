@@ -97,11 +97,18 @@ class LaunchSite extends Singleton {
 	 */
 	public function submission_callback( $form, $fields, $args ) {
 		$blueprint   = Forms::instance()->get_form_blueprint( $form, $args );
+
+		if ( af_get_field('assign_to_customer')  ) {
+			$assigned_user_id = af_get_field('assign_to_customer');
+		} else {
+			$assigned_user_id = get_current_user_id();
+		}
+
 		$domain      = af_get_field( 'site_url' );
 		$deploy_data = [
 			'email'     => af_get_field( 'site_admin_email' ),
 			'domain'    => $domain,
-			'user_id'   => get_current_user_id(),
+			'user_id'   => $assigned_user_id,
 			'blueprint' => $blueprint,
 			'site_type' => af_get_field( 'site_type' ),
 		];

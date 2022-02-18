@@ -6,15 +6,17 @@
   padding-left: 0;
 }
 
-@layer components {
+.dol-is-user .af-field-wpd-assign-to-customer {
+  display: none;
+}
 
-  [type=radio],
-  [type=checkbox] {
+@layer components {
+  [type="radio"],
+  [type="checkbox"] {
     @apply dol-ring-0 #{!important};
 
     -webkit-appearance: auto;
     -moz-appearance: auto;
     appearance: auto;
   }
-
 }
