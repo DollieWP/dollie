@@ -16,7 +16,7 @@ do_action( 'dollie/before/main-menu' );
 	<li class="dol-mb-4">
 		<a href="<?php echo esc_html( dollie()->get_launch_page_url() ); ?>"
 		   class="dol-nav-btn dol-bg-secondary dol-text-white <?php echo esc_attr( $active_class['launch-site'] ); ?>">
-			<span class="dol-inline-block dol-text-center dol-w-8"><i class="fas fa-rocket"></i></span>
+			<span class="dol-inline-block dol-text-center dol-w-8"><?php echo dollie()->get_icon_launch();?></span>
 			<?php echo esc_html( dollie()->get_launch_page_title() ); ?>
 		</a>
 	</li>

@@ -156,7 +156,7 @@ class ListBackups extends Singleton {
 					$real_size = $info[1];
 				}
 
-				$size = '<span class="dol-inline-block dol-ml-4"><i class="fas fa-hdd dol-mr-1"></i> ' . $real_size . '</span>';
+				$size = '<span class="dol-inline-block dol-ml-4">' . dollie()->get_icon_backups() . $real_size . '</span>';
 				// Time is first part but needs to be split.
 				$backup_date = explode( '_', $info[0] );
 				// Date of backup.
@@ -171,7 +171,7 @@ class ListBackups extends Singleton {
 				$format_time    = str_replace( '-', ':', $backup_date[1] );
 				$duplicity_time = $backup_date[0] . 'T' . $format_time . ':00';
 
-				$choices[ $duplicity_time ] = '<i class="fa fa-calendar-o dol-mr-1"></i>' . date( 'd F y', $date ) . $time . $size;
+				$choices[ $duplicity_time ] = dollie()->get_icon_clock() . date( 'd F y', $date ) . $time . $size;
 			}
 		}
 

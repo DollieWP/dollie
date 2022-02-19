@@ -14,7 +14,7 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 		</div>
 		<div class="dol-relative dol-w-full md:dol-w-auto">
 			<div class="dol-absolute dol-left-0 dol-top-0 dol-ml-4 dol-flex dol-items-center dol-h-full">
-				<i class="fas fa-search dol-text-ash-500"></i>
+				<?php echo dollie()->get_icon_search('dol-text-ash-500'); ?>
 			</div>
 			<input type="text" name="customer_search" class="dol-search-input dol-search-customer dol-w-full md:dol-w-64" data-list-type="<?php echo esc_attr($view_type); ?>" data-permalink="<?php echo esc_attr($query_data['permalink']); ?>" data-search-term="" placeholder="<?php printf(esc_html__('Search for a  %s', 'dollie'), dollie()->get_user_type_string()); ?>">
 		</div>
@@ -70,7 +70,7 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 
 
 							<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo dollie()->get_sites_page_url(); ?>?customer=<?php echo $customer->ID; ?>">
-								<i class="fas fa-wrench"></i>
+								<?php echo dollie()->get_icon_site_view(); ?>
 								<span class="dol-ml-1"><?php printf(esc_html__('View %s', 'dollie-setup'), dollie()->get_site_type_string()); ?></span>
 							</a>
 						</div>
