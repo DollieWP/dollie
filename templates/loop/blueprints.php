@@ -31,7 +31,7 @@ if (get_field('wpd_blueprint_image') === 'custom') {
 		<div class="dol--mt-px dol-flex dol-divide-x dol-divide-gray-200">
 			<div class="dol-w-0 dol-flex-1 dol-flex">
 				<?php
-				$icon           = '<i class="fas fa-tv dol-pr-2"></i>';
+				$icon           = dollie()->get_icon_preview('dol-pr-2');
 				$view_demo_text = !empty($view_demo_text)
 					? $view_demo_text . ' ' . $icon
 					: sprintf(__('%s View Demo', 'dollie'), $icon);
@@ -53,7 +53,7 @@ if (get_field('wpd_blueprint_image') === 'custom') {
 					<?php if (!empty($launch_button_text)) { ?>
 						<?php echo $launch_button_text; ?> <i class="pr-2 fas fa-rocket"></i>
 					<?php } else { ?>
-						<?php printf(esc_html__('%s Launch %s', 'dollie'), '<i class="fas fa-rocket dol-pr-2"></i>', dollie()->get_site_type_string()); ?>
+						<?php printf(esc_html__('%s Launch %s', 'dollie'), dollie()->get_icon_launch('dol-pr-2'), dollie()->get_site_type_string()); ?>
 					<?php } ?>
 				</a>
 			</div>

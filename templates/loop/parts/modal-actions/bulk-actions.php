@@ -28,6 +28,6 @@
 
 <div class="dol-mt-4">
 	<button type="button" class="dol-send-bulk-action dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600" data-ajax-url="<?php echo esc_attr(admin_url('admin-ajax.php')); ?>" data-nonce="<?php echo esc_attr(wp_create_nonce('dollie_do_bulk_action')); ?>">
-		<i class="fas fa-tools dol-mr-2"></i> <?php esc_html_e('Run Task Now', 'dollie'); ?>
+		<?php echo dollie()->get_icon_task('dol-mr-2'); ?><?php esc_html_e('Run Task Now', 'dollie'); ?>
 	</button>
 </div>

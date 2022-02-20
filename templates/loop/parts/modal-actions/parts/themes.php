@@ -1,6 +1,6 @@
 <div class="dol-resources-list dol-mt-4">
 	<?php if (empty($themes_data)) : ?>
-		<?php sprintf(esc_html__('There is no theme information available', 'dollie-setup'), dollie()->get_site_type_string()); ?>
+		<?php sprintf(esc_html__('There is no theme information available for this %s', 'dollie-setup'), dollie()->get_site_type_string()); ?>
 	<?php else : ?>
 		<ul class="dol-list-none dol-p-0 dol-m-0 dol-mr-4 dol-divide-solid dol-divide-y dol-divide-gray-300 dol-border dol-border-solid dol-border-gray-300 dol-rounded">
 			<?php foreach ($themes_data as $key => $theme) : ?>
@@ -12,8 +12,8 @@
 							<span class="dol-ml-2"><?php echo esc_html($theme['title']); ?></span>
 						</label>
 						<span class="dol-toggle-resource-details hover:dol-cursor-pointer dol-text-gray-600" data-item="dol-resource-content-<?php echo esc_attr($key); ?>">
-							<span class="dol-open"><i class="fas fa-angle-right"></i></span>
-							<span class="dol-close dol-hidden"><i class="fas fa-angle-up"></i></span>
+							<span class="dol-open"><?php echo dollie()->get_icon_arrow_up(); ?></span>
+							<span class="dol-close dol-hidden"><?php echo dollie()->get_icon_arrow_down(); ?></span>
 						</span>
 					</div>
 					<div id="dol-resource-content-<?php echo esc_attr($key); ?>" class="dol-resource-items dol-hidden dol-border-0 dol-border-t dol-border-solid dol-border-gray-100 dol-p-2">

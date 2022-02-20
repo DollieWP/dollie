@@ -42,22 +42,22 @@ $containers = new WP_Query(
 			$blueprint      = get_post_meta( get_the_ID(), 'wpd_blueprint_created', true );
 
 			$menu = [
-				''                => '<i class="fas fa-columns"></i> ' . __( 'Dashboard', 'dollie' ),
-				'plugins'         => '<i class="fas fa-plug"></i> ' . __( 'Plugins', 'dollie' ),
-				'themes'          => '<i class="fas fa-paint-roller"></i> ' . __( 'Themes', 'dollie' ),
-				'domains'         => '<i class="fas fa-globe"></i> ' . __( 'Domains', 'dollie' ),
-				'backups'         => '<i class="fas fa-history"></i> ' . __( 'Backups', 'dollie' ),
-				'updates'         => '<i class="fas fa-box-open"></i> ' . __( 'Updates', 'dollie' ),
-				'developer-tools' => '<i class="fas fa-code"></i> ' . __( 'Developer Tools', 'dollie' ),
-				'blueprints'      => '<i class="fas fa-copy"></i> ' . __( 'Blueprints', 'dollie' ),
-				'migrate'         => '<i class="fas fa-truck-moving"></i> ' . __( 'Migrate', 'dollie' ),
+				''                => dollie()->get_icon_site_dashboard() . __( 'Dashboard', 'dollie' ),
+				'plugins'         => dollie()->get_icon_plugins() . __( 'Plugins', 'dollie' ),
+				'themes'          => dollie()->get_icon_themes() . __( 'Themes', 'dollie' ),
+				'domains'         => dollie()->get_icon_domains() . __( 'Domains', 'dollie' ),
+				'backups'         => dollie()->get_icon_backups() . __( 'Backups', 'dollie' ),
+				'updates'         => dollie()->get_icon_updates() . __( 'Updates', 'dollie' ),
+				'developer-tools' => dollie()->get_icon_dev_tools() . __( 'Developer Tools', 'dollie' ),
+				'blueprints'      => dollie()->get_icon_blueprint() . __( 'Blueprints', 'dollie' ),
+				'migrate'         => dollie()->get_icon_migration() . __( 'Migrate', 'dollie' ),
 			];
 
 			if ( dollie()->has_staging() ) {
-				$menu['staging'] = '<i class="fas fa-clone"></i> ' . esc_html__( 'Staging', 'dollie' );
+				$menu['staging'] = dollie()->get_icon_staging() . esc_html__( 'Staging', 'dollie' );
 			}
 
-			$menu['delete'] = '<i class="fas fa-trash-alt"></i> ' . esc_html__( 'Delete', 'dollie' );
+			$menu['delete'] = dollie()->get_icon_delete() . esc_html__( 'Delete', 'dollie' );
 
 			if ( dollie()->is_blueprint( get_the_ID() ) ) {
 				unset( $menu['domains'] );
@@ -78,11 +78,11 @@ $containers = new WP_Query(
 						<span class="dol-font-medium">
 							<?php
 							if ( ! empty( $domain ) ) {
-								echo '<i class="fas fa-globe"></i>';
+								echo dollie()->get_icon_live_site();
 							} elseif ( ! empty( $blueprint ) ) {
-								echo '<i class="fas fa-copy"></i>';
+								echo dollie()->get_icon_blueprint();
 							} else {
-								echo '<i class="fas fa-cog"></i>';
+								echo dollie()->get_icon_dev_site();
 							}
 							?>
 							<?php

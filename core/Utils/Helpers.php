@@ -1330,7 +1330,7 @@ class Helpers extends Singleton
 		return '<span class="dol-icon '. $classes.'">' . apply_filters('dollie_icon_manage', '<i class="fas fa-cog"></i>') . '</span>';
 	}
 
-	public function get_icon_woo_dashboard($classes = null)
+	public function get_icon_dashboard($classes = null)
 	{
 		return '<span class="dol-icon '. $classes.'">' . apply_filters('dollie_icon_woo_dashboard', '<i class="fas fa-dashboard"></i>') . '</span>';
 	}
@@ -1340,7 +1340,7 @@ class Helpers extends Singleton
 		return '<span class="dol-icon '. $classes.'">' . apply_filters('dollie_icon_orders', '<i class="fas fa-orders"></i>') . '</span>';
 	}
 
-	public function get_icon_subscriptions($classes = null)
+	public function get_icon_my_subscription($classes = null)
 	{
 		return '<span class="dol-icon '. $classes.'">' . apply_filters('dollie_icon_subscriptions', '<i class="fas fa-subscriptions"></i>') . '</span>';
 	}
@@ -1362,7 +1362,7 @@ class Helpers extends Singleton
 
 	public function get_icon_logout($classes = null)
 	{
-		return '<span class="dol-icon '. $classes.'">' . apply_filters('dollie_icon_logout', '<i class="fas fa-customer-logout"></i>') . '</span>';
+		return '<span class="dol-icon '. $classes.'">' . apply_filters('dollie_icon_logout', '<i class="fas fa-sign-out-alt"></i>') . '</span>';
 	}
 
 	public function get_icon_filter($classes = null)
@@ -1507,7 +1507,7 @@ class Helpers extends Singleton
 
 	public function get_icon_arrow_right($classes = null)
 	{
-		return '<span class="dol-icon '. $classes.'">' . apply_filters('dollie_icon_arrow_right', '<i class="fas fa-long-arrow-right"></i>') . '</span>';
+		return '<span class="dol-icon '. $classes.'">' . apply_filters('dollie_icon_arrow_right', '<i class="fas fa-long-arrow-left"></i>') . '</span>';
 	}
 
 	public function get_icon_arrow_left($classes = null)
@@ -1523,6 +1523,16 @@ class Helpers extends Singleton
 	public function get_icon_logs($classes = null)
 	{
 		return '<span class="dol-icon '. $classes.'">' . apply_filters('dollie_icon_arrow_down', '<i class="fas fa-file-alt"></i>') . '</span>';
+	}
+
+	public function get_icon_arrow_up($classes = null)
+	{
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters('dollie_icon_arrow_up', '<i class="fas fa-long-arrow-up"></i>') . '</span>';
+	}
+
+	public function get_icon_site_dashboard($classes = null)
+	{
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters('dollie_icon_site_dashboard', '<i class="fas fa-columns"></i>') . '</span>';
 	}
 
 	public function get_icon_alert($classes = null)

@@ -142,7 +142,7 @@ if (!isset($view_type)) {
 						<div class="dol-sites-controls">
 							<?php if (dollie()->is_blueprint(get_the_ID())) : ?>
 								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_the_permalink(get_the_ID()); ?>blueprints" data-tooltip="<?php echo esc_attr__('Update Blueprint', 'dollie'); ?>">
-									<i class="fas fa-sync"></i>
+									<?php echo dollie()->get_icon_refresh(); ?>
 								</a>
 							<?php else : ?>
 								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo dollie()->get_site_url(get_the_ID()); ?>" data-tooltip="<?php echo esc_attr__('Manage', 'dollie'); ?>">
@@ -155,7 +155,7 @@ if (!isset($view_type)) {
 							if ($staging_url) :
 							?>
 								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_the_permalink(get_the_ID()); ?>staging" data-tooltip="<?php echo esc_attr__('Visit Staging Area', 'dollie'); ?>">
-									<i class="fas fa-copy"></i>
+									<?php echo dollie()->get_icon_staging(); ?>
 								</a>
 							<?php endif; ?>
 
@@ -165,7 +165,7 @@ if (!isset($view_type)) {
 							if (!empty($login_link)) :
 							?>
 								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo esc_url($login_link); ?>" data-tooltip="<?php printf(esc_html__('Login to %s as Admin', 'dollie-setup'), dollie()->get_site_type_string()); ?>">
-									<i class="fas fa-sign-in-alt"></i>
+									<?php echo dollie()->get_icon_site_login(); ?>
 								</a>
 							<?php endif; ?>
 						</div>

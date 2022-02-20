@@ -64,7 +64,7 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 						</div>
 						<div class="dol-customers-controls">
 							<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_edit_user_link($customer->ID); ?>">
-								<i class="fas fa-cog"></i>
+								<?php echo dollie()->get_icon_manage(); ?>
 								<span class="dol-ml-1"><?php printf(esc_html__('Manage %s', 'dollie-setup'), dollie()->get_user_type_string()); ?></span>
 							</a>
 

@@ -24,7 +24,7 @@ if ($posts) :
 							</span>
 						<?php else : ?>
 							<span class="dol-flex dol-items-center dol-justify-center dol-h-40 dol-bg-gray-100">
-								<i class="fas fa-newspaper fa-3x"></i>
+								<?php echo dollie()->get_icon_blog_post('fa-3x'); ?>
 							</span>
 						<?php endif; ?>
 					</a>
@@ -41,7 +41,7 @@ if ($posts) :
 							<a target="_blank" class="dol-btn dol-btn-secondary dol-nav-active" href="<?php echo esc_html($post->link); ?>">
 								<span class="dol-flex dol-items-center">
 									<?php esc_html_e('Read article', 'dollie'); ?>
-									<i class="fas fa-angle-right dol-ml-2"></i>
+									<?php echo dollie()->get_icon_arrow_right('dol-ml-2'); ?>
 								</span>
 							</a>
 						</div>

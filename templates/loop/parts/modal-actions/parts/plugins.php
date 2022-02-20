@@ -12,8 +12,8 @@
 							<span class="dol-ml-2"><?php echo esc_html($plugin['title']); ?></span>
 						</label>
 						<span class="dol-toggle-plugin-details hover:dol-cursor-pointer dol-text-gray-600" data-item="dol-resource-content-<?php echo esc_attr($key); ?>">
-							<span class="dol-open"><i class="fas fa-angle-right"></i></span>
-							<span class="dol-close dol-hidden"><i class="fas fa-angle-up"></i></span>
+							<span class="dol-open"><?php echo dollie()->get_icon_arrow_right(); ?></span>
+							<span class="dol-close dol-hidden"><?php echo dollie()->get_icon_arrow_up(); ?></span>
 						</span>
 					</div>
 					<div id="dol-resource-content-<?php echo esc_attr($key); ?>" class="dol-resource-items dol-hidden dol-border-0 dol-border-t dol-border-solid dol-border-gray-100 dol-p-2">
