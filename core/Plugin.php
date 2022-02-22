@@ -141,12 +141,12 @@ class Plugin extends Singleton
 		}
 
 		// Load TGM Class
-		if (!class_exists('Dollie_Setup')) {
+		if ( ! class_exists('Dollie_Setup') && file_exists( DOLLIE_CORE_PATH . 'Extras/dollie-setup/loader.php' ) ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/dollie-setup/loader.php';
 		}
 
 		// Load TGM Class
-		if (!class_exists('OCDI_Plugin')) {
+		if (!class_exists('OCDI_Plugin') && file_exists( DOLLIE_CORE_PATH . 'Extras/one-click-demo-import/one-click-demo-import.php' ) ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/one-click-demo-import/one-click-demo-import.php';
 		}
 
@@ -353,6 +353,14 @@ class Plugin extends Singleton
 		);
 
 		wp_enqueue_script('dollie-tooltips');
+
+		wp_register_script(
+			'dollie-site-content',
+			DOLLIE_ASSETS_URL . 'js/widgets/site-content.js',
+			[],
+			DOLLIE_VERSION,
+			true
+		);
 	}
 
 	/**

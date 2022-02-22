@@ -98,8 +98,8 @@ class LaunchSite extends Singleton {
 	public function submission_callback( $form, $fields, $args ) {
 		$blueprint   = Forms::instance()->get_form_blueprint( $form, $args );
 
-		if ( af_get_field('assign_to_customer')  ) {
-			$assigned_user_id = af_get_field('assign_to_customer');
+		if ( af_get_field( 'assign_to_customer' )  ) {
+			$assigned_user_id = af_get_field( 'assign_to_customer' );
 		} else {
 			$assigned_user_id = get_current_user_id();
 		}

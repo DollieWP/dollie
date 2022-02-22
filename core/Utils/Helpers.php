@@ -344,11 +344,14 @@ class Helpers extends Singleton {
 		$query = new WP_Query(
 			[
 				'post_status'    => [ 'publish', 'draft' ],
-				'author'         => get_current_user_id(),
 				'post_type'      => 'container',
 				'posts_per_page' => 1,
 			]
 		);
+
+		if ( ! dollie()->can_manage_all_sites() ) {
+			$args['author'] = get_current_user_id();
+		}
 
 		$output = '';
 
@@ -648,6 +651,14 @@ class Helpers extends Singleton {
 	 * @return mixed|void
 	 */
 	public function get_site_template_id() {
+
+		$status = \Dollie\Core\Modules\Container::instance()->get_status( get_the_ID() );
+	
+		// If we have a launching template then show that instead.
+		if ( 'pending' === $status && get_option( 'options_wpd_site_launching_template_id' ) ) {
+			return (int) get_option( 'options_wpd_site_launching_template_id' );
+		}
+
 		return (int) get_option( 'options_wpd_site_template_id' );
 	}
 
@@ -1137,6 +1148,7 @@ class Helpers extends Singleton {
 	public function get_elementor_template_types() {
 		return [
 			'container' => __( 'Site View', 'dollie' ),
+			'container_launching' => __( 'Site Launching View', 'dollie' ),
 		];
 	}
 

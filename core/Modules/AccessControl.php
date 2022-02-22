@@ -391,10 +391,20 @@ class AccessControl extends Singleton {
 	{
 
 		// bail early if no 'admin_only' setting
-		if (empty($field['dollie_admin_only'])) return $field;
+        if ( empty( $field['dollie_admin_only'] ) ) {
+            return $field;
+        }
 
 		// return false if is not Dollie admin (removes field)
-		if ( ! dollie()->can_manage_all_sites() || ! current_user_can('manage_options')	) return true;
+		if ( ! dollie()->can_manage_all_sites() ) {
+			echo '
+				<style type="text/css">
+					.acf-field-'. substr( $field['key'], 6 ) . ' > .acf-label {display: none;}
+				</style>';
+
+			//var_dump($field);exit;
+			return false;
+		}
 
 		// return
 		return $field;

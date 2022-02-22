@@ -64,6 +64,21 @@ class Container extends Singleton {
 
 		add_filter( 'admin_body_class', [ $this, 'add_container_type_class' ] );
 
+		add_filter( 'the_title', [ $this, 'remove_pending_from_title' ] );
+
+	}
+
+	/**
+	 * Remove pending string from front-end
+	 *
+	 * @param string $title
+	 * @return void
+	 */
+	public function remove_pending_from_title( $title ) {
+		if ( ! is_admin() && is_main_query() ) {
+			$title = str_replace( ' [deploy pending]', '', $title );
+		}
+		return $title;
 	}
 
 	/**
