@@ -122,7 +122,7 @@
 	<div class="dol-border <?php do_action('dol_add_widget_classes'); ?> dol-overflow-hidden dol-widget-blueprint-settings">
 		<div class=" dol-flex dol-items-center dol-bg-primary-600 dol-border-0 dol-border-b">
 			<div class="dol-p-4 lg:dol-px-8 dol-flex dol-items-center dol-justify-center dol-h-full">
-				<i class="fal fa-cogs dol-text-white dol-text-xl md:dol-text-2xl"></i>
+				<?php echo dollie()->get_icon_settings('dol-text-white dol-text-xl md:dol-text-2xl'); ?>
 			</div>
 			<h4 class="dol-m-0 dol-p-0 dol-text-white dol-text-base md:dol-text-xl">
 				<?php esc_html_e('Blueprint Settings', 'dollie'); ?>
@@ -169,7 +169,7 @@
 						<ul class="dol-list-none dol-m-0 dol-p-0">
 							<?php foreach ($blueprints as $blueprint) : ?>
 								<li>
-									<i class="fas fa-calendar"></i>
+									<?php echo dollie()->get_icon_clock(); ?>
 									<span><?php printf(__('Created on %1$s at %2$s.', 'dollie'), $blueprint['date'], $blueprint['time']); ?></span>
 									<span><?php printf(__('Size %s.', 'dollie'), $blueprint['size']); ?></span>
 								</li>

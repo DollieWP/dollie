@@ -16,31 +16,31 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 
 				<?php
 				$menu = [
-					''                => '<i class="fas fa-columns"></i>' . __( 'Dashboard', 'dollie' ),
-					'plugins'         => '<i class="fas fa-plug"></i>' . __( 'Plugins', 'dollie' ),
-					'themes'          => '<i class="fas fa-paint-roller"></i>' . __( 'Themes', 'dollie' ),
-					'domains'         => '<i class="fas fa-globe"></i>' . __( 'Domains', 'dollie' ),
-					'backups'         => '<i class="fas fa-history"></i>' . __( 'Backups', 'dollie' ),
-					'updates'         => '<i class="fas fa-box-open"></i>' . __( 'Updates', 'dollie' ),
-					'developer-tools' => '<i class="fas fa-code"></i>' . __( 'Developer Tools', 'dollie' ),
-					'blueprints'      => '<i class="fas fa-copy"></i>' . __( 'Blueprints', 'dollie' ),
-					'migrate'         => '<i class="fas fa-truck-moving"></i>' . __( 'Migrate', 'dollie' ),
+					''                => dollie()->get_icon_site_dashboard() . __('Dashboard', 'dollie'),
+					'plugins'         => dollie()->get_icon_plugins() . __('Plugins', 'dollie'),
+					'themes'          => dollie()->get_icon_themes() . __('Themes', 'dollie'),
+					'domains'         => dollie()->get_icon_domains() . __('Domains', 'dollie'),
+					'backups'         => dollie()->get_icon_backups() . __('Backups', 'dollie'),
+					'updates'         => dollie()->get_icon_updates() . __('Updates', 'dollie'),
+					'developer-tools' => dollie()->get_icon_dev_tools() . __('Developer Tools', 'dollie'),
+					'blueprints'      => dollie()->get_icon_blueprint() . __('Blueprints', 'dollie'),
+					'migrate'         => dollie()->get_icon_migration() . __('Migrate', 'dollie'),
 				];
 
 				if ( dollie()->has_staging() ) {
 					$staging_url = get_post_meta( $current_id, '_wpd_staging_url', true );
 					if ( $staging_url ) {
-						$menu['staging'] = '<i class="fas fa-clone"></i>' . esc_html__( 'Staging', 'dollie' ) . '<span style="display: inline-block; margin-left: 2px;"; class="dol-flex dol-h-3 dol-w-3 dol-relative">
+						$menu['staging'] = dollie()->get_icon_staging() . esc_html__( 'Staging', 'dollie' ) . '<span style="display: inline-block; margin-left: 2px;"; class="dol-flex dol-h-3 dol-w-3 dol-relative">
 										<span style="
     top: 7px"; class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w-full dol-rounded-full dol-bg-green-500 dol-opacity-75"></span>
 										<span class="dol-relative dol-inline-flex dol-rounded-full dol-h-3 dol-w-3 dol-bg-green-600"></span>
 									</span>';
 					} else {
-						$menu['staging'] = '<i class="fas fa-clone"></i>' . esc_html__( 'Staging', 'dollie' );
+						$menu['staging'] = dollie()->get_icon_staging() . esc_html__( 'Staging', 'dollie' );
 					}
 				}
 
-				$menu['delete'] = '<i class="fas fa-trash-alt"></i>' . esc_html__( 'Delete', 'dollie' );
+				$menu['delete'] = dollie()->get_icon_delete() . esc_html__( 'Delete', 'dollie' );
 
 				if ( dollie()->is_blueprint( $current_id ) ) {
 					unset( $menu['domains'] );

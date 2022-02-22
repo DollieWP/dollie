@@ -1470,6 +1470,16 @@ class Helpers extends Singleton
 		return '<span class="dol-icon '. $classes.'">' . apply_filters('dollie_icon_dev_site', '<i class="fas fa-cog"></i>') . '</span>';
 	}
 
+	public function get_icon_settings($classes = null)
+	{
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters('dollie_icon_settings', '<i class="fas fa-cogs"></i>') . '</span>';
+	}
+
+	public function get_icon_wordpress($classes = null)
+	{
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters('dollie_icon_wordpress', '<i class="fab fa-wordpress-simple"></i>') . '</span>';
+	}
+
 	public function get_icon_comments($classes = null)
 	{
 		return '<span class="dol-icon '. $classes.'">' . apply_filters('dollie_icon_comments', '<i class="fas fa-comments"></i>') . '</span>';

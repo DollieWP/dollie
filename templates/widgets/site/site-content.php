@@ -19,7 +19,7 @@ if ('stop' === $status) :
 				<div class="text-center py-30">
 					<div class="mb-20">
 						<h2 class="text-white">
-							<i class="fab fa-wordpress"></i>
+							<?php echo dollie()->get_icon_site(); ?>
 							<?php
 							printf(esc_html__('Service for this %s is current on hold.', 'dollie-setup'), dollie()->get_site_type_string());
 							?>

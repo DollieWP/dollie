@@ -51,7 +51,7 @@ if (get_field('wpd_blueprint_image') === 'custom') {
 			<div class="dol--ml-px dol-w-0 dol-flex-1 dol-flex">
 				<a data-id="<?php echo get_the_ID(); ?>" class="dol-relative dol-w-0 dol-flex-1 dol-inline-flex dol-items-center dol-justify-center dol-py-4 dol-text-sm dol-text-gray-700 dol-font-medium dol-border dol-border-transparent dol-rounded-br-lg hover:dol-text-gray-500 dol-bg-primary-200 dol-text-primary-600" href="<?php echo esc_url($checkout_link); ?>">
 					<?php if (!empty($launch_button_text)) { ?>
-						<?php echo $launch_button_text; ?> <i class="pr-2 fas fa-rocket"></i>
+						<?php echo $launch_button_text; ?> <?php echo dollie()->get_icon_launch('dol-pr-2'); ?>
 					<?php } else { ?>
 						<?php printf(esc_html__('%s Launch %s', 'dollie'), dollie()->get_icon_launch('dol-pr-2'), dollie()->get_site_type_string()); ?>
 					<?php } ?>
