@@ -1,13 +1,13 @@
 <?php
 $shell_url = dollie()->get_customer_secret_url() . '/shell/';
 
-wp_enqueue_script( 'iframe-resizer' );
+wp_enqueue_script('iframe-resizer');
 ?>
 <script>
     jQuery(function($) {
-        $('[data-shell]').on('click', function () {
+        $('[data-shell]').on('click', function() {
             var is_safari = navigator.userAgent.indexOf("Safari") > -1;
-            var src = '<?php echo esc_url( $shell_url ); ?>';
+            var src = '<?php echo esc_url($shell_url); ?>';
 
             if (is_safari) {
                 return;
@@ -31,7 +31,7 @@ wp_enqueue_script( 'iframe-resizer' );
 </script>
 
 <h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
-	<?php esc_html_e( 'WP CLI', 'dollie' ); ?>
+    <?php esc_html_e('WP CLI', 'dollie'); ?>
 </h2>
 
 <div class="dol-shell-wrapper"></div>
@@ -39,15 +39,13 @@ wp_enqueue_script( 'iframe-resizer' );
     <div class="dol-bg-black dol-bg-gradient-primary dol-absolute dol-h-full dol-w-full dol-top-0 dol-left-0 dol--z-1"></div>
     <div class="dol-flex dol-flex-wrap dol-items-center dol-justify-center dol-flex-col">
         <div class="dol-text-white">
-            <i class="fas fa-wordpress fa dol-mr-2" aria-hidden="true"></i>
-			<?php esc_html_e( 'Have fun, but don\'t forget to make backups!', 'dollie' ); ?>
+            <?php echo dollie()->get_icon_dev_cli(); ?>
+            <?php esc_html_e('Have fun, but don\'t forget to make backups!', 'dollie'); ?>
         </div>
 
         <div class="dol-mt-4">
-            <a href="<?php echo esc_url( $shell_url ); ?>" target="_blank"
-               class="dol-inline-block dol-text-white dol-bg-secondary-500 hover:dol-text-white hover:dol-bg-secondary-600 dol-px-6 dol-py-3 dol-rounded"
-               data-shell="LpKyzSxVhk4">
-				<?php esc_html_e( 'Load the WP-CLI Terminal', 'dollie' ); ?>
+            <a href="<?php echo esc_url($shell_url); ?>" target="_blank" class="dol-inline-block dol-text-white dol-bg-secondary-500 hover:dol-text-white hover:dol-bg-secondary-600 dol-px-6 dol-py-3 dol-rounded" data-shell="LpKyzSxVhk4">
+                <?php esc_html_e('Load the WP CLI Terminal', 'dollie'); ?>
             </a>
         </div>
     </div>

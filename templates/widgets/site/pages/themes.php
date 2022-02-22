@@ -19,7 +19,7 @@
 				</div>
 				<div class="dol-w-full lg:dol-w-3/6 lg:dol-text-right dol-mt-1 lg:dol-mt-0">
 					<a class="dol-text-sm dol-text-primary-200 hover:dol-text-primary-300" target="_blank" href="<?php echo esc_url($data['site_data']['Theme AuthorURI']); ?>">
-						<i class="fas fa-user dol-text-primary-200 dol-mr-2"></i>
+						<?php echo dollie()->get_icon_users('dol-text-primary-200 dol-mr-2'); ?>
 						<?php esc_html_e('Developed by', 'dollie'); ?>
 						<?php echo esc_html($data['site_data']['Theme Author']); ?>
 					</a>
@@ -30,8 +30,8 @@
 			<div class="dol-flex dol-flex-wrap dol--mx-4 dol-my-2">
 				<div class="dol-w-full md:dol-w-2/5 lg:dol-w-1/3 dol-px-4">
 					<div class="dol-border dol-border-solid dol-border-primary-50 dol-rounded dol-overflow-hidden">
-						<?php $theme_screenshot = get_post_meta( get_the_ID(), 'wpd_installation_site_theme_screenshot', true ); ?>
-						<img class="dol-block" src="<?php echo wpthumb($theme_screenshot, 'width=700&height=99999&crop=0');?>" alt="<?php echo esc_attr($data['container_details']['Name']); ?>">
+						<?php $theme_screenshot = get_post_meta(get_the_ID(), 'wpd_installation_site_theme_screenshot', true); ?>
+						<img class="dol-block" src="<?php echo wpthumb($theme_screenshot, 'width=700&height=99999&crop=0'); ?>" alt="<?php echo esc_attr($data['container_details']['Name']); ?>">
 					</div>
 				</div>
 				<div class="dol-w-full md:dol-w-3/5 lg:dol-w-2/3 dol-px-4 dol-mt-4 md:dol-mt-0 dol-text-sm md:dol-text-base">
@@ -56,7 +56,7 @@
 							?>
 							<?php foreach ($installed_themes as $theme) : ?>
 								<li>
-									<i class="fas fa-angle-right dol-mr-1"></i>
+									<?php echo dollie()->get_icon_arrow_right('dol-mr-1'); ?>
 									<?php echo esc_html($theme); ?>
 								</li>
 							<?php endforeach; ?>

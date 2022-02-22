@@ -1480,6 +1480,11 @@ class Helpers extends Singleton
 		return '<span class="dol-icon ' . $classes . '">' . apply_filters('dollie_icon_wordpress', '<i class="fab fa-wordpress-simple"></i>') . '</span>';
 	}
 
+	public function get_icon_notice($classes = null)
+	{
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters('dollie_icon_notice', '<i class="fas fa-info"></i>') . '</span>';
+	}
+
 	public function get_icon_comments($classes = null)
 	{
 		return '<span class="dol-icon '. $classes.'">' . apply_filters('dollie_icon_comments', '<i class="fas fa-comments"></i>') . '</span>';
@@ -1517,7 +1522,7 @@ class Helpers extends Singleton
 
 	public function get_icon_arrow_right($classes = null)
 	{
-		return '<span class="dol-icon '. $classes.'">' . apply_filters('dollie_icon_arrow_right', '<i class="fas fa-long-arrow-left"></i>') . '</span>';
+		return '<span class="dol-icon '. $classes.'">' . apply_filters('dollie_icon_arrow_right', '<i class="fas fa-long-arrow-right"></i>') . '</span>';
 	}
 
 	public function get_icon_arrow_left($classes = null)

@@ -9,7 +9,7 @@ if ('stop' === $status) :
 	<?php $undeploy_at = get_post_meta(get_the_ID(), 'wpd_undeploy_container_at', true); ?>
 	<div class="dol-bg-orange-700 dol-text-center dol-p-8 md:dol-p-10 lg:dol-p-20 dol-rounded">
 		<h2 class="dol-text-xl md:dol-text-3xl dol-mb-4 dol-text-white">
-			<i class="fab fa-wordpress"></i>
+			<?php echo dollie()->get_icon_wordpress(); ?>
 			<?php esc_html_e('Hosting for this site is currently paused.', 'dollie'); ?>
 		</h2>
 	</div>
@@ -48,6 +48,7 @@ if ('stop' === $status) :
 					<?php if (current_user_can('manage_options')) : ?>
 						<div class="mb-20">
 							<h2 class="text-white">
+								<?php echo dollie()->get_icon_close(); ?>
 								<?php
 								sprintf(esc_html__('Admin Notice - This %s has failed to launch', 'dollie-setup'), dollie()->get_site_type_string());
 								?> </h2>
@@ -66,7 +67,7 @@ if ('stop' === $status) :
 					<?php else : ?>
 						<div class="mb-20">
 							<h2 class="text-white">
-								<i class="fab fa-wordpress"></i>
+								<?php echo dollie()->get_icon_close(); ?>
 								<?php
 								sprintf(esc_html__('Sorry, there was an error launching your %s', 'dollie-setup'), dollie()->get_site_type_string());
 								?>

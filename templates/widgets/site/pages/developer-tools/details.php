@@ -12,7 +12,7 @@ dollie()->load_template(
 		'icon'         => 'fas fa-bookmark',
 		'title'        => esc_html__( 'Your SFTP Details', 'dollie' ),
 		'message'      => '<a class="dol-text-brand-500 hover:dol-text-brand-600" href="sftp://' . $customer_details->containerSshUsername . ':' . $customer_details->containerSshPassword . '@' . $hostname . ':' . $customer_details->containerSshPort . '">' .
-						  '<i class="fas fa-plus dol-mr-2"></i>' . esc_html__( 'Quick Connect!', 'dollie' ) . '</a>',
+						  	dollie()->get_icon_arrow_right('dol-mr-1') . esc_html__( 'Quick Connect!', 'dollie' ) . '</a>',
 		'bottom_space' => true,
 	],
 	true

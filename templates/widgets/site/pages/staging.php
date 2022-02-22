@@ -67,7 +67,7 @@
 			<?php dollie()->remove_execution(get_the_ID(), dollie()->get_api()::EXECUTION_STAGING_SYNC); ?>
 
 			<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-mt-5 dol-text-xl">
-				<?php esc_html_e( 'Staging Management', 'dollie' ); ?></h2>
+				<?php esc_html_e('Staging Management', 'dollie'); ?></h2>
 
 			<?php
 			$details = $staging_data[$staging_url]['data'];
@@ -84,7 +84,7 @@
 					Password: <strong>' . $details['containerSshPassword'] . '</strong><br>
 					Port: <strong>' . $details['containerSshPort'] . '<br><br>
 					<a class="dol-text-brand-500 hover:dol-text-brand-600" href="sftp://' . $details['containerSshUsername'] . ':' . $details['containerSshPassword'] . '@' . $details['name'] . ':' . $details['containerSshPort'] . '">' .
-						'<i class="fas fa-plus dol-mr-2"></i>' . esc_html__('Quick Connect!', 'dollie') . '</a>',
+						dollie()->get_icon_arrow_right() . esc_html__('Quick Connect!', 'dollie') . '</a>',
 					'bottom_space' => true,
 				],
 				true
@@ -95,7 +95,7 @@
 				<form id="dol-sync-staging" action="" method="post" class="dol-inline-block">
 					<li class="dol-relative dol-col-span-1 dol-flex dol-bg-white dol-shadow dol-rounded-md dol-widget-custom">
 						<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-green-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
-							<i class="fas fa-sync dol-text-white dol-text-xl"></i>
+							<?php echo dollie()->get_icon_refresh('dol-text-white dol-text-xl'); ?>
 						</div>
 						<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 							<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
@@ -119,7 +119,7 @@
 
 				<li class="dol-relative dol-col-span-1 dol-flex dol-bg-white dol-shadow dol-rounded-md dol-widget-customs">
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-red-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
-						<i class="fas fa-trash-alt dol-text-white dol-text-xl"></i>
+						<?php echo dollie()->get_icon_delete('dol-text-white dol-text-xl'); ?>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 						<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
@@ -146,7 +146,7 @@
 			<div class="dol-mt-6">
 
 				<a href="<?php echo dollie()->get_customer_login_url(get_the_ID(), null, true); ?>" target="_blank" class="dol-inline-block dol-bg-gray-500 hover:dol-bg-gray-600 focus:dol-bg-gray-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
-					<i class="fas fa-tools dol-mr-1"></i>
+					<?php echo dollie()->get_icon_site_login('dol-mr-1'); ?>
 					<?php
 					printf(esc_html__('Login to Staging %s', 'dollie-setup'), dollie()->get_site_type_string());
 					?>
@@ -167,7 +167,7 @@
 				dollie()->load_template(
 					'notice',
 					[
-						'icon'  => 'fas fa-exclamation-circle',
+						'icon'  => dollie()->get_icon_alert(),
 						'type'  => 'error',
 						'title' => esc_html__('You have reached your staging area limit. Please upgrade your subscription!', 'dollie'),
 					],
@@ -183,7 +183,7 @@
 					<input type="hidden" name="create_staging" value="1">
 
 					<button type="submit" class="dol-bg-primary-500 hover:dol-bg-primary-600 focus:dol-bg-primary-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
-						<i class="fas fa-rocket dol-text-white dol-mr-1"></i>
+						<?php echo dollie()->get_icon_launch('dol-text-white dol-mr-1'); ?>
 						<?php
 						printf(esc_html__('Create Staging %s', 'dollie-setup'), dollie()->get_site_type_string());
 						?>

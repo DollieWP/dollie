@@ -136,7 +136,7 @@ if (empty($data) || empty($data['site_data']) || ($data['site_data']['Installed 
 						<div class="dol-px-4 dol-py-5 sm:dol-p-6">
 							<div class="dol-flex dol-items-center">
 								<div class="dol-flex-shrink-0 dol-bg-gray-100 dol-rounded-md dol-p-3 dol-text-white">
-									<i class="fas fa-hdd dol-text-primary-800 dol-text-xl"></i>
+									<?php echo dollie()->get_icon_backups('dol-text-primary-800 dol-text-xl'); ?>
 								</div>
 								<div class="dol-ml-5 dol-w-0 dol-flex-1">
 									<dl>
@@ -184,7 +184,7 @@ if (empty($data) || empty($data['site_data']) || ($data['site_data']['Installed 
 			<ul class="dol-grid dol-grid-cols-1 dol-gap-4 sm:dol-gap-6 sm:dol-grid-cols-2 dol-mt-3 dol-p-0 dol-m-0">
 				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-red-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
-						<i class="fas fa-comments dol-text-white dol-text-xl"></i>
+						<?php echo dollie()->get_icon_comments('dol-text-l md:dol-text-2xl'); ?>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 						<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
@@ -200,7 +200,7 @@ if (empty($data) || empty($data['site_data']) || ($data['site_data']['Installed 
 
 				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-secondary dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
-						<i class="fas fa-at dol-text-white dol-text-xl"></i>
+						<?php echo dollie()->get_icon_email('dol-text-l md:dol-text-2xl'); ?>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 						<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
@@ -214,7 +214,7 @@ if (empty($data) || empty($data['site_data']) || ($data['site_data']['Installed 
 
 				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-green-500 dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
-						<i class="fas fa-hdd dol-text-white dol-text-xl"></i>
+						<?php echo dollie()->get_icon_backups('dol-text-l md:dol-text-2xl'); ?>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 						<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
@@ -228,7 +228,7 @@ if (empty($data) || empty($data['site_data']) || ($data['site_data']['Installed 
 
 				<li class="dol-relative dol-col-span-1 dol-flex <?php do_action('dol_add_widget_classes'); ?>">
 					<div class="dol-flex-shrink-0 dol-flex dol-items-center dol-justify-center dol-w-16 dol-bg-primary dol-text-white dol-text-sm dol-leading-5 dol-font-medium dol-rounded-l-md">
-						<i class="fas fa-users dol-text-white dol-text-xl"></i>
+						<?php echo dollie()->get_icon_users('dol-text-l md:dol-text-2xl'); ?>
 					</div>
 					<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 						<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">

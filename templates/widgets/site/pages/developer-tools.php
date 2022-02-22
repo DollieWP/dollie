@@ -11,19 +11,19 @@ if ( empty( $data ) ) : ?>
 	$developer_menu = [
 		''            => [
 			'title' => __( 'Details', 'dollie' ),
-			'icon'  => 'fa-info',
+			'icon'  => dollie()->get_icon_dev_details('md:dol-mr-1'),
 		],
 		'code-editor' => [
 			'title' => __( 'Code Editor', 'dollie' ),
-			'icon'  => 'fa-codiad',
+			'icon'  => dollie()->get_icon_dev_code_editor('md:dol-mr-1'),
 		],
 		'database'    => [
 			'title' => __( 'Database', 'dollie' ),
-			'icon'  => 'fa-adminer',
+			'icon'  => dollie()->get_icon_dev_database('md:dol-mr-1'),
 		],
 		'shell'       => [
 			'title' => __( 'WP CLI', 'dollie' ),
-			'icon'  => 'fa-shell',
+			'icon'  => dollie()->get_icon_dev_cli('md:dol-mr-1'),
 		],
 	];
 
@@ -61,7 +61,7 @@ if ( empty( $data ) ) : ?>
 							<path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
 						</svg>
 						<a href="<?php echo dollie()->get_site_url( get_the_ID(), 'developer-tools' ); ?>?section=<?php echo esc_attr( $slug ); ?>" class="dol-leading-5 dol-text-gray-500 hover:dol-text-gray-700 dol-transition dol-duration-150 dol-ease-in-out <?php echo esc_attr( $menu_class ); ?>">
-							<i class="fal <?php echo esc_attr( $item['icon'] ); ?> md:dol-mr-1"></i>
+							<?php echo $item['icon'];?>
 							<?php echo esc_html( $item['title'] ); ?>
 						</a>
 					</div>
