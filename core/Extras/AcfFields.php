@@ -426,6 +426,42 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'endpoint'          => 0,
 				),
 				array(
+					'key'               => 'field_612616dc483456f2464',
+					'label'             => __('API Details', 'dollie'),
+					'name'              => '',
+					'type'              => 'message',
+					'instructions'      => '',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => array(
+						'width' => '',
+						'class' => 'dollie-field-break',
+						'id'    => '',
+					),
+					'hide_admin'        => 0,
+					'message'           => 'message',
+					'new_lines'         => '',
+					'esc_html'          => 0,
+				),
+				array(
+					'key'               => 'field_612616dc483456f2',
+					'label'             => __('Connection Details', 'dollie'),
+					'name'              => '',
+					'type'              => 'message',
+					'instructions'      => '',
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => array(
+						'width' => '',
+						'class' => 'dollie-api-connection',
+						'id'    => 'api-connection',
+					),
+					'hide_admin'        => 0,
+					'message'           => '%api_settings%',
+					'new_lines'         => '',
+					'esc_html'          => 0,
+				),
+				array(
 					'key'               => 'field_612616dc483f2',
 					'label'             => __( 'Domain Settings', 'dollie' ),
 					'name'              => '',
@@ -1995,7 +2031,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'ui'                => 1,
 					'ui_on_text'        => 'Enable',
 					'ui_off_text'       => 'Disable',
-				),
+				)
 			),
 			'location'              => array(
 				array(
@@ -2014,7 +2050,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 			'hide_on_screen'        => '',
 			'active'                => true,
 			'description'           => '',
-		)
+		),
 	);
 
 	acf_add_local_field_group(

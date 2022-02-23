@@ -409,7 +409,7 @@ class Api extends Singleton {
 
 				set_transient( 'wpd_just_connected', 1, MINUTE_IN_SECONDS );
 
-				wp_redirect( admin_url( 'admin.php?page=' . Options::API_SLUG ) );
+				wp_redirect( admin_url('admin.php?page=wpd_platform_setup' ) );
 				die();
 			}
 		}

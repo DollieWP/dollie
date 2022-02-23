@@ -45,7 +45,6 @@ class Options extends Singleton
 		add_action('admin_menu', [$this, 'add_staging_menu_page'], 1);
 		add_action('admin_menu', [$this, 'dollie_submenus'], 99);
 		add_action('admin_menu', [$this, 'dollie_setup_submenus'], 1);
-		add_action('admin_menu', [$this, 'dollie_submenu_api'], $api_menu_priority);
 		add_action('admin_menu', [$this, 'add_external_menu_links'], 100);
 		add_action('admin_menu', [$this, 'remove_duplicate_admin_menu'], 100);
 		add_action('admin_menu', [$this, 'remove_duplicate_forms_menu'], 100);
@@ -53,10 +52,12 @@ class Options extends Singleton
 
 		add_action('wp_before_admin_bar_render', [$this, 'dollie_adminbar_menu'], 2000);
 		add_filter('acf/load_field/name=wpd_api_domain', [$this, 'dollie_domain_readonly']);
+		add_filter('acf/load_field/type=message', [$this, 'dollie_api_content'], 10, 3);
 
 		add_action('load-edit.php', [$this, 'add_info_banners']);
 
 		add_filter('admin_body_class', [$this, 'add_staging_body_class']);
+		add_filter('admin_body_class', [$this, 'add_api_status_body_class']);
 		add_filter('current_screen', [$this, 'update_blueprints_counter']);
 		add_filter('views_edit-container', [$this, 'update_blueprints_filters']);
 
@@ -138,8 +139,8 @@ class Options extends Singleton
 			$title    = __('Settings', 'dollie');
 			$callback = '';
 		} else {
-			$title    = $page_title;
-			$callback = [$this, 'dollie_api_content'];
+			$title    = __('Dollie Setup', 'dollie');
+			$callback = '';
 		}
 
 		add_menu_page(
@@ -183,34 +184,15 @@ class Options extends Singleton
 	public function dollie_setup_submenus()
 	{
 
-		add_submenu_page(
-			self::PANEL_SLUG,
-			'Dashboard',
-			'Dashboard',
-			'manage_options',
-			'admin.php?page=dollie_setup'
-		);
-	}
-
-	/**
-	 * Api Submenu
-	 */
-	public function dollie_submenu_api()
-	{
-		$url = self::API_SLUG;
-
-		if (!$this->is_live()) {
-			$url = self::PANEL_SLUG;
+		if (	Api::get_auth_token() ) {
+			add_submenu_page(
+				self::PANEL_SLUG,
+				'Dashboard',
+				'Dashboard',
+				'manage_options',
+				'admin.php?page=dollie_setup'
+			);
 		}
-
-		add_submenu_page(
-			self::PANEL_SLUG,
-			'Api',
-			'API',
-			'manage_options',
-			$url,
-			[$this, 'dollie_api_content']
-		);
 	}
 
 	/**
@@ -259,7 +241,7 @@ class Options extends Singleton
 				$('#dol-url-support').parent().attr('target', '_blank');
 			});
 		</script>
-	<?php
+		<?php
 	}
 
 	/**
@@ -490,9 +472,19 @@ class Options extends Singleton
 	/**
 	 * Api page content
 	 */
-	public function dollie_api_content()
+	public function dollie_api_content($field)
 	{
-		dollie()->load_template('admin/api-page', [], true);
+			ob_start();
+			dollie()->load_template('admin/api-page', [], true);
+			$details = ob_get_clean();
+			$field['message'] = str_replace(
+
+				['%api_settings%'],
+				[$details],
+
+				$field['message']
+			);
+			return $field;
 	}
 
 	/**
@@ -506,6 +498,15 @@ class Options extends Singleton
 	{
 		if (!$this->is_live()) {
 			$classes .= ' dollie_is_staging';
+		}
+
+		return $classes;
+	}
+
+	public function add_api_status_body_class($classes)
+	{
+		if ( ! Api::get_auth_token()) {
+			$classes .= ' dollie_not_connected_to_api';
 		}
 
 		return $classes;
@@ -574,7 +575,7 @@ class Options extends Singleton
 	 */
 	public function site_info_banner()
 	{
-	?>
+		?>
 		<?php if (empty($_GET['blueprint'])) : ?>
 			<div class="dollie-notice">
 				<h3>
@@ -646,7 +647,7 @@ class Options extends Singleton
 				<?php esc_html_e('These forms can be embedded easily to further customize the experience for your customers. Please only edit these forms if you\'re a developer and you have good knowledge of the Dollie platform and it\'s API.', 'dollie'); ?>
 			</p>
 		</div>
-	<?php
+<?php
 	}
 
 	/**
@@ -735,10 +736,12 @@ class Options extends Singleton
 // 																						} // end public function callback_top
 // 																						public function callback_bot($post, $args = array())
 // 																						{
-// 																							?><div><?php echo '<pre>';
-// 																							var_dump($post);
-// 																							var_dump($args);
-// 																							echo '</pre>'; ?></div><?php
+//
+?><div><?php echo '<pre>';
+																										// 																							var_dump($post);
+																										// 																							var_dump($args);
+																										// 																							echo '</pre>';
+																										?></div><?php
 // 																						} // end public function callback_bot
 //
 // 																					} // end class add_boxes_to
