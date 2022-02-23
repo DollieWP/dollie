@@ -584,6 +584,16 @@ class Helpers extends Singleton
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function is_hosted()
+	{
+		if ( defined('S5_APP_ID') ) {
+			return true;
+		}
+	}
+
+	/**
 	 * @return mixed|void
 	 */
 	public function get_launch_page_id()
