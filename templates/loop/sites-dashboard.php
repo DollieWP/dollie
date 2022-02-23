@@ -178,9 +178,23 @@ if (!isset($view_type)) {
 		</div>
 
 	<?php else : ?>
-		<div class="dol-flex dol-items-center dol-justify-center dol-h-40">
-			<div class="dol-text-2xl dol-text-ash-600">
-				<?php printf(esc_html__('No %s Found', 'dollie-setup'), dollie()->get_site_type_plural_string()); ?>
+		<div class="dol-flex dol-items-center dol-justify-center">
+			<div class="dol-text-2xl dol-text-primary-600">
+				<?php //printf(esc_html__('No %s Launched Yet..', 'dollie-setup'), dollie()->get_site_type_plural_string());
+
+				$data = [
+						'settings' => array(
+							'title' => sprintf(esc_html__('Ready to Launch your first %s?', 'dollie-setup'), dollie()->get_site_type_string()),
+							'subtitle' => 'Launching your first %s via your own %s Platform is something special. What are you waiting for %s, it is time to witness the magic.'
+						),
+				];
+
+				dollie()->load_template('widgets/dashboard/launch-site', $data, true);
+				?>
+
+
+
+
 			</div>
 		</div>
 	<?php endif; ?>
