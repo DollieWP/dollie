@@ -36,6 +36,21 @@ class Dollie_Setup_Plugins_Agency {
 	 * @param callable $instance {@see Dollie_Setup_Plugins::register_plugin()}.
 	 */
 	protected static function register_required_plugins( $instance ) {
+
+		call_user_func(
+			$instance,
+			array(
+				'plugin_name'              => 'Advanced Custom Fields PRO',
+				'dollie_setup_name'        => __('Advanced Custom Fields', 'dollie-setup'),
+				'dollie_setup_description' => __('ACF Pro is needed across the Dollie suite to build the user interface and forms across your platform.', 'dollie-setup'),
+				'version'                  => '5.11.4',
+				'documentation_url'        => 'https://partners.getdollie.com/?s=WooCommerce&ht-kb-search=1&lang=',
+				'admin_settings'           => 'admin.php?page=wc-settings',
+				'network_settings'         => 'admin.php?page=wc-settings',
+			)
+		);
+
+
 		// BuddyPress
 		call_user_func(
 			$instance,
@@ -103,6 +118,15 @@ class Dollie_Setup_Plugins_Agency {
 				'plugin_name'  => 'WooCommerce Subscriptions',
 				'type'         => 'dependency',
 				'download_url' => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/woocommerce-subscriptions-3.1.6.zip',
+			)
+		);
+
+		call_user_func(
+			$instance,
+			array(
+				'plugin_name'  => 'Advanced Custom Fields',
+				'type'         => 'dependency',
+				'download_url' => 'https://api.getdollie.com/releases/packages/updates/advanced-custom-fields-pro-5.11.4.zip',
 			)
 		);
 

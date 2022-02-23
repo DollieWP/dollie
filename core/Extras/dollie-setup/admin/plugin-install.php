@@ -233,7 +233,7 @@ class Dollie_Setup_Plugin_Upgrader extends Plugin_Upgrader {
 				array(
 					'package'           => $download_url,
 					'destination'       => WP_PLUGIN_DIR,
-					'clear_destination' => false, // Do not overwrite files.
+					'clear_destination' => true, // Do not overwrite files.
 					'clear_working'     => true,
 					'is_multi'          => true,
 					'hook_extra'        => array(),
