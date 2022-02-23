@@ -175,9 +175,9 @@ class AccessControl extends Singleton {
 		];
 
 		// Get role settings.
-		$settings_view   = get_field( 'wpd_view_sites_permission', 'options' );
-		$settings_update = get_field( 'manage_sites_permission', 'options' );
-		$settings_delete = get_field( 'delete_sites_permission', 'options' );
+		$settings_view   = get_option( 'options_wpd_view_sites_permission' );
+		$settings_update = get_option( 'options_manage_sites_permission' );
+		$settings_delete = get_option( 'option_sdelete_sites_permission' );
 
 		if ( empty( $settings_view ) ) {
 			$settings_view = [];
