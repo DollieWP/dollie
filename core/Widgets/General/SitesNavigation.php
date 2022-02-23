@@ -43,6 +43,10 @@ class SitesNavigation extends \Elementor\Widget_Base {
 
 	protected function _register_controls() {
 
+		if (!class_exists('ElementorPro\Plugin')) {
+			return;
+		}
+
 		$this->start_controls_section(
 			'section_layout',
 			[
