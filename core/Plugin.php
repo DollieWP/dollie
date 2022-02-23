@@ -105,16 +105,16 @@ class Plugin extends Singleton
 	 */
 	public function load_dependencies()
 	{
-		if (!defined('ELEMENTOR_VERSION')) {
-			add_action('admin_notices', [Notices::instance(), 'elementor_notice']);
+		// if (!defined('ELEMENTOR_VERSION')) {
+		// 	add_action('admin_notices', [Notices::instance(), 'elementor_notice']);
 
-			return;
-		}
+		// 	return;
+		// }
 
-		// Check for the minimum required Elementor version.
-		if (!version_compare(ELEMENTOR_VERSION, self::$minimum_elementor_version, '>=')) {
-			add_action('admin_notices', [Notices::instance(), 'admin_notice_minimum_elementor_version']);
-		}
+		// // Check for the minimum required Elementor version.
+		// if (!version_compare(ELEMENTOR_VERSION, self::$minimum_elementor_version, '>=')) {
+		// 	add_action('admin_notices', [Notices::instance(), 'admin_notice_minimum_elementor_version']);
+		// }
 
 		// load ACF as fallback.
 		if (!class_exists('ACF')) {
@@ -135,18 +135,20 @@ class Plugin extends Singleton
 		}
 
 		// Load TGM Class
-		if (!class_exists('TGM_Plugin_Activation')) {
-			require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/class-tgm-plugin-activation.php';
-			require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/requirements.php';
-		}
+		// if (!class_exists('TGM_Plugin_Activation')) {
+		// 	require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/class-tgm-plugin-activation.php';
+		// 	require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/requirements.php';
+		// }
+
+		$token  = \Dollie\Core\Utils\Api::get_auth_token();
 
 		// Load TGM Class
-		if (!class_exists('Dollie_Setup')) {
+		if (!class_exists('Dollie_Setup') && $token ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/dollie-setup/loader.php';
 		}
 
 		// Load TGM Class
-		if (!class_exists('OCDI_Plugin')) {
+		if (!class_exists('OCDI_Plugin') && $token) {
 			require_once DOLLIE_CORE_PATH . 'Extras/one-click-demo-import/one-click-demo-import.php';
 		}
 
@@ -442,7 +444,7 @@ class Plugin extends Singleton
 			'<a href="%s" class="%s">%s</a>',
 			$this->get_api_access_url(),
 			$button ? 'button' : '',
-			__('Connect with Dollie', 'dollie')
+			__('Connect with Dollie API', 'dollie')
 		);
 	}
 
