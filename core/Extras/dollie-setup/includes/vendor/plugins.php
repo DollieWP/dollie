@@ -1,6 +1,6 @@
 <?php
 /**
- * Package: Agency Plugins class
+ * Package: Vendor Plugins class
  *
  * Part of the CLassic package.
  *
@@ -14,7 +14,7 @@
  *
  * @since 1.1.0
  */
-class Dollie_Setup_Plugins_Waas {
+class Dollie_Setup_Plugins_Vendor {
 	/**
 	 * Initiator.
 	 *

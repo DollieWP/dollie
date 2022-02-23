@@ -748,82 +748,10 @@ class Dollie_Setup_Admin
 			?>
 
 				<?php
-				// Load our Welcome Wiza
+				// Load our Package Template
 				dollie_setup_get_template_part('wizard');
+				dollie_setup_get_template_part('packages');
 				?>
-
-				<div style="text-align:center;">
-					<h2><?php _e('Select a Package', 'dollie-setup'); ?></h2>
-
-					<p><?php esc_html_e('Dollie Setup includes two packages, each containing selected WordPress plugins and a WordPress theme. The packages are designed to make it easier for you to install and configure your site. Select the package that best suits your needs.', 'dollie-setup'); ?></p>
-				</div>
-
-				<form method="post" action="<?php echo self_admin_url('admin.php?page=dollie_setup'); ?>">
-					<div class="wp-list-table widefat">
-						<div id="the-list">
-
-							<?php
-							foreach (dollie_setup_get_packages() as $package => $class) :
-								$incompatible = !is_multisite() && true === dollie_setup_get_package_prop('network', $package);
-							?>
-
-								<div class="plugin-card plugin-card-<?php echo sanitize_html_class(dollie_setup_get_package_prop('name', $package)); ?>" style="width:100%; margin-left:0;">
-									<div class="plugin-card-top">
-										<div class="name column-name">
-											<h3><?php esc_attr_e(dollie_setup_get_package_prop('name', $package)); ?>
-
-												<img src="<?php echo esc_url(dollie_setup_get_package_prop('icon_url', $package)); ?>" class="plugin-icon" alt="">
-											</h3>
-										</div>
-
-										<div class="action-links">
-											<ul class="plugin-action-buttons">
-												<li><a href="<?php echo $incompatible ? '#' : wp_nonce_url(self_admin_url('admin.php?page=dollie_setup&amp;dollie_setup-package-details=' . $package), 'dollie_setup_package_details'); ?>" class="button <?php echo $incompatible ? 'disabled' : 'activate-now'; ?>" aria-label="<?php printf(esc_html__('Select %s', 'dollie-setup'), dollie_setup_get_package_prop('name', $package)); ?>"><?php esc_html_e('Select', 'dollie-setup'); ?></a></li>
-												<li><a href="<?php echo esc_url(dollie_setup_get_package_prop('documentation_url', $package)); ?>?TB_iframe=true&amp;width=600&amp;height=550" class="thickbox open-plugin-details-modal" aria-label="<?php printf(esc_attr__('More information about %s', 'dollie-setup'), dollie_setup_get_package_prop('name', $package)); ?>" data-title="<?php echo esc_attr(dollie_setup_get_package_prop('name', $package)); ?>"><?php esc_html_e('More Details', 'dollie-setup'); ?></a></li>
-											</ul>
-										</div>
-
-										<div class="desc column-description">
-											<?php dollie_setup_get_template_part('description', $package); ?>
-											<!--<p class="authors"> <cite>By <a href="">DOLLIE_SETUP Team</a></cite></p>-->
-										</div>
-									</div>
-
-									<div class="plugin-card-bottom">
-										<div class="column-updated">
-											<?php if (dollie_setup_get_theme_prop('force_install', $package)) : ?>
-												<span class="update-now theme-required"><?php esc_html_e('Theme required; existing theme will be replaced during installation.', 'dollie-setup'); ?></span>
-											<?php else : ?>
-												<span class="update-now theme-optional"><?php esc_html_e('Theme optional; theme installation can be skipped.', 'dollie-setup'); ?></span>
-											<?php endif; ?>
-										</div>
-
-										<div class="column-compatibility">
-											<?php if ($incompatible) : ?>
-												<span class="compatibility-incompatible"><?php _e('Requires WordPress Multisite.', 'dollie-setup'); ?> <?php
-																																						printf(
-																																							'<a href="%1$s" target="_blank">%2$s</a>',
-																																							'https://codex.wordpress.org/Create_A_Network',
-																																							esc_html__(
-																																								'Find out how to convert to a WordPress Multisite network here.',
-																																								'dollie-setup'
-																																							)
-																																						);
-																																						?>
-												</span>
-											<?php else : ?>
-												<span class="compatibility-compatible"><?php _e('<strong>Compatible</strong> with your version of WordPress', 'dollie-setup'); ?></span>
-											<?php endif; ?>
-										</div>
-									</div>
-
-								</div>
-
-							<?php endforeach; ?>
-
-						</div>
-					</div>
-				</form>
 
 			<?php
 				break;
@@ -1068,7 +996,7 @@ class Dollie_Setup_Admin
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
 			</svg>
-			<h3><?php _e('Dollie Setup is almost ready!', 'dollie-setup'); ?></h3>
+			<h3><span>API Connected</span> <?php _e('Let\'s Continue Setting Up Your Platform', 'dollie-setup'); ?></h3>
 
 			<p><?php echo $notice_text; ?></p>
 

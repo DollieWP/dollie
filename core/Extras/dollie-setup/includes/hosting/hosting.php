@@ -17,11 +17,11 @@
  *
  * @since 1.1.0
  */
-class Dollie_Setup_Package_Agency extends Dollie_Setup_Package {
+class Dollie_Setup_Package_Hosting extends Dollie_Setup_Package {
 	/**
 	 * @var string Display name for our package.
 	 */
-	public static $name = 'Agency';
+	public static $name = 'Hosting';
 
 	/**
 	 * @var array Configuration holder.
@@ -35,7 +35,7 @@ class Dollie_Setup_Package_Agency extends Dollie_Setup_Package {
 	 */
 	protected static function config() {
 		return array(
-			'icon_url'          => DOLLIE_ASSETS_URL . 'wizard/agency.svg',
+			'icon_url'          => DOLLIE_ASSETS_URL . 'wizard/hosting.svg',
 			'settings_key'      => '_dollie_setup_admin_settings',
 			'documentation_url' => 'http://commonsinabox.org/dollie_setup-agency-overview/?modal=1',
 		);

@@ -136,7 +136,8 @@ function dollie_setup_get_packages() {
 	 */
 	$default = array(
 		'agency' => 'Dollie_Setup_Package_Agency',
-		'openlab' => 'Dollie_Setup_Package_OpenLab',
+		'vendor' => 'Dollie_Setup_Package_Vendor',
+		'hosting' => 'Dollie_Setup_Package_Hosting',
 		'waas' => 'Dollie_Setup_Package_Waas',
 	);
 

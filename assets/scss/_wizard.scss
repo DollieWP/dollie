@@ -1,9 +1,51 @@
-body[class*="dollie_setup"] {
-  background: #fff;
+body.post-type-container,
+body.post-type-dollie-logs {
+  .dol-dashboard-wrap {
+    position: absolute;
+    width: 102%;
+    //z-index: -1;
+    margin-top: 0 !important;
+  }
+  #screen-meta-links {
+    position: absolute;
+    z-index: 100;
+    right: 0;
+  }
+}
+
+body[class*="dollie_setup"],
+body[class*="dol-container"] {
+  background: #efefef;
+  font-size: 16px;
   height: 100%;
+
+  #wpfooter,
   #message,
-  .wrap > h2 {
+  .wrap > h2,
+  .dol-admin-navigation {
     display: none;
+  }
+
+  .dol-dashboard-wrap {
+    margin-left: -22px;
+    margin-right: -22px;
+    margin-top: -10px;
+    background: #efefef;
+  }
+
+  .dol-page-header {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    position: relative;
+    top: -10px;
+    font-size: 29px;
+    font-weight: 200;
+  }
+
+  .widefat ol,
+  .widefat p,
+  .widefat ul {
+    color: inherit;
   }
 
   a {
@@ -20,7 +62,18 @@ body[class*="dollie_setup"] {
 
   p {
     margin: 2px;
-    //font-size: inherit;
+    font-size: 16px;
+  }
+
+  .dollie-packages {
+    max-width: 70%;
+  }
+
+  .plugin-card {
+    @apply dol-border-gray-100;
+    @apply dol-rounded;
+    @apply dol-shadow;
+    @apply dol-border-gray-100;
   }
 
   #wpbody-content .dol-sites-name {
@@ -31,6 +84,23 @@ body[class*="dollie_setup"] {
     .xl\:dol-w-4\/12 {
       width: 29.6%;
     }
+  }
+
+  .plugin-card .desc,
+  .plugin-card .name {
+    margin-left: 18%;
+    margin-right: 20%;
+  }
+
+  .plugin-action-buttons {
+    padding-top: 50px;
+  }
+
+  .activate-now {
+    @apply dol-bg-green-500;
+    @apply dol-text-white;
+    @apply dol-border-gray-200;
+    @apply dol-font-bold;
   }
 
   .button-primary {

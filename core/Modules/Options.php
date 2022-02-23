@@ -184,7 +184,7 @@ class Options extends Singleton
 	public function dollie_setup_submenus()
 	{
 
-		if (	Api::get_auth_token() ) {
+		if (Api::get_auth_token()) {
 			add_submenu_page(
 				self::PANEL_SLUG,
 				'Dashboard',
@@ -241,7 +241,7 @@ class Options extends Singleton
 				$('#dol-url-support').parent().attr('target', '_blank');
 			});
 		</script>
-		<?php
+	<?php
 	}
 
 	/**
@@ -474,17 +474,17 @@ class Options extends Singleton
 	 */
 	public function dollie_api_content($field)
 	{
-			ob_start();
-			dollie()->load_template('admin/api-page', [], true);
-			$details = ob_get_clean();
-			$field['message'] = str_replace(
+		ob_start();
+		dollie()->load_template('admin/api-page', [], true);
+		$details = ob_get_clean();
+		$field['message'] = str_replace(
 
-				['%api_settings%'],
-				[$details],
+			['%api_settings%'],
+			[$details],
 
-				$field['message']
-			);
-			return $field;
+			$field['message']
+		);
+		return $field;
 	}
 
 	/**
@@ -505,7 +505,7 @@ class Options extends Singleton
 
 	public function add_api_status_body_class($classes)
 	{
-		if ( ! Api::get_auth_token()) {
+		if (!Api::get_auth_token()) {
 			$classes .= ' dollie_not_connected_to_api';
 		}
 
@@ -557,14 +557,17 @@ class Options extends Singleton
 
 		if ('edit-container' === $screen->id) {
 			add_action('all_admin_notices', [$this, 'site_info_banner']);
+			add_action('admin_footer', [$this, 'admin_footer_wrap'], 999999);
 		}
 
 		if ('edit-dollie-logs' === $screen->id) {
 			add_action('all_admin_notices', [$this, 'blueprint_info_banner']);
+			add_action('admin_footer', [$this, 'admin_footer_wrap'], 999999);
 		}
 
 		if ('edit-af_form' === $screen->id) {
-			add_action('all_admin_notices', [$this, 'form_info_banner']);
+			add_action('admin_header', [$this, 'dollie_footer_wrap']);
+			add_action('admin_footer', [$this, 'admin_footer_wrap'], 999999);
 		}
 	}
 
@@ -575,9 +578,11 @@ class Options extends Singleton
 	 */
 	public function site_info_banner()
 	{
+	?>
+		<?php if (empty($_GET['blueprint'])) :
+			dollie_setup_get_template_part('wrapper-header');
 		?>
-		<?php if (empty($_GET['blueprint'])) : ?>
-			<div class="dollie-notice">
+			<div class="dollie-page-intro">
 				<h3>
 					<?php esc_html_e('The Site Manager', 'dollie'); ?>
 				</h3>
@@ -592,8 +597,10 @@ class Options extends Singleton
 					?>
 				</p>
 			</div>
-		<?php else : ?>
-			<div class="dollie-notice">
+		<?php else :
+			dollie_setup_get_template_part('wrapper-header');
+			?>
+			<div class="dollie-page-intro">
 				<h3>
 					<?php esc_html_e('Your Site Blueprints', 'dollie'); ?>
 				</h3>
@@ -619,8 +626,9 @@ class Options extends Singleton
 	 */
 	public function blueprint_info_banner()
 	{
+		dollie_setup_get_template_part('wrapper-header');
 	?>
-		<div class="dollie-notice">
+		<div class="dollie-page-intro">
 			<h3>
 				<?php esc_html_e('The Activity Log', 'dollie'); ?>
 			</h3>
@@ -632,14 +640,25 @@ class Options extends Singleton
 	}
 
 	/**
+	 * Blueprints info banner
+	 *
+	 * @return void
+	 */
+	public function admin_footer_wrap()
+	{
+		dollie_setup_get_template_part('wrapper-footer');
+	}
+
+	/**
 	 * Forms info banner
 	 *
 	 * @return void
 	 */
 	public function form_info_banner()
 	{
+		dollie_setup_get_template_part('wrapper-header');
 	?>
-		<div class="dollie-notice">
+		<div class="dollie-page-intro">
 			<h3>
 				<?php esc_html_e('Dollie Forms', 'dollie'); ?>
 			</h3>
@@ -738,10 +757,10 @@ class Options extends Singleton
 // 																						{
 //
 ?><div><?php echo '<pre>';
-																										// 																							var_dump($post);
-																										// 																							var_dump($args);
-																										// 																							echo '</pre>';
-																										?></div><?php
+		// 																							var_dump($post);
+		// 																							var_dump($args);
+		// 																							echo '</pre>';
+		?></div><?php
 // 																						} // end public function callback_bot
 //
 // 																					} // end class add_boxes_to
