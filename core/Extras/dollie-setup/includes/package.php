@@ -76,7 +76,6 @@ abstract class Dollie_Setup_Package {
 		// Custom init method.
 		$this->custom_init();
 
-
 		// Deactivation routine.
 		add_action( 'dollie_setup_package_' . dollie_setup_get_current_package_id() . '_deactivation', array( get_called_class(), 'deactivate' ) );
 
@@ -278,10 +277,10 @@ abstract class Dollie_Setup_Package {
 			'tab_plugin_required' => __( 'Core Plugins', 'dollie-setup' ),
 			'tab_plugin_optional' => __( 'Optional Plugins', 'dollie-setup' ),
 			'tab_plugin_install'  => __( 'Member Site Plugins', 'dollie-setup' ),
-			'user_type'    		  => __('Client', 'dollie-setup'),
-			'user_type_plural'    => __('Clients', 'dollie-setup'),
-			'site_type'    		  => __('App', 'dollie-setup'),
-			'site_type_plural'    => __('Apps', 'dollie-setup'),
+			'user_type'    		  => __('Customer', 'dollie-setup'),
+			'user_type_plural'    => __('Customers', 'dollie-setup'),
+			'site_type'    		  => __('Site', 'dollie-setup'),
+			'site_type_plural'    => __('Sites', 'dollie-setup'),
 			'dashboard_header'    => sprintf( esc_html__( 'Welcome to Dollie Setup %s', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ),
 		);
 	}
