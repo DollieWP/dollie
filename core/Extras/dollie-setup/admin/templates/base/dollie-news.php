@@ -7,6 +7,6 @@
 	$data = [
 		'posts'    => dollie()->get_dashboard_posts()
 	];
-	dollie()->load_template('widgets/dashboard/dollie-kb', $data, true);
+	dollie()->load_template('widgets/dashboard/dollie-news', $data, true);
 	?>
 </section>
