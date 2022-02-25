@@ -124,7 +124,7 @@ class Dollie_Setup_Plugins_Agency {
 		call_user_func(
 			$instance,
 			array(
-				'plugin_name'  => 'Advanced Custom Fields',
+				'plugin_name'  => 'Advanced Custom Fields PRO',
 				'type'         => 'dependency',
 				'download_url' => 'https://api.getdollie.com/releases/packages/updates/advanced-custom-fields-pro-5.11.4.zip',
 			)

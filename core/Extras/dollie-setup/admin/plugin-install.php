@@ -532,7 +532,7 @@ class Dollie_Setup_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 		// default fallback
 		if ( '' === $redirect_link ) {
 			$redirect_link = self_admin_url( 'admin.php?page=dollie_setup-plugins' );
-			$redirect_text = __( 'Return to the DOLLIE_SETUP Plugins page', 'dollie-setup' );
+			$redirect_text = __( 'Return to the Dollie Plugin Suite page', 'dollie-setup' );
 
 			if ( ! empty( $_GET['type'] ) ) {
 				$redirect_link = add_query_arg( 'type', esc_attr( $_GET['type'] ), $redirect_link );

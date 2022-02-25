@@ -176,7 +176,7 @@ It is possible to install Dollie Setup on an existing WordPress site, and it can
 * OpenLab: Fixed incorrect "Recent Docs" and "Recent Discussions" subheaders when WordPress is installed in a subdirectory.
 * OpenLab: Improved language regarding "Professor(s)" in group headers.
 * OpenLab: Fix bug that could prevent site admins from accessing Dashboard > Plugins in some cases.
-* Improvements to the behavior of network-activated DOLLIE_SETUP plugins.
+* Improvements to the behavior of network-activated Dollie plugins.
 * Fixed bug in WP-CLI tools that caused theme update to unzip to wrong location in some cases.
 * Improved compatibility with Multi-Network setups.
 * Updated plugins (Agency): BuddyPress 4.4.0, BuddyPress Docs 2.1.3, BuddyPress Group Email Subscription 3.9.4, BP Reply By Email 1.0-RC8
@@ -242,7 +242,7 @@ It is possible to install Dollie Setup on an existing WordPress site, and it can
 * Compatibility with WordPress 4.2 and BuddyPress 2.2
 * Fixed bug that could cause fatal errors in some cases where bbPress is not network-activated
 * Updated plugins: bbPress 2.5.7, BP Group Announcements 1.0.5, BP Groupblog 1.8.11, BuddyPress 2.2.3.1, BuddyPress Docs 1.8.6, BuddyPress Docs Wiki add-on 1.0.9, BuddyPress Group Email Subscription 3.5.1, CAC Featured Content 1.0.5, External Group Blogs 1.6.0, Invite Anyone 1.3.7
-* Theme improvements: Added an option to the Recent Blog Posts widget that allows the inclusion of groupblog-related posts; Improved styling for forum topic headers; Fixed bug where theme admin panel JavaScript did not load on some setups; Fixed bug that prevented media uploads in the theme admin on some setups; Updated registration templates to match recent versions of BuddyPress; Added support for the DiRT Directory Client plugin; Improved appearance of DOLLIE_SETUP Theme's mobile menu with the WP Admin Bar; Improved appearance of form fields on IE; Improved compatibility with bxSlider; Improved localizability of some strings; Improved appearance of groupblog navigation item.
+* Theme improvements: Added an option to the Recent Blog Posts widget that allows the inclusion of groupblog-related posts; Improved styling for forum topic headers; Fixed bug where theme admin panel JavaScript did not load on some setups; Fixed bug that prevented media uploads in the theme admin on some setups; Updated registration templates to match recent versions of BuddyPress; Added support for the DiRT Directory Client plugin; Improved appearance of Dollie Recommended Theme's mobile menu with the WP Admin Bar; Improved appearance of form fields on IE; Improved compatibility with bxSlider; Improved localizability of some strings; Improved appearance of groupblog navigation item.
 
 = 1.0.9 =
 * Compatibility with WordPress 4.0 and BuddyPress 2.1
@@ -284,7 +284,7 @@ It is possible to install Dollie Setup on an existing WordPress site, and it can
 
 = 1.0.3 =
 * Updated plugins: BuddyPress 1.7.1, BuddyPress Docs 1.3.4, BuddyPress Group Email Subscription 3.3.2, Invite Anyone 1.0.21, bbPress 2.3.2, More Privacy Options 3.5, BP Groupblog 1.8.2, Bebop 1.3.2
-* Properly activate the DOLLIE_SETUP Theme when installing BuddyPress on a secondary site
+* Properly activate the Dollie Recommended Theme when installing BuddyPress on a secondary site
 * Workaround a bbPress 2.2.x role permissions bug when a user creates a new site in BuddyPress
 * Theme improvements: Support for BuddyPress 1.7.x; removes the Site Features slider limit
 

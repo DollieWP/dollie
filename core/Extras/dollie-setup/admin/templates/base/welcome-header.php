@@ -19,7 +19,7 @@ $first_name = $user->first_name;
 					</div>
 				</div>
 				<div class="dol-flex dol-justify-center dol-mt-5 sm:dol-mt-0">
-					<a href="#" class="dol-flex dol-items-center dol-justify-center dol-px-4 dol-py-2 dol-text-sm dol-font-medium dol-text-gray-700 dol-bg-white dol-border dol-border-gray-300 dol-rounded-md dol-shadow-sm hover:dol-bg-gray-50"> View profile </a>
+					<a href="#" class="dol-btn dol-btn-primary"> View profile </a>
 				</div>
 			</div>
 		</div>

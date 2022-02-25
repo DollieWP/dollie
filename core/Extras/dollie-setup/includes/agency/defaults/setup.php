@@ -1,4 +1,10 @@
 <?php
+add_filter('woocommerce_enable_setup_wizard', 'mywoo_disable_wizard');
+function mywoo_disable_wizard()
+{
+	return false;
+}
+
 function ocdi_import_files_string()
 {
 	return [

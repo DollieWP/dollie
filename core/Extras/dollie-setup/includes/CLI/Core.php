@@ -25,7 +25,7 @@ class Core extends \WP_CLI_Command {
 	 *
 	 *     Current theme: Dollie Setup. No update available.
 	 *
-	 *     Active DOLLIE_SETUP plugins are all up-to-date.
+	 *     Active Dollie plugins are all up-to-date.
 	 */
 	public function status( $args, $assoc_args ) {
 		if ( ! dollie_setup_get_current_package_id() ) {
@@ -130,7 +130,7 @@ class Core extends \WP_CLI_Command {
 			WP_CLI::line( 'Run "wp dollie_setup update plugins" to update the plugins.' );
 		} elseif ( $show_active_notice ) {
 			WP_CLI::line( '' );
-			WP_CLI::line( 'Active DOLLIE_SETUP plugins are all up-to-date.' );
+			WP_CLI::line( 'Active Dollie plugins are all up-to-date.' );
 		}
 	}
 

@@ -52,7 +52,7 @@ class Dollie_Setup_Plugins {
 		);
 
 		/**
-		 * Hook to declare when the DOLLIE_SETUP plugins code is loaded at its earliest.
+		 * Hook to declare when the Dollie plugins code is loaded at its earliest.
 		 *
 		 * @since 1.1.0
 		 *
@@ -133,7 +133,7 @@ class Dollie_Setup_Plugins {
 	}
 
 	/**
-	 * Helper method to grab all DOLLIE_SETUP plugins of a certain type.
+	 * Helper method to grab all Dollie plugins of a certain type.
 	 *
 	 * @since 1.1.0 $type can be passed as '' to return all plugins sorted by type as key.
 	 *
@@ -143,7 +143,7 @@ class Dollie_Setup_Plugins {
 	 * @return mixed Array of plugins on success. Boolean false on failure.
 	 */
 	public static function get_plugins( $type = 'all', $omit_type = false ) {
-		// if type is 'all', we want all DOLLIE_SETUP plugins regardless of type
+		// if type is 'all', we want all Dollie plugins regardless of type
 		if ( $type == 'all' ) {
 			$plugins = self::$plugins;
 			if ( empty( $plugins ) ) {

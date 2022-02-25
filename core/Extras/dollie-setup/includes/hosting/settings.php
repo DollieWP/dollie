@@ -233,10 +233,10 @@ class Dollie_Setup_Settings_Hosting {
 	 * Renders all our checkboxes on the settings admin page.
 	 */
 	private function render_options() {
-		// get all installed DOLLIE_SETUP plugins
+		// get all installed Dollie plugins
 		$dollie_setup_plugins = dollie_setup()->plugins->get_plugins();
 
-		// get all DOLLIE_SETUP plugins by name
+		// get all Dollie plugins by name
 		$active = Dollie_Setup_Admin_Plugins::organize_plugins_by_state( $dollie_setup_plugins );
 
 		// sanity check.  will probably never encounter this use-case.

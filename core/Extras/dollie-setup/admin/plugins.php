@@ -32,21 +32,21 @@ class Dollie_Setup_Admin_Plugins {
 		// filter PD's dependency list
 		add_filter( 'scr_plugin_dependency_before_parse', array( $this, 'filter_pd_dependencies' ) );
 
-		// prevent DOLLIE_SETUP plugins from being seen in the regular Plugins table and from WP updates
+		// prevent Dollie plugins from being seen in the regular Plugins table and from WP updates
 		if ( ! $this->is_override() ) {
-			// exclude DOLLIE_SETUP plugins from the "Plugins" list table
+			// exclude Dollie plugins from the "Plugins" list table
 			// add_filter( 'all_plugins',                   array( $this, 'exclude_dollie_setup_plugins' ) );
 
-			// remove DOLLIE_SETUP plugins from WP's update plugins routine
+			// remove Dollie plugins from WP's update plugins routine
 			add_filter( 'site_transient_update_plugins', array( $this, 'remove_dollie_setup_plugins_from_updates' ) );
 
-			// do not show PD's pre-activation warnings if admin cannot override DOLLIE_SETUP plugins
+			// do not show PD's pre-activation warnings if admin cannot override Dollie plugins
 			add_filter( 'pd_show_preactivation_warnings', '__return_false' );
 		}
 	}
 
 	/**
-	 * For expert site managers, we allow them to view DOLLIE_SETUP plugins in the
+	 * For expert site managers, we allow them to view Dollie plugins in the
 	 * regular Plugins table and on the WP Updates page.
 	 *
 	 * To do this, add the following code snippet to wp-config.php
@@ -120,7 +120,7 @@ class Dollie_Setup_Admin_Plugins {
 
 
 	/**
-	 * DOLLIE_SETUP plugins should be removed from WP's update plugins routine.
+	 * Dollie plugins should be removed from WP's update plugins routine.
 	 */
 	public function remove_dollie_setup_plugins_from_updates( $plugins ) {
 		$i = 0;
@@ -270,7 +270,7 @@ class Dollie_Setup_Admin_Plugins {
 			}
 		}
 
-		// Get all DOLLIE_SETUP plugins that require upgrades.
+		// Get all Dollie plugins that require upgrades.
 		$upgrades = self::organize_plugins_by_state( $dollie_setup_plugins );
 
 		if ( empty( $upgrades['upgrade'] ) ) {
@@ -323,17 +323,17 @@ class Dollie_Setup_Admin_Plugins {
 	}
 
 	/**
-	 * Get settings links for our installed DOLLIE_SETUP plugins.
+	 * Get settings links for our installed Dollie plugins.
 	 *
 	 * @since 0.3
 	 *
 	 * @return Assosicate array with DOLLIE_SETUP plugin name as key and admin settings URL as the value.
 	 */
 	public static function get_settings() {
-		// get all installed DOLLIE_SETUP plugins
+		// get all installed Dollie plugins
 		$dollie_setup_plugins = Dollie_Setup_Plugins::get_plugins();
 
-		// get active DOLLIE_SETUP plugins
+		// get active Dollie plugins
 		$active = self::organize_plugins_by_state( $dollie_setup_plugins );
 
 		if ( empty( $active ) ) {
@@ -393,17 +393,17 @@ class Dollie_Setup_Admin_Plugins {
 				array( $this, 'admin_page' )
 			);
 
-			// load Plugin Dependencies plugin on the DOLLIE_SETUP plugins page
+			// load Plugin Dependencies plugin on the Dollie plugins page
 			add_action( "load-{$plugin_page}", array( 'Plugin_Dependencies', 'init' ) );
 
-			// validate any settings changes submitted from the DOLLIE_SETUP plugins page
+			// validate any settings changes submitted from the Dollie plugins page
 			add_action( "load-{$plugin_page}", array( $this, 'validate_dollie_setup_dashboard' ) );
 
 		}
 	}
 
 	/**
-	 * Before the DOLLIE_SETUP plugins page is rendered, do any validation and checks
+	 * Before the Dollie plugins page is rendered, do any validation and checks
 	 * from form submissions or action links.
 	 *
 	 * @since 0.2
@@ -647,7 +647,7 @@ class Dollie_Setup_Admin_Plugins {
 	}
 
 	/**
-	 * Renders the DOLLIE_SETUP plugins page.
+	 * Renders the Dollie plugins page.
 	 *
 	 * @since 0.3
 	 */
@@ -812,7 +812,7 @@ jQuery('a[data-uninstall="1"]').confirm({
 	}
 
 	/**
-	 * Inline CSS used on the DOLLIE_SETUP plugins page.
+	 * Inline CSS used on the Dollie plugins page.
 	 *
 	 * @since 0.3
 	 */

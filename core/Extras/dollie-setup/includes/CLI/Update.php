@@ -15,11 +15,11 @@ use WP_CLI;
  */
 class Update extends \WP_CLI_Command {
 	/**
-	 * Updates the DOLLIE_SETUP plugins and theme, if applicable.
+	 * Updates the Dollie plugins and theme, if applicable.
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     # Updates the DOLLIE_SETUP plugins and theme.
+	 *     # Updates the Dollie plugins and theme.
 	 *     $ wp dollie_setup update all
 	 */
 	public function all( $args, $assoc_args ) {
@@ -77,7 +77,7 @@ class Update extends \WP_CLI_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     # Updates the DOLLIE_SETUP plugins, but will ask for confirmation before doing so.
+	 *     # Updates the Dollie plugins, but will ask for confirmation before doing so.
 	 *     $ wp dollie_setup update plugins
 	 *     Attempting to update the following plugins:
 	 *     +----------------------+-------------+-------------+
@@ -99,7 +99,7 @@ class Update extends \WP_CLI_Command {
 	 *     Plugin updated successfully.
 	 *     Success: Installed 2 of 2 plugins.
 	 *
-	 *     # Updates the DOLLIE_SETUP plugins, without confirmation.
+	 *     # Updates the Dollie plugins, without confirmation.
 	 *     $ wp dollie_setup update plugins --yes
 	 */
 	public function plugins( $args, $assoc_args ) {

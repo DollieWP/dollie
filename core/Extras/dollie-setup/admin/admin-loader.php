@@ -248,7 +248,7 @@ class Dollie_Setup_Admin
 			$theme = dollie_setup_get_theme(dollie_setup_get_theme_prop('directory_name'));
 
 			// DOLLIE_SETUP theme exists! so let's activate it and redirect to the
-			// DOLLIE_SETUP Theme options page!
+			// Dollie Recommended Theme options page!
 			if ($theme->exists()) {
 				// if BP_ROOT_BLOG is defined and we're not on the root blog, switch to it
 				if (!dollie_setup_is_main_site()) {
@@ -354,7 +354,7 @@ class Dollie_Setup_Admin
 			 * 'virgin-setup' is a misnomer when times were simpler :)
 			 */
 			case 'virgin-setup':
-				// get required DOLLIE_SETUP plugins.
+				// get required Dollie plugins.
 				$plugins = Dollie_Setup_Plugins::get_plugins('required');
 
 				// sort plugins by plugin state
@@ -472,12 +472,12 @@ class Dollie_Setup_Admin
 				// if theme upgrades are available, let's add an extra button to the end of
 				// the plugin upgrader, so we can proceed with upgrading the theme
 				if (dollie_setup_get_theme_to_update()) {
-					$title = esc_html__('Upgrading DOLLIE_SETUP Plugins and Themes', 'dollie-setup');
+					$title = esc_html__('Upgrading Dollie Plugin Suite and Themes', 'dollie-setup');
 
 					$redirect_link = wp_nonce_url(self_admin_url('admin.php?page=dollie_setup&dollie_setup-action=upgrade-theme&dollie_setup-themes=' . dollie_setup_get_theme_prop('directory_name')), 'dollie_setup_upgrade_theme');
 					$redirect_text = sprintf(__("Now, let's upgrade the %s theme &rarr;", 'dollie-setup'), esc_attr(dollie_setup_get_theme_prop('name')));
 				} else {
-					$title = esc_html__('Upgrading DOLLIE_SETUP Plugins', 'dollie-setup');
+					$title = esc_html__('Upgrading Dollie Plugin Suite', 'dollie-setup');
 
 					$redirect_link = self_admin_url('admin.php?page=dollie_setup');
 					$redirect_text = __('Continue to the DOLLIE_SETUP Dashboard', 'dollie-setup');
@@ -555,7 +555,7 @@ class Dollie_Setup_Admin
 				// install the dollie_setup theme
 			case 'install-theme':
 				dollie_setup_get_template_part('wrapper-header');
-				// include the DOLLIE_SETUP Theme Installer
+				// include the Dollie Recommended Theme Installer
 				if (!class_exists('Dollie_Setup_Theme_Installer')) {
 					require DOLLIE_SETUP_PLUGIN_DIR . 'admin/theme-install.php';
 				}
@@ -572,7 +572,7 @@ class Dollie_Setup_Admin
 				// upgrade DOLLIE_SETUP themes
 			case 'upgrade-theme':
 				dollie_setup_get_template_part('wrapper-header');
-				// include the DOLLIE_SETUP Theme Installer
+				// include the Dollie Recommended Theme Installer
 				if (!class_exists('Dollie_Setup_Theme_Installer')) {
 					require DOLLIE_SETUP_PLUGIN_DIR . 'admin/theme-install.php';
 				}
@@ -991,7 +991,7 @@ class Dollie_Setup_Admin
 		}
 		?>
 
-		<div id="dollie_setup-steps" class="updated notice dollie-notice dollie-setup">
+		<div id="dollie_setup-steps" class="notice dollie-notice dollie-setup">
 			<svg xmlns="http://www.w3.org/2000/svg" fill="#33D399" viewBox="0 0 24 24" stroke="currentColor">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -1012,7 +1012,7 @@ class Dollie_Setup_Admin
 
 	/**
 	 * Add a special header before the admin plugins table is rendered
-	 * to remind admins that DOLLIE_SETUP plugins are on their own, special page.
+	 * to remind admins that Dollie plugins are on their own, special page.
 	 *
 	 * This only shows up when DOLLIE_SETUP is fully setup.
 	 *
@@ -1034,16 +1034,16 @@ class Dollie_Setup_Admin
 			$single_site = (current_user_can('manage_network_plugins') && !is_network_admin()) || (!is_multisite() && current_user_can('install_plugins'));
 
 			if ($single_site) {
-				echo '<h3>' . __('DOLLIE_SETUP Plugins', 'dollie-setup') . '</h3>';
+				echo '<h3>' . __('Dollie Plugin Suite', 'dollie-setup') . '</h3>';
 			} else {
 				echo '<h3>' . __('DOLLIE_SETUP Network Plugins', 'dollie-setup') . '</h3>';
 			}
 
 			if ($single_site) {
-				echo '<p>' . __("Don't forget that DOLLIE_SETUP plugins can be managed from the DOLLIE_SETUP plugins page!", 'dollie-setup') . '</p>';
+				echo '<p>' . __("Don't forget that Dollie plugins can be managed from the Dollie plugins page!", 'dollie-setup') . '</p>';
 			}
 
-			echo '<p style="margin-bottom:2.1em;">' . sprintf(__('You can <a href="%s">manage your DOLLIE_SETUP plugins here</a>.', 'dollie-setup'), dollie_setup_admin_prop('url', 'admin.php?page=dollie_setup-plugins')) . '</p>';
+			echo '<p style="margin-bottom:2.1em;">' . sprintf(__('You can <a href="%s">manage your Dollie plugins here</a>.', 'dollie-setup'), dollie_setup_admin_prop('url', 'admin.php?page=dollie_setup-plugins')) . '</p>';
 
 			if ($single_site) {
 				echo '<h3>' . sprintf(__('Plugins on %s', 'dollie-setup'), get_bloginfo('name')) . '</h3>';
