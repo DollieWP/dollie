@@ -168,6 +168,9 @@ class Helpers extends Singleton
 	 */
 	public function get_customer_login_url($container_id = null, $container_location = null, $staging = false)
 	{
+		if ( dollie()->is_site_demo($container_id ) ) {
+			return;
+		}
 		$container  = dollie()->get_current_object($container_id);
 		$url_params = 'site_login_redirect?site=' . $container->id;
 
@@ -589,6 +592,18 @@ class Helpers extends Singleton
 	public function is_hosted()
 	{
 		if ( defined('S5_APP_ID') ) {
+			return true;
+		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function is_site_demo($container_id)
+	{
+		$container_uri = dollie()->get_wp_site_data('uri', $container_id);
+		$demo_uri = 'dollie-elementor-kits-sites';
+		if (strpos($container_uri, $demo_uri) !== false) {
 			return true;
 		}
 	}
