@@ -64,11 +64,33 @@ module.exports = {
     "./core/Extras/**/*",
     "./core/Extras/dollie-setup/admin/templates/**/*"
   ],
+ daisyui: {
+      themes: [
+        {
+          base: {
+             "primary": "#51AABF",
+             "secondary": "#f0a146",
+             "accent": "#37CDBE",
+             "neutral": "#343434",
+             "base-100": "#FFFFFF",
+             "base-200": "#EFEFEF",
+             "base-content": "#343434",
+             "info": "#51AABF",
+             "success": "#36D399",
+             "warning": "#FBBD23",
+             "error": "#F87272",
+          },
+        },
+          "dark",
+          "cupcake",
+      ],
+    },
   corePlugins: {
     preflight: false,
   },
   plugins:  [
       require("@tailwindcss/forms"),
-      require('@tailwindcss/line-clamp')
+      require('@tailwindcss/line-clamp'),
+      require("daisyui")
     ],
 };

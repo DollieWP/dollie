@@ -2,7 +2,7 @@ body.post-type-container,
 body.post-type-dollie-logs {
   .dol-dashboard-wrap {
     position: absolute;
-    width: 102%;
+    width: 101.6%;
     //z-index: -1;
     margin-top: 0 !important;
   }
@@ -14,7 +14,14 @@ body.post-type-dollie-logs {
 }
 
 body[class*="dollie_setup"],
-body[class*="dol-container"] {
+body.post-type-container,
+body.post-type-dollie-logs {
+  .notice,
+  div.error,
+  div.updated {
+    display: none !important;
+  }
+
   background: #efefef;
   font-size: 16px;
   height: 100%;
