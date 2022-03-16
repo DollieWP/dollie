@@ -10,7 +10,7 @@ if ( isset( $_GET['payment-status'] ) ) {
 			'message'      => __(
 				sprintf(
 					'You can find your payment details in your <a href="%s">account overview</a> and in your email inbox. Now let\'s continue setting up your site...',
-					get_site_url() . '/my-account/orders'
+					wc_get_account_endpoint_url()
 				),
 				'dollie'
 			),
