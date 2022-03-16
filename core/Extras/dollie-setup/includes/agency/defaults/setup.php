@@ -5,6 +5,9 @@ function mywoo_disable_wizard()
 	return false;
 }
 
+//Set Elementor Tracker Notice
+update_option( 'elementor_tracker_notice', 1 );
+
 function ocdi_import_files_string()
 {
 	return [
@@ -30,6 +33,6 @@ function ocdi_plugin_page_setup($default_settings)
 
 	return $default_settings;
 }
-add_filter('ocdi/plugin_page_setup', 'ocdi_plugin_page_setup');
+//add_filter('ocdi/plugin_page_setup', 'ocdi_plugin_page_setup');
 
 

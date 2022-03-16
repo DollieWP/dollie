@@ -48,7 +48,7 @@ class Dollie_Setup_Package_Agency extends Dollie_Setup_Package {
 	 */
 	protected static function theme() {
 		return array(
-			'name'           => 'Hello Dollie Theme',
+			'name'           => 'Hello Dollie',
 			'version'        => '1.0.0',
 			'directory_name' => 'hello-dollie',
 			'download_url'   => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/hello-dollie-1.0.0.zip',

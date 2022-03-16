@@ -515,7 +515,7 @@ class Dollie_Setup_Admin
 				if (!empty($directory_name) && dollie_setup_get_theme($directory_name)->exists()) {
 					$btn_text = esc_html__('Activate Theme', 'dollie-setup');
 				} else {
-					$btn_text = esc_html__('Install Theme', 'dollie-setup');
+					$btn_text = esc_html__('Install & Activate Hello Dollie Theme', 'dollie-setup');
 				}
 
 				// Theme needs to be force-installed.
@@ -538,12 +538,14 @@ class Dollie_Setup_Admin
 
 				dollie_setup_get_template_part('theme-prompt');
 
-				echo $warning;
 
 				echo '<div style="margin-top:2em;">';
-				printf('<a href="%1$s" style="display:inline-block; margin:5px 15px 0 0;">%2$s</a>', $bail_link, $bail_text);
+
 
 				printf('<a href="%1$s" class="button button-primary">%2$s</a>', wp_nonce_url(self_admin_url('admin.php?page=dollie_setup&amp;dollie_setup-action=install-theme'), 'dollie_setup_install_theme'), $btn_text);
+
+				printf('<a class="dol-btn dol-bg-base-200 dol-ml-3 dol-text-gray-400" href="%1$s">%2$s</a>', $bail_link, $bail_text);
+
 				echo '</div>';
 
 				echo '</div>';
@@ -554,7 +556,7 @@ class Dollie_Setup_Admin
 
 				// install the dollie_setup theme
 			case 'install-theme':
-				dollie_setup_get_template_part('wrapper-header');
+				// dollie_setup_get_template_part('wrapper-header');
 				// include the Dollie Recommended Theme Installer
 				if (!class_exists('Dollie_Setup_Theme_Installer')) {
 					require DOLLIE_SETUP_PLUGIN_DIR . 'admin/theme-install.php';
@@ -565,7 +567,7 @@ class Dollie_Setup_Admin
 				$dollie_setup_theme = new Dollie_Setup_Theme_Installer(new Theme_Installer_Skin(compact('title')));
 				$dollie_setup_theme->install();
 
-				dollie_setup_get_template_part('wrapper-footer');
+				// dollie_setup_get_template_part('wrapper-footer');
 
 				break;
 

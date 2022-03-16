@@ -34,6 +34,7 @@ const tailwindWatch = function (done) {
       "assets/scss/*/*.scss",
       "templates/**/*",
       "templates/**/**/*",
+      "core/Extras/dollie-setup/**/*"
     ],
     tailwindBuild
   );
