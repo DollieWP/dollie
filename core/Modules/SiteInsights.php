@@ -44,22 +44,21 @@ class SiteInsights extends Singleton {
 	 *
 	 * @return array|mixed
 	 */
-	public function get_dashboard_news()
-	{
-		$data = get_transient('dollie_dashboard_news');
+	public function get_dashboard_news() {
+		$data = get_transient( 'dollie_dashboard_news' );
 
-		if (empty($data)) {
-			$response = wp_remote_get('https://getdollie.com/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=3&_embed');
+		if ( empty( $data ) ) {
+			$response = wp_remote_get( 'https://getdollie.com/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=3&_embed' );
 
-			if (is_wp_error($response)) {
+			if ( is_wp_error( $response ) ) {
 				return [];
 			}
 
-			set_transient('dollie_dashboard_news', $response, 3600);
+			set_transient( 'dollie_dashboard_news', $response, 3600 );
 			$data = $response;
 		}
 
-		return json_decode(wp_remote_retrieve_body($data));
+		return json_decode( wp_remote_retrieve_body( $data ) );
 	}
 
 	/**
@@ -67,22 +66,21 @@ class SiteInsights extends Singleton {
 	 *
 	 * @return array|mixed
 	 */
-	public function get_kb_articles()
-	{
-		$data = get_transient('dollie_dashboard_articles');
+	public function get_kb_articles() {
+		 $data = get_transient( 'dollie_dashboard_articles' );
 
-		if (empty($data)) {
-			$response = wp_remote_get('https://partners.getdollie.com/wp-json/wp/v2/kb/?filter[orderby]=date&per_page=12&_embed');
+		if ( empty( $data ) ) {
+			$response = wp_remote_get( 'https://partners.getdollie.com/wp-json/wp/v2/kb/?filter[orderby]=date&per_page=12&_embed' );
 
-			if (is_wp_error($response)) {
+			if ( is_wp_error( $response ) ) {
 				return [];
 			}
 
-			set_transient('dollie_dashboard_articles', $response, 3600);
+			set_transient( 'dollie_dashboard_articles', $response, 3600 );
 			$data = $response;
 		}
 
-		return json_decode(wp_remote_retrieve_body($data));
+		return json_decode( wp_remote_retrieve_body( $data ) );
 	}
 
 	/**

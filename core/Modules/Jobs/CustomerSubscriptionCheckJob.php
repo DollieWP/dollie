@@ -39,16 +39,18 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	 * Init recurring tasks
 	 */
 	public function init_recurring_tasks() {
-
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/subscription_check' ) ) {
 			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/subscription_check' );
 		}
+
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/stop_sites' ) ) {
 			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/stop_sites' );
 		}
+
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/undeploy_sites' ) ) {
 			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/undeploy_sites' );
 		}
+
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/email_digest' ) ) {
 			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/email_digest' );
 		}
@@ -297,11 +299,11 @@ class CustomerSubscriptionCheckJob extends Singleton {
 				$domain    = get_post_meta( get_the_ID(), 'wpd_domains', true );
 				$author_id = get_the_author_meta( 'ID' );
 				?>
-                <a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
-                        href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be stopped at
-                <strong><?php echo date( 'F j, Y', $undeploy ); ?></strong> <a
-                        href="<?php echo get_edit_post_link( get_the_ID() ); ?>">View Container</a>
-                <br>
+				<a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
+						href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be stopped at
+				<strong><?php echo date( 'F j, Y', $undeploy ); ?></strong> <a
+						href="<?php echo get_edit_post_link( get_the_ID() ); ?>">View Container</a>
+				<br>
 				<?php
 			}
 		}
@@ -341,10 +343,10 @@ class CustomerSubscriptionCheckJob extends Singleton {
 				$domain    = get_post_meta( get_the_ID(), 'wpd_domains', true );
 				$author_id = get_the_author_meta( 'ID' );
 				?>
-                <a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
-                        href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be undeployed on
-                <strong><?php echo date( 'F j, Y', $undeploy ); ?></strong>
-                <br>
+				<a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
+						href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be undeployed on
+				<strong><?php echo date( 'F j, Y', $undeploy ); ?></strong>
+				<br>
 				<?php
 			}
 		}

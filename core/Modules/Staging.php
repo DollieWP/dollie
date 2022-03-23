@@ -17,7 +17,6 @@ use Dollie\Core\Modules\Sites\WP;
  * @package Dollie\Core\Modules
  */
 class Staging extends Singleton {
-
 	const LOG_DEPLOY_STARTED = 'wp-staging-deploy-start';
 	const LOG_DEPLOYED       = 'wp-staging-deployed';
 	const LOG_DEPLOY_FAILED  = 'wp-staging-deploy-failed';
@@ -111,7 +110,7 @@ class Staging extends Singleton {
 		$deploy_status = 'pending';
 
 		$post_body = [
-			'source'  => dollie()->get_container_url($container_id),
+			'source'  => dollie()->get_container_url( $container_id ),
 			'envVars' => [
 				'S5_DEPLOYMENT_URL' => get_site_url(),
 			],
@@ -180,7 +179,7 @@ class Staging extends Singleton {
 		}
 
 		$container_id = get_the_ID();
-		$domain = get_post_meta( $container_id, self::OPTION_URL, true);
+		$domain       = get_post_meta( $container_id, self::OPTION_URL, true );
 		$staging_data = get_post_meta( $container_id, self::OPTION_DATA, true );
 
 		if ( ! $domain || ! is_array( $staging_data ) || ! isset( $staging_data[ $domain ] ) ) {

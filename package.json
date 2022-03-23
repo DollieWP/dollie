@@ -37,6 +37,6 @@
     "@tailwindcss/line-clamp": "^0.3.1",
     "daisyui": "^2.2.0",
     "esm": "^3.2.25",
-    "kutty": "^0.4.1"
+    "kutty": "^0.6.0"
   }
 }

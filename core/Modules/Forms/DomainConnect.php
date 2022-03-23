@@ -18,7 +18,6 @@ use Dollie\Core\Modules\Domain;
  * @package Dollie\Core\Modules\Forms
  */
 class DomainConnect extends Singleton {
-
 	/**
 	 * @var string
 	 */

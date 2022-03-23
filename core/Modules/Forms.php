@@ -511,10 +511,10 @@ class Forms extends Singleton {
 			$tpl_domain_not_managed = dollie()->load_template(
 				'widgets/site/pages/domain/connect/not-managed',
 				[
-					'has_domain'   => $domain,
-					'ip'           => $ip,
-					'platform_url' => $url,
-					'current_query' => $current_query
+					'has_domain'    => $domain,
+					'ip'            => $ip,
+					'platform_url'  => $url,
+					'current_query' => $current_query,
 				]
 			);
 
@@ -696,5 +696,4 @@ class Forms extends Singleton {
 
 		return get_userdata( get_current_user_id() )->user_login;
 	}
-
 }

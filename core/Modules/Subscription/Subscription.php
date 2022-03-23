@@ -16,7 +16,6 @@ use Dollie\Core\Utils\Api;
  * @package Dollie\Core\Modules\Subscription
  */
 class Subscription extends Singleton implements SubscriptionInterface {
-
 	/**
 	 * Undocumented variable
 	 *
@@ -107,7 +106,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return array|bool
 	 */
 	public function get_partner_subscription() {
-		if ( ! Api::get_auth_token() || get_transient( 'wpd_just_connected' ) ) {
+		if ( ! dollie()->is_api_connected() || get_transient( 'wpd_just_connected' ) ) {
 			return false;
 		}
 

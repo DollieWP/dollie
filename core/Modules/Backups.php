@@ -26,9 +26,8 @@ class Backups extends Singleton {
 	 * @return array|mixed
 	 */
 	public function get( $container_id = null, $force = false ) {
-
-		$current_query  = dollie()->get_current_object($container_id);
-		$container_slug = $current_query->slug;
+		$current_query          = dollie()->get_current_object( $container_id );
+		$container_slug         = $current_query->slug;
 		$backups_transient_name = 'dollie_' . $container_slug . '_backups_data';
 
 		if ( get_transient( $backups_transient_name ) ) {
@@ -42,14 +41,15 @@ class Backups extends Singleton {
 				return $backups;
 			}
 
-			$backups_response = Api::process_response( Api::post(
-				Api::ROUTE_BACKUP_GET,
-				[
-					'container_url'    => $container_url,
-					'container_secret' => $secret,
-				]
-			) );
-
+			$backups_response = Api::process_response(
+				Api::post(
+					Api::ROUTE_BACKUP_GET,
+					[
+						'container_url'    => $container_url,
+						'container_secret' => $secret,
+					]
+				)
+			);
 
 			if ( ! $backups_response || ! is_array( $backups_response ) ) {
 
@@ -60,7 +60,6 @@ class Backups extends Singleton {
 					$backups = $cached_backups;
 					update_post_meta( $container_id, 'wpd_installation_backups_outdated', 'yes' );
 				}
-
 			} else {
 
 				$backups = $backups_response;

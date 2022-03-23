@@ -16,7 +16,6 @@ use Dollie\Core\Log;
  * @package Dollie\Core\Modules
  */
 class ContainerRegistration extends Singleton {
-
 	/**
 	 * ContainerRegistration constructor.
 	 */
@@ -34,5 +33,4 @@ class ContainerRegistration extends Singleton {
 			update_option( 'wpd_rundeck_key', dollie()->random_string( 12 ) );
 		}
 	}
-
 }

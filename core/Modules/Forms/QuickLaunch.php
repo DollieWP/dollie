@@ -19,7 +19,6 @@ use Nubs\RandomNameGenerator\Alliteration as NameGenerator;
  * @package Dollie\Core\Modules\Forms
  */
 class QuickLaunch extends Singleton {
-
 	/**
 	 * @var string
 	 */
@@ -100,7 +99,7 @@ class QuickLaunch extends Singleton {
 	 * @return mixed
 	 */
 	public function change_form_args( $args ) {
-		$args['submit_text'] = printf(esc_html__('Launch New %s', 'dollie-setup'), dollie()->get_site_type_string());
+		$args['submit_text'] = printf( esc_html__( 'Launch New %s', 'dollie-setup' ), dollie()->get_site_type_string() );
 
 		return $args;
 	}

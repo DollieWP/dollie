@@ -15,7 +15,6 @@ use Dollie\Core\Singleton;
  * @package Dollie\Core\Modules\Forms
  */
 class CreateBackup extends Singleton {
-
 	/**
 	 * @var string
 	 */
@@ -52,7 +51,6 @@ class CreateBackup extends Singleton {
 		$container_id = (int) $_POST['dollie_post_id'];
 
 		Backups::instance()->make( $container_id );
-
 	}
 
 	/**
@@ -67,6 +65,4 @@ class CreateBackup extends Singleton {
 
 		return $args;
 	}
-
-
 }

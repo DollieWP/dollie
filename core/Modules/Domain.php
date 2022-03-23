@@ -16,7 +16,6 @@ use Dollie\Core\Log;
  * @package Dollie\Core\Modules
  */
 class Domain extends Singleton {
-
 	/**
 	 * Domain constructor
 	 */

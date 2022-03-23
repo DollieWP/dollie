@@ -16,7 +16,6 @@ use Dollie\Core\Log;
  * @package Dollie\Core\Modules
  */
 class ChangeContainerRoleJob extends Singleton {
-
 	/**
 	 * Jobs constructor.
 	 */

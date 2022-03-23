@@ -14,7 +14,6 @@ use Dollie\Core\Singleton;
  * @package Dollie\Core\Modules
  */
 class Hooks extends Singleton {
-
 	/**
 	 * Hooks constructor.
 	 */
@@ -22,10 +21,8 @@ class Hooks extends Singleton {
 		parent::__construct();
 
 		add_filter( 'document_title_parts', [ $this, 'update_page_title' ], 10, 1 );
-
 		add_action( 'admin_init', [ $this, 'last_admin_activity' ], 10 );
 	}
-
 
 	/**
 	 * Update page title
@@ -36,7 +33,6 @@ class Hooks extends Singleton {
 	 */
 	public function update_page_title( $title ) {
 		if ( is_singular( 'container' ) ) {
-			// change title parts here
 			$title['title'] = get_post_meta( get_the_ID(), 'wpd_installation_name', true );
 		}
 
@@ -51,5 +47,4 @@ class Hooks extends Singleton {
 			update_option( 'wpd_staging_last_seen', time() );
 		}
 	}
-
 }

@@ -16,7 +16,6 @@ use GFAPI;
  * @package Dollie\Core\Modules
  */
 class ImportForms extends Singleton {
-
 	/**
 	 * Current plugin forms version
 	 *

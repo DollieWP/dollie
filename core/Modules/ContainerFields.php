@@ -14,7 +14,6 @@ use Dollie\Core\Singleton;
  * @package Dollie\Core\Modules
  */
 class ContainerFields extends Singleton {
-
 	/**
 	 * ContainerFields constructor.
 	 */

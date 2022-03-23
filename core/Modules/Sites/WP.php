@@ -3,7 +3,6 @@
 namespace Dollie\Core\Modules\Sites;
 
 use Dollie\Core\Log;
-use Dollie\Core\Modules\Blueprints;
 use Dollie\Core\Modules\Container;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\Api;
@@ -18,7 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package Dollie\Core\Modules
  */
 final class WP extends Singleton {
-
 	const POST_SUFFIX = '-failed';
 	/**
 	 * Used for remote call. Gives false positive in WP repo checks

@@ -14,7 +14,6 @@ use Dollie\Core\Singleton;
  * @package Dollie\Core\Modules\Forms
  */
 class Performance extends Singleton {
-
 	/**
 	 * @var string
 	 */
@@ -48,7 +47,6 @@ class Performance extends Singleton {
 	 * @param $args
 	 */
 	public function submission_callback( $form, $fields, $args ) {
-		// TODO apply PHP and Caching change
 		$php = af_get_field( 'php_version' );
 	}
 

@@ -14,13 +14,12 @@ use Dollie\Core\Singleton;
  * @package Dollie\Core\Modules
  */
 class AccessControl extends Singleton {
-
 	/**
 	 * Custom capabilities of custom post type
 	 */
 	private static $custom_caps = [
 		'singular' => 'wpd_site',
-		'plural'   => 'wpd_sites'
+		'plural'   => 'wpd_sites',
 	];
 
 	/**
@@ -33,7 +32,7 @@ class AccessControl extends Singleton {
 		add_action( 'template_redirect', [ $this, 'protect_launch_site' ] );
 		add_action( 'template_redirect', [ $this, 'protect_container_access' ], 1 );
 		add_action( 'template_redirect', [ $this, 'disable_blueprint_domain_access' ], 1 );
-		//add_action( 'admin_init', [ $this, 'admin_access_only' ], 100 );
+		// add_action( 'admin_init', [ $this, 'admin_access_only' ], 100 );
 		add_action( 'user_has_cap', [ $this, 'restrict_form_delete' ], 10, 3 );
 
 		add_filter( 'wp_dropdown_users_args', [ $this, 'allow_all_authors' ], 10, 2 );
@@ -44,11 +43,11 @@ class AccessControl extends Singleton {
 		add_filter( 'acf/load_field/name=wpd_view_sites_permission', [ $this, 'acf_set_roles' ] );
 		add_filter( 'acf/load_field/name=manage_sites_permission', [ $this, 'acf_set_roles' ] );
 		add_filter( 'acf/load_field/name=delete_sites_permission', [ $this, 'acf_set_roles' ] );
-		add_action(	'acf/render_field_settings', [$this, 'acf_field_access']);
-		add_filter(	'acf/prepare_field', [$this, 'acf_field_prepare_access']);
+		add_action( 'acf/render_field_settings', [ $this, 'acf_field_access' ] );
+		add_filter( 'acf/prepare_field', [ $this, 'acf_field_prepare_access' ] );
 
 		add_filter( 'pre_get_posts', [ $this, 'sites_for_current_author' ] );
-		add_filter('body_class', [$this, 'add_permissions_body_class']);
+		add_filter( 'body_class', [ $this, 'add_permissions_body_class' ] );
 
 	}
 
@@ -125,7 +124,6 @@ class AccessControl extends Singleton {
 	 * Update capabilities for user roles
 	 */
 	public function sites_capabilities() {
-
 		$option_name = 'wpd_capabilities_added';
 
 		if ( get_option( $option_name ) ) {
@@ -171,7 +169,7 @@ class AccessControl extends Singleton {
 			'author'        => array_merge( $view, $update, $delete ),
 			'editor'        => array_merge( $view, $update, $delete ),
 			'customer'      => array_merge( $view, $update, $delete ),
-			'administrator' => $all
+			'administrator' => $all,
 		];
 
 		// Get role settings.
@@ -193,7 +191,6 @@ class AccessControl extends Singleton {
 
 		// Set the capabilities from Dollie settings.
 		foreach ( $roles as $wp_role => $wp_role_name ) {
-
 			// init role
 			if ( ! isset( $default_mappings[ $wp_role ] ) ) {
 				$default_mappings[ $wp_role ] = [];
@@ -204,7 +201,7 @@ class AccessControl extends Singleton {
 				$default_mappings[ $wp_role ] = array_merge( $default_mappings[ $wp_role ], $view, $view_others );
 			} elseif ( ! empty( $default_mappings[ $wp_role ] ) ) {
 
-				//Keep any other capabilities
+				// Keep any other capabilities
 				$default_mappings[ $wp_role ] = array_diff( $default_mappings[ $wp_role ], $view_others );
 			}
 
@@ -214,7 +211,7 @@ class AccessControl extends Singleton {
 				$default_mappings[ $wp_role ] = array_merge( $default_mappings[ $wp_role ], $update, $update_others );
 			} elseif ( ! empty( $default_mappings[ $wp_role ] ) ) {
 
-				//Keep any other capabilities
+				// Keep any other capabilities
 				$default_mappings[ $wp_role ] = array_diff( $default_mappings[ $wp_role ], $update_others );
 			}
 
@@ -224,7 +221,7 @@ class AccessControl extends Singleton {
 
 			} elseif ( ! empty( $default_mappings[ $wp_role ] ) ) {
 
-				//Keep any other capabilities
+				// Keep any other capabilities
 				$default_mappings[ $wp_role ] = array_diff( $default_mappings[ $wp_role ], $delete_others );
 			}
 		}
@@ -313,7 +310,6 @@ class AccessControl extends Singleton {
 	 * Protect container access
 	 */
 	public function protect_container_access() {
-
 		$sub_page = get_query_var( 'sub_page' );
 
 		if ( dollie()->can_manage_all_sites() ) {
@@ -357,10 +353,9 @@ class AccessControl extends Singleton {
 	 *
 	 * @return array
 	 */
-	public function add_permissions_body_class($classes)
-	{
+	public function add_permissions_body_class( $classes ) {
 
-		if ( dollie()->can_manage_all_sites() || current_user_can('manage_options') ) {
+		if ( dollie()->can_manage_all_sites() || current_user_can( 'manage_options' ) ) {
 			$classes[] = 'dol-is-admin';
 		} else {
 			$classes[] = 'dol-is-user';
@@ -372,29 +367,36 @@ class AccessControl extends Singleton {
 	/**
 	 * Protect container access
 	 */
-	public function acf_field_access($field) {
+	public function acf_field_access( $field ) {
 
-		acf_render_field_setting($field, array(
-			'label'			=> __('Access Control for Dollie'),
-			'instructions'	=> 'Only show this field for users with the "Can Manage All Sites" Dollie permissions.',
-			'name'			=> 'dollie_admin_only',
-			'type'			=> 'true_false',
-			'ui'			=> 1,
-		), true);
+		acf_render_field_setting(
+			$field,
+			array(
+				'label'        => __( 'Access Control for Dollie' ),
+				'instructions' => 'Only show this field for users with the "Can Manage All Sites" Dollie permissions.',
+				'name'         => 'dollie_admin_only',
+				'type'         => 'true_false',
+				'ui'           => 1,
+			),
+			true
+		);
 
 	}
 
 	/**
 	 * Protect container access
 	 */
-	public function acf_field_prepare_access($field)
-	{
+	public function acf_field_prepare_access( $field ) {
 
 		// bail early if no 'admin_only' setting
-		if (empty($field['dollie_admin_only'])) return $field;
+		if ( empty( $field['dollie_admin_only'] ) ) {
+			return $field;
+		}
 
 		// return false if is not Dollie admin (removes field)
-		if ( ! dollie()->can_manage_all_sites() || ! current_user_can('manage_options')	) return true;
+		if ( ! dollie()->can_manage_all_sites() || ! current_user_can( 'manage_options' ) ) {
+			return true;
+		}
 
 		// return
 		return $field;

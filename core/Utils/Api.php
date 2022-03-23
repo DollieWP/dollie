@@ -93,17 +93,31 @@ class Api extends Singleton {
 		EXECUTION_PLUGIN_APPLY_UPDATES    = 'plugins.apply.updates',
 		EXECUTION_WIZARD_SETUP            = 'wizard.setup';
 
-	const API_BASE_URL = 'https://api.getdollie.com/';
-	const API_URL      = self::API_BASE_URL . 'api/';
-	const PARTNERS_URL = 'https://partners.getdollie.com/';
-
 	public static $last_call = null;
+
+	/**
+	 * @var string
+	 */
+	public static $api_url = 'https://api.getdollie.com/api/';
+
+	/**
+	 * @var string
+	 */
+	public static $partners_url = 'https://partners.getdollie.com/';
 
 	/**
 	 * Api constructor
 	 */
 	public function __construct() {
 		parent::__construct();
+
+		if ( defined( 'DOLLIE_API' ) ) {
+			self::$api_url = DOLLIE_API . 'api/';
+		}
+
+		if ( defined( 'DOLLIE_PARTNERS' ) ) {
+			self::$partners_url = DOLLIE_PARTNERS;
+		}
 
 		add_action( 'wp_ajax_dollie_check_execution', [ $this, 'check_execution' ] );
 	}
@@ -184,7 +198,7 @@ class Api extends Singleton {
 		self::$last_call = $endpoint;
 
 		return wp_remote_get(
-			self::API_URL . $endpoint,
+			self::$api_url . $endpoint,
 			[
 				'headers' => [
 					'Accept'        => 'application/json',
@@ -228,7 +242,7 @@ class Api extends Singleton {
 		self::$last_call = $endpoint;
 
 		return wp_remote_post(
-			self::API_URL . $endpoint,
+			self::$api_url . $endpoint,
 			[
 				'method'  => 'POST',
 				'body'    => $data,
@@ -396,8 +410,8 @@ class Api extends Singleton {
 	 * @return void
 	 */
 	public function process_token() {
-		if ( isset( $_GET['data'], $_GET['page'] ) && $_GET['data'] && Options::PANEL_SLUG === $_GET['page'] ) {
-			$data = @base64_decode( $_GET['data'] );
+		if ( isset( $_GET['dollie_data'] ) && $_GET['dollie_data'] ) {
+			$data = @base64_decode( $_GET['dollie_data'] );
 			$data = @json_decode( $data, true );
 
 			if ( is_array( $data ) && isset( $data['token'], $data['domain'] ) && $data['token'] && $data['domain'] ) {
@@ -409,9 +423,11 @@ class Api extends Singleton {
 
 				set_transient( 'wpd_just_connected', 1, MINUTE_IN_SECONDS );
 
-				wp_redirect( admin_url('admin.php?page=wpd_platform_setup' ) );
+				wp_redirect( admin_url( 'admin.php?page=wpd_platform_setup' ) );
 				die();
 			}
+
+			wp_redirect( admin_url() );
 		}
 	}
 

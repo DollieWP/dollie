@@ -17,7 +17,6 @@ use Dollie\Core\Utils\Api;
  * @package Dollie\Core\Modules\Forms
  */
 class ListBackups extends Singleton {
-
 	/**
 	 * @var string
 	 */

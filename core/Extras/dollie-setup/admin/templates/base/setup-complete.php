@@ -1,13 +1,8 @@
-<?php
-$token  = \Dollie\Core\Utils\Api::get_auth_token();
-?>
-
-
 <div class="dol-bg-white dol-shadow dol-overflow-hidden sm:dol-rounded-md">
 
 	<ul role="list" class="dol-divide-y dol-divide-gray-200">
 
-		<?php if ($token) : ?>
+		<?php if ( dollie()->is_api_connected() ) : ?>
 			<li>
 				<a href="#" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
@@ -17,7 +12,7 @@ $token  = \Dollie\Core\Utils\Api::get_auth_token();
 							</div>
 							<div class="dol-min-w-0 dol-flex-1 dol-px-4 md:dol-grid md:dol-grid-cols-2 md:dol-gap-4">
 								<div>
-									<p class="dol-text-sm dol-font-medium dol-text-green-600 dol-truncate"><?php esc_html_e('Successfully connected to Dollie API', 'dollie'); ?></p>
+									<p class="dol-text-sm dol-font-medium dol-text-green-600 dol-truncate"><?php esc_html_e( 'Successfully connected to Dollie API', 'dollie' ); ?></p>
 									<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
 										<!-- Heroicon name: solid/mail -->
 										<span class="dol-truncate">No more steps needed.</span>
@@ -55,7 +50,7 @@ $token  = \Dollie\Core\Utils\Api::get_auth_token();
 							</div>
 							<div class="dol-min-w-0 dol-flex-1 dol-px-4 md:dol-grid md:dol-grid-cols-2 md:dol-gap-4">
 								<div>
-									<p class="dol-text-sm dol-font-medium dol-text-red-600 dol-truncate"><?php esc_html_e('Not connected to Dollie API', 'dollie'); ?></p>
+									<p class="dol-text-sm dol-font-medium dol-text-red-600 dol-truncate"><?php esc_html_e( 'Not connected to Dollie API', 'dollie' ); ?></p>
 									<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
 										<!-- Heroicon name: solid/mail -->
 										<span class="dol-truncate">Please connect to the API</span>
@@ -86,7 +81,8 @@ $token  = \Dollie\Core\Utils\Api::get_auth_token();
 		<?php endif; ?>
 
 		<?php
-		if (get_field('wpd_charge_for_deployments', 'options') == true && dollie()->has_products() == true) { ?>
+		if ( get_field( 'wpd_charge_for_deployments', 'options' ) == true && dollie()->has_products() == true ) {
+			?>
 			<li>
 				<a href="#" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
@@ -98,7 +94,7 @@ $token  = \Dollie\Core\Utils\Api::get_auth_token();
 							</div>
 							<div class="dol-min-w-0 dol-flex-1 dol-px-4 md:dol-grid md:dol-grid-cols-2 md:dol-gap-4">
 								<div>
-									<p class="dol-text-sm dol-font-medium dol-text-green-600 dol-truncate"><?php esc_html_e('WooCommerce Products Found', 'dollie'); ?></p>
+									<p class="dol-text-sm dol-font-medium dol-text-green-600 dol-truncate"><?php esc_html_e( 'WooCommerce Products Found', 'dollie' ); ?></p>
 									<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
 										<!-- Heroicon name: solid/mail -->
 										<span class="dol-truncate">One or more WooCommmerce products with Dollie settings are found.</span>
@@ -138,7 +134,7 @@ $token  = \Dollie\Core\Utils\Api::get_auth_token();
 							</div>
 							<div class="dol-min-w-0 dol-flex-1 dol-px-4 md:dol-grid md:dol-grid-cols-2 md:dol-gap-4">
 								<div>
-									<p class="dol-text-sm dol-font-medium dol-text-red-600 dol-truncate"><?php esc_html_e('WooCommerce Setup', 'dollie'); ?></p>
+									<p class="dol-text-sm dol-font-medium dol-text-red-600 dol-truncate"><?php esc_html_e( 'WooCommerce Setup', 'dollie' ); ?></p>
 									<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
 										<!-- Heroicon name: solid/mail -->
 										<span class="dol-truncate">No Products with Dollie Settings Found</span>

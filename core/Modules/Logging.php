@@ -14,7 +14,6 @@ use Dollie\Core\Singleton;
  * @package Dollie\Core\Modules
  */
 class Logging extends Singleton {
-
 	/**
 	 * Logging constructor.
 	 */

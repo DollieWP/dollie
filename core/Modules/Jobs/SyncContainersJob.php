@@ -18,7 +18,6 @@ use Dollie\Core\Modules\Container;
  * @package Dollie\Core\Modules
  */
 class SyncContainersJob extends Singleton {
-
 	/**
 	 * Jobs constructor.
 	 */
