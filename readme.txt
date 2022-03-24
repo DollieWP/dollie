@@ -157,6 +157,7 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 == Changelog ==
 
 = 4.9.4 =
+* New feature: Assign site to Customer at Launch
 * Change get_field with get_option for extra compatibility
 * Add new filter for the site location redirect -> dollie/site/login_url/location
 * Don't run updates when Elementor now active
