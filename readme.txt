@@ -156,6 +156,11 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 
 == Changelog ==
 
+= 4.9.4 =
+* Change get_field with get_option for extra compatibility
+* Add new filter for the site location redirect -> dollie/site/login_url/location
+* Don't run updates when Elementor now active
+
 = 4.9.3 =
 * Search sites by URL (most useful), IP, Port and other site data.
 * Improve site listing long names

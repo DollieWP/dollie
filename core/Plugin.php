@@ -140,13 +140,13 @@ class Plugin extends Singleton
 			require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/requirements.php';
 		}
 
-		// Load TGM Class
+		// Load Dollie Setup Class
 		if ( ! class_exists('Dollie_Setup') && file_exists( DOLLIE_CORE_PATH . 'Extras/dollie-setup/loader.php' ) ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/dollie-setup/loader.php';
 		}
 
-		// Load TGM Class
-		if (!class_exists('OCDI_Plugin') && file_exists( DOLLIE_CORE_PATH . 'Extras/one-click-demo-import/one-click-demo-import.php' ) ) {
+		// Load One click demos Class
+		if ( ! class_exists('OCDI_Plugin') && file_exists( DOLLIE_CORE_PATH . 'Extras/one-click-demo-import/one-click-demo-import.php' ) ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/one-click-demo-import/one-click-demo-import.php';
 		}
 
@@ -237,7 +237,7 @@ class Plugin extends Singleton
 		}
 
 		//if (get_option('options_wpd_enable_site_preview', 1)) {
-		$this->routes['dollie_wizard'] = new Route('/wizard', 'route_wizard');
+		//$this->routes['dollie_wizard'] = new Route('/wizard', 'route_wizard');
 		//}
 
 		Processor::init($router, $this->routes);
