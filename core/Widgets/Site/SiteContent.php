@@ -16,13 +16,6 @@ class SiteContent extends \Elementor\Widget_Base {
 	public function __construct( $data = [], $args = null ) {
 		parent::__construct( $data, $args );
 
-		wp_register_script(
-			'dollie-site-content',
-			DOLLIE_ASSETS_URL . 'js/widgets/site-content.js',
-			[],
-			DOLLIE_VERSION,
-			true
-		);
 		wp_register_script( 'dollie-custom-launch', DOLLIE_ASSETS_URL . 'js/custom-launch.js', [ 'jquery' ], DOLLIE_VERSION, true );
 	}
 

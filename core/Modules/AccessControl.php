@@ -44,8 +44,11 @@ class AccessControl extends Singleton {
 		add_filter( 'acf/load_field/name=wpd_view_sites_permission', [ $this, 'acf_set_roles' ] );
 		add_filter( 'acf/load_field/name=manage_sites_permission', [ $this, 'acf_set_roles' ] );
 		add_filter( 'acf/load_field/name=delete_sites_permission', [ $this, 'acf_set_roles' ] );
+		add_action(	'acf/render_field_settings', [$this, 'acf_field_access']);
+		add_filter(	'acf/prepare_field', [$this, 'acf_field_prepare_access']);
 
 		add_filter( 'pre_get_posts', [ $this, 'sites_for_current_author' ] );
+		add_filter('body_class', [$this, 'add_permissions_body_class']);
 
 	}
 
@@ -126,7 +129,7 @@ class AccessControl extends Singleton {
 		$option_name = 'wpd_capabilities_added';
 
 		if ( get_option( $option_name ) ) {
-			return;
+		//	return;
 		}
 
 		$singular = self::$custom_caps['singular'];
@@ -172,9 +175,9 @@ class AccessControl extends Singleton {
 		];
 
 		// Get role settings.
-		$settings_view   = get_field( 'wpd_view_sites_permission', 'options' );
-		$settings_update = get_field( 'manage_sites_permission', 'options' );
-		$settings_delete = get_field( 'delete_sites_permission', 'options' );
+		$settings_view = get_option( 'options_wpd_view_sites_permission', [] );
+		$settings_update = get_option( 'options_manage_sites_permission', [] );
+		$settings_delete = get_option( 'options_delete_sites_permission', [] );
 
 		if ( empty( $settings_view ) ) {
 			$settings_view = [];
@@ -346,6 +349,67 @@ class AccessControl extends Singleton {
 			}
 		}
 	}
+
+	/**
+	 * Add body timestamp
+	 *
+	 * @param $classes
+	 *
+	 * @return array
+	 */
+	public function add_permissions_body_class($classes)
+	{
+
+		if ( dollie()->can_manage_all_sites() || current_user_can('manage_options') ) {
+			$classes[] = 'dol-is-admin';
+		} else {
+			$classes[] = 'dol-is-user';
+		}
+
+		return $classes;
+	}
+
+	/**
+	 * Protect container access
+	 */
+	public function acf_field_access($field) {
+
+		acf_render_field_setting($field, array(
+			'label'			=> __('Access Control for Dollie'),
+			'instructions'	=> 'Only show this field for users with the "Can Manage All Sites" Dollie permissions.',
+			'name'			=> 'dollie_admin_only',
+			'type'			=> 'true_false',
+			'ui'			=> 1,
+		), true);
+
+	}
+
+	/**
+	 * Protect container access
+	 */
+	public function acf_field_prepare_access($field)
+	{
+
+		// bail early if no 'admin_only' setting
+        if ( empty( $field['dollie_admin_only'] ) ) {
+            return $field;
+        }
+
+		// return false if is not Dollie admin (removes field)
+		if ( ! dollie()->can_manage_all_sites() ) {
+			echo '
+				<style type="text/css">
+					.acf-field-'. substr( $field['key'], 6 ) . ' > .acf-label {display: none;}
+				</style>';
+
+			//var_dump($field);exit;
+			return false;
+		}
+
+		// return
+		return $field;
+	}
+
 
 	/**
 	 * Protect container access

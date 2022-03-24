@@ -169,6 +169,8 @@ class Helpers extends Singleton {
 
 		$url = home_url( $url_params );
 
+		$container_location = apply_filters( 'dollie/site/login_url/location', $container_location, $container );
+
 		if ( ! empty( $container_location ) ) {
 			$url = add_query_arg( 'location', $container_location, $url );
 		}
@@ -205,6 +207,7 @@ class Helpers extends Singleton {
 		if ( $pending_role_action ) {
 			return '';
 		}
+
 
 		if ( null !== $container_location ) {
 			$location = '&location=' . $container_location;
@@ -305,7 +308,7 @@ class Helpers extends Singleton {
 		}
 
 		//Resize image and store locally
-		$local_image = wpthumb($image, 'width=700&height=99999&crop=0' );
+		$local_image = wpthumb( $image, 'width=700&height=99999&crop=0' );
 
 		$image_tag = '<img width="700" class="dol-block dol-object-cover" alt="' . esc_attr( $site ) . '" src="' . $local_image . '" />';
 
@@ -341,11 +344,14 @@ class Helpers extends Singleton {
 		$query = new WP_Query(
 			[
 				'post_status'    => [ 'publish', 'draft' ],
-				'author'         => get_current_user_id(),
 				'post_type'      => 'container',
 				'posts_per_page' => 1,
 			]
 		);
+
+		if ( ! dollie()->can_manage_all_sites() ) {
+			$args['author'] = get_current_user_id();
+		}
 
 		$output = '';
 
@@ -645,6 +651,14 @@ class Helpers extends Singleton {
 	 * @return mixed|void
 	 */
 	public function get_site_template_id() {
+
+		$status = \Dollie\Core\Modules\Container::instance()->get_status( get_the_ID() );
+	
+		// If we have a launching template then show that instead.
+		if ( 'pending' === $status && get_option( 'options_wpd_site_launching_template_id' ) ) {
+			return (int) get_option( 'options_wpd_site_launching_template_id' );
+		}
+
 		return (int) get_option( 'options_wpd_site_template_id' );
 	}
 
@@ -1134,6 +1148,7 @@ class Helpers extends Singleton {
 	public function get_elementor_template_types() {
 		return [
 			'container' => __( 'Site View', 'dollie' ),
+			'container_launching' => __( 'Site Launching View', 'dollie' ),
 		];
 	}
 

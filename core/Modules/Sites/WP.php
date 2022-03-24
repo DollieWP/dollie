@@ -216,6 +216,7 @@ final class WP extends Singleton {
 	 * @return void
 	 */
 	public function update_deploy() {
+
 		if ( ! is_user_logged_in() ) {
 			return;
 		}
@@ -223,8 +224,11 @@ final class WP extends Singleton {
 		$args = [
 			'post_type' => 'container',
 			'meta_key'  => 'wpd_container_deploy_job',
-			'author'    => get_current_user_id(),
 		];
+
+		if ( ! dollie()->can_manage_all_sites() ) {
+			$args['author'] = get_current_user_id();
+		}
 
 		$pending_deploys = get_posts( $args );
 

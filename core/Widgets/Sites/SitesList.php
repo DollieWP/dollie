@@ -155,11 +155,9 @@ class SitesList extends \Elementor\Widget_Base {
 			}
 		}
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! dollie()->can_view_all_sites() ) {
 			$args['author'] = get_current_user_id();
-		}
-
-		if ( isset( $_GET['customer'] ) && $_GET['customer'] ) {
+		} elseif ( isset( $_GET['customer'] ) && $_GET['customer'] ) {
 			$args['author'] = (int) $_GET['customer'];
 		}
 
