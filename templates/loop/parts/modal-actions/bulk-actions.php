@@ -3,7 +3,7 @@
 </div>
 
 <div class="dol-text dol-text-base dol-text-gray-500 dol-mb-3">
-	<?php printf( esc_html__( 'Quickly run tasks across multiple %s with the click of a button! Please select the action you would like to run using the form below.', 'dollie-setup' ), dollie()->get_site_type_plural_string() ); ?>
+	<?php printf( esc_html__( 'Quickly run tasks across multiple %s with the click of a button! Please select the action you would like to run using the form below.', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>
 </div>
 
 <div class="dol-modal-success dol-hidden dol-text-sm dol-text-white dol-bg-green-500 dol-px-4 dol-py-2 dol-rounded dol-mb-3">

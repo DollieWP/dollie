@@ -188,7 +188,7 @@ if ( ! isset( $view_type ) ) {
 		<div class="dol-flex dol-items-center dol-justify-center">
 			<div class="dol-text-2xl dol-text-primary-600">
 				<?php
-				// printf(esc_html__('No %s Launched Yet..', 'dollie-setup'), dollie()->get_site_type_plural_string());
+				// printf(esc_html__('No %s Launched Yet..', 'dollie-setup'), dollie()->string_variants()->get_site_type_plural_string());
 
 				$data = [
 					'settings' => array(

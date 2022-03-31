@@ -16,6 +16,7 @@ use Dollie\Core\Modules\BulkActions;
 use Dollie\Core\Factories\Site;
 use Dollie\Core\Factories\Blueprint;
 use Dollie\Core\Factories\Staging;
+use Dollie\Core\Factories\User;
 
 /**
  * Class Helpers
@@ -58,6 +59,17 @@ class Helpers extends Singleton implements ConstInterface {
 		}
 
 		return new \WP_Error( 500, 'Invalid container type' );
+	}
+
+	/**
+	 * Get user
+	 *
+	 * @param \WP_User|integer|null $id
+	 *
+	 * @return User
+	 */
+	public function get_user( \WP_User|int $id = null ): User {
+		return new User( $id );
 	}
 
 	/**

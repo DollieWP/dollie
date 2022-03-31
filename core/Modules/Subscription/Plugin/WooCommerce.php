@@ -16,7 +16,7 @@ use Dollie\Core\Singleton;
 class WooCommerce extends Singleton implements SubscriptionInterface {
 
 	const
-		SUB_STATUS_ANY = 'any',
+		SUB_STATUS_ANY    = 'any',
 		SUB_STATUS_ACTIVE = 'active';
 
 	/**
@@ -133,7 +133,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	/**
 	 * Get subscriptions for customer
 	 *
-	 * @param string $status
+	 * @param string   $status
 	 * @param null|int $customer_id
 	 *
 	 * @return array|bool
@@ -224,8 +224,8 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 				$data['resources']['max_allowed_installs'] += $installs * $quantity;
 				$data['resources']['max_allowed_size']     += $max_size * $quantity;
-				$data['resources']['name']                 = $item_data['name'];
-				$data['resources']['staging_max_allowed'] += $staging * $quantity;
+				$data['resources']['name']                  = $item_data['name'];
+				$data['resources']['staging_max_allowed']  += $staging * $quantity;
 
 			}
 		}
@@ -382,7 +382,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	public function get_blueprints_exception( $type = 'excluded' ) {
 
 		$data          = [];
-		$type          .= '_blueprints';
+		$type         .= '_blueprints';
 		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
 
 		if ( empty( $subscriptions ) ) {
@@ -468,7 +468,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			return false;
 		}
 
-		$total_site = (int) dollie()->count_customer_staging_sites( $user_id );
+		$total_site = (int) dollie()->get_user( $user_id )->count_stagings();
 
 		return ( $subscriptions['resources']['staging_max_allowed'] - $total_site ) <= 0;
 	}

@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
 use Dollie\Core\Utils\Tpl;
-use Dollie\Core\Utils\Notices;
+use Dollie\Core\Services\NoticeService;
 
 /**
  * Class Container
@@ -25,7 +25,7 @@ class Container extends Singleton implements ConstInterface {
 
 		add_action( 'wp', [ $this, 'add_acf_form_head' ], 9 );
 		add_action( 'template_redirect', [ $this, 'fetch_container' ] );
-		add_action( 'wp_footer', [ Notices::instance(), 'site_demo_notice' ] );
+		add_action( 'wp_footer', [ NoticeService::instance(), 'site_demo_notice' ] );
 
 		add_filter( 'init', [ $this, 'rewrite_rules_sub_pages' ], 20 );
 		add_filter( 'query_vars', [ $this, 'query_vars' ] );

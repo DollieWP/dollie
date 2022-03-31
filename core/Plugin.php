@@ -26,8 +26,7 @@ use Dollie\Core\Jobs\ChangeContainerRoleJob;
 use Dollie\Core\Jobs\UpdateContainerScreenshotsJob;
 use Dollie\Core\Jobs\CustomerSubscriptionCheckJob;
 
-use Dollie\Core\Utils\Api;
-use Dollie\Core\Utils\Notices;
+use Dollie\Core\Services\NoticeService;
 
 use Dollie\Core\Routing\Processor;
 use Dollie\Core\Routing\Route;
@@ -58,10 +57,10 @@ class Plugin extends Singleton {
 
 		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
 
-		// add_action( 'admin_notices', [ Notices::instance(), 'admin_auth_notice' ] );
-		// add_action( 'admin_notices', [ Notices::instance(), 'admin_deployment_domain_notice' ] );
-		// add_action( 'admin_notices', [ Notices::instance(), 'admin_subscription_no_credits' ] );
-		// add_action( 'wp_ajax_dollie_hide_domain_notice', [ Notices::instance(), 'remove_deployment_domain_notice' ] );
+		// add_action( 'admin_notices', [ NoticeService::instance(), 'admin_auth_notice' ] );
+		// add_action( 'admin_notices', [ NoticeService::instance(), 'admin_deployment_domain_notice' ] );
+		// add_action( 'admin_notices', [ NoticeService::instance(), 'admin_subscription_no_credits' ] );
+		// add_action( 'wp_ajax_dollie_hide_domain_notice', [ NoticeService::instance(), 'remove_deployment_domain_notice' ] );
 
 		add_action( 'wp_enqueue_scripts', [ $this, 'load_resources' ], 12 );
 
@@ -90,14 +89,14 @@ class Plugin extends Singleton {
 		}
 
 		// if (!defined('ELEMENTOR_VERSION')) {
-		// add_action('admin_notices', [Notices::instance(), 'elementor_notice']);
+		// add_action('admin_notices', [NoticeService::instance(), 'elementor_notice']);
 
 		// return;
 		// }
 
 		// // Check for the minimum required Elementor version.
 		// if (!version_compare(ELEMENTOR_VERSION, self::$minimum_elementor_version, '>=')) {
-		// add_action('admin_notices', [Notices::instance(), 'admin_notice_minimum_elementor_version']);
+		// add_action('admin_notices', [NoticeService::instance(), 'admin_notice_minimum_elementor_version']);
 		// }
 
 		// load ACF as fallback.

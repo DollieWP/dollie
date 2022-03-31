@@ -56,7 +56,7 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 						</div>
 						<div class="dol-customers-version dol-cursor-default dol-text-sm">
 							<div class="dol-font-semibold dol-text-gray-500">
-								<?php echo dollie()->get_site_type_plural_string(); ?>
+								<?php echo dollie()->string_variants()->get_site_type_plural_string(); ?>
 							</div>
 							<div class="dol-font-bold ">
 								<?php echo dollie()->count_customer_containers( $customer->ID ); ?>

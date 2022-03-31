@@ -1097,10 +1097,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'               => 'field_5e2eb1ca86e3d',
-					'label'             => sprintf( esc_html__( 'Charge for Launching %s', 'dollie-setup' ), dollie()->get_site_type_plural_string() ),
+					'label'             => sprintf( esc_html__( 'Charge for Launching %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ),
 					'name'              => 'wpd_charge_for_deployments',
 					'type'              => 'true_false',
-					'instructions'      => sprintf( esc_html__( 'Would you like to charge your customers for launching %1$s? If you have this set to "off" anyone can launch %2$s on your platform without having an active subscription.', 'dollie-setup' ), dollie()->get_site_type_plural_string(), dollie()->get_site_type_plural_string() ),
+					'instructions'      => sprintf( esc_html__( 'Would you like to charge your customers for launching %1$s? If you have this set to "off" anyone can launch %2$s on your platform without having an active subscription.', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string(), dollie()->string_variants()->get_site_type_plural_string() ),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
@@ -1119,7 +1119,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'label'             => sprintf( esc_html__( 'Enable %1$s Dashboard for %2$s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string(), dollie()->string_variants()->get_user_type_plural_string() ),
 					'name'              => 'wpd_allow_site_dashboard_access',
 					'type'              => 'true_false',
-					'instructions'      => sprintf( esc_html__( 'Would you like to give your %1$s the ability to manage their own %2$s or would you like to restrict this functionality to your team only?', 'dollie-setup' ), dollie()->string_variants()->get_user_type_plural_string(), dollie()->get_site_type_plural_string() ),
+					'instructions'      => sprintf( esc_html__( 'Would you like to give your %1$s the ability to manage their own %2$s or would you like to restrict this functionality to your team only?', 'dollie-setup' ), dollie()->string_variants()->get_user_type_plural_string(), dollie()->string_variants()->get_site_type_plural_string() ),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
@@ -1225,10 +1225,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				array(
 					'key'               => 'field_5efc4a49d5752',
 					'label'             =>
-					sprintf( esc_html__( 'Default %1$s Role for Launched %2$s', 'dollie-setup' ), dollie()->string_variants()->get_user_type_string(), dollie()->get_site_type_plural_string() ),
+					sprintf( esc_html__( 'Default %1$s Role for Launched %2$s', 'dollie-setup' ), dollie()->string_variants()->get_user_type_string(), dollie()->string_variants()->get_site_type_plural_string() ),
 					'name'              => 'wpd_client_site_permission',
 					'type'              => 'radio',
-					'instructions'      => sprintf( __( 'Set the default user role inside the %1$s after launch. This setting allows you to lock down new %2$s with restricted permissions for your %3$s. Only your team is given the ability to manage the %4$s as an administrator. <strong>Warning, when active this will change the user roles for all existing %5$s</strong>.', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string(), dollie()->get_site_type_plural_string(), dollie()->string_variants()->get_user_type_string(), dollie()->string_variants()->get_site_type_string(), dollie()->get_site_type_plural_string() ),
+					'instructions'      => sprintf( __( 'Set the default user role inside the %1$s after launch. This setting allows you to lock down new %2$s with restricted permissions for your %3$s. Only your team is given the ability to manage the %4$s as an administrator. <strong>Warning, when active this will change the user roles for all existing %5$s</strong>.', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string(), dollie()->string_variants()->get_site_type_plural_string(), dollie()->string_variants()->get_user_type_string(), dollie()->string_variants()->get_site_type_string(), dollie()->string_variants()->get_site_type_plural_string() ),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
@@ -1290,16 +1290,16 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 						'id'    => '',
 					),
 					'hide_admin'        => 0,
-					'message'           => sprintf( __( 'With these settings you can control which User Roles inside this installation can have access to manage the %1$s launched by your %2$s. This is in addition to the Administrator role (you). For example you could allow someone of your support team to view and manage all %3$s, but not delete any. <br><br><strong>Be careful with these settings and make sure that you carefully assign the correct user roles to your team members before enabling these settings. Configuration errors can easily give someone access to %4$s of others.</strong>', 'dollie-setup' ), dollie()->get_site_type_plural_string(), dollie()->string_variants()->get_user_type_plural_string(), dollie()->get_site_type_plural_string(), dollie()->get_site_type_plural_string() ),
+					'message'           => sprintf( __( 'With these settings you can control which User Roles inside this installation can have access to manage the %1$s launched by your %2$s. This is in addition to the Administrator role (you). For example you could allow someone of your support team to view and manage all %3$s, but not delete any. <br><br><strong>Be careful with these settings and make sure that you carefully assign the correct user roles to your team members before enabling these settings. Configuration errors can easily give someone access to %4$s of others.</strong>', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string(), dollie()->string_variants()->get_user_type_plural_string(), dollie()->string_variants()->get_site_type_plural_string(), dollie()->string_variants()->get_site_type_plural_string() ),
 					'new_lines'         => 'wpautop',
 					'esc_html'          => 0,
 				),
 				array(
 					'key'               => 'field_61ea98ea16f3c',
-					'label'             => sprintf( esc_html__( 'View All %s', 'dollie-setup' ), dollie()->get_site_type_plural_string() ),
+					'label'             => sprintf( esc_html__( 'View All %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ),
 					'name'              => 'wpd_view_sites_permission',
 					'type'              => 'checkbox',
-					'instructions'      => sprintf( esc_html__( 'Grant specific User Roles the VIEW permission on all %s', 'dollie-setup' ), dollie()->get_site_type_plural_string() ),
+					'instructions'      => sprintf( esc_html__( 'Grant specific User Roles the VIEW permission on all %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
@@ -1322,10 +1322,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'               => 'field_61ea99b016f3d',
-					'label'             => sprintf( esc_html__( 'Manage All %s', 'dollie-setup' ), dollie()->get_site_type_plural_string() ),
+					'label'             => sprintf( esc_html__( 'Manage All %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ),
 					'name'              => 'manage_sites_permission',
 					'type'              => 'checkbox',
-					'instructions'      => sprintf( esc_html__( 'Grant specific User Roles the ability to VIEW and MANAGE all %s', 'dollie-setup' ), dollie()->get_site_type_plural_string() ),
+					'instructions'      => sprintf( esc_html__( 'Grant specific User Roles the ability to VIEW and MANAGE all %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
@@ -1348,10 +1348,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'               => 'field_61ea99d116f3e',
-					'label'             => sprintf( esc_html__( 'Delete %s', 'dollie-setup' ), dollie()->get_site_type_plural_string() ),
+					'label'             => sprintf( esc_html__( 'Delete %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ),
 					'name'              => 'delete_sites_permission',
 					'type'              => 'checkbox',
-					'instructions'      => sprintf( esc_html__( 'Grant specific User Roles the ability to DELETE %s', 'dollie-setup' ), dollie()->get_site_type_plural_string() ),
+					'instructions'      => sprintf( esc_html__( 'Grant specific User Roles the ability to DELETE %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(

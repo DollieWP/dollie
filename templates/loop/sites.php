@@ -58,15 +58,15 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 				</div>
 
 				<div class="dol-inline-flex dol-items-center dol-rounded dol-overflow-hidden dol-mb-4 md:dol-mb-0 dol-h-10 md:dol-h-auto">
-					<span data-tooltip="<?php printf( esc_html__( 'Show your %s in the List View', 'dollie-setup' ), dollie()->get_site_type_plural_string() ); ?>" class="dol-list-switch dol-inline-flex <?php echo esc_attr( $list_btn_active ); ?>" data-list-type="list">
+					<span data-tooltip="<?php printf( esc_html__( 'Show your %s in the List View', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-list-switch dol-inline-flex <?php echo esc_attr( $list_btn_active ); ?>" data-list-type="list">
 						<?php echo dollie()->icon()->list(); ?>
 					</span>
-					<span data-tooltip="<?php printf( esc_html__( 'Show your %s in the Grid View', 'dollie-setup' ), dollie()->get_site_type_plural_string() ); ?>" class="dol-list-switch dol-inline-flex <?php echo esc_attr( $grid_btn_active ); ?>" data-list-type="grid">
+					<span data-tooltip="<?php printf( esc_html__( 'Show your %s in the Grid View', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-list-switch dol-inline-flex <?php echo esc_attr( $grid_btn_active ); ?>" data-list-type="grid">
 						<?php echo dollie()->icon()->grid(); ?>
 					</span>
 					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=
 					my-sites">
-						<span data-tooltip="<?php printf( esc_html__( 'Show Your %s using the Live Preview Bar', 'dollie-setup' ), dollie()->get_site_type_plural_string() ); ?>" class="dol-layout-preview dol-inline-flex dol-preview-bar-layout" data-list-type="layout">
+						<span data-tooltip="<?php printf( esc_html__( 'Show Your %s using the Live Preview Bar', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-layout-preview dol-inline-flex dol-preview-bar-layout" data-list-type="layout">
 							<?php echo dollie()->icon()->preview(); ?>
 						</span>
 					</a>
@@ -304,7 +304,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 	<?php else : ?>
 		<div class="dol-flex dol-items-center dol-justify-center dol-h-40">
 			<div class="dol-text-2xl dol-text-ash-600">
-				<?php printf( esc_html__( 'No %s Found', 'dollie-setup' ), dollie()->get_site_type_plural_string() ); ?>
+				<?php printf( esc_html__( 'No %s Found', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>
 			</div>
 		</div>
 	<?php endif; ?>

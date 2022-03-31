@@ -6,7 +6,7 @@ namespace Dollie\Core\Admin;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
 use Dollie\Core\Jobs\SyncContainersJob;
-use Dollie\Core\Utils\Notices;
+use Dollie\Core\Services\NoticeService;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -54,7 +54,7 @@ final class Container extends Singleton implements ConstInterface {
 
 		add_filter( 'gettext', [ $this, 'override_empty_trash' ], 50, 3 );
 
-		add_action( 'edit_form_after_title', [ Notices::instance(), 'container_manager_notice' ] );
+		add_action( 'edit_form_after_title', [ NoticeService::instance(), 'container_manager_notice' ] );
 	}
 
 	/**
@@ -311,7 +311,7 @@ final class Container extends Singleton implements ConstInterface {
 			return;
 		}
 
-		$launch_site = dollie()->get_launch_page_id();
+		$launch_site = dollie()->page()->get_launch_id();
 
 		$iconurl = DOLLIE_URL . 'assets/img/active.png';
 
@@ -485,7 +485,7 @@ final class Container extends Singleton implements ConstInterface {
 			get_admin_url() . 'edit.php?post_type=container&blueprint=yes',
 		];
 
-		if ( $launch_site = dollie()->get_launch_page_id() ) {
+		if ( $launch_site = dollie()->page()->get_launch_id() ) {
 			$submenu['dollie_setup'][] = [
 				sprintf( esc_html__( 'Launch New %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ),
 				'manage_options',

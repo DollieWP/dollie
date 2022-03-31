@@ -1,6 +1,6 @@
 <?php
 
-namespace Dollie\Core\Utils;
+namespace Dollie\Core\Services;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.

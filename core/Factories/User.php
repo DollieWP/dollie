@@ -6,11 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use WP_Post;
-use Dollie\Core\Api\StagingApi;
-
 final class User {
-
 	/**
 	 * @var \WP_User|int
 	 */

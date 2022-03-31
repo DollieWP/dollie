@@ -5,7 +5,7 @@ namespace Dollie\Core\Hooks;
 use Dollie\Core\Log;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
-use Dollie\Core\Utils\Notices;
+use Dollie\Core\Services\NoticeService;
 
 final class Acf extends Singleton implements ConstInterface {
 	/**
@@ -19,7 +19,7 @@ final class Acf extends Singleton implements ConstInterface {
 		add_action( 'acf/save_post', [ $this, 'update_staging_status' ], 1 );
 		add_action( 'acf/save_post', [ $this, 'update_create_blueprint' ] );
 
-		add_action( 'acf/input/admin_footer', [ Notices::instance(), 'change_role_notice_script' ] );
+		add_action( 'acf/input/admin_footer', [ NoticeService::instance(), 'change_role_notice_script' ] );
 		add_filter(
 			'acf/load_field/name=wpd_api_domain',
 			static function( $field ) {

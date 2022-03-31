@@ -274,8 +274,8 @@ class AccessControl extends Singleton {
 	 * @return void
 	 */
 	public function logged_in_only() {
-		$login_id = dollie()->get_login_page_id();
-		$dash_id  = dollie()->get_dashboard_page_id();
+		$login_id = dollie()->page()->get_login_id();
+		$dash_id  = dollie()->page()->get_dashboard_id();
 
 		if ( ! $login_id ) {
 			return;
@@ -293,9 +293,9 @@ class AccessControl extends Singleton {
 	 * @return void
 	 */
 	public function protect_launch_site() {
-		$launch_id = dollie()->get_launch_page_id();
-		$dash_id   = dollie()->get_dashboard_page_id();
-		$sites_id  = dollie()->get_sites_page_id();
+		$launch_id = dollie()->page()->get_launch_id();
+		$dash_id   = dollie()->page()->get_dashboard_id();
+		$sites_id  = dollie()->page()->get_sites_id();
 
 		if ( ! $launch_id || ! $dash_id || ! $sites_id ) {
 			return;
