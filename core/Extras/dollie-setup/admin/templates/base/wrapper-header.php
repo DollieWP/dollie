@@ -1,6 +1,5 @@
 <div class="dol-dashboard-wrap">
 	<div class="dol-relative bg-sky-700 dol-pb-32 dol-overflow-hidden">
-		<!-- Menu open: "bg-sky-900", Menu closed: "dol-bg-transparent" -->
 		<nav class="dol-bg-transparent dol-relative dol-z-10 dol-border-b dol-border-teal-500 dol-border-opacity-25 lg:dol-bg-transparent lg:dol-border-none dol-admin-navigation">
 			<div class="dol-max-w-7xl dol-mx-auto dol-px-2 sm:dol-px-4 lg:dol-px-8">
 				<div class="dol-relative dol-h-16 dol-flex dol-items-center dol-justify-between lg:dol-border-b lg:border-sky-800">
@@ -25,7 +24,6 @@
 				</div>
 			</div>
 		</nav>
-		<!-- Menu open: "dol-bottom-0", Menu closed: "dol-inset-y-0" -->
 		<div aria-hidden="true" class="dol-inset-y-0 dol-absolute dol-inset-x-0 dol-left-1/2 dol-transform dol--translate-x-1/2 dol-w-full dol-overflow-hidden lg:dol-inset-y-0">
 			<div class="dol-absolute dol-inset-0 dol-flex">
 				<div class="dol-h-full dol-w-1/2" style="background-color: #0a527b"></div>
@@ -41,11 +39,11 @@
 			</div>
 		</div>
 		<header class="dol-relative dol-py-10">
-			<div class="dol-max-w-7xl dol-mx-auto dol-px-4 sm:dol-px-6 lg:dol-px-8">
-				<div class="dol-flex-shrink-0 dol-inline-block">
+			<div class="dol-flex dol-items-center dol-space-x-4 dol-max-w-7xl dol-mx-auto dol-px-4 sm:dol-px-6 lg:dol-px-8">
+				<div class="dol-flex-shrink-0 dol-inline-block dol-leading-none">
 					<img class="dol-inline-block dol-h-10 dol-w-auto" src="<?php echo DOLLIE_ASSETS_URL; ?>img/active.png" alt="Workflow">
 				</div>
-				<h1 class="dol-text-3xl dol-font-bold dol-text-white dol-inline-block dol-page-header"><?php echo get_admin_page_title(); ?></h1>
+				<h1 class="dol-text-3xl dol-font-bold dol-text-white dol-inline-block dol-page-header dol-mb-0"><?php echo get_admin_page_title(); ?></h1>
 			</div>
 		</header>
 	</div>

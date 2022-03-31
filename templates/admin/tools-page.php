@@ -12,7 +12,6 @@
 </div>
 
 <?php if ( isset( $_POST['synchronize'] ) ) : ?>
-
 	<?php if ( ! empty( $containers ) ) : ?>
 		Synchronized <?php echo count( $containers ); ?> containers<br><br><br>
 
@@ -26,7 +25,7 @@
 			<?php foreach ( $containers as $container ) : ?>
 				<?php
 
-				$stripped_domain = explode( '.', $container['name'] );
+				$stripped_domain = explode( '.', $container['url'] );
 				$name            = $stripped_domain[0];
 
 				?>
@@ -34,8 +33,8 @@
 				<tr>
 					<td><?php echo $name; ?></td>
 					<td>
-						<a href="<?php echo esc_url( 'https://' . $container['name'] ); ?>" target="_blank">
-							<?php echo 'https://' . $container['name']; ?>
+						<a href="<?php echo esc_url( "https://{$container['url']}" ); ?>" target="_blank">
+							<?php echo "https://{$container['url']}"; ?>
 						</a>
 					</td>
 					<td><?php echo $container['status']; ?></td>

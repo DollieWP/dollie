@@ -13,7 +13,7 @@ class SiteRemoteInfo extends Tag {
 	public function __construct( array $data = [] ) {
 		parent::__construct( $data );
 
-		$current_id = dollie()->get_current_site_id();
+		$current_id = dollie()->get_current_post_id();
 
 		// Get Items from Feed
 		$this->wpd_data = \Dollie\Core\Modules\Container::instance()->get_container_details( $current_id );
@@ -63,10 +63,10 @@ class SiteRemoteInfo extends Tag {
 			}
 
 			if ( strpos( $data, '.png' ) ||
-			     strpos( $data, '.jpg' ) ||
-			     strpos( $data, '.jpeg' ) ||
-			     filter_var( $data, FILTER_VALIDATE_URL ) ||
-			     strpos( $data, '.gif' ) ) {
+				 strpos( $data, '.jpg' ) ||
+				 strpos( $data, '.jpeg' ) ||
+				 filter_var( $data, FILTER_VALIDATE_URL ) ||
+				 strpos( $data, '.gif' ) ) {
 
 				continue;
 			}

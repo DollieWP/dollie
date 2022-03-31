@@ -37,14 +37,12 @@ class Domain extends Singleton {
 		$domain_zone        = get_post_meta( get_the_ID(), 'wpd_domain_zone', true );
 
 		if ( 'pending' === $dns_manager_status && $domain_zone ) {
-			$zone_check_request = Api::post(
+			$zone_response = Api::post(
 				Api::ROUTE_DOMAIN_CHECK_ZONE,
 				[
 					'container_uri' => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
 				]
 			);
-
-			$zone_response = Api::process_response( $zone_check_request );
 
 			if ( is_array( $zone_response ) ) {
 				if ( isset( $zone_response['container_uri'] ) && ! $zone_response['container_uri'] ) {
@@ -172,14 +170,12 @@ class Domain extends Singleton {
 	 * @return array|bool
 	 */
 	public function get_records( $container_uri ) {
-		$request = Api::post(
+		return Api::post(
 			Api::ROUTE_DOMAIN_RECORDS_GET,
 			[
 				'container_uri' => $container_uri,
 			]
 		);
-
-		return Api::process_response( $request );
 	}
 
 	/**
@@ -189,14 +185,12 @@ class Domain extends Singleton {
 	 * @return array|bool
 	 */
 	public function get_existing_records( $domain ) {
-		$request = Api::post(
+		return Api::post(
 			Api::ROUTE_DOMAIN_RECORDS_EXISTING,
 			[
 				'domain' => $domain,
 			]
 		);
-
-		return Api::process_response( $request );
 	}
 
 	/**
@@ -207,9 +201,9 @@ class Domain extends Singleton {
 	 * @return bool
 	 */
 	public function add_container_routes( $container, $domain ) {
-		$request = dollie()->get_customer_container_details( $container->id );
+		// $request = dollie()->get_customer_container_details( $container->id );
 
-		$request_route_add = Api::post(
+		$response_data = Api::post(
 			Api::ROUTE_DOMAIN_ROUTES_ADD,
 			[
 				'container_id' => $request->id,
@@ -217,24 +211,12 @@ class Domain extends Singleton {
 			]
 		);
 
-		$response_data = Api::process_response( $request_route_add );
-
 		// Show an error if API can't add the Route.
 		if ( ! $response_data || ! isset( $response_data['id'] ) ) {
-			Log::add_front(
-				Log::WP_SITE_DOMAIN_LINK_ERROR,
-				$container,
-				[
-					$domain,
-					$container->slug,
-				],
-				print_r( $request_route_add, true )
-			);
-
 			return false;
 		}
 
-		$request_route_add_www = Api::post(
+		$response_data_www = Api::post(
 			Api::ROUTE_DOMAIN_ROUTES_ADD,
 			[
 				'container_id' => $request->id,
@@ -242,18 +224,8 @@ class Domain extends Singleton {
 			]
 		);
 
-		$response_data_www = Api::process_response( $request_route_add_www );
-
-		if ( ! $request_route_add_www || ! isset( $response_data_www['id'] ) ) {
-			Log::add_front(
-				Log::WP_SITE_DOMAIN_LINK_ERROR,
-				$container,
-				[
-					'www. ' . $domain,
-					$container->slug,
-				],
-				print_r( $request_route_add_www, true )
-			);
+		if ( ! $response_data_www || ! isset( $response_data_www['id'] ) ) {
+			return false;
 		}
 
 		$saved_success = false;
@@ -288,22 +260,20 @@ class Domain extends Singleton {
 	 */
 	public function remove_domain() {
 		if ( isset( $_REQUEST['remove_customer_domain'] ) ) {
-
-			// Prevent unauthorized access.
 			if ( ! is_user_logged_in() ) {
 				return;
 			}
 
-			$current_query = dollie()->get_current_object();
+			$container = dollie()->get_container();
 
 			// Prevent unauthorized access.
-			if ( ! current_user_can( 'manage_options' ) && $current_query->author != get_current_user_id() ) {
+			if ( ! current_user_can( 'manage_options' ) && $container->get_author() !== get_current_user_id() ) {
 				return;
 			}
 
-			$this->remove_route( $current_query->id );
+			$this->remove_route( $container->get_id() );
 
-			wp_redirect( get_site_url() . '/site/' . $current_query->slug . '/?get-details' );
+			wp_redirect( get_site_url() . '/site/' . $container->get_slug() . '/?get-details' );
 			exit();
 
 		}
@@ -315,35 +285,31 @@ class Domain extends Singleton {
 	 * @param null|int $post_id
 	 */
 	public function remove_route( $post_id = null ) {
-		$container = dollie()->get_current_object( $post_id );
-		$post_id   = $container->id;
+		$container = dollie()->get_container( $post_id );
+		$post_id   = $container->get_id();
 
 		$container_id = get_post_meta( $post_id, 'wpd_container_id', true );
 		$route_id     = get_post_meta( $post_id, 'wpd_domain_id', true );
 		$www_route_id = get_post_meta( $post_id, 'wpd_www_domain_id', true );
 
 		if ( $route_id ) {
-			Api::process_response(
-				Api::post(
-					Api::ROUTE_DOMAIN_ROUTES_DELETE,
-					[
-						'container_id' => $container_id,
-						'route_id'     => $route_id,
-					]
-				)
+			Api::post(
+				Api::ROUTE_DOMAIN_ROUTES_DELETE,
+				[
+					'container_id' => $container_id,
+					'route_id'     => $route_id,
+				]
 			);
 
 		}
 
 		if ( $www_route_id ) {
-			Api::process_response(
-				Api::post(
-					Api::ROUTE_DOMAIN_ROUTES_DELETE,
-					[
-						'container_id' => $container_id,
-						'route_id'     => $www_route_id,
-					]
-				)
+			Api::post(
+				Api::ROUTE_DOMAIN_ROUTES_DELETE,
+				[
+					'container_id' => $container_id,
+					'route_id'     => $www_route_id,
+				]
 			);
 		}
 
@@ -387,32 +353,16 @@ class Domain extends Singleton {
 		$zone_id = get_post_meta( $post_id, 'wpd_domain_zone', true );
 
 		if ( $zone_id ) {
-			Api::process_response(
-				Api::post(
-					Api::ROUTE_DOMAIN_REMOVE,
-					[
-						'container_uri' => dollie()->get_wp_site_data( 'uri', $post_id ),
-						'normal'        => 'yes',
-					]
-				)
+			Api::post(
+				Api::ROUTE_DOMAIN_REMOVE,
+				[
+					'container_uri' => dollie()->get_wp_site_data( 'uri', $post_id ),
+					'normal'        => 'yes',
+				]
 			);
 		}
 
-		dollie()->flush_container_details();
-
-		delete_post_meta( $post_id, 'wpd_domain_migration_complete' );
-		delete_post_meta( $post_id, 'wpd_cloudflare_zone_id' );
-		delete_post_meta( $post_id, 'wpd_cloudflare_id' );
-		delete_post_meta( $post_id, 'wpd_cloudflare_active' );
-		delete_post_meta( $post_id, 'wpd_cloudflare_api' );
-		delete_post_meta( $post_id, 'wpd_domain_id' );
-		delete_post_meta( $post_id, 'wpd_letsencrypt_enabled' );
-		delete_post_meta( $post_id, 'wpd_domains' );
-		delete_post_meta( $post_id, 'wpd_www_domain_id' );
-		delete_post_meta( $post_id, 'wpd_cloudflare_email' );
-		delete_post_meta( $post_id, 'wpd_domain_dns_manager' );
-		delete_post_meta( $post_id, 'wpd_domain_pending' );
-		delete_post_meta( $post_id, 'wpd_domain_zone' );
+		$container->flush_cache();
 	}
 
 	/**
@@ -420,17 +370,16 @@ class Domain extends Singleton {
 	 *
 	 * @param $new_url
 	 * @param string  $old_url
-	 * @param null    $container_id
+	 * @param null    $post_id
 	 *
 	 * @return bool|mixed
 	 */
-	public function update_url( $new_url, $old_url = '', $container_id = null ) {
-
+	public function update_url( $new_url, $old_url = '', $post_id = null ) {
 		if ( empty( $new_url ) ) {
 			return false;
 		}
 
-		$container = dollie()->get_current_object( $container_id );
+		$container = dollie()->get_container( $post_id );
 
 		if ( empty( $old_url ) ) {
 			$old_url = str_replace(
@@ -439,33 +388,31 @@ class Domain extends Singleton {
 					'https://',
 				],
 				'',
-				dollie()->get_container_url( $container->id )
+				$container->get_url()
 			);
 		}
 
-		$request_domain_update = Api::post(
+		return Api::post(
 			Api::ROUTE_DOMAIN_UPDATE,
 			[
-				'container_uri' => dollie()->get_wp_site_data( 'uri', $container->id ),
+				'container_uri' => $container->get_original_url(),
 				'route'         => $new_url,
 				'install'       => $old_url,
 			]
 		);
-
-		return Api::process_response( $request_domain_update );
 	}
 
 	/**
 	 * @param null $domain
-	 * @param null $container_id
+	 * @param null $post_id
 	 *
 	 * @return bool
 	 */
-	public function update_url_with_domain( $domain = null, $container_id = null ) {
-		$container = dollie()->get_current_object( $container_id );
+	public function update_url_with_domain( $domain = null, $post_id = null ) {
+		$container = dollie()->get_container( $post_id );
 
 		if ( empty( $domain ) ) {
-			$domain = get_post_meta( $container->id, 'wpd_domains', true );
+			$domain = get_post_meta( $container->get_id(), 'wpd_domains', true );
 		}
 
 		$old_url = str_replace(
@@ -474,13 +421,13 @@ class Domain extends Singleton {
 				'https://',
 			],
 			'',
-			dollie()->get_container_url( $container->id )
+			$container->get_url()
 		);
 
-		$response_data = $this->update_url( $domain, $old_url, $container->id );
+		$response_data = $this->update_url( $domain, $old_url, $container->get_id() );
 
 		if ( false === $response_data ) {
-			update_post_meta( $container->id, 'wpd_domain_migration_complete', 'no' );
+			update_post_meta( $container->get_id(), 'wpd_domain_migration_complete', 'no' );
 			Log::add( 'Search and replace ' . $container->slug . ' to update URL to ' . $domain . ' has failed' );
 
 			return false;

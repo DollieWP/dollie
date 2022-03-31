@@ -13,9 +13,7 @@ $containers = new WP_Query(
 	[
 		'author'         => get_current_user_id(),
 		'post_type'      => 'container',
-		'posts_per_page' => 9999,
-		'meta_key'       => 'wpd_last_viewed',
-		'orderby'        => 'meta_value_num',
+		'posts_per_page' => -1,
 		'order'          => 'DESC',
 	]
 );
@@ -27,8 +25,12 @@ $containers = new WP_Query(
 		<li class="dol-m-0">
 			<span class="dol-block dol-text-primary-400 dol-uppercase dol-py-2">
 				<?php
-				\Elementor\Icons_Manager::render_icon($settings['icon'], ['aria-hidden' => 'true']);
-				echo dollie()->get_sites_page_title(); ?>
+				if ( isset( $settings['icon'] ) ) {
+					\Elementor\Icons_Manager::render_icon( $settings['icon'], [ 'aria-hidden' => 'true' ] );
+				}
+
+				echo dollie()->get_sites_page_title();
+				?>
 			</span>
 		</li>
 		<?php
@@ -37,31 +39,39 @@ $containers = new WP_Query(
 
 		while ( $containers->have_posts() ) :
 			$containers->the_post();
+
+			$container = dollie()->get_container();
+
+			if ( is_wp_error( $container ) ) {
+				continue;
+			}
+
+
 			$domain         = get_post_meta( get_the_ID(), 'wpd_domains', true );
 			$setup_complete = get_post_meta( get_the_ID(), 'wpd_setup_complete', true );
 			$blueprint      = get_post_meta( get_the_ID(), 'wpd_blueprint_created', true );
 
 			$menu = [
-				''                => dollie()->get_icon_site_dashboard() . __( 'Dashboard', 'dollie' ),
-				'plugins'         => dollie()->get_icon_plugins() . __( 'Plugins', 'dollie' ),
-				'themes'          => dollie()->get_icon_themes() . __( 'Themes', 'dollie' ),
-				'domains'         => dollie()->get_icon_domains() . __( 'Domains', 'dollie' ),
-				'backups'         => dollie()->get_icon_backups() . __( 'Backups', 'dollie' ),
-				'updates'         => dollie()->get_icon_updates() . __( 'Updates', 'dollie' ),
-				'developer-tools' => dollie()->get_icon_dev_tools() . __( 'Developer Tools', 'dollie' ),
-				'blueprints'      => dollie()->get_icon_blueprint() . __( 'Blueprints', 'dollie' ),
-				'migrate'         => dollie()->get_icon_migration() . __( 'Migrate', 'dollie' ),
+				''                => dollie()->icon()->site_dashboard() . __( 'Dashboard', 'dollie' ),
+				'plugins'         => dollie()->icon()->plugins() . __( 'Plugins', 'dollie' ),
+				'themes'          => dollie()->icon()->themes() . __( 'Themes', 'dollie' ),
+				'domains'         => dollie()->icon()->domains() . __( 'Domains', 'dollie' ),
+				'backups'         => dollie()->icon()->backups() . __( 'Backups', 'dollie' ),
+				'updates'         => dollie()->icon()->updates() . __( 'Updates', 'dollie' ),
+				'developer-tools' => dollie()->icon()->dev_tools() . __( 'Developer Tools', 'dollie' ),
+				'blueprints'      => dollie()->icon()->blueprint() . __( 'Blueprints', 'dollie' ),
+				'migrate'         => dollie()->icon()->migration() . __( 'Migrate', 'dollie' ),
 			];
 
 			if ( dollie()->has_staging() ) {
-				$menu['staging'] = dollie()->get_icon_staging() . esc_html__( 'Staging', 'dollie' );
+				$menu['staging'] = dollie()->icon()->staging() . esc_html__( 'Staging', 'dollie' );
 			}
 
-			$menu['delete'] = dollie()->get_icon_delete() . esc_html__( 'Delete', 'dollie' );
+			$menu['delete'] = dollie()->icon()->delete() . esc_html__( 'Delete', 'dollie' );
 
-			if ( dollie()->is_blueprint( get_the_ID() ) ) {
-				unset( $menu['domains'] );
-			}
+			// if ( dollie()->is_blueprint( get_the_ID() ) ) {
+			// unset( $menu['domains'] );
+			// }
 
 			$sub_page = get_query_var( 'sub_page' );
 			$count ++;
@@ -78,11 +88,11 @@ $containers = new WP_Query(
 						<span class="dol-font-medium">
 							<?php
 							if ( ! empty( $domain ) ) {
-								echo dollie()->get_icon_live_site();
+								echo dollie()->icon()->live_site();
 							} elseif ( ! empty( $blueprint ) ) {
-								echo dollie()->get_icon_blueprint();
+								echo dollie()->icon()->blueprint();
 							} else {
-								echo dollie()->get_icon_dev_site();
+								echo dollie()->icon()->dev_site();
 							}
 							?>
 							<?php
@@ -115,7 +125,7 @@ $containers = new WP_Query(
 						$active_class = $sub_page === $page ? ' dol-text-primary' : 'dol-font-normal dol-text-gray-400';
 						?>
 						<a class="<?php echo esc_attr( $active_class ); ?> dol-py-2 dol-px-3 dol-block dol-text-sm dol-text-gray-400 hover:dol-bg-primary hover:dol-text-white"
-						   href="<?php echo dollie()->get_site_url( get_the_ID(), $page ); ?>">
+						   href="<?php echo $container->get_permalink( $page ); ?>">
 							<?php echo $title; ?>
 						</a>
 					<?php endforeach; ?>

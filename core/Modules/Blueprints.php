@@ -6,8 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Api\BlueprintApi;
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
 
 /**
@@ -16,7 +16,7 @@ use Dollie\Core\Log;
  * @package Dollie\Core\Modules
  */
 class Blueprints extends Singleton {
-
+	use BlueprintApi;
 
 	/**
 	 * Blueprints constructor.
@@ -25,46 +25,29 @@ class Blueprints extends Singleton {
 		parent::__construct();
 
 		add_action( 'init', [ $this, 'set_cookie' ], -99999 );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ] );
 		add_action( 'wp_footer', [ $this, 'blueprint_notice' ] );
 		add_action( 'wp_ajax_dollie_launch_site_blueprint_data', [ $this, 'ajax_get_dynamic_fields' ] );
 		add_filter( 'dollie/launch_site/form_deploy_data', [ $this, 'site_launch_add_customizer_data' ], 10, 3 );
 		add_filter( 'dollie/launch_site/extras_envvars', [ $this, 'site_launch_set_env_vars' ], 10, 6 );
 
-		add_action( 'acf/save_post', [ $this, 'update_create_blueprint' ] );
 		add_action( 'wp_ajax_dollie_check_dynamic_fields', [ $this, 'check_dynamic_fields' ] );
-	}
-
-	/**
-	 * Enqueue scripts
-	 *
-	 * @return void
-	 */
-	public function enqueue_scripts() {
-		wp_register_script( 'dollie-launch-dynamic-data', DOLLIE_ASSETS_URL . 'js/launch-dynamic-data.js', [ 'jquery' ], DOLLIE_VERSION, true );
-		wp_localize_script(
-			'dollie-launch-dynamic-data',
-			'wpdDynamicData',
-			[
-				'ajaxurl'                => admin_url( '/admin-ajax.php' ),
-				'validationErrorMessage' => __( 'Please fill in the Realtime Customizer fields.', 'dollie' ),
-			]
-		);
 	}
 
 	/**
 	 * Add dynamic blueprint customizer fields to the launch form
 	 */
 	public function ajax_get_dynamic_fields() {
-		$blueprint = (int) $_POST['blueprint'];
+		$blueprint = dollie()->get_container( (int) $_POST['blueprint'] );
 
-		if ( empty( $blueprint ) ) {
+		if ( is_wp_error( $blueprint ) ) {
 			return;
 		}
 
 		ob_start();
 
-		$fields = get_field( 'wpd_dynamic_blueprint_data', 'create_update_blueprint_' . $blueprint );
+		$fields = get_field( 'wpd_dynamic_blueprint_data', 'create_update_blueprint_' . $blueprint->get_id() );
+		// $fields = $blueprint->get_dynamic_fields();
+
 		if ( ! empty( $fields ) ) {
 
 			$message = '';
@@ -105,15 +88,6 @@ class Blueprints extends Singleton {
 		);
 
 		exit;
-	}
-
-	/**
-	 * Show default blueprint
-	 *
-	 * @return bool
-	 */
-	public static function show_default_blueprint() {
-		return get_field( 'wpd_show_default_blueprint', 'options' );
 	}
 
 	/**
@@ -160,15 +134,16 @@ class Blueprints extends Singleton {
 			}
 
 			if ( 'image' === $value_format ) {
-
 				if ( get_field( 'wpd_blueprint_image', $site->ID ) === 'custom' ) {
 					$image = get_field( 'wpd_blueprint_custom_image', $site->ID );
+
 					if ( is_array( $image ) ) {
 						$image = $image['url'];
 					}
 				} else {
 					$image = get_post_meta( $site->ID, 'wpd_site_screenshot', true );
 				}
+
 				$value = '<img data-toggle="tooltip" data-placement="bottom" ' .
 					'data-tooltip="' . esc_attr( get_post_meta( $site->ID, 'wpd_installation_blueprint_description', true ) ) . '" ' .
 					'class="fw-blueprint-screenshot acf__tooltip" src=' . $image . '>' .
@@ -181,44 +156,6 @@ class Blueprints extends Singleton {
 		}
 
 		return apply_filters( 'dollie/blueprints', $data );
-	}
-
-	/**
-	 * Get available blueprints
-	 *
-	 * @param int $site_id
-	 *
-	 * @return array
-	 */
-	public function get_by_site( $site_id = null ) {
-		$site = dollie()->get_current_object( $site_id );
-
-		$secret = get_post_meta( $site->id, 'wpd_container_secret', true );
-
-		$request_get_blueprint = Api::post(
-			Api::ROUTE_BLUEPRINT_GET,
-			[
-				'container_url'    => dollie()->get_container_url( $site->id, true ),
-				'container_secret' => $secret,
-			]
-		);
-
-		$blueprints_response = Api::process_response( $request_get_blueprint, null );
-
-		if ( false === $blueprints_response || 500 === $blueprints_response['status'] ) {
-			return [];
-		}
-
-		$blueprints = dollie()->maybe_decode_json( $blueprints_response['body'] );
-
-		if ( ! is_array( $blueprints ) || empty( $blueprints ) ) {
-			return [];
-		}
-
-		set_transient( 'dollie_' . $site->slug . '_total_blueprints', count( $blueprints ), MINUTE_IN_SECONDS * 1 );
-		update_post_meta( $site->id, 'wpd_installation_blueprints_available', count( $blueprints ) );
-
-		return $blueprints;
 	}
 
 	/**
@@ -241,33 +178,36 @@ class Blueprints extends Singleton {
 	 * @return void
 	 */
 	public function blueprint_notice() {
-		$deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_status();
-
-		if ( ! is_singular( 'container' ) || ! dollie()->is_blueprint() || $deploying ) {
+		if ( ! is_singular( 'container' ) ) {
 			return;
 		}
 
-		$post_id = get_the_ID();
+		$container = dollie()->get_container();
 
-		if ( dollie()->is_blueprint_staging( $post_id ) ) { ?>
+		if ( is_wp_error( $container ) || ! $container->is_blueprint() || 'Deploying' !== $container->get_status() ) {
+			return;
+		}
+
+		$updated_time = $container->get_changes_update_time();
+		?>
+
+		<?php if ( ! $updated_time ) : ?>
 			<div class="dol-fixed dol-w-full dol-bg-gray-700 dol-p-3 dol-text-white dol-bottom-0 dol-left-0 dol-z-50 dol-text-center">
-				<?php echo dollie()->get_icon_blueprint(); ?>
-				<a class="dol-text-white hover:dol-text-white" href=" <?php echo get_permalink(); ?>/blueprints">
+				<?php echo dollie()->icon()->blueprint(); ?>
+				<a class="dol-text-white hover:dol-text-white" href=" <?php echo $container->get_permalink(); ?>/blueprints">
 					<strong><?php esc_html_e( 'Staging', 'dollie' ); ?></strong>
 					- <?php esc_html_e( 'This Blueprint is still in staging mode. Click here to make it available for your customers.', 'dollie' ); ?>
 				</a>
 			</div>
-			<?php
-		} else {
-			$blueprint_time = get_post_meta( $post_id, 'wpd_blueprint_time', true );
-			?>
+		<?php else : ?>
 			<div class="dol-fixed dol-w-full dol-bg-secondary dol-p-3 dol-text-white dol-bottom-0 dol-left-0 dol-z-50 dol-text-center">
-				<a class="dol-text-white hover:dol-text-white" href="<?php echo get_permalink() . '/blueprints'; ?>">
-					<?php echo dollie()->get_icon_blueprint(); ?><strong> <?php esc_html_e( 'Live', 'dollie' ); ?></strong> -
-					<?php printf( __( 'This Blueprint was last updated at %1$s. Made changes since then? Don’t forget to update this blueprint.', 'dollie' ), $blueprint_time ); ?>
+				<a class="dol-text-white hover:dol-text-white" href="<?php echo $container->get_permalink() . '/blueprints'; ?>">
+					<?php echo dollie()->icon()->blueprint(); ?><strong> <?php esc_html_e( 'Live', 'dollie' ); ?></strong> -
+					<?php printf( __( 'This Blueprint was last updated at %1$s. Made changes since then? Don’t forget to update this blueprint.', 'dollie' ), $updated_time ); ?>
 				</a>
 			</div>
-		<?php } ?>
+		<?php endif; ?>
+
 		<?php
 	}
 
@@ -279,37 +219,19 @@ class Blueprints extends Singleton {
 	 * @return array
 	 */
 	public function get_available( $container_id = null ) {
-		$container = dollie()->get_current_object( $container_id );
+		$container = dollie()->get_container( $container_id );
 
-		$blueprints           = $this->get_by_site( $container->id );
-		$formatted_blueprints = [];
-
-		foreach ( $blueprints as $blueprint ) {
-			$info = explode( '|', $blueprint );
-
-			if ( strpos( $info[1], 'MB' ) !== false ) {
-				$get_mb_size = str_replace( 'MB', '', $info[1] );
-				$size        = $get_mb_size . ' MB';
-			} else {
-				$size = $info[1];
-			}
-
-			// Time is first part but needs to be split.
-			$backup_date = explode( '_', $info[0] );
-
-			// Date of backup.
-			$date        = strtotime( $backup_date[0] );
-			$raw_time    = str_replace( '-', ':', $backup_date[1] );
-			$pretty_time = date( 'g:i a', strtotime( $raw_time ) );
-
-			$formatted_blueprints[] = [
-				'size' => $size,
-				'date' => date( 'd F y', $date ),
-				'time' => $pretty_time,
-			];
+		if ( is_wp_error( $container ) || ! $container->is_site() ) {
+			return [];
 		}
 
-		return $formatted_blueprints;
+		$blueprints = $container->get_available_blueprints();
+
+		if ( is_wp_error( $blueprints ) ) {
+			return [];
+		}
+
+		return $blueprints;
 	}
 
 	/**
@@ -363,80 +285,42 @@ class Blueprints extends Singleton {
 	}
 
 	/**
-	 * Update or create blueprint
-	 *
-	 * @param string $post_id
+	 * Check dynamic fields
 	 *
 	 * @return void
 	 */
-	public function update_create_blueprint( $acf_id ) {
-
-		if ( strpos( $acf_id, 'create_update_blueprint' ) === false ) {
-			return;
-		}
-
-		$post_id = (int) str_replace( 'create_update_blueprint_', '', $acf_id );
-		if ( $post_id <= 0 ) {
-			return;
-		}
-
-		$container = dollie()->get_current_object( $post_id );
-
-		if ( 'container' !== get_post_type( $post_id ) || ! dollie()->is_blueprint( $post_id ) ) {
-			return;
-		}
-
-		update_post_meta( $post_id, 'wpd_blueprint_created', 'yes' );
-		update_post_meta( $post_id, 'wpd_blueprint_time', @date( 'd/M/Y:H:i' ) );
-
-		$container_uri = dollie()->get_wp_site_data( 'uri', $post_id );
-
-		Api::process_response( Api::post( Api::ROUTE_BLUEPRINT_CREATE_OR_UPDATE, [ 'container_uri' => $container_uri ] ) );
-
-		dollie()->container_screenshot( $container_uri, true );
-
-		Log::add_front( Log::WP_SITE_BLUEPRINT_DEPLOYED, $container, $container->slug );
-	}
-
 	public function check_dynamic_fields() {
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'check_dynamic_fields_nonce' ) ) {
 			wp_send_json_error();
 		}
 
-		$container = dollie()->get_current_object( $_REQUEST['container'] );
+		$container = dollie()->get_container( $_REQUEST['container'] );
 
-		if ( ! $container ) {
+		if ( is_wp_error( $container ) ) {
 			wp_send_json_error();
 		}
 
-		$dynamic_fields = get_field( 'wpd_dynamic_blueprint_data', 'create_update_blueprint_' . $container->id );
-		$check_fields   = [];
+		$dynamic_fields = get_field( 'wpd_dynamic_blueprint_data', 'create_update_blueprint_' . $container->get_id() );
+		$fields         = [];
 
 		foreach ( $dynamic_fields as $field ) {
-			$check_fields[] = [
-				'search' => $field['placeholder'],
-			];
+			$fields[] = $field['placeholder'];
 		}
 
-		$response = Api::process_response(
-			Api::post(
-				Api::ROUTE_BLUEPRINT_CHECK_DYNAMIC_FIELDS,
-				[
-					'container_uri' => dollie()->get_container_url( $container->id ),
-					'fields'        => $check_fields,
-				]
-			)
+		$response = $container->check_dynamic_fields( $container->hash, $fields );
+
+		if ( is_wp_error( $response ) ) {
+			wp_send_json_error();
+		}
+
+		$missing_fields = array_filter(
+			$response,
+			function( $value ) {
+				return false === $value;
+			}
 		);
 
-		$success = true;
-
-		foreach ( $response as $placeholder => $status ) {
-			if ( ! $status ) {
-				$success = false;
-			}
-		}
-
-		if ( $success ) {
+		if ( empty( $missing_fields ) ) {
 			ob_start();
 			?>
 			<div class="dol-w-full dol-items-center dol-px-4 dol-py-2 dol-text-base dol-leading-6 dol-rounded dol-text-white dol-bg-green-600">

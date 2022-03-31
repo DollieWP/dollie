@@ -3,9 +3,9 @@
 namespace Dollie\Core\Modules;
 
 class Preview {
-    /**
-     * Preview constructor
-     */
+	/**
+	 * Preview constructor
+	 */
 	public function __construct() {
 		add_filter( 'show_admin_bar', '__return_false' );
 
@@ -89,7 +89,7 @@ class Preview {
 		} else {
 			$gp_args = [
 				'post_type'      => 'container',
-				'posts_per_page' => 1000,
+				'posts_per_page' => -1,
 				'post_status'    => 'publish',
 				'meta_query'     => [
 					'relation' => 'AND',

@@ -55,13 +55,13 @@ module.exports = {
         },
     },
     content: [
+        "./tailwind-whitelist.txt",
         "./templates/**/*",
         "./core/Admin/**/*",
         "./core/Modules/**/*",
         "./core/Shortcodes/**/*",
         "./core/Widgets/**/*",
         "./assets/js/**/*",
-        "./core/tailwind-whitelist.txt",
         "./core/Extras/**/*",
         "./core/Extras/dollie-setup/admin/templates/**/*"
     ],

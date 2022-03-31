@@ -21,9 +21,9 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					],
 					'hide_admin'        => 0,
 					'message'           => __(
-						'[dollie_blockquote type="success" icon="fal fa-globe" title="Let\'s link up your custom domain {dollie_user_display_name}!"]
+						'[dollie-blockquote type="success" icon="fal fa-globe" title="Let\'s link up your custom domain {dollie_user_display_name}!"]
 We\'ll walk you through all the steps required to link your own domain to your site. Let\'s get started shall we?
-[/dollie_blockquote]',
+[/dollie-blockquote]',
 						'dollie'
 					),
 					'new_lines'         => '',
@@ -364,24 +364,24 @@ We\'ll walk you through all the steps required to link your own domain to your s
 					'save_other_choice' => 0,
 				],
 				[
-					'key' => 'field_620f5526c41eb',
-					'label' => __('Assign to Customer', 'dollie'),
-					'name' => 'assign_to_customer',
-					'type' => 'user',
-					'instructions' => __('Directly link this new site to one of your existing customers after it\'s been launched.', 'dollie'),
+					'key'               => 'field_620f5526c41eb',
+					'label'             => __( 'Assign to Customer', 'dollie' ),
+					'name'              => 'assign_to_customer',
+					'type'              => 'user',
+					'instructions'      => __( 'Directly link this new site to one of your existing customers after it\'s been launched.', 'dollie' ),
 					'dollie_admin_only' => 1,
-					'required' => 0,
+					'required'          => 0,
 					'conditional_logic' => 0,
-					'wrapper' => array(
+					'wrapper'           => array(
 						'width' => '',
 						'class' => '',
-						'id' => '',
+						'id'    => '',
 					),
-					'hide_admin' => 0,
-					'role' => '',
-					'allow_null' => 0,
-					'multiple' => 0,
-					'return_format' => 'id',
+					'hide_admin'        => 0,
+					'role'              => '',
+					'allow_null'        => 0,
+					'multiple'          => 0,
+					'return_format'     => 'id',
 				],
 				[
 					'key'               => 'field_5fb3b53ff7445',

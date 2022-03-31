@@ -443,11 +443,10 @@ function dollie_setup() {
 // Vroom!
 dollie_setup();
 
-//Bootstrap our after setup Package file absolutely last.
+// Bootstrap our after setup Package file absolutely last.
 $package = dollie_setup_get_current_package_id();
 if ( $package ) {
-	$package_dir = sanitize_file_name(strtolower($package));
-	//Load our Package Setup File
-	require_once DOLLIE_SETUP_PLUGIN_DIR . 'includes/' . $package .  '/defaults/setup.php';
+	$package_dir = sanitize_file_name( strtolower( $package ) );
+	// Load our Package Setup File
+	require_once DOLLIE_SETUP_PLUGIN_DIR . 'includes/' . $package . '/defaults/setup.php';
 }
-

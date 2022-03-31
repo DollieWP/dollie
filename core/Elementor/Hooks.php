@@ -18,7 +18,6 @@ use Elementor\Plugin;
  * @package Dollie\Core
  */
 class Hooks extends Singleton {
-
 	/**
 	 * Hooks constructor.
 	 */
@@ -72,7 +71,6 @@ class Hooks extends Singleton {
 				$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteBackups' );
 			}
 		);
-
 	}
 
 	/**
@@ -182,11 +180,7 @@ class Hooks extends Singleton {
 
 		$post_id = (int) $_GET['elementor-preview'];
 
-		if ( 0 === $post_id ) {
-			return false;
-		}
-
-		if ( ! $this->is_doc_type( $post_id ) ) {
+		if ( 0 === $post_id || ! $this->is_doc_type( $post_id ) ) {
 			return false;
 		}
 

@@ -10,10 +10,10 @@ use Dollie\Core\Singleton;
 
 /**
  * Class Orders
+ *
  * @package Dollie\Core\Shortcodes
  */
 final class Orders extends Singleton implements Base {
-
 	/**
 	 * Orders constructor.
 	 */
@@ -48,7 +48,8 @@ final class Orders extends Singleton implements Base {
 
 		ob_start();
 		wc_get_template(
-			'myaccount/my-orders.php', array(
+			'myaccount/my-orders.php',
+			array(
 				'current_user' => get_user_by( 'id', get_current_user_id() ),
 				'order_count'  => $a['order_count'],
 			)
@@ -56,5 +57,4 @@ final class Orders extends Singleton implements Base {
 
 		return ob_get_clean();
 	}
-
 }

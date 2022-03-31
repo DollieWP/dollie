@@ -12,18 +12,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package Dollie\Core\Utils
  */
 class Tpl {
-
 	/**
 	 * Outputs or returns a template
 	 *
 	 * @param $path
 	 * @param array $args
-	 * @param bool $echo
+	 * @param bool  $echo
 	 *
 	 * @return false|string|void
 	 */
 	public static function load( $path = null, $args = [], $echo = false ) {
-
 		$template = self::get_path( $path );
 
 		if ( empty( $template ) ) {
@@ -68,7 +66,5 @@ class Tpl {
 		}
 
 		return $template;
-
 	}
-
 }

@@ -10,6 +10,7 @@ use Dollie\Core\Utils\Helpers;
 
 /**
  * Class Dollie
+ *
  * @package Dollie\Core\Extras\Library\Documents
  */
 class Dollie extends Library_Document {
@@ -17,7 +18,7 @@ class Dollie extends Library_Document {
 	/**
 	 * Document sub type meta key.
 	 */
-	const REMOTE_CATEGORY_META_KEY = '_dollie_page';
+	const REMOTE_CATEGORY_META_KEY   = '_dollie_page';
 	const SET_AS_ACTIVE_CATEGORY_KEY = '_dollie_set_as_active';
 
 	/**
@@ -29,7 +30,6 @@ class Dollie extends Library_Document {
 	 * @since 1.0.0
 	 * @access public
 	 * @static
-	 *
 	 */
 	public static function get_properties() {
 		$properties = parent::get_properties();
@@ -70,7 +70,7 @@ class Dollie extends Library_Document {
 
 		// Save template sub type
 		if ( ! empty( $_REQUEST[ self::REMOTE_CATEGORY_META_KEY ] )
-		     && array_key_exists( $_REQUEST[ self::REMOTE_CATEGORY_META_KEY ], Helpers::instance()->get_elementor_template_types() ) ) {
+			 && array_key_exists( $_REQUEST[ self::REMOTE_CATEGORY_META_KEY ], dollie()->get_elementor_template_types() ) ) {
 
 			$sub_type = sanitize_text_field( $_REQUEST[ self::REMOTE_CATEGORY_META_KEY ] );
 
@@ -104,8 +104,8 @@ class Dollie extends Library_Document {
 	protected function get_remote_library_config() {
 		$config = parent::get_remote_library_config();
 
-		$category      = $this->get_meta( self::REMOTE_CATEGORY_META_KEY );
-		$templates = Helpers::instance()->get_elementor_template_types();
+		$category  = $this->get_meta( self::REMOTE_CATEGORY_META_KEY );
+		$templates = dollie()->get_elementor_template_types();
 
 		if ( $category && isset( $templates[ $category ] ) ) {
 			$config['category'] = 'dollie ' . str_replace( '-', ' ', $category );

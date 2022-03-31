@@ -8,10 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Interface Base
+ *
  * @package Dollie\Core\Shortcodes
  */
 interface Base {
-
 	/**
 	 * @return mixed
 	 */
@@ -23,5 +23,4 @@ interface Base {
 	 * @return mixed
 	 */
 	public function shortcode( $atts );
-
 }

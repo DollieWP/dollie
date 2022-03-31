@@ -4,9 +4,12 @@
 
 <section>
 	<?php
-	$data = [
-		'posts'    => dollie()->get_dashboard_kb_articles()
-	];
-	dollie()->load_template('widgets/dashboard/dollie-kb', $data, true);
+	dollie()->load_template(
+		'widgets/dashboard/dollie-kb',
+		[
+			'posts' => dollie()->get_dashboard_kb_articles(),
+		],
+		true
+	);
 	?>
 </section>

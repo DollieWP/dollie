@@ -12,19 +12,30 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @package Dollie\Core\Widgets\General
  */
 class MainNavigation extends \Elementor\Widget_Base {
-
+	/**
+	 * @return string
+	 */
 	public function get_name() {
 		return 'dollie-main-navigation';
 	}
 
+	/**
+	 * @return string
+	 */
 	public function get_title() {
 		return esc_html__( 'Main Navigation', 'dollie' );
 	}
 
+	/**
+	 * @return string
+	 */
 	public function get_icon() {
 		return 'eicon-bullet-list';
 	}
 
+	/**
+	 * @return array
+	 */
 	public function get_categories() {
 		return [ 'dollie-category' ];
 	}

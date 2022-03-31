@@ -106,23 +106,16 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return array|bool
 	 */
 	public function get_partner_subscription() {
-		if ( ! dollie()->is_api_connected() || get_transient( 'wpd_just_connected' ) ) {
+		if ( ! dollie()->is_api_connected() ) {
 			return false;
 		}
 
 		$subscription = get_transient( 'wpd_partner_subscription' );
 
 		if ( ! $subscription ) {
-			$check_request  = Api::get( Api::ROUTE_CHECK_SUBSCRIPTION );
-			$check_response = Api::process_response( $check_request, null );
+			$subscription = Api::get( Api::ROUTE_CHECK_SUBSCRIPTION );
 
-			if ( ! $check_response ) {
-				return false;
-			}
-
-			$subscription = $check_response['data'];
-
-			set_transient( 'wpd_partner_subscription', $subscription, HOUR_IN_SECONDS * 6 );
+			set_transient( 'wpd_partner_subscription', $subscription, MINUTE_IN_SECONDS * 10 );
 		}
 
 		return $subscription;
@@ -136,11 +129,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	public function has_partner_subscription() {
 		$subscription = $this->get_partner_subscription();
 
-		if ( ! $subscription ) {
-			return false;
-		}
-
-		return $subscription['active'];
+		return false === $subscription ? $subscription : $subscription['active'];
 	}
 
 	/**
@@ -160,11 +149,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	public function is_partner_subscription_trial() {
 		$subscription = $this->get_partner_subscription();
 
-		if ( ! $subscription ) {
-			return false;
-		}
-
-		return $subscription['subscription']['trial'];
+		return false === $subscription ? $subscription : $subscription['subscription']['trial'];
 	}
 
 	/**
@@ -175,11 +160,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	public function get_partner_subscription_credits() {
 		$subscription = $this->get_partner_subscription();
 
-		if ( ! $subscription ) {
-			return 0;
-		}
-
-		return $subscription['subscription']['limit'];
+		return false === $subscription ? 0 : $subscription['subscription']['limit'];
 	}
 
 }

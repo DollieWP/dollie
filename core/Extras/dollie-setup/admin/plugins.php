@@ -383,7 +383,6 @@ class Dollie_Setup_Admin_Plugins {
 	public function setup_plugins_page() {
 		// see if DOLLIE_SETUP is fully setup
 		if ( dollie_setup_is_setup() ) {
-			// add our plugins page
 			$plugin_page = add_submenu_page(
 				'dollie_setup',
 				__( 'Dollie Setup Plugins', 'dollie-setup' ),
@@ -398,7 +397,6 @@ class Dollie_Setup_Admin_Plugins {
 
 			// validate any settings changes submitted from the Dollie plugins page
 			add_action( "load-{$plugin_page}", array( $this, 'validate_dollie_setup_dashboard' ) );
-
 		}
 	}
 

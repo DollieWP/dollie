@@ -1,6 +1,6 @@
 <?php
 
-if (!isset($view_type)) {
+if ( ! isset( $view_type ) ) {
 	$view_type = 'list';
 }
 
@@ -10,8 +10,8 @@ if (!isset($view_type)) {
 // $bulk_actions          = dollie()->get_bulk_actions();
 // $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
 
-//dollie()->load_template( 'loop/parts/modal-actions', [], true );
-//dollie()->load_template( 'loop/parts/modal-filters', [], true );
+// dollie()->load_template( 'loop/parts/modal-actions', [], true );
+// dollie()->load_template( 'loop/parts/modal-filters', [], true );
 
 ?>
 
@@ -26,37 +26,44 @@ if (!isset($view_type)) {
 			</svg>
 		</div>
 	</div>
-	<?php if ($sites->have_posts()) : ?>
-		<?php if (isset($_GET['blueprints']) && $_GET['blueprints']) : ?>
+	<?php if ( $containers->have_posts() ) : ?>
+		<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
 			<div class="dol-bg-primary dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full dol-text-sm dol-mb-3">
-				<?php esc_html_e('You are now viewing the blueprints made by you and your team.', 'dollie'); ?>
+				<?php esc_html_e( 'You are now viewing the blueprints made by you and your team.', 'dollie' ); ?>
 			</div>
 		<?php endif; ?>
 
 		<div class="dol-sites-container list">
-			<?php while ($sites->have_posts()) : ?>
+			<?php while ( $containers->have_posts() ) : ?>
 				<?php
 
-				$sites->the_post();
+				$containers->the_post();
 
-				$list_item_class        = [];
-				$btn_controls_classes   = [];
+				$container = dollie()->get_container( get_the_ID() );
 
-				$domain           = dollie()->get_wp_site_data('uri', get_the_ID());
+				if ( is_wp_error( $container ) ) {
+					continue;
+				}
+
+				$list_item_class      = [];
+				$btn_controls_classes = [];
+
+				$domain = dollie()->get_wp_site_data( 'uri', get_the_ID() );
 
 				$data = [
-					'slug'       => get_post_field('post_name', get_the_ID()),
-					'domain'     => get_post_meta(get_the_ID(), 'wpd_domains', true) ?: dollie()->get_container_url(get_the_ID()),
-					'name'       => get_post_meta(get_the_ID(), 'wpd_installation_name', true) ?: __('Unnamed', 'dollie'),
-					'wp_version' => get_post_meta(get_the_ID(), 'wpd_installation_version', true),
-					'is_running' => dollie()->get_container_status(get_the_ID()) === 'start',
+					'slug'       => $container->get_name(),
+					'domain'     => $container->get_url(),
+					'name'       => $container->get_title(),
+					'wp_version' => $container->get_meta( 'wp_version' ),
+					'is_running' => 'Running' === $container->get_status(),
 				];
 
 
-				if (dollie()->is_blueprint(get_the_ID())) {
+				if ( $container->is_blueprint() ) {
 					$list_item_class[] = 'dol-blueprint-site';
-					if (get_field('wpd_installation_blueprint_title', get_the_ID())) {
-						$data['name'] = get_field('wpd_installation_blueprint_title', get_the_ID());
+					$blueprint_title   = $container->get_saved_title();
+					if ( $blueprint_title ) {
+						$data['name'] = $blueprint_title;
 					}
 				}
 
@@ -65,20 +72,20 @@ if (!isset($view_type)) {
 
 				$list_item_class[] = 'dol-sites-' . $view_type . '-item';
 
-				$btn_controls_classes   = implode(' ', $btn_controls_classes);
-				$list_item_class        = implode(' ', $list_item_class);
+				$btn_controls_classes = implode( ' ', $btn_controls_classes );
+				$list_item_class      = implode( ' ', $list_item_class );
 
 				?>
-				<div class="dol-sites-item <?php echo esc_attr($list_item_class); ?>" data-site-name="<?php echo esc_attr($domain); ?>">
+				<div class="dol-sites-item <?php echo esc_attr( $list_item_class ); ?>" data-site-name="<?php echo esc_attr( $domain ); ?>">
 					<div class="dol-sites-item-inner dol-relative dol-divide-y dol-divide-gray-200 dol-shadow dol-rounded-md dol-widget-custom">
 
 						<div class="dol-sites-image dol-relative">
 							<div class="dol-sites-image-box">
-								<?php echo dollie()->get_site_screenshot(get_the_ID()); ?>
+								<?php echo dollie()->get_site_screenshot( get_the_ID() ); ?>
 							</div>
 
 							<div class="dol-sites-status">
-								<?php if ($data['is_running']) : ?>
+								<?php if ( $data['is_running'] ) : ?>
 									<span class="dol-flex dol-h-4 dol-w-4 dol-relative">
 										<span class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w-full dol-rounded-full dol-bg-green-500 dol-opacity-75"></span>
 										<span class="dol-relative dol-inline-flex dol-rounded-full dol-h-4 dol-w-4 dol-bg-green-600"></span>
@@ -94,37 +101,37 @@ if (!isset($view_type)) {
 						<div class="dol-sites-name">
 							<div class="dol-px-4">
 								<div class="dol-font-bold dol-text-lg dol-cursor-default dol-truncate">
-									<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600" href="<?php echo dollie()->get_site_url(get_the_ID()); ?>" title="<?php echo esc_attr($data['name']); ?>">
-										<?php echo esc_html($data['name']); ?>
+									<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600" href="<?php echo $container->get_url(); ?>" title="<?php echo esc_attr( $data['name'] ); ?>">
+										<?php echo esc_html( $data['name'] ); ?>
 									</a>
 								</div>
 
 								<div class="dol-flex dol-items-center dol-truncate">
-									<a class="dol-item-url dol-text-brand-500 hover:dol-text-brand-600 dol-text-sm dol-leading-normal dol-truncate" href="<?php echo esc_url($data['domain']); ?>" title="<?php echo esc_html($data['domain']); ?>" target="_blank">
-										<?php echo esc_html($data['domain']); ?>
+									<a class="dol-item-url dol-text-brand-500 hover:dol-text-brand-600 dol-text-sm dol-leading-normal dol-truncate" href="<?php echo $container->get_url(); ?>" title="<?php echo esc_html( $data['domain'] ); ?>" target="_blank">
+										<?php echo esc_html( $data['domain'] ); ?>
 									</a>
 								</div>
 							</div>
 						</div>
 						<div class="dol-sites-version dol-cursor-default dol-text-sm">
 							<div class="dol-font-semibold dol-text-gray-500">
-								<?php esc_html_e('WordPress', 'dollie'); ?>
+								<?php esc_html_e( 'WordPress', 'dollie' ); ?>
 							</div>
 							<div class="dol-font-bold ">
-								<?php printf(__('Version %s', 'dollie'), $data['wp_version']); ?>
+								<?php printf( __( 'Version %s', 'dollie' ), $data['wp_version'] ); ?>
 							</div>
 						</div>
-						<?php if (dollie()->is_blueprint(get_the_ID())) : ?>
+						<?php if ( $container->is_blueprint() ) : ?>
 							<div class="dol-sites-client dol-cursor-default dol-text-sm">
 								<div class="dol-font-semibold dol-text-gray-500">
-									<?php esc_html_e('Blueprint Updated', 'dollie'); ?>
+									<?php esc_html_e( 'Blueprint Updated', 'dollie' ); ?>
 								</div>
 								<div class="dol-font-bold">
-									<?php if (get_post_meta(get_the_ID(), 'wpd_blueprint_time', true)) : ?>
-										<?php echo get_post_meta(get_the_ID(), 'wpd_blueprint_time', true); ?>
+									<?php if ( $container->get_changes_update_time() ) : ?>
+										<?php echo $container->get_changes_update_time(); ?>
 									<?php else : ?>
-										<a class="dol-link" href="<?php echo get_the_permalink(get_the_ID()); ?>blueprints">
-											<?php esc_html_e('Never. Update now!', 'dollie'); ?>
+										<a class="dol-link" href="<?php echo $container->get_permalink(); ?>blueprints">
+											<?php esc_html_e( 'Never. Update now!', 'dollie' ); ?>
 										</a>
 									<?php endif; ?>
 								</div>
@@ -132,7 +139,7 @@ if (!isset($view_type)) {
 						<?php else : ?>
 							<div class="dol-sites-client dol-cursor-default dol-text-sm">
 								<div class="dol-font-semibold dol-text-gray-500">
-									<?php echo dollie()->get_user_type_plural_string(); ?>
+									<?php echo dollie()->string_variants()->get_user_type_plural_string(); ?>
 								</div>
 								<div class="dol-font-bold ">
 									<?php echo get_the_author(); ?>
@@ -140,38 +147,38 @@ if (!isset($view_type)) {
 							</div>
 						<?php endif; ?>
 						<div class="dol-sites-controls">
-							<?php if (dollie()->is_blueprint(get_the_ID())) : ?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_the_permalink(get_the_ID()); ?>blueprints" data-tooltip="<?php echo esc_attr__('Update Blueprint', 'dollie'); ?>">
-									<?php echo dollie()->get_icon_refresh(); ?>
+							<?php if ( $container->is_blueprint() ) : ?>
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink(); ?>blueprints" data-tooltip="<?php echo esc_attr__( 'Update Blueprint', 'dollie' ); ?>">
+									<?php echo dollie()->icon()->refresh(); ?>
 								</a>
 							<?php else : ?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo dollie()->get_site_url(get_the_ID()); ?>" data-tooltip="<?php echo esc_attr__('Manage', 'dollie'); ?>">
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_url(); ?>" data-tooltip="<?php echo esc_attr__( 'Manage', 'dollie' ); ?>">
 									<i data-tooltip="Carefully crafted site designs made by our team which you can use as a starting point for your new site." class="fas fa-cog svg-tooltip acf__tooltip"></i>
 								</a>
 							<?php endif; ?>
 
 							<?php
-							$staging_url = get_post_meta(get_the_ID(), '_wpd_staging_url', true);
-							if ($staging_url) :
-							?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_the_permalink(get_the_ID()); ?>staging" data-tooltip="<?php echo esc_attr__('Visit Staging Area', 'dollie'); ?>">
-									<?php echo dollie()->get_icon_staging(); ?>
+							$staging_url = get_post_meta( get_the_ID(), '_wpd_staging_url', true );
+							if ( $staging_url ) :
+								?>
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_the_permalink( get_the_ID() ); ?>staging" data-tooltip="<?php echo esc_attr__( 'Visit Staging Area', 'dollie' ); ?>">
+									<?php echo dollie()->icon()->staging(); ?>
 								</a>
 							<?php endif; ?>
 
 
 							<?php
-							$login_link = dollie()->get_customer_login_url(get_the_ID());
-							if (!empty($login_link)) :
-							?>
-								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo esc_url($login_link); ?>" data-tooltip="<?php printf(esc_html__('Login to %s as Admin', 'dollie-setup'), dollie()->get_site_type_string()); ?>">
-									<?php echo dollie()->get_icon_site_login(); ?>
+							$login_link = $container->get_login_url();
+							if ( ! empty( $login_link ) ) :
+								?>
+								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo esc_url( $login_link ); ?>" data-tooltip="<?php printf( esc_html__( 'Login to %s as Admin', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?>">
+									<?php echo dollie()->icon()->site_login(); ?>
 								</a>
 							<?php endif; ?>
 						</div>
 					</div>
 				</div>
-			<?php
+				<?php
 			endwhile;
 			wp_reset_postdata();
 			?>
@@ -180,21 +187,19 @@ if (!isset($view_type)) {
 	<?php else : ?>
 		<div class="dol-flex dol-items-center dol-justify-center">
 			<div class="dol-text-2xl dol-text-primary-600">
-				<?php //printf(esc_html__('No %s Launched Yet..', 'dollie-setup'), dollie()->get_site_type_plural_string());
+				<?php
+				// printf(esc_html__('No %s Launched Yet..', 'dollie-setup'), dollie()->get_site_type_plural_string());
 
 				$data = [
-						'settings' => array(
-							'title' => sprintf(esc_html__('Ready to Launch your first %s?', 'dollie-setup'), dollie()->get_site_type_string()),
-							'subtitle' => 'Launching your first %s via your own %s Platform is something special. What are you waiting for %s, it is time to witness the magic.'
-						),
+					'settings' => array(
+						'title'    => sprintf( esc_html__( 'Ready to Launch your first %s?', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ),
+						'subtitle' => 'Launching your first %s via your own %s Platform is something special. What are you waiting for %s, it is time to witness the magic.',
+					),
 				];
 
-				dollie()->load_template('widgets/dashboard/launch-site', $data, true);
+				dollie()->load_template( 'widgets/dashboard/launch-site', $data, true );
+
 				?>
-
-
-
-
 			</div>
 		</div>
 	<?php endif; ?>

@@ -1,4 +1,4 @@
-<?php if ( dollie()->has_dollie_layout_widget() ) : ?>
+<?php if ( dollie()->has_layout_widget() ) : ?>
 <!DOCTYPE html>
 	<html <?php language_attributes(); ?>>
 
@@ -43,7 +43,7 @@
 	}
 	?>
 
-<?php if ( dollie()->has_dollie_layout_widget() ) : ?>
+<?php if ( dollie()->has_layout_widget() ) : ?>
 		<?php wp_footer(); ?>
 	</body>
 

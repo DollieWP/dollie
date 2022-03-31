@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
+use Dollie\Core\Factories\User;
 
 /**
  * Class AccessControl
@@ -18,8 +19,8 @@ class AccessControl extends Singleton {
 	 * Custom capabilities of custom post type
 	 */
 	private static $custom_caps = [
-		'singular' => 'wpd_site',
-		'plural'   => 'wpd_sites',
+		'singular' => 'dollie_site',
+		'plural'   => 'dollie_sites',
 	];
 
 	/**
@@ -51,30 +52,13 @@ class AccessControl extends Singleton {
 
 	}
 
-	public function can_view_all_sites( $user_id = null ) {
-		if ( empty( $user_id ) ) {
-			$user_id = get_current_user_id();
-		}
-
-		return user_can( $user_id, 'read_private_wpd_sites' );
-	}
-
-	public function can_manage_all_sites( $user_id = null ) {
-		if ( empty( $user_id ) ) {
-			$user_id = get_current_user_id();
-		}
-
-		return user_can( $user_id, 'edit_others_wpd_sites' );
-	}
-
-	public function can_delete_all_sites( $user_id = null ) {
-		if ( empty( $user_id ) ) {
-			$user_id = get_current_user_id();
-		}
-
-		return user_can( $user_id, 'delete_others__wpd_sites' );
-	}
-
+	/**
+	 * Filter sites for current author
+	 *
+	 * @param [type] $query
+	 *
+	 * @return void
+	 */
 	public function sites_for_current_author( $query ) {
 		if ( ! is_admin() ) {
 			return $query;
@@ -86,9 +70,9 @@ class AccessControl extends Singleton {
 			return $query;
 		}
 
-		if ( ! $this->can_view_all_sites() ) {
-
-			$query->set( 'author', get_current_user_id() );
+		$user = new User();
+		if ( ! $user->can_view_all_sites() ) {
+			$query->set( 'author', $user->get_id() );
 		}
 
 		return $query;
@@ -247,6 +231,11 @@ class AccessControl extends Singleton {
 
 	}
 
+	/**
+	 * Get roles
+	 *
+	 * @return void
+	 */
 	private function get_roles() {
 		global $wp_roles;
 		$roles = $wp_roles->get_names();
@@ -257,13 +246,21 @@ class AccessControl extends Singleton {
 	}
 
 	/**
+	 * Get available sections
+	 *
 	 * @return mixed
 	 */
 	public function get_available_sections() {
 		$available_sections_array = get_field( 'available_sections', 'option' );
 
 		if ( get_field( 'wpd_enable_blueprints_for', 'option' ) === 'all' && ! current_user_can( 'manage_options' ) ) {
-			$available_sections_array = dollie()->remove_element_with_value( $available_sections_array, 'value', 'blueprints' );
+			$available_sections_array = array_filter(
+				$available_sections_array,
+				function( $v, $k ) {
+					return $v['value'] != 'blueprints';
+				},
+				ARRAY_FILTER_USE_BOTH
+			);
 		}
 
 		$available_sections_array[] = 'staging';
@@ -273,6 +270,8 @@ class AccessControl extends Singleton {
 
 	/**
 	 * Allow only logged in users
+	 *
+	 * @return void
 	 */
 	public function logged_in_only() {
 		$login_id = dollie()->get_login_page_id();
@@ -290,6 +289,8 @@ class AccessControl extends Singleton {
 
 	/**
 	 * Launch site only for logged in users
+	 *
+	 * @return void
 	 */
 	public function protect_launch_site() {
 		$launch_id = dollie()->get_launch_page_id();
@@ -308,11 +309,14 @@ class AccessControl extends Singleton {
 
 	/**
 	 * Protect container access
+	 *
+	 * @return void
 	 */
 	public function protect_container_access() {
 		$sub_page = get_query_var( 'sub_page' );
+		$user     = new User();
 
-		if ( dollie()->can_manage_all_sites() ) {
+		if ( $user->can_manage_all_sites() ) {
 			return;
 		}
 
@@ -354,8 +358,9 @@ class AccessControl extends Singleton {
 	 * @return array
 	 */
 	public function add_permissions_body_class( $classes ) {
+		$user = new User();
 
-		if ( dollie()->can_manage_all_sites() || current_user_can( 'manage_options' ) ) {
+		if ( $user->can_manage_all_sites() || current_user_can( 'manage_options' ) ) {
 			$classes[] = 'dol-is-admin';
 		} else {
 			$classes[] = 'dol-is-user';
@@ -366,6 +371,10 @@ class AccessControl extends Singleton {
 
 	/**
 	 * Protect container access
+	 *
+	 * @param [type] $field
+	 *
+	 * @return void
 	 */
 	public function acf_field_access( $field ) {
 
@@ -387,14 +396,15 @@ class AccessControl extends Singleton {
 	 * Protect container access
 	 */
 	public function acf_field_prepare_access( $field ) {
-
 		// bail early if no 'admin_only' setting
 		if ( empty( $field['dollie_admin_only'] ) ) {
 			return $field;
 		}
 
 		// return false if is not Dollie admin (removes field)
-		if ( ! dollie()->can_manage_all_sites() || ! current_user_can( 'manage_options' ) ) {
+		$user = new User();
+
+		if ( ! $user->can_manage_all_sites() || ! current_user_can( 'manage_options' ) ) {
 			return true;
 		}
 
@@ -414,12 +424,18 @@ class AccessControl extends Singleton {
 			return;
 		}
 
-		if ( 'domains' === $sub_page && dollie()->is_blueprint( $wp_query->post->ID ) ) {
+		$container = dollie()->get_container( $wp_query->post->ID );
+
+		if ( is_wp_error( $container ) ) {
+			return;
+		}
+
+		if ( 'domains' === $sub_page && $container->is_blueprint() ) {
 			wp_redirect( get_permalink() );
 			exit();
 		}
 
-		if ( 'blueprints' === $sub_page && ! dollie()->is_blueprint( $wp_query->post->ID ) ) {
+		if ( 'blueprints' === $sub_page && ! $container->is_blueprint() ) {
 			wp_redirect( get_permalink() );
 			exit();
 		}
@@ -478,5 +494,4 @@ class AccessControl extends Singleton {
 
 		return $allcaps;
 	}
-
 }

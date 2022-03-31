@@ -12,7 +12,7 @@ class SiteImageRemoteInfo extends Data_Tag {
 	public function __construct( array $data = [] ) {
 		parent::__construct( $data );
 
-		$current_id = dollie()->get_current_site_id();
+		$current_id = dollie()->get_current_post_id();
 
 		$this->wpd_data = \Dollie\Core\Modules\Container::instance()->get_container_details( $current_id );
 

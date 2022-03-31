@@ -51,7 +51,7 @@ class SiteContent extends \Elementor\Widget_Base {
 			return false;
 		}
 
-		$current_id = dollie()->get_current_site_id();
+		$current_id = dollie()->get_current_post_id();
 
 		$data = [
 			'settings'   => $this->get_settings_for_display(),

@@ -37,8 +37,8 @@ class Staging extends Singleton {
 		add_action( 'template_redirect', [ $this, 'undeploy' ] );
 		add_action( 'template_redirect', [ $this, 'sync' ] );
 
-		add_action( 'template_redirect', [ $this, 'update_deploy' ] );
-		add_action( 'template_redirect', [ $this, 'update_sync' ] );
+		add_action( 'template_redirect', [ $this, 'check_deploy' ] );
+		add_action( 'template_redirect', [ $this, 'check_sync' ] );
 	}
 
 	/**
@@ -106,65 +106,11 @@ class Staging extends Singleton {
 			return;
 		}
 
-		$container_id  = get_the_ID();
-		$deploy_status = 'pending';
+		// deploy service
 
-		$post_body = [
-			'source'  => dollie()->get_container_url( $container_id ),
-			'envVars' => [
-				'S5_DEPLOYMENT_URL' => get_site_url(),
-			],
-		];
+		$container = dollie()->get_container();
 
-		// Send the API request.
-		$request_container_deploy  = Api::post( Api::ROUTE_CONTAINER_STAGING_DEPLOY, $post_body );
-		$response_container_deploy = Api::process_response( $request_container_deploy );
-
-		if ( is_array( $response_container_deploy ) && ! $response_container_deploy['job'] ) {
-			Log::add_front(
-				self::LOG_DEPLOY_FAILED,
-				dollie()->get_current_object( $container_id ),
-				$response_container_deploy['route'],
-				print_r( $request_container_deploy, true )
-			);
-
-			$deploy_status = 'failed';
-		} elseif ( ! is_array( $response_container_deploy ) ) {
-			Log::add_front(
-				self::LOG_DEPLOY_FAILED,
-				dollie()->get_current_object( $container_id ),
-				'',
-				print_r( $request_container_deploy, true )
-			);
-
-			$deploy_status = 'failed';
-		}
-
-		$domain = $response_container_deploy['route'];
-
-		$staging_data = get_post_meta( $container_id, self::OPTION_DATA, true );
-
-		if ( empty( $staging_data ) ) {
-			$staging_data = [];
-		}
-
-		$staging_data[ $domain ] = [
-			'status' => $deploy_status,
-		];
-
-		if ( 'failed' !== $deploy_status ) {
-			Log::add_front(
-				self::LOG_DEPLOY_STARTED,
-				dollie()->get_current_object( $container_id ),
-				$domain
-			);
-
-			Container::instance()->set_staging_deploy_job( $container_id, $response_container_deploy['job'] );
-			update_post_meta( $container_id, self::OPTION_URL, $domain );
-			update_post_meta( $container_id, self::OPTION_DATA, $staging_data );
-		}
-
-		wp_redirect( dollie()->get_site_url( get_the_ID(), 'staging' ) );
+		wp_redirect( $container->get_permalink( 'staging' ) );
 		die();
 	}
 
@@ -178,27 +124,15 @@ class Staging extends Singleton {
 			return;
 		}
 
-		$container_id = get_the_ID();
-		$domain       = get_post_meta( $container_id, self::OPTION_URL, true );
-		$staging_data = get_post_meta( $container_id, self::OPTION_DATA, true );
+		$container = dollie()->get_container();
 
-		if ( ! $domain || ! is_array( $staging_data ) || ! isset( $staging_data[ $domain ] ) ) {
+		if ( is_wp_error( $container ) || ! $container->is_staging() ) {
 			return;
 		}
 
-		$post_body = [
-			'source' => $domain,
-			'target' => str_replace( 'https://', '', dollie()->get_container_url( $container_id ) ),
-		];
+		$container->sync();
 
-		$request_container_sync  = Api::post( Api::ROUTE_CONTAINER_STAGING_SYNC, $post_body );
-		$response_container_sync = Api::process_response( $request_container_sync );
-
-		if ( $response_container_sync ) {
-			Api::save_execution( $container_id, $response_container_sync );
-		}
-
-		wp_redirect( dollie()->get_site_url( get_the_ID(), 'staging' ) );
+		wp_redirect( $container->get_permalink( 'staging' ) );
 		die();
 	}
 
@@ -212,35 +146,15 @@ class Staging extends Singleton {
 			return;
 		}
 
-		$container_id = get_the_ID();
-		$staging_url  = get_post_meta( $container_id, '_wpd_staging_url', true );
-		$staging_data = get_post_meta( $container_id, self::OPTION_DATA, true );
-		$domain       = get_post_meta( $container_id, self::OPTION_URL, true );
+		$container = dollie()->get_container();
 
-		if ( ! $staging_url || ! $staging_data ) {
+		if ( is_wp_error( $container ) || ! $container->is_staging() ) {
 			return;
 		}
 
-		$request_container_undeploy  = Api::post(
-			Api::ROUTE_CONTAINER_STAGING_UNDEPLOY,
-			[
-				'container_id' => $staging_data[ $staging_url ]['data']['id'],
-			]
-		);
-		$response_container_undeploy = Api::process_response( $request_container_undeploy );
+		$container->undeploy();
 
-		if ( 200 === $response_container_undeploy['status'] ) {
-			delete_post_meta( $container_id, self::OPTION_URL );
-			delete_post_meta( $container_id, self::OPTION_DATA );
-
-			Log::add_front(
-				self::LOG_UNDEPLOY,
-				dollie()->get_current_object( $container_id ),
-				$domain
-			);
-		}
-
-		wp_redirect( dollie()->get_site_url( get_the_ID(), 'staging' ) );
+		wp_redirect( $container->get_permalink( 'staging' ) );
 		die();
 	}
 
@@ -249,8 +163,7 @@ class Staging extends Singleton {
 	 *
 	 * @return void
 	 */
-	public function update_deploy() {
-
+	public function check_deploy() {
 		if ( ! is_singular( 'container' ) ) {
 			return;
 		}
@@ -261,41 +174,7 @@ class Staging extends Singleton {
 			return;
 		}
 
-		$data   = WP::instance()->process_deploy_status( $deploy_job_uuid );
-		$site   = dollie()->get_current_object();
-		$domain = get_post_meta( $site->id, self::OPTION_URL, true );
-
-		if ( false === $data ) {
-			return;
-		}
-
-		if ( is_wp_error( $data ) ) {
-			Log::add_front(
-				self::LOG_DEPLOY_FAILED,
-				dollie()->get_current_object( $site->id ),
-				$domain
-			);
-
-			delete_post_meta( $site->id, self::OPTION_URL );
-			delete_post_meta( $site->id, self::OPTION_DATA );
-			Container::instance()->remove_staging_deploy_job( $site->id );
-
-			return;
-		}
-
-		Log::add_front(
-			self::LOG_DEPLOYED,
-			dollie()->get_current_object( $site->id ),
-			$domain
-		);
-
-		$staging_data = get_post_meta( $site->id, self::OPTION_DATA, true );
-
-		$staging_data[ $domain ]['status'] = 'live';
-		$staging_data[ $domain ]['data']   = $data['data']['deployment'];
-		update_post_meta( $site->id, self::OPTION_DATA, $staging_data );
-
-		Container::instance()->remove_staging_deploy_job( $site->id );
+		// check for staging deploy
 	}
 
 	/**
@@ -303,29 +182,12 @@ class Staging extends Singleton {
 	 *
 	 * @return void
 	 */
-	public function update_sync() {
-
+	public function check_sync() {
 		if ( ! is_singular( 'container' ) ) {
 			return;
 		}
 
-		$execution = dollie()->get_execution( get_the_ID(), Api::EXECUTION_STAGING_SYNC );
-
-		if ( ! $execution ) {
-			return;
-		}
-
-		if ( 0 === $execution['status'] ) {
-			$data = dollie()->get_execution_status( $execution['id'], Api::EXECUTION_STAGING_SYNC );
-
-			if ( is_wp_error( $data ) ) {
-				dollie()->remove_execution( get_the_ID(), Api::EXECUTION_STAGING_SYNC );
-
-				return;
-			}
-
-			dollie()->save_execution( get_the_ID(), $data );
-		}
+		// check sync status
 	}
 
 }

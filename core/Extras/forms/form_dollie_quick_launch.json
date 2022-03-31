@@ -1,28 +1,28 @@
 {
-    "key": "form_dollie_quick_launch",
-    "title": "[Setup] Quick Launch",
-    "display": {
-        "description": "Allow clients to launch a site quickly, with less options.",
-        "success_message": "[dollie_blockquote type=\"success\" icon=\"fa fa-rocket\" title=\"Awesome, your site is launched!\"]\r\nGo ahead and <a href=\"{dollie_container_login_url}\" target=\"_blank\" rel=\"noopener\">check it out<\/a>\r\n[\/dollie_blockquote]"
-    },
-    "create_entries": false,
-    "is_launch_site": true,
-    "splash_template": "launch-splash",
-    "site_blueprint": false,
-    "redirect_to_site": true,
-    "restrictions": {
-        "entries": false,
-        "user": false,
-        "schedule": false
-    },
-    "emails": false,
-    "editing": {
-        "user": false,
-        "post": false,
-        "term": false
-    },
-    "slack": false,
-    "mailchimp": false,
-    "zapier": false,
-    "calculated": []
+  "key": "form_dollie_quick_launch",
+  "title": "[Setup] Quick Launch",
+  "display": {
+    "description": "Allow clients to launch a site quickly, with less options.",
+    "success_message": "[dollie-blockquote type=\"success\" icon=\"fa fa-rocket\" title=\"Awesome, your site is launched!\"]\r\nGo ahead and <a href=\"{dollie_container_login_url}\" target=\"_blank\" rel=\"noopener\">check it out</a>\r\n[/dollie-blockquote]"
+  },
+  "create_entries": false,
+  "is_launch_site": true,
+  "splash_template": "launch-splash",
+  "site_blueprint": false,
+  "redirect_to_site": true,
+  "restrictions": {
+    "entries": false,
+    "user": false,
+    "schedule": false
+  },
+  "emails": false,
+  "editing": {
+    "user": false,
+    "post": false,
+    "term": false
+  },
+  "slack": false,
+  "mailchimp": false,
+  "zapier": false,
+  "calculated": []
 }

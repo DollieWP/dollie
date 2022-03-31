@@ -26,13 +26,13 @@ class SiteBackups extends Tag {
 	}
 
 	public function render() {
+		$available_backups = dollie()->get_site_total_backups( dollie()->get_current_post_id() );
 
-		$available_backups = dollie()->get_site_total_backups( dollie()->get_current_site_id() );
 		if ( ! $available_backups ) {
 			$available_backups = 0;
 		}
-		echo wp_kses_post( $available_backups );
 
+		echo wp_kses_post( $available_backups );
 	}
 
 }

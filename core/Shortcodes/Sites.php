@@ -15,7 +15,6 @@ use WP_Query;
  * @package Dollie\Core\Shortcodes
  */
 final class Sites extends Singleton implements Base {
-
 	/**
 	 * Sites constructor.
 	 */
@@ -79,8 +78,8 @@ final class Sites extends Singleton implements Base {
 			$args['meta_query'] = [
 				'relation' => 'OR',
 				[
-					'key'     => 'wpd_is_blueprint',
-					'value'   => 'yes',
+					'key'     => 'dollie_container_type',
+					'value'   => '1',
 					'compare' => '=',
 				],
 			];

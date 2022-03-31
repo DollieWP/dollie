@@ -6,14 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Modules\Forms\CreateBackup;
-use Dollie\Core\Modules\Forms\DomainConnect;
-use Dollie\Core\Modules\Forms\LaunchSite;
-use Dollie\Core\Modules\Forms\ListBackups;
-use Dollie\Core\Modules\Forms\Performance;
-use Dollie\Core\Modules\Forms\PluginUpdates;
-use Dollie\Core\Modules\Forms\DeleteSite;
-use Dollie\Core\Modules\Forms\QuickLaunch;
+use Dollie\Core\Forms\CreateBackup;
+use Dollie\Core\Forms\DomainConnect;
+use Dollie\Core\Forms\LaunchSite;
+use Dollie\Core\Forms\ListBackups;
+use Dollie\Core\Forms\Performance;
+use Dollie\Core\Forms\PluginUpdates;
+use Dollie\Core\Forms\DeleteSite;
+use Dollie\Core\Forms\QuickLaunch;
 use Dollie\Core\Singleton;
 
 /**
@@ -111,8 +111,8 @@ class Forms extends Singleton {
 
 		if ( ( 'dollie_container_url' === $tag ) && isset( $_POST['dollie_post_id'] ) ) {
 			$container = self::get_form_container();
-			if ( $container ) {
-				return dollie()->get_container_url( (int) $container->id );
+			if ( ! is_wp_error( $container ) ) {
+				return $container->get_url();
 			}
 		}
 
@@ -132,6 +132,7 @@ class Forms extends Singleton {
 			'value' => 'dollie_container_login_url',
 			'label' => __( 'Dollie Container Login URL', 'dollie' ),
 		];
+
 		$tags[] = [
 			'value' => 'dollie_container_url',
 			'label' => __( 'Dollie Container URL', 'dollie' ),
@@ -147,8 +148,9 @@ class Forms extends Singleton {
 	 */
 	public function get_container_login_url() {
 		$container = self::get_form_container();
-		if ( $container ) {
-			return dollie()->get_customer_login_url( (int) $container->id );
+
+		if ( ! is_wp_error( $container ) ) {
+			return $container->get_login_url();
 		}
 
 		return '';
@@ -165,20 +167,23 @@ class Forms extends Singleton {
 		if ( ! function_exists( 'advanced_form' ) ) {
 			return '';
 		}
+
 		$form_id_or_key = $atts['form'];
 		unset( $atts['form'] );
 
 		$atts['echo'] = false;
-		if ( isset( $atts['values'] ) ) {
 
+		if ( isset( $atts['values'] ) ) {
 			$final_values = [];
 			$values_array = explode( ',', $atts['values'] );
+
 			foreach ( $values_array as $value ) {
 				$array_value = explode( ':', $value );
 				if ( count( $array_value ) > 1 ) {
 					$final_values[ $array_value[0] ] = $array_value[1];
 				}
 			}
+
 			$atts['values'] = $final_values;
 		}
 
@@ -246,7 +251,6 @@ class Forms extends Singleton {
 		update_field( 'field_form_site_blueprint', $form['site_blueprint'], $post->ID );
 		update_field( 'field_form_redirect_to_site', $form['redirect_to_site'], $post->ID );
 	}
-
 
 	/**
 	 * Change form args based on Form settings
@@ -500,13 +504,17 @@ class Forms extends Singleton {
 	 */
 	public function add_acf_placeholders( $field ) {
 		if ( isset( $field['message'] ) && $field['message'] ) {
-			$current_query = dollie()->get_current_object();
+			$container = dollie()->get_container();
+
+			if ( is_wp_error( $container ) ) {
+				return $field;
+			}
 
 			$user = wp_get_current_user();
 
-			$ip     = dollie()->get_wp_site_data( 'ip', $current_query->id );
-			$url    = dollie()->get_wp_site_data( 'uri', $current_query->id );
-			$domain = get_post_meta( $current_query->id, 'wpd_domains', true ) ?: '';
+			$ip     = $container->get_meta( 'ip' );
+			$url    = $container->get_url();
+			$domain = $container->get_custom_domain();
 
 			$tpl_domain_not_managed = dollie()->load_template(
 				'widgets/site/pages/domain/connect/not-managed',
@@ -514,7 +522,7 @@ class Forms extends Singleton {
 					'has_domain'    => $domain,
 					'ip'            => $ip,
 					'platform_url'  => $url,
-					'current_query' => $current_query,
+					'current_query' => $container,
 				]
 			);
 
@@ -599,22 +607,16 @@ class Forms extends Singleton {
 	 */
 	public static function get_form_container() {
 		if ( isset( AF()->submission['extra'], AF()->submission['extra']['dollie_container_id'] ) ) {
-			$container_id = AF()->submission['extra']['dollie_container_id'];
+			$post_id = AF()->submission['extra']['dollie_container_id'];
 		} elseif ( isset( $_POST['dollie_post_id'] ) ) {
-			$container_id = (int) $_POST['dollie_post_id'];
+			$post_id = (int) $_POST['dollie_post_id'];
 		}
 
-		if ( ! isset( $container_id ) ) {
+		if ( ! isset( $post_id ) ) {
 			return false;
 		}
 
-		$container = dollie()->get_current_object( $container_id );
-
-		if ( 0 === $container_id ) {
-			return false;
-		}
-
-		return $container;
+		return dollie()->get_container( $post_id );
 	}
 
 	/**

@@ -14,7 +14,7 @@ class SiteRemoteInfoUrl extends Tag {
 	public function __construct( array $data = [] ) {
 		parent::__construct( $data );
 
-		$current_id = dollie()->get_current_site_id();
+		$current_id = dollie()->get_current_post_id();
 
 		// Get Items from Feed
 		$this->wpd_data                                  = Container::instance()->get_container_details( $current_id );

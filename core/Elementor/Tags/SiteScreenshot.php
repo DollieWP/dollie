@@ -26,11 +26,11 @@ class SiteScreenshot extends Data_Tag {
 
 	public function get_value( array $options = [] ) {
 
-		$current_id = dollie()->get_current_site_id();
+		$current_id = dollie()->get_current_post_id();
 
 		return [
 			'id'  => '',
-			'url' => dollie()->get_site_screenshot( $current_id, false )
+			'url' => dollie()->get_site_screenshot( $current_id, false ),
 		];
 
 	}

@@ -15,7 +15,6 @@ use WP_Query;
  * @package Dollie\Core\Shortcodes
  */
 final class Blueprints extends Singleton implements Base {
-
 	/**
 	 * Blueprints constructor.
 	 */
@@ -124,5 +123,4 @@ final class Blueprints extends Singleton implements Base {
 
 		return ob_get_clean();
 	}
-
 }
