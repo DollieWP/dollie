@@ -54,7 +54,7 @@ if ( ! isset( $container ) ) {
 							</dt>
 							<dd class="dol-m-0">
 								<div class="dol-text-lg dol-leading-7 dol-font-medium dol-text-cool-gray-900">
-									<?php echo esc_html( $container->get_active_theme() ); ?>
+									<?php echo esc_html( $container->get_active_theme_name() ); ?>
 								</div>
 							</dd>
 						</dl>
@@ -83,7 +83,7 @@ if ( ! isset( $container ) ) {
 							</dt>
 							<dd class="dol-m-0">
 								<div class="dol-text-lg dol-leading-7 dol-font-medium dol-text-cool-gray-900">
-									<?php echo esc_html( $container->get_meta( 'wp_version' ) ); ?>
+									<?php echo esc_html( $container->get_wp_version() ); ?>
 								</div>
 							</dd>
 						</dl>
@@ -155,10 +155,10 @@ if ( ! isset( $container ) ) {
 			<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 				<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
 					<a href="#" class="dol-text-gray-900 dol-font-medium hover:dol-text-gray-600 dol-transition dol-ease-in-out dol-duration-150">
-						<?php printf( __( '%s Comments Made', 'dollie' ), 0 ); ?>
+						<?php printf( __( '%s Comments Made', 'dollie' ), $container->get_comments_stats( 'total' ) ); ?>
 					</a>
 					<span class="dol-text-gray-500 dol-block dol-mt-1">
-						<?php printf( __( '%s marked as spam', 'dollie' ), 0 ); ?>
+						<?php printf( __( '%s marked as spam', 'dollie' ), $container->get_comments_stats( 'spam' ) ); ?>
 					</span>
 				</div>
 			</div>
@@ -171,7 +171,7 @@ if ( ! isset( $container ) ) {
 			<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 				<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
 					<a href="#" class="dol-text-gray-900 dol-font-medium hover:dol-text-gray-600 dol-transition dol-ease-in-out dol-duration-150">
-						<?php echo esc_html( 'test' ); ?>
+						<?php echo esc_html( $container->get_admin( 'email' ) ); ?>
 					</a>
 					<span class="dol-text-gray-500 dol-block dol-mt-1"><?php esc_html_e( 'is the site administrator email', 'dollie' ); ?></span>
 				</div>
@@ -185,7 +185,7 @@ if ( ! isset( $container ) ) {
 			<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 				<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
 					<a href="#" class="dol-text-gray-900 dol-font-medium hover:dol-text-gray-600 dol-transition dol-ease-in-out dol-duration-150">
-						<?php echo $container->get_meta( 'storage_size' ); ?>
+						<?php echo $container->get_storage_size(); ?>
 					</a>
 					<span class="dol-text-gray-500 dol-block dol-mt-1"><?php esc_html_e( 'of Disk space is used', 'dollie' ); ?></span>
 				</div>
@@ -199,7 +199,7 @@ if ( ! isset( $container ) ) {
 			<div class="dol-flex-1 dol-flex dol-items-center dol-justify-between dol-border-t dol-border-r dol-border-b dol-border-gray-200 dol-rounded-r-md dol-truncate">
 				<div class="dol-flex-1 dol-p-6 dol-text-sm dol-leading-5 dol-truncate">
 					<a href="#" class="dol-text-gray-900 dol-font-medium hover:dol-text-gray-600 dol-transition dol-ease-in-out dol-duration-150">
-						<?php printf( __( '%s Users', 'dollie' ), 0 ); ?>
+						<?php printf( __( '%s Users', 'dollie' ), $container->get_users_count() ); ?>
 					</a>
 					<span class="dol-text-gray-500 dol-block dol-mt-1"><?php esc_html_e( 'Registered on this site', 'dollie' ); ?></span>
 				</div>

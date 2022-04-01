@@ -79,7 +79,7 @@ final class ContainerService extends Singleton {
 			return;
 		}
 
-		$container->get_details();
+		$container->fetch_details();
 	}
 
 	/**

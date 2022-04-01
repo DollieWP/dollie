@@ -26,13 +26,22 @@ abstract class BaseContainer implements ConstInterface {
 	 * @var array
 	 */
 	private $data = [
+		'title',
 		'hash',
 		'url',
 		'custom_url',
 		'login_link',
 		'wp_version',
+		'php_verison',
 		'screenshot',
 		'storage_size',
+		'admin',
+		'posts_count',
+		'pages_count',
+		'users_count',
+		'comments',
+		'plugins',
+		'themes',
 		'status',
 		'type',
 	];
@@ -63,7 +72,16 @@ abstract class BaseContainer implements ConstInterface {
 		);
 
 		foreach ( $data as $key => $value ) {
-			update_post_meta( $this->post->ID, "dollie_container_{$key}", $value );
+			if ( 'title' === $key ) {
+				wp_update_post(
+					[
+						'ID'         => $this->post->ID,
+						'post_title' => $value,
+					]
+				);
+			} else {
+				update_post_meta( $this->post->ID, "dollie_container_{$key}", $value );
+			}
 		}
 
 		return $this;
@@ -367,6 +385,103 @@ abstract class BaseContainer implements ConstInterface {
 	}
 
 	/**
+	 * Get WP version
+	 *
+	 * @return boolean|string
+	 */
+	public function get_wp_version(): bool|string {
+		return $this->get_meta( 'wp_version' );
+	}
+
+	/**
+	 * Get PHP version
+	 *
+	 * @return boolean|string
+	 */
+	public function get_php_version(): bool|string {
+		return $this->get_meta( 'php_version' );
+	}
+
+	/**
+	 * Get storage size
+	 *
+	 * @return string
+	 */
+	public function get_storage_size(): string {
+		$size = $this->get_meta( 'storage_size' );
+
+		if ( false === $size ) {
+			return '0 MB';
+		}
+
+		$base     = log( $size, 1024 );
+		$suffixes = [ '', 'KB', 'MB', 'GB', 'TB' ];
+
+		return round( pow( 1024, $base - floor( $base ) ) ) . ' ' . $suffixes[ floor( $base ) ];
+	}
+
+	/**
+	 * Get admin
+	 *
+	 * @param string $type
+	 *
+	 * @return string
+	 */
+	public function get_admin( string $type ): string {
+		$data = $this->get_meta( 'admin' );
+
+		if ( is_array( $data ) && isset( $data[ $type ] ) ) {
+			return $data[ $type ];
+		}
+
+		return '';
+	}
+
+	/**
+	 * Get posts count
+	 *
+	 * @return integer
+	 */
+	public function get_posts_count(): int {
+		return (int) $this->get_meta( 'posts_count' );
+	}
+
+	/**
+	 * Get pages count
+	 *
+	 * @return integer
+	 */
+	public function get_pages_count(): int {
+		return (int) $this->get_meta( 'pages_count' );
+	}
+
+	/**
+	 * Get users count
+	 *
+	 * @return integer
+	 */
+	public function get_users_count(): int {
+		return (int) $this->get_meta( 'users_count' );
+	}
+
+	/**
+	 * Get comments stats
+	 *
+	 * @param string $type
+	 *
+	 * @return int
+	 */
+	public function get_comments_stats( string $type = 'total' ): int {
+		$data = $this->get_meta( 'comments' );
+
+		if ( is_array( $data ) && isset( $data[ $type ] ) ) {
+			return (int) $data[ $type ];
+		}
+
+		return 0;
+	}
+
+	/**
 	 * Get backups count
 	 *
 	 * @return integer
@@ -414,30 +529,77 @@ abstract class BaseContainer implements ConstInterface {
 	/**
 	 * Get plugins
 	 *
+	 * @param boolean $force
+	 *
 	 * @return boolean|array
 	 */
-	public function get_plugins(): bool|array {
-		return $this->get_container_plugins( $this->get_hash() );
+	public function get_plugins( bool $force = false ): bool|array {
+		if ( $force ) {
+			$plugins = $this->get_container_plugins( $this->get_hash() );
+
+			$this->update_meta(
+				[
+					'plugins' => $plugins,
+				]
+			);
+
+			return $plugins;
+		}
+
+		return $this->get_meta( 'plugins' );
 	}
 
 	/**
 	 * Get themes
 	 *
+	 * @param boolean $force
+	 *
 	 * @return boolean|array
 	 */
-	public function get_themes(): bool|array {
-		return $this->get_container_themes( $this->get_hash() );
+	public function get_themes( bool $force = false ): bool|array {
+		if ( $force ) {
+			$themes = $this->get_container_themes( $this->get_hash() );
+
+			$this->update_meta(
+				[
+					'themes' => $themes,
+				]
+			);
+
+			return $themes;
+		}
+
+		return $this->get_meta( 'themes' );
 	}
 
 	/**
 	 * Get active theme
 	 *
+	 * @return boolean|array
+	 */
+	public function get_active_theme(): bool|array {
+		foreach ( $this->get_themes() as $theme ) {
+			if ( $theme['active'] ) {
+				return $theme;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get active theme name
+	 *
 	 * @return string
 	 */
-	public function get_active_theme(): string {
-		$themes = $this->get_themes();
+	public function get_active_theme_name(): string {
+		$active_theme = $this->get_active_theme();
 
-		return '';
+		if ( false === $active_theme ) {
+			return '';
+		}
+
+		return $active_theme['name'];
 	}
 
 	/**
@@ -446,7 +608,15 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_updatable_plugins_count(): int {
-		return 0;
+		$counter = 0;
+
+		foreach ( $this->get_plugins() as $plugin ) {
+			if ( $plugin['update'] ) {
+				$counter++;
+			}
+		}
+
+		return $counter;
 	}
 
 	/**
@@ -455,7 +625,15 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_updatable_themes_count(): int {
-		return 0;
+		$counter = 0;
+
+		foreach ( $this->get_themes() as $plugin ) {
+			if ( $plugin['update'] ) {
+				$counter++;
+			}
+		}
+
+		return $counter;
 	}
 
 	/**
@@ -527,9 +705,9 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @param string $key
 	 *
-	 * @return boolean|string
+	 * @return boolean|string|array
 	 */
-	public function get_meta( string $key ): bool|string {
+	public function get_meta( string $key ): bool|string|array {
 		return get_post_meta( $this->post->ID, "dollie_container_{$key}", true );
 	}
 

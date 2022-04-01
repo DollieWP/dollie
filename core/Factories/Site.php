@@ -26,18 +26,18 @@ final class Site extends BaseContainer {
 	}
 
 	/**
-	 * Get site details
+	 * Refresh site details
 	 *
-	 * @return boolean|array
+	 * @return self
 	 */
-	public function get_details(): bool|array {
+	public function fetch_details(): self {
 		$data = $this->get_site_by_id( $this->get_hash() );
 
-		if ( is_array( $data ) ) {
-			$this->update_meta( $data );
+		if ( is_array( $data ) && isset( $data[0] ) ) {
+			$this->update_meta( $data[0] );
 		}
 
-		return $data;
+		return $this;
 	}
 
 	/**

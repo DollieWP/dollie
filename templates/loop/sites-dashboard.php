@@ -54,7 +54,7 @@ if ( ! isset( $view_type ) ) {
 					'slug'       => $container->get_slug(),
 					'domain'     => $container->get_url(),
 					'name'       => $container->get_title(),
-					'wp_version' => $container->get_meta( 'wp_version' ),
+					'wp_version' => $container->get_wp_version(),
 					'is_running' => 'Running' === $container->get_status(),
 				];
 

@@ -133,7 +133,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 					'slug'       => $container->get_slug(),
 					'domain'     => $container->get_url(),
 					'name'       => $container->get_title() ?: __( 'Unnamed', 'dollie' ),
-					'wp_version' => $container->get_meta( 'wp_version' ),
+					'wp_version' => $container->get_wp_version(),
 				];
 
 				if ( $container->is_blueprint() ) {

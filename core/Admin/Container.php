@@ -804,7 +804,7 @@ final class Container extends Singleton implements ConstInterface {
 			<?php endif; ?>
 
 			<?php if ( 'size' === $column_name ) : ?>
-				<?php echo $container->get_meta( 'size' ); ?>
+				<?php echo $container->get_meta( 'storage_size' ); ?>
 			<?php endif; ?>
 
 			<?php if ( 'status' === $column_name ) : ?>

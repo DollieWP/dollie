@@ -22,18 +22,18 @@ final class Blueprint extends BaseContainer {
 	}
 
 	/**
-	 * Get blueprint details
+	 * Refresh blueprint details
 	 *
-	 * @return boolean|array
+	 * @return self
 	 */
-	public function get_details(): bool|array {
+	public function fetch_details(): self {
 		$data = $this->get_blueprint_by_id( $this->get_hash() );
 
-		if ( is_array( $data ) ) {
-			$this->update_meta( $data );
+		if ( is_array( $data ) && isset( $data[0] ) ) {
+			$this->update_meta( $data[0] );
 		}
 
-		return $data;
+		return $this;
 	}
 
 	/**
