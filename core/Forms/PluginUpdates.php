@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Api;
 
 /**
  * Class PluginUpdates
@@ -58,8 +57,6 @@ class PluginUpdates extends Singleton {
 			return;
 		}
 
-		$container_uri = dollie()->get_wp_site_data( 'uri', $container->id );
-
 		$value = af_get_field( 'plugins_to_update' );
 		if ( is_array( $value ) ) {
 			$value = implode( ' ', $value );
@@ -70,7 +67,7 @@ class PluginUpdates extends Singleton {
 		AF()->submission['extra']['is_success'] = Api::post(
 			Api::ROUTE_PLUGINS_UPDATES_APPLY,
 			[
-				'container_uri' => $container_uri,
+				'container_uri' => $container->get_hash(),
 				'plugins'       => $update_plugins,
 			]
 		);

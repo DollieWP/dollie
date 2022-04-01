@@ -11,34 +11,35 @@ final class ExecutionService extends Singleton implements ConstInterface {
 	/**
 	 * Check execution status by AJAX
 	 */
-	public function check_execution() {
+	public function ajax_check() {
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'dollie_check_execution' ) ) {
 			wp_send_json_error();
 		}
 
-		$execution = self::get_execution( $_REQUEST['container'], $_REQUEST['type'] );
+		$execution = $this->get( $_REQUEST['container'], $_REQUEST['type'] );
 
 		if ( ! $execution ) {
 			wp_send_json_success();
 		}
 
 		if ( 0 === $execution['status'] ) {
-			$data = dollie()->get_execution_status( $execution['id'], $_REQUEST['type'] );
-
-			if ( is_wp_error( $data ) ) {
-				dollie()->remove_execution( get_the_ID(), $_REQUEST['type'] );
-
-				wp_send_json_success();
-			}
-
-			dollie()->save_execution( $_REQUEST['container'], $data );
-
-			if ( 0 !== $data['status'] ) {
-				wp_send_json_success();
-			}
+			wp_send_json_error();
 		}
 
-		wp_send_json_error();
+		$data = $this->get_status( $execution['id'], $_REQUEST['type'] );
+
+		if ( is_wp_error( $data ) ) {
+			$this->remove( get_the_ID(), $_REQUEST['type'] );
+
+			wp_send_json_success();
+		}
+
+			$this->save( $_REQUEST['container'], $data );
+
+		if ( 0 !== $data['status'] ) {
+		}
+
+		wp_send_json_success();
 	}
 
 	/**
@@ -49,7 +50,7 @@ final class ExecutionService extends Singleton implements ConstInterface {
 	 *
 	 * @return int|\WP_Error
 	 */
-	public static function get_execution_status( $execution_id, $execution_type = '' ) {
+	public function get_status( $execution_id, $execution_type = '' ) {
 		$data = [
 			'execution_id' => $execution_id,
 		];
@@ -79,7 +80,7 @@ final class ExecutionService extends Singleton implements ConstInterface {
 	 *
 	 * @return null|string
 	 */
-	public static function get_execution( $container_id, $execution_type ) {
+	public function get( $container_id, $execution_type ) {
 		return get_post_meta( $container_id, 'dollie.' . $execution_type, true );
 	}
 
@@ -91,7 +92,7 @@ final class ExecutionService extends Singleton implements ConstInterface {
 	 *
 	 * @return void
 	 */
-	public static function save_execution( $container_id, $execution ) {
+	public static function save( $container_id, $execution ) {
 		update_post_meta(
 			$container_id,
 			'dollie.' . $execution['execution_type'],
@@ -110,7 +111,7 @@ final class ExecutionService extends Singleton implements ConstInterface {
 	 *
 	 * @return void
 	 */
-	public static function remove_execution( $container_id, $execution_type ) {
+	public static function remove( $container_id, $execution_type ) {
 		delete_post_meta( $container_id, 'dollie.' . $execution_type );
 	}
 }

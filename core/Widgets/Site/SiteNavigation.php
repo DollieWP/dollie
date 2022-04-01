@@ -95,7 +95,6 @@ class SiteNavigation extends \Elementor\Widget_Base {
 			|| isset( $_GET['elementor_library'] );
 
 		if ( $elementor_builder ) {
-
 			$my_sites = get_posts(
 				[
 					'post_type'      => 'container',

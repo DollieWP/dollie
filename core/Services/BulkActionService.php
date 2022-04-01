@@ -1,6 +1,6 @@
 <?php
 
-namespace Dollie\Core\Modules;
+namespace Dollie\Core\Services;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -8,33 +8,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Log;
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Api;
 
-/**
- * Class BulkActions
- *
- * @package Dollie\Core\Modules
- */
-class BulkActions extends Singleton {
-
-	public const LOG_ACTION_STARTED        = 'wp-bulk-action-start';
-	public const LOG_UPDATE_PLUGINS        = 'wp-bulk-update-plugins';
-	public const LOG_UPDATE_THEMES         = 'wp-bulk-update-themes';
-	public const LOG_REGENERATE_SCREENSHOT = 'wp-bulk-regenerate-screenshot';
-
-	/**
-	 * Container constructor.
-	 */
-	public function __construct() {
-		parent::__construct();
-
-		add_filter( 'dollie/log/actions', [ $this, 'log_action_filter' ], 10, 3 );
-		add_filter( 'dollie/log/actions/content', [ $this, 'log_action_content_filter' ], 10, 3 );
-
-		add_action( 'wp_ajax_dollie_do_bulk_action', [ $this, 'do_bulk_action' ] );
-		add_action( 'wp_ajax_dollie_check_bulk_action', [ $this, 'check_bulk_action' ] );
-		add_action( 'wp_ajax_dollie_get_bulk_action_data', [ $this, 'get_action_data' ] );
-	}
+final class BulkActionService extends Singleton {
+	public const LOG_ACTION_STARTED = 'wp-bulk-action-start';
+	public const LOG_UPDATE_PLUGINS = 'wp-bulk-update-plugins';
+	public const LOG_UPDATE_THEMES  = 'wp-bulk-update-themes';
 
 	/**
 	 * Log actions
@@ -52,21 +30,16 @@ class BulkActions extends Singleton {
 			'link'    => false,
 		];
 
-		$actions[ self::LOG_UPDATE_PLUGINS ]        = [
+		$actions[ self::LOG_UPDATE_PLUGINS ] = [
 			'title'   => __( 'Plugins updated', 'dollie' ),
 			'content' => __( sprintf( 'Site %s has completed updating plugins.', $values[0] ), 'dollie' ),
 			'type'    => 'bulk',
 			'link'    => false,
 		];
-		$actions[ self::LOG_UPDATE_THEMES ]         = [
+
+		$actions[ self::LOG_UPDATE_THEMES ] = [
 			'title'   => __( 'Themes updated', 'dollie' ),
 			'content' => __( sprintf( 'Site %s has completed updating themes.', $values[0] ), 'dollie' ),
-			'type'    => 'bulk',
-			'link'    => false,
-		];
-		$actions[ self::LOG_REGENERATE_SCREENSHOT ] = [
-			'title'   => __( 'Screenshot regenerated', 'dollie' ),
-			'content' => __( sprintf( 'Site %s has completed regenerating screenshot.', $values[0] ), 'dollie' ),
 			'type'    => 'bulk',
 			'link'    => false,
 		];
@@ -103,12 +76,11 @@ class BulkActions extends Singleton {
 	 */
 	public function get_allowed_commands() {
 		return [
-			'update-plugins'        => __( 'Update Plugins', 'dollie' ),
-			'update-themes'         => __( 'Update Themes', 'dollie' ),
-			'create-backup'         => __( 'Create Backup', 'dollie' ),
-			'regenerate-screenshot' => __( 'Regenerate Screenshot', 'dollie' ),
-			'restart'               => __( 'Restart', 'dollie' ),
-			'stop'                  => __( 'Stop', 'dollie' ),
+			'update-plugins' => __( 'Update Plugins', 'dollie' ),
+			'update-themes'  => __( 'Update Themes', 'dollie' ),
+			'create-backup'  => __( 'Create Backup', 'dollie' ),
+			'restart'        => __( 'Restart', 'dollie' ),
+			'stop'           => __( 'Stop', 'dollie' ),
 		];
 	}
 
@@ -119,12 +91,11 @@ class BulkActions extends Singleton {
 	 */
 	public function get_allowed_commands_in_progress() {
 		return [
-			'update-plugins'        => __( 'Updating Plugins', 'dollie' ),
-			'update-themes'         => __( 'Updating Themes', 'dollie' ),
-			'create-backup'         => __( 'Creating Backup', 'dollie' ),
-			'regenerate-screenshot' => __( 'Regenerating Screenshot', 'dollie' ),
-			'restart'               => __( 'Restarting', 'dollie' ),
-			'stop'                  => __( 'Stopping', 'dollie' ),
+			'update-plugins' => __( 'Updating Plugins', 'dollie' ),
+			'update-themes'  => __( 'Updating Themes', 'dollie' ),
+			'create-backup'  => __( 'Creating Backup', 'dollie' ),
+			'restart'        => __( 'Restarting', 'dollie' ),
+			'stop'           => __( 'Stopping', 'dollie' ),
 		];
 	}
 
@@ -135,12 +106,11 @@ class BulkActions extends Singleton {
 	 */
 	public function get_log_action( $action ) {
 		$actions = [
-			'update-plugins'        => self::LOG_UPDATE_PLUGINS,
-			'update-themes'         => self::LOG_UPDATE_THEMES,
-			'create-backup'         => Log::WP_SITE_BACKUP_STARTED,
-			'regenerate-screenshot' => self::LOG_REGENERATE_SCREENSHOT,
-			'restart'               => Log::WP_SITE_RESTARTED,
-			'stop'                  => Log::WP_SITE_STOPPED,
+			'update-plugins' => self::LOG_UPDATE_PLUGINS,
+			'update-themes'  => self::LOG_UPDATE_THEMES,
+			'create-backup'  => Log::WP_SITE_BACKUP_STARTED,
+			'restart'        => Log::WP_SITE_RESTARTED,
+			'stop'           => Log::WP_SITE_STOPPED,
 		];
 
 		return $actions[ $action ] ?? '';
@@ -153,12 +123,11 @@ class BulkActions extends Singleton {
 	 */
 	public function get_log_failed_action( $action ) {
 		$actions = [
-			'update-plugins'        => self::LOG_UPDATE_PLUGINS,
-			'update-themes'         => self::LOG_UPDATE_THEMES,
-			'create-backup'         => Log::WP_SITE_BACKUP_STARTED,
-			'regenerate-screenshot' => self::LOG_REGENERATE_SCREENSHOT,
-			'restart'               => Log::WP_SITE_RESTARTED,
-			'stop'                  => Log::WP_SITE_STOPPED,
+			'update-plugins' => self::LOG_UPDATE_PLUGINS,
+			'update-themes'  => self::LOG_UPDATE_THEMES,
+			'create-backup'  => Log::WP_SITE_BACKUP_STARTED,
+			'restart'        => Log::WP_SITE_RESTARTED,
+			'stop'           => Log::WP_SITE_STOPPED,
 		];
 
 		return $actions[ $action ] ?? '';
@@ -169,7 +138,7 @@ class BulkActions extends Singleton {
 	 *
 	 * @return void
 	 */
-	public function do_bulk_action() {
+	public function execute_bulk_action() {
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'dollie_do_bulk_action' ) ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
 			exit;
@@ -198,9 +167,15 @@ class BulkActions extends Singleton {
 		$existing_bulk_actions = $this->get_bulk_actions();
 
 		foreach ( $posts as $post ) {
+			$container = dollie()->get_container( $post );
+
+			if ( is_wp_error( $container ) ) {
+				continue;
+			}
+
 			$exists = false;
 			foreach ( $existing_bulk_actions as $action ) {
-				if ( dollie()->get_wp_site_data( 'uri', $post->ID ) === $action['container_uri'] ) {
+				if ( $container->get_original_url() === $action['container_uri'] ) {
 					$exists = true;
 				}
 			}
@@ -208,9 +183,9 @@ class BulkActions extends Singleton {
 			// Execute new action on container only if no other action is in progress.
 			if ( ! $exists ) {
 				$targets[] = [
-					'id'           => get_post_meta( $post->ID, 'wpd_container_id', true ),
-					'uri'          => dollie()->get_wp_site_data( 'uri', $post->ID ),
-					'is_blueprint' => dollie()->is_blueprint( $post->ID ),
+					'id'           => $container->get_hash(),
+					'uri'          => $container->get_original_url(),
+					'is_blueprint' => $container->is_blueprint(),
 				];
 			}
 		}
@@ -226,11 +201,19 @@ class BulkActions extends Singleton {
 
 				foreach ( $command_data as &$item ) {
 					foreach ( $posts as $post ) {
-						if ( (int) $item['id'] === $post->ID ) {
-							$item['container_uri'] = dollie()->get_wp_site_data( 'uri', $post->ID );
+						$container = dollie()->get_container( $post );
+
+						if ( is_wp_error( $container ) ) {
+							continue;
+						}
+
+						if ( (int) $item['id'] === $container->get_id() ) {
+							$item['container_uri'] = $container->get_original_url();
 						}
 					}
 				}
+
+				unset( $item );
 			}
 		}
 
@@ -255,22 +238,30 @@ class BulkActions extends Singleton {
 			]
 		);
 
-		$log_id = Log::add_front(
-			self::LOG_ACTION_STARTED,
-			dollie()->get_current_object( $posts[0]->ID ),
-			[
-				$this->get_allowed_commands()[ $command ],
-			]
-		);
+		// $log_id = Log::add_front(
+		// self::LOG_ACTION_STARTED,
+		// dollie()->get_current_object( $posts[0]->ID ),
+		// [
+		// $this->get_allowed_commands()[ $command ],
+		// ]
+		// );
 
 		if ( is_array( $response ) ) {
 			foreach ( $posts as $post ) {
+				$container = dollie()->get_container( $post );
+
+				if ( is_wp_error( $container ) ) {
+					continue;
+				}
+
 				foreach ( $response as &$item ) {
-					if ( dollie()->get_wp_site_data( 'uri', $post->ID ) === $item['container_uri'] ) {
+					if ( $container->get_original_url() === $item['container_uri'] ) {
 						$item['post_id'] = $post->ID;
-						$item['log_id']  = $log_id;
+						// $item['log_id']  = $log_id;
 					}
 				}
+
+				unset( $item );
 			}
 
 			$this->set_bulk_actions( $response );
@@ -278,6 +269,8 @@ class BulkActions extends Singleton {
 			foreach ( $response as &$item ) {
 				$item['text'] = $this->get_allowed_commands_in_progress()[ $item['action'] ];
 			}
+
+			unset( $item );
 		}
 
 		wp_send_json_success( $response );
@@ -341,16 +334,16 @@ class BulkActions extends Singleton {
 
 						// if we have a parent log id saved.
 						if ( isset( $action['log_id'] ) ) {
+							$container = dollie()->get_container( $action['post_id'] );
 
-							$site_object = dollie()->get_current_object( $action['post_id'] );
-							$log_action  = $this->get_log_action( $action['action'] );
+							$log_action = $this->get_log_action( $action['action'] );
 
 							// Add individual log
 							$sub_log_id = Log::add_front(
 								$log_action,
-								$site_object,
+								$container,
 								[
-									$site_object->slug,
+									$container->get_slug(),
 								]
 							);
 
@@ -369,7 +362,7 @@ class BulkActions extends Singleton {
 
 						unset( $actions[ $key ] );
 
-						Container::instance()->get_container_details( $action['post_id'], true );
+						// Container::instance()->get_container_details( $action['post_id'], true );
 						break;
 					}
 				}
@@ -405,7 +398,13 @@ class BulkActions extends Singleton {
 		$containers = [];
 
 		foreach ( $posts as $post ) {
-			$containers[] = dollie()->get_wp_site_data( 'uri', $post->ID );
+			$container = dollie()->get_container( $post );
+
+			if ( is_wp_error( $container ) ) {
+				continue;
+			}
+
+			$containers[] = $container->get_original_url();
 		}
 
 		$data = '';
@@ -430,7 +429,13 @@ class BulkActions extends Singleton {
 				foreach ( $plugins_response as $container_uri => $data ) {
 					foreach ( $data as $plugin ) {
 						foreach ( $posts as $post ) {
-							if ( $container_uri === dollie()->get_wp_site_data( 'uri', $post->ID ) ) {
+							$container = dollie()->get_container( $post );
+
+							if ( is_wp_error( $container ) ) {
+								continue;
+							}
+
+							if ( $container_uri === $container->get_original_url() ) {
 								foreach ( $plugins_data as &$plugin_data ) {
 									if ( $plugin_data['name'] === $plugin['name'] ) {
 										$plugin_data['sites'][ $post->ID ] = [
@@ -468,7 +473,13 @@ class BulkActions extends Singleton {
 				foreach ( $themes_response as $container_uri => $data ) {
 					foreach ( $data as $theme ) {
 						foreach ( $posts as $post ) {
-							if ( $container_uri === dollie()->get_wp_site_data( 'uri', $post->ID ) ) {
+							$container = dollie()->get_container( $post );
+
+							if ( is_wp_error( $container ) ) {
+								continue;
+							}
+
+							if ( $container_uri === $container->get_original_url() ) {
 								foreach ( $themes_data as &$theme_data ) {
 									if ( $theme_data['name'] === $theme['name'] ) {
 										$theme_data['sites'][ $post->ID ] = [

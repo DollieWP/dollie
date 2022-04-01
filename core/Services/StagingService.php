@@ -1,22 +1,14 @@
 <?php
 
-namespace Dollie\Core\Modules;
+namespace Dollie\Core\Services;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Api;
-use Dollie\Core\Log;
-use Dollie\Core\Modules\Sites\WP;
 
-/**
- * Class Container
- *
- * @package Dollie\Core\Modules
- */
-class Staging extends Singleton {
+final class StagingService extends Singleton {
 	const LOG_DEPLOY_STARTED = 'wp-staging-deploy-start';
 	const LOG_DEPLOYED       = 'wp-staging-deployed';
 	const LOG_DEPLOY_FAILED  = 'wp-staging-deploy-failed';
@@ -24,22 +16,6 @@ class Staging extends Singleton {
 
 	const OPTION_DATA = '_wpd_staging_data';
 	const OPTION_URL  = '_wpd_staging_url';
-
-	/**
-	 * Container constructor.
-	 */
-	public function __construct() {
-		parent::__construct();
-
-		add_filter( 'dollie/log/actions', [ $this, 'log_action_filter' ], 10, 2 );
-
-		add_action( 'template_redirect', [ $this, 'create' ] );
-		add_action( 'template_redirect', [ $this, 'undeploy' ] );
-		add_action( 'template_redirect', [ $this, 'sync' ] );
-
-		add_action( 'template_redirect', [ $this, 'check_deploy' ] );
-		add_action( 'template_redirect', [ $this, 'check_sync' ] );
-	}
 
 	/**
 	 * Log actions
@@ -189,5 +165,4 @@ class Staging extends Singleton {
 
 		// check sync status
 	}
-
 }

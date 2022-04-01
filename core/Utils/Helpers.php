@@ -10,13 +10,16 @@ use Dollie\Core\Singleton;
 use WP_Query;
 
 use Dollie\Core\Modules\Subscription\Subscription;
-use Dollie\Core\Modules\SiteInsights;
-use Dollie\Core\Modules\BulkActions;
 
 use Dollie\Core\Factories\Site;
 use Dollie\Core\Factories\Blueprint;
 use Dollie\Core\Factories\Staging;
 use Dollie\Core\Factories\User;
+
+use Dollie\Core\Services\AccessService;
+use Dollie\Core\Services\BulkActionService;
+use Dollie\Core\Services\InsightsService;
+use Dollie\Core\Services\RecurringActionService;
 
 /**
  * Class Helpers
@@ -91,6 +94,15 @@ class Helpers extends Singleton implements ConstInterface {
 	}
 
 	/**
+	 * StringVariants instance
+	 *
+	 * @return StringVariants
+	 */
+	public function string_variants(): StringVariants {
+		return StringVariants::instance();
+	}
+
+	/**
 	 * Subscription instance
 	 *
 	 * @return Subscription
@@ -100,30 +112,39 @@ class Helpers extends Singleton implements ConstInterface {
 	}
 
 	/**
-	 * BulkActions instance
+	 * BulkActionService instance
 	 *
-	 * @return BulkActions
+	 * @return BulkActionService
 	 */
-	public function bulk_actions(): BulkActions {
-		return BulkActions::instance();
+	public function bulk_actions(): BulkActionService {
+		return BulkActionService::instance();
 	}
 
 	/**
-	 * SiteInsights instance
+	 * RecurringActionService instance
 	 *
-	 * @return SiteInsights
+	 * @return RecurringActionService
 	 */
-	public function insights(): SiteInsights {
-		return SiteInsights::instance();
+	public function recurring_actions(): RecurringActionService {
+		return RecurringActionService::instance();
 	}
 
 	/**
-	 * StringVariants instance
+	 * InsightsService instance
 	 *
-	 * @return StringVariants
+	 * @return InsightsService
 	 */
-	public function string_variants(): StringVariants {
-		return StringVariants::instance();
+	public function insights(): InsightsService {
+		return InsightsService::instance();
+	}
+
+	/**
+	 * AccessService instance
+	 *
+	 * @return AccessService
+	 */
+	public function access(): AccessService {
+		return AccessService::instance();
 	}
 
 	/**
@@ -423,7 +444,7 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @return void|string
 	 */
-	public function load_template( $template, $args, $echo = false ) {
+	public function load_template( string $template, array $args = [], $echo = false ) {
 		if ( $echo ) {
 			Tpl::load( $template, $args, $echo );
 		} else {

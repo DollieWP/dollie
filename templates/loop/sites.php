@@ -13,7 +13,7 @@ $grid_btn_active = 'grid' === $view_type ? 'dol-switch-active' : '';
 
 // $bulk_actions          = dollie()->get_bulk_actions();
 $bulk_actions          = [];
-$allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
+$allowed_bulk_commands = dollie()->bulk_actions()->get_allowed_commands_in_progress();
 
 dollie()->load_template( 'loop/parts/modal-actions', [], true );
 dollie()->load_template( 'loop/parts/modal-filters', [], true );

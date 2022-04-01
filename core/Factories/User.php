@@ -12,6 +12,11 @@ final class User {
 	 */
 	private $user;
 
+	/**
+	 * User Constructor
+	 *
+	 * @param \WP_User|integer|null $user
+	 */
 	public function __construct( \WP_User|int $user = null ) {
 		if ( is_null( $user ) ) {
 			$this->user = wp_get_current_user();
@@ -29,6 +34,15 @@ final class User {
 	 */
 	public function get_id(): int {
 		return $this->user->ID;
+	}
+
+	/**
+	 * Get display name
+	 *
+	 * @return string
+	 */
+	public function get_display_name(): string {
+		return $this->user->display_name;
 	}
 
 	/**

@@ -1,5 +1,5 @@
 <h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-1 dol-text-xl">
-	Articles
+	<?php esc_html_e( 'Articles', 'dollie' ); ?>
 </h2>
 
 <section>
@@ -7,7 +7,7 @@
 	dollie()->load_template(
 		'widgets/dashboard/dollie-kb',
 		[
-			'posts' => dollie()->get_dashboard_kb_articles(),
+			'posts' => dollie()->insights()->get_kb_articles(),
 		],
 		true
 	);

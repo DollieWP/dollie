@@ -1,38 +1,15 @@
 <?php
 
-namespace Dollie\Core\Modules;
+namespace Dollie\Core\Services;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\ConstInterface;
 use Dollie\Core\Utils\Tpl;
-use Dollie\Core\Services\NoticeService;
 
-/**
- * Class Container
- *
- * @package Dollie\Core\Modules
- */
-class Container extends Singleton implements ConstInterface {
-	/**
-	 * Container constructor.
-	 */
-	public function __construct() {
-		parent::__construct();
-
-		add_action( 'wp', [ $this, 'add_acf_form_head' ], 9 );
-		add_action( 'template_redirect', [ $this, 'fetch_container' ] );
-		add_action( 'wp_footer', [ NoticeService::instance(), 'site_demo_notice' ] );
-
-		add_filter( 'init', [ $this, 'rewrite_rules_sub_pages' ], 20 );
-		add_filter( 'query_vars', [ $this, 'query_vars' ] );
-		add_filter( 'single_template', [ $this, 'container_template' ] );
-		add_filter( 'document_title_parts', [ $this, 'update_page_title' ], 10, 1 );
-	}
-
+final class ContainerService extends Singleton {
 	/**
 	 * Add subpages rules
 	 */

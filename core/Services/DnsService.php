@@ -1,32 +1,15 @@
 <?php
 
-namespace Dollie\Core\Modules;
+namespace Dollie\Core\Services;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Api;
 use Dollie\Core\Log;
 
-/**
- * Class Domain
- *
- * @package Dollie\Core\Modules
- */
-class Domain extends Singleton {
-	/**
-	 * Domain constructor
-	 */
-	public function __construct() {
-		add_action( 'template_redirect', [ $this, 'validate_domain' ] );
-		add_action( 'template_redirect', [ $this, 'remove_domain' ] );
-
-		add_action( 'wp_ajax_dollie_create_record', [ $this, 'create_record' ] );
-		add_action( 'wp_ajax_dollie_remove_record', [ $this, 'remove_record' ] );
-	}
-
+final class DnsService extends Singleton {
 	/**
 	 * Validate pending zone
 	 *
@@ -37,10 +20,12 @@ class Domain extends Singleton {
 		$domain_zone        = get_post_meta( get_the_ID(), 'wpd_domain_zone', true );
 
 		if ( 'pending' === $dns_manager_status && $domain_zone ) {
+			$container = dollie()->get_container();
+
 			$zone_response = Api::post(
 				Api::ROUTE_DOMAIN_CHECK_ZONE,
 				[
-					'container_uri' => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
+					'container_uri' => $container->get_original_url(),
 				]
 			);
 
@@ -52,7 +37,6 @@ class Domain extends Singleton {
 				} elseif ( isset( $zone_response['status'] ) && $zone_response['status'] ) {
 					$domain_pending = get_post_meta( get_the_ID(), 'wpd_domain_pending', true );
 
-					$container = dollie()->get_current_object();
 					$this->add_container_routes( $container, $domain_pending );
 
 					update_post_meta( get_the_ID(), 'wpd_domain_dns_manager', 'active' );
@@ -105,7 +89,6 @@ class Domain extends Singleton {
 						'records'      => $records,
 						'container_id' => $params['container_id'],
 					],
-					false
 				)
 			);
 			exit;
@@ -201,12 +184,10 @@ class Domain extends Singleton {
 	 * @return bool
 	 */
 	public function add_container_routes( $container, $domain ) {
-		// $request = dollie()->get_customer_container_details( $container->id );
-
 		$response_data = Api::post(
 			Api::ROUTE_DOMAIN_ROUTES_ADD,
 			[
-				'container_id' => $request->id,
+				'container_id' => $container->get_hash(),
 				'route'        => $domain,
 			]
 		);
@@ -219,7 +200,7 @@ class Domain extends Singleton {
 		$response_data_www = Api::post(
 			Api::ROUTE_DOMAIN_ROUTES_ADD,
 			[
-				'container_id' => $request->id,
+				'container_id' => $container->get_hash(),
 				'route'        => 'www.' . $domain,
 			]
 		);
@@ -232,24 +213,24 @@ class Domain extends Singleton {
 
 		if ( is_array( $response_data ) && isset( $response_data['id'] ) ) {
 			$saved_success = true;
-			update_post_meta( $container->id, 'wpd_domain_id', $response_data['id'] );
+			update_post_meta( $container->get_id(), 'wpd_domain_id', $response_data['id'] );
 		}
 
 		if ( is_array( $response_data_www ) && isset( $response_data_www['id'] ) ) {
-			update_post_meta( $container->id, 'wpd_www_domain_id', $response_data_www['id'] );
+			update_post_meta( $container->get_id(), 'wpd_www_domain_id', $response_data_www['id'] );
 		}
 
 		if ( $saved_success ) {
-			update_post_meta( $container->id, 'wpd_domains', $domain );
-			update_post_meta( $container->id, 'wpd_letsencrypt_enabled', 'yes' );
+			update_post_meta( $container->get_id(), 'wpd_domains', $domain );
+			update_post_meta( $container->get_id(), 'wpd_letsencrypt_enabled', 'yes' );
 
-			$this->update_url_with_domain( $domain, $container->id );
-			Backups::instance()->make();
+			$this->update_url_with_domain( $domain, $container->get_id() );
+			// Backups::instance()->make();
 
 			Log::add_front( Log::WP_SITE_DOMAIN_LINKED, $container, [ $domain, $container->slug ] );
 
 			// Update our container details so that the new domain will be used to make container HTTP requests.
-			dollie()->flush_container_details();
+			$container->flush_cache();
 		}
 
 		return true;
@@ -440,5 +421,4 @@ class Domain extends Singleton {
 
 		return true;
 	}
-
 }

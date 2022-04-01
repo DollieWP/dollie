@@ -167,6 +167,14 @@ abstract class BaseContainer implements ConstInterface {
 		return $this->post->post_title;
 	}
 
+	/**
+	 * Get post slug
+	 *
+	 * @return string
+	 */
+	public function get_slug(): string {
+		return $this->post->slug;
+	}
 
 	/**
 	 * Get post name
@@ -317,11 +325,11 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return boolean|string
 	 */
 	public function get_screenshot(): bool|string {
-        $default_screenshot = get_field( 'default_screenshot', 'option' );
+		$default_screenshot = get_field( 'default_screenshot', 'option' );
 
-        if($default_screenshot && 'Deploying' === $this->get_status()) {
-            return $default_screenshot;
-        }
+		if ( $default_screenshot && 'Deploying' === $this->get_status() ) {
+			return $default_screenshot;
+		}
 
 		return $this->get_meta( 'screenshot' );
 	}

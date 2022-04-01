@@ -6,24 +6,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Admin\Admin;
-use Dollie\Core\Modules\BulkActions;
-use Dollie\Core\Modules\RecurringActions;
+use Dollie\Core\Admin;
+
 use Dollie\Core\Modules\Subscription\Subscription;
-use Dollie\Core\Modules\AccessControl;
-use Dollie\Core\Modules\Blueprints;
-use Dollie\Core\Modules\Container;
-use Dollie\Core\Modules\Staging;
+use Dollie\Core\Modules\WooCommerce;
 use Dollie\Core\Modules\Logging;
 use Dollie\Core\Modules\Forms;
-// use Dollie\Core\Modules\Security;
 
-use Dollie\Core\Modules\WooCommerce;
-use Dollie\Core\Modules\Domain;
+use Dollie\Core\Hooks\AccessControl;
+use Dollie\Core\Hooks\Container;
+use Dollie\Core\Hooks\Blueprints;
+use Dollie\Core\Hooks\BulkActions;
+use Dollie\Core\Hooks\RecurringActions;
+use Dollie\Core\Hooks\Staging;
+use Dollie\Core\Hooks\Domain;
+use Dollie\Core\Hooks\Acf;
 
+use Dollie\Core\Jobs\SyncContainersJob;
 use Dollie\Core\Jobs\RemoveOldLogsJob;
 use Dollie\Core\Jobs\ChangeContainerRoleJob;
-use Dollie\Core\Jobs\UpdateContainerScreenshotsJob;
 use Dollie\Core\Jobs\CustomerSubscriptionCheckJob;
 
 use Dollie\Core\Services\NoticeService;
@@ -51,19 +52,14 @@ class Plugin extends Singleton {
 
 		Admin::instance();
 
-		add_action( 'plugins_loaded', [ $this, 'load_early_dependencies' ], -10 );
-		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 0 );
+		if ( dollie()->is_api_connected() ) {
+			add_action( 'plugins_loaded', [ $this, 'load_early_dependencies' ], -10 );
+			add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 0 );
+		}
+
 		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
-
 		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
-
-		// add_action( 'admin_notices', [ NoticeService::instance(), 'admin_auth_notice' ] );
-		// add_action( 'admin_notices', [ NoticeService::instance(), 'admin_deployment_domain_notice' ] );
-		// add_action( 'admin_notices', [ NoticeService::instance(), 'admin_subscription_no_credits' ] );
-		// add_action( 'wp_ajax_dollie_hide_domain_notice', [ NoticeService::instance(), 'remove_deployment_domain_notice' ] );
-
 		add_action( 'wp_enqueue_scripts', [ $this, 'load_resources' ], 12 );
-
 		add_action( 'route_login_redirect', [ $this, 'load_login_route' ] );
 		add_action( 'route_preview', [ $this, 'load_preview_route' ] );
 		add_action( 'route_wizard', [ $this, 'load_wizard_route' ] );
@@ -73,31 +69,22 @@ class Plugin extends Singleton {
 	 * Load early dependencies
 	 */
 	public function load_early_dependencies() {
-		if ( ! dollie()->is_api_connected() ) {
-			return;
-		}
-
 		require_once DOLLIE_PATH . 'core/Extras/action-scheduler/action-scheduler.php';
 	}
 
 	/**
-	 * Load Dollie dependencies. Make sure to call them on plugins_loaded
+	 * Load dependencies
 	 */
 	public function load_dependencies() {
-		if ( ! dollie()->is_api_connected() ) {
+		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
+			add_action( 'admin_notices', [ NoticeService::instance(), 'missing_elementor' ] );
 			return;
 		}
 
-		// if (!defined('ELEMENTOR_VERSION')) {
-		// add_action('admin_notices', [NoticeService::instance(), 'elementor_notice']);
-
-		// return;
-		// }
-
-		// // Check for the minimum required Elementor version.
-		// if (!version_compare(ELEMENTOR_VERSION, self::$minimum_elementor_version, '>=')) {
-		// add_action('admin_notices', [NoticeService::instance(), 'admin_notice_minimum_elementor_version']);
-		// }
+		if ( ! version_compare( ELEMENTOR_VERSION, self::$minimum_elementor_version, '>=' ) ) {
+			add_action( 'admin_notices', [ NoticeService::instance(), 'minimum_elementor_version' ] );
+			return;
+		}
 
 		// load ACF as fallback.
 		if ( ! class_exists( 'ACF' ) ) {
@@ -107,7 +94,7 @@ class Plugin extends Singleton {
 		require_once DOLLIE_CORE_PATH . 'Extras/options-page-for-acf/loader.php';
 
 		// Load Color Customizer
-		require_once DOLLIE_CORE_PATH . 'Modules/Colors.php';
+		require_once DOLLIE_CORE_PATH . 'Extras/Colors.php';
 
 		// Load Theme/Plugins Compability
 		require_once DOLLIE_CORE_PATH . 'Compatibility.php';
@@ -151,38 +138,36 @@ class Plugin extends Singleton {
 	 * Initialize modules and shortcodes
 	 */
 	public function initialize() {
-		// Load Api.
-		// Api::instance();
-
 		// Load elementor hooks.
 		Elementor\Hooks::instance();
 
 		// Load jobs.
+		// SyncContainersJob::instance();
 		// ChangeContainerRoleJob::instance();
-		// UpdateContainerScreenshotsJob::instance();
 		// RemoveOldLogsJob::instance();
 		// CustomerSubscriptionCheckJob::instance();
 
-		// Load modules.
+		// Modules.
 		Forms::instance();
-		// AccessControl::instance();
-		Blueprints::instance();
-		// Subscription::instance();
-		Container::instance();
-		// RecurringActions::instance();
-		// BulkActions::instance();
-		// Logging::instance();
-		// Security::instance();
-		// WooCommerce::instance();
+		Logging::instance();
+		WooCommerce::instance();
+		Subscription::instance();
 
-		// Staging::instance();
-		// Domain::instance();
+		// Hooks.
+		AccessControl::instance();
+		Container::instance();
+		Blueprints::instance();
+		BulkActions::instance();
+		RecurringActions::instance();
+		Staging::instance();
+		Domain::instance();
+		Acf::instance();
 
 		// Shortcodes.
-		// Shortcodes\Blockquote::instance();
-		// Shortcodes\Blueprints::instance();
-		// Shortcodes\Orders::instance();
-		// Shortcodes\Sites::instance();
+		Shortcodes\Blockquote::instance();
+		Shortcodes\Blueprints::instance();
+		Shortcodes\Orders::instance();
+		Shortcodes\Sites::instance();
 
 		$this->load_routes();
 
@@ -201,30 +186,12 @@ class Plugin extends Singleton {
 	}
 
 	/**
-	 * Load routes
-	 */
-	private function load_routes() {
-		$router = new Router( 'dollie_route_name' );
-
-		$routes = [
-			'dollie_login_redirect' => new Route( '/site_login_redirect', 'route_login_redirect' ),
-			'dollie_wizard'         => new Route( '/wizard', 'route_wizard' ),
-		];
-
-		if ( get_option( 'options_wpd_enable_site_preview', 1 ) ) {
-			$routes['dollie_preview'] = new Route( '/' . dollie()->get_preview_url( 'path' ), 'route_preview' );
-		}
-
-		Processor::init( $router, $routes );
-	}
-
-	/**
 	 * Load CSS and JS resources
 	 *
 	 * @return void
 	 */
 	public function load_resources() {
-		 $min = '.min';
+		$min = '.min';
 
 		if ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) {
 			$min = '';
@@ -302,6 +269,24 @@ class Plugin extends Singleton {
 	}
 
 	/**
+	 * Load routes
+	 */
+	private function load_routes() {
+		$router = new Router( 'dollie_route_name' );
+
+		$routes = [
+			'dollie_login_redirect' => new Route( '/site_login_redirect', 'route_login_redirect' ),
+			'dollie_wizard'         => new Route( '/wizard', 'route_wizard' ),
+		];
+
+		if ( get_option( 'options_wpd_enable_site_preview', 1 ) ) {
+			$routes['dollie_preview'] = new Route( '/' . dollie()->get_preview_url( 'path' ), 'route_preview' );
+		}
+
+		Processor::init( $router, $routes );
+	}
+
+	/**
 	 * Redirect to route
 	 *
 	 * @return void
@@ -317,10 +302,9 @@ class Plugin extends Singleton {
 			exit;
 		}
 
-		$container_id = (int) $_GET['site'];
-		$container    = dollie()->get_current_object( $container_id );
+		$container = dollie()->get_container( (int) $_GET['site'] );
 
-		if ( ! current_user_can( 'manage_options' ) && get_current_user_id() != $container->author ) {
+		if ( is_wp_error( $container ) || ! current_user_can( 'manage_options' ) && get_current_user_id() != $container->author ) {
 			wp_redirect( home_url() );
 			exit;
 		}

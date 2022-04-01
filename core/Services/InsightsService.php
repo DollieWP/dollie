@@ -1,21 +1,14 @@
 <?php
 
-namespace Dollie\Core\Modules;
+namespace Dollie\Core\Services;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 use Dollie\Core\Singleton;
-use WP_Query;
 
-/**
- * Class SiteInsights
- *
- * @package Dollie\Core\Modules
- */
-class SiteInsights extends Singleton {
-
+class InsightsService extends Singleton {
 	/**
 	 * Get site posts
 	 *
@@ -88,7 +81,7 @@ class SiteInsights extends Singleton {
 	public function get_total_container_size() {
 		$user_id = get_current_user_id();
 
-		$query = new WP_Query(
+		$query = new \WP_Query(
 			[
 				'post_type'   => [ 'container' ],
 				'post_status' => [ 'published' ],

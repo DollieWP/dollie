@@ -48,10 +48,10 @@ if ( ! isset( $view_type ) ) {
 				$list_item_class      = [];
 				$btn_controls_classes = [];
 
-				$domain = dollie()->get_wp_site_data( 'uri', get_the_ID() );
+				$domain = $container->get_url();
 
 				$data = [
-					'slug'       => $container->get_name(),
+					'slug'       => $container->get_slug(),
 					'domain'     => $container->get_url(),
 					'name'       => $container->get_title(),
 					'wp_version' => $container->get_meta( 'wp_version' ),
@@ -81,7 +81,7 @@ if ( ! isset( $view_type ) ) {
 
 						<div class="dol-sites-image dol-relative">
 							<div class="dol-sites-image-box">
-								<?php echo dollie()->get_site_screenshot( get_the_ID() ); ?>
+								<?php echo $container->get_screenshot(); ?>
 							</div>
 
 							<div class="dol-sites-status">
@@ -188,7 +188,6 @@ if ( ! isset( $view_type ) ) {
 		<div class="dol-flex dol-items-center dol-justify-center">
 			<div class="dol-text-2xl dol-text-primary-600">
 				<?php
-				// printf(esc_html__('No %s Launched Yet..', 'dollie-setup'), dollie()->string_variants()->get_site_type_plural_string());
 
 				$data = [
 					'settings' => array(

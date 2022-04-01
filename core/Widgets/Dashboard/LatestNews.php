@@ -35,7 +35,7 @@ class LatestNews extends \Elementor\Widget_Base {
 
 	protected function render() {
 		$data = [
-			'posts'    => dollie()->get_site_posts(),
+			'posts'    => dollie()->insights()->get_posts(),
 			'settings' => $this->get_settings_for_display(),
 		];
 

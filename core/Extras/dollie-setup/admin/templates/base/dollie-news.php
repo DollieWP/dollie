@@ -7,7 +7,7 @@
 	dollie()->load_template(
 		'widgets/dashboard/dollie-news',
 		[
-			'posts' => dollie()->get_dashboard_news(),
+			'posts' => dollie()->insights()->get_dashboard_news(),
 		],
 		true
 	);

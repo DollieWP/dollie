@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Api;
 use Dollie\Core\Modules\Domain;
 use Dollie\Core\Modules\Forms;
 
@@ -65,7 +64,6 @@ class DomainConnect extends Singleton {
 			return;
 		}
 
-		$container = Forms::get_form_container();
 		$domain    = trim( af_get_field( 'domain_name' ) );
 		$domain    = str_replace( [ 'http://', 'https://' ], '', $domain );
 		$allow_dns = af_get_field( 'allow_dns' );
@@ -76,7 +74,7 @@ class DomainConnect extends Singleton {
 		}
 
 		// Extra check and see if the same domain is already linked - skip.
-		$saved_domain = get_post_meta( $container->id, 'wpd_domains', true );
+		$saved_domain = get_post_meta( $container->get_id(), 'wpd_domains', true );
 
 		if ( $saved_domain === $domain ) {
 			return;
@@ -87,15 +85,15 @@ class DomainConnect extends Singleton {
 				Api::ROUTE_DOMAIN_ADD,
 				[
 					'name'          => $domain,
-					'container_uri' => dollie()->get_wp_site_data( 'uri', $container->id ),
+					'container_uri' => $container->get_original_url(),
 					'normal'        => 'yes',
 				]
 			);
 
 			if ( $zone_id ) {
-				update_post_meta( $container->id, 'wpd_domain_dns_manager', 'pending' );
-				update_post_meta( $container->id, 'wpd_domain_zone', $zone_id );
-				update_post_meta( $container->id, 'wpd_domain_pending', $domain );
+				update_post_meta( $container->get_id(), 'wpd_domain_dns_manager', 'pending' );
+				update_post_meta( $container->get_id(), 'wpd_domain_zone', $zone_id );
+				update_post_meta( $container->get_id(), 'wpd_domain_pending', $domain );
 			} else {
 				af_add_submission_error(
 					wp_kses_post(
@@ -144,7 +142,7 @@ class DomainConnect extends Singleton {
 		$domain  = trim( af_get_field( 'domain_name' ) );
 		$domain  = str_replace( [ 'http://', 'https://' ], '', $domain );
 		$records = dollie()->get_domain_existing_records( $domain );
-		$ip      = dollie()->get_wp_site_data( 'ip', $container->id );
+		$ip      = $container->get_meta( 'ip' );
 
 		if ( 'no' === af_get_field( 'allow_dns' ) ) {
 			if ( empty( $records ) ) {

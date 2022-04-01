@@ -54,7 +54,7 @@ final class Container extends Singleton implements ConstInterface {
 
 		add_filter( 'gettext', [ $this, 'override_empty_trash' ], 50, 3 );
 
-		add_action( 'edit_form_after_title', [ NoticeService::instance(), 'container_manager_notice' ] );
+		add_action( 'edit_form_after_title', [ NoticeService::instance(), 'container_manager' ] );
 	}
 
 	/**

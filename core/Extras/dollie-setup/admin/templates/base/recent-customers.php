@@ -16,6 +16,7 @@
 					$customers = new WP_User_Query( $args );
 					if ( ! empty( $customers->results ) ) {
 						foreach ( $customers->results as $customer ) {
+							$user = dollie()->get_user( $customer );
 							?>
 							<li class="dol-py-3">
 								<div class="dol-flex dol-items-center dol-space-x-4">
@@ -23,8 +24,8 @@
 										<?php echo get_avatar( $customer->ID, '100', '', '', [ 'class' => 'dol-w-8 dol-h-8 dol-rounded-full' ] ); ?>
 									</div>
 									<div class="dol-flex-1 dol-min-w-0">
-										<p class="dol-text-sm dol-font-medium dol-text-gray-900 dol-truncate"><?php echo $customer->display_name; ?></p>
-										<p class="dol-text-sm dol-text-gray-500 dol-truncate"><?php echo dollie()->count_customer_containers( $customer->ID ); ?> <?php echo dollie()->string_variants()->get_site_type_plural_string(); ?></p>
+										<p class="dol-text-sm dol-font-medium dol-text-gray-900 dol-truncate"><?php echo $user->get_display_name(); ?></p>
+										<p class="dol-text-sm dol-text-gray-500 dol-truncate"><?php echo $user->count_containers(); ?> <?php echo dollie()->string_variants()->get_site_type_plural_string(); ?></p>
 									</div>
 									<div>
 										<a href="<?php echo get_edit_user_link( $customer->ID ); ?>" class="dol-inline-flex dol-items-center dol-shadow-sm dol-px-2.5 dol-py-0.5 dol-border dol-border-gray-300 dol-text-sm dol-leading-5 dol-font-medium dol-rounded-full dol-text-gray-700 dol-bg-white hover:dol-bg-gray-50"> Edit Client </a>

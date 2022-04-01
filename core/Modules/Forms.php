@@ -6,6 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Factories\Blueprint;
+use Dollie\Core\Factories\Site;
+use Dollie\Core\Factories\Staging;
 use Dollie\Core\Forms\CreateBackup;
 use Dollie\Core\Forms\DomainConnect;
 use Dollie\Core\Forms\LaunchSite;
@@ -111,7 +114,8 @@ class Forms extends Singleton {
 
 		if ( ( 'dollie_container_url' === $tag ) && isset( $_POST['dollie_post_id'] ) ) {
 			$container = self::get_form_container();
-			if ( ! is_wp_error( $container ) ) {
+
+			if ( false !== $container ) {
 				return $container->get_url();
 			}
 		}
@@ -149,7 +153,7 @@ class Forms extends Singleton {
 	public function get_container_login_url() {
 		$container = self::get_form_container();
 
-		if ( ! is_wp_error( $container ) ) {
+		if ( false !== $container ) {
 			return $container->get_login_url();
 		}
 
@@ -544,10 +548,7 @@ class Forms extends Singleton {
 				$field['message'] = str_replace( '{dollie_user_display_name}', $user->display_name, $field['message'] );
 			}
 
-			// Support link.
 			$field['message'] = str_replace( '{dollie_support_link}', dollie()->get_support_link(), $field['message'] );
-
-			// Allow shortcodes.
 			$field['message'] = do_shortcode( $field['message'] );
 		}
 
@@ -603,9 +604,9 @@ class Forms extends Singleton {
 	/**
 	 * Get the container we used the form on
 	 *
-	 * @return bool|\stdClass
+	 * @return boolean|Site|Blueprint|Staging
 	 */
-	public static function get_form_container() {
+	public static function get_form_container(): bool|Site|Blueprint|Staging {
 		if ( isset( AF()->submission['extra'], AF()->submission['extra']['dollie_container_id'] ) ) {
 			$post_id = AF()->submission['extra']['dollie_container_id'];
 		} elseif ( isset( $_POST['dollie_post_id'] ) ) {
@@ -616,7 +617,13 @@ class Forms extends Singleton {
 			return false;
 		}
 
-		return dollie()->get_container( $post_id );
+		$container = dollie()->get_container( $post_id );
+
+		if ( is_wp_error( $container ) ) {
+			return false;
+		}
+
+		return $container;
 	}
 
 	/**

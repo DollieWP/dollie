@@ -3,8 +3,6 @@ if ( ! \Elementor\Plugin::instance()->editor->is_edit_mode() ) {
 	wp_enqueue_script( 'dollie-layout-alpine' );
 }
 
-use Dollie\Core\Modules\AccessControl;
-
 if ( get_field( 'wpd_allow_site_dashboard_access', 'options' ) === 0 && ! current_user_can( 'manage_options' ) ) {
 	return false;
 }
@@ -29,7 +27,7 @@ $containers = new WP_Query(
 					\Elementor\Icons_Manager::render_icon( $settings['icon'], [ 'aria-hidden' => 'true' ] );
 				}
 
-				echo dollie()->get_sites_page_title();
+				echo dollie()->page()->get_sites_title();
 				?>
 			</span>
 		</li>
@@ -116,13 +114,17 @@ $containers = new WP_Query(
 				<div x-show="open" class="dol-p-2" style="display: none;">
 					<?php foreach ( $menu as $page => $title ) : ?>
 						<?php
+
 						if ( '' === $page ) {
 							$page = 'dashboard';
 						}
-						if ( ! dollie()->in_array_r( $page, AccessControl::instance()->get_available_sections() ) ) {
+
+						if ( ! dollie()->in_array_r( $page, dollie()->access()->get_available_sections() ) ) {
 							continue;
 						}
+
 						$active_class = $sub_page === $page ? ' dol-text-primary' : 'dol-font-normal dol-text-gray-400';
+
 						?>
 						<a class="<?php echo esc_attr( $active_class ); ?> dol-py-2 dol-px-3 dol-block dol-text-sm dol-text-gray-400 hover:dol-bg-primary hover:dol-text-white"
 						   href="<?php echo $container->get_permalink( $page ); ?>">

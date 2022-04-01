@@ -1,8 +1,12 @@
 <?php
 
 
-namespace Dollie\Core\Admin;
+namespace Dollie\Core;
 
+use Dollie\Core\Admin\Container;
+use Dollie\Core\Admin\NavMenu;
+use Dollie\Core\Admin\Upgrades;
+use Dollie\Core\Services\NoticeService;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
 
@@ -27,6 +31,11 @@ final class Admin extends Singleton implements ConstInterface {
 				add_action( 'acf/input/admin_head', [ $this, 'add_api_box' ], 1 );
 			}
 		}
+
+		add_action( 'admin_notices', [ NoticeService::instance(), 'not_connected' ] );
+		add_action( 'admin_notices', [ NoticeService::instance(), 'custom_deploy_domain' ] );
+		add_action( 'admin_notices', [ NoticeService::instance(), 'subscription_no_credits' ] );
+		add_action( 'wp_ajax_dollie_hide_domain_notice', [ NoticeService::instance(), 'remove_custom_deploy_domain' ] );
 	}
 
 	/**
@@ -127,5 +136,19 @@ final class Admin extends Singleton implements ConstInterface {
 	 */
 	public function api_box_callback( $post, $args = [] ) {
 		dollie_setup_get_template_part( 'setup-complete' );
+	}
+
+	/**
+	 * Remove deployment domain
+	 *
+	 * @return void
+	 */
+	public function remove_custom_deploy_domain(): void {
+		if ( ! check_ajax_referer( 'dollie_notice', '_dollie_nonce' ) ) {
+			wp_send_json_error();
+		}
+
+		update_option( 'deployment_domain_notice', true );
+		wp_send_json_success();
 	}
 }

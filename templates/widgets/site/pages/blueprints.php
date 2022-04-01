@@ -169,7 +169,7 @@ $container = dollie()->get_container();
 					</h4>
 				</div>
 				<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
-					<?php $blueprints = dollie()->get_available_blueprints(); ?>
+					<?php $blueprints = $container->get_available_blueprints(); ?>
 					<?php if ( ! empty( $blueprints ) ) : ?>
 						<ul class="dol-list-none dol-m-0 dol-p-0">
 							<?php foreach ( $blueprints as $blueprint ) : ?>

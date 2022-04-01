@@ -2,7 +2,9 @@
 
 namespace Dollie\Core\Modules;
 
-class Preview {
+use Dollie\Core\Singleton;
+
+class Preview extends Singleton {
 	/**
 	 * Preview constructor
 	 */

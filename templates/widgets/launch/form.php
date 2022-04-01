@@ -1,6 +1,8 @@
 <?php
 
-if ( ! dollie()->has_partner_subscription() || ! dollie()->has_partner_credits() || ( dollie()->is_partner_subscription_trial() && 0 === dollie()->get_partner_subscription_credits() ) ) {
+$subscription = dollie()->subscription();
+
+if ( ! $subscription->has_partner_subscription() || ! $subscription->has_partner_credits() || ( $subscription->is_partner_subscription_trial() && 0 === $subscription->get_partner_subscription_credits() ) ) {
 
 	$message = esc_html__( 'We are hard at work at our infrastructure, please come back to this page at a later time.', 'dollie' );
 
@@ -25,8 +27,8 @@ if ( ! dollie()->has_partner_subscription() || ! dollie()->has_partner_credits()
 	return;
 }
 
-if ( current_user_can( 'manage_options' ) || dollie()->has_subscription() ) {
-	if ( ! dollie()->site_limit_reached() && ! dollie()->size_limit_reached() && ! dollie()->staging_limit_reached() ) {
+if ( current_user_can( 'manage_options' ) || $subscription->has_subscription() ) {
+	if ( ! $subscription->site_limit_reached() && ! $subscription->size_limit_reached() && ! $subscription->staging_limit_reached() ) {
 		$form_type         = $settings['type'] ?? 'site';
 		$button_text       = isset( $settings['button_text'] ) && $settings['button_text'] ? $settings['button_text'] : esc_html__( 'Launch New ', 'dollie' );
 		$advanced_settings = (bool) $settings['advanced_settings'];
@@ -51,6 +53,3 @@ dollie()->load_template(
 	],
 	true
 );
-
-
-

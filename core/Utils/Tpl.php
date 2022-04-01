@@ -15,13 +15,13 @@ class Tpl {
 	/**
 	 * Outputs or returns a template
 	 *
-	 * @param $path
-	 * @param array $args
-	 * @param bool  $echo
+	 * @param string $path
+	 * @param array  $args
+	 * @param bool   $echo
 	 *
 	 * @return false|string|void
 	 */
-	public static function load( $path = null, $args = [], $echo = false ) {
+	public static function load( string $path = null, array $args = [], $echo = false ) {
 		$template = self::get_path( $path );
 
 		if ( empty( $template ) ) {
@@ -44,11 +44,11 @@ class Tpl {
 	/**
 	 * Get full template path
 	 *
-	 * @param $path
+	 * @param string $path
 	 *
 	 * @return false|string
 	 */
-	public static function get_path( $path ) {
+	public static function get_path( string $path ) {
 		if ( ! isset( $path ) ) {
 			return false;
 		}

@@ -481,19 +481,19 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 * @return array
 	 */
 	public function filter_blueprints( $blueprints ) {
-
 		if ( current_user_can( 'manage_options' ) ) {
 			return $blueprints;
 		}
 
 		if ( ! empty( $blueprints ) ) {
-
 			$included = $this->get_blueprints_exception( 'included' );
+
 			if ( ! empty( $included ) ) {
 				return array_intersect_key( $blueprints, $included );
 			}
 
 			$excluded = $this->get_blueprints_exception();
+
 			if ( ! empty( $excluded ) ) {
 				foreach ( $excluded as $bp_id ) {
 					if ( isset( $blueprints[ $bp_id ] ) ) {

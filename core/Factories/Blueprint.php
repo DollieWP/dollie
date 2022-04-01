@@ -68,14 +68,12 @@ final class Blueprint extends BaseContainer {
 	}
 
 	/**
-	 * Check dynamic fields
+	 * Check if it is private
 	 *
-	 * @param array $fields
-	 *
-	 * @return boolean|array
+	 * @return boolean
 	 */
-	public function check_dynamic_fields( array $fields ): bool|array {
-		return $this->check_blueprint_dynamic_fields( $this->get_hash(), $fields );
+	public function is_private(): bool {
+		return 'yes' === get_field( 'wpd_private_blueprint', $this->get_id() );
 	}
 
 	/**
@@ -112,5 +110,47 @@ final class Blueprint extends BaseContainer {
 	 */
 	public function get_changes_update_time(): bool|string {
 		return get_post_time( $this->post->ID, 'dollie_blueprint_update_time', true );
+	}
+
+	/**
+	 * Check dynamic fields
+	 *
+	 * @return boolean|array
+	 */
+	public function check_dynamic_fields(): bool|array {
+		$fields = [];
+
+		foreach ( $this->get_dynamic_fields() as $field ) {
+			$fields[] = $field['placeholder'];
+		}
+
+		return $this->check_blueprint_dynamic_fields( $this->get_hash(), $fields );
+	}
+
+	/**
+	 * Get dynamic fields
+	 *
+	 * @return array
+	 */
+	public function get_dynamic_fields(): array {
+		$fields = get_field( 'wpd_dynamic_blueprint_data', 'create_update_blueprint_' . $this->get_id() );
+
+		if ( ! is_array( $fields ) ) {
+			return [];
+		}
+
+		return $fields;
+	}
+
+	public function get_screenshot(): bool|string {
+		if ( get_field( 'wpd_blueprint_image', $this->get_id() ) === 'custom' ) {
+			$image = get_field( 'wpd_blueprint_custom_image', $this->get_id() );
+
+			if ( is_array( $image ) ) {
+				return $image['url'];
+			}
+		}
+
+		return parent::get_screenshot();
 	}
 }

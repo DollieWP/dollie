@@ -78,9 +78,9 @@ final class DeployService extends Singleton implements ConstInterface {
 	 *
 	 * @param BaseContainer $container
 	 *
-	 * @return void
+	 * @return boolean
 	 */
-	public function check_deploy( BaseContainer $container ) {
+	public function check_deploy( BaseContainer $container ): \WP_Error|bool {
 		if ( ! $container->is_deploying() ) {
 			return new \WP_Error( 500, 'Container is not deploying' );
 		}

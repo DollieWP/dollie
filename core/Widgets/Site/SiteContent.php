@@ -51,11 +51,9 @@ class SiteContent extends \Elementor\Widget_Base {
 			return false;
 		}
 
-		$current_id = dollie()->get_current_post_id();
-
 		$data = [
 			'settings'   => $this->get_settings_for_display(),
-			'current_id' => $current_id,
+			'current_id' => dollie()->get_current_post_id(),
 		];
 
 		$elementor_builder = \Elementor\Plugin::instance()->editor->is_edit_mode()

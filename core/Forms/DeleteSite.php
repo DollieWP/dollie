@@ -54,10 +54,10 @@ class DeleteSite extends Singleton {
 	public function submission_callback( $form, $fields, $args ) {
 		$container = Forms::get_form_container();
 
-		Domain::instance()->remove_route( $container->id );
-		Backups::instance()->make( $container->id, false );
+		// Domain::instance()->remove_route( $container->id );
+		// Backups::instance()->make( $container->id, false );
 
-		wp_delete_post( $container->id, true ); // also hooks into undeploy
+		wp_delete_post( $container->get_id(), true ); // also hooks into undeploy
 
 	}
 
@@ -70,7 +70,7 @@ class DeleteSite extends Singleton {
 	public function validate_form( $form, $args ) {
 		$container = Forms::get_form_container();
 
-		if ( ! af_get_field( 'confirm_site_name' ) || af_get_field( 'confirm_site_name' ) !== $container->slug ) {
+		if ( ! af_get_field( 'confirm_site_name' ) || af_get_field( 'confirm_site_name' ) !== $container->get_slug() ) {
 			af_add_error( 'confirm_site_name', __( 'Please type the unique name of your site. Your site name is shown in the sidebar and in your URL address bar.', 'dollie' ) );
 		}
 	}

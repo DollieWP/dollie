@@ -130,8 +130,8 @@ class CustomersList extends \Elementor\Widget_Base {
 
 		$customers = new WP_User_Query( $args );
 
-		$total_customers = $customers->get_total(); // How many users we have in total (beyond the current page)
-		$num_pages       = ceil( $total_customers / $customers_per_page ); // How many pages of users we will need
+		$total_customers = $customers->get_total();
+		$num_pages       = ceil( $total_customers / $customers_per_page );
 
 		$view_type = isset( $_GET['list_type'] ) && in_array(
 			$_GET['list_type'],

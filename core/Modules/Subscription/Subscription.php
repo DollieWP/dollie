@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Modules\Subscription\Plugin\SubscriptionInterface;
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Api;
 
 /**
  * Class Subscription
@@ -113,8 +112,8 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		$subscription = get_transient( 'wpd_partner_subscription' );
 
 		if ( ! $subscription ) {
-			$subscription = Api::get( Api::ROUTE_CHECK_SUBSCRIPTION );
-
+			// $subscription = Api::get( Api::ROUTE_CHECK_SUBSCRIPTION );
+			$subscription = false;
 			set_transient( 'wpd_partner_subscription', $subscription, MINUTE_IN_SECONDS * 10 );
 		}
 

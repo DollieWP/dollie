@@ -1,20 +1,14 @@
 <?php
 
-namespace Dollie\Core\Modules;
+namespace Dollie\Core\Services;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Factories\User;
 
-/**
- * Class AccessControl
- *
- * @package Dollie\Core\Modules
- */
-class AccessControl extends Singleton {
+final class AccessService extends Singleton {
 	/**
 	 * Custom capabilities of custom post type
 	 */
@@ -22,35 +16,6 @@ class AccessControl extends Singleton {
 		'singular' => 'dollie_site',
 		'plural'   => 'dollie_sites',
 	];
-
-	/**
-	 * AccessControl constructor.
-	 */
-	public function __construct() {
-		parent::__construct();
-
-		add_action( 'template_redirect', [ $this, 'logged_in_only' ] );
-		add_action( 'template_redirect', [ $this, 'protect_launch_site' ] );
-		add_action( 'template_redirect', [ $this, 'protect_container_access' ], 1 );
-		add_action( 'template_redirect', [ $this, 'disable_blueprint_domain_access' ], 1 );
-		// add_action( 'admin_init', [ $this, 'admin_access_only' ], 100 );
-		add_action( 'user_has_cap', [ $this, 'restrict_form_delete' ], 10, 3 );
-
-		add_filter( 'wp_dropdown_users_args', [ $this, 'allow_all_authors' ], 10, 2 );
-
-		add_action( 'init', [ $this, 'sites_capabilities' ] );
-		add_filter( 'acf/save_post', [ $this, 'acf_remove_cap_option' ], 10, 1 );
-
-		add_filter( 'acf/load_field/name=wpd_view_sites_permission', [ $this, 'acf_set_roles' ] );
-		add_filter( 'acf/load_field/name=manage_sites_permission', [ $this, 'acf_set_roles' ] );
-		add_filter( 'acf/load_field/name=delete_sites_permission', [ $this, 'acf_set_roles' ] );
-		add_action( 'acf/render_field_settings', [ $this, 'acf_field_access' ] );
-		add_filter( 'acf/prepare_field', [ $this, 'acf_field_prepare_access' ] );
-
-		add_filter( 'pre_get_posts', [ $this, 'sites_for_current_author' ] );
-		add_filter( 'body_class', [ $this, 'add_permissions_body_class' ] );
-
-	}
 
 	/**
 	 * Filter sites for current author
@@ -70,7 +35,7 @@ class AccessControl extends Singleton {
 			return $query;
 		}
 
-		$user = new User();
+		$user = dollie()->get_user();
 		if ( ! $user->can_view_all_sites() ) {
 			$query->set( 'author', $user->get_id() );
 		}
@@ -234,7 +199,7 @@ class AccessControl extends Singleton {
 	/**
 	 * Get roles
 	 *
-	 * @return void
+	 * @return array
 	 */
 	private function get_roles() {
 		global $wp_roles;
@@ -314,7 +279,7 @@ class AccessControl extends Singleton {
 	 */
 	public function protect_container_access() {
 		$sub_page = get_query_var( 'sub_page' );
-		$user     = new User();
+		$user     = dollie()->get_user();
 
 		if ( $user->can_manage_all_sites() ) {
 			return;
@@ -326,18 +291,16 @@ class AccessControl extends Singleton {
 		}
 
 		if ( is_singular( 'container' ) ) {
-
 			global $post;
-			$current_user_id = get_current_user_id();
 
 			// If something wrong with the logged in user or post author.
-			if ( empty( $current_user_id ) || empty( (int) $post->post_author ) ) {
+			if ( ! $user || empty( (int) $post->post_author ) ) {
 				wp_redirect( get_site_url( null, '/' ) );
 				exit();
 			}
 
 			// Is site owner?
-			if ( $post && (int) $post->post_author !== get_current_user_id() ) {
+			if ( $post && (int) $post->post_author !== $user->get_id() ) {
 				wp_redirect( get_site_url( null, '/' ) );
 				exit();
 			}
@@ -358,9 +321,7 @@ class AccessControl extends Singleton {
 	 * @return array
 	 */
 	public function add_permissions_body_class( $classes ) {
-		$user = new User();
-
-		if ( $user->can_manage_all_sites() || current_user_can( 'manage_options' ) ) {
+		if ( dollie()->get_user()->can_manage_all_sites() || current_user_can( 'manage_options' ) ) {
 			$classes[] = 'dol-is-admin';
 		} else {
 			$classes[] = 'dol-is-user';
@@ -402,9 +363,7 @@ class AccessControl extends Singleton {
 		}
 
 		// return false if is not Dollie admin (removes field)
-		$user = new User();
-
-		if ( ! $user->can_manage_all_sites() || ! current_user_can( 'manage_options' ) ) {
+		if ( ! dollie()->get_user()->can_manage_all_sites() || ! current_user_can( 'manage_options' ) ) {
 			return true;
 		}
 
@@ -457,7 +416,7 @@ class AccessControl extends Singleton {
 	 * Admin access only for dashboard
 	 */
 	public function admin_access_only() {
-		$dash_id = dollie()->get_dashboard_page_id();
+		$dash_id = dollie()->page()->get_dashboard_id();
 
 		if ( ! $dash_id ) {
 			return;

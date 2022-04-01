@@ -17,7 +17,7 @@
 <select name="action" id="dol-bulk-action-type" class="w-full dol-mb-4 dol-block dol-action-list dol-bg-white dol-rounded dol-px-4 dol-py-2 dol-border-solid dol-border-gray-300 dol-text-base dol-text-gray-700 focus:dol-border-gray-400 focus:dol-outline-none">
 	<option value="" disabled selected><?php esc_html_e( 'Select Bulk Action', 'dollie' ); ?></option>
 
-	<?php foreach ( dollie()->get_allowed_bulk_commands() as $type => $label ) : ?>
+	<?php foreach ( dollie()->bulk_actions()->get_allowed_commands() as $type => $label ) : ?>
 		<option value="<?php echo esc_attr( $type ); ?>"><?php echo $label; ?></option>
 	<?php endforeach; ?>
 </select>

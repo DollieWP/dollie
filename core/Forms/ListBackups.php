@@ -9,7 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dollie\Core\Modules\Backups;
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Singleton;
-use Dollie\Core\Utils\Api;
 
 /**
  * Class ListBackups
@@ -56,16 +55,22 @@ class ListBackups extends Singleton {
 	 * @param $args
 	 */
 	public function submission_callback( $form, $fields, $args ) {
-		$container_id = (int) $_POST['dollie_post_id'];
+		$post_id = (int) $_POST['dollie_post_id'];
 
-		if ( $container_id <= 0 ) {
+		if ( $post_id <= 0 ) {
+			return;
+		}
+
+		$container = dollie()->get_container( $post_id );
+
+		if ( is_wp_error( $container ) ) {
 			return;
 		}
 
 		Api::post(
 			Api::ROUTE_BACKUP_RESTORE,
 			[
-				'container_uri' => dollie()->get_wp_site_data( 'uri', $container_id ),
+				'container_uri' => $container->get_hash(),
 				'backup'        => Forms::get_field( 'site_backup' ),
 				'backup_type'   => Forms::get_field( 'what_to_restore' ),
 			]
@@ -88,7 +93,6 @@ class ListBackups extends Singleton {
 		$backups = Backups::instance()->get();
 
 		if ( false === $backups ) {
-
 			return dollie()->load_template(
 				'notice',
 				[
@@ -100,7 +104,6 @@ class ListBackups extends Singleton {
 				],
 				false
 			);
-
 		}
 
 		return $restriction;
