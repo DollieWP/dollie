@@ -1,5 +1,5 @@
 <?php
-if ( ! \Elementor\Plugin::instance()->editor->is_edit_mode() ) {
+if ( ! dollie()->is_elementor_editor() ) {
 	wp_enqueue_script( 'dollie-layout-alpine' );
 }
 
@@ -61,7 +61,7 @@ $containers = new WP_Query(
 				'migrate'         => dollie()->icon()->migration() . __( 'Migrate', 'dollie' ),
 			];
 
-			if ( dollie()->has_staging() ) {
+			if ( $container->has_staging() ) {
 				$menu['staging'] = dollie()->icon()->staging() . esc_html__( 'Staging', 'dollie' );
 			}
 
@@ -123,7 +123,7 @@ $containers = new WP_Query(
 							continue;
 						}
 
-						$active_class = $sub_page === $page ? ' dol-text-primary' : 'dol-font-normal dol-text-gray-400';
+						$active_class = ! $sub_page || $sub_page === $page ? 'dol-text-primary' : 'dol-font-normal dol-text-gray-400';
 
 						?>
 						<a class="<?php echo esc_attr( $active_class ); ?> dol-py-2 dol-px-3 dol-block dol-text-sm dol-text-gray-400 hover:dol-bg-primary hover:dol-text-white"

@@ -72,13 +72,7 @@ final class StagingService extends Singleton {
 			return;
 		}
 
-		if ( dollie()->staging_sites_limit_reached() ) {
-			return;
-		}
-
-		$deploy_job_uuid = Container::instance()->get_staging_deploy_job( get_the_ID() );
-
-		if ( $deploy_job_uuid ) {
+		if ( dollie()->subscription()->staging_sites_limit_reached() ) {
 			return;
 		}
 
@@ -141,12 +135,6 @@ final class StagingService extends Singleton {
 	 */
 	public function check_deploy() {
 		if ( ! is_singular( 'container' ) ) {
-			return;
-		}
-
-		$deploy_job_uuid = Container::instance()->get_staging_deploy_job( get_the_ID() );
-
-		if ( ! $deploy_job_uuid ) {
 			return;
 		}
 

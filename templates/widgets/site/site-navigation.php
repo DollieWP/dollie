@@ -31,7 +31,7 @@ $container = dollie()->get_container( $current_id );
 					unset( $menu['blueprints'] );
 				}
 
-				if ( dollie()->has_staging() ) {
+				if ( $container->has_staging() ) {
 					$staging_url = get_post_meta( $current_id, '_wpd_staging_url', true );
 					if ( $staging_url ) {
 						$menu['staging'] = dollie()->icon()->staging() . esc_html__( 'Staging', 'dollie' ) . '<span style="display: inline-block; margin-left: 2px;"; class="dol-flex dol-h-3 dol-w-3 dol-relative">
@@ -62,7 +62,8 @@ $container = dollie()->get_container( $current_id );
 								continue;
 							}
 
-							$active_class = $sub_page === $page ? 'dol-text-primary' : 'dol-text-gray-400';
+							$active_class = ! $sub_page || $sub_page === $page ? 'dol-text-primary' : 'dol-text-gray-400';
+
 							?>
 							<li class="dol-my-2">
 								<a class="dol-flex dol-items-center dol-nav-btn-secondary <?php echo esc_attr( $active_class ); ?>"

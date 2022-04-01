@@ -74,7 +74,7 @@ final class Sites extends Singleton implements Base {
 			];
 		}
 
-		if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) {
+		if ( isset( $_GET['blueprints'] ) ) {
 			$args['meta_query'] = [
 				'relation' => 'OR',
 				[
@@ -100,10 +100,11 @@ final class Sites extends Singleton implements Base {
 		) ? sanitize_text_field( $_GET['list_type'] ) : 'list';
 
 		$data = [
-			'sites'      => $sites,
-			'view_type'  => $view_type,
-			'settings'   => $a,
-			'query_data' => [
+			'sites'       => $sites->get_posts(),
+			'sites_pages' => $sites->max_num_pages,
+			'view_type'   => $view_type,
+			'settings'    => $a,
+			'query_data'  => [
 				'permalink'    => get_the_permalink(),
 				'current_page' => get_query_var( 'paged', 1 ),
 			],

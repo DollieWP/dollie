@@ -120,7 +120,7 @@ class InsightsService extends Singleton {
 			return [];
 		}
 
-		$response = get_transient( 'dollie_recent_posts_' . $container->slug );
+		$response = get_transient( 'dollie_recent_posts_' . $container->get_slug() );
 
 		if ( empty( $response ) ) {
 			$response = wp_remote_get( $container->get_url() . '/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=6&_embed' );
@@ -129,7 +129,7 @@ class InsightsService extends Singleton {
 				return [];
 			}
 
-			set_transient( 'dollie_recent_posts_' . $container->slug, $response, 3600 );
+			set_transient( 'dollie_recent_posts_' . $container->get_slug(), $response, 3600 );
 		}
 
 		return json_decode( wp_remote_retrieve_body( $response ) );

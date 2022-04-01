@@ -44,7 +44,7 @@ trait Api {
 					'method'  => 'GET',
 					'headers' => [
 						'Accept'        => 'application/json',
-						'Authorization' => ( new AuthService() )->get_token(),
+						'Authorization' => AuthService::instance()->get_token(),
 					],
 				]
 			)
@@ -78,7 +78,7 @@ trait Api {
 					'body'    => $data,
 					'headers' => [
 						'Accept'        => 'application/json',
-						'Authorization' => ( new AuthService() )->get_token(),
+						'Authorization' => AuthService::instance()->get_token(),
 					],
 				]
 			)
@@ -110,7 +110,7 @@ trait Api {
 					'method'  => 'DELETE',
 					'headers' => [
 						'Accept'        => 'application/json',
-						'Authorization' => ( new AuthService() )->get_token(),
+						'Authorization' => AuthService::instance()->get_token(),
 					],
 				]
 			)

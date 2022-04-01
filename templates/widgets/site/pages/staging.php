@@ -1,7 +1,7 @@
 <div id="dol-staging-panel">
 	<?php
 
-	if ( ! \Elementor\Plugin::instance()->editor->is_edit_mode() ) {
+	if ( ! dollie()->is_elementor_editor() ) {
 		wp_enqueue_script( 'dollie-site-content' );
 	}
 

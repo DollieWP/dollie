@@ -303,7 +303,7 @@ class NavMenu extends Singleton {
 				if ( is_user_logged_in() ) {
 					$menu_item->_invalid = true;
 				} else {
-					$menu_item->url = dollie()->get_login_page_id() > 0 ? get_permalink( dollie()->get_login_page_id() ) : wp_login_url( $this->get_requested_url() );
+					$menu_item->url = dollie()->page()->get_login_id() > 0 ? get_permalink( dollie()->page()->get_login_id() ) : wp_login_url( $this->get_requested_url() );
 				}
 
 				break;
@@ -337,7 +337,7 @@ class NavMenu extends Singleton {
 					$menu_item->url       = wp_login_url( $this->get_requested_url() );
 					$menu_item->classes[] = 'dollie-login-nav';
 				} else {
-					$menu_item->url = dollie()->get_dashboard_page_url();
+					$menu_item->url = dollie()->page()->get_dashboard_url();
 
 					$avatar            = get_avatar_url(
 						get_current_user_id(),
@@ -479,9 +479,7 @@ class NavMenu extends Singleton {
 		$notifications = get_posts( $args );
 
 		if ( $notifications ) {
-
 			foreach ( $notifications as $notification ) {
-
 				$read_status = get_post_meta( $notification->ID, '_wpd_read', true ) === '1';
 				$read_class  = $read_status ? 'notif-read' : 'notif-unread';
 				$log_data    = get_post_meta( $notification->ID, '_wpd_log_data', true );

@@ -158,7 +158,6 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	 * @param null $id
 	 */
 	public function run_stop_sites() {
-
 		$query_args = [
 			'post_type'      => 'container',
 			'posts_per_page' => - 1,
@@ -186,7 +185,6 @@ class CustomerSubscriptionCheckJob extends Singleton {
 
 		wp_reset_postdata();
 		wp_reset_query();
-
 	}
 
 	/**
@@ -220,7 +218,6 @@ class CustomerSubscriptionCheckJob extends Singleton {
 
 		wp_reset_postdata();
 		wp_reset_query();
-
 	}
 
 	/**

@@ -317,10 +317,21 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @return array
 	 */
-	public function get_elementor_template_types() {
+	public function get_elementor_template_types(): array {
 		return [
 			'container' => __( 'Site View', 'dollie' ),
 		];
+	}
+
+	/**
+	 * Check if it is elementor editor panel
+	 *
+	 * @return boolean
+	 */
+	public function is_elementor_editor(): bool {
+		return class_exists( '\Elementor\Plugin' ) && ( \Elementor\Plugin::instance()->editor->is_edit_mode()
+				|| \Elementor\Plugin::instance()->preview->is_preview()
+				|| isset( $_GET['elementor_library'] ) );
 	}
 
 	/**
@@ -365,9 +376,7 @@ class Helpers extends Singleton implements ConstInterface {
 			return $current_id;
 		}
 
-		if ( \Elementor\Plugin::instance()->editor->is_edit_mode() ||
-			\Elementor\Plugin::instance()->preview->is_preview() ||
-			isset( $_GET['elementor_library'] ) ) {
+		if ( $this->is_elementor_editor() ) {
 			$my_sites = get_posts(
 				[
 					'post_type'      => 'container',

@@ -1,6 +1,5 @@
 <?php
 if ( isset( $_GET['payment-status'] ) ) {
-
 	dollie()->load_template(
 		'notice',
 		[
@@ -18,11 +17,9 @@ if ( isset( $_GET['payment-status'] ) ) {
 		],
 		true
 	);
-
 }
 
 if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
-
 	dollie()->load_template(
 		'notice',
 		[
@@ -40,10 +37,9 @@ if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
 		],
 		true
 	);
-
 }
 
-if ( dollie()->size_limit_reached() ) {
+if ( dollie()->subscription()->size_limit_reached() ) {
 	dollie()->load_template(
 		'notice',
 		[
@@ -57,7 +53,7 @@ if ( dollie()->size_limit_reached() ) {
 	);
 }
 
-if ( dollie()->site_limit_reached() ) {
+if ( dollie()->subscription()->site_limit_reached() ) {
 	dollie()->load_template(
 		'notice',
 		[

@@ -115,7 +115,7 @@ class SitesList extends \Elementor\Widget_Base {
 
 			$meta_query['search'][] = [
 				'key'     => '_wpd_container_data',
-				'value'   => sanitize_text_field($_GET['search']),
+				'value'   => sanitize_text_field( $_GET['search'] ),
 				'compare' => 'LIKE',
 			];
 
@@ -124,20 +124,15 @@ class SitesList extends \Elementor\Widget_Base {
 
 		if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) {
 			$meta_query['blueprint'][] = [
-				'key'     => 'wpd_is_blueprint',
-				'value'   => 'yes',
+				'key'     => 'dollie_container_type',
+				'value'   => '1',
 				'compare' => '=',
 			];
 		} else {
 			$meta_query['blueprint'][] = [
-				'key'     => 'wpd_is_blueprint',
-				'value'   => 'no',
+				'key'     => 'dollie_container_type',
+				'value'   => '0',
 				'compare' => '=',
-			];
-
-			$meta_query['blueprint'][] = [
-				'key'     => 'wpd_is_blueprint',
-				'compare' => 'NOT EXISTS',
 			];
 
 			$meta_query['blueprint']['relation'] = 'OR';
@@ -174,10 +169,11 @@ class SitesList extends \Elementor\Widget_Base {
 		) ? sanitize_text_field( $_GET['list_type'] ) : 'list';
 
 		$data = [
-			'sites'      => $sites,
-			'view_type'  => $view_type,
-			'settings'   => $settings,
-			'query_data' => [
+			'sites'       => $sites->get_posts(),
+			'sites_pages' => $sites->max_num_pages,
+			'view_type'   => $view_type,
+			'settings'    => $settings,
+			'query_data'  => [
 				'permalink'    => get_the_permalink(),
 				'current_page' => $current_page,
 			],

@@ -87,8 +87,31 @@ abstract class BaseContainer implements ConstInterface {
 		return $this;
 	}
 
+	/**
+	 * Check if it is running
+	 *
+	 * @return boolean
+	 */
 	public function is_running(): bool {
 		return 'Running' === $this->get_status();
+	}
+
+	/**
+	 * Check if it is running
+	 *
+	 * @return boolean
+	 */
+	public function is_stopped(): bool {
+		return 'Stopped' === $this->get_status();
+	}
+
+	/**
+	 * Check if it is failed
+	 *
+	 * @return boolean
+	 */
+	public function is_failed(): bool {
+		return 'Deploy Failed' === $this->get_status();
 	}
 
 	/**
@@ -97,7 +120,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return boolean
 	 */
 	public function is_deploying(): bool {
-		return (bool) $this->get_meta( 'deploying' );
+		return 'Deploying' === $this->get_status();
 	}
 
 	/**
@@ -119,7 +142,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return boolean
 	 */
 	public function is_owned_by_current_user(): bool {
-		return get_current_user_id() === $this->get_author();
+		return get_current_user_id() === $this->get_author_id();
 	}
 
 	/**
@@ -186,12 +209,21 @@ abstract class BaseContainer implements ConstInterface {
 	}
 
 	/**
-	 * Get post author
+	 * Get post author ID
 	 *
 	 * @return integer
 	 */
-	public function get_author(): int {
+	public function get_author_id(): int {
 		return $this->post->post_author;
+	}
+
+	/**
+	 * Get post author name
+	 *
+	 * @return string
+	 */
+	public function get_author_name(): string {
+		return get_the_author_meta( 'display_name', $this->get_author_id() );
 	}
 
 	/**
@@ -251,10 +283,10 @@ abstract class BaseContainer implements ConstInterface {
 	public function get_login_url( string $location = '' ): string {
 		$location = $location ? "&location={$location}" : '';
 
-		$role = get_user_meta( $this->get_author(), 'wpd_client_site_permissions', true );
+		$role = get_user_meta( $this->get_author_id(), 'wpd_client_site_permissions', true );
 
 		if ( empty( $role ) || ! is_string( $role ) ) {
-			if ( user_can( $this->get_author(), 'manage_options' ) ) {
+			if ( user_can( $this->get_author_id(), 'manage_options' ) ) {
 				$role = 'administrator';
 			} else {
 				$role = get_field( 'wpd_client_site_permission', 'options' );
@@ -398,6 +430,35 @@ abstract class BaseContainer implements ConstInterface {
 	}
 
 	/**
+	 * Get active theme
+	 *
+	 * @return string
+	 */
+	public function get_active_theme(): string {
+		$themes = $this->get_themes();
+
+		return '';
+	}
+
+	/**
+	 * Count updatable plugins
+	 *
+	 * @return integer
+	 */
+	public function get_updatable_plugins_count(): int {
+		return 0;
+	}
+
+	/**
+	 * Count updatable themes
+	 *
+	 * @return integer
+	 */
+	public function get_updatable_themes_count(): int {
+		return 0;
+	}
+
+	/**
 	 * Update plugins
 	 *
 	 * @param array $plugins
@@ -417,28 +478,6 @@ abstract class BaseContainer implements ConstInterface {
 	 */
 	public function update_themes( array $themes ): bool|array {
 		return $this->update_container_themes( $this->get_hash(), $themes );
-	}
-
-	/**
-	 * Set deploying
-	 *
-	 * @return self
-	 */
-	public function set_deploying(): self {
-		$this->set_meta( 'deploying', true );
-
-		return $this;
-	}
-
-	/**
-	 * Set not deploying
-	 *
-	 * @return self
-	 */
-	public function set_not_deploying(): self {
-		$this->delete_meta( 'deploying' );
-
-		return $this;
 	}
 
 	/**
@@ -505,6 +544,15 @@ abstract class BaseContainer implements ConstInterface {
 		delete_post_meta( $this->post->id, "dollie_container_{$key}" );
 
 		return $this;
+	}
+
+	/**
+	 * Check if site has staging
+	 *
+	 * @return boolean
+	 */
+	public function has_staging(): bool {
+		return false;
 	}
 
 	/**

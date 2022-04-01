@@ -130,7 +130,7 @@ if ( ! isset( $view_type ) ) {
 									<?php if ( $container->get_changes_update_time() ) : ?>
 										<?php echo $container->get_changes_update_time(); ?>
 									<?php else : ?>
-										<a class="dol-link" href="<?php echo $container->get_permalink(); ?>blueprints">
+										<a class="dol-link" href="<?php echo $container->get_permalink( 'blueprints' ); ?>">
 											<?php esc_html_e( 'Never. Update now!', 'dollie' ); ?>
 										</a>
 									<?php endif; ?>
@@ -148,7 +148,7 @@ if ( ! isset( $view_type ) ) {
 						<?php endif; ?>
 						<div class="dol-sites-controls">
 							<?php if ( $container->is_blueprint() ) : ?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink(); ?>blueprints" data-tooltip="<?php echo esc_attr__( 'Update Blueprint', 'dollie' ); ?>">
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink( 'blueprints' ); ?>" data-tooltip="<?php echo esc_attr__( 'Update Blueprint', 'dollie' ); ?>">
 									<?php echo dollie()->icon()->refresh(); ?>
 								</a>
 							<?php else : ?>

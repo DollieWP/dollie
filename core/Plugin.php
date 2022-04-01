@@ -94,7 +94,7 @@ class Plugin extends Singleton {
 		require_once DOLLIE_CORE_PATH . 'Extras/options-page-for-acf/loader.php';
 
 		// Load Color Customizer
-		require_once DOLLIE_CORE_PATH . 'Extras/Colors.php';
+		// require_once DOLLIE_CORE_PATH . 'Extras/Colors.php';
 
 		// Load Theme/Plugins Compability
 		require_once DOLLIE_CORE_PATH . 'Compatibility.php';

@@ -248,7 +248,7 @@ final class DnsService extends Singleton {
 			$container = dollie()->get_container();
 
 			// Prevent unauthorized access.
-			if ( ! current_user_can( 'manage_options' ) && $container->get_author() !== get_current_user_id() ) {
+			if ( ! current_user_can( 'manage_options' ) && $container->is_owned_by_current_user() ) {
 				return;
 			}
 
@@ -256,7 +256,6 @@ final class DnsService extends Singleton {
 
 			wp_redirect( get_site_url() . '/site/' . $container->get_slug() . '/?get-details' );
 			exit();
-
 		}
 	}
 

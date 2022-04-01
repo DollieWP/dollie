@@ -17,7 +17,7 @@ if ( ! isset( $container ) ) {
 					echo wp_kses_post(
 						sprintf(
 							__( '<a href="%s">Manage this Blueprint using the front-end of your dashboard.</a> Use this page to take advanced actions, like stopping/removing the blueprint completely or assigning it to another user.', 'dollie' ),
-							esc_url( $container->get_permalink() . '/blueprints' )
+							esc_url( $container->get_permalink( 'blueprints' ) )
 						)
 					);
 					?>

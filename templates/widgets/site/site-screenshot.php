@@ -1,31 +1,28 @@
 <?php
 
-$deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_status( $current_id );
+$container = dollie()->get_container();
+
+if ( is_wp_error( $container ) ) {
+	return;
+}
 
 ?>
 <div class="">
 	<div class="<?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-p-4 dol-widget-site-sidebar">
-		<?php if ( ! $deploying ) : ?>
-			<div class="dol-rounded dol-overflow-hidden dol-relative">
-				<div class="dol-sites-status dol-absolute dol-top-3 dol-right-4">
-					<span class="dol-flex dol-h-4 dol-w-4 dol-relative">
-						<a href="<?php echo get_the_permalink(); ?>/?update-details">
-							<i data-tooltip="Regenerate the screenshot and site details." class="fas fa-sync-alt dol-text-gray-300 dol-text-xl"></i>
-						</a>
-					</span>
-				</div>
-				<?php echo dollie()->get_site_screenshot( $current_id ); ?>
+		<?php if ( ! $container->is_deploying() ) : ?>
+			<div class="dol-rounded dol-overflow-hidden">
+				<?php echo $container->get_screenshot(); ?>
 			</div>
 
 			<div class="dol-flex dol-flex-wrap dol-rounded dol-overflow-hidden dol-mt-4">
 				<div class="dol-w-full md:dol-w-1/2">
-					<a class="dol-block dol-text-gray-600 dol-text-center dol-text-sm dol-bg-gray-200 hover:dol-bg-primary-100 dol-px-4 dol-py-2" href="<?php echo dollie()->get_container_url( $current_id ); ?>" target="_blank">
+					<a class="dol-block dol-text-gray-600 dol-text-center dol-text-sm dol-bg-gray-200 hover:dol-bg-primary-100 dol-px-4 dol-py-2" href="<?php echo $container->get_url(); ?>" target="_blank">
 						<?php echo dollie()->icon()->site_view(); ?>
 						<?php esc_html_e( 'Visit', 'dollie' ); ?>
 					</a>
 				</div>
 				<div class="dol-w-full md:dol-w-1/2">
-					<a class="dol-block dol-text-center dol-text-sm dol-bg-secondary-200 hover: hover:dol-bg-primary-300 dol-text-secondary-600 dol-px-4 dol-py-2" href="<?php echo dollie()->get_customer_login_url( $current_id ); ?>" target="_blank">
+					<a class="dol-block dol-text-center dol-text-sm dol-bg-secondary-200 hover: hover:dol-bg-primary-300 dol-text-secondary-600 dol-px-4 dol-py-2" href="<?php echo $container->get_url(); ?>" target="_blank">
 						<?php echo dollie()->icon()->site_login( 'dol-mr-1' ); ?>
 						<?php esc_html_e( 'Admin', 'dollie' ); ?>
 					</a>
@@ -38,7 +35,7 @@ $deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_statu
 						<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
 						<path class="dol-opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
 					</svg>
-					<?php if ( dollie()->is_blueprint( $current_id ) ) : ?>
+					<?php if ( $container->is_blueprint() ) : ?>
 						<?php esc_html_e( 'Launching Blueprint', 'dollie' ); ?>
 					<?php else : ?>
 						<?php esc_html_e( 'Launching Site', 'dollie' ); ?>

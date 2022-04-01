@@ -56,11 +56,7 @@ class SiteContent extends \Elementor\Widget_Base {
 			'current_id' => dollie()->get_current_post_id(),
 		];
 
-		$elementor_builder = \Elementor\Plugin::instance()->editor->is_edit_mode()
-							 || \Elementor\Plugin::instance()->preview->is_preview()
-							 || isset( $_GET['elementor_library'] );
-
-		if ( get_post_type() !== 'container' && ! $elementor_builder ) {
+		if ( get_post_type() !== 'container' && ! dollie()->is_elementor_editor() ) {
 			esc_html_e( 'This widget will only show content when you visit a Single Dollie Site.', 'dollie' );
 		} else {
 			dollie()->load_template( 'widgets/site/site-content', $data, true );

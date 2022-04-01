@@ -48,11 +48,16 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 					<div class="dol-absolute dol-left-0 dol-top-0 dol-ml-4 dol-flex dol-items-center dol-h-full">
 						<?php echo dollie()->icon()->search( 'dol-text-gray-400' ); ?>
 					</div>
-					<input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full md:dol-w-64" data-list-type="<?php echo esc_attr( $view_type ); ?>" data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>" data-per-page=<?php echo ( isset( $_GET['per_page'] ) ? esc_attr( $_GET['per_page'] ) : '' ); ?> data-search-term="" placeholder="<?php printf( esc_html__( 'Search for a %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?>">
+					<input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full md:dol-w-64" 
+						data-list-type="<?php echo esc_attr( $view_type ); ?>" 
+						data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>" 
+						data-per-page=<?php echo ( isset( $_GET['per_page'] ) ? esc_attr( $_GET['per_page'] ) : '' ); ?> 
+						data-search-term="" 
+						placeholder="<?php printf( esc_html__( 'Search for a %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?>">
 				</div>
 
 				<div class="dol-mx-3 dol-inline-block">
-					<span data-modal-id="dol-modal-id-filters" class="dol-open-modal dol-block dol-p-3 dol-m-0 dol-bg-gray-200 hover:dol-bg-gray-300 dol-text-gray-700 dol-flex dol-items-center dol-cursor-pointer">
+					<span data-modal-id="dol-modal-id-filters" class="dol-open-modal dol-p-3 dol-m-0 dol-bg-gray-200 hover:dol-bg-gray-300 dol-text-gray-700 dol-flex dol-items-center dol-cursor-pointer">
 						<?php echo dollie()->icon()->filter(); ?>
 					</span>
 				</div>
@@ -64,8 +69,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 					<span data-tooltip="<?php printf( esc_html__( 'Show your %s in the Grid View', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-list-switch dol-inline-flex <?php echo esc_attr( $grid_btn_active ); ?>" data-list-type="grid">
 						<?php echo dollie()->icon()->grid(); ?>
 					</span>
-					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=
-					my-sites">
+					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=my-sites">
 						<span data-tooltip="<?php printf( esc_html__( 'Show Your %s using the Live Preview Bar', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-layout-preview dol-inline-flex dol-preview-bar-layout" data-list-type="layout">
 							<?php echo dollie()->icon()->preview(); ?>
 						</span>
@@ -76,8 +80,12 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 	</div>
 </div>
 
-<div id="dol-check-bulk-action" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_check_bulk_action' ) ); ?>"></div>
-<div id="dol-recurring-action" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_recurring_action' ) ); ?>"></div>
+<div id="dol-check-bulk-action" 
+	data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" 
+	data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_check_bulk_action' ) ); ?>"></div>
+<div id="dol-recurring-action" 
+	data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" 
+	data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_recurring_action' ) ); ?>"></div>
 
 <div class="dol-sites dol-relative">
 	<div class="dol-loader" data-for="pagination">
@@ -88,7 +96,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 			</svg>
 		</div>
 	</div>
-	<?php if ( $sites->have_posts() ) : ?>
+	<?php if ( ! empty( $sites ) ) : ?>
 		<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
 			<div class="dol-bg-primary dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full dol-text-sm dol-mb-3">
 				<?php esc_html_e( 'You are now viewing the blueprints made by you and your team.', 'dollie' ); ?>
@@ -96,12 +104,14 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 		<?php endif; ?>
 
 		<div class="dol-sites-container <?php echo esc_attr( $list_class ); ?>">
-			<?php while ( $sites->have_posts() ) : ?>
+			<?php foreach ( $sites as $site ) : ?>
 				<?php
 
-				$sites->the_post();
+				$container = dollie()->get_container( $site );
 
-				$container = dollie()->get_container();
+				if ( is_wp_error( $container ) ) {
+					continue;
+				}
 
 				$list_item_class        = [];
 				$execution_lock_classes = [];
@@ -120,13 +130,11 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 				}
 
 				$data = [
-					'slug'       => $container->get_name(),
+					'slug'       => $container->get_slug(),
 					'domain'     => $container->get_url(),
-					'name'       => get_post_meta( get_the_ID(), 'wpd_installation_name', true ) ?: __( 'Unnamed', 'dollie' ),
-					'wp_version' => get_post_meta( get_the_ID(), 'wpd_installation_version', true ),
-					'is_running' => 'Running' === $container->get_status(),
+					'name'       => $container->get_title() ?: __( 'Unnamed', 'dollie' ),
+					'wp_version' => $container->get_meta( 'wp_version' ),
 				];
-
 
 				if ( $container->is_blueprint() ) {
 					$list_item_class[] = 'dol-blueprint-site';
@@ -180,11 +188,11 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 
 						<div class="dol-sites-image dol-relative">
 							<div class="dol-sites-image-box">
-								<?php echo dollie()->get_site_screenshot( get_the_ID() ); ?>
+								<?php echo $container->get_screenshot(); ?>
 							</div>
 
 							<div class="dol-sites-status">
-								<?php if ( $data['is_running'] ) : ?>
+								<?php if ( $container->is_running() ) : ?>
 									<span class="dol-flex dol-h-4 dol-w-4 dol-relative">
 										<span class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w-full dol-rounded-full dol-bg-green-500 dol-opacity-75"></span>
 										<span class="dol-relative dol-inline-flex dol-rounded-full dol-h-4 dol-w-4 dol-bg-green-600"></span>
@@ -220,7 +228,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 								<?php printf( __( 'Version %s', 'dollie' ), $data['wp_version'] ); ?>
 							</div>
 						</div>
-						<?php if ( dollie()->is_blueprint( get_the_ID() ) ) : ?>
+						<?php if ( $container->is_blueprint() ) : ?>
 							<div class="dol-sites-client dol-cursor-default dol-text-sm">
 								<div class="dol-font-semibold dol-text-gray-500">
 									<?php esc_html_e( 'Blueprint Updated', 'dollie' ); ?>
@@ -229,7 +237,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 									<?php if ( get_post_meta( get_the_ID(), 'wpd_blueprint_time', true ) ) : ?>
 										<?php echo get_post_meta( get_the_ID(), 'wpd_blueprint_time', true ); ?>
 									<?php else : ?>
-										<a class="dol-link" href="<?php echo get_the_permalink( get_the_ID() ); ?>blueprints">
+										<a class="dol-link" href="<?php echo $container->get_permalink( 'blueprints' ); ?>">
 											<?php esc_html_e( 'Never. Update now!', 'dollie' ); ?>
 										</a>
 									<?php endif; ?>
@@ -246,8 +254,8 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 							</div>
 						<?php endif; ?>
 						<div class="dol-sites-controls <?php echo esc_attr( $btn_controls_classes ); ?>">
-							<?php if ( dollie()->is_blueprint( get_the_ID() ) ) : ?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink(); ?>blueprints" data-tooltip="<?php echo esc_attr__( 'Update Blueprint', 'dollie' ); ?>">
+							<?php if ( $container->is_blueprint() ) : ?>
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink( 'blueprints' ); ?>" data-tooltip="<?php echo esc_attr__( 'Update Blueprint', 'dollie' ); ?>">
 									<?php echo dollie()->icon()->blueprint(); ?>
 								</a>
 							<?php else : ?>
@@ -265,9 +273,8 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 								</a>
 							<?php endif; ?>
 
-
 							<?php
-							$login_link = dollie()->get_customer_login_url( get_the_ID() );
+							$login_link = $container->get_login_url();
 							if ( ! empty( $login_link ) ) :
 								?>
 								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo esc_url( $login_link ); ?>" data-tooltip="<?php echo esc_attr__( 'Login to Site as Admin', 'dollie' ); ?>">
@@ -278,28 +285,31 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 					</div>
 				</div>
 				<?php
-			endwhile;
-			wp_reset_postdata();
+				endforeach;
+				wp_reset_postdata();
 			?>
 		</div>
 
-		<div class="dol-sites-pages" data-permalink="<?php echo esc_url( $query_data['permalink'] ); ?>" data-current-page="<?php echo esc_attr( $query_data['current_page'] ); ?>" data-list-type="<?php echo esc_attr( $view_type ); ?>">
-			<?php
+		<div class="dol-sites-pages" 
+			data-permalink="<?php echo esc_url( $query_data['permalink'] ); ?>" 
+			data-current-page="<?php echo esc_attr( $query_data['current_page'] ); ?>" 
+			data-list-type="<?php echo esc_attr( $view_type ); ?>">
+				<?php
 
-			echo paginate_links(
-				[
-					'total'        => $sites->max_num_pages,
-					'show_all'     => false,
-					'type'         => 'plain',
-					'end_size'     => 2,
-					'mid_size'     => 1,
-					'prev_next'    => false,
-					'add_args'     => false,
-					'add_fragment' => '',
-				]
-			);
+				echo paginate_links(
+					[
+						'total'        => $sites_pages,
+						'show_all'     => false,
+						'type'         => 'plain',
+						'end_size'     => 2,
+						'mid_size'     => 1,
+						'prev_next'    => false,
+						'add_args'     => false,
+						'add_fragment' => '',
+					]
+				);
 
-			?>
+				?>
 		</div>
 	<?php else : ?>
 		<div class="dol-flex dol-items-center dol-justify-center dol-h-40">
