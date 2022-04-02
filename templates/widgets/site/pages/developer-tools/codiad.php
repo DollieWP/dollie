@@ -1,8 +1,20 @@
 <?php
-$codiad_url = dollie()->get_customer_secret_url() . '/codiad/' . dollie()->secret_admin_key();
-$login      = dollie()->get_customer_login_url() . '&redirect_to=' . urlencode( $codiad_url );
+
+if ( ! isset( $container ) ) {
+	$container = dollie()->get_container();
+}
+
+$credentials = $container->get_credentials();
+
+if ( empty( $credentials ) ) {
+	return;
+}
 
 wp_enqueue_script( 'iframe-resizer' );
+
+$sftp_url   = "sftp://{$credentials['username']}:{$credentials['password']}@{$credentials['ip']}:{$credentials['port']}";
+$codiad_url = "{$container->get_original_url()}/{$credentials['secret']}/codiad}";
+
 ?>
 
 <script>
@@ -19,7 +31,7 @@ wp_enqueue_script( 'iframe-resizer' );
 				f.src = src;
 				f.id = 'codiad-iframe';
 				f.width = '100%';
-				f.setAttribute("name", "<?php echo dollie()->secret_admin_key(); ?>");
+				f.setAttribute("name", "<?php echo $credentials['secret']; ?>");
 				f.height = '600px';
 				f.allowfullscreen = '';
 

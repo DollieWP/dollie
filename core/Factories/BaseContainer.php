@@ -43,6 +43,7 @@ abstract class BaseContainer implements ConstInterface {
 		'backups',
 		'plugins',
 		'themes',
+		'credentials',
 		'status',
 		'type',
 	];
@@ -661,6 +662,21 @@ abstract class BaseContainer implements ConstInterface {
 		}
 
 		return $counter;
+	}
+
+	/**
+	 * Get credentials
+	 *
+	 * @return array
+	 */
+	public function get_credentials(): array {
+		$credentials = $this->get_meta( 'credentials' );
+
+		if ( ! is_array( $credentials ) ) {
+			return [];
+		}
+
+		return $credentials;
 	}
 
 	/**

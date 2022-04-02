@@ -170,7 +170,7 @@ final class Acf extends Singleton implements ConstInterface {
 			if ( $saved_domain && ! $domain ) {
 				$this->remove_deployment_domain();
 			} elseif ( $domain && $domain !== $saved_domain ) {
-				Api::post( Api::ROUTE_DOMAIN_ADD, [ 'name' => $domain ] );
+				// Api::post( Api::ROUTE_DOMAIN_ADD, [ 'name' => $domain ] );
 
 				update_option( 'wpd_deployment_domain', $domain );
 				update_option( 'wpd_deployment_domain_status', false );
@@ -202,19 +202,19 @@ final class Acf extends Singleton implements ConstInterface {
 		];
 
 		// Check if any chiled has changed.
-		foreach ( $settings as $k => $setting ) {
-			$new_data[ $k ] = $_POST['acf'][ acf_get_field( $setting )['key'] ];
+		// foreach ( $settings as $k => $setting ) {
+		// $new_data[ $k ] = $_POST['acf'][ acf_get_field( $setting )['key'] ];
 
-			if ( isset( $new_data[ $k ] ) && get_field( $setting, 'options' ) != $new_data[ $k ] ) {
-				$changed = true;
-			}
-		}
+		// if ( isset( $new_data[ $k ] ) && get_field( $setting, 'options' ) != $new_data[ $k ] ) {
+		// $changed = true;
+		// }
+		// }
 
-		if ( $changed && $new_data['status'] ) {
-			Api::post( Api::ROUTE_ADD_CUSTOM_BACKUP, $new_data );
-		} elseif ( ! $new_data['status'] ) {
-			Api::get( Api::ROUTE_DISABLE_CUSTOM_BACKUP );
-		}
+		// if ( $changed && $new_data['status'] ) {
+		// Api::post( Api::ROUTE_ADD_CUSTOM_BACKUP, $new_data );
+		// } elseif ( ! $new_data['status'] ) {
+		// Api::get( Api::ROUTE_DISABLE_CUSTOM_BACKUP );
+		// }
 	}
 
 	/**
@@ -237,12 +237,12 @@ final class Acf extends Singleton implements ConstInterface {
 		}
 
 		if ( $changed ) {
-			Api::post(
-				Api::ROUTE_CONTAINER_STAGING_SET_STATUS,
-				[
-					'status' => $new_value,
-				]
-			);
+			// Api::post(
+			// Api::ROUTE_CONTAINER_STAGING_SET_STATUS,
+			// [
+			// 'status' => $new_value,
+			// ]
+			// );
 		}
 	}
 
@@ -281,14 +281,14 @@ final class Acf extends Singleton implements ConstInterface {
 	 * @return void
 	 */
 	private function remove_deployment_domain() {
-		$response = Api::post( Api::ROUTE_DOMAIN_REMOVE );
+		// $response = Api::post( Api::ROUTE_DOMAIN_REMOVE );
 
-		if ( false !== $response && ! $response['domain'] && ! $response['status'] ) {
-			update_option( 'wpd_deployment_domain', false );
-			update_option( 'deployment_domain_notice', false );
-			delete_transient( 'wpd_deployment_domain_delay' );
-			delete_option( 'wpd_deployment_delay_status' );
-		}
+		// if ( false !== $response && ! $response['domain'] && ! $response['status'] ) {
+		// update_option( 'wpd_deployment_domain', false );
+		// update_option( 'deployment_domain_notice', false );
+		// delete_transient( 'wpd_deployment_domain_delay' );
+		// delete_option( 'wpd_deployment_delay_status' );
+		// }
 	}
 
 	/**

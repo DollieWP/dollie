@@ -9,7 +9,7 @@ if ( is_wp_error( $container ) ) {
 }
 
 // Always fetch details
-$container->fetch_details();
+// $container->fetch_details();
 
 ?>
 
