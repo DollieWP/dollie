@@ -51,26 +51,15 @@ class PluginUpdates extends Singleton {
 	 * Callback
 	 */
 	public function submission_callback() {
-		 $container = Forms::get_form_container();
+		$container = Forms::get_form_container();
 
 		if ( false === $container ) {
 			return;
 		}
 
-		$value = af_get_field( 'plugins_to_update' );
-		if ( is_array( $value ) ) {
-			$value = implode( ' ', $value );
-		}
+		$response = $container->update_plugins( af_get_field( 'plugins_to_update' ) );
 
-		$update_plugins = str_replace( ',', ' ', $value );
-
-		AF()->submission['extra']['is_success'] = Api::post(
-			Api::ROUTE_PLUGINS_UPDATES_APPLY,
-			[
-				'container_uri' => $container->get_hash(),
-				'plugins'       => $update_plugins,
-			]
-		);
+		AF()->submission['extra']['is_success'] = is_wp_error( $response );
 	}
 
 	/**
@@ -110,41 +99,21 @@ class PluginUpdates extends Singleton {
 			return $restriction;
 		}
 
-		$plugins = dollie()->get_container_plugins();
+		$container = dollie()->get_container();
 
-		$needs_upgrade = false;
-		if ( false !== $plugins ) {
-			foreach ( $plugins as $plugin ) {
-				if ( 'available' === $plugin['update'] ) {
-					$needs_upgrade = true;
-					break;
-				}
-			}
+		if ( is_wp_error( $container ) ) {
+			return $restriction;
 		}
 
-		if ( false === $needs_upgrade ) {
-			$data = '';
-			ob_start();
-			?>
-			<div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden dol-my-6">
-				<div class="dol-flex dol-items-center dol-bg-green-500">
-					<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-green-600 dol-flex dol-items-center dol-justify-center">
-						<?php echo dollie()->icon()->updates( 'dol-text-white dol-text-2xl' ); ?>
-					</div>
-					<h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-text-white dol-text-base md:dol-text-xl">
-						<?php esc_html_e( 'Everything is up to date', 'dollie' ); ?>
-					</h4>
-				</div>
-				<div class="dol-px-4 dol-py-2 lg:dol-px-8 lg:dol-py-6 dol-bg-gray-100">
-					<div>
-						<?php esc_html_e( 'There are no plugins available to update. Good job!', 'dollie' ); ?>
-					</div>
-				</div>
-			</div>
-			<?php
-			$data .= ob_get_clean();
+		$plugins = array_filter(
+			$container->get_plugins(),
+			function( $v ) {
+				return true === $v['update'];
+			}
+		);
 
-			return $data;
+		if ( empty( $plugins ) ) {
+			return dollie()->load_template( 'parts/no-updates-required' );
 		}
 
 		return $restriction;
@@ -158,20 +127,23 @@ class PluginUpdates extends Singleton {
 	 * @return mixed
 	 */
 	public function populate_plugins( $field ) {
-		$plugins = dollie()->get_container_plugins();
+		$container = dollie()->get_container();
 
-		$choices = [];
-
-		if ( ! $plugins ) {
+		if ( is_wp_error( $container ) ) {
 			return $field;
 		}
 
-		foreach ( $plugins as $plugin ) {
-			if ( 'none' === $plugin['update'] ) {
-				continue;
-			}
+		$choices = [];
 
-			$choices[ $plugin['name'] ] = $plugin['title'] . ' ' . $plugin['version'];
+		$plugins = array_filter(
+			$container->get_plugins(),
+			function( $v ) {
+				return true === $v['update'];
+			}
+		);
+
+		foreach ( $plugins as $plugin ) {
+			$choices[ $plugin['slug'] ] = "{$plugin['name']} v{$plugin['version']}";
 		}
 
 		if ( ! empty( $choices ) ) {

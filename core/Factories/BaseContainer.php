@@ -668,9 +668,9 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @param array $plugins
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function update_plugins( array $plugins ): bool|array {
+	public function update_plugins( array $plugins ): \WP_Error|array {
 		return $this->update_container_plugins( $this->get_hash(), $plugins );
 	}
 
@@ -679,9 +679,9 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @param array $themes
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function update_themes( array $themes ): bool|array {
+	public function update_themes( array $themes ): \WP_Error|array {
 		return $this->update_container_themes( $this->get_hash(), $themes );
 	}
 

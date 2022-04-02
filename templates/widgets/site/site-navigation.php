@@ -1,16 +1,18 @@
 <!--Menu-->
 <?php
+
 $layout = $settings['layout'];
 $colors = $settings['colors'];
 
 $container = dollie()->get_container( $current_id );
 
 ?>
+
 <nav>
 	<div class="dol-w-full dol-flex-grow lg:dol-flex lg:dol-items-center lg:dol-w-auto">
 
 		<div class="dol-overflow-hidden dol-widget-site-sidebar dol-widget-<?php echo $layout; ?>">
-			<?php if ( 'Deploying' !== $container->get_status() ) : ?>
+			<?php if ( $container->is_running() ) : ?>
 
 				<?php
 				$menu = [
@@ -18,8 +20,8 @@ $container = dollie()->get_container( $current_id );
 					'plugins'         => dollie()->icon()->plugins() . __( 'Plugins', 'dollie' ),
 					'themes'          => dollie()->icon()->themes() . __( 'Themes', 'dollie' ),
 					'domains'         => dollie()->icon()->domains() . __( 'Domains', 'dollie' ),
-					'backups'         => dollie()->icon()->backups() . __( 'Backups', 'dollie' ),
 					'updates'         => dollie()->icon()->updates() . __( 'Updates', 'dollie' ),
+					'backups'         => dollie()->icon()->backups() . __( 'Backups', 'dollie' ),
 					'developer-tools' => dollie()->icon()->dev_tools() . __( 'Developer Tools', 'dollie' ),
 					'blueprints'      => dollie()->icon()->blueprint() . __( 'Blueprints', 'dollie' ),
 					'migrate'         => dollie()->icon()->migration() . __( 'Migrate', 'dollie' ),
