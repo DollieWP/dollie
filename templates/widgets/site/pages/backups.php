@@ -1,7 +1,11 @@
 <?php
 
-$available_backups = dollie()->get_site_total_backups();
-$restores          = dollie()->get_site_restores();
+if ( ! isset( $container ) ) {
+	$container = dollie()->get_container();
+}
+
+$backups         = $container->get_backups();
+$backup_restores = $container->get_backup_restores();
 
 ?>
 
@@ -27,27 +31,12 @@ $restores          = dollie()->get_site_restores();
 		</h4>
 	</div>
 	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
-		<?php if ( $available_backups ) : ?>
+		<?php if ( ! empty( $backups ) ) : ?>
 			<span class="dol-text-lg dol-block dol-mb-4">
-				<?php
-				printf( _n( 'You have %s backup available!', 'You have %s backups available!', $available_backups, 'dollie' ), $available_backups );
-				?>
+				<?php printf( _n( 'You have %s backup available!', 'You have %s backups available!', count( $backups ), 'dollie' ), count( $backups ) ); ?>
 			</span>
 
-			<?php if ( dollie()->has_site_backup_notice( get_the_ID() ) ) : ?>
-				<div class="dol-flex dol-items-center dol-bg-gray-100 dol-mt-2 dol-mb-2">
-					<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-flex dol-items-center dol-justify-center dol-h-full dol-bg-gray-200">
-						<?php echo dollie()->icon()->notice( 'dol-text-l md:dol-text-2xl' ); ?>
-					</div>
-					<span class="dol-block dol-px-4 lg:dol-px-8 lg:dol-py-2 dol-m-0 dol-p-0 dol-text dol-text-sm md:dol-text-l">
-						Your backup listing might be slightly out-of-date. This should resolve itself automatically.</span>
-				</div>
-			<?php endif; ?>
-
-			<?php
-			$backups_list = do_shortcode( '[dollie_form form="form_dollie_list_backups"]' );
-			echo $backups_list;
-			?>
+			<?php echo do_shortcode( '[dollie_form form="form_dollie_list_backups"]' ); ?>
 		<?php else : ?>
 			<span><?php esc_html_e( 'No backups available.', 'dollie' ); ?></span>
 		<?php endif; ?>
@@ -61,11 +50,11 @@ $restores          = dollie()->get_site_restores();
 		</h4>
 	</div>
 	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
-		<?php if ( ! empty( $restores ) ) : ?>
+		<?php if ( ! empty( $backup_restores ) ) : ?>
 			<ul class="dol-list-none dol-m-0 dol-p-0">
-				<?php foreach ( $restores as $restore ) : ?>
+				<?php foreach ( $backup_restores as $restore ) : ?>
 					<li>
-						<?php echo $restore; ?>
+						<?php echo $restore['date']; ?>
 					</li>
 				<?php endforeach; ?>
 			</ul>

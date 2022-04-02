@@ -34,9 +34,6 @@ class ListBackups extends Singleton {
 	 * Init ACF
 	 */
 	public function acf_init() {
-		// Restrictions.
-		add_filter( 'af/form/restriction/key=' . $this->form_key, [ $this, 'restrict_form' ], 10 );
-
 		// Placeholders/Change values.
 		add_filter( 'acf/load_field/name=site_backup', [ $this, 'populate_site_backups' ] );
 
@@ -67,46 +64,14 @@ class ListBackups extends Singleton {
 			return;
 		}
 
-		Api::post(
-			Api::ROUTE_BACKUP_RESTORE,
-			[
-				'container_uri' => $container->get_hash(),
-				'backup'        => Forms::get_field( 'site_backup' ),
-				'backup_type'   => Forms::get_field( 'what_to_restore' ),
-			]
-		);
-	}
-
-	/**
-	 * If no backups, restrict the forms and show a message
-	 *
-	 * @param bool $restriction
-	 *
-	 * @return bool|string
-	 */
-	public function restrict_form( $restriction = false ) {
-		// Added in case another restriction already applies.
-		if ( $restriction ) {
-			return $restriction;
-		}
-
-		$backups = Backups::instance()->get();
-
-		if ( false === $backups ) {
-			return dollie()->load_template(
-				'notice',
-				[
-					'type'         => 'info',
-					'icon'         => 'fas fa-hdd',
-					'title'        => __( 'We could not retrieve your backups', 'dollie' ),
-					'message'      => __( 'This usually means we have trouble reaching your WordPress installation. Please get in touch with our support of you keep seeing this message.', 'dollie' ),
-					'bottom_space' => true,
-				],
-				false
-			);
-		}
-
-		return $restriction;
+		// Api::post(
+		// Api::ROUTE_BACKUP_RESTORE,
+		// [
+		// 'container_uri' => $container->get_hash(),
+		// 'backup'        => Forms::get_field( 'site_backup' ),
+		// 'backup_type'   => Forms::get_field( 'what_to_restore' ),
+		// ]
+		// );
 	}
 
 	/**
@@ -131,47 +96,25 @@ class ListBackups extends Singleton {
 	 */
 	public function populate_site_backups( $field ) {
 		// Grab our array of available backups.
-		$backups = Backups::instance()->get();
+		$container = dollie()->get_container();
+
+		if ( is_wp_error( $container ) ) {
+			$field['choices'] = [];
+
+			return $field;
+		}
+
+		$backups = $container->get_backups();
 		$choices = [];
 
 		if ( ! empty( $backups ) ) {
-
 			foreach ( $backups as $backup ) {
-
-				if ( is_array( $backup ) ) {
+				if ( $backup['restore'] ) {
 					continue;
 				}
 
-				// Split info via pipe.
-				$info = explode( '|', $backup );
-				if ( 'restore' === $info[1] ) {
-					continue;
-				}
-
-				if ( strpos( $info[1], 'MB' ) !== false ) {
-					$get_mb_size = (float) str_replace( 'MB', '', $info[1] );
-
-					$real_size = $get_mb_size . ' MB';
-				} else {
-					$real_size = $info[1];
-				}
-
-				$size = '<span class="dol-inline-block dol-ml-4">' . dollie()->icon()->backups() . $real_size . '</span>';
-				// Time is first part but needs to be split.
-				$backup_date = explode( '_', $info[0] );
-				// Date of backup.
-				$date        = strtotime( $backup_date[0] );
-				$raw_time    = str_replace( '-', ':', $backup_date[1] );
-				$pretty_time = date( 'g:i a', strtotime( $raw_time ) );
-
-				// Time of backup.
-				$time = ' at ' . $pretty_time . '';
-				// Size of backup
-				// Format for compat with duplicity.
-				$format_time    = str_replace( '-', ':', $backup_date[1] );
-				$duplicity_time = $backup_date[0] . 'T' . $format_time . ':00';
-
-				$choices[ $duplicity_time ] = dollie()->icon()->clock() . date( 'd F y', $date ) . $time . $size;
+				$size = '<span class="dol-inline-block dol-ml-4">' . dollie()->icon()->backups( 'mr-2' ) . $backup['size'] . '</span>';
+				$choices[ "{$backup['date']} {$backup['hour']}" ] = dollie()->icon()->clock( 'mr-2' ) . "{$backup['date']} at {$backup['hour']}" . $size;
 			}
 		}
 
@@ -179,5 +122,4 @@ class ListBackups extends Singleton {
 
 		return $field;
 	}
-
 }

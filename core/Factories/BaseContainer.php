@@ -40,6 +40,7 @@ abstract class BaseContainer implements ConstInterface {
 		'pages_count',
 		'users_count',
 		'comments',
+		'backups',
 		'plugins',
 		'themes',
 		'status',
@@ -487,22 +488,48 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_backups_count(): int {
-		return (int) $this->get_meta( 'backups_count' );
+		$backups = $this->get_meta( 'backups' );
+
+		return is_array( $backups ) ? count( $backups ) : 0;
 	}
 
 	/**
 	 * Get backups
 	 *
-	 * @return boolean|array
+	 * @param bool $backups
+	 *
+	 * @return array
 	 */
-	public function get_backups(): bool|array {
-		$backups = $this->get_container_backup( $this->get_hash() );
+	public function get_backups( bool $force = false ): array {
+		if ( $force ) {
+			$backups = $this->get_container_backup( $this->get_hash() );
 
-		if ( is_array( $backups ) ) {
-			$this->set_meta( 'backups_count', count( $backups ) );
+			if ( is_array( $backups ) ) {
+				$this->set_meta( 'backups', $backups );
+			}
+
+			return $backups;
 		}
 
-		return $backups;
+		$backups = $this->get_meta( 'backups' );
+
+		return is_array( $backups ) ? $backups : [];
+	}
+
+    /**
+     * Get backup restores
+     *
+     * @return array
+     */
+	public function get_backup_restores(): array {
+		$backups = $this->get_backups();
+
+		return array_filter(
+			$backups,
+			function( $v ) {
+				return true === $v['restore'];
+			}
+		);
 	}
 
 	/**
