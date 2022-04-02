@@ -1,64 +1,76 @@
+<?php
+
+if ( ! isset( $container ) ) {
+	$container = dollie()->get_container();
+}
+
+?>
+
 <h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
-	<?php esc_html_e( 'Active Theme', 'dollie' ); ?>
+	<?php esc_html_e( 'Themes', 'dollie' ); ?>
 </h2>
 
-<div class="dol-rounded dol-overflow-hidden dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-mb-12">
-	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
-		<div class="dol-flex dol-flex-wrap">
-			<div class="dol-w-full lg:dol-w-3/6">
-				<h4 class="dol-m-0 dol-p-0 dol-text-base md:dol-text-xl dol-text-white">
-					<?php echo esc_html( $data['site_data']['Theme Name'] ); ?>
-					<span class="dol-text-sm">
-						<?php echo esc_html( $data['site_data']['Theme Version'] ); ?>
+<div class="dol-flex dol-flex-wrap dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden">
+	<div class="dol-hidden dol-w-full md:dol-flex dol-flex-wrap dol-items-center dol-bg-primary-600 dol-p-4 lg:dol-px-8 dol-text-white">
+		<div class="dol-w-5/12 lg:dol-w-6/12 dol-text-left">
+			<?php _e( 'Theme Name', 'dollie' ); ?>
+		</div>
+		<div class="dol-w-2/12">
+			<?php _e( 'Status', 'dollie' ); ?>
+		</div>
+		<div class="dol-w-2/12 dol-text-center">
+			<?php _e( 'Version', 'dollie' ); ?>
+		</div>
+		<div class="dol-w-3/12 lg:dol-w-2/12 dol-text-right">
+			<?php _e( 'Developer', 'dollie' ); ?>
+		</div>
+	</div>
+	<div class="dol-w-full dol-overflow-hidden">
+		<?php foreach ( $container->get_themes() as $theme ) : ?>
+			<div class="dol-w-full dol-flex dol-flex-wrap dol-items-center dol-p-4 lg:dol-px-8 dol-border-0 dol-border-b last:dol-border-0 dol-relative dol-group hover:dol-bg-ash-100">
+				<div class="dol-absolute dol-w-2 dol-h-full dol-bg-gray-200 dol-left-0 dol-top-0 dol-hidden md:group-hover:dol-block"></div>
+				<div class="dol-w-full dol-mb-4 md:dol-mb-0 md:dol-w-5/12 lg:dol-w-6/12">
+					<span class="dol-block dol-text-ash-600 dol-text-xs dol-uppercase md:dol-hidden">
+						<?php esc_html_e( 'Plugin', 'dollie' ); ?>
 					</span>
-				</h4>
-			</div>
-			<div class="dol-w-full lg:dol-w-3/6 lg:dol-text-right dol-mt-1 lg:dol-mt-0">
-				<a class="dol-text-sm dol-text-primary-200 hover:dol-text-primary-300" target="_blank" href="<?php echo esc_url( $data['site_data']['Theme AuthorURI'] ); ?>">
-					<?php echo dollie()->icon()->users( 'dol-text-primary-200 dol-mr-2' ); ?>
-					<?php esc_html_e( 'Developed by', 'dollie' ); ?>
-					<?php echo esc_html( $data['site_data']['Theme Author'] ); ?>
-				</a>
-			</div>
-		</div>
-	</div>
-	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
-		<div class="dol-flex dol-flex-wrap dol--mx-4 dol-my-2">
-			<div class="dol-w-full md:dol-w-2/5 lg:dol-w-1/3 dol-px-4">
-				<div class="dol-border dol-border-solid dol-border-primary-50 dol-rounded dol-overflow-hidden">
-					<?php $theme_screenshot = get_post_meta( get_the_ID(), 'wpd_installation_site_theme_screenshot', true ); ?>
-					<img class="dol-block" src="<?php echo wpthumb( $theme_screenshot, 'width=700&height=99999&crop=0' ); ?>" alt="<?php echo esc_attr( $data['container_details']['Name'] ); ?>">
+					<span class="dol-font-bold dol-block dol-truncate dol-pr-6">
+						<?php echo esc_html( $theme['name'] ); ?>
+					</span>
+				</div>
+				<div class="dol-w-4/12 md:dol-w-2/12 dol-flex dol-flex-wrap dol-items-center dol-text-sm dol-text-ash-800">
+					<?php
+
+					$status_class = [
+						'animated' => $theme['active'] ? 'dol-bg-green-500' : 'dol-bg-red-500',
+						'dot'      => $theme['active'] ? 'dol-bg-green-600' : 'dol-bg-red-600',
+					];
+
+					?>
+					<span class="dol-flex dol-h-2 dol-w-2 dol-relative dol-mr-2">
+						<span class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w-full dol-rounded-full dol-opacity-75 <?php echo esc_attr( $status_class['animated'] ); ?>"></span>
+						<span class="dol-relative dol-inline-flex dol-rounded-full dol-h-2 dol-w-2 <?php echo esc_attr( $status_class['dot'] ); ?>"></span>
+					</span>
+					<?php
+
+					if ( $theme['active'] ) {
+						esc_html_e( 'Active', 'dollie' );
+					} else {
+						esc_html_e( 'Disabled', 'dollie' );
+					}
+
+					?>
+				</div>
+				<div class="dol-w-4/12 md:dol-w-2/12 dol-text-center dol-text-sm dol-text-ash-700">
+					<?php echo esc_html( $theme['version'] ); ?>
+				</div>
+				<div class="dol-w-4/12 md:dol-w-3/12 lg:dol-w-2/12 dol-text-right">
+					<a class="dol-inline-block md:dol-px-4 md:dol-py-2 md:dol-bg-secondary dol-text-white md:dol-text-white dol-text-sm md:hover:dol-text-white md:hover:dol-bg-secondary-600 dol-rounded" 
+						href="<?php echo esc_url( $theme['uri'] ); ?>" target="_blank">
+						<?php echo dollie()->icon()->arrow_right(); ?>
+						<span class="md:dol-hidden lg:dol-inline-block"><?php esc_html_e( 'Visit', 'dollie' ); ?></span>
+					</a>
 				</div>
 			</div>
-			<div class="dol-w-full md:dol-w-3/5 lg:dol-w-2/3 dol-px-4 dol-mt-4 md:dol-mt-0 dol-text-sm md:dol-text-base">
-				<span><?php echo esc_html( $data['site_data']['Theme Description'] ); ?></span>
-			</div>
-		</div>
-	</div>
-</div>
-
-<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
-	<?php esc_html_e( 'Other Installed Themes', 'dollie' ); ?>
-</h2>
-
-<div class="dol-mt-5 dol-grid dol-grid-cols-1 dol-gap-5 sm:dol-grid-cols-1 lg:dol-grid-cols-1">
-	<div class="dol-overflow-hidden <?php do_action( 'dol_add_widget_classes' ); ?>">
-		<div class="dol-px-4 dol-py-5 sm:dol-p-6">
-			<div class="dol-flex dol-items-center">
-				<div class="dol-ml-5 dol-w-0 dol-flex-1">
-					<ul class="dol-list-none dol-p-0 dol-m-0">
-						<?php
-						$installed_themes = preg_split( '/(\.\s?|,\s?)/', $data['site_data']['Installed Themes'], -1, PREG_SPLIT_NO_EMPTY );
-						?>
-						<?php foreach ( $installed_themes as $theme ) : ?>
-							<li>
-								<?php echo dollie()->icon()->arrow_right( 'dol-mr-1' ); ?>
-								<?php echo esc_html( $theme ); ?>
-							</li>
-						<?php endforeach; ?>
-					</ul>
-				</div>
-			</div>
-		</div>
+		<?php endforeach; ?>
 	</div>
 </div>
