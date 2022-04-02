@@ -1,3 +1,17 @@
+<?php
+
+if ( ! isset( $container ) ) {
+	$container = dollie()->get_container();
+}
+
+$credentials = $container->get_credentials();
+
+if ( empty( $credentials ) ) {
+	return;
+}
+
+?>
+
 <h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 	<?php esc_html_e( 'Database Manager', 'dollie' ); ?>
 </h2>
@@ -19,16 +33,16 @@
 
 			<div>
 				<div>
-					<?php printf( __( 'Username: %s', 'dollie' ), $customer_details->id ); ?>
+					<?php printf( __( 'Username: %s', 'dollie' ), $container->get_hash() ); ?>
 				</div>
 				<div>
-					<?php printf( __( 'Password: %s', 'dollie' ), get_post_meta( get_the_ID(), 'wpd_container_secret', true ) ); ?>
+					<?php printf( __( 'Password: %s', 'dollie' ), $credentials['secret'] ); ?>
 				</div>
 			</div>
 
 			<div class="dol-mt-4">
 				<a class="dol-inline-block dol-text-white dol-bg-secondary-500 hover:dol-text-white hover:dol-bg-secondary-600 dol-px-6 dol-py-3 dol-rounded"
-				   href="<?php echo esc_url( dollie()->get_container_url( get_the_ID() ) ) . Dollie\Core\Modules\Sites\WP::PLATFORM_PATH; ?>container/adminer/" target="_blank">
+				   href="<?php echo esc_url( $container->get_original_url() . '/wp-content/mu-plugins/platform/container/adminer/' ); ?>" target="_blank">
 					<?php esc_html_e( 'Open Database Manager', 'dollie' ); ?>
 				</a>
 			</div>
