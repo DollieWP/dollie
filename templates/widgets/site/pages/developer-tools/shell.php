@@ -1,8 +1,21 @@
 <?php
-$shell_url = dollie()->get_customer_secret_url() . '/shell/';
+
+if ( ! isset( $container ) ) {
+	$container = dollie()->get_container();
+}
+
+$credentials = $container->get_credentials();
+
+if ( empty( $credentials ) ) {
+	return;
+}
 
 wp_enqueue_script( 'iframe-resizer' );
+
+$shell_url = "{$container->get_original_url()}/{$credentials['secret']}/shell";
+
 ?>
+
 <script>
 	jQuery(function($) {
 		$('[data-shell]').on('click', function() {
