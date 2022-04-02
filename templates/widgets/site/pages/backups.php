@@ -4,13 +4,10 @@ if ( ! isset( $container ) ) {
 	$container = dollie()->get_container();
 }
 
-$container->fetch_details();
-
 $backups         = $container->get_backups();
 $backup_restores = $container->get_backup_restores();
 
 ?>
-
 
 <div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-mb-6 dol-widget-create-backup">
 	<div class="dol-hidden dol-w-full md:dol-flex dol-flex-wrap dol-items-center dol-bg-primary-600 dol-p-4 lg:dol-px-8">

@@ -8,6 +8,9 @@ if ( is_wp_error( $container ) ) {
 	return;
 }
 
+// Always fetch details
+$container->fetch_details();
+
 ?>
 
 <?php if ( $container->is_stopped() ) : ?>
