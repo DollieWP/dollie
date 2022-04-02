@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Modules\Backups;
 use Dollie\Core\Singleton;
 
 /**
@@ -48,9 +47,13 @@ class CreateBackup extends Singleton {
 	 * @param $args
 	 */
 	public function submission_callback( $form, $fields, $args ) {
-		$container_id = (int) $_POST['dollie_post_id'];
+		$container = dollie()->get_container( (int) $_POST['dollie_post_id'] );
 
-		Backups::instance()->make( $container_id );
+		if ( is_wp_error( $container ) ) {
+			return;
+		}
+
+		$container->create_backup();
 	}
 
 	/**

@@ -4,6 +4,8 @@ if ( ! isset( $container ) ) {
 	$container = dollie()->get_container();
 }
 
+$container->fetch_details();
+
 $backups         = $container->get_backups();
 $backup_restores = $container->get_backup_restores();
 

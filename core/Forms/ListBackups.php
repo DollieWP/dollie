@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Modules\Backups;
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Singleton;
 
@@ -52,26 +51,13 @@ class ListBackups extends Singleton {
 	 * @param $args
 	 */
 	public function submission_callback( $form, $fields, $args ) {
-		$post_id = (int) $_POST['dollie_post_id'];
-
-		if ( $post_id <= 0 ) {
-			return;
-		}
-
-		$container = dollie()->get_container( $post_id );
+		$container = dollie()->get_container( (int) $_POST['dollie_post_id'] );
 
 		if ( is_wp_error( $container ) ) {
 			return;
 		}
 
-		// Api::post(
-		// Api::ROUTE_BACKUP_RESTORE,
-		// [
-		// 'container_uri' => $container->get_hash(),
-		// 'backup'        => Forms::get_field( 'site_backup' ),
-		// 'backup_type'   => Forms::get_field( 'what_to_restore' ),
-		// ]
-		// );
+		$container->restore_backup( Forms::get_field( 'site_backup' ), Forms::get_field( 'what_to_restore' ) );
 	}
 
 	/**

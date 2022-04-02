@@ -516,11 +516,11 @@ abstract class BaseContainer implements ConstInterface {
 		return is_array( $backups ) ? $backups : [];
 	}
 
-    /**
-     * Get backup restores
-     *
-     * @return array
-     */
+	/**
+	 * Get backup restores
+	 *
+	 * @return array
+	 */
 	public function get_backup_restores(): array {
 		$backups = $this->get_backups();
 
@@ -535,9 +535,9 @@ abstract class BaseContainer implements ConstInterface {
 	/**
 	 * Create backup
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function create_backup(): bool|array {
+	public function create_backup(): \WP_Error|array {
 		return $this->create_container_backup( $this->get_hash() );
 	}
 
@@ -547,9 +547,9 @@ abstract class BaseContainer implements ConstInterface {
 	 * @param string $backup
 	 * @param string $type
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function restore_backup( string $backup, string $type ): bool|array {
+	public function restore_backup( string $backup, string $type ): \WP_Error|array {
 		return $this->restore_container_backup( $this->get_hash(), $backup, $type );
 	}
 
