@@ -30,7 +30,7 @@ final class Blueprint extends BaseContainer {
 		$data = $this->get_blueprint_by_id( $this->get_hash() );
 
 		if ( is_array( $data ) && isset( $data[0] ) ) {
-			$this->update_meta( $data[0] );
+			$this->set_details( $data[0] );
 		}
 
 		return $this;

@@ -1,3 +1,13 @@
+<?php
+
+if ( ! isset( $container ) ) {
+	$container = dollie()->get_container();
+}
+
+$routes = $container->get_routes();
+
+?>
+
 <h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 	<?php esc_html_e( 'Domains', 'dollie' ); ?>
 </h2>
@@ -7,6 +17,8 @@
 $dns_manager            = get_post_meta( get_the_ID(), 'wpd_domain_dns_manager', true );
 $domain                 = get_post_meta( get_the_ID(), 'wpd_domains', true );
 $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_complete', true );
+
+
 
 ?>
 
@@ -86,6 +98,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 		</div>
 
 		<?php
+
 		dollie()->load_template(
 			'widgets/site/pages/domain/dns-manager',
 			[
@@ -94,6 +107,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 			],
 			true
 		);
+
 		?>
 
 	<?php endif; ?>
@@ -117,21 +131,24 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 			</form>
 		</div>
 	</div>
-	<p class="dol-mt-2">
-		<?php esc_html_e( 'Your current domain IP information:', 'dollie' ); ?></p>
+	<p class="dol-mt-2"><?php esc_html_e( 'Your current domain IP information:', 'dollie' ); ?></p>
 	<?php
+
+	$credentials = $container->get_credentials();
+
 	dollie()->load_template(
 		'widgets/site/pages/domain/connect/dns-ip-table',
 		[
-			'ip' => dollie()->get_wp_site_data( 'ip', $current_query->id ),
+			'ip' => $container['ip'],
 		],
 		true
 	);
+
 	?>
 
 <?php endif; ?>
 
-<?php if ( ! \Dollie\Core\Modules\Forms\DomainConnect::instance()->is_form_restricted() ) : ?>
+<?php if ( ! \Dollie\Core\Forms\DomainConnect::instance()->is_form_restricted() ) : ?>
 	<div class="dol-mt-6">
 		<?php echo do_shortcode( '[dollie_form form="form_dollie_domain_connect"]' ); ?>
 	</div>

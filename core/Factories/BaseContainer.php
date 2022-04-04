@@ -1,5 +1,101 @@
 <?php
 
+/*
+Container object reference
+
+[
+  "hash" => ""
+  "type" => 0
+  "url" => ""
+  "custom_urls" => [
+	[
+	  "name" => ""
+	  "primary" => 0
+	  "status" => 1
+	]
+  ]
+  "status" => ""
+  "screenshot" => ""
+  "secret" => ""
+  "token" => ""
+  "php" => ""
+  "size" => 0
+  "cache" => [
+	"method" => null
+	"op_cache" => "1"
+	"object_cache" => false
+  ]
+  "site" => [
+	"name" => ""
+	"description" => ""
+	"stats" => [
+	  "posts_count" => "1"
+	  "pages_count" => "1"
+	  "users_count" => 1
+	  "comments_total" => 1
+	  "comments_moderation" => 0
+	  "comments_approved" => 1
+	  "comments_spam" => 0
+	  "comments_trash" => 0
+	]
+	"admin" => [
+	  "username" => ""
+	  "email" => ""
+	]
+	"multisite" => false
+	"wp_version" => ""
+	"plugins" => [
+	  [
+		"name" => "Powered Cache"
+		"slug" => "powered-cache"
+		"loader" => "powered-cache/powered-cache.php"
+		"active" => true
+		"update" => true
+		"version" => "2.1.1"
+		"author" => "PoweredCache"
+		"uri" => "https://poweredcache.com"
+	  ]
+	]
+	"themes" => array:2 [
+	  [
+		"name" => "Twenty Twenty"
+		"slug" => "twentytwenty"
+		"active" => true
+		"update" => false
+		"version" => "1.9"
+		"author" => "the WordPress team"
+		"uri" => "https://wordpress.org/themes/twentytwenty/"
+	  ]
+	]
+	"updates" => [
+	  "themes" => 0
+	  "plugins" => 1
+	  "core" => [
+		"available" => false
+		"update_to" => "5.9.2"
+	  ]
+	]
+	"login_url" => ""
+  ]
+  "backups" => [
+	[
+	  "date" => "2022-04-04"
+	  "hour" => "07:52:00"
+	  "restore" => false
+	  "size" => "173 MB"
+	]
+  ]
+  "credentials" => [
+	"secret" => ""
+	"ip" => ""
+	"username" => ""
+	"password" => ""
+	"port" => ""
+  ]
+]
+
+*/
+
 namespace Dollie\Core\Factories;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -23,70 +119,12 @@ abstract class BaseContainer implements ConstInterface {
 	protected $post;
 
 	/**
-	 * @var array
-	 */
-	private $data = [
-		'title',
-		'hash',
-		'url',
-		'custom_url',
-		'login_link',
-		'wp_version',
-		'php_verison',
-		'screenshot',
-		'storage_size',
-		'admin',
-		'posts_count',
-		'pages_count',
-		'users_count',
-		'comments',
-		'backups',
-		'plugins',
-		'themes',
-		'credentials',
-		'status',
-		'type',
-	];
-
-	/**
 	 * Base constructor
 	 *
 	 * @param WP_Post $post
 	 */
 	public function __construct( WP_Post $post ) {
 		$this->post = $post;
-	}
-
-	/**
-	 * Update meta
-	 *
-	 * @param array $data
-	 *
-	 * @return self
-	 */
-	public function update_meta( array $data ): self {
-		array_filter(
-			$data,
-			function ( $v, $k ) {
-				return in_array( $k, $this->data, true ) && is_string( $v );
-			},
-			ARRAY_FILTER_USE_BOTH
-		);
-
-		foreach ( $data as $key => $value ) {
-			if ( 'title' === $key ) {
-				wp_update_post(
-					[
-						'ID'         => $this->post->ID,
-						'post_title' => $value,
-					]
-				);
-			} else {
-				update_post_meta( $this->post->ID, "dollie_container_{$key}", $value );
-			}
-		}
-
-		return $this;
 	}
 
 	/**
@@ -264,7 +302,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return string
 	 */
 	public function get_original_url(): string {
-		return $this->get_meta( 'url' );
+		return $this->get_details( 'url' );
 	}
 
 	/**
@@ -290,7 +328,15 @@ abstract class BaseContainer implements ConstInterface {
 			return $this->get_original_url();
 		}
 
-		return (string) $this->get_meta( 'custom_url' );
+		$custom_urls = $this->get_details( 'custom_urls' );
+
+		foreach ( $custom_urls as $url ) {
+			if ( $url['primary'] && $url['active'] ) {
+				return $url['name'];
+			}
+		}
+
+		return '';
 	}
 
 	/**
@@ -326,10 +372,10 @@ abstract class BaseContainer implements ConstInterface {
 	/**
 	 * Get type
 	 *
-	 * @return boolean|string
+	 * @return string
 	 */
-	public function get_type(): bool|string {
-		return $this->get_meta( 'type' );
+	public function get_type(): string {
+		return $this->get_details( 'type' );
 	}
 
 	/**
@@ -356,52 +402,52 @@ abstract class BaseContainer implements ConstInterface {
 	/**
 	 * Get hash
 	 *
-	 * @return boolean|string
+	 * @return string
 	 */
-	public function get_hash(): bool|string {
-		return $this->get_meta( 'hash' );
+	public function get_hash(): string {
+		return $this->get_details( 'hash' );
 	}
 
 	/**
 	 * Get status
 	 *
-	 * @return boolean|string
+	 * @return string
 	 */
-	public function get_status(): bool|string {
-		return $this->get_meta( 'status' );
+	public function get_status(): string {
+		return $this->get_details( 'status' );
 	}
 
 	/**
 	 * Get screenshot
 	 *
-	 * @return boolean|string
+	 * @return string
 	 */
-	public function get_screenshot(): bool|string {
+	public function get_screenshot(): string {
 		$default_screenshot = get_field( 'default_screenshot', 'option' );
 
 		if ( $default_screenshot && 'Deploying' === $this->get_status() ) {
 			return $default_screenshot;
 		}
 
-		return $this->get_meta( 'screenshot' );
+		return $this->get_details( 'screenshot' );
 	}
 
 	/**
 	 * Get WP version
 	 *
-	 * @return boolean|string
+	 * @return string
 	 */
-	public function get_wp_version(): bool|string {
-		return $this->get_meta( 'wp_version' );
+	public function get_wp_version(): string {
+		return $this->get_details( 'site.wp_version' );
 	}
 
 	/**
 	 * Get PHP version
 	 *
-	 * @return boolean|string
+	 * @return string
 	 */
-	public function get_php_version(): bool|string {
-		return $this->get_meta( 'php_version' );
+	public function get_php_version(): string {
+		return $this->get_details( 'php' );
 	}
 
 	/**
@@ -410,11 +456,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return string
 	 */
 	public function get_storage_size(): string {
-		$size = $this->get_meta( 'storage_size' );
-
-		if ( false === $size ) {
-			return '0 MB';
-		}
+		$size = $this->get_details( 'size' );
 
 		$base     = log( $size, 1024 );
 		$suffixes = [ '', 'KB', 'MB', 'GB', 'TB' ];
@@ -430,10 +472,10 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return string
 	 */
 	public function get_admin( string $type ): string {
-		$data = $this->get_meta( 'admin' );
+		$data = $this->get_details( 'site.admin' );
 
 		if ( is_array( $data ) && isset( $data[ $type ] ) ) {
-			return $data[ $type ];
+			return (int) $data[ $type ];
 		}
 
 		return '';
@@ -445,7 +487,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_posts_count(): int {
-		return (int) $this->get_meta( 'posts_count' );
+		return (int) $this->get_details( 'site.stats.posts_count' );
 	}
 
 	/**
@@ -454,7 +496,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_pages_count(): int {
-		return (int) $this->get_meta( 'pages_count' );
+		return (int) $this->get_details( 'site.stats.pages_count' );
 	}
 
 	/**
@@ -463,7 +505,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_users_count(): int {
-		return (int) $this->get_meta( 'users_count' );
+		return (int) $this->get_details( 'site.stats.users_count' );
 	}
 
 	/**
@@ -474,7 +516,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return int
 	 */
 	public function get_comments_stats( string $type = 'total' ): int {
-		$data = $this->get_meta( 'comments' );
+		$data = $this->get_details( 'site.stats.comments' );
 
 		if ( is_array( $data ) && isset( $data[ $type ] ) ) {
 			return (int) $data[ $type ];
@@ -489,32 +531,34 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_backups_count(): int {
-		$backups = $this->get_meta( 'backups' );
-
-		return is_array( $backups ) ? count( $backups ) : 0;
+		return count( $this->get_details( 'backups' ) );
 	}
 
 	/**
 	 * Get backups
 	 *
-	 * @param bool $backups
+	 * @param bool $force
 	 *
-	 * @return array
+	 * @return \WP_Error|array
 	 */
-	public function get_backups( bool $force = false ): array {
+	public function get_backups( bool $force = false ): \WP_Error|array {
 		if ( $force ) {
 			$backups = $this->get_container_backup( $this->get_hash() );
 
-			if ( is_array( $backups ) ) {
-				$this->set_meta( 'backups', $backups );
+			if ( is_wp_error( $backups ) ) {
+				return $backups;
 			}
+
+			$this->set_details(
+				[
+					'backups' => $backups,
+				]
+			);
 
 			return $backups;
 		}
 
-		$backups = $this->get_meta( 'backups' );
-
-		return is_array( $backups ) ? $backups : [];
+		return $this->get_details( 'backups' );
 	}
 
 	/**
@@ -559,22 +603,38 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @param boolean $force
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function get_plugins( bool $force = false ): bool|array {
+	public function get_plugins( bool $force = false ): \WP_Error|array {
 		if ( $force ) {
 			$plugins = $this->get_container_plugins( $this->get_hash() );
 
-			$this->update_meta(
+			if ( is_wp_error( $plugins ) ) {
+				return $plugins;
+			}
+
+			$this->set_details(
 				[
-					'plugins' => $plugins,
+					'site' => [
+						'plugins' => $plugins,
+						'updates' => [
+							'plugins' => count(
+								array_filter(
+									$plugins,
+									function( $v ) {
+										return true === $v['update'];
+									}
+								)
+							),
+						],
+					],
 				]
 			);
 
 			return $plugins;
 		}
 
-		return $this->get_meta( 'plugins' );
+		return $this->get_details( 'site.plugins' );
 	}
 
 	/**
@@ -588,16 +648,32 @@ abstract class BaseContainer implements ConstInterface {
 		if ( $force ) {
 			$themes = $this->get_container_themes( $this->get_hash() );
 
-			$this->update_meta(
+			if ( is_wp_error( $themes ) ) {
+				return $themes;
+			}
+
+			$this->set_details(
 				[
-					'themes' => $themes,
+					'site' => [
+						'themes'  => $themes,
+						'updates' => [
+							'themes' => count(
+								array_filter(
+									$themes,
+									function( $v ) {
+										return true === $v['update'];
+									}
+								)
+							),
+						],
+					],
 				]
 			);
 
 			return $themes;
 		}
 
-		return $this->get_meta( 'themes' );
+		return $this->get_details( 'site.themes' );
 	}
 
 	/**
@@ -636,15 +712,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_updatable_plugins_count(): int {
-		$counter = 0;
-
-		foreach ( $this->get_plugins() as $plugin ) {
-			if ( $plugin['update'] ) {
-				$counter++;
-			}
-		}
-
-		return $counter;
+		return $this->get_details( 'site.updates.plugins' );
 	}
 
 	/**
@@ -653,15 +721,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_updatable_themes_count(): int {
-		$counter = 0;
-
-		foreach ( $this->get_themes() as $plugin ) {
-			if ( $plugin['update'] ) {
-				$counter++;
-			}
-		}
-
-		return $counter;
+		return $this->get_details( 'site.updates.themes' );
 	}
 
 	/**
@@ -670,13 +730,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return array
 	 */
 	public function get_credentials(): array {
-		$credentials = $this->get_meta( 'credentials' );
-
-		if ( ! is_array( $credentials ) ) {
-			return [];
-		}
-
-		return $credentials;
+		return $this->get_details( 'credentials' );
 	}
 
 	/**
@@ -715,56 +769,101 @@ abstract class BaseContainer implements ConstInterface {
 	}
 
 	/**
-	 * Set meta in bulk
-	 *
-	 * @param array $metas
-	 *
-	 * @return self
-	 */
-	public function set_metas( array $metas ): self {
-		foreach ( $metas as $key => $value ) {
-			$this->set_meta( $key, $value );
-		}
-
-		return $this;
-	}
-
-	/**
 	 * Set meta
 	 *
-	 * @param string $key
-	 * @param mixed  $value
+	 * @param array $data
 	 *
 	 * @return self
 	 */
-	public function set_meta( string $key, mixed $value ): self {
-		update_post_meta( $this->post->ID, "dollie_container_{$key}", $value );
+	public function set_details( array $data ): self {
+		$details = get_post_meta( $this->post->ID, 'dollie_container_details', true );
+
+		if ( empty( $details ) ) {
+			$details = $data;
+		} elseif ( is_array( $details ) ) {
+			$details = array_merge( $details, $data );
+		}
+
+		update_post_meta( $this->post->ID, 'dollie_container_details', $details );
+		delete_transient( "container.details.{$this->post->ID}" );
+
+		wp_update_post(
+			[
+				'ID'         => $this->post->ID,
+				'post_title' => $this->get_details( 'site.name' ),
+			]
+		);
 
 		return $this;
 	}
 
 	/**
-	 * Get meta
+	 * Get details
 	 *
 	 * @param string $key
 	 *
-	 * @return boolean|string|array
+	 * @return \WP_Error|boolean|string|array
 	 */
-	public function get_meta( string $key ): bool|string|array {
-		return get_post_meta( $this->post->ID, "dollie_container_{$key}", true );
+	public function get_details( string $key = '' ): \WP_Error|bool|string|array {
+		$details = get_transient( "container.details.{$this->post->ID}" );
+
+		if ( empty( $details ) ) {
+			$details = get_post_meta( $this->post->ID, 'dollie_container_details', true );
+
+			if ( false === $details ) {
+				return new \WP_Error( 'Container details are not set' );
+			}
+
+			set_transient( "container.details.{$this->post->ID}", $details );
+		}
+
+		if ( $key ) {
+			$composite_key = explode( '.', $key );
+			$composite_key = array_filter(
+				$composite_key,
+				function( $v ) {
+					return ! empty( $v );
+				}
+			);
+
+			if ( empty( $composite_key ) ) {
+				return $details;
+			}
+
+			if ( count( $composite_key ) === 1 && isset( $details[ $composite_key[0] ] ) ) {
+				return $details[ $composite_key[0] ];
+			} else {
+				return $this->find_value_recursively( $details, $composite_key );
+			}
+		}
+
+		return $details;
 	}
 
 	/**
-	 * Delete meta
+	 * Find value recursively
 	 *
-	 * @param string $key
+	 * @param array $details
+	 * @param array $composite_key
 	 *
-	 * @return self
+	 * @return \WP_Error|boolean|array|string|integer
 	 */
-	public function delete_meta( string $key ): self {
-		delete_post_meta( $this->post->id, "dollie_container_{$key}" );
+	private function find_value_recursively( array $details, array $composite_key ): \WP_Error|bool|array|string|int {
+		foreach ( $composite_key as $index => $key ) {
+			if ( isset( $details[ $key ] ) ) {
+				if ( count( $composite_key ) === ( $index + 1 ) ) {
+					return $details[ $key ];
+				}
 
-		return $this;
+				$new_composite_key = $composite_key;
+				unset( $new_composite_key[ $index ] );
+				$new_composite_key = array_values( $new_composite_key );
+
+				return $this->find_value_recursively( $details[ $key ], $new_composite_key );
+			}
+
+			return new \WP_Error( 'Failed to find value' );
+		}
 	}
 
 	/**
@@ -782,11 +881,8 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return void
 	 */
 	public function flush_cache() {
-		delete_transient( 'dollie_container_api_request_' . $this->get_id() . '_get_container_wp_info' );
-		delete_transient( 'dollie_container_api_request_' . $this->get_id() . '_get_container_site_info' );
 		delete_transient( 'dollie_site_users_' . $this->get_id() );
 		delete_transient( 'dollie_site_news_' . $this->get_id() );
-		delete_transient( 'dollie_site_new_screenshot_' . $this->get_id() );
 	}
 
 	public function after_status_change_event() {

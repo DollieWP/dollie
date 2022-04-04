@@ -22,6 +22,17 @@ trait RouteApi {
 	}
 
 	/**
+	 * Get all
+	 *
+	 * @param string $container_hash
+	 *
+	 * @return \WP_Error|array
+	 */
+	public function get_container_routes( string $container_hash ): \WP_Error|array {
+		return $this->get_request( "route/{$container_hash}" );
+	}
+
+	/**
 	 * Create
 	 *
 	 * @param string $container_hash
@@ -30,7 +41,7 @@ trait RouteApi {
 	 * @return \WP_Error|array
 	 */
 	public function create_container_route( string $container_hash, array $data ): \WP_Error|array {
-		return $this->post_request( "route/$container_hash", $data );
+		return $this->post_request( "route/{$container_hash}", $data );
 	}
 
 	/**

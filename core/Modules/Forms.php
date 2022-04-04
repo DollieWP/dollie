@@ -516,7 +516,7 @@ class Forms extends Singleton {
 
 			$user = wp_get_current_user();
 
-			$ip     = $container->get_meta( 'ip' );
+			$ip     = '';
 			$url    = $container->get_url();
 			$domain = $container->get_custom_domain();
 

@@ -85,8 +85,8 @@ class SiteNavigation extends \Elementor\Widget_Base {
 
 	protected function render() {
 		$data = [
-			'settings'   => $this->get_settings_for_display(),
-			'current_id' => get_the_ID(),
+			'settings'  => $this->get_settings_for_display(),
+			'container' => dollie()->get_container(),
 		];
 
 		if ( dollie()->is_elementor_editor() ) {
@@ -99,7 +99,7 @@ class SiteNavigation extends \Elementor\Widget_Base {
 			);
 
 			if ( ! empty( $my_sites ) ) {
-				$data['current_id'] = $my_sites[0]->ID;
+				$data['container'] = dollie()->get_container( $my_sites[0]->ID );
 			}
 		}
 

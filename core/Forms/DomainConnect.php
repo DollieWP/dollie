@@ -142,7 +142,7 @@ class DomainConnect extends Singleton {
 		$domain  = trim( af_get_field( 'domain_name' ) );
 		$domain  = str_replace( [ 'http://', 'https://' ], '', $domain );
 		$records = dollie()->get_domain_existing_records( $domain );
-		$ip      = $container->get_meta( 'ip' );
+		$ip      = '';
 
 		if ( 'no' === af_get_field( 'allow_dns' ) ) {
 			if ( empty( $records ) ) {
@@ -263,6 +263,10 @@ class DomainConnect extends Singleton {
 	 */
 	public function is_form_restricted() {
 		$container = dollie()->get_container();
+
+		if ( is_wp_error( $container ) ) {
+			return true;
+		}
 
 		// If submitted domain with dns manager on, restrict it.
 		$dns_manager_enabled = get_field( 'wpd_enable_dns_manager', 'options' );

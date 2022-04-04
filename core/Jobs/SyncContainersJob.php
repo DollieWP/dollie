@@ -93,7 +93,7 @@ class SyncContainersJob extends Singleton {
 				}
 
 				$exists = true;
-				$container_type->update_meta( $container );
+				$container_type->set_details( $container );
 
 				if ( ! $container_type->is_running() ) {
 					wp_trash_post( $container_type->get_id() );
@@ -121,7 +121,7 @@ class SyncContainersJob extends Singleton {
 				);
 
 				$new_container_type = dollie()->get_container( $new_container_id );
-				$new_container_type->update_meta( $container );
+				$new_container_type->set_details( $container );
 
 				Log::add( 'Container added from sync ' . $container['url'] );
 				$synced_container_ids[] = $new_container_id;

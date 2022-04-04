@@ -40,7 +40,7 @@ trait ZoneApi {
 	 * @return \WP_Error|array
 	 */
 	public function get_container_zones( string $container_hash ): \WP_Error|array {
-		return $this->get_request( "zone/$container_hash" );
+		return $this->get_request( "zone/{$container_hash}" );
 	}
 
 	/**
@@ -52,7 +52,7 @@ trait ZoneApi {
 	 * @return \WP_Error|array
 	 */
 	public function create_container_zone( string $container_hash, array $data ): \WP_Error|array {
-		return $this->post_request( "zone/$container_hash", $data );
+		return $this->post_request( "zone/{$container_hash}", $data );
 	}
 
 	/**

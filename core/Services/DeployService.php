@@ -68,7 +68,7 @@ final class DeployService extends Singleton implements ConstInterface {
 			'type'   => $type,
 		];
 
-		$container->update_meta( $meta )->set_cookie();
+		// $container->update_meta( $meta )->set_cookie();
 
 		return true;
 	}
@@ -96,7 +96,7 @@ final class DeployService extends Singleton implements ConstInterface {
 			'post_status' => 'draft',
 		];
 
-		$container->update_post( $post_data )->update_meta( [ 'status' => $deploy['status'] ] );
+		// $container->update_post( $post_data )->update_meta( [ 'status' => $deploy['status'] ] );
 
 		return true;
 	}

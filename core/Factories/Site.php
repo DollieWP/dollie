@@ -33,8 +33,8 @@ final class Site extends BaseContainer {
 	public function fetch_details(): self {
 		$data = $this->get_site_by_id( $this->get_hash() );
 
-		if ( is_array( $data ) && isset( $data[0] ) ) {
-			$this->update_meta( $data[0] );
+		if ( ! is_wp_error( $data ) && isset( $data[0] ) ) {
+			$this->set_details( $data[0] );
 		}
 
 		return $this;
@@ -109,11 +109,20 @@ final class Site extends BaseContainer {
 	/**
 	 * Get route
 	 *
+	 * @return \WP_Error|array
+	 */
+	public function get_routes(): \WP_Error|array {
+		return $this->get_container_routes( $this->get_hash() );
+	}
+
+	/**
+	 * Get route
+	 *
 	 * @param string $route_id
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function get_route( string $route_id ): bool|array {
+	public function get_route( string $route_id ): \WP_Error|array {
 		return $this->get_container_route_by_id( $this->get_hash(), $route_id );
 	}
 
@@ -122,9 +131,9 @@ final class Site extends BaseContainer {
 	 *
 	 * @param string $name
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function create_route( string $name ): bool|array {
+	public function create_route( string $name ): \WP_Error|array {
 		return $this->create_container_route( $this->get_hash(), [ 'name' => $name ] );
 	}
 
@@ -133,9 +142,9 @@ final class Site extends BaseContainer {
 	 *
 	 * @param string $route_id
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function delete_route( string $route_id ): bool|array {
+	public function delete_route( string $route_id ): \WP_Error|array {
 		return $this->delete_container_route( $this->get_hash(), $route_id );
 	}
 
