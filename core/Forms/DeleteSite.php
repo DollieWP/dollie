@@ -63,7 +63,7 @@ class DeleteSite extends Singleton {
 		}
 
 		// $container->create_backup();
-		// $container->delete();
+		// $container->undeploy();
 	}
 
 	/**

@@ -92,7 +92,13 @@ final class Site extends BaseContainer {
 	 * @return \WP_Error|array
 	 */
 	public function undeploy(): \WP_Error|array {
-		return $this->delete_site( $this->get_hash() );
+		$deleted = $this->delete_site( $this->get_hash() );
+
+		if ( ! is_wp_error( $deleted ) ) {
+			$this->delete();
+		}
+
+		return $deleted;
 	}
 
 	/**

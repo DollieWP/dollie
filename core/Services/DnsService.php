@@ -254,7 +254,7 @@ final class DnsService extends Singleton {
 
 			$this->remove_route( $container->get_id() );
 
-			wp_redirect( get_site_url() . '/site/' . $container->get_slug() . '/?get-details' );
+			wp_redirect( $container->get_permalink( '', [ 'get-details' => 1 ] ) );
 			exit();
 		}
 	}

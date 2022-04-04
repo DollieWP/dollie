@@ -31,6 +31,5 @@ class Container extends Singleton {
 		add_filter( 'init', [ $container_service, 'rewrite_rules_sub_pages' ], 20 );
 		add_filter( 'query_vars', [ $container_service, 'query_vars' ] );
 		add_filter( 'single_template', [ $container_service, 'container_template' ] );
-		add_filter( 'document_title_parts', [ $container_service, 'update_page_title' ], 10, 1 );
 	}
 }

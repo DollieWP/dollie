@@ -85,6 +85,7 @@ $containers = new WP_Query(
 					<span class="dol-flex dol-items-center">
 						<span class="dol-font-medium">
 							<?php
+
 							if ( ! empty( $domain ) ) {
 								echo dollie()->icon()->live_site();
 							} elseif ( ! empty( $blueprint ) ) {
@@ -92,13 +93,13 @@ $containers = new WP_Query(
 							} else {
 								echo dollie()->icon()->dev_site();
 							}
-							?>
-							<?php
+
 							if ( ! empty( $domain ) ) {
 								echo esc_html( $domain );
 							} else {
 								echo get_the_title();
 							}
+
 							?>
 						</span>
 					</span>

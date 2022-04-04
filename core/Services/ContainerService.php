@@ -15,7 +15,7 @@ final class ContainerService extends Singleton {
 	 */
 	public function rewrite_rules_sub_pages() {
 		$post_type = 'site';
-		$sub_pages = '(dashboard|plugins|themes|emails|domains|backups|updates|developer-tools|blueprints|delete|migrate|staging)';
+		$sub_pages = '(dashboard|plugins|themes|emails|domains|backups|updates|developer-tools|blueprints|delete|migrate|staging|error)';
 
 		add_rewrite_rule(
 			$post_type . '\/([^\/]+)(?:\/' . $sub_pages . ')\/?$',
@@ -80,20 +80,5 @@ final class ContainerService extends Singleton {
 		}
 
 		$container->fetch_details();
-	}
-
-	/**
-	 * Update page title
-	 *
-	 * @param $title
-	 *
-	 * @return mixed
-	 */
-	public function update_page_title( $title ) {
-		if ( is_singular( 'container' ) ) {
-			$title['title'] = get_post_meta( get_the_ID(), 'wpd_installation_name', true );
-		}
-
-		return $title;
 	}
 }

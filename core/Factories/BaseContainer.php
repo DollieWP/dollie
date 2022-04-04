@@ -302,7 +302,13 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return string
 	 */
 	public function get_original_url(): string {
-		return $this->get_details( 'url' );
+		$url = $this->get_details( 'url' );
+
+		if ( is_wp_error( $url ) ) {
+			return '';
+		}
+
+		return $url;
 	}
 
 	/**
@@ -330,9 +336,11 @@ abstract class BaseContainer implements ConstInterface {
 
 		$custom_urls = $this->get_details( 'custom_urls' );
 
-		foreach ( $custom_urls as $url ) {
-			if ( $url['primary'] && $url['active'] ) {
-				return $url['name'];
+		if ( ! is_wp_error( $custom_urls ) ) {
+			foreach ( $custom_urls as $url ) {
+				if ( $url['primary'] && $url['active'] ) {
+					return $url['name'];
+				}
 			}
 		}
 
@@ -375,7 +383,13 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return string
 	 */
 	public function get_type(): string {
-		return $this->get_details( 'type' );
+		$type = $this->get_details( 'type' );
+
+		if ( is_wp_error( $type ) ) {
+			return '';
+		}
+
+		return $type;
 	}
 
 	/**
@@ -405,7 +419,13 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return string
 	 */
 	public function get_hash(): string {
-		return $this->get_details( 'hash' );
+		$hash = $this->get_details( 'hash' );
+
+		if ( is_wp_error( $hash ) ) {
+			return '';
+		}
+
+		return $hash;
 	}
 
 	/**
@@ -414,7 +434,13 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return string
 	 */
 	public function get_status(): string {
-		return $this->get_details( 'status' );
+		$status = $this->get_details( 'status' );
+
+		if ( is_wp_error( $status ) ) {
+			return '';
+		}
+
+		return $status;
 	}
 
 	/**
@@ -429,7 +455,13 @@ abstract class BaseContainer implements ConstInterface {
 			return $default_screenshot;
 		}
 
-		return $this->get_details( 'screenshot' );
+		$screenshot = $this->get_details( 'screenshot' );
+
+		if ( is_wp_error( $screenshot ) ) {
+			return '';
+		}
+
+		return $screenshot;
 	}
 
 	/**
@@ -438,7 +470,13 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return string
 	 */
 	public function get_wp_version(): string {
-		return $this->get_details( 'site.wp_version' );
+		$wp_version = $this->get_details( 'site.wp_version' );
+
+		if ( is_wp_error( $wp_version ) ) {
+			return '';
+		}
+
+		return $wp_version;
 	}
 
 	/**
@@ -447,7 +485,13 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return string
 	 */
 	public function get_php_version(): string {
-		return $this->get_details( 'php' );
+		$php = $this->get_details( 'php' );
+
+		if ( is_wp_error( $php ) ) {
+			return '';
+		}
+
+		return $php;
 	}
 
 	/**
@@ -457,6 +501,10 @@ abstract class BaseContainer implements ConstInterface {
 	 */
 	public function get_storage_size(): string {
 		$size = $this->get_details( 'size' );
+
+		if ( is_wp_error( $size ) ) {
+			return '';
+		}
 
 		$base     = log( $size, 1024 );
 		$suffixes = [ '', 'KB', 'MB', 'GB', 'TB' ];
@@ -474,7 +522,7 @@ abstract class BaseContainer implements ConstInterface {
 	public function get_admin( string $type ): string {
 		$data = $this->get_details( 'site.admin' );
 
-		if ( is_array( $data ) && isset( $data[ $type ] ) ) {
+		if ( ! is_wp_error( $data ) && is_array( $data ) && isset( $data[ $type ] ) ) {
 			return (int) $data[ $type ];
 		}
 
@@ -487,7 +535,13 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_posts_count(): int {
-		return (int) $this->get_details( 'site.stats.posts_count' );
+		$count = $this->get_details( 'site.stats.posts_count' );
+
+		if ( is_wp_error( $count ) ) {
+			return 0;
+		}
+
+		return (int) $count;
 	}
 
 	/**
@@ -496,7 +550,13 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_pages_count(): int {
-		return (int) $this->get_details( 'site.stats.pages_count' );
+		$count = $this->get_details( 'site.stats.pages_count' );
+
+		if ( is_wp_error( $count ) ) {
+			return 0;
+		}
+
+		return (int) $count;
 	}
 
 	/**
@@ -505,7 +565,13 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_users_count(): int {
-		return (int) $this->get_details( 'site.stats.users_count' );
+		$count = $this->get_details( 'site.stats.users_count' );
+
+		if ( is_wp_error( $count ) ) {
+			return 0;
+		}
+
+		return (int) $count;
 	}
 
 	/**
@@ -518,7 +584,7 @@ abstract class BaseContainer implements ConstInterface {
 	public function get_comments_stats( string $type = 'total' ): int {
 		$data = $this->get_details( 'site.stats.comments' );
 
-		if ( is_array( $data ) && isset( $data[ $type ] ) ) {
+		if ( ! is_wp_error( $data ) && is_array( $data ) && isset( $data[ $type ] ) ) {
 			return (int) $data[ $type ];
 		}
 
@@ -531,7 +597,13 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_backups_count(): int {
-		return count( $this->get_details( 'backups' ) );
+		$backups = $this->get_backups();
+
+		if ( is_wp_error( $backups ) || ! is_array( $backups ) ) {
+			return 0;
+		}
+
+		return count( $backups );
 	}
 
 	/**
@@ -558,7 +630,13 @@ abstract class BaseContainer implements ConstInterface {
 			return $backups;
 		}
 
-		return $this->get_details( 'backups' );
+		$backups = $this->get_details( 'backups' );
+
+		if ( is_wp_error( $backups ) ) {
+			return [];
+		}
+
+		return $backups;
 	}
 
 	/**
@@ -568,6 +646,10 @@ abstract class BaseContainer implements ConstInterface {
 	 */
 	public function get_backup_restores(): array {
 		$backups = $this->get_backups();
+
+		if ( is_wp_error( $backups ) ) {
+			return [];
+		}
 
 		return array_filter(
 			$backups,
@@ -634,7 +716,13 @@ abstract class BaseContainer implements ConstInterface {
 			return $plugins;
 		}
 
-		return $this->get_details( 'site.plugins' );
+		$plugins = $this->get_details( 'site.plugins' );
+
+		if ( is_wp_error( $plugins ) ) {
+			return [];
+		}
+
+		return $plugins;
 	}
 
 	/**
@@ -673,7 +761,13 @@ abstract class BaseContainer implements ConstInterface {
 			return $themes;
 		}
 
-		return $this->get_details( 'site.themes' );
+		$themes = $this->get_details( 'site.themes' );
+
+		if ( is_wp_error( $themes ) ) {
+			return [];
+		}
+
+		return $themes;
 	}
 
 	/**
@@ -712,7 +806,13 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_updatable_plugins_count(): int {
-		return $this->get_details( 'site.updates.plugins' );
+		$count = $this->get_details( 'site.updates.plugins' );
+
+		if ( is_wp_error( $count ) ) {
+			return 0;
+		}
+
+		return (int) $count;
 	}
 
 	/**
@@ -721,7 +821,13 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_updatable_themes_count(): int {
-		return $this->get_details( 'site.updates.themes' );
+		$count = $this->get_details( 'site.updates.themes' );
+
+		if ( is_wp_error( $count ) ) {
+			return 0;
+		}
+
+		return (int) $count;
 	}
 
 	/**
@@ -730,7 +836,13 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return array
 	 */
 	public function get_credentials(): array {
-		return $this->get_details( 'credentials' );
+		$credentials = $this->get_details( 'credentials' );
+
+		if ( is_wp_error( $credentials ) ) {
+			return [];
+		}
+
+		return $credentials;
 	}
 
 	/**
@@ -787,10 +899,12 @@ abstract class BaseContainer implements ConstInterface {
 		update_post_meta( $this->get_id(), 'dollie_container_details', $details );
 		delete_transient( "container.details.{$this->get_id()}" );
 
+		$site_name = $this->get_details( 'site.name' );
+
 		wp_update_post(
 			[
 				'ID'         => $this->get_id(),
-				'post_title' => $this->get_details( 'site.name' ),
+				'post_title' => is_wp_error( $site_name ) ? __( 'Unnamed site', 'dolie' ) : $site_name,
 			]
 		);
 
@@ -864,6 +978,8 @@ abstract class BaseContainer implements ConstInterface {
 
 			return new \WP_Error( 'Failed to find value' );
 		}
+
+		return new \WP_Error( 'Failed to find value' );
 	}
 
 	/**
@@ -937,7 +1053,7 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return boolean|null
 	 */
-	public function delete(): bool|null {
+	protected function delete(): bool|null {
 		return wp_delete_post( $this->get_id(), true );
 	}
 }

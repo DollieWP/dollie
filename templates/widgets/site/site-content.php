@@ -4,12 +4,20 @@
 
 $container = dollie()->get_container();
 
-if ( is_wp_error( $container ) ) {
+if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
+	dollie()->load_template(
+		'widgets/site/pages/error',
+		[
+			'container'         => $container,
+			'invalid_container' => is_wp_error( $container ),
+			'missing_details'   => is_wp_error( $container->get_details() ),
+		],
+		true
+	);
+
 	return;
 }
 
-// Always fetch details
-// $container->fetch_details();
 
 ?>
 
