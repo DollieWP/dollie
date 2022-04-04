@@ -4,7 +4,18 @@ if ( ! isset( $container ) ) {
 	$container = dollie()->get_container();
 }
 
-$routes = $container->get_routes();
+$active_route = [];
+$routes       = $container->get_routes();
+
+if ( ! is_wp_error( $routes ) ) {
+	foreach ( $routes as $route ) {
+		if ( $route['status'] && $route['primary'] ) {
+			$active_route = $route;
+		}
+	}
+}
+
+$zones = $container->get_zones();
 
 ?>
 
@@ -17,8 +28,6 @@ $routes = $container->get_routes();
 $dns_manager            = get_post_meta( get_the_ID(), 'wpd_domain_dns_manager', true );
 $domain                 = get_post_meta( get_the_ID(), 'wpd_domains', true );
 $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_complete', true );
-
-
 
 ?>
 
@@ -59,62 +68,36 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 
 <?php elseif ( ! empty( $domain ) ) : ?>
 
-	<?php if ( 'no' === $domain_wizard_complete ) : ?>
-
-		<div class="dol-my-6">
-			<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
-				<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
-					<h4 class="dol-p-0 dol-m-0 dol-text-base md:dol-text-xl">
-						<?php esc_html_e( 'Site URL replacement is not complete ', 'dollie' ); ?>
-					</h4>
-				</div>
-				<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
-					<span class="dol-block dol-mb-4">
-						<?php printf( __( 'Your domain <strong>%s</strong> is connected but the URL replacement wasn\'t complete.', 'dollie' ), $domain ); ?>
-					</span>
-
-					<a class="dol-px-4 dol-py-2 dol-bg-red-600 dol-text-white dol-rounded" href="<?php echo get_permalink( get_the_ID() ); ?>?update-domain-url">
-						<?php echo dollie()->icon()->refresh(); ?>
-						<?php esc_html_e( 'Replace URL now', 'dollie' ); ?>
-					</a>
-				</div>
-			</div>
-		</div>
-
-	<?php else : ?>
-
-		<div class="dol-my-6">
-			<?php
-			dollie()->load_template(
-				'notice',
-				[
-					'icon'    => 'fas fa-exclamation-circle',
-					'title'   => sprintf( __( '"%1$s" is now linked to this %2$s!', 'dollie' ), $domain, dollie()->string_variants()->get_site_type_string() ),
-					'message' => __( 'Congrats! Your are using a live domain for this site.', 'dollie' ),
-				],
-				true
-			);
-			?>
-		</div>
-
+	<div class="dol-my-6">
 		<?php
-
 		dollie()->load_template(
-			'widgets/site/pages/domain/dns-manager',
+			'notice',
 			[
-				'domain'      => $domain,
-				'dns_manager' => $dns_manager,
+				'icon'    => 'fas fa-exclamation-circle',
+				'title'   => sprintf( __( '"%1$s" is now linked to this %2$s!', 'dollie' ), $domain, dollie()->string_variants()->get_site_type_string() ),
+				'message' => __( 'Congrats! Your are using a live domain for this site.', 'dollie' ),
 			],
 			true
 		);
-
 		?>
+	</div>
 
-	<?php endif; ?>
+	<?php
+
+	dollie()->load_template(
+		'widgets/site/pages/domain/dns-manager',
+		[
+			'domain'      => $domain,
+			'dns_manager' => $dns_manager,
+		],
+		true
+	);
+
+	?>
 
 <?php endif; ?>
 
-<?php if ( ! empty( $domain ) ) : ?>
+<?php if ( ! empty( $active_route ) ) : ?>
 	<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
 			<h4 class="dol-p-0 dol-m-0 dol-text-base md:dol-text-xl">
@@ -131,7 +114,9 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 			</form>
 		</div>
 	</div>
+
 	<p class="dol-mt-2"><?php esc_html_e( 'Your current domain IP information:', 'dollie' ); ?></p>
+	
 	<?php
 
 	$credentials = $container->get_credentials();
@@ -146,6 +131,65 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 
 	?>
 
+<?php elseif ( ! empty( $routes ) ) : ?>
+	<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
+			<h4 class="dol-p-0 dol-m-0 dol-text-base md:dol-text-xl">
+				<?php esc_html_e( 'Your pending domain', 'dollie' ); ?>
+			</h4>
+		</div>
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
+			<span class="dol-block dol-mb-4"><?php esc_html_e( 'Have you changed your domain name? You can unlink your current domain by pressing the button below. Once you have removed your current domain you can add your new domain.', 'dollie' ); ?></span>
+			
+			<div class="dol-mt-8 dol-flex dol-flex-col">
+				<div class="dol--my-2 dol--mx-4 dol-overflow-x-auto sm:dol--mx-6 lg:dol--mx-8">
+				<div class="dol-inline-block dol-min-w-full dol-py-2 dol-align-middle md:dol-px-6 lg:dol-px-8">
+					<div class="dol-overflow-hidden">
+					<table class="dol-min-w-full dol-divide-y dol-divide-gray-300 dol-mb-0">
+						<thead class="dol-bg-gray-50">
+						<tr>
+							<th scope="col" class="dol-whitespace-nowrap dol-py-3.5 dol-pl-4 dol-pr-3 dol-text-left dol-text-sm dol-font-semibold dol-text-gray-900 sm:dol-pl-6">
+								<?php esc_html_e( 'Domain', 'dollie' ); ?>
+							</th>
+							<th scope="col" class="dol-whitespace-nowrap dol-px-2 dol-py-3.5 dol-text-left dol-text-sm dol-font-semibold dol-text-gray-900">
+								<?php esc_html_e( 'Primary', 'dollie' ); ?>
+							</th>
+							<th scope="col" class="dol-whitespace-nowrap dol-px-2 dol-py-3.5 dol-text-left dol-text-sm dol-font-semibold dol-text-gray-900">
+								<?php esc_html_e( 'Status', 'dollie' ); ?>
+							</th>
+						</tr>
+						</thead>
+						<tbody class="dol-divide-y dol-divide-gray-200 dol-bg-white">
+							<?php foreach ( $routes as $route ) : ?>
+								<tr>
+									<td class="dol-whitespace-nowrap dol-py-2 dol-pl-4 dol-pr-3 dol-text-sm dol-text-gray-500 sm:dol-pl-6">
+										<?php echo esc_html( $route['name'] ); ?>
+									</td>
+									<td class="dol-whitespace-nowrap dol-px-2 dol-py-2 dol-text-sm dol-font-medium dol-text-gray-900">
+										<?php if ( $route['primary'] ) : ?>
+											<?php esc_html_e( 'Yes', 'dollie' ); ?>
+										<?php else : ?>
+											<?php esc_html_e( 'No', 'dollie' ); ?>
+										<?php endif; ?>
+									</td>
+									<td class="dol-whitespace-nowrap dol-px-2 dol-py-2 dol-text-sm dol-text-gray-900">
+										<?php if ( $route['status'] ) : ?>
+											<?php esc_html_e( 'Active', 'dollie' ); ?>
+										<?php else : ?>
+											<?php esc_html_e( 'Inactive', 'dollie' ); ?>
+										<?php endif; ?>
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+					</div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 <?php endif; ?>
 
 <?php if ( ! \Dollie\Core\Forms\DomainConnect::instance()->is_form_restricted() ) : ?>

@@ -168,7 +168,7 @@ trait Api {
 		$body = wp_remote_retrieve_body( $request );
 
 		if ( empty( $body ) ) {
-			return new \WP_Error( 424, __( 'Invalid response data.', 'dollie' ) );
+			return [];
 		}
 
 		$response = @json_decode( $body, true );

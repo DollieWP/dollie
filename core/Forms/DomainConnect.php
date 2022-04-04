@@ -277,6 +277,12 @@ class DomainConnect extends Singleton {
 			return true;
 		}
 
+		$routes = $container->get_routes();
+
+		if ( ! is_wp_error( $routes ) && ! empty( $routes ) ) {
+			return true;
+		}
+
 		return false;
 	}
 

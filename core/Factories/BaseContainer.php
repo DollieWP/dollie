@@ -839,7 +839,13 @@ abstract class BaseContainer implements ConstInterface {
 		$credentials = $this->get_details( 'credentials' );
 
 		if ( is_wp_error( $credentials ) ) {
-			return [];
+			return [
+				'secret'   => '',
+				'ip'       => '',
+				'username' => '',
+				'password' => '',
+				'port'     => '',
+			];
 		}
 
 		return $credentials;

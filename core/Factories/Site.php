@@ -159,18 +159,18 @@ final class Site extends BaseContainer {
 	 *
 	 * @param string $zone_id
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function get_zone_by_id( string $zone_id ): bool|array {
+	public function get_zone_by_id( string $zone_id ): \WP_Error|array {
 		return $this->get_container_zone_by_id( $this->get_hash(), $zone_id );
 	}
 
 	/**
 	 * Get zones
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function get_zones(): bool|array {
+	public function get_zones(): \WP_Error|array {
 		return $this->get_container_zones( $this->get_hash() );
 	}
 
@@ -179,9 +179,9 @@ final class Site extends BaseContainer {
 	 *
 	 * @param array $data
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function create_zone( array $data ): bool|array {
+	public function create_zone( array $data ): \WP_Error|array {
 		return $this->create_container_zone( $this->get_hash(), $data );
 	}
 
@@ -190,9 +190,9 @@ final class Site extends BaseContainer {
 	 *
 	 * @param string $zone_id
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function delete_zone( string $zone_id ): bool|array {
+	public function delete_zone( string $zone_id ): \WP_Error|array {
 		return $this->delete_container_zone( $this->get_hash(), $zone_id );
 	}
 
@@ -202,9 +202,9 @@ final class Site extends BaseContainer {
 	 * @param string $zone_id
 	 * @param string $record_id
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function get_record_by_id( string $zone_id, string $record_id ): bool|array {
+	public function get_record_by_id( string $zone_id, string $record_id ): \WP_Error|array {
 		return $this->get_container_record_by_id( $this->get_hash(), $zone_id, $record_id );
 	}
 
@@ -213,9 +213,9 @@ final class Site extends BaseContainer {
 	 *
 	 * @param string $zone_id
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function get_records( string $zone_id ): bool|array {
+	public function get_records( string $zone_id ): \WP_Error|array {
 		return $this->get_container_records( $this->get_hash(), $zone_id );
 	}
 
@@ -225,9 +225,9 @@ final class Site extends BaseContainer {
 	 * @param string $zone_id
 	 * @param array  $data
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function create_record( string $zone_id, array $data ): bool|array {
+	public function create_record( string $zone_id, array $data ): \WP_Error|array {
 		return $this->create_container_record( $this->get_hash(), $zone_id, $data );
 	}
 
@@ -237,9 +237,9 @@ final class Site extends BaseContainer {
 	 * @param string $zone_id
 	 * @param string $record_id
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function delete_record( string $zone_id, string $record_id ): bool|array {
+	public function delete_record( string $zone_id, string $record_id ): \WP_Error|array {
 		return $this->delete_container_record( $this->get_hash(), $zone_id, $record_id );
 	}
 }
