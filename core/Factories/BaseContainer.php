@@ -776,7 +776,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return self
 	 */
 	public function set_details( array $data ): self {
-		$details = get_post_meta( $this->post->ID, 'dollie_container_details', true );
+		$details = get_post_meta( $this->get_id(), 'dollie_container_details', true );
 
 		if ( empty( $details ) ) {
 			$details = $data;
@@ -784,12 +784,12 @@ abstract class BaseContainer implements ConstInterface {
 			$details = array_merge( $details, $data );
 		}
 
-		update_post_meta( $this->post->ID, 'dollie_container_details', $details );
-		delete_transient( "container.details.{$this->post->ID}" );
+		update_post_meta( $this->get_id(), 'dollie_container_details', $details );
+		delete_transient( "container.details.{$this->get_id()}" );
 
 		wp_update_post(
 			[
-				'ID'         => $this->post->ID,
+				'ID'         => $this->get_id(),
 				'post_title' => $this->get_details( 'site.name' ),
 			]
 		);
@@ -805,16 +805,16 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return \WP_Error|boolean|string|array
 	 */
 	public function get_details( string $key = '' ): \WP_Error|bool|string|array {
-		$details = get_transient( "container.details.{$this->post->ID}" );
+		$details = get_transient( "container.details.{$this->get_id()}" );
 
 		if ( empty( $details ) ) {
-			$details = get_post_meta( $this->post->ID, 'dollie_container_details', true );
+			$details = get_post_meta( $this->get_id(), 'dollie_container_details', true );
 
 			if ( false === $details ) {
 				return new \WP_Error( 'Container details are not set' );
 			}
 
-			set_transient( "container.details.{$this->post->ID}", $details );
+			set_transient( "container.details.{$this->get_id()}", $details );
 		}
 
 		if ( $key ) {
@@ -930,5 +930,14 @@ abstract class BaseContainer implements ConstInterface {
 
 		// $this->set_status( $post_id, $action );
 		// Log::add( $site . ' status changed to: ' . $action );
+	}
+
+	/**
+	 * Delete post
+	 *
+	 * @return boolean|null
+	 */
+	public function delete(): bool|null {
+		return wp_delete_post( $this->get_id(), true );
 	}
 }

@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Modules\Backups;
-use Dollie\Core\Modules\Domain;
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Singleton;
 
@@ -54,11 +52,18 @@ class DeleteSite extends Singleton {
 	public function submission_callback( $form, $fields, $args ) {
 		$container = Forms::get_form_container();
 
-		// Domain::instance()->remove_route( $container->id );
-		// Backups::instance()->make( $container->id, false );
+		if ( false === $container ) {
+			return;
+		}
 
-		wp_delete_post( $container->get_id(), true ); // also hooks into undeploy
+		$routes = $container->get_routes();
 
+		if ( is_wp_error( $routes ) ) {
+			return;
+		}
+
+		// $container->create_backup();
+		// $container->delete();
 	}
 
 	/**
