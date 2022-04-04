@@ -81,44 +81,44 @@ class DomainConnect extends Singleton {
 		}
 
 		if ( 'yes' === $allow_dns ) {
-			$zone_id = Api::post(
-				Api::ROUTE_DOMAIN_ADD,
-				[
-					'name'          => $domain,
-					'container_uri' => $container->get_original_url(),
-					'normal'        => 'yes',
-				]
-			);
+			// $zone_id = Api::post(
+			// Api::ROUTE_DOMAIN_ADD,
+			// [
+			// 'name'          => $domain,
+			// 'container_uri' => $container->get_original_url(),
+			// 'normal'        => 'yes',
+			// ]
+			// );
 
-			if ( $zone_id ) {
-				update_post_meta( $container->get_id(), 'wpd_domain_dns_manager', 'pending' );
-				update_post_meta( $container->get_id(), 'wpd_domain_zone', $zone_id );
-				update_post_meta( $container->get_id(), 'wpd_domain_pending', $domain );
-			} else {
-				af_add_submission_error(
-					wp_kses_post(
-						sprintf(
-							__( 'Sorry, we could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href="%s" class="dol-text-white">Contact Support</a>', 'dollie' ),
-							dollie()->get_support_link()
-						)
-					)
-				);
+			// if ( $zone_id ) {
+			// update_post_meta( $container->get_id(), 'wpd_domain_dns_manager', 'pending' );
+			// update_post_meta( $container->get_id(), 'wpd_domain_zone', $zone_id );
+			// update_post_meta( $container->get_id(), 'wpd_domain_pending', $domain );
+			// } else {
+			// af_add_submission_error(
+			// wp_kses_post(
+			// sprintf(
+			// __( 'Sorry, we could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href="%s" class="dol-text-white">Contact Support</a>', 'dollie' ),
+			// dollie()->get_support_link()
+			// )
+			// )
+			// );
 
-				return;
-			}
+			// return;
+			// }
 		} else {
-			$container_routes = Domain::instance()->add_container_routes( $container, $domain );
+			// $container_routes = Domain::instance()->add_container_routes( $container, $domain );
 
-			if ( ! $container_routes ) {
-				af_add_submission_error(
-					wp_kses_post(
-						sprintf(
-							__( 'Sorry, we could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href="%s" class="dol-text-white">Contact Support</a>', 'dollie' ),
-							dollie()->get_support_link()
-						)
-					)
-				);
-			}
+			// if ( ! $container_routes ) {
+			// af_add_submission_error(
+			// wp_kses_post(
+			// sprintf(
+			// __( 'Sorry, we could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href="%s" class="dol-text-white">Contact Support</a>', 'dollie' ),
+			// dollie()->get_support_link()
+			// )
+			// )
+			// );
+			// }
 		}
 
 		do_action( 'dollie/domain/connect/submission/after', $container, $domain );
@@ -141,8 +141,7 @@ class DomainConnect extends Singleton {
 
 		$domain  = trim( af_get_field( 'domain_name' ) );
 		$domain  = str_replace( [ 'http://', 'https://' ], '', $domain );
-		$records = dollie()->get_domain_existing_records( $domain );
-		$ip      = '';
+		$records = $container->scan_domain( $domain );
 
 		if ( 'no' === af_get_field( 'allow_dns' ) ) {
 			if ( empty( $records ) ) {
@@ -151,22 +150,21 @@ class DomainConnect extends Singleton {
 				return;
 			}
 
-			$ip_valid = false;
+			$credentials  = $container->get_credentials();
+			$record_found = false;
 
 			foreach ( $records as $record ) {
-				if ( 'A' === $record['type'] && $ip === $record['ip'] ) {
-					$ip_valid = true;
+				if ( 'A' === $record['type'] && $credentials['ip'] === $record['ip'] ) {
+					$record_found = true;
 				}
 			}
 
-			if ( ! $ip_valid ) {
+			if ( ! $record_found ) {
 				af_add_error( 'domain_name', __( 'Your domain DNS A record is not yet pointing to our IP address. Please make sure the A records are set correctly and try again.', 'dollie' ) );
 
 				return;
 			}
 		}
-
-		do_action( 'dollie/domain/dns/validate/after', $domain, $ip );
 
 		do_action( 'dollie/domain/connect/validate/after' );
 	}
@@ -275,19 +273,11 @@ class DomainConnect extends Singleton {
 			return true;
 		}
 
-		if ( get_post_meta( $container->get_id(), 'wpd_domains', true ) ) {
-			return true;
-		}
-
 		if ( ! $container->is_site() ) {
 			return true;
 		}
 
-		$has_cloudflare = get_post_meta( $container->id, 'wpd_cloudflare_email', true );
-		$has_analytics  = get_post_meta( $container->id, 'wpd_cloudflare_zone_id', true );
-		$has_le         = get_post_meta( $container->id, 'wpd_letsencrypt_enabled', true );
-
-		return $has_analytics || $has_le || $has_cloudflare;
+		return false;
 	}
 
 }

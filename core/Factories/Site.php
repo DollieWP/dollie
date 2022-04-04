@@ -43,9 +43,9 @@ final class Site extends BaseContainer {
 	/**
 	 * Get available blueprints
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function get_available_blueprints(): bool|array {
+	public function get_available_blueprints(): \WP_Error|array {
 		return [];
 	}
 
@@ -54,9 +54,9 @@ final class Site extends BaseContainer {
 	 *
 	 * @param string $action
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function perform_action( string $action ): bool|array {
+	public function perform_action( string $action ): \WP_Error|array {
 		$action = $this->perform_site_action( $this->get_hash(), $action );
 
 		$this->after_status_change_event();
@@ -69,9 +69,9 @@ final class Site extends BaseContainer {
 	 *
 	 * @param string $domain
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function set_domain( string $domain ): bool|array {
+	public function set_domain( string $domain ): \WP_Error|array {
 		return $this->set_site_domain( $this->get_hash(), $domain );
 	}
 
@@ -80,18 +80,18 @@ final class Site extends BaseContainer {
 	 *
 	 * @param array $data
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function set_role( array $data ): bool|array {
+	public function set_role( array $data ): \WP_Error|array {
 		return $this->set_site_role( $this->get_hash(), $data );
 	}
 
 	/**
 	 * Undeploy
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function undeploy(): bool|array {
+	public function undeploy(): \WP_Error|array {
 		return $this->delete_site( $this->get_hash() );
 	}
 
@@ -100,9 +100,9 @@ final class Site extends BaseContainer {
 	 *
 	 * @param string $domain
 	 *
-	 * @return boolean|array
+	 * @return \WP_Error|array
 	 */
-	public function scan_domain( string $domain ): bool|array {
+	public function scan_domain( string $domain ): \WP_Error|array {
 		return $this->scan_zone( $domain );
 	}
 

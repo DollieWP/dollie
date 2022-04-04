@@ -112,7 +112,6 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 				if ( is_wp_error( $container ) ) {
 					continue;
 				}
-				$container->fetch_details();
 
 				$list_item_class        = [];
 				$execution_lock_classes = [];

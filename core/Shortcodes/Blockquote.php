@@ -55,7 +55,6 @@ final class Blockquote extends Singleton implements Base {
 				'type'         => $atts['type'],
 				'icon'         => $atts['icon'],
 				'title'        => $atts['title'],
-				'message'      => $content,
 				'bottom_space' => true,
 			]
 		);

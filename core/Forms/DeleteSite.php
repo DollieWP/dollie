@@ -70,7 +70,11 @@ class DeleteSite extends Singleton {
 	public function validate_form( $form, $args ) {
 		$container = Forms::get_form_container();
 
-		if ( ! af_get_field( 'confirm_site_name' ) || af_get_field( 'confirm_site_name' ) !== $container->get_slug() ) {
+		if ( false === $container ) {
+			af_add_error( 'confirm_site_name', __( 'The targeted site couldn\'t be found.', 'dollie' ) );
+		}
+
+		if ( ! af_get_field( 'confirm_site_name' ) || af_get_field( 'confirm_site_name' ) !== $container->get_url() ) {
 			af_add_error( 'confirm_site_name', __( 'Please type the unique name of your site. Your site name is shown in the sidebar and in your URL address bar.', 'dollie' ) );
 		}
 	}

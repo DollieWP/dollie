@@ -17,7 +17,7 @@ trait ZoneApi {
 	 * @return \WP_Error|array
 	 */
 	public function scan_zone( string $domain ): \WP_Error|array {
-		return $this->post_request( 'zone/scan' );
+		return $this->post_request( 'zone/scan', [ 'domain' => $domain ] );
 	}
 
 	/**

@@ -1,5 +1,9 @@
 <?php
 
+if ( ! isset( $container ) ) {
+	$container = dollie()->get_container();
+}
+
 dollie()->load_template(
 	'notice',
 	[
@@ -9,14 +13,18 @@ dollie()->load_template(
 		'message'      => wp_kses_post(
 			sprintf(
 				__( 'We are going make an exact copy of your current WordPress install to <strong>%s</strong>', 'dollie' ),
-				$data['post_slug'] . DOLLIE_DOMAIN
+				$container->get_url()
 			)
 		),
 		'bottom_space' => true,
 	],
 	true
 );
+
+$credentials = $container->get_credentials();
+
 ?>
+
 <p>
 	<span class="alert alert-info"><?php _e( 'Do not worry; your live site will not be touched or modified in any way!', 'dollie' ); ?></span>
 </p>
@@ -118,7 +126,7 @@ dollie()->load_template(
 		<div class="dol-bg-gray-50 dol-rounded dol-flex dol-p-4 dol-h-full dol-items-center">
 				<span class="title-font dol-font-medium">
 					<?php _e( 'Destination Site URL', 'dollie' ); ?>
-				<br><strong><?php echo dollie()->get_wp_site_data( 'uri' ); ?></strong></span></div>
+				<br><strong><?php echo $container->get_url(); ?></strong></span></div>
 	</div>
 	<div class="dol-p-0 sm:dol-w-1/2 dol-w-full">
 		<div class="dol-bg-gray-50 dol-rounded dol-flex dol-p-4 dol-h-full dol-items-center"><span
@@ -129,23 +137,23 @@ dollie()->load_template(
 		<div class="dol-bg-gray-50 dol-rounded dol-flex dol-p-4 dol-h-full dol-items-center">
 				<span class="title-font dol-font-medium">
 					<?php _e( 'Destination Server IP/FTP Address', 'dollie' ); ?>
-				<br><strong><?php echo preg_replace( '#^https?://#', '', dollie()->get_wp_site_data( 'uri' ) ); ?></strong></span>
+				<br><strong><?php echo $credentials['ip']; ?></strong></span>
 		</div>
 	</div>
 	<div class="dol-p-0 sm:dol-w-1/2 dol-w-full">
 		<div class="dol-bg-gray-50 dol-rounded dol-flex dol-p-4 dol-h-full dol-items-center"><span
 					class="title-font dol-font-medium"><?php _e( 'Port:', 'dollie' ); ?>
-				<br><strong><?php echo dollie()->get_wp_site_data( 'ssh_port' ); ?></strong></span></div>
+				<br><strong><?php echo $credentials['port']; ?></strong></span></div>
 	</div>
 	<div class="dol-p-0 sm:dol-w-1/2 dol-w-full">
 		<div class="dol-bg-gray-50 dol-rounded dol-flex dol-p-4 dol-h-full dol-items-center"><span
 					class="title-font dol-font-medium"><?php _e( 'FTP Username:', 'dollie' ); ?>
-				<br><strong><?php echo dollie()->get_wp_site_data( 'ssh_user' ); ?></strong></span></div>
+			<br><strong><?php echo $credentials['username']; ?></strong></span></div>
 	</div>
 	<div class="dol-p-0 sm:dol-w-1/2 dol-w-full">
 		<div class="dol-bg-gray-50 dol-rounded dol-flex dol-p-4 dol-h-full dol-items-center"><span
 					class="title-font dol-font-medium"><?php _e( 'FTP Password:', 'dollie' ); ?>
-				<br><strong><?php echo dollie()->get_wp_site_data( 'ssh_pass' ); ?></strong><br></span></div>
+				<br><strong><?php echo $credentials['password']; ?></strong><br></span></div>
 	</div>
 	<div class="dol-p-0 dol-rounded dol-w-full">
 		<div class="dol-bg-gray-50  dol-flex dol-p-2 dol-h-full dol-items-center"><span
@@ -161,7 +169,5 @@ dollie()->load_template(
 <h4 class="dol-font-bold dol-mb-2 dol-mt-2 dol-text-xl"><?php _e( 'Step 4 - Sit back and enjoy the show!', 'dollie' ); ?></h4>
 
 <div class="dol-my-6">
-	<?php
-	echo wp_kses_post( __( 'Press <strong>Migrate</strong> and sit back and enjoy the show. Depending on the size of your site and the speed of your current host this process could take up to a couple of hours. Do not worry, this is completely normal! We will send you an email when the migration has completed so you can easily continue to this setup wizard.', 'dollie' ) );
-	?>
+	<?php echo wp_kses_post( __( 'Press <strong>Migrate</strong> and sit back and enjoy the show. Depending on the size of your site and the speed of your current host this process could take up to a couple of hours. Do not worry, this is completely normal! We will send you an email when the migration has completed so you can easily continue to this setup wizard.', 'dollie' ) ); ?>
 </div>
