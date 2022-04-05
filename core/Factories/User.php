@@ -17,7 +17,7 @@ final class User {
 	 *
 	 * @param \WP_User|integer|null $user
 	 */
-	public function __construct( \WP_User|int $user = null ) {
+	public function __construct( $user = null ) {
 		if ( is_null( $user ) ) {
 			$this->user = wp_get_current_user();
 		} elseif ( is_numeric( $user ) ) {
