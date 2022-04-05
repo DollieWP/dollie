@@ -1002,16 +1002,6 @@ abstract class BaseContainer implements ConstInterface {
 		return false;
 	}
 
-	/**
-	 * Flush cache
-	 *
-	 * @return void
-	 */
-	public function flush_cache() {
-		delete_transient( 'dollie_site_users_' . $this->get_id() );
-		delete_transient( 'dollie_site_news_' . $this->get_id() );
-	}
-
 	public function after_status_change_event() {
 		// if ( self::ACTION_START === $action ) {
 		// $container->remove_undeploy_schedule();

@@ -228,9 +228,6 @@ final class DnsService extends Singleton {
 			// Backups::instance()->make();
 
 			Log::add_front( Log::WP_SITE_DOMAIN_LINKED, $container, [ $domain, $container->slug ] );
-
-			// Update our container details so that the new domain will be used to make container HTTP requests.
-			$container->flush_cache();
 		}
 
 		return true;
@@ -333,16 +330,14 @@ final class DnsService extends Singleton {
 		$zone_id = get_post_meta( $post_id, 'wpd_domain_zone', true );
 
 		if ( $zone_id ) {
-			Api::post(
-				Api::ROUTE_DOMAIN_REMOVE,
-				[
-					'container_uri' => dollie()->get_wp_site_data( 'uri', $post_id ),
-					'normal'        => 'yes',
-				]
-			);
+			// Api::post(
+			// Api::ROUTE_DOMAIN_REMOVE,
+			// [
+			// 'container_uri' => dollie()->get_wp_site_data( 'uri', $post_id ),
+			// 'normal'        => 'yes',
+			// ]
+			// );
 		}
-
-		$container->flush_cache();
 	}
 
 	/**

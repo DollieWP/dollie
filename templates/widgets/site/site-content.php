@@ -18,7 +18,6 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 	return;
 }
 
-
 ?>
 
 <?php if ( $container->is_stopped() ) : ?>

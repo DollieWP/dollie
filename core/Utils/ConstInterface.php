@@ -20,6 +20,7 @@ interface ConstInterface {
 	const PANEL_SLUG = 'wpd_platform_setup';
 
 
+
 	const
 		EXECUTION_STAGING_SYNC            = 'staging.sync.to.live',
 		EXECUTION_BACKUP_CREATE           = 'backup.create',

@@ -577,7 +577,7 @@ final class Container extends Singleton implements ConstInterface {
 					printf(
 						'%s <a href="%s">%s</a>.',
 						esc_html__( 'Below you will find all of your sites launched by you and your customers. Remember: You can also view all the sites launched by your customers in the', 'dollie' ),
-						esc_url( dollie()->get_sites_page_url() ),
+						esc_url( dollie()->page()->get_sites_url() ),
 						esc_html__( 'Sites Directory', 'dollie' )
 					);
 					?>
@@ -596,7 +596,7 @@ final class Container extends Singleton implements ConstInterface {
 					printf(
 						'%s <a href="%s">%s</a>.',
 						esc_html__( 'Below you will find all the Blueprints you have created. Want to add a new Blueprint?', 'dollie' ),
-						esc_url( dollie()->get_launch_blueprint_page_url() ),
+						esc_url( dollie()->page()->get_launch_blueprint_url() ),
 						esc_html__( 'Launch a Blueprint', 'dollie' )
 					);
 					?>
