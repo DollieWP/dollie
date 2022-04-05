@@ -16,7 +16,7 @@ trait PartnerApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_partner_subscription(): \WP_Error|array {
+	public function get_partner_subscription() {
 		return $this->get_request( 'partner/subscription' );
 	}
 
@@ -27,7 +27,7 @@ trait PartnerApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function set_partner_option( array $data ): \WP_Error|array {
+	public function set_partner_option( array $data ) {
 		return $this->post_request( 'partner/option', $data );
 	}
 }

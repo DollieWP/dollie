@@ -43,7 +43,7 @@ final class Staging extends BaseContainer {
 	 *
 	 * @return boolean|array
 	 */
-	public function perform_action( string $action ): bool|array {
+	public function perform_action( string $action ) {
 		$action = $this->perform_staging_action( $this->get_hash(), $action );
 
 		$this->after_status_change_event();
@@ -56,7 +56,7 @@ final class Staging extends BaseContainer {
 	 *
 	 * @return boolean|array
 	 */
-	public function sync(): bool|array {
+	public function sync() {
 		return $this->sync_staging( $this->get_hash() );
 	}
 
@@ -65,7 +65,7 @@ final class Staging extends BaseContainer {
 	 *
 	 * @return boolean|array
 	 */
-	public function undeploy(): bool|array {
+	public function undeploy() {
 		return $this->delete_staging( $this->get_hash() );
 	}
 }

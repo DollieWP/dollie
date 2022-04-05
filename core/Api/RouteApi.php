@@ -17,7 +17,7 @@ trait RouteApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_container_route_by_id( string $container_hash, string $route_id ): \WP_Error|array {
+	public function get_container_route_by_id( string $container_hash, string $route_id ) {
 		return $this->get_request( "route/{$container_hash}/{$route_id}" );
 	}
 
@@ -28,7 +28,7 @@ trait RouteApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_container_routes( string $container_hash ): \WP_Error|array {
+	public function get_container_routes( string $container_hash ) {
 		return $this->get_request( "route/{$container_hash}" );
 	}
 
@@ -40,7 +40,7 @@ trait RouteApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function create_container_route( string $container_hash, array $data ): \WP_Error|array {
+	public function create_container_route( string $container_hash, array $data ) {
 		return $this->post_request( "route/{$container_hash}", $data );
 	}
 
@@ -52,7 +52,7 @@ trait RouteApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_container_route( string $container_hash, string $route_id ): \WP_Error|array {
+	public function delete_container_route( string $container_hash, string $route_id ) {
 		return $this->delete_request( "route/{$container_hash}/{$route_id}" );
 	}
 }

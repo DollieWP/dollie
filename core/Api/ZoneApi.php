@@ -16,7 +16,7 @@ trait ZoneApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function scan_zone( string $domain ): \WP_Error|array {
+	public function scan_zone( string $domain ) {
 		return $this->post_request( 'zone/scan', [ 'domain' => $domain ] );
 	}
 
@@ -28,7 +28,7 @@ trait ZoneApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_container_zone_by_id( string $container_hash, string $zone_id ): \WP_Error|array {
+	public function get_container_zone_by_id( string $container_hash, string $zone_id ) {
 		return $this->get_request( "zone/{$container_hash}/{$zone_id}" );
 	}
 
@@ -39,7 +39,7 @@ trait ZoneApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_container_zones( string $container_hash ): \WP_Error|array {
+	public function get_container_zones( string $container_hash ) {
 		return $this->get_request( "zone/{$container_hash}" );
 	}
 
@@ -51,7 +51,7 @@ trait ZoneApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function create_container_zone( string $container_hash, array $data ): \WP_Error|array {
+	public function create_container_zone( string $container_hash, array $data ) {
 		return $this->post_request( "zone/{$container_hash}", $data );
 	}
 
@@ -63,7 +63,7 @@ trait ZoneApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_container_zone( string $container_hash, string $zone_id ): \WP_Error|array {
+	public function delete_container_zone( string $container_hash, string $zone_id ) {
 		return $this->delete_request( "zone/{$container_hash}/{$zone_id}" );
 	}
 
@@ -76,7 +76,7 @@ trait ZoneApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_container_record_by_id( string $container_hash, string $zone_id, string $record_id ): \WP_Error|array {
+	public function get_container_record_by_id( string $container_hash, string $zone_id, string $record_id ) {
 		return $this->get_request( "zone/{$container_hash}/{$zone_id}/records/{$record_id}" );
 	}
 
@@ -88,7 +88,7 @@ trait ZoneApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_container_records( string $container_hash, string $zone_id ): \WP_Error|array {
+	public function get_container_records( string $container_hash, string $zone_id ) {
 		return $this->get_request( "zone/{$container_hash}/{$zone_id}/records" );
 	}
 
@@ -101,7 +101,7 @@ trait ZoneApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function create_container_record( string $container_hash, string $zone_id, array $data ): \WP_Error|array {
+	public function create_container_record( string $container_hash, string $zone_id, array $data ) {
 		return $this->post_request( "zone/{$container_hash}/{$zone_id}/records", $data );
 	}
 
@@ -114,7 +114,7 @@ trait ZoneApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_container_record( string $container_hash, string $zone_id, string $record_id ): \WP_Error|array {
+	public function delete_container_record( string $container_hash, string $zone_id, string $record_id ) {
 		return $this->delete_request( "zone/{$container_hash}/{$zone_id}/records/{$record_id}" );
 	}
 }

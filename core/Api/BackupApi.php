@@ -16,7 +16,7 @@ trait BackupApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_container_backup( string $container_hash ): \WP_Error|array {
+	public function get_container_backup( string $container_hash ) {
 		return $this->get_request( "backups/{$container_hash}" );
 	}
 
@@ -27,7 +27,7 @@ trait BackupApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function create_container_backup( string $container_hash ): \WP_Error|array {
+	public function create_container_backup( string $container_hash ) {
 		return $this->post_request( "backups/{$container_hash}" );
 	}
 
@@ -40,7 +40,7 @@ trait BackupApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function restore_container_backup( string $container_hash, string $backup, string $type ): \WP_Error|array {
+	public function restore_container_backup( string $container_hash, string $backup, string $type ) {
 		return $this->post_request(
 			"backups/{$container_hash}/restore",
 			[

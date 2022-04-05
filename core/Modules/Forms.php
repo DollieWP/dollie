@@ -606,7 +606,7 @@ class Forms extends Singleton {
 	 *
 	 * @return boolean|Site|Blueprint|Staging
 	 */
-	public static function get_form_container(): bool|Site|Blueprint|Staging {
+	public static function get_form_container() {
 		if ( isset( AF()->submission['extra'], AF()->submission['extra']['dollie_container_id'] ) ) {
 			$post_id = AF()->submission['extra']['dollie_container_id'];
 		} elseif ( isset( $_POST['dollie_post_id'] ) ) {

@@ -22,7 +22,7 @@ final class DeployService extends Singleton implements ConstInterface {
 	 *
 	 * @return \WP_Error|boolean
 	 */
-	public function start( string $type, string $route ): \WP_Error|bool {
+	public function start( string $type, string $route ) {
 		if ( ! in_array( $type, [ self::TYPE_SITE, self::TYPE_BLUEPRINT, self::TYPE_STAGING ] ) ) {
 			throw new \WP_Error( 500, 'Invalid deploy type' );
 		}
@@ -80,7 +80,7 @@ final class DeployService extends Singleton implements ConstInterface {
 	 *
 	 * @return boolean
 	 */
-	public function check_deploy( BaseContainer $container ): \WP_Error|bool {
+	public function check_deploy( BaseContainer $container ) {
 		if ( ! $container->is_deploying() ) {
 			return new \WP_Error( 500, 'Container is not deploying' );
 		}

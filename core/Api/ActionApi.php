@@ -14,7 +14,7 @@ trait ActionApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_bulk_actions(): \WP_Error|array {
+	public function get_bulk_actions() {
 		return $this->get_request( 'actions/bulk' );
 	}
 
@@ -25,7 +25,7 @@ trait ActionApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function create_bulk_action( array $data ): \WP_Error|array {
+	public function create_bulk_action( array $data ) {
 		return $this->post_request( 'actions/bulk', $data );
 	}
 
@@ -34,7 +34,7 @@ trait ActionApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_recurring_actions(): \WP_Error|array {
+	public function get_recurring_actions() {
 		return $this->get_request( 'actions/recurring' );
 	}
 
@@ -45,7 +45,7 @@ trait ActionApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function create_recurring_actions( array $data ): \WP_Error|array {
+	public function create_recurring_actions( array $data ) {
 		return $this->post_request( 'actions/recurring', $data );
 	}
 
@@ -57,7 +57,7 @@ trait ActionApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_recurring_action( string $container_hash, string $action_id ): \WP_Error|array {
+	public function delete_recurring_action( string $container_hash, string $action_id ) {
 		return $this->delete_request( "actions/recurring/{$container_hash}/{$action_id}" );
 	}
 }

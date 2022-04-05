@@ -16,7 +16,7 @@ trait SiteApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_site_by_id( string $container_hash ): \WP_Error|array {
+	public function get_site_by_id( string $container_hash ) {
 		return $this->get_request( "sites/{$container_hash}" );
 	}
 
@@ -25,7 +25,7 @@ trait SiteApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_sites(): \WP_Error|array {
+	public function get_sites() {
 		return $this->get_request( 'sites' );
 	}
 
@@ -37,7 +37,7 @@ trait SiteApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function perform_site_action( string $container_hash, string $action ): \WP_Error|array {
+	public function perform_site_action( string $container_hash, string $action ) {
 		return $this->post_request( "sites/{$container_hash}/action", [ 'action' => $action ] );
 	}
 
@@ -49,7 +49,7 @@ trait SiteApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function set_site_role( string $container_hash, array $data ): \WP_Error|array {
+	public function set_site_role( string $container_hash, array $data ) {
 		return $this->post_request( "sites/{$container_hash}/role", $data );
 	}
 
@@ -61,7 +61,7 @@ trait SiteApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function set_site_domain( string $container_hash, string $domain ): \WP_Error|array {
+	public function set_site_domain( string $container_hash, string $domain ) {
 		return $this->post_request( "sites/{$container_hash}/domain", [ 'domain' => $domain ] );
 	}
 
@@ -72,7 +72,7 @@ trait SiteApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_site( string $container_hash ): \WP_Error|array {
+	public function delete_site( string $container_hash ) {
 		return $this->delete_request( "sites/$container_hash" );
 	}
 }

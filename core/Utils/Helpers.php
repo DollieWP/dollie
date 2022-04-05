@@ -34,7 +34,7 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @return Site|Blueprint|Staging|\WP_Error
 	 */
-	public function get_container( \WP_Post|int $id = null ): Site|Blueprint|Staging|\WP_Error {
+	public function get_container( \WP_Post|int $id = null ) {
 		if ( $id instanceof \WP_Post ) {
 			$object = $id;
 		} elseif ( is_numeric( $id ) ) {
@@ -152,7 +152,7 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @return string|boolean
 	 */
-	public function get_latest_container_url(): string|bool {
+	public function get_latest_container_url() {
 		$query = new WP_Query(
 			[
 				'post_status'    => [ 'publish', 'draft' ],

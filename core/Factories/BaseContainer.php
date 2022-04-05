@@ -373,8 +373,13 @@ abstract class BaseContainer implements ConstInterface {
 			// $username = $this->get_login_username();
 		}
 
-		return 'https://example';
-		// return "{$this->get_url()}/wp-login.php?s5token={$this->get_login_token($username)}{$location}";
+		$login_url = $this->get_details( 'site.login_url' );
+
+		if ( is_wp_error( $login_url ) ) {
+			return $this->get_url();
+		}
+
+		return $login_url . $location;
 	}
 
 	/**
@@ -613,7 +618,7 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_backups( bool $force = false ): \WP_Error|array {
+	public function get_backups( bool $force = false ) {
 		if ( $force ) {
 			$backups = $this->get_container_backup( $this->get_hash() );
 
@@ -664,7 +669,7 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function create_backup(): \WP_Error|array {
+	public function create_backup() {
 		return $this->create_container_backup( $this->get_hash() );
 	}
 
@@ -676,7 +681,7 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function restore_backup( string $backup, string $type ): \WP_Error|array {
+	public function restore_backup( string $backup, string $type ) {
 		return $this->restore_container_backup( $this->get_hash(), $backup, $type );
 	}
 
@@ -687,7 +692,7 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_plugins( bool $force = false ): \WP_Error|array {
+	public function get_plugins( bool $force = false ) {
 		if ( $force ) {
 			$plugins = $this->get_container_plugins( $this->get_hash() );
 
@@ -732,7 +737,7 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return boolean|array
 	 */
-	public function get_themes( bool $force = false ): bool|array {
+	public function get_themes( bool $force = false ) {
 		if ( $force ) {
 			$themes = $this->get_container_themes( $this->get_hash() );
 
@@ -858,7 +863,7 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function update_plugins( array $plugins ): \WP_Error|array {
+	public function update_plugins( array $plugins ) {
 		return $this->update_container_plugins( $this->get_hash(), $plugins );
 	}
 
@@ -869,7 +874,7 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function update_themes( array $themes ): \WP_Error|array {
+	public function update_themes( array $themes ) {
 		return $this->update_container_themes( $this->get_hash(), $themes );
 	}
 
@@ -924,13 +929,13 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return \WP_Error|boolean|string|array
 	 */
-	public function get_details( string $key = '' ): \WP_Error|bool|string|array {
+	public function get_details( string $key = '' ) {
 		$details = get_transient( "container.details.{$this->get_id()}" );
 
 		if ( empty( $details ) ) {
 			$details = get_post_meta( $this->get_id(), 'dollie_container_details', true );
 
-			if ( false === $details ) {
+			if ( empty( $details ) ) {
 				return new \WP_Error( 'Container details are not set' );
 			}
 
@@ -968,7 +973,7 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return \WP_Error|boolean|array|string|integer
 	 */
-	private function find_value_recursively( array $details, array $composite_key ): \WP_Error|bool|array|string|int {
+	private function find_value_recursively( array $details, array $composite_key ) {
 		foreach ( $composite_key as $index => $key ) {
 			if ( isset( $details[ $key ] ) ) {
 				if ( count( $composite_key ) === ( $index + 1 ) ) {
@@ -1059,7 +1064,7 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return boolean|null
 	 */
-	protected function delete(): bool|null {
+	protected function delete() {
 		return wp_delete_post( $this->get_id(), true );
 	}
 }

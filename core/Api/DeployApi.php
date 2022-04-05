@@ -17,7 +17,7 @@ trait DeployApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function start_deploy( string $type, array $data ): \WP_Error|array {
+	public function start_deploy( string $type, array $data ) {
 		return $this->post_request( "{$type}/deploy", $data );
 	}
 
@@ -29,7 +29,7 @@ trait DeployApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_deploy( string $type, string $route ): \WP_Error|array {
+	public function get_deploy( string $type, string $route ) {
 		return $this->get_request( "{$type}/deploy/{$route}" );
 	}
 }

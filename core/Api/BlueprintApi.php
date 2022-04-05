@@ -16,7 +16,7 @@ trait BlueprintApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_blueprint_by_id( string $container_hash ): \WP_Error|array {
+	public function get_blueprint_by_id( string $container_hash ) {
 		return $this->get_request( "blueprints/{$container_hash}" );
 	}
 
@@ -25,7 +25,7 @@ trait BlueprintApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_blueprints(): \WP_Error|array {
+	public function get_blueprints() {
 		return $this->get_request( 'blueprints' );
 	}
 
@@ -37,7 +37,7 @@ trait BlueprintApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function update_blueprint( string $container_hash ): \WP_Error|array {
+	public function update_blueprint( string $container_hash ) {
 		return $this->get_request( "blueprints/{$container_hash}/update" );
 	}
 
@@ -49,7 +49,7 @@ trait BlueprintApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function perform_blueprint_action( string $container_hash, string $action ): \WP_Error|array {
+	public function perform_blueprint_action( string $container_hash, string $action ) {
 		return $this->post_request( "blueprints/{$container_hash}/action", [ 'action' => $action ] );
 	}
 
@@ -61,7 +61,7 @@ trait BlueprintApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function check_blueprint_dynamic_fields( string $container_hash, array $fields ): \WP_Error|array {
+	public function check_blueprint_dynamic_fields( string $container_hash, array $fields ) {
 		return $this->post_request( "blueprints/{$container_hash}/domain", [ 'fields' => $fields ] );
 	}
 
@@ -72,7 +72,7 @@ trait BlueprintApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_blueprint( string $container_hash ): \WP_Error|array {
+	public function delete_blueprint( string $container_hash ) {
 		return $this->delete_request( "blueprints/{$container_hash}" );
 	}
 }

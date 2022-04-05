@@ -45,7 +45,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_available_blueprints(): \WP_Error|array {
+	public function get_available_blueprints() {
 		return [];
 	}
 
@@ -56,7 +56,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function perform_action( string $action ): \WP_Error|array {
+	public function perform_action( string $action ) {
 		$action = $this->perform_site_action( $this->get_hash(), $action );
 
 		$this->after_status_change_event();
@@ -71,7 +71,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function set_domain( string $domain ): \WP_Error|array {
+	public function set_domain( string $domain ) {
 		return $this->set_site_domain( $this->get_hash(), $domain );
 	}
 
@@ -82,7 +82,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function set_role( array $data ): \WP_Error|array {
+	public function set_role( array $data ) {
 		return $this->set_site_role( $this->get_hash(), $data );
 	}
 
@@ -91,7 +91,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function undeploy(): \WP_Error|array {
+	public function undeploy() {
 		$deleted = $this->delete_site( $this->get_hash() );
 
 		if ( ! is_wp_error( $deleted ) ) {
@@ -108,7 +108,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function scan_domain( string $domain ): \WP_Error|array {
+	public function scan_domain( string $domain ) {
 		return $this->scan_zone( $domain );
 	}
 
@@ -117,7 +117,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_routes(): \WP_Error|array {
+	public function get_routes() {
 		return $this->get_container_routes( $this->get_hash() );
 	}
 
@@ -128,7 +128,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_route( string $route_id ): \WP_Error|array {
+	public function get_route( string $route_id ) {
 		return $this->get_container_route_by_id( $this->get_hash(), $route_id );
 	}
 
@@ -139,7 +139,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function create_route( string $name ): \WP_Error|array {
+	public function create_route( string $name ) {
 		return $this->create_container_route( $this->get_hash(), [ 'name' => $name ] );
 	}
 
@@ -150,7 +150,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_route( string $route_id ): \WP_Error|array {
+	public function delete_route( string $route_id ) {
 		return $this->delete_container_route( $this->get_hash(), $route_id );
 	}
 
@@ -161,7 +161,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_zone_by_id( string $zone_id ): \WP_Error|array {
+	public function get_zone_by_id( string $zone_id ) {
 		return $this->get_container_zone_by_id( $this->get_hash(), $zone_id );
 	}
 
@@ -170,7 +170,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_zones(): \WP_Error|array {
+	public function get_zones() {
 		return $this->get_container_zones( $this->get_hash() );
 	}
 
@@ -181,7 +181,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function create_zone( array $data ): \WP_Error|array {
+	public function create_zone( array $data ) {
 		return $this->create_container_zone( $this->get_hash(), $data );
 	}
 
@@ -192,7 +192,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_zone( string $zone_id ): \WP_Error|array {
+	public function delete_zone( string $zone_id ) {
 		return $this->delete_container_zone( $this->get_hash(), $zone_id );
 	}
 
@@ -204,7 +204,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_record_by_id( string $zone_id, string $record_id ): \WP_Error|array {
+	public function get_record_by_id( string $zone_id, string $record_id ) {
 		return $this->get_container_record_by_id( $this->get_hash(), $zone_id, $record_id );
 	}
 
@@ -215,7 +215,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_records( string $zone_id ): \WP_Error|array {
+	public function get_records( string $zone_id ) {
 		return $this->get_container_records( $this->get_hash(), $zone_id );
 	}
 
@@ -227,7 +227,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function create_record( string $zone_id, array $data ): \WP_Error|array {
+	public function create_record( string $zone_id, array $data ) {
 		return $this->create_container_record( $this->get_hash(), $zone_id, $data );
 	}
 
@@ -239,7 +239,7 @@ final class Site extends BaseContainer {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_record( string $zone_id, string $record_id ): \WP_Error|array {
+	public function delete_record( string $zone_id, string $record_id ) {
 		return $this->delete_container_record( $this->get_hash(), $zone_id, $record_id );
 	}
 }

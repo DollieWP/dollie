@@ -43,7 +43,7 @@ final class Blueprint extends BaseContainer {
 	 *
 	 * @return boolean|array
 	 */
-	public function perform_action( string $action ): bool|array {
+	public function perform_action( string $action ) {
 		$action = $this->perform_blueprint_action( $this->get_hash(), $action );
 
 		$this->after_status_change_event();
@@ -59,7 +59,7 @@ final class Blueprint extends BaseContainer {
 	 *
 	 * @return boolean|array
 	 */
-	public function update_changes( string $title, string $description ): bool|array {
+	public function update_changes( string $title, string $description ) {
 		update_post_meta( $this->post->ID, 'dollie_blueprint_title', $title );
 		update_post_meta( $this->post->ID, 'dollie_blueprint_description', $description );
 		update_post_meta( $this->post->ID, 'dollie_blueprint_update_time', current_time( 'mysql' ) );
@@ -81,7 +81,7 @@ final class Blueprint extends BaseContainer {
 	 *
 	 * @return boolean|array
 	 */
-	public function undeploy(): bool|array {
+	public function undeploy() {
 		return $this->delete_blueprint( $this->get_hash() );
 	}
 
@@ -90,7 +90,7 @@ final class Blueprint extends BaseContainer {
 	 *
 	 * @return boolean|string
 	 */
-	public function get_saved_title(): bool|string {
+	public function get_saved_title() {
 		return get_post_meta( $this->post->ID, 'dollie_blueprint_title', true );
 	}
 
@@ -99,7 +99,7 @@ final class Blueprint extends BaseContainer {
 	 *
 	 * @return boolean|string
 	 */
-	public function get_saved_description(): bool|string {
+	public function get_saved_description() {
 		return get_post_meta( $this->post->ID, 'dollie_blueprint_description', true );
 	}
 
@@ -108,7 +108,7 @@ final class Blueprint extends BaseContainer {
 	 *
 	 * @return boolean|string
 	 */
-	public function get_changes_update_time(): bool|string {
+	public function get_changes_update_time() {
 		return get_post_time( $this->post->ID, 'dollie_blueprint_update_time', true );
 	}
 
@@ -117,7 +117,7 @@ final class Blueprint extends BaseContainer {
 	 *
 	 * @return boolean|array
 	 */
-	public function check_dynamic_fields(): bool|array {
+	public function check_dynamic_fields() {
 		$fields = [];
 
 		foreach ( $this->get_dynamic_fields() as $field ) {
@@ -140,17 +140,5 @@ final class Blueprint extends BaseContainer {
 		}
 
 		return $fields;
-	}
-
-	public function get_screenshot(): bool|string {
-		if ( get_field( 'wpd_blueprint_image', $this->get_id() ) === 'custom' ) {
-			$image = get_field( 'wpd_blueprint_custom_image', $this->get_id() );
-
-			if ( is_array( $image ) ) {
-				return $image['url'];
-			}
-		}
-
-		return parent::get_screenshot();
 	}
 }

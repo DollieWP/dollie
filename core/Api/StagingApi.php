@@ -16,7 +16,7 @@ trait StagingApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_staging_by_id( string $container_hash ): \WP_Error|array {
+	public function get_staging_by_id( string $container_hash ) {
 		return $this->get_request( "stagings/{$container_hash}" );
 	}
 
@@ -25,7 +25,7 @@ trait StagingApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_stagings(): \WP_Error|array {
+	public function get_stagings() {
 		return $this->get_request( 'stagings' );
 	}
 
@@ -37,7 +37,7 @@ trait StagingApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function perform_staging_action( string $container_hash, string $action ): \WP_Error|array {
+	public function perform_staging_action( string $container_hash, string $action ) {
 		return $this->post_request( "stagings/{$container_hash}/action", [ 'action' => $action ] );
 	}
 
@@ -48,7 +48,7 @@ trait StagingApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function sync_staging( string $container_hash ): \WP_Error|array {
+	public function sync_staging( string $container_hash ) {
 		return $this->post_request( "stagings/{$container_hash}/sync" );
 	}
 
@@ -59,7 +59,7 @@ trait StagingApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_staging( string $container_hash ): \WP_Error|array {
+	public function delete_staging( string $container_hash ) {
 		return $this->delete_request( "stagings/$container_hash" );
 	}
 }

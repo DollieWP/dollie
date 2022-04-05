@@ -82,7 +82,7 @@ final class PageManager extends Singleton {
 	 *
 	 * @return boolean|string
 	 */
-	public function get_launch_url( string $append = '', array $query = [] ): bool|string {
+	public function get_launch_url( string $append = '', array $query = [] ) {
 		return $this->build_permalink( $this->get_launch_id(), $append, $query );
 	}
 
@@ -94,7 +94,7 @@ final class PageManager extends Singleton {
 	 *
 	 * @return boolean|string
 	 */
-	public function get_launch_blueprint_url( string $append = '', array $query = [] ): bool|string {
+	public function get_launch_blueprint_url( string $append = '', array $query = [] ) {
 		return $this->build_permalink( $this->get_launch_blueprint_id(), $append, $query );
 	}
 
@@ -106,7 +106,7 @@ final class PageManager extends Singleton {
 	 *
 	 * @return boolean|string
 	 */
-	public function get_dashboard_url( string $append = '', array $query = [] ): bool|string {
+	public function get_dashboard_url( string $append = '', array $query = [] ) {
 		return $this->build_permalink( $this->get_dashboard_id(), $append, $query );
 	}
 
@@ -118,7 +118,7 @@ final class PageManager extends Singleton {
 	 *
 	 * @return boolean|string
 	 */
-	public function get_login_url( string $append = '', array $query = [] ): bool|string {
+	public function get_login_url( string $append = '', array $query = [] ) {
 		return $this->build_permalink( $this->get_login_id(), $append, $query );
 	}
 
@@ -130,7 +130,7 @@ final class PageManager extends Singleton {
 	 *
 	 * @return boolean|string
 	 */
-	public function get_sites_url( string $append = '', array $query = [] ): bool|string {
+	public function get_sites_url( string $append = '', array $query = [] ) {
 		return $this->build_permalink( $this->get_sites_id(), $append, $query );
 	}
 
@@ -218,7 +218,7 @@ final class PageManager extends Singleton {
 	/**
 	 * Build permalink
 	 */
-	private function build_permalink( int $id, string $append = '', array $query = [] ): bool|string {
+	private function build_permalink( int $id, string $append = '', array $query = [] ) {
 		$link = get_permalink( $id );
 
 		if ( false === $link ) {

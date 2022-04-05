@@ -32,7 +32,7 @@ trait Api {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_request( string $endpoint = '' ): \WP_Error|array {
+	public function get_request( string $endpoint = '' ) {
 		do_action( "dollie/api/{$endpoint}/before", 'get' );
 
 		$this->last_call = $endpoint;
@@ -65,7 +65,7 @@ trait Api {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function post_request( string $endpoint = '', array $data = [] ): \WP_Error|array {
+	public function post_request( string $endpoint = '', array $data = [] ) {
 		do_action( "dollie/api/{$endpoint}/before", 'post', $data );
 
 		$this->last_call = $endpoint;
@@ -98,7 +98,7 @@ trait Api {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_request( string $endpoint = '' ): \WP_Error|array {
+	public function delete_request( string $endpoint = '' ) {
 		do_action( "dollie/api/{$endpoint}/before", 'delete' );
 
 		$this->last_call = $endpoint;
@@ -130,7 +130,7 @@ trait Api {
 	 *
 	 * @return \WP_Error|array
 	 */
-	private function process_request( $request ): \WP_Error|array {
+	private function process_request( $request ) {
 		if ( is_wp_error( $request ) ) {
 			Log::add( "Api error on {$this->last_call}", $request->get_error_message() );
 			return new \WP_Error( 500, __( 'Internal server error.', 'dollie' ) );

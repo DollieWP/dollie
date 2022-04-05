@@ -16,7 +16,7 @@ trait ResourceApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_container_plugins( string $container_hash ): \WP_Error|array {
+	public function get_container_plugins( string $container_hash ) {
 		return $this->get_request( "plugins/{$container_hash}" );
 	}
 
@@ -28,7 +28,7 @@ trait ResourceApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function update_container_plugins( string $container_hash, array $plugins ): \WP_Error|array {
+	public function update_container_plugins( string $container_hash, array $plugins ) {
 		return $this->post_request( "plugins/{$container_hash}", [ 'plugins' => $plugins ] );
 	}
 
@@ -39,7 +39,7 @@ trait ResourceApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_container_themes( string $container_hash ): \WP_Error|array {
+	public function get_container_themes( string $container_hash ) {
 		return $this->get_request( "themes/{$container_hash}" );
 	}
 
@@ -51,7 +51,7 @@ trait ResourceApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function update_container_themes( string $container_hash, array $themes ): \WP_Error|array {
+	public function update_container_themes( string $container_hash, array $themes ) {
 		return $this->post_request( "themes/{$container_hash}", [ 'themes' => $themes ] );
 	}
 }
