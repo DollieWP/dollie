@@ -37,6 +37,30 @@ final class Blueprint extends BaseContainer {
 	}
 
 	/**
+	 * Get login URL
+	 *
+	 * @param string $location
+	 *
+	 * @return string
+	 */
+	public function get_login_url( string $location = '' ): string {
+		$location = $location ? "&location={$location}" : '';
+		$username = $this->get_details( 'site.admin.username' );
+
+		if ( is_wp_error( $username ) ) {
+			return '';
+		}
+
+		$login_data = $this->get_blueprint_login_url( $this->get_hash(), $username );
+
+		if ( is_wp_error( $login_data ) || ! isset( $login_data['token'] ) || ! $login_data['token'] ) {
+			return '';
+		}
+
+		return "https://{$this->get_url()}/wp-login.php?s5token={$login_data['token']}{$location}";
+	}
+
+	/**
 	 * Perform action
 	 *
 	 * @param string $action

@@ -41,6 +41,49 @@ final class Site extends BaseContainer {
 	}
 
 	/**
+	 * Get login URL
+	 *
+	 * @param string $location
+	 *
+	 * @return string
+	 */
+	public function get_login_url( string $location = '' ): string {
+		$location = $location ? "&location={$location}" : '';
+
+		$role = get_user_meta( $this->get_author_id(), 'wpd_client_site_permissions', true );
+
+		if ( empty( $role ) || ! is_string( $role ) ) {
+			if ( user_can( $this->get_author_id(), 'manage_options' ) ) {
+				$role = 'administrator';
+			} else {
+				$role = get_field( 'wpd_client_site_permission', 'options' );
+			}
+		}
+
+		$username = $this->get_details( 'site.admin.username' );
+
+		if ( is_wp_error( $username ) ) {
+			$username = '';
+		}
+
+		if ( 'administrator' !== $role && current_user_can( 'manage_options' ) ) {
+			// $username = get_option( 'options_wpd_admin_user_name', $username );
+		}
+
+		if ( ! $username ) {
+			return '';
+		}
+
+		$login_data = $this->get_site_login_url( $this->get_hash(), $username );
+
+		if ( is_wp_error( $login_data ) || ! isset( $login_data['token'] ) || ! $login_data['token'] ) {
+			return '';
+		}
+
+		return "https://{$this->get_url()}/wp-login.php?s5token={$login_data['token']}{$location}";
+	}
+
+	/**
 	 * Get available blueprints
 	 *
 	 * @return \WP_Error|array

@@ -348,41 +348,6 @@ abstract class BaseContainer implements ConstInterface {
 	}
 
 	/**
-	 * Get login url
-	 *
-	 * @param string $location
-	 *
-	 * @return string
-	 */
-	public function get_login_url( string $location = '' ): string {
-		$location = $location ? "&location={$location}" : '';
-
-		$role = get_user_meta( $this->get_author_id(), 'wpd_client_site_permissions', true );
-
-		if ( empty( $role ) || ! is_string( $role ) ) {
-			if ( user_can( $this->get_author_id(), 'manage_options' ) ) {
-				$role = 'administrator';
-			} else {
-				$role = get_field( 'wpd_client_site_permission', 'options' );
-			}
-		}
-
-		if ( 'administrator' !== $role && current_user_can( 'manage_options' ) ) {
-			$username = get_option( 'options_wpd_admin_user_name' );
-		} else {
-			// $username = $this->get_login_username();
-		}
-
-		$login_url = $this->get_details( 'site.login_url' );
-
-		if ( is_wp_error( $login_url ) ) {
-			return $this->get_url();
-		}
-
-		return $login_url . $location;
-	}
-
-	/**
 	 * Get type
 	 *
 	 * @return string

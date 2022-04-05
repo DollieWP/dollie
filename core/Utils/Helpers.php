@@ -34,7 +34,7 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @return Site|Blueprint|Staging|\WP_Error
 	 */
-	public function get_container( \WP_Post|int $id = null ) {
+	public function get_container( $id = null ) {
 		if ( $id instanceof \WP_Post ) {
 			$object = $id;
 		} elseif ( is_numeric( $id ) ) {
@@ -71,7 +71,7 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @return User
 	 */
-	public function get_user( \WP_User|int $id = null ): User {
+	public function get_user( $id = null ): User {
 		return new User( $id );
 	}
 

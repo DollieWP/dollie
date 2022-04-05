@@ -30,6 +30,15 @@ trait StagingApi {
 	}
 
 	/**
+	 * Get login URL
+	 *
+	 * @return \WP_Error|array
+	 */
+	public function get_staging_login_url( string $container_hash, string $username ) {
+		return $this->post_request( "stagings/{$container_hash}/login", [ 'username' => $username ] );
+	}
+
+	/**
 	 * Perform action
 	 *
 	 * @param string $container_hash
