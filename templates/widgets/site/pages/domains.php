@@ -4,12 +4,26 @@ if ( ! isset( $container ) ) {
 	$container = dollie()->get_container();
 }
 
-$zones  = $container->get_zones();
+$zones = $container->get_zones();
+
+if ( is_wp_error( $zones ) ) {
+	$zones = [];
+}
+
 $routes = $container->get_routes();
 
 if ( is_wp_error( $routes ) ) {
 	$routes = [];
 }
+
+$routes_active = count(
+	array_filter(
+		$routes,
+		function( $route ) {
+			return $route['status'];
+		}
+	)
+);
 
 $credentials = $container->get_credentials();
 
@@ -82,17 +96,31 @@ $dns_manager = get_post_meta( get_the_ID(), 'wpd_domain_dns_manager', true );
 			</h4>
 		</div>
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
-			<div class="dol-mb-4"><?php esc_html_e( 'Congrats! You have linked your domain. You can always change your domain name by removing the current one and adding a new one.', 'dollie' ); ?></div>
-
-			<div class="dol-font-bold"><?php esc_html_e( 'Your linked domains:', 'dollie' ); ?></div>
-			<ul class="dol-m-0 dol-p-0 dol-list-disc dol-list-inside dol-mb-6">
+			<?php if ( $routes_active ) : ?>
+				<div class="dol-mb-4"><?php esc_html_e( 'Congrats! You have linked your domain. You can always change your domain name by removing the current one and adding a new one.', 'dollie' ); ?></div>
+			<?php else : ?>
+				<div class="dol-mb-4"><?php esc_html_e( 'You\'re almost done. Your domain is missing the "A" record. Please note that your site might not be accesible if the domain is not setup correctly!', 'dollie' ); ?></div>
+			<?php endif; ?>
+			
+			<div class="dol-font-bold"><?php esc_html_e( 'Your linked domain:', 'dollie' ); ?></div>
+			<ul class="dol-m-0 dol-p-0 dol-list-none dol-mb-6">
 				<?php foreach ( $routes as $route ) : ?>
-					<li><?php echo $route['name']; ?></li>
+					<li class="dol-flex dol-items-center">
+						<?php if ( ! $route['status'] ) : ?>
+							<span class="dol-text-yellow-600"><?php echo dollie()->icon()->alert(); ?></span>
+						<?php else : ?>
+							<span class="dol-text-green-600"><?php echo dollie()->icon()->check(); ?></span>
+						<?php endif; ?>
+						<span class="dol-ml-2"><?php echo $route['name']; ?></span>
+					</li>
 				<?php endforeach; ?>
 			</ul>
 
-			<p class="dol-mt-2"><?php esc_html_e( 'Please note that your linked domain will always have to point to the following IP, otherwise your site will be innacesible:', 'dollie' ); ?></p>
-
+			<?php if ( $routes_active ) : ?>
+				<p class="dol-mt-2"><?php esc_html_e( 'Please note that your linked domain will always have to point to the following IP, otherwise your site will be innacesible:', 'dollie' ); ?></p>
+			<?php else : ?>
+				<p class="dol-mt-2"><?php esc_html_e( 'Please make sure your domain is setup correctly:', 'dollie' ); ?></p>
+			<?php endif; ?>
 			<div class="dol-border-0 dol-border-b dol-border-t dol-border-solid dol-border-gray-200 dol-py-4 dol-px-10 dol-mb-6 dol-text-sm">
 				<div class="dol-flex dol-flex-wrap dol-font-bold">
 					<div class="dol-w-4/12"><?php esc_html_e( 'TYPE', 'dollie' ); ?></div>

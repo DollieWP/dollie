@@ -2365,9 +2365,6 @@ input[type="text"].dol-search-input:focus {
 .dol--mx-4 {
     margin-left: -1rem;
     margin-right: -1rem; }
-.dol--my-2 {
-    margin-top: -0.5rem;
-    margin-bottom: -0.5rem; }
 .dol-my-3 {
     margin-top: 0.75rem;
     margin-bottom: 0.75rem; }
@@ -2547,8 +2544,6 @@ input[type="text"].dol-search-input:focus {
     width: 8.333333%; }
 .dol-min-w-0 {
     min-width: 0px; }
-.dol-min-w-full {
-    min-width: 100%; }
 .dol-max-w-7xl {
     max-width: 80rem; }
 .dol-max-w-xs {
@@ -2980,18 +2975,15 @@ input[type="text"].dol-search-input:focus {
 .dol-px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem; }
-.dol-py-3\.5 {
-    padding-top: 0.875rem;
-    padding-bottom: 0.875rem; }
+.dol-px-10 {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem; }
 .dol-py-40 {
     padding-top: 10rem;
     padding-bottom: 10rem; }
 .dol-px-1 {
     padding-left: 0.25rem;
     padding-right: 0.25rem; }
-.dol-px-10 {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem; }
 .dol-px-2\.5 {
     padding-left: 0.625rem;
     padding-right: 0.625rem; }
@@ -3040,8 +3032,6 @@ input[type="text"].dol-search-input:focus {
     text-align: center; }
 .dol-text-right {
     text-align: right; }
-.dol-align-middle {
-    vertical-align: middle; }
 .dol-font-mono {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
 .dol-text-xl {
@@ -3169,6 +3159,9 @@ input[type="text"].dol-search-input:focus {
 .dol-text-green-600 {
     --tw-text-opacity: 1;
     color: rgb(5 150 105 / var(--tw-text-opacity)); }
+.dol-text-yellow-600 {
+    --tw-text-opacity: 1;
+    color: rgb(217 119 6 / var(--tw-text-opacity)); }
 .dol-text-green-400 {
     --tw-text-opacity: 1;
     color: rgb(52 211 153 / var(--tw-text-opacity)); }
@@ -3400,9 +3393,6 @@ input[type="text"].dol-search-input:focus {
     --tw-text-opacity: 1;
     color: rgb(115 115 115 / var(--tw-text-opacity)); }
 @media (min-width: 640px) {
-    .sm\:dol--mx-6 {
-        margin-left: -1.5rem;
-        margin-right: -1.5rem; }
     .sm\:dol-mx-auto {
         margin-left: auto;
         margin-right: auto; }
@@ -3453,8 +3443,6 @@ input[type="text"].dol-search-input:focus {
     .sm\:dol-px-4 {
         padding-left: 1rem;
         padding-right: 1rem; }
-    .sm\:dol-pl-6 {
-        padding-left: 1.5rem; }
     .sm\:dol-pt-1 {
         padding-top: 0.25rem; }
     .sm\:dol-text-left {
@@ -3516,8 +3504,6 @@ input[type="text"].dol-search-input:focus {
         justify-content: space-between; }
     .md\:dol-gap-4 {
         gap: 1rem; }
-    .md\:dol-rounded-lg {
-        border-radius: 0.5rem; }
     .md\:dol-bg-secondary {
         background-color: var(--d-secondary); }
     .md\:dol-p-10 {
@@ -3525,9 +3511,6 @@ input[type="text"].dol-search-input:focus {
     .md\:dol-px-8 {
         padding-left: 2rem;
         padding-right: 2rem; }
-    .md\:dol-px-6 {
-        padding-left: 1.5rem;
-        padding-right: 1.5rem; }
     .md\:dol-px-4 {
         padding-left: 1rem;
         padding-right: 1rem; }
@@ -3572,9 +3555,6 @@ input[type="text"].dol-search-input:focus {
     .lg\:dol-mx-4 {
         margin-left: 1rem;
         margin-right: 1rem; }
-    .lg\:dol--mx-8 {
-        margin-left: -2rem;
-        margin-right: -2rem; }
     .lg\:dol-ml-6 {
         margin-left: 1.5rem; }
     .lg\:dol-block {

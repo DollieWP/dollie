@@ -260,4 +260,8 @@ final class Icon extends Singleton {
 	public function alert( $classes = null ) {
 		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_arrow_down', '<i class="fas fa-exclamation-circle"></i>' ) . '</span>';
 	}
+
+	public function check( $classes = null ) {
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_arrow_down', '<i class="fas fa-check"></i>' ) . '</span>';
+	}
 }
