@@ -7,8 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Modules\Domain;
 use Dollie\Core\Modules\Forms;
+use Dollie\Core\Services\DnsService;
 
 /**
  * Class DomainConnect
@@ -73,52 +73,26 @@ class DomainConnect extends Singleton {
 			$allow_dns = 'no';
 		}
 
-		// Extra check and see if the same domain is already linked - skip.
-		$saved_domain = get_post_meta( $container->get_id(), 'wpd_domains', true );
+		$routes = $container->get_routes();
 
-		if ( $saved_domain === $domain ) {
+		if ( ! empty( $routes ) ) {
 			return;
 		}
 
 		if ( 'yes' === $allow_dns ) {
-			// $zone_id = Api::post(
-			// Api::ROUTE_DOMAIN_ADD,
-			// [
-			// 'name'          => $domain,
-			// 'container_uri' => $container->get_original_url(),
-			// 'normal'        => 'yes',
-			// ]
-			// );
 
-			// if ( $zone_id ) {
-			// update_post_meta( $container->get_id(), 'wpd_domain_dns_manager', 'pending' );
-			// update_post_meta( $container->get_id(), 'wpd_domain_zone', $zone_id );
-			// update_post_meta( $container->get_id(), 'wpd_domain_pending', $domain );
-			// } else {
-			// af_add_submission_error(
-			// wp_kses_post(
-			// sprintf(
-			// __( 'Sorry, we could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href="%s" class="dol-text-white">Contact Support</a>', 'dollie' ),
-			// dollie()->get_support_link()
-			// )
-			// )
-			// );
-
-			// return;
-			// }
 		} else {
-			// $container_routes = Domain::instance()->add_container_routes( $container, $domain );
+			$response = DnsService::instance()->add_route( $container, $domain );
 
-			// if ( ! $container_routes ) {
-			// af_add_submission_error(
-			// wp_kses_post(
-			// sprintf(
-			// __( 'Sorry, we could not link this domain to your site. This could be because the domain is already registered for another site in our network. It could also be an issue on our end! Please try again or <a href="%s" class="dol-text-white">Contact Support</a>', 'dollie' ),
-			// dollie()->get_support_link()
-			// )
-			// )
-			// );
-			// }
+			if ( false === $response ) {
+				af_add_submission_error(
+					wp_kses_post(
+						sprintf(
+							__( 'Sorry, we could not link this domain to your site. This could be because the domain is already being used by another site in our network.', 'dollie' )
+						)
+					)
+				);
+			}
 		}
 
 		do_action( 'dollie/domain/connect/submission/after', $container, $domain );

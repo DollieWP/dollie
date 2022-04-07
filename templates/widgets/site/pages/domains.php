@@ -4,18 +4,14 @@ if ( ! isset( $container ) ) {
 	$container = dollie()->get_container();
 }
 
-$active_route = [];
-$routes       = $container->get_routes();
+$zones  = $container->get_zones();
+$routes = $container->get_routes();
 
-if ( ! is_wp_error( $routes ) ) {
-	foreach ( $routes as $route ) {
-		if ( $route['status'] && $route['primary'] ) {
-			$active_route = $route;
-		}
-	}
+if ( is_wp_error( $routes ) ) {
+	$routes = [];
 }
 
-$zones = $container->get_zones();
+$credentials = $container->get_credentials();
 
 ?>
 
@@ -25,9 +21,7 @@ $zones = $container->get_zones();
 
 <?php
 
-$dns_manager            = get_post_meta( get_the_ID(), 'wpd_domain_dns_manager', true );
-$domain                 = get_post_meta( get_the_ID(), 'wpd_domains', true );
-$domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_complete', true );
+$dns_manager = get_post_meta( get_the_ID(), 'wpd_domain_dns_manager', true );
 
 ?>
 
@@ -56,7 +50,7 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 					<li>pdns3.stratus5.com</li>
 				</ul>
 				<span class="dol-block dol-mb-4 dol-mt-6"><?php esc_html_e( 'Want to change the domain or have you typed in the wrong domain name? You can cancel at any time and try again!', 'dollie' ); ?></span>
-				<form action="<?php echo get_permalink( get_the_ID() ); ?>?remove-domain=<?php echo get_post_meta( get_the_ID(), 'wpd_container_id', true ); ?>" method="post">
+				<form action="<?php echo get_permalink( get_the_ID() ); ?>?remove-domain" method="post">
 					<button name="remove_customer_dns" id="remove_customer_dns" type="submit" class="dol-px-4 dol-py-2 dol-bg-red-600 dol-text-white dol-rounded">
 						<?php echo dollie()->icon()->delete(); ?>
 						<?php esc_html_e( 'Cancel', 'dollie' ); ?>
@@ -65,131 +59,66 @@ $domain_wizard_complete = get_post_meta( get_the_ID(), 'wpd_domain_migration_com
 			</div>
 		</div>
 	</div>
+<?php endif; ?>
 
-<?php elseif ( ! empty( $domain ) ) : ?>
-
-	<div class="dol-my-6">
-		<?php
-		dollie()->load_template(
-			'notice',
-			[
-				'icon'    => 'fas fa-exclamation-circle',
-				'title'   => sprintf( __( '"%1$s" is now linked to this %2$s!', 'dollie' ), $domain, dollie()->string_variants()->get_site_type_string() ),
-				'message' => __( 'Congrats! Your are using a live domain for this site.', 'dollie' ),
-			],
-			true
-		);
-		?>
-	</div>
-
+<?php if ( ! empty( $routes ) ) : ?>
 	<?php
 
-	dollie()->load_template(
-		'widgets/site/pages/domain/dns-manager',
-		[
-			'domain'      => $domain,
-			'dns_manager' => $dns_manager,
-		],
-		true
-	);
+	// dollie()->load_template(
+	// 'widgets/site/pages/domain/dns-manager',
+	// [
+	// 'domain'      => $domain,
+	// 'dns_manager' => $dns_manager,
+	// ],
+	// true
+	// );
 
 	?>
 
-<?php endif; ?>
-
-<?php if ( ! empty( $active_route ) ) : ?>
 	<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
 			<h4 class="dol-p-0 dol-m-0 dol-text-base md:dol-text-xl">
-				<?php esc_html_e( 'Remove your linked domain', 'dollie' ); ?>
+				<?php esc_html_e( 'Live domain linked', 'dollie' ); ?>
 			</h4>
 		</div>
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
-			<span class="dol-block dol-mb-4"><?php esc_html_e( 'Have you changed your domain name? You can unlink your current domain by pressing the button below. Once you have removed your current domain you can add your new domain.', 'dollie' ); ?></span>
-			<form action="<?php echo get_permalink( get_the_ID() ); ?>?remove-domain=<?php echo get_post_meta( get_the_ID(), 'wpd_container_id', true ); ?>" method="post">
-				<button name="remove_customer_domain" id="remove_customer_domain" type="submit" class="dol-px-4 dol-py-2 dol-bg-red-600 dol-text-white dol-rounded">
+			<div class="dol-mb-4"><?php esc_html_e( 'Congrats! You have linked your domain. You can always change your domain name by removing the current one and adding a new one.', 'dollie' ); ?></div>
+
+			<div class="dol-font-bold"><?php esc_html_e( 'Your linked domains:', 'dollie' ); ?></div>
+			<ul class="dol-m-0 dol-p-0 dol-list-disc dol-list-inside dol-mb-6">
+				<?php foreach ( $routes as $route ) : ?>
+					<li><?php echo $route['name']; ?></li>
+				<?php endforeach; ?>
+			</ul>
+
+			<p class="dol-mt-2"><?php esc_html_e( 'Please note that your linked domain will always have to point to the following IP, otherwise your site will be innacesible:', 'dollie' ); ?></p>
+
+			<div class="dol-border-0 dol-border-b dol-border-t dol-border-solid dol-border-gray-200 dol-py-4 dol-px-10 dol-mb-6 dol-text-sm">
+				<div class="dol-flex dol-flex-wrap dol-font-bold">
+					<div class="dol-w-4/12"><?php esc_html_e( 'TYPE', 'dollie' ); ?></div>
+					<div class="dol-w-4/12"><?php esc_html_e( 'CONTENT', 'dollie' ); ?></div>
+					<div class="dol-w-4/12"><?php esc_html_e( 'IP ADDRESS', 'dollie' ); ?></div>
+				</div>
+				<div class="dol-flex dol-flex-wrap">
+					<div class="dol-w-4/12">A</div>
+					<div class="dol-w-4/12">@</div>
+					<div class="dol-w-4/12"><?php echo esc_html( $credentials['ip'] ); ?></div>
+				</div>
+				<div class="dol-flex dol-flex-wrap">
+					<div class="dol-w-4/12">A</div>
+					<div class="dol-w-4/12">www</div>
+					<div class="dol-w-4/12"><?php echo esc_html( $credentials['ip'] ); ?></div>
+				</div>
+			</div>
+
+			<form action="<?php echo get_permalink( get_the_ID() ); ?>" method="post">
+				<button name="remove_route" id="remove_route" type="submit" class="dol-px-4 dol-py-2 dol-bg-red-600 dol-text-white dol-rounded">
 					<?php echo dollie()->icon()->delete(); ?>
 					<?php esc_html_e( 'Remove Domain', 'dollie' ); ?>
 				</button>
 			</form>
 		</div>
 	</div>
-
-	<p class="dol-mt-2"><?php esc_html_e( 'Your current domain IP information:', 'dollie' ); ?></p>
-	
-	<?php
-
-	$credentials = $container->get_credentials();
-
-	dollie()->load_template(
-		'widgets/site/pages/domain/connect/dns-ip-table',
-		[
-			'ip' => $container['ip'],
-		],
-		true
-	);
-
-	?>
-
-<?php elseif ( ! empty( $routes ) ) : ?>
-	<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
-		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
-			<h4 class="dol-p-0 dol-m-0 dol-text-base md:dol-text-xl">
-				<?php esc_html_e( 'Your pending domain', 'dollie' ); ?>
-			</h4>
-		</div>
-		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
-			<span class="dol-block dol-mb-4"><?php esc_html_e( 'Have you changed your domain name? You can unlink your current domain by pressing the button below. Once you have removed your current domain you can add your new domain.', 'dollie' ); ?></span>
-			
-			<div class="dol-mt-8 dol-flex dol-flex-col">
-				<div class="dol--my-2 dol--mx-4 dol-overflow-x-auto sm:dol--mx-6 lg:dol--mx-8">
-				<div class="dol-inline-block dol-min-w-full dol-py-2 dol-align-middle md:dol-px-6 lg:dol-px-8">
-					<div class="dol-overflow-hidden">
-					<table class="dol-min-w-full dol-divide-y dol-divide-gray-300 dol-mb-0">
-						<thead class="dol-bg-gray-50">
-						<tr>
-							<th scope="col" class="dol-whitespace-nowrap dol-py-3.5 dol-pl-4 dol-pr-3 dol-text-left dol-text-sm dol-font-semibold dol-text-gray-900 sm:dol-pl-6">
-								<?php esc_html_e( 'Domain', 'dollie' ); ?>
-							</th>
-							<th scope="col" class="dol-whitespace-nowrap dol-px-2 dol-py-3.5 dol-text-left dol-text-sm dol-font-semibold dol-text-gray-900">
-								<?php esc_html_e( 'Primary', 'dollie' ); ?>
-							</th>
-							<th scope="col" class="dol-whitespace-nowrap dol-px-2 dol-py-3.5 dol-text-left dol-text-sm dol-font-semibold dol-text-gray-900">
-								<?php esc_html_e( 'Status', 'dollie' ); ?>
-							</th>
-						</tr>
-						</thead>
-						<tbody class="dol-divide-y dol-divide-gray-200 dol-bg-white">
-							<?php foreach ( $routes as $route ) : ?>
-								<tr>
-									<td class="dol-whitespace-nowrap dol-py-2 dol-pl-4 dol-pr-3 dol-text-sm dol-text-gray-500 sm:dol-pl-6">
-										<?php echo esc_html( $route['name'] ); ?>
-									</td>
-									<td class="dol-whitespace-nowrap dol-px-2 dol-py-2 dol-text-sm dol-font-medium dol-text-gray-900">
-										<?php if ( $route['primary'] ) : ?>
-											<?php esc_html_e( 'Yes', 'dollie' ); ?>
-										<?php else : ?>
-											<?php esc_html_e( 'No', 'dollie' ); ?>
-										<?php endif; ?>
-									</td>
-									<td class="dol-whitespace-nowrap dol-px-2 dol-py-2 dol-text-sm dol-text-gray-900">
-										<?php if ( $route['status'] ) : ?>
-											<?php esc_html_e( 'Active', 'dollie' ); ?>
-										<?php else : ?>
-											<?php esc_html_e( 'Inactive', 'dollie' ); ?>
-										<?php endif; ?>
-									</td>
-								</tr>
-							<?php endforeach; ?>
-						</tbody>
-					</table>
-					</div>
-				</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	
 <?php endif; ?>
 
 <?php if ( ! \Dollie\Core\Forms\DomainConnect::instance()->is_form_restricted() ) : ?>

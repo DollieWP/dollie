@@ -156,7 +156,7 @@ final class Site extends BaseContainer {
 	}
 
 	/**
-	 * Get route
+	 * Get routes
 	 *
 	 * @return \WP_Error|array
 	 */
@@ -165,36 +165,23 @@ final class Site extends BaseContainer {
 	}
 
 	/**
-	 * Get route
-	 *
-	 * @param string $route_id
-	 *
-	 * @return \WP_Error|array
-	 */
-	public function get_route( string $route_id ) {
-		return $this->get_container_route_by_id( $this->get_hash(), $route_id );
-	}
-
-	/**
 	 * Create route
 	 *
-	 * @param string $name
+	 * @param string $route
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function create_route( string $name ) {
-		return $this->create_container_route( $this->get_hash(), [ 'name' => $name ] );
+	public function create_route( string $route ) {
+		return $this->create_container_route( $this->get_hash(), [ 'route' => $route ] );
 	}
 
 	/**
-	 * Delete route
-	 *
-	 * @param string $route_id
+	 * Delete routes
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_route( string $route_id ) {
-		return $this->delete_container_route( $this->get_hash(), $route_id );
+	public function delete_routes() {
+		return $this->delete_container_routes( $this->get_hash() );
 	}
 
 	/**

@@ -314,11 +314,17 @@ abstract class BaseContainer implements ConstInterface {
 	/**
 	 * Get url
 	 *
+	 * @param boolean $with_protocol
+	 *
 	 * @return string
 	 */
-	public function get_url(): string {
+	public function get_url( bool $with_protocol = false ): string {
 		if ( $custom_url = $this->get_custom_domain() ) {
 			return $custom_url;
+		}
+
+		if ( $with_protocol ) {
+			return "https://{$this->get_original_url()}";
 		}
 
 		return $this->get_original_url();

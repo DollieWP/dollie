@@ -26,6 +26,11 @@ trait Api {
 	protected $last_call = null;
 
 	/**
+	 * @var integer
+	 */
+	protected $request_timeout = 30;
+
+	/**
 	 * Get request
 	 *
 	 * @param string $endpoint
@@ -42,6 +47,7 @@ trait Api {
 				$this->api_url . $endpoint,
 				[
 					'method'  => 'GET',
+					'timeout' => $this->request_timeout,
 					'headers' => [
 						'Accept'        => 'application/json',
 						'Authorization' => AuthService::instance()->get_token(),
@@ -75,6 +81,7 @@ trait Api {
 				$this->api_url . $endpoint,
 				[
 					'method'  => 'POST',
+					'timeout' => $this->request_timeout,
 					'body'    => $data,
 					'headers' => [
 						'Accept'        => 'application/json',
@@ -108,6 +115,7 @@ trait Api {
 				$this->api_url . $endpoint,
 				[
 					'method'  => 'DELETE',
+					'timeout' => $this->request_timeout,
 					'headers' => [
 						'Accept'        => 'application/json',
 						'Authorization' => AuthService::instance()->get_token(),
