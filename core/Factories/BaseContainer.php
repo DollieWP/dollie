@@ -702,9 +702,9 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @param boolean $force
 	 *
-	 * @return boolean|array
+	 * @return array
 	 */
-	public function get_themes( bool $force = false ) {
+	public function get_themes( bool $force = false ): array {
 		if ( $force ) {
 			$themes = $this->get_container_themes( $this->get_hash() );
 
@@ -745,16 +745,16 @@ abstract class BaseContainer implements ConstInterface {
 	/**
 	 * Get active theme
 	 *
-	 * @return boolean|array
+	 * @return array
 	 */
-	public function get_active_theme(): mixed {
+	public function get_active_theme(): array {
 		foreach ( $this->get_themes() as $theme ) {
 			if ( $theme['active'] ) {
 				return $theme;
 			}
 		}
 
-		return false;
+		return [];
 	}
 
 	/**
@@ -765,7 +765,7 @@ abstract class BaseContainer implements ConstInterface {
 	public function get_active_theme_name(): string {
 		$active_theme = $this->get_active_theme();
 
-		if ( false === $active_theme ) {
+		if ( empty( $active_theme ) ) {
 			return '';
 		}
 
