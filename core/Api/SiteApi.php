@@ -63,18 +63,6 @@ trait SiteApi {
 	}
 
 	/**
-	 * Set domain
-	 *
-	 * @param string $container_hash
-	 * @param string $domain
-	 *
-	 * @return \WP_Error|array
-	 */
-	public function set_site_domain( string $container_hash, string $domain ) {
-		return $this->post_request( "sites/{$container_hash}/domain", [ 'domain' => $domain ] );
-	}
-
-	/**
 	 * Delete
 	 *
 	 * @param string $container_hash

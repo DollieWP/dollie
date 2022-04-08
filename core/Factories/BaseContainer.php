@@ -344,8 +344,8 @@ abstract class BaseContainer implements ConstInterface {
 
 		if ( ! is_wp_error( $custom_urls ) ) {
 			foreach ( $custom_urls as $url ) {
-				if ( $url['primary'] && $url['active'] ) {
-					return $url['name'];
+				if ( $url['status'] && substr( $url['name'], 0, 4 ) !== 'www.' ) {
+					return "https://{$url['name']}";
 				}
 			}
 		}

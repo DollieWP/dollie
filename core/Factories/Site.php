@@ -108,17 +108,6 @@ final class Site extends BaseContainer {
 	}
 
 	/**
-	 * Set site domain
-	 *
-	 * @param string $domain
-	 *
-	 * @return \WP_Error|array
-	 */
-	public function set_domain( string $domain ) {
-		return $this->set_site_domain( $this->get_hash(), $domain );
-	}
-
-	/**
 	 * Change role
 	 *
 	 * @param array $data
