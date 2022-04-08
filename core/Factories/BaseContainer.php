@@ -320,14 +320,10 @@ abstract class BaseContainer implements ConstInterface {
 	 */
 	public function get_url( bool $with_protocol = false ): string {
 		if ( $custom_url = $this->get_custom_domain() ) {
-			return $custom_url;
+			return $with_protocol ? "https://{$custom_url}" : $custom_url;
 		}
 
-		if ( $with_protocol ) {
-			return "https://{$this->get_original_url()}";
-		}
-
-		return $this->get_original_url();
+		return $with_protocol ? "https://{$this->get_original_url()}" : $this->get_original_url();
 	}
 
 	/**
@@ -345,7 +341,7 @@ abstract class BaseContainer implements ConstInterface {
 		if ( ! is_wp_error( $custom_urls ) ) {
 			foreach ( $custom_urls as $url ) {
 				if ( $url['status'] && substr( $url['name'], 0, 4 ) !== 'www.' ) {
-					return "https://{$url['name']}";
+					return $url['name'];
 				}
 			}
 		}
