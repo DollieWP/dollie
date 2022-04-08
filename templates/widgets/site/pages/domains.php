@@ -92,14 +92,18 @@ $dns_manager = get_post_meta( get_the_ID(), 'wpd_domain_dns_manager', true );
 	<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
 			<h4 class="dol-p-0 dol-m-0 dol-text-base md:dol-text-xl">
-				<?php esc_html_e( 'Live domain linked', 'dollie' ); ?>
+				<?php if ( $routes_active ) : ?>
+					<?php esc_html_e( 'Live domain linked', 'dollie' ); ?>
+				<?php else : ?>
+					<?php esc_html_e( 'Your domain setup is not complete', 'dollie' ); ?>
+				<?php endif; ?>
 			</h4>
 		</div>
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
 			<?php if ( $routes_active ) : ?>
 				<div class="dol-mb-4"><?php esc_html_e( 'Congrats! You have linked your domain. You can always change your domain name by removing the current one and adding a new one.', 'dollie' ); ?></div>
 			<?php else : ?>
-				<div class="dol-mb-4"><?php esc_html_e( 'You\'re almost done. Your domain is missing the "A" record. Please note that your site might not be accesible if the domain is not setup correctly!', 'dollie' ); ?></div>
+				<div class="dol-mb-4"><?php esc_html_e( 'You\'re almost done. Your domain is missing the "A" record. Once you set that up correctly, your old domain will be replace with the new one!', 'dollie' ); ?></div>
 			<?php endif; ?>
 			
 			<div class="dol-font-bold"><?php esc_html_e( 'Your linked domain:', 'dollie' ); ?></div>

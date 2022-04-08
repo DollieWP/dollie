@@ -233,17 +233,6 @@ final class Container extends Singleton implements ConstInterface {
 				'edit.php?post_type=af_form'
 			);
 		}
-
-		if ( defined( 'DOLLIE_DEV' ) && DOLLIE_DEV ) {
-			add_submenu_page(
-				self::PANEL_SLUG,
-				'Tools',
-				'Tools',
-				'manage_options',
-				'wpd_tools',
-				[ $this, 'dollie_tools_content' ]
-			);
-		}
 	}
 
 	/**
@@ -518,19 +507,6 @@ final class Container extends Singleton implements ConstInterface {
 			'manage_options',
 			get_admin_url() . 'edit.php?post_type=dollie-logs',
 		];
-	}
-
-	/**
-	 * Tools page content
-	 */
-	public function dollie_tools_content() {
-		$containers = [];
-
-		if ( array_key_exists( 'synchronize', $_POST ) ) {
-			$containers = SyncContainersJob::instance()->run();
-		}
-
-		dollie()->load_template( 'admin/tools-page', [ 'containers' => $containers ], true );
 	}
 
 	/**
