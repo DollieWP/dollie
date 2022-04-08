@@ -747,7 +747,7 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return boolean|array
 	 */
-	public function get_active_theme(): bool|array {
+	public function get_active_theme(): mixed {
 		foreach ( $this->get_themes() as $theme ) {
 			if ( $theme['active'] ) {
 				return $theme;
