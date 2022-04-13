@@ -8,7 +8,7 @@ $product_id = get_field( 'wpd_installation_blueprint_hosting_product' );
 if ( ! empty( $checkout_url ) ) {
 	$checkout_link = $checkout_url;
 } else {
-	$checkout_link = dollie()->get_woo_checkout_link( $product_id[0], get_the_ID() );
+	$checkout_link = dollie()->subscription()->get_checkout_link( $product_id[0], get_the_ID() );
 }
 
 if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {

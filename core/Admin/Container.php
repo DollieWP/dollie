@@ -5,7 +5,7 @@ namespace Dollie\Core\Admin;
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
-use Dollie\Core\Jobs\SyncContainersJob;
+use Dollie\Core\Services\AuthService;
 use Dollie\Core\Services\NoticeService;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -36,7 +36,7 @@ final class Container extends Singleton implements ConstInterface {
 		add_filter( 'current_screen', [ $this, 'container_counter' ] );
 		add_filter( 'views_edit-container', [ $this, 'container_filters' ] );
 
-		// add_action( 'admin_init', [ Api::instance(), 'process_token' ] );
+		add_action( 'admin_init', [ AuthService::instance(), 'process_token' ] );
 		add_action( 'init', [ $this, 'check_deployment_domain_status' ] );
 		add_action( 'admin_init', [ $this, 'disconnect_dollie' ] );
 		add_filter( 'admin_body_class', [ $this, 'add_container_type_class' ] );
@@ -196,7 +196,7 @@ final class Container extends Singleton implements ConstInterface {
 		}
 
 		if ( isset( $_GET['disconnect_dollie'] ) ) {
-			// Api::delete_auth_token();
+			AuthService::instance()->delete_token();
 
 			wp_redirect( admin_url( 'admin.php?page=' . self::PANEL_SLUG ) );
 			exit;

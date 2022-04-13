@@ -72,6 +72,7 @@ class Preview extends Singleton {
 				} else {
 					$author = '58687848382305067080201305060';
 				}
+
 				$gp_args = [
 					'author'         => $author,
 					'post_type'      => 'container',
@@ -100,8 +101,8 @@ class Preview extends Singleton {
 						'value' => 'yes',
 					],
 					[
-						'key'   => 'wpd_is_blueprint',
-						'value' => 'yes',
+						'key'   => 'dollie_container_type',
+						'value' => '1',
 					],
 					[
 						'key'     => 'wpd_installation_blueprint_title',
@@ -112,66 +113,63 @@ class Preview extends Singleton {
 			];
 		}
 
-		$posts = query_posts( $gp_args );
-
+		$query       = new \WP_Query( $gp_args );
+		$posts       = $query->get_posts();
 		$theme_array = [];
 
-		if ( have_posts() ) :
-			while ( have_posts() ) :
-				the_post();
+		foreach ( $posts as $post ) {
+			$container = dollie()->get_container( $post );
 
-				if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
+			if ( is_wp_error( $container ) ) {
+				continue;
+			}
 
-					$screenshot = dollie()->get_site_screenshot( get_the_ID(), false );
+			if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
+				$theme_array[] = [
+					'active'      => 1,
+					'id'          => $container->get_id(),
+					'title'       => $container->get_title(),
+					'title_short' => $container->get_title(),
+					'url'         => $container->get_url( true ),
+					'buy'         => html_entity_decode( $container->get_login_url() ),
+					'login_url'   => html_entity_decode( $container->get_login_url() ),
+					'thumb'       => [
+						'url' => $container->get_screenshot(),
+					],
+					'info'        => $container->get_saved_description(),
+					'preload'     => '0',
+				];
+			} else {
+				$product_id = get_post_meta( $container->get_id(), 'wpd_installation_blueprint_hosting_product', true );
+
+				if ( $product_id ) {
+					if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
+						$image = get_field( 'wpd_blueprint_custom_image' );
+					} else {
+						$image = $container->get_screenshot();
+					}
 
 					$theme_array[] = [
 						'active'      => 1,
-						'id'          => get_the_ID(),
-						'title'       => get_the_title( get_the_ID() ),
-						'title_short' => get_the_title( get_the_ID() ),
-						'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
-						'buy'         => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
-						'login_url'   => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
+						'id'          => $container->get_id(),
+						'title'       => $container->get_saved_title(),
+						'title_short' => $container->get_name(),
+						'url'         => $container->get_url(),
+						'buy'         => dollie()->subscription()->get_checkout_link( $product_id[0], $container->get_id() ),
+						'login_url'   => $container->get_login_url(),
 						'thumb'       => [
-							'url' => $screenshot,
+							'url' => $image,
 						],
-						'info'        => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ),
+						'info'        => $container->get_saved_description(),
+						'tag'         => 'tag',
+						'year'        => '2019',
 						'preload'     => '0',
+						'badge'       => 'Pro',
 					];
-				} else {
-					$product_id    = get_post_meta( get_the_ID(), 'wpd_installation_blueprint_hosting_product', true );
-					$checkout_link = dollie()->get_woo_checkout_link( $product_id[0], get_the_ID() );
-
-					if ( $product_id ) {
-						if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
-							$image = get_field( 'wpd_blueprint_custom_image' );
-						} else {
-							$image = get_post_meta( get_the_ID(), 'wpd_site_screenshot', true );
-						}
-
-						$theme_array[] = [
-							'active'      => 1,
-							'id'          => get_the_ID(),
-							'title'       => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true ),
-							'title_short' => get_post_field( 'post_name', get_the_ID() ),
-							'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
-							'buy'         => $checkout_link,
-							'login_url'   => dollie()->get_customer_login_url( get_the_ID() ),
-							'thumb'       => [
-								'url' => $image,
-							],
-							'info'        => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ),
-							'tag'         => 'tag',
-							'year'        => '2019',
-							'preload'     => '0',
-							'badge'       => 'Pro',
-						];
-					}
 				}
-			endwhile;
-		else :
-			$no_sites = true;
-		endif;
+			}
+		}
+
 		wp_reset_postdata();
 
 		// Config
