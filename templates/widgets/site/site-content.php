@@ -10,7 +10,7 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 		[
 			'container'         => $container,
 			'invalid_container' => is_wp_error( $container ),
-			'missing_details'   => is_wp_error( $container->get_details() ),
+			'missing_details'   => ! is_wp_error( $container ) && is_wp_error( $container->get_details() ),
 		],
 		true
 	);

@@ -14,7 +14,13 @@ class SiteImageRemoteInfo extends Data_Tag {
 
 		$current_id     = dollie()->get_current_post_id();
 		$container      = dollie()->get_container( $current_id );
-		$this->wpd_data = $container->get_details();
+		$details = $container->get_details();
+
+		if ( is_wp_error( $container ) || is_wp_error( $details ) ) {
+			return;
+		}
+
+		$this->wpd_data = $details;
 
 	}
 
@@ -36,7 +42,7 @@ class SiteImageRemoteInfo extends Data_Tag {
 		return [ \Elementor\Modules\DynamicTags\Module::IMAGE_CATEGORY ];
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		$keys = [];
 		foreach ( $this->wpd_data['site_data'] as $k => $data ) {

@@ -17,11 +17,13 @@ class SiteRemoteInfo extends Tag {
 
 		// Get Items from Feed
 		$container      = dollie()->get_container( $current_id );
-		if ( is_wp_error( $container ) ) {
+		$details = $container->get_details();
+
+		if ( is_wp_error( $container ) || is_wp_error( $details ) ) {
 			return;
 		}
-		$this->wpd_data = $container->get_details();
 
+		$this->wpd_data = $details;
 
 		// Add custom items
 		if ( isset( $this->wpd_data['container_details'] ) ) {
@@ -57,7 +59,7 @@ class SiteRemoteInfo extends Tag {
 		return [ \Elementor\Modules\DynamicTags\Module::TEXT_CATEGORY ];
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		$keys = [];
 

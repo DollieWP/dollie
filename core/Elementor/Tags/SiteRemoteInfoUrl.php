@@ -15,15 +15,14 @@ class SiteRemoteInfoUrl extends Tag {
 		parent::__construct( $data );
 
 		$current_id = dollie()->get_current_post_id();
-		$container      = dollie()->get_container( $current_id );
+		$container  = dollie()->get_container( $current_id );
+		$details    = $container->get_details();
 
-		// Get Items from Feed
-		if ( is_wp_error( $container ) ) {
+		if ( is_wp_error( $container ) || is_wp_error( $details ) ) {
 			return;
 		}
-var_dump( $container->get_details()); exit;
 
-		$this->wpd_data = $container->get_details();
+		$this->wpd_data                                  = $details;
 		$this->wpd_data['customer_data']['Support Link'] = dollie()->get_support_link();
 		$this->wpd_data['site_data']['URL']              = dollie()->get_container_url( $current_id );
 
@@ -47,7 +46,7 @@ var_dump( $container->get_details()); exit;
 		return [ \Elementor\Modules\DynamicTags\Module::URL_CATEGORY ];
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		$keys = [];
 		foreach ( $this->wpd_data['site_data'] as $k => $data ) {
