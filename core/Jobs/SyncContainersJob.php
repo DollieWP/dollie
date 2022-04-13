@@ -107,13 +107,23 @@ class SyncContainersJob extends Singleton {
 
 			// If no such container found, create one with details from server's container.
 			if ( ! $exists ) {
+				$author = get_current_user_id();
+
+				if ( $container['owner_email'] ) {
+					$user = get_user_by( 'email', $container['owner_email'] );
+
+					if ( false !== $user ) {
+						$author = $user->ID;
+					}
+				}
+
 				$new_container_id = wp_insert_post(
 					[
 						'post_type'   => 'container',
 						'post_status' => 'publish',
 						'post_name'   => $container['url'],
 						'post_title'  => $container['url'],
-						'post_author' => get_current_user_id(),
+						'post_author' => $author,
 						'meta_input'  => [
 							'dollie_container_type' => $container['type'],
 						],
