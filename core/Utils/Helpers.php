@@ -53,15 +53,16 @@ class Helpers extends Singleton implements ConstInterface {
 
 		$container_type = get_post_meta( $object->ID, 'dollie_container_type', true );
 
-		if ( $container_type === self::TYPE_SITE ) {
-			return new Site( $object );
-		} elseif ( $container_type === self::TYPE_BLUEPRINT ) {
+		if ( $container_type === self::TYPE_BLUEPRINT ) {
 			return new Blueprint( $object );
-		} elseif ( $container_type === self::TYPE_STAGING ) {
+		}
+
+		if ( $container_type === self::TYPE_STAGING ) {
 			return new Staging( $object );
 		}
 
-		return new \WP_Error( 500, 'Invalid container type' );
+		return new Site( $object );
+		//return new \WP_Error( 500, 'Invalid container type' );
 	}
 
 	/**

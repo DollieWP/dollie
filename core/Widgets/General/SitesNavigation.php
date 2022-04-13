@@ -41,7 +41,7 @@ class SitesNavigation extends \Elementor\Widget_Base {
 		return [ 'dollie-category' ];
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		if (!class_exists('ElementorPro\Plugin')) {
 			return;

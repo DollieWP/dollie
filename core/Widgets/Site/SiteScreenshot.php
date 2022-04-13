@@ -29,10 +29,6 @@ class SiteScreenshot extends \Elementor\Widget_Base {
 		return [ 'dollie-category' ];
 	}
 
-	protected function _register_controls() {
-
-	}
-
 	protected function render() {
 		$data = [
 			'settings'   => $this->get_settings_for_display(),
