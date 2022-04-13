@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Api\PartnerApi;
 use Dollie\Core\Modules\Subscription\Plugin\SubscriptionInterface;
 use Dollie\Core\Singleton;
 
@@ -15,6 +16,8 @@ use Dollie\Core\Singleton;
  * @package Dollie\Core\Modules\Subscription
  */
 class Subscription extends Singleton implements SubscriptionInterface {
+	use PartnerApi;
+
 	/**
 	 * Undocumented variable
 	 *
@@ -112,8 +115,8 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		$subscription = get_transient( 'wpd_partner_subscription' );
 
 		if ( ! $subscription ) {
-			// $subscription = Api::get( Api::ROUTE_CHECK_SUBSCRIPTION );
-			$subscription = false;
+			$subscription = $this->get_subscription();
+
 			set_transient( 'wpd_partner_subscription', $subscription, MINUTE_IN_SECONDS * 10 );
 		}
 

@@ -54,9 +54,7 @@ class ChangeContainerRoleJob extends Singleton {
 			'switch_to'      => $role,
 		];
 
-		Api::post( Api::ROUTE_CONTAINER_CHANGE_USER_ROLE, $data );
-
-		sleep( 5 );
+		// Api::post( Api::ROUTE_CONTAINER_CHANGE_USER_ROLE, $data );
 
 		delete_post_meta( $container_id, '_wpd_user_role_change_pending' );
 
