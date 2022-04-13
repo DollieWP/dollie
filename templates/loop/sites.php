@@ -249,7 +249,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 									<?php echo dollie()->string_variants()->get_user_type_string(); ?>
 								</div>
 								<div class="dol-font-bold ">
-									<?php echo get_the_author(); ?>
+									<?php echo $container->get_author_name(); ?>
 								</div>
 							</div>
 						<?php endif; ?>
@@ -268,7 +268,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 							$staging_url = get_post_meta( get_the_ID(), '_wpd_staging_url', true );
 							if ( $staging_url ) :
 								?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_the_permalink( get_the_ID() ); ?>staging" data-tooltip="<?php echo esc_attr__( 'Visit Staging Area', 'dollie' ); ?>">
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink( 'staging' ); ?>" data-tooltip="<?php echo esc_attr__( 'Visit Staging Area', 'dollie' ); ?>">
 									<?php echo dollie()->icon()->staging(); ?>
 								</a>
 							<?php endif; ?>

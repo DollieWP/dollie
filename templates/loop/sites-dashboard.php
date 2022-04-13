@@ -142,7 +142,7 @@ if ( ! isset( $view_type ) ) {
 									<?php echo dollie()->string_variants()->get_user_type_plural_string(); ?>
 								</div>
 								<div class="dol-font-bold ">
-									<?php echo get_the_author(); ?>
+									<?php echo $container->get_author_name(); ?>
 								</div>
 							</div>
 						<?php endif; ?>
@@ -152,7 +152,7 @@ if ( ! isset( $view_type ) ) {
 									<?php echo dollie()->icon()->refresh(); ?>
 								</a>
 							<?php else : ?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_url(); ?>" data-tooltip="<?php echo esc_attr__( 'Manage', 'dollie' ); ?>">
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink(); ?>" data-tooltip="<?php echo esc_attr__( 'Manage', 'dollie' ); ?>">
 									<i data-tooltip="Carefully crafted site designs made by our team which you can use as a starting point for your new site." class="fas fa-cog svg-tooltip acf__tooltip"></i>
 								</a>
 							<?php endif; ?>
@@ -161,7 +161,7 @@ if ( ! isset( $view_type ) ) {
 							$staging_url = get_post_meta( get_the_ID(), '_wpd_staging_url', true );
 							if ( $staging_url ) :
 								?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_the_permalink( get_the_ID() ); ?>staging" data-tooltip="<?php echo esc_attr__( 'Visit Staging Area', 'dollie' ); ?>">
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink( 'staging' ); ?>" data-tooltip="<?php echo esc_attr__( 'Visit Staging Area', 'dollie' ); ?>">
 									<?php echo dollie()->icon()->staging(); ?>
 								</a>
 							<?php endif; ?>
