@@ -9,7 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dollie\Core\Singleton;
 use Dollie\Core\Log;
 use Dollie\Core\Modules\Subscription\Subscription;
-use Dollie\Core\Modules\Container;
 use WP_Query;
 
 /**
@@ -124,25 +123,29 @@ class CustomerSubscriptionCheckJob extends Singleton {
 			]
 		);
 
+		$posts = $query->get_posts();
+
 		// Output custom query loop.
-		if ( $query->have_posts() ) {
-			while ( $query->have_posts() ) {
-				$query->the_post();
-				$stop_time = get_post_meta( get_the_ID(), 'wpd_stop_container_at', true );
+		foreach ( $posts as $post ) {
+			$container = dollie()->get_container( $post );
 
-				if ( 'schedule' === $type ) {
+			if ( is_wp_error( $container ) ) {
+				continue;
+			}
 
-					// Set a stop time for the container if customer subscription(s) are cancelled.
-					if ( empty( $stop_time ) ) {
-						update_post_meta( get_the_ID(), 'wpd_stop_container_at', $trigger_date, true );
-					}
+			$stop_time = get_post_meta( get_the_ID(), 'wpd_stop_container_at', true );
 
-					update_post_meta( get_the_ID(), 'wpd_scheduled_for_removal', 'yes' );
-					Log::add_front( Log::WP_SITE_REMOVAL_SCHEDULED, dollie()->get_current_object( get_the_ID() ), get_the_title( get_the_ID() ) );
-				} else {
-					// Start the containers that were stopped via S5 API.
-					Container::instance()->trigger( 'start', get_the_ID() );
+			if ( 'schedule' === $type ) {
+				// Set a stop time for the container if customer subscription(s) are cancelled.
+				if ( empty( $stop_time ) ) {
+					update_post_meta( get_the_ID(), 'wpd_stop_container_at', $trigger_date, true );
 				}
+
+				update_post_meta( get_the_ID(), 'wpd_scheduled_for_removal', 'yes' );
+				// Log::add_front( Log::WP_SITE_REMOVAL_SCHEDULED, dollie()->get_current_object( get_the_ID() ), get_the_title( get_the_ID() ) );
+			} else {
+				// Start the containers that were stopped via S5 API.
+				$container->perform_action( 'stop' );
 			}
 		}
 

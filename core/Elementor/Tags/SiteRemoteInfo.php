@@ -5,51 +5,37 @@ namespace Dollie\Core\Elementor\Tags;
 use Elementor\Controls_Manager;
 use Elementor\Core\DynamicTags\Tag;
 
-
 class SiteRemoteInfo extends Tag {
 
-	private $wpd_data = [];
+	private $container;
 
 	public function __construct( array $data = [] ) {
 		parent::__construct( $data );
 
-		$current_id = dollie()->get_current_post_id();
+		$this->container = dollie()->get_container();
 
-		// Get Items from Feed
-		$container      = dollie()->get_container( $current_id );
-		$details = $container->get_details();
+		// // Add custom items
+		// if ( isset( $this->wpd_data['container_details'] ) ) {
+		// if ( isset( $this->wpd_data['container_details']['Name'] ) ) {
+		// $this->wpd_data['site_data']['Name'] = $this->wpd_data['container_details']['Name'];
+		// }
+		// if ( isset( $this->wpd_data['container_details']['Description'] ) ) {
+		// $this->wpd_data['site_data']['Description'] = $this->wpd_data['container_details']['Description'];
+		// }
+		// }
 
-		if ( is_wp_error( $container ) || is_wp_error( $details ) ) {
-			return;
-		}
-
-		$this->wpd_data = $details;
-
-		// Add custom items
-		if ( isset( $this->wpd_data['container_details'] ) ) {
-			if ( isset( $this->wpd_data['container_details']['Name'] ) ) {
-				$this->wpd_data['site_data']['Name'] = $this->wpd_data['container_details']['Name'];
-			}
-			if ( isset( $this->wpd_data['container_details']['Description'] ) ) {
-				$this->wpd_data['site_data']['Description'] = $this->wpd_data['container_details']['Description'];
-			}
-		}
-
-		$this->wpd_data['customer_data']['Customer - Total Sites Launched']           = dollie()->count_customer_containers( get_current_user_id() );
-		$this->wpd_data['customer_data']['Customer Subscription - Sites Available']   = dollie()->sites_available();
-		$this->wpd_data['customer_data']['Customer Subscription - Storage Available'] = dollie()->storage_available();
-
+		// $this->wpd_data['customer_data']['Customer - Total Sites Launched']           = dollie()->count_customer_containers( get_current_user_id() );
+		// $this->wpd_data['customer_data']['Customer Subscription - Sites Available']   = dollie()->sites_available();
+		// $this->wpd_data['customer_data']['Customer Subscription - Storage Available'] = dollie()->storage_available();
 	}
 
 	public function get_name() {
-
 		return 'dollie-site-info';
 	}
 
 	public function get_title() {
 		return __( 'Dollie Site Remote Info', 'dynamic-tags' );
 	}
-
 
 	public function get_group() {
 		return 'dollie-tags';
@@ -59,36 +45,35 @@ class SiteRemoteInfo extends Tag {
 		return [ \Elementor\Modules\DynamicTags\Module::TEXT_CATEGORY ];
 	}
 
-	protected function register_controls() {
-
+	protected function _register_controls() {
 		$keys = [];
 
-		foreach ( $this->wpd_data['site_data'] as $k => $data ) {
+		// foreach ( $this->wpd_data['site_data'] as $k => $data ) {
 
-			if ( is_array( $data ) || false === $data ) {
-				continue;
-			}
+		// if ( is_array( $data ) || false === $data ) {
+		// continue;
+		// }
 
-			if ( strpos( $data, '.png' ) ||
-				 strpos( $data, '.jpg' ) ||
-				 strpos( $data, '.jpeg' ) ||
-				 filter_var( $data, FILTER_VALIDATE_URL ) ||
-				 strpos( $data, '.gif' ) ) {
+		// if ( strpos( $data, '.png' ) ||
+		// strpos( $data, '.jpg' ) ||
+		// strpos( $data, '.jpeg' ) ||
+		// filter_var( $data, FILTER_VALIDATE_URL ) ||
+		// strpos( $data, '.gif' ) ) {
 
-				continue;
-			}
+		// continue;
+		// }
 
-			$keys[ $k ] = 'Site - ' . $k;
-		}
+		// $keys[ $k ] = 'Site - ' . $k;
+		// }
 
-		foreach ( $this->wpd_data['customer_data'] as $k => $data ) {
+		// foreach ( $this->wpd_data['customer_data'] as $k => $data ) {
 
-			if ( is_array( $data ) || false === $data ) {
-				continue;
-			}
+		// if ( is_array( $data ) || false === $data ) {
+		// continue;
+		// }
 
-			$keys[ $k ] = $k;
-		}
+		// $keys[ $k ] = $k;
+		// }
 
 		$this->add_control(
 			'param_name',
@@ -101,23 +86,20 @@ class SiteRemoteInfo extends Tag {
 	}
 
 	public function render() {
+		// $param_name = $this->get_settings( 'param_name' );
 
-		$param_name = $this->get_settings( 'param_name' );
+		// if ( ! $param_name ) {
+		// return '';
+		// }
 
-		if ( ! $param_name ) {
-			return '';
-		}
+		// $data = $this->wpd_data['site_data'];
 
-		$data = $this->wpd_data['site_data'];
+		// if ( ! isset( $data[ $param_name ] ) ) {
+		// return '';
+		// }
 
-		if ( ! isset( $data[ $param_name ] ) ) {
-			return '';
-		}
+		// $value = $data[ $param_name ];
 
-		$value = $data[ $param_name ];
-
-		echo wp_kses_post( $value );
-
+		// echo wp_kses_post( $value );
 	}
-
 }
