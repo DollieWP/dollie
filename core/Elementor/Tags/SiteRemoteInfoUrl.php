@@ -15,9 +15,15 @@ class SiteRemoteInfoUrl extends Tag {
 		parent::__construct( $data );
 
 		$current_id = dollie()->get_current_post_id();
+		$container      = dollie()->get_container( $current_id );
 
 		// Get Items from Feed
-		$this->wpd_data                                  = Container::instance()->get_container_details( $current_id );
+		if ( is_wp_error( $container ) ) {
+			return;
+		}
+var_dump( $container->get_details()); exit;
+
+		$this->wpd_data = $container->get_details();
 		$this->wpd_data['customer_data']['Support Link'] = dollie()->get_support_link();
 		$this->wpd_data['site_data']['URL']              = dollie()->get_container_url( $current_id );
 

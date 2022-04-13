@@ -16,7 +16,12 @@ class SiteRemoteInfo extends Tag {
 		$current_id = dollie()->get_current_post_id();
 
 		// Get Items from Feed
-		$this->wpd_data = \Dollie\Core\Modules\Container::instance()->get_container_details( $current_id );
+		$container      = dollie()->get_container( $current_id );
+		if ( is_wp_error( $container ) ) {
+			return;
+		}
+		$this->wpd_data = $container->get_details();
+
 
 		// Add custom items
 		if ( isset( $this->wpd_data['container_details'] ) ) {

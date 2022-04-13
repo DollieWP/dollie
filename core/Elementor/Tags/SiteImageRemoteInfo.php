@@ -12,9 +12,9 @@ class SiteImageRemoteInfo extends Data_Tag {
 	public function __construct( array $data = [] ) {
 		parent::__construct( $data );
 
-		$current_id = dollie()->get_current_post_id();
-
-		$this->wpd_data = \Dollie\Core\Modules\Container::instance()->get_container_details( $current_id );
+		$current_id     = dollie()->get_current_post_id();
+		$container      = dollie()->get_container( $current_id );
+		$this->wpd_data = $container->get_details();
 
 	}
 
@@ -46,9 +46,9 @@ class SiteImageRemoteInfo extends Data_Tag {
 			}
 
 			if ( strpos( $data, '.png' ) ||
-				 strpos( $data, '.jpg' ) ||
-				 strpos( $data, '.jpeg' ) ||
-				 strpos( $data, '.gif' ) ) {
+			     strpos( $data, '.jpg' ) ||
+			     strpos( $data, '.jpeg' ) ||
+			     strpos( $data, '.gif' ) ) {
 
 				$keys[ $k ] = $k;
 			}
