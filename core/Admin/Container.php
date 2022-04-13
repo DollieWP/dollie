@@ -177,12 +177,12 @@ final class Container extends Singleton implements ConstInterface {
 				update_option( 'wpd_deployment_domain_status', true );
 				delete_option( 'wpd_deployment_delay_status' );
 			} elseif ( ! $delay_status ) {
-				$response = Api::post( Api::ROUTE_DOMAIN_CHECK_DEPLOYMENT_ZONE );
+				// $response = Api::post( Api::ROUTE_DOMAIN_CHECK_DEPLOYMENT_ZONE );
 
-				if ( $response['domain'] === $domain && $response['status'] ) {
-					set_transient( 'wpd_deployment_domain_delay', true, 5 * MINUTE_IN_SECONDS );
-					update_option( 'wpd_deployment_delay_status', true );
-				}
+				// if ( $response['domain'] === $domain && $response['status'] ) {
+				// set_transient( 'wpd_deployment_domain_delay', true, 5 * MINUTE_IN_SECONDS );
+				// update_option( 'wpd_deployment_delay_status', true );
+				// }
 			}
 		}
 	}

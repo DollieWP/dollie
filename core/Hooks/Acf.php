@@ -33,7 +33,7 @@ final class Acf extends Singleton implements ConstInterface {
 				return $field;
 			}
 		);
-
+		add_filter( 'acf/load_field/type=message', [ $this, 'api_token_content' ], 10, 3 );
 		add_filter( 'acf/update_value/name=wpd_container_status', [ $this, 'change_container_status' ], 10, 3 );
 	}
 
@@ -289,6 +289,26 @@ final class Acf extends Singleton implements ConstInterface {
 		// delete_transient( 'wpd_deployment_domain_delay' );
 		// delete_option( 'wpd_deployment_delay_status' );
 		// }
+	}
+
+	/**
+	 * Api token display
+	 *
+	 * @param [type] $field
+	 * @return void
+	 */
+	public function api_token_content( $field ) {
+			ob_start();
+			dollie()->load_template( 'admin/api-status', [], true );
+			$details = ob_get_clean();
+
+			$field['message'] = str_replace(
+				[ '%api_settings%' ],
+				[ $details ],
+				$field['message']
+			);
+
+			return $field;
 	}
 
 	/**
