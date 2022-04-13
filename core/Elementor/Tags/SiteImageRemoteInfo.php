@@ -7,15 +7,12 @@ use Elementor\Core\DynamicTags\Data_Tag;
 
 class SiteImageRemoteInfo extends Data_Tag {
 
-	private $wpd_data = [];
+	private $container;
 
 	public function __construct( array $data = [] ) {
 		parent::__construct( $data );
 
-		$current_id = dollie()->get_current_post_id();
-
-		$this->wpd_data = \Dollie\Core\Modules\Container::instance()->get_container_details( $current_id );
-
+		$this->container = dollie()->get_container();
 	}
 
 	public function get_name() {
@@ -27,7 +24,6 @@ class SiteImageRemoteInfo extends Data_Tag {
 		return __( 'Dollie Site Remote Info', 'dynamic-tags' );
 	}
 
-
 	public function get_group() {
 		return 'dollie-tags';
 	}
@@ -37,21 +33,23 @@ class SiteImageRemoteInfo extends Data_Tag {
 	}
 
 	protected function _register_controls() {
-
 		$keys = [];
-		foreach ( $this->wpd_data['site_data'] as $k => $data ) {
 
-			if ( is_array( $data ) || false === $data ) {
-				continue;
-			}
+		if ( ! is_wp_error( $this->container ) ) {
+			// foreach ( $this->wpd_data['site_data'] as $k => $data ) {
 
-			if ( strpos( $data, '.png' ) ||
-				 strpos( $data, '.jpg' ) ||
-				 strpos( $data, '.jpeg' ) ||
-				 strpos( $data, '.gif' ) ) {
+			// if ( is_array( $data ) || false === $data ) {
+			// continue;
+			// }
 
-				$keys[ $k ] = $k;
-			}
+			// if ( strpos( $data, '.png' ) ||
+			// strpos( $data, '.jpg' ) ||
+			// strpos( $data, '.jpeg' ) ||
+			// strpos( $data, '.gif' ) ) {
+
+			// $keys[ $k ] = $k;
+			// }
+			// }
 		}
 
 		$this->add_control(
@@ -65,26 +63,23 @@ class SiteImageRemoteInfo extends Data_Tag {
 	}
 
 	public function get_value( array $options = [] ) {
+		// $param_name = $this->get_settings( 'param_name' );
 
-		$param_name = $this->get_settings( 'param_name' );
+		// if ( ! $param_name ) {
+		// return '';
+		// }
 
-		if ( ! $param_name ) {
-			return '';
-		}
+		// $data = $this->wpd_data['site_data'];
 
-		$data = $this->wpd_data['site_data'];
+		// if ( ! isset( $data[ $param_name ] ) ) {
+		// return '';
+		// }
 
-		if ( ! isset( $data[ $param_name ] ) ) {
-			return '';
-		}
-
-		$value = $data[ $param_name ];
+		// $value = $data[ $param_name ];
 
 		return [
 			'id'  => '',
-			'url' => $value,
+			'url' => '',
 		];
-
 	}
-
 }
