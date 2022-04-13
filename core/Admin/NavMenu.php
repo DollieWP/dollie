@@ -502,11 +502,13 @@ class NavMenu extends Singleton {
 								'</div>';
 
 				$link_output = '';
-				if ( $site_id && isset( $log['link'] ) && $log['link'] ) {
+				$container = dollie()->get_container( $site_id );
+
+				if ( $site_id && isset( $log['link'] ) && $log['link'] && ! is_wp_error( $container ) ) {
 					$link      = get_permalink( $site_id );
 					$link_text = esc_html__( 'Go to site', 'dollie' );
 
-					if ( dollie()->is_blueprint( $site_id ) ) {
+					if ( $container->is_blueprint( $site_id ) ) {
 						$link      = trailingslashit( $link ) . 'blueprints';
 						$link_text = esc_html__( 'Go to blueprint', 'dollie' );
 					}
