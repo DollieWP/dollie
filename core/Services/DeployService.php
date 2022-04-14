@@ -19,12 +19,13 @@ final class DeployService extends Singleton implements ConstInterface {
 	 *
 	 * @param string $type
 	 * @param string $route
+	 * @param array  $data
 	 *
 	 * @return \WP_Error|boolean
 	 */
-	public function start( string $type, string $route ) {
+	public function start( string $type, string $route, array $data ) {
 		if ( ! in_array( $type, [ self::TYPE_SITE, self::TYPE_BLUEPRINT, self::TYPE_STAGING ] ) ) {
-			throw new \WP_Error( 500, 'Invalid deploy type' );
+			return new \WP_Error( 500, 'Invalid deploy type' );
 		}
 
 		$extra_vars = apply_filters( 'dollie/deploy/vars', [], $type );
@@ -32,43 +33,66 @@ final class DeployService extends Singleton implements ConstInterface {
 			$extra_vars,
 			[
 				'S5_DEPLOYMENT_URL' => get_site_url(),
+				'owner_email'       => $data['email'],
+				'origin'            => get_site_url(),
+				'wp_setup'          => [
+					'email'       => $data['email'],
+					'username'    => $data['username'],
+					'password'    => $data['password'],
+					'name'        => $data['name'],
+					'description' => $data['description'],
+				],
 			]
 		);
 
+		$deploy_type = 'sites';
+
+		if ( $type === self::TYPE_BLUEPRINT ) {
+			$deploy_type = 'blueprints';
+		} elseif ( $type === self::TYPE_STAGING ) {
+			$deploy_type = 'stagings';
+		}
+
 		$deploy = $this->start_deploy(
-			$type,
+			$deploy_type,
 			[
 				'route' => $route,
 				'vars'  => $vars,
 			]
 		);
 
-		if ( false === $deploy ) {
+		if ( is_wp_error( $deploy ) ) {
 			return false;
 		}
 
-		$post = wp_insert_post(
+		$post_id = wp_insert_post(
 			[
 				'comment_status' => 'closed',
 				'ping_status'    => 'closed',
-				'post_author'    => get_current_user_id(),
-				'post_name'      => $route,
-				'post_title'     => "{$route} [Deploying]",
+				'post_author'    => $data['owner_id'],
+				'post_name'      => $deploy['route'],
+				'post_title'     => "{$deploy['route']} [Deploying]",
 				'post_status'    => 'publish',
 				'post_type'      => 'container',
+				'meta_input'     => [
+					'dollie_container_type' => $deploy['type'],
+				],
 			]
 		);
 
-		$class     = '\Dollie\Core\Factories\\' . ucfirst( $type );
-		$container = new $class( $post );
+		$container = dollie()->get_container( $post_id );
 
-		$meta = [
-			'url'    => $deploy['route'],
-			'status' => $deploy['status'],
-			'type'   => $type,
-		];
+		if ( is_wp_error( $container ) ) {
+			return false;
+		}
 
-		// $container->update_meta( $meta )->set_cookie();
+		$container->set_details(
+			[
+				'url'    => $deploy['route'],
+				'status' => $deploy['status'],
+				'type'   => $deploy['type'],
+			]
+		);
 
 		return true;
 	}
@@ -76,27 +100,45 @@ final class DeployService extends Singleton implements ConstInterface {
 	/**
 	 * Check if container is deployed
 	 *
-	 * @param BaseContainer $container
-	 *
 	 * @return boolean
 	 */
-	public function check_deploy( BaseContainer $container ) {
+	public function check_deploy() {
+		$container = dollie()->get_container();
+
 		if ( ! $container->is_deploying() ) {
 			return new \WP_Error( 500, 'Container is not deploying' );
 		}
 
-		$deploy = $this->get_deploy( $container->get_type(), $container->get_original_url() );
+		$deploy_type = 'sites';
 
-		if ( false === $deploy ) {
+		if ( $container->get_type() === self::TYPE_BLUEPRINT ) {
+			$deploy_type = 'blueprints';
+		} elseif ( $container->get_type() === self::TYPE_STAGING ) {
+			$deploy_type = 'stagings';
+		}
+
+		$deploy = $this->get_deploy( $deploy_type, $container->get_original_url() );
+
+		if ( is_wp_error( $deploy ) ) {
 			return new \WP_Error( 500, 'Cannot fetch deploy data' );
 		}
 
-		$post_data = [
-			'post_title'  => "{$container->get_name()} [Failed]",
-			'post_status' => 'draft',
-		];
+		if ( 'Deploying' === $deploy['status'] ) {
+			return false;
+		}
 
-		// $container->update_post( $post_data )->update_meta( [ 'status' => $deploy['status'] ] );
+		if ( 'Failed' === $deploy['status'] || 'Deploy Failure' === $deploy['status'] ) {
+			$post_data = [
+				'post_title'  => "{$container->get_original_url()} [Failed]",
+				'post_status' => 'draft',
+			];
+
+			$container->update_post( $post_data )->set_details( [ 'status' => $deploy['status'] ] );
+
+			return false;
+		}
+
+		$container->set_details( [ 'hash' => $deploy['hash'] ] )->fetch_details();
 
 		return true;
 	}

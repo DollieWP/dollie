@@ -8,8 +8,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Modules\Forms;
-use Dollie\Core\Modules\Sites\WP;
+use Dollie\Core\Services\DeployService;
 use Dollie\Core\Singleton;
+use Dollie\Core\Utils\ConstInterface;
 use Nubs\RandomNameGenerator\Alliteration as NameGenerator;
 
 /**
@@ -17,7 +18,7 @@ use Nubs\RandomNameGenerator\Alliteration as NameGenerator;
  *
  * @package Dollie\Core\Forms
  */
-class QuickLaunch extends Singleton {
+class QuickLaunch extends Singleton implements ConstInterface {
 	/**
 	 * @var string
 	 */
@@ -57,6 +58,8 @@ class QuickLaunch extends Singleton {
 		$blueprint = Forms::instance()->get_form_blueprint( $form, $args );
 		$site_type = 'site';
 
+		$user_id = get_current_user_id();
+
 		// If we allow registration and not logged in - create account
 		if ( ! is_user_logged_in() && get_option( 'users_can_register' ) ) {
 			$user_id       = username_exists( $email );
@@ -70,15 +73,13 @@ class QuickLaunch extends Singleton {
 
 				return;
 			}
-		} else {
-			$user_id = get_current_user_id();
 		}
 
 		if ( ! $user_id ) {
 			return;
 		}
 
-		$deploy_data = compact( 'email', 'domain', 'user_id', 'blueprint', 'site_type' );
+		$deploy_data = compact( 'email', 'domain', 'user_id', 'blueprint' );
 		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data, $domain, $blueprint );
 
 		// add WP site details.
@@ -87,7 +88,7 @@ class QuickLaunch extends Singleton {
 			'username' => sanitize_title( af_get_field( 'client_name' ) ),
 		];
 
-		WP::instance()->deploy_site( $deploy_data, $setup_data );
+		DeployService::instance()->start( self::TYPE_SITE, $setup_data );
 	}
 
 	/**
@@ -133,7 +134,6 @@ class QuickLaunch extends Singleton {
 				$field['value'] = $user->user_email;
 			}
 		} elseif ( ! get_option( 'users_can_register' ) ) {
-
 			if ( 'client_name' === $field['name'] ) {
 				$field['wrapper']['width'] = '50';
 			}
@@ -145,5 +145,4 @@ class QuickLaunch extends Singleton {
 
 		return $field;
 	}
-
 }

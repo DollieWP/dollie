@@ -8,14 +8,16 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Services\BlueprintService;
+use Dollie\Core\Services\DeployService;
 use Dollie\Core\Singleton;
+use Dollie\Core\Utils\ConstInterface;
 
 /**
  * Class LaunchSite
  *
  * @package Dollie\Core\Forms
  */
-class LaunchSite extends Singleton {
+class LaunchSite extends Singleton implements ConstInterface {
 	/**
 	 * @var string
 	 */
@@ -71,26 +73,15 @@ class LaunchSite extends Singleton {
 	 * @return void
 	 */
 	public function submission_callback( $form, $fields, $args ) {
-		$blueprint_id = Forms::instance()->get_form_blueprint( $form, $args );
-
 		if ( af_get_field( 'assign_to_customer' ) ) {
-			$assigned_user_id = af_get_field( 'assign_to_customer' );
+			$owner_id = af_get_field( 'assign_to_customer' );
 		} else {
-			$assigned_user_id = get_current_user_id();
+			$owner_id = get_current_user_id();
 		}
 
-		$domain      = af_get_field( 'site_url' );
 		$deploy_data = [
-			'email'     => af_get_field( 'site_admin_email' ),
-			'domain'    => $domain,
-			'user_id'   => $assigned_user_id,
-			'blueprint' => $blueprint_id,
-			'site_type' => af_get_field( 'site_type' ),
-		];
-
-		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data, $domain, $blueprint_id );
-
-		$setup_data = [
+			'owner_id'    => $owner_id,
+			'blueprint'   => Forms::instance()->get_form_blueprint( $form, $args ),
 			'email'       => af_get_field( 'site_admin_email' ),
 			'username'    => af_get_field( 'admin_username' ),
 			'password'    => af_get_field( 'admin_password' ),
@@ -98,10 +89,13 @@ class LaunchSite extends Singleton {
 			'description' => af_get_field( 'site_description' ),
 		];
 
-		// WP::instance()->deploy_site(
-		// $deploy_data,
-		// $setup_data
-		// );
+		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data );
+
+		DeployService::instance()->start(
+			'blueprint' === af_get_field( 'site_type' ) ? self::TYPE_BLUEPRINT : self::TYPE_SITE,
+			af_get_field( 'site_url' ),
+			$deploy_data
+		);
 	}
 
 	/**

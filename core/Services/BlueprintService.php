@@ -83,15 +83,16 @@ final class BlueprintService extends Singleton {
 	 * Get dynamic fields
 	 *
 	 * @param $deploy_data
-	 * @param $domain
 	 * @param $blueprint_id
 	 *
 	 * @return array
 	 */
-	public function get_dynamic_fields( $deploy_data, $domain, $blueprint_id ): array {
-		if ( isset( $_POST['wpd_bp_data'] ) && is_array( $_POST['wpd_bp_data'] ) ) {
+	public function get_dynamic_fields( $deploy_data ): array {
+		if ( isset( $_POST['wpd_bp_data'] ) && is_array( $_POST['wpd_bp_data'] ) &&
+			is_array( $deploy_data ) && isset( $deploy_data['blueprint_id'] ) && false !== $deploy_data['blueprint_id'] ) {
+
 			$customizer = [];
-			$container  = dollie()->get_container( $blueprint_id );
+			$container  = dollie()->get_container( $deploy_data['blueprint_id'] );
 
 			if ( is_wp_error( $container ) ) {
 				return $deploy_data;
@@ -168,16 +169,8 @@ final class BlueprintService extends Singleton {
 				'meta_query'     => [
 					'relation' => 'AND',
 					[
-						'key'   => 'wpd_blueprint_created',
-						'value' => 'yes',
-					],
-					[
-						'key'   => 'wpd_is_blueprint',
-						'value' => 'yes',
-					],
-					[
-						'key'     => 'wpd_installation_blueprint_title',
-						'compare' => 'EXISTS',
+						'key'   => 'dollie_container_type',
+						'value' => '1',
 					],
 				],
 			]

@@ -81,4 +81,17 @@ final class ContainerService extends Singleton {
 
 		$container->fetch_details();
 	}
+
+	/**
+	 * Check container deploy status
+	 *
+	 * @return void
+	 */
+	public function check_deploy() {
+		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'check_deploy_nonce' ) ) {
+			wp_send_json_error();
+		}
+
+		DeployService::instance()->check_deploy();
+	}
 }

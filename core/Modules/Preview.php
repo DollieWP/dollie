@@ -73,47 +73,35 @@ class Preview extends Singleton {
 					$author = '58687848382305067080201305060';
 				}
 
-				$gp_args = [
+				$args = [
 					'author'         => $author,
 					'post_type'      => 'container',
 					'posts_per_page' => 20,
-					'meta_key'       => 'wpd_setup_complete',
-					'meta_value'     => 'yes',
 				];
 			} elseif ( 'my-blueprints' === $_GET['type'] ) {
-				$gp_args = [
+				$args = [
 					'author'         => get_current_user_id(),
 					'post_type'      => 'container',
 					'posts_per_page' => 50,
-					'meta_key'       => 'wpd_blueprint_created',
-					'meta_value'     => 'yes',
 				];
 			}
 		} else {
-			$gp_args = [
+			$args = [
 				'post_type'      => 'container',
 				'posts_per_page' => -1,
 				'post_status'    => 'publish',
 				'meta_query'     => [
 					'relation' => 'AND',
 					[
-						'key'   => 'wpd_blueprint_created',
-						'value' => 'yes',
-					],
-					[
 						'key'   => 'dollie_container_type',
 						'value' => '1',
-					],
-					[
-						'key'     => 'wpd_installation_blueprint_title',
-						'compare' => 'EXISTS',
 					],
 				],
 
 			];
 		}
 
-		$query       = new \WP_Query( $gp_args );
+		$query       = new \WP_Query( $args );
 		$posts       = $query->get_posts();
 		$theme_array = [];
 

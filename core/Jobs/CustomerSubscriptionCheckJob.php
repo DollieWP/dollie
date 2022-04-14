@@ -368,8 +368,6 @@ class CustomerSubscriptionCheckJob extends Singleton {
 				'post_type'      => 'container',
 				'post_status'    => 'trash',
 				'posts_per_page' => - 1,
-				'meta_key'       => 'wpd_scheduled_for_undeployment',
-				'meta_value'     => 'yes',
 			]
 		);
 
@@ -387,8 +385,6 @@ class CustomerSubscriptionCheckJob extends Singleton {
 				'post_type'      => 'container',
 				'post_status'    => [ 'draft', 'trash', 'publish' ],
 				'posts_per_page' => - 1,
-				'meta_key'       => 'wpd_scheduled_for_removal',
-				'meta_value'     => 'yes',
 			]
 		);
 
