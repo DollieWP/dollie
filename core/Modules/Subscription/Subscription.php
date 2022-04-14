@@ -131,6 +131,10 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	public function has_partner_subscription() {
 		$subscription = $this->get_partner_subscription();
 
+		if ( is_wp_error( $subscription ) ) {
+			return false;
+		}
+
 		return false === $subscription ? $subscription : $subscription['active'];
 	}
 

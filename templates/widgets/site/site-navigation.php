@@ -27,7 +27,7 @@ if ( $container->is_blueprint() ) {
 }
 
 if ( $container->has_staging() ) {
-	$staging_url = get_post_meta( $current_id, '_wpd_staging_url', true );
+	$staging_url = get_post_meta( $container->get_id(), '_wpd_staging_url', true );
 	if ( $staging_url ) {
 		$menu['staging'] = dollie()->icon()->staging() . esc_html__( 'Staging', 'dollie' ) . '<span style="display: inline-block; margin-left: 2px;"; class="dol-flex dol-h-3 dol-w-3 dol-relative">
                         <span style="
@@ -42,7 +42,6 @@ top: 7px"; class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w
 $menu['delete'] = dollie()->icon()->delete() . esc_html__( 'Delete', 'dollie' );
 
 $sub_page = get_query_var( 'sub_page' );
-
 ?>
 
 <nav class="dol-w-full dol-flex-grow lg:dol-flex lg:dol-items-center lg:dol-w-auto">
