@@ -1,5 +1,7 @@
 <?php
-if ( 'yes' === get_field( 'wpd_private_blueprint' ) && ! current_user_can( 'manage_options' ) ) {
+$container = dollie()->get_container( get_the_ID() );
+
+if ( is_wp_error( $container ) || ! $container->is_blueprint() || $container->is_private()  ) {
 	return false;
 }
 
@@ -8,7 +10,7 @@ $product_id = get_field( 'wpd_installation_blueprint_hosting_product' );
 if ( ! empty( $checkout_url ) ) {
 	$checkout_link = $checkout_url;
 } else {
-	$checkout_link = dollie()->subscription()->get_checkout_link( $product_id[0], get_the_ID() );
+	$checkout_link = dollie()->subscription()->get_checkout_link( [ 'product_id' => $product_id[0], 'blueprint_id' =>get_the_ID() ] );
 }
 
 if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
@@ -39,7 +41,7 @@ if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
 				if ( get_field( 'wpd_enable_site_preview', 'option' ) ) {
 					$path = dollie()->get_preview_url() . '/?product_id=' . get_the_ID();
 				} else {
-					$path = dollie()->get_wp_site_data( 'uri', get_the_ID() );
+					$path = $container->get_url();
 				}
 				?>
 

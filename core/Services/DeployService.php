@@ -19,7 +19,7 @@ final class DeployService extends Singleton implements ConstInterface {
 	 *
 	 * @param string $type
 	 * @param string $route
-	 * @param array  $data
+	 * @param array $data
 	 *
 	 * @return \WP_Error|boolean
 	 */
@@ -100,10 +100,14 @@ final class DeployService extends Singleton implements ConstInterface {
 	/**
 	 * Check if container is deployed
 	 *
-	 * @return boolean
+	 * @return boolean|\WP_Error
 	 */
 	public function check_deploy() {
 		$container = dollie()->get_container();
+
+		if ( is_wp_error( $container ) ) {
+			return $container;
+		}
 
 		if ( ! $container->is_deploying() ) {
 			return new \WP_Error( 500, 'Container is not deploying' );

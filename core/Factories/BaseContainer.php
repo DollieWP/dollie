@@ -926,9 +926,9 @@ abstract class BaseContainer implements ConstInterface {
 
 			if ( count( $composite_key ) === 1 && isset( $details[ $composite_key[0] ] ) ) {
 				return $details[ $composite_key[0] ];
-			} else {
-				return $this->find_value_recursively( $details, $composite_key );
 			}
+
+			return $this->find_value_recursively( $details, $composite_key );
 		}
 
 		return $details;

@@ -143,14 +143,14 @@ class Preview extends Singleton {
 						'title'       => $container->get_saved_title(),
 						'title_short' => $container->get_name(),
 						'url'         => $container->get_url(),
-						'buy'         => dollie()->subscription()->get_checkout_link( $product_id[0], $container->get_id() ),
+						'buy'         => dollie()->subscription()->get_checkout_link( [ 'product_id' => $product_id[0], 'blueprint_id' => $container->get_id() ] ),
 						'login_url'   => $container->get_login_url(),
 						'thumb'       => [
 							'url' => $image,
 						],
 						'info'        => $container->get_saved_description(),
 						'tag'         => 'tag',
-						'year'        => '2019',
+						'year'        => '2022',
 						'preload'     => '0',
 						'badge'       => 'Pro',
 					];

@@ -106,6 +106,9 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		}
 
 		$product_obj = wc_get_product( $args['product_id'] );
+		if ( ! $product_obj ) {
+			return '#';
+		}
 
 		$link_args = [
 			'add-to-cart'  => $args['product_id'],
