@@ -157,7 +157,7 @@ trait Api {
 		}
 
 		if ( 401 === $response_code ) {
-			( new AuthService() )->delete_token();
+			AuthService::instance()->delete_token();
 
 			Log::add( "Api 401 error on {$this->last_call}", print_r( $request, true ) );
 			return new \WP_Error( 401, __( 'Unauthorized.', 'dollie' ) );
