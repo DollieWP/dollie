@@ -10,9 +10,9 @@ $token = AuthService::instance()->get_token();
 	<p><?php esc_html_e( 'This is the token that links your site and partner account to the Dollie API.', 'dollie' ); ?></p>
 
 	<div style="margin-bottom: 10px;">
-		<?php echo esc_attr( $token ); ?>
+		<pre style="background: #EFEFEF; padding: 5px; display: inline;"><?php echo esc_attr( $token ); ?></pre>
 	</div>
-	
+
 	<a href="<?php echo esc_url( add_query_arg( 'disconnect_dollie', 1 ) ); ?>" class="button button-large">
 		<?php esc_html_e( 'Disconnect from Dollie', 'dollie' ); ?>
 	</a>
