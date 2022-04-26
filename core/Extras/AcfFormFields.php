@@ -894,4 +894,6 @@ Whilst PHP7 gives your site a big performance boost not all plugins and themes a
 		]
 	);
 
+    //do_action( 'dol_add_af_forms' );
+
 endif;
