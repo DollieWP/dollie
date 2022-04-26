@@ -34,7 +34,7 @@ class ImportForms extends Singleton {
 	 *
 	 * @var array
 	 */
-	private $forms = [
+	private $forms = array(
 		'form_dollie_create_backup',
 		'form_dollie_delete_site',
 		'form_dollie_domain_connect',
@@ -43,7 +43,9 @@ class ImportForms extends Singleton {
 		'form_dollie_list_backups',
 		'form_dollie_plugin_updates',
 		'form_dollie_performance',
-	];
+		// Onboarding
+		'form_62679f869499e.json',
+	);
 
 	/**
 	 * Check if an update is needed
