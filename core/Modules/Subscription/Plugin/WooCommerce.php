@@ -291,9 +291,11 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			return 0;
 		}
 
-		$total_site = dollie()->count_customer_containers( get_current_user_id() );
+		$user = dollie()->get_user( get_current_user_id() );
 
-		return $subscription['resources']['max_allowed_installs'] - $total_site;
+		$total_sites = $user->count_containers();
+
+		return $subscription['resources']['max_allowed_installs'] - $total_sites;
 	}
 
 	/**
@@ -350,7 +352,9 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			return true;
 		}
 
-		$total_sites = (int) dollie()->count_customer_containers( get_current_user_id() );
+		$user = dollie()->get_user( get_current_user_id() );
+
+		$total_sites = $user->count_containers();
 
 		return $total_sites >= $subscription['resources']['max_allowed_installs'];
 	}
@@ -371,7 +375,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			return false;
 		}
 
-		$total_size   = dollie()->get_total_container_size();
+		$total_size   = dollie()->insights()->get_total_container_size();
 		$allowed_size = $subscription['resources']['max_allowed_size'] * 1024 * 1024 * 1024;
 
 		return $this->has_subscription() && $total_size >= $allowed_size && ! current_user_can( 'manage_options' );

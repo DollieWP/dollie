@@ -460,4 +460,21 @@ class Helpers extends Singleton implements ConstInterface {
 			return Tpl::load( $template, $args, $echo );
 		}
 	}
+
+	/**
+	 * @param $size
+	 *
+	 * @return string
+	 */
+	public function convert_to_readable_size( $size ) {
+		if ( ! $size ) {
+			return $size;
+		}
+
+		$base   = log( $size ) / log( 1024 );
+		$suffix = [ '', 'KB', 'MB', 'GB', 'TB' ];
+		$f_base = floor( $base );
+
+		return round( 1024 ** ( $base - floor( $base ) ), 1 ) . $suffix[ $f_base ];
+	}
 }

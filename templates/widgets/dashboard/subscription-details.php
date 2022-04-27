@@ -56,7 +56,7 @@ $subscription = dollie()->subscription();
 								<?php esc_html_e( 'Used storage', 'dollie' ); ?>
 							</div>
 							<div class="dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-text-ash-800">
-								<?php echo dollie()->insights()->convert_to_readable_size( dollie()->insights()->get_total_container_size() ); ?>
+								<?php echo dollie()->convert_to_readable_size( dollie()->insights()->get_total_container_size() ); ?>
 							</div>
 						</div>
 					</li>
