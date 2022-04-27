@@ -17,8 +17,7 @@ trait PartnerApi {
 	 * @return \WP_Error|array
 	 */
 	public function get_subscription() {
-		return 'https://api.getdollie.com/partner/subscription';
-		// return $this->get_request( 'partner/subscription' );
+		return $this->get_request( 'partner/subscription' );
 	}
 
 	/**
