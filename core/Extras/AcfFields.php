@@ -481,10 +481,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'               => 'field_5cf62cee6f366',
-					'label'             => __( 'Default Deployment Domain', 'dollie' ),
+					'label'             => __( 'Your Default Domain', 'dollie' ),
 					'name'              => 'wpd_api_domain',
 					'type'              => 'text',
-					'instructions'      => __( 'The default domain that is being used for the sites deployed by you or your customers. Once you are ready to go live we recommend you add your own domain below', 'dollie' ),
+					'instructions'      => __( '<strong>This domain is used until you connect your own custom domain.</strong> This is so you can test and build out your platform without needing a domain ready. Once you are ready to go live we recommend you add your own custom domain, so that your platform is fully white-labeled.', 'dollie' ),
 					'required'          => 1,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
@@ -502,10 +502,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'               => 'field_600451ceafac7',
-					'label'             => __( 'Use My Own Domain', 'dollie' ),
+					'label'             => __( 'Add My Own Domain', 'dollie' ),
 					'name'              => 'wpd_show_custom_domain_options',
 					'type'              => 'true_false',
-					'instructions'      => __( 'Add your own domain for site deployments to fully white label the sites being launched on your platform. Adding your own custom domain will no longer use the Default Deployment Domain.', 'dollie' ),
+					'instructions'      => __( 'Add your own domain for site deployments to fully white label the sites being launched on your platform. Adding your own custom domain will no longer use the Default Domain.', 'dollie' ),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(

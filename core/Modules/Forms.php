@@ -17,6 +17,7 @@ use Dollie\Core\Forms\Performance;
 use Dollie\Core\Forms\PluginUpdates;
 use Dollie\Core\Forms\DeleteSite;
 use Dollie\Core\Forms\QuickLaunch;
+use Dollie\Core\Forms\Onboarding;
 use Dollie\Core\Singleton;
 
 /**
@@ -40,38 +41,39 @@ class Forms extends Singleton {
 		PluginUpdates::instance();
 		DeleteSite::instance();
 		Performance::instance();
+		Onboarding::instance();
 
-		add_action( 'template_redirect', [ $this, 'redirect_to_new_container' ] );
+		add_action( 'template_redirect', array( $this, 'redirect_to_new_container' ) );
 
-		add_action( 'init', [ $this, 'init' ] );
-		add_action( 'acf/init', [ $this, 'acf_init' ] );
+		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'acf/init', array( $this, 'acf_init' ) );
 
 		if ( isset( $_GET['page'], $_GET['tool'] ) && 'acf-tools' === $_GET['page'] && 'export' === $_GET['tool'] ) {
-			add_filter( 'acf/prepare_field_for_export', [ $this, 'localize_strings' ] );
+			add_filter( 'acf/prepare_field_for_export', array( $this, 'localize_strings' ) );
 		}
 
-		add_action( 'af/form/hidden_fields', [ $this, 'hidden_fields' ], 10, 2 );
+		add_action( 'af/form/hidden_fields', array( $this, 'hidden_fields' ), 10, 2 );
 
 		// Custom form fields
-		add_filter( 'af/form/valid_form', [ $this, 'add_custom_field_defaults' ], 10, 1 );
-		add_filter( 'af/form/from_post', [ $this, 'form_from_post' ], 10, 2 );
-		add_filter( 'af/form/to_post', [ $this, 'form_to_post' ], 10, 2 );
-		add_filter( 'af/form/args', [ $this, 'change_form_args' ], 10, 2 );
+		add_filter( 'af/form/valid_form', array( $this, 'add_custom_field_defaults' ), 10, 1 );
+		add_filter( 'af/form/from_post', array( $this, 'form_from_post' ), 10, 2 );
+		add_filter( 'af/form/to_post', array( $this, 'form_to_post' ), 10, 2 );
+		add_filter( 'af/form/args', array( $this, 'change_form_args' ), 10, 2 );
 	}
 
 	/**
 	 * Code that runs at WP init. Hooks and content alterations.
 	 */
 	public function init() {
-		add_shortcode( 'dollie_form', [ $this, 'form_shortcode' ] );
+		add_shortcode( 'dollie_form', array( $this, 'form_shortcode' ) );
 
-		add_filter( 'acf/prepare_field/name=form_shortcode_message', [ $this, 'hide_af_form_shortcode' ], 12, 1 );
+		add_filter( 'acf/prepare_field/name=form_shortcode_message', array( $this, 'hide_af_form_shortcode' ), 12, 1 );
 		add_filter(
 			'acf/prepare_field/name=form_wpd_shortcode_message',
-			[
+			array(
 				$this,
 				'display_form_shortcode',
-			],
+			),
 			12,
 			1
 		);
@@ -81,22 +83,22 @@ class Forms extends Singleton {
 	 * ACF/AF specific hooks
 	 */
 	public function acf_init() {
-		add_filter( 'af/merge_tags/resolve', [ $this, 'resolve_fields_tag' ], 9, 3 );
-		add_filter( 'af/merge_tags/resolve', [ $this, 'add_merge_tags' ], 10, 2 );
-		add_filter( 'af/merge_tags/custom', [ $this, 'register_merge_tags' ], 10, 2 );
+		add_filter( 'af/merge_tags/resolve', array( $this, 'resolve_fields_tag' ), 9, 3 );
+		add_filter( 'af/merge_tags/resolve', array( $this, 'add_merge_tags' ), 10, 2 );
+		add_filter( 'af/merge_tags/custom', array( $this, 'register_merge_tags' ), 10, 2 );
 
 		// Placeholders/Change values.
-		add_filter( 'acf/prepare_field/type=message', [ $this, 'add_acf_placeholders' ], 10 );
+		add_filter( 'acf/prepare_field/type=message', array( $this, 'add_acf_placeholders' ), 10 );
 
-		add_filter( 'af/form/button_attributes', [ $this, 'filter_submit_button_attributes' ], 10, 3 );
-		add_filter( 'af/form/next_button_atts', [ $this, 'filter_next_button_attributes' ], 10, 2 );
-		add_filter( 'af/form/previous_button_atts', [ $this, 'filter_previous_button_attributes' ], 10, 2 );
+		add_filter( 'af/form/button_attributes', array( $this, 'filter_submit_button_attributes' ), 10, 3 );
+		add_filter( 'af/form/next_button_atts', array( $this, 'filter_next_button_attributes' ), 10, 2 );
+		add_filter( 'af/form/previous_button_atts', array( $this, 'filter_previous_button_attributes' ), 10, 2 );
 
-		add_filter( 'af/field/prefill_value/name=admin_username', [ $this, 'prefill_site_admin_user' ], 10, 4 );
-		add_filter( 'af/field/prefill_value/name=admin_email', [ $this, 'prefill_site_admin_email' ], 10, 4 );
-		add_filter( 'af/field/prefill_value/name=site_admin_email', [ $this, 'prefill_site_admin_email' ], 10, 4 );
+		add_filter( 'af/field/prefill_value/name=admin_username', array( $this, 'prefill_site_admin_user' ), 10, 4 );
+		add_filter( 'af/field/prefill_value/name=admin_email', array( $this, 'prefill_site_admin_email' ), 10, 4 );
+		add_filter( 'af/field/prefill_value/name=site_admin_email', array( $this, 'prefill_site_admin_email' ), 10, 4 );
 
-		add_filter( 'af/form/settings_fields', [ $this, 'add_form_settings_fields' ], 2, 1 );
+		add_filter( 'af/form/settings_fields', array( $this, 'add_form_settings_fields' ), 2, 1 );
 	}
 
 	/**
@@ -109,7 +111,7 @@ class Forms extends Singleton {
 	 */
 	public function add_merge_tags( $output, $tag ) {
 		if ( 'dollie_container_login_url' === $tag ) {
-			return esc_url( call_user_func( [ $this, 'get_container_login_url' ] ) );
+			return esc_url( call_user_func( array( $this, 'get_container_login_url' ) ) );
 		}
 
 		if ( ( 'dollie_container_url' === $tag ) && isset( $_POST['dollie_post_id'] ) ) {
@@ -132,15 +134,15 @@ class Forms extends Singleton {
 	 * @return array
 	 */
 	public function register_merge_tags( $tags, $form ) {
-		$tags[] = [
+		$tags[] = array(
 			'value' => 'dollie_container_login_url',
 			'label' => __( 'Dollie Container Login URL', 'dollie' ),
-		];
+		);
 
-		$tags[] = [
+		$tags[] = array(
 			'value' => 'dollie_container_url',
 			'label' => __( 'Dollie Container URL', 'dollie' ),
-		];
+		);
 
 		return $tags;
 	}
@@ -167,7 +169,7 @@ class Forms extends Singleton {
 	 *
 	 * @return string
 	 */
-	public function form_shortcode( $atts = [] ) {
+	public function form_shortcode( $atts = array() ) {
 		if ( ! function_exists( 'advanced_form' ) ) {
 			return '';
 		}
@@ -178,7 +180,7 @@ class Forms extends Singleton {
 		$atts['echo'] = false;
 
 		if ( isset( $atts['values'] ) ) {
-			$final_values = [];
+			$final_values = array();
 			$values_array = explode( ',', $atts['values'] );
 
 			foreach ( $values_array as $value ) {
@@ -339,7 +341,7 @@ class Forms extends Singleton {
 	 * @return mixed
 	 */
 	public function add_form_settings_fields( $field_group ) {
-		$field_group['fields'][] = [
+		$field_group['fields'][] = array(
 			'key'               => 'field_form_wpd_shortcode_tab',
 			'label'             => '<span class="dashicons dashicons-admin-settings"></span>' . __( 'Settings', 'dollie' ),
 			'name'              => '',
@@ -347,23 +349,23 @@ class Forms extends Singleton {
 			'instructions'      => '',
 			'required'          => 0,
 			'conditional_logic' => 0,
-			'wrapper'           => [
+			'wrapper'           => array(
 				'width' => '',
 				'class' => '',
 				'id'    => '',
-			],
+			),
 			'placement'         => 'left',
 			'endpoint'          => 0,
-		];
+		);
 
-		$field_group['fields'][] = [
+		$field_group['fields'][] = array(
 			'key'   => 'field_form_wpd_shortcode_message',
 			'label' => __( 'Shortcode', 'dollie' ),
 			'name'  => 'form_wpd_shortcode_message',
 			'type'  => 'message',
-		];
+		);
 
-		$field_group['fields'][] = [
+		$field_group['fields'][] = array(
 			'key'           => 'field_form_is_launch_site',
 			'label'         => __( 'Enable Launch Site options', 'dollie' ),
 			'name'          => 'form_is_launch_site',
@@ -371,49 +373,49 @@ class Forms extends Singleton {
 			'instructions'  => __( 'If this form launches a new site you can enable this option to enable splash loader on launch and choose a default blueprint.', 'dollie' ),
 			'required'      => 0,
 			'placeholder'   => '',
-			'wrapper'       => [
+			'wrapper'       => array(
 				'width' => '',
 				'class' => '',
 				'id'    => '',
-			],
+			),
 			'ui'            => true,
 			'default_value' => 0,
-		];
+		);
 
 		// blueprint
-		$field_group['fields'][] = [
+		$field_group['fields'][] = array(
 			'key'               => 'field_form_site_blueprint',
 			'label'             => __( 'Select a Blueprint (optional)', 'dollie' ),
 			'name'              => 'site_blueprint',
 			'type'              => 'radio',
 			'instructions'      => __( 'Force a default blueprint to use for the launched site', 'dollie' ),
 			'required'          => 0,
-			'conditional_logic' => [
-				[
-					[
+			'conditional_logic' => array(
+				array(
+					array(
 						'field'    => 'field_form_is_launch_site',
 						'operator' => '==',
 						'value'    => '1',
-					],
-				],
-			],
-			'wrapper'           => [
+					),
+				),
+			),
+			'wrapper'           => array(
 				'width' => '',
 				'class' => '',
 				'id'    => '',
-			],
+			),
 			'hide_admin'        => 0,
-			'choices'           => [],
+			'choices'           => array(),
 			'allow_null'        => 0,
 			'other_choice'      => 0,
 			'default_value'     => '',
 			'layout'            => 'vertical',
 			'return_format'     => 'value',
 			'save_other_choice' => 0,
-		];
+		);
 
 		// redirect to container YES/NO
-		$field_group['fields'][] = [
+		$field_group['fields'][] = array(
 			'key'           => 'field_form_redirect_to_site',
 			'label'         => __( 'Redirect to site', 'dollie' ),
 			'name'          => 'form_redirect_to_site',
@@ -421,14 +423,14 @@ class Forms extends Singleton {
 			'instructions'  => __( 'Redirect to site page after form submit. Success Message will be ignored', 'dollie' ),
 			'required'      => 0,
 			'placeholder'   => '',
-			'wrapper'       => [
+			'wrapper'       => array(
 				'width' => '',
 				'class' => '',
 				'id'    => '',
-			],
+			),
 			'ui'            => true,
 			'default_value' => 0,
-		];
+		);
 
 		return $field_group;
 	}
@@ -522,23 +524,23 @@ class Forms extends Singleton {
 
 			$tpl_domain_not_managed = dollie()->load_template(
 				'widgets/site/pages/domain/connect/not-managed',
-				[
+				array(
 					'has_domain'    => $domain,
 					'ip'            => $ip,
 					'platform_url'  => $url,
 					'current_query' => $container,
-				]
+				)
 			);
 
 			$field['message'] = str_replace( '{dollie_tpl_domain_not_managed}', $tpl_domain_not_managed, $field['message'] );
 
 			$tpl_domain_managed = dollie()->load_template(
 				'widgets/site/pages/domain/connect/managed',
-				[
+				array(
 					'has_domain'   => $domain,
 					'ip'           => $ip,
 					'platform_url' => $url,
-				]
+				)
 			);
 
 			$field['message'] = str_replace( '{dollie_tpl_domain_managed}', $tpl_domain_managed, $field['message'] );

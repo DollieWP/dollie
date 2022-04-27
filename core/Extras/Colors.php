@@ -1,5 +1,4 @@
 <?php
-
 use Mexitek\PHPColors\Color;
 
 function dol_sanitize_hex_color( $hex_color, $setting ) {
@@ -30,11 +29,11 @@ function dol_colors_init( $wp_customize ) {
 		// $id
 		'dollie_colors_section',
 		// $args
-		[
+		array(
 			'title'       => __( 'Dollie', 'dollie' ),
 			'description' => __( 'Set colors for Dollie widgets', 'dollie' ),
 			'priority'    => 9,
-		]
+		)
 	);
 
 	/**
@@ -53,22 +52,22 @@ function dol_colors_init( $wp_customize ) {
 		// $id
 		'dollie_color_primary',
 		// $args
-		[
+		array(
 			'type'              => 'option',
 			'sanitize_callback' => 'dol_sanitize_hex_color',
 			// 'transport' => 'postMessage'
-		]
+		)
 	);
 
 	$wp_customize->add_setting(
 		// $id
 		'dollie_color_secondary',
 		// $args
-		[
+		array(
 			'type'              => 'option',
 			'sanitize_callback' => 'dol_sanitize_hex_color',
 			// 'transport' => 'postMessage'
-		]
+		)
 	);
 
 	/**
@@ -93,12 +92,12 @@ function dol_colors_init( $wp_customize ) {
 			// $id
 			'dollie_color_primary_control',
 			// $args
-			[
+			array(
 				'settings'    => 'dollie_color_primary',
 				'section'     => 'dollie_colors_section',
 				'label'       => __( 'Primary Color', 'dollie' ),
 				'description' => __( 'Select the primary color used across Dollie.', 'dollie' ),
-			]
+			)
 		)
 	);
 
@@ -109,12 +108,12 @@ function dol_colors_init( $wp_customize ) {
 			// $id
 			'dollie_color_secondary_control',
 			// $args
-			[
+			array(
 				'settings'    => 'dollie_color_secondary',
 				'section'     => 'dollie_colors_section',
 				'label'       => __( 'Secondary Color', 'dollie' ),
 				'description' => __( 'Select the secondary color used across Dollie', 'dollie' ),
-			]
+			)
 		)
 	);
 }
@@ -207,10 +206,10 @@ add_action( 'dol_add_widget_classes', 'dol_widgets_layout' );
 
 function dol_register_nav_menu() {
 	register_nav_menus(
-		[
+		array(
 			'dol_top_menu'           => __( 'Dollie - Primary Menu', 'text_domain' ),
 			'dol_notifications_menu' => __( 'Dollie - Notifications Menu', 'text_domain' ),
-		]
+		)
 	);
 }
 
@@ -223,10 +222,10 @@ function custom_customize_enqueue() {
 	wp_enqueue_script(
 		'custom-customize',
 		DOLLIE_ASSETS_URL . '/js/customize.js',
-		[
+		array(
 			'jquery',
 			'customize-controls',
-		],
+		),
 		false,
 		true
 	);
