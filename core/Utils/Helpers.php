@@ -193,9 +193,8 @@ class Helpers extends Singleton implements ConstInterface {
 		];
 
 		$args  = apply_filters( 'dollie_product_query', $args );
-		$query = new \WP_Query( $args );
 
-		return $query->have_posts();
+		return ( new \WP_Query( $args ) )->have_posts();
 	}
 
 	/**

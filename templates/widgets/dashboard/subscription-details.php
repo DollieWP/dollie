@@ -1,3 +1,7 @@
+<?php
+$subscription = dollie()->subscription();
+
+?>
 <?php if ( class_exists( 'WooCommerce' ) && get_option( 'options_wpd_charge_for_deployments' ) === '1' ) : ?>
 	<div class=" dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-widget-subscription">
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary">
@@ -13,7 +17,7 @@
 								<?php esc_html_e( 'Current plan', 'dollie' ); ?>
 							</div>
 							<div class="dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-text-ash-800">
-								<?php echo dollie()->subscription_name(); ?>
+								<?php echo $subscription->subscription_name(); ?>
 							</div>
 						</div>
 					</li>
@@ -23,7 +27,7 @@
 								<?php esc_html_e( 'Remaining sites', 'dollie' ); ?>
 							</div>
 							<div class="dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-text-ash-800">
-								<?php echo dollie()->sites_available(); ?>
+								<?php echo $subscription->sites_available(); ?>
 							</div>
 						</div>
 					</li>
@@ -35,7 +39,7 @@
 							<div class="dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-text-ash-800">
 								<?php
 
-								$available_storage = dollie()->storage_available();
+								$available_storage = $subscription->storage_available();
 								if ( $available_storage ) {
 									echo esc_html( $available_storage ) . 'GB';
 								} else {
@@ -52,7 +56,7 @@
 								<?php esc_html_e( 'Used storage', 'dollie' ); ?>
 							</div>
 							<div class="dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-text-ash-800">
-								<?php echo dollie()->convert_to_readable_size( dollie()->get_total_container_size() ); ?>
+								<?php echo dollie()->insights()->convert_to_readable_size( dollie()->insights()->get_total_container_size() ); ?>
 							</div>
 						</div>
 					</li>
