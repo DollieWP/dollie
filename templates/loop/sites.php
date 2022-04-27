@@ -12,11 +12,11 @@ $grid_btn_active = 'grid' === $view_type ? 'dol-switch-active' : '';
 // dollie()->check_bulk_actions();
 
 // $bulk_actions          = dollie()->get_bulk_actions();
-$bulk_actions          = [];
+$bulk_actions          = array();
 $allowed_bulk_commands = dollie()->bulk_actions()->get_allowed_commands_in_progress();
 
-dollie()->load_template( 'loop/parts/modal-actions', [], true );
-dollie()->load_template( 'loop/parts/modal-filters', [], true );
+dollie()->load_template( 'loop/parts/modal-actions', array(), true );
+dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 
 ?>
 
@@ -48,11 +48,11 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 					<div class="dol-absolute dol-left-0 dol-top-0 dol-ml-4 dol-flex dol-items-center dol-h-full">
 						<?php echo dollie()->icon()->search( 'dol-text-gray-400' ); ?>
 					</div>
-					<input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full md:dol-w-64" 
-						data-list-type="<?php echo esc_attr( $view_type ); ?>" 
-						data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>" 
-						data-per-page=<?php echo ( isset( $_GET['per_page'] ) ? esc_attr( $_GET['per_page'] ) : '' ); ?> 
-						data-search-term="" 
+					<input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full md:dol-w-64"
+						data-list-type="<?php echo esc_attr( $view_type ); ?>"
+						data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>"
+						data-per-page=<?php echo ( isset( $_GET['per_page'] ) ? esc_attr( $_GET['per_page'] ) : '' ); ?>
+						data-search-term=""
 						placeholder="<?php printf( esc_html__( 'Search for a %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?>">
 				</div>
 
@@ -80,11 +80,11 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 	</div>
 </div>
 
-<div id="dol-check-bulk-action" 
-	data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" 
+<div id="dol-check-bulk-action"
+	data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>"
 	data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_check_bulk_action' ) ); ?>"></div>
-<div id="dol-recurring-action" 
-	data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" 
+<div id="dol-recurring-action"
+	data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>"
 	data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_recurring_action' ) ); ?>"></div>
 
 <div class="dol-sites dol-relative">
@@ -113,14 +113,14 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 					continue;
 				}
 
-				$list_item_class        = [];
-				$execution_lock_classes = [];
-				$btn_controls_classes   = [];
+				$list_item_class        = array();
+				$execution_lock_classes = array();
+				$btn_controls_classes   = array();
 
-				$executing_action = [
+				$executing_action = array(
 					'status'  => false,
 					'command' => '',
-				];
+				);
 
 				foreach ( $bulk_actions as $bulk_action ) {
 					if ( $bulk_action['container_uri'] === $container->get_custom_domain() ) {
@@ -129,12 +129,12 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 					}
 				}
 
-				$data = [
+				$data = array(
 					'slug'       => $container->get_slug(),
 					'domain'     => $container->get_url(),
 					'name'       => $container->get_title() ?: __( 'Unnamed', 'dollie' ),
 					'wp_version' => $container->get_wp_version(),
-				];
+				);
 
 				if ( $container->is_blueprint() ) {
 					$list_item_class[] = 'dol-blueprint-site';
@@ -188,7 +188,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 
 						<div class="dol-sites-image dol-relative">
 							<div class="dol-sites-image-box">
-								<?php echo $container->get_screenshot(); ?>
+								<img width="700" class="dol-block dol-object-cover" alt="<?php echo $container->get_url(); ?>" src="<?php echo $container->get_screenshot(); ?>">
 							</div>
 
 							<div class="dol-sites-status">
@@ -290,14 +290,14 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 			?>
 		</div>
 
-		<div class="dol-sites-pages" 
-			data-permalink="<?php echo esc_url( $query_data['permalink'] ); ?>" 
-			data-current-page="<?php echo esc_attr( $query_data['current_page'] ); ?>" 
+		<div class="dol-sites-pages"
+			data-permalink="<?php echo esc_url( $query_data['permalink'] ); ?>"
+			data-current-page="<?php echo esc_attr( $query_data['current_page'] ); ?>"
 			data-list-type="<?php echo esc_attr( $view_type ); ?>">
 				<?php
 
 				echo paginate_links(
-					[
+					array(
 						'total'        => $sites_pages,
 						'show_all'     => false,
 						'type'         => 'plain',
@@ -306,7 +306,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 						'prev_next'    => false,
 						'add_args'     => false,
 						'add_fragment' => '',
-					]
+					)
 				);
 
 				?>

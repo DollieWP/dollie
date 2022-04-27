@@ -45,18 +45,18 @@ if ( ! isset( $view_type ) ) {
 					continue;
 				}
 
-				$list_item_class      = [];
-				$btn_controls_classes = [];
+				$list_item_class      = array();
+				$btn_controls_classes = array();
 
 				$domain = $container->get_url();
 
-				$data = [
+				$data = array(
 					'slug'       => $container->get_slug(),
 					'domain'     => $container->get_url(),
 					'name'       => $container->get_title(),
 					'wp_version' => $container->get_wp_version(),
 					'is_running' => 'Running' === $container->get_status(),
-				];
+				);
 
 
 				if ( $container->is_blueprint() ) {
@@ -81,7 +81,7 @@ if ( ! isset( $view_type ) ) {
 
 						<div class="dol-sites-image dol-relative">
 							<div class="dol-sites-image-box">
-								<?php echo $container->get_screenshot(); ?>
+								<img width="700" class="dol-block dol-object-cover" alt="<?php echo $container->get_url(); ?>" src="<?php echo $container->get_screenshot(); ?>">
 							</div>
 
 							<div class="dol-sites-status">
@@ -189,12 +189,12 @@ if ( ! isset( $view_type ) ) {
 			<div class="dol-text-2xl dol-text-primary-600">
 				<?php
 
-				$data = [
+				$data = array(
 					'settings' => array(
 						'title'    => sprintf( esc_html__( 'Ready to Launch your first %s?', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ),
 						'subtitle' => 'Launching your first %s via your own %s Platform is something special. What are you waiting for %s, it is time to witness the magic.',
 					),
-				];
+				);
 
 				dollie()->load_template( 'widgets/dashboard/launch-site', $data, true );
 
