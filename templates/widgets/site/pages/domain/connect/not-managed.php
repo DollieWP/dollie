@@ -16,6 +16,18 @@
 		</ul>
 	</div>
 
+		<?php
+		$container = dollie()->get_container();
+		$ip        = $container->get_credentials()['ip'];
+		dollie()->load_template(
+			'widgets/site/pages/domain/connect/dns-ip-table',
+			array(
+				'ip' => $ip,
+			),
+			true
+		);
+		?>
+
 	<div class="dol-bg-gray-100 dol-p-4 dol-text-sm">
 		<div class="dol-font-bold"><?php _e( 'Important Note: You only need to change the @ and WWW records', 'dollie' ); ?></div>
 		<div>
