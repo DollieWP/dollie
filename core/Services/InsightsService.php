@@ -22,7 +22,7 @@ class InsightsService extends Singleton {
 			$response = wp_remote_get( $slug . '/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=6&_embed' );
 
 			if ( is_wp_error( $response ) ) {
-				return [];
+				return array();
 			}
 
 			set_transient( 'dollie_site_news_' . $slug, $response, 3600 );
@@ -43,7 +43,7 @@ class InsightsService extends Singleton {
 			$response = wp_remote_get( 'https://getdollie.com/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=3&_embed' );
 
 			if ( is_wp_error( $response ) ) {
-				return [];
+				return array();
 			}
 
 			set_transient( 'dollie_dashboard_news', $response, 3600 );
@@ -64,7 +64,7 @@ class InsightsService extends Singleton {
 			$response = wp_remote_get( 'https://partners.getdollie.com/wp-json/wp/v2/kb/?filter[orderby]=date&per_page=12&_embed' );
 
 			if ( is_wp_error( $response ) ) {
-				return [];
+				return array();
 			}
 
 			set_transient( 'dollie_dashboard_articles', $response, 3600 );
@@ -82,11 +82,11 @@ class InsightsService extends Singleton {
 		$user_id = get_current_user_id();
 
 		$query = new \WP_Query(
-			[
-				'post_type'   => [ 'container' ],
-				'post_status' => [ 'published' ],
+			array(
+				'post_type'   => array( 'container' ),
+				'post_status' => array( 'published' ),
 				'author'      => $user_id,
-			]
+			)
 		);
 
 		$total_amount = 0;
@@ -117,16 +117,16 @@ class InsightsService extends Singleton {
 		$container = dollie()->get_container();
 
 		if ( is_wp_error( $container ) ) {
-			return [];
+			return array();
 		}
 
 		$response = get_transient( 'dollie_recent_posts_' . $container->get_slug() );
 
 		if ( empty( $response ) ) {
-			$response = wp_remote_get( $container->get_url() . '/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=6&_embed' );
+			$response = wp_remote_get( 'https://' . $container->get_url() . '/wp-json/wp/v2/posts/?filter[orderby]=date&per_page=6&_embed' );
 
 			if ( is_wp_error( $response ) ) {
-				return [];
+				return array();
 			}
 
 			set_transient( 'dollie_recent_posts_' . $container->get_slug(), $response, 3600 );
