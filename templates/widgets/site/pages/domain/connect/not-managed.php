@@ -18,7 +18,7 @@
 
 		<?php
 		$container = dollie()->get_container();
-		$ip        = $container->get_credentials()['ip'];
+		$ip        = $container->get_details( 'credentials.ip' );
 		dollie()->load_template(
 			'widgets/site/pages/domain/connect/dns-ip-table',
 			array(
