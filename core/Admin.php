@@ -62,21 +62,21 @@ final class Admin extends Singleton implements ConstInterface {
 		wp_enqueue_style(
 			'dollie-custom-css',
 			DOLLIE_ASSETS_URL . 'css/admin.css',
-			[],
+			array(),
 			DOLLIE_VERSION
 		);
 
 		wp_enqueue_style(
 			'dollie-custom-admin',
 			DOLLIE_ASSETS_URL . 'css/dollie.css',
-			[],
+			array(),
 			DOLLIE_VERSION
 		);
 
 		wp_enqueue_script(
 			'dollie-custom-js',
 			DOLLIE_ASSETS_URL . 'js/admin.js',
-			[],
+			array(),
 			DOLLIE_VERSION
 		);
 	}
@@ -91,7 +91,7 @@ final class Admin extends Singleton implements ConstInterface {
 			return;
 		}
 
-		$args = [
+		$args = array(
 			'page_title'  => __( 'Settings', 'dollie' ),
 			'menu_title'  => __( 'Settings <span class="dol-status dol-live">Live<span>', 'dollie' ),
 			'menu_slug'   => self::PANEL_SLUG,
@@ -101,7 +101,7 @@ final class Admin extends Singleton implements ConstInterface {
 			'icon_url'    => false,
 			'redirect'    => true,
 			'autoload'    => true,
-		];
+		);
 
 		acf_add_options_page( $args );
 	}
@@ -118,10 +118,10 @@ final class Admin extends Singleton implements ConstInterface {
 			add_meta_box(
 				'custom-mb-before-acf',
 				'CUSTOM MB BEFORE ACF',
-				[
+				array(
 					$this,
 					'api_box_callback',
-				],
+				),
 				'acf_options_page',
 				'normal',
 				'high'
@@ -135,8 +135,24 @@ final class Admin extends Singleton implements ConstInterface {
 	 * @param $post
 	 * @param array $args
 	 */
-	public function api_box_callback( $post, $args = [] ) {
+	public function api_box_callback( $post, $args = array() ) {
 		dollie_setup_get_template_part( 'setup-complete' );
+	}
+
+	/**
+	 * Add body container class
+	 *
+	 * @param string $classes
+	 *
+	 * @return string
+	 */
+	public function add_dollie_dev_class( $classes ) {
+
+		if ( defined( 'DOLLIE_DEV' ) && DOLLIE_DEV ) {
+			$classes .= ' dol-dev-mode';
+		}
+
+		return $classes;
 	}
 
 	/**
