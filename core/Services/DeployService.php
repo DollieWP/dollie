@@ -100,10 +100,20 @@ final class DeployService extends Singleton implements ConstInterface {
 	/**
 	 * Check if container is deployed
 	 *
-	 * @return boolean|\WP_Error
+	 * @param $post_id
+	 *
+	 * @return void
 	 */
-	public function check_deploy() {
-		$container = dollie()->get_container();
+	public function check_deploy( $post_id = 0 ) {
+		if ( ! $post_id ) {
+			$post_id = get_the_ID();
+		}
+
+		if ( ! $post_id ) {
+			return false;
+		}
+
+		$container = dollie()->get_container( $post_id );
 
 		if ( is_wp_error( $container ) ) {
 			return false;
@@ -141,11 +151,9 @@ final class DeployService extends Singleton implements ConstInterface {
 			];
 
 			$container->update_post( $post_data )->set_details( [ 'status' => $deploy['status'] ] );
-
-			return false;
+		} elseif ( 'Running' === $deploy['status'] ) {
+			$container->set_details( [ 'hash' => $deploy['hash'] ] )->fetch_details();
 		}
-
-		$container->set_details( [ 'hash' => $deploy['hash'] ] )->fetch_details();
 
 		return true;
 	}

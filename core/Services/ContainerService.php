@@ -92,6 +92,14 @@ final class ContainerService extends Singleton {
 			wp_send_json_error();
 		}
 
-		DeployService::instance()->check_deploy();
+		$status = DeployService::instance()->check_deploy( (int) $_REQUEST['container'] );
+
+		if ( ! $status ) {
+			wp_send_json_error();
+			die();
+		}
+
+		wp_send_json_success();
+		die();
 	}
 }
