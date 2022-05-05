@@ -55,9 +55,10 @@ class LaunchSite extends Singleton implements ConstInterface {
 	 * @param $args
 	 */
 	public function validate_form( $form, $args ) {
-		$domain = af_get_field( 'site_url' );
+		$domain           = af_get_field( 'site_url' );
+		$domain_extension = 'blueprint' === af_get_field( 'site_type' ) ? '.wp-site.xyz' : DOLLIE_DOMAIN;
 
-		if ( strlen( $domain . DOLLIE_DOMAIN ) > 63 ) {
+		if ( strlen( $domain . $domain_extension ) > 63 ) {
 			$max = 63 - strlen( DOLLIE_DOMAIN );
 			af_add_error( 'site_url', sprintf( esc_html__( 'Site URL is too long. The name should not exceed %d characters. Don\'t worry, this is just your temporary URL. You can add a custom domain after launching.', 'dollie' ), $max ) );
 		}
