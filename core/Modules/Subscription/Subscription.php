@@ -111,12 +111,11 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		if ( ! dollie()->is_api_connected() ) {
 			return false;
 		}
-
+		delete_transient( 'wpd_partner_subscription' );
 		$subscription = get_transient( 'wpd_partner_subscription' );
 
 		if ( ! $subscription ) {
 			$subscription = $this->get_subscription();
-
 			set_transient( 'wpd_partner_subscription', $subscription, MINUTE_IN_SECONDS * 10 );
 		}
 

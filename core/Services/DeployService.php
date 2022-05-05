@@ -19,7 +19,7 @@ final class DeployService extends Singleton implements ConstInterface {
 	 *
 	 * @param string $type
 	 * @param string $route
-	 * @param array $data
+	 * @param array  $data
 	 *
 	 * @return \WP_Error|boolean
 	 */
@@ -70,8 +70,8 @@ final class DeployService extends Singleton implements ConstInterface {
 				'comment_status' => 'closed',
 				'ping_status'    => 'closed',
 				'post_author'    => $data['owner_id'],
-				'post_name'      => $deploy['route'],
-				'post_title'     => "{$deploy['route']} [Deploying]",
+				'post_name'      => $route,
+				'post_title'     => "{$route} [Deploying]",
 				'post_status'    => 'publish',
 				'post_type'      => 'container',
 				'meta_input'     => [
@@ -106,7 +106,7 @@ final class DeployService extends Singleton implements ConstInterface {
 		$container = dollie()->get_container();
 
 		if ( is_wp_error( $container ) ) {
-			return $container;
+			return false;
 		}
 
 		if ( ! $container->is_deploying() ) {
@@ -132,8 +132,11 @@ final class DeployService extends Singleton implements ConstInterface {
 		}
 
 		if ( 'Failed' === $deploy['status'] || 'Deploy Failure' === $deploy['status'] ) {
+			$post_title = explode( '.', $container->get_original_url() );
+			$post_title = $post_title[0];
+
 			$post_data = [
-				'post_title'  => "{$container->get_original_url()} [Failed]",
+				'post_title'  => "{$post_title} [Failed]",
 				'post_status' => 'draft',
 			];
 

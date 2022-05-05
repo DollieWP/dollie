@@ -117,12 +117,15 @@ class SyncContainersJob extends Singleton {
 					}
 				}
 
+				$post_name = explode( '.', $container['url'] );
+				$post_name = $post_name[0];
+
 				$new_container_id = wp_insert_post(
 					[
 						'post_type'   => 'container',
 						'post_status' => 'publish',
-						'post_name'   => $container['url'],
-						'post_title'  => $container['url'],
+						'post_name'   => $post_name,
+						'post_title'  => $post_name,
 						'post_author' => $author,
 						'meta_input'  => [
 							'dollie_container_type' => $container['type'],
