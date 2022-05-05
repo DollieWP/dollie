@@ -21,21 +21,22 @@ final class Admin extends Singleton implements ConstInterface {
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'load_resources' ] );
+		add_action( 'plugins_loaded', array( $this, 'initialize' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'load_resources' ) );
+		add_filter( 'admin_body_class', array( $this, 'add_dollie_dev_class' ) );
 
 		if ( dollie()->is_live() ) {
-			add_action( 'init', [ $this, 'add_options_page' ] );
+			add_action( 'init', array( $this, 'add_options_page' ) );
 
 			if ( is_admin() ) {
-				add_action( 'acf/input/admin_head', [ $this, 'add_api_box' ], 1 );
+				add_action( 'acf/input/admin_head', array( $this, 'add_api_box' ), 1 );
 			}
 		}
 
-		add_action( 'admin_notices', [ NoticeService::instance(), 'not_connected' ] );
-		add_action( 'admin_notices', [ NoticeService::instance(), 'custom_deploy_domain' ] );
-		add_action( 'admin_notices', [ NoticeService::instance(), 'subscription_no_credits' ] );
-		add_action( 'wp_ajax_dollie_hide_domain_notice', [ NoticeService::instance(), 'remove_custom_deploy_domain' ] );
+		add_action( 'admin_notices', array( NoticeService::instance(), 'not_connected' ) );
+		add_action( 'admin_notices', array( NoticeService::instance(), 'custom_deploy_domain' ) );
+		add_action( 'admin_notices', array( NoticeService::instance(), 'subscription_no_credits' ) );
+		add_action( 'wp_ajax_dollie_hide_domain_notice', array( NoticeService::instance(), 'remove_custom_deploy_domain' ) );
 	}
 
 	/**
