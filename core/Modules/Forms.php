@@ -43,8 +43,6 @@ class Forms extends Singleton {
 		Performance::instance();
 		Onboarding::instance();
 
-		add_action( 'template_redirect', array( $this, 'redirect_to_new_container' ) );
-
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'acf/init', array( $this, 'acf_init' ) );
 
@@ -58,7 +56,6 @@ class Forms extends Singleton {
 		add_filter( 'af/form/valid_form', array( $this, 'add_custom_field_defaults' ), 10, 1 );
 		add_filter( 'af/form/from_post', array( $this, 'form_from_post' ), 10, 2 );
 		add_filter( 'af/form/to_post', array( $this, 'form_to_post' ), 10, 2 );
-		add_filter( 'af/form/args', array( $this, 'change_form_args' ), 10, 2 );
 	}
 
 	/**
@@ -206,9 +203,8 @@ class Forms extends Singleton {
 	 * @return mixed
 	 */
 	public function add_custom_field_defaults( $form ) {
-		$form['is_launch_site']   = false;
-		$form['site_blueprint']   = false;
-		$form['redirect_to_site'] = false;
+		$form['is_launch_site'] = false;
+		$form['site_blueprint'] = false;
 
 		return $form;
 	}
@@ -222,9 +218,8 @@ class Forms extends Singleton {
 	 * @return mixed
 	 */
 	public function form_from_post( $form, $post ) {
-		$is_launch_site   = get_field( 'form_is_launch_site', $post->ID );
-		$site_blueprint   = get_field( 'site_blueprint', $post->ID );
-		$redirect_to_site = get_field( 'form_redirect_to_site', $post->ID );
+		$is_launch_site = get_field( 'form_is_launch_site', $post->ID );
+		$site_blueprint = get_field( 'site_blueprint', $post->ID );
 
 		if ( $is_launch_site ) {
 			$form['is_launch_site'] = $is_launch_site;
@@ -232,10 +227,6 @@ class Forms extends Singleton {
 			if ( $site_blueprint ) {
 				$form['site_blueprint'] = $site_blueprint;
 			}
-		}
-
-		if ( $redirect_to_site ) {
-			$form['redirect_to_site'] = $redirect_to_site;
 		}
 
 		// Render shortcodes but make sure they are exported as shortcodes
@@ -255,25 +246,6 @@ class Forms extends Singleton {
 	public function form_to_post( $form, $post ) {
 		update_field( 'field_form_is_launch_site', $form['is_launch_site'], $post->ID );
 		update_field( 'field_form_site_blueprint', $form['site_blueprint'], $post->ID );
-		update_field( 'field_form_redirect_to_site', $form['redirect_to_site'], $post->ID );
-	}
-
-	/**
-	 * Change form args based on Form settings
-	 *
-	 * @param $args
-	 * @param $form
-	 *
-	 * @return mixed
-	 */
-	public function change_form_args( $args, $form ) {
-		$redirect = $this->get_form_arg( 'redirect_to_site', $form, $args );
-
-		if ( true === $redirect ) {
-			$args['redirect'] = add_query_arg( 'site', 'new', $args['redirect'] );
-		}
-
-		return $args;
 	}
 
 	/**
@@ -318,7 +290,6 @@ class Forms extends Singleton {
 
 				$message .= "<p class='description'>" . __( 'Possible shortcode attributes: ', 'dollie' ) . '<br>';
 				$message .= "
-				redirect_to_site=true|false
 				site_blueprint=ID
 				display_title=true|false
 				display_description=true|false
@@ -485,20 +456,6 @@ class Forms extends Singleton {
 		}
 
 		return _af_render_field_include( $field );
-	}
-
-	/**
-	 * If set from form settings, make sure to redirect to new container after form submit
-	 */
-	public function redirect_to_new_container() {
-		if ( isset( $_GET['site'] ) && 'new' === $_GET['site'] ) {
-			$url = dollie()->get_latest_container_url();
-
-			if ( $url ) {
-				wp_redirect( $url );
-				exit();
-			}
-		}
 	}
 
 	/**

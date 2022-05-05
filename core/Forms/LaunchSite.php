@@ -57,6 +57,11 @@ class LaunchSite extends Singleton implements ConstInterface {
 	public function validate_form( $form, $args ) {
 		$domain = af_get_field( 'site_url' );
 
+		if ( strlen( $domain . DOLLIE_DOMAIN ) > 63 ) {
+			$max = 63 - strlen( DOLLIE_DOMAIN );
+			af_add_error( 'site_url', sprintf( esc_html__( 'Site URL is too long. The name should not exceed %d characters. Don\'t worry, this is just your temporary URL. You can add a custom domain after launching.', 'dollie' ), $max ) );
+		}
+
 		if ( ! preg_match( '/^[a-zA-Z0-9-]+$/', $domain ) ) {
 			af_add_error( 'site_url', esc_html__( 'Site URL can only contain letters, numbers and dash.', 'dollie' ) );
 		}
@@ -91,11 +96,24 @@ class LaunchSite extends Singleton implements ConstInterface {
 
 		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data );
 
-		DeployService::instance()->start(
+		$status = DeployService::instance()->start(
 			'blueprint' === af_get_field( 'site_type' ) ? self::TYPE_BLUEPRINT : self::TYPE_SITE,
 			af_get_field( 'site_url' ),
 			$deploy_data
 		);
+
+		if ( false === $status ) {
+			af_add_submission_error(
+				esc_html__( 'Something went wrong. Please try again or contact our support if the problem persists.', 'dollie' )
+			);
+		}
+
+		$url = dollie()->get_latest_container_url();
+
+		if ( $url ) {
+			wp_redirect( $url );
+			exit();
+		}
 	}
 
 	/**

@@ -88,7 +88,20 @@ class QuickLaunch extends Singleton implements ConstInterface {
 			'username' => sanitize_title( af_get_field( 'client_name' ) ),
 		];
 
-		DeployService::instance()->start( self::TYPE_SITE, $setup_data );
+		$status = DeployService::instance()->start( self::TYPE_SITE, $setup_data );
+
+		if ( false === $status ) {
+			af_add_submission_error(
+				esc_html__( 'Something went wrong. Please try again or contact our support if the problem persists.', 'dollie' )
+			);
+		}
+
+		$url = dollie()->get_latest_container_url();
+
+		if ( $url ) {
+			wp_redirect( $url );
+			exit();
+		}
 	}
 
 	/**
