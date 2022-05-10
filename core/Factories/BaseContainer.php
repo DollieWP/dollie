@@ -495,7 +495,7 @@ abstract class BaseContainer implements ConstInterface {
 		$data = $this->get_details( 'site.admin' );
 
 		if ( ! is_wp_error( $data ) && is_array( $data ) && isset( $data[ $type ] ) ) {
-			return (int) $data[ $type ];
+			return $data[ $type ];
 		}
 
 		return '';
