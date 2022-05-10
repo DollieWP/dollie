@@ -865,11 +865,11 @@ final class Container extends Singleton implements ConstInterface {
 
 		if ( empty( $_GET['blueprint'] ) ) {
 			$actions['manage_site'] = '<a href="' . $container->get_permalink() . '" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __( 'Manage Site' ) . '</a>';
-			$actions['admin_link']  = '<a href="' . $container->get_login_url() . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __( 'Login to Installation' ) . '</a>';
 		} else {
 			$actions['manage_site'] = '<a href="' . $container->get_permalink( 'blueprints' ) . '" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __( 'Manage Blueprint' ) . '</a>';
-			$actions['admin_link']  = '<a href="' . $container->get_login_url() . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __( 'Login to Installation' ) . '</a>';
 		}
+
+        $actions['admin_link'] = '<a href="' . $container->get_login_url() . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __( 'Login to Installation' ) . '</a>';
 
 		return $actions;
 	}

@@ -11,7 +11,7 @@ if ( is_wp_error( $container ) ) {
 	<div class="<?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-p-4 dol-widget-site-sidebar">
 		<?php if ( ! $container->is_deploying() ) : ?>
 			<div class="dol-rounded dol-overflow-hidden">
-				<a class="dol-block dol-leading-none" target="_blank" href="<?php echo $container->get_login_url(); ?>"><img width="700" class="dol-block dol-object-cover" alt="<?php echo $container->get_url(); ?>" src="<?php echo $container->get_screenshot(); ?>"></a>
+				<a class="dol-block dol-leading-none" target="_blank" href="<?php echo $container->get_url( true ); ?>"><img width="700" class="dol-block dol-object-cover" alt="<?php echo $container->get_url(); ?>" src="<?php echo $container->get_screenshot(); ?>"></a>
 			</div>
 
 			<div class="dol-flex dol-flex-wrap dol-rounded dol-overflow-hidden dol-mt-4">
