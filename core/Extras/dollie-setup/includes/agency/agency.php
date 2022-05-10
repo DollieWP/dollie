@@ -110,10 +110,10 @@ class Dollie_Setup_Package_Agency extends Dollie_Setup_Package {
 						),
 						array(
 							'key'               => 'field_626682f91629b',
-							'label'             => __( 'Does your Agency have a boilerplate for new client projects?', 'dollie' ),
+							'label'             => __( 'Do you have plugins or theme that your Agency uses on every project?', 'dollie' ),
 							'name'              => 'wpd_onboarding_enable_blueprint',
 							'type'              => 'true_false',
-							'instructions'      => __( 'Does your Agency have a suite of standard plugins and themes you use for every new client project?', 'dollie' ),
+							'instructions'      => __( 'Does your Agency have a suite of standard plugins and themes you use for every new client project? Internally you might call this your boilerplate or starter template.', 'dollie' ),
 							'required'          => 1,
 							'conditional_logic' => 0,
 							'wrapper'           => array(

@@ -277,10 +277,10 @@ abstract class Dollie_Setup_Package {
 			'tab_plugin_required' => __( 'Core Plugins', 'dollie-setup' ),
 			'tab_plugin_optional' => __( 'Optional Plugins', 'dollie-setup' ),
 			'tab_plugin_install'  => __( 'Member Site Plugins', 'dollie-setup' ),
-			'user_type'    		  => __('Client', 'dollie-setup'),
-			'user_type_plural'    => __('Clients', 'dollie-setup'),
-			'site_type'    		  => __('App', 'dollie-setup'),
-			'site_type_plural'    => __('Apps', 'dollie-setup'),
+			'user_type'           => __( 'Client', 'dollie-setup' ),
+			'user_type_plural'    => __( 'Clients', 'dollie-setup' ),
+			'site_type'           => __( 'Site', 'dollie-setup' ),
+			'site_type_plural'    => __( 'Sites', 'dollie-setup' ),
 			'dashboard_header'    => sprintf( esc_html__( 'Welcome to Dollie Setup %s', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ),
 		);
 	}
