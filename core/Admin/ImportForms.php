@@ -20,10 +20,10 @@ class ImportForms extends Singleton {
 	 *
 	 * @var string
 	 */
-	private $forms_version = '4.1.2';
+	private $forms_version = '5.0.0';
 
 	/**
-	 * Option name that gets saved in the options database table
+	 * Option name that gets saved in the options database table.
 	 *
 	 * @var string
 	 */
@@ -43,8 +43,8 @@ class ImportForms extends Singleton {
 		'form_dollie_list_backups',
 		'form_dollie_plugin_updates',
 		'form_dollie_performance',
-		// Onboarding
-		'form_62679f869499e.json',
+		// Onboarding.
+		'form_dollie_agency_onboarding.json',
 	);
 
 	/**
