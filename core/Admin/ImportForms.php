@@ -43,8 +43,9 @@ class ImportForms extends Singleton {
 		'form_dollie_list_backups',
 		'form_dollie_plugin_updates',
 		'form_dollie_performance',
+
 		// Onboarding.
-		'form_dollie_agency_onboarding.json',
+		'form_dollie_agency_onboarding',
 	);
 
 	/**
