@@ -8,25 +8,38 @@ use Elementor\Core\DynamicTags\Tag;
 class SiteRemoteInfo extends Tag {
 
 	private $container;
+	private array $wpd_data = [
+		'site_data'     => [],
+		'customer_data' => [],
+	];
 
 	public function __construct( array $data = [] ) {
 		parent::__construct( $data );
 
-		$this->container = dollie()->get_container();
+		$current_id = dollie()->get_current_post_id();
 
-		// // Add custom items
-		// if ( isset( $this->wpd_data['container_details'] ) ) {
-		// if ( isset( $this->wpd_data['container_details']['Name'] ) ) {
-		// $this->wpd_data['site_data']['Name'] = $this->wpd_data['container_details']['Name'];
-		// }
-		// if ( isset( $this->wpd_data['container_details']['Description'] ) ) {
-		// $this->wpd_data['site_data']['Description'] = $this->wpd_data['container_details']['Description'];
-		// }
-		// }
+		$this->container = dollie()->get_container( $current_id );
 
-		// $this->wpd_data['customer_data']['Customer - Total Sites Launched']           = dollie()->count_customer_containers( get_current_user_id() );
-		// $this->wpd_data['customer_data']['Customer Subscription - Sites Available']   = dollie()->sites_available();
-		// $this->wpd_data['customer_data']['Customer Subscription - Storage Available'] = dollie()->storage_available();
+		if ( is_wp_error( $this->container ) ) {
+			return;
+		}
+
+		$details = $this->container->get_details();
+
+		if ( is_wp_error( $details ) ) {
+			return;
+		}
+
+		$this->wpd_data['site_data'] = $details['site'];
+
+		$subscription = dollie()->subscription();
+		$user         = dollie()->get_user( get_current_user_id() );
+
+		// Add custom items
+		$this->wpd_data['customer_data']['Customer - Total Sites Launched']           = $user->count_containers();
+		$this->wpd_data['customer_data']['Customer Subscription - Sites Available']   = $subscription->sites_available();
+		$this->wpd_data['customer_data']['Customer Subscription - Storage Available'] = $subscription->storage_available();
+
 	}
 
 	public function get_name() {
@@ -45,35 +58,35 @@ class SiteRemoteInfo extends Tag {
 		return [ \Elementor\Modules\DynamicTags\Module::TEXT_CATEGORY ];
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 		$keys = [];
 
-		// foreach ( $this->wpd_data['site_data'] as $k => $data ) {
+		foreach ( $this->wpd_data['site_data'] as $k => $data ) {
 
-		// if ( is_array( $data ) || false === $data ) {
-		// continue;
-		// }
+			if ( is_array( $data ) || false === $data ) {
+				continue;
+			}
 
-		// if ( strpos( $data, '.png' ) ||
-		// strpos( $data, '.jpg' ) ||
-		// strpos( $data, '.jpeg' ) ||
-		// filter_var( $data, FILTER_VALIDATE_URL ) ||
-		// strpos( $data, '.gif' ) ) {
+			if ( strpos( $data, '.png' ) ||
+			     strpos( $data, '.jpg' ) ||
+			     strpos( $data, '.jpeg' ) ||
+			     filter_var( $data, FILTER_VALIDATE_URL ) ||
+			     strpos( $data, '.gif' ) ) {
 
-		// continue;
-		// }
+				continue;
+			}
 
-		// $keys[ $k ] = 'Site - ' . $k;
-		// }
+			$keys[ $k ] = 'Site - ' . $k;
+		}
 
-		// foreach ( $this->wpd_data['customer_data'] as $k => $data ) {
+		foreach ( $this->wpd_data['customer_data'] as $k => $data ) {
 
-		// if ( is_array( $data ) || false === $data ) {
-		// continue;
-		// }
+			if ( is_array( $data ) || false === $data ) {
+				continue;
+			}
 
-		// $keys[ $k ] = $k;
-		// }
+			$keys[ $k ] = $k;
+		}
 
 		$this->add_control(
 			'param_name',
@@ -86,20 +99,24 @@ class SiteRemoteInfo extends Tag {
 	}
 
 	public function render() {
-		// $param_name = $this->get_settings( 'param_name' );
+		$param_name = $this->get_settings( 'param_name' );
 
-		// if ( ! $param_name ) {
-		// return '';
-		// }
+		if ( ! $param_name ) {
+			echo '';
+		}
 
-		// $data = $this->wpd_data['site_data'];
+		$data = $this->wpd_data['site_data'];
 
-		// if ( ! isset( $data[ $param_name ] ) ) {
-		// return '';
-		// }
+		if ( ! isset( $data[ $param_name ] ) ) {
+			$data = $this->wpd_data['customer_data'];
+		}
 
-		// $value = $data[ $param_name ];
+		if ( ! isset( $data[ $param_name ] ) ) {
+			echo '';
+		}
 
-		// echo wp_kses_post( $value );
+		$value = $data[ $param_name ];
+
+		echo wp_kses_post( $value );
 	}
 }

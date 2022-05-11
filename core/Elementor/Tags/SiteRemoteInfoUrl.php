@@ -14,9 +14,15 @@ class SiteRemoteInfoUrl extends Tag {
 
 		$current_id = dollie()->get_current_post_id();
 		$container  = dollie()->get_container( $current_id );
-		$details    = $container->get_details();
 
-		if ( is_wp_error( $container ) || is_wp_error( $details ) ) {
+		if ( is_wp_error( $container ) ) {
+			return;
+		}
+		$details = $container->get_details();
+
+		return;
+
+		if ( is_wp_error( $details ) ) {
 			return;
 		}
 
@@ -47,26 +53,30 @@ class SiteRemoteInfoUrl extends Tag {
 	protected function register_controls() {
 
 		$keys = [];
-		foreach ( $this->wpd_data['site_data'] as $k => $data ) {
+		if ( isset( $this->wpd_data['site_data'] ) ) {
+			foreach ( $this->wpd_data['site_data'] as $k => $data ) {
 
-			if ( is_array( $data ) || false === $data ) {
-				continue;
+				if ( is_array( $data ) || false === $data ) {
+					continue;
+				}
+
+				if ( ! filter_var( $data, FILTER_VALIDATE_URL ) ) {
+					continue;
+				}
+
+				$keys[ $k ] = 'Site - ' . $k;
 			}
-
-			if ( ! filter_var( $data, FILTER_VALIDATE_URL ) ) {
-				continue;
-			}
-
-			$keys[ $k ] = 'Site - ' . $k;
 		}
 
-		foreach ( $this->wpd_data['customer_data'] as $k => $data ) {
+		if ( isset( $this->wpd_data['customer_data'] ) ) {
+			foreach ( $this->wpd_data['customer_data'] as $k => $data ) {
 
-			if ( is_array( $data ) || false === $data ) {
-				continue;
+				if ( is_array( $data ) || false === $data ) {
+					continue;
+				}
+
+				$keys[ $k ] = $k;
 			}
-
-			$keys[ $k ] = $k;
 		}
 
 		$this->add_control(

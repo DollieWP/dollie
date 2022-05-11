@@ -4,15 +4,34 @@ namespace Dollie\Core\Elementor\Tags;
 
 use Elementor\Controls_Manager;
 use Elementor\Core\DynamicTags\Data_Tag;
+use Elementor\Modules\DynamicTags\Module;
 
 class SiteImageRemoteInfo extends Data_Tag {
 
 	private $container;
+	private array $wpd_data = [
+		'site_data' => []
+	];
 
 	public function __construct( array $data = [] ) {
 		parent::__construct( $data );
 
-		$this->container = dollie()->get_container();
+		$current_id = dollie()->get_current_post_id();
+
+		$this->container = dollie()->get_container( $current_id );
+
+		if ( is_wp_error( $this->container ) ) {
+			return;
+		}
+
+		$details = $this->container->get_details();
+
+		if ( is_wp_error( $details ) ) {
+			return;
+		}
+
+		$this->wpd_data['site_data'] = $details['site'];
+
 	}
 
 	public function get_name() {
@@ -29,27 +48,27 @@ class SiteImageRemoteInfo extends Data_Tag {
 	}
 
 	public function get_categories() {
-		return [ \Elementor\Modules\DynamicTags\Module::IMAGE_CATEGORY ];
+		return [ Module::IMAGE_CATEGORY ];
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 		$keys = [];
 
-		if ( ! is_wp_error( $this->container ) ) {
-			// foreach ( $this->wpd_data['site_data'] as $k => $data ) {
+		if ( ! is_wp_error( $this->container ) && ! empty( $this->wpd_data['site_data'] ) ) {
+			foreach ( $this->wpd_data['site_data'] as $k => $data ) {
 
-			// if ( is_array( $data ) || false === $data ) {
-			// continue;
-			// }
+				if ( is_array( $data ) || false === $data ) {
+					continue;
+				}
 
-			// if ( strpos( $data, '.png' ) ||
-			// strpos( $data, '.jpg' ) ||
-			// strpos( $data, '.jpeg' ) ||
-			// strpos( $data, '.gif' ) ) {
+				if ( strpos( $data, '.png' ) ||
+				     strpos( $data, '.jpg' ) ||
+				     strpos( $data, '.jpeg' ) ||
+				     strpos( $data, '.gif' ) ) {
 
-			// $keys[ $k ] = $k;
-			// }
-			// }
+					$keys[ $k ] = $k;
+				}
+			}
 		}
 
 		$this->add_control(
