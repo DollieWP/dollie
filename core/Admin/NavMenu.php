@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class NavMenu extends Singleton {
-	const MENU_KEY = 'dollie';
+	public const MENU_KEY = 'dollie';
 
 	/**
 	 * AjaxAuth constructor.
@@ -82,7 +82,7 @@ class NavMenu extends Singleton {
 	public function do_wp_nav_menu_meta_box() {
 		global $nav_menu_selected_id;
 
-		$walker = new Ajax_Walker_Nav_Menu_Checklist( false );
+		$walker = new NavMenuWalker( false );
 		$args   = [ 'walker' => $walker ];
 
 		$post_type_name = self::MENU_KEY;
