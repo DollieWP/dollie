@@ -9,10 +9,19 @@ $list_class = 'dol-sites-' . $view_type;
 $list_btn_active = 'list' === $view_type ? 'dol-switch-active' : '';
 $grid_btn_active = 'grid' === $view_type ? 'dol-switch-active' : '';
 
-// dollie()->check_bulk_actions();
+$action_hashes      = [];
+$saved_bulk_actions = \Dollie\Core\Services\BulkActionService::instance()->get_saved_bulk_actions();
 
-// $bulk_actions          = dollie()->get_bulk_actions();
-$bulk_actions          = array();
+foreach ( $saved_bulk_actions as $action ) {
+	$action_hashes[] = $action['container_hash'];
+}
+
+$bulk_actions = dollie()->bulk_actions()->get_bulk_actions( $action_hashes );
+
+if ( is_wp_error( $bulk_actions ) ) {
+	$bulk_actions = [];
+}
+
 $allowed_bulk_commands = dollie()->bulk_actions()->get_allowed_commands_in_progress();
 
 dollie()->load_template( 'loop/parts/modal-actions', array(), true );
@@ -113,19 +122,19 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 					continue;
 				}
 
-				$list_item_class        = array();
-				$execution_lock_classes = array();
-				$btn_controls_classes   = array();
+				$list_item_class      = array();
+				$lock_classes         = array();
+				$btn_controls_classes = array();
 
-				$executing_action = array(
-					'status'  => false,
-					'command' => '',
+				$locking = array(
+					'status' => false,
+					'action' => '',
 				);
 
 				foreach ( $bulk_actions as $bulk_action ) {
-					if ( $bulk_action['container_uri'] === $container->get_custom_domain() ) {
-						$executing_action['status']  = true;
-						$executing_action['command'] = $allowed_bulk_commands[ $bulk_action['action'] ];
+					if ( $bulk_action['container_hash'] === $container->get_hash() ) {
+						$locking['status'] = true;
+						$locking['action'] = $allowed_bulk_commands[ $bulk_action['action'] ];
 					}
 				}
 
@@ -145,8 +154,8 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 					}
 				}
 
-				if ( ! $executing_action['status'] ) {
-					$execution_lock_classes[] = 'dol-hidden';
+				if ( ! $locking['status'] ) {
+					$lock_classes[] = 'dol-hidden';
 				} else {
 					$btn_controls_classes[] = 'dol-hidden';
 					$list_item_class[]      = 'dol-sites-item-locked';
@@ -154,28 +163,28 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 
 				$list_item_class[] = 'dol-sites-' . $view_type . '-item';
 
-				$execution_lock_classes = implode( ' ', $execution_lock_classes );
-				$btn_controls_classes   = implode( ' ', $btn_controls_classes );
-				$list_item_class        = implode( ' ', $list_item_class );
+				$lock_classes         = implode( ' ', $lock_classes );
+				$btn_controls_classes = implode( ' ', $btn_controls_classes );
+				$list_item_class      = implode( ' ', $list_item_class );
 
 				?>
 				<div class="dol-sites-item <?php echo esc_attr( $list_item_class ); ?>" data-site-name="<?php echo esc_attr( $container->get_custom_domain() ); ?>">
 					<div class="dol-sites-item-inner dol-relative dol-divide-y dol-divide-gray-200 dol-shadow dol-rounded-md dol-widget-custom">
-						<div class="<?php echo esc_attr( $execution_lock_classes ); ?> dol-item-execution-placeholder dol-absolute dol-w-full dol-h-full dol-left-0 dol-top-0 dol-bg-white dol-bg-opacity-50 dol-z-10">
+						<div class="<?php echo esc_attr( $lock_classes ); ?> dol-item-execution-placeholder dol-absolute dol-w-full dol-h-full dol-left-0 dol-top-0 dol-bg-white dol-bg-opacity-50 dol-z-10">
 							<div class="dol-flex dol-items-center dol-justify-end dol-w-full dol-h-full">
 								<div class="dol-flex dol-items-center dol-justify-center dol-text-sm dol-bg-gray-600 dol-text-white dol-font-medium dol-mx-6 dol-px-4 dol-py-2 dol-rounded-full">
 									<svg class="dol-animate-spin dol-h-4 dol-w-4 dol-text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 										<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
 										<path class="dol-opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
 									</svg>
-									<span class="dol-item-execution-text dol-inline-block dol-ml-2"><?php echo esc_html( $executing_action['command'] ); ?></span>
+									<span class="dol-item-execution-text dol-inline-block dol-ml-2"><?php echo esc_html( $locking['action'] ); ?></span>
 								</div>
 							</div>
 						</div>
 						<div class="dol-check-wrap">
 							<label class="dol-checkbox">
 								<span class="checkbox__input">
-									<input type="checkbox" name="checkbox" value="<?php echo esc_attr( get_the_ID() ); ?>">
+									<input type="checkbox" name="checkbox" value="<?php echo esc_attr( $container->get_id() ); ?>">
 									<span class="checkbox__control">
 										<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' aria-hidden="true" focusable="false">
 											<path fill='none' stroke='currentColor' stroke-width='3' d='M1.73 12.91l6.37 6.37L22.79 4.59' />

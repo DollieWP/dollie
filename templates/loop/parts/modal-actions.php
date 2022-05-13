@@ -1,4 +1,4 @@
-<div id="dol-modal-id-actions" class="dol-modal">
+<div id="dol-modal-id-actions" class="dol-custom-modal">
 	<div class="dol-flex dol-justify-center dol-items-center dol-w-full dol-h-full">
 		<div class="dol-bg-white dol-rounded dol-w-2/4 dol-overflow-hidden">
 			<div class="dol-shadow-sm dol-bg-gray-100">
@@ -15,7 +15,7 @@
 						</div>
 					</div>
 					<div class="dol-px-4">
-						<span class="dol-modal-close dol-cursor-pointer"> <?php echo dollie()->icon()->clock(); ?></span>
+						<span class="dol-modal-close dol-cursor-pointer"> <?php echo dollie()->icon()->close(); ?></span>
 					</div>
 				</div>
 			</div>

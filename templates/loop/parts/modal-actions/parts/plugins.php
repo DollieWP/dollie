@@ -7,13 +7,13 @@
 				<li class="dol-resource-entry dol-px-4">
 					<div class="dol-flex dol-justify-between dol-items-center">
 						<label class="dol-flex dol-items-center dol-py-4">
-							<input type="checkbox" class="dol-resource-item" value="<?php echo esc_attr( $plugin['name'] ); ?>" name="" checked="checked">
+							<input type="checkbox" class="dol-resource-item" value="<?php echo esc_attr( $key ); ?>" name="" <?php checked( $plugin['update'] ); ?>>
 							<span class="dol-rounded-full dol-bg-gray-200 dol-text-gray-700 dol-px-2 dol-py-1 dol-ml-4 dol-text-xs dol-leading-none"><?php echo esc_html( count( $plugin['sites'] ) ); ?></span>
 							<span class="dol-ml-2"><?php echo esc_html( $plugin['title'] ); ?></span>
 						</label>
-						<span class="dol-toggle-plugin-details hover:dol-cursor-pointer dol-text-gray-600" data-item="dol-resource-content-<?php echo esc_attr( $key ); ?>">
-							<span class="dol-open"><?php echo dollie()->icon()->arrow_right(); ?></span>
-							<span class="dol-close dol-hidden"><?php echo dollie()->icon()->arrow_up(); ?></span>
+						<span class="dol-toggle-resource-details hover:dol-cursor-pointer dol-text-gray-600" data-item="dol-resource-content-<?php echo esc_attr( $key ); ?>">
+							<span class="dol-open"><?php echo dollie()->icon()->angle_right(); ?></span>
+							<span class="dol-close dol-hidden"><?php echo dollie()->icon()->angle_down(); ?></span>
 						</span>
 					</div>
 					<div id="dol-resource-content-<?php echo esc_attr( $key ); ?>" class="dol-resource-items dol-hidden dol-border-0 dol-border-t dol-border-solid dol-border-gray-100 dol-p-2">
@@ -21,17 +21,29 @@
 							<?php foreach ( $plugin['sites'] as $id => $site ) : ?>
 								<li>
 									<label class="dol-flex dol-items-center dol-px-4 dol-py-2">
-										<input type="checkbox" class="dol-resource-site" value="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $plugin['name'] ); ?>" checked="checked">
-										<span class="dol-ml-2 dol-text-sm"><?php echo esc_html( $site['title'] ); ?></span>
-										<span class="dol-text-xs dol-ml-2">
-											<?php
-											printf(
-												'(<a href="%s" target="_blank">%s</a>)',
-												$site['url'],
-												$site['url']
-											);
-											?>
-										</span>
+										<input type="checkbox" class="dol-resource-site" value="<?php echo esc_attr( $site['id'] ); ?>" name="<?php echo esc_attr( $key ); ?>" <?php checked( $site['update'] ); ?>>
+										<div class="dol-ml-4 dol-flex dol-flex-col">
+											<div>
+												<span class="dol-text-sm dol-font-semibold"><?php echo esc_html( $site['title'] ); ?></span>
+
+												<?php if ( $site['update'] ) : ?>
+													<span class="ml-2 dol-text-xs dol-px-2 dol-py-0.5 dol-rounded dol-bg-primary-500 dol-text-white"><?php esc_html_e( 'Update available', 'dollie' ); ?></span>
+												<?php else : ?>
+													<span class="ml-2 dol-text-xs dol-px-2 dol-py-0.5 dol-rounded dol-bg-gray-200"><?php esc_html_e( 'No update available', 'dollie' ); ?></span>
+												<?php endif; ?>
+											</div>
+											<div class="dol-mt-1">
+												<span class="dol-text-xs">
+													<?php
+													printf(
+														'<a href="%s" target="_blank">%s</a>',
+														$site['url'],
+														$site['url']
+													);
+													?>
+												</span>
+											</div>
+										</div>
 									</label>
 								</li>
 							<?php endforeach; ?>

@@ -106,12 +106,10 @@ use WP_Post;
 use Dollie\Core\Utils\ConstInterface;
 use Dollie\Core\Api\BackupApi;
 use Dollie\Core\Api\ResourceApi;
-use Dollie\Core\Api\ActionApi;
 
 abstract class BaseContainer implements ConstInterface {
 	use BackupApi;
 	use ResourceApi;
-	use ActionApi;
 
 	/**
 	 * @var WP_Post

@@ -1,22 +1,3 @@
-<?php
-
-if ( ! isset( $view_type ) ) {
-	$view_type = 'list';
-}
-
-
-// dollie()->check_bulk_actions();
-
-// $bulk_actions          = dollie()->get_bulk_actions();
-// $allowed_bulk_commands = dollie()->get_allowed_commands_in_progress();
-
-// dollie()->load_template( 'loop/parts/modal-actions', [], true );
-// dollie()->load_template( 'loop/parts/modal-filters', [], true );
-
-?>
-
-
-
 <div class="dol-sites dol-relative">
 	<div class="dol-loader" data-for="pagination">
 		<div class="dol-flex dol-items-center dol-justify-center dol-h-full">
@@ -70,7 +51,7 @@ if ( ! isset( $view_type ) ) {
 				$btn_controls_classes[] = 'dol-hidden';
 				$list_item_class[]      = 'dol-sites-item-locked';
 
-				$list_item_class[] = 'dol-sites-' . $view_type . '-item';
+				$list_item_class[] = 'dol-sites-list-item';
 
 				$btn_controls_classes = implode( ' ', $btn_controls_classes );
 				$list_item_class      = implode( ' ', $list_item_class );

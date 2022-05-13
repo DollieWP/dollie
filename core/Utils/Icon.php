@@ -245,12 +245,28 @@ final class Icon extends Singleton {
 		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_arrow_down', '<i class="fas fa-long-arrow-down"></i>' ) . '</span>';
 	}
 
-	public function logs( $classes = null ) {
-		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_arrow_down', '<i class="fas fa-file-alt"></i>' ) . '</span>';
-	}
-
 	public function arrow_up( $classes = null ) {
 		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_arrow_up', '<i class="fas fa-long-arrow-up"></i>' ) . '</span>';
+	}
+
+	public function angle_right( $classes = null ) {
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_arrow_right', '<i class="fas fa-angle-right"></i>' ) . '</span>';
+	}
+
+	public function angle_left( $classes = null ) {
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_angle_left', '<i class="fas fa-angle-left"></i>' ) . '</span>';
+	}
+
+	public function angle_down( $classes = null ) {
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_angle_down', '<i class="fas fa-angle-down"></i>' ) . '</span>';
+	}
+
+	public function angle_up( $classes = null ) {
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_angle_up', '<i class="fas fa-angle-up"></i>' ) . '</span>';
+	}
+
+	public function logs( $classes = null ) {
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_angle_down', '<i class="fas fa-file-alt"></i>' ) . '</span>';
 	}
 
 	public function site_dashboard( $classes = null ) {

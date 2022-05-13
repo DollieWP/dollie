@@ -1,4 +1,4 @@
-<div id="dol-modal-id-filters" class="dol-modal">
+<div id="dol-modal-id-filters" class="dol-custom-modal">
 	<div class="dol-flex dol-justify-center dol-items-center dol-w-full dol-h-full">
 		<div class="dol-bg-white dol-rounded dol-w-2/6 dol-p-6">
 			<div class="dol-mb-4">

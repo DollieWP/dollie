@@ -12,10 +12,18 @@ trait ActionApi {
 	/**
 	 * Get bulk
 	 *
+	 * @param array $container_hashes
+	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_bulk_actions() {
-		return $this->get_request( 'actions/bulk' );
+	public function get_bulk_actions( array $container_hashes ) {
+		$query_string = '';
+
+		foreach ( $container_hashes as $hash ) {
+			$query_string .= "container_hash[]={$hash}";
+		}
+
+		return $this->get_request( "actions/bulk?{$query_string}" );
 	}
 
 	/**

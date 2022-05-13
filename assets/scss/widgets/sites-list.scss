@@ -29,7 +29,7 @@
   }
 
   /* Actions */
-  .dol-modal {
+  .dol-custom-modal {
     @apply dol-hidden dol-fixed dol-top-0 dol-left-0 dol-h-screen dol-w-full dol-z-99999 dol-bg-black dol-bg-opacity-30;
 
     &.dol-modal-visible {
