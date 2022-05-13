@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class NavMenuWalker extends \Walker_Nav_Menu {
 
+	public const MENU_KEY = 'dollie';
+
 	/**
 	 * Constructor.
 	 *
@@ -94,9 +96,9 @@ class NavMenuWalker extends \Walker_Nav_Menu {
 			$item->url = $item->guid;
 		}
 
-		if ( ! in_array( array( Component::MENU_KEY . '-menu', Component::MENU_KEY . '-' . $item->post_excerpt . '-nav' ), $item->classes, true ) ) {
-			$item->classes[] = Component::MENU_KEY . '-menu';
-			$item->classes[] = Component::MENU_KEY . '-' . $item->post_excerpt . '-nav';
+		if ( ! in_array( array( self::MENU_KEY . '-menu', self::MENU_KEY . '-' . $item->post_excerpt . '-nav' ), $item->classes, true ) ) {
+			$item->classes[] = self::MENU_KEY . '-menu';
+			$item->classes[] = self::MENU_KEY . '-' . $item->post_excerpt . '-nav';
 		}
 
 		// Menu item hidden fields.

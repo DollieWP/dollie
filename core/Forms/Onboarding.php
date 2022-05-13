@@ -14,7 +14,7 @@ use Dollie\Core\Utils\ConstInterface;
 use Nubs\RandomNameGenerator\Alliteration as NameGenerator;
 
 /**
- * Class QuickLaunch
+ * Class Onboarding
  *
  * @package Dollie\Core\Forms
  */
@@ -22,7 +22,7 @@ class Onboarding extends Singleton implements ConstInterface {
 	/**
 	 * @var string
 	 */
-	private $form_key = 'form_626802e1966b3';
+	private $form_key = 'form_dollie_agency_onboarding';
 
 	/**
 	 * Onboarding constructor.
@@ -79,13 +79,10 @@ class Onboarding extends Singleton implements ConstInterface {
 
 		}
 
-		// Rorm setup complete, redirect to next step by reloading the page.
+		// Form setup complete, redirect to next step by reloading the page.
 		update_site_option( '_dollie_setup_current_package', 'agency' );
 
 	}
-
-
-
 
 	/**
 	 * Change form args
