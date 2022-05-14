@@ -199,7 +199,7 @@ var DollieSiteList = DollieSiteList || {};
                             if (response.data) {
                                 $.each(response.data, function (index, item) {
                                     var element = $(
-                                        "[data-site-name='" + item.container_uri + "']"
+                                        "[data-site-hash='" + item.container_hash + "']"
                                     );
 
                                     if (element.length) {
@@ -372,7 +372,7 @@ var DollieSiteList = DollieSiteList || {};
                                 if (response.data.length) {
                                     $.each(response.data, function (index, item) {
                                         var element = $(
-                                            "[data-site-name='" + item.container_uri + "']"
+                                            "[data-site-hash='" + item.container_hash + "']"
                                         );
 
                                         if (element.length) {

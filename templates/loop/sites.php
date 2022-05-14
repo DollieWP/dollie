@@ -9,11 +9,11 @@ $list_class = 'dol-sites-' . $view_type;
 $list_btn_active = 'list' === $view_type ? 'dol-switch-active' : '';
 $grid_btn_active = 'grid' === $view_type ? 'dol-switch-active' : '';
 
-$action_hashes      = [];
-$saved_bulk_actions = \Dollie\Core\Services\BulkActionService::instance()->get_saved_bulk_actions();
-
-foreach ( $saved_bulk_actions as $action ) {
-	$action_hashes[] = $action['container_hash'];
+$action_hashes = [];
+foreach ( dollie()->bulk_actions()->get_saved_bulk_actions() as $action ) {
+	if ( ! in_array( $action['container_hash'], $action_hashes ) ) {
+		$action_hashes[] = $action['container_hash'];
+	}
 }
 
 $bulk_actions = dollie()->bulk_actions()->get_bulk_actions( $action_hashes );
@@ -132,7 +132,7 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 				);
 
 				foreach ( $bulk_actions as $bulk_action ) {
-					if ( $bulk_action['container_hash'] === $container->get_hash() ) {
+					if ( $bulk_action['container_hash'] === $container->get_hash() && ! $bulk_action['status'] ) {
 						$locking['status'] = true;
 						$locking['action'] = $allowed_bulk_commands[ $bulk_action['action'] ];
 					}
@@ -168,7 +168,7 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 				$list_item_class      = implode( ' ', $list_item_class );
 
 				?>
-				<div class="dol-sites-item <?php echo esc_attr( $list_item_class ); ?>" data-site-name="<?php echo esc_attr( $container->get_custom_domain() ); ?>">
+				<div class="dol-sites-item <?php echo esc_attr( $list_item_class ); ?>" data-site-hash="<?php echo esc_attr( $container->get_hash() ); ?>">
 					<div class="dol-sites-item-inner dol-relative dol-divide-y dol-divide-gray-200 dol-shadow dol-rounded-md dol-widget-custom">
 						<div class="<?php echo esc_attr( $lock_classes ); ?> dol-item-execution-placeholder dol-absolute dol-w-full dol-h-full dol-left-0 dol-top-0 dol-bg-white dol-bg-opacity-50 dol-z-10">
 							<div class="dol-flex dol-items-center dol-justify-end dol-w-full dol-h-full">

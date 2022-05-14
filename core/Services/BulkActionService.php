@@ -282,7 +282,9 @@ final class BulkActionService extends Singleton {
 
 		$action_hashes = [];
 		foreach ( $actions as $action ) {
-			$action_hashes[] = $action['container_hash'];
+			if ( ! in_array( $action['container_hash'], $action_hashes ) ) {
+				$action_hashes[] = $action['container_hash'];
+			}
 		}
 
 		$response = $this->get_bulk_actions( $action_hashes );
