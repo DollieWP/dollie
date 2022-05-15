@@ -369,23 +369,20 @@ var DollieSiteList = DollieSiteList || {};
                         },
                         success: function (response) {
                             if (response.success) {
-                                if (response.data.length) {
-                                    $.each(response.data, function (index, item) {
-                                        var element = $(
-                                            "[data-site-hash='" + item.container_hash + "']"
-                                        );
+                                $.each($('.dol-sites-item'), function (i, element) {
+                                    var hash = $(element).data('site-hash');
 
-                                        if (element.length) {
-                                            element.removeClass("dol-sites-item-locked");
-                                            element
-                                                .find(".dol-item-execution-placeholder")
-                                                .addClass("dol-hidden");
-                                            element
-                                                .find(".dol-sites-controls")
-                                                .removeClass("dol-hidden");
-                                        }
-                                    });
-                                }
+                                    const action = response.data.filter(item => item.container_hash === hash);
+                                    console.log(action);
+
+                                    if (action.length) {
+                                        return true;
+                                    }
+
+                                    $(element).removeClass("dol-sites-item-locked");
+                                    $(element).find(".dol-item-execution-placeholder").addClass("dol-hidden");
+                                    $(element).find(".dol-sites-controls").removeClass("dol-hidden");
+                                });
                             }
                         },
                     });

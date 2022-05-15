@@ -289,53 +289,57 @@ final class BulkActionService extends Singleton {
 
 		$response = $this->get_bulk_actions( $action_hashes );
 
-		if ( is_wp_error( $response ) ) {
-			return [];
-		}
+		if ( is_wp_error( $response ) || empty( $response ) ) {
+			$this->set_bulk_actions( [] );
 
-		if ( empty( $response ) ) {
 			return [];
 		}
 
 		foreach ( $actions as $key => $action ) {
-			foreach ( $response as $item ) {
-				if ( $action['container_hash'] === $item['container_hash'] && $item['status'] ) {
-					// if we have a parent log id saved.
-					// if ( isset( $action['log_id'] ) ) {
-					// $container = dollie()->get_container( $action['post_id'] );
-
-					// $log_action = $this->get_log_action( $action['action'] );
-
-					// Add individual log
-					// $sub_log_id = Log::add_front(
-					// $log_action,
-					// $container,
-					// [
-					// $container->get_slug(),
-					// ]
-					// );
-
-					// update_post_meta( $sub_log_id, '_wpd_bulk_log', 1 );
-
-					// update parent log with sub log ids.
-					// $parent_logs = get_post_meta( $action['log_id'], '_wpd_sub_logs', true );
-
-					// if ( ! $parent_logs ) {
-					// $parent_logs = [];
-					// }
-
-					// $parent_logs[ $sub_log_id ] = $sub_log_id;
-					// update_post_meta( $action['log_id'], '_wpd_sub_logs', $parent_logs );
-					// }
-
-					unset( $actions[ $key ] );
+			$filtered_action = array_filter(
+				$response,
+				function( $v ) use ( $action ) {
+					return $v['container_hash'] === $action['container_hash'];
 				}
+			);
+
+			if ( empty( $filtered_action ) ) {
+				unset( $actions[ $key ] );
 			}
+
+			// if we have a parent log id saved.
+			// if ( isset( $action['log_id'] ) ) {
+			// $container = dollie()->get_container( $action['post_id'] );
+
+			// $log_action = $this->get_log_action( $action['action'] );
+
+			// Add individual log
+			// $sub_log_id = Log::add_front(
+			// $log_action,
+			// $container,
+			// [
+			// $container->get_slug(),
+			// ]
+			// );
+
+			// update_post_meta( $sub_log_id, '_wpd_bulk_log', 1 );
+
+			// update parent log with sub log ids.
+			// $parent_logs = get_post_meta( $action['log_id'], '_wpd_sub_logs', true );
+
+			// if ( ! $parent_logs ) {
+			// $parent_logs = [];
+			// }
+
+			// $parent_logs[ $sub_log_id ] = $sub_log_id;
+			// update_post_meta( $action['log_id'], '_wpd_sub_logs', $parent_logs );
+			// }
+
 		}
 
-		$this->set_bulk_actions( $actions, true );
+		$this->set_bulk_actions( $actions );
 
-		return $response;
+		return $actions;
 	}
 
 	/**
@@ -467,15 +471,9 @@ final class BulkActionService extends Singleton {
 	/**
 	 * Set bulk actions
 	 *
-	 * @param array $data
-	 *
 	 * @return void
 	 */
-	public function set_bulk_actions( $data, $force = false ) {
-		if ( ! $force ) {
-			$data = array_merge( $this->get_saved_bulk_actions(), $data );
-		}
-
+	public function set_bulk_actions( $data ) {
 		update_option( 'wpd_container_bulk_actions_' . get_current_user_id(), $data );
 	}
 
@@ -486,25 +484,6 @@ final class BulkActionService extends Singleton {
 	 */
 	public function get_saved_bulk_actions() {
 		return get_option( 'wpd_container_bulk_actions_' . get_current_user_id(), [] );
-	}
-
-	/**
-	 * Remove action
-	 *
-	 * @param string $container_uri
-	 *
-	 * @return void
-	 */
-	public function remove_bulk_action( $container_uri ) {
-		$actions = $this->get_saved_bulk_actions();
-
-		foreach ( $actions as $key => $action ) {
-			if ( $action['container_uri'] === $container_uri ) {
-				unset( $actions[ $key ] );
-			}
-		}
-
-		$this->set_bulk_actions( $actions );
 	}
 
 	/**
