@@ -49,6 +49,10 @@ final class DeployService extends Singleton implements ConstInterface {
 
 		if ( $type === self::TYPE_BLUEPRINT ) {
 			$deploy_type = 'blueprints';
+
+			if ( ! isset( $vars['dynamic'] ) ) {
+				$vars['dynamic'] = [ 'asd' ];
+			}
 		} elseif ( $type === self::TYPE_STAGING ) {
 			$deploy_type = 'stagings';
 		}
@@ -152,7 +156,8 @@ final class DeployService extends Singleton implements ConstInterface {
 
 			$container->update_post( $post_data )->set_details( [ 'status' => $deploy['status'] ] );
 		} elseif ( 'Running' === $deploy['status'] ) {
-			$container->set_details( [ 'hash' => $deploy['hash'] ] )->fetch_details();
+			$container->set_details( [ 'hash' => $deploy['hash'] ] );
+			$container->fetch_details();
 		}
 
 		return true;

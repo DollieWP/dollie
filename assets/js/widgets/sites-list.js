@@ -373,7 +373,6 @@ var DollieSiteList = DollieSiteList || {};
                                     var hash = $(element).data('site-hash');
 
                                     const action = response.data.filter(item => item.container_hash === hash);
-                                    console.log(action);
 
                                     if (action.length) {
                                         return true;

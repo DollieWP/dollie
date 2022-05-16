@@ -1,7 +1,11 @@
 <?php
 
-if ( ! isset( $$container ) ) {
+if ( ! isset( $container ) ) {
 	$container = dollie()->get_container();
+}
+
+if ( $container->is_deploying() ) {
+	return;
 }
 
 ?>
