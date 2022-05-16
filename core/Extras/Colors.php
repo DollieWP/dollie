@@ -236,8 +236,18 @@ add_action( 'customize_controls_enqueue_scripts', 'custom_customize_enqueue' );
 
 
 function dol_theme_body_start() {
+	global $post;
+	$container = dollie()->get_container( $post->ID );
+
+	if ( is_wp_error( $container ) ) {
+		return;
+	}
+
+	// print( '<pre>' . print_r( $container->get_details(), true ) . '</pre>' );
 	?>
 	<div class="dol-theme-wrap" data-theme="dol_theme_base">
+
+
 
 		<!-- <a href="#" class="dol-btn dol-btn-primary dol-text-white">Testing our buttons</a>
 		<div class="dol-overflow-x-auto">
