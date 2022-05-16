@@ -42,7 +42,7 @@
 			</li>
 		<?php else : ?>
 			<li>
-				<a href="<?php echo \Dollie\Core\Plugin::instance()->get_api_access_url(); ?>" class="dol-block hover:dol-bg-gray-50">
+				<a href="<?php echo \Dollie\Core\Services\AuthService::instance()->get_auth_url(); ?>" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
 						<div class="dol-min-w-0 dol-flex-1 dol-flex dol-items-center">
 							<div class="dol-flex-shrink-0">
