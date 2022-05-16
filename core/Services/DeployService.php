@@ -104,9 +104,9 @@ final class DeployService extends Singleton implements ConstInterface {
 	/**
 	 * Check if container is deployed
 	 *
-	 * @param $post_id
+	 * @param int|false $post_id
 	 *
-	 * @return void
+	 * @return bool|\WP_Error
 	 */
 	public function check_deploy( $post_id = 0 ) {
 		if ( ! $post_id ) {

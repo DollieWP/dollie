@@ -34,5 +34,6 @@ class Container extends Singleton {
 		add_filter( 'query_vars', [ $container_service, 'query_vars' ] );
 		add_filter( 'single_template', [ $container_service, 'container_template' ] );
 		add_action( 'wp_ajax_dollie_check_deploy', [ $container_service, 'check_deploy' ] );
+		add_filter( 'the_title', [ ContainerService::instance(), 'remove_pending_from_title' ], 10,2  );
 	}
 }

@@ -102,4 +102,18 @@ final class ContainerService extends Singleton {
 		wp_send_json_success();
 		die();
 	}
+
+	/**
+	 * Remove pending string from front-end
+	 *
+	 * @param string $title
+	 * @return string
+	 */
+	public function remove_pending_from_title( $title, $post_id ) {
+		if ( ! is_admin() && is_main_query() && get_post_type( $post_id) === 'container' ) {
+			$title = str_replace( ' [deploy pending]', '', $title );
+		}
+		return $title;
+	}
+
 }
