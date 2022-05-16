@@ -248,7 +248,11 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return bool
 	 */
 	public function is_api_connected() {
-		return true;
+		if ( get_option( 'dollie_auth_token' ) ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
