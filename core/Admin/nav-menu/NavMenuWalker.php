@@ -74,7 +74,7 @@ class NavMenuWalker extends \Walker_Nav_Menu {
 	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 		global $_nav_menu_placeholder;
 
-		$_nav_menu_placeholder = ( 0 > $_nav_menu_placeholder ) ? intval( $_nav_menu_placeholder ) - 1 : - 1;
+		$_nav_menu_placeholder = ( 0 > $_nav_menu_placeholder ) ? (int) $_nav_menu_placeholder - 1 : - 1;
 		$possible_object_id    = isset( $item->post_type ) && 'nav_menu_item' === $item->post_type ? $item->object_id : $_nav_menu_placeholder;
 		$possible_db_id        = ( ! empty( $item->ID ) ) && ( 0 < $possible_object_id ) ? (int) $item->ID : 0;
 
