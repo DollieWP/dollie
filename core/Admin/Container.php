@@ -267,12 +267,14 @@ final class Container extends Singleton implements ConstInterface {
 			unset( $menu[ $entries[0] ] );
 		}
 
-		foreach ( $menu as $key => $values ) {
-			if ( 'edit.php?post_type=af_form' === $values[2] ) {
-				unset( $menu[ $key ] );
-				break;
-			}
-		}
+        if (!defined('DOLLIE_DEV') || !DOLLIE_DEV) {
+            foreach ($menu as $key => $values) {
+                if ('edit.php?post_type=af_form' === $values[2]) {
+                    unset($menu[ $key ]);
+                    break;
+                }
+            }
+        }
 	}
 
 	/**
@@ -869,7 +871,7 @@ final class Container extends Singleton implements ConstInterface {
 			$actions['manage_site'] = '<a href="' . $container->get_permalink( 'blueprints' ) . '" class="manage_site"><span class="dashicons dashicons-admin-tools"></span>' . __( 'Manage Blueprint' ) . '</a>';
 		}
 
-        $actions['admin_link'] = '<a href="' . $container->get_login_url() . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __( 'Login to Installation' ) . '</a>';
+		$actions['admin_link'] = '<a href="' . $container->get_login_url() . '" class="login_admin"><span class="dashicons dashicons-privacy"></span>' . __( 'Login to Installation' ) . '</a>';
 
 		return $actions;
 	}

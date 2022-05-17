@@ -4,6 +4,10 @@ if ( ! isset( $container ) ) {
 	return;
 }
 
+if ( $container->is_deploying() ) {
+	return;
+}
+
 ?>
 
 <div class="dol-fixed dol-w-full dol-bg-accent dol-p-3 dol-text-white dol-bottom-0 dol-left-0 dol-z-50 dol-text-center">

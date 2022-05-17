@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Api\DeployApi;
-use Dollie\Core\Factories\BaseContainer;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
 
