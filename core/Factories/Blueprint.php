@@ -137,6 +137,16 @@ final class Blueprint extends BaseContainer {
 	}
 
 	/**
+	 * Get available blueprints
+	 *
+	 * @return \WP_Error|array
+	 */
+	public function get_available_blueprints() {
+		return [];
+	}
+
+
+	/**
 	 * Check dynamic fields
 	 *
 	 * @return boolean|array

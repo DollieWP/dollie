@@ -84,15 +84,6 @@ final class Site extends BaseContainer {
 	}
 
 	/**
-	 * Get available blueprints
-	 *
-	 * @return \WP_Error|array
-	 */
-	public function get_available_blueprints() {
-		return [];
-	}
-
-	/**
 	 * Perform action
 	 *
 	 * @param string $action

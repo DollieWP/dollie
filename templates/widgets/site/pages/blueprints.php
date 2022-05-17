@@ -1,14 +1,18 @@
 <?php
 
-$blueprint_time = get_post_meta( $post_id, 'wpd_blueprint_time', true );
+$container = dollie()->get_container();
+
+if ( is_wp_error( $container ) || ! $container->is_blueprint() ) {
+	return;
+}
+
+$blueprint_time = $container->get_changes_update_time();
 $acf_fields     = [];
 $groups         = acf_get_field_groups();
 
 foreach ( $groups as $group ) {
 	$acf_fields[ $group['title'] ] = $group['key'];
 }
-
-$container = dollie()->get_container();
 
 ?>
 
@@ -21,7 +25,7 @@ $container = dollie()->get_container();
 		<?php ob_start(); ?>
 		<div class="dol-mb-4">
 			<p>
-				<?php printf( __( 'Ready to make <strong>%s</strong> available as a Blueprint for your customers?', 'dollie' ), dollie()->get_container_url() ); ?>
+				<?php printf( __( 'Ready to make <strong>%s</strong> available as a Blueprint for your customers?', 'dollie' ), $container->get_url() ); ?>
 			</p>
 			<p>
 				<?php esc_html_e( 'Important - Make sure that the installation is working properly before you take your Blueprint Live. Meaning all your plugins are configured, your theme is set up, and you have double-checked that no accidental sensitive data is included (like test user accounts, private API keys etc.)', 'dollie' ); ?>
@@ -68,7 +72,7 @@ $container = dollie()->get_container();
 		<?php ob_start(); ?>
 
 		<div class="dol-mb-4">
-			<?php printf( __( 'Before you update this blueprint make sure <strong>%s</strong> is ready for an update. Once you have deployed a new version of this blueprint it will be used next time a customer launches a site based on this blueprint. Make sure you’ve removed all sensitive data like testing user accounts and emails.', 'dollie' ), dollie()->get_container_url() ); ?>
+			<?php printf( __( 'Before you update this blueprint make sure <strong>%s</strong> is ready for an update. Once you have deployed a new version of this blueprint it will be used next time a customer launches a site based on this blueprint. Make sure you’ve removed all sensitive data like testing user accounts and emails.', 'dollie' ), $container->get_url() ); ?>
 		</div>
 
 		<?php if ( '' !== $blueprint_time ) : ?>

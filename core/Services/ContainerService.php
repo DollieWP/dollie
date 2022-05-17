@@ -91,7 +91,8 @@ final class ContainerService extends Singleton {
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'check_deploy_nonce' ) ) {
 			wp_send_json_error();
 		}
-
+		var_dump( $_REQUEST['container'] );
+		die();
 		$status = DeployService::instance()->check_deploy( (int) $_REQUEST['container'] );
 
 		if ( ! $status ) {
@@ -110,7 +111,7 @@ final class ContainerService extends Singleton {
 	 * @return string
 	 */
 	public function remove_pending_from_title( $title, $post_id ) {
-		if ( ! is_admin() && is_main_query() && get_post_type( $post_id) === 'container' ) {
+		if ( ! is_admin() && is_main_query() && get_post_type( $post_id ) === 'container' ) {
 			$title = str_replace( ' [deploy pending]', '', $title );
 		}
 		return $title;
