@@ -44,8 +44,6 @@ final class DeployService extends Singleton implements ConstInterface {
 			]
 		);
 
-		$deploy_type = 'sites';
-
 		if ( $type === self::TYPE_BLUEPRINT ) {
 			$deploy_type = 'blueprints';
 
@@ -54,13 +52,26 @@ final class DeployService extends Singleton implements ConstInterface {
 			}
 		} elseif ( $type === self::TYPE_STAGING ) {
 			$deploy_type = 'stagings';
+		} else {
+			$deploy_type = 'sites';
+
+			$source = null;
+
+			if ( isset( $data['blueprint'] ) && $data['blueprint'] ) {
+				$container = dollie()->get_container( $data['blueprint'] );
+
+				if ( ! is_wp_error( $container ) && $container->is_blueprint() ) {
+					$source = $container->get_hash();
+				}
+			}
 		}
 
 		$deploy = $this->start_deploy(
 			$deploy_type,
 			[
-				'route' => $route,
-				'vars'  => $vars,
+				'route'  => $route,
+				'vars'   => $vars,
+				'source' => $source,
 			]
 		);
 
