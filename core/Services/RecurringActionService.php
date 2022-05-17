@@ -16,6 +16,7 @@ final class RecurringActionService extends Singleton {
 	 */
 	public function get_allowed_commands() {
 		return [
+			'update-wp-core'        => __( 'Update WP Core', 'dollie' ),
 			'update-plugins'        => __( 'Update Plugins', 'dollie' ),
 			'update-themes'         => __( 'Update Themes', 'dollie' ),
 			'regenerate-screenshot' => __( 'Regenerate Screenshot', 'dollie' ),
@@ -171,18 +172,19 @@ final class RecurringActionService extends Singleton {
 		$targets = [];
 
 		foreach ( $posts as $post ) {
-			$container    = dollie()->get_container( $post );
-			$container_id = get_post_meta( $post->ID, 'wpd_container_id', true );
+			$container = dollie()->get_container( $post );
 
-			if ( $container_id ) {
-				$targets[] = [
-					'id'           => $container->get_id(),
-					'name'         => $container->get_title(),
-					'url'          => $container->get_url(),
-					'container_id' => $container_id,
-					'commands'     => [],
-				];
+			if ( is_wp_error( $container ) ) {
+				continue;
 			}
+
+			$targets[] = [
+				'id'           => $container->get_id(),
+				'name'         => $container->get_title(),
+				'url'          => $container->get_url(),
+				'container_id' => $container->get_hash(),
+				'commands'     => [],
+			];
 		}
 
 		wp_send_json_success(

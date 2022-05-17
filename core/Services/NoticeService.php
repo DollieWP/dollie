@@ -139,9 +139,8 @@ final class NoticeService extends Singleton {
 		if ( ! dollie()->subscription()->has_partner_subscription() ) {
 			dollie()->load_template( 'admin/notices/subscription-missing', [], true );
 		} elseif ( dollie()->subscription()->has_partner_subscription() &&
-			dollie()->subscription()->is_partner_subscription_trial() &&
-			0 === dollie()->subscription()->get_partner_subscription_credits() ) {
-			dollie()->load_template( 'admin/notices/subscription-trial-limit', [], true );
+			0 === dollie()->subscription()->get_partner_deploy_limit() ) {
+			dollie()->load_template( 'admin/notices/subscription-limit', [], true );
 		}
 	}
 

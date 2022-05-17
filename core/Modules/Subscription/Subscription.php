@@ -18,11 +18,6 @@ use Dollie\Core\Singleton;
 class Subscription extends Singleton implements SubscriptionInterface {
 	use PartnerApi;
 
-	/**
-	 * Undocumented variable
-	 *
-	 * @var [type]
-	 */
 	private $module;
 
 	/**
@@ -134,7 +129,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			return false;
 		}
 
-		return false === $subscription ? $subscription : $subscription['active'];
+		return false === $subscription ? $subscription : $subscription['status'];
 	}
 
 	/**
@@ -147,25 +142,14 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	}
 
 	/**
-	 * Check if partner subscription is trial
-	 *
-	 * @return boolean
-	 */
-	public function is_partner_subscription_trial() {
-		$subscription = $this->get_partner_subscription();
-
-		return false === $subscription ? $subscription : $subscription['subscription']['trial'];
-	}
-
-	/**
 	 * Get how many containers can partner deploy
 	 *
 	 * @return int
 	 */
-	public function get_partner_subscription_credits() {
+	public function get_partner_deploy_limit() {
 		$subscription = $this->get_partner_subscription();
 
-		return false === $subscription ? 0 : $subscription['subscription']['limit'];
+		return false === $subscription ? 0 : $subscription['limit'];
 	}
 
 }

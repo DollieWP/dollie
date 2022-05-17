@@ -29,8 +29,8 @@ if ( ! isset( $targets ) ) {
 					<label for="dol-action" class="dol-font-bold dol-mb-2 dol-text-sm"><?php echo dollie()->icon()->task(); ?> <?php esc_html_e( 'Action', 'dollie' ); ?></label>
 					<select name="action" id="dol-action" class="dol-py-2 dol-pl-4 dol-pr-6 dol-rounded" required>
 						<option value="" selected disabled><?php esc_html_e( 'Select Action', 'dollie' ); ?></option>
-						<?php foreach ( $this->get_allowed_commands() as $command_name => $command_text ) : ?>
-							<option value="<?php echo $command_name; ?>"><?php echo $command_text; ?></option>
+						<?php foreach ( dollie()->bulk_actions()->get_allowed_commands() as $type => $label ) : ?>
+							<option value="<?php echo $type; ?>"><?php echo $label; ?></option>
 						<?php endforeach; ?>
 					</select>
 				</div>
@@ -38,7 +38,7 @@ if ( ! isset( $targets ) ) {
 					<label for="dol-interval" class="dol-font-bold dol-mb-2 dol-text-sm"><?php echo dollie()->icon()->clock(); ?><?php esc_html_e( 'Interval', 'dollie' ); ?></label>
 					<select name="interval" id="dol-interval" class="dol-py-2 dol-pl-4 dol-pr-6 dol-rounded" required>
 						<option value="" selected disabled><?php esc_html_e( 'Select Interval', 'dollie' ); ?></option>
-						<?php foreach ( $this->get_allowed_intervals() as $interval_name => $interval_text ) : ?>
+						<?php foreach ( dollie()->recurring_actions()->get_allowed_intervals() as $interval_name => $interval_text ) : ?>
 							<option value="<?php echo $interval_name; ?>"><?php echo $interval_text; ?></option>
 						<?php endforeach; ?>
 					</select>
