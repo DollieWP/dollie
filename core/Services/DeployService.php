@@ -27,6 +27,22 @@ final class DeployService extends Singleton implements ConstInterface {
 			return new \WP_Error( 500, 'Invalid deploy type' );
 		}
 
+		if ( ! isset( $data['username'] ) || empty( $data['username'] ) ) {
+			$data['username'] = get_user_by( 'ID', $data['owner_id'] )->user_login;
+		}
+
+		if ( ! isset( $data['password'] ) || empty( $data['password'] ) ) {
+			$data['password'] = wp_generate_password( 8, false );
+		}
+
+		if ( ! isset( $data['name'] ) || empty( $data['name'] ) ) {
+			$data['name'] = esc_html__( 'My New Site', 'dollie' );
+		}
+
+		if ( ! isset( $data['description'] ) || empty( $data['description'] ) ) {
+			$data['description'] = esc_html__( 'The best website in the world', 'dollie' );
+		}
+
 		$extra_vars = apply_filters( 'dollie/deploy/vars', [], $type );
 		$vars       = array_merge(
 			$extra_vars,

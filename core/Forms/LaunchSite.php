@@ -95,22 +95,6 @@ class LaunchSite extends Singleton implements ConstInterface {
 			'description' => af_get_field( 'site_description' ),
 		];
 
-		if ( ! isset( $deploy_data['username'] ) || empty( $deploy_data['username'] ) ) {
-			$deploy_data['username'] = get_user_by( 'ID', $owner_id )->user_login;
-		}
-
-		if ( ! isset( $deploy_data['password'] ) || empty( $deploy_data['password'] ) ) {
-			$deploy_data['password'] = wp_generate_password( 8, false );
-		}
-
-		if ( ! isset( $deploy_data['name'] ) || empty( $deploy_data['name'] ) ) {
-			$deploy_data['name'] = esc_html__( 'My New Site', 'dollie' );
-		}
-
-		if ( ! isset( $deploy_data['description'] ) || empty( $deploy_data['description'] ) ) {
-			$deploy_data['description'] = esc_html__( 'The best website in the world', 'dollie' );
-		}
-
 		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data );
 
 		$status = DeployService::instance()->start(
