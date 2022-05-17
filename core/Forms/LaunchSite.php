@@ -85,9 +85,23 @@ class LaunchSite extends Singleton implements ConstInterface {
 			$owner_id = get_current_user_id();
 		}
 
+		$blueprint_hash = null;
+
+		if ( 'blueprint' !== af_get_field( 'site_type' ) ) {
+			$blueprint_id = Forms::instance()->get_form_blueprint( $form, $args );
+
+			if ( $blueprint_id ) {
+				$container = dollie()->get_container( $blueprint_id );
+
+				if ( ! is_wp_error( $container ) && $container->is_blueprint() ) {
+					$blueprint_hash = $container->get_hash();
+				}
+			}
+		}
+
 		$deploy_data = [
 			'owner_id'    => $owner_id,
-			'blueprint'   => Forms::instance()->get_form_blueprint( $form, $args ),
+			'blueprint'   => $blueprint_hash,
 			'email'       => af_get_field( 'site_admin_email' ),
 			'username'    => af_get_field( 'admin_username' ),
 			'password'    => af_get_field( 'admin_password' ),
