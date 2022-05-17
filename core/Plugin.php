@@ -251,6 +251,14 @@ class Plugin extends Singleton {
 		);
 
 		wp_register_script(
+			'dollie-site-content',
+			DOLLIE_ASSETS_URL . 'js/widgets/site-content.js',
+			[],
+			DOLLIE_VERSION,
+			true
+		);
+
+		wp_register_script(
 			'dollie-launch-dynamic-data',
 			DOLLIE_ASSETS_URL . 'js/launch-dynamic-data.js',
 			[ 'jquery' ],

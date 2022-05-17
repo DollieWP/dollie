@@ -357,17 +357,22 @@ final class AccessService extends Singleton {
 	 * Protect container access
 	 */
 	public function acf_field_prepare_access( $field ) {
-		// bail early if no 'admin_only' setting
+
+		// bail early if no 'admin_only' setting.
 		if ( empty( $field['dollie_admin_only'] ) ) {
 			return $field;
 		}
 
-		// return false if is not Dollie admin (removes field)
-		if ( ! dollie()->get_user()->can_manage_all_sites() || ! current_user_can( 'manage_options' ) ) {
-			return true;
+		// return false if is not Dollie admin (removes field).
+		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
+			echo '
+				<style type="text/css">
+					.acf-field-'. substr( $field['key'], 6 ) . ' > .acf-label {display: none;}
+				</style>';
+			return false;
 		}
 
-		// return
+		// return.
 		return $field;
 	}
 

@@ -338,12 +338,12 @@ final class Container extends Singleton implements ConstInterface {
 
 		if ( ! dollie()->is_live() ) {
 			$wp_admin_bar->add_menu(
-				[
+				array(
 					'parent' => $menu_id,
 					'title'  => __( 'Connect with Dollie', 'dollie' ),
 					'id'     => 'dwb-go-live',
-					'href'   => \Dollie\Core\Plugin::instance()->get_api_access_url(),
-				]
+					'href'   => \Dollie\Core\Services\AuthService::instance()->get_auth_url(),
+				)
 			);
 		}
 

@@ -248,7 +248,11 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return bool
 	 */
 	public function is_api_connected() {
-		return true;
+		if ( get_option( 'dollie_auth_token' ) ) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -262,6 +266,15 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return mixed|void
 	 */
 	public function get_site_template_id() {
+
+		$container = dollie()->get_container( get_the_ID() );
+
+
+		// If we have a launching template then show that instead.
+		if ( $container->is_deploying() && get_option( 'options_wpd_site_launching_template_id' ) ) {
+			return (int) get_option( 'options_wpd_site_launching_template_id' );
+		}
+
 		return (int) get_option( 'options_wpd_site_template_id' );
 	}
 
