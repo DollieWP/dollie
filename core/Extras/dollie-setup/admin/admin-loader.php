@@ -407,7 +407,7 @@ class Dollie_Setup_Admin {
 
 
 
-				<form method="post" action="<?php echo self_admin_url( 'admin.php?page=dollie_setup' ); ?>" style="margin-top:2em; text-align:right;">
+				<!-- <form method="post" action="<?php echo self_admin_url( 'admin.php?page=dollie_setup' ); ?>" style="margin-top:2em; text-align:right;">
 					<?php wp_nonce_field( 'dollie_setup_select_package' ); ?>
 
 					<input type="hidden" name="dollie_setup-package" value="<?php echo $package; ?>" />
@@ -415,7 +415,7 @@ class Dollie_Setup_Admin {
 					<a class="button button-secondary" href="<?php echo self_admin_url( 'admin.php?page=dollie_setup' ); ?>" style="margin:0 15px 0 0;"><?php esc_html_e( 'Return to dashboard', 'dollie-setup' ); ?></a>
 
 					<input type="submit" value="<?php esc_html_e( 'Continue with ' . $_GET['dollie_setup-package-details'] . ' Setup', 'dollie-setup' ); ?>" class="button-primary" name="package-details" />
-				</form>
+				</form> -->
 
 
 				<?php
@@ -474,7 +474,7 @@ class Dollie_Setup_Admin {
 					$title = esc_html__( 'Upgrading Dollie Plugin Suite', 'dollie-setup' );
 
 					$redirect_link = self_admin_url( 'admin.php?page=dollie_setup' );
-					$redirect_text = __( 'Continue to the DOLLIE_SETUP Dashboard', 'dollie-setup' );
+					$redirect_text = __( 'Continue to Your Dashboard', 'dollie-setup' );
 				}
 
 				// include the DOLLIE_SETUP Plugin Upgrade and Install API

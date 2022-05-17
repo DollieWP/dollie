@@ -153,7 +153,7 @@ class Dollie_Setup_Plugins_Agency {
 			$instance,
 			array(
 				'plugin_name'              => 'User Switching',
-				'type'                     => 'user-switching',
+				'type'                     => 'recommended',
 				'dollie_setup_name'        => __( 'User Switching', 'dollie-setup' ),
 				'dollie_setup_description' => __( 'Allows you to quickly log in as one of your clients or customers.', 'dollie-setup' ),
 				'version'                  => '1.5.8',
@@ -167,20 +167,6 @@ class Dollie_Setup_Plugins_Agency {
 
 		// BuddyPress Docs Wiki
 
-		// Custom Profile Filters for BuddyPress
-		call_user_func(
-			$instance,
-			array(
-				'plugin_name'              => 'Two Factor Authentication',
-				'type'                     => 'recommended',
-				'dollie_setup_name'        => __( 'Two Factor Authentication', 'dollie-setup' ),
-				'dollie_setup_description' => __( 'Allows an easy way for you to secure your Administration user accounts, by setting up two factor login auth.', 'dollie-setup' ),
-				'version'                  => '0.7.1',
-				'download_url'             => 'https://downloads.wordpress.org/plugin/two-factor.zip',
-				'documentation_url'        => 'https://wordpress.org/plugins/two-factor/',
-				'network'                  => false,
-			)
-		);
 
 	}
 
