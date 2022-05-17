@@ -3,7 +3,7 @@
 <div class="dol-mt-5 dol-p-0">
 	<?php
 	$current_page = admin_url( 'admin.php?page=' . $_GET['page'] );
-	// echo do_shortcode( '[dollie_form form="form_dollie_' . $_GET['dollie_setup-package-details'] . '_onboarding" ]' )
-	echo do_shortcode( '[dollie_form form="form_626802e1966b3" redirect="' . $current_page . '" ]' )
+	echo do_shortcode( '[dollie_form form="form_dollie_' . $_GET['dollie_setup-package-details'] . '_onboarding" ]' )
+	//echo do_shortcode( '[dollie_form form="form_626802e1966b3" redirect="' . $current_page . '" ]' )
 	?>
 </div>

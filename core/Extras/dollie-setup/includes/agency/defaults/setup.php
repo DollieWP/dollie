@@ -22,12 +22,12 @@ function ocdi_import_files_string() {
 add_filter( 'ocdi/import_files', 'ocdi_import_files_string' );
 
 function ocdi_plugin_page_setup( $default_settings ) {
-	$default_settings['parent_slug'] = 'admin.php?page=dollie_setup';
+	//$default_settings['parent_slug'] = 'admin.php?page=dollie_setup';
 	$default_settings['page_title']  = esc_html__( 'Setup Wizard', 'one-click-demo-import' );
 	$default_settings['menu_title']  = esc_html__( 'Setup Your Agency Platform', 'one-click-demo-import' );
 	$default_settings['capability']  = 'import';
-	$default_settings['menu_slug']   = 'dollie-setup-wizard';
+	//$default_settings['menu_slug']   = 'dollie-setup-wizard';
 
 	return $default_settings;
 }
-// add_filter('ocdi/plugin_page_setup', 'ocdi_plugin_page_setup');
+add_filter('ocdi/plugin_page_setup', 'ocdi_plugin_page_setup');

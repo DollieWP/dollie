@@ -13,9 +13,6 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 
 		</div>
 		<div class="dol-relative dol-w-full md:dol-w-auto">
-			<div class="dol-absolute dol-left-0 dol-top-0 dol-ml-4 dol-flex dol-items-center dol-h-full">
-				<?php echo dollie()->icon()->search( 'dol-text-ash-500' ); ?>
-			</div>
 			<input type="text" name="customer_search" class="dol-search-input dol-search-customer dol-w-full md:dol-w-64" data-list-type="<?php echo esc_attr( $view_type ); ?>" data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>" data-search-term="" placeholder="<?php printf( esc_html__( 'Search for a  %s', 'dollie' ), dollie()->string_variants()->get_user_type_string() ); ?>">
 		</div>
 	</div>

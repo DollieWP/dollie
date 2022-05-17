@@ -19,6 +19,13 @@
 @import "custom-icons.scss";
 @import "wizard";
 
+.dol-btn.dol-btn-primary,
+.dol-btn.dol-btn-secondary,
+.dol-btn.dol-btn-accent {
+    color: #FFF;
+    //@extend .base-200;
+}
+
 .dol-bg-gradient-primary {
   background: linear-gradient(var(--d-primary-700), var(--d-primary));
 }
