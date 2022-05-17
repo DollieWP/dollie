@@ -174,7 +174,7 @@
 				$data = array(
 					'settings' => array(
 						'title'    => sprintf( esc_html__( 'Ready to Launch your first %s?', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ),
-						'subtitle' => 'Launching your first %s via your own %s Platform is something special. What are you waiting for %s, it is time to witness the magic.',
+						'subtitle' => sprintf( esc_html__( 'Launching your first %s via your own Platform is something special. What are you waiting for, lets launch your first site!', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string()),
 					),
 				);
 

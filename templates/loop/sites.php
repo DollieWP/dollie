@@ -54,9 +54,6 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 
 			<div>
 				<div class="dol-relative dol-w-auto dol-inline-block">
-					<div class="dol-absolute dol-left-0 dol-top-0 dol-ml-4 dol-flex dol-items-center dol-h-full">
-						<?php echo dollie()->icon()->search( 'dol-text-gray-400' ); ?>
-					</div>
 					<input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full md:dol-w-64"
 						data-list-type="<?php echo esc_attr( $view_type ); ?>"
 						data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>"
