@@ -52,10 +52,8 @@ class Plugin extends Singleton {
 
 		Admin::instance();
 
-		if ( dollie()->is_api_connected() ) {
-			add_action( 'plugins_loaded', [ $this, 'load_early_dependencies' ], -10 );
-			add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 0 );
-		}
+		add_action( 'plugins_loaded', [ $this, 'load_early_dependencies' ], -10 );
+		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 0 );
 
 		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
 		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
@@ -76,6 +74,8 @@ class Plugin extends Singleton {
 	 * Load dependencies
 	 */
 	public function load_dependencies() {
+
+
 		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
 			add_action( 'admin_notices', [ NoticeService::instance(), 'missing_elementor' ] );
 			return;
@@ -138,6 +138,9 @@ class Plugin extends Singleton {
 	 * Initialize modules and shortcodes
 	 */
 	public function initialize() {
+
+		//Disable Elementor Onboarding
+		update_option( 'elementor_onboarded', true );
 		// Load elementor hooks.
 		Elementor\Hooks::instance();
 

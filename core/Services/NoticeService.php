@@ -14,9 +14,9 @@ final class NoticeService extends Singleton {
 	 * Elementor not installed notice
 	 */
 	public function missing_elementor() {
-		$class = 'notice notice-warning';
+		$class = 'notice notice-warning dollie-notice dollie-setup dollie-connect-message';
 		/* translators: %s: html tags */
-		$message = sprintf( __( '%1$sDollie%2$s requires %1$sElementor%2$s plugin installed & activated.', 'dollie' ), '<strong>', '</strong>' );
+		$message = sprintf( __( 'Welcome to Dollie! Before we continue we need to install the required %1$sElementor%2$s plugin.', 'dollie' ), '<strong>', '</strong>' );
 
 		$plugin = 'elementor/elementor.php';
 
@@ -88,7 +88,7 @@ final class NoticeService extends Singleton {
 	public function not_connected(): void {
 		$auth_service = AuthService::instance();
 
-		if ( $auth_service->get_token() || ! current_user_can( 'manage_options' ) ) {
+		if ( $auth_service->get_token() || ! current_user_can( 'manage_options' ) || ! defined( 'ELEMENTOR_VERSION' ) ) {
 			return;
 		}
 
