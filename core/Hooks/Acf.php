@@ -258,13 +258,7 @@ final class Acf extends Singleton implements ConstInterface {
 			return;
 		}
 
-		$container_id = (int) str_replace( 'create_update_blueprint_', '', $acf_id );
-
-		if ( $container_id <= 0 ) {
-			return;
-		}
-
-		$container = dollie()->get_container( $container_id );
+		$container = dollie()->get_container( (int) str_replace( 'create_update_blueprint_', '', $acf_id ) );
 
 		if ( is_wp_error( $container ) || ! $container->is_blueprint() ) {
 			return;
