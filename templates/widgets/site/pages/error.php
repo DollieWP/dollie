@@ -9,7 +9,7 @@ if ( ! isset( $missing_details ) ) {
 }
 
 if ( ! isset( $container ) ) {
-	$container = dollie()->get_container();
+	$container = dollie()->get_container( dollie()->get_current_post_id() );
 }
 
 ?>

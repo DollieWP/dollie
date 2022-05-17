@@ -2,7 +2,7 @@
 
 <?php
 
-$container = dollie()->get_container();
+$container = dollie()->get_container( dollie()->get_current_post_id() );
 
 if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 	dollie()->load_template(

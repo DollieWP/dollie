@@ -192,7 +192,7 @@ class Helpers extends Singleton implements ConstInterface {
 			],
 		];
 
-		$args  = apply_filters( 'dollie_product_query', $args );
+		$args = apply_filters( 'dollie_product_query', $args );
 
 		return ( new \WP_Query( $args ) )->have_posts();
 	}
@@ -206,7 +206,7 @@ class Helpers extends Singleton implements ConstInterface {
 		$query = new WP_Query(
 			[
 				'post_type'     => 'container',
-				'post_per_page' => -1,
+				'post_per_page' => - 1,
 			]
 		);
 
@@ -224,7 +224,7 @@ class Helpers extends Singleton implements ConstInterface {
 		$query = new WP_Query(
 			[
 				'post_type'     => 'container',
-				'post_per_page' => -1,
+				'post_per_page' => - 1,
 				'meta_query'    => [
 					'relation' => 'AND',
 					[
@@ -259,7 +259,7 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return bool
 	 */
 	public function is_live() {
-		 return (bool) get_option( 'options_wpd_api_domain' ) && $this->is_api_connected();
+		return (bool) get_option( 'options_wpd_api_domain' ) && $this->is_api_connected();
 	}
 
 	/**
@@ -307,7 +307,7 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @param $needle
 	 * @param $haystack
-	 * @param bool     $strict
+	 * @param bool $strict
 	 *
 	 * @return bool
 	 */
@@ -343,8 +343,8 @@ class Helpers extends Singleton implements ConstInterface {
 	 */
 	public function is_elementor_editor(): bool {
 		return class_exists( '\Elementor\Plugin' ) && ( \Elementor\Plugin::instance()->editor->is_edit_mode()
-				|| \Elementor\Plugin::instance()->preview->is_preview()
-				|| isset( $_GET['elementor_library'] ) );
+		                                                || \Elementor\Plugin::instance()->preview->is_preview()
+		                                                || isset( $_GET['elementor_library'] ) );
 	}
 
 	/**
@@ -390,13 +390,17 @@ class Helpers extends Singleton implements ConstInterface {
 		}
 
 		if ( $this->is_elementor_editor() ) {
-			$my_sites = get_posts(
-				[
-					'post_type'      => 'container',
-					'author'         => get_current_user_id(),
-					'posts_per_page' => 1,
-				]
-			);
+			$args = [
+				'post_type' => 'container',
+
+				'posts_per_page' => 1,
+			];
+
+			if ( dollie()->get_user()->can_manage_all_sites() ) {
+				$args['author'] = get_current_user_id();
+			}
+
+			$my_sites = get_posts( $args );
 
 			if ( ! empty( $my_sites ) ) {
 				$current_id = $my_sites[0]->ID;
@@ -409,7 +413,7 @@ class Helpers extends Singleton implements ConstInterface {
 	/**
 	 * Get containers data
 	 *
-	 * @param array  $data
+	 * @param array $data
 	 * @param string $with
 	 *
 	 * @return array
@@ -417,7 +421,7 @@ class Helpers extends Singleton implements ConstInterface {
 	public function containers_query( $data, $with = 'post_id' ) {
 		$args = [
 			'post_type'      => 'container',
-			'posts_per_page' => -1,
+			'posts_per_page' => - 1,
 			'post_status'    => 'publish',
 		];
 
@@ -460,8 +464,8 @@ class Helpers extends Singleton implements ConstInterface {
 	/**
 	 * Load template
 	 *
-	 * @param string  $template
-	 * @param array   $args
+	 * @param string $template
+	 * @param array $args
 	 * @param boolean $echo
 	 *
 	 * @return void|string
