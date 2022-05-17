@@ -51,7 +51,7 @@ final class AuthService extends Singleton implements ConstInterface {
 
 		update_option( 'options_wpd_api_domain', sanitize_text_field( $data['domain'] ) );
 
-		wp_redirect( admin_url( 'admin.php?page=' . self::PANEL_SLUG ) );
+		wp_redirect( admin_url( 'admin.php?page=dollie_setup' ) );
 		die();
 	}
 
