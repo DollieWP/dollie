@@ -1,14 +1,14 @@
-<div class="notice dollie-notice dollie-notice-error">
+<div class="notice dollie-notice dollie-notice-trial">
 	<div class="dollie-inner-message">
 		<div class="dollie-message-center">
-			<h3><?php esc_html_e( 'No active Dollie Subscription', 'dollie' ); ?> </h3>
-			<p><?php printf( __( 'It seems like you don\'t have an active Dollie Subscription. You can deploy %d more sites.', 'dollie' ), dollie()->subscription()->get_partner_deploy_limit() ); ?></p>
+			<h3><?php esc_html_e( 'You Are Using Dollie in Trial Mode', 'dollie' ); ?> </h3>
+			<p><?php printf( __( '<strong>Try out all Dollie has to offer for another 28 days and launch %d more sites for free</strong>. Like to launch more sites or are you ready to start selling your services to your customers?', 'dollie' ), dollie()->subscription()->get_partner_deploy_limit() ); ?></p>
 		</div>
 
 		<?php
 		printf(
-			'<a href="https://partners.getdollie.com/?redirect=my-account/subscriptions/" class="button button-primary" target="_blank">%s</a>',
-			esc_html__( 'Create Subscription', 'dollie' )
+			'<a href="https://partners.getdollie.com/?redirect=start-your-subscription" class="button button-primary" target="_blank">%s</a>',
+			esc_html__( 'Start Your Subscription', 'dollie' )
 		);
 
 		printf(
@@ -19,8 +19,8 @@
 
 		printf(
 			'<a href="%s" class="button" target="_blank" style="margin-left: 10px;">%s</a>',
-			esc_url( 'https://support.getdollie.com/' ),
-			esc_html__( 'Contact Support', 'dollie' )
+			esc_url( 'https://partners.getdollie.com/?redirect=support' ),
+			esc_html__( 'Questions? Talk to Us!', 'dollie' )
 		);
 		?>
 	</div>

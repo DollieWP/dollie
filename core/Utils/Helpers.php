@@ -285,6 +285,24 @@ class Helpers extends Singleton implements ConstInterface {
 	}
 
 	/**
+	 * @return mixed
+	 */
+	public function get_partner_status() {
+		$deployment_domain        = get_option( 'wpd_deployment_domain' );
+		$deployment_domain_status = get_option( 'wpd_deployment_domain_status' );
+
+		if (! dollie()->subscription()->has_partner_subscription()) {
+			return 'trial';
+		} elseif ( $deployment_domain && $deployment_domain_status && ! get_option( 'deployment_domain_notice' )) {
+		   return 'staging';
+		} else {
+			return 'live';
+		}
+	}
+
+
+
+	/**
 	 * @return bool
 	 */
 	public function is_live() {

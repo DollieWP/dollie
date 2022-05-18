@@ -16,7 +16,7 @@ if ( ! isset( $container ) ) {
 					<?php
 					echo wp_kses_post(
 						sprintf(
-							__( '<a href="%s">Manage this Blueprint using the front-end of your dashboard.</a> Use this page to take advanced actions, like stopping/removing the blueprint completely or assigning it to another user.', 'dollie' ),
+							__( '<a href="%s">Manage this Blueprint using the front-end of your HUB.</a> Use this page to take advanced actions, like stopping/removing the blueprint completely or assigning it to another user.', 'dollie' ),
 							esc_url( $container->get_permalink( 'blueprints' ) )
 						)
 					);
@@ -29,7 +29,7 @@ if ( ! isset( $container ) ) {
 					<?php
 					echo wp_kses_post(
 						sprintf(
-							__( 'We recommend managing this site on the front-end of your installation using the <a href="%s">Site Dashboard</a>. Use this page to take advanced actions, like stopping or restarting your site.', 'dollie' ),
+							__( 'We recommend managing this site on the front-end of your Hub using the <a href="%s">Site Dashboard</a>. Use this page to take advanced actions, like stopping or restarting your site.', 'dollie' ),
 							esc_url( $container->get_permalink() )
 						)
 					);

@@ -306,10 +306,13 @@ final class Container extends Singleton implements ConstInterface {
 
 		$iconurl = DOLLIE_URL . 'assets/img/active.png';
 
-		if ( dollie()->is_live() ) {
-			$menu_title = __( 'Dollie (Live)', 'dollie' );
+
+		if ( dollie()->get_partner_status() == 'trial' ) {
+			$menu_title = '(Trial)';
+		} elseif ( dollie()->get_partner_status() == 'staging' ) {
+		   $menu_title = '(Staging)';
 		} else {
-			$menu_title = __( 'Dollie (Staging)', 'dollie' );
+			$menu_title = '(Live)';
 		}
 
 		$iconspan = '<span class="custom-icon" style="
@@ -324,9 +327,9 @@ final class Container extends Singleton implements ConstInterface {
         top: 0px;
         background-image:url(\'' . $iconurl . '\');"></span>';
 
-		$title = $menu_title;
+		$title = 'Dollie ' . $menu_title;
 
-		$menu_id = 'dab';
+		$menu_id = 'dab-' . dollie()->get_partner_status();
 
 		$wp_admin_bar->add_menu(
 			[

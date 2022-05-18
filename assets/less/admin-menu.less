@@ -48,7 +48,9 @@
   &.dol-live {
     background: #33d399;
   }
-  &.dol-staging {
+  &.dol-staging,
+  &.dol-trial
+   {
     background: #efa041;
   }
 }
@@ -103,8 +105,14 @@
 #adminmenuwrap .toplevel_page_wpd_platform_setup .wp-menu-image:before {
   display: none !important;
 }
-#wp-admin-bar-dab {
-  background: #48a7bc !important;
+#wp-admin-bar-dab-trial {
+  background: #efa041 !important;
+}
+#wp-admin-bar-dab-live {
+    background: #33d399 !important;
+}
+#wp-admin-bar-staging {
+    background: #3A696C !important;
 }
 
 #wp-admin-bar-dab-integrations {

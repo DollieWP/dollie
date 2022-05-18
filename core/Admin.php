@@ -91,9 +91,17 @@ final class Admin extends Singleton implements ConstInterface {
 			return;
 		}
 
+		if ( dollie()->get_partner_status() == 'trial' ) {
+			$status = '<span class="dol-status dol-staging">Trial<span>';
+		} elseif ( dollie()->get_partner_status() == 'staging' ) {
+		   $status = '<span class="dol-status dol-staging">Live<span>';
+		} else {
+			$status = '<span class="dol-status dol-live">Live<span>';
+		}
+
 		$args = array(
-			'page_title'  => __( 'Settings', 'dollie' ),
-			'menu_title'  => __( 'Settings <span class="dol-status dol-live">Live<span>', 'dollie' ),
+			'page_title'  => __( 'Settings' . $status, 'dollie' ),
+			'menu_title'  => __( 'Settings' . $status, 'dollie' ),
 			'menu_slug'   => self::PANEL_SLUG,
 			'capability'  => 'manage_options',
 			'position'    => '99',
