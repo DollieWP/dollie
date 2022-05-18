@@ -499,25 +499,25 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: core/Admin/Upgrades.php:89
+#: core/Admin/Upgrades.php:91
 msgid "Dollie needs to run some updates"
 msgstr ""
 
-#: core/Admin/Upgrades.php:94
+#: core/Admin/Upgrades.php:96
 msgid ""
 "<strong>Dollie</strong> needs to update some of it's settings that are used behind the scenes. It\n"
 "									'll only take a second to complete. "
 msgstr ""
 
-#: core/Admin/Upgrades.php:106
+#: core/Admin/Upgrades.php:108
 msgid "<a href=\"%s\">Run Update now</a>"
 msgstr ""
 
-#: core/Admin/Upgrades.php:198
+#: core/Admin/Upgrades.php:194
 msgid "Something went wrong. Could you please email us at support@getdollie.com so we can help you resolve this?"
 msgstr ""
 
-#: core/Admin/Upgrades.php:194
+#: core/Admin/Upgrades.php:190
 msgid "Awesome, database is now at the latest version!"
 msgstr ""
 
