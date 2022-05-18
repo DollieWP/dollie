@@ -103,11 +103,12 @@ final class ContainerService extends Singleton {
 
 		$data            = [];
 		$launch_redirect = get_post_meta( $container_id, 'dollie_launch_redirect', true );
+
 		if ( ! empty( $launch_redirect ) ) {
 			if ( strpos( $launch_redirect, 'http' ) === 0 ) {
 				$data['redirect'] = get_post_meta( $container_id, '', true );
 			} else {
-				$data['redirect'] = get_permalink( $container_id ) . '/' . get_post_meta( $container_id, '', true );
+				$data['redirect'] = trailingslashit( get_permalink( $container_id ) ) . $launch_redirect;
 			}
 		}
 

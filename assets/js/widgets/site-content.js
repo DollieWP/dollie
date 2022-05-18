@@ -87,9 +87,11 @@ var DollieSiteContent = DollieSiteContent || {};
 
                         setTimeout(function () {
                             if (response.hasOwnProperty('data') && response.data.hasOwnProperty('redirect') && response.data.redirect !== '') {
+                                console.log(response.data.redirect);
                                 window.location.replace(response.data.redirect);
+                            } else {
+                                location.reload();
                             }
-                            location.reload();
                         }, 5000);
                     }
                 },

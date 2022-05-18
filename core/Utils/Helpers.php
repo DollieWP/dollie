@@ -292,15 +292,23 @@ class Helpers extends Singleton implements ConstInterface {
 	}
 
 	/**
+	 * Is using a custom deploy pending template.
+	 *
+	 * @return bool
+	 */
+	public function has_deploying_template() {
+		$container = dollie()->get_container( get_the_ID() );
+
+		return $container->is_deploying() && get_option( 'options_wpd_site_launching_template_id' );
+	}
+
+	/**
 	 * @return mixed|void
 	 */
 	public function get_site_template_id() {
 
-		$container = dollie()->get_container( get_the_ID() );
-
-
 		// If we have a launching template then show that instead.
-		if ( $container->is_deploying() && get_option( 'options_wpd_site_launching_template_id' ) ) {
+		if ( $this->has_deploying_template() ) {
 			return (int) get_option( 'options_wpd_site_launching_template_id' );
 		}
 
