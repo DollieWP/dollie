@@ -176,6 +176,8 @@ final class DeployService extends Singleton implements ConstInterface {
 			$container->fetch_details();
 		}
 
+		update_meta( $container->get_id(), 'dollie_container_deployed', 1 );
+
 		return true;
 	}
 }

@@ -1348,7 +1348,7 @@ msgstr ""
 msgid "Site URL can only contain letters, numbers and dash."
 msgstr ""
 
-#: core/Forms/LaunchSite.php:108, core/Forms/QuickLaunch.php:95
+#: core/Forms/LaunchSite.php:122, core/Forms/QuickLaunch.php:95
 msgid "Something went wrong. Please try again or contact our support if the problem persists."
 msgstr ""
 

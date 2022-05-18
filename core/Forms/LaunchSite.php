@@ -117,7 +117,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 			$deploy_data
 		);
 
-		if ( false === $status ) {
+		if ( false === $status || is_wp_error( $status ) ) {
 			af_add_submission_error(
 				esc_html__( 'Something went wrong. Please try again or contact our support if the problem persists.', 'dollie' )
 			);
