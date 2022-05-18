@@ -12,7 +12,7 @@ function ocdi_import_files_string() {
 		array(
 			'import_file_name'         => 'Agency Clean',
 			'categories'               => array( 'Category 1', 'Category 2' ),
-			'local_import_file'        => DOLLIE_PATH . 'core/Extras/dollie-setup/includes/agency/defaults/dollie-products.xml',
+			'local_import_file'        => DOLLIE_PATH . 'core/Extras/dollie-setup/includes/agency/defaults/dollie-agency.xml',
 			// 'import_customizer_file_url' => 'http://www.your_domain.com/ocdi/customizer.dat',
 			'import_preview_image_url' => 'http://www.your_domain.com/ocdi/preview_import_image1.jpg',
 			'preview_url'              => 'http://www.your_domain.com/my-demo-1',
