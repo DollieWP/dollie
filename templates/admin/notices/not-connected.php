@@ -1,7 +1,7 @@
 <div class="notice dollie-notice dollie-setup dollie-connect-message">
 	<div class="dollie-inner-message">
 		<div class="dollie-message-center">
-			<h3><span>Setup -</span> <?php esc_html_e( 'Welcome to Dollie, let\'s get you started!', 'dollie' ); ?> </h3>
+			<h3><span>Setup -</span> <?php esc_html_e( 'Welcome to your Dollie Hub, let\'s get you started!', 'dollie' ); ?> </h3>
 			<p><?php esc_html_e( 'To start building your platform we first need to securely authenticate this site with our Dollie API. Simply click on the button below to continue...', 'dollie' ); ?></p>
 		</div>
 

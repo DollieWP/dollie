@@ -38,6 +38,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 	public function acf_init() {
 		// Placeholders/Change values
 		add_filter( 'acf/load_field/name=site_blueprint', [ $this, 'populate_blueprints' ] );
+		add_filter( 'acf/load_field/name=site_url', [ $this, 'set_default_site_url' ] );
 		add_filter( 'acf/prepare_field/name=site_url', [ $this, 'append_site_url' ] );
 
 		// Form args
@@ -46,6 +47,8 @@ class LaunchSite extends Singleton implements ConstInterface {
 		// Form submission action.
 		add_action( 'af/form/validate/key=' . $this->form_key, [ $this, 'validate_form' ], 10, 2 );
 		add_action( 'af/form/before_submission/key=' . $this->form_key, [ $this, 'submission_callback' ], 10, 3 );
+		add_action( 'af/form/hidden_fields/key=' . $this->form_key, [ $this, 'hidden_field' ], 10, 2 );
+
 	}
 
 	/**
@@ -76,6 +79,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 	 * @param [type] $form
 	 * @param [type] $fields
 	 * @param [type] $args
+	 *
 	 * @return void
 	 */
 	public function submission_callback( $form, $fields, $args ) {
@@ -99,6 +103,11 @@ class LaunchSite extends Singleton implements ConstInterface {
 			}
 		}
 
+		$redirect = '';
+		if ( isset( $_POST['dollie_redirect'] ) && ! empty( $_POST['dollie_redirect'] ) ) {
+			$redirect = sanitize_text_field( $_POST['dollie_redirect'] );
+		}
+
 		$deploy_data = [
 			'owner_id'    => $owner_id,
 			'blueprint'   => $blueprint_hash,
@@ -107,6 +116,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 			'password'    => af_get_field( 'admin_password' ),
 			'name'        => af_get_field( 'site_name' ),
 			'description' => af_get_field( 'site_description' ),
+			'redirect'    => $redirect
 		];
 
 		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data );
@@ -132,6 +142,21 @@ class LaunchSite extends Singleton implements ConstInterface {
 	}
 
 	/**
+	 * Set default site URL using URL param.
+	 *
+	 * @param $field
+	 *
+	 * @return mixed
+	 */
+	public function set_default_site_url( $field ) {
+		if ( isset( $_GET['default_site_url'] ) ) {
+			$field['default_value'] = esc_attr( $_GET['default_site_url'] );
+		}
+
+		return $field;
+	}
+
+	/**
 	 * Append site URL
 	 *
 	 * @param $field
@@ -139,6 +164,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 	 * @return mixed
 	 */
 	public function append_site_url( $field ) {
+
 		$field['append'] = DOLLIE_DOMAIN;
 
 		return $field;
@@ -193,5 +219,14 @@ class LaunchSite extends Singleton implements ConstInterface {
 		}
 
 		return $field;
+	}
+
+	/**
+	 * @param $form
+	 * @param $args
+	 */
+	function hidden_field( $form, $args ) {
+		$redirect = apply_filters( 'dollie/launch_site/redirect', '' );
+		echo sprintf( '<input type="hidden" name="dollie_redirect" value="%s">', $redirect );
 	}
 }

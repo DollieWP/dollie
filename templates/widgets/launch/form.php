@@ -1,4 +1,5 @@
 <?php
+dollie()->load_template( 'widgets/launch/before-message', [], true );
 
 $subscription = dollie()->subscription();
 
@@ -32,6 +33,8 @@ if ( current_user_can( 'manage_options' ) || $subscription->has_subscription() )
 		$form_type         = $settings['type'] ?? 'site';
 		$button_text       = isset( $settings['button_text'] ) && $settings['button_text'] ? $settings['button_text'] : esc_html__( 'Launch New ', 'dollie' );
 		$advanced_settings = (bool) $settings['advanced_settings'];
+
+
 
 		echo do_shortcode(
 			'[dollie_form form="form_dollie_launch_site" ' .

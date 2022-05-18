@@ -18,7 +18,7 @@ final class DeployService extends Singleton implements ConstInterface {
 	 *
 	 * @param string $type
 	 * @param string $route
-	 * @param array  $data
+	 * @param array $data
 	 *
 	 * @return \WP_Error|boolean
 	 */
@@ -85,6 +85,14 @@ final class DeployService extends Singleton implements ConstInterface {
 			return false;
 		}
 
+		$meta_input = [
+			'dollie_container_type' => $deploy['type'],
+		];
+
+		if ( ! empty( $data['redirect'] ) ) {
+			$meta_input['dollie_launch_redirect'] = $data['redirect'];
+		}
+
 		$post_id = wp_insert_post(
 			[
 				'comment_status' => 'closed',
@@ -94,9 +102,7 @@ final class DeployService extends Singleton implements ConstInterface {
 				'post_title'     => "{$route} [Deploying]",
 				'post_status'    => 'publish',
 				'post_type'      => 'container',
-				'meta_input'     => [
-					'dollie_container_type' => $deploy['type'],
-				],
+				'meta_input'     => $meta_input,
 			]
 		);
 

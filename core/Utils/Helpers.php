@@ -149,7 +149,7 @@ class Helpers extends Singleton implements ConstInterface {
 	}
 
 	/**
-	 * Get lastest container URL
+	 * Get latest container URL
 	 *
 	 * @return string|boolean
 	 */

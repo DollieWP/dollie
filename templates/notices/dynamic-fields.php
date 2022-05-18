@@ -15,7 +15,7 @@ $fields = array_filter(
 ?>
 
 <div>
-	<?php esc_html_e( 'Make sure to set your site details below. We automatically launch the site with your information.', 'dollie' ); ?>
+	<?php esc_html_e( 'Please fill in the fields below. We will use this information populate your new site automatically.', 'dollie' ); ?>
 </div>
 
 <?php foreach ( $fields as $field ) : ?>
