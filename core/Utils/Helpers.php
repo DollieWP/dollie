@@ -154,14 +154,17 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return string|boolean
 	 */
 	public function get_latest_container_url() {
-		$query = new WP_Query(
-			[
-				'post_status'    => [ 'publish', 'draft' ],
-				'author'         => get_current_user_id(),
-				'post_type'      => 'container',
-				'posts_per_page' => 1,
-			]
-		);
+		$args = [
+			'post_status'    => [ 'publish', 'draft' ],
+			'post_type'      => 'container',
+			'posts_per_page' => 1,
+		];
+
+		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
+			$args['author'] = get_current_user_id();
+		}
+
+		$query = new WP_Query( $args );
 
 		$output = '';
 
