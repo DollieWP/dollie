@@ -70,6 +70,9 @@ class Upgrades extends Singleton {
 
 		if ( $this->is_new_update() && dollie()->is_api_connected() ) {
 
+			// Automatically update forms.
+			ImportForms::instance()->import_forms();
+
 			$this->process_update_action();
 
 			// If we still need to show the message
@@ -80,7 +83,6 @@ class Upgrades extends Singleton {
 				<div class="notice dollie-notice">
 
 					<div class="dollie-inner-message">
-
 
 						<div class="dollie-message-center">
 							<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -167,12 +169,6 @@ class Upgrades extends Singleton {
 
 		// Save successful upgrades.
 		update_option( $this->option_name, $old_upgrades );
-
-		// Try to update forms on each plugin update.
-		$forms_result = ImportForms::instance()->import_forms();
-		if ( ! $forms_result ) {
-			$errors = true;
-		}
 
 		if ( $errors === false ) {
 			$this->updated = true;
