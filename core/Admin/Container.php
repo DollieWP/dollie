@@ -198,7 +198,7 @@ final class Container extends Singleton implements ConstInterface {
 		if ( isset( $_GET['disconnect_dollie'] ) ) {
 			AuthService::instance()->delete_token();
 
-			wp_redirect( admin_url( 'admin.php?page=' . self::PANEL_SLUG ) );
+			wp_redirect( admin_url() );
 			exit;
 		}
 	}

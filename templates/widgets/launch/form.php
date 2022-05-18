@@ -3,7 +3,7 @@ dollie()->load_template( 'widgets/launch/before-message', [], true );
 
 $subscription = dollie()->subscription();
 
-if ( ! $subscription->has_partner_subscription() || ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_deploy_limit() ) {
+if ( ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_deploy_limit() ) {
 
 	$message = esc_html__( 'We are hard at work at our infrastructure, please come back to this page at a later time.', 'dollie' );
 

@@ -1,3 +1,98 @@
+
+
+
+<div class="dol-bg-white dol-shadow dol-overflow-hidden sm:dol-rounded-md">
+
+	<ul role="list" class="dol-divide-y dol-divide-gray-200">
+		<?php
+		$migration = get_option('wpd_onboarding_migrate_site_url');
+		$url = preg_replace("(^https?://)", "", $migration );
+		$launch_url = get_permalink(dollie()->page()->get_launch_id()) . '?default_site_url=' . sanitize_title($migration);
+		if ( dollie()->count_total_containers() != '' ) : ?>
+
+			<?php if ($migration) {?>
+			<h4 class="dol-text-gray-500 dol-pl-4 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-1 dol-text-m">You wanted to do a migration.</h4>
+			<?php } ?>
+
+			<li>
+				<a href="<?php echo $launch_url;?>" class="dol-block hover:dol-bg-gray-50">
+					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
+						<div class="dol-min-w-0 dol-flex-1 dol-flex dol-items-center">
+							<div class="dol-flex-shrink-0">
+								<img class="dol-h-10 dol-w-10 dol-rounded-full dol-bg-primary-400 dol-p-2" src="<?php echo DOLLIE_ASSETS_URL; ?>/img/active.png" alt="">
+							</div>
+							<div class="dol-min-w-0 dol-flex-1 dol-px-4 md:dol-grid md:dol-grid-cols-1 md:dol-gap-4">
+								<div>
+									<p class="dol-text-sm dol-font-medium dol-text-primary-600 dol-truncate">
+									<?php if ($migration) {?>
+										Migrate <?php echo $migration;?> to Your Platform
+									<?php } else { ?>
+									<?php esc_html_e( 'Launch Your First Site on Your Platform', 'dollie' ); ?>
+									<?php } ?>
+									</p>
+									<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
+									<?php if ($migration) {?>
+										Click here to get started with this.
+									<?php } else { ?>
+										Let's launch your first WordPress site on your platform!
+									<?php } ?>
+									</p>
+								</div>
+							</div>
+						</div>
+						<div>
+							<!-- Heroicon name: solid/chevron-right -->
+							<svg class="dol-h-5 dol-w-5 dol-text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+							</svg>
+						</div>
+					</div>
+				</a>
+			</li>
+		<?php endif; ?>
+		<?php
+		$blueprint = get_option('wpd_onboarding_blueprint_name');
+		$launch_blueprint_url = get_permalink(dollie()->page()->get_launch_blueprint_id()) . '?default_site_url=' . sanitize_title($blueprint);
+		if ( dollie()->count_total_created_blueprints() == '' && $blueprint ) : ?>
+
+			<?php if ($blueprint) {?>
+			<h4 class="dol-text-gray-500 dol-pl-4 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-1 dol-text-m">Let's set up your Agency Blueprint with your favorite plugins and theme</h4>
+			<?php } ?>
+
+			<li>
+				<a href="<?php echo $launch_blueprint_url;?>" class="dol-block hover:dol-bg-gray-50">
+					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
+						<div class="dol-min-w-0 dol-flex-1 dol-flex dol-items-center">
+							<div class="dol-flex-shrink-0">
+								<img class="dol-h-10 dol-w-10 dol-rounded-full dol-bg-primary-400 dol-p-2" src="<?php echo DOLLIE_ASSETS_URL; ?>/img/active.png" alt="">
+							</div>
+							<div class="dol-min-w-0 dol-flex-1 dol-px-4 md:dol-grid md:dol-grid-cols-1 md:dol-gap-4">
+								<div>
+									<p class="dol-text-sm dol-font-medium dol-text-primary-600 dol-truncate">
+									Blueprint Setup - Let's set up <strong><?php echo $blueprint;?></strong>
+									</p>
+									<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
+
+									Save hours of setup time by creating your first Blueprint.
+
+									</p>
+								</div>
+							</div>
+						</div>
+						<div>
+							<!-- Heroicon name: solid/chevron-right -->
+							<svg class="dol-h-5 dol-w-5 dol-text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+								<path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+							</svg>
+						</div>
+					</div>
+				</a>
+			</li>
+		<?php endif; ?>
+	</ul>
+</div>
+
+
 <div class="dol-bg-white dol-shadow dol-overflow-hidden sm:dol-rounded-md">
 
 	<ul role="list" class="dol-divide-y dol-divide-gray-200">
@@ -209,7 +304,7 @@
 		<?php
 		else :
 			?>
-					<li>
+		<li>
 				<a href="<?php echo get_admin_url(); ?>admin.php?page=wpd_platform_setup" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
 						<div class="dol-min-w-0 dol-flex-1 dol-flex dol-items-center">

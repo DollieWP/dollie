@@ -216,7 +216,7 @@ class Helpers extends Singleton implements ConstInterface {
 	}
 
 	/**
-	 * Get total blueprints counter
+	 * Get total Active blueprints counter
 	 *
 	 * @return integer
 	 */
@@ -243,6 +243,32 @@ class Helpers extends Singleton implements ConstInterface {
 
 		return $query->found_posts;
 	}
+
+	/**
+	 * Get total blueprints counter, regardless of status staging/active
+	 *
+	 * @return integer
+	 */
+	public function count_total_created_blueprints(): int {
+		$query = new WP_Query(
+			[
+				'post_type'     => 'container',
+				'post_per_page' => - 1,
+				'meta_query'    => [
+					'relation' => 'AND',
+					[
+						'key'   => 'wpd_is_blueprint',
+						'value' => 'yes',
+					]
+				],
+			]
+		);
+
+		wp_reset_postdata();
+
+		return $query->found_posts;
+	}
+
 
 	/**
 	 * @return bool

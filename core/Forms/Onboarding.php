@@ -55,32 +55,21 @@ class Onboarding extends Singleton implements ConstInterface {
 
 		$user_id = get_current_user_id();
 
+		// Form setup complete, redirect to next step by reloading the page.
+		update_site_option( '_dollie_setup_current_package', 'agency' );
+
 		update_site_option( 'wpd_onboarding_partner_business_name', af_get_field( 'wpd_onboarding_partner_business_name' ) );
 
 		// If Agency has selected Blueprint option
 		if ( af_get_field( 'wpd_onboarding_enable_blueprint' ) == 1 ) {
-
-			// Gabriel - Do Blueprint deploy here
-			// $blueprint = Forms::instance()->get_form_blueprint( $form, $args );
-			// $site_type = 'site';
-
-			// $deploy_data = compact( 'email', 'domain', 'user_id', 'blueprint' );
-			// $deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data, $domain, $blueprint );
-
-			// // add WP site details.
-			// $setup_data = array(
-			// 'email'    => af_get_field( 'client_email' ),
-			// 'username' => sanitize_title( af_get_field( 'client_name' ) ),
-			// );
-			// DeployService::instance()->start( self::TYPE_SITE, $setup_data );
-
-			// Done with blueprint setup, don't run again
-			update_site_option( '_dollie_setup_deployed_blueprint', 1 );
-
+			update_site_option( 'wpd_onboarding_blueprint_name', af_get_field( 'wpd_onboarding_blueprint_name' ) );
 		}
 
-		// Form setup complete, redirect to next step by reloading the page.
-		update_site_option( '_dollie_setup_current_package', 'agency' );
+		// If Agency has selected Guided Migration option
+		if ( af_get_field( 'wpd_onboarding_migrate_site' ) == 1 ) {
+			update_site_option( 'wpd_onboarding_migrate_site_url', af_get_field( 'wpd_onboarding_migrate_site_url' ) );
+		}
+
 
 	}
 
