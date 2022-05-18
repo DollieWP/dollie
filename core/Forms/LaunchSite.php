@@ -226,7 +226,8 @@ class LaunchSite extends Singleton implements ConstInterface {
 	 * @param $args
 	 */
 	function hidden_field( $form, $args ) {
-		$redirect = apply_filters( 'dollie/launch_site/redirect', '' );
+		$redirect = isset( $_GET['redirect'] ) ? sanitize_text_field( $_GET['redirect'] ) : '';
+		$redirect = apply_filters( 'dollie/launch_site/redirect', $redirect );
 		echo sprintf( '<input type="hidden" name="dollie_redirect" value="%s">', $redirect );
 	}
 }
