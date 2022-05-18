@@ -86,6 +86,9 @@ var DollieSiteContent = DollieSiteContent || {};
                         DollieSiteContent.vars.reloaded = true;
 
                         setTimeout(function () {
+                            if (response.hasOwnProperty('data') && response.data.hasOwnProperty('redirect') && response.data.redirect !== '') {
+                                window.location.replace(response.data.redirect);
+                            }
                             location.reload();
                         }, 5000);
                     }

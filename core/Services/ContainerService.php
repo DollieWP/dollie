@@ -92,14 +92,26 @@ final class ContainerService extends Singleton {
 			wp_send_json_error();
 		}
 
-		$status = DeployService::instance()->check_deploy( (int) $_REQUEST['container'] );
+		$container_id = (int) $_REQUEST['container'];
+
+		$status = DeployService::instance()->check_deploy( $container_id );
 
 		if ( ! $status ) {
 			wp_send_json_error();
 			die();
 		}
 
-		wp_send_json_success();
+		$data            = [];
+		$launch_redirect = get_post_meta( $container_id, 'dollie_launch_redirect', true );
+		if ( ! empty( $launch_redirect ) ) {
+			if ( strpos( $launch_redirect, 'http' ) === 0 ) {
+				$data['redirect'] = get_post_meta( $container_id, '', true );
+			} else {
+				$data['redirect'] = get_permalink( $container_id ) . '/' . get_post_meta( $container_id, '', true );
+			}
+		}
+
+		wp_send_json_success( $data );
 		die();
 	}
 
@@ -107,12 +119,14 @@ final class ContainerService extends Singleton {
 	 * Remove pending string from front-end
 	 *
 	 * @param string $title
+	 *
 	 * @return string
 	 */
 	public function remove_pending_from_title( $title, $post_id ) {
 		if ( ! is_admin() && is_main_query() && get_post_type( $post_id ) === 'container' ) {
 			$title = str_replace( ' [deploy pending]', '', $title );
 		}
+
 		return $title;
 	}
 
