@@ -47,6 +47,8 @@ class LaunchSite extends Singleton implements ConstInterface {
 		// Form submission action.
 		add_action( 'af/form/validate/key=' . $this->form_key, [ $this, 'validate_form' ], 10, 2 );
 		add_action( 'af/form/before_submission/key=' . $this->form_key, [ $this, 'submission_callback' ], 10, 3 );
+		add_action( 'af/form/hidden_fields/key=' . $this->form_key, [ $this, 'hidden_field' ], 10, 2 );
+
 	}
 
 	/**
@@ -77,6 +79,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 	 * @param [type] $form
 	 * @param [type] $fields
 	 * @param [type] $args
+	 *
 	 * @return void
 	 */
 	public function submission_callback( $form, $fields, $args ) {
@@ -100,6 +103,11 @@ class LaunchSite extends Singleton implements ConstInterface {
 			}
 		}
 
+		$redirect = '';
+		if ( isset( $_POST['dollie_redirect'] ) && ! empty( $_POST['dollie_redirect'] ) ) {
+			$redirect = sanitize_text_field( $_POST['dollie_redirect'] );
+		}
+
 		$deploy_data = [
 			'owner_id'    => $owner_id,
 			'blueprint'   => $blueprint_hash,
@@ -108,6 +116,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 			'password'    => af_get_field( 'admin_password' ),
 			'name'        => af_get_field( 'site_name' ),
 			'description' => af_get_field( 'site_description' ),
+			'redirect'    => $redirect
 		];
 
 		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data );
@@ -210,5 +219,14 @@ class LaunchSite extends Singleton implements ConstInterface {
 		}
 
 		return $field;
+	}
+
+	/**
+	 * @param $form
+	 * @param $args
+	 */
+	function hidden_field( $form, $args ) {
+		$redirect = apply_filters( 'dollie/launch_site/redirect', '' );
+		echo sprintf( '<input type="hidden" name="dollie_redirect" value="%s">', $redirect );
 	}
 }
