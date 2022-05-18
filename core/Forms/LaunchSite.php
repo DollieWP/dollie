@@ -38,6 +38,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 	public function acf_init() {
 		// Placeholders/Change values
 		add_filter( 'acf/load_field/name=site_blueprint', [ $this, 'populate_blueprints' ] );
+		add_filter( 'acf/load_field/name=site_url', [ $this, 'set_default_site_url' ] );
 		add_filter( 'acf/prepare_field/name=site_url', [ $this, 'append_site_url' ] );
 
 		// Form args
@@ -132,6 +133,21 @@ class LaunchSite extends Singleton implements ConstInterface {
 	}
 
 	/**
+	 * Set default site URL using URL param.
+	 *
+	 * @param $field
+	 *
+	 * @return mixed
+	 */
+	public function set_default_site_url( $field ) {
+		if ( isset( $_GET['default_site_url'] ) ) {
+			$field['default_value'] = esc_attr( $_GET['default_site_url'] );
+		}
+
+		return $field;
+	}
+
+	/**
 	 * Append site URL
 	 *
 	 * @param $field
@@ -139,6 +155,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 	 * @return mixed
 	 */
 	public function append_site_url( $field ) {
+
 		$field['append'] = DOLLIE_DOMAIN;
 
 		return $field;
