@@ -48,32 +48,17 @@ if ( ! isset( $targets ) ) {
 		<div class="dol-w-8/12 dol-px-2">
 			<div class="dol-border dol-border-solid dol-border-gray-300 dol-rounded dol-overflow-hidden">
 				<div class="dol-check-wrap dol-p-4 dol-bg-gray-800">
-					<label class="dol-checkbox">
-						<span class="checkbox__input dol-bg-white dol-overflow-hidden dol-rounded">
-							<input type="checkbox" class="dol-select-all-schedule">
-							<span class="checkbox__control">
-								<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-									<path fill='none' stroke='currentColor' stroke-width='3' d='M1.73 12.91l6.37 6.37L22.79 4.59' />
-								</svg>
-							</span>
-						</span>
-						<span class="radio__label dol-text-white dol-text-sm"><?php esc_html_e( 'Select all', 'dollie' ); ?></span>
+					<label class="dol-flex dol-items-center">
+						<input type="checkbox" class="dol-select-all-schedule dol-scale-125 checked:dol-bg-blue-500 dol-mr-2" />
+						<span class="dol-text-white dol-text-sm"><?php esc_html_e( 'Select all', 'dollie' ); ?></span>
 					</label>
 				</div>
 				<ul class="dol-schedule-create-list dol-list-none dol-m-0 dol-p-0">
 					<?php foreach ( $targets as $target ) : ?>
 						<li class="dol-schedule-list-item dol-px-4 dol-py-2 odd:dol-bg-white even:dol-bg-gray-100 dol-flex dol-items-center">
-							<div class="dol-check-wrap dol-inline-block">
-								<label class="dol-checkbox">
-									<span class="checkbox__input dol-bg-white dol-overflow-hidden dol-rounded">
-										<input type="checkbox" name="containers[]" value="<?php echo esc_attr( $target['id'] ); ?>" required>
-										<span class="checkbox__control">
-											<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-												<path fill='none' stroke='currentColor' stroke-width='3' d='M1.73 12.91l6.37 6.37L22.79 4.59' />
-											</svg>
-										</span>
-									</span>
-									<span class="radio__label"></span>
+							<div class="dol-check-wrap dol-inline-block dol-mr-2">
+								<label class="dol-flex dol-items-center">
+									<input type="checkbox" name="containers[]" value="<?php echo esc_attr( $target['id'] ); ?>" class="dol-scale-125 checked:dol-bg-blue-500" required />
 								</label>
 							</div>
 							<div class="dol-ml-2">

@@ -32,23 +32,16 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 <div class="dol-mb-6 dol-widget-site-search">
 	<div class="dol-rounded dol-p-4 dol-bg-white dol-shadow-md">
 		<div class="dol-flex dol-flex-wrap dol-items-center md:dol-justify-between">
-			<div>
+			<div class="dol-flex dol-items-center">
 				<div class="dol-check-wrap dol-inline-block">
-					<label class="dol-checkbox">
-						<span class="checkbox__input dol-bg-white dol-overflow-hidden dol-rounded">
-							<input type="checkbox" name="checkbox" class="dol-select-all-container">
-							<span class="checkbox__control">
-								<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-									<path fill='none' stroke='currentColor' stroke-width='3' d='M1.73 12.91l6.37 6.37L22.79 4.59' />
-								</svg>
-							</span>
-						</span>
-						<span class="radio__label"></span>
+					<label class="dol-flex dol-items-center">
+						<input type="checkbox" name="checkbox" class="dol-select-all-container dol-scale-125 checked:dol-bg-blue-500 dol-mr-2" />
+						<span class="dol-text-sm"><?php esc_html_e( 'Select all', 'dollie' ); ?></span>
 					</label>
 				</div>
 
 				<button type="button" data-modal-id="dol-modal-id-actions" class="dol-open-modal">
-					<?php echo dollie()->icon()->task( 'dol-ml-2' ); ?> <?php esc_html_e( 'Run Actions', 'dollie' ); ?>
+					<?php echo dollie()->icon()->task( 'dol-mr-2' ); ?> <?php esc_html_e( 'Run Actions', 'dollie' ); ?>
 				</button>
 			</div>
 
@@ -179,16 +172,8 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 							</div>
 						</div>
 						<div class="dol-check-wrap">
-							<label class="dol-checkbox">
-								<span class="checkbox__input">
-									<input type="checkbox" name="checkbox" value="<?php echo esc_attr( $container->get_id() ); ?>">
-									<span class="checkbox__control">
-										<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' aria-hidden="true" focusable="false">
-											<path fill='none' stroke='currentColor' stroke-width='3' d='M1.73 12.91l6.37 6.37L22.79 4.59' />
-										</svg>
-									</span>
-								</span>
-								<span class="radio__label"></span>
+							<label class="dol-flex dol-items-center">
+								<input type="checkbox" name="checkbox" value="<?php echo esc_attr( $container->get_id() ); ?>" class="dol-scale-125 checked:dol-bg-blue-500 dol-mr-2" />
 							</label>
 						</div>
 
