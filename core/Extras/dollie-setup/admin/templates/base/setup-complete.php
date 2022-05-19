@@ -14,10 +14,10 @@
 		$migration = implode('.', $temp);
 
 		$launch_url = get_permalink(dollie()->page()->get_launch_id()) . '?default_site_url=' . sanitize_title($migration) . '&redirect=migrate';
-		if ( dollie()->count_total_containers() != '' ) : ?>
+		if ( dollie()->count_total_containers() == '' ) : ?>
 
 			<?php if ($migration) {?>
-			<h4 class="dol-text-gray-500 dol-pl-4 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-1 dol-text-m">You wanted to do a migration.</h4>
+			<h4 class="dol-text-gray-500 dol-pl-4 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-1 dol-text-m">Step 1 - Migrate Your First Site</h4>
 			<?php } ?>
 
 			<li>
@@ -62,7 +62,7 @@
 		if ( dollie()->count_total_created_blueprints() == '' && $blueprint ) : ?>
 
 			<?php if ($blueprint) {?>
-			<h4 class="dol-text-gray-500 dol-pl-4 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-1 dol-text-m">Let's set up your Agency Blueprint with your favorite plugins and theme</h4>
+			<h4 class="dol-text-gray-500 dol-pl-4 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-1 dol-text-m">Step 1 - Launch Your Agency Blueprint</h4>
 			<?php } ?>
 
 			<li>
