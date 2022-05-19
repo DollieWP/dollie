@@ -21,7 +21,9 @@
 }
 
 .toplevel_page_wpd_platform_setup {
-  //display: none !important;
+  .dollie-notice {
+  display: none !important;
+  }
 }
 
 .dol-divider-support {
@@ -113,26 +115,9 @@
 #adminmenuwrap .toplevel_page_wpd_platform_setup .wp-menu-image:before {
   display: none !important;
 }
-#wp-admin-bar-dab-trial {
-  background: #efa041 !important;
-}
-#wp-admin-bar-dab-live {
-    background: #33d399 !important;
-}
-#wp-admin-bar-staging {
-    background: #3A696C !important;
-}
 
-#wp-admin-bar-dab-integrations {
-  border-top: 1px solid #4c4c4c;
-  margin-top: 10px !important;
 
-  &::before {
-    content: "External Links";
-    position: relative;
-    display: block !important;
-  }
-}
+
 
 #dollie-integrations-menu {
   border-top: 1px solid #585656;
@@ -157,10 +142,5 @@
   .notice,
   .error {
     display: none !important;
-  }
-  .notice.dollie-notice {
-    display: block !important;
-    z-index: 0;
-    top: 60px;
   }
 }

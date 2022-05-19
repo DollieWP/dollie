@@ -401,6 +401,52 @@ final class Container extends Singleton implements ConstInterface {
 			);
 		}
 
+		if (defined('S5_APP_TOKEN')) {
+			$wp_admin_bar->add_menu(
+				[
+					'parent' => 'top-secondary',
+					'title'  => '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+</svg> Dollie Partner - Hosted for Free',
+					'id'     => 'dwb-hosted',
+					'href'   => 'https://partners.getdollie.com/?redirect=dollie-site-redirect',
+				]
+			);
+
+
+			$wp_admin_bar->add_menu(
+						[
+							'parent' => 'dwb-hosted',
+							'title'  => esc_html__( 'Manage Your Site', 'dollie' ),
+							'id'     => 'dab-hosted-manage',
+							'href'   => 'https://partners.getdollie.com/?redirect=dollie-site-redirect',
+							'meta'   => [ 'target' => '_blank' ],
+						]
+					);
+
+			$wp_admin_bar->add_menu(
+						[
+							'parent' => 'dwb-hosted',
+							'title'  => esc_html__( 'View Documentation', 'dollie' ),
+							'id'     => 'dab-hosted-docs',
+							'href'   => 'https://partners.getdollie.com/?redirect=knowledge-base',
+							'meta'   => [ 'target' => '_blank' ],
+						]
+					);
+
+			$wp_admin_bar->add_menu(
+				[
+					'parent' => 'dwb-hosted',
+					'title'  => esc_html__( 'This site is hosted for free on the Dollie Cloud. Visit the Partner Dashboard to manage this site and access our developer tools.', 'dollie' ),
+					'id'     => 'dab-hosted-message',
+					'href'   => 'https://partners.getdollie.com/?redirect=dollie-site-redirect',
+					'meta'   => [ 'target' => '_blank' ],
+				]
+			);
+
+
+		}
+
 
 		$wp_admin_bar->add_menu(
 			[
@@ -593,13 +639,13 @@ final class Container extends Singleton implements ConstInterface {
 			?>
 			<div class="dollie-page-intro">
 				<h3>
-					<?php esc_html_e( 'The Site Manager', 'dollie' ); ?>
+					<?php esc_html_e( 'Sites Overview - All Sites On Your Platform', 'dollie' ); ?>
 				</h3>
 				<p>
 					<?php
 					printf(
 						'%s <a href="%s">%s</a>.',
-						esc_html__( 'Below you will find all of your sites launched by you and your customers. Remember: You can also view all the sites launched by your customers in the', 'dollie' ),
+						esc_html__( 'Below you will find all of your sites launched on your platform. ', 'dollie' ),
 						esc_url( dollie()->page()->get_sites_url() ),
 						esc_html__( 'Sites Directory', 'dollie' )
 					);

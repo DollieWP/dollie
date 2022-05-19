@@ -144,7 +144,7 @@ final class Admin extends Singleton implements ConstInterface {
 	 * @param array $args
 	 */
 	public function api_box_callback( $post, $args = array() ) {
-		dollie_setup_get_template_part( 'setup-complete' );
+		//dollie_setup_get_template_part( 'setup-complete' );
 	}
 
 	/**

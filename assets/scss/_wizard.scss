@@ -13,6 +13,55 @@ body.post-type-dollie-logs {
   }
 }
 
+#wp-admin-bar-dab-hosted-message a.ab-item {
+    max-width: 250px !important;
+    inline-size: 250px !important;
+    overflow-wrap: break-word !important;
+    height: auto !important;
+    white-space: initial !important;
+    font-size: 90% !important;
+    line-height: 140% !important;
+    opacity: 0.8;
+    border-top: 1px solid rgba(144, 144, 144, 0.62);
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+#wp-admin-bar-dwb-hosted {
+    background: #51AABE !important;
+    float: right;
+
+    svg {
+        height: 20px;
+        width: 20px;
+        position: relative;
+        top: 5px;
+    }
+}
+
+#wp-admin-bar-dab-trial {
+    background: #efa041 !important;
+}
+
+#wp-admin-bar-dab-live {
+    background: #33d399 !important;
+}
+
+#wp-admin-bar-staging {
+    background: #3A696C !important;
+}
+
+#wp-admin-bar-dab-integrations {
+    border-top: 1px solid #4c4c4c;
+    margin-top: 10px !important;
+
+    &::before {
+        content: "External Links";
+        position: relative;
+        display: block !important;
+    }
+}
+
 body[class*="dollie_setup"],
 body.post-type-container,
 body.post-type-dollie-logs {

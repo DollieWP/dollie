@@ -442,7 +442,7 @@ class Dollie_Setup_Admin {
 					$text = __( 'Continue to theme installation', 'dollie-setup' );
 				} else {
 					$url  = self_admin_url( 'admin.php?page=dollie_setup' );
-					$text = __( 'Continue to the DOLLIE_SETUP Dashboard', 'dollie-setup' );
+					$text = __( 'Continue to Your Dashboard', 'dollie-setup' );
 				}
 
 				// start the install!
@@ -925,16 +925,25 @@ class Dollie_Setup_Admin {
 			return;
 		}
 
+
 		// setup some variables depending on the setup step
 		switch ( dollie_setup_get_setup_step() ) {
 			case 'no-package':
 			case 'required-plugins':
-				$notice_text = __( "Let's get started!", 'dollie-setup' );
+				$notice_header= __( '<span></span>Welcome to Your Dollie Hub - Let\'s Get Started', 'dollie-setup');
+
+				if (defined('S5_APP_TOKEN')) {
+						$notice_text= __( 'Your brand new WordPress site is now set up hosted on the Dollie Cloud. But before you can start using Dollie we need to know a little bit about how the type of platform you would like to build. ', 'dollie-setup');
+				} else {
+					$notice_text= __( 'Before you can start using Dollie we need to know a little bit about how the type of platform you would like to build. ', 'dollie-setup');
+				}
+
 				$button_link = dollie_setup_admin_prop( 'url', 'admin.php?page=dollie_setup' );
-				$button_text = __( 'Click here to get set up', 'dollie-setup' );
+				$button_text = __( 'Start the Setup', 'dollie-setup' );
 				break;
 
 			case 'theme-update':
+				$notice_header= __( '<span>Theme</span> Update Available', 'dollie-setup');
 				$notice_text = sprintf( __( 'The %1$s theme needs an update.', 'dollie-setup' ), esc_attr( dollie_setup_get_theme_prop( 'name' ) ) );
 				$button_text = __( 'Update the theme &rarr;', 'dollie-setup' );
 
@@ -943,6 +952,7 @@ class Dollie_Setup_Admin {
 				break;
 
 			case 'recommended-plugins':
+				$notice_header= __( '<span>Plugins</span> Recommended Plugins Setup', 'dollie-setup');
 				$notice_text = __( 'You only have one last thing to do. We promise!', 'dollie-setup' );
 				$button_link = dollie_setup_admin_prop( 'url', 'admin.php?page=dollie_setup' );
 				$button_text = __( 'Click here to finish up!', 'dollie-setup' );
@@ -950,7 +960,8 @@ class Dollie_Setup_Admin {
 
 			case 'plugin-update':
 			case 'upgrades-available':
-				$notice_text = esc_html__( 'There are some upgrades available.', 'dollie-setup' );
+				$notice_header= __( '<span>Plugins</span> Updates Available', 'dollie-setup');
+				$notice_text = esc_html__( 'There are some upgrades available for the required Dollie Hub plugins', 'dollie-setup' );
 				$button_text = esc_html__( 'Click here to update', 'dollie-setup' );
 
 				$button_link = add_query_arg( '_wpnonce', wp_create_nonce( 'dollie_setup_upgrade' ), dollie_setup_admin_prop( 'url', 'admin.php?page=dollie_setup&dollie_setup-action=upgrade' ) );
@@ -975,12 +986,13 @@ class Dollie_Setup_Admin {
 		}
 		?>
 
-		<div id="dollie_setup-steps" class="notice dollie-notice dollie-setup">
+
+	<div id="dollie_setup-steps" class="notice dollie-notice dollie-setup">
 			<svg xmlns="http://www.w3.org/2000/svg" fill="#33D399" viewBox="0 0 24 24" stroke="currentColor">
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
 				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
 			</svg>
-			<h3><span>API Connected</span> <?php _e( 'Let\'s Continue Setting Up Your Platform', 'dollie-setup' ); ?></h3>
+			<h3><?php echo $notice_header; ?></h3>
 
 			<p><?php echo $notice_text; ?></p>
 
@@ -991,6 +1003,7 @@ class Dollie_Setup_Admin {
 				</div>
 			<?php endif; ?>
 		</div>
+
 		<?php
 	}
 

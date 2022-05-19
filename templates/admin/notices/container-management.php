@@ -29,7 +29,7 @@ if ( ! isset( $container ) ) {
 					<?php
 					echo wp_kses_post(
 						sprintf(
-							__( 'We recommend managing this site on the front-end of your Hub using the <a href="%s">Site Dashboard</a>. Use this page to take advanced actions, like stopping or restarting your site.', 'dollie' ),
+						__( 'Manage this site on the front-end of your Hub using the <a href="%s">Site Dashboard</a>. You can only use this page to take advanced actions, like stopping or restarting this site or assigning it to another customer in your HUB.', 'dollie' ),
 							esc_url( $container->get_permalink() )
 						)
 					);
