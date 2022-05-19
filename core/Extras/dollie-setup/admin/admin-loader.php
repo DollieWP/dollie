@@ -508,7 +508,7 @@ class Dollie_Setup_Admin {
 
 				if ( $current_theme->get('Name') == 'Hello Dollie' && ! get_option( '_dollie_setup_theme_activated' ) ) {
 					update_site_option( '_dollie_setup_theme_activated', '1' );
-					wp_redirect( self_admin_url( 'admin.php?page=dollie_setup&amp;dollie_setup-action=complete') );
+					wp_redirect( self_admin_url( 'admin.php?page=dollie_setup&dollie_setup-action=complete') );
 					exit;
 				}
 
