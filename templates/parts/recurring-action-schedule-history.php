@@ -25,10 +25,10 @@ if ( ! isset( $data ) ) {
 					<div class="dol-font-bold dol-text-lg"><?php echo esc_html( $schedule['name'] ); ?></div>
 					<div>
 						<span class="dol-acc-closed">
-							<?php echo dollie()->icon()->arrow_right(); ?>
+							<?php echo dollie()->icon()->angle_right(); ?>
 						</span>
 						<span class="dol-acc-opened dol-hidden">
-							<?php echo dollie()->icon()->arrow_down(); ?>
+							<?php echo dollie()->icon()->angle_down(); ?>
 						</span>
 					</div>
 				</div>
@@ -37,7 +37,7 @@ if ( ! isset( $data ) ) {
 						<div class="dol-p-4">
 							<div class="dol-schedule-action dol-mb-3">
 								<div class="dol-font-bold"><?php echo dollie()->icon()->task(); ?> <?php esc_html_e( 'Action', 'dollie' ); ?></div>
-								<div class="dol-text-sm dol-text-gray-700"><?php echo $this->get_allowed_commands()[ $schedule['action'] ]; ?> - <?php echo $this->get_allowed_intervals()[ $schedule['interval'] ]; ?></div>
+								<div class="dol-text-sm dol-text-gray-700"><?php echo dollie()->recurring_actions()->get_allowed_commands()[ $schedule['action'] ]; ?> - <?php echo dollie()->recurring_actions()->get_allowed_intervals()[ $schedule['interval'] ]; ?></div>
 							</div>
 							<div class="dol-schedule-time dol-mb-3">
 								<div class="dol-font-bold"><?php echo dollie()->icon()->clock(); ?> <?php esc_html_e( 'Interval details', 'dollie' ); ?></div>
@@ -49,7 +49,7 @@ if ( ! isset( $data ) ) {
 							</div>
 							<div class="dol-mt-4">
 								<span class="dol-delete-schedule dol-inline-block dol-text-red-600 dol-text-sm dol-border dol-border-solid dol-border-red-600 hover:dol-bg-red-600 hover:dol-text-white dol-px-4 dol-py-2 dol-rounded dol-cursor-pointer" data-uuid="<?php echo esc_attr( $schedule['uuid'] ); ?>" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_delete_recurring_action' ) ); ?>">
-									<?php echo dollie()->icon()->clock(); ?> <?php esc_html_e( 'Remove', 'dollie' ); ?>
+									<?php echo dollie()->icon()->close( 'dol-mr-2' ); ?> <?php esc_html_e( 'Remove', 'dollie' ); ?>
 								</span>
 							</div>
 						</div>
@@ -87,7 +87,7 @@ if ( ! isset( $data ) ) {
 											</div>
 										</div>
 										<div class="dol-text-sm">
-											<span class="dol-delete-recurring-container dol-cursor-pointer hover:dol-text-red-600" data-uuid="<?php echo esc_attr( $schedule['uuid'] ); ?>" data-container-id="<?php echo esc_url( $container['container_id'] ); ?>" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_delete_recurring_container' ) ); ?>"><?php echo dollie()->icon()->clock(); ?></span>
+											<span class="dol-delete-recurring-container dol-cursor-pointer hover:dol-text-red-600" data-uuid="<?php echo esc_attr( $schedule['uuid'] ); ?>" data-container-hash="<?php echo esc_attr( $container['hash'] ); ?>" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_delete_recurring_container' ) ); ?>"><?php echo dollie()->icon()->close(); ?></span>
 										</div>
 									</div>
 								</li>

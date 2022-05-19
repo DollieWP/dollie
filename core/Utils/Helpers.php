@@ -62,7 +62,7 @@ class Helpers extends Singleton implements ConstInterface {
 		}
 
 		return new Site( $object );
-		//return new \WP_Error( 500, 'Invalid container type' );
+		// return new \WP_Error( 500, 'Invalid container type' );
 	}
 
 	/**
@@ -262,7 +262,7 @@ class Helpers extends Singleton implements ConstInterface {
 					[
 						'key'   => 'wpd_is_blueprint',
 						'value' => 'yes',
-					]
+					],
 				],
 			]
 		);
@@ -291,10 +291,10 @@ class Helpers extends Singleton implements ConstInterface {
 		$deployment_domain        = get_option( 'wpd_deployment_domain' );
 		$deployment_domain_status = get_option( 'wpd_deployment_domain_status' );
 
-		if (! dollie()->subscription()->has_partner_subscription()) {
+		if ( ! dollie()->subscription()->has_partner_subscription() ) {
 			return 'trial';
-		} elseif ( $deployment_domain && $deployment_domain_status && ! get_option( 'deployment_domain_notice' )) {
-		   return 'staging';
+		} elseif ( $deployment_domain && $deployment_domain_status && ! get_option( 'deployment_domain_notice' ) ) {
+			return 'staging';
 		} else {
 			return 'live';
 		}
@@ -362,7 +362,7 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @param $needle
 	 * @param $haystack
-	 * @param bool $strict
+	 * @param bool     $strict
 	 *
 	 * @return bool
 	 */
@@ -398,8 +398,8 @@ class Helpers extends Singleton implements ConstInterface {
 	 */
 	public function is_elementor_editor(): bool {
 		return class_exists( '\Elementor\Plugin' ) && ( \Elementor\Plugin::instance()->editor->is_edit_mode()
-		                                                || \Elementor\Plugin::instance()->preview->is_preview()
-		                                                || isset( $_GET['elementor_library'] ) );
+														|| \Elementor\Plugin::instance()->preview->is_preview()
+														|| isset( $_GET['elementor_library'] ) );
 	}
 
 	/**
@@ -446,7 +446,7 @@ class Helpers extends Singleton implements ConstInterface {
 
 		if ( $this->is_elementor_editor() ) {
 			$args = [
-				'post_type' => 'container',
+				'post_type'      => 'container',
 
 				'posts_per_page' => 1,
 			];
@@ -466,43 +466,33 @@ class Helpers extends Singleton implements ConstInterface {
 	}
 
 	/**
-	 * Get containers data
+	 * Get containers by hashes
 	 *
-	 * @param array $data
-	 * @param string $with
+	 * @param array $hashes
 	 *
 	 * @return array
 	 */
-	public function containers_query( $data, $with = 'post_id' ) {
+	public function get_containers_by_hashes( $hashes = [] ) {
+		if ( empty( $hashes ) ) {
+			return [];
+		}
+
+		$meta_conditions = [ 'relation' => 'OR' ];
+
+		foreach ( $hashes as $hash ) {
+			$meta_conditions[] = [
+				'key'     => 'dollie_container_details',
+				'value'   => $hash,
+				'compare' => 'LIKE',
+			];
+		}
+
 		$args = [
 			'post_type'      => 'container',
 			'posts_per_page' => - 1,
 			'post_status'    => 'publish',
+			'meta_query'     => $meta_conditions,
 		];
-
-		if ( 'post_id' === $with ) {
-			$ids = [];
-
-			foreach ( $data as $container ) {
-				$ids[] = (int) $container['id'];
-			}
-
-			$args['post__in'] = $ids;
-		} elseif ( 'container_id' === $with ) {
-			$containers_ids = [];
-
-			foreach ( $data as $container ) {
-				$containers_ids[] = $container['container_id'];
-			}
-
-			$args['meta_query'] = [
-				[
-					'key'     => 'wpd_container_id',
-					'value'   => $containers_ids,
-					'compare' => 'IN',
-				],
-			];
-		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			$args['author'] = get_current_user_id();
@@ -517,10 +507,41 @@ class Helpers extends Singleton implements ConstInterface {
 	}
 
 	/**
+	 * Get containers by ids
+	 *
+	 * @param array $ids
+	 *
+	 * @return array
+	 */
+	public function get_containers_by_ids( $ids = [] ) {
+		if ( empty( $ids ) ) {
+			return [];
+		}
+
+		$args = [
+			'post_type'      => 'container',
+			'posts_per_page' => -1,
+			'post_status'    => 'publish',
+			'post__in'       => $ids,
+		];
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			$args['author'] = get_current_user_id();
+		}
+
+		$posts = new \WP_Query( $args );
+		$posts = $posts->get_posts();
+
+		wp_reset_postdata();
+
+		return $posts;
+	}
+
+	/**
 	 * Load template
 	 *
-	 * @param string $template
-	 * @param array $args
+	 * @param string  $template
+	 * @param array   $args
 	 * @param boolean $echo
 	 *
 	 * @return void|string

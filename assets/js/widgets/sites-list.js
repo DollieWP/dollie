@@ -611,7 +611,7 @@ var DollieSiteList = DollieSiteList || {};
                     url: $(this).data("ajax-url"),
                     data: {
                         uuid: $(this).data("uuid"),
-                        container_id: $(this).data("container-id"),
+                        container_hash: $(this).data("container-hash"),
                         action: "dollie_delete_recurring_container",
                         nonce: $(this).data("nonce"),
                     },

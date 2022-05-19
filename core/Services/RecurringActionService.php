@@ -7,8 +7,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
+use Dollie\Core\Api\ActionApi;
 
 final class RecurringActionService extends Singleton {
+	use ActionApi;
+
 	/**
 	 * Get allowed commands
 	 *
@@ -19,8 +22,10 @@ final class RecurringActionService extends Singleton {
 			'update-wp-core'        => __( 'Update WP Core', 'dollie' ),
 			'update-plugins'        => __( 'Update Plugins', 'dollie' ),
 			'update-themes'         => __( 'Update Themes', 'dollie' ),
+			'create-backup'         => __( 'Create Backup', 'dollie' ),
 			'regenerate-screenshot' => __( 'Regenerate Screenshot', 'dollie' ),
 			'restart'               => __( 'Restart', 'dollie' ),
+			'stop'                  => __( 'Stop', 'dollie' ),
 		];
 	}
 
@@ -53,8 +58,7 @@ final class RecurringActionService extends Singleton {
 			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
 		}
 
-		$containers_ids = [];
-		$params         = [];
+		$params = [];
 		parse_str( $_REQUEST['data'], $params );
 
 		if ( ! $params['schedule-name'] ) {
@@ -69,11 +73,12 @@ final class RecurringActionService extends Singleton {
 			wp_send_json_error( [ 'message' => esc_html__( 'Interval not allowed.', 'dollie' ) ] );
 		}
 
+		$ids = [];
 		foreach ( $params['containers'] as $container_id ) {
-			$containers_ids[]['id'] = $container_id;
+			$ids[] = $container_id;
 		}
 
-		$posts = dollie()->containers_query( $containers_ids );
+		$posts = dollie()->get_containers_by_ids( $ids );
 
 		if ( empty( $posts ) ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'There has been something wrong with your request.', 'dollie' ) ] );
@@ -83,23 +88,21 @@ final class RecurringActionService extends Singleton {
 		$targets = [];
 
 		foreach ( $posts as $post ) {
-			$container_id = get_post_meta( $post->ID, 'wpd_container_id', true );
+			$container = dollie()->get_container( $post );
 
-			if ( $container_id ) {
-				$targets[] = [
-					'container_id'  => get_post_meta( $post->ID, 'wpd_container_id', true ),
-					'container_uri' => dollie()->get_wp_site_data( 'uri', $post->ID ),
-				];
+			if ( is_wp_error( $container ) ) {
+				continue;
 			}
+
+			$targets[] = $container->get_hash();
 		}
 
-		$response = Api::post(
-			Api::ROUTE_CONTAINER_RECURRING_ACTION_CREATE,
+		$response = $this->create_recurring_actions(
 			[
-				'name'     => $params['schedule-name'],
-				'targets'  => $targets,
-				'action'   => $params['action'],
-				'interval' => $params['interval'],
+				'name'             => $params['schedule-name'],
+				'container_hashes' => $targets,
+				'action'           => $params['action'],
+				'interval'         => $params['interval'],
 			]
 		);
 
@@ -115,15 +118,10 @@ final class RecurringActionService extends Singleton {
 			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
 		}
 
-		$response = Api::post(
-			Api::ROUTE_CONTAINER_RECURRING_CONTAINER_DELETE,
-			[
-				'uuid'         => sanitize_text_field( $_REQUEST['uuid'] ),
-				'container_id' => sanitize_text_field( $_REQUEST['container_id'] ),
-			]
-		);
+		$uuid           = sanitize_text_field( $_REQUEST['uuid'] );
+		$container_hash = sanitize_text_field( $_REQUEST['container_hash'] );
 
-		wp_send_json_success( $response );
+		wp_send_json_success( $this->delete_recurring_action( $uuid, $container_hash ) );
 	}
 
 	/**
@@ -142,14 +140,7 @@ final class RecurringActionService extends Singleton {
 
 		$uuid = sanitize_text_field( $_REQUEST['uuid'] );
 
-		$response = Api::post(
-			Api::ROUTE_CONTAINER_RECURRING_ACTION_DELETE,
-			[
-				'uuid' => sanitize_text_field( $_REQUEST['uuid'] ),
-			]
-		);
-
-		wp_send_json_success( $response );
+		wp_send_json_success( $this->delete_recurring_action( $uuid ) );
 	}
 
 	/**
@@ -162,7 +153,12 @@ final class RecurringActionService extends Singleton {
 			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
 		}
 
-		$posts = dollie()->containers_query( $_REQUEST['containers'] );
+		$ids = [];
+		foreach ( $_REQUEST['containers'] as $container ) {
+			$ids[] = $container['id'];
+		}
+
+		$posts = dollie()->get_containers_by_ids( $ids );
 
 		if ( empty( $posts ) ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'Something went wrong with your request.', 'dollie' ) ] );
@@ -207,26 +203,17 @@ final class RecurringActionService extends Singleton {
 			wp_send_json_error( [ 'message' => esc_html__( 'Invalid request.', 'dollie' ) ] );
 		}
 
-		$response = Api::post(
-			Api::ROUTE_CONTAINER_RECURRING_ACTION_GET,
-		);
-
-		$data = [];
+		$response = $this->get_recurring_actions();
+		$data     = [];
 
 		if ( is_array( $response ) && ! empty( $response ) ) {
 			foreach ( $response as $schedule ) {
-				$containers_ids = [];
-
+				$hashes = [];
 				foreach ( $schedule['containers'] as $container ) {
-					$containers_ids[]['container_id'] = $container['id'];
+					$hashes[] = $container['hash'];
 				}
 
-				if ( ! empty( $containers_ids ) ) {
-					$posts = dollie()->containers_query( $containers_ids, 'container_id' );
-				} else {
-					$posts = [];
-				}
-
+				$posts      = dollie()->get_containers_by_hashes( $hashes );
 				$containers = [];
 				$logs       = [];
 
@@ -239,17 +226,18 @@ final class RecurringActionService extends Singleton {
 				}
 
 				foreach ( $posts as $post ) {
-					$container    = dollie()->get_container( $post );
-					$container_id = get_post_meta( $post->ID, 'wpd_container_id', true );
+					$container = dollie()->get_container( $post );
 
-					if ( $container_id ) {
-						$containers[] = [
-							'id'           => $container->get_id(),
-							'name'         => $container->get_title(),
-							'url'          => $container->get_url(),
-							'container_id' => $container_id,
-						];
+					if ( is_wp_error( $container ) ) {
+						continue;
 					}
+
+					$containers[] = [
+						'id'   => $container->get_id(),
+						'name' => $container->get_title(),
+						'url'  => $container->get_url(),
+						'hash' => $container->get_hash(),
+					];
 				}
 
 				$data[] = [
@@ -266,7 +254,7 @@ final class RecurringActionService extends Singleton {
 
 		wp_send_json_success(
 			dollie()->load_template(
-				'parts/recurring-action-selected-sites',
+				'parts/recurring-action-schedule-history',
 				[
 					'data' => $data,
 				]

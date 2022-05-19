@@ -60,12 +60,12 @@ trait ActionApi {
 	/**
 	 * Delete recurring
 	 *
+	 * @param string $uuid
 	 * @param string $container_hash
-	 * @param string $action_id
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_recurring_action( string $container_hash, string $action_id ) {
-		return $this->delete_request( "actions/recurring/{$container_hash}/{$action_id}" );
+	public function delete_recurring_action( string $uuid, string $container_hash = '' ) {
+		return $this->delete_request( "actions/recurring/{$uuid}/{$container_hash}" );
 	}
 }

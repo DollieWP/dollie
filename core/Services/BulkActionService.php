@@ -178,7 +178,12 @@ final class BulkActionService extends Singleton {
 					exit;
 				}
 
-				$posts = $this->get_containers( $_REQUEST['command_data'] );
+				$ids = [];
+				foreach ( $_REQUEST['command_data'] as $container ) {
+					$ids[] = $container['id'];
+				}
+
+				$posts = dollie()->get_containers_by_ids( $ids );
 				break;
 			case 'update-themes':
 				if ( ! isset( $_REQUEST['command_data'] ) || ! is_array( $_REQUEST['command_data'] ) || empty( $_REQUEST['command_data'] ) ) {
@@ -186,10 +191,20 @@ final class BulkActionService extends Singleton {
 					exit;
 				}
 
-				$posts = $this->get_containers( $_REQUEST['command_data'] );
+				$ids = [];
+				foreach ( $_REQUEST['command_data'] as $container ) {
+					$ids[] = $container['id'];
+				}
+
+				$posts = dollie()->get_containers_by_ids( $ids );
 				break;
 			default:
-				$posts = $this->get_containers( $_REQUEST['containers'] );
+				$ids = [];
+				foreach ( $_REQUEST['containers'] as $container ) {
+					$ids[] = $container['id'];
+				}
+
+				$posts = dollie()->get_containers_by_ids( $$ids );
 		}
 
 		if ( empty( $posts ) ) {
@@ -354,7 +369,13 @@ final class BulkActionService extends Singleton {
 		}
 
 		$command = sanitize_text_field( $_REQUEST['command'] );
-		$posts   = $this->get_containers( $_REQUEST['containers'] );
+
+		$ids = [];
+		foreach ( $_REQUEST['containers'] as $container ) {
+			$ids[] = $container['id'];
+		}
+
+		$posts = dollie()->get_containers_by_ids( $ids );
 
 		if ( empty( $posts ) ) {
 			wp_send_json_error( [ 'message' => esc_html__( 'No matching sites were found for your selection.', 'dollie' ) ] );
@@ -484,39 +505,5 @@ final class BulkActionService extends Singleton {
 	 */
 	public function get_saved_bulk_actions() {
 		return get_option( 'wpd_container_bulk_actions_' . get_current_user_id(), [] );
-	}
-
-	/**
-	 * Get containers data
-	 *
-	 * @param array  $data
-	 * @param string $with
-	 *
-	 * @return array
-	 */
-	public function get_containers( $data ) {
-		$ids = [];
-
-		foreach ( $data as $container ) {
-			$ids[] = (int) $container['id'];
-		}
-
-		$args = [
-			'post_type'      => 'container',
-			'posts_per_page' => -1,
-			'post_status'    => 'publish',
-			'post__in'       => $ids,
-		];
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			$args['author'] = get_current_user_id();
-		}
-
-		$posts = new \WP_Query( $args );
-		$posts = $posts->get_posts();
-
-		wp_reset_postdata();
-
-		return $posts;
 	}
 }

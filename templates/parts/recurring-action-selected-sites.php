@@ -22,11 +22,11 @@ if ( ! isset( $targets ) ) {
 		<div class="dol-w-4/12 dol-px-2">
 			<div class="dol-border dol-border-solid dol-border-gray-300 dol-rounded dol-p-4">
 				<div class="dol-mb-4">
-					<label for="dol-schedule-name" class="dol-font-bold dol-mb-2 dol-text-sm"><?php echo dollie()->icon()->task(); ?> <?php esc_html_e( 'Scheduled Task Name', 'dollie' ); ?></label>
+					<label for="dol-schedule-name" class="dol-font-bold dol-mb-2 dol-text-sm"><?php echo dollie()->icon()->task( 'dol-mr-1' ); ?> <?php esc_html_e( 'Scheduled Task Name', 'dollie' ); ?></label>
 					<input type="text" name="schedule-name" value="" placeholder="<?php esc_html_e( 'My schedule\'s name', 'dollie' ); ?>" id="dol-schedule-name" class="dol-px-2 dol-py-2 dol-border dol-border-solid dol-border-gray-300 dol-rounded" required>
 				</div>
 				<div class="dol-mb-4">
-					<label for="dol-action" class="dol-font-bold dol-mb-2 dol-text-sm"><?php echo dollie()->icon()->task(); ?> <?php esc_html_e( 'Action', 'dollie' ); ?></label>
+					<label for="dol-action" class="dol-font-bold dol-mb-2 dol-text-sm"><?php echo dollie()->icon()->task( 'dol-mr-1' ); ?> <?php esc_html_e( 'Action', 'dollie' ); ?></label>
 					<select name="action" id="dol-action" class="dol-py-2 dol-pl-4 dol-pr-6 dol-rounded" required>
 						<option value="" selected disabled><?php esc_html_e( 'Select Action', 'dollie' ); ?></option>
 						<?php foreach ( dollie()->bulk_actions()->get_allowed_commands() as $type => $label ) : ?>
@@ -35,7 +35,7 @@ if ( ! isset( $targets ) ) {
 					</select>
 				</div>
 				<div>
-					<label for="dol-interval" class="dol-font-bold dol-mb-2 dol-text-sm"><?php echo dollie()->icon()->clock(); ?><?php esc_html_e( 'Interval', 'dollie' ); ?></label>
+					<label for="dol-interval" class="dol-font-bold dol-mb-2 dol-text-sm"><?php echo dollie()->icon()->clock( 'dol-mr-1' ); ?><?php esc_html_e( 'Interval', 'dollie' ); ?></label>
 					<select name="interval" id="dol-interval" class="dol-py-2 dol-pl-4 dol-pr-6 dol-rounded" required>
 						<option value="" selected disabled><?php esc_html_e( 'Select Interval', 'dollie' ); ?></option>
 						<?php foreach ( dollie()->recurring_actions()->get_allowed_intervals() as $interval_name => $interval_text ) : ?>
@@ -75,6 +75,6 @@ if ( ! isset( $targets ) ) {
 	</div>
 
 	<button type="submit" class="dol-create-schedule dol-mt-3 dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600">
-		<?php echo dollie()->icon()->save(); ?> <?php esc_html_e( 'Save', 'dollie' ); ?>
+		<?php echo dollie()->icon()->save( 'dol-mr-2' ); ?> <?php esc_html_e( 'Save', 'dollie' ); ?>
 	</button>
 </form>
