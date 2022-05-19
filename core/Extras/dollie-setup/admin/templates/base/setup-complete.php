@@ -7,7 +7,13 @@
 		<?php
 		$migration = get_option('wpd_onboarding_migrate_site_url');
 		$url = preg_replace("(^https?://)", "", $migration );
-		$launch_url = get_permalink(dollie()->page()->get_launch_id()) . '?default_site_url=' . sanitize_title($migration);
+		$temp = explode('.', $url);
+
+		unset($temp[count($temp) - 1]);
+
+		$migration = implode('.', $temp);
+
+		$launch_url = get_permalink(dollie()->page()->get_launch_id()) . '?default_site_url=' . sanitize_title($migration) . '&redirect=migrate';
 		if ( dollie()->count_total_containers() != '' ) : ?>
 
 			<?php if ($migration) {?>
