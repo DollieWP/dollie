@@ -501,9 +501,16 @@ class Dollie_Setup_Admin {
 
 				// prompt for theme install
 			case 'theme-prompt':
+
 				dollie_setup_get_template_part( 'wrapper-header' );
 				$directory_name = dollie_setup_get_theme_prop( 'directory_name' );
 				$current_theme  = wp_get_theme();
+
+				if ( $current_theme->get('Name') == 'Hello Dollie' && ! get_option( '_dollie_setup_theme_activated' ) ) {
+					update_site_option( '_dollie_setup_theme_activated', '1' );
+					wp_redirect( self_admin_url( 'admin.php?page=dollie_setup&amp;dollie_setup-action=complete') );
+					exit;
+				}
 
 				// Button text.
 				if ( ! empty( $directory_name ) && dollie_setup_get_theme( $directory_name )->exists() ) {
