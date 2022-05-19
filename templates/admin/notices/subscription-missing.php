@@ -1,8 +1,9 @@
 <div class="notice dollie-notice dollie-notice-trial">
 	<div class="dollie-inner-message">
 		<div class="dollie-message-center">
-			<h3><?php esc_html_e( 'You Are Using Dollie in Trial Mode', 'dollie' ); ?> </h3>
-			<p><?php printf( __( '<strong>Try out all Dollie has to offer for another 28 days and launch %d more sites for free</strong>. Like to launch more sites or are you ready to start selling your services to your customers?', 'dollie' ), dollie()->subscription()->get_partner_deploy_limit() ); ?></p>
+		<h3>	<?php printf( __( 'Dollie Trial - Active for another 28 days. Launch %d more sites for free</strong>.', 'dollie' ), dollie()->subscription()->get_partner_deploy_limit() ); ?></h3>
+			<p><?php esc_html_e( 'Like to launch more sites or are you ready to start selling your services to your customers?', 'dollie' ); ?> </p>
+
 		</div>
 
 		<?php
