@@ -13,12 +13,12 @@ $first_name = $user->first_name;
 						<img class="dol-w-20 dol-h-20 dol-mx-auto dol-rounded-full" src="<?php echo esc_url( DOLLIE_ASSETS_URL . 'wizard/agency.svg' ); ?>" alt="">
 					</div>
 					<div class="dol-mt-4 dol-text-center sm:dol-mt-0 sm:dol-pt-1 sm:dol-text-left">
-						<p class="dol-text-sm dol-font-medium dol-text-gray-600">Welcome back <?php echo $first_name; ?></p>
-						<p class="dol-text-xxl dol-font-bold dol-text-gray-900 sm:dol-text-2xl">Your Agency Dashboard</p>
+						<p class="dol-text-sm dol-font-medium dol-text-gray-600">Hi <?php echo $first_name; ?>, welcome back to the </p>
+						<p class="dol-text-xxl dol-font-bold dol-text-gray-900 sm:dol-text-2xl"><?php echo get_option('wpd_onboarding_partner_business_name', true);?> Dashboard</p>
 					</div>
 				</div>
 				<div class="dol-flex dol-justify-center dol-mt-5 sm:dol-mt-0">
-					<a href="#" class="dol-btn dol-btn-primary"> View profile </a>
+					<a href="#" class="dol-btn dol-btn-primary"> <?php echo get_option('wpd_onboarding_partner_business_name', true);?> </a>
 				</div>
 			</div>
 		</div>

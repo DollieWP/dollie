@@ -390,16 +390,6 @@ final class Container extends Singleton implements ConstInterface {
 			]
 		);
 
-		$wp_admin_bar->add_menu(
-			[
-				'parent' => $menu_id,
-				'title'  => esc_html__( 'View Blueprints', 'dollie' ),
-				'id'     => 'dab-blueprints',
-				'href'   => get_admin_url() . 'edit.php?post_type=container&blueprint=yes',
-				'meta'   => [ 'target' => '' ],
-			]
-		);
-
 		if ( $launch_site ) {
 			$wp_admin_bar->add_menu(
 				[
@@ -410,6 +400,41 @@ final class Container extends Singleton implements ConstInterface {
 				]
 			);
 		}
+
+
+		$wp_admin_bar->add_menu(
+			[
+				'parent' => $menu_id,
+				'title'  => esc_html__( 'Blueprints', 'dollie' ),
+				'id'     => 'dab-blueprints',
+				'href'   => '',
+				'meta'   => [ 'target' => '' ],
+			]
+		);
+
+		$wp_admin_bar->add_menu(
+			[
+				'parent' => $menu_id,
+				'title'  => esc_html__( 'View Blueprints', 'dollie' ),
+				'id'     => 'dab-view-blueprints',
+				'href'   => get_admin_url() . 'edit.php?post_type=container&blueprint=yes',
+				'meta'   => [ 'target' => '' ],
+			]
+		);
+
+		$launch_blueprint_site = dollie()->page()->get_launch_blueprint_id();
+		$wp_admin_bar->add_menu(
+			[
+				'parent' => $menu_id,
+				'title'  => esc_html__( 'Launch Blueprint', 'dollie' ),
+				'id'     => 'dab-launch-blueprint',
+				'href'   => get_permalink( $launch_blueprint_site ),
+				'meta'   => [ 'target' => '' ],
+			]
+		);
+
+
+
 
 		$wp_admin_bar->add_menu(
 			[
@@ -473,12 +498,6 @@ final class Container extends Singleton implements ConstInterface {
 			get_admin_url() . 'edit.php?post_type=container',
 		];
 
-		$submenu['dollie_setup'][] = [
-			esc_html__( 'View Blueprints', 'dollie' ),
-			'manage_options',
-			get_admin_url() . 'edit.php?post_type=container&blueprint=yes',
-		];
-
 		if ( $launch_site = dollie()->page()->get_launch_id() ) {
 			$submenu['dollie_setup'][] = [
 				sprintf( esc_html__( 'Launch New %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ),
@@ -486,6 +505,29 @@ final class Container extends Singleton implements ConstInterface {
 				get_permalink( $launch_site ),
 			];
 		}
+
+		$submenu['dollie_setup'][] = [
+			__( 'Blueprints', 'dollie' ),
+			'manage_options',
+			'',
+			'',
+			'dol-divider-menu',
+		];
+
+		$submenu['dollie_setup'][] = [
+			esc_html__( 'View Blueprints', 'dollie' ),
+			'manage_options',
+			get_admin_url() . 'edit.php?post_type=container&blueprint=yes',
+		];
+
+		if ( $launch_blueprint_site = dollie()->page()->get_launch_blueprint_id() ) {
+			$submenu['dollie_setup'][] = [
+				esc_html__( 'Launch Blueprint', 'dollie-setup' ),
+				'manage_options',
+				get_permalink( $launch_blueprint_site ),
+			];
+		}
+
 
 		$submenu['dollie_setup'][] = [
 			__( 'Support', 'dollie' ),
