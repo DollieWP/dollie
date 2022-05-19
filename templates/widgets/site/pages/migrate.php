@@ -4,6 +4,14 @@ if ( ! isset( $container ) ) {
 	$container = dollie()->get_container();
 }
 
+if ( get_option( 'wpd_onboarding_migrate_site_url') ) {
+	$migration_location =  get_option( 'wpd_onboarding_migrate_site_url', true);
+	$migration_site = '<strong>' . get_option( 'wpd_onboarding_migrate_site_url', true) .'</strong>';
+} else {
+	$migration_location = 'current WordPress install';
+	$migration_site = 'the <strong>site you would like to migrate</strong> (i.e yoursite.com)';
+}
+
 dollie()->load_template(
 	'notice',
 	[
@@ -12,8 +20,8 @@ dollie()->load_template(
 		'title'        => esc_html__( 'Ready for the easiest migration ever?', 'dollie' ),
 		'message'      => wp_kses_post(
 			sprintf(
-				__( 'We are going make an exact copy of your current WordPress install to <strong>%s</strong>', 'dollie' ),
-				$container->get_url()
+				__( 'We are going to create an exact copy of <strong>%s</strong> into <strong>%s</strong><br><br>Once this is done and you confirmed everything is as it should be, you complete the migration by following our Domain Wizard. Let\'s get started right away!', 'dollie' ),
+				$migration_location, $container->get_url(),
 			)
 		),
 		'bottom_space' => true,
@@ -33,17 +41,17 @@ $credentials = $container->get_credentials();
 
 <div class="dol-flex dol-flex-wrap sm:dol-mx-auto sm:dol-mb-2 dol--mx-2 dol-mt-5 dol-pt-2 dol-pb-4">
 	<div class="dol-p-0 dol-w-full">
-		<div class="dol-bg-gray-50  dol-flex dol-p-2 dol-h-full dol-items-center">
+		<div class="dol-bg-gray-50 dol-flex dol-p-2 dol-h-full dol-items-center">
 			<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
 				 class="dol-text-indigo-500 dol-w-5 dol-h-5 dol-flex-shrink-0 dol-mr-4" viewBox="0 0 24 24">
 				<path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
 				<path d="M22 4L12 14.01l-3-3"></path>
 			</svg>
-			<span class="title-font font-s dol-text-sm"><?php echo wp_kses_post( __( 'Login to the WordPress Admin of the <strong>site you would like to migrate</strong> (i.e yoursite.com)', 'dollie' ) ); ?></span>
+			<span class="title-font font-s dol-text-sm"><?php echo wp_kses_post( __( 'Login to the WordPress Admin of', 'dollie' ) ); ?> <?php echo $migration_site;?></span>
 		</div>
 	</div>
 	<div class="dol-p-0 dol-w-full">
-		<div class="dol-bg-gray-50  dol-flex dol-p-2 dol-h-full dol-items-center">
+		<div class="dol-bg-gray-50 dol-flex dol-p-2 dol-h-full dol-items-center">
 			<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
 				 class="dol-text-indigo-500 dol-w-5 dol-h-5 dol-flex-shrink-0 dol-mr-4" viewBox="0 0 24 24">
 				<path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
@@ -53,7 +61,7 @@ $credentials = $container->get_credentials();
 		</div>
 	</div>
 	<div class="dol-p-0 dol-w-full">
-		<div class="dol-bg-gray-50  dol-flex dol-p-2 dol-h-full dol-items-center">
+		<div class="dol-bg-gray-50 dol-flex dol-p-2 dol-h-full dol-items-center">
 			<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
 				 class="dol-text-indigo-500 dol-w-5 dol-h-5 dol-flex-shrink-0 dol-mr-4" viewBox="0 0 24 24">
 				<path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
@@ -63,7 +71,7 @@ $credentials = $container->get_credentials();
 		</div>
 	</div>
 	<div class="dol-p-0 dol-w-full">
-		<div class="dol-bg-gray-50  dol-flex dol-p-2 dol-h-full dol-items-center">
+		<div class="dol-bg-gray-50 dol-flex dol-p-2 dol-h-full dol-items-center">
 			<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
 				 class="dol-text-indigo-500 dol-w-5 dol-h-5 dol-flex-shrink-0 dol-mr-4" viewBox="0 0 24 24">
 				<path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
@@ -72,20 +80,20 @@ $credentials = $container->get_credentials();
 			<span class="title-font font-s dol-text-sm"><?php _e( 'Activate the plugin', 'dollie' ); ?></span></div>
 	</div>
 	<div class="dol-p-0 dol-w-full">
-		<div class="dol-bg-gray-50  dol-flex dol-p-2 dol-h-full dol-items-center">
+		<div class="dol-bg-gray-50 dol-flex dol-p-2 dol-h-full dol-items-center">
 			<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
 				 class="dol-text-indigo-500 dol-w-5 dol-h-5 dol-flex-shrink-0 dol-mr-4" viewBox="0 0 24 24">
 				<path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
 				<path d="M22 4L12 14.01l-3-3"></path>
 			</svg>
-			<span class="title-font font-s dol-text-sm"> <?php _e( 'Click on the Migrate Guru menu link in the WordPress Admin', 'dollie' ); ?></span>
+			<span class="title-font font-s dol-text-sm"> <?php _e( 'Click on the <strong>Migrate Guru Menu</strong> link in the WordPress Admin', 'dollie' ); ?></span>
 		</div>
 	</div>
 </div>
 <h4 class="dol-font-bold dol-mb-2 dol-mt-2 dol-text-xl"><?php _e( 'Step 2 - Choosing Your Migration Method', 'dollie' ); ?></h4>
 <div class="dol-flex dol-flex-wrap sm:dol-mx-auto sm:dol-mb-2 dol--mx-2 dol-mt-5 dol-pt-2 dol-pb-4">
 	<div class="dol-p-0 dol-w-full">
-		<div class="dol-bg-gray-50  dol-flex dol-p-2 dol-h-full dol-items-center">
+		<div class="dol-bg-gray-50 dol-flex dol-p-2 dol-h-full dol-items-center">
 			<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
 				 class="dol-text-indigo-500 dol-w-5 dol-h-5 dol-flex-shrink-0 dol-mr-4" viewBox="0 0 24 24">
 				<path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
@@ -95,7 +103,7 @@ $credentials = $container->get_credentials();
 		</div>
 	</div>
 	<div class="dol-p-0 dol-w-full">
-		<div class="dol-bg-gray-50  dol-flex dol-p-2 dol-h-full dol-items-center">
+		<div class="dol-bg-gray-50 dol-flex dol-p-2 dol-h-full dol-items-center">
 			<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
 				 class="dol-text-indigo-500 dol-w-5 dol-h-5 dol-flex-shrink-0 dol-mr-4" viewBox="0 0 24 24">
 				<path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
@@ -105,7 +113,7 @@ $credentials = $container->get_credentials();
 		</div>
 	</div>
 	<div class="dol-p-0 dol-w-full">
-		<div class="dol-bg-gray-50  dol-flex dol-p-2 dol-h-full dol-items-center">
+		<div class="dol-bg-gray-50 dol-flex dol-p-2 dol-h-full dol-items-center">
 			<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
 				 class="dol-text-indigo-500 dol-w-5 dol-h-5 dol-flex-shrink-0 dol-mr-4" viewBox="0 0 24 24">
 				<path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
@@ -156,7 +164,7 @@ $credentials = $container->get_credentials();
 				<br><strong><?php echo $credentials['password']; ?></strong><br></span></div>
 	</div>
 	<div class="dol-p-0 dol-rounded dol-w-full">
-		<div class="dol-bg-gray-50  dol-flex dol-p-2 dol-h-full dol-items-center"><span
+		<div class="dol-bg-gray-50 dol-flex dol-p-2 dol-h-full dol-items-center"><span
 					class="title-font dol-font-medium dol-p-2">
 				<?php _e( 'Directory Path:', 'dollie' ); ?>
 				<br><strong>

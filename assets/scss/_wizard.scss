@@ -62,6 +62,20 @@ body.post-type-dollie-logs {
     }
 }
 
+#wp-admin-bar-dab-sites,
+#wp-admin-bar-dab-support,
+#wp-admin-bar-dab-blueprints {
+    margin-top: 10px !important;
+
+    .ab-item.ab-empty-item {
+        height: auto !important;
+        font-size: 10px;
+        text-transform: uppercase;
+        color: #999;
+        letter-spacing: 1px;
+    }
+}
+
 body[class*="dollie_setup"],
 body.post-type-container,
 body.post-type-dollie-logs {
