@@ -136,7 +136,7 @@ final class NoticeService extends Singleton {
 			die();
 		}
 
-		if ( ! dollie()->subscription()->has_partner_subscription() ) {
+		if ( ! dollie()->subscription()->has_partner_subscription() && dollie()->is_api_connected() ) {
 			dollie()->load_template( 'admin/notices/subscription-missing', [], true );
 		} elseif ( dollie()->subscription()->has_partner_subscription() &&
 			0 === dollie()->subscription()->get_partner_deploy_limit() ) {
