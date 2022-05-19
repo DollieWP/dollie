@@ -172,18 +172,4 @@ final class NoticeService extends Singleton {
 		dollie()->load_template( 'admin/notices/change-user-role', [], true );
 	}
 
-	/**
-	 * Container demo notice
-	 *
-	 * @return void
-	 */
-	public function container_demo(): void {
-		$container = dollie()->get_container();
-
-		if ( is_wp_error( $container ) || ! $container->is_blueprint() || ! is_singular( 'container' ) ) {
-			return;
-		}
-
-		dollie()->load_template( 'admin/notices/container-demo', [ 'container' => $container ], true );
-	}
 }
