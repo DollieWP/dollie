@@ -15,12 +15,8 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: core/Admin.php:95, core/Admin/Container.php:213, core/Admin/Container.php:363, core/Modules/Forms.php:317
+#: core/Admin.php:103, core/Admin.php:104, core/Admin/Container.php:213, core/Admin/Container.php:366, core/Modules/Forms.php:317
 msgid "Settings"
-msgstr ""
-
-#: core/Admin.php:96
-msgid "Settings <span class=\"dol-status dol-live\">Live<span>"
 msgstr ""
 
 #: core/Log.php:216
@@ -107,7 +103,7 @@ msgstr ""
 msgid "LetsEncrypt Failed"
 msgstr ""
 
-#: core/Log.php:341, templates/loop/sites-dashboard.php:108, templates/loop/sites.php:240
+#: core/Log.php:341, templates/loop/sites-dashboard.php:108, templates/loop/sites.php:225
 msgid "Blueprint Updated"
 msgstr ""
 
@@ -125,7 +121,7 @@ msgctxt "dollie"
 msgid "Site"
 msgstr ""
 
-#: core/Admin/Container.php:67, core/Admin/Container.php:373, core/Admin/Container.php:460, core/Widgets/Sites/SitesList.php:40
+#: core/Admin/Container.php:67, core/Admin/Container.php:376, core/Admin/Container.php:534, core/Widgets/Sites/SitesList.php:40
 msgid "Sites"
 msgstr ""
 
@@ -145,7 +141,7 @@ msgstr ""
 msgid "Parent Site:"
 msgstr ""
 
-#: core/Admin/Container.php:72, core/Admin/Container.php:79, core/Admin/Container.php:383, core/Admin/Container.php:468
+#: core/Admin/Container.php:72, core/Admin/Container.php:79, core/Admin/Container.php:386, core/Admin/Container.php:542
 msgid "View Sites"
 msgstr ""
 
@@ -221,7 +217,7 @@ msgstr ""
 msgid "Filter items list"
 msgstr ""
 
-#: core/Admin/Container.php:95, core/Admin/Container.php:740, core/Factories/BaseContainer.php:372
+#: core/Admin/Container.php:95, core/Admin/Container.php:831, core/Factories/BaseContainer.php:372
 msgid "Site"
 msgstr ""
 
@@ -319,111 +315,123 @@ msgstr ""
 msgid "Dollie Setup"
 msgstr ""
 
-#: core/Admin/Container.php:312
-msgid "Dollie (Staging)"
-msgstr ""
-
-#: core/Admin/Container.php:310
-msgid "Dollie (Live)"
-msgstr ""
-
-#: core/Admin/Container.php:343
+#: core/Admin/Container.php:346
 msgid "Connect with Dollie"
 msgstr ""
 
-#: core/Admin/Container.php:353, templates/widgets/general/sites-navigation.php:53, templates/widgets/site/site-navigation.php:16
+#: core/Admin/Container.php:356, templates/widgets/general/sites-navigation.php:53, templates/widgets/site/site-navigation.php:16
 msgid "Dashboard"
 msgstr ""
 
-#: core/Admin/Container.php:393, core/Admin/Container.php:474
+#: core/Admin/Container.php:420
+msgid "Manage Your Site"
+msgstr ""
+
+#: core/Admin/Container.php:430
+msgid "View Documentation"
+msgstr ""
+
+#: core/Admin/Container.php:440
+msgid "This site is hosted for free on the Dollie Cloud. Visit the Partner Dashboard to manage this site and access our developer tools."
+msgstr ""
+
+#: core/Admin/Container.php:454, core/Admin/Container.php:556, core/Extras/AcfFields.php:1355, templates/widgets/general/main-navigation.php:65, templates/widgets/general/sites-navigation.php:60, templates/widgets/site/site-navigation.php:23, core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:94
+msgid "Blueprints"
+msgstr ""
+
+#: core/Admin/Container.php:464, core/Admin/Container.php:564
 msgid "View Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:414, core/Admin/Container.php:488, core/Admin/Container.php:496
+#: core/Admin/Container.php:475
+msgid "Launch Blueprint"
+msgstr ""
+
+#: core/Admin/Container.php:488, core/Admin/Container.php:579, core/Admin/Container.php:587
 msgid "Support"
 msgstr ""
 
-#: core/Admin/Container.php:424, core/Admin/Container.php:508, templates/parts/recurring-action-schedule-history.php:47
+#: core/Admin/Container.php:498, core/Admin/Container.php:599, templates/parts/recurring-action-schedule-history.php:47
 msgid "Logs"
 msgstr ""
 
-#: core/Admin/Container.php:446
+#: core/Admin/Container.php:520
 msgid "Visit Partner Dashboard"
 msgstr ""
 
-#: core/Admin/Container.php:502
+#: core/Admin/Container.php:593
 msgid "Documentation"
 msgstr ""
 
-#: core/Admin/Container.php:570
+#: core/Admin/Container.php:661
 msgid "Your Site Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:576
+#: core/Admin/Container.php:667
 msgid "Below you will find all the Blueprints you have created. Want to add a new Blueprint?"
 msgstr ""
 
-#: core/Admin/Container.php:578
+#: core/Admin/Container.php:669
 msgid "Launch a Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:551
-msgid "The Site Manager"
+#: core/Admin/Container.php:642
+msgid "Sites Overview - All Sites On Your Platform"
 msgstr ""
 
-#: core/Admin/Container.php:557
-msgid "Below you will find all of your sites launched by you and your customers. Remember: You can also view all the sites launched by your customers in the"
+#: core/Admin/Container.php:648
+msgid "Below you will find all of your sites launched on your platform. "
 msgstr ""
 
-#: core/Admin/Container.php:559
+#: core/Admin/Container.php:650
 msgid "Sites Directory"
 msgstr ""
 
-#: core/Admin/Container.php:597
+#: core/Admin/Container.php:688
 msgid "The Activity Log"
 msgstr ""
 
-#: core/Admin/Container.php:600
+#: core/Admin/Container.php:691
 msgid "The activity log keeps track of everything you need to know regarding your sites, actions taken by your customers and recurring crons/maintenance jobs that run on your installation."
 msgstr ""
 
-#: core/Admin/Container.php:625
+#: core/Admin/Container.php:716
 msgid "Dollie Forms"
 msgstr ""
 
-#: core/Admin/Container.php:628
+#: core/Admin/Container.php:719
 msgid "These forms can be embedded easily to further customize the experience for your customers. Please only edit these forms if you're a developer and you have good knowledge of the Dollie platform and it's API."
 msgstr ""
 
-#: core/Admin/Container.php:745
+#: core/Admin/Container.php:836
 msgid "Domain"
 msgstr ""
 
-#: core/Admin/Container.php:746, core/Admin/Container.php:735, core/Widgets/General/Login.php:93
+#: core/Admin/Container.php:837, core/Admin/Container.php:826, core/Widgets/General/Login.php:93
 msgid "Size"
 msgstr ""
 
-#: core/Admin/Container.php:747, core/Admin/Container.php:736, core/Extras/AcfFields.php:210, templates/widgets/site/pages/plugins.php:19, templates/widgets/site/pages/themes.php:19
+#: core/Admin/Container.php:838, core/Admin/Container.php:827, core/Extras/AcfFields.php:210, templates/widgets/site/pages/plugins.php:19, templates/widgets/site/pages/themes.php:19
 msgid "Status"
 msgstr ""
 
-#: core/Admin/Container.php:729, core/Factories/BaseContainer.php:376
+#: core/Admin/Container.php:820, core/Factories/BaseContainer.php:376
 msgid "Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:734
+#: core/Admin/Container.php:825
 msgid "Updated"
 msgstr ""
 
-#: core/Admin/Container.php:805
+#: core/Admin/Container.php:896
 msgid "Assigned Customer to this Site"
 msgstr ""
 
-#: core/Admin/Container.php:949, core/Services/BulkActionService.php:95
+#: core/Admin/Container.php:1040, core/Services/BulkActionService.php:95, core/Services/RecurringActionService.php:28
 msgid "Stop"
 msgstr ""
 
-#: core/Admin/Container.php:947
+#: core/Admin/Container.php:1038
 msgid "Permanently delete sites"
 msgstr ""
 
@@ -833,10 +841,6 @@ msgstr ""
 msgid "Dollie Administration Settings"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1355, templates/widgets/general/main-navigation.php:65, templates/widgets/general/sites-navigation.php:60, templates/widgets/site/site-navigation.php:23, core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:94
-msgid "Blueprints"
-msgstr ""
-
 #: core/Extras/AcfFields.php:1371
 msgid "Enable Blueprint Preview"
 msgstr ""
@@ -1228,59 +1232,79 @@ msgstr ""
 msgid "Set a password to also create an account."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:912, core/Extras/dollie-setup/includes/agency/agency.php:73
+#: core/Extras/AcfFormFields.php:911, core/Extras/dollie-setup/includes/agency/agency.php:73
 msgid "About Your Agency"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:931, core/Extras/dollie-setup/includes/agency/agency.php:92
+#: core/Extras/AcfFormFields.php:930, core/Extras/dollie-setup/includes/agency/agency.php:92
 msgid "What is your Agency called?"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:934, core/Extras/dollie-setup/includes/agency/agency.php:95
+#: core/Extras/AcfFormFields.php:933, core/Extras/dollie-setup/includes/agency/agency.php:95
 msgid "We only use this info inside your dashboard for customisation."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:952
-msgid "Does your Agency have a boilerplate for new client projects?"
+#: core/Extras/AcfFormFields.php:951
+msgid "Do you use certain plugins and/or themes for every client project?"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:955
-msgid "Does your Agency have a suite of standard plugins and themes you use for every new client project?"
+#: core/Extras/AcfFormFields.php:954
+msgid "Does your Agency have some a \"Blueprint\" for new client projects? Meaning a set of plugins you have installed on every site you develop?"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:973, core/Extras/dollie-setup/includes/agency/agency.php:134
+#: core/Extras/AcfFormFields.php:972
+msgid "Great! How do you call this blueprint?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:975
+msgid "If you don't have an internal name for this, no worries, then we'll just use \"Blueprint\"."
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1001
+msgid "Would you like to us guide you through migrating an existing site to your new Dollie platform?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1004
+msgid "Migrating sites to your new Dollie Platform is extremely easy with our Automated Migration Wizard. Simply check this box and we will help you migrate your first site after you've completed the setup!"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1022, core/Extras/dollie-setup/includes/agency/agency.php:134
 msgid "Do you manage everything for your clients, or do (some of them) also work on their own sites?"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:976, core/Extras/dollie-setup/includes/agency/agency.php:137
+#: core/Extras/AcfFormFields.php:1025, core/Extras/dollie-setup/includes/agency/agency.php:137
 msgid "With Dollie you can enable powerful self-service features for your clients that gives them easy access to tools like SFTP, a Code Editor, Database Manager and DNS management. You can enable these tools for them easily, or decide to keep them only available for your team."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:999, core/Extras/dollie-setup/includes/agency/agency.php:160
+#: core/Extras/AcfFormFields.php:1048
+msgid "Amazing, What is the URL of the website you'd like to migrate?"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:1074, core/Extras/dollie-setup/includes/agency/agency.php:160
 msgid "Import Example Content"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1018, core/Extras/dollie-setup/includes/agency/agency.php:179
+#: core/Extras/AcfFormFields.php:1093, core/Extras/dollie-setup/includes/agency/agency.php:179
 msgid "Dollie Core Pages"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1021, core/Extras/dollie-setup/includes/agency/agency.php:182
+#: core/Extras/AcfFormFields.php:1096, core/Extras/dollie-setup/includes/agency/agency.php:182
 msgid "The core Dollie pages."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1039, core/Extras/dollie-setup/includes/agency/agency.php:200
+#: core/Extras/AcfFormFields.php:1114, core/Extras/dollie-setup/includes/agency/agency.php:200
 msgid "WooCommerce Products"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1042, core/Extras/dollie-setup/includes/agency/agency.php:203
+#: core/Extras/AcfFormFields.php:1117, core/Extras/dollie-setup/includes/agency/agency.php:203
 msgid "Some example WooCommerce products configured for Dollie."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1060, core/Extras/dollie-setup/includes/agency/agency.php:221
-msgid "Landing Pages"
+#: core/Extras/AcfFormFields.php:1135
+msgid "Example Landing Pages"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1063, core/Extras/dollie-setup/includes/agency/agency.php:224
+#: core/Extras/AcfFormFields.php:1138, core/Extras/dollie-setup/includes/agency/agency.php:224
 msgid "Some example Elementor landing pages to promote your Agency services"
 msgstr ""
 
@@ -1340,15 +1364,15 @@ msgstr ""
 msgid "Connect Domain"
 msgstr ""
 
-#: core/Forms/LaunchSite.php:63
+#: core/Forms/LaunchSite.php:66
 msgid "Site URL is too long. The name should not exceed %d characters. Don't worry, this is just your temporary URL. You can add a custom domain after launching."
 msgstr ""
 
-#: core/Forms/LaunchSite.php:67
+#: core/Forms/LaunchSite.php:70
 msgid "Site URL can only contain letters, numbers and dash."
 msgstr ""
 
-#: core/Forms/LaunchSite.php:122, core/Forms/QuickLaunch.php:95
+#: core/Forms/LaunchSite.php:132, core/Forms/QuickLaunch.php:95
 msgid "Something went wrong. Please try again or contact our support if the problem persists."
 msgstr ""
 
@@ -1424,10 +1448,6 @@ msgstr ""
 msgid "Login to Site"
 msgstr ""
 
-#: core/Modules/Preview.php:224
-msgid "all"
-msgstr ""
-
 #: core/Modules/Preview.php:239
 msgid "all times"
 msgstr ""
@@ -1484,23 +1504,23 @@ msgstr ""
 msgid "Themes updated"
 msgstr ""
 
-#: core/Services/BulkActionService.php:90, core/Services/RecurringActionService.php:19
+#: core/Services/BulkActionService.php:90, core/Services/RecurringActionService.php:22
 msgid "Update WP Core"
 msgstr ""
 
-#: core/Services/BulkActionService.php:91, core/Services/RecurringActionService.php:20
+#: core/Services/BulkActionService.php:91, core/Services/RecurringActionService.php:23
 msgid "Update Plugins"
 msgstr ""
 
-#: core/Services/BulkActionService.php:92, core/Services/RecurringActionService.php:21
+#: core/Services/BulkActionService.php:92, core/Services/RecurringActionService.php:24
 msgid "Update Themes"
 msgstr ""
 
-#: core/Services/BulkActionService.php:93
+#: core/Services/BulkActionService.php:93, core/Services/RecurringActionService.php:25
 msgid "Create Backup"
 msgstr ""
 
-#: core/Services/BulkActionService.php:94, core/Services/RecurringActionService.php:23
+#: core/Services/BulkActionService.php:94, core/Services/RecurringActionService.php:27
 msgid "Restart"
 msgstr ""
 
@@ -1528,7 +1548,7 @@ msgstr ""
 msgid "Stopping"
 msgstr ""
 
-#: core/Services/BulkActionService.php:158, core/Services/BulkActionService.php:264, core/Services/BulkActionService.php:352, core/Services/DnsService.php:49, core/Services/DnsService.php:53, core/Services/DnsService.php:100, core/Services/DnsService.php:104, core/Services/RecurringActionService.php:49, core/Services/RecurringActionService.php:53, core/Services/RecurringActionService.php:111, core/Services/RecurringActionService.php:115, core/Services/RecurringActionService.php:136, core/Services/RecurringActionService.php:140, core/Services/RecurringActionService.php:162, core/Services/RecurringActionService.php:207
+#: core/Services/BulkActionService.php:158, core/Services/BulkActionService.php:279, core/Services/BulkActionService.php:367, core/Services/DnsService.php:49, core/Services/DnsService.php:53, core/Services/DnsService.php:100, core/Services/DnsService.php:104, core/Services/RecurringActionService.php:54, core/Services/RecurringActionService.php:58, core/Services/RecurringActionService.php:114, core/Services/RecurringActionService.php:118, core/Services/RecurringActionService.php:134, core/Services/RecurringActionService.php:138, core/Services/RecurringActionService.php:153, core/Services/RecurringActionService.php:203
 msgid "Invalid request."
 msgstr ""
 
@@ -1540,19 +1560,19 @@ msgstr ""
 msgid "No sites selected."
 msgstr ""
 
-#: core/Services/BulkActionService.php:177, core/Services/BulkActionService.php:185
+#: core/Services/BulkActionService.php:177, core/Services/BulkActionService.php:190
 msgid "No sites have been selected."
 msgstr ""
 
-#: core/Services/BulkActionService.php:196, core/Services/BulkActionService.php:360
+#: core/Services/BulkActionService.php:211, core/Services/BulkActionService.php:381
 msgid "No matching sites were found for your selection."
 msgstr ""
 
-#: core/Services/DeployService.php:39
+#: core/Services/DeployService.php:40
 msgid "My New Site"
 msgstr ""
 
-#: core/Services/DeployService.php:43
+#: core/Services/DeployService.php:44
 msgid "The best website in the world"
 msgstr ""
 
@@ -1590,47 +1610,47 @@ msgstr ""
 msgid "Update Elementor Now"
 msgstr ""
 
-#: core/Services/RecurringActionService.php:22
+#: core/Services/RecurringActionService.php:26
 msgid "Regenerate Screenshot"
 msgstr ""
 
-#: core/Services/RecurringActionService.php:34
+#: core/Services/RecurringActionService.php:39
 msgid "Daily"
 msgstr ""
 
-#: core/Services/RecurringActionService.php:35
+#: core/Services/RecurringActionService.php:40
 msgid "Twice a day"
 msgstr ""
 
-#: core/Services/RecurringActionService.php:36
+#: core/Services/RecurringActionService.php:41
 msgid "Weekly"
 msgstr ""
 
-#: core/Services/RecurringActionService.php:37
+#: core/Services/RecurringActionService.php:42
 msgid "Montly"
 msgstr ""
 
-#: core/Services/RecurringActionService.php:38
+#: core/Services/RecurringActionService.php:43
 msgid "Twice a month"
 msgstr ""
 
-#: core/Services/RecurringActionService.php:61
+#: core/Services/RecurringActionService.php:65
 msgid "Invalid schedule name."
 msgstr ""
 
-#: core/Services/RecurringActionService.php:65
+#: core/Services/RecurringActionService.php:69
 msgid "Action not allowed."
 msgstr ""
 
-#: core/Services/RecurringActionService.php:69
+#: core/Services/RecurringActionService.php:73
 msgid "Interval not allowed."
 msgstr ""
 
-#: core/Services/RecurringActionService.php:79
+#: core/Services/RecurringActionService.php:84
 msgid "There has been something wrong with your request."
 msgstr ""
 
-#: core/Services/RecurringActionService.php:168
+#: core/Services/RecurringActionService.php:164
 msgid "Something went wrong with your request."
 msgstr ""
 
@@ -1650,16 +1670,16 @@ msgstr ""
 msgid "Staging Site Has Been Removed"
 msgstr ""
 
-#: core/Utils/Helpers.php:335
+#: core/Utils/Helpers.php:390
 msgid "Site View"
 msgstr ""
 
 #: templates/admin/api-status.php:23
-msgid "You are not connected with the Dollie API. Please follow the instruction at the top of the page regarding API authentication."
+msgid "This site is not connected to the Dollie API. Please follow the instruction at the top of the page to set up your API authentication."
 msgstr ""
 
 #: templates/admin/api-status.php:10
-msgid "This is the token that links your site and partner account to the Dollie API."
+msgid "This is the token that links this site and your partner account to the Dollie API."
 msgstr ""
 
 #: templates/admin/api-status.php:17
@@ -1667,7 +1687,7 @@ msgid "Disconnect from Dollie"
 msgstr ""
 
 #: templates/admin/api-status.php:20
-msgid "If you disconnect your site from Dollie, you won't be able to deploy sites or interact with our servers."
+msgid "If you disconnect your Hub from Dollie, you won't be able to deploy sites for your platform."
 msgstr ""
 
 #: templates/loop/blueprints.php:39
@@ -1690,43 +1710,47 @@ msgstr ""
 msgid "Read article"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:13, templates/loop/sites.php:108
+#: templates/loop/sites-dashboard.php:13, templates/loop/sites.php:101
 msgid "You are now viewing the blueprints made by you and your team."
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:99, templates/loop/sites.php:231
+#: templates/loop/sites-dashboard.php:99, templates/loop/sites.php:216
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:102, templates/loop/sites.php:234
+#: templates/loop/sites-dashboard.php:102, templates/loop/sites.php:219
 msgid "Version %s"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:115, templates/loop/sites.php:247
+#: templates/loop/sites-dashboard.php:115, templates/loop/sites.php:232
 msgid "Never. Update now!"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:136, templates/loop/sites.php:268
+#: templates/loop/sites-dashboard.php:136, templates/loop/sites.php:253
 msgid "Manage"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:132, templates/loop/sites.php:264, templates/widgets/site/pages/blueprints.php:112
+#: templates/loop/sites-dashboard.php:132, templates/loop/sites.php:249, templates/widgets/site/pages/blueprints.php:112
 msgid "Update Blueprint"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:145, templates/loop/sites.php:277
+#: templates/loop/sites-dashboard.php:145, templates/loop/sites.php:262
 msgid "Visit Staging Area"
 msgstr ""
 
-#: templates/loop/sites.php:51
+#: templates/loop/sites.php:39, templates/parts/recurring-action-selected-sites.php:53
+msgid "Select all"
+msgstr ""
+
+#: templates/loop/sites.php:44
 msgid "Run Actions"
 msgstr ""
 
-#: templates/loop/sites.php:141
+#: templates/loop/sites.php:134
 msgid "Unnamed"
 msgstr ""
 
-#: templates/loop/sites.php:286
+#: templates/loop/sites.php:271
 msgid "Login to Site as Admin"
 msgstr ""
 
@@ -1755,7 +1779,7 @@ msgid "All customizer's fields were successfully found in the blueprint."
 msgstr ""
 
 #: templates/notices/dynamic-fields.php:18
-msgid "Make sure to set your site details below. We automatically launch the site with your information."
+msgid "Please fill in the fields below. We will use this information populate your new site automatically."
 msgstr ""
 
 #: templates/parts/blueprint-default-image.php:3
@@ -1830,11 +1854,7 @@ msgstr ""
 msgid "Select Interval"
 msgstr ""
 
-#: templates/parts/recurring-action-selected-sites.php:60
-msgid "Select all"
-msgstr ""
-
-#: templates/parts/recurring-action-selected-sites.php:93
+#: templates/parts/recurring-action-selected-sites.php:78
 msgid "Save"
 msgstr ""
 
@@ -2296,20 +2316,12 @@ msgstr ""
 msgid "Site Screenshot"
 msgstr ""
 
-#: templates/admin/notices/container-demo.php:15
-msgid "Demo %1$s"
-msgstr ""
-
-#: templates/admin/notices/container-demo.php:16
-msgid "This %1$s is not part of your platform but serves as an example so you can view your awesome dashboard. Pretty neat huh?"
-msgstr ""
-
 #: templates/admin/notices/container-management.php:27
 msgid "Notice - How To Manage This Site"
 msgstr ""
 
 #: templates/admin/notices/container-management.php:32
-msgid "We recommend managing this site on the front-end of your installation using the <a href=\"%s\">Site Dashboard</a>. Use this page to take advanced actions, like stopping or restarting your site."
+msgid "Manage this site on the front-end of your Hub using the <a href=\"%s\">Site Dashboard</a>. You can only use this page to take advanced actions, like stopping or restarting this site or assigning it to another customer in your HUB."
 msgstr ""
 
 #: templates/admin/notices/container-management.php:14
@@ -2317,7 +2329,7 @@ msgid "Notice - How To Manage & Update This Blueprint"
 msgstr ""
 
 #: templates/admin/notices/container-management.php:19
-msgid "<a href=\"%s\">Manage this Blueprint using the front-end of your dashboard.</a> Use this page to take advanced actions, like stopping/removing the blueprint completely or assigning it to another user."
+msgid "<a href=\"%s\">Manage this Blueprint using the front-end of your HUB.</a> Use this page to take advanced actions, like stopping/removing the blueprint completely or assigning it to another user."
 msgstr ""
 
 #: templates/admin/notices/custom-deploy-domain-active.php:4
@@ -2325,7 +2337,7 @@ msgid "Dollie - Custom Domain Activated"
 msgstr ""
 
 #: templates/admin/notices/custom-deploy-domain-active.php:5
-msgid "Yey! Your custom deployment domain is ready to use. From now on, all your launched sites will use your custom domain."
+msgid "Yey! Your custom deployment domain is ready to use. From now on, all your sites launched via your Dollie Hub will use your custom domain."
 msgstr ""
 
 #: templates/admin/notices/custom-deploy-domain-active.php:9
@@ -2337,15 +2349,23 @@ msgid "Dollie - Custom Domain is Pending"
 msgstr ""
 
 #: templates/admin/notices/custom-deploy-domain-pending.php:5
-msgid "Your custom domain has been added, but it may take up to 24 hours for the NS records to propagate. We will constantly check your domain and automatically replace your deployment domain with the custom one, once we detect the change. In the meantime, all your deploys will use the default deployment domain."
+msgid "Your own custom domain has been added, but it may take up to 24 hours for the Nameserver records to propagate. In other words: Be patient, all will be ready sooN! Behind the scenes we will constantly check your domain and automatically make the changes in your HUB once your domain is fully ready. Sit back, keep building your platform, and your domain will be ready in no-time!"
 msgstr ""
 
-#: templates/admin/notices/not-connected.php:4
-msgid "Welcome to Dollie, let's get you started!"
+#: templates/admin/notices/not-connected.php:22
+msgid "Welcome to your Dollie Hub, let's get you started!"
 msgstr ""
 
-#: templates/admin/notices/not-connected.php:5
+#: templates/admin/notices/not-connected.php:23
 msgid "To start building your platform we first need to securely authenticate this site with our Dollie API. Simply click on the button below to continue..."
+msgstr ""
+
+#: templates/admin/notices/not-connected.php:6
+msgid "Welcome to your Dollie Hub. Powered by WordPress!"
+msgstr ""
+
+#: templates/admin/notices/not-connected.php:7
+msgid "This lightning-fast WordPress site is hosted on the Dollie Cloud. Completely free for all our Partners, so you never have to worry about a slow WordPress site ever again. let's continue setting it up your HUB together, so you can start selling your services in no time!"
 msgstr ""
 
 #: templates/admin/notices/subscription-limit.php:4
@@ -2353,31 +2373,35 @@ msgid "Dollie Subscription Limit Reached"
 msgstr ""
 
 #: templates/admin/notices/subscription-limit.php:5
-msgid "You have reached the maximum number of allowed deploys. Please note that you and your clients won't be able to deploy new sites."
+msgid "You have reached the maximum number of allowed sites you launch. Please note that you and your clients won't be able to launch new sites."
 msgstr ""
 
 #: templates/admin/notices/subscription-limit.php:12
 msgid "Check Subscription Status"
 msgstr ""
 
-#: templates/admin/notices/subscription-limit.php:18, templates/admin/notices/subscription-missing.php:23
+#: templates/admin/notices/subscription-limit.php:18
 msgid "Contact Support"
 msgstr ""
 
 #: templates/admin/notices/subscription-missing.php:4
-msgid "No active Dollie Subscription"
+msgid "Dollie Trial - Active for another 28 days. Launch %d more sites for free</strong>."
 msgstr ""
 
 #: templates/admin/notices/subscription-missing.php:5
-msgid "It seems like you don't have an active Dollie Subscription. You can deploy %d more sites."
+msgid "Like to launch more sites or are you ready to start selling your services to your customers?"
 msgstr ""
 
-#: templates/admin/notices/subscription-missing.php:11
-msgid "Create Subscription"
+#: templates/admin/notices/subscription-missing.php:12
+msgid "Start Your Subscription"
 msgstr ""
 
-#: templates/admin/notices/subscription-missing.php:17
+#: templates/admin/notices/subscription-missing.php:18
 msgid "Check Again"
+msgstr ""
+
+#: templates/admin/notices/subscription-missing.php:24
+msgid "Questions? Talk to Us!"
 msgstr ""
 
 #: templates/loop/parts/modal-actions.php:8, templates/loop/parts/modal-actions/bulk-actions.php:2
@@ -2468,27 +2492,31 @@ msgstr ""
 msgid "Your Account"
 msgstr ""
 
-#: templates/widgets/launch/form.php:7
+#: templates/widgets/launch/before-message.php:11
+msgid "Congratulations, your platform is about to take off."
+msgstr ""
+
+#: templates/widgets/launch/form.php:8
 msgid "We are hard at work at our infrastructure, please come back to this page at a later time."
 msgstr ""
 
-#: templates/widgets/launch/form.php:11
+#: templates/widgets/launch/form.php:12
 msgid "Your Dollie subscription is inactive. Please check your subscription status on our <a href=\"%s\">partners website</a>."
 msgstr ""
 
-#: templates/widgets/launch/form.php:21
+#: templates/widgets/launch/form.php:22
 msgid "Sorry, Launching a new site is currently not possible."
 msgstr ""
 
-#: templates/widgets/launch/form.php:33
+#: templates/widgets/launch/form.php:34
 msgid "Launch New "
 msgstr ""
 
-#: templates/widgets/launch/form.php:51
+#: templates/widgets/launch/form.php:54
 msgid "Sorry, You have no active subscription"
 msgstr ""
 
-#: templates/widgets/launch/form.php:52
+#: templates/widgets/launch/form.php:55
 msgid "Please sign-up for a one of our subscriptions to launch a new website!"
 msgstr ""
 
@@ -2936,95 +2964,95 @@ msgstr ""
 msgid "It seems like this site has encountered some errors while deploying. Please remove it and try again."
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:12
+#: templates/widgets/site/pages/migrate.php:20
 msgid "Ready for the easiest migration ever?"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:15
-msgid "We are going make an exact copy of your current WordPress install to <strong>%s</strong>"
+#: templates/widgets/site/pages/migrate.php:23
+msgid "We are going to create an exact copy of <strong>%s</strong> into <strong>%s</strong><br><br>Once this is done and you confirmed everything is as it should be, you complete the migration by following our Domain Wizard. Let's get started right away!"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:29
+#: templates/widgets/site/pages/migrate.php:37
 msgid "Do not worry; your live site will not be touched or modified in any way!"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:32
+#: templates/widgets/site/pages/migrate.php:40
 msgid "Step 1 - Install the Migrate Guru Plugin"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:42
-msgid "Login to the WordPress Admin of the <strong>site you would like to migrate</strong> (i.e yoursite.com)"
+#: templates/widgets/site/pages/migrate.php:50
+msgid "Login to the WordPress Admin of"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:52
+#: templates/widgets/site/pages/migrate.php:60
 msgid "Go to <strong>Plugins > Add New </strong> and search for \"Migrate Guru\""
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:62
+#: templates/widgets/site/pages/migrate.php:70
 msgid "Press the <strong>Install Now</strong> button."
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:72
+#: templates/widgets/site/pages/migrate.php:80
 msgid "Activate the plugin"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:81
-msgid "Click on the Migrate Guru menu link in the WordPress Admin"
+#: templates/widgets/site/pages/migrate.php:89
+msgid "Click on the <strong>Migrate Guru Menu</strong> link in the WordPress Admin"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:85
+#: templates/widgets/site/pages/migrate.php:93
 msgid "Step 2 - Choosing Your Migration Method"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:94
+#: templates/widgets/site/pages/migrate.php:102
 msgid "Click on Migrate Site to continue."
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:104
+#: templates/widgets/site/pages/migrate.php:112
 msgid "Now choose <strong>FTP</strong> as your migration method, at the bottom right of the screen."
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:114
+#: templates/widgets/site/pages/migrate.php:122
 msgid "Finally fill in the following settings for your migration."
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:121
+#: templates/widgets/site/pages/migrate.php:129
 msgid "Step 3 - Fill in the Connection Details"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:128
+#: templates/widgets/site/pages/migrate.php:136
 msgid "Destination Site URL"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:133
+#: templates/widgets/site/pages/migrate.php:141
 msgid "FTP Type"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:139
+#: templates/widgets/site/pages/migrate.php:147
 msgid "Destination Server IP/FTP Address"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:145
+#: templates/widgets/site/pages/migrate.php:153
 msgid "Port:"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:150
+#: templates/widgets/site/pages/migrate.php:158
 msgid "FTP Username:"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:155
+#: templates/widgets/site/pages/migrate.php:163
 msgid "FTP Password:"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:161
+#: templates/widgets/site/pages/migrate.php:169
 msgid "Directory Path:"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:169
+#: templates/widgets/site/pages/migrate.php:177
 msgid "Step 4 - Sit back and enjoy the show!"
 msgstr ""
 
-#: templates/widgets/site/pages/migrate.php:172
+#: templates/widgets/site/pages/migrate.php:180
 msgid "Press <strong>Migrate</strong> and sit back and enjoy the show. Depending on the size of your site and the speed of your current host this process could take up to a couple of hours. Do not worry, this is completely normal! We will send you an email when the migration has completed so you can easily continue to this setup wizard."
 msgstr ""
 
@@ -3150,6 +3178,10 @@ msgstr ""
 
 #: core/Extras/dollie-setup/includes/agency/agency.php:116
 msgid "Does your Agency have a suite of standard plugins and themes you use for every new client project? Internally you might call this your boilerplate or starter template."
+msgstr ""
+
+#: core/Extras/dollie-setup/includes/agency/agency.php:221
+msgid "Landing Pages"
 msgstr ""
 
 #: core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:12
@@ -3332,27 +3364,31 @@ msgstr ""
 msgid "Recently Launched %s"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:53
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:36
+msgid "Launch Your First Site on Your Platform"
+msgstr ""
+
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:154
 msgid "Not connected to Dollie API"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:15
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:116
 msgid "Successfully connected to Dollie API"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:137
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:238
 msgid "WooCommerce Setup"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:97
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:198
 msgid "WooCommerce Products Found"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:223
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:324
 msgid "Custom Domain Setup"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:181
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:282
 msgid "Your Custom Domain is Active"
 msgstr ""
 
