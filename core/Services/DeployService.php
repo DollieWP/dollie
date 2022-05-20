@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Api\DeployApi;
+use Dollie\Core\Log;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
 
@@ -108,6 +109,8 @@ final class DeployService extends Singleton implements ConstInterface {
 
 		$container = dollie()->get_container( $post_id );
 
+		//Log::add_front( Log::WP_SITE_DEPLOY_STARTED, dollie, $site );
+
 		if ( is_wp_error( $container ) ) {
 			return false;
 		}
@@ -167,10 +170,10 @@ final class DeployService extends Singleton implements ConstInterface {
 			return false;
 		}
 
-		if ( 'Failed' === $deploy['status'] || 'Deploy Failure' === $deploy['status'] ) {
-			$post_title = explode( '.', $container->get_original_url() );
-			$post_title = $post_title[0];
+		$post_title = explode( '.', $container->get_original_url() );
+		$post_title = $post_title[0];
 
+		if ( 'Failed' === $deploy['status'] || 'Deploy Failure' === $deploy['status'] ) {
 			$post_data = [
 				'post_title'  => "{$post_title} [Failed]",
 				'post_status' => 'draft',
@@ -178,7 +181,10 @@ final class DeployService extends Singleton implements ConstInterface {
 
 			$container->update_post( $post_data )->set_details( [ 'status' => $deploy['status'] ] );
 		} elseif ( 'Running' === $deploy['status'] ) {
-			$container->set_details( [ 'hash' => $deploy['hash'] ] );
+			$post_data = [
+				'post_title'  => $post_title,
+			];
+			$container->update_post( $post_data )->set_details( [ 'hash' => $deploy['hash'] ] );
 			$container->fetch_details();
 		}
 
