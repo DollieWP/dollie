@@ -82,9 +82,8 @@ module.exports = {
                     "error": "#F87272",
                 },
             },
-            "dark",
-            "cupcake",
         ],
+        darkTheme: "light",
     },
     corePlugins: {
         preflight: false,
