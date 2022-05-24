@@ -343,7 +343,7 @@ final class Container extends Singleton implements ConstInterface {
 			$wp_admin_bar->add_menu(
 				array(
 					'parent' => $menu_id,
-					'title'  => __( 'Connect with Dollie', 'dollie' ),
+					'title'  => __( 'Connect with Dollie Cloud', 'dollie' ),
 					'id'     => 'dwb-go-live',
 					'href'   => \Dollie\Core\Services\AuthService::instance()->get_auth_url(),
 				)
@@ -407,7 +407,7 @@ final class Container extends Singleton implements ConstInterface {
 					'parent' => 'top-secondary',
 					'title'  => '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-</svg> Dollie Partner - Hosted for Free',
+</svg> Dollie Cloud - Hosted for Free',
 					'id'     => 'dwb-hosted',
 					'href'   => 'https://partners.getdollie.com/?redirect=dollie-site-redirect',
 				]

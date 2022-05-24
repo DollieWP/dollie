@@ -399,7 +399,7 @@ class Dollie_Setup_Admin {
 				$package = sanitize_title( $_GET['dollie_setup-package-details'] );
 				// some HTML markup!
 				echo '<div class="wrap">';
-				echo '<h2>' . sprintf( esc_html__( 'Confirm DOLLIE_SETUP %s Installation', 'dollie-setup' ), dollie_setup_get_package_prop( 'name', $package ) ) . '</h2>';
+				echo '<h2>' . sprintf( esc_html__( 'Continue the Setup', 'dollie-setup' ), dollie_setup_get_package_prop( 'name', $package ) ) . '</h2>';
 
 				dollie_setup_get_template_part( 'package-details-intro', $package );
 				dollie_setup_get_template_part( 'package-details', $package );

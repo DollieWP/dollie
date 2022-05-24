@@ -24,6 +24,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 */
 	public function __construct() {
 		add_action( 'acf/init', [ $this, 'load_acf' ] );
+		add_action( 'init', [ $this, 'enable_automatic_payments' ] );
 		add_action( 'woocommerce_thankyou', [ $this, 'redirect_to_blueprint' ] );
 		add_action( 'after_setup_theme', [ $this, 'add_theme_support' ] );
 
@@ -380,6 +381,20 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 		return $this->has_subscription() && $total_size >= $allowed_size && ! current_user_can( 'manage_options' );
 	}
+
+	/**
+	 * Check if the size limit has been reached
+	 *
+	 * @return bool
+	 */
+	public function enable_automatic_payments() {
+		//
+		if ( get_option( 'dollie_hosted_initial_setup' ) !== '1' ) {
+			update_option( 'wc_subscription_duplicate_site', 'update' );
+			update_option( 'wcs_ignore_duplicate_siteurl_notice', 1 );
+		}
+	}
+
 
 	/**
 	 * Get excluded blueprints

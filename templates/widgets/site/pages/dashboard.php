@@ -8,7 +8,7 @@ if ( ! isset( $container ) ) {
 
 <div class="dol-mb-12">
 	<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
-		<?php esc_html_e( 'Your Installation', 'dollie' ); ?>
+		<?php esc_html_e( 'Your Site', 'dollie' ); ?>
 	</h2>
 	<div class="dol-mt-2 dol-grid dol-grid-cols-1 dol-gap-5 sm:dol-grid-cols-2 lg:dol-grid-cols-3">
 

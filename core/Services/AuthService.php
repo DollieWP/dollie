@@ -24,7 +24,7 @@ final class AuthService extends Singleton implements ConstInterface {
 				[ 'origin' => admin_url() ],
 				DOLLIE_PARTNERS_URL . 'auth'
 			),
-			__( 'Connect with Dollie API', 'dollie' )
+			__( 'Connect with Dollie Cloud', 'dollie' )
 		);
 	}
 
