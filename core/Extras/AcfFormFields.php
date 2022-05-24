@@ -998,10 +998,10 @@ Whilst PHP7 gives your site a big performance boost not all plugins and themes a
 			),
 			array(
 				'key' => 'field_6284fbb3acbaf',
-				'label' => __('Would you like to us guide you through migrating an existing site to your new Dollie platform?', 'dollie'),
+				'label' => __('Would you like to us guide you through migrating an existing site to your new Hub?', 'dollie'),
 				'name' => 'wpd_onboarding_migrate_site',
 				'type' => 'true_false',
-				'instructions' => __('Migrating sites to your new Dollie Platform is extremely easy with our Automated Migration Wizard. Simply check this box and we will help you migrate your first site after you\'ve completed the setup!', 'dollie'),
+				'instructions' => __('Migrating sites to your new Hub is extremely easy with our Automated Migration Wizard. Simply check this box and we will help you migrate your first site after you\'ve completed the setup!', 'dollie'),
 				'required' => 1,
 				'conditional_logic' => 0,
 				'wrapper' => array(

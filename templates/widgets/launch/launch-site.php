@@ -26,10 +26,10 @@ if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
 			'type'         => 'error',
 			'icon'         => 'fas fa-exclamation-circle',
 			'title'        => __( 'Not Connected to Dollie', 'dollie' ),
-			'message'      => __( 'Please connect to the Dollie API so you can start launching sites on your platform.', 'dollie' ),
+			'message'      => __( 'Please connect your Hub to the Dollie Cloud so you can start launching sites on your platform.', 'dollie' ),
 			'links'        => [
 				[
-					'title' => __( 'Connect to Dollie API', 'dollie' ),
+					'title' => __( 'Connect to Dollie Cloud', 'dollie' ),
 					'url'   => \Dollie\Core\Services\AuthService::instance()->get_auth_url(),
 				],
 			],

@@ -400,7 +400,7 @@ msgid "Dollie Forms"
 msgstr ""
 
 #: core/Admin/Container.php:719
-msgid "These forms can be embedded easily to further customize the experience for your customers. Please only edit these forms if you're a developer and you have good knowledge of the Dollie platform and it's API."
+msgid "These forms can be embedded easily to further customize the experience for your customers. Please only edit these forms if you're a developer and you have good knowledge of the Hub and it's API."
 msgstr ""
 
 #: core/Admin/Container.php:836
@@ -1261,11 +1261,11 @@ msgid "If you don't have an internal name for this, no worries, then we'll just 
 msgstr ""
 
 #: core/Extras/AcfFormFields.php:1001
-msgid "Would you like to us guide you through migrating an existing site to your new Dollie platform?"
+msgid "Would you like to us guide you through migrating an existing site to your new Hub?"
 msgstr ""
 
 #: core/Extras/AcfFormFields.php:1004
-msgid "Migrating sites to your new Dollie Platform is extremely easy with our Automated Migration Wizard. Simply check this box and we will help you migrate your first site after you've completed the setup!"
+msgid "Migrating sites to your new Hub is extremely easy with our Automated Migration Wizard. Simply check this box and we will help you migrate your first site after you've completed the setup!"
 msgstr ""
 
 #: core/Extras/AcfFormFields.php:1022, core/Extras/dollie-setup/includes/agency/agency.php:134

@@ -211,7 +211,7 @@ final class Container extends Singleton implements ConstInterface {
 			__( 'Dollie <span class="dol-status dol-staging">Staging<span>', 'dollie' ),
 			dollie()->is_live() ?
 			__( 'Settings', 'dollie' ) :
-			__( 'Dollie Setup', 'dollie' ),
+			__( 'Dollie Hub Setup', 'dollie' ),
 			'manage_options',
 			self::PANEL_SLUG,
 			'',
@@ -716,7 +716,7 @@ final class Container extends Singleton implements ConstInterface {
 				<?php esc_html_e( 'Dollie Forms', 'dollie' ); ?>
 			</h3>
 			<p>
-				<?php esc_html_e( 'These forms can be embedded easily to further customize the experience for your customers. Please only edit these forms if you\'re a developer and you have good knowledge of the Dollie platform and it\'s API.', 'dollie' ); ?>
+				<?php esc_html_e( 'These forms can be embedded easily to further customize the experience for your customers. Please only edit these forms if you\'re a developer and you have good knowledge of the Hub and it\'s API.', 'dollie' ); ?>
 			</p>
 		</div>
 		<?php

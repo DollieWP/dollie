@@ -1,7 +1,7 @@
 <div class="notice dollie-notice dollie-notice-trial">
 	<div class="dollie-inner-message">
 		<div class="dollie-message-center">
-		<h3>	<?php printf( __( 'Dollie Trial - Active for another 28 days. Launch %d more sites for free</strong>.', 'dollie' ), dollie()->subscription()->get_partner_deploy_limit() ); ?></h3>
+		<h3>	<?php printf( __( 'Dollie Trial - Active. Launch %d more sites for free</strong>.', 'dollie' ), dollie()->subscription()->get_partner_deploy_limit() ); ?></h3>
 			<p><?php esc_html_e( 'Like to launch more sites or are you ready to start selling your services to your customers?', 'dollie' ); ?> </p>
 
 		</div>

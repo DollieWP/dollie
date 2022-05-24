@@ -385,7 +385,7 @@ class Dollie_Setup_Admin_Plugins {
 		if ( dollie_setup_is_setup() ) {
 			$plugin_page = add_submenu_page(
 				'dollie_setup',
-				__( 'Dollie Setup Plugins', 'dollie-setup' ),
+				__( 'Dollie Hub Plugins', 'dollie-setup' ),
 				__( 'Core Plugins', 'dollie-setup' ),
 				'manage_options', // todo - map cap?
 				'dollie_setup-plugins',

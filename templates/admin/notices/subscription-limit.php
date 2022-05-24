@@ -2,7 +2,7 @@
 	<div class="dollie-inner-message">
 		<div class="dollie-message-center">
 			<h3><?php esc_html_e( 'Dollie Subscription Limit Reached', 'dollie' ); ?> </h3>
-			<p><?php esc_html_e( 'You have reached the maximum number of allowed sites you launch. Please note that you and your clients won\'t be able to launch new sites.', 'dollie' ); ?></p>
+			<p><?php esc_html_e( 'You have reached the maximum number of allowed sites to launch via your Hub. Please note that you and your clients won\'t be able to launch new sites until you have set up your subscription.', 'dollie' ); ?></p>
 		</div>
 
 		<?php

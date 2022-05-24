@@ -99,7 +99,7 @@ $credentials = $container->get_credentials();
 				<path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
 				<path d="M22 4L12 14.01l-3-3"></path>
 			</svg>
-			<span class="title-font font-s dol-text-sm"> <?php _e( 'Click on Migrate Site to continue.', 'dollie' ); ?></span>
+			<span class="title-font font-s dol-text-sm"> <?php _e( 'Fill in your email address then click "Migrate Site" to continue.', 'dollie' ); ?></span>
 		</div>
 	</div>
 	<div class="dol-p-0 dol-w-full">
@@ -134,7 +134,7 @@ $credentials = $container->get_credentials();
 		<div class="dol-bg-gray-50 dol-rounded dol-flex dol-p-4 dol-h-full dol-items-center">
 				<span class="title-font dol-font-medium">
 					<?php _e( 'Destination Site URL', 'dollie' ); ?>
-				<br><strong><?php echo $container->get_url(); ?></strong></span></div>
+				<br><strong>https://<?php echo $container->get_url(); ?></strong></span></div>
 	</div>
 	<div class="dol-p-0 sm:dol-w-1/2 dol-w-full">
 		<div class="dol-bg-gray-50 dol-rounded dol-flex dol-p-4 dol-h-full dol-items-center"><span
@@ -172,10 +172,26 @@ $credentials = $container->get_credentials();
 				</strong><br></span>
 		</div>
 	</div>
+	<div class="dol-p-0 dol-w-full">
+		<div class="dol-bg-gray-50 dol-flex dol-p-2 dol-h-full dol-items-center">
+			<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
+				 class="dol-text-indigo-500 dol-w-5 dol-h-5 dol-flex-shrink-0 dol-mr-4" viewBox="0 0 24 24">
+				<path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+				<path d="M22 4L12 14.01l-3-3"></path>
+			</svg>
+			<span class="title-font font-s dol-text-sm"> <?php echo wp_kses_post( __( 'Now click the "Migrate" button', 'dollie' ) ); ?></span>
+		</div>
+	</div>
 </div>
 
 <h4 class="dol-font-bold dol-mb-2 dol-mt-2 dol-text-xl"><?php _e( 'Step 4 - Sit back and enjoy the show!', 'dollie' ); ?></h4>
 
 <div class="dol-my-6">
-	<?php echo wp_kses_post( __( 'Press <strong>Migrate</strong> and sit back and enjoy the show. Depending on the size of your site and the speed of your current host this process could take up to a couple of hours. Do not worry, this is completely normal! We will send you an email when the migration has completed so you can easily continue to this setup wizard.', 'dollie' ) ); ?>
+	<?php echo wp_kses_post( __( 'Press <strong>Migrate</strong> and sit back and enjoy the show. Depending on the size of your site and the speed of your current host this process could take up to a couple of hours. Do not worry, this is completely normal! Migrate Guru will send you an email when the migration has completed so you can easily continue to this setup wizard.', 'dollie' ) ); ?>
+</div>
+
+<h4 class="dol-font-bold dol-mb-2 dol-mt-2 dol-text-xl"><?php _e( 'Step 5 - Test your migrated website and confirm that your migration was successfull', 'dollie' ); ?></h4>
+
+<div class="dol-my-6">
+	<?php echo wp_kses_post( __( 'Now you can login to the WordPress Admin of your newly migrated site using the same login details. So visit ', 'dollie' ) ); ?><a href="<?php echo $migration_site;?>"><?php echo $migration_site;?></a> <?php echo wp_kses_post( __( 'and verify that your migration was successfull! Sometimes some of your plugins might show notices or you run into other smaller issues.', 'dollie' ) ); ?>
 </div>

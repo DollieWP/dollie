@@ -77,17 +77,17 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 
 							printf(
 								esc_html__(
-									'When a %s fails to launch it usually means there is a misconfiguration in your
-							Dollie API settings. Please double check your email, password and domain',
+									'When a %s fails to launch in your Hub it usually means there is a misconfiguration in your
+							Dollie Cloud settings. Usually re-connecting to Dollie Cloud solves these issues.',
 									'dollie-setup'
 								),
 								dollie()->string_variants()->get_site_type_string()
 							);
 
 							?>
-							<a class="text-white" href="<?php echo admin_url( 'admin.php?page=wpd_platform_setup' ); ?>" data-clear="text-white"><?php esc_html_e( 'settings', 'dollie' ); ?> </a>.
-							
-							<?php esc_html_e( 'Finally you can also check the Dollie Logs or reach out to the Dollie Support team via the <a class="text-white" href="https://partners.getdollie.com">Partner Dashboard</a>', 'dollie' ); ?>
+							<a class="text-white" href="<?php echo admin_url( 'admin.php?page=wpd_platform_setup' ); ?>" data-clear="text-white"><?php esc_html_e( 'settings', 'dollie' ); ?>Reset Dollie Cloud Connection</a>.
+
+							<?php esc_html_e( 'Still having issues? Reach out to the Dollie Support team via your <a class="text-white" href="https://partners.getdollie.com">Dollie Dashboard</a>', 'dollie' ); ?>
 						</p>
 					<?php else : ?>
 						<div class="mb-20">
@@ -129,9 +129,9 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 
 	?>
 
-	<div id="dol-deploying-site" class="dol-hidden" 
-		data-container="<?php echo esc_attr( get_the_ID() ); ?>" 
-		data-nonce="<?php echo esc_attr( wp_create_nonce( 'check_deploy_nonce' ) ); ?>" 
+	<div id="dol-deploying-site" class="dol-hidden"
+		data-container="<?php echo esc_attr( get_the_ID() ); ?>"
+		data-nonce="<?php echo esc_attr( wp_create_nonce( 'check_deploy_nonce' ) ); ?>"
 		data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>"></div>
 
 	<?php if ( get_field( 'wpd_custom_launch_splash', 'option' ) == true ) : ?>
