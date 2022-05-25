@@ -187,12 +187,12 @@ final class Site extends BaseContainer {
 	/**
 	 * Create zone
 	 *
-	 * @param array $data
+	 * @param string $domain
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function create_zone( array $data ) {
-		return $this->create_container_zone( $this->get_hash(), $data );
+	public function create_zone( string $domain ) {
+		return $this->create_container_zone( $this->get_hash(), [ 'name' => $domain ] );
 	}
 
 	/**

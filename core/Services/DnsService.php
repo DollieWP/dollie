@@ -17,7 +17,6 @@ final class DnsService extends Singleton {
 	 * @return void
 	 */
 	public function validate_domain() {
-
 		// if ( 'pending' === $dns_manager_status && $domain_zone ) {
 		// $container = dollie()->get_container();
 
@@ -140,43 +139,25 @@ final class DnsService extends Singleton {
 	}
 
 	/**
-	 * Add container routes
-	 *
-	 * @param Site   $container
-	 * @param string $domain
-	 * @return bool
-	 */
-	public function add_route( Site $container, string $domain ) {
-		$response = $container->create_route( $domain );
-
-		if ( is_wp_error( $response ) ) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Remove route
 	 */
 	public function remove_route() {
-		if ( isset( $_REQUEST['remove_route'] ) ) {
-			if ( ! is_user_logged_in() ) {
-				return;
-			}
-
-			$container = dollie()->get_container();
-
-			// Prevent unauthorized access.
-			if ( ! current_user_can( 'manage_options' ) ||
-				 ! $container->is_owned_by_current_user() ||
-				 ! $container->is_site() ) {
-				return;
-			}
-
-			$container->delete_routes();
-
-			wp_redirect( $container->get_permalink( 'domains' ) );
+		if ( ! is_user_logged_in() || ! isset( $_REQUEST['remove_route'] ) ) {
+			return;
 		}
+
+		$container = dollie()->get_container();
+
+		// Prevent unauthorized access.
+		if ( is_wp_error( $container ) ||
+			 ! current_user_can( 'manage_options' ) ||
+			 ! $container->is_owned_by_current_user() ||
+			 ! $container->is_site() ) {
+			return;
+		}
+
+		$container->delete_routes();
+
+		wp_redirect( $container->get_permalink( 'domains' ) );
 	}
 }

@@ -60,7 +60,7 @@ class DomainConnect extends Singleton {
 	public function submission_callback( $form, $fields, $args ) {
 		$container = Forms::get_form_container();
 
-		if ( false === $container ) {
+		if ( false === $container || ! $container->is_site() ) {
 			return;
 		}
 
@@ -80,19 +80,19 @@ class DomainConnect extends Singleton {
 		}
 
 		if ( 'yes' === $allow_dns ) {
-
+			$response = $container->create_zone( $domain );
 		} else {
-			$response = DnsService::instance()->add_route( $container, $domain );
+			$response = $container->create_route( $domain );
+		}
 
-			if ( false === $response ) {
-				af_add_submission_error(
-					wp_kses_post(
-						sprintf(
-							__( 'Sorry, we could not link this domain to your site. This could be because the domain is already being used by another site in our network.', 'dollie' )
-						)
+		if ( is_wp_error( $response ) ) {
+			af_add_submission_error(
+				wp_kses_post(
+					sprintf(
+						__( 'Sorry, we could not link this domain to your site. This could be because the domain is already being used by another site in our network.', 'dollie' )
 					)
-				);
-			}
+				)
+			);
 		}
 
 		do_action( 'dollie/domain/connect/submission/after', $container, $domain );
@@ -243,8 +243,12 @@ class DomainConnect extends Singleton {
 		// If submitted domain with dns manager on, restrict it.
 		$dns_manager_enabled = get_field( 'wpd_enable_dns_manager', 'options' );
 
-		if ( $dns_manager_enabled && get_post_meta( $container->get_id(), 'wpd_domain_dns_manager', true ) ) {
-			return true;
+		if ( $dns_manager_enabled ) {
+			$zones = $container->get_zones();
+
+			if ( ! empty( $zones ) ) {
+				return true;
+			}
 		}
 
 		if ( ! $container->is_site() ) {

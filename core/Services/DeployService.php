@@ -19,7 +19,7 @@ final class DeployService extends Singleton implements ConstInterface {
 	 *
 	 * @param string $type
 	 * @param string $route
-	 * @param array $data
+	 * @param array  $data
 	 *
 	 * @return \WP_Error|boolean
 	 */
@@ -109,7 +109,7 @@ final class DeployService extends Singleton implements ConstInterface {
 
 		$container = dollie()->get_container( $post_id );
 
-		//Log::add_front( Log::WP_SITE_DEPLOY_STARTED, dollie, $site );
+		// Log::add_front( Log::WP_SITE_DEPLOY_STARTED, dollie, $site );
 
 		if ( is_wp_error( $container ) ) {
 			return false;
@@ -182,7 +182,7 @@ final class DeployService extends Singleton implements ConstInterface {
 			$container->update_post( $post_data )->set_details( [ 'status' => $deploy['status'] ] );
 		} elseif ( 'Running' === $deploy['status'] ) {
 			$post_data = [
-				'post_title'  => $post_title,
+				'post_title' => $post_title,
 			];
 			$container->update_post( $post_data )->set_details( [ 'hash' => $deploy['hash'] ] );
 			$container->fetch_details();

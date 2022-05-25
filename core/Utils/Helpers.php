@@ -300,8 +300,6 @@ class Helpers extends Singleton implements ConstInterface {
 		}
 	}
 
-
-
 	/**
 	 * @return bool
 	 */
@@ -317,6 +315,10 @@ class Helpers extends Singleton implements ConstInterface {
 	public function has_deploying_template() {
 		$container = dollie()->get_container( get_the_ID() );
 
+		if ( is_wp_error( $container ) ) {
+			return false;
+		}
+
 		return $container->is_deploying() && get_option( 'options_wpd_site_launching_template_id' );
 	}
 
@@ -324,7 +326,6 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return mixed|void
 	 */
 	public function get_site_template_id() {
-
 		// If we have a launching template then show that instead.
 		if ( $this->has_deploying_template() ) {
 			return (int) get_option( 'options_wpd_site_launching_template_id' );
