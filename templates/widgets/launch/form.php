@@ -5,11 +5,11 @@ $subscription = dollie()->subscription();
 
 if ( ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_deploy_limit() ) {
 
-	$message = esc_html__( 'We are hard at work at our infrastructure, please come back to this page at a later time.', 'dollie' );
+	$message = esc_html__( 'Sorry, We are currently hard at work at our platform and temporary disabled launching new sites. Please come back to this page at a later time.', 'dollie' );
 
 	if ( current_user_can( 'manage_options' ) ) {
 		$message = sprintf(
-			__( 'Your Dollie subscription is inactive. Please check your subscription status on our <a href="%s">partners website</a>.', 'dollie' ),
+			__( 'Your Dollie Hub has an issue which prevents the launching of new sites. Please check if you connected this Hub to Dollie Cloud and verify your subscription in  your <a href="%s">Dollie Cloud Dashboard</a>.', 'dollie' ),
 			'https://partners.getdollie.com'
 		);
 	}
@@ -33,8 +33,6 @@ if ( current_user_can( 'manage_options' ) || $subscription->has_subscription() )
 		$form_type         = $settings['type'] ?? 'site';
 		$button_text       = isset( $settings['button_text'] ) && $settings['button_text'] ? $settings['button_text'] : esc_html__( 'Launch New ', 'dollie' );
 		$advanced_settings = (bool) $settings['advanced_settings'];
-
-
 
 		echo do_shortcode(
 			'[dollie_form form="form_dollie_launch_site" ' .
