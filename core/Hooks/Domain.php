@@ -24,6 +24,7 @@ class Domain extends Singleton {
 		$dns_service = DnsService::instance();
 
 		add_action( 'template_redirect', [ $dns_service, 'validate_domain' ] );
+		add_action( 'template_redirect', [ $dns_service, 'remove_domain' ] );
 		add_action( 'template_redirect', [ $dns_service, 'remove_route' ] );
 
 		add_action( 'wp_ajax_dollie_create_record', [ $dns_service, 'create_record' ] );

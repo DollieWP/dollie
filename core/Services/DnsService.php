@@ -38,6 +38,20 @@ final class DnsService extends Singleton {
 		// }
 	}
 
+	public function remove_domain() {
+		if ( isset( $_GET['remove-domain'] ) ) {
+			$container = dollie()->get_container();
+
+			if ( is_wp_error( $container ) || ! $container->is_site() ) {
+				return;
+			}
+
+			$container->delete_zone();
+
+			wp_redirect( $container->get_permalink( 'domains' ) );
+		}
+	}
+
 	/**
 	 * Create record
 	 *

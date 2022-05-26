@@ -198,12 +198,10 @@ final class Site extends BaseContainer {
 	/**
 	 * Delete zone
 	 *
-	 * @param string $zone_id
-	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_zone( string $zone_id ) {
-		return $this->delete_container_zone( $this->get_hash(), $zone_id );
+	public function delete_zone() {
+		return $this->delete_container_zone( $this->get_hash() );
 	}
 
 	/**

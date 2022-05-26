@@ -127,12 +127,9 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 		wp_enqueue_script( 'dollie-custom-launch' );
 	}
 
-	?>
+	dollie()->load_template( 'parts/site-deploying-checker', [], true );
 
-	<div id="dol-deploying-site" class="dol-hidden"
-		data-container="<?php echo esc_attr( get_the_ID() ); ?>"
-		data-nonce="<?php echo esc_attr( wp_create_nonce( 'check_deploy_nonce' ) ); ?>"
-		data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>"></div>
+	?>
 
 	<?php if ( get_field( 'wpd_custom_launch_splash', 'option' ) == true ) : ?>
 

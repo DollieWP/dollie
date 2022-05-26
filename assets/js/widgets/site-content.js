@@ -55,13 +55,11 @@ var DollieSiteContent = DollieSiteContent || {};
                 var container = deploy.data("container");
 
                 if (container) {
-                    var staging = deploy.data("staging");
-
                     DollieSiteContent.vars.ajax_url = deploy.data("ajax-url");
 
                     DollieSiteContent.vars.body = {
                         container: container,
-                        staging: staging ? 1 : 0,
+                        staging: deploy.data("staging") == 1,
                         action: "dollie_check_deploy",
                         nonce: deploy.data("nonce"),
                     };

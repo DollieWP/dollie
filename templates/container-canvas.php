@@ -26,11 +26,10 @@
 		if ( $template_id ) {
 			echo do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 		}
-		?>
-		<?php if (dollie()->has_deploying_template()) : ?>
-            <div id="dol-deploying-site" class="dol-hidden" data-container="<?php echo esc_attr( get_the_ID() ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'check_deploy_nonce' ) ); ?>" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>"></div>
-		<?php endif; ?>
-		<?php
+
+		if ( dollie()->has_deploying_template() ) {
+			dollie()->load_template( 'parts/site-deploying-checker', [], true );
+		}
 	}
 
 	wp_footer();

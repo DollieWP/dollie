@@ -47,7 +47,7 @@
 	?>
 
 	<?php if ( 'pending' === $staging_status ) : ?>
-		<div id="dol-deploying-site" class="dol-hidden" data-container="<?php echo esc_attr( get_the_ID() ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'check_deploy_nonce' ) ); ?>" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-staging="1"></div>
+		<?php dollie()->load_template( 'parts/site-deploying-checker', [], true ); ?>
 	<?php elseif ( 'live' === $staging_status ) : ?>
 		<?php
 		$execution = dollie()->get_execution( get_the_ID(), dollie()->get_api()::EXECUTION_STAGING_SYNC );

@@ -59,12 +59,11 @@ trait ZoneApi {
 	 * Delete zone
 	 *
 	 * @param string $container_hash
-	 * @param string $zone_id
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_container_zone( string $container_hash, string $zone_id ) {
-		return $this->delete_request( "zone/{$container_hash}/{$zone_id}" );
+	public function delete_container_zone( string $container_hash ) {
+		return $this->delete_request( "zone/{$container_hash}" );
 	}
 
 	/**
