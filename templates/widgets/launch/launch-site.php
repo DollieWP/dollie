@@ -30,7 +30,7 @@ if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
 			'links'        => [
 				[
 					'title' => __( 'Connect to Dollie Cloud', 'dollie' ),
-					'url'   => \Dollie\Core\Services\AuthService::instance()->get_auth_url(),
+					'url'   => \Dollie\Core\Services\AuthService::instance()->get_auth_link(),
 				],
 			],
 			'bottom_space' => true,

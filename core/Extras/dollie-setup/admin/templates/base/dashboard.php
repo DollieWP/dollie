@@ -10,6 +10,7 @@
 			<div class="dol-grid dol-items-start dol-grid-cols-1 dol-gap-4 lg:dol-grid-cols-3 lg:dol-gap-8">
 				<!-- Left column -->
 				<div class="dol-grid dol-grid-cols-1 dol-gap-4 lg:dol-col-span-2">
+					<?php //dollie_setup_get_template_part( 'onboarding-form' ); ?>
 					<?php dollie_setup_get_template_part('welcome-header'); ?>
 					<?php dollie_setup_get_template_part('setup-complete'); ?>
 					<?php dollie_setup_get_template_part('recent-sites'); ?>

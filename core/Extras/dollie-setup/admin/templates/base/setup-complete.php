@@ -8,18 +8,14 @@
 		$migration = get_option('wpd_onboarding_migrate_site_url');
 		$url = preg_replace("(^https?://)", "", $migration );
 		$temp = explode('.', $url);
-
 		unset($temp[count($temp) - 1]);
-
 		$migration = implode('.', $temp);
 
 		$launch_url = get_permalink(dollie()->page()->get_launch_id()) . '?default_site_url=' . sanitize_title($migration) . '&redirect=migrate';
 		if ( dollie()->count_total_containers() == '' ) : ?>
-
 			<?php if ($migration) {?>
 			<h4 class="dol-text-gray-500 dol-pl-4 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-1 dol-text-m">Step 1 - Migrate Your First Site</h4>
 			<?php } ?>
-
 			<li>
 				<a href="<?php echo $launch_url;?>" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
