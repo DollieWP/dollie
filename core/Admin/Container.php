@@ -639,15 +639,15 @@ final class Container extends Singleton implements ConstInterface {
 			?>
 			<div class="dollie-page-intro">
 				<h3>
-					<?php esc_html_e( 'Sites Overview - All Sites On Your Platform', 'dollie' ); ?>
+					<?php esc_html_e( 'Sites Overview - All Sites in your Hub', 'dollie' ); ?>
 				</h3>
 				<p>
 					<?php
 					printf(
 						'%s <a href="%s">%s</a>.',
-						esc_html__( 'Below you will find all of your sites launched on your platform. ', 'dollie' ),
+						esc_html__( 'Below are all the sites that have been launched through your Hub. Each site is hosted under your own brand and domain inside your Dollie Cloud. Below uou can see their status, to which customer they are linked and whether they have a domain connected to them.', 'dollie' ),
 						esc_url( dollie()->page()->get_sites_url() ),
-						esc_html__( 'Sites Directory', 'dollie' )
+						esc_html__( 'View Sites on the front-end of my Hub', 'dollie' )
 					);
 					?>
 				</p>
@@ -664,9 +664,9 @@ final class Container extends Singleton implements ConstInterface {
 					<?php
 					printf(
 						'%s <a href="%s">%s</a>.',
-						esc_html__( 'Below you will find all the Blueprints you have created. Want to add a new Blueprint?', 'dollie' ),
+						esc_html__( 'Below you will find all the Blueprints you have created in your Hub. Click on the Blueprint to manage or update them.', 'dollie' ),
 						esc_url( dollie()->page()->get_launch_blueprint_url() ),
-						esc_html__( 'Launch a Blueprint', 'dollie' )
+						esc_html__( 'Launch a New Blueprint', 'dollie' )
 					);
 					?>
 				</p>
@@ -685,10 +685,10 @@ final class Container extends Singleton implements ConstInterface {
 		?>
 		<div class="dollie-page-intro">
 			<h3>
-				<?php esc_html_e( 'The Activity Log', 'dollie' ); ?>
+				<?php esc_html_e( 'The Hub Log', 'dollie' ); ?>
 			</h3>
 			<p>
-				<?php esc_html_e( 'The activity log keeps track of everything you need to know regarding your sites, actions taken by your customers and recurring crons/maintenance jobs that run on your installation.', 'dollie' ); ?>
+				<?php esc_html_e( 'The Hub log keeps track of activity inside your Hub, For example action taken by your customers and recurring crons/maintenance jobs that run behind the scenes.', 'dollie' ); ?>
 			</p>
 		</div>
 		<?php
@@ -893,7 +893,7 @@ final class Container extends Singleton implements ConstInterface {
 		remove_meta_box( 'authordiv', 'container', 'core' );
 		add_meta_box(
 			'authordiv',
-			__( 'Assigned Customer to this Site', 'dollie' ),
+			__( 'Assigned Customer', 'dollie' ),
 			'post_author_meta_box',
 			'container',
 			'normal',
@@ -947,9 +947,9 @@ final class Container extends Singleton implements ConstInterface {
 	public function add_actions( $actions, $page_object ) {
 		$container = dollie()->get_container();
 
-		if ( is_wp_error( $container ) ) {
-			return $actions;
-		}
+		// if ( is_wp_error( $container ) ) {
+		// 	return $actions;
+		// }
 
 		unset( $actions['trash'] );
 		unset( $actions['view'] );
