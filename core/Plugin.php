@@ -111,7 +111,8 @@ class Plugin extends Singleton {
 		// }
 
 		// Load TGM Class
-		if ( ! class_exists( 'Dollie_Setup' ) && dollie()->is_api_connected() ) {
+		if ( ! class_exists( 'Dollie_Setup' )  ) {
+			update_option('_dollie_setup_current_package','agency', true);
 			require_once DOLLIE_CORE_PATH . 'Extras/dollie-setup/loader.php';
 		}
 
