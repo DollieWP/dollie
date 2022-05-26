@@ -13,12 +13,15 @@ $first_name = $user->first_name;
 						<img class="dol-w-20 dol-h-20 dol-mx-auto dol-rounded-full" src="<?php echo esc_url( DOLLIE_ASSETS_URL . 'wizard/agency.svg' ); ?>" alt="">
 					</div>
 					<div class="dol-mt-4 dol-text-center sm:dol-mt-0 sm:dol-pt-1 sm:dol-text-left">
-						<p class="dol-text-sm dol-font-medium dol-text-gray-600">Hi <?php echo $first_name; ?>, welcome back to the </p>
-						<p class="dol-text-xxl dol-font-bold dol-text-gray-900 sm:dol-text-2xl"><?php echo get_option('wpd_onboarding_partner_business_name', true);?> Dashboard</p>
-					</div>
+						<p class="dol-text-sm dol-font-medium dol-text-gray-600"></p>
+						<p class="dol-text-xxl dol-font-bold dol-text-gray-900 sm:dol-text-2xl">Hi <?php echo $first_name; ?>, Welcome to Your Hub</p>
+						<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
+							 This is where you build your own white-labeled platform for your customers. Follow our recommended steps below and you'll be sellng your services in no time!
+					</p>
+					<div class="dol-flex dol-mt-3 sm:dol-mt-0">
+					<a target="_blank" href="https://partners.getdollie.com" class="">Visit Dollie Cloud Dashboard</a>
 				</div>
-				<div class="dol-flex dol-justify-center dol-mt-5 sm:dol-mt-0">
-					<a href="#" class="dol-btn dol-btn-primary"> <?php echo get_option('wpd_onboarding_partner_business_name', true);?> </a>
+					</div>
 				</div>
 			</div>
 		</div>
