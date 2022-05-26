@@ -21,7 +21,7 @@ class Dollie_Setup_Package_Agency extends Dollie_Setup_Package {
 	/**
 	 * @var string Display name for our package.
 	 */
-	public static $name = 'Agency';
+	public static $name = 'Hub';
 
 	/**
 	 * @var array Configuration holder.

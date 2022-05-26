@@ -290,7 +290,7 @@ class Dollie_Setup_Admin {
 		}
 
 		// Redirect to certain pages if necessary.
-		if ( ! dollie_setup_is_setup() && empty( $_GET['dollie_setup-action'] ) ) {
+		if ( ! dollie_setup_is_setup() && empty( $_GET['dollie_setup-action'] )  ) {
 			$redirect = '';
 			switch ( dollie_setup_get_setup_step() ) {
 				case 'required-plugins':
@@ -928,7 +928,7 @@ class Dollie_Setup_Admin {
 	public function display_notice() {
 		// If our notice marker isn't set or if we're on the DOLLIE_SETUP page, stop now!
 		$show_notice = isset( dollie_setup()->show_notice ) ? dollie_setup()->show_notice : false;
-		if ( ! $show_notice || 'dollie_setup' === get_current_screen()->parent_base ) {
+		if ( ! $show_notice || 'dollie_setup' === get_current_screen()->parent_base || dollie()->is_api_connected() ) {
 			return;
 		}
 
@@ -937,12 +937,12 @@ class Dollie_Setup_Admin {
 		switch ( dollie_setup_get_setup_step() ) {
 			case 'no-package':
 			case 'required-plugins':
-				$notice_header= __( '<span></span>Welcome to Your Dollie Hub - Let\'s Get Started', 'dollie-setup');
+				$notice_header= __( '<span></span>Dollie Hub - Let\'s Get Started', 'dollie-setup');
 
 				if (defined('S5_APP_TOKEN')) {
-						$notice_text= __( 'Your brand new WordPress site is now set up hosted on the Dollie Cloud. But before you can start using Dollie we need to know a little bit about how the type of platform you would like to build. ', 'dollie-setup');
+						$notice_text= __( 'Your brand new WordPress site is now set up hosted on the Dollie Cloud. But before you can start building your platform we need to install some required plugins. ', 'dollie-setup');
 				} else {
-					$notice_text= __( 'Before you can start using Dollie we need to know a little bit about how the type of platform you would like to build. ', 'dollie-setup');
+					$notice_text= __( 'Your Hub is almost ready! But before you can start building your platform we need to install some required plugins. ', 'dollie-setup');
 				}
 
 				$button_link = dollie_setup_admin_prop( 'url', 'admin.php?page=dollie_setup' );

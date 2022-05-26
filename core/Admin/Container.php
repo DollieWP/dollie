@@ -41,7 +41,7 @@ final class Container extends Singleton implements ConstInterface {
 		add_action( 'admin_init', [ $this, 'disconnect_dollie' ] );
 		add_filter( 'admin_body_class', [ $this, 'add_container_type_class' ] );
 
-		add_filter( 'manage_container_posts_columns', [ $this, 'set_table_columns' ] );
+		add_filter( 'manage_container_posts_columns', [ $this, 'custom_column' ] );
 		add_action( 'manage_container_posts_custom_column', [ $this, 'set_table_custom_columns' ], 10, 2 );
 
 		add_action( 'add_meta_boxes', [ $this, 'rename_meta_box_title' ] );
@@ -639,15 +639,15 @@ final class Container extends Singleton implements ConstInterface {
 			?>
 			<div class="dollie-page-intro">
 				<h3>
-					<?php esc_html_e( 'Sites Overview - All Sites On Your Platform', 'dollie' ); ?>
+					<?php esc_html_e( 'Sites Overview - All Sites in your Hub', 'dollie' ); ?>
 				</h3>
 				<p>
 					<?php
 					printf(
 						'%s <a href="%s">%s</a>.',
-						esc_html__( 'Below you will find all of your sites launched on your platform. ', 'dollie' ),
+						esc_html__( 'Below are all the sites that have been launched through your Hub. Each site is hosted under your own brand and domain inside your Dollie Cloud. Below uou can see their status, to which customer they are linked and whether they have a domain connected to them.', 'dollie' ),
 						esc_url( dollie()->page()->get_sites_url() ),
-						esc_html__( 'Sites Directory', 'dollie' )
+						esc_html__( 'View Sites on the front-end of my Hub', 'dollie' )
 					);
 					?>
 				</p>
@@ -664,9 +664,9 @@ final class Container extends Singleton implements ConstInterface {
 					<?php
 					printf(
 						'%s <a href="%s">%s</a>.',
-						esc_html__( 'Below you will find all the Blueprints you have created. Want to add a new Blueprint?', 'dollie' ),
+						esc_html__( 'Below you will find all the Blueprints you have created in your Hub. Click on the Blueprint to manage or update them.', 'dollie' ),
 						esc_url( dollie()->page()->get_launch_blueprint_url() ),
-						esc_html__( 'Launch a Blueprint', 'dollie' )
+						esc_html__( 'Launch a New Blueprint', 'dollie' )
 					);
 					?>
 				</p>
@@ -685,10 +685,10 @@ final class Container extends Singleton implements ConstInterface {
 		?>
 		<div class="dollie-page-intro">
 			<h3>
-				<?php esc_html_e( 'The Activity Log', 'dollie' ); ?>
+				<?php esc_html_e( 'The Hub Log', 'dollie' ); ?>
 			</h3>
 			<p>
-				<?php esc_html_e( 'The activity log keeps track of everything you need to know regarding your sites, actions taken by your customers and recurring crons/maintenance jobs that run on your installation.', 'dollie' ); ?>
+				<?php esc_html_e( 'The Hub log keeps track of activity inside your Hub, For example action taken by your customers and recurring crons/maintenance jobs that run behind the scenes.', 'dollie' ); ?>
 			</p>
 		</div>
 		<?php
@@ -844,6 +844,91 @@ final class Container extends Singleton implements ConstInterface {
 	}
 
 	/**
+	 * Add acf columns
+	 *
+	 * @param $columns
+	 *
+	 * @return array
+	 */
+	public function add_acf_columns( $columns ) {
+		if ( isset( $_GET['blueprint'] ) && ! empty( $_GET['blueprint'] ) ) {
+			return array_merge(
+				$columns,
+				[
+					'updated' => __( 'Blueprint Updated', 'dollie' ),
+					'users'   => __( 'Users', 'dollie' ),
+					'size'    => __( 'Size', 'dollie' ),
+					'status'  => __( 'Status', 'dollie' ),
+				]
+			);
+		} else {
+			return array_merge(
+				$columns,
+				[
+					'domain' => __( 'Domain', 'dollie' ),
+					'users'  => __( 'Users', 'dollie' ),
+					'size'   => __( 'Size', 'dollie' ),
+					'status' => __( 'Status', 'dollie' ),
+				]
+			);
+
+		}
+	}
+
+	/**
+	 * Add custom column
+	 *
+	 * @param $column
+	 * @param $post_id
+	 */
+	public function custom_column( $column, $post_id ) {
+		$search_meta = '';
+
+		if ( isset( $_GET['blueprint'] ) && ! empty( $_GET['blueprint'] ) ) {
+			switch ( $column ) {
+				case 'updated':
+					$search_meta = 'wpd_blueprint_time';
+					break;
+				case 'users':
+					$search_meta = 'wpd_installation_users';
+					break;
+				case 'size':
+					$search_meta = 'wpd_installation_size';
+					break;
+				case 'status':
+					$search_meta = 'wpd_container_status';
+					break;
+			}
+		} else {
+			switch ( $column ) {
+				case 'domain':
+					$search_meta = 'wpd_domains';
+					break;
+				case 'users':
+					$search_meta = 'wpd_installation_users';
+					break;
+				case 'size':
+					$search_meta = 'wpd_installation_size';
+					break;
+				case 'status':
+					$search_meta = 'wpd_container_status';
+					break;
+			}
+		}
+
+		if ( $search_meta ) {
+			$meta = get_post_meta( $post_id, $search_meta, true );
+			if ( 'stop' === $meta ) {
+				echo '<mark class="site-status status-stop">' . get_post_meta( $post_id, $search_meta, true ) . '</mark>';
+			} elseif ( 'start' === $meta ) {
+				echo '<mark class="site-status status-start">' . get_post_meta( $post_id, $search_meta, true ) . '</mark>';
+			} else {
+				echo get_post_meta( $post_id, $search_meta, true );
+			}
+		}
+	}
+
+	/**
 	 * Set table custom columns
 	 *
 	 * @param string $column_name
@@ -893,7 +978,7 @@ final class Container extends Singleton implements ConstInterface {
 		remove_meta_box( 'authordiv', 'container', 'core' );
 		add_meta_box(
 			'authordiv',
-			__( 'Assigned Customer to this Site', 'dollie' ),
+			__( 'Assigned Customer', 'dollie' ),
 			'post_author_meta_box',
 			'container',
 			'normal',
@@ -945,7 +1030,7 @@ final class Container extends Singleton implements ConstInterface {
 	 * @param $page_object
 	 */
 	public function add_actions( $actions, $page_object ) {
-		$container = dollie()->get_container();
+		$container = dollie()->get_container($page_object->ID);
 
 		if ( is_wp_error( $container ) ) {
 			return $actions;

@@ -43,7 +43,7 @@ class Dollie_Setup_Plugins_Agency {
 				'plugin_name'              => 'Advanced Custom Fields PRO',
 				'dollie_setup_name'        => __('Advanced Custom Fields', 'dollie-setup'),
 				'dollie_setup_description' => __('ACF Pro is needed across the Dollie suite to build the user interface and forms across your platform.', 'dollie-setup'),
-				'version'                  => '5.11.4',
+				'version'                  => '5.12.2',
 				'documentation_url'        => 'https://partners.getdollie.com/?s=WooCommerce&ht-kb-search=1&lang=',
 				'admin_settings'           => 'admin.php?page=wc-settings',
 				'network_settings'         => 'admin.php?page=wc-settings',
@@ -126,7 +126,7 @@ class Dollie_Setup_Plugins_Agency {
 			array(
 				'plugin_name'  => 'Advanced Custom Fields PRO',
 				'type'         => 'dependency',
-				'download_url' => 'https://api.getdollie.com/releases/packages/updates/advanced-custom-fields-pro-5.11.4.zip',
+				'download_url' => 'https://api.getdollie.com/releases/packages/updates/advanced-custom-fields-pro-5.12.2.zip',
 			)
 		);
 

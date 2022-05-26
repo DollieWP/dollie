@@ -8,18 +8,14 @@
 		$migration = get_option('wpd_onboarding_migrate_site_url');
 		$url = preg_replace("(^https?://)", "", $migration );
 		$temp = explode('.', $url);
-
 		unset($temp[count($temp) - 1]);
-
 		$migration = implode('.', $temp);
 
 		$launch_url = get_permalink(dollie()->page()->get_launch_id()) . '?default_site_url=' . sanitize_title($migration) . '&redirect=migrate';
 		if ( dollie()->count_total_containers() == '' ) : ?>
-
 			<?php if ($migration) {?>
 			<h4 class="dol-text-gray-500 dol-pl-4 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-1 dol-text-m">Step 1 - Migrate Your First Site</h4>
 			<?php } ?>
-
 			<li>
 				<a href="<?php echo $launch_url;?>" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
@@ -113,10 +109,10 @@
 							</div>
 							<div class="dol-min-w-0 dol-flex-1 dol-px-4 md:dol-grid md:dol-grid-cols-2 md:dol-gap-4">
 								<div>
-									<p class="dol-text-sm dol-font-medium dol-text-green-600 dol-truncate"><?php esc_html_e( 'Successfully connected to Dollie API', 'dollie' ); ?></p>
+									<p class="dol-text-sm dol-font-medium dol-text-green-600 dol-truncate"><?php esc_html_e( 'Successfully connected to Dollie Cloud API', 'dollie' ); ?></p>
 									<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
 										<!-- Heroicon name: solid/mail -->
-										<span class="dol-truncate">No more steps needed.</span>
+										<span class="dol-truncate">Sites can be launched via this Hub</span>
 									</p>
 								</div>
 								<div class="dol-hidden dol-mt-3 md:dol-block">
@@ -143,7 +139,7 @@
 			</li>
 		<?php else : ?>
 			<li>
-				<a href="<?php echo \Dollie\Core\Services\AuthService::instance()->get_auth_url(); ?>" class="dol-block hover:dol-bg-gray-50">
+				<a href="<?php echo \Dollie\Core\Services\AuthService::instance()->get_auth_link(); ?>" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
 						<div class="dol-min-w-0 dol-flex-1 dol-flex dol-items-center">
 							<div class="dol-flex-shrink-0">
