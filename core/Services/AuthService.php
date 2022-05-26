@@ -28,6 +28,16 @@ final class AuthService extends Singleton implements ConstInterface {
 		);
 	}
 
+	public function get_auth_link() {
+		return sprintf(
+			'%s',
+			add_query_arg(
+				[ 'origin' => admin_url() ],
+				DOLLIE_PARTNERS_URL . 'auth'
+			)
+		);
+	}
+
 	/**
 	 * Process token
 	 *
