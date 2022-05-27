@@ -100,8 +100,8 @@ final class Container extends Singleton implements ConstInterface {
 			'hierarchical'        => true,
 			'public'              => true,
 			'show_ui'             => true,
-			'show_in_menu'        => false,
-			'menu_position'       => -10,
+			'show_in_menu'        => true,
+			'menu_position'       => 2,
 			'show_in_admin_bar'   => true,
 			'show_in_nav_menus'   => true,
 			'can_export'          => true,
@@ -119,6 +119,9 @@ final class Container extends Singleton implements ConstInterface {
 			'show_in_rest'        => false,
 			'capability_type'     => 'wpd_site',
 			'map_meta_cap'        => true,
+			'capabilities' => array(
+				'create_posts' => 'do_not_allow'
+			)
 		];
 
 		$post_type_args = apply_filters( 'dollie/cpt/container/args', $post_type_args );
@@ -529,6 +532,8 @@ final class Container extends Singleton implements ConstInterface {
 	 */
 	public function add_external_menu_links() {
 		global $submenu;
+
+
 
 		$submenu['dollie_setup'][] = [
 			__( 'Sites', 'dollie' ),
