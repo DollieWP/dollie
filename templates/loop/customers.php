@@ -1,4 +1,8 @@
 <?php
+$user = dollie()->get_user(get_current_user_id());
+if ( ! $user->can_view_all_sites() ) {
+return;
+}
 if ( ! isset( $view_type ) ) {
 	$view_type = 'list';
 }
