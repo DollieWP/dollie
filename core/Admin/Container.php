@@ -41,7 +41,7 @@ final class Container extends Singleton implements ConstInterface {
 		add_action( 'admin_init', [ $this, 'disconnect_dollie' ] );
 		add_filter( 'admin_body_class', [ $this, 'add_container_type_class' ] );
 
-		add_filter( 'manage_container_posts_columns', [ $this, 'custom_column' ] );
+		add_filter( 'manage_container_posts_columns', [ $this, 'set_table_columns' ] );
 		add_action( 'manage_container_posts_custom_column', [ $this, 'set_table_custom_columns' ], 10, 2 );
 
 		add_action( 'add_meta_boxes', [ $this, 'rename_meta_box_title' ] );
@@ -841,91 +841,6 @@ final class Container extends Singleton implements ConstInterface {
 		}
 
 		return $custom_columns + $columns;
-	}
-
-	/**
-	 * Add acf columns
-	 *
-	 * @param $columns
-	 *
-	 * @return array
-	 */
-	public function add_acf_columns( $columns ) {
-		if ( isset( $_GET['blueprint'] ) && ! empty( $_GET['blueprint'] ) ) {
-			return array_merge(
-				$columns,
-				[
-					'updated' => __( 'Blueprint Updated', 'dollie' ),
-					'users'   => __( 'Users', 'dollie' ),
-					'size'    => __( 'Size', 'dollie' ),
-					'status'  => __( 'Status', 'dollie' ),
-				]
-			);
-		} else {
-			return array_merge(
-				$columns,
-				[
-					'domain' => __( 'Domain', 'dollie' ),
-					'users'  => __( 'Users', 'dollie' ),
-					'size'   => __( 'Size', 'dollie' ),
-					'status' => __( 'Status', 'dollie' ),
-				]
-			);
-
-		}
-	}
-
-	/**
-	 * Add custom column
-	 *
-	 * @param $column
-	 * @param $post_id
-	 */
-	public function custom_column( $column, $post_id ) {
-		$search_meta = '';
-
-		if ( isset( $_GET['blueprint'] ) && ! empty( $_GET['blueprint'] ) ) {
-			switch ( $column ) {
-				case 'updated':
-					$search_meta = 'wpd_blueprint_time';
-					break;
-				case 'users':
-					$search_meta = 'wpd_installation_users';
-					break;
-				case 'size':
-					$search_meta = 'wpd_installation_size';
-					break;
-				case 'status':
-					$search_meta = 'wpd_container_status';
-					break;
-			}
-		} else {
-			switch ( $column ) {
-				case 'domain':
-					$search_meta = 'wpd_domains';
-					break;
-				case 'users':
-					$search_meta = 'wpd_installation_users';
-					break;
-				case 'size':
-					$search_meta = 'wpd_installation_size';
-					break;
-				case 'status':
-					$search_meta = 'wpd_container_status';
-					break;
-			}
-		}
-
-		if ( $search_meta ) {
-			$meta = get_post_meta( $post_id, $search_meta, true );
-			if ( 'stop' === $meta ) {
-				echo '<mark class="site-status status-stop">' . get_post_meta( $post_id, $search_meta, true ) . '</mark>';
-			} elseif ( 'start' === $meta ) {
-				echo '<mark class="site-status status-start">' . get_post_meta( $post_id, $search_meta, true ) . '</mark>';
-			} else {
-				echo get_post_meta( $post_id, $search_meta, true );
-			}
-		}
 	}
 
 	/**
