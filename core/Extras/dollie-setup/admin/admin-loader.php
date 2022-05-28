@@ -629,10 +629,10 @@ class Dollie_Setup_Admin {
 	 * Setup admin menu and any dependent page hooks.
 	 */
 	public function admin_menu() {
-		$name = __( 'Dollie Hub', 'dollie-setup' );
+		$name = __( 'Your Hub', 'dollie-setup' );
 		$page = add_menu_page(
-			$name,
-			$name,
+			'Dashboard',
+			'Your Hub',
 			'install_plugins', // todo - map cap?
 			'dollie_setup',
 			array( $this, 'admin_page' ),
@@ -640,16 +640,16 @@ class Dollie_Setup_Admin {
 			2
 		);
 
-		$dashboard = dollie_setup_get_package_prop( 'name' ) ? sprintf( __( '%s Dashboard', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ) : __( 'Dollie Setup', 'dollie-setup' );
+		// $dashboard = dollie_setup_get_package_prop( 'name' ) ? sprintf( __( '%s Dashboard', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ) : __( 'Dollie Setup', 'dollie-setup' );
 
-		$subpage = add_submenu_page(
-			'dollie_setup',
-			$dashboard,
-			$dashboard,
-			'install_plugins', // todo - map cap?
-			'dollie_setup',
-			array( $this, 'admin_page' )
-		);
+		// $subpage = add_page(
+		// 	'dollie_setup',
+		// 	$dashboard,
+		// 	$dashboard,
+		// 	'install_plugins', // todo - map cap?
+		// 	'dollie_setup',
+		// 	array( $this, 'admin_page' )
+		// );
 
 		/**
 		 * Hook to do so something during DOLLIE_SETUP admin menu registration.

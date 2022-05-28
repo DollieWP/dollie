@@ -9,18 +9,6 @@ jQuery(document).ready(function ($) {
     $(".post-type-container input[name='post_name']").attr("disabled", true);
     $("#acf-group_5af8272e96d48 input").attr("disabled", true);
 
-    $(".dollie-is-blueprint .wp-submenu-wrap li a").each(function () {
-        if (this.href.indexOf("container") != -1) {
-            $(this).parent().removeClass("current");
-        }
-    });
-
-    $(".dollie-is-blueprint .wp-submenu-wrap li a").each(function () {
-        if (this.href.indexOf("blueprint") != -1) {
-            $(this).parent().addClass("current");
-        }
-    });
-
     $(".post-type-container a.page-title-action").attr(
         "href",
         baseUrl + "launch-site"
@@ -29,6 +17,12 @@ jQuery(document).ready(function ($) {
     $(".post-type-container li.trash a").text("Stopped");
 
     if (window.location.href.indexOf("blueprint=yes") > -1) {
+        $(".toplevel_page_dollie_blueprints").addClass("wp-menu-open");
+        $(".toplevel_page_dollie_blueprints").addClass("wp-has-current-submenu");
+        $(".toplevel_page_dollie_blueprints").removeClass("wp-not-current-submenu");
+        $(".menu-icon-container").removeClass("wp-menu-open");
+        $(".menu-icon-container").removeClass("wp-has-current-submenu");
+        $(".menu-icon-container").addClass("wp-not-current-submenu");
         var actionLinks = $(".post-type-container .subsubsub > li a");
         actionLinks.each(function() {
             if ($(this).attr('href').indexOf("blueprint=yes") === -1) {

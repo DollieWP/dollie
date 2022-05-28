@@ -102,11 +102,11 @@ final class Admin extends Singleton implements ConstInterface {
 		$args = array(
 			'page_title'  => __( 'Settings', 'dollie' ),
 			'menu_title'  => __( 'Settings', 'dollie' ),
+			'parent_slug' => 'dollie_setup',
 			'menu_slug'   => self::PANEL_SLUG,
 			'capability'  => 'manage_options',
-			'position'    => '99',
-			'parent_slug' => 'dollie_setup',
-			'icon_url'    => false,
+			'position'    => '4',
+			'icon_url'    => 'dashicons-admin-generic',
 			'redirect'    => true,
 			'autoload'    => true,
 		);
