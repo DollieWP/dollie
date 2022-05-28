@@ -1,6 +1,19 @@
 <?php
 $user = dollie()->get_user(get_current_user_id());
 if ( ! $user->can_view_all_sites() ) {
+
+		dollie()->load_template(
+		'notice',
+		[
+			'type'         => 'error',
+			'icon'         => 'fas fa-exclamation-circle',
+			'title'        => __( 'No Permission', 'dollie' ),
+			'message'      => __( 'You do not have permission to view this content.', 'dollie' ),
+			'bottom_space' => true,
+		],
+		true
+	);
+
 return;
 }
 if ( ! isset( $view_type ) ) {
