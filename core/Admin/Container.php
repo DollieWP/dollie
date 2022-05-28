@@ -1134,9 +1134,10 @@ final class Container extends Singleton implements ConstInterface {
 	}
 
 	public function new_modify_user_table_row( $val, $column_name, $user_id ) {
+		$user = dollie()->get_user($user_id);
 		switch ($column_name) {
 			case 'sites' :
-				return dollie()->count_customer_containers($user_id);
+				return $user->count_containers();
 			default:
 		}
 		return $val;
