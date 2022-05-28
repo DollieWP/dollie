@@ -213,6 +213,11 @@ class Upgrades extends Singleton {
 				'template' => 'page-templates/dollie-dashboard.php',
 				'option'   => 'options_wpd_dashboard_page_id',
 			],
+			'customers'      => [
+				'title'    => 'Customers',
+				'template' => 'page-templates/dollie-customers.php',
+				'option'   => 'wpd_customers_page_id',
+			],
 			'customer-login' => [
 				'title'    => 'Customer Login',
 				'template' => 'page-templates/dollie-login.php',
@@ -283,6 +288,12 @@ class Upgrades extends Singleton {
 			'dashboard'      => [
 				'title'     => 'Dashboard',
 				'option'    => 'options_wpd_dashboard_page_id',
+				'tpl'       => 'elementor_header_footer',
+				'post_type' => 'page',
+			],
+			'customers'      => [
+				'title'     => 'Customers',
+				'option'    => 'options_wpd_customers_page_id',
 				'tpl'       => 'elementor_header_footer',
 				'post_type' => 'page',
 			],

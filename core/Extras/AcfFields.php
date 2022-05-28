@@ -712,6 +712,28 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'ui'                => 1,
 				),
 				array(
+					'key'               => 'field_5e5546885a4c7e',
+					'label'             => __( 'Customers Directory', 'dollie' ),
+					'name'              => 'wpd_customers_page_id',
+					'type'              => 'post_object',
+					'instructions'      => __( 'This page contains the (Elementor) template for the Customer Directory', 'dollie' ),
+					'required'          => 0,
+					'conditional_logic' => 0,
+					'wrapper'           => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'post_type'         => array(
+						0 => 'page',
+					),
+					'taxonomy'          => '',
+					'allow_null'        => 0,
+					'multiple'          => 0,
+					'return_format'     => 'id',
+					'ui'                => 1,
+				),
+				array(
 					'key'               => 'field_5e555864a4c7d',
 					'label'             => __( 'Customer Login Page', 'dollie' ),
 					'name'              => 'wpd_login_page_id',

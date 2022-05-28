@@ -75,6 +75,19 @@ final class PageManager extends Singleton {
 	}
 
 	/**
+	 * Get sites ID
+	 *
+	 * @return integer
+	 */
+	public function get_customers_id(): int {
+		if ( function_exists( 'pll_get_post' ) ) {
+			return (int) pll_get_post( get_option( 'options_wpd_customers_page_id' ) );
+		}
+
+		return (int) get_option( 'options_wpd_customers_page_id' );
+	}
+
+	/**
 	 * Get launch URL
 	 *
 	 * @param string $append
