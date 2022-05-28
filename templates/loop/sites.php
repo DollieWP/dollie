@@ -303,9 +303,42 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 				?>
 		</div>
 	<?php else : ?>
-		<div class="dol-flex dol-items-center dol-justify-center dol-h-40">
+		<div class="dol-flex dol-items-center dol-justify-center">
 			<div class="dol-text-2xl dol-text-ash-600">
-				<?php printf( esc_html__( 'No %s Found', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>
+			<?php printf( esc_html__( 'No %s Found', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>
+
+			<?php if ( ! isset( $_GET['blueprints'] ) && ! $_GET['blueprints'] )  : ?>
+				<br>
+				<a href="<?php echo esc_html( dollie()->page()->get_launch_url() ); ?>"
+					class="dol-btn dol-bg-secondary dol-text-white dol-mt-3">
+					<span class="dol-inline-block dol-text-center dol-pr-2">
+						<?php echo dollie()->icon()->launch(); ?>
+					</span>
+					<?php echo esc_html( dollie()->page()->get_launch_title() ); ?>
+				</a>
+			<?php else:?>
+				<div class="dol-my-4">
+				<?php dollie()->load_template(
+				'notice',
+				[
+					'type'         => 'info',
+					'icon'         => 'fas fa-copy',
+					'title'        => __( 'You have no Blueprints yet!', 'dollie' ),
+					'message'      => __(
+						sprintf(
+							'Blueprints allow you to create beautiful pre-made websites for your customers they can launch with the click of a button. <br><br><a href="%s">Launch Your First Blueprint</a>',
+							dollie()->page()->get_launch_blueprint_url()
+						),
+						'dollie'
+					),
+					'bottom_space' => true,
+				],
+				true
+			);
+			?>
+			<?php endif; ?>
+			</div>
+
 			</div>
 		</div>
 	<?php endif; ?>

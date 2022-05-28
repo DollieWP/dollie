@@ -16,7 +16,7 @@ do_action( 'dollie/before/main-menu' );
 <ul class="dol-list-none dol-p-0 dol-m-0 dol-widget-main-nav">
 
 	<?php if ( dollie()->page()->get_launch_url() ) : ?>
-	<li class="dol-mb-4">
+	<li class="dol-mb-0">
 		<a href="<?php echo esc_html( dollie()->page()->get_launch_url() ); ?>"
 			class="dol-nav-btn dol-bg-secondary dol-text-white <?php echo esc_attr( $active_class['launch-site'] ); ?>">
 			<span class="dol-inline-block dol-text-center dol-w-8">
@@ -27,20 +27,8 @@ do_action( 'dollie/before/main-menu' );
 	</li>
 	<?php endif; ?>
 
-	<?php if ( dollie()->page()->get_customers_url() && $user->can_view_all_sites() ) : ?>
-	<li class="dol-mb-4">
-		<a href="<?php echo esc_html( dollie()->page()->get_customers_url() ); ?>"
-			class="dol-nav-btn <?php echo esc_attr( $active_class['customers'] ); ?>">
-			<span class="dol-inline-block dol-text-center dol-w-8">
-				<?php echo dollie()->icon()->customers(); ?>
-			</span>
-			<?php echo esc_html( dollie()->page()->get_customers_title() ); ?>
-		</a>
-	</li>
-	<?php endif; ?>
-
 	<?php if ( current_user_can( 'manage_options' ) ) : ?>
-		<li class="dol-mb-4">
+		<li class="dol-mb-0">
 			<a href="<?php echo dollie()->page()->get_launch_blueprint_url(); ?>"
 				class="dol-nav-btn <?php echo esc_attr( $active_class['launch-blueprint'] ); ?>">
 				<span class="dol-inline-block dol-text-center dol-w-8">
@@ -51,13 +39,26 @@ do_action( 'dollie/before/main-menu' );
 		</li>
 	<?php endif; ?>
 	<?php if ( dollie()->page()->get_dashboard_url() ) : ?>
-	<li class="dol-mb-1">
+	<li class="dol-mt-5">
 		<a href="<?php echo dollie()->page()->get_dashboard_url(); ?>"
 			class="dol-nav-btn <?php echo esc_attr( $active_class['dashboard'] ); ?>">
 			<span class="dol-inline-block dol-text-center dol-w-8">
 				<?php echo dollie()->icon()->site_dashboard(); ?>
 			</span>
 			<?php echo dollie()->page()->get_dashboard_title(); ?>
+		</a>
+	</li>
+	<?php endif; ?>
+
+
+	<?php if ( dollie()->page()->get_customers_url() && $user->can_view_all_sites() ) : ?>
+	<li class="dol-mb-0">
+		<a href="<?php echo esc_html( dollie()->page()->get_customers_url() ); ?>"
+			class="dol-nav-btn <?php echo esc_attr( $active_class['customers'] ); ?>">
+			<span class="dol-inline-block dol-text-center dol-w-8">
+				<?php echo dollie()->icon()->customers(); ?>
+			</span>
+			<?php echo esc_html( dollie()->page()->get_customers_title() ); ?>
 		</a>
 	</li>
 	<?php endif; ?>
