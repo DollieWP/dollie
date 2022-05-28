@@ -148,6 +148,18 @@ final class PageManager extends Singleton {
 	}
 
 	/**
+	 * Get sites URL
+	 *
+	 * @param string $append
+	 * @param array  $query
+	 *
+	 * @return boolean|string
+	 */
+	public function get_customers_url( string $append = '', array $query = [] ) {
+		return $this->build_permalink( $this->get_customers_id(), $append, $query );
+	}
+
+	/**
 	 * Check if current object is launch page
 	 *
 	 * @return boolean
@@ -182,6 +194,16 @@ final class PageManager extends Singleton {
 	public function is_sites(): bool {
 		return $this->get_sites_id() === get_the_ID();
 	}
+
+	/**
+	 * Check if current object is customers page
+	 *
+	 * @return boolean
+	 */
+	public function is_customers(): bool {
+		return $this->get_customers_id() === get_the_ID();
+	}
+
 
 	/**
 	 * Get launch TITLE
@@ -226,6 +248,15 @@ final class PageManager extends Singleton {
 	 */
 	public function get_sites_title(): string {
 		return get_the_title( $this->get_sites_id() );
+	}
+
+	/**
+	 * Get sites TITLE
+	 *
+	 * @return string
+	 */
+	public function get_customers_title(): string {
+		return get_the_title( $this->get_customers_id() );
 	}
 
 	/**
