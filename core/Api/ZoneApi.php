@@ -70,50 +70,46 @@ trait ZoneApi {
 	 * Get records by id
 	 *
 	 * @param string $container_hash
-	 * @param string $zone_id
 	 * @param string $record_id
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_container_record_by_id( string $container_hash, string $zone_id, string $record_id ) {
-		return $this->get_request( "zone/{$container_hash}/{$zone_id}/records/{$record_id}" );
+	public function get_container_record_by_id( string $container_hash, string $record_id ) {
+		return $this->get_request( "zone/{$container_hash}/records/{$record_id}" );
 	}
 
 	/**
 	 * Get all records
 	 *
 	 * @param string $container_hash
-	 * @param string $zone_id
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_container_records( string $container_hash, string $zone_id ) {
-		return $this->get_request( "zone/{$container_hash}/{$zone_id}/records" );
+	public function get_container_records( string $container_hash ) {
+		return $this->get_request( "zone/{$container_hash}/records" );
 	}
 
 	/**
 	 * Create record
 	 *
 	 * @param string $container_hash
-	 * @param string $zone_id
 	 * @param array  $data
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function create_container_record( string $container_hash, string $zone_id, array $data ) {
-		return $this->post_request( "zone/{$container_hash}/{$zone_id}/records", $data );
+	public function create_container_record( string $container_hash, array $data ) {
+		return $this->post_request( "zone/{$container_hash}/records", $data );
 	}
 
 	/**
 	 * Delete record
 	 *
 	 * @param string $container_hash
-	 * @param string $zone_id
 	 * @param string $record_id
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_container_record( string $container_hash, string $zone_id, string $record_id ) {
-		return $this->delete_request( "zone/{$container_hash}/{$zone_id}/records/{$record_id}" );
+	public function delete_container_record( string $container_hash, string $record_id ) {
+		return $this->delete_request( "zone/{$container_hash}/records/{$record_id}" );
 	}
 }

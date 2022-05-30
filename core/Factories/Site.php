@@ -207,47 +207,42 @@ final class Site extends BaseContainer {
 	/**
 	 * Get records by ID
 	 *
-	 * @param string $zone_id
 	 * @param string $record_id
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_record_by_id( string $zone_id, string $record_id ) {
-		return $this->get_container_record_by_id( $this->get_hash(), $zone_id, $record_id );
+	public function get_record_by_id( string $record_id ) {
+		return $this->get_container_record_by_id( $this->get_hash(), $record_id );
 	}
 
 	/**
 	 * Get records
 	 *
-	 * @param string $zone_id
-	 *
 	 * @return \WP_Error|array
 	 */
-	public function get_records( string $zone_id ) {
-		return $this->get_container_records( $this->get_hash(), $zone_id );
+	public function get_records() {
+		return $this->get_container_records( $this->get_hash() );
 	}
 
 	/**
 	 * Create records
 	 *
-	 * @param string $zone_id
-	 * @param array  $data
+	 * @param array $data
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function create_record( string $zone_id, array $data ) {
-		return $this->create_container_record( $this->get_hash(), $zone_id, $data );
+	public function create_record( array $data ) {
+		return $this->create_container_record( $this->get_hash(), $data );
 	}
 
 	/**
 	 * Delete record
 	 *
-	 * @param string $zone_id
 	 * @param string $record_id
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function delete_record( string $zone_id, string $record_id ) {
-		return $this->delete_container_record( $this->get_hash(), $zone_id, $record_id );
+	public function delete_record( string $record_id ) {
+		return $this->delete_container_record( $this->get_hash(), $record_id );
 	}
 }
