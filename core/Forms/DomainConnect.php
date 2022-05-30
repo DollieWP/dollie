@@ -113,11 +113,12 @@ class DomainConnect extends Singleton {
 			return;
 		}
 
-		$domain  = trim( af_get_field( 'domain_name' ) );
-		$domain  = str_replace( [ 'http://', 'https://' ], '', $domain );
-		$records = $container->scan_domain( $domain );
+		$domain = trim( af_get_field( 'domain_name' ) );
+		$domain = str_replace( [ 'http://', 'https://' ], '', $domain );
 
 		if ( 'no' === af_get_field( 'allow_dns' ) ) {
+			$records = $container->scan_domain( $domain );
+
 			if ( empty( $records ) ) {
 				af_add_error( 'domain_name', __( 'Cannot fetch domain\'s records. Make sure this is a valid domain name and try again.', 'dollie' ) );
 
@@ -130,6 +131,7 @@ class DomainConnect extends Singleton {
 			foreach ( $records as $record ) {
 				if ( 'A' === $record['type'] && $credentials['ip'] === $record['ip'] ) {
 					$record_found = true;
+					break;
 				}
 			}
 

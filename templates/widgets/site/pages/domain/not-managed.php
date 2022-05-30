@@ -1,3 +1,18 @@
+<?php
+
+$credentials = $container->get_credentials();
+
+$routes_active = count(
+	array_filter(
+		$routes,
+		function( $route ) {
+			return $route['status'];
+		}
+	)
+);
+
+?>
+
 <div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
 	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
 		<h4 class="dol-p-0 dol-m-0 dol-text-base md:dol-text-xl">

@@ -25,43 +25,20 @@ if ( is_wp_error( $routes ) ) {
 <?php
 
 if ( get_field( 'wpd_enable_dns_manager', 'options' ) && ! empty( $zone ) && isset( $zone['domain'] ) && isset( $zone['status'] ) ) {
-	if ( $zone['status'] ) {
-		// DNS managed & active
-		dollie()->load_template(
-			'widgets/site/pages/domain/dns-manager',
-			[
-				'records'   => $container->get_records(),
-				'domain'    => $zone['domain'],
-				'container' => $container,
-			],
-			true
-		);
-	} else {
-		// DNS managed & pending
-		dollie()->load_template(
-			'widgets/site/pages/domain/dns-manager-pending',
-			[
-				'domain' => $zone['domain'],
-			],
-			true
-		);
-	}
-} elseif ( ! empty( $routes ) ) {
-	$routes_active = count(
-		array_filter(
-			$routes,
-			function( $route ) {
-				return $route['status'];
-			}
-		)
-	);
-
-	// DNS not managed
 	dollie()->load_template(
-		'widgets/site/pages/domain/dns-not-managed',
+		'widgets/site/pages/domain/managed',
 		[
-			'credentials'   => $container->get_credentials(),
-			'routes_active' => $routes_active,
+			'zone'      => $zone,
+			'container' => $container,
+		],
+		true
+	);
+} elseif ( ! empty( $routes ) ) {
+	dollie()->load_template(
+		'widgets/site/pages/domain/not-managed',
+		[
+			'container' => $container,
+			'routes'    => $routes,
 		],
 		true
 	);

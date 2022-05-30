@@ -475,30 +475,19 @@ class Forms extends Singleton {
 
 			$user = wp_get_current_user();
 
-			$ip     = '';
 			$url    = $container->get_url();
 			$domain = $container->get_custom_domain();
 
 			$tpl_domain_not_managed = dollie()->load_template(
 				'widgets/site/pages/domain/connect/not-managed',
-				array(
-					'has_domain'    => $domain,
-					'ip'            => $ip,
-					'platform_url'  => $url,
-					'current_query' => $container,
-				)
+				[
+					'container' => $container,
+				]
 			);
 
 			$field['message'] = str_replace( '{dollie_tpl_domain_not_managed}', $tpl_domain_not_managed, $field['message'] );
 
-			$tpl_domain_managed = dollie()->load_template(
-				'widgets/site/pages/domain/connect/managed',
-				array(
-					'has_domain'   => $domain,
-					'ip'           => $ip,
-					'platform_url' => $url,
-				)
-			);
+			$tpl_domain_managed = dollie()->load_template( 'widgets/site/pages/domain/connect/managed' );
 
 			$field['message'] = str_replace( '{dollie_tpl_domain_managed}', $tpl_domain_managed, $field['message'] );
 
