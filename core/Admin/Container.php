@@ -423,11 +423,12 @@ final class Container extends Singleton implements ConstInterface {
   <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
 </svg> Dollie Cloud - Hosted for Free',
 					'id'     => 'dwb-hosted',
-					'href'   => 'https://partners.getdollie.com/?redirect=dollie-site-redirect',
+					'href'   => 'https://dashboard.getdollie.com/?redirect=dollie-site-redirect',
 				]
 			);
 
 			$wp_admin_bar->add_menu(
+<<<<<<< HEAD
 				[
 					'parent' => 'dwb-hosted',
 					'title'  => esc_html__( 'Manage Your Site', 'dollie' ),
@@ -446,13 +447,33 @@ final class Container extends Singleton implements ConstInterface {
 					'meta'   => [ 'target' => '_blank' ],
 				]
 			);
+=======
+						[
+							'parent' => 'dwb-hosted',
+							'title'  => esc_html__( 'Manage Your Site', 'dollie' ),
+							'id'     => 'dab-hosted-manage',
+							'href'   => 'https://dashboard.getdollie.com/?redirect=dollie-site-redirect',
+							'meta'   => [ 'target' => '_blank' ],
+						]
+					);
+
+			$wp_admin_bar->add_menu(
+						[
+							'parent' => 'dwb-hosted',
+							'title'  => esc_html__( 'View Documentation', 'dollie' ),
+							'id'     => 'dab-hosted-docs',
+							'href'   => 'https://dashboard.getdollie.com/?redirect=knowledge-base',
+							'meta'   => [ 'target' => '_blank' ],
+						]
+					);
+>>>>>>> Rename partners to dashboard
 
 			$wp_admin_bar->add_menu(
 				[
 					'parent' => 'dwb-hosted',
 					'title'  => esc_html__( 'This site is hosted for free on the Dollie Cloud. Visit the Partner Dashboard to manage this site and access our developer tools.', 'dollie' ),
 					'id'     => 'dab-hosted-message',
-					'href'   => 'https://partners.getdollie.com/?redirect=dollie-site-redirect',
+					'href'   => 'https://dashboard.getdollie.com/?redirect=dollie-site-redirect',
 					'meta'   => [ 'target' => '_blank' ],
 				]
 			);
@@ -527,7 +548,7 @@ final class Container extends Singleton implements ConstInterface {
 				'parent' => $menu_id,
 				'title'  => esc_html__( 'Visit Partner Dashboard', 'dollie' ),
 				'id'     => 'dwb-partner',
-				'href'   => 'https://partners.getdollie.com',
+				'href'   => 'https://dashboard.getdollie.com',
 			]
 		);
 	}
@@ -593,13 +614,13 @@ final class Container extends Singleton implements ConstInterface {
 		$submenu['dollie_setup'][] = [
 			esc_html__( 'Support', 'dollie' ),
 			'manage_options',
-			'https://partners.getdollie.com/?redirect=support',
+			'https://dashboard.getdollie.com/?redirect=support',
 		];
 
 		$submenu['dollie_setup'][] = [
 			'<div id="dol-url-partner-dashboard">' . esc_html__( 'Documentation', 'dollie' ) . '</div>',
 			'manage_options',
-			'https://partners.getdollie.com/knowledge-base',
+			'https://dashboard.getdollie.com/knowledge-base',
 		];
 
 		$submenu['dollie_setup'][] = [

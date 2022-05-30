@@ -77,6 +77,7 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 		</div>
 	</div>
 <?php elseif ( $container->is_failed() ) : ?>
+<<<<<<< HEAD
 	<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
 			<h4 class="dol-p-0 dol-m-0 dol-text-base md:dol-text-xl">
@@ -84,6 +85,53 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 				<?php printf( esc_html__( 'Sorry, there was an error launching your %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?>
 			</h4>
 		</div>
+=======
+	<div class="hero-section">
+		<div class="hero-inner">
+			<div class="content content-blank">
+				<div class="text-center py-30">
+					<?php if ( current_user_can( 'manage_options' ) ) : ?>
+						<div class="mb-20">
+							<h2 class="text-white">
+								<?php
+
+								echo dollie()->icon()->close();
+								sprintf( esc_html__( 'Admin Notice - This %s has failed to launch', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() );
+
+								?>
+							</h2>
+						</div>
+						<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
+							<?php
+
+							printf(
+								esc_html__(
+									'When a %s fails to launch in your Hub it usually means there is a misconfiguration in your
+							Dollie Cloud settings. Usually re-connecting to Dollie Cloud solves these issues.',
+									'dollie-setup'
+								),
+								dollie()->string_variants()->get_site_type_string()
+							);
+
+							?>
+							<a class="text-white" href="<?php echo admin_url( 'admin.php?page=wpd_platform_setup' ); ?>" data-clear="text-white"><?php esc_html_e( 'settings', 'dollie' ); ?>Reset Dollie Cloud Connection</a>.
+
+							<?php esc_html_e( 'Still having issues? Reach out to the Dollie Support team via your <a class="text-white" href="https://dashboard.getdollie.com">Dollie Dashboard</a>', 'dollie' ); ?>
+						</p>
+					<?php else : ?>
+						<div class="mb-20">
+							<h2 class="text-white">
+								<?php
+
+								echo dollie()->icon()->close();
+								sprintf( esc_html__( 'Sorry, there was an error launching your %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() );
+
+								?>
+							</h2>
+						</div>
+						<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
+							<?php
+>>>>>>> Rename partners to dashboard
 
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
 			<?php if ( ! current_user_can( 'manage_options' ) ) : ?>
