@@ -69,38 +69,38 @@ final class DnsService extends Singleton {
 		$params = [];
 		parse_str( $_REQUEST['data'], $params );
 
-		// $container_uri = dollie()->get_wp_site_data( 'uri', $params['container_id'] );
+		$container = dollie()->get_container( $params['container_id'] );
 
-		// $request = Api::post(
-		// Api::ROUTE_DOMAIN_RECORDS_ADD,
-		// [
-		// 'container_uri' => $container_uri,
-		// 'type'          => $params['type'],
-		// 'hostname'      => $params['hostname'],
-		// 'content'       => $params['content'],
-		// 'priority'      => isset( $params['priority'] ) ? $params['priority'] : '',
-		// 'ttl'           => $params['ttl'],
-		// ]
-		// );
+		if ( is_wp_error( $container ) ) {
+			wp_send_json_error();
+			exit;
+		}
 
-		// $response = json_decode( wp_remote_retrieve_body( $request ), true );
+		$response = $container->create_record(
+			[
+				'type'     => $params['type'],
+				'hostname' => $params['hostname'],
+				'content'  => $params['content'],
+				'priority' => isset( $params['priority'] ) ? $params['priority'] : '',
+				'ttl'      => $params['ttl'],
+			]
+		);
 
-		// if ( 201 === $response['status'] ) {
-		// $records = dollie()->get_domain_records( $container_uri );
+		if ( is_wp_error( $response ) ) {
+			wp_send_json_error();
+			exit;
+		}
 
-		// wp_send_json_success(
-		// dollie()->load_template(
-		// 'widgets/site/pages/domain/records',
-		// [
-		// 'records'      => $records,
-		// 'container_id' => $params['container_id'],
-		// ],
-		// )
-		// );
-		// exit;
-		// }
-
-		wp_send_json_error();
+		wp_send_json_success(
+			dollie()->load_template(
+				'widgets/site/pages/domain/records',
+				[
+					'records'   => $response,
+					'container' => $container,
+				],
+			)
+		);
+		exit;
 	}
 
 	/**
@@ -119,24 +119,26 @@ final class DnsService extends Singleton {
 
 		$params = $_POST;
 
-		// $container_uri = dollie()->get_wp_site_data( 'uri', $params['container_id'] );
+		$container = dollie()->get_container( $params['container_id'] );
 
-		// $request = Api::post(
-		// Api::ROUTE_DOMAIN_RECORDS_REMOVE,
-		// [
-		// 'container_uri' => $container_uri,
-		// 'record_id'     => $params['record_id'],
-		// ]
-		// );
+		if ( is_wp_error( $container ) ) {
+			wp_send_json_error();
+			exit;
+		}
 
-		// $response = json_decode( wp_remote_retrieve_body( $request ), true );
+		$response = $container->delete_record( $params['record_id'] );
 
-		// if ( 200 === $response['status'] ) {
-		// wp_send_json_success();
-		// exit;
-		// }
+		if ( is_wp_error( $response ) ) {
+			wp_send_json_error();
+			exit;
+		}
 
-		wp_send_json_error();
+		if ( ! $response['deleted'] ) {
+			wp_send_json_error();
+			exit;
+		}
+
+		wp_send_json_success();
 	}
 
 	/**
