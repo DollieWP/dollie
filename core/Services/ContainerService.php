@@ -125,7 +125,7 @@ final class ContainerService extends Singleton {
 	 */
 	public function remove_pending_from_title( $title, $post_id ) {
 		if ( ! is_admin() && is_main_query() && get_post_type( $post_id ) === 'container' ) {
-			$title = str_replace( ' [deploy pending]', '', $title );
+			$title = str_replace( ' [ 🚀 Launching ]', '', $title );
 		}
 
 		return $title;

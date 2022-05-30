@@ -5,16 +5,32 @@
 
 
 
-#adminmenuwrap .toplevel_page_wpd_platform_setup .wp-menu-image,
 #adminmenuwrap .toplevel_page_dollie_setup .wp-menu-image {
   background: url("../img/active.png") no-repeat scroll center center / 63% auto
     rgba(0, 0, 0, 0) !important;
   opacity: 0.8;
 }
 
-#adminmenuwrap li.toplevel_page_wpd_platform_setup {
-    display: none;
+#adminmenuwrap #toplevel_page_dollie_setup {
+
+    border-top: 2px solid #51aabf;
 }
+
+#adminmenuwrap li.toplevel_page_dollie_blueprints {
+    border-bottom: 3px solid #51AABE;
+    margin-bottom: 10px;
+
+    a[href="admin.php?page=dollie_setup"] {
+        display: none;;
+    }
+}
+
+ a[href="edit-tags.php?taxonomy=container_category&post_type=container"] {
+     display: none !important;
+ }
+
+
+
 
 .dol-dev-mode #adminmenuwrap li.toplevel_page_wpd_platform_setup {
     display: block !important;
@@ -85,24 +101,27 @@
 #adminmenuwrap .toplevel_page_wpd_platform_setup a:hover .wp-menu-image {
   opacity: 1;
 }
-#adminmenuwrap .toplevel_page_wpd_platform_setup .div.wp-menu-image:before {
-  display: none;
+
+#adminmenuwrap {
+    .toplevel_page_wpd_platform_setup {
+        display: none !important;
+    }
+
+.toplevel_page_wpd_platform_setup,
+.toplevel_page_dollie_setup,
+.toplevel_page_dollie_blueprints,
+.menu-icon-container {
+
+    &.wp-menu-open{
+    background: #51aabf !important;
+    }
+
+
 }
-#adminmenuwrap .toplevel_page_wpd_platform_setup.wp-menu-open {
-  background: #51aabf !important;
 }
-#adminmenuwrap .toplevel_page_wpd_platform_setup.wp-menu-open .wp-menu-image {
-  background-image: url("../img/active.png") !important;
-  opacity: 1 !important;
-}
-#adminmenuwrap
-  .toplevel_page_wpd_platform_setup.wp-menu-open
-  .wp-menu-image:before {
-  display: none;
-}
-#adminmenuwrap .toplevel_page_wpd_platform_setup .wp-menu-image:before {
-  display: none !important;
-}
+
+
+
 
 
 

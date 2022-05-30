@@ -1,4 +1,21 @@
 <?php
+$user = dollie()->get_user(get_current_user_id());
+if ( ! $user->can_view_all_sites() ) {
+
+		dollie()->load_template(
+		'notice',
+		[
+			'type'         => 'error',
+			'icon'         => 'fas fa-exclamation-circle',
+			'title'        => __( 'No Permission', 'dollie' ),
+			'message'      => __( 'You do not have permission to view this content.', 'dollie' ),
+			'bottom_space' => true,
+		],
+		true
+	);
+
+return;
+}
 if ( ! isset( $view_type ) ) {
 	$view_type = 'list';
 }
@@ -34,6 +51,7 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 				$data = [
 					'name' => $customer->display_name,
 				];
+				$user = dollie()->get_user($customer->ID);
 				?>
 				<div class="dol-customers-item <?php echo esc_attr( $list_item_type ); ?>">
 					<div class="dol-customers-item-inner <?php do_action( 'dol_add_widget_classes' ); ?> dol-divide-y dol-divide-gray-200">
@@ -56,7 +74,7 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 								<?php echo dollie()->string_variants()->get_site_type_plural_string(); ?>
 							</div>
 							<div class="dol-font-bold ">
-								<?php echo dollie()->count_customer_containers( $customer->ID ); ?>
+								<?php echo $user->count_containers(); ?>
 							</div>
 						</div>
 						<div class="dol-customers-controls">
@@ -66,9 +84,9 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 							</a>
 
 
-							<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo dollie()->get_sites_page_url(); ?>?customer=<?php echo $customer->ID; ?>">
+							<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo dollie()->page()->get_sites_url(); ?>?customer=<?php echo $customer->ID; ?>">
 								<?php echo dollie()->icon()->site_view(); ?>
-								<span class="dol-ml-1"><?php printf( esc_html__( 'View %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?></span>
+								<span class="dol-ml-1"><?php printf( esc_html__( 'View %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?></span>
 							</a>
 						</div>
 					</div>

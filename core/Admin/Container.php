@@ -28,6 +28,14 @@ final class Container extends Singleton implements ConstInterface {
 			add_action( 'admin_menu', [ $this, 'add_external_menu_links' ], 100 );
 		}
 
+		add_filter('custom_menu_order', [ $this, 'custom_menu_order' ] );
+		add_filter('menu_order', [ $this, 'custom_menu_order' ] );
+
+		add_filter( 'manage_users_columns', [ $this, 'new_modify_user_table' ] );
+		add_filter( 'manage_users_custom_column', [ $this, 'new_modify_user_table_row'], 10, 3 );
+
+		add_filter( 'admin_body_class', [ $this, 'add_blueprint_admin_class' ] );
+
 		add_action( 'admin_menu', [ $this, 'remove_duplicate_admin_menu' ], 100 );
 		add_action( 'admin_footer', [ $this, 'external_menu_scripts' ] );
 		add_action( 'wp_before_admin_bar_render', [ $this, 'set_admin_bar_menu' ], 2000 );
@@ -41,7 +49,7 @@ final class Container extends Singleton implements ConstInterface {
 		add_action( 'admin_init', [ $this, 'disconnect_dollie' ] );
 		add_filter( 'admin_body_class', [ $this, 'add_container_type_class' ] );
 
-		add_filter( 'manage_container_posts_columns', [ $this, 'custom_column' ] );
+		add_filter( 'manage_container_posts_columns', [ $this, 'set_table_columns' ] );
 		add_action( 'manage_container_posts_custom_column', [ $this, 'set_table_custom_columns' ], 10, 2 );
 
 		add_action( 'add_meta_boxes', [ $this, 'rename_meta_box_title' ] );
@@ -100,15 +108,15 @@ final class Container extends Singleton implements ConstInterface {
 			'hierarchical'        => true,
 			'public'              => true,
 			'show_ui'             => true,
-			'show_in_menu'        => false,
-			'menu_position'       => -10,
+			'show_in_menu'        => true,
+			'menu_position'       => 2,
 			'show_in_admin_bar'   => true,
 			'show_in_nav_menus'   => true,
 			'can_export'          => true,
 			'has_archive'         => false,
 			'exclude_from_search' => true,
 			'publicly_queryable'  => true,
-			'menu_icon'           => 'dashicons-image-filter',
+			'menu_icon'           => 'dashicons-cloud',
 			'query_var'           => 'site',
 			'rewrite'             => [
 				'slug'       => 'site',
@@ -119,6 +127,9 @@ final class Container extends Singleton implements ConstInterface {
 			'show_in_rest'        => false,
 			'capability_type'     => 'wpd_site',
 			'map_meta_cap'        => true,
+			'capabilities' => array(
+				'create_posts' => 'do_not_allow'
+			)
 		];
 
 		$post_type_args = apply_filters( 'dollie/cpt/container/args', $post_type_args );
@@ -239,14 +250,48 @@ final class Container extends Singleton implements ConstInterface {
 	 * Setup submenus
 	 */
 	public function dollie_setup_submenus() {
+
+		global $menu;
 		if ( dollie()->is_api_connected() ) {
 			add_submenu_page(
 				self::PANEL_SLUG,
-				'Dashboard',
-				'Dashboard',
+				'Your Hub',
+				'Your Hub',
 				'manage_options',
 				'admin.php?page=dollie_setup'
 			);
+
+		$launch_site = dollie()->page()->get_launch_id();
+		add_submenu_page(
+			'edit.php?post_type=container',
+				'Launch New Site',
+				'Launch New Site',
+				'manage_options',
+				get_permalink( $launch_site )
+
+        );
+
+
+		$menu_slug = "dollie_blueprints"; // just a placeholder for when we call add_menu_page
+		$menu_pos = 1; // whatever position you want your menu to appear
+		// create the top level menu, using $menu_slug as a placeholder for the link
+		add_menu_page( 'admin_menu_add_blueprints', 'Blueprints', 'read', $menu_slug, '', 'dashicons-cover-image', $menu_pos );
+
+
+		// replace the slug with your external url
+		$menu[$menu_pos][2] = admin_url().'edit.php?post_type=container&blueprint=yes';
+		$menu[$menu_pos][2] = admin_url().'edit.php?post_type=container&blueprint=yes';
+
+		$launch_blueprint_site = dollie()->page()->get_launch_blueprint_id();
+		$blueprint_site = dollie()->page()->get_launch_id();
+		add_submenu_page(
+			admin_url().'edit.php?post_type=container&blueprint=yes',
+				'New Blueprint',
+				'New Blueprint',
+				'manage_options',
+				get_permalink( $launch_blueprint_site )
+
+        );
 		}
 	}
 
@@ -353,7 +398,7 @@ final class Container extends Singleton implements ConstInterface {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => esc_html__( 'Dashboard', 'dollie' ),
+				'title'  => esc_html__( 'Hub Dashboard', 'dollie' ),
 				'id'     => 'dab-dashboard',
 				'href'   => get_admin_url() . 'admin.php?page=dollie_setup',
 				'meta'   => [ 'target' => '' ],
@@ -530,49 +575,51 @@ final class Container extends Singleton implements ConstInterface {
 	public function add_external_menu_links() {
 		global $submenu;
 
-		$submenu['dollie_setup'][] = [
-			__( 'Sites', 'dollie' ),
-			'manage_options',
-			'',
-			'',
-			'dol-divider-menu',
-		];
 
-		$submenu['dollie_setup'][] = [
-			esc_html__( 'View Sites', 'dollie' ),
-			'manage_options',
-			get_admin_url() . 'edit.php?post_type=container',
-		];
 
-		if ( $launch_site = dollie()->page()->get_launch_id() ) {
-			$submenu['dollie_setup'][] = [
-				sprintf( esc_html__( 'Launch New %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ),
-				'manage_options',
-				get_permalink( $launch_site ),
-			];
-		}
+		// $submenu['dollie_setup'][] = [
+		// 	__( 'Sites', 'dollie' ),
+		// 	'manage_options',
+		// 	'',
+		// 	'',
+		// 	'dol-divider-menu',
+		// ];
 
-		$submenu['dollie_setup'][] = [
-			__( 'Blueprints', 'dollie' ),
-			'manage_options',
-			'',
-			'',
-			'dol-divider-menu',
-		];
+		// $submenu['dollie_setup'][] = [
+		// 	esc_html__( 'View Sites', 'dollie' ),
+		// 	'manage_options',
+		// 	get_admin_url() . 'edit.php?post_type=container',
+		// ];
 
-		$submenu['dollie_setup'][] = [
-			esc_html__( 'View Blueprints', 'dollie' ),
-			'manage_options',
-			get_admin_url() . 'edit.php?post_type=container&blueprint=yes',
-		];
+		// if ( $launch_site = dollie()->page()->get_launch_id() ) {
+		// 	$submenu['dollie_setup'][] = [
+		// 		sprintf( esc_html__( 'Launch New %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ),
+		// 		'manage_options',
+		// 		get_permalink( $launch_site ),
+		// 	];
+		// }
 
-		if ( $launch_blueprint_site = dollie()->page()->get_launch_blueprint_id() ) {
-			$submenu['dollie_setup'][] = [
-				esc_html__( 'Launch Blueprint', 'dollie-setup' ),
-				'manage_options',
-				get_permalink( $launch_blueprint_site ),
-			];
-		}
+		// $submenu['dollie_setup'][] = [
+		// 	__( 'Blueprints', 'dollie' ),
+		// 	'manage_options',
+		// 	'',
+		// 	'',
+		// 	'dol-divider-menu',
+		// ];
+
+		// $submenu['dollie_setup'][] = [
+		// 	esc_html__( 'View Blueprints', 'dollie' ),
+		// 	'manage_options',
+		// 	get_admin_url() . 'edit.php?post_type=container&blueprint=yes',
+		// ];
+
+		// if ( $launch_blueprint_site = dollie()->page()->get_launch_blueprint_id() ) {
+		// 	$submenu['dollie_setup'][] = [
+		// 		esc_html__( 'Launch Blueprint', 'dollie-setup' ),
+		// 		'manage_options',
+		// 		get_permalink( $launch_blueprint_site ),
+		// 	];
+		// }
 
 
 		$submenu['dollie_setup'][] = [
@@ -844,91 +891,6 @@ final class Container extends Singleton implements ConstInterface {
 	}
 
 	/**
-	 * Add acf columns
-	 *
-	 * @param $columns
-	 *
-	 * @return array
-	 */
-	public function add_acf_columns( $columns ) {
-		if ( isset( $_GET['blueprint'] ) && ! empty( $_GET['blueprint'] ) ) {
-			return array_merge(
-				$columns,
-				[
-					'updated' => __( 'Blueprint Updated', 'dollie' ),
-					'users'   => __( 'Users', 'dollie' ),
-					'size'    => __( 'Size', 'dollie' ),
-					'status'  => __( 'Status', 'dollie' ),
-				]
-			);
-		} else {
-			return array_merge(
-				$columns,
-				[
-					'domain' => __( 'Domain', 'dollie' ),
-					'users'  => __( 'Users', 'dollie' ),
-					'size'   => __( 'Size', 'dollie' ),
-					'status' => __( 'Status', 'dollie' ),
-				]
-			);
-
-		}
-	}
-
-	/**
-	 * Add custom column
-	 *
-	 * @param $column
-	 * @param $post_id
-	 */
-	public function custom_column( $column, $post_id ) {
-		$search_meta = '';
-
-		if ( isset( $_GET['blueprint'] ) && ! empty( $_GET['blueprint'] ) ) {
-			switch ( $column ) {
-				case 'updated':
-					$search_meta = 'wpd_blueprint_time';
-					break;
-				case 'users':
-					$search_meta = 'wpd_installation_users';
-					break;
-				case 'size':
-					$search_meta = 'wpd_installation_size';
-					break;
-				case 'status':
-					$search_meta = 'wpd_container_status';
-					break;
-			}
-		} else {
-			switch ( $column ) {
-				case 'domain':
-					$search_meta = 'wpd_domains';
-					break;
-				case 'users':
-					$search_meta = 'wpd_installation_users';
-					break;
-				case 'size':
-					$search_meta = 'wpd_installation_size';
-					break;
-				case 'status':
-					$search_meta = 'wpd_container_status';
-					break;
-			}
-		}
-
-		if ( $search_meta ) {
-			$meta = get_post_meta( $post_id, $search_meta, true );
-			if ( 'stop' === $meta ) {
-				echo '<mark class="site-status status-stop">' . get_post_meta( $post_id, $search_meta, true ) . '</mark>';
-			} elseif ( 'start' === $meta ) {
-				echo '<mark class="site-status status-start">' . get_post_meta( $post_id, $search_meta, true ) . '</mark>';
-			} else {
-				echo get_post_meta( $post_id, $search_meta, true );
-			}
-		}
-	}
-
-	/**
 	 * Set table custom columns
 	 *
 	 * @param string $column_name
@@ -1128,4 +1090,57 @@ final class Container extends Singleton implements ConstInterface {
 
 		return $translated_text;
 	}
+
+	public function custom_menu_order($menu_ord) {
+		if (!$menu_ord) return true;
+			return array(
+			'index.php', // this represents the dashboard link
+			'separator1',
+			'dollie_setup',
+			'edit.php?post_type=container',
+			'edit.php?post_type=container&blueprint=yes', // this is a custom post type menu
+			'users.php',
+		);
+	}
+
+	/**
+	 * Adds one or more classes to the body tag in the dashboard.
+	 *
+	 * @link https://wordpress.stackexchange.com/a/154951/17187
+	 * @param  String $classes Current body classes.
+	 * @return String          Altered body classes.
+	 */
+	public function add_blueprint_admin_class( $classes ) {
+		global $pagenow;
+
+		if ( ( 'post.php' === $pagenow || 'container' === get_post_type() ) && isset( $_GET['post'] ) ) {
+			$is_blueprint = get_post_meta( $_GET['post'], 'wpd_blueprint_time' );
+			if ( $is_blueprint ) {
+				$classes .= ' dollie-is-blueprint';
+			}
+		}
+
+		if ( isset( $_GET['blueprint'] ) && ! empty( $_GET['blueprint'] ) ) {
+			$classes .= ' dollie-is-blueprint';
+		}
+
+		return $classes;
+	}
+
+
+	public function new_modify_user_table( $column ) {
+		$column['sites'] = 'Sites';
+		return $column;
+	}
+
+	public function new_modify_user_table_row( $val, $column_name, $user_id ) {
+		$user = dollie()->get_user($user_id);
+		switch ($column_name) {
+			case 'sites' :
+				return $user->count_containers();
+			default:
+		}
+		return $val;
+	}
+
 }

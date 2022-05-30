@@ -13,6 +13,10 @@ final class Icon extends Singleton {
 		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_launch', '<i class="fas fa-rocket"></i>' ) . '</span>';
 	}
 
+	public function customers( $classes = null ) {
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_customers', '<i class="fas fa-users"></i>' ) . '</span>';
+	}
+
 	public function blueprint( $classes = null ) {
 		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_blueprint', '<i class="fas fa-copy"></i>' ) . '</span>';
 	}
