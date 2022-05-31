@@ -27,7 +27,7 @@ trait PartnerApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function set_partner_option( array $data ) {
-		return $this->post_request( 'partner/option', $data );
+	public function set_partner_option( array $options ) {
+		return $this->post_request( 'partner/option', [ 'options' => $options ] );
 	}
 }

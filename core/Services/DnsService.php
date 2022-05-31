@@ -7,51 +7,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Log;
-use Dollie\Core\Factories\Site;
 
 final class DnsService extends Singleton {
-	/**
-	 * Validate pending zone
-	 *
-	 * @return void
-	 */
-	public function validate_domain() {
-		// if ( 'pending' === $dns_manager_status && $domain_zone ) {
-		// $container = dollie()->get_container();
-
-		// $zone_response = Api::post(
-		// Api::ROUTE_DOMAIN_CHECK_ZONE,
-		// [
-		// 'container_uri' => $container->get_original_url(),
-		// ]
-		// );
-
-		// if ( is_array( $zone_response ) ) {
-		// if ( isset( $zone_response['container_uri'] ) && ! $zone_response['container_uri'] ) {
-		// } elseif ( isset( $zone_response['status'] ) && $zone_response['status'] ) {
-		// $domain_pending = get_post_meta( get_the_ID(), 'wpd_domain_pending', true );
-
-		// $this->add_container_routes( $container, $domain_pending );
-		// }
-		// }
-		// }
-	}
-
-	public function remove_domain() {
-		if ( isset( $_GET['remove-domain'] ) ) {
-			$container = dollie()->get_container();
-
-			if ( is_wp_error( $container ) || ! $container->is_site() ) {
-				return;
-			}
-
-			$container->delete_zone();
-
-			wp_redirect( $container->get_permalink( 'domains' ) );
-		}
-	}
-
 	/**
 	 * Create record
 	 *
@@ -155,10 +112,36 @@ final class DnsService extends Singleton {
 	}
 
 	/**
+	 * Remove zone
+	 *
+	 * @return void
+	 */
+	public function remove_zone() {
+		if ( ! isset( $_GET['remove_zone'] ) ) {
+			return;
+		}
+
+		$container = dollie()->get_container();
+
+		if ( is_wp_error( $container ) ||
+			! current_user_can( 'manage_options' ) ||
+			! $container->is_owned_by_current_user() ||
+			! $container->is_site() ) {
+			return;
+		}
+
+		$container->delete_zone();
+
+		wp_redirect( $container->get_permalink( 'domains' ) );
+	}
+
+	/**
 	 * Remove route
+	 *
+	 * @return void
 	 */
 	public function remove_route() {
-		if ( ! is_user_logged_in() || ! isset( $_REQUEST['remove_route'] ) ) {
+		if ( ! isset( $_REQUEST['remove_route'] ) ) {
 			return;
 		}
 

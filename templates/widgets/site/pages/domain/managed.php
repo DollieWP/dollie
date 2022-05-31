@@ -75,7 +75,7 @@
 	<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mt-6">
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
 			<span class="dol-block dol-mb-4"><?php printf( esc_html__( 'Removing your domain will revert your site back to the original domain "%s"!', 'dollie' ), $container->get_original_url() ); ?></span>
-			<form action="<?php echo $container->get_permalink( 'domains', [ 'remove-domain' => 'yes' ] ); ?>" method="post">
+			<form action="<?php echo $container->get_permalink( 'domains', [ 'remove_zone' => 'yes' ] ); ?>" method="post">
 				<button name="remove_customer_dns" id="remove_customer_dns" type="submit" class="dol-px-4 dol-py-2 dol-bg-red-600 dol-text-white dol-rounded">
 					<?php echo dollie()->icon()->close( 'dol-mr-1' ); ?>
 					<?php esc_html_e( 'Remove domain', 'dollie' ); ?>
@@ -107,7 +107,7 @@
 					<li>pdns3.stratus5.com</li>
 				</ul>
 				<span class="dol-block dol-mb-4 dol-mt-6"><?php esc_html_e( 'Want to change the domain or have you typed in the wrong domain name? You can cancel at any time and try again!', 'dollie' ); ?></span>
-				<form action="<?php echo $container->get_permalink( 'domains', [ 'remove-domain' => 'yes' ] ); ?>" method="post">
+				<form action="<?php echo $container->get_permalink( 'domains', [ 'remove_zone' => 'yes' ] ); ?>" method="post">
 					<button name="remove_customer_dns" id="remove_customer_dns" type="submit" class="dol-px-4 dol-py-2 dol-bg-red-600 dol-text-white dol-rounded">
 						<?php echo dollie()->icon()->close( 'dol-mr-1' ); ?>
 						<?php esc_html_e( 'Cancel', 'dollie' ); ?>

@@ -6,6 +6,7 @@ use Dollie\Core\Log;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
 use Dollie\Core\Services\NoticeService;
+use Dollie\Core\Api\PartnerApi;
 
 /**
  * Class Acf
@@ -13,6 +14,8 @@ use Dollie\Core\Services\NoticeService;
  * @package Dollie\Core\Hooks
  */
 final class Acf extends Singleton implements ConstInterface {
+	use PartnerApi;
+
 	/**
 	 * Acf constructor
 	 */
@@ -202,19 +205,23 @@ final class Acf extends Singleton implements ConstInterface {
 		];
 
 		// Check if any chiled has changed.
-		// foreach ( $settings as $k => $setting ) {
-		// $new_data[ $k ] = $_POST['acf'][ acf_get_field( $setting )['key'] ];
+		foreach ( $settings as $k => $setting ) {
+			$new_data[ $k ] = $_POST['acf'][ acf_get_field( $setting )['key'] ];
 
-		// if ( isset( $new_data[ $k ] ) && get_field( $setting, 'options' ) != $new_data[ $k ] ) {
-		// $changed = true;
-		// }
-		// }
+			if ( isset( $new_data[ $k ] ) && get_field( $setting, 'options' ) != $new_data[ $k ] ) {
+				$changed = true;
+			}
+		}
 
-		// if ( $changed && $new_data['status'] ) {
-		// Api::post( Api::ROUTE_ADD_CUSTOM_BACKUP, $new_data );
-		// } elseif ( ! $new_data['status'] ) {
-		// Api::get( Api::ROUTE_DISABLE_CUSTOM_BACKUP );
-		// }
+		if ( ! $changed ) {
+			return;
+		}
+
+		$this->set_partner_option(
+			[
+				'backup' => $new_data,
+			]
+		);
 	}
 
 	/**
@@ -236,14 +243,15 @@ final class Acf extends Singleton implements ConstInterface {
 			$changed = true;
 		}
 
-		if ( $changed ) {
-			// Api::post(
-			// Api::ROUTE_CONTAINER_STAGING_SET_STATUS,
-			// [
-			// 'status' => $new_value,
-			// ]
-			// );
+		if ( ! $changed ) {
+			return;
 		}
+
+		$this->set_partner_option(
+			[
+				'staging' => (int) $new_value,
+			]
+		);
 	}
 
 	/**

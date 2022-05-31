@@ -38,7 +38,7 @@ class ChangeContainerRoleJob extends Singleton {
 		$role = $role ?: dollie()->get_customer_user_role( $user_id );
 
 		if ( ! is_array( $params ) || ! isset( $params['container_uri'], $params['email'], $params['password'], $params['username'] ) || ! $role ) {
-			Log::add( 'Client user role change failed due to missing param.' );
+			Log::add( 'Client user role failed to change due to missing param.' );
 
 			return false;
 		}
