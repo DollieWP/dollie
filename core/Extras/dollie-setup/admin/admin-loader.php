@@ -290,7 +290,7 @@ class Dollie_Setup_Admin {
 		}
 
 		// Redirect to certain pages if necessary.
-		if ( ! dollie_setup_is_setup() && empty( $_GET['dollie_setup-action'] )  ) {
+		if ( ! dollie_setup_is_setup() && empty( $_GET['dollie_setup-action'] ) ) {
 			$redirect = '';
 			switch ( dollie_setup_get_setup_step() ) {
 				case 'required-plugins':
@@ -501,14 +501,13 @@ class Dollie_Setup_Admin {
 
 				// prompt for theme install
 			case 'theme-prompt':
-
 				dollie_setup_get_template_part( 'wrapper-header' );
 				$directory_name = dollie_setup_get_theme_prop( 'directory_name' );
 				$current_theme  = wp_get_theme();
 
-				if ( $current_theme->get('Name') == 'Hello Dollie' && ! get_option( '_dollie_setup_theme_activated' ) ) {
+				if ( $current_theme->get( 'Name' ) == 'Hello Dollie' && ! get_option( '_dollie_setup_theme_activated' ) ) {
 					update_site_option( '_dollie_setup_theme_activated', '1' );
-					wp_redirect( self_admin_url( 'admin.php?page=dollie_setup&dollie_setup-action=complete') );
+					wp_redirect( self_admin_url( 'admin.php?page=dollie_setup&dollie_setup-action=complete' ) );
 					exit;
 				}
 
@@ -643,12 +642,12 @@ class Dollie_Setup_Admin {
 		// $dashboard = dollie_setup_get_package_prop( 'name' ) ? sprintf( __( '%s Dashboard', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ) : __( 'Dollie Setup', 'dollie-setup' );
 
 		// $subpage = add_page(
-		// 	'dollie_setup',
-		// 	$dashboard,
-		// 	$dashboard,
-		// 	'install_plugins', // todo - map cap?
-		// 	'dollie_setup',
-		// 	array( $this, 'admin_page' )
+		// 'dollie_setup',
+		// $dashboard,
+		// $dashboard,
+		// 'install_plugins', // todo - map cap?
+		// 'dollie_setup',
+		// array( $this, 'admin_page' )
 		// );
 
 		/**
@@ -932,17 +931,16 @@ class Dollie_Setup_Admin {
 			return;
 		}
 
-
 		// setup some variables depending on the setup step
 		switch ( dollie_setup_get_setup_step() ) {
 			case 'no-package':
 			case 'required-plugins':
-				$notice_header= __( '<span></span>Dollie Hub - Let\'s Get Started', 'dollie-setup');
+				$notice_header = __( '<span></span>Dollie Hub - Let\'s Get Started', 'dollie-setup' );
 
-				if (defined('S5_APP_TOKEN')) {
-						$notice_text= __( 'Your brand new WordPress site is now set up hosted on the Dollie Cloud. But before you can start building your platform we need to install some required plugins. ', 'dollie-setup');
+				if ( defined( 'S5_APP_TOKEN' ) ) {
+						$notice_text = __( 'Your brand new WordPress site is now set up hosted on the Dollie Cloud. But before you can start building your platform we need to install some required plugins. ', 'dollie-setup' );
 				} else {
-					$notice_text= __( 'Your Hub is almost ready! But before you can start building your platform we need to install some required plugins. ', 'dollie-setup');
+					$notice_text = __( 'Your Hub is almost ready! But before you can start building your platform we need to install some required plugins. ', 'dollie-setup' );
 				}
 
 				$button_link = dollie_setup_admin_prop( 'url', 'admin.php?page=dollie_setup' );
@@ -950,26 +948,26 @@ class Dollie_Setup_Admin {
 				break;
 
 			case 'theme-update':
-				$notice_header= __( '<span>Theme</span> Update Available', 'dollie-setup');
-				$notice_text = sprintf( __( 'The %1$s theme needs an update.', 'dollie-setup' ), esc_attr( dollie_setup_get_theme_prop( 'name' ) ) );
-				$button_text = __( 'Update the theme &rarr;', 'dollie-setup' );
+				$notice_header = __( '<span>Theme</span> Update Available', 'dollie-setup' );
+				$notice_text   = sprintf( __( 'The %1$s theme needs an update.', 'dollie-setup' ), esc_attr( dollie_setup_get_theme_prop( 'name' ) ) );
+				$button_text   = __( 'Update the theme &rarr;', 'dollie-setup' );
 
 				$button_link = dollie_setup_admin_prop( 'url', 'admin.php?page=dollie_setup&dollie_setup-action=upgrade-theme&dollie_setup-themes=' . esc_attr( dollie_setup_get_theme_prop( 'directory_name' ) ) );
 				$button_link = add_query_arg( '_wpnonce', wp_create_nonce( 'dollie_setup_upgrade_theme' ), $button_link );
 				break;
 
 			case 'recommended-plugins':
-				$notice_header= __( '<span>Plugins</span> Recommended Plugins Setup', 'dollie-setup');
-				$notice_text = __( 'You only have one last thing to do. We promise!', 'dollie-setup' );
-				$button_link = dollie_setup_admin_prop( 'url', 'admin.php?page=dollie_setup' );
-				$button_text = __( 'Click here to finish up!', 'dollie-setup' );
+				$notice_header = __( '<span>Plugins</span> Recommended Plugins Setup', 'dollie-setup' );
+				$notice_text   = __( 'You only have one last thing to do. We promise!', 'dollie-setup' );
+				$button_link   = dollie_setup_admin_prop( 'url', 'admin.php?page=dollie_setup' );
+				$button_text   = __( 'Click here to finish up!', 'dollie-setup' );
 				break;
 
 			case 'plugin-update':
 			case 'upgrades-available':
-				$notice_header= __( '<span>Plugins</span> Updates Available', 'dollie-setup');
-				$notice_text = esc_html__( 'There are some upgrades available for the required Dollie Hub plugins', 'dollie-setup' );
-				$button_text = esc_html__( 'Click here to update', 'dollie-setup' );
+				$notice_header = __( '<span>Plugins</span> Updates Available', 'dollie-setup' );
+				$notice_text   = esc_html__( 'There are some upgrades available for the required Dollie Hub plugins', 'dollie-setup' );
+				$button_text   = esc_html__( 'Click here to update', 'dollie-setup' );
 
 				$button_link = add_query_arg( '_wpnonce', wp_create_nonce( 'dollie_setup_upgrade' ), dollie_setup_admin_prop( 'url', 'admin.php?page=dollie_setup&dollie_setup-action=upgrade' ) );
 				if ( 'upgrades-available' === dollie_setup_get_setup_step() ) {
