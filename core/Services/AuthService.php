@@ -28,6 +28,11 @@ final class AuthService extends Singleton implements ConstInterface {
 		);
 	}
 
+	/**
+	 * Get auth link
+	 *
+	 * @return string
+	 */
 	public function get_auth_link() {
 		return sprintf(
 			'%s',
@@ -63,6 +68,15 @@ final class AuthService extends Singleton implements ConstInterface {
 
 		wp_redirect( admin_url( 'admin.php?page=dollie_setup' ) );
 		die();
+	}
+
+	/**
+	 * Check
+	 *
+	 * @return boolean
+	 */
+	public function is_connected(): bool {
+		return (bool) $this->get_token();
 	}
 
 	/**

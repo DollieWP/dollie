@@ -38,14 +38,6 @@ if ( ! defined( 'DOLLIE_DEV' ) ) {
 define( 'DOLLIE_BLUEPRINTS_COOKIE', 'dollie_blueprint_id' );
 define( 'DOLLIE_BLUEPRINTS_COOKIE_PARAM', 'blueprint_id' );
 
-$dollie_domain = get_option( 'options_wpd_api_domain' );
-
-if ( get_option( 'wpd_deployment_domain' ) && get_option( 'wpd_deployment_domain_status' ) ) {
-	$dollie_domain = get_option( 'wpd_deployment_domain' );
-}
-
-define( 'DOLLIE_DOMAIN', '.' . preg_replace( '#^https?://#', '', rtrim( $dollie_domain, '/' ) ) );
-
 /*
  * Localization
  */

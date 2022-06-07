@@ -68,7 +68,7 @@ class Upgrades extends Singleton {
 			return;
 		}
 
-		if ( $this->is_new_update() && dollie()->is_api_connected() ) {
+		if ( $this->is_new_update() && dollie()->auth()->is_connected() ) {
 
 			// Automatically update forms.
 			ImportForms::instance()->import_forms();

@@ -927,7 +927,7 @@ class Dollie_Setup_Admin {
 	public function display_notice() {
 		// If our notice marker isn't set or if we're on the DOLLIE_SETUP page, stop now!
 		$show_notice = isset( dollie_setup()->show_notice ) ? dollie_setup()->show_notice : false;
-		if ( ! $show_notice || 'dollie_setup' === get_current_screen()->parent_base || dollie()->is_api_connected() ) {
+		if ( ! $show_notice || 'dollie_setup' === get_current_screen()->parent_base || dollie()->auth()->is_connected() ) {
 			return;
 		}
 

@@ -103,7 +103,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return array|bool
 	 */
 	public function get_partner_subscription() {
-		if ( ! dollie()->is_api_connected() ) {
+		if ( ! dollie()->auth()->is_connected() ) {
 			return false;
 		}
 

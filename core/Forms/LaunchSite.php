@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Services\BlueprintService;
 use Dollie\Core\Services\DeployService;
+use Dollie\Core\Services\WorkspaceService;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
 
@@ -58,11 +59,12 @@ class LaunchSite extends Singleton implements ConstInterface {
 	 * @param $args
 	 */
 	public function validate_form( $form, $args ) {
-		$domain           = af_get_field( 'site_url' );
-		$domain_extension = 'blueprint' === af_get_field( 'site_type' ) ? '.wp-site.xyz' : DOLLIE_DOMAIN;
+		$deployment_domain = WorkspaceService::instance()->get_deployment_domain();
+		$domain            = af_get_field( 'site_url' );
+		$domain_extension  = 'blueprint' === af_get_field( 'site_type' ) ? '.wp-site.xyz' : $deployment_domain;
 
 		if ( strlen( $domain . $domain_extension ) > 63 ) {
-			$max = 63 - strlen( DOLLIE_DOMAIN );
+			$max = 63 - strlen( $deployment_domain );
 			af_add_error( 'site_url', sprintf( esc_html__( 'Site URL is too long. The name should not exceed %d characters. Don\'t worry, this is just your temporary URL. You can add a custom domain after launching.', 'dollie' ), $max ) );
 		}
 
@@ -116,7 +118,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 			'password'    => af_get_field( 'admin_password' ),
 			'name'        => af_get_field( 'site_name' ),
 			'description' => af_get_field( 'site_description' ),
-			'redirect'    => $redirect
+			'redirect'    => $redirect,
 		];
 
 		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data );
@@ -164,8 +166,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 	 * @return mixed
 	 */
 	public function append_site_url( $field ) {
-
-		$field['append'] = DOLLIE_DOMAIN;
+		$field['append'] = WorkspaceService::instance()->get_deployment_domain();
 
 		return $field;
 	}

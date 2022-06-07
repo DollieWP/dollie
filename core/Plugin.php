@@ -74,8 +74,6 @@ class Plugin extends Singleton {
 	 * Load dependencies
 	 */
 	public function load_dependencies() {
-
-
 		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
 			add_action( 'admin_notices', [ NoticeService::instance(), 'missing_elementor' ] );
 			return;
@@ -111,13 +109,13 @@ class Plugin extends Singleton {
 		// }
 
 		// Load TGM Class
-		if ( ! class_exists( 'Dollie_Setup' )  ) {
-			update_option('_dollie_setup_current_package','agency', true);
+		if ( ! class_exists( 'Dollie_Setup' ) ) {
+			update_option( '_dollie_setup_current_package', 'agency', true );
 			require_once DOLLIE_CORE_PATH . 'Extras/dollie-setup/loader.php';
 		}
 
 		// Load TGM Class
-		if ( ! class_exists( 'OCDI_Plugin' ) && dollie()->is_api_connected() ) {
+		if ( ! class_exists( 'OCDI_Plugin' ) && dollie()->auth()->is_connected() ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/one-click-demo-import/one-click-demo-import.php';
 		}
 
@@ -140,7 +138,7 @@ class Plugin extends Singleton {
 	 */
 	public function initialize() {
 
-		//Disable Elementor Onboarding
+		// Disable Elementor Onboarding
 		update_option( 'elementor_onboarded', true );
 		// Load elementor hooks.
 		Elementor\Hooks::instance();

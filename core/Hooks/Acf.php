@@ -6,6 +6,7 @@ use Dollie\Core\Log;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
 use Dollie\Core\Services\NoticeService;
+use Dollie\Core\Services\WorkspaceService;
 use Dollie\Core\Api\PartnerApi;
 
 /**
@@ -160,28 +161,30 @@ final class Acf extends Singleton implements ConstInterface {
 			return;
 		}
 
-		$domain       = get_field( 'wpd_api_domain_custom', $post_id );
-		$saved_domain = get_option( 'wpd_deployment_domain' );
+		$custom_domain_enabled = get_field( 'wpd_show_custom_domain_options', $post_id );
+		$domain                = str_replace( [ 'https://', 'http://', 'www.' ], '', get_field( 'wpd_api_domain_custom', $post_id ) );
+		$saved_domain          = get_option( 'wpd_deployment_domain' );
 
-		if ( ! empty( $domain ) ) {
-			$domain = str_replace( [ 'https://', 'http://' ], '', $domain );
+		$workspaceService = WorkspaceService::instance();
+
+		if ( ! $domain && $saved_domain ||
+			! $custom_domain_enabled && $saved_domain ) {
+			$workspaceService->remove_deployment_domain();
+
+			return;
 		}
 
-		if ( ! get_field( 'wpd_show_custom_domain_options', $post_id ) && $saved_domain ) {
-			$this->remove_deployment_domain();
-		} else {
-			if ( $saved_domain && ! $domain ) {
-				$this->remove_deployment_domain();
-			} elseif ( $domain && $domain !== $saved_domain ) {
-				// Api::post( Api::ROUTE_DOMAIN_ADD, [ 'name' => $domain ] );
+		if ( $domain !== $saved_domain && $saved_domain ) {
+			$removed = $workspaceService->remove_deployment_domain();
 
-				update_option( 'wpd_deployment_domain', $domain );
-				update_option( 'wpd_deployment_domain_status', false );
-				update_option( 'deployment_domain_notice', false );
-				delete_transient( 'wpd_deployment_domain_delay' );
-				delete_option( 'wpd_deployment_delay_status' );
+			if ( $removed ) {
+				$workspaceService->add_deployment_domain( $domain );
 			}
+
+			return;
 		}
+
+		$workspaceService->add_deployment_domain( $domain );
 	}
 
 	/**
@@ -272,25 +275,9 @@ final class Acf extends Singleton implements ConstInterface {
 			return;
 		}
 
-		$container->update_changes( 'lala', 'test' );
+		$container->update_changes();
 
 		Log::add_front( Log::WP_SITE_BLUEPRINT_DEPLOYED, $container, $container->slug );
-	}
-
-	/**
-	 * Remove existing deployment domain
-	 *
-	 * @return void
-	 */
-	private function remove_deployment_domain() {
-		// $response = Api::post( Api::ROUTE_DOMAIN_REMOVE );
-
-		// if ( false !== $response && ! $response['domain'] && ! $response['status'] ) {
-		// update_option( 'wpd_deployment_domain', false );
-		// update_option( 'deployment_domain_notice', false );
-		// delete_transient( 'wpd_deployment_domain_delay' );
-		// delete_option( 'wpd_deployment_delay_status' );
-		// }
 	}
 
 	/**

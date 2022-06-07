@@ -418,7 +418,6 @@ class NavMenu extends Singleton {
 	 * Mark notifications as read by ajax request
 	 */
 	public function ajax_get_notifications() {
-
 		check_ajax_referer( 'dollie-notifications', 'check' );
 
 		if ( ! is_user_logged_in() ) {
@@ -502,7 +501,7 @@ class NavMenu extends Singleton {
 								'</div>';
 
 				$link_output = '';
-				$container = dollie()->get_container( $site_id );
+				$container   = dollie()->get_container( $site_id );
 
 				if ( $site_id && isset( $log['link'] ) && $log['link'] && ! is_wp_error( $container ) ) {
 					$link      = get_permalink( $site_id );

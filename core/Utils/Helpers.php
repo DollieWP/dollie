@@ -17,9 +17,11 @@ use Dollie\Core\Factories\Staging;
 use Dollie\Core\Factories\User;
 
 use Dollie\Core\Services\AccessService;
+use Dollie\Core\Services\AuthService;
 use Dollie\Core\Services\BulkActionService;
 use Dollie\Core\Services\InsightsService;
 use Dollie\Core\Services\RecurringActionService;
+use Dollie\Core\Services\WorkspaceService;
 
 /**
  * Class Helpers
@@ -149,6 +151,24 @@ class Helpers extends Singleton implements ConstInterface {
 	}
 
 	/**
+	 * WorkspaceService instance
+	 *
+	 * @return WorkspaceService
+	 */
+	public function workspace(): WorkspaceService {
+		return WorkspaceService::instance();
+	}
+
+	/**
+	 * AuthService instance
+	 *
+	 * @return AuthService
+	 */
+	public function auth(): AuthService {
+		return AuthService::instance();
+	}
+
+	/**
 	 * Get latest container URL
 	 *
 	 * @return string|boolean
@@ -272,39 +292,26 @@ class Helpers extends Singleton implements ConstInterface {
 		return $query->found_posts;
 	}
 
-
-	/**
-	 * @return bool
-	 */
-	public function is_api_connected() {
-		if ( get_option( 'dollie_auth_token' ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
 	/**
 	 * @return mixed
 	 */
 	public function get_partner_status() {
-		$deployment_domain        = get_option( 'wpd_deployment_domain' );
-		$deployment_domain_status = get_option( 'wpd_deployment_domain_status' );
-
 		if ( ! dollie()->subscription()->has_partner_subscription() ) {
 			return 'trial';
-		} elseif ( $deployment_domain && $deployment_domain_status && ! get_option( 'deployment_domain_notice' ) ) {
-			return 'staging';
-		} else {
-			return 'live';
 		}
+
+		if ( dollie()->workspace()->has_custom_deployment_domain() && ! get_option( 'wpd_deployment_domain_notice' ) ) {
+			return 'staging';
+		}
+
+		return 'live';
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function is_live() {
-		return (bool) get_option( 'options_wpd_api_domain' ) && $this->is_api_connected();
+		return (bool) get_option( 'options_wpd_api_domain' ) && $this->auth()->is_connected();
 	}
 
 	/**
@@ -398,9 +405,10 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return boolean
 	 */
 	public function is_elementor_editor(): bool {
-		return class_exists( '\Elementor\Plugin' ) && ( \Elementor\Plugin::instance()->editor->is_edit_mode()
-														|| \Elementor\Plugin::instance()->preview->is_preview()
-														|| isset( $_GET['elementor_library'] ) );
+		return class_exists( '\Elementor\Plugin' ) &&
+				( \Elementor\Plugin::instance()->editor->is_edit_mode() ||
+				\Elementor\Plugin::instance()->preview->is_preview() ||
+				isset( $_GET['elementor_library'] ) );
 	}
 
 	/**

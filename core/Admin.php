@@ -34,9 +34,9 @@ final class Admin extends Singleton implements ConstInterface {
 		}
 
 		add_action( 'admin_notices', array( NoticeService::instance(), 'not_connected' ) );
-		add_action( 'admin_notices', array( NoticeService::instance(), 'custom_deploy_domain' ) );
+		add_action( 'admin_notices', array( NoticeService::instance(), 'display_custom_deploy_domain_notice' ) );
 		add_action( 'admin_notices', array( NoticeService::instance(), 'subscription_no_credits' ) );
-		add_action( 'wp_ajax_dollie_hide_domain_notice', array( NoticeService::instance(), 'remove_custom_deploy_domain' ) );
+		add_action( 'wp_ajax_dollie_hide_domain_notice', array( NoticeService::instance(), 'remove_custom_deploy_domain_notice' ) );
 	}
 
 	/**
@@ -92,11 +92,11 @@ final class Admin extends Singleton implements ConstInterface {
 		}
 
 		// if ( dollie()->get_partner_status() == 'trial' ) {
-		// 	$status = '<span class="dol-status dol-staging">Trial<span>';
+		// $status = '<span class="dol-status dol-staging">Trial<span>';
 		// } elseif ( dollie()->get_partner_status() == 'staging' ) {
-		//    $status = '<span class="dol-status dol-staging">Live<span>';
+		// $status = '<span class="dol-status dol-staging">Live<span>';
 		// } else {
-		// 	$status = '<span class="dol-status dol-live">Live<span>';
+		// $status = '<span class="dol-status dol-live">Live<span>';
 		// }
 
 		$args = array(
@@ -144,7 +144,7 @@ final class Admin extends Singleton implements ConstInterface {
 	 * @param array $args
 	 */
 	public function api_box_callback( $post, $args = array() ) {
-		//dollie_setup_get_template_part( 'setup-complete' );
+		// dollie_setup_get_template_part( 'setup-complete' );
 	}
 
 	/**
@@ -155,25 +155,10 @@ final class Admin extends Singleton implements ConstInterface {
 	 * @return string
 	 */
 	public function add_dollie_dev_class( $classes ) {
-
 		if ( defined( 'DOLLIE_DEV' ) && DOLLIE_DEV ) {
 			$classes .= ' dol-dev-mode';
 		}
 
 		return $classes;
-	}
-
-	/**
-	 * Remove deployment domain
-	 *
-	 * @return void
-	 */
-	public function remove_custom_deploy_domain(): void {
-		if ( ! check_ajax_referer( 'dollie_notice', '_dollie_nonce' ) ) {
-			wp_send_json_error();
-		}
-
-		update_option( 'deployment_domain_notice', true );
-		wp_send_json_success();
 	}
 }

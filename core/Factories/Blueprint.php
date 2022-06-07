@@ -78,14 +78,9 @@ final class Blueprint extends BaseContainer {
 	/**
 	 * Update changes
 	 *
-	 * @param string $title
-	 * @param string $description
-	 *
 	 * @return boolean|array
 	 */
-	public function update_changes( string $title, string $description ) {
-		update_post_meta( $this->post->ID, 'dollie_blueprint_title', $title );
-		update_post_meta( $this->post->ID, 'dollie_blueprint_description', $description );
+	public function update_changes() {
 		update_post_meta( $this->post->ID, 'dollie_blueprint_update_time', current_time( 'mysql' ) );
 
 		return $this->update_blueprint( $this->get_hash() );
@@ -115,7 +110,7 @@ final class Blueprint extends BaseContainer {
 	 * @return boolean|string
 	 */
 	public function get_saved_title() {
-		return get_post_meta( $this->post->ID, 'dollie_blueprint_title', true );
+		return get_post_meta( $this->post->ID, 'wpd_installation_blueprint_title', true );
 	}
 
 	/**
@@ -124,7 +119,7 @@ final class Blueprint extends BaseContainer {
 	 * @return boolean|string
 	 */
 	public function get_saved_description() {
-		return get_post_meta( $this->post->ID, 'dollie_blueprint_description', true );
+		return get_post_meta( $this->post->ID, 'wpd_installation_blueprint_description', true );
 	}
 
 	/**
@@ -144,7 +139,6 @@ final class Blueprint extends BaseContainer {
 	public function get_available_blueprints() {
 		return [];
 	}
-
 
 	/**
 	 * Check dynamic fields

@@ -93,7 +93,7 @@
 
 <div class="dol-bg-white dol-shadow dol-overflow-hidden sm:dol-rounded-md">
 	<ul role="list" class="dol-divide-y dol-divide-gray-200">
-		<?php if ( dollie()->is_api_connected() ) : ?>
+		<?php if ( dollie()->auth()->is_connected() ) : ?>
 			<li>
 				<a href="#" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
@@ -241,7 +241,7 @@
 			</li>
 		<?php endif; ?>
 
-		<?php if ( get_option( 'wpd_deployment_domain' ) && get_option( 'wpd_deployment_domain_status' ) ) : ?>
+		<?php if ( dollie()->workspace()->has_custom_deployment_domain() ) : ?>
 			<li>
 				<a href="#" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
@@ -255,7 +255,7 @@
 								<div>
 									<p class="dol-text-sm dol-font-medium dol-text-green-600 dol-truncate"><?php esc_html_e( 'Your Custom Domain is Active', 'dollie' ); ?></p>
 									<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
-										<span class="dol-truncate"><?php printf( __( 'You are using the domain %s.', 'dollie' ), get_option( 'wpd_deployment_domain' ) ); ?></span>
+										<span class="dol-truncate"><?php printf( __( 'You are using the domain %s.', 'dollie' ), dollie()->workspace()->get_deployment_domain() ); ?></span>
 									</p>
 								</div>
 								<div class="dol-hidden dol-mt-3 md:dol-block">
