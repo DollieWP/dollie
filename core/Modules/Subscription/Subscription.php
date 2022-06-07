@@ -106,7 +106,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		if ( ! dollie()->is_api_connected() ) {
 			return false;
 		}
-		delete_transient( 'wpd_partner_subscription' );
+
 		$subscription = get_transient( 'wpd_partner_subscription' );
 
 		if ( ! $subscription ) {
@@ -149,7 +149,11 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	public function get_partner_deploy_limit() {
 		$subscription = $this->get_partner_subscription();
 
-		return false === $subscription ? 0 : $subscription['limit'];
+		if ( is_wp_error( $subscription ) || false === $subscription ) {
+			return 0;
+		}
+
+		return $subscription['limit'];
 	}
 
 }
