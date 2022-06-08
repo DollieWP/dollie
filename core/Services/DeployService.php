@@ -63,10 +63,6 @@ final class DeployService extends Singleton implements ConstInterface {
 
 		if ( $type === self::TYPE_BLUEPRINT ) {
 			$deploy_type = 'blueprints';
-
-			if ( ! isset( $vars['dynamic'] ) ) {
-				$vars['dynamic'] = [ 'asd' ];
-			}
 		} elseif ( $type === self::TYPE_STAGING ) {
 			$deploy_type = 'stagings';
 		} else {
