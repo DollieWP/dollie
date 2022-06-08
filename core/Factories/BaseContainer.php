@@ -621,13 +621,13 @@ abstract class BaseContainer implements ConstInterface {
 	/**
 	 * Restore backup
 	 *
-	 * @param string $backup
+	 * @param string $snapshotId
 	 * @param string $type
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function restore_backup( string $backup, string $type ) {
-		return $this->restore_container_backup( $this->get_hash(), $backup, $type );
+	public function restore_backup( string $snapshotId, string $type ) {
+		return $this->restore_container_backup( $this->get_hash(), $snapshotId, $type );
 	}
 
 	/**

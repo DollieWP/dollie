@@ -35,17 +35,17 @@ trait BackupApi {
 	 * Restore
 	 *
 	 * @param string $container_hash
-	 * @param string $backup
+	 * @param string $snapshotId
 	 * @param string $type
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function restore_container_backup( string $container_hash, string $backup, string $type ) {
+	public function restore_container_backup( string $container_hash, string $snapshotId, string $type ) {
 		return $this->post_request(
 			"backups/{$container_hash}/restore",
 			[
-				'backup' => $backup,
-				'type'   => $type,
+				'snapshotId' => $snapshotId,
+				'type'       => $type,
 			]
 		);
 	}
