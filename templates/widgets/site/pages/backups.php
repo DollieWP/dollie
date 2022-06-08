@@ -4,8 +4,7 @@ if ( ! isset( $container ) ) {
 	$container = dollie()->get_container();
 }
 
-$backups         = $container->get_backups();
-$backup_restores = $container->get_backup_restores();
+$backups = $container->get_backups( true );
 
 ?>
 
@@ -38,27 +37,6 @@ $backup_restores = $container->get_backup_restores();
 			<?php echo do_shortcode( '[dollie_form form="form_dollie_list_backups"]' ); ?>
 		<?php else : ?>
 			<span><?php esc_html_e( 'No backups available.', 'dollie' ); ?></span>
-		<?php endif; ?>
-	</div>
-</div>
-
-<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-mb-6 dol-widget-backup-restores">
-	<div class="dol-hidden dol-w-full md:dol-flex dol-flex-wrap dol-items-center dol-bg-primary-600 dol-p-4 lg:dol-px-8">
-		<h4 class="dol-m-0 dol-p-0 dol-text-white dol-text-base md:dol-text-xl">
-			<?php esc_html_e( 'Restore history', 'dollie' ); ?>
-		</h4>
-	</div>
-	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
-		<?php if ( ! empty( $backup_restores ) ) : ?>
-			<ul class="dol-list-none dol-m-0 dol-p-0">
-				<?php foreach ( $backup_restores as $restore ) : ?>
-					<li>
-						<?php echo $restore['date']; ?>
-					</li>
-				<?php endforeach; ?>
-			</ul>
-		<?php else : ?>
-			<span><?php esc_html_e( 'You have never restored your site.', 'dollie' ); ?></span>
 		<?php endif; ?>
 	</div>
 </div>

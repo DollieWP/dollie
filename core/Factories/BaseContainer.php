@@ -610,26 +610,6 @@ abstract class BaseContainer implements ConstInterface {
 	}
 
 	/**
-	 * Get backup restores
-	 *
-	 * @return array
-	 */
-	public function get_backup_restores(): array {
-		$backups = $this->get_backups();
-
-		if ( is_wp_error( $backups ) ) {
-			return [];
-		}
-
-		return array_filter(
-			$backups,
-			function( $v ) {
-				return true === $v['restore'];
-			}
-		);
-	}
-
-	/**
 	 * Create backup
 	 *
 	 * @return \WP_Error|array

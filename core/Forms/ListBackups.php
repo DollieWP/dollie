@@ -81,7 +81,6 @@ class ListBackups extends Singleton {
 	 * @return mixed
 	 */
 	public function populate_site_backups( $field ) {
-		// Grab our array of available backups.
 		$container = dollie()->get_container();
 
 		if ( is_wp_error( $container ) ) {
@@ -95,12 +94,7 @@ class ListBackups extends Singleton {
 
 		if ( ! empty( $backups ) ) {
 			foreach ( $backups as $backup ) {
-				if ( $backup['restore'] ) {
-					continue;
-				}
-
-				$size = '<span class="dol-inline-block dol-ml-4">' . dollie()->icon()->backups( 'mr-2' ) . $backup['size'] . '</span>';
-				$choices[ "{$backup['date']} {$backup['hour']}" ] = dollie()->icon()->clock( 'mr-2' ) . "{$backup['date']} at {$backup['hour']}" . $size;
+				$choices[ $backup['id'] ] = dollie()->icon()->clock( 'dol-mr-2' ) . "{$backup['date']} at {$backup['hour']}" . '<span class="dol-inline-block dol-ml-4">' . dollie()->icon()->backups( 'dol-mr-2' ) . $backup['size'] . '</span>';
 			}
 		}
 
