@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Factories\BaseContainer;
 use Dollie\Core\Singleton;
 use WP_Query;
 

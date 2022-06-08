@@ -149,7 +149,7 @@
 
 
 							<?php
-							$login_link = $container->get_login_url();
+							$login_link = $container->get_customer_login_url();
 
 							if ( ! empty( $login_link ) ) :
 								?>
@@ -174,7 +174,7 @@
 				$data = array(
 					'settings' => array(
 						'title'    => sprintf( esc_html__( 'Ready to Launch your first %s?', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ),
-						'subtitle' => sprintf( esc_html__( 'Launching your first %s via your own Platform is something special. What are you waiting for, lets launch your first site!', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string()),
+						'subtitle' => sprintf( esc_html__( 'Launching your first %s via your own Platform is something special. What are you waiting for, lets launch your first site!', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ),
 					),
 				);
 

@@ -153,7 +153,7 @@ class Forms extends Singleton {
 		$container = self::get_form_container();
 
 		if ( false !== $container ) {
-			return $container->get_login_url();
+			return $container->get_customer_login_url();
 		}
 
 		return '';

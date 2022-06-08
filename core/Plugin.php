@@ -302,7 +302,7 @@ class Plugin extends Singleton {
 	 * @return void
 	 */
 	public function load_login_route() {
-		if ( ! isset( $_GET['site'] ) || 0 === (int) $_GET['site'] ) {
+		if ( ! isset( $_GET['site'] ) ) {
 			wp_redirect( home_url() );
 			exit;
 		}
@@ -319,10 +319,15 @@ class Plugin extends Singleton {
 			exit;
 		}
 
-		$staging  = isset( $_GET['staging'] ) ? true : false;
-		$location = ! empty( $_GET['location'] ) ? esc_attr( $_GET['location'] ) : null;
+		$location  = ! empty( $_GET['location'] ) ? esc_attr( $_GET['location'] ) : '';
+		$login_url = $container->get_login_url( $location );
 
-		// wp_redirect( dollie()->final_customer_login_url( $container_id, $location, $staging ) );
+		if ( ! $login_url ) {
+			wp_redirect( home_url() );
+			exit;
+		}
+
+		wp_redirect( $login_url );
 		exit;
 	}
 

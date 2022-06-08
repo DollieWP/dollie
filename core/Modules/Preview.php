@@ -119,8 +119,8 @@ class Preview extends Singleton {
 					'title'       => $container->get_title(),
 					'title_short' => $container->get_title(),
 					'url'         => $container->get_url( true ),
-					'buy'         => html_entity_decode( $container->get_login_url() ),
-					'login_url'   => html_entity_decode( $container->get_login_url() ),
+					'buy'         => html_entity_decode( $container->get_customer_login_url() ),
+					'login_url'   => html_entity_decode( $container->get_customer_login_url() ),
 					'thumb'       => [
 						'url' => $container->get_screenshot(),
 					],
@@ -143,8 +143,13 @@ class Preview extends Singleton {
 						'title'       => $container->get_saved_title(),
 						'title_short' => $container->get_name(),
 						'url'         => $container->get_url(),
-						'buy'         => dollie()->subscription()->get_checkout_link( [ 'product_id' => $product_id[0], 'blueprint_id' => $container->get_id() ] ),
-						'login_url'   => $container->get_login_url(),
+						'buy'         => dollie()->subscription()->get_checkout_link(
+							[
+								'product_id'   => $product_id[0],
+								'blueprint_id' => $container->get_id(),
+							]
+						),
+						'login_url'   => $container->get_customer_login_url(),
 						'thumb'       => [
 							'url' => $image,
 						],

@@ -22,7 +22,7 @@ if ( is_wp_error( $container ) ) {
 					</a>
 				</div>
 				<div class="dol-w-full md:dol-w-1/2">
-					<a class="dol-block dol-text-center dol-text-sm dol-bg-secondary-200 hover: hover:dol-bg-primary-300 dol-text-secondary-600 dol-px-4 dol-py-2" href="<?php echo $container->get_login_url(); ?>" target="_blank">
+					<a class="dol-block dol-text-center dol-text-sm dol-bg-secondary-200 hover: hover:dol-bg-primary-300 dol-text-secondary-600 dol-px-4 dol-py-2" href="<?php echo $container->get_customer_login_url(); ?>" target="_blank">
 						<?php echo dollie()->icon()->site_login( 'dol-mr-1' ); ?>
 						<?php esc_html_e( 'Admin', 'dollie' ); ?>
 					</a>

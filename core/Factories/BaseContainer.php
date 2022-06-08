@@ -949,6 +949,25 @@ abstract class BaseContainer implements ConstInterface {
 		return false;
 	}
 
+	/**
+	 * Get customer login url
+	 *
+	 * @param string $location
+	 *
+	 * @return string
+	 */
+	public function get_customer_login_url( string $location = '' ): string {
+		$url = home_url( 'site_login_redirect?site=' . $this->get_id() );
+
+		$container_location = apply_filters( 'dollie/site/login_url/location', $location, $this );
+
+		if ( ! empty( $container_location ) ) {
+			$url = add_query_arg( 'location', $container_location, $url );
+		}
+
+		return wp_nonce_url( $url, 'get_site_login', '_nonce' );
+	}
+
 	public function after_status_change_event() {
 		// if ( self::ACTION_START === $action ) {
 		// $container->remove_undeploy_schedule();
