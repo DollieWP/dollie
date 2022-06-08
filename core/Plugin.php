@@ -307,14 +307,14 @@ class Plugin extends Singleton {
 			exit;
 		}
 
-		if ( ! wp_verify_nonce( $_GET['_nonce'], 'get_site_login' ) ) {
+		$container = dollie()->get_container( (int) $_GET['site'] );
+
+		if ( is_wp_error( $container ) || ! wp_verify_nonce( $_GET['_nonce'], 'get_site_login' ) ) {
 			wp_redirect( home_url() );
 			exit;
 		}
 
-		$container = dollie()->get_container( (int) $_GET['site'] );
-
-		if ( is_wp_error( $container ) || ! current_user_can( 'manage_options' ) && get_current_user_id() != $container->author ) {
+		if ( ! current_user_can( 'manage_options' ) && ! $container->is_owned_by_current_user() ) {
 			wp_redirect( home_url() );
 			exit;
 		}
@@ -323,7 +323,7 @@ class Plugin extends Singleton {
 		$login_url = $container->get_login_url( $location );
 
 		if ( ! $login_url ) {
-			wp_redirect( home_url() );
+			wp_redirect( $container->get_permalink() );
 			exit;
 		}
 
