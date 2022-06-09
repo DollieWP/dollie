@@ -24,10 +24,10 @@ if ( $posts ) :
 					<a target="_blank" href="<?php echo esc_url( $post->link ); ?>">
 						<?php if ( $featured_image ) : ?>
 							<span class="dol-block dol-overflow-hidden">
-								<img src="<?php echo esc_url( $featured_image ); ?>" alt="<?php echo esc_html( $post->title->rendered ); ?>">
+								<img class="dol-aspect-video dol-object-cover" src="<?php echo esc_url( $featured_image ); ?>" alt="<?php echo esc_html( $post->title->rendered ); ?>">
 							</span>
 						<?php else : ?>
-							<span class="dol-flex dol-items-center dol-justify-center dol-h-40 dol-bg-gray-100">
+							<span class="dol-flex dol-items-center dol-justify-center dol-aspect-video dol-bg-gray-100">
 								<?php echo dollie()->icon()->blog_post( 'fa-3x' ); ?>
 							</span>
 						<?php endif; ?>
@@ -38,8 +38,8 @@ if ( $posts ) :
 								<?php echo esc_html( $post->title->rendered ); ?>
 							</a>
 						</h5>
-						<div class="dol-mb-4">
-							<?php echo esc_html( strip_tags( $post->excerpt->rendered ) ); ?>
+						<div class="dol-mb-4 dol-text-sm dol-text-gray-500">
+							<?php echo wp_trim_words( esc_html( strip_tags( $post->excerpt->rendered ) ), 20 ); ?>
 						</div>
 						<div>
 							<a target="_blank" class="dol-btn dol-btn-secondary dol-nav-active" href="<?php echo esc_html( $post->link ); ?>">

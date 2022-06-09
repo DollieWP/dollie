@@ -34,7 +34,7 @@ if ( $posts ) :
 								<?php echo esc_html( $post->title->rendered ); ?>
 							</a>
 						</h4>
-						<div class="dol-mb-4 dol-text-gray-500">
+						<div class="dol-mb-4  dol-text-sm dol-text-gray-500">
 							<?php echo wp_trim_words( esc_html( strip_tags( $post->excerpt->rendered ) ), 20 ); ?>
 						</div>
 						<div>
