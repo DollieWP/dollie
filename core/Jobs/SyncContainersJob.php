@@ -54,18 +54,18 @@ class SyncContainersJob extends Singleton {
 		$blueprints = $this->get_blueprints();
 		$stagings   = $this->get_stagings();
 
-		$containers = [];
+		$fetched_containers = [];
 
 		if ( ! is_wp_error( $sites ) ) {
-			$containers = array_merge( $containers, $sites );
+			$fetched_containers = array_merge( $fetched_containers, $sites );
 		}
 
 		if ( ! is_wp_error( $blueprints ) ) {
-			$containers = array_merge( $containers, $blueprints );
+			$fetched_containers = array_merge( $fetched_containers, $blueprints );
 		}
 
 		if ( ! is_wp_error( $stagings ) ) {
-			$containers = array_merge( $containers, $stagings );
+			$fetched_containers = array_merge( $fetched_containers, $stagings );
 		}
 
 		$stored_containers = get_posts(
@@ -78,30 +78,38 @@ class SyncContainersJob extends Singleton {
 
 		$synced_container_ids = [];
 
-		foreach ( $containers as $key => $container ) {
+		foreach ( $fetched_containers as $key => $fetched_container ) {
 			$exists = false;
 
 			foreach ( $stored_containers as $stored_container ) {
-				$container_type = dollie()->get_container( $stored_container->ID );
+				$old_container_hash = get_post_meta( $stored_container->ID, 'wpd_container_id', true );
 
-				if ( is_wp_error( $container_type ) ) {
-					continue;
-				}
+				// If container was stored during Dollie V1.0, switch to new version
+				if ( $old_container_hash ) {
+					if ( $fetched_container['hash'] !== $old_container_hash ) {
+						continue;
+					}
 
-				if ( $container['hash'] !== $container_type->get_hash() ) {
-					continue;
+					update_post_meta( $stored_container->ID, 'dollie_container_type', $fetched_container['type'] );
+					delete_post_meta( $stored_container->ID, 'wpd_container_id' );
+
+					$container = dollie()->get_container( $stored_container );
+				} else {
+					$container = dollie()->get_container( $stored_container );
+
+					if ( is_wp_error( $container ) || $fetched_container['hash'] !== $container->get_hash() ) {
+						continue;
+					}
 				}
 
 				$exists = true;
-				$container_type->set_details( $container );
+				$container->set_details( $fetched_container );
 
-				if ( ! $container_type->is_running() ) {
-					wp_trash_post( $container_type->get_id() );
-				}
-
-				if ( $container_type->is_running() ) {
-					wp_publish_post( $container_type->get_id() );
-					$synced_container_ids[] = $container_type->get_id();
+				if ( ! $container->is_running() ) {
+					wp_trash_post( $container->get_id() );
+				} elseif ( $container->is_running() ) {
+					wp_publish_post( $container->get_id() );
+					$synced_container_ids[] = $container->get_id();
 				}
 			}
 
@@ -109,15 +117,15 @@ class SyncContainersJob extends Singleton {
 			if ( ! $exists ) {
 				$author = get_current_user_id();
 
-				if ( $container['owner_email'] ) {
-					$user = get_user_by( 'email', $container['owner_email'] );
+				if ( $fetched_container['owner_email'] ) {
+					$user = get_user_by( 'email', $fetched_container['owner_email'] );
 
 					if ( false !== $user ) {
 						$author = $user->ID;
 					}
 				}
 
-				$post_name = explode( '.', $container['url'] );
+				$post_name = explode( '.', $fetched_container['url'] );
 				$post_name = $post_name[0];
 
 				$new_container_id = wp_insert_post(
@@ -128,15 +136,15 @@ class SyncContainersJob extends Singleton {
 						'post_title'  => $post_name,
 						'post_author' => $author,
 						'meta_input'  => [
-							'dollie_container_type' => $container['type'],
+							'dollie_container_type' => $fetched_container['type'],
 						],
 					]
 				);
 
 				$new_container_type = dollie()->get_container( $new_container_id );
-				$new_container_type->set_details( $container );
+				$new_container_type->set_details( $fetched_container );
 
-				Log::add( 'Container added from sync ' . $container['url'] );
+				Log::add( 'Container added from sync ' . $fetched_container['url'] );
 				$synced_container_ids[] = $new_container_id;
 			}
 		}
@@ -157,7 +165,7 @@ class SyncContainersJob extends Singleton {
 
 		flush_rewrite_rules();
 
-		return $containers;
+		return $fetched_containers;
 	}
 
 }

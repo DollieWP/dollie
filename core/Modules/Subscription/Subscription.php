@@ -125,7 +125,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	public function has_partner_subscription() {
 		$subscription = $this->get_partner_subscription();
 
-		if ( is_wp_error( $subscription ) ) {
+		if ( is_wp_error( $subscription ) || empty( $subscription ) ) {
 			return false;
 		}
 
@@ -149,7 +149,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	public function get_partner_deploy_limit() {
 		$subscription = $this->get_partner_subscription();
 
-		if ( is_wp_error( $subscription ) || false === $subscription ) {
+		if ( is_wp_error( $subscription ) || false === $subscription || empty( $subscription ) ) {
 			return 0;
 		}
 
