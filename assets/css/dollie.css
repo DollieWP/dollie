@@ -2180,6 +2180,8 @@ input[type="text"].dol-search-input:focus {
     margin-bottom: 0.75rem; }
 .dol-mr-2 {
     margin-right: 0.5rem; }
+.dol-mt-3 {
+    margin-top: 0.75rem; }
 .dol-mt-4 {
     margin-top: 1rem; }
 .dol-mt-0 {
@@ -2188,8 +2190,6 @@ input[type="text"].dol-search-input:focus {
     margin-bottom: 0.5rem; }
 .dol-mr-1 {
     margin-right: 0.25rem; }
-.dol-mt-3 {
-    margin-top: 0.75rem; }
 .dol-mr-3 {
     margin-right: 0.75rem; }
 .dol-mb-1 {
@@ -2198,10 +2198,12 @@ input[type="text"].dol-search-input:focus {
     margin-top: 2rem; }
 .dol-mt-2 {
     margin-top: 0.5rem; }
-.dol--mr-12 {
-    margin-right: -3rem; }
+.dol-mb-0 {
+    margin-bottom: 0px; }
 .dol-mt-5 {
     margin-top: 1.25rem; }
+.dol--mr-12 {
+    margin-right: -3rem; }
 .dol-mr-4 {
     margin-right: 1rem; }
 .dol-ml-4 {
@@ -2220,8 +2222,6 @@ input[type="text"].dol-search-input:focus {
     margin-top: -6rem; }
 .dol-mr-1\.5 {
     margin-right: 0.375rem; }
-.dol-mb-0 {
-    margin-bottom: 0px; }
 .dol--mt-32 {
     margin-top: -8rem; }
 .dol-block {
@@ -2240,6 +2240,8 @@ input[type="text"].dol-search-input:focus {
     display: grid; }
 .dol-hidden {
     display: none; }
+.dol-aspect-video {
+    aspect-ratio: 16 / 9; }
 .dol-h-full {
     height: 100%; }
 .dol-h-16 {
@@ -2765,9 +2767,6 @@ input[type="text"].dol-search-input:focus {
 .dol-px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem; }
-.dol-px-10 {
-    padding-left: 2.5rem;
-    padding-right: 2.5rem; }
 .dol-py-0\.5 {
     padding-top: 0.125rem;
     padding-bottom: 0.125rem; }
@@ -2777,6 +2776,9 @@ input[type="text"].dol-search-input:focus {
 .dol-py-40 {
     padding-top: 10rem;
     padding-bottom: 10rem; }
+.dol-px-10 {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem; }
 .dol-px-1 {
     padding-left: 0.25rem;
     padding-right: 0.25rem; }

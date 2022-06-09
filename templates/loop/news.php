@@ -20,10 +20,10 @@ if ( $posts ) :
 					<a target="_blank" href="<?php echo esc_url( $post->link ); ?>">
 						<?php if ( $featured_image ) : ?>
 							<span class="dol-block dol-overflow-hidden">
-								<img src="<?php echo esc_url( $featured_image ); ?>" alt="<?php echo esc_html( $post->title->rendered ); ?>">
+								<img class="dol-aspect-video dol-object-cover" src="<?php echo esc_url( $featured_image ); ?>" alt="<?php echo esc_html( $post->title->rendered ); ?>">
 							</span>
 						<?php else : ?>
-							<span class="dol-flex dol-items-center dol-justify-center dol-h-40 dol-bg-gray-100">
+							<span class="dol-flex dol-items-center dol-justify-center dol-aspect-video dol-bg-gray-100">
 								<?php echo dollie()->icon()->blog_post( 'fa-3x' ); ?>
 							</span>
 						<?php endif; ?>

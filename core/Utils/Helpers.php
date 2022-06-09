@@ -6,7 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Factories\BaseContainer;
 use Dollie\Core\Singleton;
 use WP_Query;
 
@@ -65,7 +64,6 @@ class Helpers extends Singleton implements ConstInterface {
 		}
 
 		return new Site( $object );
-		// return new \WP_Error( 500, 'Invalid container type' );
 	}
 
 	/**
