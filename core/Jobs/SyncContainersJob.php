@@ -144,7 +144,6 @@ class SyncContainersJob extends Singleton {
 				$new_container_type = dollie()->get_container( $new_container_id );
 				$new_container_type->set_details( $fetched_container );
 
-				Log::add( 'Container added from sync ' . $fetched_container['url'] );
 				$synced_container_ids[] = $new_container_id;
 			}
 		}
