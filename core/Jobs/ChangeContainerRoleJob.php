@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Factories\Site;
+use Dollie\Core\Factories\User;
 use Dollie\Core\Singleton;
 use Dollie\Core\Log;
 
@@ -27,36 +29,32 @@ class ChangeContainerRoleJob extends Singleton {
 	/**
 	 * Change customer role task
 	 *
-	 * @param $params
-	 * @param null   $container_id
-	 * @param null   $user_id
-	 * @param null   $role
+	 * @param Site   $container
+	 * @param User   $user
+	 * @param string $role
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
-	public function run( $params, $container_id, $user_id, $role = null ) {
-		$role = $role ?: dollie()->get_customer_user_role( $user_id );
+	public function run( Site $container, User $user, string $role ) {
+		$role = $role ?: $container->user()->get_container_user_role();
 
-		if ( ! is_array( $params ) || ! isset( $params['container_uri'], $params['email'], $params['password'], $params['username'] ) || ! $role ) {
-			Log::add( 'Client user role failed to change due to missing param.' );
-
-			return false;
+		if ( ! $role ) {
+			return;
 		}
 
-		$data = [
-			'container_uri'  => $params['container_uri'],
-			'email'          => $params['email'],
-			'password'       => $params['password'],
-			'username'       => $params['username'],
-			'super_email'    => get_option( 'admin_email' ),
-			'super_password' => wp_generate_password(),
-			'super_username' => get_option( 'options_wpd_admin_user_name' ),
-			'switch_to'      => $role,
-		];
+		$container->set_role(
+			[
+				'email'          => $user->get_email(),
+				'username'       => $container->get_details( 'site.admin.username' ),
+				'password'       => wp_generate_password(),
+				'super_email'    => get_option( 'admin_email' ),
+				'super_password' => wp_generate_password(),
+				'super_username' => get_option( 'options_wpd_admin_user_name' ),
+				'switch_to'      => $role,
+			]
+		);
 
-		// Api::post( Api::ROUTE_CONTAINER_CHANGE_USER_ROLE, $data );
-
-		Log::add( $params['container_uri'] . ' client access was set to ' . $role );
+		Log::add( $container->get_url( true ) . ' client access was set to ' . $role );
 
 		return false;
 	}

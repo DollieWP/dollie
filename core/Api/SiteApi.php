@@ -58,7 +58,7 @@ trait SiteApi {
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function set_site_role( string $container_hash, array $data ) {
+	public function set_user_role( string $container_hash, array $data ) {
 		return $this->post_request( "sites/{$container_hash}/role", $data );
 	}
 

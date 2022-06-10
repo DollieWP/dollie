@@ -93,7 +93,7 @@ final class Site extends BaseContainer {
 	 * @return \WP_Error|array
 	 */
 	public function set_role( array $data ) {
-		return $this->set_site_role( $this->get_hash(), $data );
+		return $this->set_user_role( $this->get_hash(), $data );
 	}
 
 	/**

@@ -60,6 +60,8 @@ final class Acf extends Singleton implements ConstInterface {
 
 		$fields = get_fields( 'user_' . $user_id );
 
+		$user = dollie()->get_user( $user_id );
+
 		$role = '';
 
 		if ( isset( $fields['wpd_client_site_permissions'] ) ) {
@@ -70,46 +72,37 @@ final class Acf extends Singleton implements ConstInterface {
 			$role = get_field( 'wpd_client_site_permission', 'options' );
 		}
 
-		$last_role = get_user_meta( $user_id, 'wpd_client_last_changed_role', true );
-
-		if ( $last_role !== $role ) {
-			update_user_meta( $user_id, 'wpd_client_last_changed_role', $role );
-		}
+		$last_role = get_user_meta( $user->get_id(), 'wpd_client_last_changed_role', true );
 
 		if ( ! $role || $last_role === $role ) {
 			return;
 		}
 
+		update_user_meta( $user_id, 'wpd_client_last_changed_role', $role );
+
 		$query = new \WP_Query(
 			[
-				'author'         => $user_id,
+				'author'         => $user->get_id(),
 				'post_type'      => 'container',
 				'posts_per_page' => -1,
 				'post_status'    => 'publish',
 			]
 		);
 
-		$user_data = get_userdata( $user_id );
-
 		if ( $query->have_posts() ) {
-			$params = [
-				'email' => $user_data->user_email,
-			];
-
 			foreach ( $query->posts as $post ) {
-				$initial_username = $this->get_customer_username( $post->ID );
+				$container = dollie()->get_container( $post );
 
-				$params['container_uri'] = dollie()->get_wp_site_data( 'uri', $post->ID );
-				$params['username']      = $initial_username;
-				$params['password']      = wp_generate_password();
+				if ( is_wp_error( $container ) ) {
+					continue;
+				}
 
-				$action_id = as_enqueue_async_action(
+				as_enqueue_async_action(
 					'dollie/jobs/single/change_container_customer_role',
 					[
-						'params'       => $params,
-						'container_id' => $post->ID,
-						'user_id'      => $user_id,
-						'role'         => $role,
+						'container' => $container,
+						'user'      => $user,
+						'role'      => $role,
 					]
 				);
 			}
@@ -117,7 +110,7 @@ final class Acf extends Singleton implements ConstInterface {
 
 		wp_reset_postdata();
 
-		Log::add( 'Scheduled job to update client access role for ' . $user_data->display_name );
+		Log::add( 'Scheduled job to update client access role for ' . $user->get_display_name() );
 	}
 
 	/**

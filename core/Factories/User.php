@@ -46,6 +46,15 @@ final class User {
 	}
 
 	/**
+	 * Get email
+	 *
+	 * @return string
+	 */
+	public function get_email(): string {
+		return $this->user->email;
+	}
+
+	/**
 	 * Get meta
 	 *
 	 * @param string $key
