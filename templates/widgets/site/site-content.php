@@ -20,99 +20,106 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 
 ?>
 
-<?php if ( $container->is_stopped() ) : ?>
-	<?php $undeploy_at = get_post_meta( get_the_ID(), 'wpd_undeploy_container_at', true ); ?>
-	<div class="dol-bg-orange-700 dol-text-center dol-p-8 md:dol-p-10 lg:dol-p-20 dol-rounded">
-		<h2 class="dol-text-xl md:dol-text-3xl dol-mb-4 dol-text-white">
-			<?php echo dollie()->icon()->wordpress(); ?>
-			<?php esc_html_e( 'Hosting for this site is currently paused.', 'dollie' ); ?>
-		</h2>
+<?php if ( $container->is_scheduled_for_deletion() ) : ?>
+	<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
+			<h4 class="dol-p-0 dol-m-0 dol-text-base md:dol-text-xl">
+				<?php echo dollie()->icon()->wordpress( 'dol-mr-1' ); ?>
+				<?php if ( $container->is_site() ) : ?>
+					<?php esc_html_e( 'Your site has been deleted.', 'dollie' ); ?>
+				<?php elseif ( $container->is_blueprint() ) : ?>
+					<?php esc_html_e( 'Your blueprint has been deleted.', 'dollie' ); ?>
+				<?php else : ?>
+					<?php esc_html_e( 'Your staging site has been deleted.', 'dollie' ); ?>
+				<?php endif; ?>
+			</h4>
+		</div>
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
+			<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
+				<?php printf( esc_html__( 'This instance has been removed and is no longer accessible. There is a %s grace period when you\'ll be able restore it. When the time runs out, it will be completely gone.' ), human_time_diff( current_time( 'timestamp' ), $container->get_details( 'deleted_at' ) + ( 5 * 86400 ) ) ); ?>
+			</p>
+			<form action="<?php echo $container->get_permalink( '', [ 'restore_container' => 'yes' ] ); ?>" method="post">
+				<button name="restore_container" type="submit" class="dol-px-4 dol-py-2 dol-bg-primary-600 dol-text-white dol-rounded">
+					<?php echo dollie()->icon()->refresh( 'dol-mr-1' ); ?>
+					<?php esc_html_e( 'Restore', 'dollie' ); ?>
+				</button>
+			</form>
+		</div>
 	</div>
-	<div class="hero-section">
-		<div class="hero-inner">
-			<div class="content content-blank">
-				<div class="text-center py-30">
-					<div class="mb-20">
-						<h2 class="text-white">
-							<?php
+<?php elseif ( $container->is_stopped() ) : ?>
+	<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
+			<h4 class="dol-p-0 dol-m-0 dol-text-base md:dol-text-xl">
+				<?php echo dollie()->icon()->wordpress( 'dol-mr-1' ); ?>
+				<?php esc_html_e( 'Hosting for this site is currently paused!', 'dollie' ); ?>
+			</h4>
+		</div>
 
-							echo dollie()->icon()->site();
-							printf( esc_html__( 'Service for this %s is current on hold.', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() );
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
+			<p>
+				<?php
+				echo wp_kses_post(
+					sprintf(
+						__( 'If you have cancelled your subscription by accident please re-activate your <a href="%s">subscription</a> to prevent this site from being removed completely.', 'dollie' ),
+						get_permalink( wc_get_page_id( 'myaccount' ) )
+					)
+				)
+				?>
+			</p>
 
-							?>
-						</h2>
-					</div>
-					<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
-						If you have cancelled your subscription by accident please re-activate your
-						<a href="<?php echo get_permalink( wc_get_page_id( 'myaccount' ) ); ?>" class="text-white">subscription</a>
-						before <strong><?php echo date( 'F j, Y', $undeploy_at ); ?></strong> to prevent this site from
-						being removed completely.
-					</p>
-					<p class="pl-100 pr-100 text-gray text-muted">
-						<?php esc_html_e( 'Stopped this site by mistake or think something went wrong?', 'dollie' ); ?> <br>
-						<?php esc_html_e( 'Please reach out to our team and we\'ll get back to you as soon as we can!', 'dollie' ); ?>
-					</p>
-				</div>
-			</div>
+			<h5 class="dol-font-bold dol-mt-6">
+				<?php esc_html_e( 'Do you think this is a mistake?', 'dollie' ); ?>
+			</h5>
+
+			<p>
+				<?php esc_html_e( 'Please reach out to our team and we\'ll get back to you as soon as we can!', 'dollie' ); ?>
+			</p>
 		</div>
 	</div>
 <?php elseif ( $container->is_failed() ) : ?>
-	<div class="hero-section">
-		<div class="hero-inner">
-			<div class="content content-blank">
-				<div class="text-center py-30">
-					<?php if ( current_user_can( 'manage_options' ) ) : ?>
-						<div class="mb-20">
-							<h2 class="text-white">
-								<?php
+	<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
+			<h4 class="dol-p-0 dol-m-0 dol-text-base md:dol-text-xl">
+				<?php echo dollie()->icon()->wordpress( 'dol-mr-1' ); ?>
+				<?php printf( esc_html__( 'Sorry, there was an error launching your %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?>
+			</h4>
+		</div>
 
-								echo dollie()->icon()->close();
-								sprintf( esc_html__( 'Admin Notice - This %s has failed to launch', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() );
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
+			<?php if ( ! current_user_can( 'manage_options' ) ) : ?>
+				<p>
+					<?php
 
-								?>
-							</h2>
-						</div>
-						<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
-							<?php
+					printf(
+						esc_html__(
+							'When a %s fails to launch in your Hub it usually means there is a misconfiguration in your Dollie Cloud settings. Usually re-connecting to Dollie Cloud solves these issues.',
+							'dollie-setup'
+						),
+						dollie()->string_variants()->get_site_type_string()
+					);
 
-							printf(
-								esc_html__(
-									'When a %s fails to launch in your Hub it usually means there is a misconfiguration in your
-							Dollie Cloud settings. Usually re-connecting to Dollie Cloud solves these issues.',
-									'dollie-setup'
-								),
-								dollie()->string_variants()->get_site_type_string()
-							);
+					?>
+				</p>
 
-							?>
-							<a class="text-white" href="<?php echo admin_url( 'admin.php?page=wpd_platform_setup' ); ?>" data-clear="text-white"><?php esc_html_e( 'settings', 'dollie' ); ?>Reset Dollie Cloud Connection</a>.
+				<p>
+					<a href="<?php echo admin_url( 'admin.php?page=wpd_platform_setup' ); ?>"><?php esc_html_e( 'View Settings', 'dollie' ); ?></a>
+				</p>
 
-							<?php esc_html_e( 'Still having issues? Reach out to the Dollie Support team via your <a class="text-white" href="https://partners.getdollie.com">Dollie Dashboard</a>', 'dollie' ); ?>
-						</p>
-					<?php else : ?>
-						<div class="mb-20">
-							<h2 class="text-white">
-								<?php
+				<p>
+					<?php echo wp_kses_post( sprintf( __( 'Still having issues? Reach out to the Dollie Support team via your <a href="%s">Dollie Dashboard</a>.', 'dollie' ), 'https://partners.getdollie.com' ) ); ?>
+				</p>
+			<?php else : ?>
+					<p>
+					<?php
 
-								echo dollie()->icon()->close();
-								sprintf( esc_html__( 'Sorry, there was an error launching your %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() );
+					printf(
+						esc_html__( 'We were unable to launch your new %s on our platform at this time. Our team has been notified and will be looking into this issue immediately. We will reach out to you as soon as we can.', 'dollie-setup' ),
+						dollie()->string_variants()->get_site_type_string()
+					);
 
-								?>
-							</h2>
-						</div>
-						<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
-							<?php
-
-							printf(
-								esc_html__( 'We were unable to launch your new %s on our platform at this time. Our team is notified and will be looking into this issue immediately. We will reach out to you as soon as we can.', 'dollie-setup' ),
-								dollie()->string_variants()->get_site_type_string()
-							);
-
-							?>
-						</p>
-					<?php endif; ?>
-				</div>
-			</div>
+					?>
+				</p>
+			<?php endif; ?>
 		</div>
 	</div>
 <?php elseif ( $container->is_deploying() || isset( $_GET['launch-splash-preview'] ) ) : ?>

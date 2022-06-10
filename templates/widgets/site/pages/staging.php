@@ -102,15 +102,11 @@
 								<a href="#" class="dol-text-gray-900 dol-font-medium hover:dol-text-gray-600 dol-transition dol-ease-in-out dol-duration-150">
 								</a>
 								<span class="dol-text-gray-500 dol-block dol-mt-1">
-
 									<input type="hidden" name="sync_staging" value="1">
-
 									<button type="submit" class="dol-bg-green-500 hover:dol-bg-green-600 focus:dol-bg-green-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
-
 										<?php esc_html_e( 'Sync from Staging to Live', 'dollie' ); ?>
 									</button>
 									<?php wp_nonce_field( 'wpd_staging_sync' ); ?>
-
 								</span>
 							</div>
 						</div>

@@ -26,7 +26,7 @@ class Staging extends Singleton {
 		add_filter( 'dollie/log/actions', [ $staging_service, 'log_action_filter' ], 10, 2 );
 
 		add_action( 'template_redirect', [ $staging_service, 'create' ] );
-		add_action( 'template_redirect', [ $staging_service, 'undeploy' ] );
+		add_action( 'template_redirect', [ $staging_service, 'delete' ] );
 		add_action( 'template_redirect', [ $staging_service, 'sync' ] );
 
 		add_action( 'template_redirect', [ $staging_service, 'check_deploy' ] );

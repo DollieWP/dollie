@@ -15,6 +15,7 @@ Container object reference
 	]
   ]
   "status" => ""
+  "deleted_at" => ""
   "screenshot" => ""
   "secret" => ""
   "token" => ""
@@ -226,6 +227,21 @@ abstract class BaseContainer implements ConstInterface {
 	 */
 	public function is_staging(): bool {
 		return self::TYPE_STAGING === $this->get_type();
+	}
+
+	/**
+	 * Check if container should be deleted
+	 *
+	 * @return boolean
+	 */
+	public function is_scheduled_for_deletion(): bool {
+		$deleted_at = $this->get_details( 'deleted_at' );
+
+		if ( is_wp_error( $deleted_at ) || empty( $deleted_at ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -981,9 +997,6 @@ abstract class BaseContainer implements ConstInterface {
 		// if ( self::ACTION_START === $action ) {
 		// $container->remove_undeploy_schedule();
 		// delete_post_meta( $post_id, 'wpd_stop_container_at' );
-		// delete_post_meta( $post_id, 'wpd_scheduled_for_removal' );
-		// delete_post_meta( $post_id, 'wpd_undeploy_container_at' );
-		// delete_post_meta( $post_id, 'wpd_scheduled_for_undeployment' );
 
 		// Update the site status so it counts as an active site.
 		// wp_update_post(
@@ -1030,6 +1043,10 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return boolean|null
 	 */
 	protected function delete() {
-		return wp_delete_post( $this->get_id(), true );
+		$this->set_details(
+			[
+				'deleted_at' => current_time( 'timestamp' ),
+			]
+		);
 	}
 }

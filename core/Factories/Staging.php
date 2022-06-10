@@ -85,11 +85,19 @@ final class Staging extends BaseContainer {
 	}
 
 	/**
-	 * Undeploy
+	 * Delete
 	 *
-	 * @return boolean|array
+	 * @return boolean
 	 */
-	public function undeploy() {
-		return $this->delete_staging( $this->get_hash() );
+	public function delete() {
+		$deleted = $this->delete_staging( $this->get_hash() );
+
+		if ( is_wp_error( $deleted ) ) {
+			return false;
+		}
+
+		parent::delete();
+
+		return true;
 	}
 }

@@ -57,7 +57,7 @@ final class Container extends Singleton implements ConstInterface {
 		add_filter( 'parse_query', [ $this, 'filter_containers' ] );
 		add_filter( 'page_row_actions', [ $this, 'add_actions' ], 10, 2 );
 
-		add_action( 'before_delete_post', [ $this, 'undeploy_container' ] );
+		add_action( 'before_delete_post', [ $this, 'delete_container' ] );
 		add_action( 'untrashed_post', [ $this, 'restore_container' ] );
 		add_action( 'wp_trash_post', [ $this, 'stop_container' ] );
 
@@ -979,14 +979,14 @@ final class Container extends Singleton implements ConstInterface {
 	 *
 	 * @param int $post_id
 	 */
-	public function undeploy_container( int $post_id ) {
+	public function delete_container( int $post_id ) {
 		$container = dollie()->get_container( $post_id );
 
 		if ( is_wp_error( $container ) ) {
 			return;
 		}
 
-		$container->undeploy();
+		$container->delete();
 	}
 
 	/**

@@ -56,14 +56,7 @@ class DeleteSite extends Singleton {
 			return;
 		}
 
-		$routes = $container->get_routes();
-
-		if ( is_wp_error( $routes ) ) {
-			return;
-		}
-
-		// $container->create_backup();
-		// $container->undeploy();
+		$container->delete();
 	}
 
 	/**

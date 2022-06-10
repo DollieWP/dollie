@@ -107,11 +107,11 @@ final class StagingService extends Singleton {
 	}
 
 	/**
-	 * Undeploy staging
+	 * Delete staging
 	 *
 	 * @return void
 	 */
-	public function undeploy() {
+	public function delete() {
 		if ( ! isset( $_POST['undeploy_staging'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'wpd_staging_undeploy' ) ) {
 			return;
 		}
@@ -122,7 +122,7 @@ final class StagingService extends Singleton {
 			return;
 		}
 
-		$container->undeploy();
+		$container->delete();
 
 		wp_redirect( $container->get_permalink( 'staging' ) );
 		die();
