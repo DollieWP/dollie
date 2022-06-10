@@ -33,7 +33,7 @@ class SiteRemoteInfo extends Tag {
 		$this->wpd_data['site_data'] = $details['site'];
 
 		$subscription = dollie()->subscription();
-		$user         = dollie()->get_user( get_current_user_id() );
+		$user         = dollie()->get_user();
 
 		// Add custom items
 		$this->wpd_data['customer_data']['Customer - Total Sites Launched']           = $user->count_containers();
@@ -68,10 +68,10 @@ class SiteRemoteInfo extends Tag {
 			}
 
 			if ( strpos( $data, '.png' ) ||
-			     strpos( $data, '.jpg' ) ||
-			     strpos( $data, '.jpeg' ) ||
-			     filter_var( $data, FILTER_VALIDATE_URL ) ||
-			     strpos( $data, '.gif' ) ) {
+				 strpos( $data, '.jpg' ) ||
+				 strpos( $data, '.jpeg' ) ||
+				 filter_var( $data, FILTER_VALIDATE_URL ) ||
+				 strpos( $data, '.gif' ) ) {
 
 				continue;
 			}

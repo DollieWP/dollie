@@ -314,7 +314,7 @@ class Plugin extends Singleton {
 			exit;
 		}
 
-		if ( ! current_user_can( 'manage_options' ) && ! $container->is_owned_by_current_user() ) {
+		if ( ! $container->user()->can_manage_options() && ! $container->is_owned_by_current_user() ) {
 			wp_redirect( home_url() );
 			exit;
 		}

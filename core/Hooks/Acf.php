@@ -112,8 +112,6 @@ final class Acf extends Singleton implements ConstInterface {
 						'role'         => $role,
 					]
 				);
-
-				update_post_meta( $post->ID, '_wpd_user_role_change_pending', $action_id );
 			}
 		}
 

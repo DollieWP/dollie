@@ -321,7 +321,9 @@ final class AccessService extends Singleton {
 	 * @return array
 	 */
 	public function add_permissions_body_class( $classes ) {
-		if ( dollie()->get_user()->can_manage_all_sites() || current_user_can( 'manage_options' ) ) {
+		$user = dollie()->get_user();
+
+		if ( $user->can_manage_all_sites() || $user->can_manage_options() ) {
 			$classes[] = 'dol-is-admin';
 		} else {
 			$classes[] = 'dol-is-user';
@@ -367,7 +369,7 @@ final class AccessService extends Singleton {
 		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
 			echo '
 				<style type="text/css">
-					.acf-field-'. substr( $field['key'], 6 ) . ' > .acf-label {display: none;}
+					.acf-field-' . substr( $field['key'], 6 ) . ' > .acf-label {display: none;}
 				</style>';
 			return false;
 		}

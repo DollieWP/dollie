@@ -292,11 +292,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			return 0;
 		}
 
-		$user = dollie()->get_user( get_current_user_id() );
-
-		$total_sites = $user->count_containers();
-
-		return $subscription['resources']['max_allowed_installs'] - $total_sites;
+		return $subscription['resources']['max_allowed_installs'] - dollie()->get_user()->count_containers();
 	}
 
 	/**
@@ -353,11 +349,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			return true;
 		}
 
-		$user = dollie()->get_user( get_current_user_id() );
-
-		$total_sites = $user->count_containers();
-
-		return $total_sites >= $subscription['resources']['max_allowed_installs'];
+		return dollie()->get_user()->count_containers() >= $subscription['resources']['max_allowed_installs'];
 	}
 
 	/**
@@ -388,13 +380,11 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 * @return bool
 	 */
 	public function enable_automatic_payments() {
-		//
 		if ( get_option( 'dollie_hosted_initial_setup' ) !== '1' ) {
 			update_option( 'wc_subscription_duplicate_site', 'update' );
 			update_option( 'wcs_ignore_duplicate_siteurl_notice', 1 );
 		}
 	}
-
 
 	/**
 	 * Get excluded blueprints
@@ -402,7 +392,6 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 * @return array|boolean
 	 */
 	public function get_blueprints_exception( $type = 'excluded' ) {
-
 		$data          = [];
 		$type         .= '_blueprints';
 		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
@@ -471,7 +460,6 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 * @return bool
 	 */
 	public function staging_sites_limit_reached( $user_id = null ) {
-
 		if ( current_user_can( 'manage_options' ) ) {
 			return false;
 		}
@@ -480,19 +468,19 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			return false;
 		}
 
-		if ( null === $user_id ) {
-			$user_id = get_current_user_id();
+		$user = dollie()->get_user( $user_id );
+
+		if ( $user->can_manage_options() ) {
+			return false;
 		}
 
-		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user_id );
+		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user->get_id() );
 
 		if ( ! is_array( $subscriptions ) || empty( $subscriptions ) ) {
 			return false;
 		}
 
-		$total_site = (int) dollie()->get_user( $user_id )->count_stagings();
-
-		return ( $subscriptions['resources']['staging_max_allowed'] - $total_site ) <= 0;
+		return ( $subscriptions['resources']['staging_max_allowed'] - (int) $user->count_stagings() ) <= 0;
 	}
 
 	/**

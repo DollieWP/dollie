@@ -1,21 +1,23 @@
 <?php
-$user = dollie()->get_user(get_current_user_id());
+$user = dollie()->get_user();
+
 if ( ! $user->can_view_all_sites() ) {
 
 		dollie()->load_template(
-		'notice',
-		[
-			'type'         => 'error',
-			'icon'         => 'fas fa-exclamation-circle',
-			'title'        => __( 'No Permission', 'dollie' ),
-			'message'      => __( 'You do not have permission to view this content.', 'dollie' ),
-			'bottom_space' => true,
-		],
-		true
-	);
+			'notice',
+			[
+				'type'         => 'error',
+				'icon'         => 'fas fa-exclamation-circle',
+				'title'        => __( 'No Permission', 'dollie' ),
+				'message'      => __( 'You do not have permission to view this content.', 'dollie' ),
+				'bottom_space' => true,
+			],
+			true
+		);
 
-return;
+	return;
 }
+
 if ( ! isset( $view_type ) ) {
 	$view_type = 'list';
 }
@@ -51,7 +53,7 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 				$data = [
 					'name' => $customer->display_name,
 				];
-				$user = dollie()->get_user($customer->ID);
+				$user = dollie()->get_user( $customer->ID );
 				?>
 				<div class="dol-customers-item <?php echo esc_attr( $list_item_type ); ?>">
 					<div class="dol-customers-item-inner <?php do_action( 'dol_add_widget_classes' ); ?> dol-divide-y dol-divide-gray-200">

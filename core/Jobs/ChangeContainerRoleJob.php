@@ -56,8 +56,6 @@ class ChangeContainerRoleJob extends Singleton {
 
 		// Api::post( Api::ROUTE_CONTAINER_CHANGE_USER_ROLE, $data );
 
-		delete_post_meta( $container_id, '_wpd_user_role_change_pending' );
-
 		Log::add( $params['container_uri'] . ' client access was set to ' . $role );
 
 		return false;

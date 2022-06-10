@@ -49,24 +49,15 @@ final class Site extends BaseContainer {
 	 */
 	public function get_login_url( string $location = '' ): string {
 		$location = $location ? "&location={$location}" : '';
-
-		$role = get_user_meta( $this->get_author_id(), 'wpd_client_site_permissions', true );
-
-		if ( empty( $role ) || ! is_string( $role ) ) {
-			if ( user_can( $this->get_author_id(), 'manage_options' ) ) {
-				$role = 'administrator';
-			} else {
-				$role = get_field( 'wpd_client_site_permission', 'options' );
-			}
-		}
-
 		$username = $this->get_details( 'site.admin.username' );
 
 		if ( is_wp_error( $username ) ) {
-			$username = '';
+			return '';
 		}
 
-		if ( 'administrator' !== $role && current_user_can( 'manage_options' ) ) {
+		$user = $this->user();
+
+		if ( 'administrator' !== $user->get_container_user_role() && $user->can_manage_options() ) {
 			$username = get_option( 'options_wpd_admin_user_name', $username );
 		}
 

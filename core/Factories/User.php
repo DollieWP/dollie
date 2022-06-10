@@ -57,6 +57,15 @@ final class User {
 	}
 
 	/**
+	 * Check if can manage options
+	 *
+	 * @return boolean
+	 */
+	public function can_manage_options(): bool {
+		return user_can( $this->user->ID, 'manage_options' );
+	}
+
+	/**
 	 * View all sites permissions
 	 *
 	 * @return boolean

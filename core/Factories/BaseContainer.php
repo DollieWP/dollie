@@ -968,6 +968,15 @@ abstract class BaseContainer implements ConstInterface {
 		return wp_nonce_url( $url, 'get_site_login', '_nonce' );
 	}
 
+	/**
+	 * Get author user instance
+	 *
+	 * @return User
+	 */
+	public function user(): User {
+		return new User( $this->get_author_id() );
+	}
+
 	public function after_status_change_event() {
 		// if ( self::ACTION_START === $action ) {
 		// $container->remove_undeploy_schedule();

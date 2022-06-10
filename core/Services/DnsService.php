@@ -122,9 +122,8 @@ final class DnsService extends Singleton {
 		}
 
 		$container = dollie()->get_container();
-
 		if ( is_wp_error( $container ) ||
-			! current_user_can( 'manage_options' ) ||
+			! $container->user()->can_manage_options() ||
 			! $container->is_owned_by_current_user() ||
 			! $container->is_site() ) {
 			return;
@@ -149,7 +148,7 @@ final class DnsService extends Singleton {
 
 		// Prevent unauthorized access.
 		if ( is_wp_error( $container ) ||
-			 ! current_user_can( 'manage_options' ) ||
+			 ! $container->user()->can_manage_options() ||
 			 ! $container->is_owned_by_current_user() ||
 			 ! $container->is_site() ) {
 			return;
