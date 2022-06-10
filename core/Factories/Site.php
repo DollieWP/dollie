@@ -67,11 +67,7 @@ final class Site extends BaseContainer {
 		}
 
 		if ( 'administrator' !== $role && current_user_can( 'manage_options' ) ) {
-			// $username = get_option( 'options_wpd_admin_user_name', $username );
-		}
-
-		if ( ! $username ) {
-			return '';
+			$username = get_option( 'options_wpd_admin_user_name', $username );
 		}
 
 		$login_data = $this->get_site_login_url( $this->get_hash(), $username );
