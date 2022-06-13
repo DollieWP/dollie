@@ -146,7 +146,7 @@ class Plugin extends Singleton {
 		// Load jobs.
 		SyncContainersJob::instance();
 		ChangeContainerRoleJob::instance();
-		// RemoveOldLogsJob::instance();
+		RemoveOldLogsJob::instance();
 		// CustomerSubscriptionCheckJob::instance();
 
 		// Modules.

@@ -57,6 +57,9 @@ class DeleteSite extends Singleton {
 		}
 
 		$container->delete();
+
+		wp_redirect( $container->get_permalink() );
+		die();
 	}
 
 	/**

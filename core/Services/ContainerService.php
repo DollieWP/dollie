@@ -131,4 +131,25 @@ final class ContainerService extends Singleton {
 		return $title;
 	}
 
+	/**
+	 * Restore container
+	 *
+	 * @return void
+	 */
+	public function restore() {
+		if ( ! isset( $_GET['restore_container'] ) ) {
+			return;
+		}
+
+		$container = dollie()->get_container();
+
+		if ( is_wp_error( $container ) || ! $container->is_scheduled_for_deletion() ) {
+			return;
+		}
+
+		$container->restore();
+
+		wp_redirect( $container->get_permalink() );
+		die();
+	}
 }

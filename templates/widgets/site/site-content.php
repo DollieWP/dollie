@@ -123,14 +123,14 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 							</h2>
 						</div>
 						<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
-					<?php
+						<?php
 
-					printf(
-						esc_html__( 'We were unable to launch your new %s on our platform at this time. Our team has been notified and will be looking into this issue immediately. We will reach out to you as soon as we can.', 'dollie-setup' ),
-						dollie()->string_variants()->get_site_type_string()
-					);
+						printf(
+							esc_html__( 'We were unable to launch your new %s on our platform at this time. Our team has been notified and will be looking into this issue immediately. We will reach out to you as soon as we can.', 'dollie-setup' ),
+							dollie()->string_variants()->get_site_type_string()
+						);
 
-					?>
+						?>
 				</p>
 			<?php endif; ?>
 		</div>

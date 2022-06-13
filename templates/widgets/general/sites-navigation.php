@@ -44,7 +44,6 @@ $containers = new WP_Query(
 				continue;
 			}
 
-
 			$domain         = get_post_meta( get_the_ID(), 'wpd_domains', true );
 			$setup_complete = get_post_meta( get_the_ID(), 'wpd_setup_complete', true );
 			$blueprint      = get_post_meta( get_the_ID(), 'wpd_blueprint_created', true );
@@ -67,9 +66,9 @@ $containers = new WP_Query(
 
 			$menu['delete'] = dollie()->icon()->delete() . esc_html__( 'Delete', 'dollie' );
 
-			// if ( dollie()->is_blueprint( get_the_ID() ) ) {
-			// unset( $menu['domains'] );
-			// }
+			if ( $container->is_blueprint() ) {
+				unset( $menu['domains'] );
+			}
 
 			$sub_page = get_query_var( 'sub_page' );
 			$count ++;

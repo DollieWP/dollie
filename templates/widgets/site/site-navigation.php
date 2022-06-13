@@ -6,7 +6,7 @@ if ( ! isset( $container ) ) {
 }
 
 if ( is_wp_error( $container ) ) {
-    return;
+	return;
 }
 
 $layout = $settings['layout'];

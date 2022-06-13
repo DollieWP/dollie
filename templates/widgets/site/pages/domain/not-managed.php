@@ -67,7 +67,7 @@ $routes_active = count(
 			</div>
 		</div>
 
-		<form action="<?php echo get_permalink( get_the_ID() ); ?>" method="post">
+		<form action="<?php echo $container->get_permalink(); ?>" method="post">
 			<button name="remove_route" id="remove_route" type="submit" class="dol-px-4 dol-py-2 dol-bg-red-600 dol-text-white dol-rounded">
 				<?php echo dollie()->icon()->delete(); ?>
 				<?php esc_html_e( 'Remove Domain', 'dollie' ); ?>
