@@ -124,7 +124,7 @@ class Preview extends Singleton {
 					'thumb'       => [
 						'url' => $container->get_screenshot(),
 					],
-					'info'        => $container->get_saved_description(),
+					'info'        => $container->is_blueprint() ? $container->get_saved_description() : '',
 					'preload'     => '0',
 				];
 			} else {
@@ -153,7 +153,7 @@ class Preview extends Singleton {
 						'thumb'       => [
 							'url' => $image,
 						],
-						'info'        => $container->get_saved_description(),
+						'info'        => $container->is_blueprint() ? $container->get_saved_description() : '',
 						'tag'         => 'tag',
 						'year'        => '2022',
 						'preload'     => '0',

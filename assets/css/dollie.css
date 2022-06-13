@@ -1510,13 +1510,12 @@ input[type="text"].dol-search-input:focus {
     outline-offset: 2px; }
 /* List type switch */
 .dol-list-switch, .dol-layout-preview {
-    display: flex;
-    height: 100%;
+    display: block;
     cursor: pointer;
-    align-items: center;
     --tw-bg-opacity: 1;
     background-color: rgb(229 229 229 / var(--tw-bg-opacity));
     padding: 0.75rem;
+    line-height: 1;
     --tw-text-opacity: 1;
     color: rgb(64 64 64 / var(--tw-text-opacity)); }
 .dol-list-switch:hover, .dol-layout-preview:hover {
@@ -2133,9 +2132,6 @@ input[type="text"].dol-search-input:focus {
 .dol-my-4 {
     margin-top: 1rem;
     margin-bottom: 1rem; }
-.dol-mx-3 {
-    margin-left: 0.75rem;
-    margin-right: 0.75rem; }
 .dol-mx-6 {
     margin-left: 1.5rem;
     margin-right: 1.5rem; }
@@ -2252,8 +2248,6 @@ input[type="text"].dol-search-input:focus {
     height: 16rem; }
 .dol-h-10 {
     height: 2.5rem; }
-.dol-h-40 {
-    height: 10rem; }
 .dol-h-4 {
     height: 1rem; }
 .dol-h-5 {
@@ -2288,8 +2282,6 @@ input[type="text"].dol-search-input:focus {
     width: 2.5rem; }
 .dol-w-4 {
     width: 1rem; }
-.dol-w-auto {
-    width: auto; }
 .dol-w-4\/12 {
     width: 33.333333%; }
 .dol-w-8\/12 {
@@ -2312,6 +2304,8 @@ input[type="text"].dol-search-input:focus {
     width: 6rem; }
 .dol-w-6 {
     width: 1.5rem; }
+.dol-w-auto {
+    width: auto; }
 .dol-w-14 {
     width: 3.5rem; }
 .dol-w-48 {
@@ -2437,14 +2431,22 @@ input[type="text"].dol-search-input:focus {
     --tw-space-x-reverse: 0;
     margin-right: calc(1rem * var(--tw-space-x-reverse));
     margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse))); }
-.dol-space-y-1 > :not([hidden]) ~ :not([hidden]) {
+.dol-space-y-4 > :not([hidden]) ~ :not([hidden]) {
     --tw-space-y-reverse: 0;
-    margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
-    margin-bottom: calc(0.25rem * var(--tw-space-y-reverse)); }
+    margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(1rem * var(--tw-space-y-reverse)); }
+.dol-space-y-2 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(0.5rem * var(--tw-space-y-reverse)); }
 .dol-space-x-2 > :not([hidden]) ~ :not([hidden]) {
     --tw-space-x-reverse: 0;
     margin-right: calc(0.5rem * var(--tw-space-x-reverse));
     margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse))); }
+.dol-space-y-1 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-y-reverse: 0;
+    margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
+    margin-bottom: calc(0.25rem * var(--tw-space-y-reverse)); }
 .dol-divide-y > :not([hidden]) ~ :not([hidden]) {
     --tw-divide-y-reverse: 0;
     border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
@@ -3306,10 +3308,16 @@ input[type="text"].dol-search-input:focus {
         justify-content: space-between; }
     .md\:dol-gap-4 {
         gap: 1rem; }
+    .md\:dol-space-y-0 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-y-reverse: 0;
+        margin-top: calc(0px * calc(1 - var(--tw-space-y-reverse)));
+        margin-bottom: calc(0px * var(--tw-space-y-reverse)); }
+    .md\:dol-space-x-4 > :not([hidden]) ~ :not([hidden]) {
+        --tw-space-x-reverse: 0;
+        margin-right: calc(1rem * var(--tw-space-x-reverse));
+        margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse))); }
     .md\:dol-bg-secondary {
         background-color: var(--d-secondary); }
-    .md\:dol-p-10 {
-        padding: 2.5rem; }
     .md\:dol-px-8 {
         padding-left: 2rem;
         padding-right: 2rem; }
@@ -3333,9 +3341,6 @@ input[type="text"].dol-search-input:focus {
     .md\:dol-text-base {
         font-size: 1rem;
         line-height: 1.5rem; }
-    .md\:dol-text-3xl {
-        font-size: 1.875rem;
-        line-height: 2.25rem; }
     .md\:dol-text-white {
         --tw-text-opacity: 1;
         color: rgb(255 255 255 / var(--tw-text-opacity)); }
@@ -3409,8 +3414,6 @@ input[type="text"].dol-search-input:focus {
         border-style: none; }
     .lg\:dol-bg-transparent {
         background-color: transparent; }
-    .lg\:dol-p-20 {
-        padding: 5rem; }
     .lg\:dol-px-8 {
         padding-left: 2rem;
         padding-right: 2rem; }

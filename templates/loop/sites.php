@@ -31,7 +31,7 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 
 <div class="dol-mb-6 dol-widget-site-search">
 	<div class="dol-rounded dol-p-4 dol-bg-white dol-shadow-md">
-		<div class="dol-flex dol-flex-wrap dol-items-center md:dol-justify-between">
+		<div class="dol-flex dol-flex-wrap dol-items-center md:dol-justify-between dol-space-y-4 md:dol-space-y-0">
 			<div class="dol-flex dol-items-center">
 				<div class="dol-check-wrap dol-inline-block">
 					<label class="dol-flex dol-items-center">
@@ -45,33 +45,31 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 				</button>
 			</div>
 
-			<div>
-				<div class="dol-relative dol-w-auto dol-inline-block">
-					<input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full md:dol-w-64"
-						data-list-type="<?php echo esc_attr( $view_type ); ?>"
-						data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>"
-						data-per-page=<?php echo ( isset( $_GET['per_page'] ) ? esc_attr( $_GET['per_page'] ) : '' ); ?>
-						data-search-term=""
-						placeholder="<?php printf( esc_html__( 'Search for a %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?>">
-				</div>
-
-				<div class="dol-mx-3 dol-inline-block">
-					<span data-modal-id="dol-modal-id-filters" class="dol-open-modal dol-p-3 dol-m-0 dol-bg-gray-200 hover:dol-bg-gray-300 dol-text-gray-700 dol-flex dol-items-center dol-cursor-pointer">
+			<div class="dol-flex dol-flex-wrap dol-items-center dol-space-y-2 md:dol-space-y-0 md:dol-space-x-4">
+				<div class="dol-flex dol-items-center dol-space-x-2">
+					<div class="dol-relative">
+						<div class="dol-absolute dol-h-full dol-flex dol-items-center dol-px-3"><?php echo dollie()->icon()->search( 'dol-text-gray-500' ); ?></div>
+						<input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full md:dol-w-64"
+							data-list-type="<?php echo esc_attr( $view_type ); ?>"
+							data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>"
+							data-per-page="<?php echo ( isset( $_GET['per_page'] ) ? esc_attr( $_GET['per_page'] ) : '' ); ?>"
+							data-search-term=""
+							placeholder="<?php printf( esc_html__( 'Search for a %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?>">
+					</div>
+					<span data-modal-id="dol-modal-id-filters" class="dol-open-modal dol-p-3 dol-m-0 dol-bg-gray-200 hover:dol-bg-gray-300 dol-text-gray-700 dol-block dol-cursor-pointer">
 						<?php echo dollie()->icon()->filter(); ?>
 					</span>
 				</div>
 
-				<div class="dol-inline-flex dol-items-center dol-rounded dol-overflow-hidden dol-mb-4 md:dol-mb-0 dol-h-10 md:dol-h-auto">
-					<span data-tooltip="<?php printf( esc_html__( 'Show your %s in the List View', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-list-switch dol-inline-flex <?php echo esc_attr( $list_btn_active ); ?>" data-list-type="list">
+				<div class="dol-flex dol-items-center dol-rounded dol-overflow-hidden">
+					<span data-tooltip="<?php printf( esc_html__( 'Show your %s in the List View', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-list-switch <?php echo esc_attr( $list_btn_active ); ?>" data-list-type="list">
 						<?php echo dollie()->icon()->list(); ?>
 					</span>
-					<span data-tooltip="<?php printf( esc_html__( 'Show your %s in the Grid View', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-list-switch dol-inline-flex <?php echo esc_attr( $grid_btn_active ); ?>" data-list-type="grid">
+					<span data-tooltip="<?php printf( esc_html__( 'Show your %s in the Grid View', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-list-switch <?php echo esc_attr( $grid_btn_active ); ?>" data-list-type="grid">
 						<?php echo dollie()->icon()->grid(); ?>
 					</span>
-					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=my-sites">
-						<span data-tooltip="<?php printf( esc_html__( 'Show Your %s using the Live Preview Bar', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-layout-preview dol-inline-flex dol-preview-bar-layout" data-list-type="layout">
-							<?php echo dollie()->icon()->preview(); ?>
-						</span>
+					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=my-sites" data-tooltip="<?php printf( esc_html__( 'Show Your %s using the Live Preview Bar', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-layout-preview dol-preview-bar-layout">
+						<?php echo dollie()->icon()->preview(); ?>
 					</a>
 				</div>
 			</div>
@@ -303,44 +301,44 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 				?>
 		</div>
 	<?php else : ?>
-		<div class="dol-flex dol-items-center dol-justify-center">
+		<div class="dol-flex dol-flex-col dol-items-center dol-justify-center">
 			<div class="dol-text-2xl dol-text-ash-600">
-			<?php printf( esc_html__( 'No %s Found', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>
+				<?php printf( esc_html__( 'No %s Found', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>
+			</div>
 
 			<?php if ( ! isset( $_GET['blueprints'] ) && ! $_GET['blueprints'] ) : ?>
-				<br>
-				<a href="<?php echo esc_html( dollie()->page()->get_launch_url() ); ?>"
-					class="dol-btn dol-bg-secondary dol-text-white dol-mt-3">
-					<span class="dol-inline-block dol-text-center dol-pr-2">
-						<?php echo dollie()->icon()->launch(); ?>
-					</span>
-					<?php echo esc_html( dollie()->page()->get_launch_title() ); ?>
-				</a>
+				<div class="dol-my-4">
+					<a href="<?php echo esc_html( dollie()->page()->get_launch_url() ); ?>"
+						class="dol-btn dol-bg-secondary dol-text-white dol-mt-3">
+						<span class="dol-inline-block dol-text-center dol-pr-2">
+							<?php echo dollie()->icon()->launch(); ?>
+						</span>
+						<?php echo esc_html( dollie()->page()->get_launch_title() ); ?>
+					</a>
+				</div>
 			<?php else : ?>
 				<div class="dol-my-4">
 				<?php
-				dollie()->load_template(
-					'notice',
-					[
-						'type'         => 'info',
-						'icon'         => 'fas fa-copy',
-						'title'        => __( 'You have no Blueprints yet!', 'dollie' ),
-						'message'      => __(
-							sprintf(
-								'Blueprints allow you to create beautiful pre-made websites for your customers they can launch with the click of a button. <br><br><a href="%s">Launch Your First Blueprint</a>',
-								dollie()->page()->get_launch_blueprint_url()
+					dollie()->load_template(
+						'notice',
+						[
+							'type'         => 'info',
+							'icon'         => 'fas fa-copy',
+							'title'        => __( 'You have no Blueprints yet!', 'dollie' ),
+							'message'      => __(
+								sprintf(
+									'Blueprints allow you to create beautiful pre-made websites for your customers they can launch with the click of a button. <br><br><a href="%s">Launch Your First Blueprint</a>',
+									dollie()->page()->get_launch_blueprint_url()
+								),
+								'dollie'
 							),
-							'dollie'
-						),
-						'bottom_space' => true,
-					],
-					true
-				);
+							'bottom_space' => true,
+						],
+						true
+					);
 				?>
+				</div>
 			<?php endif; ?>
-			</div>
-
-			</div>
 		</div>
 	<?php endif; ?>
 </div>

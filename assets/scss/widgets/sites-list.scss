@@ -17,7 +17,7 @@
   /* List type switch */
   .dol-list-switch,
   .dol-layout-preview {
-    @apply dol-h-full dol-p-3 dol-bg-gray-200 dol-text-gray-700 dol-flex dol-items-center dol-cursor-pointer;
+    @apply dol-block dol-p-3 dol-bg-gray-200 dol-text-gray-700 dol-cursor-pointer dol-leading-none;
 
     &:hover {
       @apply dol-bg-gray-300;
