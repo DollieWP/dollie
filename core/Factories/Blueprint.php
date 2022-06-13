@@ -68,11 +68,7 @@ final class Blueprint extends BaseContainer {
 	 * @return boolean|array
 	 */
 	public function perform_action( string $action ) {
-		$action = $this->perform_blueprint_action( $this->get_hash(), $action );
-
-		$this->after_status_change_event();
-
-		return $action;
+		return $this->perform_blueprint_action( $this->get_hash(), $action );
 	}
 
 	/**
@@ -108,6 +104,12 @@ final class Blueprint extends BaseContainer {
 		}
 
 		parent::delete();
+
+		return true;
+	}
+
+	public function restore() {
+		parent::restore();
 
 		return true;
 	}

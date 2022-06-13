@@ -993,59 +993,28 @@ abstract class BaseContainer implements ConstInterface {
 		return new User( $this->get_author_id() );
 	}
 
-	public function after_status_change_event() {
-		// if ( self::ACTION_START === $action ) {
-		// $container->remove_undeploy_schedule();
-		// delete_post_meta( $post_id, 'wpd_stop_container_at' );
-
-		// Update the site status so it counts as an active site.
-		// wp_update_post(
-		// [
-		// 'ID'          => $post_id,
-		// 'post_status' => 'publish',
-		// ]
-		// );
-
-		// Log::add_front( Log::WP_SITE_STARTED, $current_query, $site );
-		// } elseif ( 'stop' === $action ) {
-		// Get today's timestamp.
-		// $today        = mktime( 0, 0, 0, date( 'm' ), date( 'd' ), date( 'Y' ) );
-		// $trigger_date = get_post_meta( $post_id, 'wpd_stop_container_at', true );
-
-		// If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
-		// if ( ( $trigger_date && $trigger_date < $today ) || ! $trigger_date ) {
-		// $delay_in_days = 7;
-
-		// Calculate the "remove" date and set it 3 days into the future.
-		// $trigger_date = mktime( 0, 0, 0, date( 'm' ), date( 'd' ) + $delay_in_days, date( 'Y' ) );
-		// $this->set_status( $post_id, 'stopped' );
-		// update_post_meta( $post_id, 'wpd_scheduled_for_undeployment', 'yes' );
-		// update_post_meta( $post_id, 'wpd_undeploy_container_at', $trigger_date );
-		// }
-
-		// Log::add_front( Log::WP_SITE_REMOVAL_SCHEDULED, $current_query, $site );
-		// } elseif ( 'undeploy' === $action ) {
-		// delete_post_meta( $post_id, 'wpd_stop_container_at' );
-		// delete_post_meta( $post_id, 'wpd_scheduled_for_removal' );
-		// delete_post_meta( $post_id, 'wpd_undeploy_container_at' );
-		// delete_post_meta( $post_id, 'wpd_scheduled_for_undeployment' );
-
-		// Log::add_front( Log::WP_SITE_UNDEPLOYED, $current_query, $site );
-		// }
-
-		// $this->set_status( $post_id, $action );
-		// Log::add( $site . ' status changed to: ' . $action );
-	}
-
 	/**
-	 * Delete post
+	 * Delete
 	 *
-	 * @return boolean|null
+	 * @return void
 	 */
 	protected function delete() {
 		$this->set_details(
 			[
 				'deleted_at' => current_time( 'timestamp' ),
+			]
+		);
+	}
+
+	/**
+	 * Restore
+	 *
+	 * @return void
+	 */
+	protected function restore() {
+		$this->set_details(
+			[
+				'deleted_at' => '',
 			]
 		);
 	}

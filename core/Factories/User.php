@@ -66,6 +66,29 @@ final class User {
 	}
 
 	/**
+	 * Update meta
+	 *
+	 * @param string $key
+	 * @param $value
+	 *
+	 * @return mixed
+	 */
+	public function set_meta( string $key, $value ): mixed {
+		return update_user_meta( $this->user->ID, $key, $value );
+	}
+
+	/**
+	 * Delete meta
+	 *
+	 * @param string $key
+	 *
+	 * @return boolean
+	 */
+	public function delete_meta( string $key ): bool {
+		return delete_user_meta( $this->user->ID, $key );
+	}
+
+	/**
 	 * Check if can manage options
 	 *
 	 * @return boolean
@@ -170,5 +193,65 @@ final class User {
 		wp_reset_postdata();
 
 		return $query->found_posts;
+	}
+
+	/**
+	 * Check if user should have his containers deleted
+	 *
+	 * @return boolean
+	 */
+	public function should_have_containers_deleted() {
+		if ( ! $this->get_meta( 'wpd_stop_container_at' ) ) {
+			return false;
+		}
+
+		return $this->get_meta( 'wpd_stop_container_at' ) < current_time( 'timestamp' );
+	}
+
+	/**
+	 * Delete or restore containers
+	 *
+	 * @param [type] $has_subscription
+	 * @return void
+	 */
+	public function delete_or_restore_containers( $has_subscription ) {
+		$this->set_meta( 'wpd_active_subscription', $has_subscription ? 'yes' : 'no' );
+
+		if ( ! $has_subscription ) {
+			if ( ! $this->get_meta( 'wpd_stop_container_at' ) ) {
+				$this->set_meta( 'wpd_stop_container_at', current_time( 'timestamp' ) + 3 * 86400 );
+			}
+		} else {
+			$this->delete_meta( 'wpd_stop_container_at' );
+		}
+
+		// Instantiate custom query.
+		$query = new \WP_Query(
+			[
+				'author'         => $this->user->ID,
+				'post_type'      => 'container',
+				'posts_per_page' => - 1,
+			]
+		);
+
+		$posts = $query->get_posts();
+
+		// Output custom query loop.
+		foreach ( $posts as $post ) {
+			$container = dollie()->get_container( $post );
+
+			if ( is_wp_error( $container ) ) {
+				continue;
+			}
+
+			if ( ! $container->is_scheduled_for_deletion() && $this->should_have_containers_deleted() && ! $has_subscription ) {
+				$container->delete();
+			} elseif ( $container->is_scheduled_for_deletion() && ! $this->should_have_containers_deleted() && $has_subscription ) {
+				$container->restore();
+			}
+		}
+
+		wp_reset_postdata();
+		wp_reset_query();
 	}
 }

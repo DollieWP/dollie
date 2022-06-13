@@ -27,8 +27,7 @@ class CustomerSubscriptionCheckJob extends Singleton {
 		add_action( 'init', [ $this, 'init_recurring_tasks' ] );
 
 		add_action( 'dollie/jobs/recurring/subscription_check', [ $this, 'run_subscription_check' ], 10 );
-		add_action( 'dollie/jobs/recurring/stop_sites', [ $this, 'run_stop_sites' ], 10 );
-		add_action( 'dollie/jobs/recurring/undeploy_sites', [ $this, 'run_undeploy_sites' ], 10 );
+		add_action( 'dollie/jobs/recurring/remove_container_posts', [ $this, 'remove_deleted_container_posts' ], 10 );
 		add_action( 'dollie/jobs/recurring/email_digest', [ $this, 'run_email_digest' ], 10 );
 
 		add_action( 'trashed_post', [ $this, 'do_not_schedule_post_types' ] );
@@ -42,11 +41,7 @@ class CustomerSubscriptionCheckJob extends Singleton {
 			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/subscription_check' );
 		}
 
-		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/stop_sites' ) ) {
-			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/stop_sites' );
-		}
-
-		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/undeploy_sites' ) ) {
+		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/remove_container_posts' ) ) {
 			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/undeploy_sites' );
 		}
 
@@ -73,19 +68,19 @@ class CustomerSubscriptionCheckJob extends Singleton {
 		// The User Loop.
 		if ( ! empty( $query->results ) ) {
 			foreach ( $query->results as $customer ) {
-
-				// Subscription Checking.
 				$has_subscription = Subscription::instance()->get_customer_subscriptions( 'active', $customer->ID );
-
-				$status = $has_subscription ? 'yes' : 'no';
-				$cron   = $has_subscription ? 'unschedule' : 'schedule';
 
 				if ( ! $has_subscription ) {
 					Log::add( $customer->ID . ' has no active Dollie subscription.' );
 				}
 
-				update_user_meta( $customer->ID, 'wpd_active_subscription', $status );
-				$this->add_single_customer_action_cron( $customer->ID, $cron );
+				$user = dollie()->get_user( $customer->ID );
+
+				if ( is_wp_error( $user ) ) {
+					continue;
+				}
+
+				$user->delete_or_restore_containers( $has_subscription );
 			}
 		}
 
@@ -93,39 +88,19 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	}
 
 	/**
-	 * Single action cron
-	 *
-	 * @param $customer_id
-	 * @param $type
+	 * Delete undeployed containers posts
 	 */
-	public function add_single_customer_action_cron( $customer_id, $type ) {
-		if ( get_option( 'wpd_charge_for_deployments' ) !== '1' ) {
-			return;
-		}
-		// Number of days we want to wait with stopping of container.
-		$delay_in_days = 3;
-
-		// Calculate the "stop" date and set it 7 days into the future.
-		$trigger_date = mktime( 0, 0, 0, date( 'm' ), date( 'd' ) + $delay_in_days, date( 'Y' ) );
-
-		if ( 'schedule' === $type ) {
-
-			// set "stop" date and save as user meta.
-			update_user_meta( $customer_id, 'wpd_stop_container_at', $trigger_date );
-		}
-
-		// Instantiate custom query.
+	public function remove_deleted_container_posts() {
 		$query = new WP_Query(
 			[
-				'author'         => $customer_id,
 				'post_type'      => 'container',
+				'post_status'    => [ 'draft', 'trash', 'publish' ],
 				'posts_per_page' => - 1,
 			]
 		);
 
 		$posts = $query->get_posts();
 
-		// Output custom query loop.
 		foreach ( $posts as $post ) {
 			$container = dollie()->get_container( $post );
 
@@ -133,89 +108,16 @@ class CustomerSubscriptionCheckJob extends Singleton {
 				continue;
 			}
 
-			$stop_time = get_post_meta( get_the_ID(), 'wpd_stop_container_at', true );
+			$deleted_at = $container->get_details( 'deleted_at' );
 
-			if ( 'schedule' === $type ) {
-				// Set a stop time for the container if customer subscription(s) are cancelled.
-				if ( empty( $stop_time ) ) {
-					update_post_meta( get_the_ID(), 'wpd_stop_container_at', $trigger_date, true );
-				}
-
-				update_post_meta( get_the_ID(), 'wpd_scheduled_for_removal', 'yes' );
-				// Log::add_front( Log::WP_SITE_REMOVAL_SCHEDULED, dollie()->get_current_object( get_the_ID() ), get_the_title( get_the_ID() ) );
-			} else {
-				// Start the containers that were stopped via S5 API.
-				$container->perform_action( 'stop' );
+			if ( is_wp_error( $deleted_at ) || empty( $deleted_at ) ) {
+				continue;
 			}
-		}
 
-		wp_reset_postdata();
-		wp_reset_query();
+			$deleted_at += 5 * 86400;
 
-		// TODO = Also trigger a Slack/Email to notify our team. Just so we don't get surprised about unwanted downtime of containers.
-	}
-
-	/**
-	 * Stop customer container if he has no active subscription
-	 *
-	 * @param null $id
-	 */
-	public function run_stop_sites() {
-		$query_args = [
-			'post_type'      => 'container',
-			'posts_per_page' => - 1,
-			'post_status'    => 'publish',
-			'meta_key'       => 'wpd_scheduled_for_removal',
-			'meta_value'     => 'yes',
-		];
-
-		// Instantiate custom query.
-		$query = new WP_Query( $query_args );
-
-		if ( $query->have_posts() ) {
-			while ( $query->have_posts() ) {
-				$query->the_post();
-				// Get today's timestamp.
-				$today        = mktime( 0, 0, 0, date( 'm' ), date( 'd' ), date( 'Y' ) );
-				$trigger_date = get_post_meta( get_the_ID(), 'wpd_stop_container_at', true );
-
-				// If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
-				if ( $trigger_date < $today ) {
-					wp_trash_post( get_the_ID() );
-				}
-			}
-		}
-
-		wp_reset_postdata();
-		wp_reset_query();
-	}
-
-	/**
-	 * Undeploy customer's container if he has no active subscription
-	 */
-	public function run_undeploy_sites() {
-		$query = new WP_Query(
-			[
-				'post_type'      => 'container',
-				'post_status'    => [ 'draft', 'trash' ],
-				'posts_per_page' => - 1,
-				'meta_key'       => 'wpd_scheduled_for_undeployment',
-				'meta_value'     => 'yes',
-			]
-		);
-
-		if ( $query->have_posts() ) {
-			while ( $query->have_posts() ) {
-				$query->the_post();
-				// Get today's timestamp.
-				$today        = mktime( 0, 0, 0, date( 'm' ), date( 'd' ), date( 'Y' ) );
-				$trigger_date = get_post_meta( get_the_ID(), 'wpd_undeploy_container_at', true );
-
-				// If our "stop" time has passed our current time, it's time to flip the switch and stop the container.
-				if ( $trigger_date < $today ) {
-
-					wp_delete_post( get_the_ID(), true );
-				}
+			if ( $deleted_at < current_time( 'timestamp' ) ) {
+				wp_delete_post( get_the_ID(), true );
 			}
 		}
 
@@ -287,25 +189,29 @@ class CustomerSubscriptionCheckJob extends Singleton {
 			]
 		);
 
+		$posts = $query->get_posts();
+
 		ob_start();
 
-		if ( $query->have_posts() ) {
-			while ( $query->have_posts() ) {
-				$query->the_post();
+		foreach ( $posts as $post ) {
+			$container = dollie()->get_container( $post );
 
-				$slug      = get_post_field( 'post_name', get_the_ID() );
-				$undeploy  = get_post_meta( get_the_ID(), 'wpd_stop_container_at', true );
-				$url       = dollie()->get_wp_site_data( 'uri', get_the_ID() );
-				$domain    = get_post_meta( get_the_ID(), 'wpd_domains', true );
-				$author_id = get_the_author_meta( 'ID' );
-				?>
-				<a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
-						href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be stopped at
-				<strong><?php echo date( 'F j, Y', $undeploy ); ?></strong> <a
-						href="<?php echo get_edit_post_link( get_the_ID() ); ?>">View Container</a>
-				<br>
-				<?php
+			if ( is_wp_error( $container ) ) {
+				continue;
 			}
+
+			$slug      = get_post_field( 'post_name', get_the_ID() );
+			$undeploy  = get_post_meta( get_the_ID(), 'wpd_stop_container_at', true );
+			$url       = dollie()->get_wp_site_data( 'uri', get_the_ID() );
+			$domain    = get_post_meta( get_the_ID(), 'wpd_domains', true );
+			$author_id = get_the_author_meta( 'ID' );
+			?>
+			<a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
+					href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be stopped at
+			<strong><?php echo date( 'F j, Y', $undeploy ); ?></strong> <a
+					href="<?php echo get_edit_post_link( get_the_ID() ); ?>">View Container</a>
+			<br>
+			<?php
 		}
 
 		wp_reset_postdata();
@@ -331,24 +237,28 @@ class CustomerSubscriptionCheckJob extends Singleton {
 			]
 		);
 
-		ob_start();
-		// Output custom query loop.
-		if ( $query->have_posts() ) {
-			while ( $query->have_posts() ) {
-				$query->the_post();
+		$posts = $query->get_posts();
 
-				$slug      = get_post_field( 'post_name', get_the_ID() );
-				$undeploy  = get_post_meta( get_the_ID(), 'wpd_undeploy_container_at', true );
-				$url       = dollie()->get_wp_site_data( 'uri', get_the_ID() );
-				$domain    = get_post_meta( get_the_ID(), 'wpd_domains', true );
-				$author_id = get_the_author_meta( 'ID' );
-				?>
-				<a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
-						href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be undeployed on
-				<strong><?php echo date( 'F j, Y', $undeploy ); ?></strong>
-				<br>
-				<?php
+		ob_start();
+
+		foreach ( $posts as $post ) {
+			$container = dollie()->get_container( $post );
+
+			if ( is_wp_error( $container ) ) {
+				continue;
 			}
+
+			$slug      = get_post_field( 'post_name', get_the_ID() );
+			$undeploy  = get_post_meta( get_the_ID(), 'wpd_undeploy_container_at', true );
+			$url       = dollie()->get_wp_site_data( 'uri', get_the_ID() );
+			$domain    = get_post_meta( get_the_ID(), 'wpd_domains', true );
+			$author_id = get_the_author_meta( 'ID' );
+			?>
+			<a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
+					href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be undeployed on
+			<strong><?php echo date( 'F j, Y', $undeploy ); ?></strong>
+			<br>
+			<?php
 		}
 
 		wp_reset_postdata();

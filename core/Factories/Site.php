@@ -78,11 +78,7 @@ final class Site extends BaseContainer {
 	 * @return \WP_Error|array
 	 */
 	public function perform_action( string $action ) {
-		$action = $this->perform_site_action( $this->get_hash(), $action );
-
-		$this->after_status_change_event();
-
-		return $action;
+		return $this->perform_site_action( $this->get_hash(), $action );
 	}
 
 	/**
@@ -109,6 +105,12 @@ final class Site extends BaseContainer {
 		}
 
 		parent::delete();
+
+		return true;
+	}
+
+	public function restore() {
+		parent::restore();
 
 		return true;
 	}

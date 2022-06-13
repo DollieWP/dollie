@@ -68,11 +68,7 @@ final class Staging extends BaseContainer {
 	 * @return boolean|array
 	 */
 	public function perform_action( string $action ) {
-		$action = $this->perform_staging_action( $this->get_hash(), $action );
-
-		$this->after_status_change_event();
-
-		return $action;
+		return $this->perform_staging_action( $this->get_hash(), $action );
 	}
 
 	/**
@@ -97,6 +93,12 @@ final class Staging extends BaseContainer {
 		}
 
 		parent::delete();
+
+		return true;
+	}
+
+	public function restore() {
+		parent::restore();
 
 		return true;
 	}

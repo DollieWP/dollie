@@ -1,3 +1,5 @@
+<?php return; ?>
+
 <div id="dol-staging-panel">
 	<?php
 
