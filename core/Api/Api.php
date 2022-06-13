@@ -99,6 +99,41 @@ trait Api {
 	}
 
 	/**
+	 * Put request
+	 *
+	 * @param string $endpoint
+	 * @param array  $data
+	 *
+	 * @return \WP_Error|array
+	 */
+	public function put_request( string $endpoint = '', array $data = [] ) {
+		do_action( "dollie/api/{$endpoint}/before", 'put', $data );
+
+		$this->last_call = $endpoint;
+
+		$response = $this->process_request(
+			wp_remote_request(
+				$this->api_url . $endpoint,
+				[
+					'method'  => 'PUT',
+					'timeout' => $this->request_timeout,
+					'body'    => $data,
+					'headers' => [
+						'Accept'        => 'application/json',
+						'Authorization' => AuthService::instance()->get_token(),
+					],
+				]
+			)
+		);
+
+		$response = apply_filters( 'dollie/api/after/post', $response, $endpoint, $data );
+
+		do_action( "dollie/api/{$endpoint}/after", 'put', $response, $data );
+
+		return $response;
+	}
+
+	/**
 	 * Delete request
 	 *
 	 * @param string $endpoint

@@ -96,19 +96,34 @@ final class Blueprint extends BaseContainer {
 	 *
 	 * @return boolean
 	 */
-	public function delete() {
-		$deleted = $this->delete_blueprint( $this->get_hash() );
+	public function delete(): bool {
+		$status = $this->delete_blueprint( $this->get_hash() );
 
-		if ( is_wp_error( $deleted ) ) {
+		if ( is_wp_error( $status ) ) {
 			return false;
 		}
+
+		$this->set_details( $status );
 
 		parent::delete();
 
 		return true;
 	}
 
-	public function restore() {
+	/**
+	 * Restore
+	 *
+	 * @return bool
+	 */
+	public function restore(): bool {
+		$status = $this->restore_blueprint( $this->get_hash() );
+
+		if ( is_wp_error( $status ) ) {
+			return false;
+		}
+
+		$this->set_details( $status );
+
 		parent::restore();
 
 		return true;

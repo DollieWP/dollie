@@ -84,4 +84,15 @@ trait BlueprintApi {
 	public function delete_blueprint( string $container_hash ) {
 		return $this->delete_request( "blueprints/{$container_hash}" );
 	}
+
+	/**
+	 * Restore
+	 *
+	 * @param string $container_hash
+	 *
+	 * @return \WP_Error|array
+	 */
+	public function restore_blueprint( string $container_hash ) {
+		return $this->put_request( "blueprints/$container_hash" );
+	}
 }

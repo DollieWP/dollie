@@ -85,19 +85,34 @@ final class Staging extends BaseContainer {
 	 *
 	 * @return boolean
 	 */
-	public function delete() {
-		$deleted = $this->delete_staging( $this->get_hash() );
+	public function delete(): bool {
+		$status = $this->delete_staging( $this->get_hash() );
 
-		if ( is_wp_error( $deleted ) ) {
+		if ( is_wp_error( $status ) ) {
 			return false;
 		}
+
+		$this->set_details( $status );
 
 		parent::delete();
 
 		return true;
 	}
 
-	public function restore() {
+	/**
+	 * Restore
+	 *
+	 * @return bool
+	 */
+	public function restore(): bool {
+		$status = $this->restore_staging( $this->get_hash() );
+
+		if ( is_wp_error( $status ) ) {
+			return false;
+		}
+
+		$this->set_details( $status );
+
 		parent::restore();
 
 		return true;

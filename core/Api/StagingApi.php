@@ -71,4 +71,15 @@ trait StagingApi {
 	public function delete_staging( string $container_hash ) {
 		return $this->delete_request( "stagings/$container_hash" );
 	}
+
+	/**
+	 * Restore
+	 *
+	 * @param string $container_hash
+	 *
+	 * @return \WP_Error|array
+	 */
+	public function restore_staging( string $container_hash ) {
+		return $this->put_request( "stagings/$container_hash" );
+	}
 }

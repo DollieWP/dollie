@@ -72,4 +72,15 @@ trait SiteApi {
 	public function delete_site( string $container_hash ) {
 		return $this->delete_request( "sites/$container_hash" );
 	}
+
+	/**
+	 * Restore
+	 *
+	 * @param string $container_hash
+	 *
+	 * @return \WP_Error|array
+	 */
+	public function restore_site( string $container_hash ) {
+		return $this->put_request( "sites/$container_hash" );
+	}
 }
