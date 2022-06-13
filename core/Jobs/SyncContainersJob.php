@@ -137,6 +137,7 @@ class SyncContainersJob extends Singleton {
 						'post_author' => $author,
 						'meta_input'  => [
 							'dollie_container_type' => $fetched_container['type'],
+							'dollie_container_deployed' => 1,
 						],
 					]
 				);

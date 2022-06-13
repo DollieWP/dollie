@@ -548,7 +548,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'hide_admin'        => 0,
 					'message'           => __(
 						'<h3>Please read the guide before you continue.</h3><br>
-            Follow along with the <a target="_blank" href="https://partners.getdollie.com/?redirect=knowledge-base/domain-setup/">Domain Setup Guide</a> in the partner dashboard to have your domain added in no time, without any hassle.',
+            Follow along with the <a target="_blank" href="https://dashboard.getdollie.com/?redirect=knowledge-base/domain-setup/">Domain Setup Guide</a> in the partner dashboard to have your domain added in no time, without any hassle.',
 						'dollie'
 					),
 					'new_lines'         => 'wpautop',

@@ -8,7 +8,7 @@ if ( get_option( 'wpd_onboarding_migrate_site_url') ) {
 	$migration_location =  get_option( 'wpd_onboarding_migrate_site_url', true);
 	$migration_site = '<strong>' . get_option( 'wpd_onboarding_migrate_site_url', true) .'</strong>';
 } else {
-	$migration_location = 'current WordPress install';
+	$migration_location = 'your existing WordPress site';
 	$migration_site = 'the <strong>site you would like to migrate</strong> (i.e yoursite.com)';
 }
 

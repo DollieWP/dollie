@@ -668,7 +668,7 @@ msgstr ""
 #: core/Extras/AcfFields.php:549
 msgid ""
 "<h3>Please read the guide before you continue.</h3><br>\n"
-"            Follow along with the <a target=\"_blank\" href=\"https://partners.getdollie.com/?redirect=knowledge-base/domain-setup/\">Domain Setup Guide</a> in the partner dashboard to have your domain added in no time, without any hassle."
+"            Follow along with the <a target=\"_blank\" href=\"https://dashboard.getdollie.com/?redirect=knowledge-base/domain-setup/\">Domain Setup Guide</a> in the partner dashboard to have your domain added in no time, without any hassle."
 msgstr ""
 
 #: core/Extras/AcfFields.php:559
@@ -2569,7 +2569,7 @@ msgid "settings"
 msgstr ""
 
 #: templates/widgets/site/site-content.php:90
-msgid "Finally you can also check the Dollie Logs or reach out to the Dollie Support team via the <a class=\"text-white\" href=\"https://partners.getdollie.com\">Partner Dashboard</a>"
+msgid "Finally you can also check the Dollie Logs or reach out to the Dollie Support team via the <a class=\"text-white\" href=\"https://dashboard.getdollie.com\">Partner Dashboard</a>"
 msgstr ""
 
 #: templates/widgets/site/site-content.php:28

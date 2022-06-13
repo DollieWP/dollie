@@ -19,7 +19,7 @@ $first_name = $user->first_name;
 							 This is where you build your own white-labeled platform for your customers. Follow our recommended steps below and you'll be sellng your services in no time!
 					</p>
 					<div class="dol-flex dol-mt-3 sm:dol-mt-0">
-					<a target="_blank" href="https://partners.getdollie.com" class="">Visit Dollie Cloud Dashboard</a>
+					<a target="_blank" href="https://dashboard.getdollie.com" class="">Visit Dollie Cloud Dashboard</a>
 				</div>
 					</div>
 				</div>
