@@ -428,26 +428,7 @@ final class Container extends Singleton implements ConstInterface {
 			);
 
 			$wp_admin_bar->add_menu(
-<<<<<<< HEAD
-				[
-					'parent' => 'dwb-hosted',
-					'title'  => esc_html__( 'Manage Your Site', 'dollie' ),
-					'id'     => 'dab-hosted-manage',
-					'href'   => 'https://partners.getdollie.com/?redirect=dollie-site-redirect',
-					'meta'   => [ 'target' => '_blank' ],
-				]
-			);
 
-			$wp_admin_bar->add_menu(
-				[
-					'parent' => 'dwb-hosted',
-					'title'  => esc_html__( 'View Documentation', 'dollie' ),
-					'id'     => 'dab-hosted-docs',
-					'href'   => 'https://partners.getdollie.com/?redirect=knowledge-base',
-					'meta'   => [ 'target' => '_blank' ],
-				]
-			);
-=======
 						[
 							'parent' => 'dwb-hosted',
 							'title'  => esc_html__( 'Manage Your Site', 'dollie' ),
@@ -466,7 +447,6 @@ final class Container extends Singleton implements ConstInterface {
 							'meta'   => [ 'target' => '_blank' ],
 						]
 					);
->>>>>>> Rename partners to dashboard
 
 			$wp_admin_bar->add_menu(
 				[
