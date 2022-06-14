@@ -27,12 +27,12 @@ define( 'DOLLIE_MODULE_TPL_PATH', DOLLIE_PATH . 'templates/' );
 define( 'DOLLIE_ASSETS_URL', DOLLIE_URL . 'assets/' );
 define( 'DOLLIE_WIDGETS_PATH', DOLLIE_CORE_PATH . 'Widgets/' );
 
-if ( ! defined( 'DOLLIE_DEV' ) ) {
-	define( 'DOLLIE_API_URL', 'https://api.getdollie.com/api/' );
+if ( ! defined( 'DOLLIE_API_URL' ) ) {
+	define( 'DOLLIE_API_URL', 'https://manager.getdollie.com/api/' );
 }
 
-if ( ! defined( 'DOLLIE_DEV' ) ) {
-	define( 'DOLLIE_PARTNERS_URL', 'https://dashboard.getdollie.com/' );
+if ( ! defined( 'DOLLIE_PARTNERS_URL' ) ) {
+	define( 'DOLLIE_PARTNERS_URL', 'https://partners.getdollie.com/' );
 }
 
 define( 'DOLLIE_BLUEPRINTS_COOKIE', 'dollie_blueprint_id' );
