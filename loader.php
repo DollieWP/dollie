@@ -28,11 +28,11 @@ define( 'DOLLIE_ASSETS_URL', DOLLIE_URL . 'assets/' );
 define( 'DOLLIE_WIDGETS_PATH', DOLLIE_CORE_PATH . 'Widgets/' );
 
 if ( ! defined( 'DOLLIE_DEV' ) ) {
-	define( 'DOLLIE_API_URL', 'https://api.getdollie.com/api/' );
+	define( 'DOLLIE_API_URL', 'https://manager.getdollie.com/api/' );
 }
 
 if ( ! defined( 'DOLLIE_DEV' ) ) {
-	define( 'DOLLIE_PARTNERS_URL', 'https://dashboard.getdollie.com/' );
+	define( 'DOLLIE_PARTNERS_URL', 'https://partners.getdollie.com/' );
 }
 
 define( 'DOLLIE_BLUEPRINTS_COOKIE', 'dollie_blueprint_id' );
