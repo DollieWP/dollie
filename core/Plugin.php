@@ -137,9 +137,9 @@ class Plugin extends Singleton {
 	 * Initialize modules and shortcodes
 	 */
 	public function initialize() {
-
 		// Disable Elementor Onboarding
 		update_option( 'elementor_onboarded', true );
+
 		// Load elementor hooks.
 		Elementor\Hooks::instance();
 

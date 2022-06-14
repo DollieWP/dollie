@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Log;
 use Dollie\Core\Api\SiteApi;
 use Dollie\Core\Api\BlueprintApi;
 use Dollie\Core\Api\StagingApi;
@@ -32,6 +31,7 @@ class SyncContainersJob extends Singleton {
 
 		add_action( 'dollie/jobs/single/sync_containers', [ $this, 'run' ], 10 );
 		add_action( 'dollie/jobs/recurring/sync_containers', [ $this, 'run' ], 10 );
+		add_action( 'admin_init', [ $this, 'sync_containers' ] );
 	}
 
 	/**
@@ -41,6 +41,17 @@ class SyncContainersJob extends Singleton {
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/sync_containers' ) ) {
 			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/sync_containers' );
 		}
+	}
+
+	/**
+	 * Sync with query string
+	 */
+	public function sync_containers() {
+		if ( ! isset( $_GET['dollie-sync-containers'] ) ) {
+			return;
+		}
+
+		$this->run();
 	}
 
 	/**
@@ -136,7 +147,7 @@ class SyncContainersJob extends Singleton {
 						'post_title'  => $post_name,
 						'post_author' => $author,
 						'meta_input'  => [
-							'dollie_container_type' => $fetched_container['type'],
+							'dollie_container_type'     => $fetched_container['type'],
 							'dollie_container_deployed' => 1,
 						],
 					]
