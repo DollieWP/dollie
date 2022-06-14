@@ -65,10 +65,7 @@ if ( ! isset( $container ) ) {
 	</div>
 	<div class="dol-w-full dol-overflow-hidden">
 
-		<?php
-		print("<pre>".print_r($container->get_details(),true)."</pre>");
-		foreach (
-			$container->get_themes() as $theme ) : ?>
+		<?php foreach ( $container->get_themes() as $theme ) : ?>
 			<div class="dol-w-full dol-flex dol-flex-wrap dol-items-center dol-p-4 lg:dol-px-8 dol-border-0 dol-border-b last:dol-border-0 dol-relative dol-group hover:dol-bg-ash-100">
 				<div class="dol-absolute dol-w-2 dol-h-full dol-bg-gray-200 dol-left-0 dol-top-0 dol-hidden md:group-hover:dol-block"></div>
 				<div class="dol-w-full dol-mb-4 md:dol-mb-0 md:dol-w-5/12 lg:dol-w-6/12">

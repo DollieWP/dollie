@@ -140,9 +140,6 @@ class Plugin_Dependencies {
 		// allow plugins to filter dependencies and requirements
 		self::$dependencies = apply_filters( 'scr_plugin_dependency_dependencies', self::$dependencies );
 		self::$requirements = apply_filters( 'scr_plugin_dependency_requirements', self::$requirements );
-
-		//var_dump( self::$dependencies );
-		//var_dump( self::$requirements );
 	}
 
 	public static function parse_field( $str ) {
@@ -518,7 +515,6 @@ class Plugin_Dependencies_UI {
 
 			if ( $action == $_REQUEST['action'] ) {
 				$deactivated = call_user_func( array( 'Plugin_Dependencies', "deactivate_$type" ), (array) $_REQUEST['plugin'] );
-				//var_dump( $deactivated ); var_dump( $_REQUEST['plugin'] ); die();
 				$set_transient( "pd_deactivate_$type", $deactivated );
 			}
 		}
