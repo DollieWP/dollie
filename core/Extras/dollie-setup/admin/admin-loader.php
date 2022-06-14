@@ -668,7 +668,7 @@ class Dollie_Setup_Admin {
 		}
 
 		// catch form submission
-		add_action( "load-{$subpage}", array( $this, 'catch_form_submission' ) );
+		//add_action( "load-{$subpage}", array( $this, 'catch_form_submission' ) );
 	}
 
 	/**
