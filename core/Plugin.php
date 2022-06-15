@@ -94,7 +94,7 @@ class Plugin extends Singleton {
 		// Load Color Customizer
 		require_once DOLLIE_CORE_PATH . 'Extras/Colors.php';
 
-		// Load Theme/Plugins Compability
+		// Load Theme/Plugins Compatibility.
 		require_once DOLLIE_CORE_PATH . 'Compatibility.php';
 
 		// Load logger.
