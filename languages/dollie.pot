@@ -2628,7 +2628,7 @@ msgstr ""
 msgid "Launching Blueprint"
 msgstr ""
 
-#: templates/widgets/site/site-screenshot.php:21, templates/widgets/site/pages/plugins.php:70, templates/widgets/site/pages/themes.php:112
+#: templates/widgets/site/site-screenshot.php:21, templates/widgets/site/pages/plugins.php:70, templates/widgets/site/pages/themes.php:109
 msgid "Visit"
 msgstr ""
 
@@ -3048,15 +3048,15 @@ msgstr ""
 msgid "Developer"
 msgstr ""
 
-#: templates/widgets/site/pages/plugins.php:34, templates/widgets/site/pages/themes.php:76
+#: templates/widgets/site/pages/plugins.php:34, templates/widgets/site/pages/themes.php:73
 msgid "Plugin"
 msgstr ""
 
-#: templates/widgets/site/pages/plugins.php:58, templates/widgets/site/pages/themes.php:100
+#: templates/widgets/site/pages/plugins.php:58, templates/widgets/site/pages/themes.php:97
 msgid "Disabled"
 msgstr ""
 
-#: templates/widgets/site/pages/plugins.php:56, templates/widgets/site/pages/themes.php:98
+#: templates/widgets/site/pages/plugins.php:56, templates/widgets/site/pages/themes.php:95
 msgid "Active"
 msgstr ""
 
