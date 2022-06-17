@@ -144,7 +144,6 @@ class Plugin extends Singleton {
 		Elementor\Hooks::instance();
 
 		// Load jobs.
-		SyncContainersJob::instance();
 		ChangeContainerRoleJob::instance();
 		RemoveOldLogsJob::instance();
 		// CustomerSubscriptionCheckJob::instance();
@@ -291,7 +290,7 @@ class Plugin extends Singleton {
 			exit;
 		}
 
-		$user     = dollie()->get_user();
+		$user = dollie()->get_user();
 
 		if ( ! $user->can_manage_all_sites() && ! $container->is_owned_by_current_user() ) {
 			wp_redirect( home_url() );
