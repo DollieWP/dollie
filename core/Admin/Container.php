@@ -428,25 +428,24 @@ final class Container extends Singleton implements ConstInterface {
 			);
 
 			$wp_admin_bar->add_menu(
-
-						[
-							'parent' => 'dwb-hosted',
-							'title'  => esc_html__( 'Manage Your Site', 'dollie' ),
-							'id'     => 'dab-hosted-manage',
-							'href'   => 'https://dashboard.getdollie.com/?redirect=dollie-site-redirect',
-							'meta'   => [ 'target' => '_blank' ],
-						]
-					);
+				[
+					'parent' => 'dwb-hosted',
+					'title'  => esc_html__( 'Manage Your Site', 'dollie' ),
+					'id'     => 'dab-hosted-manage',
+					'href'   => 'https://dashboard.getdollie.com/?redirect=dollie-site-redirect',
+					'meta'   => [ 'target' => '_blank' ],
+				]
+			);
 
 			$wp_admin_bar->add_menu(
-						[
-							'parent' => 'dwb-hosted',
-							'title'  => esc_html__( 'View Documentation', 'dollie' ),
-							'id'     => 'dab-hosted-docs',
-							'href'   => 'https://dashboard.getdollie.com/?redirect=knowledge-base',
-							'meta'   => [ 'target' => '_blank' ],
-						]
-					);
+				[
+					'parent' => 'dwb-hosted',
+					'title'  => esc_html__( 'View Documentation', 'dollie' ),
+					'id'     => 'dab-hosted-docs',
+					'href'   => 'https://dashboard.getdollie.com/?redirect=knowledge-base',
+					'meta'   => [ 'target' => '_blank' ],
+				]
+			);
 
 			$wp_admin_bar->add_menu(
 				[
@@ -1003,6 +1002,7 @@ final class Container extends Singleton implements ConstInterface {
 		}
 
 		$container->perform_action( self::ACTION_START );
+		wp_publish_post( $container->get_id() );
 	}
 
 	/**
