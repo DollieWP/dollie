@@ -363,7 +363,7 @@ class Dollie_Setup_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 		parent::add_strings();
 
 		// if first step is bulk-upgrading, then stop string overrides!
-		if ( ! empty( $this->options['step_one'] ) && $this->options['step_one'] == 'upgrade' ) {
+		if ( ! empty( $this->options['step_one'] ) && $this->options['step_one'] === 'upgrade' ) {
 			return;
 		}
 
@@ -559,7 +559,7 @@ class Dollie_Setup_Bulk_Plugin_Upgrader_Skin extends Bulk_Plugin_Upgrader_Skin {
 
 		// The 0th call is this method, so we need to check the next
 		// call down the stack.
-		return $backtrace[1]['type'] == '::';
+		return $backtrace[1]['type'] === '::';
 	}
 }
 
@@ -622,8 +622,8 @@ class Dollie_Setup_Updater {
 
 		// if no plugins passed, stop the updater now!
 		if ( ! $plugins ) {
-			_doing_it_wrong( __METHOD__, 'first argument, (array) $plugins, cannot be empty.' );
-			return false;
+			_doing_it_wrong( __METHOD__, 'first argument, (array) $plugins, cannot be empty.', 1.0 );
+			return;
 		}
 
 		$plugins = self::parse_plugins( $plugins );

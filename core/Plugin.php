@@ -94,7 +94,7 @@ class Plugin extends Singleton {
 		// Load Color Customizer
 		require_once DOLLIE_CORE_PATH . 'Extras/Colors.php';
 
-		// Load Theme/Plugins Compability
+		// Load Theme/Plugins Compatibility.
 		require_once DOLLIE_CORE_PATH . 'Compatibility.php';
 
 		// Load logger.
@@ -213,29 +213,6 @@ class Plugin extends Singleton {
 			DOLLIE_VERSION
 		);
 
-		wp_register_style(
-			'swiper',
-			DOLLIE_ASSETS_URL . 'lib/swiper/swiper-bundle.min.css',
-			[],
-			'6.4.15'
-		);
-
-		wp_register_script(
-			'swiper',
-			DOLLIE_ASSETS_URL . 'lib/swiper/swiper-bundle.min.js',
-			[],
-			'6.4.15',
-			true
-		);
-
-		wp_register_script(
-			'jquery-fitvids',
-			DOLLIE_ASSETS_URL . 'lib/jquery.fitvids.min.js',
-			[ 'jquery' ],
-			'1.1.0',
-			true
-		);
-
 		wp_register_script(
 			'dollie-layout-alpine',
 			DOLLIE_ASSETS_URL . 'js/alpine.min.js',
@@ -314,7 +291,9 @@ class Plugin extends Singleton {
 			exit;
 		}
 
-		if ( ! $container->user()->can_manage_options() && ! $container->is_owned_by_current_user() ) {
+		$user     = dollie()->get_user();
+
+		if ( ! $user->can_manage_all_sites() && ! $container->is_owned_by_current_user() ) {
 			wp_redirect( home_url() );
 			exit;
 		}

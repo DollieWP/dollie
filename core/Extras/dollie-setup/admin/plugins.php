@@ -24,7 +24,7 @@ class Dollie_Setup_Admin_Plugins {
 	 */
 	protected function __construct() {
 		// load PD on admin menu hook.
-		add_action( 'dollie_setup_admin_menu', array( 'Plugin_Dependencies', 'init' ), 0 );
+		//add_action( 'dollie_setup_admin_menu', array( 'Plugin_Dependencies', 'init' ), 0 );
 
 		// setup the DOLLIE_SETUP plugin menu
 		add_action( 'dollie_setup_admin_menu', array( $this, 'setup_plugins_page' ) );
@@ -447,51 +447,51 @@ class Dollie_Setup_Admin_Plugins {
 						exit;
 
 						// start deactivating!
-					} else {
-						// Deactivate dependent plugins.
-						$deactivated = call_user_func( array( 'Plugin_Dependencies', 'deactivate_cascade' ), (array) $plugin );
-
-						// Save markers.
-						set_site_transient( 'dollie_setup_deactivate_cascade', $deactivated );
-
-						// Multisite
-						if ( is_multisite() ) {
-							// Darn BuddyPress...
-							if ( ! dollie_setup_is_main_site() ) {
-								switch_to_blog( dollie_setup_get_main_site_id() );
-								$switched = true;
-							}
-
-							// Deactivate dependent plugins on main site as well.
-							deactivate_plugins( $deactivated, false, false );
-
-							/*
-							 * Also deactivate the main plugin in question.
-							 *
-							 * Should probably look at our 'network' flag...
-							 */
-							deactivate_plugins( $plugin, false, is_plugin_active_for_network( $plugin ) );
-
-							// Switch back.
-							if ( ! empty( $switched ) ) {
-								restore_current_blog();
-								unset( $switched );
-							}
-
-							// Single site.
-						} else {
-							// Deactivate the main plugin in question.
-							deactivate_plugins( $plugin, false );
-
-						}
-
-						if ( ! is_network_admin() ) {
-							update_option( 'recently_activated', array( $plugin => time() ) + (array) get_option( 'recently_activated' ) );
-						}
-
-						wp_safe_redirect( add_query_arg( 'deactivate', 'true', $url ) );
-						exit;
 					}
+
+                    // Deactivate dependent plugins.
+					$deactivated = call_user_func( array( 'Plugin_Dependencies', 'deactivate_cascade' ), (array) $plugin );
+
+					// Save markers.
+					set_site_transient( 'dollie_setup_deactivate_cascade', $deactivated );
+
+					// Multisite
+					if ( is_multisite() ) {
+                        // Darn BuddyPress...
+                        if ( ! dollie_setup_is_main_site() ) {
+                            switch_to_blog( dollie_setup_get_main_site_id() );
+                            $switched = true;
+                        }
+
+                        // Deactivate dependent plugins on main site as well.
+                        deactivate_plugins( $deactivated, false, false );
+
+                        /*
+                         * Also deactivate the main plugin in question.
+                         *
+                         * Should probably look at our 'network' flag...
+                         */
+                        deactivate_plugins( $plugin, false, is_plugin_active_for_network( $plugin ) );
+
+                        // Switch back.
+                        if ( ! empty( $switched ) ) {
+                            restore_current_blog();
+                            unset( $switched );
+                        }
+
+                        // Single site.
+                    } else {
+                        // Deactivate the main plugin in question.
+                        deactivate_plugins( $plugin, false );
+
+                    }
+
+					if ( ! is_network_admin() ) {
+                        update_option( 'recently_activated', array( $plugin => time() ) + (array) get_option( 'recently_activated' ) );
+                    }
+
+					wp_safe_redirect( add_query_arg( 'deactivate', 'true', $url ) );
+					exit;
 
 					break;
 

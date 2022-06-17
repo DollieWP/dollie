@@ -40,7 +40,7 @@ class Dollie_Setup {
 	 *
 	 * @since 0.1
 	 */
-	public static function &init() {
+	public static function init() {
 		if ( ! self::$instance ) {
 			self::$instance = new self();
 			self::$instance->constants();
@@ -412,15 +412,13 @@ class Dollie_Setup {
 	 *
 	 * @since 1.0-beta1
 	 *
-	 * @param str $path Path relative to the DOLLIE_SETUP plugin URL.
-	 * @return str DOLLIE_SETUP plugin URL with optional path appended.
 	 */
 	public function plugin_url( $path = '' ) {
 		if ( ! empty( $path ) && is_string( $path ) ) {
 			return esc_url( dollie_setup()->plugin_url . $path );
-		} else {
-			return dollie_setup()->plugin_url;
 		}
+
+		return dollie_setup()->plugin_url;
 	}
 
 }
@@ -432,7 +430,7 @@ class Dollie_Setup {
  * Use this function like you would a global variable, except without needing
  * to declare the global.
  *
- * Example: <?php $dollie_setup = dollie_setup(); ?>
+ * Example: $dollie_setup = dollie_setup();
  *
  * @return Dollie_Setup
  */

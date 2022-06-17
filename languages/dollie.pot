@@ -107,7 +107,7 @@ msgstr ""
 msgid "Blueprint Updated"
 msgstr ""
 
-#: core/Plugin.php:276
+#: core/Plugin.php:253
 msgid "Please fill in the Realtime Customizer fields."
 msgstr ""
 
@@ -2568,39 +2568,39 @@ msgstr ""
 msgid "You have reached your site limit"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:251
+#: templates/widgets/site/site-content.php:187
 msgid "Don't worry, we'll automatically reload this page once it's ready."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:254
+#: templates/widgets/site/site-content.php:190
 msgid "If you don't want to wait for a few seconds, you can navigate away. We got it covered!"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:235
+#: templates/widgets/site/site-content.php:171
 msgid "Launching New Blueprint"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:239
+#: templates/widgets/site/site-content.php:175
 msgid "Once your Blueprint has been launched you can go ahead and install your favorite plugins and themes, to make the perfect pre-made site for your customers."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:112
+#: templates/widgets/site/site-content.php:116
 msgid "Still having issues? Reach out to the Dollie Support team via your <a class=\"text-white\" href=\"https://dashboard.getdollie.com\">Dollie Dashboard</a>"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:54
+#: templates/widgets/site/site-content.php:56
 msgid "Hosting for this site is currently paused!"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:63
+#: templates/widgets/site/site-content.php:65
 msgid "If you have cancelled your subscription by accident please re-activate your <a href=\"%s\">subscription</a> to prevent this site from being removed completely."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:71
+#: templates/widgets/site/site-content.php:73
 msgid "Do you think this is a mistake?"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:75
+#: templates/widgets/site/site-content.php:77
 msgid "Please reach out to our team and we'll get back to you as soon as we can!"
 msgstr ""
 
@@ -2616,7 +2616,7 @@ msgstr ""
 msgid "Your site has been deleted."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:44
+#: templates/widgets/site/site-content.php:46
 msgid "Restore"
 msgstr ""
 
@@ -2628,7 +2628,7 @@ msgstr ""
 msgid "Launching Blueprint"
 msgstr ""
 
-#: templates/widgets/site/site-screenshot.php:21, templates/widgets/site/pages/plugins.php:70, templates/widgets/site/pages/themes.php:112
+#: templates/widgets/site/site-screenshot.php:21, templates/widgets/site/pages/plugins.php:70, templates/widgets/site/pages/themes.php:109
 msgid "Visit"
 msgstr ""
 
@@ -3048,15 +3048,15 @@ msgstr ""
 msgid "Developer"
 msgstr ""
 
-#: templates/widgets/site/pages/plugins.php:34, templates/widgets/site/pages/themes.php:76
+#: templates/widgets/site/pages/plugins.php:34, templates/widgets/site/pages/themes.php:73
 msgid "Plugin"
 msgstr ""
 
-#: templates/widgets/site/pages/plugins.php:58, templates/widgets/site/pages/themes.php:100
+#: templates/widgets/site/pages/plugins.php:58, templates/widgets/site/pages/themes.php:97
 msgid "Disabled"
 msgstr ""
 
-#: templates/widgets/site/pages/plugins.php:56, templates/widgets/site/pages/themes.php:98
+#: templates/widgets/site/pages/plugins.php:56, templates/widgets/site/pages/themes.php:95
 msgid "Active"
 msgstr ""
 
