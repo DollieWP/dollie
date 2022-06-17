@@ -116,9 +116,9 @@ class SyncContainersJob extends Singleton {
 				$exists = true;
 				$container->set_details( $fetched_container );
 
-				if ( ! $container->is_running() ) {
+				if ( $container->should_be_trashed() ) {
 					wp_trash_post( $container->get_id() );
-				} elseif ( $container->is_running() ) {
+				} else {
 					wp_publish_post( $container->get_id() );
 					$synced_container_ids[] = $container->get_id();
 				}

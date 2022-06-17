@@ -172,6 +172,17 @@ abstract class BaseContainer implements ConstInterface {
 	}
 
 	/**
+	 * Check if it is underployed
+	 *
+	 * @return boolean
+	 */
+	public function should_be_trashed(): bool {
+		return 'Undeployed' === $this->get_status() ||
+			'Not Deployed' === $this->get_status() ||
+			'Undeploying' === $this->get_status();
+	}
+
+	/**
 	 * Check if it is deploying
 	 *
 	 * @return boolean
