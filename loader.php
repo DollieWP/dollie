@@ -32,7 +32,7 @@ if ( ! defined( 'DOLLIE_API_URL' ) ) {
 }
 
 if ( ! defined( 'DOLLIE_PARTNERS_URL' ) ) {
-	define( 'DOLLIE_PARTNERS_URL', 'https://partners.getdollie.com/' );
+	define( 'DOLLIE_PARTNERS_URL', 'https://cloud.getdollie.com/' );
 }
 
 define( 'DOLLIE_BLUEPRINTS_COOKIE', 'dollie_blueprint_id' );
