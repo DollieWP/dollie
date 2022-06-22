@@ -668,7 +668,7 @@ msgstr ""
 #: core/Extras/AcfFields.php:549
 msgid ""
 "<h3>Please read the guide before you continue.</h3><br>\n"
-"            Follow along with the <a target=\"_blank\" href=\"https://dashboard.getdollie.com/?redirect=knowledge-base/domain-setup/\">Domain Setup Guide</a> in the partner dashboard to have your domain added in no time, without any hassle."
+"            Follow along with the <a target=\"_blank\" href=\"https://cloud.getdollie.com/?redirect=knowledge-base/domain-setup/\">Domain Setup Guide</a> in the partner dashboard to have your domain added in no time, without any hassle."
 msgstr ""
 
 #: core/Extras/AcfFields.php:559
@@ -2585,7 +2585,7 @@ msgid "Once your Blueprint has been launched you can go ahead and install your f
 msgstr ""
 
 #: templates/widgets/site/site-content.php:116
-msgid "Still having issues? Reach out to the Dollie Support team via your <a class=\"text-white\" href=\"https://dashboard.getdollie.com\">Dollie Dashboard</a>"
+msgid "Still having issues? Reach out to the Dollie Support team via your <a class=\"text-white\" href=\"https://cloud.getdollie.com\">Dollie Dashboard</a>"
 msgstr ""
 
 #: templates/widgets/site/site-content.php:56

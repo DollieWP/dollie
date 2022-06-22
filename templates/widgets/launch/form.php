@@ -10,7 +10,7 @@ if ( ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_
 	if ( current_user_can( 'manage_options' ) ) {
 		$message = sprintf(
 			__( 'Your Dollie Hub has an issue which prevents the launching of new sites. Please check if you connected this Hub to Dollie Cloud and verify your subscription in  your <a href="%s">Dollie Cloud Dashboard</a>.', 'dollie' ),
-			'https://dashboard.getdollie.com'
+			'https://cloud.getdollie.com'
 		);
 	}
 

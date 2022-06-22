@@ -63,7 +63,7 @@ function appsero_init_tracker_dollie() {
 	$client = new Appsero\Client( '7230a815-77e5-4157-8a30-e71e549e7473', 'Dollie', DOLLIE_FILE );
 
 	// Active insights. Tracking details are now added to our platform terms of service.
-	// https://dashboard.getdollie.com/partner-agreement/
+	// https://cloud.getdollie.com/partner-agreement/
 	$client->insights()
 	->hide_notice()
 	->init();

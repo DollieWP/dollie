@@ -113,7 +113,7 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
                         Dollie Cloud Connection</a>
                     <br><br>
 
-					<?php _e( 'Still having issues? Reach out to the Dollie Support team via your <a class="text-white" href="https://dashboard.getdollie.com">Dollie Dashboard</a>', 'dollie' ); ?>
+					<?php _e( 'Still having issues? Reach out to the Dollie Support team via your <a class="text-white" href="https://cloud.getdollie.com">Dollie Dashboard</a>', 'dollie' ); ?>
                 </p>
 			<?php else : ?>
                 <div class="mb-20">

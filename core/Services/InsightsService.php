@@ -61,7 +61,7 @@ class InsightsService extends Singleton {
 		 $response = get_transient( 'dollie_dashboard_articles' );
 
 		if ( empty( $response ) ) {
-			$response = wp_remote_get( 'https://dashboard.getdollie.com/wp-json/wp/v2/kb/?filter[orderby]=date&per_page=12&_embed' );
+			$response = wp_remote_get( 'https://cloud.getdollie.com/wp-json/wp/v2/kb/?filter[orderby]=date&per_page=12&_embed' );
 
 			if ( is_wp_error( $response ) ) {
 				return array();
