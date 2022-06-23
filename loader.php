@@ -1,8 +1,8 @@
 <?php
 
 /**
- * Plugin Name: Dollie
- * Description: Start offering white-labeled cloud services and SaaS/WaaS to your customers right away
+ * Plugin Name: Dollie Hub
+ * Description: Build Your Own Cloud Platform - If You Can Imagine It, You Can Build it with Dollie
  * Plugin URI:  https://getdollie.com
  * Version:     5.0.0
  * Author:      GetDollie
