@@ -1,4 +1,4 @@
-=== Dollie - The Cloud Automation Platform for WordPress ===
+=== Dollie Hub - Build Your Own WordPress Cloud Platform  ===
 Contributors: GetDollie
 Tags: hosting, waas, wordpress hosting, sell hosting
 Requires at least: 5.0
@@ -8,76 +8,123 @@ Stable tag: 4.9.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Sell Enterprise-Grade Hosting & Cloud Services Right From Your WordPress Site.
+If You Can Imagine It, You Can Build It with Dollie
 
 == Description ==
 
-The Cloud Automation Platform to build, launch and sell WordPress cloud services under your own brand & domain.
-Dollie lets you convert one-time customers into recurring revenue machines, all managed through your own WordPress install.
+Dollie is the game changing platform that lets you sell any (cloud) service directly to your customers under your own brand and domain. Join hundreds of WordPress businesses and entrepreneurs building their dream cloud platform using Dollie, simply by installing this plugin!
 
-https://www.youtube.com/watch?v=S5QC7jaoGCw
+Sell enterprise-grade hosting, site maintenance plans, click-to-launch pre-made websites or anything else you can think off. If you can imagine it, you can sell it with Dollie.
 
-## 100% White Labeled - Your Brand, Your Services, Your Pricing
+## Who is using Dollie?
 
-Future-proof your Business by offering true turnkey solutions to your customers with Dollie as your 100% invisible partner. Here is how Dollie is being used by our community.
+Our community is  made up of forward-thinking Agencies, Product Creators and Website as a Service (WaaS) entrepreneurs who realise the future is in selling recurring services, not one-off purchases. Building lasting relationships with their customers under their own brand and domain, using WordPress as their foundation.
 
-**WHITE GLOVE AGENCY SERVICES**
-Turn your Agency website into a Hub for launching, hosting, and maintaining your client WordPress sites. With a beautiful Dashboard for your clients at the centre.
+**Why Dollie is great for WordPress Agencies**
+Stop giving away your revenue to hosting providers, invoicing apps, CRM systems and countless other solutions today.
 
-[Learn More](https://getdollie.com/wordpress-agencies/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
+Create a fantastic experience for your clients under your own brand domain. Manage & invoice clients, sell enterprise-grade hosting, site maintenance plans or any other service with the click of a button.
 
-**WAAS - WEBSITES AS A SERVICE**
-Offer click-to-launch pre-made websites and tie them directly to WooCommerce subscriptions. Quickly upsell additional features and support all through your WordPress install.
-
-[Learn More](https://getdollie.com/vendors//?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
-
-**SAAS - SOFTWARE AS A SERVICE**
-Convert your (commercial) WordPress Plugins & Themes into SaaS solutions and integrate Dollie seamlessly in your existing WordPress Storefront / Customer Portal.
-
-[Learn More](https://getdollie.com/vendors//?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
-
-**MANAGED WORDPRESS HOSTING**
-Offer Enterprise Grade WordPress Hosting as feature rich as the top managed WordPress hosts in the industry.
+Offer true scale, flexibility and reliability for you and your clients all under your control, with no 3rd party in the middle.
 
 [Learn More](https://getdollie.com/wordpress-agencies/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
 
-**ENTERPRISE SOLUTIONS**
-Utilise Dollie as the backbone for your own scalable cloud automation solution. Rapidly build and launch your WordPress Platform on any cloud infrastructure.
+**Why Dollie is great for WaaS Platforms**
+Your own platform of pre-made click-to-launch sites, ready to be purchased with the click of a button.
 
-[Learn More](https://getdollie.com/enterprise-cloud-automation-for-wordpress/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
+With Dollie you can build your entire WaaS solution using WordPress and it’s rich eco system of plugins and themes,  without the restrictions of other WaaS solutions.
 
-= Top Features =
+All the sites launched by your customers on your WaaS are hosted in isolated, dedicated environments, unlike Multisite based WaaS solutions you might have tried before.
 
-**World-Class Performance & Security for all your sites on the platform.**
-Our engineers used many decades of combined experience to build a highly scalable container-based infrastructure which ensures that all the sites hosted on your platform will blow your customers away. Your customers can launch brand new WordPress sites under your own domain in 30 seconds flat.
+[Learn More](https://getdollie.com/wordpress-vendors-ongoing-recurring-revenue-for-your-wordpress-products/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
 
-[Learn More About Our Technology](https://getdollie.com/wordpress-cloud-automation//?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
+**Why WordPress Product Creators & Marketplace Authors love Dollie**
+Dollie allows you to quickly turn your best selling WordPress products into click-to-launch SaaS apps, under your own domain, branding and full control over pricing.
 
-**Your Business, Your Pricing**
-Bill your customers directly hooking up Stripe, PayPal, or any other the WooCommerce Subscriptions supported payment gateways.  Charge your customers per site, based on disk space, support level, or anything else that fits with your business model. Bill customers monthly, yearly, or quarterly and see each (recurring) payment go directly into your bank account.
+Stop giving away a large chunk of your revenue to a marketplace that takes the bulk of your profits. Dollie integrates seamlessly so you can directly start offering your new SaaS services straight from your existing setup.
 
-**Flexible - Built for the WordPress ecosystem**
-Dollie integrates, out of the box with thousands of WordPress solutions. Use it alongside your favourite plugins and create something truly unique for your customers. Use your favorite WordPress plugins and WooCommerce extensions to add an affiliate system, detailed customer insights, live chat support, or anything you envision to your customer dashboard.
+[Learn More](https://getdollie.com/wordpress-vendors-ongoing-recurring-revenue-for-your-wordpress-products/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
 
-**Blueprints - Your Pre-Made Sites Launched With Click of a Button**
-Create re-usable blueprints for each product/service you offer and allow new or existing customers to launch fully configured ready-to-go sites with the click of a button. Link Blueprints to your subscriptions or make them exclusively available to those with specific subscriptions. Offer unique click-to-launch designs for different audiences and manage them all through your Dollie Dashboard.
 
-**Insights & Support Tools**
-Get an instant overview of all your customers, their active subscriptions, their deployed WordPress sites, and your projected revenue straight from your WordPress dashboard. Easily run per-site security checks, update plugins & themes, create backups, or revert installations with the click of a button.
+## UPDATE - Dollie 2.0 Is here.
 
-**Integrates Seamlessly With Your Theme**
-Simply install the Dollie plugin inside your existing WordPress installation and let your customers launch sites with the click of a button.
+Dollie v2.0 is culmination of many years spent by the Dollie team perfecting our ideas, research, and development craft to ensure our partners are maximising their potential for success, selling their own cloud services under their own brand and domain.
 
-**Beautiful Customer Dashboard**
-Dollie comes with pre-made designs that let you get started selling quickly.
-The included customer dashboard can easily be edited using our pre-made Elementor Widgets, allowing you to quickly integrate it with your existing branding and design.
+With Dollie 2.0 you can offer the same features as big name hosts and SaaS website builder platforms, without the hassle and required starting capital.
+
+You don’t need to worry about infrastructure, security and scale, our engineers take care of all of that behind the scenes. You only get charged for the amount of sites active on your platform.
+
+There are also no starting costs and hidden  surprises. Grow at your own pace knowing exactly how much you have to pay us, before you charge your customers for your services.
+
+
+= Why Our Community Loves the Dollie Platform =
+
+**World-Class Performance & Security for all your customer sites thanks to Dollie Cloud**
+Our engineers used many decades of combined experience to build a highly scalable container-based infrastructure which ensures that all the sites hosted on your platform will blow your customers away. Our Dollie Cloud is exclusively dedicated to white-label, enterprise grade hosting for our partners. Rest assured that the customers who sign up for your platform will be blown away by the performance of their sites.
+
+[Learn More About Our Technology](https://getdollie.com/dollie-infrastructure-cloud-orchestration-for-wordpress/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
+
+**Under Your Control**
+
+THE OLD WAY
+Big name hosts & SaaS platforms love their Reselling/Partner Programs, where you’re forced to play by the rules of their closed platform. You get limited control over billing, branding and your customer data and you’re being restricted to the business model that works best for them, not for you.
+
+And here’s hoping that someday they will add that feature that you’ve been asking about for the last two years. Sounds familiar?
+
+THE DOLLIE WAY
+With Dollie you get the freedom to build the exact platform you want, 100% under your control. Your customers, your service, your pricing. We act as a truly invisible partner at all times, managing your cloud infrastructure and constantly adding new white-label features you can then sell directly to your customers.
+
+With Dollie you get all the scale, speed and security that those big platforms offer, but without us getting in the way of how you should run your business. Like it should be.
+
+**Made to Scale**
+THE OLD WAY
+Slow (shared) hosting setups with bloated cPanel dashboards. Complex WordPress multisite setups on a single server that won’t scale and can’t be adapted on a per customer basis. Restrictive & expensive managed hosting platforms with zero freedom & flexibility. Figure-it-all-out-yourself Cloud Platforms that require an entire DevOps team to manage with support that does not understand WordPress.
+
+Our partners have tried them all before they found Dollie, and they would not want to go back to any of them.
+
+THE DOLLIE WAY
+Dollie launched exclusively for the Enterprise more than 5 years ago, we live and breathe WordPress & Cloud Technology.
+
+Our engineers used many decades of combined experience to build a highly scalable container-based infrastructure that scales, whether you have 5 or 5000 sites on your platform.
+
+Today Dollie is a true next-generation cloud platform dedicated to spinning up lightning fast WordPress sites in seconds completely under your brand & domain, available to anyone who wants to change the way they run their WordPress business.
+
+**Easy to Get Started**
+THE OLD WAY
+If you’ve tried to launch a platform before, you know how you have to be an expert on everything. Managing your own tech stack, worrying about security, scaling and performance 24/7, figuring out everything as you go along.
+
+Not to mention the upfront financial risks you need to take to be able to compete with the competition. This is exactly why established hosts have been able to take the bulk of the revenue in the WordPress industry for so long.
+
+THE DOLLIE WAY
+With Dollie you can offer the same features as big name hosts and SaaS website builder platforms, without the hassle and required starting capital.
+
+You don’t need to worry about infrastructure, security and scale, our engineers take care of all of that behind the scenes. You only get charged for the amount of sites active on your platform.
+
+There are also no starting costs and hidden  surprises. Grow at your own pace knowing exactly how much you have to pay us, before you charge your customers for your services.
+
+**Flexible & Extendable**
+THE OLD WAY
+You want to add a new payment method for your customers but your 3rd Party billing solution does not want to add support for it. There is this CRM solution you want to try but it sets you back another $500 a month for even the basic features. Your team is constantly switching between countless (paid) solutions to manage your customer/client sites. With no end in sight.
+
+This is the reality for most people trying to build a consistent experience for their customers.
+
+THE DOLLIE WAY
+With Dollie you can install any of the thousands of WordPress plugins and WooCommerce extensions to add features to your platform, simply nothing will hold you back.
+
+You have the flexibility, to enhance your platform using any free and premium
+WordPress plugins, or even build your own should you come accross a unique scenario that is important for your
+project.
+
+Your team already knows WordPress, so we wanted to make it as easy as possible for you to build something awesome.
+
+**Integrates Seamlessly With Your Theme & Plugins**
+Simply install this Dollie plugin inside your existing WordPress installation and let your customers launch sites with the click of a button.
 
 
 ## Get Started For Free
 
-To start using Dollie you can create a free account to try out the platform and launch some fully functional sites under your own domain for free. Simply install the Dollie Plugin and you'll be guided through the entire process.
+To start using Dollie you can create a free account to try out the platform and launch some fully functional sites under your own domain for free. Simply install this Dollie Hub plugin and you'll be guided through the entire process.
 
-### Coming soon: Easy Digital Downloads integration
 
 ### Documentation and Support
 - For more information about features, FAQs and documentation, check out our website at [GetDollie.com](https://getdollie.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme).
@@ -109,32 +156,8 @@ Integrating Appsero SDK does not immediately start gathering data, **without con
 5. You can now start launching sites with a click of a button
 
 == Frequently Asked Questions ==
+For more information about features, FAQs and documentation, check out our website at [GetDollie.com](https://getdollie.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme).
 
-**Do I have to move my existing website/storefront to use Dollie?**
-Absolutely not, Dollie can be installed on-premise, in any infrastructure/WebHost that supports WordPress, right alongside your existing WordPress storefront.
-
-**What access to the features of Dollie do your customers see?**
-You can control which Site Management features are available to your customers/clients. By using the Access Control options in Dollie you enable and disable specific features (for example giving clients the ability to create backups of their site, but disabling the advanced Developer Features)
-
-**How can I (or my client/customers) connect a domain to my website**
-Dollie comes with a “Domain Setup Wizard” that makes it easy for even novice users to connect their domain to any of the sites they manage. Through several steps, they are guided through the entire process with several checks along the way to make sure they don’t make any mistakes
-
-**What domain do these sites deploy under?**
-Dollie has a default domain to let you get started selling quickly. This means sites will be deployed under a subdomain of dollie.io e.g. client1.example.dollie.io
-
-Dollie also lets you add your own deployment domain so that you can completely offer your services through your own brand and domain
-
-**Are you able to access the deployed containers through SSH**
-Yes, you can connect to every deployed container via SSH (for WP CLI etc) or SFTP (file management) to manage your containers.
-
-**From the customer end, do the customers get to access billing information and invoices overview?**
-Absolutely! All subscriptions and billing are done through your own Dollie installation, using the WooCommerce (Subscriptions) integration. It’s all under your domain, which you can extend and customize as you see fit.
-
-**How frequent are your backups?**
-Our backups run every 24hr and are kept for 28 days
-
-**What happens with Support?**
-Our team is here to provide you with technical infrastructure support only, for example, if a container has issues unrelated to the WordPress installation of your customer. This support is delivered through Slack and through our ticketing support channels. We do not provide direct support to your customers, but to you and your support team only.
 
 **Found a bug or want to contribute?**
 Our code is available on [Github](https://github.com/DollieWP/dollie)
