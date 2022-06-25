@@ -278,12 +278,12 @@ class Plugin extends Singleton {
 	 * @return void
 	 */
 	public function load_login_route() {
-		if ( ! isset( $_GET['site'] ) ) {
+		if ( ! isset( $_GET['site_id'] ) ) {
 			wp_redirect( home_url() );
 			exit;
 		}
 
-		$container = dollie()->get_container( (int) $_GET['site'] );
+		$container = dollie()->get_container( (int) $_GET['site_id'] );
 
 		if ( is_wp_error( $container ) || ! wp_verify_nonce( $_GET['_nonce'], 'get_site_login' ) ) {
 			wp_redirect( home_url() );

@@ -107,7 +107,7 @@ msgstr ""
 msgid "Blueprint Updated"
 msgstr ""
 
-#: core/Plugin.php:253
+#: core/Plugin.php:252
 msgid "Please fill in the Realtime Customizer fields."
 msgstr ""
 
@@ -217,7 +217,7 @@ msgstr ""
 msgid "Filter items list"
 msgstr ""
 
-#: core/Admin/Container.php:104, core/Admin/Container.php:839, core/Factories/BaseContainer.php:388
+#: core/Admin/Container.php:104, core/Admin/Container.php:838, core/Factories/BaseContainer.php:399
 msgid "Site"
 msgstr ""
 
@@ -323,107 +323,107 @@ msgstr ""
 msgid "Hub Dashboard"
 msgstr ""
 
-#: core/Admin/Container.php:434
+#: core/Admin/Container.php:433
 msgid "Manage Your Site"
 msgstr ""
 
-#: core/Admin/Container.php:444
+#: core/Admin/Container.php:443
 msgid "View Documentation"
 msgstr ""
 
-#: core/Admin/Container.php:454
+#: core/Admin/Container.php:453
 msgid "This site is hosted for free on the Dollie Cloud. Visit the Partner Dashboard to manage this site and access our developer tools."
 msgstr ""
 
-#: core/Admin/Container.php:466, core/Extras/AcfFields.php:1377, templates/widgets/general/main-navigation.php:85, templates/widgets/general/sites-navigation.php:59, templates/widgets/site/site-navigation.php:23, core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:94
+#: core/Admin/Container.php:465, core/Extras/AcfFields.php:1377, templates/widgets/general/main-navigation.php:85, templates/widgets/general/sites-navigation.php:59, templates/widgets/site/site-navigation.php:23, core/Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php:94
 msgid "Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:476
+#: core/Admin/Container.php:475
 msgid "View Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:487
+#: core/Admin/Container.php:486
 msgid "Launch Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:497, core/Admin/Container.php:587, core/Admin/Container.php:595
+#: core/Admin/Container.php:496, core/Admin/Container.php:586, core/Admin/Container.php:594
 msgid "Support"
 msgstr ""
 
-#: core/Admin/Container.php:507, core/Admin/Container.php:607, templates/parts/recurring-action-schedule-history.php:47
+#: core/Admin/Container.php:506, core/Admin/Container.php:606, templates/parts/recurring-action-schedule-history.php:47
 msgid "Logs"
 msgstr ""
 
-#: core/Admin/Container.php:529
+#: core/Admin/Container.php:528
 msgid "Visit Partner Dashboard"
 msgstr ""
 
-#: core/Admin/Container.php:601
+#: core/Admin/Container.php:600
 msgid "Documentation"
 msgstr ""
 
-#: core/Admin/Container.php:669
+#: core/Admin/Container.php:668
 msgid "Your Site Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:675
+#: core/Admin/Container.php:674
 msgid "Below you will find all the Blueprints you have created in your Hub. Click on the Blueprint to manage or update them."
 msgstr ""
 
-#: core/Admin/Container.php:677
+#: core/Admin/Container.php:676
 msgid "Launch a New Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:650
+#: core/Admin/Container.php:649
 msgid "Sites Overview - All Sites in your Hub"
 msgstr ""
 
-#: core/Admin/Container.php:656
+#: core/Admin/Container.php:655
 msgid "Below are all the sites that have been launched through your Hub. Each site is hosted under your own brand and domain inside your Dollie Cloud. Below uou can see their status, to which customer they are linked and whether they have a domain connected to them."
 msgstr ""
 
-#: core/Admin/Container.php:658
+#: core/Admin/Container.php:657
 msgid "View Sites on the front-end of my Hub"
 msgstr ""
 
-#: core/Admin/Container.php:696
+#: core/Admin/Container.php:695
 msgid "The Hub Log"
 msgstr ""
 
-#: core/Admin/Container.php:699
+#: core/Admin/Container.php:698
 msgid "The Hub log keeps track of activity inside your Hub, For example action taken by your customers and recurring crons/maintenance jobs that run behind the scenes."
 msgstr ""
 
-#: core/Admin/Container.php:724
+#: core/Admin/Container.php:723
 msgid "Dollie Forms"
 msgstr ""
 
-#: core/Admin/Container.php:727
+#: core/Admin/Container.php:726
 msgid "These forms can be embedded easily to further customize the experience for your customers. Please only edit these forms if you're a developer and you have good knowledge of the Hub and it's API."
 msgstr ""
 
-#: core/Admin/Container.php:844
+#: core/Admin/Container.php:843
 msgid "Domain"
 msgstr ""
 
-#: core/Admin/Container.php:845, core/Admin/Container.php:834, core/Widgets/General/Login.php:93
+#: core/Admin/Container.php:844, core/Admin/Container.php:833, core/Widgets/General/Login.php:93
 msgid "Size"
 msgstr ""
 
-#: core/Admin/Container.php:846, core/Admin/Container.php:835, core/Extras/AcfFields.php:210, templates/widgets/site/pages/plugins.php:19, templates/widgets/site/pages/themes.php:57
+#: core/Admin/Container.php:845, core/Admin/Container.php:834, core/Extras/AcfFields.php:210, templates/widgets/site/pages/plugins.php:19, templates/widgets/site/pages/themes.php:57
 msgid "Status"
 msgstr ""
 
-#: core/Admin/Container.php:828, core/Factories/BaseContainer.php:392
+#: core/Admin/Container.php:827, core/Factories/BaseContainer.php:403
 msgid "Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:833
+#: core/Admin/Container.php:832
 msgid "Updated"
 msgstr ""
 
-#: core/Admin/Container.php:904
+#: core/Admin/Container.php:903
 msgid "Assigned Customer"
 msgstr ""
 
@@ -997,7 +997,7 @@ msgstr ""
 msgid "You can fill in just your bucket name like \"my_bucket_name\" or you can point to a folder in your bucket like \"my_bucket_name/example_folder\". Every site will be backed up in its own folder."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1994, core/Factories/BaseContainer.php:396, templates/notices/blueprint-staging.php:12, templates/widgets/general/sites-navigation.php:64, templates/widgets/site/site-navigation.php:42, templates/widgets/site/site-navigation.php:36
+#: core/Extras/AcfFields.php:1994, core/Factories/BaseContainer.php:407, templates/notices/blueprint-staging.php:12, templates/widgets/general/sites-navigation.php:64, templates/widgets/site/site-navigation.php:42, templates/widgets/site/site-navigation.php:36
 msgid "Staging"
 msgstr ""
 
@@ -1454,6 +1454,10 @@ msgstr ""
 
 #: core/Modules/Preview.php:172
 msgid "Login to Site"
+msgstr ""
+
+#: core/Modules/Preview.php:229
+msgid "all"
 msgstr ""
 
 #: core/Modules/Preview.php:244

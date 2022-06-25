@@ -984,7 +984,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return string
 	 */
 	public function get_customer_login_url( string $location = '' ): string {
-		$url = home_url( 'site_login_redirect?site=' . $this->get_id() );
+		$url = home_url( 'site_login_redirect?site_id=' . $this->get_id() );
 
 		$container_location = apply_filters( 'dollie/site/login_url/location', $location, $this );
 
