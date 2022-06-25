@@ -61,7 +61,15 @@ final class Site extends BaseContainer {
 			$username = get_option( 'options_wpd_admin_user_name', $username );
 		}
 
-		$login_data = $this->get_site_login_url( $this->get_hash(), $username );
+		$login_data = get_transient( "dollie_login_data_{$this->get_id()}" );
+
+		if ( ! $login_data ) {
+			$login_data = $this->get_site_login_url( $this->get_hash(), $username );
+
+			if ( ! is_wp_error( $login_data ) ) {
+				set_transient( "dollie_login_data_{$this->get_id()}", $login_data, 30 );
+			}
+		}
 
 		if ( is_wp_error( $login_data ) || ! isset( $login_data['token'] ) || ! $login_data['token'] ) {
 			return '';
