@@ -285,14 +285,7 @@ class Plugin extends Singleton {
 
 		$container = dollie()->get_container( (int) $_GET['site_id'] );
 
-		if ( is_wp_error( $container ) || ! wp_verify_nonce( $_GET['_nonce'], 'get_site_login' ) ) {
-			wp_redirect( home_url() );
-			exit;
-		}
-
-		$user = dollie()->get_user();
-
-		if ( ! $container->is_owned_by_current_user() ) {
+		if ( is_wp_error( $container ) || ! $container->is_owned_by_current_user() || ! wp_verify_nonce( $_GET['_nonce'], 'get_site_login' ) ) {
 			wp_redirect( home_url() );
 			exit;
 		}

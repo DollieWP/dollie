@@ -67,7 +67,7 @@ final class Site extends BaseContainer {
 			$login_data = $this->get_site_login_url( $this->get_hash(), $username );
 
 			if ( ! is_wp_error( $login_data ) ) {
-				set_transient( "dollie_login_data_{$this->get_id()}", $login_data, 30 );
+				set_transient( "dollie_login_data_{$this->get_id()}", $login_data, 2 );
 			}
 		}
 
