@@ -44,7 +44,6 @@ class Dollie_Setup_Admin {
 		 * @param Dollie_Setup_Admin $this
 		 *
 		 * @since 1.1.0
-		 *
 		 */
 		do_action( 'dollie_setup_admin_loaded', $this );
 	}
@@ -61,10 +60,13 @@ class Dollie_Setup_Admin {
 			add_action( 'admin_init', array( $this, 'setup_notice' ) );
 
 			// add an admin notice if DOLLIE_SETUP isn't setup
-			add_action( is_network_admin() ? 'network_admin_notices' : 'admin_notices', array(
-				$this,
-				'display_notice'
-			) );
+			add_action(
+				is_network_admin() ? 'network_admin_notices' : 'admin_notices',
+				array(
+					$this,
+					'display_notice',
+				)
+			);
 
 			// after installing a theme, do something
 			add_action( 'admin_init', array( $this, 'theme_activation_hook' ) );
@@ -333,10 +335,13 @@ class Dollie_Setup_Admin {
 		// Remove admin notice during setup mode.
 		$is_setup = isset( dollie_setup()->setup ) ? dollie_setup()->setup : false;
 		if ( $is_setup ) {
-			remove_action( is_network_admin() ? 'network_admin_notices' : 'admin_notices', array(
-				$this,
-				'display_notice'
-			) );
+			remove_action(
+				is_network_admin() ? 'network_admin_notices' : 'admin_notices',
+				array(
+					$this,
+					'display_notice',
+				)
+			);
 		}
 	}
 
@@ -349,10 +354,10 @@ class Dollie_Setup_Admin {
 		// do something different for each DOLLIE_SETUP setup condition
 		switch ( dollie_setup()->setup ) {
 			/*
-		 * Required plugins installation.
-		 *
-		 * 'virgin-setup' is a misnomer when times were simpler :)
-		 */
+			* Required plugins installation.
+			*
+			* 'virgin-setup' is a misnomer when times were simpler :)
+			*/
 			case 'virgin-setup':
 				// get required Dollie plugins.
 				$plugins = Dollie_Setup_Plugins::get_plugins( 'required' );
@@ -412,7 +417,7 @@ class Dollie_Setup_Admin {
 				?>
 
 
-                <!-- <form method="post" action="<?php echo self_admin_url( 'admin.php?page=dollie_setup' ); ?>" style="margin-top:2em; text-align:right;">
+				<!-- <form method="post" action="<?php echo self_admin_url( 'admin.php?page=dollie_setup' ); ?>" style="margin-top:2em; text-align:right;">
 					<?php wp_nonce_field( 'dollie_setup_select_package' ); ?>
 
 					<input type="hidden" name="dollie_setup-package" value="<?php echo $package; ?>" />
@@ -673,7 +678,7 @@ class Dollie_Setup_Admin {
 		}
 
 		// catch form submission
-		//add_action( "load-{$subpage}", array( $this, 'catch_form_submission' ) );
+		// add_action( "load-{$subpage}", array( $this, 'catch_form_submission' ) );
 	}
 
 	/**
@@ -693,14 +698,14 @@ class Dollie_Setup_Admin {
 			// regular screen should go here
 		} else {
 			?>
-            <div class="wrap">
-                <h2><?php _e( 'Dollie Setup Dashboard', 'dollie-setup' ); ?></h2>
+			<div class="wrap">
+				<h2><?php _e( 'Dollie Setup Dashboard', 'dollie-setup' ); ?></h2>
 
 				<?php $this->steps(); ?>
 				<?php $this->upgrades(); ?>
 				<?php $this->metaboxes(); ?>
 				<?php $this->about(); ?>
-            </div>
+			</div>
 			<?php
 		}
 	}
@@ -740,6 +745,10 @@ class Dollie_Setup_Admin {
 			return;
 		}
 
+		if ( ! dollie()->auth()->is_connected() ) {
+			return;
+		}
+
 		// do something different depending on the setup step
 		dollie_setup_get_template_part( 'wrapper-header' );
 		switch ( dollie_setup_get_setup_step() ) {
@@ -760,16 +769,16 @@ class Dollie_Setup_Admin {
 			case 'required-plugins':
 				?>
 
-                <h2><?php _e( 'Required Plugins', 'dollie-setup' ); ?></h2>
+				<h2><?php _e( 'Required Plugins', 'dollie-setup' ); ?></h2>
 
-                <form method="post" action="<?php echo self_admin_url( 'admin.php?page=dollie_setup' ); ?>">
-                    <p class="submitted-on"><?php printf( __( "Before you can use Dollie Setup %s, we'll need to install some required plugins. Click 'Continue' to get set up.", 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ); ?></p>
+				<form method="post" action="<?php echo self_admin_url( 'admin.php?page=dollie_setup' ); ?>">
+					<p class="submitted-on"><?php printf( __( "Before you can use Dollie Setup %s, we'll need to install some required plugins. Click 'Continue' to get set up.", 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ); ?></p>
 
 					<?php wp_nonce_field( 'dollie_setup_virgin_setup', 'dollie_setup-virgin-nonce' ); ?>
 
-                    <p><input type="submit" value="<?php _e( 'Continue &rarr;', 'dollie-setup' ); ?>"
-                              class="button-primary" name="dollie_setup-virgin-setup"/></p>
-                </form>
+					<p><input type="submit" value="<?php _e( 'Continue &rarr;', 'dollie-setup' ); ?>"
+							  class="button-primary" name="dollie_setup-virgin-setup"/></p>
+				</form>
 
 				<?php
 				break;
@@ -778,15 +787,15 @@ class Dollie_Setup_Admin {
 			case 'recommended-plugins':
 				?>
 
-                <h2><?php _e( 'Recommended Plugins', 'dollie-setup' ); ?></h2>
+				<h2><?php _e( 'Recommended Plugins', 'dollie-setup' ); ?></h2>
 
-                <form id="dollie_setup-recommended" method="post"
-                      action="<?php echo self_admin_url( 'admin.php?page=dollie_setup' ); ?>">
-                    <p class="submitted-on"><?php _e( "You're almost finished with the installation process.", 'dollie-setup' ); ?></p>
+				<form id="dollie_setup-recommended" method="post"
+					  action="<?php echo self_admin_url( 'admin.php?page=dollie_setup' ); ?>">
+					<p class="submitted-on"><?php _e( "You're almost finished with the installation process.", 'dollie-setup' ); ?></p>
 
-                    <p class="submitted-on"><?php printf( __( 'Did you know Dollie Setup %s comes prebundled with a few recommended plugins?  These plugins help to add functionality to your existing WordPress site.', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ); ?>
+					<p class="submitted-on"><?php printf( __( 'Did you know Dollie Setup %s comes prebundled with a few recommended plugins?  These plugins help to add functionality to your existing WordPress site.', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ); ?>
 
-                    <p class="submitted-on"><?php _e( "We have automatically selected the following plugins to install for you. However, feel free to uncheck some of these plugins based on your site's needs.", 'dollie-setup' ); ?></p>
+					<p class="submitted-on"><?php _e( "We have automatically selected the following plugins to install for you. However, feel free to uncheck some of these plugins based on your site's needs.", 'dollie-setup' ); ?></p>
 
 					<?php wp_nonce_field( 'dollie_setup_bp_installed', 'dollie_setup-recommended-nonce' ); ?>
 
@@ -800,24 +809,24 @@ class Dollie_Setup_Admin {
 						)
 					);
 					?>
-                </form>
+				</form>
 
-                <script>
-                    jQuery(function () {
-                        dollie_setupRecommendedChecked();
-                        jQuery("#dollie_setup-recommended input[type='checkbox']").change(function () {
-                            dollie_setupRecommendedChecked();
-                        })
-                    })
+				<script>
+					jQuery(function () {
+						dollie_setupRecommendedChecked();
+						jQuery("#dollie_setup-recommended input[type='checkbox']").change(function () {
+							dollie_setupRecommendedChecked();
+						})
+					})
 
-                    function dollie_setupRecommendedChecked() {
-                        if (jQuery("#dollie_setup-recommended input:checked").length > 0) {
-                            jQuery("#dollie_setup-update-recommended").val("<?php echo esc_html( 'Install Selected Plugins', 'dollie-setup' ); ?>");
-                        } else {
-                            jQuery("#dollie_setup-update-recommended").val("<?php echo esc_html( 'Continue without Installing...', 'dollie-setup' ); ?>");
-                        }
-                    }
-                </script>
+					function dollie_setupRecommendedChecked() {
+						if (jQuery("#dollie_setup-recommended input:checked").length > 0) {
+							jQuery("#dollie_setup-update-recommended").val("<?php echo esc_html( 'Install Selected Plugins', 'dollie-setup' ); ?>");
+						} else {
+							jQuery("#dollie_setup-update-recommended").val("<?php echo esc_html( 'Continue without Installing...', 'dollie-setup' ); ?>");
+						}
+					}
+				</script>
 
 				<?php
 				break;
@@ -845,19 +854,19 @@ class Dollie_Setup_Admin {
 			$version = $requirements['Dollie Setup']['core'];
 			?>
 
-            <div id="dollie_setup-upgrades" class="secondary-panel">
-                <h2><?php _e( 'Upgrade Available', 'dollie-setup' ); ?></h2>
+			<div id="dollie_setup-upgrades" class="secondary-panel">
+				<h2><?php _e( 'Upgrade Available', 'dollie-setup' ); ?></h2>
 
-                <div class="login postbox">
-                    <div class="message">
-                        <p><?php printf( __( 'Dollie Setup %1$s requires WordPress %2$s', 'dollie-setup' ), dollie_setup_get_version(), $version ); ?>
-                            <br/>
-                            <a class="button-secondary"
-                               href="<?php echo network_admin_url( 'update-core.php' ); ?>"><?php _e( 'Upgrade now!', 'dollie-setup' ); ?></a>
-                        </p>
-                    </div>
-                </div>
-            </div>
+				<div class="login postbox">
+					<div class="message">
+						<p><?php printf( __( 'Dollie Setup %1$s requires WordPress %2$s', 'dollie-setup' ), dollie_setup_get_version(), $version ); ?>
+							<br/>
+							<a class="button-secondary"
+							   href="<?php echo network_admin_url( 'update-core.php' ); ?>"><?php _e( 'Upgrade now!', 'dollie-setup' ); ?></a>
+						</p>
+					</div>
+				</div>
+			</div>
 
 			<?php
 			return;
@@ -912,7 +921,7 @@ class Dollie_Setup_Admin {
 	 */
 	public function setup_notice() {
 		// if DOLLIE_SETUP is setup, stop now!
-		if ( dollie_setup_is_setup() ) {
+		if ( ! dollie()->auth()->is_connected() || dollie_setup_is_setup() ) {
 			return;
 		}
 
@@ -1001,24 +1010,24 @@ class Dollie_Setup_Admin {
 		?>
 
 
-        <div id="dollie_setup-steps" class="notice dollie-notice dollie-setup">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="#33D399" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-            <h3><?php echo $notice_header; ?></h3>
+		<div id="dollie_setup-steps" class="notice dollie-notice dollie-setup">
+			<svg xmlns="http://www.w3.org/2000/svg" fill="#33D399" viewBox="0 0 24 24" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+					  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+					  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+			</svg>
+			<h3><?php echo $notice_header; ?></h3>
 
-            <p><?php echo $notice_text; ?></p>
+			<p><?php echo $notice_text; ?></p>
 
 
 			<?php if ( empty( $_REQUEST['page'] ) || ( ! empty( $_REQUEST['page'] ) && 'dollie_setup' !== $_REQUEST['page'] ) ) : ?>
-                <div class="dollie-msg-button-right">
-                    <a class="callout" href="<?php echo $button_link; ?>"><?php echo $button_text; ?></a>
-                </div>
+				<div class="dollie-msg-button-right">
+					<a class="callout" href="<?php echo $button_link; ?>"><?php echo $button_text; ?></a>
+				</div>
 			<?php endif; ?>
-        </div>
+		</div>
 
 		<?php
 	}

@@ -92,7 +92,7 @@ final class NoticeService extends Singleton {
 			return;
 		}
 
-		dollie()->load_template( 'admin/notices/not-connected', [ 'url' => $auth_service->get_auth_url() ], true );
+		dollie()->load_template( 'admin/notices/not-connected', [ 'auth_url' => $auth_service->get_auth_url() ], true );
 	}
 
 	/**
