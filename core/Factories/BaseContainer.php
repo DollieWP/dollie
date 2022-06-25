@@ -210,7 +210,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return boolean
 	 */
 	public function is_owned_by_current_user(): bool {
-		return get_current_user_id() === $this->get_author_id();
+		return get_current_user_id() === $this->get_author_id() || user_can( get_current_user_id(), 'manage_options' );
 	}
 
 	/**

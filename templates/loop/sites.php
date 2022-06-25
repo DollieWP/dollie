@@ -255,18 +255,17 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 
 							<?php
 							$staging_url = get_post_meta( get_the_ID(), '_wpd_staging_url', true );
-							if ( $staging_url ) :
-								?>
+							$login_link  = $container->get_customer_login_url();
+							?>
+
+							<?php if ( $staging_url ) : ?>
 								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink( 'staging' ); ?>" data-tooltip="<?php echo esc_attr__( 'Visit Staging Area', 'dollie' ); ?>">
 									<?php echo dollie()->icon()->staging(); ?>
 								</a>
 							<?php endif; ?>
 
-							<?php
-							$login_link = $container->get_customer_login_url();
-							if ( ! empty( $login_link ) ) :
-								?>
-								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo esc_url( $login_link ); ?>" data-tooltip="<?php echo esc_attr__( 'Login to Site as Admin', 'dollie' ); ?>">
+							<?php if ( ! empty( $login_link ) ) : ?>
+								<a target="_blank" class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo esc_url( $login_link ); ?>" data-tooltip="<?php echo esc_attr__( 'Login to Site as Admin', 'dollie' ); ?>">
 									<?php echo dollie()->icon()->login(); ?>
 								</a>
 							<?php endif; ?>
