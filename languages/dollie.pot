@@ -3064,38 +3064,6 @@ msgstr ""
 msgid "Active"
 msgstr ""
 
-#: templates/widgets/site/pages/security-scan.php:37
-msgid "Our SiteGuard has found no issues."
-msgstr ""
-
-#: templates/widgets/site/pages/security-scan.php:40
-msgid "There are no insecure plugins or themes found on your site, Good job!"
-msgstr ""
-
-#: templates/widgets/site/pages/security-scan.php:43
-msgid "Run a security check!"
-msgstr ""
-
-#: templates/widgets/site/pages/security-scan.php:13
-msgid "Critical security issues were found"
-msgstr ""
-
-#: templates/widgets/site/pages/security-scan.php:16
-msgid "Please"
-msgstr ""
-
-#: templates/widgets/site/pages/security-scan.php:18
-msgid "visit your dashboard"
-msgstr ""
-
-#: templates/widgets/site/pages/security-scan.php:19
-msgid "and update or delete the following plugin(s):"
-msgstr ""
-
-#: templates/widgets/site/pages/security-scan.php:26
-msgid " Run the security check again."
-msgstr ""
-
 #: templates/widgets/site/pages/staging.php:27
 msgid "Staging is disabled"
 msgstr ""

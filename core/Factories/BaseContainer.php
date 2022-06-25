@@ -996,6 +996,24 @@ abstract class BaseContainer implements ConstInterface {
 	}
 
 	/**
+	 * Check if container needs updated
+	 *
+	 * @return boolean
+	 */
+	public function needs_updated(): bool {
+		return ! (bool) get_transient( "dollie_container_updated_{$this->get_id()}" );
+	}
+
+	/**
+	 * Mark container as updated
+	 *
+	 * @return void
+	 */
+	protected function mark_updated() {
+		set_transient( "dollie_container_updated_{$this->get_id()}", '1', 3600 );
+	}
+
+	/**
 	 * Get author user instance
 	 *
 	 * @return User

@@ -31,10 +31,15 @@ final class Site extends BaseContainer {
 	 * @return self
 	 */
 	public function fetch_details(): self {
+		if ( ! $this->needs_updated() ) {
+			return $this;
+		}
+
 		$data = $this->get_site_by_id( $this->get_hash() );
 
 		if ( ! is_wp_error( $data ) && isset( $data[0] ) ) {
 			$this->set_details( $data[0] );
+			$this->mark_updated();
 		}
 
 		return $this;
