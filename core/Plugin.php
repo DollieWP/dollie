@@ -292,7 +292,7 @@ class Plugin extends Singleton {
 
 		$user = dollie()->get_user();
 
-		if ( ! $user->can_manage_all_sites() && ! $container->is_owned_by_current_user() ) {
+		if ( ! $container->is_owned_by_current_user() ) {
 			wp_redirect( home_url() );
 			exit;
 		}

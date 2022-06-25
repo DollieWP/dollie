@@ -1750,7 +1750,7 @@ msgstr ""
 msgid "Update Blueprint"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:145, templates/loop/sites.php:260
+#: templates/loop/sites-dashboard.php:145, templates/loop/sites.php:262
 msgid "Visit Staging Area"
 msgstr ""
 
@@ -1762,7 +1762,7 @@ msgstr ""
 msgid "Run Actions"
 msgstr ""
 
-#: templates/loop/sites.php:327
+#: templates/loop/sites.php:326
 msgid "You have no Blueprints yet!"
 msgstr ""
 
@@ -1770,7 +1770,7 @@ msgstr ""
 msgid "Unnamed"
 msgstr ""
 
-#: templates/loop/sites.php:269
+#: templates/loop/sites.php:268
 msgid "Login to Site as Admin"
 msgstr ""
 
