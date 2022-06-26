@@ -24,7 +24,7 @@ class Dollie_Setup_Admin_Plugins {
 	 */
 	protected function __construct() {
 		// load PD on admin menu hook.
-		//add_action( 'dollie_setup_admin_menu', array( 'Plugin_Dependencies', 'init' ), 0 );
+		add_action( 'dollie_setup_admin_menu', array( 'Plugin_Dependencies', 'init' ), 0 );
 
 		// setup the DOLLIE_SETUP plugin menu
 		add_action( 'dollie_setup_admin_menu', array( $this, 'setup_plugins_page' ) );
