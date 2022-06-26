@@ -1010,7 +1010,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return void
 	 */
 	protected function mark_updated() {
-		set_transient( "container.updated.{$this->get_id()}", '1', 3600 );
+		set_transient( "container.updated.{$this->get_id()}", '1', 1800 );
 	}
 
 	/**

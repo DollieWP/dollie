@@ -154,6 +154,8 @@ final class DnsService extends Singleton {
 		}
 
 		$container->delete_routes();
+		$container->mark_not_updated();
+		$container->fetch_details();
 
 		wp_redirect( $container->get_permalink( 'domains' ) );
 	}
