@@ -24,17 +24,11 @@ jQuery(document).ready(function ($) {
         $(".menu-icon-container").removeClass("wp-has-current-submenu");
         $(".menu-icon-container").addClass("wp-not-current-submenu");
         var actionLinks = $(".post-type-container .subsubsub > li a");
-        actionLinks.each(function() {
+        actionLinks.each(function () {
             if ($(this).attr('href').indexOf("blueprint=yes") === -1) {
-                $(this).attr('href', $(this).attr('href') + '&blueprint=yes' );
+                $(this).attr('href', $(this).attr('href') + '&blueprint=yes');
             }
         });
 
     }
-
-    $('.edit-php.post-type-container a.submitdelete, .post-php a.submitdelete').click(function (event) {
-        if (!confirm('Are you sure you want to remove this site?')) {
-            event.preventDefault();
-        }
-    });
 });

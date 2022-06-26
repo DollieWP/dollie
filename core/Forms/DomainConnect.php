@@ -113,35 +113,6 @@ class DomainConnect extends Singleton {
 			return;
 		}
 
-		$domain = trim( af_get_field( 'domain_name' ) );
-		$domain = str_replace( [ 'http://', 'https://' ], '', $domain );
-
-		if ( 'no' === af_get_field( 'allow_dns' ) ) {
-			$records = $container->scan_domain( $domain );
-
-			if ( empty( $records ) ) {
-				af_add_error( 'domain_name', __( 'Cannot fetch domain\'s records. Make sure this is a valid domain name and try again.', 'dollie' ) );
-
-				return;
-			}
-
-			$credentials  = $container->get_credentials();
-			$record_found = false;
-
-			foreach ( $records as $record ) {
-				if ( 'A' === $record['type'] && $credentials['ip'] === $record['ip'] ) {
-					$record_found = true;
-					break;
-				}
-			}
-
-			if ( ! $record_found ) {
-				af_add_error( 'domain_name', __( 'Your domain DNS A record is not yet pointing to our IP address. Please make sure the A records are set correctly and try again.', 'dollie' ) );
-
-				return;
-			}
-		}
-
 		do_action( 'dollie/domain/connect/validate/after' );
 	}
 
