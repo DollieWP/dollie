@@ -20,9 +20,9 @@ final class Container extends Singleton implements ConstInterface {
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'init', [ $this, 'register_post_type' ], 0 );
-
 		if ( dollie()->auth()->is_connected() ) {
+			add_action( 'init', [ $this, 'register_post_type' ], 0 );
+
 			add_action( 'admin_menu', [ $this, 'add_staging_menu_page' ], 1 );
 			add_action( 'admin_menu', [ $this, 'dollie_submenus' ], 99 );
 			add_action( 'admin_menu', [ $this, 'dollie_setup_submenus' ], 1 );
@@ -56,10 +56,6 @@ final class Container extends Singleton implements ConstInterface {
 		add_action( 'add_meta_boxes', [ $this, 'rename_meta_box_title' ] );
 		add_filter( 'parse_query', [ $this, 'filter_containers' ] );
 		add_filter( 'page_row_actions', [ $this, 'add_actions' ], 10, 2 );
-
-		add_action( 'before_delete_post', [ $this, 'delete_container' ] );
-		add_action( 'untrashed_post', [ $this, 'restore_container' ] );
-		add_action( 'wp_trash_post', [ $this, 'stop_container' ] );
 
 		add_filter( 'gettext', [ $this, 'override_empty_trash' ], 50, 3 );
 
@@ -973,53 +969,6 @@ final class Container extends Singleton implements ConstInterface {
 
 		return $actions;
 	}
-
-	/**
-	 * Undeploy container when deleting post
-	 *
-	 * @param int $post_id
-	 */
-	public function delete_container( int $post_id ) {
-		$container = dollie()->get_container( $post_id );
-
-		if ( is_wp_error( $container ) ) {
-			return;
-		}
-
-		$container->delete();
-	}
-
-	/**
-	 * Start container after post restore
-	 *
-	 * @param int $post_id
-	 */
-	public function restore_container( int $post_id ) {
-		$container = dollie()->get_container( $post_id );
-
-		if ( is_wp_error( $container ) ) {
-			return;
-		}
-
-		$container->perform_action( self::ACTION_START );
-		wp_publish_post( $container->get_id() );
-	}
-
-	/**
-	 * Stop container after moving to trash
-	 *
-	 * @param int $post_id
-	 */
-	public function stop_container( int $post_id ) {
-		$container = dollie()->get_container( $post_id );
-
-		if ( is_wp_error( $container ) ) {
-			return;
-		}
-
-		$container->perform_action( self::ACTION_STOP );
-	}
-
 
 	/**
 	 * Override the "Empty Trash" string on admin pages for a custom post type

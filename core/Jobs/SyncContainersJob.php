@@ -27,20 +27,7 @@ class SyncContainersJob extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		// add_action( 'init', [ $this, 'init_recurring_tasks' ] );
-
-		// add_action( 'dollie/jobs/single/sync_containers', [ $this, 'run' ], 10 );
-		// add_action( 'dollie/jobs/recurring/sync_containers', [ $this, 'run' ], 10 );
 		add_action( 'admin_init', [ $this, 'sync_containers' ] );
-	}
-
-	/**
-	 * Init recurring tasks
-	 */
-	public function init_recurring_tasks() {
-		// if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/sync_containers' ) ) {
-		// as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/sync_containers' );
-		// }
 	}
 
 	/**

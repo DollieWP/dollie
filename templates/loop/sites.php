@@ -305,7 +305,7 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 				<?php printf( esc_html__( 'No %s Found', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>
 			</div>
 
-			<?php if ( ! isset( $_GET['blueprints'] ) && ! $_GET['blueprints'] ) : ?>
+			<?php if ( ! isset( $_GET['blueprints'] ) || ! $_GET['blueprints'] ) : ?>
 				<div class="dol-my-4">
 					<a href="<?php echo esc_html( dollie()->page()->get_launch_url() ); ?>"
 						class="dol-btn dol-bg-secondary dol-text-white dol-mt-3">
