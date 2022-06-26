@@ -1001,7 +1001,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return boolean
 	 */
 	public function needs_updated(): bool {
-		return ! (bool) get_transient( "dollie_container_updated_{$this->get_id()}" );
+		return ! (bool) get_transient( "container.updated.{$this->get_id()}" );
 	}
 
 	/**
@@ -1010,7 +1010,16 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return void
 	 */
 	protected function mark_updated() {
-		set_transient( "dollie_container_updated_{$this->get_id()}", '1', 3600 );
+		set_transient( "container.updated.{$this->get_id()}", '1', 3600 );
+	}
+
+	/**
+	 * Mark container as not updated
+	 *
+	 * @return void
+	 */
+	public function mark_not_updated() {
+		delete_transient( "container.updated.{$this->get_id()}" );
 	}
 
 	/**

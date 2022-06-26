@@ -96,7 +96,7 @@ final class DeployService extends Singleton implements ConstInterface {
 				'ping_status'    => 'closed',
 				'post_author'    => $data['owner_id'],
 				'post_name'      => $route,
-				'post_title'     => "{$route} [ 🚀 Launching ]",
+				'post_title'     => '🚀 Launching',
 				'post_status'    => 'publish',
 				'post_type'      => 'container',
 				'meta_input'     => $meta_input,

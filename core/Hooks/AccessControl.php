@@ -27,7 +27,7 @@ class AccessControl extends Singleton {
 		add_action( 'template_redirect', [ $access_service, 'protect_launch_site' ] );
 		add_action( 'template_redirect', [ $access_service, 'protect_container_access' ], 1 );
 		add_action( 'template_redirect', [ $access_service, 'disable_blueprint_domain_access' ], 1 );
-		// add_action( 'admin_init', [ $access_service, 'admin_access_only' ], 100 );
+		add_action( 'admin_init', [ $access_service, 'admin_access_only' ], 100 );
 		add_action( 'user_has_cap', [ $access_service, 'restrict_form_delete' ], 10, 3 );
 
 		add_filter( 'wp_dropdown_users_args', [ $access_service, 'allow_all_authors' ], 10, 2 );

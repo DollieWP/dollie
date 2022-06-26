@@ -79,6 +79,7 @@ final class ContainerService extends Singleton {
 			return;
 		}
 
+		$container->mark_not_updated();
 		$container->fetch_details();
 	}
 
