@@ -144,17 +144,6 @@ final class Site extends BaseContainer {
 	}
 
 	/**
-	 * Scan domain
-	 *
-	 * @param string $domain
-	 *
-	 * @return \WP_Error|array
-	 */
-	public function scan_domain( string $domain ) {
-		return $this->scan_zone( $domain );
-	}
-
-	/**
 	 * Get routes
 	 *
 	 * @return \WP_Error|array
