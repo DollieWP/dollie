@@ -51,7 +51,7 @@ final class User {
 	 * @return string
 	 */
 	public function get_email(): string {
-		return $this->user->email;
+		return $this->user->user_email;
 	}
 
 	/**
