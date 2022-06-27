@@ -83,32 +83,35 @@ final class BlueprintService extends Singleton {
 	 * Get dynamic fields
 	 *
 	 * @param $deploy_data
-	 * @param $blueprint_id
 	 *
 	 * @return array
 	 */
 	public function get_dynamic_fields( $deploy_data ): array {
-		if ( isset( $_POST['wpd_bp_data'] ) && is_array( $_POST['wpd_bp_data'] ) &&
-			is_array( $deploy_data ) && isset( $deploy_data['blueprint_id'] ) && false !== $deploy_data['blueprint_id'] ) {
+		if ( ! isset( $_POST['wpd_bp_data'] ) || ! is_array( $_POST['wpd_bp_data'] ) ) {
+			return $deploy_data;
+		}
 
-			$customizer = [];
-			$container  = dollie()->get_container( $deploy_data['blueprint_id'] );
+		if ( ! is_array( $deploy_data ) || ! isset( $deploy_data['blueprint_id'] ) || false === $deploy_data['blueprint_id'] ) {
+			return $deploy_data;
+		}
 
-			if ( is_wp_error( $container ) ) {
-				return $deploy_data;
+		$customizer = [];
+		$container  = dollie()->get_container( $deploy_data['blueprint_id'] );
+
+		if ( is_wp_error( $container ) ) {
+			return $deploy_data;
+		}
+
+		$fields = $container->get_dynamic_fields();
+
+		foreach ( $fields as $field ) {
+			if ( ! empty( $field['placeholder'] ) && isset( $_POST['wpd_bp_data'][ $field['placeholder'] ] ) ) {
+				$customizer[ $field['placeholder'] ] = $_POST['wpd_bp_data'][ $field['placeholder'] ];
 			}
+		}
 
-			$fields = $container->get_dynamic_fields();
-
-			foreach ( $fields as $field ) {
-				if ( ! empty( $field['placeholder'] ) && isset( $_POST['wpd_bp_data'][ $field['placeholder'] ] ) ) {
-					$customizer[ $field['placeholder'] ] = $_POST['wpd_bp_data'][ $field['placeholder'] ];
-				}
-			}
-
-			if ( ! empty( $customizer ) ) {
-				$deploy_data['bp_customizer'] = $customizer;
-			}
+		if ( ! empty( $customizer ) ) {
+			$deploy_data['bp_customizer'] = $customizer;
 		}
 
 		return $deploy_data;

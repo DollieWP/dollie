@@ -91,6 +91,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 			$owner_id = get_current_user_id();
 		}
 
+		$blueprint_id   = null;
 		$blueprint_hash = null;
 
 		if ( 'blueprint' !== af_get_field( 'site_type' ) ) {
@@ -100,6 +101,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 				$container = dollie()->get_container( $blueprint_id );
 
 				if ( ! is_wp_error( $container ) && $container->is_blueprint() ) {
+					$blueprint_id   = $container->get_id();
 					$blueprint_hash = $container->get_hash();
 				}
 			}
@@ -111,14 +113,15 @@ class LaunchSite extends Singleton implements ConstInterface {
 		}
 
 		$deploy_data = [
-			'owner_id'    => $owner_id,
-			'blueprint'   => $blueprint_hash,
-			'email'       => af_get_field( 'site_admin_email' ),
-			'username'    => af_get_field( 'admin_username' ),
-			'password'    => af_get_field( 'admin_password' ),
-			'name'        => af_get_field( 'site_name' ),
-			'description' => af_get_field( 'site_description' ),
-			'redirect'    => $redirect,
+			'owner_id'     => $owner_id,
+			'blueprint_id' => $blueprint_id,
+			'blueprint'    => $blueprint_hash,
+			'email'        => af_get_field( 'site_admin_email' ),
+			'username'     => af_get_field( 'admin_username' ),
+			'password'     => af_get_field( 'admin_password' ),
+			'name'         => af_get_field( 'site_name' ),
+			'description'  => af_get_field( 'site_description' ),
+			'redirect'     => $redirect,
 		];
 
 		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data );

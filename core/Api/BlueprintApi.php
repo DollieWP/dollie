@@ -71,7 +71,7 @@ trait BlueprintApi {
 	 * @return \WP_Error|array
 	 */
 	public function check_blueprint_dynamic_fields( string $container_hash, array $fields ) {
-		return $this->post_request( "blueprints/{$container_hash}/domain", [ 'fields' => $fields ] );
+		return $this->post_request( "blueprints/{$container_hash}/fields", [ 'fields' => $fields ] );
 	}
 
 	/**

@@ -24,7 +24,7 @@ $fields = array_filter(
 			<label><?php echo esc_html( $field['name'] ); ?></label>
 		</div>
 		<div class="af-input acf-input">
-			<input name="wpd_bp_data['<?php echo esc_attr( $field['placeholder'] ); ?>']" type="text" placeholder="<?php echo esc_attr( $field['default_value'] ); ?>">
+			<input name="wpd_bp_data[<?php echo esc_attr( $field['placeholder'] ); ?>]" type="text" placeholder="<?php echo esc_attr( $field['default_value'] ); ?>">
 		</div>
 	</div>
 <?php endforeach; ?>

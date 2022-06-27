@@ -67,6 +67,10 @@ final class DeployService extends Singleton implements ConstInterface {
 			$deploy_type = 'stagings';
 		} else {
 			$deploy_type = 'sites';
+
+			if ( isset( $data['bp_customizer'] ) ) {
+				$vars['dynamic'] = $data['bp_customizer'];
+			}
 		}
 
 		$deploy = $this->start_deploy(
