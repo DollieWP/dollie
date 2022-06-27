@@ -196,16 +196,6 @@ final class Acf extends Singleton implements ConstInterface {
 			'path'       => 'wpd_backup_google_path',
 		];
 
-		if ( ! $_POST['acf'][ acf_get_field( $settings['status'] )['key'] ] ) {
-			$this->set_partner_option(
-				[
-					'backup' => [ 'status' => 0 ],
-				]
-			);
-
-			return;
-		}
-
 		// Check if any child has changed.
 		foreach ( $settings as $k => $setting ) {
 			$new_data[ $k ] = $_POST['acf'][ acf_get_field( $setting )['key'] ];
