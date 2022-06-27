@@ -23,7 +23,7 @@ class ChangeContainerRoleJob extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'dollie/jobs/single/change_container_customer_role', [ $this, 'run' ], 10, 4 );
+		add_action( 'dollie/jobs/single/change_container_customer_role', [ $this, 'run' ], 10, 3 );
 	}
 
 	/**
@@ -35,7 +35,7 @@ class ChangeContainerRoleJob extends Singleton {
 	 *
 	 * @return boolean
 	 */
-	public function run( Site $container, User $user, string $role ) {
+	public function run( Site $container, User $user, string $role = '' ) {
 		$role = $role ?: $container->user()->get_container_user_role();
 
 		if ( ! $role ) {
@@ -54,7 +54,7 @@ class ChangeContainerRoleJob extends Singleton {
 			]
 		);
 
-		// Log::add( $container->get_url( true ) . ' client access was set to ' . $role );
+		Log::add( $container->get_url( true ) . ' client access was set to ' . $role );
 
 		return false;
 	}
