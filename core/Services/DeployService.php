@@ -181,6 +181,7 @@ final class DeployService extends Singleton implements ConstInterface {
 				'post_title' => $post_title,
 			];
 			$container->update_post( $post_data )->set_details( [ 'hash' => $deploy['hash'] ] );
+			$container->mark_not_updated();
 			$container->fetch_details();
 		}
 

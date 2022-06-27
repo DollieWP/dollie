@@ -2,14 +2,12 @@
 
 namespace Dollie\Core\Elementor\Tags;
 
-use Elementor\Controls_Manager;
 use Elementor\Core\DynamicTags\Data_Tag;
 use Elementor\Modules\DynamicTags\Module;
 
 class SiteScreenshot extends Data_Tag {
 
 	public function get_name() {
-
 		return 'dollie-site-screenshot';
 	}
 
