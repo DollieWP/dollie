@@ -1,102 +1,5 @@
 <?php
 
-/*
-Container object reference
-
-[
-  "hash" => ""
-  "type" => 0
-  "url" => ""
-  "custom_urls" => [
-	[
-	  "name" => ""
-	  "primary" => 0
-	  "status" => 1
-	]
-  ]
-  "status" => ""
-  "deleted_at" => ""
-  "screenshot" => ""
-  "secret" => ""
-  "token" => ""
-  "php" => ""
-  "size" => 0
-  "cache" => [
-	"method" => null
-	"op_cache" => "1"
-	"object_cache" => false
-  ]
-  "site" => [
-	"name" => ""
-	"description" => ""
-	"stats" => [
-	  "posts_count" => "1"
-	  "pages_count" => "1"
-	  "users_count" => 1
-	  "comments_total" => 1
-	  "comments_moderation" => 0
-	  "comments_approved" => 1
-	  "comments_spam" => 0
-	  "comments_trash" => 0
-	]
-	"admin" => [
-	  "username" => ""
-	  "email" => ""
-	]
-	"multisite" => false
-	"wp_version" => ""
-	"plugins" => [
-	  [
-		"name" => "Powered Cache"
-		"slug" => "powered-cache"
-		"loader" => "powered-cache/powered-cache.php"
-		"active" => true
-		"update" => true
-		"version" => "2.1.1"
-		"author" => "PoweredCache"
-		"uri" => "https://poweredcache.com"
-	  ]
-	]
-	"themes" => array:2 [
-	  [
-		"name" => "Twenty Twenty"
-		"slug" => "twentytwenty"
-		"active" => true
-		"update" => false
-		"version" => "1.9"
-		"author" => "the WordPress team"
-		"uri" => "https://wordpress.org/themes/twentytwenty/"
-	  ]
-	]
-	"updates" => [
-	  "themes" => 0
-	  "plugins" => 1
-	  "core" => [
-		"available" => false
-		"update_to" => "5.9.2"
-	  ]
-	]
-	"login_url" => ""
-  ]
-  "backups" => [
-	[
-	  "date" => "2022-04-04"
-	  "hour" => "07:52:00"
-	  "restore" => false
-	  "size" => "173 MB"
-	]
-  ]
-  "credentials" => [
-	"secret" => ""
-	"ip" => ""
-	"username" => ""
-	"password" => ""
-	"port" => ""
-  ]
-]
-
-*/
-
 namespace Dollie\Core\Factories;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -452,10 +355,10 @@ abstract class BaseContainer implements ConstInterface {
 			return $default_screenshot;
 		}
 
-		$screenshot = $this->get_details( 'screenshot' );
+		$screenshot = get_the_post_thumbnail_url( $this->get_id() );
 
-		if ( is_wp_error( $screenshot ) ) {
-			return '';
+		if ( is_wp_error( $screenshot ) || ! $screenshot ) {
+			return $default_screenshot;
 		}
 
 		return $screenshot;
@@ -891,6 +794,41 @@ abstract class BaseContainer implements ConstInterface {
 					'post_title' => is_wp_error( $site_name ) ? __( 'Unnamed site', 'dolie' ) : $site_name,
 				]
 			);
+		}
+
+		if ( isset( $details['screenshot'] ) && $details['screenshot'] ) {
+			$screenshot_img = $details['screenshot'];
+
+			$upload_dir = wp_upload_dir();
+			$image_data = file_get_contents( $screenshot_img );
+			$filename   = basename( $screenshot_img );
+
+			if ( wp_mkdir_p( $upload_dir['path'] ) ) {
+				$file = $upload_dir['path'] . '/' . $filename;
+			} else {
+				$file = $upload_dir['basedir'] . '/' . $filename;
+			}
+
+			file_put_contents( $file, $image_data );
+
+			$wp_filetype = wp_check_filetype( $filename, null );
+
+			$attach_id = wp_insert_attachment(
+				[
+					'post_mime_type' => $wp_filetype['type'],
+					'post_title'     => sanitize_file_name( $filename ),
+					'post_content'   => '',
+					'post_status'    => 'inherit',
+				],
+				$file,
+				$this->get_id()
+			);
+
+			require_once ABSPATH . 'wp-admin/includes/image.php';
+
+			$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
+			wp_update_attachment_metadata( $attach_id, $attach_data );
+			set_post_thumbnail( $this->get_id(), $attach_id );
 		}
 
 		return $this;
