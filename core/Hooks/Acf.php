@@ -173,9 +173,9 @@ final class Acf extends Singleton implements ConstInterface {
 			}
 
 			return;
+		} elseif ( $domain && ! $saved_domain ) {
+			$workspaceService->add_deployment_domain( $domain );
 		}
-
-		$workspaceService->add_deployment_domain( $domain );
 	}
 
 	/**
