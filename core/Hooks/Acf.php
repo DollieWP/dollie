@@ -89,23 +89,23 @@ final class Acf extends Singleton implements ConstInterface {
 			]
 		);
 
-		if ( $query->have_posts() ) {
-			foreach ( $query->posts as $post ) {
-				$container = dollie()->get_container( $post );
+		$posts = $query->get_posts();
 
-				if ( is_wp_error( $container ) ) {
-					continue;
-				}
+		foreach ( $posts as $post ) {
+			$container = dollie()->get_container( $post );
 
-				as_enqueue_async_action(
-					'dollie/jobs/single/change_container_customer_role',
-					[
-						'container' => $container,
-						'user'      => $user,
-						'role'      => $role,
-					]
-				);
+			if ( is_wp_error( $container ) || ! $container->is_site() ) {
+				continue;
 			}
+
+			as_enqueue_async_action(
+				'dollie/jobs/single/change_container_customer_role',
+				[
+					'container' => $container,
+					'user'      => $user,
+					'role'      => $role,
+				]
+			);
 		}
 
 		wp_reset_postdata();
@@ -171,8 +171,6 @@ final class Acf extends Singleton implements ConstInterface {
 			if ( $removed ) {
 				$workspaceService->add_deployment_domain( $domain );
 			}
-
-			return;
 		} elseif ( $domain && ! $saved_domain ) {
 			$workspaceService->add_deployment_domain( $domain );
 		}
@@ -198,7 +196,17 @@ final class Acf extends Singleton implements ConstInterface {
 			'path'       => 'wpd_backup_google_path',
 		];
 
-		// Check if any chiled has changed.
+		if ( ! $_POST['acf'][ acf_get_field( $settings['status'] )['key'] ] ) {
+			$this->set_partner_option(
+				[
+					'backup' => [ 'status' => 0 ],
+				]
+			);
+
+			return;
+		}
+
+		// Check if any child has changed.
 		foreach ( $settings as $k => $setting ) {
 			$new_data[ $k ] = $_POST['acf'][ acf_get_field( $setting )['key'] ];
 

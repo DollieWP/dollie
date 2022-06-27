@@ -225,7 +225,6 @@ final class User {
 			$this->delete_meta( 'wpd_stop_container_at' );
 		}
 
-		// Instantiate custom query.
 		$query = new \WP_Query(
 			[
 				'author'         => $this->user->ID,
@@ -236,7 +235,6 @@ final class User {
 
 		$posts = $query->get_posts();
 
-		// Output custom query loop.
 		foreach ( $posts as $post ) {
 			$container = dollie()->get_container( $post );
 

@@ -54,7 +54,7 @@ class ChangeContainerRoleJob extends Singleton {
 			]
 		);
 
-		Log::add( $container->get_url( true ) . ' client access was set to ' . $role );
+		// Log::add( $container->get_url( true ) . ' client access was set to ' . $role );
 
 		return false;
 	}
