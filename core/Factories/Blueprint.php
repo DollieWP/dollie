@@ -158,7 +158,7 @@ final class Blueprint extends BaseContainer {
 	 * @return boolean|string
 	 */
 	public function get_changes_update_time() {
-		return get_post_time( $this->get_id(), 'dollie_blueprint_update_time', true );
+		return get_post_meta( $this->get_id(), 'dollie_blueprint_update_time', true );
 	}
 
 	/**
