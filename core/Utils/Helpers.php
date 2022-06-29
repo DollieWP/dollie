@@ -233,11 +233,18 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @return integer
 	 */
-	public function count_total_containers(): int {
+	public function count_total_sites(): int {
 		$query = new WP_Query(
 			[
 				'post_type'     => 'container',
 				'post_per_page' => - 1,
+				'meta_query'    => [
+					'relation' => 'AND',
+					[
+						'key'   => 'dollie_container_type',
+						'value' => '0',
+					],
+				],
 			]
 		);
 
@@ -258,6 +265,10 @@ class Helpers extends Singleton implements ConstInterface {
 				'post_per_page' => - 1,
 				'meta_query'    => [
 					'relation' => 'AND',
+					[
+						'key'   => 'dollie_container_type',
+						'value' => '1',
+					],
 					[
 						'key'   => 'wpd_blueprint_created',
 						'value' => 'yes',
@@ -288,7 +299,11 @@ class Helpers extends Singleton implements ConstInterface {
 				'meta_query'    => [
 					'relation' => 'AND',
 					[
-						'key'   => 'wpd_is_blueprint',
+						'key'   => 'dollie_container_type',
+						'value' => '1',
+					],
+					[
+						'key'   => 'wpd_blueprint_created',
 						'value' => 'yes',
 					],
 				],

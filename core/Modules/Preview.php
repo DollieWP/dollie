@@ -82,7 +82,24 @@ class Preview extends Singleton {
 				$args = [
 					'author'         => get_current_user_id(),
 					'post_type'      => 'container',
-					'posts_per_page' => 50,
+					'posts_per_page' => -1,
+					'post_status'    => 'publish',
+					'meta_query'     => [
+						'relation' => 'AND',
+						[
+							'key'   => 'dollie_container_type',
+							'value' => '1',
+						],
+						[
+							'key'   => 'wpd_blueprint_created',
+							'value' => 'yes',
+						],
+						[
+							'key'     => 'wpd_installation_blueprint_title',
+							'compare' => 'EXISTS',
+						],
+					],
+
 				];
 			}
 		} else {
@@ -95,6 +112,14 @@ class Preview extends Singleton {
 					[
 						'key'   => 'dollie_container_type',
 						'value' => '1',
+					],
+					[
+						'key'   => 'wpd_blueprint_created',
+						'value' => 'yes',
+					],
+					[
+						'key'     => 'wpd_installation_blueprint_title',
+						'compare' => 'EXISTS',
 					],
 				],
 
@@ -131,10 +156,10 @@ class Preview extends Singleton {
 				$product_id = get_post_meta( $container->get_id(), 'wpd_installation_blueprint_hosting_product', true );
 
 				if ( $product_id ) {
+					$image = $container->get_screenshot();
+
 					if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
 						$image = get_field( 'wpd_blueprint_custom_image' );
-					} else {
-						$image = $container->get_screenshot();
 					}
 
 					$theme_array[] = [
@@ -142,7 +167,7 @@ class Preview extends Singleton {
 						'id'          => $container->get_id(),
 						'title'       => $container->get_saved_title(),
 						'title_short' => $container->get_name(),
-						'url'         => $container->get_url(),
+						'url'         => $container->get_url(true),
 						'buy'         => dollie()->subscription()->get_checkout_link(
 							[
 								'product_id'   => $product_id[0],

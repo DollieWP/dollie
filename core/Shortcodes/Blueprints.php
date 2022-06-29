@@ -88,6 +88,7 @@ final class Blueprints extends Singleton implements Base {
 		}
 
 		$query = new WP_Query( $args );
+		$posts = $query->get_posts();
 
 		ob_start();
 
@@ -96,13 +97,11 @@ final class Blueprints extends Singleton implements Base {
 
 			echo '<ul class="dol-grid dol-grid-cols-1 dol-gap-6 sm:dol-grid-cols-2 md:dol-grid-cols-' . $rows . ' lg:dol-grid-cols-' . $rows . ' dol-m-0 dol-p-0">';
 
-			while ( $query->have_posts() ) {
-				$query->the_post();
-
+			foreach ( $posts as $post ) {
 				dollie()->load_template(
 					'loop/blueprints',
 					[
-						'query'              => $query,
+						'post'               => $post,
 						'launch_button_text' => $a['launch-button-text'],
 						'view_demo_text'     => $a['view-demo-text'],
 						'checkout_url'       => $a['checkout-url'],
