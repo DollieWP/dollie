@@ -10,7 +10,7 @@ if ( is_wp_error( $container ) || ! $container->is_blueprint() || $container->is
 	return false;
 }
 
-$product_id = get_field( 'wpd_installation_blueprint_hosting_product' );
+$product_id = get_field( 'wpd_installation_blueprint_hosting_product', $container->get_id() );
 
 $checkout_link = '';
 
