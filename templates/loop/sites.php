@@ -223,8 +223,8 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 									<?php esc_html_e( 'Blueprint Updated', 'dollie' ); ?>
 								</div>
 								<div class="dol-font-bold">
-									<?php if ( get_post_meta( get_the_ID(), 'wpd_blueprint_time', true ) ) : ?>
-										<?php echo get_post_meta( get_the_ID(), 'wpd_blueprint_time', true ); ?>
+									<?php if ( $container->get_changes_update_time() ) : ?>
+										<?php echo $container->get_changes_update_time(); ?>
 									<?php else : ?>
 										<a class="dol-link" href="<?php echo $container->get_permalink( 'blueprints' ); ?>">
 											<?php esc_html_e( 'Never. Update now!', 'dollie' ); ?>
