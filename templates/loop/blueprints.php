@@ -1,7 +1,7 @@
 <?php
 $container = dollie()->get_container( get_the_ID() );
 
-if ( is_wp_error( $container ) || ! $container->is_blueprint() || $container->is_private()  ) {
+if ( is_wp_error( $container ) || ! $container->is_blueprint() || $container->is_private() ) {
 	return false;
 }
 
@@ -10,16 +10,20 @@ $product_id = get_field( 'wpd_installation_blueprint_hosting_product' );
 if ( ! empty( $checkout_url ) ) {
 	$checkout_link = $checkout_url;
 } else {
-	$checkout_link = dollie()->subscription()->get_checkout_link( [ 'product_id' => $product_id[0], 'blueprint_id' =>get_the_ID() ] );
+	$checkout_link = dollie()->subscription()->get_checkout_link(
+		[
+			'product_id'   => $product_id[0],
+			'blueprint_id' => get_the_ID(),
+		]
+	);
 }
+
+$image = $container->get_screenshot();
 
 if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
 	$image = get_field( 'wpd_blueprint_custom_image' );
-} elseif ( get_field( 'wpd_blueprint_image' ) === 'theme' ) {
-	$image = get_post_meta( get_the_ID(), 'wpd_site_screenshot', true );
-} else {
-	$image = get_post_meta( get_the_ID(), 'wpd_site_screenshot', true );
 }
+
 ?>
 <li class="dol-m-0 dol-col-span-1 dol-flex dol-flex-col <?php do_action( 'dol_add_widget_classes' ); ?> dol-divide-y dol-divide-gray-200 dol-p-0 dol-widget-blueprint">
 	<img class="dol-w-100 dol-h-100 dol-flex-shrink-0 dol-mx-auto" src="<?php echo $image; ?>" alt="">
