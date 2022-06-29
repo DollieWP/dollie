@@ -70,7 +70,9 @@ class Helpers extends Singleton implements ConstInterface {
 				return new \WP_Error( 500, 'Invalid container type' );
 		}
 
-		$container->fetch_details();
+		if ( is_single( $object ) ) {
+			$container->fetch_details();
+		}
 
 		return $container;
 	}
