@@ -43,10 +43,14 @@ final class BlueprintService extends Singleton {
 		$updated_time = $container->get_changes_update_time();
 
 		if ( ! $updated_time ) {
-			dollie()->load_template( 'notices/blueprint-staging', [ 'container' => $container ] );
-		} else {
-			dollie()->load_template( 'notices/blueprint-live', [ 'container' => $container ] );
+			dollie()->load_template( 'notices/blueprint-staging', [ 'container' => $container ], true );
+
+			return;
 		}
+
+		dollie()->load_template( 'notices/blueprint-live', [ 'container' => $container ], true );
+
+		return;
 	}
 
 	/**
