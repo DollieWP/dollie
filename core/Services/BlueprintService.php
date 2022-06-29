@@ -36,7 +36,7 @@ final class BlueprintService extends Singleton {
 
 		$container = dollie()->get_container();
 
-		if ( is_wp_error( $container ) || ! $container->is_blueprint() || 'Deploying' !== $container->get_status() ) {
+		if ( is_wp_error( $container ) || ! $container->is_blueprint() || $container->is_deploying() ) {
 			return;
 		}
 

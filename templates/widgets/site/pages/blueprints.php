@@ -2,7 +2,7 @@
 
 $container = dollie()->get_container();
 
-if ( is_wp_error( $container ) || ! $container->is_blueprint() ) {
+if ( is_wp_error( $container ) || ! $container->is_blueprint() || ! $container->user()->can_manage_options() ) {
 	return;
 }
 
@@ -20,7 +20,7 @@ foreach ( $groups as $group ) {
 	<?php esc_html_e( 'Manage This Blueprint', 'dollie' ); ?>
 </h2>
 
-<?php if ( '' == $blueprint_time && current_user_can( 'manage_options' ) ) : ?>
+<?php if ( ! $blueprint_time ) : ?>
 	<div class="dol-my-6">
 		<?php ob_start(); ?>
 		<div class="dol-mb-4">
@@ -49,6 +49,7 @@ foreach ( $groups as $group ) {
 			);
 			?>
 		</div>
+		
 		<?php
 		$message = ob_get_clean();
 		dollie()->load_template(
@@ -63,11 +64,7 @@ foreach ( $groups as $group ) {
 		);
 		?>
 	</div>
-
-<?php endif ?>
-
-<?php if ( '' !== $blueprint_time && current_user_can( 'manage_options' ) ) : ?>
-
+<?php else : ?>
 	<div class="dol-my-6">
 		<?php ob_start(); ?>
 
@@ -202,35 +199,34 @@ foreach ( $groups as $group ) {
 						<?php esc_html_e( 'We copy over:', 'dollie' ); ?>
 					</div>
 					<ul class="dol-list-bullet dol-m-0 dol-p-0 dol-pl-5 dol-text-sm" ">
-				<li><?php esc_html_e( 'Plugins', 'dollie' ); ?></li>
-				<li><?php esc_html_e( 'Themes', 'dollie' ); ?></li>
-				<li><?php esc_html_e( 'Media Upload', 'dollie' ); ?></li>
-				<li><?php esc_html_e( 'The Database*', 'dollie' ); ?></li>
-				</ul>
+						<li><?php esc_html_e( 'Plugins', 'dollie' ); ?></li>
+						<li><?php esc_html_e( 'Themes', 'dollie' ); ?></li>
+						<li><?php esc_html_e( 'Media Upload', 'dollie' ); ?></li>
+						<li><?php esc_html_e( 'The Database*', 'dollie' ); ?></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class=" dol-w-full md:dol-w-1/2 lg:dol-w-2/6 dol-p-4">
+			<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden">
+				<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
+					<h4 class="dol-m-0 dol-p-0 dol-text-white dol-text-base md:dol-text-xl">
+						<?php esc_html_e( 'What is excluded?', 'dollie' ); ?>
+					</h4>
+				</div>
+				<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
+					<div class="dol-font-bold dol-mb-2">
+						<?php esc_html_e( 'We DO NOT copy:', 'dollie' ); ?>
+					</div>
+					<ul class="dol-list-bullet dol-m-0 dol-p-0 dol-pl-5 dol-text-sm">
+						<li><?php esc_html_e( 'mu-plugins folder', 'dollie' ); ?></li>
+						<li><?php esc_html_e( 'All WordPress Core Files', 'dollie' ); ?></li>
+						<li><?php esc_html_e( 'WP-Config.php', 'dollie' ); ?></li>
+						<li><?php esc_html_e( 'wp_users & wp_usermeta tables', 'dollie' ); ?></li>
+						<li><?php esc_html_e( 'All non-core folders and files outside of wp-content', 'dollie' ); ?></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 	</div>
-	<div class=" dol-w-full md:dol-w-1/2 lg:dol-w-2/6 dol-p-4">
-						<div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden">
-							<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
-								<h4 class="dol-m-0 dol-p-0 dol-text-white dol-text-base md:dol-text-xl">
-									<?php esc_html_e( 'What is excluded?', 'dollie' ); ?>
-								</h4>
-							</div>
-							<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
-								<div class="dol-font-bold dol-mb-2">
-									<?php esc_html_e( 'We DO NOT copy:', 'dollie' ); ?>
-								</div>
-								<ul class="dol-list-bullet dol-m-0 dol-p-0 dol-pl-5 dol-text-sm">
-									<li><?php esc_html_e( 'mu-plugins folder', 'dollie' ); ?></li>
-									<li><?php esc_html_e( 'All WordPress Core Files', 'dollie' ); ?></li>
-									<li><?php esc_html_e( 'WP-Config.php', 'dollie' ); ?></li>
-									<li><?php esc_html_e( 'wp_users & wp_usermeta tables', 'dollie' ); ?></li>
-									<li><?php esc_html_e( 'All non-core folders and files outside of wp-content', 'dollie' ); ?></li>
-								</ul>
-							</div>
-						</div>
-				</div>
-			</div>
-
-		<?php endif ?>
+<?php endif ?>
