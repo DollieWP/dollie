@@ -65,7 +65,7 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 						__( 'If you have cancelled your subscription by accident please re-activate your <a href="%s">subscription</a> to prevent this site from being removed completely.', 'dollie' ),
 						get_permalink( wc_get_page_id( 'myaccount' ) )
 					)
-				)
+				);
 				?>
 			</p>
 
@@ -140,7 +140,6 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 		</div>
 	</div>
 <?php elseif ( $container->is_deploying() || isset( $_GET['launch-splash-preview'] ) ) : ?>
-
 	<?php
 
 	if ( ! dollie()->is_elementor_editor() ) {
@@ -154,7 +153,6 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 	dollie()->load_template( 'parts/site-deploying-checker', [], true );
 
 	?>
-
 
 	<div class="dol-mt-1 dol-text-md div-loader-wrap dol-text-l dol-text-center dol-p-6">
 		<div class="dol-py-8 dol-flex dol-flex-col dol-items-center dol-justify-center">

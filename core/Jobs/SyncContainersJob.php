@@ -34,11 +34,100 @@ class SyncContainersJob extends Singleton {
 	 * Sync with query string
 	 */
 	public function sync_containers() {
-		if ( ! isset( $_GET['dollie-sync-containers'] ) ) {
+		if ( isset( $_GET['dollie-sync-containers'] ) ) {
+			$this->run();
+		}
+
+		if ( isset( $_GET['dollie-sync-container'] ) && isset( $_GET['container-id'] ) && $_GET['container-id'] ) {
+			$this->run_single( $_GET['container-id'] );
+		}
+	}
+
+	public function run_single( $container_id ) {
+		$data = $this->get_site_by_id( $container_id );
+
+		if ( is_wp_error( $data ) || ! isset( $data[0] ) ) {
 			return;
 		}
 
-		$this->run();
+		$site = $data[0];
+
+		$stored_containers = get_posts(
+			[
+				'numberposts' => -1,
+				'post_type'   => 'container',
+				'post_status' => [ 'publish', 'draft', 'trash' ],
+			]
+		);
+
+		$exists = false;
+
+		foreach ( $stored_containers as $stored_container ) {
+			$old_container_hash = get_post_meta( $stored_container->ID, 'wpd_container_id', true );
+
+			// If container was stored during Dollie V1.0, switch to new version
+			if ( $old_container_hash ) {
+				if ( $site['hash'] !== $old_container_hash ) {
+					continue;
+				}
+
+				update_post_meta( $stored_container->ID, 'dollie_container_type', $site['type'] );
+				delete_post_meta( $stored_container->ID, 'wpd_container_id' );
+
+				$container = dollie()->get_container( $stored_container );
+			} else {
+				$container = dollie()->get_container( $stored_container );
+
+				if ( is_wp_error( $container ) || $site['hash'] !== $container->get_hash() ) {
+					continue;
+				}
+			}
+
+			$exists = true;
+			$container->set_details( $site );
+
+			if ( $container->should_be_trashed() ) {
+				wp_trash_post( $container->get_id() );
+			} else {
+				wp_publish_post( $container->get_id() );
+				$synced_container_ids[] = $container->get_id();
+			}
+		}
+
+			// If no such container found, create one with details from server's container.
+		if ( ! $exists ) {
+			$author = get_current_user_id();
+
+			if ( $site['owner_email'] ) {
+				$user = get_user_by( 'email', $site['owner_email'] );
+
+				if ( false !== $user ) {
+					$author = $user->ID;
+				}
+			}
+
+			$post_name = explode( '.', $site['url'] );
+			$post_name = $post_name[0];
+
+			$new_container_id = wp_insert_post(
+				[
+					'post_type'   => 'container',
+					'post_status' => 'publish',
+					'post_name'   => $post_name,
+					'post_title'  => $post_name,
+					'post_author' => $author,
+					'meta_input'  => [
+						'dollie_container_type'     => $site['type'],
+						'dollie_container_deployed' => 1,
+					],
+				]
+			);
+
+			$new_container_type = dollie()->get_container( $new_container_id );
+			$new_container_type->set_details( $site );
+		}
+
+		flush_rewrite_rules();
 	}
 
 	/**
