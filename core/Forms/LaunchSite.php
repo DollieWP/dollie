@@ -169,7 +169,9 @@ class LaunchSite extends Singleton implements ConstInterface {
 	 * @return mixed
 	 */
 	public function append_site_url( $field ) {
-		$field['append'] = WorkspaceService::instance()->get_deployment_domain();
+		$deployment_domain = WorkspaceService::instance()->get_deployment_domain();
+
+		$field['append'] = ".{$deployment_domain}";
 
 		return $field;
 	}
