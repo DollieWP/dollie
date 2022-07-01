@@ -31,7 +31,7 @@ final class Site extends BaseContainer {
 	 * @return self
 	 */
 	public function fetch_details(): self {
-		if ( ! $this->needs_updated() ) {
+		if ( ! $this->needs_updated() || $this->is_deploying() ) {
 			return $this;
 		}
 
