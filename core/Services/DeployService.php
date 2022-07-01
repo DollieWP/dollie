@@ -174,17 +174,31 @@ final class DeployService extends Singleton implements ConstInterface {
 		$post_title = $post_title[0];
 
 		if ( 'Failed' === $deploy['status'] || 'Deploy Failure' === $deploy['status'] ) {
-			$post_data = [
-				'post_title'  => "{$post_title} [Failed]",
-				'post_status' => 'draft',
-			];
-
-			$container->update_post( $post_data )->set_details( [ 'status' => $deploy['status'] ] );
+			$container
+				->update_post(
+					[
+						'post_title' => "{$post_title} [Failed]",
+					]
+				)
+				->set_details(
+					[
+						'status' => $deploy['status'],
+					]
+				);
 		} elseif ( 'Running' === $deploy['status'] ) {
-			$post_data = [
-				'post_title' => $post_title,
-			];
-			$container->update_post( $post_data )->set_details( [ 'hash' => $deploy['hash'] ] );
+			$container
+				->update_post(
+					[
+						'post_title' => $post_title,
+					]
+				)
+				->set_details(
+					[
+						'hash'   => $deploy['hash'],
+						'status' => $deploy['status'],
+					]
+				);
+
 			$container->mark_not_updated();
 		}
 
