@@ -126,9 +126,12 @@ class LaunchSite extends Singleton implements ConstInterface {
 
 		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data );
 
+		$domain_prefix = af_get_field( 'site_url' );
+		$domain_prefix = preg_replace( '/-+/', '-', ltrim( rtrim( trim( $domain_prefix ), '-' ), '-' ) );
+
 		$status = DeployService::instance()->start(
 			'blueprint' === af_get_field( 'site_type' ) ? self::TYPE_BLUEPRINT : self::TYPE_SITE,
-			af_get_field( 'site_url' ),
+			$domain_prefix,
 			$deploy_data
 		);
 
@@ -136,6 +139,8 @@ class LaunchSite extends Singleton implements ConstInterface {
 			af_add_submission_error(
 				esc_html__( 'Something went wrong. Please try again or contact our support if the problem persists.', 'dollie' )
 			);
+
+			return;
 		}
 
 		$url = dollie()->get_latest_container_url();
