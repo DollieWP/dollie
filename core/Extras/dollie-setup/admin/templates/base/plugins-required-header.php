@@ -1,5 +1,5 @@
-	<p><?php esc_html_e( "To update, check the plugins you want to update and click 'Update'.", 'dollie-setup' ); ?></p>
 
-	<h3><?php _e( 'Required', 'dollie-setup' ); ?></h3>
+	<h3><?php _e( 'Required Hub Plugins', 'dollie-setup' ); ?></h3>
 
-	<p><?php printf( __( 'Dollie Setup %s requires the following plugins.', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ); ?></p>
+
+<?php echo '<p>' . __( 'First we need to install some of the <strong>required</strong> plugins for your Dollie Hub. These plugins provide the functionality to charge for your services, build a beatiful customer dashboard and so much more!', 'dollie_setup' ) . '</p>';?>

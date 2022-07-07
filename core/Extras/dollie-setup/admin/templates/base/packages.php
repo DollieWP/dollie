@@ -8,7 +8,6 @@
 <h4>Choose Your Getting Started Package</h4>
 
 
-
 <form method="post" action="<?php echo self_admin_url('admin.php?page=dollie_setup'); ?>">
 	<div class="wp-list-table widefat dollie-packages">
 		<div id="the-list">

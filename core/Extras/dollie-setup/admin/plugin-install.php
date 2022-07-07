@@ -681,7 +681,10 @@ class Dollie_Setup_Updater {
 
 			$skin_args['install_strings'] = true;
 
-			echo '<h3>' . __( 'Installing Plugins...', 'dollie_setup' ) . '</h3>';
+			echo '<h3>' . __( 'Installing  Plugins...', 'dollie_setup' ) . '</h3>';
+
+			echo '<p>' . __( 'First we need to install some of the required plugins for your Dollie Hub. These plugins provide the functionality to charge for your services, build a beatiful customer dashboard and so much more!', 'dollie_setup' ) . '</p>';
+
 
 			// instantiate the upgrader
 			// we add our custom arguments to the skin
@@ -696,10 +699,13 @@ class Dollie_Setup_Updater {
 		} elseif ( self::$is_activate ) {
 			echo '<h3>' . __( 'Activating Plugins...', 'dollie_setup' ) . '</h3>';
 
+			echo '<p>' . __( 'First we need to activate some of the required plugins for your Dollie Hub.', 'dollie_setup' ) . '</p>';
+
 			$activate = Dollie_Setup_Plugin_Upgrader::bulk_activate( $plugins['activate'] );
 			?>
 
-			<p><?php _e( 'Plugins activated.', 'dollie_setup' ); ?></p>
+			<p><?php _e( 'Plugins activated!', 'dollie_setup' ); ?></p>
+
 
 			<p><?php Dollie_Setup_Bulk_Plugin_Upgrader_Skin::after_updater( $settings ); ?></p>
 			<?php

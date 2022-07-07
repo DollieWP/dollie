@@ -16,7 +16,7 @@ $first_name = $user->first_name;
 						<p class="dol-text-sm dol-font-medium dol-text-gray-600"></p>
 						<p class="dol-text-xxl dol-font-bold dol-text-gray-900 sm:dol-text-2xl">Hi <?php echo $first_name; ?>, Welcome to Your Hub</p>
 						<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
-							 This is where you build your own white-labeled platform for your customers. Follow our recommended steps below and you'll be sellng your services in no time!
+							 Your Hub is the place where you build your white-labeled platform using WordPress. Everything happens inside your Hub, so you have complete freedom to build something amazing for your customers. Also you have full control over pricing, customer data and branding.
 					</p>
 					<div class="dol-flex dol-mt-3 sm:dol-mt-0">
 					<a target="_blank" href="https://cloud.getdollie.com" class="">Visit Dollie Cloud Dashboard</a>

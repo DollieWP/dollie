@@ -1,3 +1,3 @@
 
-	<p><?php printf( __( "The following plugins work well with Dollie Setup %s, but they require a bit of additional setup, so we do not install them by default.", 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ); ?></p>
-	<p><?php _e( "To install, check the plugins you want to install and click 'Activate'.", 'dollie-setup' ); ?></p>
+	<p><?php _e( "The following plugins are popular in our community and add some very useful features to your Hub. Installing them is completely optional so you can decide if you would like to install or not!", 'dollie-setup' ); ?></p>
+	<p><?php _e( "Select the plugin(s) you want to install below and click 'Activate'.", 'dollie-setup' ); ?></p>

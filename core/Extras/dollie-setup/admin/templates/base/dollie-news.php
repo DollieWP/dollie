@@ -1,5 +1,5 @@
 <h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-1 dol-text-xl">
-	<?php esc_html_e( 'Dollie Updates', 'dollie' ); ?>
+	<?php esc_html_e( 'Dollie Product Updates', 'dollie' ); ?>
 </h2>
 
 <section>
