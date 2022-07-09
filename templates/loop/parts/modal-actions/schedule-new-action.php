@@ -3,7 +3,7 @@
 </div>
 
 <div class="dol-text dol-text-base dol-text-gray-500 dol-mb-3">
-	<?php sprintf( esc_html__( 'Setup sceduled tasks for the selected %s.', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>
+	<?php sprintf( esc_html__( 'Setup sceduled tasks for the selected %s.', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>
 </div>
 
 <div id="dol-schedules" class="dol-relative"></div>

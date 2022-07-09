@@ -34,7 +34,7 @@ $subscription = dollie()->subscription();
 					<li>
 						<div class="dol-flex dol-flex-wrap">
 							<div class="dol-w-1/2 md:dol-w-2/6 lg:dol-w-1/6 dol-text-ash-800">
-								<?php esc_html_e( 'Available storage' ); ?>
+								<?php esc_html_e( 'Available storage', 'dollie' ); ?>
 							</div>
 							<div class="dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-text-ash-800">
 								<?php

@@ -60,7 +60,7 @@ if ( dollie()->subscription()->site_limit_reached() ) {
 			'type'         => 'error',
 			'icon'         => 'fas fa-exclamation-circle',
 			'title'        => __( 'You have reached your site limit', 'dollie' ),
-			'message'      => sprintf( esc_html__( 'You have reached the maximum amount of %s you can launch. Upgrade your plan or reach out to our team directly.', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ),
+			'message'      => sprintf( esc_html__( 'You have reached the maximum amount of %s you can launch. Upgrade your plan or reach out to our team directly.', 'dollie' ), dollie()->string_variants()->get_site_type_string() ),
 			'bottom_space' => true,
 		],
 		true

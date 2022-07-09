@@ -54,7 +54,7 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 							data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>"
 							data-per-page="<?php echo ( isset( $_GET['per_page'] ) ? esc_attr( $_GET['per_page'] ) : '' ); ?>"
 							data-search-term=""
-							placeholder="<?php printf( esc_html__( 'Search for a %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?>">
+							placeholder="<?php printf( esc_html__( 'Search for a %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() ); ?>">
 					</div>
 					<span data-modal-id="dol-modal-id-filters" class="dol-open-modal dol-p-3 dol-m-0 dol-bg-gray-200 hover:dol-bg-gray-300 dol-text-gray-700 dol-block dol-cursor-pointer">
 						<?php echo dollie()->icon()->filter(); ?>
@@ -62,13 +62,13 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 				</div>
 
 				<div class="dol-flex dol-items-center dol-rounded dol-overflow-hidden">
-					<span data-tooltip="<?php printf( esc_html__( 'Show your %s in the List View', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-list-switch <?php echo esc_attr( $list_btn_active ); ?>" data-list-type="list">
+					<span data-tooltip="<?php printf( esc_html__( 'Show your %s in the List View', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-list-switch <?php echo esc_attr( $list_btn_active ); ?>" data-list-type="list">
 						<?php echo dollie()->icon()->list(); ?>
 					</span>
-					<span data-tooltip="<?php printf( esc_html__( 'Show your %s in the Grid View', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-list-switch <?php echo esc_attr( $grid_btn_active ); ?>" data-list-type="grid">
+					<span data-tooltip="<?php printf( esc_html__( 'Show your %s in the Grid View', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-list-switch <?php echo esc_attr( $grid_btn_active ); ?>" data-list-type="grid">
 						<?php echo dollie()->icon()->grid(); ?>
 					</span>
-					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=my-sites" data-tooltip="<?php printf( esc_html__( 'Show Your %s using the Live Preview Bar', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-layout-preview dol-preview-bar-layout">
+					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=my-sites" data-tooltip="<?php printf( esc_html__( 'Show Your %s using the Live Preview Bar', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-layout-preview dol-preview-bar-layout">
 						<?php echo dollie()->icon()->preview(); ?>
 					</a>
 				</div>
@@ -302,7 +302,7 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 	<?php else : ?>
 		<div class="dol-flex dol-flex-col dol-items-center dol-justify-center">
 			<div class="dol-text-2xl dol-text-ash-600">
-				<?php printf( esc_html__( 'No %s Found', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>
+				<?php printf( esc_html__( 'No %s Found', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>
 			</div>
 
 			<?php if ( ! isset( $_GET['blueprints'] ) || ! $_GET['blueprints'] ) : ?>

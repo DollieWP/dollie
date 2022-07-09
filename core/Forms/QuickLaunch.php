@@ -112,7 +112,7 @@ class QuickLaunch extends Singleton implements ConstInterface {
 	 * @return mixed
 	 */
 	public function change_form_args( $args ) {
-		$args['submit_text'] = printf( esc_html__( 'Launch New %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() );
+		$args['submit_text'] = printf( esc_html__( 'Launch New %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() );
 
 		return $args;
 	}

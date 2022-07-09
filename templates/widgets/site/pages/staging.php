@@ -129,7 +129,7 @@
 
 									<button type="submit" class="dol-bg-red-500 hover:dol-bg-red-600 focus:dol-bg-red-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
 										<?php
-										printf( esc_html__( 'Delete Your Staging %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() );
+										printf( esc_html__( 'Delete Your Staging %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() );
 										?>
 									</button>
 									<?php wp_nonce_field( 'wpd_staging_undeploy' ); ?>
@@ -146,7 +146,7 @@
 				<a href="<?php echo dollie()->get_customer_login_url( get_the_ID(), null, true ); ?>" target="_blank" class="dol-inline-block dol-bg-gray-500 hover:dol-bg-gray-600 focus:dol-bg-gray-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
 					<?php echo dollie()->icon()->site_login( 'dol-mr-1' ); ?>
 					<?php
-					printf( esc_html__( 'Login to Staging %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() );
+					printf( esc_html__( 'Login to Staging %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() );
 					?>
 				</a>
 
@@ -183,7 +183,7 @@
 					<button type="submit" class="dol-bg-primary-500 hover:dol-bg-primary-600 focus:dol-bg-primary-600 dol-text-white hover:dol-text-white focus:dol-outline-none dol-border-0 dol-rounded dol-px-4 dol-py-2">
 						<?php echo dollie()->icon()->launch( 'dol-text-white dol-mr-1' ); ?>
 						<?php
-						printf( esc_html__( 'Create Staging %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() );
+						printf( esc_html__( 'Create Staging %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() );
 						?>
 					</button>
 					<?php wp_nonce_field( 'wpd_staging_create' ); ?>

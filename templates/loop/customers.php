@@ -82,13 +82,13 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 						<div class="dol-customers-controls">
 							<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_edit_user_link( $customer->ID ); ?>">
 								<?php echo dollie()->icon()->manage(); ?>
-								<span class="dol-ml-1"><?php printf( esc_html__( 'Manage %s', 'dollie-setup' ), dollie()->string_variants()->get_user_type_string() ); ?></span>
+								<span class="dol-ml-1"><?php printf( esc_html__( 'Manage %s', 'dollie' ), dollie()->string_variants()->get_user_type_string() ); ?></span>
 							</a>
 
 
 							<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo dollie()->page()->get_sites_url(); ?>?customer=<?php echo $customer->ID; ?>">
 								<?php echo dollie()->icon()->site_view(); ?>
-								<span class="dol-ml-1"><?php printf( esc_html__( 'View %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_plural_string() ); ?></span>
+								<span class="dol-ml-1"><?php printf( esc_html__( 'View %s', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?></span>
 							</a>
 						</div>
 					</div>

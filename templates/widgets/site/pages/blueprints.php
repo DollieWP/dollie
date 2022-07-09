@@ -139,7 +139,7 @@ foreach ( $groups as $group ) {
 		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
 			<div class="dol-mb-6">
 				<?php
-				printf( esc_html__( 'Now that you\'ve created your Blueprint you can use the options below to change how it is listed on the "Launch %s" page. These settings are also used wherever you use the [dollie-blueprints] shortcode.', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() );
+				printf( esc_html__( 'Now that you\'ve created your Blueprint you can use the options below to change how it is listed on the "Launch %s" page. These settings are also used wherever you use the [dollie-blueprints] shortcode.', 'dollie' ), dollie()->string_variants()->get_site_type_string() );
 				?>
 			</div>
 

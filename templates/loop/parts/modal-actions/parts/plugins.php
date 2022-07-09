@@ -1,6 +1,6 @@
 <div class="dol-resources-list dol-mt-4">
 	<?php if ( empty( $plugins_data ) ) : ?>
-		<?php sprintf( esc_html__( 'There is no plugins information available', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?>
+		<?php sprintf( esc_html__( 'There is no plugins information available', 'dollie' ), dollie()->string_variants()->get_site_type_string() ); ?>
 	<?php else : ?>
 		<ul class="dol-list-none dol-p-0 dol-m-0 dol-mr-4 dol-divide-solid dol-divide-y dol-divide-gray-300 dol-border dol-border-solid dol-border-gray-300 dol-rounded">
 			<?php foreach ( $plugins_data as $key => $plugin ) : ?>

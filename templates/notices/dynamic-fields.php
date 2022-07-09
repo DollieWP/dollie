@@ -4,14 +4,6 @@ if ( ! isset( $fields ) ) {
 	return;
 }
 
-$fields = array_filter(
-	$fields,
-	function( $v, $k ) {
-		return ! empty( $v['placeholder'] );
-	},
-	ARRAY_FILTER_USE_BOTH
-);
-
 ?>
 
 <div>

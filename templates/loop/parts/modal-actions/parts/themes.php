@@ -1,6 +1,6 @@
 <div class="dol-resources-list dol-mt-4">
 	<?php if ( empty( $themes_data ) ) : ?>
-		<?php sprintf( esc_html__( 'There is no theme information available for this %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?>
+		<?php sprintf( esc_html__( 'There is no theme information available for this %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() ); ?>
 	<?php else : ?>
 		<ul class="dol-list-none dol-p-0 dol-m-0 dol-mr-4 dol-divide-solid dol-divide-y dol-divide-gray-300 dol-border dol-border-solid dol-border-gray-300 dol-rounded">
 			<?php foreach ( $themes_data as $key => $theme ) : ?>

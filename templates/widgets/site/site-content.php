@@ -88,7 +88,7 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 					<h2 class="text-white">
 						<?php
 						echo dollie()->icon()->close();
-						printf( esc_html__( 'Admin Notice - This %s has failed to launch', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() );
+						printf( esc_html__( 'Admin Notice - This %s has failed to launch', 'dollie' ), dollie()->string_variants()->get_site_type_string() );
 
 						?>
 					</h2>
@@ -100,7 +100,7 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 						esc_html__(
 							'When a %s fails to launch in your Hub it usually means there is a misconfiguration in your
 							Dollie Cloud settings. Usually re-connecting to Dollie Cloud solves these issues.',
-							'dollie-setup'
+							'dollie'
 						),
 						dollie()->string_variants()->get_site_type_string()
 					);
@@ -121,7 +121,7 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 						<?php
 
 						echo dollie()->icon()->close();
-						printf( esc_html__( 'Sorry, there was an error launching your %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() );
+						printf( esc_html__( 'Sorry, there was an error launching your %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() );
 
 						?>
 					</h2>
@@ -130,7 +130,7 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 					<?php
 
 					printf(
-						esc_html__( 'We were unable to launch your new %s on our platform at this time. Our team has been notified and will be looking into this issue immediately. We will reach out to you as soon as we can.', 'dollie-setup' ),
+						esc_html__( 'We were unable to launch your new %s on our platform at this time. Our team has been notified and will be looking into this issue immediately. We will reach out to you as soon as we can.', 'dollie' ),
 						dollie()->string_variants()->get_site_type_string()
 					);
 
@@ -174,11 +174,11 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 			</div>
 		<?php else : ?>
 			<div class="dol-font-bold dol-mt-6 dol-text-2xl dol-uppercase">
-				<?php printf( esc_html__( 'Launching Your New %s', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?>
+				<?php printf( esc_html__( 'Launching Your New %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() ); ?>
 			</div>
 
 			<div class="dol-mt-1 dol-text-md dol-text-gray-500">
-				<?php printf( esc_html__( 'Your %s will be ready to go in just a moment.', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?>
+				<?php printf( esc_html__( 'Your %s will be ready to go in just a moment.', 'dollie' ), dollie()->string_variants()->get_site_type_string() ); ?>
 			</div>
 
 			<div class="dol-text-gray-500 dol-text-sm dol-mt-6">

@@ -153,7 +153,7 @@
 
 							if ( ! empty( $login_link ) ) :
 								?>
-								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo esc_url( $login_link ); ?>" data-tooltip="<?php printf( esc_html__( 'Login to %s as Admin', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ); ?>">
+								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo esc_url( $login_link ); ?>" data-tooltip="<?php printf( esc_html__( 'Login to %s as Admin', 'dollie' ), dollie()->string_variants()->get_site_type_string() ); ?>">
 									<?php echo dollie()->icon()->site_login(); ?>
 								</a>
 							<?php endif; ?>
@@ -173,8 +173,8 @@
 
 				$data = array(
 					'settings' => array(
-						'title'    => sprintf( esc_html__( 'Ready to Launch your first %s?', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ),
-						'subtitle' => sprintf( esc_html__( 'Launching your first %s via your own Platform is something special. What are you waiting for, lets launch your first site!', 'dollie-setup' ), dollie()->string_variants()->get_site_type_string() ),
+						'title'    => sprintf( esc_html__( 'Ready to Launch your first %s?', 'dollie' ), dollie()->string_variants()->get_site_type_string() ),
+						'subtitle' => sprintf( esc_html__( 'Launching your first %s via your own Platform is something special. What are you waiting for, lets launch your first site!', 'dollie' ), dollie()->string_variants()->get_site_type_string() ),
 					),
 				);
 

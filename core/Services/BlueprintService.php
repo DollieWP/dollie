@@ -66,12 +66,26 @@ final class BlueprintService extends Singleton {
 			exit;
 		}
 
+		$fields = $container->get_dynamic_fields();
+
+		$fields = array_filter(
+			$fields,
+			function( $v, $k ) {
+				return ! empty( $v['placeholder'] );
+			},
+			ARRAY_FILTER_USE_BOTH
+		);
+
+		if ( empty( $fields ) ) {
+			return;
+		}
+
 		$customizer = dollie()->load_template(
 			'notice',
 			[
 				'icon'    => 'fas fa-exclamation-circle',
 				'title'   => __( 'Realtime Customizer', 'dollie' ),
-				'message' => dollie()->load_template( 'notices/dynamic-fields', [ 'fields' => $container->get_dynamic_fields() ] ),
+				'message' => dollie()->load_template( 'notices/dynamic-fields', [ 'fields' => $fields ] ),
 			],
 		);
 
