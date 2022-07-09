@@ -121,7 +121,7 @@ msgctxt "dollie"
 msgid "Site"
 msgstr ""
 
-#: core/Admin/Container.php:72, core/Admin/Container.php:386, core/Widgets/Sites/SitesList.php:40
+#: core/Admin/Container.php:72, core/Admin/Container.php:386, core/Utils/StringVariants.php:52, core/Utils/StringVariants.php:61, core/Widgets/Sites/SitesList.php:40
 msgid "Sites"
 msgstr ""
 
@@ -217,7 +217,7 @@ msgstr ""
 msgid "Filter items list"
 msgstr ""
 
-#: core/Admin/Container.php:100, core/Admin/Container.php:834, core/Factories/BaseContainer.php:302
+#: core/Admin/Container.php:100, core/Admin/Container.php:834, core/Factories/BaseContainer.php:302, core/Utils/StringVariants.php:47
 msgid "Site"
 msgstr ""
 
@@ -1400,6 +1400,10 @@ msgstr ""
 msgid "Email already exists. Please login first"
 msgstr ""
 
+#: core/Forms/QuickLaunch.php:115
+msgid "Launch New %s"
+msgstr ""
+
 #: core/Jobs/CustomerSubscriptionCheckJob.php:87
 msgid "Customer subscription cron completed"
 msgstr ""
@@ -1484,7 +1488,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: core/Services/BlueprintService.php:73
+#: core/Services/BlueprintService.php:87
 msgid "Realtime Customizer"
 msgstr ""
 
@@ -1674,6 +1678,14 @@ msgstr ""
 msgid "Site View"
 msgstr ""
 
+#: core/Utils/StringVariants.php:14, core/Utils/StringVariants.php:23
+msgid "Customer"
+msgstr ""
+
+#: core/Utils/StringVariants.php:28, core/Utils/StringVariants.php:39, core/Widgets/Customers/CustomersList.php:40
+msgid "Customers"
+msgstr ""
+
 #: templates/admin/api-status.php:23
 msgid "This Hub is not connected to the Dollie Cloud. Please follow the instructions at the top of the page to securely connect to Dollie Cloud."
 msgstr ""
@@ -1710,12 +1722,28 @@ msgstr ""
 msgid "Search for a  %s"
 msgstr ""
 
+#: templates/loop/customers.php:85
+msgid "Manage %s"
+msgstr ""
+
+#: templates/loop/customers.php:91
+msgid "View %s"
+msgstr ""
+
 #: templates/loop/kb.php:27, templates/loop/news.php:63, templates/loop/posts.php:67
 msgid "There are no posts available"
 msgstr ""
 
 #: templates/loop/news.php:43, templates/loop/posts.php:47
 msgid "Read article"
+msgstr ""
+
+#: templates/loop/sites-dashboard.php:176
+msgid "Ready to Launch your first %s?"
+msgstr ""
+
+#: templates/loop/sites-dashboard.php:177
+msgid "Launching your first %s via your own Platform is something special. What are you waiting for, lets launch your first site!"
 msgstr ""
 
 #: templates/loop/sites-dashboard.php:13, templates/loop/sites.php:99
@@ -1746,12 +1774,36 @@ msgstr ""
 msgid "Visit Staging Area"
 msgstr ""
 
+#: templates/loop/sites-dashboard.php:156
+msgid "Login to %s as Admin"
+msgstr ""
+
 #: templates/loop/sites.php:39, templates/parts/recurring-action-selected-sites.php:53
 msgid "Select all"
 msgstr ""
 
 #: templates/loop/sites.php:44
 msgid "Run Actions"
+msgstr ""
+
+#: templates/loop/sites.php:57
+msgid "Search for a %s"
+msgstr ""
+
+#: templates/loop/sites.php:65
+msgid "Show your %s in the List View"
+msgstr ""
+
+#: templates/loop/sites.php:68
+msgid "Show your %s in the Grid View"
+msgstr ""
+
+#: templates/loop/sites.php:71
+msgid "Show Your %s using the Live Preview Bar"
+msgstr ""
+
+#: templates/loop/sites.php:305
+msgid "No %s Found"
 msgstr ""
 
 #: templates/loop/sites.php:326
@@ -1790,7 +1842,7 @@ msgstr ""
 msgid "All customizer's fields were successfully found in the blueprint."
 msgstr ""
 
-#: templates/notices/dynamic-fields.php:18
+#: templates/notices/dynamic-fields.php:10
 msgid "Please fill in the fields below. We will use this information populate your new site automatically."
 msgstr ""
 
@@ -1990,10 +2042,6 @@ msgstr ""
 
 #: core/Extras/tgm-plugin-activation/requirements.php:190
 msgid "Please contact the administrator of this site for help."
-msgstr ""
-
-#: core/Widgets/Customers/CustomersList.php:40
-msgid "Customers"
 msgstr ""
 
 #: core/Widgets/Customers/CustomersList.php:55, core/Widgets/Dashboard/LaunchSite.php:38, core/Widgets/Dashboard/SubscriptionDetails.php:38, core/Widgets/Launch/LaunchSite.php:46, core/Widgets/Sites/SitesList.php:55
@@ -2468,6 +2516,10 @@ msgstr ""
 msgid "Remaining sites"
 msgstr ""
 
+#: templates/widgets/dashboard/subscription-details.php:37
+msgid "Available storage"
+msgstr ""
+
 #: templates/widgets/dashboard/subscription-details.php:56
 msgid "Used storage"
 msgstr ""
@@ -2568,6 +2620,18 @@ msgstr ""
 msgid "You have reached your site limit"
 msgstr ""
 
+#: templates/widgets/launch/launch-site.php:63
+msgid "You have reached the maximum amount of %s you can launch. Upgrade your plan or reach out to our team directly."
+msgstr ""
+
+#: templates/widgets/site/site-content.php:177
+msgid "Launching Your New %s"
+msgstr ""
+
+#: templates/widgets/site/site-content.php:181
+msgid "Your %s will be ready to go in just a moment."
+msgstr ""
+
 #: templates/widgets/site/site-content.php:185
 msgid "Don't worry, we'll automatically reload this page once it's ready."
 msgstr ""
@@ -2582,6 +2646,24 @@ msgstr ""
 
 #: templates/widgets/site/site-content.php:173
 msgid "Once your Blueprint has been launched you can go ahead and install your favorite plugins and themes, to make the perfect pre-made site for your customers."
+msgstr ""
+
+#: templates/widgets/site/site-content.php:124
+msgid "Sorry, there was an error launching your %s"
+msgstr ""
+
+#: templates/widgets/site/site-content.php:133
+msgid "We were unable to launch your new %s on our platform at this time. Our team has been notified and will be looking into this issue immediately. We will reach out to you as soon as we can."
+msgstr ""
+
+#: templates/widgets/site/site-content.php:91
+msgid "Admin Notice - This %s has failed to launch"
+msgstr ""
+
+#: templates/widgets/site/site-content.php:100
+msgid ""
+"When a %s fails to launch in your Hub it usually means there is a misconfiguration in your\n"
+"							Dollie Cloud settings. Usually re-connecting to Dollie Cloud solves these issues."
 msgstr ""
 
 #: templates/widgets/site/site-content.php:116
@@ -2644,6 +2726,10 @@ msgstr ""
 msgid "None"
 msgstr ""
 
+#: templates/loop/parts/modal-actions/bulk-actions.php:6
+msgid "Quickly run tasks across multiple %s with the click of a button! Please select the action you would like to run using the form below."
+msgstr ""
+
 #: templates/loop/parts/modal-actions/bulk-actions.php:10
 msgid "Success, the task has started!"
 msgstr ""
@@ -2666,6 +2752,10 @@ msgstr ""
 
 #: templates/loop/parts/modal-actions/schedule-new-action.php:2
 msgid "Create New Scheduled Task"
+msgstr ""
+
+#: templates/loop/parts/modal-actions/schedule-new-action.php:6
+msgid "Setup sceduled tasks for the selected %s."
 msgstr ""
 
 #: templates/loop/parts/modal-actions/schedule-new-action.php:12
@@ -2724,6 +2814,10 @@ msgstr ""
 
 #: templates/widgets/site/pages/blueprints.php:136
 msgid "Blueprint Settings"
+msgstr ""
+
+#: templates/widgets/site/pages/blueprints.php:142
+msgid "Now that you've created your Blueprint you can use the options below to change how it is listed on the \"Launch %s\" page. These settings are also used wherever you use the [dollie-blueprints] shortcode."
 msgstr ""
 
 #: templates/widgets/site/pages/blueprints.php:169
@@ -3084,6 +3178,10 @@ msgstr ""
 msgid "Please be patient while we create a staging area for <strong>%s</strong>. The process might take up to 5 minutes."
 msgstr ""
 
+#: templates/widgets/site/pages/staging.php:186
+msgid "Create Staging %s"
+msgstr ""
+
 #: templates/widgets/site/pages/staging.php:170
 msgid "You have reached your staging area limit. Please upgrade your subscription!"
 msgstr ""
@@ -3114,6 +3212,14 @@ msgstr ""
 
 #: templates/widgets/site/pages/staging.php:109
 msgid "Sync from Staging to Live"
+msgstr ""
+
+#: templates/widgets/site/pages/staging.php:132
+msgid "Delete Your Staging %s"
+msgstr ""
+
+#: templates/widgets/site/pages/staging.php:149
+msgid "Login to Staging %s"
 msgstr ""
 
 #: templates/widgets/site/pages/themes.php:31
@@ -3182,6 +3288,14 @@ msgstr ""
 
 #: templates/loop/parts/modal-actions/parts/plugins.php:30, templates/loop/parts/modal-actions/parts/themes.php:30
 msgid "Update available"
+msgstr ""
+
+#: templates/loop/parts/modal-actions/parts/plugins.php:3
+msgid "There is no plugins information available"
+msgstr ""
+
+#: templates/loop/parts/modal-actions/parts/themes.php:3
+msgid "There is no theme information available for this %s"
 msgstr ""
 
 #: templates/widgets/site/pages/developer-tools/adminer.php:16
