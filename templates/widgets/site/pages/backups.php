@@ -6,6 +6,10 @@ if ( ! isset( $container ) ) {
 
 $backups = $container->get_backups( true );
 
+if ( is_wp_error( $backups ) ) {
+	$backups = [];
+}
+
 ?>
 
 <div class="dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden dol-mb-6 dol-widget-create-backup">
