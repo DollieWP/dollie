@@ -43,7 +43,7 @@ class LaunchSite extends \Elementor\Widget_Base {
 		$this->add_control(
 			'title',
 			[
-				'label'       => __( 'Title', 'elementor' ),
+				'label'       => __( 'Title', 'dollie' ),
 				'type'        => Controls_Manager::TEXT,
 				'default'     => 'LAUNCH YOUR SITE',
 				'label_block' => true,
@@ -53,7 +53,7 @@ class LaunchSite extends \Elementor\Widget_Base {
 		$this->add_control(
 			'subtitle',
 			[
-				'label'       => __( 'Subtitle', 'elementor' ),
+				'label'       => __( 'Subtitle', 'dollie' ),
 				'type'        => Controls_Manager::TEXT,
 				'default'     => 'Get started and launch your site within minutes.',
 				'label_block' => true,

@@ -60,7 +60,7 @@ class SitesList extends \Elementor\Widget_Base {
 		$this->add_control(
 			'posts_per_page',
 			[
-				'label'   => __( 'Posts per page', 'elementor' ),
+				'label'   => __( 'Posts per page', 'dollie' ),
 				'type'    => Controls_Manager::NUMBER,
 				'min'     => - 1,
 				'max'     => 40,
