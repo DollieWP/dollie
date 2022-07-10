@@ -1,3 +1,5 @@
 	<h3><?php _e( 'Recommended', 'dollie-setup' ); ?></h3>
 
-	<p><?php printf( __( "The following plugins are recommended during initial Dollie Setup %s setup.  We like them, but feel free to deactivate them if you don't need certain functionality.", 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ); ?></p>
+
+	<p><?php _e( "The following plugins are popular in our community and add some very useful features to your Hub. Installing them is completely optional so you can decide if you would like to install or not!", 'dollie-setup' ); ?></p>
+	<p><?php _e( "Select the plugin(s) you want to install below and click 'Activate'.", 'dollie-setup' ); ?></p>

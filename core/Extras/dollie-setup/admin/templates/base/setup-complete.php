@@ -1,6 +1,7 @@
 <?php
 	$migration = get_option( 'wpd_onboarding_migrate_site_url' );
 	$url       = preg_replace( '(^https?://)', '', $migration );
+	$charge = get_option( 'options_wpd_charge_for_deployments');
 	$temp      = explode( '.', $url );
 	unset( $temp[ count( $temp ) - 1 ] );
 	$migration = implode( '.', $temp );
@@ -19,7 +20,7 @@
 					<?php esc_html_e( 'Step 1 - Migrate Your First Site', 'dollie' ); ?>
 				</h4>
 			<?php endif; ?>
-			
+
 			<li>
 				<a href="<?php echo $launch_url; ?>" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
@@ -55,7 +56,7 @@
 				</a>
 			</li>
 		<?php endif; ?>
-		
+
 		<?php if ( ! dollie()->count_total_created_blueprints() && $blueprint ) : ?>
 			<h4 class="dol-text-gray-500 dol-pl-4 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-1 dol-text-m">
 				<?php esc_html_e( 'Step 1 - Launch Your Agency Blueprint', 'dollie' ); ?>
@@ -165,7 +166,7 @@
 			</li>
 		<?php endif; ?>
 
-		<?php if ( get_field( 'wpd_charge_for_deployments', 'options' ) && dollie()->has_products() ) : ?>
+		<?php if ( $charge && dollie()->has_products() ) : ?>
 			<li>
 				<a href="#" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
@@ -202,7 +203,7 @@
 					</div>
 				</a>
 			</li>
-		<?php else : ?>
+		<?php elseif ( $charge ) : ?>
 			<li>
 				<a href="<?php echo get_admin_url(); ?>post-new.php?post_type=product" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">

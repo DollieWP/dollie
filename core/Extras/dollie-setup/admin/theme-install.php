@@ -220,7 +220,7 @@ class Dollie_Setup_Theme_Installer extends Theme_Upgrader {
 	public function remove_theme_actions( $actions ) {
 		unset( $actions );
 
-		$actions['theme_page'] = '<a href="' . self_admin_url( 'admin.php?page=dollie_setup' ) . '" class="button-primary">' . __( 'Continue to DOLLIE_SETUP Dashboard &rarr;', 'dollie-setup' ) . '</a>';
+		$actions['theme_page'] = '<a href="' . self_admin_url( 'admin.php?page=dollie_setup' ) . '" class="button-primary">' . __( 'Continue to Your Hub Dashboard &rarr;', 'dollie-setup' ) . '</a>';
 		return $actions;
 	}
 }
