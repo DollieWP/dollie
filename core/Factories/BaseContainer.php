@@ -797,6 +797,10 @@ abstract class BaseContainer implements ConstInterface {
 		}
 
 		if ( isset( $details['screenshot'] ) && $details['screenshot'] ) {
+			if ( has_post_thumbnail( $this->get_id() ) ) {
+				wp_delete_attachment( get_post_thumbnail_id( $this->get_id() ), true );
+			}
+
 			$screenshot_img = $details['screenshot'];
 
 			$upload_dir = wp_upload_dir();
