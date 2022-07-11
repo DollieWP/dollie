@@ -8,6 +8,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Elementor\Controls_Manager;
 use Elementor\Repeater;
+use Elementor\Group_Control_Typography;
+use Elementor\Group_Control_Border;
 
 /**
  * Class SubscriptionDetails
@@ -67,10 +69,10 @@ class SubscriptionDetails extends \Elementor\Widget_Base {
 				'label'   => __( 'Data source', 'dollie' ),
 				'type'    => Controls_Manager::SELECT,
 				'options' => [
-					'subscription-plan' => __( 'Subscription plan', 'stax-addons-for-elementor' ),
-					'sites-available'   => __( 'Sites available', 'stax-addons-for-elementor' ),
-					'storage-available' => __( 'Available storage', 'stax-addons-for-elementor' ),
-					'storage-used'      => __( 'Used storage', 'stax-addons-for-elementor' ),
+					'subscription-plan' => __( 'Subscription plan', 'dollie' ),
+					'sites-available'   => __( 'Sites available', 'dollie' ),
+					'storage-available' => __( 'Available storage', 'dollie' ),
+					'storage-used'      => __( 'Used storage', 'dollie' ),
 				],
 				'default' => 'subscription-plan',
 			]
@@ -101,6 +103,264 @@ class SubscriptionDetails extends \Elementor\Widget_Base {
 					],
 				],
 				'title_field' => '{{{ item_title }}}',
+			]
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'container_style_section',
+			[
+				'label' => __( 'Container', 'dollie' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_control(
+			'container_bg_color',
+			[
+				'label'     => __( 'Background', 'dollie' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .dol-widget-subscription' => 'background-color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name'     => 'container_border',
+				'selector' => '{{WRAPPER}} .dol-widget-subscription',
+			]
+		);
+
+		$this->add_control(
+			'container_border_radius',
+			[
+				'label'      => __( 'Border Radius', 'dollie' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%' ],
+				'selectors'  => [
+					'{{WRAPPER}} .dol-widget-subscription' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'title_style_section',
+			[
+				'label' => __( 'Title', 'dollie' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name'     => 'title_typography',
+				'selector' => '{{WRAPPER}} .dol-widget-subscription .dol-widget-title-section h4',
+			]
+		);
+
+		$this->add_control(
+			'title_bg_color',
+			[
+				'label'     => __( 'Background', 'dollie' ),
+				'type'      => Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .dol-widget-subscription .dol-widget-title-section' => 'background-color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_control(
+			'title_color',
+			[
+				'label'     => __( 'Color', 'dollie' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
+				'selectors' => [
+					'{{WRAPPER}} .dol-widget-subscription .dol-widget-title-section h4' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'title_align',
+			[
+				'label'     => __( 'Alignment', 'dollie' ),
+				'type'      => Controls_Manager::CHOOSE,
+				'options'   => [
+					'left'   => [
+						'title' => __( 'Left', 'dollie' ),
+						'icon'  => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => __( 'Center', 'dollie' ),
+						'icon'  => 'eicon-text-align-center',
+					],
+					'right'  => [
+						'title' => __( 'Right', 'dollie' ),
+						'icon'  => 'eicon-text-align-right',
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .dol-widget-subscription .dol-widget-title-section' => 'text-align: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Border::get_type(),
+			[
+				'name'      => 'title_section_border',
+				'selector'  => '{{WRAPPER}} .dol-widget-subscription .dol-widget-title-section',
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'title_section_border_radius',
+			[
+				'label'      => __( 'Border Radius', 'dollie' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%' ],
+				'selectors'  => [
+					'{{WRAPPER}} .dol-widget-subscription .dol-widget-title-section' => 'border-radius: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'title_section_padding',
+			[
+				'label'      => __( 'Padding', 'dollie' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', 'em', '%' ],
+				'selectors'  => [
+					'{{WRAPPER}} .dol-widget-subscription .dol-widget-title-section' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'items_container_style_section',
+			[
+				'label' => __( 'Items Container', 'dollie' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_responsive_control(
+			'items_items_padding',
+			[
+				'label'      => __( 'Items Padding', 'dollie' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', 'em', '%' ],
+				'selectors'  => [
+					'{{WRAPPER}} .dol-widget-subscription .dol-widget-content-section ul > li' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_responsive_control(
+			'items_container_padding',
+			[
+				'label'      => __( 'Section Padding', 'dollie' ),
+				'type'       => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', 'em', '%' ],
+				'selectors'  => [
+					'{{WRAPPER}} .dol-widget-subscription .dol-widget-content-section' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'items_title_style_section',
+			[
+				'label' => __( 'Item Title', 'dollie' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_responsive_control(
+			'item_title_width',
+			[
+				'label'      => __( 'Width', 'dollie' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%' ],
+				'selectors'  => [
+					'{{WRAPPER}} .dol-widget-subscription .dol-widget-content-section .dol-widget-item-title' => 'width: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name'     => 'item_title_typography',
+				'selector' => '{{WRAPPER}} .dol-widget-subscription .dol-widget-content-section .dol-widget-item-title',
+			]
+		);
+
+		$this->add_control(
+			'item_title_color',
+			[
+				'label'     => __( 'Color', 'dollie' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
+				'selectors' => [
+					'{{WRAPPER}} .dol-widget-subscription .dol-widget-content-section .dol-widget-item-title' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'items_data_source_style_section',
+			[
+				'label' => __( 'Item Data Source', 'dollie' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_responsive_control(
+			'item_data_source_width',
+			[
+				'label'      => __( 'Width', 'dollie' ),
+				'type'       => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%' ],
+				'selectors'  => [
+					'{{WRAPPER}} .dol-widget-subscription .dol-widget-content-section .dol-widget-item-source' => 'width: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name'     => 'item_data_source_typography',
+				'selector' => '{{WRAPPER}} .dol-widget-subscription .dol-widget-content-section .dol-widget-item-source',
+			]
+		);
+
+		$this->add_control(
+			'item_data_source_color',
+			[
+				'label'     => __( 'Color', 'dollie' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
+				'selectors' => [
+					'{{WRAPPER}} .dol-widget-subscription .dol-widget-content-section .dol-widget-item-source' => 'color: {{VALUE}};',
+				],
 			]
 		);
 
