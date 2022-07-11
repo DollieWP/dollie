@@ -53,6 +53,16 @@ class SubscriptionDetails extends \Elementor\Widget_Base {
 			]
 		);
 
+		$this->add_control(
+			'no_sub_text',
+			[
+				'label'       => __( 'No subscription text', 'dollie' ),
+				'type'        => Controls_Manager::TEXTAREA,
+				'default'     => __( 'You have no active subscriptions. Please sign-up for one of our plans to launch your site(s)!', 'dollie' ),
+				'label_block' => true,
+			]
+		);
+
 		$repeater = new Repeater();
 
 		$repeater->add_control(
@@ -365,6 +375,36 @@ class SubscriptionDetails extends \Elementor\Widget_Base {
 		);
 
 		$this->end_controls_section();
+
+		$this->start_controls_section(
+			'no_sub_style_section',
+			[
+				'label' => __( 'No subscription', 'dollie' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Typography::get_type(),
+			[
+				'name'     => 'no_sub_typography',
+				'selector' => '{{WRAPPER}} .dol-widget-subscription .dol-widget-content-section .dol-widget-no-subscription',
+			]
+		);
+
+		$this->add_control(
+			'no_sub_color',
+			[
+				'label'     => __( 'Color', 'dollie' ),
+				'type'      => Controls_Manager::COLOR,
+				'default'   => '',
+				'selectors' => [
+					'{{WRAPPER}} .dol-widget-subscription .dol-widget-content-section .dol-widget-no-subscription' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
+		$this->end_controls_section();
 	}
 
 	protected function render() {
@@ -372,8 +412,9 @@ class SubscriptionDetails extends \Elementor\Widget_Base {
 		$subscription = dollie()->subscription();
 
 		$data = [
-			'title' => $settings['title'],
-			'items' => [],
+			'title'       => $settings['title'],
+			'no_sub_text' => $settings['no_sub_text'],
+			'items'       => [],
 		];
 
 		foreach ( $settings['items'] as $item ) {

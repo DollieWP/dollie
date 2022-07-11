@@ -26,8 +26,8 @@
 					<?php do_action( 'dollie/after/subscription/list' ); ?>
 				</ul>
 			<?php else : ?>
-				<div>
-					<?php esc_html_e( 'You have no active subscriptions. Please sign-up for one of our plans to launch your site(s)!', 'dollie' ); ?>
+				<div class="dol-widget-no-subscription">
+					<?php echo esc_html( $no_sub_text ); ?>
 				</div>
 			<?php endif; ?>
 		</div>
