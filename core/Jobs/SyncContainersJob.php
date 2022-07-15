@@ -38,20 +38,36 @@ class SyncContainersJob extends Singleton {
 			$this->run();
 		}
 
-		if ( isset( $_GET['dollie-sync-container'] ) && isset( $_GET['container-id'] ) && $_GET['container-id'] ) {
-			$this->run_single( $_GET['container-id'] );
+		if ( isset( $_GET['dollie-sync-site'] ) && isset( $_GET['container-id'] ) && $_GET['container-id'] ) {
+			$this->run_single_site( $_GET['container-id'] );
+		}
+
+		if ( isset( $_GET['dollie-sync-blueprint'] ) && isset( $_GET['container-id'] ) && $_GET['container-id'] ) {
+			$this->run_single_blueprint( $_GET['container-id'] );
 		}
 	}
 
-	public function run_single( $container_id ) {
+	public function run_single_site( $container_id ) {
 		$data = $this->get_site_by_id( $container_id );
 
 		if ( is_wp_error( $data ) || ! isset( $data[0] ) ) {
 			return;
 		}
 
-		$site = $data[0];
+		$this->run_single( $data[0] );
+	}
 
+	public function run_single_blueprint( $container_id ) {
+		$data = $this->get_blueprint_by_id( $container_id );
+
+		if ( is_wp_error( $data ) || ! isset( $data[0] ) ) {
+			return;
+		}
+
+		$this->run_single( $data[0] );
+	}
+
+	private function run_single( $site ) {
 		$stored_containers = get_posts(
 			[
 				'numberposts' => -1,

@@ -407,7 +407,7 @@ msgstr ""
 msgid "Domain"
 msgstr ""
 
-#: core/Admin/Container.php:840, core/Admin/Container.php:829, core/Widgets/General/Login.php:93
+#: core/Admin/Container.php:840, core/Admin/Container.php:829, core/Widgets/Dashboard/LaunchSite.php:181, core/Widgets/General/Login.php:93
 msgid "Size"
 msgstr ""
 
@@ -1188,6 +1188,18 @@ msgstr ""
 msgid "What would you like to restore?"
 msgstr ""
 
+#: core/Extras/AcfFormFields.php:614
+msgid "Everything (Files & Database)"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:615
+msgid "Files Only"
+msgstr ""
+
+#: core/Extras/AcfFormFields.php:616
+msgid "Database Only"
+msgstr ""
+
 #: core/Extras/AcfFormFields.php:628
 msgid "You are about to restore your site"
 msgstr ""
@@ -1240,79 +1252,79 @@ msgstr ""
 msgid "Set a password to also create an account."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:911, core/Extras/dollie-setup/includes/agency/agency.php:73
+#: core/Extras/AcfFormFields.php:912, core/Extras/dollie-setup/includes/agency/agency.php:73
 msgid "About Your Agency"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:930, core/Extras/dollie-setup/includes/agency/agency.php:92
+#: core/Extras/AcfFormFields.php:931, core/Extras/dollie-setup/includes/agency/agency.php:92
 msgid "What is your Agency called?"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:933, core/Extras/dollie-setup/includes/agency/agency.php:95
+#: core/Extras/AcfFormFields.php:934, core/Extras/dollie-setup/includes/agency/agency.php:95
 msgid "We only use this info inside your dashboard for customisation."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:951
+#: core/Extras/AcfFormFields.php:952
 msgid "Do you use certain plugins and/or themes for every client project?"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:954
+#: core/Extras/AcfFormFields.php:955
 msgid "Does your Agency have some a \"Blueprint\" for new client projects? Meaning a set of plugins you have installed on every site you develop?"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:972
+#: core/Extras/AcfFormFields.php:973
 msgid "Great! How do you call this blueprint?"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:975
+#: core/Extras/AcfFormFields.php:976
 msgid "If you don't have an internal name for this, no worries, then we'll just use \"Blueprint\"."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1001
+#: core/Extras/AcfFormFields.php:1002
 msgid "Would you like to us guide you through migrating an existing site to your new Hub?"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1004
+#: core/Extras/AcfFormFields.php:1005
 msgid "Migrating sites to your new Hub is extremely easy with our Automated Migration Wizard. Simply check this box and we will help you migrate your first site after you've completed the setup!"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1022, core/Extras/dollie-setup/includes/agency/agency.php:134
+#: core/Extras/AcfFormFields.php:1023, core/Extras/dollie-setup/includes/agency/agency.php:134
 msgid "Do you manage everything for your clients, or do (some of them) also work on their own sites?"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1025, core/Extras/dollie-setup/includes/agency/agency.php:137
+#: core/Extras/AcfFormFields.php:1026, core/Extras/dollie-setup/includes/agency/agency.php:137
 msgid "With Dollie you can enable powerful self-service features for your clients that gives them easy access to tools like SFTP, a Code Editor, Database Manager and DNS management. You can enable these tools for them easily, or decide to keep them only available for your team."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1048
+#: core/Extras/AcfFormFields.php:1049
 msgid "Amazing, What is the URL of the website you'd like to migrate?"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1074, core/Extras/dollie-setup/includes/agency/agency.php:160
+#: core/Extras/AcfFormFields.php:1075, core/Extras/dollie-setup/includes/agency/agency.php:160
 msgid "Import Example Content"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1093, core/Extras/dollie-setup/includes/agency/agency.php:179
+#: core/Extras/AcfFormFields.php:1094, core/Extras/dollie-setup/includes/agency/agency.php:179
 msgid "Dollie Core Pages"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1096, core/Extras/dollie-setup/includes/agency/agency.php:182
+#: core/Extras/AcfFormFields.php:1097, core/Extras/dollie-setup/includes/agency/agency.php:182
 msgid "The core Dollie pages."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1114, core/Extras/dollie-setup/includes/agency/agency.php:200
+#: core/Extras/AcfFormFields.php:1115, core/Extras/dollie-setup/includes/agency/agency.php:200
 msgid "WooCommerce Products"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1117, core/Extras/dollie-setup/includes/agency/agency.php:203
+#: core/Extras/AcfFormFields.php:1118, core/Extras/dollie-setup/includes/agency/agency.php:203
 msgid "Some example WooCommerce products configured for Dollie."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1135
+#: core/Extras/AcfFormFields.php:1136
 msgid "Example Landing Pages"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:1138, core/Extras/dollie-setup/includes/agency/agency.php:224
+#: core/Extras/AcfFormFields.php:1139, core/Extras/dollie-setup/includes/agency/agency.php:224
 msgid "Some example Elementor landing pages to promote your Agency services"
 msgstr ""
 
@@ -1444,7 +1456,7 @@ msgstr ""
 msgid "Redirect to site page after form submit. Success Message will be ignored"
 msgstr ""
 
-#: core/Modules/Preview.php:199, core/Widgets/Dashboard/LaunchSite.php:23, core/Widgets/Launch/LaunchSite.php:31
+#: core/Modules/Preview.php:199, core/Widgets/Dashboard/LaunchSite.php:27, core/Widgets/Launch/LaunchSite.php:31
 msgid "Launch Site"
 msgstr ""
 
@@ -2044,7 +2056,7 @@ msgstr ""
 msgid "Please contact the administrator of this site for help."
 msgstr ""
 
-#: core/Widgets/Customers/CustomersList.php:55, core/Widgets/Dashboard/LaunchSite.php:38, core/Widgets/Dashboard/SubscriptionDetails.php:38, core/Widgets/Launch/LaunchSite.php:46, core/Widgets/Sites/SitesList.php:55
+#: core/Widgets/Customers/CustomersList.php:55, core/Widgets/Dashboard/LaunchSite.php:42, core/Widgets/Dashboard/SubscriptionDetails.php:41, core/Widgets/Launch/LaunchSite.php:46, core/Widgets/Sites/SitesList.php:55
 msgid "Content"
 msgstr ""
 
@@ -2056,12 +2068,192 @@ msgstr ""
 msgid "Latest News"
 msgstr ""
 
+#: core/Widgets/Dashboard/LaunchSite.php:50
+msgid "Show Icon"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:52
+msgid "No"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:53
+msgid "Yes"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:61, core/Widgets/Dashboard/LaunchSite.php:162
+msgid "Icon"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:77, core/Widgets/Dashboard/LaunchSite.php:207, core/Widgets/Dashboard/SubscriptionDetails.php:49, core/Widgets/Dashboard/SubscriptionDetails.php:165
+msgid "Title"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:79
+msgid "LAUNCH YOUR SITE"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:87
+msgid "Subtitle"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:89
+msgid "Get started and launch your site within minutes."
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:97, core/Widgets/Dashboard/LaunchSite.php:267, core/Widgets/General/Login.php:77, core/Widgets/General/Login.php:512
+msgid "Button"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:99
+msgid "Launch"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:109, core/Widgets/Dashboard/SubscriptionDetails.php:124
+msgid "Container"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:117, core/Widgets/Dashboard/SubscriptionDetails.php:132, core/Widgets/Dashboard/SubscriptionDetails.php:181
+msgid "Background"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:136, core/Widgets/Dashboard/LaunchSite.php:397, core/Widgets/Dashboard/SubscriptionDetails.php:151, core/Widgets/Dashboard/SubscriptionDetails.php:238, core/Widgets/General/Login.php:497, core/Widgets/General/Login.php:574
+msgid "Border Radius"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:148, core/Widgets/Dashboard/LaunchSite.php:409, core/Widgets/Dashboard/SubscriptionDetails.php:250
+msgid "Padding"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:170, core/Widgets/Dashboard/LaunchSite.php:223, core/Widgets/Dashboard/LaunchSite.php:253, core/Widgets/Dashboard/SubscriptionDetails.php:192, core/Widgets/Dashboard/SubscriptionDetails.php:326, core/Widgets/Dashboard/SubscriptionDetails.php:368, core/Widgets/Dashboard/SubscriptionDetails.php:398
+msgid "Color"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:193, core/Widgets/General/Login.php:376
+msgid "Spacing"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:237
+msgid "Sub Title"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:293, core/Widgets/General/Login.php:522
+msgid "Normal"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:300, core/Widgets/Dashboard/LaunchSite.php:340, core/Widgets/General/Login.php:397, core/Widgets/General/Login.php:431, core/Widgets/General/Login.php:529, core/Widgets/General/Login.php:607, core/Widgets/General/Login.php:665
+msgid "Text Color"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:312, core/Widgets/Dashboard/LaunchSite.php:351, core/Widgets/General/Login.php:455, core/Widgets/General/Login.php:550, core/Widgets/General/Login.php:618
+msgid "Background Color"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:333, core/Widgets/General/Login.php:600
+msgid "Hover"
+msgstr ""
+
+#: core/Widgets/Dashboard/LaunchSite.php:362, core/Widgets/General/Login.php:469, core/Widgets/General/Login.php:629
+msgid "Border Color"
+msgstr ""
+
 #: core/Widgets/Dashboard/RecentOrders.php:21
 msgid "Recent Orders"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:23
+#: core/Widgets/Dashboard/SubscriptionDetails.php:26
 msgid "Subscription Details"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:51
+msgid "Plan detalis"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:59
+msgid "No subscription text"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:61
+msgid "You have no active subscriptions. Please sign-up for one of our plans to launch your site(s)!"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:71, core/Widgets/General/Login.php:84
+msgid "Text"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:79
+msgid "Data source"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:82
+msgid "Subscription plan"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:83
+msgid "Sites available"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:84, core/Widgets/Dashboard/SubscriptionDetails.php:107
+msgid "Available storage"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:85, core/Widgets/Dashboard/SubscriptionDetails.php:111
+msgid "Used storage"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:94
+msgid "Items"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:99
+msgid "Current plan"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:103
+msgid "Available sites"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:204, core/Widgets/General/Login.php:109
+msgid "Alignment"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:208, core/Widgets/General/Login.php:113
+msgid "Left"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:212, core/Widgets/General/Login.php:117
+msgid "Center"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:216, core/Widgets/General/Login.php:121
+msgid "Right"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:264
+msgid "Items Container"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:272
+msgid "Items Padding"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:284
+msgid "Section Padding"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:298
+msgid "Item Title"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:306, core/Widgets/Dashboard/SubscriptionDetails.php:348
+msgid "Width"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:340
+msgid "Item Data Source"
+msgstr ""
+
+#: core/Widgets/Dashboard/SubscriptionDetails.php:382
+msgid "No subscription"
 msgstr ""
 
 #: core/Widgets/General/Avatar.php:21
@@ -2110,30 +2302,6 @@ msgstr ""
 
 #: core/Widgets/General/Login.php:66, core/Widgets/General/Login.php:100
 msgid "Extra Large"
-msgstr ""
-
-#: core/Widgets/General/Login.php:77, core/Widgets/General/Login.php:512
-msgid "Button"
-msgstr ""
-
-#: core/Widgets/General/Login.php:84
-msgid "Text"
-msgstr ""
-
-#: core/Widgets/General/Login.php:109
-msgid "Alignment"
-msgstr ""
-
-#: core/Widgets/General/Login.php:113
-msgid "Left"
-msgstr ""
-
-#: core/Widgets/General/Login.php:117
-msgid "Center"
-msgstr ""
-
-#: core/Widgets/General/Login.php:121
-msgid "Right"
 msgstr ""
 
 #: core/Widgets/General/Login.php:125
@@ -2220,44 +2388,16 @@ msgstr ""
 msgid "Links Hover Color"
 msgstr ""
 
-#: core/Widgets/General/Login.php:376
-msgid "Spacing"
-msgstr ""
-
-#: core/Widgets/General/Login.php:397, core/Widgets/General/Login.php:431, core/Widgets/General/Login.php:529, core/Widgets/General/Login.php:607, core/Widgets/General/Login.php:665
-msgid "Text Color"
-msgstr ""
-
 #: core/Widgets/General/Login.php:423
 msgid "Fields"
-msgstr ""
-
-#: core/Widgets/General/Login.php:455, core/Widgets/General/Login.php:550, core/Widgets/General/Login.php:618
-msgid "Background Color"
-msgstr ""
-
-#: core/Widgets/General/Login.php:469, core/Widgets/General/Login.php:629
-msgid "Border Color"
 msgstr ""
 
 #: core/Widgets/General/Login.php:483
 msgid "Border Width"
 msgstr ""
 
-#: core/Widgets/General/Login.php:497, core/Widgets/General/Login.php:574
-msgid "Border Radius"
-msgstr ""
-
-#: core/Widgets/General/Login.php:522
-msgid "Normal"
-msgstr ""
-
 #: core/Widgets/General/Login.php:586
 msgid "Text Padding"
-msgstr ""
-
-#: core/Widgets/General/Login.php:600
-msgid "Hover"
 msgstr ""
 
 #: core/Widgets/General/Login.php:643
@@ -2374,6 +2514,10 @@ msgstr ""
 
 #: core/Widgets/Site/SiteScreenshot.php:21
 msgid "Site Screenshot"
+msgstr ""
+
+#: core/Widgets/Sites/SitesList.php:63
+msgid "Posts per page"
 msgstr ""
 
 #: templates/admin/notices/container-management.php:27
@@ -2496,34 +2640,6 @@ msgstr ""
 msgid "Latest news"
 msgstr ""
 
-#: templates/widgets/dashboard/launch-site.php:17
-msgid "Launch"
-msgstr ""
-
-#: templates/widgets/dashboard/subscription-details.php:8
-msgid "Plan details"
-msgstr ""
-
-#: templates/widgets/dashboard/subscription-details.php:67
-msgid "You have no active subscriptions. Please sign-up for one of our plans to launch your site(s)!"
-msgstr ""
-
-#: templates/widgets/dashboard/subscription-details.php:17
-msgid "Current plan"
-msgstr ""
-
-#: templates/widgets/dashboard/subscription-details.php:27
-msgid "Remaining sites"
-msgstr ""
-
-#: templates/widgets/dashboard/subscription-details.php:37
-msgid "Available storage"
-msgstr ""
-
-#: templates/widgets/dashboard/subscription-details.php:56
-msgid "Used storage"
-msgstr ""
-
 #: templates/widgets/general/sites-navigation.php:52, templates/widgets/site/site-navigation.php:16
 msgid "Dashboard"
 msgstr ""
@@ -2544,7 +2660,7 @@ msgstr ""
 msgid "Domains"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:57, templates/widgets/site/site-navigation.php:21, templates/widgets/site/pages/backups.php:28
+#: templates/widgets/general/sites-navigation.php:57, templates/widgets/site/site-navigation.php:21, templates/widgets/site/pages/backups.php:32
 msgid "Backups"
 msgstr ""
 
@@ -2774,19 +2890,19 @@ msgstr ""
 msgid "Fetching scheduled tasks..."
 msgstr ""
 
-#: templates/widgets/site/pages/backups.php:14
+#: templates/widgets/site/pages/backups.php:18
 msgid "Create a backup"
 msgstr ""
 
-#: templates/widgets/site/pages/backups.php:19
+#: templates/widgets/site/pages/backups.php:23
 msgid "Create a backup of your site so you can restore it anytime in the future."
 msgstr ""
 
-#: templates/widgets/site/pages/backups.php:39
+#: templates/widgets/site/pages/backups.php:43
 msgid "No backups available."
 msgstr ""
 
-#: templates/widgets/site/pages/backups.php:34
+#: templates/widgets/site/pages/backups.php:38
 msgid "You have %s backup available!"
 msgid_plural "You have %s backups available!"
 msgstr[0] ""
@@ -3475,7 +3591,7 @@ msgid "Remove Domain"
 msgstr ""
 
 #: core/Extras/dollie-setup/admin/templates/base/dollie-news.php:2
-msgid "Dollie Updates"
+msgid "Dollie Product Updates"
 msgstr ""
 
 #: core/Extras/dollie-setup/admin/templates/base/recent-kb.php:2
@@ -3486,91 +3602,91 @@ msgstr ""
 msgid "Recently Launched %s"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:19
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:20
 msgid "Step 1 - Migrate Your First Site"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:36
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:37
 msgid "Launch Your First Site on Your Platform"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:34
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:35
 msgid "Migrate %s to Your Platform"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:43
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:44
 msgid "Let's launch your first WordPress site on your platform!"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:41
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:42
 msgid "Click here to get started with this."
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:61
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:62
 msgid "Step 1 - Launch Your Agency Blueprint"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:74
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:75
 msgid "Blueprint Setup - Let's set up \"%s\""
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:77
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:78
 msgid "Save hours of setup time by creating your first Blueprint."
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:141
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:142
 msgid "Not connected to Dollie API"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:143
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:144
 msgid "Please connect to the API"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:152, core/Extras/dollie-setup/admin/templates/base/setup-complete.php:228, core/Extras/dollie-setup/admin/templates/base/setup-complete.php:304
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:153, core/Extras/dollie-setup/admin/templates/base/setup-complete.php:229, core/Extras/dollie-setup/admin/templates/base/setup-complete.php:305
 msgid "Not Completed"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:106
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:107
 msgid "Successfully connected to Dollie Cloud API"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:108
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:109
 msgid "Sites can be launched via this Hub"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:117, core/Extras/dollie-setup/admin/templates/base/setup-complete.php:191, core/Extras/dollie-setup/admin/templates/base/setup-complete.php:267
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:118, core/Extras/dollie-setup/admin/templates/base/setup-complete.php:192, core/Extras/dollie-setup/admin/templates/base/setup-complete.php:268
 msgid "Completed"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:217
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:218
 msgid "WooCommerce Setup"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:219
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:220
 msgid "No Products with Dollie Settings Found"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:180
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:181
 msgid "WooCommerce Products Found"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:182
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:183
 msgid "One or more WooCommmerce products with Dollie settings are found."
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:293
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:294
 msgid "Custom Domain Setup"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:295
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:296
 msgid "You have not connected your own domain yet."
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:256
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:257
 msgid "Your Custom Domain is Active"
 msgstr ""
 
-#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:258
+#: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:259
 msgid "You are using the domain %s."
 msgstr ""
 
