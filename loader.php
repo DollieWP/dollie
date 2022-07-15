@@ -4,7 +4,7 @@
  * Plugin Name: Dollie Hub
  * Description: Build Your Own Cloud Platform - If You Can Imagine It, You Can Build it with Dollie
  * Plugin URI:  https://getdollie.com
- * Version:     5.0.0
+ * Version:     5.0.1
  * Author:      GetDollie
  *
  * Text Domain: dollie
