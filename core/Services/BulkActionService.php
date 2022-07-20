@@ -204,7 +204,7 @@ final class BulkActionService extends Singleton {
 					$ids[] = $container['id'];
 				}
 
-				$posts = dollie()->get_containers_by_ids( $$ids );
+				$posts = dollie()->get_containers_by_ids( $ids );
 		}
 
 		if ( empty( $posts ) ) {
