@@ -55,12 +55,10 @@ class QuickLaunch extends Singleton implements ConstInterface {
 		$generator = new NameGenerator();
 		$domain    = strtolower( str_replace( ' ', '', $generator->getName() ) );
 		$email     = af_get_field( 'client_email' );
-		$blueprint = Forms::instance()->get_form_blueprint( $form, $args );
-		$site_type = 'site';
 
 		$user_id = get_current_user_id();
 
-		// If we allow registration and not logged in - create account
+		// If we allow registration and not logged in - create account.
 		if ( ! is_user_logged_in() && get_option( 'users_can_register' ) ) {
 			$user_id       = username_exists( $email );
 			$user_password = af_get_field( 'client_password' ) ?: wp_generate_password( $length = 12, $include_standard_special_chars = false );
@@ -68,6 +66,12 @@ class QuickLaunch extends Singleton implements ConstInterface {
 			if ( ! $user_id && false === email_exists( $email ) ) {
 				$user_id = wp_create_user( $email, $user_password, $email );
 				update_user_meta( $user_id, 'first_name', af_get_field( 'client_name' ) );
+
+				// Login user.
+				wp_clear_auth_cookie();
+				wp_set_current_user ( $user_id ); // Set the current user detail.
+				wp_set_auth_cookie  ( $user_id ); // Set auth details in cookie.
+
 			} else {
 				af_add_error( 'client_email', __( 'Email already exists. Please login first', 'dollie' ) );
 
@@ -79,18 +83,41 @@ class QuickLaunch extends Singleton implements ConstInterface {
 			return;
 		}
 
-		$deploy_data = compact( 'email', 'domain', 'user_id', 'blueprint' );
-		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data, $domain, $blueprint );
+		$blueprint_hash = null;
+		$blueprint_id = Forms::instance()->get_form_blueprint( $form, $args );
 
-		// add WP site details.
-		$setup_data = [
-			'email'    => af_get_field( 'client_email' ),
-			'username' => sanitize_title( af_get_field( 'client_name' ) ),
+		if ( $blueprint_id ) {
+			$container = dollie()->get_container( $blueprint_id );
+
+			if ( ! is_wp_error( $container ) && $container->is_blueprint() ) {
+				$blueprint_id   = $container->get_id();
+				$blueprint_hash = $container->get_hash();
+			}
+		}
+
+		$redirect = '';
+		if ( isset( $_POST['dollie_redirect'] ) && ! empty( $_POST['dollie_redirect'] ) ) {
+			$redirect = sanitize_text_field( $_POST['dollie_redirect'] );
+		}
+
+		$deploy_data = [
+			'owner_id'     => $user_id,
+			'blueprint_id' => $blueprint_id,
+			'blueprint'    => $blueprint_hash,
+			'email'        => $email,
+			'username'     => af_get_field( 'client_name' ),
+			'redirect'     => $redirect,
 		];
 
-		$status = DeployService::instance()->start( self::TYPE_SITE, $setup_data );
+		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data );
 
-		if ( false === $status ) {
+		$status = DeployService::instance()->start(
+			self::TYPE_SITE,
+			$domain,
+			$deploy_data
+		);
+
+		if ( false === $status || is_wp_error( $status ) ) {
 			af_add_submission_error(
 				esc_html__( 'Something went wrong. Please try again or contact our support if the problem persists.', 'dollie' )
 			);
@@ -112,7 +139,7 @@ class QuickLaunch extends Singleton implements ConstInterface {
 	 * @return mixed
 	 */
 	public function change_form_args( $args ) {
-		$args['submit_text'] = printf( esc_html__( 'Launch New %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() );
+		$args['submit_text'] = esc_html__( 'Launch New Site', 'dollie-setup' );
 
 		return $args;
 	}

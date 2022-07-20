@@ -109,7 +109,7 @@ final class DeployService extends Singleton implements ConstInterface {
 
 		$container = dollie()->get_container( $post_id );
 
-		// Log::add_front( Log::WP_SITE_DEPLOY_STARTED, dollie, $site );
+		// Log::add_front( Log::WP_SITE_DEPLOY_STARTED, ['id' =>$post_id ] );
 
 		if ( is_wp_error( $container ) ) {
 			return false;
