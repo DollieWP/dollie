@@ -17,7 +17,7 @@ if ( ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_
 	dollie()->load_template(
 		'notice',
 		[
-			'type'    => 'warning',
+			'type'    => 'error',
 			'icon'    => 'fas fa-exclamation-circle',
 			'title'   => __( 'Sorry, Launching a new site is currently not possible.', 'dollie' ),
 			'message' => $message,

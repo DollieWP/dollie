@@ -36,6 +36,7 @@ final class AccessService extends Singleton {
 		}
 
 		$user = dollie()->get_user();
+
 		if ( ! $user->can_view_all_sites() ) {
 			$query->set( 'author', $user->get_id() );
 		}
@@ -240,13 +241,14 @@ final class AccessService extends Singleton {
 	 */
 	public function logged_in_only() {
 		$login_id = dollie()->page()->get_login_id();
-		$dash_id  = dollie()->page()->get_dashboard_id();
 
 		if ( ! $login_id ) {
 			return;
 		}
 
-		if ( ! is_user_logged_in() && ( is_singular( 'container' ) || ( $dash_id && is_page( $dash_id ) ) ) ) {
+		$dash_id = dollie()->page()->get_dashboard_id();
+
+		if ( ! is_user_logged_in() && ( is_singular( 'container' ) || $dash_id && is_page( $dash_id ) ) ) {
 			wp_redirect( get_permalink( $login_id ) );
 			exit;
 		}
@@ -340,7 +342,6 @@ final class AccessService extends Singleton {
 	 * @return void
 	 */
 	public function acf_field_access( $field ) {
-
 		acf_render_field_setting(
 			$field,
 			array(
@@ -352,14 +353,12 @@ final class AccessService extends Singleton {
 			),
 			true
 		);
-
 	}
 
 	/**
 	 * Protect container access
 	 */
 	public function acf_field_prepare_access( $field ) {
-
 		// bail early if no 'admin_only' setting.
 		if ( empty( $field['dollie_admin_only'] ) ) {
 			return $field;
