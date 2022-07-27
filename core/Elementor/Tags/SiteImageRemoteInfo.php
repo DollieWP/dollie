@@ -30,7 +30,9 @@ class SiteImageRemoteInfo extends Data_Tag {
 			return;
 		}
 
-		$this->wpd_data['site_data'] = $details['site'];
+		if ( isset( $details['site'] ) ) {
+			$this->wpd_data['site_data'] = $details['site'];
+		}
 
 	}
 

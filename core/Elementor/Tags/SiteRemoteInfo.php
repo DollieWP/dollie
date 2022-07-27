@@ -30,7 +30,9 @@ class SiteRemoteInfo extends Tag {
 			return;
 		}
 
-		$this->wpd_data['site_data'] = $details['site'];
+		if ( isset( $details['site'] ) ) {
+			$this->wpd_data['site_data'] = $details['site'];
+		}
 
 		$subscription = dollie()->subscription();
 		$user         = dollie()->get_user();
@@ -68,10 +70,10 @@ class SiteRemoteInfo extends Tag {
 			}
 
 			if ( strpos( $data, '.png' ) ||
-				 strpos( $data, '.jpg' ) ||
-				 strpos( $data, '.jpeg' ) ||
-				 filter_var( $data, FILTER_VALIDATE_URL ) ||
-				 strpos( $data, '.gif' ) ) {
+			     strpos( $data, '.jpg' ) ||
+			     strpos( $data, '.jpeg' ) ||
+			     filter_var( $data, FILTER_VALIDATE_URL ) ||
+			     strpos( $data, '.gif' ) ) {
 
 				continue;
 			}
@@ -111,8 +113,10 @@ class SiteRemoteInfo extends Tag {
 			$data = $this->wpd_data['customer_data'];
 		}
 
+
 		if ( ! isset( $data[ $param_name ] ) ) {
 			echo '';
+			return;
 		}
 
 		$value = $data[ $param_name ];
