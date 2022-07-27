@@ -209,6 +209,11 @@ final class DeployService extends Singleton implements ConstInterface {
 		return true;
 	}
 
+	/**
+	 * Check deploy in bulk on template_redirect
+	 *
+	 * @return void
+	 */
 	public function check_deploy_bulk() {
 		$query = new WP_Query(
 			[
