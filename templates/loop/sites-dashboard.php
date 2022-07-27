@@ -66,10 +66,15 @@
 							</div>
 
 							<div class="dol-sites-status">
-								<?php if ( $data['is_running'] ) : ?>
+								<?php if ( $container->is_running() ) : ?>
 									<span class="dol-flex dol-h-4 dol-w-4 dol-relative">
 										<span class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w-full dol-rounded-full dol-bg-green-500 dol-opacity-75"></span>
 										<span class="dol-relative dol-inline-flex dol-rounded-full dol-h-4 dol-w-4 dol-bg-green-600"></span>
+									</span>
+								<?php elseif ( $container->is_deploying() ) : ?>
+									<span class="dol-flex dol-h-4 dol-w-4 dol-relative">
+										<span class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w-full dol-rounded-full dol-bg-yellow-600 dol-opacity-75"></span>
+										<span class="dol-relative dol-inline-flex dol-rounded-full dol-h-4 dol-w-4 dol-bg-yellow-600"></span>
 									</span>
 								<?php else : ?>
 									<span class="dol-flex dol-h-4 dol-w-4 dol-relative">
@@ -95,14 +100,16 @@
 							</div>
 						</div>
 						<div class="dol-sites-version dol-cursor-default dol-text-sm">
-							<div class="dol-font-semibold dol-text-gray-500">
-								<?php esc_html_e( 'WordPress', 'dollie' ); ?>
-							</div>
-							<div class="dol-font-bold ">
-								<?php printf( __( 'Version %s', 'dollie' ), $data['wp_version'] ); ?>
-							</div>
+							<?php if ( ! $container->is_deploying() ) : ?>
+								<div class="dol-font-semibold dol-text-gray-500">
+									<?php esc_html_e( 'WordPress', 'dollie' ); ?>
+								</div>
+								<div class="dol-font-bold ">
+									<?php printf( __( 'Version %s', 'dollie' ), $data['wp_version'] ); ?>
+								</div>
+							<?php endif; ?>
 						</div>
-						<?php if ( $container->is_blueprint() ) : ?>
+						<?php if ( $container->is_blueprint() && ! $container->is_deploying() ) : ?>
 							<div class="dol-sites-client dol-cursor-default dol-text-sm">
 								<div class="dol-font-semibold dol-text-gray-500">
 									<?php esc_html_e( 'Blueprint Updated', 'dollie' ); ?>
@@ -117,7 +124,7 @@
 									<?php endif; ?>
 								</div>
 							</div>
-						<?php else : ?>
+						<?php elseif ( ! $container->is_deploying() ) : ?>
 							<div class="dol-sites-client dol-cursor-default dol-text-sm">
 								<div class="dol-font-semibold dol-text-gray-500">
 									<?php echo dollie()->string_variants()->get_user_type_plural_string(); ?>
@@ -128,34 +135,37 @@
 							</div>
 						<?php endif; ?>
 						<div class="dol-sites-controls">
-							<?php if ( $container->is_blueprint() ) : ?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink( 'blueprints' ); ?>" data-tooltip="<?php echo esc_attr__( 'Update Blueprint', 'dollie' ); ?>">
-									<?php echo dollie()->icon()->refresh(); ?>
+							<?php if ( $container->is_deploying() ) : ?>
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink(); ?>">
+									<?php esc_html_e( 'View progress' ); ?>
 								</a>
 							<?php else : ?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink(); ?>" data-tooltip="<?php echo esc_attr__( 'Manage', 'dollie' ); ?>">
-									<i data-tooltip="Carefully crafted site designs made by our team which you can use as a starting point for your new site." class="fas fa-cog svg-tooltip acf__tooltip"></i>
-								</a>
-							<?php endif; ?>
+								<?php if ( $container->is_blueprint() ) : ?>
+									<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink( 'blueprints' ); ?>" data-tooltip="<?php echo esc_attr__( 'Update Blueprint', 'dollie' ); ?>">
+										<?php echo dollie()->icon()->refresh(); ?>
+									</a>
+								<?php else : ?>
+									<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink(); ?>" data-tooltip="<?php echo esc_attr__( 'Manage', 'dollie' ); ?>">
+										<i data-tooltip="Carefully crafted site designs made by our team which you can use as a starting point for your new site." class="fas fa-cog svg-tooltip acf__tooltip"></i>
+									</a>
+								<?php endif; ?>
 
-							<?php
-							$staging_url = get_post_meta( get_the_ID(), '_wpd_staging_url', true );
-							if ( $staging_url ) :
+								<?php
+								$staging_url = get_post_meta( get_the_ID(), '_wpd_staging_url', true );
+								$login_link  = $container->get_customer_login_url();
 								?>
-								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink( 'staging' ); ?>" data-tooltip="<?php echo esc_attr__( 'Visit Staging Area', 'dollie' ); ?>">
-									<?php echo dollie()->icon()->staging(); ?>
-								</a>
-							<?php endif; ?>
 
+								<?php if ( $staging_url ) : ?>
+									<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink( 'staging' ); ?>" data-tooltip="<?php echo esc_attr__( 'Visit Staging Area', 'dollie' ); ?>">
+										<?php echo dollie()->icon()->staging(); ?>
+									</a>
+								<?php endif; ?>
 
-							<?php
-							$login_link = $container->get_customer_login_url();
-
-							if ( ! empty( $login_link ) ) :
-								?>
-								<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo esc_url( $login_link ); ?>" data-tooltip="<?php printf( esc_html__( 'Login to %s as Admin', 'dollie' ), dollie()->string_variants()->get_site_type_string() ); ?>">
-									<?php echo dollie()->icon()->site_login(); ?>
-								</a>
+								<?php if ( ! empty( $login_link ) ) : ?>
+									<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo esc_url( $login_link ); ?>" data-tooltip="<?php printf( esc_html__( 'Login to %s as Admin', 'dollie' ), dollie()->string_variants()->get_site_type_string() ); ?>">
+										<?php echo dollie()->icon()->site_login(); ?>
+									</a>
+								<?php endif; ?>
 							<?php endif; ?>
 						</div>
 					</div>

@@ -2620,6 +2620,9 @@ input[type="text"].dol-search-input:focus {
     background-color: rgb(220 38 38 / var(--tw-bg-opacity)); }
 .dol-bg-primary {
     background-color: var(--d-primary); }
+.dol-bg-yellow-600 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(217 119 6 / var(--tw-bg-opacity)); }
 .dol-bg-red-500 {
     --tw-bg-opacity: 1;
     background-color: rgb(239 68 68 / var(--tw-bg-opacity)); }

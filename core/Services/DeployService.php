@@ -7,9 +7,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Api\DeployApi;
-use Dollie\Core\Log;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
+use Dollie\Core\Factories\BaseContainer;
+use WP_Query;
 
 final class DeployService extends Singleton implements ConstInterface {
 	use DeployApi;
@@ -21,7 +22,7 @@ final class DeployService extends Singleton implements ConstInterface {
 	 * @param string $route
 	 * @param array  $data
 	 *
-	 * @return \WP_Error|boolean
+	 * @return \WP_Error|BaseContainer
 	 */
 	public function start( string $type, string $route, array $data ) {
 		if ( ! in_array( $type, [ self::TYPE_SITE, self::TYPE_BLUEPRINT, self::TYPE_STAGING ] ) ) {
@@ -83,7 +84,7 @@ final class DeployService extends Singleton implements ConstInterface {
 		);
 
 		if ( is_wp_error( $deploy ) ) {
-			return false;
+			return new \WP_Error( 500, 'Deploy failed' );
 		}
 
 		$meta_input = [
@@ -112,7 +113,7 @@ final class DeployService extends Singleton implements ConstInterface {
 		// Log::add_front( Log::WP_SITE_DEPLOY_STARTED, ['id' =>$post_id ] );
 
 		if ( is_wp_error( $container ) ) {
-			return false;
+			return new \WP_Error( 500, 'Post not created' );
 		}
 
 		$container->set_details(
@@ -123,26 +124,26 @@ final class DeployService extends Singleton implements ConstInterface {
 			]
 		);
 
-		return true;
+		return $container;
 	}
 
 	/**
 	 * Check if container is deployed
 	 *
-	 * @param int|false $post_id
+	 * @param int|bool|\WP_Post $post_id
 	 *
 	 * @return bool|\WP_Error
 	 */
-	public function check_deploy( $post_id = 0 ) {
-		if ( ! $post_id ) {
-			$post_id = get_the_ID();
+	public function check_deploy( $post = false ) {
+		if ( ! $post ) {
+			$post = get_the_ID();
 		}
 
-		if ( ! $post_id ) {
+		if ( ! $post ) {
 			return false;
 		}
 
-		$container = dollie()->get_container( $post_id );
+		$container = dollie()->get_container( $post );
 
 		if ( is_wp_error( $container ) ) {
 			return false;
@@ -200,10 +201,28 @@ final class DeployService extends Singleton implements ConstInterface {
 				);
 
 			$container->mark_not_updated();
+			$container->fetch_details();
 		}
 
 		update_post_meta( $container->get_id(), 'dollie_container_deployed', 1 );
 
 		return true;
+	}
+
+	public function check_deploy_bulk() {
+		$query = new WP_Query(
+			[
+				's'              => '🚀 Launching',
+				'post_status'    => [ 'publish', 'draft' ],
+				'post_type'      => 'container',
+				'posts_per_page' => -1,
+			]
+		);
+
+		$posts = $query->get_posts();
+
+		foreach ( $posts as $post ) {
+			$this->check_deploy( $post );
+		}
 	}
 }

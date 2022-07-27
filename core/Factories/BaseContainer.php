@@ -351,7 +351,11 @@ abstract class BaseContainer implements ConstInterface {
 	public function get_screenshot(): string {
 		$default_screenshot = get_field( 'default_screenshot', 'option' );
 
-		if ( $default_screenshot && 'Deploying' === $this->get_status() ) {
+		if ( ! $default_screenshot ) {
+			$default_screenshot = DOLLIE_ASSETS_URL . 'img/generating-preview.png';
+		}
+
+		if ( 'Deploying' === $this->get_status() ) {
 			return $default_screenshot;
 		}
 

@@ -69,8 +69,8 @@ class QuickLaunch extends Singleton implements ConstInterface {
 
 				// Login user.
 				wp_clear_auth_cookie();
-				wp_set_current_user ( $user_id ); // Set the current user detail.
-				wp_set_auth_cookie  ( $user_id ); // Set auth details in cookie.
+				wp_set_current_user( $user_id ); // Set the current user detail.
+				wp_set_auth_cookie( $user_id ); // Set auth details in cookie.
 
 			} else {
 				af_add_error( 'client_email', __( 'Email already exists. Please login first', 'dollie' ) );
@@ -84,7 +84,7 @@ class QuickLaunch extends Singleton implements ConstInterface {
 		}
 
 		$blueprint_hash = null;
-		$blueprint_id = Forms::instance()->get_form_blueprint( $form, $args );
+		$blueprint_id   = Forms::instance()->get_form_blueprint( $form, $args );
 
 		if ( $blueprint_id ) {
 			$container = dollie()->get_container( $blueprint_id );
@@ -111,24 +111,20 @@ class QuickLaunch extends Singleton implements ConstInterface {
 
 		$deploy_data = apply_filters( 'dollie/launch_site/form_deploy_data', $deploy_data );
 
-		$status = DeployService::instance()->start(
+		$container = DeployService::instance()->start(
 			self::TYPE_SITE,
 			$domain,
 			$deploy_data
 		);
 
-		if ( false === $status || is_wp_error( $status ) ) {
+		if ( is_wp_error( $container ) ) {
 			af_add_submission_error(
 				esc_html__( 'Something went wrong. Please try again or contact our support if the problem persists.', 'dollie' )
 			);
 		}
 
-		$url = dollie()->get_latest_container_url();
-
-		if ( $url ) {
-			wp_redirect( $url );
-			exit();
-		}
+		wp_redirect( $container->get_permalink() );
+		exit();
 	}
 
 	/**

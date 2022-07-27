@@ -28,7 +28,7 @@ class Container extends Singleton {
 		add_action( 'wp', [ $container_service, 'add_acf_form_head' ], 9 );
 		add_action( 'template_redirect', [ $container_service, 'fetch_container' ] );
 		add_action( 'template_redirect', [ $container_service, 'restore' ] );
-		add_action( 'template_redirect', [ DeployService::instance(), 'check_deploy' ] );
+		add_action( 'template_redirect', [ DeployService::instance(), 'check_deploy_bulk' ] );
 
 		add_filter( 'init', [ $container_service, 'rewrite_rules_sub_pages' ], 20 );
 		add_filter( 'query_vars', [ $container_service, 'query_vars' ] );

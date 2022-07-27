@@ -129,13 +129,13 @@ class LaunchSite extends Singleton implements ConstInterface {
 		$domain_prefix = af_get_field( 'site_url' );
 		$domain_prefix = strtolower( preg_replace( '/-+/', '-', ltrim( rtrim( trim( $domain_prefix ), '-' ), '-' ) ) );
 
-		$status = DeployService::instance()->start(
+		$container = DeployService::instance()->start(
 			'blueprint' === af_get_field( 'site_type' ) ? self::TYPE_BLUEPRINT : self::TYPE_SITE,
 			$domain_prefix,
 			$deploy_data
 		);
 
-		if ( false === $status || is_wp_error( $status ) ) {
+		if ( is_wp_error( $container ) ) {
 			af_add_submission_error(
 				esc_html__( 'Something went wrong. Please try again or contact our support if the problem persists.', 'dollie' )
 			);
@@ -143,12 +143,8 @@ class LaunchSite extends Singleton implements ConstInterface {
 			return;
 		}
 
-		$url = dollie()->get_latest_container_url();
-
-		if ( $url ) {
-			wp_redirect( $url );
-			exit();
-		}
+		wp_redirect( $container->get_permalink() );
+		exit();
 	}
 
 	/**
