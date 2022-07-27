@@ -266,7 +266,7 @@ final class Acf extends Singleton implements ConstInterface {
 
 		$container->update_changes();
 
-		Log::add_front( Log::WP_SITE_BLUEPRINT_DEPLOYED, $container, $container->slug );
+		// Log::add_front( Log::WP_SITE_BLUEPRINT_DEPLOYED, $container, $container->get_slug() );
 	}
 
 	/**

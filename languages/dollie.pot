@@ -1460,10 +1460,6 @@ msgstr ""
 msgid "Login to Site"
 msgstr ""
 
-#: core/Modules/Preview.php:254
-msgid "all"
-msgstr ""
-
 #: core/Modules/Preview.php:269
 msgid "all times"
 msgstr ""
