@@ -127,7 +127,7 @@
 						<?php else : ?>
 							<div class="dol-sites-client dol-cursor-default dol-text-sm">
 								<div class="dol-font-semibold dol-text-gray-500">
-									<?php echo dollie()->string_variants()->get_user_type_plural_string(); ?>
+									<?php echo dollie()->string_variants()->get_user_type_string(); ?>
 								</div>
 								<div class="dol-font-bold ">
 									<?php echo $container->get_author_name(); ?>
