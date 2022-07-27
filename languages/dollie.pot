@@ -103,7 +103,7 @@ msgstr ""
 msgid "LetsEncrypt Failed"
 msgstr ""
 
-#: core/Log.php:341, templates/loop/sites-dashboard.php:108, templates/loop/sites.php:223
+#: core/Log.php:341, templates/loop/sites-dashboard.php:115, templates/loop/sites.php:230
 msgid "Blueprint Updated"
 msgstr ""
 
@@ -1580,11 +1580,11 @@ msgstr ""
 msgid "No matching sites were found for your selection."
 msgstr ""
 
-#: core/Services/DeployService.php:40
+#: core/Services/DeployService.php:41
 msgid "My New Site"
 msgstr ""
 
-#: core/Services/DeployService.php:44
+#: core/Services/DeployService.php:45
 msgid "The best website in the world"
 msgstr ""
 
@@ -1746,11 +1746,11 @@ msgstr ""
 msgid "Read article"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:176
+#: templates/loop/sites-dashboard.php:186
 msgid "Ready to Launch your first %s?"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:177
+#: templates/loop/sites-dashboard.php:187
 msgid "Launching your first %s via your own Platform is something special. What are you waiting for, lets launch your first site!"
 msgstr ""
 
@@ -1758,31 +1758,31 @@ msgstr ""
 msgid "You are now viewing the blueprints made by you and your team."
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:99, templates/loop/sites.php:214
+#: templates/loop/sites-dashboard.php:105, templates/loop/sites.php:220
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:102, templates/loop/sites.php:217
+#: templates/loop/sites-dashboard.php:108, templates/loop/sites.php:223
 msgid "Version %s"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:115, templates/loop/sites.php:230
+#: templates/loop/sites-dashboard.php:122, templates/loop/sites.php:237
 msgid "Never. Update now!"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:136, templates/loop/sites.php:251
+#: templates/loop/sites-dashboard.php:148, templates/loop/sites.php:263
 msgid "Manage"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:132, templates/loop/sites.php:247, templates/widgets/site/pages/blueprints.php:109
+#: templates/loop/sites-dashboard.php:144, templates/loop/sites.php:259, templates/widgets/site/pages/blueprints.php:109
 msgid "Update Blueprint"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:145, templates/loop/sites.php:262
+#: templates/loop/sites-dashboard.php:159, templates/loop/sites.php:274
 msgid "Visit Staging Area"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:156
+#: templates/loop/sites-dashboard.php:165
 msgid "Login to %s as Admin"
 msgstr ""
 
@@ -1810,11 +1810,11 @@ msgstr ""
 msgid "Show Your %s using the Live Preview Bar"
 msgstr ""
 
-#: templates/loop/sites.php:305
+#: templates/loop/sites.php:318
 msgid "No %s Found"
 msgstr ""
 
-#: templates/loop/sites.php:326
+#: templates/loop/sites.php:339
 msgid "You have no Blueprints yet!"
 msgstr ""
 
@@ -1822,7 +1822,7 @@ msgstr ""
 msgid "Unnamed"
 msgstr ""
 
-#: templates/loop/sites.php:268
+#: templates/loop/sites.php:280
 msgid "Login to Site as Admin"
 msgstr ""
 
