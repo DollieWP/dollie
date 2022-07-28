@@ -204,7 +204,7 @@ final class BlueprintService extends Singleton {
 		foreach ( $posts as $post ) {
 			$container = dollie()->get_container( $post );
 
-			if ( is_wp_error( $container ) || ( $container->is_blueprint() && $container->is_private() ) ) {
+			if ( is_wp_error( $container ) || ! $container->is_blueprint() || $container->is_private() || ! $container->is_updated() || ! $container->get_saved_title() ) {
 				continue;
 			}
 

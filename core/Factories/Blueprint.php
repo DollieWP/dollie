@@ -89,6 +89,16 @@ final class Blueprint extends BaseContainer {
 	}
 
 	/**
+	 * Check if it is updated
+	 *
+	 * @return boolean
+	 */
+	public function is_updated() {
+		return get_post_meta( $this->get_id(), 'wpd_blueprint_created', true ) && $this->get_changes_update_time();
+	}
+
+
+	/**
 	 * Check if it is private
 	 *
 	 * @return boolean
