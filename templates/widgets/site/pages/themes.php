@@ -4,49 +4,45 @@ if ( ! isset( $container ) ) {
 	$container = dollie()->get_container();
 }
 
+$active_theme = $container->get_active_theme();
+
 ?>
 
 <h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
-	<?php esc_html_e( 'Themes', 'dollie' ); ?>
+	<?php esc_html_e( 'Active Theme', 'dollie' ); ?>
 </h2>
 
-<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
-		<?php esc_html_e( 'Active Theme', 'dollie' ); ?>
-	</h2>
-
-	<div class="dol-rounded dol-overflow-hidden dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-mb-12">
-		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
-			<div class="dol-flex dol-flex-wrap">
-				<div class="dol-w-full lg:dol-w-3/6">
-					<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-base md:dol-text-xl dol-text-white">
-						<?php echo esc_html( $theme['name'] ); ?>
-						<span class="dol-text-sm">
-							<?php echo esc_html( $theme['name'] ); ?>
-						</span>
-					</h4>
-				</div>
-				<div class="dol-w-full lg:dol-w-3/6 lg:dol-text-right dol-mt-1 lg:dol-mt-0">
-					<a class="dol-text-sm dol-text-primary-200 hover:dol-text-primary-300" target="_blank" href="<?php echo esc_url( $data['site_data']['Theme AuthorURI'] ); ?>">
-						<i class="fas fa-user dol-text-primary-200 dol-mr-2"></i>
-						<?php esc_html_e( 'Developed by', 'dollie' ); ?>
-						<?php echo esc_html( $data['site_data']['Theme Author'] ); ?>
-					</a>
-				</div>
+<div class="dol-rounded dol-overflow-hidden dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-mb-12">
+	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary-600 dol-border-0 dol-border-b">
+		<div class="dol-flex dol-flex-wrap">
+			<div class="dol-w-full lg:dol-w-3/6">
+				<h4 class="dol-m-0 dol-p-0 dol-font-bold dol-text-base md:dol-text-xl dol-text-white">
+					<?php echo esc_html( $active_theme['name'] ); ?>
+				</h4>
+			</div>
+			<div class="dol-w-full lg:dol-w-3/6 lg:dol-text-right dol-mt-1 lg:dol-mt-0">
+				<a class="dol-text-sm dol-text-primary-200 hover:dol-text-primary-300" target="_blank" href="<?php echo esc_url( $active_theme['uri'] ); ?>">
+					<i class="fas fa-user dol-text-primary-200 dol-mr-2"></i>
+					<?php esc_html_e( 'Developed by', 'dollie' ); ?>
+					<?php echo esc_html( $active_theme['author'] ); ?>
+				</a>
 			</div>
 		</div>
-		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
-			<div class="dol-flex dol-flex-wrap dol--mx-4 dol-my-2">
-				<div class="dol-w-full md:dol-w-2/5 lg:dol-w-1/3 dol-px-4">
-					<div class="dol-border dol-border-solid dol-border-primary-50 dol-rounded dol-overflow-hidden">
-						<img class="dol-block" src="<?php echo esc_url( get_post_meta( get_the_ID(), 'wpd_installation_site_theme_screenshot', true ) ); ?>" alt="<?php echo esc_attr( $data['container_details']['Name'] ); ?>">
-					</div>
-				</div>
-				<div class="dol-w-full md:dol-w-3/5 lg:dol-w-2/3 dol-px-4 dol-mt-4 md:dol-mt-0 dol-text-sm md:dol-text-base">
-					<span><?php echo esc_html( $data['site_data']['Theme Description'] ); ?></span>
+	</div>
+	<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6 ">
+		<div class="dol-flex dol-flex-wrap dol--mx-4 dol-my-2">
+			<div class="dol-w-full md:dol-w-2/5 lg:dol-w-1/3 dol-px-4">
+				<div class="dol-border dol-border-solid dol-border-primary-50 dol-rounded dol-overflow-hidden">
+					<img class="dol-block" src="<?php echo esc_url( $container->get_screenshot() ); ?>" alt="<?php echo esc_attr( $active_theme['name'] ); ?>">
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
+
+<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
+	<?php esc_html_e( 'Installed Themes', 'dollie' ); ?>
+</h2>
 
 <div class="dol-flex dol-flex-wrap dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden">
 	<div class="dol-hidden dol-w-full md:dol-flex dol-flex-wrap dol-items-center dol-bg-primary-600 dol-p-4 lg:dol-px-8 dol-text-white">
