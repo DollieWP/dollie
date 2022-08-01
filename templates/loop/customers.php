@@ -28,12 +28,22 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 ?>
 <div class="dol-mb-6 dol-widget-customer-search">
 	<div class="dol-flex dol-flex-wrap md:dol-justify-between">
-		<div class="dol-flex dol-items-center dol-rounded dol-overflow-hidden dol-mb-4 md:dol-mb-0 dol-h-10 md:dol-h-auto">
 
-		</div>
 		<div class="dol-relative dol-w-full md:dol-w-auto">
 			<input type="text" name="customer_search" class="dol-search-input dol-search-customer dol-w-full md:dol-w-64" data-list-type="<?php echo esc_attr( $view_type ); ?>" data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>" data-search-term="" placeholder="<?php printf( esc_html__( 'Search for a  %s', 'dollie' ), dollie()->string_variants()->get_user_type_string() ); ?>">
 		</div>
+
+		<div class="dol-flex dol-items-center dol-rounded dol-overflow-hidden dol-mb-4 md:dol-mb-0 dol-h-10 md:dol-h-auto">
+					<a href="<?php echo get_admin_url() ?>user-new.php"
+					class="dol-nav-btn dol-bg-secondary dol-text-white dol-radius-0 dol-ml-3 dol-mr-0 dol-p-3">
+						<span class="dol-inline-block dol-text-center">
+							<?php echo dollie()->icon()->customers(); ?>
+						</span>
+						<?php printf( esc_html__( 'Add New  %s', 'dollie' ), dollie()->string_variants()->get_user_type_string() ); ?>
+					</a>
+		</div>
+
+
 	</div>
 </div>
 
