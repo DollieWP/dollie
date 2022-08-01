@@ -9,6 +9,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dollie\Core\Singleton;
 
 final class PageManager extends Singleton {
+
+	public function __construct() {
+		parent::__construct();
+
+		add_filter( 'display_post_states', array( $this, 'add_hub_post_states' ), 10, 2 );
+	}
+
 	/**
 	 * Get launch ID
 	 *
@@ -258,6 +265,41 @@ final class PageManager extends Singleton {
 	public function get_customers_title(): string {
 		return get_the_title( $this->get_customers_id() );
 	}
+
+	/**
+	 * Add a post display state for special WC pages in the page list table.
+	 *
+	 * @param array   $post_states An array of post display states.
+	 * @param WP_Post $post        The current post object.
+	 */
+	public function add_hub_post_states( $post_states, $post ) {
+		if ( $this->get_launch_id() === $post->ID ) {
+			$post_states['dollie_hub_launch_site'] = __( 'Dollie Hub - Launch Site', 'dollie' );
+		}
+
+		if ( $this->get_launch_blueprint_id() === $post->ID ) {
+			$post_states['dollie_hub_launch_blueprint'] = __( 'Dollie Hub - Launch Blueprint', 'dollie' );
+		}
+
+		if ( $this->get_sites_id() === $post->ID ) {
+			$post_states['dollie_hub_sites'] = __( 'Dollie Hub - Sites', 'dollie' );
+		}
+
+		if ( $this->get_login_id() === $post->ID ) {
+			$post_states['dollie_hub_customer_login'] = __( 'Dollie Hub - Customer Login', 'dollie' );
+		}
+
+		if ( $this->get_customers_id() === $post->ID ) {
+			$post_states['dollie_hub_customers'] = __( 'Dollie Hub - Customers', 'dollie' );
+		}
+
+		if ( $this->get_dashboard_id() === $post->ID ) {
+			$post_states['dollie_hub_dashboard'] = __( 'Dollie Hub - Dashboard', 'dollie' );
+		}
+
+		return $post_states;
+	}
+
 
 	/**
 	 * Build permalink
