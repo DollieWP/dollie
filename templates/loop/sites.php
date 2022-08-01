@@ -71,6 +71,23 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=my-sites" data-tooltip="<?php printf( esc_html__( 'Show Your %s using the Live Preview Bar', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-layout-preview dol-preview-bar-layout">
 						<?php echo dollie()->icon()->preview(); ?>
 					</a>
+					<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
+					<a href="<?php echo esc_html( dollie()->page()->get_launch_blueprint_url() ); ?>"
+					class="dol-nav-btn dol-bg-secondary dol-text-white dol-radius-0 dol-ml-3 dol-mr-0 dol-p-3">
+						<span class="dol-inline-block dol-text-center">
+							<?php echo dollie()->icon()->blueprint(); ?>
+						</span>
+						<?php echo esc_html( dollie()->page()->get_launch_blueprint_title() ); ?>
+					</a>
+					<?php else: ?>
+						<a href="<?php echo esc_html( dollie()->page()->get_launch_url() ); ?>"
+					class="dol-nav-btn dol-bg-secondary dol-text-white dol-radius-0 dol-ml-3 dol-mr-0 dol-p-3">
+						<span class="dol-inline-block dol-text-center">
+							<?php echo dollie()->icon()->launch(); ?>
+						</span>
+						<?php echo esc_html( dollie()->page()->get_launch_title() ); ?>
+					</a>
+					<?php endif; ?>
 				</div>
 			</div>
 		</div>
@@ -264,7 +281,7 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 										<?php echo dollie()->icon()->manage(); ?>
 									</a>
 								<?php endif; ?>
-								
+
 								<?php
 								$staging_url = get_post_meta( get_the_ID(), '_wpd_staging_url', true );
 								$login_link  = $container->get_customer_login_url();
