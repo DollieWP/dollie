@@ -16,8 +16,9 @@ var DollieSiteContent = DollieSiteContent || {};
             DollieSiteContent.fn.checkDynamicFields();
             DollieSiteContent.fn.deploy();
             DollieSiteContent.fn.initStaging();
-            DollieSiteContent.fn.initExecution();
             DollieSiteContent.fn.initDns();
+            DollieSiteContent.fn.initUpdates();
+
         },
 
         checkDynamicFields: function () {
@@ -110,27 +111,6 @@ var DollieSiteContent = DollieSiteContent || {};
 
                 return submit;
             });
-        },
-
-        initExecution: function () {
-            var execution = $("#dol-execution-check");
-
-            if (execution.length) {
-                DollieSiteContent.vars.ajax_url = execution.data("ajax-url");
-
-                DollieSiteContent.vars.body = {
-                    container: execution.data("container"),
-                    type: execution.data("type"),
-                    action: "dollie_check_execution",
-                    nonce: execution.data("nonce"),
-                };
-
-                setInterval(function () {
-                    if (!DollieSiteContent.vars.reloaded) {
-                        DollieSiteContent.fn.sendRequest();
-                    }
-                }, 5000);
-            }
         },
 
         initDns: function () {
@@ -238,6 +218,32 @@ var DollieSiteContent = DollieSiteContent || {};
                 });
             });
         },
+
+        initUpdates: function () {
+            $('#dollie-update-assets').on('submit', function (e) {
+                e.preventDefault();
+
+                $.ajax({
+                    method: "POST",
+                    url: $(this).attr('action'),
+                    data: $(this).serialize(),
+                    context: $(this),
+                    success: function (response) {
+                        if (response.success) {
+                            $(this)
+                                .parent()
+                                .find(".dol-notification-success")
+                                .fadeIn();
+                        } else {
+                            $(this)
+                                .parent()
+                                .find(".dol-notification-error")
+                                .fadeIn();
+                        }
+                    },
+                });
+            });
+        }
     };
 
     $(document).ready(DollieSiteContent.fn.init);

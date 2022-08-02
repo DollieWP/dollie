@@ -2399,6 +2399,8 @@ input[type="text"].dol-search-input:focus {
     list-style-type: none; }
 .dol-grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr)); }
+.dol-grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .dol-flex-row {
     flex-direction: row; }
 .dol-flex-col {
@@ -2631,6 +2633,9 @@ input[type="text"].dol-search-input:focus {
 .dol-bg-gray-50 {
     --tw-bg-opacity: 1;
     background-color: rgb(250 250 250 / var(--tw-bg-opacity)); }
+.dol-bg-yellow-100 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(254 243 199 / var(--tw-bg-opacity)); }
 .dol-bg-black {
     --tw-bg-opacity: 1;
     background-color: rgb(0 0 0 / var(--tw-bg-opacity)); }
@@ -2954,6 +2959,9 @@ input[type="text"].dol-search-input:focus {
 .dol-text-green-600 {
     --tw-text-opacity: 1;
     color: rgb(5 150 105 / var(--tw-text-opacity)); }
+.dol-text-yellow-700 {
+    --tw-text-opacity: 1;
+    color: rgb(180 83 9 / var(--tw-text-opacity)); }
 .dol-text-yellow-600 {
     --tw-text-opacity: 1;
     color: rgb(217 119 6 / var(--tw-text-opacity)); }
@@ -3301,8 +3309,6 @@ input[type="text"].dol-search-input:focus {
         width: 25%; }
     .md\:dol-w-2\/5 {
         width: 40%; }
-    .md\:dol-w-3\/5 {
-        width: 60%; }
     .md\:dol-flex-shrink-0 {
         flex-shrink: 0; }
     .md\:dol-grid-cols-1 {
@@ -3395,8 +3401,6 @@ input[type="text"].dol-search-input:focus {
         width: 50%; }
     .lg\:dol-w-1\/3 {
         width: 33.333333%; }
-    .lg\:dol-w-2\/3 {
-        width: 66.666667%; }
     .lg\:dol-max-w-7xl {
         max-width: 80rem; }
     .lg\:dol-grid-cols-3 {

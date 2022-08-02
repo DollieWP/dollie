@@ -91,6 +91,7 @@ final class ContainerService extends Singleton {
 	public function check_deploy() {
 		if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'check_deploy_nonce' ) ) {
 			wp_send_json_error();
+			die();
 		}
 
 		$container_id = (int) $_REQUEST['container'];
@@ -114,6 +115,38 @@ final class ContainerService extends Singleton {
 		}
 
 		wp_send_json_success( $data );
+		die();
+	}
+
+	/**
+	 * Update container assets
+	 *
+	 * @return void
+	 */
+	public function update_assets() {
+		$data = $_POST;
+
+		if ( ! isset( $data['container'] ) || $data['action'] !== 'dollie_update_assets' || ! wp_verify_nonce( $data['nonce'], 'dollie_update_assets' ) ) {
+			wp_send_json_error();
+			die();
+		}
+
+		$container = dollie()->get_container( $data['container'] );
+
+		if ( is_wp_error( $container ) ) {
+			wp_send_json_error();
+			die();
+		}
+
+		if ( isset( $data['themes'] ) && is_array( $data['themes'] ) ) {
+			$container->update_themes( $data['themes'] );
+		}
+
+		if ( isset( $data['plugins'] ) && is_array( $data['plugins'] ) ) {
+			$container->update_plugins( $data['plugins'] );
+		}
+
+		wp_send_json_success( [ 'message' => esc_html__( 'Your site\'s plugins and themes are updating.' ) ] );
 		die();
 	}
 

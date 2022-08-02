@@ -97,7 +97,6 @@ final class Blueprint extends BaseContainer {
 		return get_post_meta( $this->get_id(), 'wpd_blueprint_created', true ) && $this->get_changes_update_time();
 	}
 
-
 	/**
 	 * Check if it is private
 	 *

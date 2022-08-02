@@ -255,13 +255,13 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 									<?php esc_html_e( 'View progress' ); ?>
 								</a>
 							<?php else : ?>
+								<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink(); ?>" data-tooltip="<?php echo esc_attr__( 'Manage', 'dollie' ); ?>">
+									<?php echo dollie()->icon()->manage(); ?>
+								</a>
+
 								<?php if ( $container->is_blueprint() ) : ?>
 									<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink( 'blueprints' ); ?>" data-tooltip="<?php echo esc_attr__( 'Update Blueprint', 'dollie' ); ?>">
 										<?php echo dollie()->icon()->blueprint(); ?>
-									</a>
-								<?php else : ?>
-									<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo $container->get_permalink(); ?>" data-tooltip="<?php echo esc_attr__( 'Manage', 'dollie' ); ?>">
-										<?php echo dollie()->icon()->manage(); ?>
 									</a>
 								<?php endif; ?>
 								
