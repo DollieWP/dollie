@@ -226,8 +226,6 @@ final class Container extends Singleton implements ConstInterface {
 			return;
 		}
 
-		$launch_site = dollie()->page()->get_launch_site_id();
-
 		$iconurl = DOLLIE_URL . 'assets/img/active.png';
 
 		if ( dollie()->get_partner_status() == 'trial' ) {
@@ -303,23 +301,25 @@ final class Container extends Singleton implements ConstInterface {
 			]
 		);
 
-		$wp_admin_bar->add_menu(
-			[
-				'parent' => $menu_id,
-				'title'  => esc_html__( 'View Sites', 'dollie' ),
-				'id'     => 'dab-site',
-				'href'   => get_admin_url() . 'edit.php?post_type=container',
-				'meta'   => [ 'target' => '' ],
-			]
-		);
-
-		if ( $launch_site ) {
+		if ( $sites_url = dollie()->page()->get_sites_url() ) {
 			$wp_admin_bar->add_menu(
 				[
 					'parent' => $menu_id,
-					'title'  => esc_html__( 'Launch New ' . dollie()->string_variants()->get_site_type_string(), 'dollie' ),
+					'title'  => esc_html__( 'View Sites', 'dollie' ),
+					'id'     => 'dab-site',
+					'href'   => $sites_url,
+					'meta'   => [ 'target' => '' ],
+				]
+			);
+		}
+
+		if ( $launch_site_url = dollie()->page()->get_launch_site_url() ) {
+			$wp_admin_bar->add_menu(
+				[
+					'parent' => $menu_id,
+					'title'  => sprintf( esc_html__( 'Launch New %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() ),
 					'id'     => 'dwb-launch',
-					'href'   => get_permalink( $launch_site ),
+					'href'   => $launch_site_url,
 				]
 			);
 		}
@@ -378,26 +378,29 @@ final class Container extends Singleton implements ConstInterface {
 			]
 		);
 
-		$wp_admin_bar->add_menu(
-			[
-				'parent' => $menu_id,
-				'title'  => esc_html__( 'View Blueprints', 'dollie' ),
-				'id'     => 'dab-view-blueprints',
-				'href'   => get_admin_url() . 'edit.php?post_type=container&blueprint=yes',
-				'meta'   => [ 'target' => '' ],
-			]
-		);
+		if ( $blueprints_url = dollie()->page()->get_sites_url( '', [ 'blueprint' => 'yes' ] ) ) {
+			$wp_admin_bar->add_menu(
+				[
+					'parent' => $menu_id,
+					'title'  => esc_html__( 'View Blueprints', 'dollie' ),
+					'id'     => 'dab-view-blueprints',
+					'href'   => $blueprints_url,
+					'meta'   => [ 'target' => '' ],
+				]
+			);
+		}
 
-		$launch_blueprint_site = dollie()->page()->get_launch_blueprint_id();
-		$wp_admin_bar->add_menu(
-			[
-				'parent' => $menu_id,
-				'title'  => esc_html__( 'Launch Blueprint', 'dollie' ),
-				'id'     => 'dab-launch-blueprint',
-				'href'   => get_permalink( $launch_blueprint_site ),
-				'meta'   => [ 'target' => '' ],
-			]
-		);
+		if ( $launch_blueprint_url = dollie()->page()->get_launch_blueprint_url() ) {
+			$wp_admin_bar->add_menu(
+				[
+					'parent' => $menu_id,
+					'title'  => esc_html__( 'Launch New Blueprint', 'dollie' ),
+					'id'     => 'dab-launch-blueprint',
+					'href'   => $launch_blueprint_url,
+					'meta'   => [ 'target' => '' ],
+				]
+			);
+		}
 
 		$wp_admin_bar->add_menu(
 			[
@@ -409,6 +412,15 @@ final class Container extends Singleton implements ConstInterface {
 			]
 		);
 
+        $wp_admin_bar->add_menu(
+			[
+				'parent' => $menu_id,
+				'title'  => esc_html__( 'Dollie Cloud', 'dollie' ),
+				'id'     => 'dwb-partner',
+				'href'   => 'https://cloud.getdollie.com',
+			]
+		);
+        
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
@@ -430,15 +442,6 @@ final class Container extends Singleton implements ConstInterface {
 				]
 			);
 		}
-
-		$wp_admin_bar->add_menu(
-			[
-				'parent' => $menu_id,
-				'title'  => esc_html__( 'Visit Partner Dashboard', 'dollie' ),
-				'id'     => 'dwb-partner',
-				'href'   => 'https://cloud.getdollie.com',
-			]
-		);
 	}
 
 	/**
