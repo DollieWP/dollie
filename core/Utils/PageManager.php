@@ -17,11 +17,11 @@ final class PageManager extends Singleton {
 	}
 
 	/**
-	 * Get launch ID
+	 * Get launch site ID
 	 *
 	 * @return integer
 	 */
-	public function get_launch_id(): int {
+	public function get_launch_site_id(): int {
 		if ( function_exists( 'pll_get_post' ) ) {
 			return (int) pll_get_post( get_option( 'options_wpd_launch_page_id' ) );
 		}
@@ -95,15 +95,15 @@ final class PageManager extends Singleton {
 	}
 
 	/**
-	 * Get launch URL
+	 * Get launch site URL
 	 *
 	 * @param string $append
 	 * @param array  $query
 	 *
 	 * @return boolean|string
 	 */
-	public function get_launch_url( string $append = '', array $query = [] ) {
-		return $this->build_permalink( $this->get_launch_id(), $append, $query );
+	public function get_launch_site_url( string $append = '', array $query = [] ) {
+		return $this->build_permalink( $this->get_launch_site_id(), $append, $query );
 	}
 
 	/**
@@ -183,8 +183,8 @@ final class PageManager extends Singleton {
 	 *
 	 * @return boolean
 	 */
-	public function is_launch(): bool {
-		return $this->get_launch_id() === get_the_ID();
+	public function is_launch_site(): bool {
+		return $this->get_launch_site_id() === get_the_ID();
 	}
 
 	/**
@@ -230,7 +230,7 @@ final class PageManager extends Singleton {
 	 * @return string
 	 */
 	public function get_launch_title(): string {
-		return get_the_title( $this->get_launch_id() );
+		return get_the_title( $this->get_launch_site_id() );
 	}
 
 	/**
@@ -285,7 +285,7 @@ final class PageManager extends Singleton {
 	 * @param WP_Post $post        The current post object.
 	 */
 	public function add_hub_post_states( $post_states, $post ) {
-		if ( $this->get_launch_id() === $post->ID ) {
+		if ( $this->get_launch_site_id() === $post->ID ) {
 			$post_states['dollie_hub_launch_site'] = __( 'Dollie Hub - Launch Site', 'dollie' );
 		}
 

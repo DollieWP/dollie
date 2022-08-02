@@ -1,7 +1,7 @@
 <?php
 $user         = dollie()->get_user();
 $active_class = [
-	'launch-site'      => dollie()->page()->is_launch() ? 'dol-nav-active' : '',
+	'launch-site'      => dollie()->page()->is_launch_site() ? 'dol-nav-active' : '',
 	'customers'        => dollie()->page()->is_customers() ? 'dol-nav-active' : '',
 	'dashboard'        => dollie()->page()->is_dashboard() ? 'dol-nav-active' : '',
 	'sites'            => ! isset( $_GET['blueprints'] ) && dollie()->page()->is_sites() ? 'dol-nav-active' : '',
@@ -14,9 +14,9 @@ do_action( 'dollie/before/main-menu' );
 ?>
 
 <ul class="dol-list-none dol-p-0 dol-m-0 dol-widget-main-nav">
-	<?php if ( dollie()->page()->get_launch_url() ) : ?>
+	<?php if ( dollie()->page()->get_launch_site_url() ) : ?>
 		<li class="dol-mb-0">
-			<a href="<?php echo esc_html( dollie()->page()->get_launch_url() ); ?>"
+			<a href="<?php echo esc_html( dollie()->page()->get_launch_site_url() ); ?>"
 				class="dol-nav-btn dol-bg-secondary dol-text-white <?php echo esc_attr( $active_class['launch-site'] ); ?>">
 				<span class="dol-inline-block dol-text-center dol-w-8">
 					<?php echo dollie()->icon()->launch(); ?>

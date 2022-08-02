@@ -1,4 +1,4 @@
-<div class="dol-sites dol-relative">
+<div class="dol-sites dol-relative dol--mx-2">
 	<div class="dol-loader" data-for="pagination">
 		<div class="dol-flex dol-items-center dol-justify-center dol-h-full">
 			<svg class="dol-animate-spin dol-h-10 dol-w-10 dol-text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -8,12 +8,6 @@
 		</div>
 	</div>
 	<?php if ( $containers->have_posts() ) : ?>
-		<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
-			<div class="dol-bg-primary dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full dol-text-sm dol-mb-3">
-				<?php esc_html_e( 'You are now viewing the blueprints made by you and your team.', 'dollie' ); ?>
-			</div>
-		<?php endif; ?>
-
 		<div class="dol-sites-container list">
 			<?php while ( $containers->have_posts() ) : ?>
 				<?php
@@ -180,12 +174,11 @@
 			<div class="dol-text-2xl dol-text-primary-600">
 				<?php
 
-				$data = array(
-					'settings' => array(
-						'title'    => sprintf( esc_html__( 'Ready to Launch your first %s?', 'dollie' ), dollie()->string_variants()->get_site_type_string() ),
-						'subtitle' => sprintf( esc_html__( 'Launching your first %s via your own Platform is something special. What are you waiting for, lets launch your first site!', 'dollie' ), dollie()->string_variants()->get_site_type_string() ),
-					),
-				);
+				$data = [
+					'title'    => sprintf( esc_html__( 'Ready to Launch your first %s?', 'dollie' ), dollie()->string_variants()->get_site_type_string() ),
+					'subtitle' => sprintf( esc_html__( 'Launching your first %s via your own Platform is something special. What are you waiting for, lets launch your first site!', 'dollie' ), dollie()->string_variants()->get_site_type_string() ),
+					'button'   => esc_html__( 'Launch Now', 'dollie' ),
+				];
 
 				dollie()->load_template( 'widgets/dashboard/launch-site', $data, true );
 

@@ -80,7 +80,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) {
 			$order = new \WC_Order( $order_id );
 			if ( 'failed' !== $order->status ) {
-				wp_redirect( dollie()->page()->get_launch_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
+				wp_redirect( dollie()->page()->get_launch_site_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
 				exit;
 			}
 		}

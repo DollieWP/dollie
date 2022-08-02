@@ -260,7 +260,7 @@ final class AccessService extends Singleton {
 	 * @return void
 	 */
 	public function protect_launch_site() {
-		$launch_id = dollie()->page()->get_launch_id();
+		$launch_id = dollie()->page()->get_launch_site_id();
 		$dash_id   = dollie()->page()->get_dashboard_id();
 		$sites_id  = dollie()->page()->get_sites_id();
 

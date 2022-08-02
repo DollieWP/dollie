@@ -6,7 +6,7 @@
 	unset( $temp[ count( $temp ) - 1 ] );
 	$migration = implode( '.', $temp );
 
-	$launch_url = get_permalink( dollie()->page()->get_launch_id() ) . '?default_site_url=' . sanitize_title( $migration ) . '&redirect=migrate';
+	$launch_url = get_permalink( dollie()->page()->get_launch_site_id() ) . '?default_site_url=' . sanitize_title( $migration ) . '&redirect=migrate';
 
 	$blueprint            = get_option( 'wpd_onboarding_blueprint_name' );
 	$launch_blueprint_url = get_permalink( dollie()->page()->get_launch_blueprint_id() ) . '?default_site_url=' . sanitize_title( $blueprint );

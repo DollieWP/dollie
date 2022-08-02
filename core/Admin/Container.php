@@ -226,7 +226,7 @@ final class Container extends Singleton implements ConstInterface {
 			return;
 		}
 
-		$launch_site = dollie()->page()->get_launch_id();
+		$launch_site = dollie()->page()->get_launch_site_id();
 
 		$iconurl = DOLLIE_URL . 'assets/img/active.png';
 
