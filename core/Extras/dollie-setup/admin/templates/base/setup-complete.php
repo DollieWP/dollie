@@ -1,7 +1,7 @@
 <?php
 	$migration = get_option( 'wpd_onboarding_migrate_site_url' );
 	$url       = preg_replace( '(^https?://)', '', $migration );
-	$charge = get_option( 'options_wpd_charge_for_deployments');
+	$charge    = get_option( 'options_wpd_charge_for_deployments' );
 	$temp      = explode( '.', $url );
 	unset( $temp[ count( $temp ) - 1 ] );
 	$migration = implode( '.', $temp );

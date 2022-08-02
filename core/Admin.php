@@ -72,13 +72,6 @@ final class Admin extends Singleton implements ConstInterface {
 			array(),
 			DOLLIE_VERSION
 		);
-
-		wp_enqueue_script(
-			'dollie-custom-js',
-			DOLLIE_ASSETS_URL . 'js/admin.js',
-			array(),
-			DOLLIE_VERSION
-		);
 	}
 
 	/**

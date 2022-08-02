@@ -155,6 +155,18 @@ final class PageManager extends Singleton {
 	}
 
 	/**
+	 * Get blueprints URL
+	 *
+	 * @param string $append
+	 * @param array  $query
+	 *
+	 * @return boolean|string
+	 */
+	public function get_blueprints_url( string $append = '', array $query = [] ) {
+		return $this->build_permalink( $this->get_sites_id(), $append, array_merge( $query, [ 'blueprints' => 'yes' ] ) );
+	}
+
+	/**
 	 * Get sites URL
 	 *
 	 * @param string $append

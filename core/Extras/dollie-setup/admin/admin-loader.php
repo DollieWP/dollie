@@ -639,7 +639,7 @@ class Dollie_Setup_Admin {
 			2
 		);
 
-		$dashboard = dollie_setup_get_package_prop( 'name' ) ? sprintf( __( '%s Dashboard', 'dollie-setup' ), dollie_setup_get_package_prop( 'name' ) ) : __( 'Dollie Setup', 'dollie-setup' );
+		$dashboard = dollie_setup_get_package_prop( 'name' ) ? __( 'Overview', 'dollie-setup' ) : __( 'Dollie Setup', 'dollie-setup' );
 
 		$subpage = add_submenu_page(
 			'dollie_setup',
@@ -1057,4 +1057,3 @@ class Dollie_Setup_Admin {
 		endif;
 	}
 }
-
