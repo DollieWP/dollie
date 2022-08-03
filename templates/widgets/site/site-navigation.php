@@ -45,6 +45,10 @@ top: 7px"; class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w
 
 $menu['delete'] = dollie()->icon()->delete() . esc_html__( 'Delete', 'dollie' );
 
+if ( current_user_can( 'manage_options' ) ) {
+	$menu['admin-settings'] = dollie()->icon()->manage() . esc_html__( 'Admin Settings', 'dollie' );
+}
+
 $sub_page = get_query_var( 'sub_page' );
 ?>
 

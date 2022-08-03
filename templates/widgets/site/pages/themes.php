@@ -8,7 +8,7 @@ $active_theme = $container->get_active_theme();
 
 ?>
 
-<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
+<h2 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 	<?php esc_html_e( 'Active Theme', 'dollie' ); ?>
 </h2>
 
@@ -40,7 +40,7 @@ $active_theme = $container->get_active_theme();
 	</div>
 </div>
 
-<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
+<h2 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 	<?php esc_html_e( 'Installed Themes', 'dollie' ); ?>
 </h2>
 

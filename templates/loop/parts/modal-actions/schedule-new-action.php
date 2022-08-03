@@ -8,6 +8,6 @@
 
 <div id="dol-schedules" class="dol-relative"></div>
 
-<div id="dol-loading-schedules" class="dol-hidden" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_selected_sites' ) ); ?>">
+<div id="dol-loading-schedules" class="dol-hidden" data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_selected_sites' ) ); ?>">
 	<?php dollie()->load_template( 'parts/spinner', [ 'text' => esc_html__( 'Getting Schedule...', 'dollie' ) ], true ); ?>
 </div>

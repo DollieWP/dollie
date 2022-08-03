@@ -17,7 +17,7 @@ if ( ! isset( $targets ) ) {
 		</svg>
 	</div>
 </div>
-<form action="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" method="POST" id="dol-schedule-form" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_create_recurring_action' ) ); ?>">
+<form action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="POST" id="dol-schedule-form" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_create_recurring_action' ) ); ?>">
 	<div class="dol-flex dol-flex-wrap dol--mx-2">
 		<div class="dol-w-4/12 dol-px-2">
 			<div class="dol-border dol-border-solid dol-border-gray-300 dol-rounded dol-p-4">

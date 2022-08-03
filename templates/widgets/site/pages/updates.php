@@ -9,7 +9,7 @@ $themes  = $container->get_themes( true );
 
 ?>
 
-<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
+<h2 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 	<?php esc_html_e( 'Updates', 'dollie' ); ?>
 </h2>
 
@@ -25,7 +25,7 @@ $themes  = $container->get_themes( true );
 	<?php esc_html_e( 'Sorry, there was an error while starting this task! Please try again later.', 'dollie' ); ?>
 </div>
 
-<form id="dollie-update-assets" method="POST" action="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>">
+<form id="dollie-update-assets" method="POST" action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>">
 	<ul class="dol-list-none dol-p-0 dol-m-0 dol-mr-4 dol-divide-solid dol-divide-y dol-divide-gray-300 dol-border dol-border-solid dol-border-gray-300 dol-rounded">
 		<li class="dol-resource-entry dol-flex dol-items-center dol-p-4">
 			<input type="checkbox" class="dol-resource-site" value="" name="">
@@ -94,7 +94,7 @@ $themes  = $container->get_themes( true );
 	<input type="hidden" name="action" value="dollie_update_assets">
 	<input type="hidden" name="nonce" value="<?php echo wp_create_nonce( 'dollie_update_assets' ); ?>">
 
-	<button type="submit" class="dol-send-bulk-action dol-mt-6 dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600">
+	<button type="submit" class="dol-mt-6 dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600">
 		<?php echo dollie()->icon()->task( 'dol-mr-2' ); ?><?php esc_html_e( 'Update', 'dollie' ); ?>
 	</button>
 </form>

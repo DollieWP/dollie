@@ -22,12 +22,12 @@
 	<?php endforeach; ?>
 </select>
 
-<div id="dol-resources-list" class="dol-hidden" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_bulk_action_data' ) ); ?>">
+<div id="dol-resources-list" class="dol-hidden" data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_bulk_action_data' ) ); ?>">
 	<?php dollie()->load_template( 'parts/spinner', [ 'text' => esc_html__( 'Running task...', 'dollie' ) ], true ); ?>
 </div>
 
 <div class="dol-mt-4">
-	<button type="button" class="dol-send-bulk-action dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_do_bulk_action' ) ); ?>">
+	<button type="button" class="dol-send-bulk-action dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600" data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_do_bulk_action' ) ); ?>">
 		<?php echo dollie()->icon()->task( 'dol-mr-2' ); ?><?php esc_html_e( 'Run Task Now', 'dollie' ); ?>
 	</button>
 </div>

@@ -7,7 +7,7 @@ if ( ! isset( $container ) ) {
 ?>
 
 <div class="dol-mb-12">
-	<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
+	<h2 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 		<?php esc_html_e( 'Your Site', 'dollie' ); ?>
 	</h2>
 	<div class="dol-mt-2 dol-grid dol-grid-cols-1 dol-gap-5 sm:dol-grid-cols-2 lg:dol-grid-cols-3">
@@ -144,7 +144,7 @@ if ( ! isset( $container ) ) {
 </div>
 
 <div class="dol-mb-10 dol-p-0 dol-m-0">
-	<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
+	<h2 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 		<?php esc_html_e( 'Details', 'dollie' ); ?>
 	</h2>
 	<ul class="dol-grid dol-grid-cols-1 dol-gap-4 sm:dol-gap-6 sm:dol-grid-cols-2 dol-mt-3 dol-p-0 dol-m-0">

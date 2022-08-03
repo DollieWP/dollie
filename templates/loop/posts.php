@@ -1,4 +1,4 @@
-<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
+<h2 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-5 dol-text-xl">
 	<?php echo esc_html( $title ); ?>
 </h2>
 

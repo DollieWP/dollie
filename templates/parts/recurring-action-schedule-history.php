@@ -48,7 +48,10 @@ if ( ! isset( $data ) ) {
 								<span class="dol-show-logs dol-text-sm dol-underline dol-cursor-pointer" data-hide-log="<?php esc_html_e( 'Hide logs', 'dollie' ); ?>" data-show-log="<?php esc_html_e( 'Show logs', 'dollie' ); ?>"><?php esc_html_e( 'View logs' ); ?></span>
 							</div>
 							<div class="dol-mt-4">
-								<span class="dol-delete-schedule dol-inline-block dol-text-red-600 dol-text-sm dol-border dol-border-solid dol-border-red-600 hover:dol-bg-red-600 hover:dol-text-white dol-px-4 dol-py-2 dol-rounded dol-cursor-pointer" data-uuid="<?php echo esc_attr( $schedule['uuid'] ); ?>" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_delete_recurring_action' ) ); ?>">
+								<span class="dol-delete-schedule dol-inline-block dol-text-red-600 dol-text-sm dol-border dol-border-solid dol-border-red-600 hover:dol-bg-red-600 hover:dol-text-white dol-px-4 dol-py-2 dol-rounded dol-cursor-pointer" 
+									data-uuid="<?php echo esc_attr( $schedule['uuid'] ); ?>" 
+									data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" 
+									data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_delete_recurring_action' ) ); ?>">
 									<?php echo dollie()->icon()->close( 'dol-mr-2' ); ?> <?php esc_html_e( 'Remove', 'dollie' ); ?>
 								</span>
 							</div>
@@ -87,7 +90,13 @@ if ( ! isset( $data ) ) {
 											</div>
 										</div>
 										<div class="dol-text-sm">
-											<span class="dol-delete-recurring-container dol-cursor-pointer hover:dol-text-red-600" data-uuid="<?php echo esc_attr( $schedule['uuid'] ); ?>" data-container-hash="<?php echo esc_attr( $container['hash'] ); ?>" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_delete_recurring_container' ) ); ?>"><?php echo dollie()->icon()->close(); ?></span>
+											<span class="dol-delete-recurring-container dol-cursor-pointer hover:dol-text-red-600" 
+												data-uuid="<?php echo esc_attr( $schedule['uuid'] ); ?>" 
+												data-container-hash="<?php echo esc_attr( $container['hash'] ); ?>" 
+												data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" 
+												data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_delete_recurring_container' ) ); ?>">
+												<?php echo dollie()->icon()->close(); ?>
+											</span>
 										</div>
 									</div>
 								</li>

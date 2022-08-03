@@ -16,7 +16,7 @@
 	<ul role="list" class="dol-divide-y dol-divide-gray-200">
 		<?php if ( ! dollie()->count_total_sites() ) : ?>
 			<?php if ( $migration ) : ?>
-				<h4 class="dol-text-gray-500 dol-pl-4 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-1 dol-text-m">
+				<h4 class="dol-text-gray-500 dol-pl-4 text-s  dol-uppercase dol-tracking-wide dol-mb-1 dol-text-m">
 					<?php esc_html_e( 'Step 1 - Migrate Your First Site', 'dollie' ); ?>
 				</h4>
 			<?php endif; ?>
@@ -58,7 +58,7 @@
 		<?php endif; ?>
 
 		<?php if ( ! dollie()->count_total_created_blueprints() && $blueprint ) : ?>
-			<h4 class="dol-text-gray-500 dol-pl-4 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-1 dol-text-m">
+			<h4 class="dol-text-gray-500 dol-pl-4 text-s  dol-uppercase dol-tracking-wide dol-mb-1 dol-text-m">
 				<?php esc_html_e( 'Step 1 - Launch Your Agency Blueprint', 'dollie' ); ?>
 			</h4>
 

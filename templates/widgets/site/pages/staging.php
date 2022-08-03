@@ -68,7 +68,7 @@
 
 			<?php dollie()->remove_execution( get_the_ID(), dollie()->get_api()::EXECUTION_STAGING_SYNC ); ?>
 
-			<h2 class="dol-text-gray-500 text-s dol-font-small dol-uppercase dol-tracking-wide dol-mb-5 dol-mt-5 dol-text-xl">
+			<h2 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-5 dol-mt-5 dol-text-xl">
 				<?php esc_html_e( 'Staging Management', 'dollie' ); ?></h2>
 
 			<?php
@@ -152,7 +152,11 @@
 
 			</div>
 		<?php else : ?>
-			<div class="dol-hidden" id="dol-execution-check" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>" data-container="<?php echo esc_attr( get_the_ID() ); ?>" data-type="<?php echo esc_attr( dollie()->get_api()::EXECUTION_STAGING_SYNC ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_check_execution' ) ); ?>">
+			<div class="dol-hidden" id="dol-execution-check" 
+				data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" 
+				data-container="<?php echo esc_attr( get_the_ID() ); ?>" 
+				data-type="<?php echo esc_attr( dollie()->get_api()::EXECUTION_STAGING_SYNC ); ?>" 
+				data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_check_execution' ) ); ?>">
 			</div>
 			<div class="dol-my-3 dol-bg-primary-500 dol-text-white dol-rounded dol-px-6 dol-py-3">
 				<?php esc_html_e( 'Syncing is in process. You will be able to see your changes on the production site in a few minutes.', 'dollie' ); ?>

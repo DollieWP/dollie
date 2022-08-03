@@ -15,7 +15,7 @@ final class ContainerService extends Singleton {
 	 */
 	public function rewrite_rules_sub_pages() {
 		$post_type = 'site';
-		$sub_pages = '(dashboard|plugins|themes|emails|domains|backups|updates|developer-tools|blueprints|delete|migrate|staging|error)';
+		$sub_pages = '(dashboard|plugins|themes|emails|domains|backups|updates|developer-tools|blueprints|delete|migrate|staging|admin-settings|error)';
 
 		add_rewrite_rule(
 			$post_type . '\/([^\/]+)(?:\/' . $sub_pages . ')\/?$',
@@ -184,6 +184,100 @@ final class ContainerService extends Singleton {
 		$container->restore();
 
 		wp_redirect( $container->get_permalink() );
+		die();
+	}
+
+	/**
+	 * Start container
+	 *
+	 * @return void
+	 */
+	public function start() {
+		$data = $_POST;
+
+		if ( ! current_user_can( 'manage_options' ) || ! isset( $data['container'] ) || $data['action'] !== 'dollie_action_start_container' || ! wp_verify_nonce( $data['nonce'], 'dollie_action_start_container' ) ) {
+			return;
+		}
+
+		$container = dollie()->get_container( $data['container'] );
+
+		if ( is_wp_error( $container ) ) {
+			return;
+		}
+
+		$container->perform_action( 'start' );
+		$container->set_details(
+			[
+				'status' => 'Running',
+			]
+		);
+
+		wp_redirect( $container->get_permalink( 'admin-settings' ) );
+		die();
+	}
+
+	/**
+	 * Stop container
+	 *
+	 * @return void
+	 */
+	public function stop() {
+		$data = $_POST;
+
+		if ( ! current_user_can( 'manage_options' ) || ! isset( $data['container'] ) || $data['action'] !== 'dollie_action_stop_container' || ! wp_verify_nonce( $data['nonce'], 'dollie_action_stop_container' ) ) {
+			return;
+		}
+
+		$container = dollie()->get_container( $data['container'] );
+
+		if ( is_wp_error( $container ) ) {
+			return;
+		}
+
+		$container->perform_action( 'stop' );
+		$container->set_details(
+			[
+				'status' => 'Stopped',
+			]
+		);
+
+		wp_redirect( $container->get_permalink( 'admin-settings' ) );
+		die();
+	}
+
+	/**
+	 * Set container owner
+	 *
+	 * @return void
+	 */
+	public function update_owner() {
+		$data = $_POST;
+
+		if ( ! current_user_can( 'manage_options' ) || ! isset( $data['container'] ) || $data['action'] !== 'dollie_set_container_owner' || ! wp_verify_nonce( $data['nonce'], 'dollie_set_container_owner' ) ) {
+			return;
+		}
+
+		$container = dollie()->get_container( $data['container'] );
+
+		if ( is_wp_error( $container ) ) {
+			return;
+		}
+
+		$user = get_user_by( 'ID', $data['owner'] );
+
+		if ( ! $user ) {
+			wp_redirect( $container->get_permalink( 'admin-settings' ) );
+			die();
+		}
+
+		wp_update_post(
+			[
+				'ID'          => $container->get_id(),
+				'post_author' => $user->ID,
+			]
+		);
+
+		wp_redirect( $container->get_permalink( 'admin-settings' ) );
 		die();
 	}
 }
