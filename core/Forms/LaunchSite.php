@@ -210,7 +210,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 		$default_option = [];
 		$blueprints     = BlueprintService::instance()->get( 'html' );
 
-		if ( ! empty( $blueprints ) ) {
+		if ( ! empty( $blueprints ) && get_field( 'wpd_show_default_blueprint', 'options' ) ) {
 			$default_option = [
 				0 => dollie()->load_template( 'parts/blueprint-default-image' ),
 			];
