@@ -29,7 +29,7 @@ if ( ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_
 }
 
 if ( current_user_can( 'manage_options' ) || $subscription->has_subscription() ) {
-	if ( ! $subscription->site_limit_reached() && ! $subscription->size_limit_reached() && ! $subscription->staging_sites_limit_reached() ) {
+	if ( ! $subscription->site_limit_reached() && ! $subscription->size_limit_reached() ) {
 		$form_type         = $settings['type'] ?? 'site';
 		$button_text       = isset( $settings['button_text'] ) && $settings['button_text'] ? $settings['button_text'] : esc_html__( 'Launch New ', 'dollie' );
 		$advanced_settings = (bool) $settings['advanced_settings'];
