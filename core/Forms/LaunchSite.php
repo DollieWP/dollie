@@ -85,10 +85,13 @@ class LaunchSite extends Singleton implements ConstInterface {
 	 * @return void
 	 */
 	public function submission_callback( $form, $fields, $args ) {
+
+		$owner_id = get_current_user_id();
+		$email = af_get_field( 'site_admin_email' );
+
 		if ( af_get_field( 'assign_to_customer' ) ) {
 			$owner_id = af_get_field( 'assign_to_customer' );
-		} else {
-			$owner_id = get_current_user_id();
+			$email = get_user_by( 'ID', $owner_id )->user_email;
 		}
 
 		$blueprint_id   = null;
@@ -116,7 +119,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 			'owner_id'     => $owner_id,
 			'blueprint_id' => $blueprint_id,
 			'blueprint'    => $blueprint_hash,
-			'email'        => af_get_field( 'site_admin_email' ),
+			'email'        => $email,
 			'username'     => af_get_field( 'admin_username' ),
 			'password'     => af_get_field( 'admin_password' ),
 			'name'         => af_get_field( 'site_name' ),
