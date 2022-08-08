@@ -72,21 +72,21 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 						<?php echo dollie()->icon()->preview(); ?>
 					</a>
 					<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
-					<a href="<?php echo esc_html( dollie()->page()->get_launch_blueprint_url() ); ?>"
-					class="dol-nav-btn dol-bg-secondary dol-text-white dol-radius-0 dol-ml-3 dol-mr-0 dol-p-3">
-						<span class="dol-inline-block dol-text-center">
-							<?php echo dollie()->icon()->blueprint(); ?>
-						</span>
-						<?php echo esc_html( dollie()->page()->get_launch_blueprint_title() ); ?>
-					</a>
+						<a href="<?php echo esc_html( dollie()->page()->get_launch_blueprint_url() ); ?>"
+							class="dol-nav-btn dol-bg-secondary dol-text-white dol-radius-0 dol-ml-3 dol-mr-0 dol-p-3">
+							<span class="dol-inline-block dol-text-center dol-mr-1">
+								<?php echo dollie()->icon()->launch(); ?>
+							</span>
+							<?php echo esc_html( dollie()->page()->get_launch_blueprint_title() ); ?>
+						</a>
 					<?php else : ?>
 						<a href="<?php echo esc_html( dollie()->page()->get_launch_site_url() ); ?>"
-					class="dol-nav-btn dol-bg-secondary dol-text-white dol-radius-0 dol-ml-3 dol-mr-0 dol-p-3">
-						<span class="dol-inline-block dol-text-center">
-							<?php echo dollie()->icon()->launch(); ?>
-						</span>
-						<?php echo esc_html( dollie()->page()->get_launch_title() ); ?>
-					</a>
+							class="dol-nav-btn dol-bg-secondary dol-text-white dol-radius-0 dol-ml-3 dol-mr-0 dol-p-3">
+							<span class="dol-inline-block dol-text-center dol-mr-1">
+								<?php echo dollie()->icon()->launch(); ?>
+							</span>
+							<?php echo esc_html( dollie()->page()->get_launch_title() ); ?>
+						</a>
 					<?php endif; ?>
 				</div>
 			</div>
