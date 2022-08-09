@@ -2168,6 +2168,8 @@ input[type="text"].dol-search-input:focus {
     margin-bottom: 1.25rem; }
 .dol-mr-2 {
     margin-right: 0.5rem; }
+.dol-mr-1 {
+    margin-right: 0.25rem; }
 .dol-mb-3 {
     margin-bottom: 0.75rem; }
 .dol-mt-3 {
@@ -2178,8 +2180,6 @@ input[type="text"].dol-search-input:focus {
     margin-top: 0px; }
 .dol-mb-2 {
     margin-bottom: 0.5rem; }
-.dol-mr-1 {
-    margin-right: 0.25rem; }
 .dol-mr-3 {
     margin-right: 0.75rem; }
 .dol-mb-1 {
@@ -2529,6 +2529,9 @@ input[type="text"].dol-search-input:focus {
     border-color: var(--d-primary-700); }
 .dol-border-primary-200 {
     border-color: var(--d-primary-200); }
+.dol-border-gray-400 {
+    --tw-border-opacity: 1;
+    border-color: rgb(163 163 163 / var(--tw-border-opacity)); }
 .dol-border-teal-500 {
     --tw-border-opacity: 1;
     border-color: rgb(20 184 166 / var(--tw-border-opacity)); }
@@ -3100,6 +3103,9 @@ input[type="text"].dol-search-input:focus {
 .hover\:dol-bg-gray-100:hover {
     --tw-bg-opacity: 1;
     background-color: rgb(245 245 245 / var(--tw-bg-opacity)); }
+.hover\:dol-bg-green-600:hover {
+    --tw-bg-opacity: 1;
+    background-color: rgb(5 150 105 / var(--tw-bg-opacity)); }
 .hover\:dol-bg-primary-100:hover {
     background-color: var(--d-primary-100); }
 .hover\:dol-bg-primary-300:hover {
@@ -3110,9 +3116,6 @@ input[type="text"].dol-search-input:focus {
 .hover\:dol-bg-gray-600:hover {
     --tw-bg-opacity: 1;
     background-color: rgb(82 82 82 / var(--tw-bg-opacity)); }
-.hover\:dol-bg-green-600:hover {
-    --tw-bg-opacity: 1;
-    background-color: rgb(5 150 105 / var(--tw-bg-opacity)); }
 .hover\:dol-bg-secondary-600:hover {
     background-color: var(--d-secondary-600); }
 .hover\:dol-text-white:hover {

@@ -57,30 +57,32 @@ if ( ! isset( $container ) ) {
 
 <?php endif; ?>
 
-<form method="POST" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
-	class="dol-mt-6 dol-p-6 dol-bg-white dol-shadow dol-overflow-hidden sm:dol-rounded-md">
-	<h3 class="dol-text-gray-700 dol-uppercase dol-mt-0 dol-mb-2 dol-text-lg">
-		<?php esc_html_e( 'Site Owner', 'dollie' ); ?>
-	</h3>
+<?php if ( $container->is_site() ) : ?>
+	<form method="POST" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
+		class="dol-mt-6 dol-p-6 dol-bg-white dol-shadow dol-overflow-hidden sm:dol-rounded-md">
+		<h3 class="dol-text-gray-700 dol-uppercase dol-mt-0 dol-mb-2 dol-text-lg">
+			<?php esc_html_e( 'Site Owner', 'dollie' ); ?>
+		</h3>
 
-	<div class="dol-mb-4 dol-text-sm">
-		<?php esc_html_e( 'This is the owner of this instance. You can change the owner using the form below.', 'dollie' ); ?>
-	</div>
+		<div class="dol-mb-4 dol-text-sm">
+			<?php esc_html_e( 'This is the owner of this instance. You can change the owner using the form below.', 'dollie' ); ?>
+		</div>
 
-	<select name="owner" class="dol-mb-4 dol-rounded dol-border dol-border-solid dol-border-gray-400">
-		<option value="" disabled><?php esc_html_e( 'Select User', 'dollie' ); ?></option>
-		<?php foreach ( get_users() as $user ) : ?>
-			<option value="<?php echo esc_attr( $user->ID ); ?>" <?php selected( $container->get_author_id(), $user->ID ); ?>>
-				<?php echo esc_html( $user->display_name ); ?>
-			</option>
-		<?php endforeach; ?>
-	</select>
-	
-	<input type="hidden" name="container" value="<?php echo esc_attr( $container->get_id() ); ?>">
-	<input type="hidden" name="action" value="dollie_set_container_owner">
-	<input type="hidden" name="nonce" value="<?php echo wp_create_nonce( 'dollie_set_container_owner' ); ?>">
+		<select name="owner" class="dol-mb-4 dol-rounded dol-border dol-border-solid dol-border-gray-400">
+			<option value="" disabled><?php esc_html_e( 'Select User', 'dollie' ); ?></option>
+			<?php foreach ( get_users() as $user ) : ?>
+				<option value="<?php echo esc_attr( $user->ID ); ?>" <?php selected( $container->get_author_id(), $user->ID ); ?>>
+					<?php echo esc_html( $user->display_name ); ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		
+		<input type="hidden" name="container" value="<?php echo esc_attr( $container->get_id() ); ?>">
+		<input type="hidden" name="action" value="dollie_set_container_owner">
+		<input type="hidden" name="nonce" value="<?php echo wp_create_nonce( 'dollie_set_container_owner' ); ?>">
 
-	<button type="submit" class="dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600">
-		<?php esc_html_e( 'Update', 'dollie' ); ?>
-	</button>
-</form>
+		<button type="submit" class="dol-px-4 dol-py-2 dol-bg-primary-500 hover:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm focus:dol-outline-none focus:dol-bg-primary-600">
+			<?php esc_html_e( 'Update', 'dollie' ); ?>
+		</button>
+	</form>
+<?php endif; ?>
