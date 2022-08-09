@@ -62,8 +62,12 @@ final class Site extends BaseContainer {
 
 		$user = $this->user();
 
-		if ( 'administrator' !== $user->get_container_user_role() && current_user_can( 'manage_options' ) ) {
-			$username = get_option( 'options_wpd_admin_user_name', $username );
+		if ( 'administrator' !== $user->get_container_user_role() && ! current_user_can( 'manage_options' ) ) {
+			$username = $this->get_details( 'site.editor.username' );
+
+			if ( is_wp_error( $username ) ) {
+				return '';
+			}
 		}
 
 		$login_data = get_transient( "dollie_login_data_{$this->get_id()}" );
