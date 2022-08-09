@@ -58,11 +58,9 @@ final class Acf extends Singleton implements ConstInterface {
 			return;
 		}
 
-		$fields = get_fields( 'user_' . $user_id );
-
-		$user = dollie()->get_user( $user_id );
-
-		$role = '';
+		$user   = dollie()->get_user( $user_id );
+		$fields = get_fields( 'user_' . $user->get_id() );
+		$role   = '';
 
 		if ( isset( $fields['wpd_client_site_permissions'] ) ) {
 			$role = $fields['wpd_client_site_permissions'];

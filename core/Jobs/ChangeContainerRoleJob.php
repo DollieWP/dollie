@@ -7,7 +7,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Factories\Site;
-use Dollie\Core\Factories\User;
 use Dollie\Core\Singleton;
 use Dollie\Core\Log;
 
@@ -23,7 +22,7 @@ class ChangeContainerRoleJob extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'dollie/jobs/single/change_container_customer_role', [ $this, 'run' ], 10, 3 );
+		add_action( 'dollie/jobs/single/change_container_customer_role', [ $this, 'run' ], 10, 2 );
 	}
 
 	/**
