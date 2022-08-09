@@ -62,7 +62,7 @@ final class Site extends BaseContainer {
 
 		$user = $this->user();
 
-		if ( 'administrator' !== $user->get_container_user_role() && $user->can_manage_options() ) {
+		if ( 'administrator' !== $user->get_container_user_role() && current_user_can( 'manage_options' ) ) {
 			$username = get_option( 'options_wpd_admin_user_name', $username );
 		}
 

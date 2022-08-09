@@ -102,7 +102,6 @@ final class Acf extends Singleton implements ConstInterface {
 				'dollie/jobs/single/change_container_customer_role',
 				[
 					'container' => $container,
-					'user'      => $user,
 					'role'      => $role,
 				]
 			);

@@ -30,13 +30,13 @@ class ChangeContainerRoleJob extends Singleton {
 	 * Change customer role task
 	 *
 	 * @param Site   $container
-	 * @param User   $user
 	 * @param string $role
 	 *
 	 * @return boolean
 	 */
-	public function run( Site $container, User $user, string $role = '' ) {
-		$role = $role ?: $container->user()->get_container_user_role();
+	public function run( Site $container, string $role = '' ) {
+		$user = $container->user();
+		$role = $role ?: $user->get_container_user_role();
 
 		if ( ! $role ) {
 			return;

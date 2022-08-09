@@ -10,6 +10,7 @@ use Dollie\Core\Api\DeployApi;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
 use Dollie\Core\Factories\BaseContainer;
+use Dollie\Core\Jobs\ChangeContainerRoleJob;
 use WP_Query;
 
 final class DeployService extends Singleton implements ConstInterface {
@@ -203,6 +204,9 @@ final class DeployService extends Singleton implements ConstInterface {
 			$container->mark_not_updated();
 			$container->fetch_details();
 		}
+
+		// Update user role
+		ChangeContainerRoleJob::instance()->run( $container );
 
 		update_post_meta( $container->get_id(), 'dollie_container_deployed', 1 );
 
