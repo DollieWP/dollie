@@ -47,8 +47,8 @@ class ChangeContainerRoleJob extends Singleton {
 				'username'       => $container->get_details( 'site.admin.username' ),
 				'password'       => wp_generate_password(),
 				'super_email'    => get_option( 'admin_email' ),
-				'super_password' => wp_generate_password(),
 				'super_username' => get_option( 'options_wpd_admin_user_name' ),
+				'super_password' => wp_generate_password(),
 				'switch_to'      => $role,
 			]
 		);
