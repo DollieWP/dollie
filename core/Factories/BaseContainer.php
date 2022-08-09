@@ -660,13 +660,13 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return array
 	 */
 	public function get_active_theme(): array {
-		foreach ( $this->get_themes() as $theme ) {
-			if ( $theme['active'] ) {
-				return $theme;
-			}
+		$active_theme = $this->get_details( 'site.theme' );
+
+		if ( is_wp_error( $active_theme ) ) {
+			return [];
 		}
 
-		return [];
+		return $active_theme;
 	}
 
 	/**
