@@ -206,7 +206,7 @@ final class Icon extends Singleton {
 	}
 
 	public function notice( $classes = null ) {
-		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_notice', '<i class="fas fa-info"></i>' ) . '</span>';
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_notice', '<i class="fas fa-info-circle"></i>' ) . '</span>';
 	}
 
 	public function comments( $classes = null ) {

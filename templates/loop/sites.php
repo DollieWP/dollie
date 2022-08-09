@@ -1,4 +1,5 @@
 <?php
+$user         = dollie()->get_user();
 
 if ( ! isset( $view_type ) ) {
 	$view_type = 'list';
@@ -112,10 +113,17 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 	</div>
 	<?php if ( ! empty( $sites ) ) : ?>
 		<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
-			<div class="dol-bg-primary dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full dol-text-sm dol-mb-3">
-				<?php esc_html_e( 'You are now viewing the blueprints made by you and your team.', 'dollie' ); ?>
+			<div class="dol-bg-info dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full dol-text-sm dol-mb-3">
+				<?php echo dollie()->icon()->notice(); ?> <?php esc_html_e( 'You are now viewing the blueprints made by you and your team.', 'dollie' ); ?>
 			</div>
 		<?php endif; ?>
+
+		<?php if ( ! isset( $_GET['blueprints'] ) && $user->can_view_all_sites()  ) : ?>
+			<div class="dol-bg-info dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full dol-text-sm dol-mb-3">
+				<?php echo dollie()->icon()->notice(); ?> <?php esc_html_e( 'This sites listing shows all of the sites by you and your customers. Your customers will only see the sites that belong to them.', 'dollie' ); ?>
+			</div>
+		<?php endif; ?>
+
 
 		<div class="dol-sites-container <?php echo esc_attr( $list_class ); ?>">
 			<?php foreach ( $sites as $site ) : ?>
