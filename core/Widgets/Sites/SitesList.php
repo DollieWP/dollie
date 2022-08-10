@@ -86,7 +86,16 @@ class SitesList extends \Elementor\Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		$current_page = get_query_var( 'paged', 1 );
+		global $wp_query;
+
+		$current_page = 1;
+
+		if ( isset( $wp_query->query_vars['paged'] ) ) {
+			$current_page = get_query_var( 'paged', 1 );
+		} elseif ( isset( $wp_query->query_vars['page'] ) ) {
+			$current_page = get_query_var( 'page', 1 );
+		}
+
 		if ( isset( $_GET['elementor_library'] ) && isset( $_GET['load-page'] ) && $_GET['load-page'] ) {
 			$current_page = (int) sanitize_text_field( $_GET['load-page'] );
 		}
@@ -102,19 +111,7 @@ class SitesList extends \Elementor\Widget_Base {
 
 		if ( isset( $_GET['search'] ) && $_GET['search'] ) {
 			$meta_query['search'][] = [
-				'key'     => 'wpd_installation_name',
-				'value'   => sanitize_text_field( $_GET['search'] ),
-				'compare' => 'LIKE',
-			];
-
-			$meta_query['search'][] = [
-				'key'     => 'wpd_domains',
-				'value'   => sanitize_text_field( $_GET['search'] ),
-				'compare' => 'LIKE',
-			];
-
-			$meta_query['search'][] = [
-				'key'     => '_wpd_container_data',
+				'key'     => 'dollie_container_details',
 				'value'   => sanitize_text_field( $_GET['search'] ),
 				'compare' => 'LIKE',
 			];
@@ -123,30 +120,30 @@ class SitesList extends \Elementor\Widget_Base {
 		}
 
 		if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) {
-			$meta_query['blueprint'][] = [
+			$meta_query['container_type'][] = [
 				'key'     => 'dollie_container_type',
 				'value'   => '1',
 				'compare' => '=',
 			];
 		} else {
-			$meta_query['blueprint'][] = [
+			$meta_query['container_type'][] = [
 				'key'     => 'dollie_container_type',
 				'value'   => '0',
 				'compare' => '=',
 			];
 
-			$meta_query['blueprint']['relation'] = 'OR';
+			$meta_query['container_type']['relation'] = 'OR';
 		}
 
 		if ( count( $meta_query ) ) {
-			if ( isset( $meta_query['search'] ) && isset( $meta_query['blueprint'] ) ) {
+			if ( isset( $meta_query['search'] ) && isset( $meta_query['container_type'] ) ) {
 				$args['meta_query'][]           = $meta_query['search'];
-				$args['meta_query'][]           = $meta_query['blueprint'];
+				$args['meta_query'][]           = $meta_query['container_type'];
 				$args['meta_query']['relation'] = 'AND';
 			} elseif ( isset( $meta_query['search'] ) ) {
 				$args['meta_query'] = $meta_query['search'];
-			} elseif ( isset( $meta_query['blueprint'] ) ) {
-				$args['meta_query'] = $meta_query['blueprint'];
+			} elseif ( isset( $meta_query['container_type'] ) ) {
+				$args['meta_query'] = $meta_query['container_type'];
 			}
 		}
 

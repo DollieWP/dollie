@@ -62,12 +62,7 @@ final class Sites extends Singleton implements Base {
 			$args['meta_query'] = [
 				'relation' => 'OR',
 				[
-					'key'     => 'wpd_installation_name',
-					'value'   => sanitize_text_field( $_GET['search'] ),
-					'compare' => 'LIKE',
-				],
-				[
-					'key'     => 'wpd_domains',
+					'key'     => 'dollie_container_details',
 					'value'   => sanitize_text_field( $_GET['search'] ),
 					'compare' => 'LIKE',
 				],
