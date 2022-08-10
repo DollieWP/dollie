@@ -38,6 +38,9 @@ final class Container extends Singleton implements ConstInterface {
 		add_action( 'admin_init', [ AuthService::instance(), 'process_token' ] );
 		add_action( 'admin_init', [ $this, 'disconnect_dollie' ] );
 
+		add_filter( 'manage_container_posts_columns', [ $this, 'set_table_columns' ] );
+		add_action( 'manage_container_posts_custom_column', [ $this, 'set_table_custom_columns' ], 10, 2 );
+
 		add_action( 'edit_form_after_title', [ NoticeService::instance(), 'container_manager' ] );
 	}
 
@@ -558,5 +561,57 @@ final class Container extends Singleton implements ConstInterface {
 	 */
 	public function admin_remove_container_actions( $actions ) {
 		return [];
+	}
+
+	/**
+	 * Set table columns
+	 *
+	 * @param array $columns
+	 * @return array
+	 */
+	public function set_table_columns( array $columns ) {
+		return array_merge(
+			$columns,
+			[
+				'type'   => __( 'Type', 'dollie' ),
+				'domain' => __( 'Domain', 'dollie' ),
+				'status' => __( 'Status', 'dollie' ),
+			]
+		);
+	}
+
+	/**
+	 * Set table custom columns values
+	 *
+	 * @param string  $column_name
+	 * @param integer $post_id
+	 * @return void
+	 */
+	public function set_table_custom_columns( string $column_name, int $post_id ) {
+		if ( 'container' !== get_post_type() ) {
+			return;
+		}
+
+		$container = dollie()->get_container( $post_id );
+
+		if ( is_wp_error( $container ) ) {
+			return;
+		}
+
+		if ( 'type' === $column_name ) {
+			if ( $container->is_site() ) {
+				esc_html_e( 'Site', 'dollie' );
+			} elseif ( $container->is_blueprint() ) {
+				esc_html_e( 'Blueprint', 'dollie' );
+			}
+		}
+
+		if ( 'domain' === $column_name ) {
+			echo "<a href=\"{$container->get_url( true )}\" target=\"_blank\">{$container->get_url()}</a>";
+		}
+
+		if ( 'status' === $column_name ) {
+			echo $container->get_status();
+		}
 	}
 }
