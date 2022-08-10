@@ -103,7 +103,7 @@ msgstr ""
 msgid "LetsEncrypt Failed"
 msgstr ""
 
-#: core/Log.php:341, templates/loop/sites-dashboard.php:109, templates/loop/sites.php:255
+#: core/Log.php:341, templates/loop/sites-dashboard.php:109, templates/loop/sites.php:254
 msgid "Blueprint Updated"
 msgstr ""
 
@@ -1746,27 +1746,27 @@ msgstr ""
 msgid "Launch Now"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:99, templates/loop/sites.php:245
+#: templates/loop/sites-dashboard.php:99, templates/loop/sites.php:244
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:102, templates/loop/sites.php:248, templates/widgets/site/pages/updates.php:55, templates/widgets/site/pages/updates.php:78
+#: templates/loop/sites-dashboard.php:102, templates/loop/sites.php:247, templates/widgets/site/pages/updates.php:55, templates/widgets/site/pages/updates.php:78
 msgid "Version %s"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:116, templates/loop/sites.php:262
+#: templates/loop/sites-dashboard.php:116, templates/loop/sites.php:261
 msgid "Never. Update now!"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:137, templates/loop/sites.php:283
+#: templates/loop/sites-dashboard.php:137, templates/loop/sites.php:282
 msgid "Manage"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:141, templates/loop/sites.php:288, templates/widgets/site/pages/blueprints.php:113
+#: templates/loop/sites-dashboard.php:141, templates/loop/sites.php:287, templates/widgets/site/pages/blueprints.php:113
 msgid "Update Blueprint"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:152, templates/loop/sites.php:299
+#: templates/loop/sites-dashboard.php:152, templates/loop/sites.php:298
 msgid "Visit Staging Area"
 msgstr ""
 
@@ -1798,11 +1798,11 @@ msgstr ""
 msgid "Show Your %s using the Live Preview Bar"
 msgstr ""
 
-#: templates/loop/sites.php:343
+#: templates/loop/sites.php:342
 msgid "No %s Found"
 msgstr ""
 
-#: templates/loop/sites.php:364
+#: templates/loop/sites.php:363
 msgid "You have no Blueprints yet!"
 msgstr ""
 
@@ -1814,11 +1814,11 @@ msgstr ""
 msgid "This sites listing shows all of the sites by you and your customers. Your customers will only see the sites that belong to them."
 msgstr ""
 
-#: templates/loop/sites.php:157
+#: templates/loop/sites.php:156
 msgid "Unnamed"
 msgstr ""
 
-#: templates/loop/sites.php:305
+#: templates/loop/sites.php:304
 msgid "Login to Site as Admin"
 msgstr ""
 

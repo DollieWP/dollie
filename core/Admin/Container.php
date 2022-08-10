@@ -28,18 +28,15 @@ final class Container extends Singleton implements ConstInterface {
 			add_action( 'admin_menu', [ $this, 'add_extra_menu_links' ], 100 );
 		}
 
-		add_filter( 'manage_users_columns', [ $this, 'custom_user_table_col' ] );
-		add_filter( 'manage_users_custom_column', [ $this, 'custom_user_table_col_value' ], 10, 3 );
+		add_filter( 'page_row_actions', [ $this, 'admin_alter_container_actions' ], 10, 2 );
 
+		add_action( 'bulk_actions-edit-container', [ $this, 'admin_remove_container_actions' ] );
 		add_action( 'admin_footer', [ $this, 'external_menu_scripts' ] );
 		add_action( 'wp_before_admin_bar_render', [ $this, 'set_admin_bar_menu' ], 2000 );
 
 		add_action( 'admin_init', [ WorkspaceService::instance(), 'check_deployment_domain' ] );
 		add_action( 'admin_init', [ AuthService::instance(), 'process_token' ] );
 		add_action( 'admin_init', [ $this, 'disconnect_dollie' ] );
-
-		add_filter( 'manage_container_posts_columns', [ $this, 'set_table_columns' ] );
-		add_action( 'manage_container_posts_custom_column', [ $this, 'set_table_custom_columns' ], 10, 2 );
 
 		add_action( 'edit_form_after_title', [ NoticeService::instance(), 'container_manager' ] );
 	}
@@ -86,7 +83,7 @@ final class Container extends Singleton implements ConstInterface {
 			'taxonomies'          => [ 'container_category', 'container_tag' ],
 			'hierarchical'        => true,
 			'public'              => false,
-			'show_ui'             => false,
+			'show_ui'             => true,
 			'show_in_menu'        => false,
 			'menu_position'       => 2,
 			'show_in_admin_bar'   => false,
@@ -412,7 +409,7 @@ final class Container extends Singleton implements ConstInterface {
 			]
 		);
 
-        $wp_admin_bar->add_menu(
+		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
 				'title'  => esc_html__( 'Dollie Cloud', 'dollie' ),
@@ -420,7 +417,7 @@ final class Container extends Singleton implements ConstInterface {
 				'href'   => 'https://cloud.getdollie.com',
 			]
 		);
-        
+
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
@@ -525,118 +522,41 @@ final class Container extends Singleton implements ConstInterface {
 	}
 
 	/**
-	 * Set table columns
+	 * Alter container actions
 	 *
-	 * @param $columns
-	 *
+	 * @param [type] $actions
+	 * @param [type] $page_object
 	 * @return array
 	 */
-	public function set_table_columns( array $columns ) {
-		$custom_columns = [
-			'cb' => $columns['cb'],
-		];
-
-		unset( $columns['cb'] );
-		unset( $columns['title'] );
-
-		if ( isset( $_GET['blueprint'] ) && ! empty( $_GET['blueprint'] ) ) {
-			$custom_columns['container-title'] = __( 'Blueprint', 'dollie' );
-
-			$columns = array_merge(
-				$columns,
-				[
-					'blueprint-updated' => __( 'Updated', 'dollie' ),
-					'size'              => __( 'Size', 'dollie' ),
-					'status'            => __( 'Status', 'dollie' ),
-				]
-			);
-		} else {
-			$custom_columns['container-title'] = __( 'Site', 'dollie' );
-
-			$columns = array_merge(
-				$columns,
-				[
-					'domain' => __( 'Domain', 'dollie' ),
-					'size'   => __( 'Size', 'dollie' ),
-					'status' => __( 'Status', 'dollie' ),
-				]
-			);
+	public function admin_alter_container_actions( $actions, $page_object ) {
+		if ( 'container' !== get_post_type() ) {
+			return $actions;
 		}
 
-		return $custom_columns + $columns;
-	}
-
-	/**
-	 * Set table custom columns
-	 *
-	 * @param string $column_name
-	 * @param int    $post_id
-	 */
-	public function set_table_custom_columns( string $column_name, int $post_id ) {
-		$container = dollie()->get_container( $post_id );
+		$container = dollie()->get_container( $page_object );
 
 		if ( is_wp_error( $container ) ) {
-			return;
+			return $actions;
 		}
 
-		?>
-			<?php if ( 'container-title' === $column_name ) : ?>
-				<a href="<?php echo get_edit_post_link( $container->get_id() ); ?>">
-					<?php echo $container->get_title(); ?>
-				</a>
-				<div>
-					<a target="_blank" href="<?php echo $container->get_url(); ?>">
-						<span class="url-box"><?php echo $container->get_url(); ?></span>
-					</a>
-				</div>
-			<?php endif; ?>
+		$actions = [];
 
-			<?php if ( 'blueprint-updated' === $column_name && $container->is_blueprint() ) : ?>
-				<?php echo $container->get_changes_update_time(); ?>
-			<?php endif; ?>
+		if ( ! $container->is_blueprint() ) {
+			$actions['manage_site'] = '<a href="' . $container->get_permalink() . '" target="_blank" class="button-link">' . __( 'Manage Site', 'dollie' ) . '</a>';
+		} else {
+			$actions['manage_site'] = '<a href="' . $container->get_permalink() . '" target="_blank" class="button-link">' . __( 'Manage Blueprint', 'dollie' ) . '</a>';
+		}
 
-			<?php if ( 'size' === $column_name ) : ?>
-				<?php echo $container->get_storage_size(); ?>
-			<?php endif; ?>
-
-			<?php if ( 'status' === $column_name ) : ?>
-				<?php echo $container->get_status(); ?>
-			<?php endif; ?>
-
-			<?php if ( 'domain' === $column_name && $container->is_site() ) : ?>
-				<?php echo $container->get_url(); ?>
-			<?php endif; ?>
-		<?php
+		return $actions;
 	}
 
 	/**
-	 * Add custom column
+	 * Remove container actions
 	 *
-	 * @param [type] $column
-	 * @return void
+	 * @param [type] $actions
+	 * @return array
 	 */
-	public function custom_user_table_col( $column ) {
-		$column['sites'] = __( 'Sites', 'dollie' );
-
-		return $column;
+	public function admin_remove_container_actions( $actions ) {
+		return [];
 	}
-
-	/**
-	 * Add custom column value
-	 *
-	 * @param [type] $val
-	 * @param [type] $column_name
-	 * @param [type] $user_id
-	 * @return string
-	 */
-	public function custom_user_table_col_value( $val, $column_name, $user_id ) {
-		$user = dollie()->get_user( $user_id );
-
-		if ( 'sites' === $column_name ) {
-			return $user->count_containers();
-		}
-
-		return $val;
-	}
-
 }
