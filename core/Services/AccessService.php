@@ -402,13 +402,15 @@ final class AccessService extends Singleton {
 	 * Prepare VIP showing
 	 */
 	public function acf_field_vip_prepare_access( $field ) {
+		$user_id = get_current_user_id();
+		$subscription_vip = dollie()->subscription()->has_vip($user_id);
 		// bail early if no 'admin_only' setting.
 		if ( empty( $field['dollie_vip_addon_enabled'] ) ){
 			return $field;
 		}
 
-		// return false if VIP is disabled (removes field).
-		if ( ! get_option( 'options_wpd_enable_vip_sites' ) ) {
+		// return false if VIP is not allowed or enabled
+		if ( ! $subscription_vip ) {
 			echo '
 				<style type="text/css">
 					.acf-field-' . substr( $field['key'], 6 ) . ' > .acf-label {display: none;}
