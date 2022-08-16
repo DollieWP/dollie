@@ -385,7 +385,6 @@ We\'ll walk you through all the steps required to link your own domain to your s
 						'id'    => '',
 					),
 					'hide_admin'        => 0,
-					'dollie_admin_only' => 1,
 					'dollie_vip_addon_enabled' => 1,
 					'message'           => '',
 					'default_value'     => 0,
