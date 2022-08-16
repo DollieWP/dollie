@@ -39,6 +39,23 @@ if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
 	);
 }
 
+$owner_id = get_current_user_id();
+$subscription_vip = dollie()->subscription()->has_vip($owner_id);
+
+if ( $subscription_vip ) {
+	dollie()->load_template(
+		'notice',
+		[
+			'type'         => 'success',
+			'icon'         => 'fas fa-gem',
+			'title'        => __( 'You can launch VIP Sites', 'dollie' ),
+			'message'      => __( 'If you would like to launch a site with additional resources, backups and priority support from our team, mark your site as VIP.', 'dollie' ),
+			'bottom_space' => true,
+		],
+		true
+	);
+}
+
 if ( dollie()->subscription()->size_limit_reached() ) {
 	dollie()->load_template(
 		'notice',
