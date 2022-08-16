@@ -341,7 +341,7 @@ final class AccessService extends Singleton {
 	 *
 	 * @return void
 	 */
-	public function acf_field_access( $field ) {
+	public function acf_field_admin_access( $field ) {
 		acf_render_field_setting(
 			$field,
 			array(
@@ -358,7 +358,7 @@ final class AccessService extends Singleton {
 	/**
 	 * Protect container access
 	 */
-	public function acf_field_prepare_access( $field ) {
+	public function acf_field_admin_prepare_access( $field ) {
 		// bail early if no 'admin_only' setting.
 		if ( empty( $field['dollie_admin_only'] ) ) {
 			return $field;
@@ -366,6 +366,49 @@ final class AccessService extends Singleton {
 
 		// return false if is not Dollie admin (removes field).
 		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
+			echo '
+				<style type="text/css">
+					.acf-field-' . substr( $field['key'], 6 ) . ' > .acf-label {display: none;}
+				</style>';
+			return false;
+		}
+
+		// return.
+		return $field;
+	}
+
+	/**
+	 * Show VIP when enabled
+	 *
+	 * @param [type] $field
+	 *
+	 * @return void
+	 */
+	public function acf_field_vip_access( $field ) {
+		acf_render_field_setting(
+			$field,
+			array(
+				'label'        => __( 'Show when VIP Add-on Enabled' ),
+				'instructions' => 'Only show this field when the VIP Add-on is enabled.',
+				'name'         => 'dollie_vip_addon_enabled',
+				'type'         => 'true_false',
+				'ui'           => 1,
+			),
+			true
+		);
+	}
+
+	/**
+	 * Prepare VIP showing
+	 */
+	public function acf_field_vip_prepare_access( $field ) {
+		// bail early if no 'admin_only' setting.
+		if ( empty( $field['dollie_vip_addon_enabled'] ) ){
+			return $field;
+		}
+
+		// return false if VIP is disabled (removes field).
+		if ( ! get_option( 'options_wpd_enable_vip_sites' ) ) {
 			echo '
 				<style type="text/css">
 					.acf-field-' . substr( $field['key'], 6 ) . ' > .acf-label {display: none;}
