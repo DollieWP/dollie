@@ -219,9 +219,8 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 						'id'    => '',
 					),
 					'choices'           => array(
-						'start'   => 'Active',
-						'restart' => 'Restart',
-						'stop'    => 'Stopped',
+						'start' => 'Running',
+						'stop'  => 'Stopped',
 					),
 					'allow_null'        => 0,
 					'other_choice'      => 0,
