@@ -320,9 +320,9 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	/**
 	 * Get has VIP subscription enabled for customer
 	 *
-	 * @return int|mixed
+	 * @return bool
 	 */
-	public function vip_status() {
+	public function vip_status($user_id = null) {
 		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
 
 		if ( ! $subscription ) {
@@ -475,6 +475,51 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 		return false;
 	}
+
+	/**
+	 * Check if user has staing
+	 *
+	 * @param null|int $user_id
+	 *
+	 * @return boolean
+	 */
+	public function has_vip( $user_id = null ) {
+
+		if ( ! get_field( 'wpd_enable_vip_sites', 'options' ) ) {
+			return false;
+		}
+
+		if ( is_super_admin() ) {
+			return true;
+		}
+
+		if ( null === $user_id ) {
+			$user_id = get_current_user_id();
+		}
+
+		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user_id );
+
+		// If no subscription is active.
+		if ( empty( $subscriptions ) ) {
+			return false;
+		}
+
+
+		// If has user meta overwrite VIP status
+		$usermeta_vip = get_user_meta( $user_id, 'user_launch_as_vip', true );
+
+		if ( $usermeta_vip ) {
+			return true;
+		}
+
+		// Apply overrides at product level.
+		if ( isset( $subscriptions['resources']['launch_as_vip'] ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
 
 	/**
 	 * Check if site limit has been reached

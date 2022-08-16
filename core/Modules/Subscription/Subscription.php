@@ -61,6 +61,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		return $this->module->has_bought_product( $user_id );
 	}
 
+
 	public function has_subscription() {
 		return $this->module->has_subscription();
 	}
@@ -72,6 +73,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	public function storage_available() {
 		return $this->module->storage_available();
 	}
+
 
 	public function subscription_name() {
 		return $this->module->subscription_name();
@@ -91,6 +93,10 @@ class Subscription extends Singleton implements SubscriptionInterface {
 
 	public function has_staging( $user_id = null ) {
 		return $this->module->has_staging( $user_id );
+	}
+
+	public function has_vip($user_id = null) {
+		return $this->module->has_vip($user_id);
 	}
 
 	public function staging_sites_limit_reached( $user_id = null ) {
