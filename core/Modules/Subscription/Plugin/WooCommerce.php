@@ -208,8 +208,15 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 				$max_size = get_field( '_wpd_max_size', $id );
 				$staging  = get_field( '_wpd_staging_installs', $id );
 
+				//VIP
+				$vip  = get_field( '_wpd_woo_launch_as_vip', $id );
+
 				if ( ! $staging ) {
 					$staging = 0;
+				}
+
+				if ( ! $vip ) {
+					$vip = 0;
 				}
 
 				if ( ! $max_size ) {
@@ -230,7 +237,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 				$data['resources']['max_allowed_size']     += $max_size * $quantity;
 				$data['resources']['name']                  = $item_data['name'];
 				$data['resources']['staging_max_allowed']  += $staging * $quantity;
-
+				$data['resources']['launch_as_vip']  	    = $vip;
 			}
 		}
 
@@ -308,6 +315,21 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		}
 
 		return $subscription['resources']['max_allowed_size'];
+	}
+
+	/**
+	 * Get has VIP subscription enabled for customer
+	 *
+	 * @return int|mixed
+	 */
+	public function vip_status() {
+		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
+
+		if ( ! $subscription ) {
+			return 0;
+		}
+
+		return $subscription['resources']['launch_as_vip'];
 	}
 
 	/**
