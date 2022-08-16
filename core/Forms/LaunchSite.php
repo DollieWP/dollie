@@ -124,6 +124,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 			'password'     => af_get_field( 'admin_password' ),
 			'name'         => af_get_field( 'site_name' ),
 			'description'  => af_get_field( 'site_description' ),
+			'vip'  		   => af_get_field( 'launch_as_vip' ),
 			'redirect'     => $redirect,
 		];
 
