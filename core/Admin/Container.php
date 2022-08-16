@@ -25,6 +25,7 @@ final class Container extends Singleton implements ConstInterface {
 
 			add_action( 'admin_menu', [ $this, 'add_staging_menu_page' ], 1 );
 			add_action( 'admin_menu', [ $this, 'submenus' ], 99 );
+			add_action( 'admin_menu', [ $this, 'add_blueprint_submenu' ], 1 );
 			add_action( 'admin_menu', [ $this, 'add_extra_menu_links' ], 100 );
 		}
 
@@ -35,9 +36,10 @@ final class Container extends Singleton implements ConstInterface {
 		add_filter( 'page_row_actions', [ $this, 'admin_alter_container_actions' ], 10, 2 );
 		add_filter( 'current_screen', [ $this, 'container_counter' ] );
 		add_filter( 'views_edit-container', [ $this, 'container_filters' ] );
+		add_filter( 'parse_query', [ $this, 'filter_containers' ] );
 
 		add_action( 'add_meta_boxes', [ $this, 'rename_meta_box_title' ] );
-		add_filter( 'parse_query', [ $this, 'filter_containers' ] );
+		add_action( 'restrict_manage_posts', [ $this, 'filter_by_author' ] );
 		add_action( 'bulk_actions-edit-container', [ $this, 'admin_remove_container_actions' ] );
 		add_action( 'admin_footer', [ $this, 'external_menu_scripts' ] );
 		add_action( 'wp_before_admin_bar_render', [ $this, 'set_admin_bar_menu' ], 2000 );
@@ -205,6 +207,23 @@ final class Container extends Singleton implements ConstInterface {
 			'Forms',
 			'manage_options',
 			'edit.php?post_type=af_form'
+		);
+	}
+
+	/**
+	 * Add blueprints menu item
+	 *
+	 * @return void
+	 */
+	public function add_blueprint_submenu() {
+		add_menu_page(
+			'admin_menu_add_blueprints',
+			'Blueprints',
+			'read',
+			admin_url( 'edit.php?post_type=container&blueprint=yes' ),
+			'',
+			'dashicons-cover-image',
+			1
 		);
 	}
 
@@ -865,12 +884,28 @@ final class Container extends Singleton implements ConstInterface {
 	public function new_modify_user_table_row( $val, $column_name, $user_id ) {
 		$user = dollie()->get_user( $user_id );
 
-		switch ( $column_name ) {
-			case 'sites':
-				return $user->count_containers();
-			default:
+		if ( 'sites' === $column_name ) {
+			return '<a href="' . admin_url( 'edit.php?post_type=container&author=' . $user_id ) . '">' . $user->count_containers() . '</a>';
 		}
 
 		return $val;
+	}
+
+	/**
+	 * Filter by author
+	 *
+	 * @return void
+	 */
+	public function filter_by_author() {
+		$params = [
+			'name' => 'author',
+            'show_option_all' => 'All customers'
+		];
+
+		if ( isset( $_GET['user'] ) ) {
+			$params['selected'] = $_GET['user'];
+		}
+
+		wp_dropdown_users( $params );
 	}
 }
