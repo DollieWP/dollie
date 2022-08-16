@@ -86,12 +86,24 @@ class LaunchSite extends Singleton implements ConstInterface {
 	 */
 	public function submission_callback( $form, $fields, $args ) {
 
+		$subscription = dollie()->subscription($owner_id);
 		$owner_id = get_current_user_id();
 		$email = af_get_field( 'site_admin_email' );
 
 		if ( af_get_field( 'assign_to_customer' ) ) {
 			$owner_id = af_get_field( 'assign_to_customer' );
 			$email = get_user_by( 'ID', $owner_id )->user_email;
+		}
+
+		$subscription_vip = dollie()->subscription()->has_vip($owner_id);
+
+		//Launch as VIP?
+		$vip_checked = af_get_field( 'launch_as_vip' );
+		if ( $vip_checked || $subscription_vip  ) {
+			$vip = 1;
+		}
+		else {
+			$vip = 0;
 		}
 
 		$blueprint_id   = null;
@@ -124,7 +136,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 			'password'     => af_get_field( 'admin_password' ),
 			'name'         => af_get_field( 'site_name' ),
 			'description'  => af_get_field( 'site_description' ),
-			'vip'  		   => af_get_field( 'launch_as_vip' ),
+			'vip'  		   => $vip,
 			'redirect'     => $redirect,
 		];
 

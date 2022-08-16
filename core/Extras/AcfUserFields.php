@@ -128,7 +128,6 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					),
 					'hide_admin'        => 0,
 					'dollie_admin_only' => 1,
-					'dollie_vip_addon_enabled' => 1,
 					'message'           => '',
 					'default_value'     => 0,
 					'ui'                => 1,
