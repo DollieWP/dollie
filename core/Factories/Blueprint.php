@@ -107,6 +107,15 @@ final class Blueprint extends BaseContainer {
 	}
 
 	/**
+	 * Check if it is private
+	 *
+	 * @return boolean
+	 */
+	public function is_vip(): bool {
+		return true === get_field( 'show_blueprint_to_vip', $this->get_id() );
+	}
+
+	/**
 	 * Delete
 	 *
 	 * @return boolean

@@ -5,8 +5,10 @@ if ( ! isset( $post ) ) {
 }
 
 $container = dollie()->get_container( $post );
+$subscription_vip = dollie()->subscription()->has_vip(get_current_user_id());
 
-if ( is_wp_error( $container ) || ! $container->is_blueprint() || $container->is_private() ) {
+
+if ( is_wp_error( $container ) || ! $container->is_blueprint() || $container->is_private() || $container->is_vip() && ! $subscription_vip ) {
 	return false;
 }
 
@@ -35,8 +37,18 @@ if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
 <li class="dol-m-0 dol-col-span-1 dol-flex dol-flex-col <?php do_action( 'dol_add_widget_classes' ); ?> dol-divide-y dol-divide-gray-200 dol-p-0 dol-widget-blueprint">
 	<img class="dol-w-100 dol-h-100 dol-flex-shrink-0 dol-mx-auto" src="<?php echo $image; ?>" alt="">
 	<div class="dol-flex-1 dol-flex dol-flex-col dol-p-6">
-		<h3 class="dol-mt-6 dol-text-gray-900 dol-text-xl"><?php echo $container->get_saved_title(); ?></h3>
-		<div class="dol-mt-1 dol-flex-grow dol-flex dol-flex-col dol-justify-between">
+		<h3 class="dol-mt-6 dol-text-gray-900 dol-text-2xl"><?php echo $container->get_saved_title(); ?>
+
+		<?php if ( $container->is_vip() ) : ?>
+			<span data-toggle="tooltip"
+	data-placement="bottom"
+	data-tooltip="This Blueprint is only available for VIPs">
+			<?php echo dollie()->icon()->vip( 'dol-text-secondary dol-text-s' ); ?>
+		</span>
+		<?php endif; ?>
+
+		</h3>
+		<div class="dol-mt-4 dol-mt-1 dol-flex-grow dol-flex dol-flex-col dol-justify-between">
 			<span class="dol-text-gray-500 dol-text-l"><?php echo $container->get_saved_description(); ?></span>
 		</div>
 	</div>

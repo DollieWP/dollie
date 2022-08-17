@@ -119,6 +119,12 @@ class LaunchSite extends Singleton implements ConstInterface {
 			if ( $blueprint_id ) {
 				$container = dollie()->get_container( $blueprint_id );
 
+				$vip_blueprint = get_post_meta( $blueprint_id, 'launch_blueprint_as_vip', true );
+
+				if ( $vip_blueprint ) {
+					$vip = 1;
+				}
+
 				if ( ! is_wp_error( $container ) && $container->is_blueprint() ) {
 					$blueprint_id   = $container->get_id();
 					$blueprint_hash = $container->get_hash();

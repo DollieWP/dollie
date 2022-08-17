@@ -181,6 +181,9 @@ final class BlueprintService extends Singleton {
 	 * @return array
 	 */
 	public function get( string $type = null ): array {
+
+
+
 		$data = [];
 
 		$posts = get_posts(
@@ -203,10 +206,12 @@ final class BlueprintService extends Singleton {
 
 		foreach ( $posts as $post ) {
 			$container = dollie()->get_container( $post );
+			$subscription_vip = dollie()->subscription()->has_vip(get_current_user_id());
 
-			if ( is_wp_error( $container ) || ! $container->is_blueprint() || $container->is_private() || ! $container->is_updated() || ! $container->get_saved_title() ) {
+			if ( is_wp_error( $container ) || ! $container->is_blueprint() || $container->is_private() || ! $container->is_updated() || ! $container->get_saved_title() || $container->is_vip() && ! $subscription_vip ) {
 				continue;
 			}
+
 
 			if ( 'html' === $type ) {
 				$image = dollie()->load_template( 'parts/blueprint-image', [ 'container' => $container ] );
