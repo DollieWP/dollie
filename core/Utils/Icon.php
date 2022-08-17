@@ -85,6 +85,10 @@ final class Icon extends Singleton {
 		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_manage', '<i class="fas fa-cog"></i>' ) . '</span>';
 	}
 
+	public function vip( $classes = null ) {
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_manage', '<i class="fas fa-gem"></i>' ) . '</span>';
+	}
+
 	public function dashboard( $classes = null ) {
 		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_woo_dashboard', '<i class="fas fa-dashboard"></i>' ) . '</span>';
 	}
