@@ -211,8 +211,12 @@ html {
     .dol-container {
         max-width: 640px; }
     .dol-container {
+        max-width: 640px; }
+    .dol-container {
         max-width: 640px; } }
 @media (min-width: 768px) {
+    .dol-container {
+        max-width: 768px; }
     .dol-container {
         max-width: 768px; }
     .dol-container {
@@ -221,13 +225,19 @@ html {
     .dol-container {
         max-width: 1024px; }
     .dol-container {
+        max-width: 1024px; }
+    .dol-container {
         max-width: 1024px; } }
 @media (min-width: 1280px) {
     .dol-container {
         max-width: 1280px; }
     .dol-container {
+        max-width: 1280px; }
+    .dol-container {
         max-width: 1280px; } }
 @media (min-width: 1536px) {
+    .dol-container {
+        max-width: 1536px; }
     .dol-container {
         max-width: 1536px; }
     .dol-container {

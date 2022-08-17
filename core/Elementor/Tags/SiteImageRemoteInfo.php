@@ -9,12 +9,12 @@ use Elementor\Modules\DynamicTags\Module;
 class SiteImageRemoteInfo extends Data_Tag {
 
 	private $container;
-	private array $wpd_data = [
-		'site_data' => []
-	];
+	private $wpd_data = [];
 
 	public function __construct( array $data = [] ) {
 		parent::__construct( $data );
+
+		$this->wpd_data['site_data'] = [];
 
 		$current_id = dollie()->get_current_post_id();
 
@@ -64,9 +64,9 @@ class SiteImageRemoteInfo extends Data_Tag {
 				}
 
 				if ( strpos( $data, '.png' ) ||
-				     strpos( $data, '.jpg' ) ||
-				     strpos( $data, '.jpeg' ) ||
-				     strpos( $data, '.gif' ) ) {
+					 strpos( $data, '.jpg' ) ||
+					 strpos( $data, '.jpeg' ) ||
+					 strpos( $data, '.gif' ) ) {
 
 					$keys[ $k ] = $k;
 				}

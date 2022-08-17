@@ -10,7 +10,6 @@ use Elementor\Modules\DynamicTags\Module;
 class SiteBackups extends Tag {
 
 	public function get_name() {
-
 		return 'dollie-site-backups';
 	}
 
@@ -28,7 +27,7 @@ class SiteBackups extends Tag {
 
 	public function render() {
 		$current_id = dollie()->get_current_post_id();
-		$container = dollie()->get_container( $current_id );
+		$container  = dollie()->get_container( $current_id );
 
 		if ( is_wp_error( $container ) ) {
 			echo 0;

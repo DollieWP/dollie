@@ -8,13 +8,13 @@ use Elementor\Core\DynamicTags\Tag;
 class SiteRemoteInfo extends Tag {
 
 	private $container;
-	private array $wpd_data = [
-		'site_data'     => [],
-		'customer_data' => [],
-	];
+	private $wpd_data = [];
 
 	public function __construct( array $data = [] ) {
 		parent::__construct( $data );
+
+		$this->wpd_data['site_data']     = [];
+		$this->wpd_data['customer_data'] = [];
 
 		$current_id = dollie()->get_current_post_id();
 
@@ -70,10 +70,10 @@ class SiteRemoteInfo extends Tag {
 			}
 
 			if ( strpos( $data, '.png' ) ||
-			     strpos( $data, '.jpg' ) ||
-			     strpos( $data, '.jpeg' ) ||
-			     filter_var( $data, FILTER_VALIDATE_URL ) ||
-			     strpos( $data, '.gif' ) ) {
+				 strpos( $data, '.jpg' ) ||
+				 strpos( $data, '.jpeg' ) ||
+				 filter_var( $data, FILTER_VALIDATE_URL ) ||
+				 strpos( $data, '.gif' ) ) {
 
 				continue;
 			}
@@ -112,7 +112,6 @@ class SiteRemoteInfo extends Tag {
 		if ( ! isset( $data[ $param_name ] ) ) {
 			$data = $this->wpd_data['customer_data'];
 		}
-
 
 		if ( ! isset( $data[ $param_name ] ) ) {
 			echo '';
