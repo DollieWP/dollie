@@ -1687,7 +1687,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					),
 					'hide_admin'        => 0,
 					'message'           => '',
-					'default_value'     => 1,
+					'default_value'     => 0,
 					'ui'                => 1,
 					'ui_on_text'        => 'Enable',
 					'ui_off_text'       => 'Disable',

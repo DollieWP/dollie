@@ -489,6 +489,11 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			return false;
 		}
 
+		//Is Global VIP enabled?
+		if ( get_field( 'wpd_enable_global_vip_sites', 'options' ) ) {
+			return true;
+		}
+
 		if ( is_super_admin() ) {
 			return true;
 		}
