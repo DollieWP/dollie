@@ -99,10 +99,14 @@ class LaunchSite extends Singleton implements ConstInterface {
 
 		//Launch as VIP?
 		$vip_checked = af_get_field( 'launch_as_vip' );
-		if ( $vip_checked || $subscription_vip  ) {
+
+		//Is launch as VIP checked and does the user have a VIP subscription?
+		if ( $vip_checked && $subscription_vip  ) {
 			$vip = 1;
-		}
-		else {
+		} // is global VIP enabled? If yes, launch as VIP even if user is no VIP
+		elseif ( get_field( 'wpd_enable_global_vip_sites', 'options' )) {
+			$vip = 1;
+		} else {
 			$vip = 0;
 		}
 
