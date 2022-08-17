@@ -31,7 +31,7 @@ if ( ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_
 if ( current_user_can( 'manage_options' ) || $subscription->has_subscription() ) {
 	if ( ! $subscription->site_limit_reached() && ! $subscription->size_limit_reached() ) {
 		$form_type         = $settings['type'] ?? 'site';
-		$button_text       = isset( $settings['button_text'] ) && $settings['button_text'] ? $settings['button_text'] : esc_html__( 'Launch New ', 'dollie' );
+		$button_text       = isset( $settings['button_text'] ) && $settings['button_text'] ? $settings['button_text'] : sprintf( esc_html__( 'Launch %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() );
 		$advanced_settings = (bool) $settings['advanced_settings'];
 
 		echo do_shortcode(

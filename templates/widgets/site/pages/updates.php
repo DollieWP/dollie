@@ -30,7 +30,7 @@ $themes  = $container->get_themes( true );
 		<li class="dol-resource-entry dol-flex dol-items-center dol-p-4">
 			<input type="checkbox" class="dol-resource-site" value="" name="">
 			<div class="dol-ml-4 dol-w-full dol-grid dol-grid-cols-4 dol-font-bold dol-text-sm">
-				<div class=""><?php esc_html_e( 'Item Name', 'dollie' ); ?></div>
+				<div class=""><?php esc_html_e( 'Name', 'dollie' ); ?></div>
 				<div>
 					<?php esc_html_e( 'Type', 'dollie' ); ?>
 				</div>

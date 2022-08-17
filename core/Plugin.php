@@ -180,6 +180,7 @@ class Plugin extends Singleton {
 	public function acf_add_local_field_groups() {
 		require DOLLIE_CORE_PATH . 'Extras/AcfFields.php';
 		require DOLLIE_CORE_PATH . 'Extras/AcfFormFields.php';
+		require DOLLIE_CORE_PATH . 'Extras/AcfUserFields.php';
 	}
 
 	/**

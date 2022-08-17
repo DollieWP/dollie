@@ -208,8 +208,15 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 				$max_size = get_field( '_wpd_max_size', $id );
 				$staging  = get_field( '_wpd_staging_installs', $id );
 
+				//VIP
+				$vip  = get_field( '_wpd_woo_launch_as_vip', $id );
+
 				if ( ! $staging ) {
 					$staging = 0;
+				}
+
+				if ( ! $vip ) {
+					$vip = 0;
 				}
 
 				if ( ! $max_size ) {
@@ -230,7 +237,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 				$data['resources']['max_allowed_size']     += $max_size * $quantity;
 				$data['resources']['name']                  = $item_data['name'];
 				$data['resources']['staging_max_allowed']  += $staging * $quantity;
-
+				$data['resources']['launch_as_vip']  	    = $vip;
 			}
 		}
 
@@ -308,6 +315,21 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		}
 
 		return $subscription['resources']['max_allowed_size'];
+	}
+
+	/**
+	 * Get has VIP subscription enabled for customer
+	 *
+	 * @return bool
+	 */
+	public function vip_status($user_id = null) {
+		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
+
+		if ( ! $subscription ) {
+			return 0;
+		}
+
+		return $subscription['resources']['launch_as_vip'];
 	}
 
 	/**
@@ -453,6 +475,51 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 		return false;
 	}
+
+	/**
+	 * Check if user has staing
+	 *
+	 * @param null|int $user_id
+	 *
+	 * @return boolean
+	 */
+	public function has_vip( $user_id = null ) {
+
+		if ( ! get_field( 'wpd_enable_vip_sites', 'options' ) ) {
+			return false;
+		}
+
+		if ( is_super_admin() ) {
+			return true;
+		}
+
+		if ( null === $user_id ) {
+			$user_id = get_current_user_id();
+		}
+
+		// Has VIP via User meta overwrite?
+		$usermeta_vip = get_user_meta( $user_id, 'user_launch_as_vip', true );
+
+		if ( $usermeta_vip ) {
+			return true;
+		}
+
+		//Has subscription?
+		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user_id );
+
+		// If no subscription is active or no subscription is found.
+		if ( empty( $subscriptions ) ) {
+			return false;
+		}
+
+		// Has subscription but is VIP enabled for this subcription?
+		if ( isset( $subscriptions['resources']['launch_as_vip'] ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
 
 	/**
 	 * Check if site limit has been reached

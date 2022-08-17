@@ -27,9 +27,6 @@
 input::-moz-placeholder, textarea::-moz-placeholder {
     color: #737373;
     opacity: 1; }
-input:-ms-input-placeholder, textarea:-ms-input-placeholder {
-    color: #737373;
-    opacity: 1; }
 input::placeholder,textarea::placeholder {
     color: #737373;
     opacity: 1; }
@@ -65,7 +62,6 @@ select {
     background-origin: border-box;
     -webkit-user-select: none;
        -moz-user-select: none;
-        -ms-user-select: none;
             user-select: none;
     flex-shrink: 0;
     height: 1rem;
@@ -277,7 +273,6 @@ html {
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
-     -ms-user-select: none;
          user-select: none;
     flex-wrap: wrap;
     align-items: center;
@@ -361,7 +356,6 @@ html {
     display: flex;
     -webkit-user-select: none;
     -moz-user-select: none;
-     -ms-user-select: none;
          user-select: none;
     align-items: center;
     justify-content: space-between;
@@ -414,7 +408,6 @@ html {
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
-     -ms-user-select: none;
          user-select: none;
     align-items: center;
     outline: 2px solid transparent;
@@ -459,8 +452,7 @@ html {
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-property: transform, opacity;
     overflow-y: hidden;
-    -ms-scroll-chaining: none;
-        overscroll-behavior: contain; }
+    overscroll-behavior: contain; }
 :where(.dol-modal) {
     align-items: center; }
 .dol-modal-open, .dol-modal:target, .dol-modal-toggle:checked + .dol-modal {
@@ -473,7 +465,6 @@ html {
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
-     -ms-user-select: none;
          user-select: none;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -524,7 +515,6 @@ html {
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
-     -ms-user-select: none;
          user-select: none;
     flex-wrap: wrap;
     align-items: center;
@@ -838,9 +828,6 @@ html {
 .dol-input-disabled::-moz-placeholder, .dol-input[disabled]::-moz-placeholder {
     color: hsl(var(--bc) / var(--tw-placeholder-opacity));
     --tw-placeholder-opacity: 0.2; }
-.dol-input-disabled:-ms-input-placeholder, .dol-input[disabled]:-ms-input-placeholder {
-    color: hsl(var(--bc) / var(--tw-placeholder-opacity));
-    --tw-placeholder-opacity: 0.2; }
 .dol-input-disabled::placeholder, .dol-input[disabled]::placeholder {
     color: hsl(var(--bc) / var(--tw-placeholder-opacity));
     --tw-placeholder-opacity: 0.2; }
@@ -887,7 +874,6 @@ html {
 .dol-menu li.dol-disabled > * {
     -webkit-user-select: none;
     -moz-user-select: none;
-     -ms-user-select: none;
          user-select: none;
     color: hsl(var(--bc) / var(--tw-text-opacity));
     --tw-text-opacity: 0.2; }
@@ -1023,9 +1009,6 @@ html {
     outline: 2px solid hsla(var(--bc) / 0.2);
     outline-offset: 2px; }
 .dol-select-disabled::-moz-placeholder, .dol-select[disabled]::-moz-placeholder {
-    color: hsl(var(--bc) / var(--tw-placeholder-opacity));
-    --tw-placeholder-opacity: 0.2; }
-.dol-select-disabled:-ms-input-placeholder, .dol-select[disabled]:-ms-input-placeholder {
     color: hsl(var(--bc) / var(--tw-placeholder-opacity));
     --tw-placeholder-opacity: 0.2; }
 .dol-select-disabled::placeholder, .dol-select[disabled]::placeholder {
@@ -1327,6 +1310,8 @@ html {
     padding-right: 0.75rem !important;
     padding-top: 0.5rem !important;
     padding-bottom: 0.5rem !important; }
+.acf-form .acf-field .acf-label label {
+    display: inline-flex; }
 .acf-form .acf-field .acf-notice, .acf-form .acf-notice {
     margin-left: 1rem;
     margin-right: 1rem;
@@ -1492,9 +1477,6 @@ input[type="text"].dol-search-input {
     --tw-text-opacity: 1;
     color: rgb(64 64 64 / var(--tw-text-opacity)); }
 input[type="text"].dol-search-input::-moz-placeholder {
-    --tw-text-opacity: 1;
-    color: rgb(212 212 212 / var(--tw-text-opacity)); }
-input[type="text"].dol-search-input:-ms-input-placeholder {
     --tw-text-opacity: 1;
     color: rgb(212 212 212 / var(--tw-text-opacity)); }
 input[type="text"].dol-search-input::placeholder {
@@ -2160,6 +2142,8 @@ input[type="text"].dol-search-input:focus {
     margin-left: 3rem; }
 .dol-mt-6 {
     margin-top: 1.5rem; }
+.dol-mt-4 {
+    margin-top: 1rem; }
 .dol--mt-px {
     margin-top: -1px; }
 .dol--mr-px {
@@ -2184,8 +2168,6 @@ input[type="text"].dol-search-input:focus {
     margin-bottom: 0.75rem; }
 .dol-mt-3 {
     margin-top: 0.75rem; }
-.dol-mt-4 {
-    margin-top: 1rem; }
 .dol-mt-0 {
     margin-top: 0px; }
 .dol-mb-2 {
@@ -2954,13 +2936,13 @@ input[type="text"].dol-search-input:focus {
 .dol-text-white {
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity)); }
+.dol-text-secondary {
+    color: var(--d-secondary); }
 .dol-text-primary {
     color: var(--d-primary); }
 .dol-text-red-600 {
     --tw-text-opacity: 1;
     color: rgb(220 38 38 / var(--tw-text-opacity)); }
-.dol-text-secondary {
-    color: var(--d-secondary); }
 .dol-text-green-600 {
     --tw-text-opacity: 1;
     color: rgb(5 150 105 / var(--tw-text-opacity)); }
@@ -2989,9 +2971,6 @@ input[type="text"].dol-search-input:focus {
     -webkit-text-decoration-line: none;
             text-decoration-line: none; }
 .dol-placeholder-gray-500::-moz-placeholder {
-    --tw-placeholder-opacity: 1;
-    color: rgb(115 115 115 / var(--tw-placeholder-opacity)); }
-.dol-placeholder-gray-500:-ms-input-placeholder {
     --tw-placeholder-opacity: 1;
     color: rgb(115 115 115 / var(--tw-placeholder-opacity)); }
 .dol-placeholder-gray-500::placeholder {
@@ -3177,9 +3156,6 @@ input[type="text"].dol-search-input:focus {
     --tw-bg-opacity: 1;
     background-color: rgb(82 82 82 / var(--tw-bg-opacity)); }
 .focus\:dol-placeholder-gray-400:focus::-moz-placeholder {
-    --tw-placeholder-opacity: 1;
-    color: rgb(163 163 163 / var(--tw-placeholder-opacity)); }
-.focus\:dol-placeholder-gray-400:focus:-ms-input-placeholder {
     --tw-placeholder-opacity: 1;
     color: rgb(163 163 163 / var(--tw-placeholder-opacity)); }
 .focus\:dol-placeholder-gray-400:focus::placeholder {
@@ -3516,6 +3492,41 @@ input[type="text"].dol-search-input:focus {
 .dol-is-user .af-field-wpd-assign-to-customer {
   display: none; }
 
+#form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
+    width: 100% !important; }
+
+@media (min-width: 640px) {
+    #form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
+        max-width: 640px !important; } }
+
+@media (min-width: 768px) {
+    #form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
+        max-width: 768px !important; } }
+
+@media (min-width: 1024px) {
+    #form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
+        max-width: 1024px !important; } }
+
+@media (min-width: 1280px) {
+    #form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
+        max-width: 1280px !important; } }
+
+@media (min-width: 1536px) {
+    #form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
+        max-width: 1536px !important; } }
+
+#form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 0.5rem !important; }
+  #form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list::before {
+    display: none !important; }
+
+#form_dollie_launch_site .acf-bl label {
+  padding: 5px; }
+
 #form_dollie_launch_site .acf-radio-list label {
   display: inherit !important;
   text-align: center; }
@@ -3530,7 +3541,8 @@ input[type="text"].dol-search-input:focus {
     font-weight: 700;
     background: #39bc9c;
     color: white;
-    border-radius: 4px; }
+    border-radius: 4px;
+    padding: 5px; }
     #form_dollie_launch_site .acf-radio-list li label.selected img.fw-blueprint-screenshot {
       opacity: 1; }
   #form_dollie_launch_site .acf-radio-list li input {
@@ -3540,7 +3552,7 @@ input[type="text"].dol-search-input:focus {
     padding-bottom: 15px; }
 
 #form_dollie_launch_site .acf-radio-list img.fw-blueprint-screenshot {
-  max-width: 230px;
+  max-width: 100%;
   display: block;
   border-radius: 10px;
   padding: 5px;
@@ -10556,7 +10568,6 @@ body.post-type-dollie-logs {
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
-     -ms-user-select: none;
          user-select: none;
     flex-wrap: wrap;
     align-items: center;

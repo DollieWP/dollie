@@ -240,6 +240,8 @@ class SyncContainersJob extends Singleton {
 						'post_author' => $author,
 						'meta_input'  => [
 							'dollie_container_type'     => $fetched_container['type'],
+							//@GEORGE - Add this to API to be synced on Hub Sync
+							'dollie_vip_site'     => $fetched_container['vip_site'],
 							'dollie_container_deployed' => 1,
 						],
 					]

@@ -19,6 +19,10 @@
   }
 
   .acf-form {
+
+    .acf-field .acf-label label {
+            display: inline-flex;
+    }
     .acf-field .acf-notice,
     .acf-notice {
       @apply dol-mt-0 dol-mx-4 dol-mb-6 dol-px-4 dol-py-2 dol-rounded;
