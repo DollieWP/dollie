@@ -1,4 +1,8 @@
 <?php
+$subscription_vip = dollie()->subscription()->has_vip(get_current_user_id());
+$global_vip = get_field( 'wpd_enable_global_vip_sites', 'options' );
+$user = dollie()->get_user();
+
 if ( isset( $_GET['payment-status'] ) ) {
 	dollie()->load_template(
 		'notice',
@@ -39,17 +43,30 @@ if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
 	);
 }
 
-$owner_id = get_current_user_id();
-$subscription_vip = dollie()->subscription()->has_vip($owner_id);
 
-if ( $subscription_vip ) {
+
+if ( $subscription_vip && ! $global_vip ) {
 	dollie()->load_template(
 		'notice',
 		[
 			'type'         => 'success',
 			'icon'         => 'fas fa-gem',
-			'title'        => __( 'You can launch VIP Sites', 'dollie' ),
+			'title'        => __( 'You can launch VIP Sites!', 'dollie' ),
 			'message'      => __( 'If you would like to launch a site with additional resources, backups and priority support from our team, mark your site as VIP.', 'dollie' ),
+			'bottom_space' => true,
+		],
+		true
+	);
+}
+
+if ( $global_vip && $user->can_manage_all_sites() ) {
+	dollie()->load_template(
+		'notice',
+		[
+			'type'         => 'info',
+			'icon'         => 'fas fa-gem',
+			'title'        => __( 'Admin Info - VIP Sites Enabled for All Sites ', 'dollie' ),
+			'message'      => __( 'You have configured VIP Sites to be enabled for each site that is being launched on your platform.', 'dollie' ),
 			'bottom_space' => true,
 		],
 		true
