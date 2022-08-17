@@ -497,22 +497,22 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			$user_id = get_current_user_id();
 		}
 
-		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user_id );
-
-		// If no subscription is active.
-		if ( empty( $subscriptions ) ) {
-			return false;
-		}
-
-
-		// If has user meta overwrite VIP status
+		// Has VIP via User meta overwrite?
 		$usermeta_vip = get_user_meta( $user_id, 'user_launch_as_vip', true );
 
 		if ( $usermeta_vip ) {
 			return true;
 		}
 
-		// Apply overrides at product level.
+		//Has subscription?
+		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user_id );
+
+		// If no subscription is active or no subscription is found.
+		if ( empty( $subscriptions ) ) {
+			return false;
+		}
+
+		// Has subscription but is VIP enabled for this subcription?
 		if ( isset( $subscriptions['resources']['launch_as_vip'] ) ) {
 			return true;
 		}

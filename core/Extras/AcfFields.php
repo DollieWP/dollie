@@ -1649,12 +1649,40 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'label'             => __( 'VIP Sites', 'dollie' ),
 					'name'              => 'wpd_enable_vip_sites',
 					'type'              => 'true_false',
-					'instructions'      => __( 'For the vast majority of WordPress sites our Dollie Cloud provides plenty of resources to compete, and often outperform, the traditional managed hosting providers on the market. With VIP Sites you can enable additional resources, additional backups and priority support from our team for one or multiple sites with the click of a button.', 'dollie' ),
+					'instructions'      => __( 'With VIP Sites you can enable additional resources, additional backups and priority support from our team for one or multiple sites with the click of a button.', 'dollie' ),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => array(
 						'width' => '',
-						'class' => '',
+						'class' => 'add-on-wrapper',
+						'id'    => '',
+					),
+					'hide_admin'        => 0,
+					'message'           => '',
+					'default_value'     => 1,
+					'ui'                => 1,
+					'ui_on_text'        => 'Enable',
+					'ui_off_text'       => 'Disable',
+				),
+			array(
+					'key'               => 'field_60a7974f2471a8',
+					'label'             => __( 'Launch All Sites as VIP', 'dollie' ),
+					'name'              => 'wpd_enable_global_vip_sites',
+					'type'              => 'true_false',
+					'instructions'      => __( 'If you would like to launch each site on your platform automatically as a VIP site, check this box.', 'dollie' ),
+					'required'          => 0,
+						'conditional_logic' => array(
+						array(
+							array(
+								'field'    => 'field_60a7974f69558',
+								'operator' => '==',
+								'value'    => '1',
+							),
+						),
+					),
+					'wrapper'           => array(
+						'width' => '',
+						'class' => 'add-on-wrapper-end',
 						'id'    => '',
 					),
 					'hide_admin'        => 0,
@@ -1678,7 +1706,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'conditional_logic' => 0,
 					'wrapper'           => array(
 						'width' => '',
-						'class' => '',
+						'class' => 'add-on-wrapper',
 						'id'    => '',
 					),
 					'hide_admin'        => 0,
@@ -1706,7 +1734,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					),
 					'wrapper'           => array(
 						'width' => '',
-						'class' => '',
+						'class' => 'add-on-field',
 						'id'    => '',
 					),
 					'hide_admin'        => 0,
@@ -1739,7 +1767,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					),
 					'wrapper'           => array(
 						'width' => '50',
-						'class' => '',
+						'class' => 'add-on-field',
 						'id'    => '',
 					),
 					'hide_admin'        => 0,
@@ -1767,7 +1795,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					),
 					'wrapper'           => array(
 						'width' => '50',
-						'class' => '',
+						'class' => 'add-on-field',
 						'id'    => '',
 					),
 					'hide_admin'        => 0,
@@ -1795,7 +1823,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					),
 					'wrapper'           => array(
 						'width' => '',
-						'class' => '',
+						'class' => 'add-on-wrapper-end',
 						'id'    => '',
 					),
 					'hide_admin'        => 0,
@@ -1815,7 +1843,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'conditional_logic' => 0,
 					'wrapper'           => array(
 						'width' => '',
-						'class' => '',
+						'class' => 'add-on-wrapper',
 						'id'    => '',
 					),
 					'hide_admin'        => 0,
@@ -1835,7 +1863,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'conditional_logic' => 0,
 					'wrapper'           => array(
 						'width' => '',
-						'class' => '',
+						'class' => 'add-on-wrapper',
 						'id'    => '',
 					),
 					'hide_admin'        => 0,
