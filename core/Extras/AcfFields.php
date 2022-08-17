@@ -204,7 +204,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'label'             => __( 'Only show to VIP Users', 'dollie' ),
 					'name'              => 'show_blueprint_to_vip',
 					'type'              => 'true_false',
-					'instructions'      => __( 'Only show this Blueprint to users who have VIP access', 'dollie' ),
+					'instructions'      => __( 'Only show this Blueprint to users who have VIP access. Note - The Blueprint will still be shown in your Blueprint Listings', 'dollie' ),
 					'required'          => 0,
 					'wrapper'           => array(
 						'width' => '',

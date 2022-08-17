@@ -3032,6 +3032,41 @@ input[type="text"].dol-search-input:focus {
 .dol-is-user .af-field-wpd-assign-to-customer {
   display: none; }
 
+#form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
+    width: 100% !important; }
+
+@media (min-width: 640px) {
+    #form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
+        max-width: 640px !important; } }
+
+@media (min-width: 768px) {
+    #form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
+        max-width: 768px !important; } }
+
+@media (min-width: 1024px) {
+    #form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
+        max-width: 1024px !important; } }
+
+@media (min-width: 1280px) {
+    #form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
+        max-width: 1280px !important; } }
+
+@media (min-width: 1536px) {
+    #form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
+        max-width: 1536px !important; } }
+
+#form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
+    margin-left: auto !important;
+    margin-right: auto !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 0.5rem !important; }
+  #form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list::before {
+    display: none !important; }
+
+#form_dollie_launch_site .acf-bl label {
+  padding: 5px; }
+
 #form_dollie_launch_site .acf-radio-list label {
   display: inherit !important;
   text-align: center; }
@@ -3046,7 +3081,8 @@ input[type="text"].dol-search-input:focus {
     font-weight: 700;
     background: #39bc9c;
     color: white;
-    border-radius: 4px; }
+    border-radius: 4px;
+    padding: 5px; }
     #form_dollie_launch_site .acf-radio-list li label.selected img.fw-blueprint-screenshot {
       opacity: 1; }
   #form_dollie_launch_site .acf-radio-list li input {
@@ -3056,7 +3092,7 @@ input[type="text"].dol-search-input:focus {
     padding-bottom: 15px; }
 
 #form_dollie_launch_site .acf-radio-list img.fw-blueprint-screenshot {
-  max-width: 230px;
+  max-width: 100%;
   display: block;
   border-radius: 10px;
   padding: 5px;

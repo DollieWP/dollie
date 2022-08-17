@@ -351,7 +351,7 @@ We\'ll walk you through all the steps required to link your own domain to your s
 					),
 					'wrapper'           => array(
 						'width' => '',
-						'class' => '',
+						'class' => 'dollie-blueprints-listing',
 						'id'    => '',
 					),
 					'hide_admin'        => 0,
