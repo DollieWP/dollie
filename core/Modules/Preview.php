@@ -156,11 +156,15 @@ class Preview extends Singleton {
 				$product_id = get_post_meta( $container->get_id(), 'wpd_installation_blueprint_hosting_product', true );
 
 				if ( $product_id ) {
-					$image = $container->get_screenshot();
 
-					if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
-						$image = get_field( 'wpd_blueprint_custom_image' );
+					if ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'custom' ) {
+						$image = get_field( 'wpd_blueprint_custom_image', $container->get_id() );
+					} elseif ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'theme' ) {
+						$image = get_post_meta( $container->get_id(), 'wpd_blueprint_active_theme_screenshot_url', true );
+					} else {
+						$image = get_the_post_thumbnail_url( $container->get_id(), 'full' );
 					}
+
 
 					$theme_array[] = [
 						'active'      => 1,
@@ -326,7 +330,7 @@ class Preview extends Singleton {
 									<?php } ?>
 								</div>
 								<div class="col-xs-7 col-sm-4 col-md-6">
-									<div class="product-toolbar clearfix">
+									<div class="clearfix product-toolbar">
 										<?php if ( $config->closeIframe ) { ?>
 											<a id="product-frame-close" class="product-frame-close" href="#"
 											   title="<?php esc_html_e( 'close iframe', 'dollie' ); ?>">
@@ -462,7 +466,7 @@ class Preview extends Singleton {
 								</div>
 							</div>
 						</div>
-						<iframe id="iframe" class="iframe border" src="" frameborder="0"></iframe>
+						<iframe id="iframe" class="border iframe" src="" frameborder="0"></iframe>
 					</div>
 				<?php } ?>
 			</div>

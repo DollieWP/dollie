@@ -212,12 +212,7 @@ final class BlueprintService extends Singleton {
 				continue;
 			}
 
-
-			if ( 'html' === $type ) {
-				$image = dollie()->load_template( 'parts/blueprint-image', [ 'container' => $container ] );
-			} else {
-				$image = $container->get_screenshot();
-			}
+			$image = dollie()->load_template( 'parts/blueprint-image', [ 'container' => $container ] );
 
 			$data[ $container->get_id() ] = $image;
 		}

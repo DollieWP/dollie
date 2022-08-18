@@ -27,11 +27,14 @@ if ( ! empty( $checkout_url ) ) {
 	);
 }
 
-$image = $container->get_screenshot();
-
-if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
-	$image = get_field( 'wpd_blueprint_custom_image' );
+if ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'custom' ) {
+	$image = get_field( 'wpd_blueprint_custom_image', $container->get_id() );
+} elseif ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'theme' ) {
+	$image = get_post_meta( $container->get_id(), 'wpd_blueprint_active_theme_screenshot_url', true );
+} else {
+	$image = get_the_post_thumbnail_url( $container->get_id(), 'full' );
 }
+
 
 ?>
 <li class="dol-m-0 dol-col-span-1 dol-flex dol-flex-col <?php do_action( 'dol_add_widget_classes' ); ?> dol-divide-y dol-divide-gray-200 dol-p-0 dol-widget-blueprint">

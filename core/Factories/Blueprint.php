@@ -66,6 +66,23 @@ final class Blueprint extends BaseContainer {
 	}
 
 	/**
+	 * Get Additional Blueprint screenshot info
+	 *
+	 * @param string $location
+	 *
+	 * @return string
+	 */
+	public function set_screenshot_data() {
+		$theme_url = $this->get_details( 'site.theme.screenshot' );
+
+		if ( is_wp_error( $theme_url ) ) {
+			return '';
+		}
+
+		update_post_meta( $this->get_id(), 'wpd_blueprint_active_theme_screenshot_url', $theme_url );
+	}
+
+	/**
 	 * Perform action
 	 *
 	 * @param string $action
