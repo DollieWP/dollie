@@ -80,6 +80,17 @@ final class Sites extends Singleton implements Base {
 			];
 		}
 
+		if ( isset( $_GET['vip'] ) ) {
+			$args['meta_query'] = [
+				'relation' => 'OR',
+				[
+					'key'     => 'dollie_vip_site',
+					'value'   => '1',
+					'compare' => '=',
+				],
+			];
+		}
+
 		if ( ! current_user_can( 'manage_options' ) ) {
 			$args['author'] = get_current_user_id();
 		}

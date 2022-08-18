@@ -125,7 +125,15 @@ class SitesList extends \Elementor\Widget_Base {
 				'value'   => '1',
 				'compare' => '=',
 			];
-		} else {
+		}
+		elseif ( isset( $_GET['vip'] ) && $_GET['vip'] ) {
+			$meta_query['container_type'][] = [
+				'key'     => 'dollie_vip_site',
+				'value'   => '1',
+				'compare' => '=',
+			];
+		}
+		else {
 			$meta_query['container_type'][] = [
 				'key'     => 'dollie_container_type',
 				'value'   => '0',

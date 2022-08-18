@@ -923,6 +923,15 @@ abstract class BaseContainer implements ConstInterface {
 	}
 
 	/**
+	 * Check if site has VIP status
+	 *
+	 * @return boolean
+	 */
+	public function is_vip(): bool {
+		return get_post_meta( $this->get_id(), 'dollie_vip_site', true );
+	}
+
+	/**
 	 * Get customer login url
 	 *
 	 * @param string $location
