@@ -424,7 +424,7 @@ final class Container extends Singleton implements ConstInterface {
 			]
 		);
 
-		if ( $blueprints_url = dollie()->page()->get_sites_url( '', [ 'blueprint' => 'yes' ] ) ) {
+		if ( $blueprints_url = dollie()->page()->get_sites_url( '', [ 'blueprints' => 'yes' ] ) ) {
 			$wp_admin_bar->add_menu(
 				[
 					'parent' => $menu_id,
