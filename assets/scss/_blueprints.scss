@@ -4,7 +4,7 @@
 
     //Add Tailwind Grid
     .dollie-blueprints-listing ul.acf-radio-list {
-            @apply dol-container dol-grid dol-grid-cols-4 dol-gap-2 dol-mx-auto #{!important};
+            @apply dol-container dol-grid md:dol-grid-cols-2 lg:dol-grid-cols-4 dol-gap-2 dol-mx-auto #{!important};
 
             &::before {
                 display: none !important;
