@@ -3039,6 +3039,26 @@ input[type="text"].dol-search-input:focus {
 .dol-is-user .af-field-wpd-assign-to-customer {
   display: none; }
 
+#form_dollie_launch_site .acf-switch {
+    --tw-border-opacity: 1;
+    border-color: rgb(212 212 212 / var(--tw-border-opacity));
+  background: transparent; }
+
+#form_dollie_launch_site .acf-switch .acf-switch-slider {
+  background: linear-gradient(#ffffff, #fdfdfd, #dddddd);
+  border-color: var(--d-primary-600); }
+
+#form_dollie_launch_site .acf-switch.-on {
+    background-color: var(--d-primary) !important;
+    --tw-text-opacity: 1 !important;
+    color: rgb(255 255 255 / var(--tw-text-opacity)) !important; }
+
+#form_dollie_launch_site .af-field-advanced-settings .af-label.acf-label {
+  display: none !important; }
+
+#form_dollie_launch_site .af-field-advanced-settings .acf-switch.-on .acf-switch-on {
+  min-width: 35px !important; }
+
 #form_dollie_launch_site .dollie-blueprints-listing ul.acf-radio-list {
     width: 100% !important; }
 
@@ -3093,7 +3113,8 @@ input[type="text"].dol-search-input:focus {
     padding: 5px; }
   #form_dollie_launch_site .acf-radio-list li label.selected {
     font-weight: 700;
-    background: #39bc9c;
+    --tw-bg-opacity: 1;
+    background-color: rgb(16 185 129 / var(--tw-bg-opacity));
     color: white;
     border-radius: 4px;
     padding: 5px; }
@@ -3114,7 +3135,8 @@ input[type="text"].dol-search-input:focus {
   opacity: 0.8; }
   #form_dollie_launch_site .acf-radio-list img.fw-blueprint-screenshot:hover {
     opacity: 1;
-    background: #39bc9c; }
+    --tw-bg-opacity: 1;
+    background-color: rgb(16 185 129 / var(--tw-bg-opacity)); }
 
 .dol-blueprint-launch-inner #form_dollie_launch_site .acf-input {
   width: 85% !important; }

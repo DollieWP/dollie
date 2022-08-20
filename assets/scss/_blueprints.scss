@@ -2,6 +2,29 @@
 
 #form_dollie_launch_site {
 
+    .acf-switch {
+        @apply dol-border-gray-300;
+        background: transparent
+    }
+
+    .acf-switch .acf-switch-slider {
+        background: linear-gradient(#ffffff, #fdfdfd, #dddddd);
+        @apply dol-border-primary-600;
+    }
+
+    .acf-switch.-on {
+        @apply dol-bg-primary dol-text-white #{!important};
+    }
+
+    // .af-field-advanced-settings {
+    //     .af-label.acf-label {
+    //         display: none !important;
+    //     }
+    //     .acf-switch.-on .acf-switch-on {
+    //         min-width: 35px !important;
+    //     }
+    // }
+
     //Add Tailwind Grid
     .dollie-blueprints-listing ul.acf-radio-list {
             @apply dol-container dol-grid md:dol-grid-cols-2 lg:dol-grid-cols-4 dol-gap-2 dol-mx-auto #{!important};
@@ -34,7 +57,7 @@
 
       label.selected {
         font-weight: 700;
-        background: rgb(57, 188, 156);
+        @apply dol-bg-green-500;
         color: rgb(255, 255, 255);
         border-radius: 4px;
         padding: 5px;
@@ -64,7 +87,7 @@
 
       &:hover {
         opacity: 1;
-        background: rgb(57, 188, 156);
+        @apply dol-bg-green-500;
       }
     }
   }

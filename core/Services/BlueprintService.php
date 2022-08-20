@@ -84,7 +84,7 @@ final class BlueprintService extends Singleton {
 			'notice',
 			[
 				'icon'    => 'fas fa-exclamation-circle',
-				'title'   => __( 'Realtime Customizer', 'dollie' ),
+				'title'   => __( 'About you..', 'dollie' ),
 				'message' => dollie()->load_template( 'notices/dynamic-fields', [ 'fields' => $fields ] ),
 			],
 		);

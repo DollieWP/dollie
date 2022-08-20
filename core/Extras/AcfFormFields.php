@@ -417,8 +417,8 @@ We\'ll walk you through all the steps required to link your own domain to your s
 					'message'           => '',
 					'default_value'     => 0,
 					'ui'                => 1,
-					'ui_on_text'        => '',
-					'ui_off_text'       => '',
+					'ui_on_text'        => 'Hide',
+					'ui_off_text'       => 'Show Advanced Settings',
 				),
 				array(
 					'key'               => 'field_5e6a1861b9025',
