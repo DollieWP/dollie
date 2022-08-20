@@ -14,17 +14,21 @@ if ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'custom' ) {
 			<div class="dol-flex dol-flex-wrap dol--mx-4 dol-my-2">
 				<div class="dol-w-full md:dol-w-3/5 lg:dol-w-2/3 dol-px-4 dol-text-md ">
 
-				<h2 class="dol-mb-3 dol-font-bold placeholder:dol-p-0 md:dol-text-xl">
-					<?php esc_html_e( 'Your purchase was successful!', 'dollie' ); ?>
-				</h2>
+				<?php if ( isset( $_GET['payment-status'] ) ) { ?>
 
-				<p class="dol-text-gray-500 dol-text-base dol-text-md dol-my-5">
-				<?php
-				printf(
-					'You can find your payment details in your <a href="%s">account overview</a> and in your email inbox. Now let\'s continue setting up your site...',
-					wc_get_account_endpoint_url('orders')
-				);
-				?>
+						<h2 class="dol-mb-3 dol-font-bold placeholder:dol-p-0 md:dol-text-xl">
+							<?php esc_html_e( 'Your purchase was successful!', 'dollie' ); ?>
+						</h2>
+
+						<p class="dol-text-gray-500 dol-text-base dol-text-md dol-my-5">
+						<?php
+						printf(
+							'You can find your payment details in your <a href="%s">account overview</a> and in your email inbox. Now let\'s continue setting up your site...',
+							wc_get_account_endpoint_url('orders')
+						);?>
+
+				<?php } ?>
+
 
 				<?php dollie()->load_template( 'widgets/launch/form', [ 'settings' => $settings ], true );?>
 				</div>
@@ -38,6 +42,7 @@ if ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'custom' ) {
 					<p class="dol-mt-3 dol-text-center ">
 					<?php echo $container->get_saved_description(); ?>
 					</p>
+					<a href="#"><?php esc_html_e( 'Choose another template..', 'dollie' ); ?></a>
 				</div>
 			</div>
 		</div>
