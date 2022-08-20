@@ -130,6 +130,12 @@ class LaunchSite extends Singleton implements ConstInterface {
 					$blueprint_hash = $container->get_hash();
 				}
 			}
+
+			// Remove the Blueprint cookie if it exists.
+			if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) ) {
+				setcookie( DOLLIE_BLUEPRINTS_COOKIE, '', time() - 3600, '/' );
+			}
+
 		}
 
 		$redirect = '';
