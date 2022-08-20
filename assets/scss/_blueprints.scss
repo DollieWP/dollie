@@ -1,6 +1,6 @@
 //Launch Site
-#form_dollie_launch_site {
 
+#form_dollie_launch_site {
 
     //Add Tailwind Grid
     .dollie-blueprints-listing ul.acf-radio-list {
@@ -68,6 +68,13 @@
       }
     }
   }
+}
+
+.dol-blueprint-launch-inner #form_dollie_launch_site {
+    .acf-input {
+        width: 100% !important;
+
+    }
 }
 
 .acf-field-repeater[data-name="wpd_dynamic_blueprint_data"] {

@@ -21,6 +21,7 @@ if ( isset( $_GET['payment-status'] ) ) {
 		],
 		true
 	);
+
 }
 
 if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
@@ -99,6 +100,12 @@ if ( dollie()->subscription()->site_limit_reached() ) {
 		],
 		true
 	);
+}
+
+if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && ! is_admin() ) {
+	//Custom Form Layout when launching a specific blueprint
+	dollie()->load_template( 'widgets/launch/blueprint-launch', [ 'settings' => $settings ], true );
+	return;
 }
 
 // Load form
