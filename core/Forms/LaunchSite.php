@@ -249,6 +249,9 @@ class LaunchSite extends Singleton implements ConstInterface {
 			$field['disabled']         = 1;
 		} elseif ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && ! is_admin() ) {
 			$field['value'] = (int) sanitize_text_field( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
+
+			//Cookie is found, hide Blueprints selectio
+			$field['wrapper']['class'] = 'acf-hidden';
 		}
 
 		return $field;
