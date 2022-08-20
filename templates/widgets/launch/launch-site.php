@@ -3,27 +3,6 @@ $subscription_vip = dollie()->subscription()->has_vip(get_current_user_id());
 $global_vip = get_field( 'wpd_enable_global_vip_sites', 'options' );
 $user = dollie()->get_user();
 
-if ( isset( $_GET['payment-status'] ) ) {
-	dollie()->load_template(
-		'notice',
-		[
-			'type'         => 'success',
-			'icon'         => 'fas fa-check',
-			'title'        => __( 'Your First Payment was successful!', 'dollie' ),
-			'message'      => __(
-				sprintf(
-					'You can find your payment details in your <a href="%s">account overview</a> and in your email inbox. Now let\'s continue setting up your site...',
-					wc_get_account_endpoint_url('orders')
-				),
-				'dollie'
-			),
-			'bottom_space' => true,
-		],
-		true
-	);
-
-}
-
 if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
 	dollie()->load_template(
 		'notice',
@@ -102,7 +81,7 @@ if ( dollie()->subscription()->site_limit_reached() ) {
 	);
 }
 
-if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && ! is_admin() ) {
+if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && ! is_admin() || isset( $_GET['payment-status'] ) ) {
 	//Custom Form Layout when launching a specific blueprint
 	dollie()->load_template( 'widgets/launch/blueprint-launch', [ 'settings' => $settings ], true );
 	return;

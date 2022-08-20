@@ -13,6 +13,19 @@ if ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'custom' ) {
 		<div class="dol-blueprint-launch-inner">
 			<div class="dol-flex dol-flex-wrap dol--mx-4 dol-my-2">
 				<div class="dol-w-full md:dol-w-3/5 lg:dol-w-2/3 dol-px-4 dol-text-md ">
+
+				<h2 class="dol-mb-3 dol-font-bold placeholder:dol-p-0 md:dol-text-xl">
+					<?php esc_html_e( 'Your purchase was successful!', 'dollie' ); ?>
+				</h2>
+
+				<p class="dol-text-gray-500 dol-text-base dol-text-md dol-my-5">
+				<?php
+				printf(
+					'You can find your payment details in your <a href="%s">account overview</a> and in your email inbox. Now let\'s continue setting up your site...',
+					wc_get_account_endpoint_url('orders')
+				);
+				?>
+
 				<?php dollie()->load_template( 'widgets/launch/form', [ 'settings' => $settings ], true );?>
 				</div>
 				<div class="dol-w-full md:dol-w-2/5 lg:dol-w-1/3 dol-rounded dol-overflow-hidden dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-p-6">

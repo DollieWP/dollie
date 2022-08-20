@@ -821,12 +821,10 @@ html {
   .acf-field textarea, 
   .acf-field select {
     border-radius: 0.25rem;
-    border-width: 2px;
+    border-width: 1px;
     border-style: solid;
     --tw-border-opacity: 1;
-    border-color: rgb(163 163 163 / var(--tw-border-opacity));
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
+    border-color: rgb(229 229 229 / var(--tw-border-opacity));
     padding-top: 0.5rem !important;
     padding-bottom: 0.5rem !important; }
 .acf-form .acf-field .acf-label label {
@@ -871,8 +869,8 @@ html {
     border-width: 0px;
     padding-top: 0px;
     padding-bottom: 0px;
-    padding-left: 1rem;
-    padding-right: 1rem; }
+    padding-left: 0px;
+    padding-right: 0px; }
 .acf-form .acf-fields > .acf-field .acf-label label {
     font-weight: 600;
     --tw-text-opacity: 1;
@@ -962,8 +960,8 @@ html {
     margin-top: 1rem;
     padding-top: 0px;
     padding-bottom: 0px;
-    padding-left: 1rem;
-    padding-right: 1rem; }
+    padding-left: 0px;
+    padding-right: 0px; }
 .acf-form .acf-form-submit input, 
     .acf-form .acf-form-submit button {
     border-radius: 0.25rem;
@@ -1677,6 +1675,9 @@ input[type="text"].dol-search-input:focus {
 .dol--mx-4 {
     margin-left: -1rem;
     margin-right: -1rem; }
+.dol-my-5 {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem; }
 .dol-my-3 {
     margin-top: 0.75rem;
     margin-bottom: 0.75rem; }
@@ -2601,6 +2602,10 @@ input[type="text"].dol-search-input:focus {
     cookies: protected; }
 .\[filename\:protected\] {
     filename: protected; }
+.placeholder\:dol-p-0::-moz-placeholder {
+    padding: 0px; }
+.placeholder\:dol-p-0::placeholder {
+    padding: 0px; }
 .last\:dol-border-0:last-child {
     border-width: 0px; }
 .odd\:dol-bg-white:nth-child(odd) {
@@ -3112,7 +3117,7 @@ input[type="text"].dol-search-input:focus {
     background: #39bc9c; }
 
 .dol-blueprint-launch-inner #form_dollie_launch_site .acf-input {
-  width: 100% !important; }
+  width: 85% !important; }
 
 .acf-field-repeater[data-name="wpd_dynamic_blueprint_data"] {
   padding-left: 0 !important;
@@ -10645,8 +10650,6 @@ body[class*="dollie_setup"] .af-submit.acf-form-submit .btn.btn-primary {
 body[class*="dollie_setup"] .acf-form .acf-fields > .acf-field {
   margin-bottom: 1rem;
   border-width: 0px;
-  padding: 0px 1rem;
-  border-bottom: 1px solid #f5f5f5;
   padding-bottom: 30px; }
 
 .wpd-wizard-page .acf-field-620bcff318df1 .acf-true-false,
