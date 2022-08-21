@@ -167,6 +167,13 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 						'value'    => 'download',
 					],
 				],
+				[
+					[
+						'param'    => 'user_form',
+						'operator' => '==',
+						'value'    => 'edit',
+					],
+				],
 			],
 			'menu_order'            => 0,
 			'position'              => 'normal',
