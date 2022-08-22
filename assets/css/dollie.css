@@ -3192,6 +3192,22 @@ input[type="text"].dol-search-input:focus {
         font-size: 0.875rem;
         line-height: 1.25rem; } }
 
+#form_dollie_launch_site .wpd-blueprint-dynamic .dol-half-width {
+  width: 50%; }
+
+#form_dollie_launch_site .wpd-blueprint-dynamic .dol-third-width {
+  width: 33%; }
+
+#form_dollie_launch_site .wpd-blueprint-dynamic .dol-half-width, #form_dollie_launch_site .wpd-blueprint-dynamic .dol-third-width {
+  float: left;
+  display: inline-block;
+  clear: none; }
+  #form_dollie_launch_site .wpd-blueprint-dynamic .dol-half-width .acf-input, #form_dollie_launch_site .wpd-blueprint-dynamic .dol-third-width .acf-input {
+    width: 95% !important; }
+  #form_dollie_launch_site .wpd-blueprint-dynamic .dol-half-width::after, #form_dollie_launch_site .wpd-blueprint-dynamic .dol-third-width::after {
+    clear: none;
+    display: inline; }
+
 /*!
  * Font Awesome Pro 5.11.2 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license (Commercial License)

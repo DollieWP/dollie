@@ -160,3 +160,26 @@
         }
     }
 }
+
+#form_dollie_launch_site .wpd-blueprint-dynamic {
+    .dol-half-width {
+        width: 50%;
+    }
+    .dol-third-width {
+        width: 33%;
+    }
+
+    .dol-half-width, .dol-third-width {
+        float: left;
+        display: inline-block;
+        clear: none;
+
+        .acf-input {
+            width: 95% !important;
+        }
+        &::after {
+            clear: none;
+            display: inline;
+        }
+    }
+}

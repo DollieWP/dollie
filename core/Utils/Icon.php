@@ -18,7 +18,7 @@ final class Icon extends Singleton {
 	}
 
 	public function blueprint( $classes = null ) {
-		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_blueprint', '<i class="fas fa-sync-alt"></i>' ) . '</span>';
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_blueprint', '<i class="fas fa-clone"></i>' ) . '</span>';
 	}
 
 	public function staging( $classes = null ) {

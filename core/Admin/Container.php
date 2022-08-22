@@ -27,6 +27,10 @@ final class Container extends Singleton implements ConstInterface {
 			add_action( 'admin_menu', [ $this, 'submenus' ], 99 );
 			add_action( 'admin_menu', [ $this, 'add_blueprint_submenu' ], 1 );
 			add_action( 'admin_menu', [ $this, 'add_extra_menu_links' ], 100 );
+
+			add_action('auth_redirect', [$this, 'add_site_icon_filter' ]); // modify esc_attr on auth_redirect
+			add_action('admin_menu', [$this,'remove_site_icon_filter']); // restore on admin_menu (very soon)
+
 		}
 
 		add_filter( 'custom_menu_order', [ $this, 'custom_menu_order' ] );
@@ -61,7 +65,7 @@ final class Container extends Singleton implements ConstInterface {
 		$post_type_labels = [
 			'name'                  => _x( 'Sites', 'dollie', 'dollie' ),
 			'singular_name'         => _x( 'Site', 'dollie', 'dollie' ),
-			'menu_name'             => __( 'Sites', 'dollie' ),
+			'menu_name'             => __( '%%ICON%% Sites', 'dollie' ),
 			'name_admin_bar'        => __( 'Post Type', 'dollie' ),
 			'archives'              => __( 'Site Archives', 'dollie' ),
 			'attributes'            => __( 'Site Attributes', 'dollie' ),
@@ -218,11 +222,11 @@ final class Container extends Singleton implements ConstInterface {
 	public function add_blueprint_submenu() {
 		add_menu_page(
 			'admin_menu_add_blueprints',
-			'Blueprints',
+			dollie()->icon()->blueprint() . 'Blueprints',
 			'read',
 			admin_url( 'edit.php?post_type=container&blueprint=yes' ),
 			'',
-			'dashicons-cover-image',
+			'',
 			1
 		);
 	}
@@ -341,7 +345,7 @@ final class Container extends Singleton implements ConstInterface {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => esc_html__( 'Sites', 'dollie' ),
+				'title'  => dollie()->icon()->site(). esc_html__( 'Sites', 'dollie' ),
 				'id'     => 'dab-sites',
 				'href'   => '',
 				'meta'   => [ 'target' => '' ],
@@ -806,6 +810,42 @@ final class Container extends Singleton implements ConstInterface {
 
 		return $query;
 	}
+
+
+	/**
+	 * Add Site Icon Menu hook
+	 */
+	public function add_site_icon_filter() {
+		add_filter( 'attribute_escape', [ $this, 'add_site_icon' ], 20, 2 );
+	}
+
+	/**
+	 * Remove Site Icon Menu hook
+	 */
+	public function remove_site_icon_filter() {
+		remove_filter( 'attribute_escape', [ $this, 'add_site_icon' ], 20, 2 );
+	}
+
+
+	/**
+	 * Add Site Icon to Menu
+	 */
+	public function add_site_icon( $safe_text = '', $text = '' ) {
+		if ( substr_count($text, '%%ICON%%') ) {
+			$text = trim( str_replace('%%ICON%%', '', $text) );
+			// run only once!
+			remove_filter('attribute_escape', 'add_site_icon', 20, 2);
+			$safe_text = esc_attr($text);
+			// remember to set the right cpt name below
+
+			// we have pending, add the count
+			$text = dollie()->icon()->site() . esc_attr($text) ;
+			return $text;
+		}
+
+		return $safe_text;
+	}
+
 
 	/**
 	 * Update posts counter for blueprints
