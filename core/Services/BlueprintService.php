@@ -80,14 +80,7 @@ final class BlueprintService extends Singleton {
 			return;
 		}
 
-		$customizer = dollie()->load_template(
-			'notice',
-			[
-				'icon'    => 'fas fa-exclamation-circle',
-				'title'   => __( 'About you..', 'dollie' ),
-				'message' => dollie()->load_template( 'notices/dynamic-fields', [ 'fields' => $fields ] ),
-			],
-		);
+		$customizer = dollie()->load_template( 'notices/dynamic-fields', [ 'fields' => $fields ] );
 
 		wp_send_json_success(
 			[
