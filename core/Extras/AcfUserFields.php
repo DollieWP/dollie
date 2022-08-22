@@ -114,26 +114,6 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'layout'            => 'horizontal',
 					'return_format'     => 'value',
 				),
-				array(
-					'key'               => 'field_5fb3b53ff744467',
-					'label'             => __( 'Launch Sites as VIP', 'dollie' ),
-					'name'              => 'user_launch_as_vip',
-					'type'              => 'true_false',
-					'instructions'      => __( 'Check this box if you want to launch each (new) site of this customer automatically as a VIP site', 'dollie' ),
-					'required'          => 0,
-					'wrapper'           => array(
-						'width' => '',
-						'class' => '',
-						'id'    => '',
-					),
-					'hide_admin'        => 0,
-					'dollie_admin_only' => 1,
-					'message'           => '',
-					'default_value'     => 0,
-					'ui'                => 1,
-					'ui_on_text'        => '',
-					'ui_off_text'       => '',
-				),
 			),
 			'location'              => array(
 				array(

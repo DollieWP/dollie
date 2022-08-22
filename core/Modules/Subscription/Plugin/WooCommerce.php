@@ -16,7 +16,7 @@ use Dollie\Core\Singleton;
 class WooCommerce extends Singleton implements SubscriptionInterface {
 
 	const
-		SUB_STATUS_ANY    = 'any',
+		SUB_STATUS_ANY = 'any',
 		SUB_STATUS_ACTIVE = 'active';
 
 	/**
@@ -137,7 +137,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	/**
 	 * Get subscriptions for customer
 	 *
-	 * @param string   $status
+	 * @param string $status
 	 * @param null|int $customer_id
 	 *
 	 * @return array|bool
@@ -208,15 +208,9 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 				$max_size = get_field( '_wpd_max_size', $id );
 				$staging  = get_field( '_wpd_staging_installs', $id );
 
-				//VIP
-				$vip  = get_field( '_wpd_woo_launch_as_vip', $id );
 
 				if ( ! $staging ) {
 					$staging = 0;
-				}
-
-				if ( ! $vip ) {
-					$vip = 0;
 				}
 
 				if ( ! $max_size ) {
@@ -235,9 +229,10 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 				$data['resources']['max_allowed_installs'] += $installs * $quantity;
 				$data['resources']['max_allowed_size']     += $max_size * $quantity;
-				$data['resources']['name']                  = $item_data['name'];
+				$data['resources']['name']                 = $item_data['name'];
 				$data['resources']['staging_max_allowed']  += $staging * $quantity;
-				$data['resources']['launch_as_vip']  	    = $vip;
+
+				$data = apply_filters( 'dollie/woo/subscription_product_data', $data, $customer_id, $id );
 			}
 		}
 
@@ -245,7 +240,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			set_transient( $transient, $data, 30 );
 		}
 
-		return $data;
+		return apply_filters( 'dollie/woo/subscription_data', $data, $customer_id );
 	}
 
 	/**
@@ -322,7 +317,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 *
 	 * @return bool
 	 */
-	public function vip_status($user_id = null) {
+	public function vip_status( $user_id = null ) {
 		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
 
 		if ( ! $subscription ) {
@@ -415,7 +410,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 */
 	public function get_blueprints_exception( $type = 'excluded' ) {
 		$data          = [];
-		$type         .= '_blueprints';
+		$type          .= '_blueprints';
 		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
 
 		if ( empty( $subscriptions ) ) {

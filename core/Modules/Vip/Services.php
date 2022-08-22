@@ -195,15 +195,15 @@ final class Services extends Singleton {
 
 
 		//forms
-		$fields = [
+		$fields      = [
 			array(
-				'key'               => 'field_5fb3b53ff744632',
-				'label'             => __( 'Launch as VIP Site', 'dollie' ),
-				'name'              => 'launch_as_vip',
-				'type'              => 'true_false',
-				'instructions'      => __( 'Launch this site as a VIP site', 'dollie' ),
-				'required'          => 0,
-				'conditional_logic' => array(
+				'key'                      => 'field_5fb3b53ff744632',
+				'label'                    => __( 'Launch as VIP Site', 'dollie' ),
+				'name'                     => 'launch_as_vip',
+				'type'                     => 'true_false',
+				'instructions'             => __( 'Launch this site as a VIP site', 'dollie' ),
+				'required'                 => 0,
+				'conditional_logic'        => array(
 					array(
 						array(
 							'field'    => 'field_601a8d9bc4b42',
@@ -212,49 +212,74 @@ final class Services extends Singleton {
 						),
 					),
 				),
-				'wrapper'           => array(
+				'wrapper'                  => array(
 					'width' => '',
 					'class' => '',
 					'id'    => '',
 				),
-				'hide_admin'        => 0,
+				'hide_admin'               => 0,
 				'dollie_vip_addon_enabled' => 1,
-				'message'           => '',
-				'default_value'     => 0,
-				'ui'                => 1,
-				'ui_on_text'        => '',
-				'ui_off_text'       => '',
+				'message'                  => '',
+				'default_value'            => 0,
+				'ui'                       => 1,
+				'ui_on_text'               => '',
+				'ui_off_text'              => '',
 			)
 		];
 		$field_group = dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5e6a176c384ee', 'advanced_settings', 'before' );
 
-		$fields = [
+		$fields      = [
 			array(
-				'key'               => 'field_5fb3b53ff7gty4463djgj2',
-				'label'             => __( 'Always Launch as VIP Site', 'dollie' ),
-				'name'              => 'launch_blueprint_as_vip',
-				'type'              => 'true_false',
-				'instructions'      => __( 'When someone launches a site based on this Blueprint it will be automatically marked as VIP', 'dollie' ),
-				'required'          => 0,
-				'wrapper'           => array(
+				'key'                      => 'field_5fb3b53ff7gty4463djgj2',
+				'label'                    => __( 'Always Launch as VIP Site', 'dollie' ),
+				'name'                     => 'launch_blueprint_as_vip',
+				'type'                     => 'true_false',
+				'instructions'             => __( 'When someone launches a site based on this Blueprint it will be automatically marked as VIP', 'dollie' ),
+				'required'                 => 0,
+				'wrapper'                  => array(
 					'width' => '',
 					'class' => '',
 					'id'    => '',
 				),
-				'hide_admin'        => 0,
+				'hide_admin'               => 0,
 				'dollie_vip_addon_enabled' => 1,
-				'message'           => '',
-				'default_value'     => 0,
-				'ui'                => 1,
-				'ui_on_text'        => '',
-				'ui_off_text'       => '',
+				'message'                  => '',
+				'default_value'            => 0,
+				'ui'                       => 1,
+				'ui_on_text'               => '',
+				'ui_off_text'              => '',
 			),
 			array(
-				'key'               => 'field_5fb3bsa53ff7gty4463djgj2',
-				'label'             => __( 'Only show to VIP Users', 'dollie' ),
-				'name'              => 'show_blueprint_to_vip',
+				'key'                      => 'field_5fb3bsa53ff7gty4463djgj2',
+				'label'                    => __( 'Only show to VIP Users', 'dollie' ),
+				'name'                     => 'show_blueprint_to_vip',
+				'type'                     => 'true_false',
+				'instructions'             => __( 'Only show this Blueprint to users who have VIP access. Note - The Blueprint will still be shown in your Blueprint Listings', 'dollie' ),
+				'required'                 => 0,
+				'wrapper'                  => array(
+					'width' => '',
+					'class' => '',
+					'id'    => '',
+				),
+				'hide_admin'               => 0,
+				'dollie_vip_addon_enabled' => 1,
+				'message'                  => '',
+				'default_value'            => 0,
+				'ui'                       => 1,
+				'ui_on_text'               => '',
+				'ui_off_text'              => '',
+			),
+		];
+		$field_group = dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5affdcd76c8d1', 'wpd_blueprint_custom_image', 'after' );
+
+		// users
+		$fields = [
+			array(
+				'key'               => 'field_5fb3b53ff744467',
+				'label'             => __( 'Launch Sites as VIP', 'dollie' ),
+				'name'              => 'user_launch_as_vip',
 				'type'              => 'true_false',
-				'instructions'      => __( 'Only show this Blueprint to users who have VIP access. Note - The Blueprint will still be shown in your Blueprint Listings', 'dollie' ),
+				'instructions'      => __( 'Check this box if you want to launch each (new) site of this customer automatically as a VIP site', 'dollie' ),
 				'required'          => 0,
 				'wrapper'           => array(
 					'width' => '',
@@ -262,7 +287,7 @@ final class Services extends Singleton {
 					'id'    => '',
 				),
 				'hide_admin'        => 0,
-				'dollie_vip_addon_enabled' => 1,
+				'dollie_admin_only' => 1,
 				'message'           => '',
 				'default_value'     => 0,
 				'ui'                => 1,
@@ -270,11 +295,47 @@ final class Services extends Singleton {
 				'ui_off_text'       => '',
 			),
 		];
-		$field_group = dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5affdcd76c8d1', 'wpd_blueprint_custom_image', 'after' );
+
+		$field_group = dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5efc4bbc3849b', 'wpd_client_site_permissions', 'after' );
 
 		return $field_group;
 
 	}
 
+	public function add_woo_product_resource( $data, $customer_id, $product_id ) {
+
+		$vip = get_field( '_wpd_woo_launch_as_vip', $product_id );
+
+		if ( ! $vip ) {
+			$vip = 0;
+		}
+
+		//Update only to true. Don't override it with false values
+		if ( ! isset( $data['resources']['launch_as_vip'] ) || ! $data['resources']['launch_as_vip'] ) {
+			$data['resources']['launch_as_vip'] = $vip;
+		}
+
+		return $data;
+
+	}
+
+	public function add_deploy_meta( $meta_input, $data ) {
+		if ( ! empty( $data['vip'] ) ) {
+			$meta_input['dollie_vip_site'] = $data['vip'];
+		}
+
+		return $meta_input;
+	}
+
+	public function blueprints_skip_from_list( $skip, $container ) {
+		$subscription_vip = dollie()->subscription()->has_vip( get_current_user_id() );
+
+		if (! $subscription_vip && $container->is_vip() ) {
+			$skip = true;
+		}
+
+		return $skip;
+
+	}
 
 }

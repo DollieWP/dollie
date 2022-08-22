@@ -96,9 +96,7 @@ final class DeployService extends Singleton implements ConstInterface {
 			$meta_input['dollie_launch_redirect'] = $data['redirect'];
 		}
 
-		if ( ! empty( $data['vip'] ) ) {
-			$meta_input['dollie_vip_site'] = $data['vip'];
-		}
+		$meta_input = apply_filters( 'dollie/deploy/meta_input', $meta_input, $data );
 
 		$post_id = wp_insert_post(
 			[

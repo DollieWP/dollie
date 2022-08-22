@@ -70,7 +70,7 @@ final class BlueprintService extends Singleton {
 
 		$fields = array_filter(
 			$fields,
-			function( $v, $k ) {
+			function ( $v, $k ) {
 				return ! empty( $v['placeholder'] );
 			},
 			ARRAY_FILTER_USE_BOTH
@@ -159,7 +159,7 @@ final class BlueprintService extends Singleton {
 
 		$missing_fields = array_filter(
 			$response,
-			function( $value ) {
+			function ( $value ) {
 				return false === $value;
 			}
 		);
@@ -182,14 +182,12 @@ final class BlueprintService extends Singleton {
 	 */
 	public function get( string $type = null ): array {
 
-
-
 		$data = [];
 
 		$posts = get_posts(
 			[
 				'post_type'      => 'container',
-				'posts_per_page' => -1,
+				'posts_per_page' => - 1,
 				'meta_query'     => [
 					'relation' => 'AND',
 					[
@@ -206,9 +204,16 @@ final class BlueprintService extends Singleton {
 
 		foreach ( $posts as $post ) {
 			$container = dollie()->get_container( $post );
-			$subscription_vip = dollie()->subscription()->has_vip(get_current_user_id());
+			$skip_this = apply_filters( 'dollie/blueprints/skip_list', false, $container );
 
-			if ( is_wp_error( $container ) || ! $container->is_blueprint() || $container->is_private() || ! $container->is_updated() || ! $container->get_saved_title() || $container->is_vip() && ! $subscription_vip ) {
+			if (
+				$skip_this ||
+				is_wp_error( $container ) ||
+				! $container->is_blueprint() ||
+				$container->is_private() ||
+				! $container->is_updated() ||
+				! $container->get_saved_title()
+			) {
 				continue;
 			}
 
