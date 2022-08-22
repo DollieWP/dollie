@@ -1,4 +1,10 @@
 <?php
+global $pagenow;
+if (( $pagenow == 'post.php' ) && ($_GET['post_type'] == 'product')) {
+	$user = 'a subscriber';
+} else {
+	$user = 'this customer';
+}
 
 if ( function_exists( 'acf_add_local_field_group' ) ) :
 
@@ -28,7 +34,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'label'             => __( 'Number of Sites', 'dollie' ),
 					'name'              => '_wpd_installs',
 					'type'              => 'number',
-					'instructions'      => __( 'How many sites can a customer deploy when subscribed to this product?', 'dollie' ),
+					'instructions'      => sprintf( esc_html__( 'How many sites can %s launch?', 'dollie' ), $user),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => [
@@ -50,7 +56,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'label'             => __( 'Disk Space', 'dollie' ),
 					'name'              => '_wpd_max_size',
 					'type'              => 'number',
-					'instructions'      => __( 'The amount of space customer can use when subscribed to this product.', 'dollie' ),
+					'instructions'      => sprintf( esc_html__( 'How much space can %s use for all their sites combined?',  'dollie'), $user),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => [
@@ -72,7 +78,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'label' => __('Staging Sites', 'dollie'),
 					'name' => '_wpd_staging_installs',
 					'type' => 'number',
-					'instructions' => '',
+					'instructions'      => sprintf( esc_html__( 'How many staging sites can %s launch?',  'dollie'), $user),
 					'required' => 0,
 					'conditional_logic' => 0,
 					'wrapper' => array(
@@ -107,10 +113,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				],
 				[
 					'key'               => 'field_5e2c1adcc1543',
-					'label'             => __( 'Included Blueprints', 'dollie' ),
+					'label'             => __( 'Allowed Blueprints', 'dollie' ),
 					'name'              => '_wpd_included_blueprints',
 					'type'              => 'relationship',
-					'instructions'      => __( 'Select which of your Blueprints are allowed to be deployed when a customer has an active subscription to this product.', 'dollie' ),
+					'instructions'      => sprintf( 'Select which of your Blueprints are <strong>allowed</strong> to be launched by %s',  'dollie'), $user,
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => [
@@ -130,10 +136,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				],
 				[
 					'key'               => 'field_5e2c1b94c1544',
-					'label'             => __( 'Excluded Blueprints', 'dollie' ),
+					'label'             => __( 'Disallowed Blueprints', 'dollie' ),
 					'name'              => '_wpd_excluded_blueprints',
 					'type'              => 'relationship',
-					'instructions'      => __( 'Select which of your Blueprints can not be chosen when a customer has an active subscription to this product. Use this setting if you have a lot of blueprints and only want to restrict access to a couple of them.', 'dollie' ),
+					'instructions'     	=> sprintf( 'Select which of your Blueprints can <strong>not allowed</strong> by %s. Use this setting if you have a lot of blueprints and only want to restrict access to a couple of them.',  'dollie', $user),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => [
@@ -151,6 +157,47 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'max'               => '',
 					'return_format'     => 'id',
 				],
+<<<<<<< HEAD
+=======
+				[
+					'key'               => 'field_5e2c1ac7246a2',
+					'label'             => __( 'VIP Sites', 'dollie' ),
+					'name'              => '',
+					'type'              => 'tab',
+					'instructions'      => '',
+					'required'          => 0,
+					'dollie_vip_addon_enabled' => 1,
+					'conditional_logic' => 0,
+					'wrapper'           => [
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					],
+					'placement'         => 'top',
+					'endpoint'          => 0,
+				],
+				array(
+					'key'               => 'field_5fb3b46351578',
+					'label'             => __( 'Allow VIP Sites', 'dollie' ),
+					'name'              => '_wpd_woo_launch_as_vip',
+					'type'              => 'true_false',
+					'instructions'      => sprintf( esc_html__( 'When enabled for %s all of their sites will automatically be VIP sites. Please look at the VIP Sites documentation to learn more.',  'dollie'), $user),
+					'required'          => 0,
+					'wrapper'           => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'hide_admin'        => 0,
+					'dollie_admin_only' => 1,
+					'dollie_vip_addon_enabled' => 1,
+					'message'           => '',
+					'default_value'     => 0,
+					'ui'                => 1,
+					'ui_on_text'        => '',
+					'ui_off_text'       => '',
+				)
+>>>>>>> Contextual text based on subscriber or user edit.
 			],
 			'location'              => [
 				[
