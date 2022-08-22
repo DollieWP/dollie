@@ -2,8 +2,10 @@
 global $pagenow;
 if (( $pagenow == 'post.php' ) && ($_GET['post_type'] == 'product')) {
 	$user = 'a subscriber';
+	$user_instructions = '';
 } else {
 	$user = 'this customer';
+	$user_instructions = '<br><br><strong> Set this to -1<strong/> to prevent this customer from launching more sites';
 }
 
 if ( function_exists( 'acf_add_local_field_group' ) ) :
@@ -34,7 +36,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'label'             => __( 'Number of Sites', 'dollie' ),
 					'name'              => '_wpd_installs',
 					'type'              => 'number',
-					'instructions'      => sprintf( esc_html__( 'How many sites can %s launch?', 'dollie' ), $user),
+					'instructions'      => sprintf( esc_html__( 'How many sites can %s launch?', 'dollie' ), $user) . $user_instructions,
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => [
