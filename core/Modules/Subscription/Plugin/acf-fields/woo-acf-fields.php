@@ -159,47 +159,6 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'max'               => '',
 					'return_format'     => 'id',
 				],
-<<<<<<< HEAD
-=======
-				[
-					'key'               => 'field_5e2c1ac7246a2',
-					'label'             => __( 'VIP Sites', 'dollie' ),
-					'name'              => '',
-					'type'              => 'tab',
-					'instructions'      => '',
-					'required'          => 0,
-					'dollie_vip_addon_enabled' => 1,
-					'conditional_logic' => 0,
-					'wrapper'           => [
-						'width' => '',
-						'class' => '',
-						'id'    => '',
-					],
-					'placement'         => 'top',
-					'endpoint'          => 0,
-				],
-				array(
-					'key'               => 'field_5fb3b46351578',
-					'label'             => __( 'Allow VIP Sites', 'dollie' ),
-					'name'              => '_wpd_woo_launch_as_vip',
-					'type'              => 'true_false',
-					'instructions'      => sprintf( esc_html__( 'When enabled for %s all of their sites will automatically be VIP sites. Please look at the VIP Sites documentation to learn more.',  'dollie'), $user),
-					'required'          => 0,
-					'wrapper'           => array(
-						'width' => '',
-						'class' => '',
-						'id'    => '',
-					),
-					'hide_admin'        => 0,
-					'dollie_admin_only' => 1,
-					'dollie_vip_addon_enabled' => 1,
-					'message'           => '',
-					'default_value'     => 0,
-					'ui'                => 1,
-					'ui_on_text'        => '',
-					'ui_off_text'       => '',
-				)
->>>>>>> Contextual text based on subscriber or user edit.
 			],
 			'location'              => [
 				[
