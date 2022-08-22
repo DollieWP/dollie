@@ -1,10 +1,11 @@
 <?php
-
 if ( ! isset( $fields ) ) {
 	return;
 }
 
 ?>
+
+<div class="dol-real-time-customizer dol-mb-6">
 
 <div>
 	<?php esc_html_e( 'Please fill in the fields below. We will use this information populate your new site automatically.', 'dollie' ); ?>
@@ -13,6 +14,15 @@ if ( ! isset( $fields ) ) {
 <?php foreach ( $fields as $field ) :
 	$description = isset( $field['description'] ) ? $field['description'] : '';
 	$section = isset( $field['section_title'] ) ? $field['section_title'] : '';
+	$width = isset( $field['width'] ) ? $field['width'] : '';
+
+	if ( $width == '50-width') {
+		$width = 'dol-half-width';
+	} elseif ( $width == '33-width') {
+		$width = 'dol-third-width"';
+	} else {
+		$width = 'dol-full-width"';
+	}
 	?>
 
 	<?php if ( $section) : ?>
@@ -21,7 +31,7 @@ if ( ! isset( $fields ) ) {
 		</div>
 	<?php endif; ?>
 
-	<div class="acf-field-text acf-field dol-<?php echo esc_attr( $field['width'] ); ?> <?php echo esc_attr( $field['css_class'] ); ?>">
+	<div class="acf-field-text acf-field dol-<?php echo esc_attr( $field['width'] ); ?> <?php echo esc_attr( $field['css_class'] ); ?> <?php echo $width;?>">
 		<div class="af-label acf-label">
 			<label><?php echo esc_html( $field['name'] ); ?></label>
 
@@ -39,3 +49,5 @@ if ( ! isset( $fields ) ) {
 		</div>
 	</div>
 <?php endforeach; ?>
+
+</div>
