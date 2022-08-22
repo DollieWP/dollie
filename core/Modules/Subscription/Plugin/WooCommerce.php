@@ -421,14 +421,12 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 		//Check if user has custom limits
 		if ( get_field('_wpd_max_size', 'user_'.$customer_id) ) {
-
 			$allowed_size = get_field('_wpd_max_size', 'user_'.$customer_id);
 
 			$total_size   = dollie()->insights()->get_total_container_size();
 			$allowed_size = $allowed_size * 1024 * 1024 * 1024;
 
 			return $total_size >= $allowed_size && ! current_user_can( 'manage_options' );
-
 		}
 
 		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
@@ -609,14 +607,42 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			return $blueprints;
 		}
 
+		$customer_id = get_current_user_id();
 		if ( ! empty( $blueprints ) ) {
-			$included = $this->get_blueprints_exception( 'included' );
+
+			$sub_included = $this->get_blueprints_exception( 'included' );
+
+			if ( get_field('_wpd_included_blueprints', 'user_'.$customer_id) ) {
+				$user_included_blueprints = get_field('_wpd_included_blueprints', 'user_'.$customer_id);
+				if ( ! empty( $sub_included ) ) {
+					$included = array_merge($sub_included, $user_included_blueprints);
+				} else {
+					$excluded = $user_included_blueprints;
+				}
+			} else {
+				$included = $sub_included;
+			}
+
 
 			if ( ! empty( $included ) ) {
 				return array_intersect_key( $blueprints, $included );
 			}
 
-			$excluded = $this->get_blueprints_exception();
+			$sub_excluded = $this->get_blueprints_exception();
+
+			if ( get_field('_wpd_excluded_blueprints', 'user_'.$customer_id) ) {
+
+				$user_excluded_blueprints = get_field('_wpd_excluded_blueprints', 'user_'.$customer_id);
+				if ( ! empty( $sub_excluded ) ) {
+					$excluded = array_merge($sub_excluded, $user_excluded_blueprints);
+				} else {
+					$excluded = $user_excluded_blueprints;
+				}
+
+			} else {
+				$excluded = $sub_excluded;
+			}
+
 
 			if ( ! empty( $excluded ) ) {
 				foreach ( $excluded as $bp_id ) {
