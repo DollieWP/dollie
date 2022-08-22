@@ -1,4 +1,4 @@
-<?php if ( class_exists( 'WooCommerce' ) && get_option( 'options_wpd_charge_for_deployments' ) === '1' ) : ?>
+<?php if ( class_exists( 'WooCommerce' ) && get_option( 'options_wpd_charge_for_deployments' ) == '1' ) : ?>
 	<div class="dol-widget-subscription dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden">
 		<div class="dol-widget-title-section dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary">
 			<h4 class="dol-text-white dol-text-lg dol-m-0">
@@ -22,7 +22,7 @@
 							</div>
 						</li>
 					<?php endforeach; ?>
-	
+
 					<?php do_action( 'dollie/after/subscription/list' ); ?>
 				</ul>
 			<?php else : ?>

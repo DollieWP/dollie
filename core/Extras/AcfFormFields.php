@@ -389,7 +389,7 @@ We\'ll walk you through all the steps required to link your own domain to your s
 					'default_value'     => 0,
 					'ui'                => 1,
 					'ui_on_text'        => 'Hide',
-					'ui_off_text'       => 'Show Advanced Settings',
+					'ui_off_text'       => 'Show',
 				),
 				array(
 					'key'               => 'field_5e6a1861b9025',
@@ -410,6 +410,42 @@ We\'ll walk you through all the steps required to link your own domain to your s
 					'prepend'           => '',
 					'append'            => '',
 				),
+
+				array(
+					'key'               => 'field_5fb3b53ff744632',
+					'label'             => __( 'Launch as VIP Site', 'dollie' ),
+					'name'              => 'launch_as_vip',
+					'type'              => 'true_false',
+					'instructions'      => __( 'Launch this site as a VIP site', 'dollie' ),
+					'required'          => 0,
+					'conditional_logic' => array(
+						array(
+							array(
+								'field'    => 'field_601a8d9bc4b42',
+								'operator' => '==',
+								'value'    => 'site',
+							),
+							array(
+								'field'    => 'field_5fb3b53ff7445',
+								'operator' => '==',
+								'value'    => '1',
+							),
+						),
+					),
+					'wrapper'           => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'hide_admin'        => 0,
+					'dollie_vip_addon_enabled' => 1,
+					'message'           => '',
+					'default_value'     => 0,
+					'ui'                => 1,
+					'ui_on_text'        => '',
+					'ui_off_text'       => '',
+				),
+
 				array(
 					'key'               => 'field_620f5526c41eb',
 					'label'             => __( 'Assign to Customer', 'dollie' ),

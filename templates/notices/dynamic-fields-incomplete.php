@@ -1,5 +1,5 @@
 <div class="dol-w-full dol-items-center dol-px-4 dol-py-2 dol-text-base dol-leading-6 dol-rounded dol-text-white dol-bg-red-500">
-	<div class="dol-font-bold"><?php esc_html_e( 'The following fields were not found in the blueprint:', 'dollie' ); ?></div>
+	<div class="dol-font-bold"><?php esc_html_e( 'The following placeholders were not found in your blueprint:', 'dollie' ); ?></div>
 
 	<ul>
 		<?php foreach ( $fields as $placeholder => $status ) : ?>
@@ -8,6 +8,6 @@
 	</ul>
 
 	<div class="dol-mt-4 dol-text-sm dol-medium">
-		<?php esc_html_e( 'Make sure you add the missing fields into your blueprint or completly remove them from the customizer\'s fields and then update it.', 'dollie' ); ?>
+		<?php esc_html_e( 'Please verify that all the Placeholders you have added are actually used inside your Blueprint. You can also remove them completely and then update your Blueprint.', 'dollie' ); ?>
 	</div>
 </div>

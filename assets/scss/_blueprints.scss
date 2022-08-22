@@ -16,81 +16,73 @@
         @apply dol-bg-primary dol-text-white #{!important};
     }
 
-    // .af-field-advanced-settings {
-    //     .af-label.acf-label {
-    //         display: none !important;
-    //     }
-    //     .acf-switch.-on .acf-switch-on {
-    //         min-width: 35px !important;
-    //     }
-    // }
-
     //Add Tailwind Grid
     .dollie-blueprints-listing ul.acf-radio-list {
-            @apply dol-container dol-grid md:dol-grid-cols-2 lg:dol-grid-cols-4 dol-gap-2 dol-mx-auto #{!important};
+        @apply dol-container dol-grid md:dol-grid-cols-2 lg:dol-grid-cols-4 dol-gap-2 dol-mx-auto #{!important};
 
-            &::before {
-                display: none !important;
-            }
+        &::before {
+            display: none !important;
+        }
     }
 
     .acf-bl label {
-            padding: 5px;
-        }
-
-  .acf-radio-list {
-    label {
-      display: inherit !important;
-      text-align: center;
+        padding: 5px;
     }
 
-
-    li {
-      float: left;
-      list-style: none;
-      padding: 5px;
-
-      &:hover {
-        padding: 5px;
-      }
+    .acf-radio-list {
+        label {
+            display: inherit !important;
+            text-align: center;
+        }
 
 
-      label.selected {
-        font-weight: 700;
-        @apply dol-bg-green-500;
-        color: rgb(255, 255, 255);
-        border-radius: 4px;
-        padding: 5px;
+        li {
+            float: left;
+            list-style: none;
+            padding: 5px;
+
+            &:hover {
+                padding: 5px;
+            }
+
+
+            label.selected {
+                font-weight: 700;
+                @apply dol-bg-green-500;
+                color: rgb(255, 255, 255);
+                border-radius: 4px;
+                padding: 5px;
+
+                img.fw-blueprint-screenshot {
+                    opacity: 1;
+                }
+            }
+
+            input {
+                display: none !important;
+            }
+
+
+            input[type="radio"]:checked+label {
+                font-weight: 700;
+                padding-bottom: 15px;
+            }
+        }
 
         img.fw-blueprint-screenshot {
-          opacity: 1;
+            max-width: 100%;
+            display: block;
+            border-radius: 10px;
+            padding: 5px;
+            margin-right: 0;
+            opacity: 0.8;
+
+            &:hover {
+                opacity: 1;
+                @apply dol-bg-green-500;
+            }
         }
-      }
-
-      input {
-        display: none !important;
-      }
-
-      input[type="radio"]:checked + label {
-        font-weight: 700;
-        padding-bottom: 15px;
-      }
     }
-
-    img.fw-blueprint-screenshot {
-      max-width: 100%;
-      display: block;
-      border-radius: 10px;
-      padding: 5px;
-      margin-right: 0;
-      opacity: 0.8;
-
-      &:hover {
-        opacity: 1;
-        @apply dol-bg-green-500;
-      }
-    }
-  }
 }
 
 .dol-blueprint-launch-inner #form_dollie_launch_site {
@@ -101,12 +93,70 @@
 }
 
 .acf-field-repeater[data-name="wpd_dynamic_blueprint_data"] {
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 
-  .acf-label {
-    label {
-      @apply dol-text-base md:dol-text-xl;
+    .acf-label {
+        label {
+            @apply dol-text-base md:dol-text-xl;
+        }
     }
-  }
+}
+
+///Real Time Customizer
+
+#acf-form-create-update-bp {
+
+    .acf-row.-collapsed {
+        .acf-field input {
+            pointer-events: none;
+            border: 0;
+        }
+
+        .acf-field {
+            min-height: 60px !important;
+        }
+
+        .acf-label {
+            display: none !important;
+        }
+    }
+
+    .-collapsed .acf-icon[data-event="collapse-row"] {
+        background: #2220;
+        position: absolute;
+        height: 60px;
+        z-index: 1;
+        border-radius: 0px;
+        width: 100vw;
+        padding: 0px;
+        margin: 0px;
+        inset: 0px;
+        border: 0px;
+        display: block !important;
+        left: 26px !important;
+        max-width: 725px !important;
+
+        &::before {
+            display: none !important;
+        }
+    }
+
+    .acf-row-handle {
+        z-index: 2;
+    }
+
+    .acf-field {
+        @apply dol-p-3;
+
+        .description {
+            font-size: 12px;
+        }
+    }
+
+    .acf-label {
+        label {
+            @apply dol-text-base md:dol-text-sm;
+        }
+    }
 }

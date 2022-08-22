@@ -95,6 +95,15 @@ final class Services extends Singleton {
 
 	public function add_acf_fields( $field_group ) {
 
+		global $pagenow;
+		if (( $pagenow == 'post.php' ) && ($_GET['post_type'] == 'product')) {
+			$user = 'a subscriber';
+			$user_instructions = '';
+		} else {
+			$user = 'this customer';
+			$user_instructions = '<br><br><strong> Set this to -1<strong/> to prevent this customer from launching more sites';
+		}
+
 		// general
 		$fields = [
 			array(
@@ -170,10 +179,10 @@ final class Services extends Singleton {
 			),
 			array(
 				'key'                      => 'field_5fb3b46351578',
-				'label'                    => __( 'Enable VIP Sites for subscribers/purchasers of this product', 'dollie' ),
+				'label'                    => __( 'Enable VIP Sites', 'dollie' ),
 				'name'                     => '_wpd_woo_launch_as_vip',
 				'type'                     => 'true_false',
-				'instructions'             => __( 'When a customer purchases this subscription/product all of their sites will automatically be VIP sites. Please look at the VIP Sites documentation to learn more.', 'dollie' ),
+				'instructions'      => sprintf( esc_html__( 'When enabled for %s all of their sites will automatically be VIP sites. Please look at the VIP Sites documentation to learn more.',  'dollie'), $user),
 				'required'                 => 0,
 				'wrapper'                  => array(
 					'width' => '',
