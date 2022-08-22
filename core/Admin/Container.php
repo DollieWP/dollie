@@ -836,9 +836,6 @@ final class Container extends Singleton implements ConstInterface {
 			// run only once!
 			remove_filter('attribute_escape', 'add_site_icon', 20, 2);
 			$safe_text = esc_attr($text);
-			// remember to set the right cpt name below
-
-			// we have pending, add the count
 			$text = dollie()->icon()->site() . esc_attr($text) ;
 			return $text;
 		}
