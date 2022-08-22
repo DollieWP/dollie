@@ -39,6 +39,9 @@ final class Acf extends Singleton implements ConstInterface {
 		);
 		add_filter( 'acf/load_field/type=message', [ $this, 'api_token_content' ], 10, 3 );
 		add_filter( 'acf/update_value/name=wpd_container_status', [ $this, 'change_container_status' ], 10, 3 );
+		add_filter('acf/fields/relationship/result/name=_wpd_included_blueprints', [ $this, 'filter_blueprint_relationship_results' ], 10, 4);
+		add_filter('acf/fields/relationship/result/name=_wpd_excluded_blueprints', [ $this, 'filter_blueprint_relationship_results' ], 10, 4);
+
 	}
 
 	/**
@@ -265,6 +268,31 @@ final class Acf extends Singleton implements ConstInterface {
 		$container->set_screenshot_data();
 
 		// Log::add_front( Log::WP_SITE_BLUEPRINT_DEPLOYED, $container, $container->get_slug() );
+	}
+
+	/**
+	 * Show Blueprint information in ACF Relationship results
+	 *
+	 * @param string $post_id
+	 *
+	 * @return void
+	 */
+	public function filter_blueprint_relationship_results( $text, $post, $field, $post_id ) {
+		$blueprint_title = get_field( 'wpd_installation_blueprint_title', $post->ID );
+		$blueprint_status = get_field( 'wpd_blueprint_created', $post->ID );
+
+		if ( $blueprint_status ) {
+			$status = ' (Live)';
+		} else {
+			$status = ' (Staging)';
+		}
+
+		if( $blueprint_title ) {
+			$text = sprintf( '%s', $blueprint_title ) . $status;
+		} else {
+			$text = sprintf( '%s', $post->post_title ) . $status;
+		}
+		return $text;
 	}
 
 	/**

@@ -610,10 +610,14 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		$customer_id = get_current_user_id();
 		if ( ! empty( $blueprints ) ) {
 
+			//Has Blueprint inclusions in sub?
 			$sub_included = $this->get_blueprints_exception( 'included' );
 
+			//Has Blueprint includes in User meta?
 			if ( get_field('_wpd_included_blueprints', 'user_'.$customer_id) ) {
 				$user_included_blueprints = get_field('_wpd_included_blueprints', 'user_'.$customer_id);
+
+				//Check if arrays should be merged
 				if ( ! empty( $sub_included ) ) {
 					$included = array_merge($sub_included, $user_included_blueprints);
 				} else {
@@ -623,16 +627,19 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 				$included = $sub_included;
 			}
 
-
 			if ( ! empty( $included ) ) {
 				return array_intersect_key( $blueprints, $included );
 			}
 
+			//Has Blueprint exclusions in sub?
 			$sub_excluded = $this->get_blueprints_exception();
 
+			//Has Blueprint excludes in User meta?
 			if ( get_field('_wpd_excluded_blueprints', 'user_'.$customer_id) ) {
 
 				$user_excluded_blueprints = get_field('_wpd_excluded_blueprints', 'user_'.$customer_id);
+
+				//Check if arrays should be merged
 				if ( ! empty( $sub_excluded ) ) {
 					$excluded = array_merge($sub_excluded, $user_excluded_blueprints);
 				} else {
@@ -643,7 +650,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 				$excluded = $sub_excluded;
 			}
 
-
+			//Filter blueprints
 			if ( ! empty( $excluded ) ) {
 				foreach ( $excluded as $bp_id ) {
 					if ( isset( $blueprints[ $bp_id ] ) ) {
