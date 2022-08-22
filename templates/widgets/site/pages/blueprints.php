@@ -49,7 +49,7 @@ foreach ( $groups as $group ) {
 			);
 			?>
 		</div>
-		
+
 		<?php
 		$message = ob_get_clean();
 		dollie()->load_template(
@@ -86,10 +86,10 @@ foreach ( $groups as $group ) {
 				$dynamic_fields = [];
 			}
 			?>
-			<div id="dol-blueprint-notification" class="dol-hidden" 
-				data-dynamic-fields="<?php echo esc_attr( count( $dynamic_fields ) ); ?>" 
-				data-container="<?php echo esc_attr( $container->get_id() ); ?>" 
-				data-nonce="<?php echo esc_attr( wp_create_nonce( 'check_dynamic_fields_nonce' ) ); ?>" 
+			<div id="dol-blueprint-notification" class="dol-hidden"
+				data-dynamic-fields="<?php echo esc_attr( count( $dynamic_fields ) ); ?>"
+				data-container="<?php echo esc_attr( $container->get_id() ); ?>"
+				data-nonce="<?php echo esc_attr( wp_create_nonce( 'check_dynamic_fields_nonce' ) ); ?>"
 				data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>">
 				<div class="dol-inline-flex dol-w-full dol-items-center dol-px-4 dol-py-2 dol-text-base dol-leading-6 dol-rounded dol-text-white dol-bg-secondary-600 dol-transition dol-ease-in-out dol-duration-150">
 					<svg class="dol-animate-spin dol--ml-1 dol-mr-3 dol-h-5 dol-w-5 dol-text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
