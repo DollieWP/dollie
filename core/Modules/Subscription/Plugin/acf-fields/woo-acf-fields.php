@@ -118,7 +118,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'label'             => __( 'Allowed Blueprints', 'dollie' ),
 					'name'              => '_wpd_included_blueprints',
 					'type'              => 'relationship',
-					'instructions'      => sprintf( 'Select which of your Blueprints are <strong>allowed</strong> to be launched by %s',  'dollie'), $user,
+					'instructions'      => sprintf( 'Select which of your Blueprints are <strong>allowed</strong> to be launched by %s',  $user),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => [
@@ -141,7 +141,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'label'             => __( 'Disallowed Blueprints', 'dollie' ),
 					'name'              => '_wpd_excluded_blueprints',
 					'type'              => 'relationship',
-					'instructions'     	=> sprintf( 'Select which of your Blueprints can <strong>not allowed</strong> by %s. Use this setting if you have a lot of blueprints and only want to restrict access to a couple of them.',  'dollie', $user),
+					'instructions'     	=> sprintf( 'Select which of your Blueprints can <strong>not allowed</strong> by %s. Use this setting if you have a lot of blueprints and only want to restrict access to a couple of them.', $user),
 					'required'          => 0,
 					'conditional_logic' => 0,
 					'wrapper'           => [
