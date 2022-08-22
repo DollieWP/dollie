@@ -38,7 +38,7 @@ $containers = new WP_Query(
 		while ( $containers->have_posts() ) :
 			$containers->the_post();
 
-			$container = dollie()->get_container();
+			$container = dollie()->get_container(get_the_ID());
 
 			if ( is_wp_error( $container ) ) {
 				continue;
@@ -49,6 +49,7 @@ $containers = new WP_Query(
 			$blueprint      = get_post_meta( get_the_ID(), 'wpd_blueprint_created', true );
 
 			$menu = [
+				'blueprints'      => dollie()->icon()->blueprint() . __( 'Blueprint Setup', 'dollie' ),
 				''                => dollie()->icon()->site_dashboard() . __( 'Dashboard', 'dollie' ),
 				'plugins'         => dollie()->icon()->plugins() . __( 'Plugins', 'dollie' ),
 				'themes'          => dollie()->icon()->themes() . __( 'Themes', 'dollie' ),
@@ -56,7 +57,6 @@ $containers = new WP_Query(
 				'domains'         => dollie()->icon()->domains() . __( 'Domains', 'dollie' ),
 				'backups'         => dollie()->icon()->backups() . __( 'Backups', 'dollie' ),
 				'developer-tools' => dollie()->icon()->dev_tools() . __( 'Developer Tools', 'dollie' ),
-				'blueprints'      => dollie()->icon()->blueprint() . __( 'Blueprint Setup', 'dollie' ),
 				'migrate'         => dollie()->icon()->migration() . __( 'Migrate', 'dollie' ),
 			];
 
@@ -68,6 +68,10 @@ $containers = new WP_Query(
 
 			if ( $container->is_blueprint() ) {
 				unset( $menu['domains'] );
+			}
+
+			if ( ! $container->is_blueprint() ) {
+				unset( $menu['blueprints'] );
 			}
 
 			$sub_page = get_query_var( 'sub_page' );
@@ -138,3 +142,4 @@ $containers = new WP_Query(
 <?php endif; ?>
 
 <?php wp_reset_postdata(); ?>
+

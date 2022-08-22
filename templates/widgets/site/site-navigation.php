@@ -13,6 +13,7 @@ $layout = $settings['layout'];
 $colors = $settings['colors'];
 
 $menu = [
+	'blueprints'      => dollie()->icon()->blueprint() . __( 'Blueprint Setup', 'dollie' ),
 	''                => dollie()->icon()->site_dashboard() . __( 'Dashboard', 'dollie' ),
 	'plugins'         => dollie()->icon()->plugins() . __( 'Plugins', 'dollie' ),
 	'themes'          => dollie()->icon()->themes() . __( 'Themes', 'dollie' ),
@@ -20,7 +21,6 @@ $menu = [
 	'domains'         => dollie()->icon()->domains() . __( 'Domains', 'dollie' ),
 	'backups'         => dollie()->icon()->backups() . __( 'Backups', 'dollie' ),
 	'developer-tools' => dollie()->icon()->dev_tools() . __( 'Developer Tools', 'dollie' ),
-	'blueprints'      => dollie()->icon()->blueprint() . __( 'Blueprint Setup', 'dollie' ),
 	'migrate'         => dollie()->icon()->migration() . __( 'Migrate', 'dollie' ),
 ];
 
