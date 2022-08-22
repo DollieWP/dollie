@@ -292,7 +292,16 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 *
 	 * @return int|mixed
 	 */
-	public function sites_available() {
+	public function sites_available($customer_id = null ) {
+
+		if ( ! $customer_id ) {
+			$customer_id = get_current_user_id();
+		}
+
+		if ( get_field('_wpd_installs', 'user_'.$customer_id) ) {
+			return get_field('_wpd_installs', 'user_'.$customer_id) - dollie()->get_user()->count_containers();
+		}
+
 		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
 
 		if ( ! $subscription ) {
@@ -307,7 +316,16 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 *
 	 * @return int|mixed
 	 */
-	public function storage_available() {
+	public function storage_available($customer_id = null) {
+
+		if ( ! $customer_id ) {
+			$customer_id = get_current_user_id();
+		}
+
+		if ( get_field('_wpd_max_size', 'user_'.$customer_id) ) {
+			return get_field('_wpd_max_size', 'user_'.$customer_id);
+		}
+
 		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
 
 		if ( ! $subscription ) {
@@ -323,6 +341,15 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 * @return bool
 	 */
 	public function vip_status($user_id = null) {
+
+		if ( ! $customer_id ) {
+			$customer_id = get_current_user_id();
+		}
+
+		if ( get_field('_wpd_woo_launch_as_vip', 'user_'.$customer_id) ) {
+			return get_field('_wpd_woo_launch_as_vip', 'user_'.$customer_id);
+		}
+
 		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
 
 		if ( ! $subscription ) {
@@ -352,13 +379,23 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 *
 	 * @return bool
 	 */
-	public function site_limit_reached() {
+	public function site_limit_reached($customer_id = null) {
 		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return false;
 		}
 
 		if ( current_user_can( 'manage_options' ) ) {
 			return false;
+		}
+
+		if ( ! $customer_id ) {
+			$customer_id = get_current_user_id();
+		}
+
+		//Check if user has custom limits
+		if ( get_field('_wpd_installs', 'user_'.$customer_id) ) {
+			$allowed_sites = (int)get_field('_wpd_installs', 'user_'.$customer_id);
+			return dollie()->get_user()->count_containers() >= $allowed_sites;
 		}
 
 		if ( ! $this->has_subscription() ) {
@@ -379,9 +416,25 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 *
 	 * @return bool
 	 */
-	public function size_limit_reached() {
+	public function size_limit_reached($customer_id = null) {
 		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return false;
+		}
+
+		if ( ! $customer_id ) {
+			$customer_id = get_current_user_id();
+		}
+
+		//Check if user has custom limits
+		if ( get_field('_wpd_max_size', 'user_'.$customer_id) ) {
+
+			$allowed_size = get_field('_wpd_max_size', 'user_'.$customer_id);
+
+			$total_size   = dollie()->insights()->get_total_container_size();
+			$allowed_size = $allowed_size * 1024 * 1024 * 1024;
+
+			return $total_size >= $allowed_size && ! current_user_can( 'manage_options' );
+
 		}
 
 		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
@@ -498,7 +551,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		}
 
 		// Has VIP via User meta overwrite?
-		$usermeta_vip = get_user_meta( $user_id, 'user_launch_as_vip', true );
+		$usermeta_vip = get_field('_wpd_woo_launch_as_vip', 'user_'.$user_id);
 
 		if ( $usermeta_vip ) {
 			return true;
