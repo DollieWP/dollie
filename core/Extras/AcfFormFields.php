@@ -364,35 +364,6 @@ We\'ll walk you through all the steps required to link your own domain to your s
 					'save_other_choice' => 0,
 				),
 				array(
-					'key'               => 'field_5fb3b53ff744632',
-					'label'             => __( 'Launch as VIP Site', 'dollie' ),
-					'name'              => 'launch_as_vip',
-					'type'              => 'true_false',
-					'instructions'      => __( 'Launch this site as a VIP site', 'dollie' ),
-					'required'          => 0,
-					'conditional_logic' => array(
-						array(
-							array(
-								'field'    => 'field_601a8d9bc4b42',
-								'operator' => '==',
-								'value'    => 'site',
-							),
-						),
-					),
-					'wrapper'           => array(
-						'width' => '',
-						'class' => '',
-						'id'    => '',
-					),
-					'hide_admin'        => 0,
-					'dollie_vip_addon_enabled' => 1,
-					'message'           => '',
-					'default_value'     => 0,
-					'ui'                => 1,
-					'ui_on_text'        => '',
-					'ui_off_text'       => '',
-				),
-				array(
 					'key'               => 'field_5fb3b53ff7445',
 					'label'             => __( 'Advanced Settings', 'dollie' ),
 					'name'              => 'advanced_settings',

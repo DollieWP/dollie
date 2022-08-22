@@ -39,9 +39,7 @@ class AccessControl extends Singleton {
 		add_filter( 'acf/load_field/name=manage_sites_permission', [ $access_service, 'acf_set_roles' ] );
 		add_filter( 'acf/load_field/name=delete_sites_permission', [ $access_service, 'acf_set_roles' ] );
 		add_action( 'acf/render_field_settings', [ $access_service, 'acf_field_admin_access' ] );
-		add_action( 'acf/render_field_settings', [ $access_service, 'acf_field_vip_access' ] );
 		add_filter( 'acf/prepare_field', [ $access_service, 'acf_field_admin_prepare_access' ] );
-		add_filter( 'acf/prepare_field', [ $access_service, 'acf_field_vip_prepare_access' ] );
 
 		add_filter( 'pre_get_posts', [ $access_service, 'sites_for_current_author' ] );
 		add_filter( 'body_class', [ $access_service, 'add_permissions_body_class' ] );

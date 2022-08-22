@@ -395,7 +395,7 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @param $needle
 	 * @param $haystack
-	 * @param bool     $strict
+	 * @param bool $strict
 	 *
 	 * @return bool
 	 */
@@ -431,9 +431,9 @@ class Helpers extends Singleton implements ConstInterface {
 	 */
 	public function is_elementor_editor(): bool {
 		return class_exists( '\Elementor\Plugin' ) &&
-				( \Elementor\Plugin::instance()->editor->is_edit_mode() ||
-				\Elementor\Plugin::instance()->preview->is_preview() ||
-				isset( $_GET['elementor_library'] ) );
+		       ( \Elementor\Plugin::instance()->editor->is_edit_mode() ||
+		         \Elementor\Plugin::instance()->preview->is_preview() ||
+		         isset( $_GET['elementor_library'] ) );
 	}
 
 	/**
@@ -480,7 +480,7 @@ class Helpers extends Singleton implements ConstInterface {
 
 		if ( $this->is_elementor_editor() ) {
 			$args = [
-				'post_type'      => 'container',
+				'post_type' => 'container',
 
 				'posts_per_page' => 1,
 			];
@@ -554,7 +554,7 @@ class Helpers extends Singleton implements ConstInterface {
 
 		$args = [
 			'post_type'      => 'container',
-			'posts_per_page' => -1,
+			'posts_per_page' => - 1,
 			'post_status'    => 'publish',
 			'post__in'       => $ids,
 		];
@@ -598,8 +598,8 @@ class Helpers extends Singleton implements ConstInterface {
 	/**
 	 * Load template
 	 *
-	 * @param string  $template
-	 * @param array   $args
+	 * @param string $template
+	 * @param array $args
 	 * @param boolean $echo
 	 *
 	 * @return void|string
@@ -627,5 +627,56 @@ class Helpers extends Singleton implements ConstInterface {
 		$f_base = floor( $base );
 
 		return round( 1024 ** ( $base - floor( $base ) ), 1 ) . $suffix[ $f_base ];
+	}
+
+	/**
+	 * Register new fields for existing ACF field groups.
+	 *
+	 * @param $fields
+	 * @param $parent
+	 */
+	public function append_acf_fields( $fields, $parent ) {
+		if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+			return;
+		}
+
+		foreach ( $fields as &$field ) {
+			$field['parent'] = $parent;
+		}
+		unset( $field );
+
+		acf_add_local_fields( [
+			$fields
+		] );
+	}
+
+	public function add_acf_fields_to_group( $field_group, $fields = [], $group = '', $field_name = '', $type = 'after' ) {
+
+		if ( $field_group['key'] !== $group ) {
+			return $field_group;
+		}
+
+		foreach ( $field_group['fields'] as $k => $field ) {
+			if ( $field['name'] === $field_name ) {
+				$offset = $k;
+				break;
+			}
+		}
+
+		if ( ! isset( $offset ) ) {
+			return $field_group;
+		}
+
+		if ( $type === 'after' ) {
+			$offset ++;
+		}
+
+		$fields = array_reverse( $fields );
+		foreach ( $fields as $f ) {
+			$f['parent'] = $group;
+			array_splice( $field_group['fields'], $offset, 0, [ $f ] );
+		}
+
+		return $field_group;
 	}
 }

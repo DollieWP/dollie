@@ -282,7 +282,7 @@ final class PageManager extends Singleton {
 	 * Add a post display state for special WC pages in the page list table.
 	 *
 	 * @param array   $post_states An array of post display states.
-	 * @param WP_Post $post        The current post object.
+	 * @param \WP_Post $post        The current post object.
 	 */
 	public function add_hub_post_states( $post_states, $post ) {
 		if ( $this->get_launch_site_id() === $post->ID ) {

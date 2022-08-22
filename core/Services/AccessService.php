@@ -378,53 +378,6 @@ final class AccessService extends Singleton {
 	}
 
 	/**
-	 * Show VIP when enabled
-	 *
-	 * @param [type] $field
-	 *
-	 * @return void
-	 */
-	public function acf_field_vip_access( $field ) {
-		acf_render_field_setting(
-			$field,
-			array(
-				'label'        => __( 'Show when VIP Add-on Enabled' ),
-				'instructions' => 'Only show this field when the VIP Add-on is enabled.',
-				'name'         => 'dollie_vip_addon_enabled',
-				'type'         => 'true_false',
-				'ui'           => 1,
-			),
-			true
-		);
-	}
-
-	/**
-	 * Prepare VIP showing
-	 */
-	public function acf_field_vip_prepare_access( $field ) {
-		$user_id = get_current_user_id();
-		$subscription_vip = dollie()->subscription()->has_vip($user_id);
-		$gloval_vip = get_field( 'wpd_enable_global_vip_sites', 'options' );
-		// bail early if no 'admin_only' setting.
-		if ( empty( $field['dollie_vip_addon_enabled'] ) ){
-			return $field;
-		}
-
-		// return false if VIP is not allowed for user or hide field if Global VIP exist
-		if ( ! $subscription_vip || $gloval_vip ) {
-			echo '
-				<style type="text/css">
-					.acf-field-' . substr( $field['key'], 6 ) . ' > .acf-label {display: none;}
-				</style>';
-			return false;
-		}
-
-		// return.
-		return $field;
-	}
-
-
-	/**
 	 * Protect container access
 	 */
 	public function disable_blueprint_domain_access() {

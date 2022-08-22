@@ -9,6 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dollie\Core\Admin;
 
 use Dollie\Core\Modules\Subscription\Subscription;
+use Dollie\Core\Modules\Vip\Hooks as VipHooks;
 use Dollie\Core\Modules\WooCommerce;
 use Dollie\Core\Modules\Logging;
 use Dollie\Core\Modules\Forms;
@@ -149,6 +150,7 @@ class Plugin extends Singleton {
 		Logging::instance();
 		WooCommerce::instance();
 		Subscription::instance();
+		VipHooks::instance();
 
 		// Hooks.
 		AccessControl::instance();
