@@ -85,6 +85,7 @@ if ( dollie()->subscription()->size_limit_reached() ) {
 	);
 }
 
+
 if ( dollie()->subscription()->site_limit_reached() ) {
 	dollie()->load_template(
 		'notice',

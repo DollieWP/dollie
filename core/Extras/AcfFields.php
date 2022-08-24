@@ -443,6 +443,25 @@ if (function_exists('acf_add_local_field_group')):
 				'placement' => 'top',
 				'endpoint' => 0,
 			),
+			[
+				'key' => 'field_612616dc483456r49697',
+				'label' => 'New to the Hub? ' . dollie()->show_helper_video('hub-tour', '-iT9Cqc_aS8', 'Watch Video', 'Hub Tour'),
+				'name' => 'dollie_show_hub_video',
+				'type' => 'message',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => 'dollie-field-break',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'message' => 'Below you see all the pages dedicated to your Hub. Click on the video above for a tour of the Hub functionality.',
+				'new_lines' => '',
+				'esc_html' => 0,
+				],
+
 				array(
 				'key' => 'field_5e5557eda4c7c',
 				'label' => sprintf(esc_html__('Launch New %s Page', 'dollie-setup'), dollie()->string_variants()->get_site_type_string()),
