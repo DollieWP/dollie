@@ -42,6 +42,9 @@ final class Acf extends Singleton implements ConstInterface {
 		add_filter('acf/fields/relationship/result/name=_wpd_included_blueprints', [ $this, 'filter_blueprint_relationship_results' ], 10, 4);
 		add_filter('acf/fields/relationship/result/name=_wpd_excluded_blueprints', [ $this, 'filter_blueprint_relationship_results' ], 10, 4);
 
+		add_filter( 'wp_kses_allowed_html', [ $this, 'acf_add_allowed_iframe_tag'], 10, 2 );
+
+
 	}
 
 	/**
@@ -332,6 +335,26 @@ final class Acf extends Singleton implements ConstInterface {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Add Filter to allow iframe helper video
+	 *
+	 * @param $tags
+	 * @param $conetext
+	 */
+	public function acf_add_allowed_iframe_tag( $tags, $context ) {
+		if ( $context === 'acf' ) {
+			$tags['iframe'] = array(
+				'src'             => true,
+				'height'          => true,
+				'width'           => true,
+				'frameborder'     => true,
+				'allowfullscreen' => true,
+			);
+		}
+
+		return $tags;
 	}
 
 }

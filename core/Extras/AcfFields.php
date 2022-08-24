@@ -1907,16 +1907,7 @@ if (function_exists('acf_add_local_field_group')):
 				'label' => __('Realtime Customizer', 'dollie'),
 				'name' => 'wpd_dynamic_blueprint_data',
 				'type' => 'repeater',
-				'instructions' => __('<h4>The real-time customizer makes setting up new websites based on this Blueprint extremely easy. Here\'s how it works</h4>
-
-<ul>
-<li>1. Add a field in the form below. ie. "Name"</li>
-<li>2. Assign a Placeholder ie. "{{NAME}}</li>
-<li>3. Add {{NAME}} anywhere inside your Blueprint installation. For example in your page content or WordPress Admin settings. </li>
-<li>4. Finally if you or a customer selects this Blueprint they will fill in the fields you created and when the site is launched the placeholders will be replace with those values. </li>
-</ul>
-
-<strong>Watch our video for a full walkthrough: https://youtu.be/2kceadquTyE</strong>', 'dollie'),
+				'instructions' => __('<h4>The real-time customizer makes setting up new websites based on this Blueprint extremely easy. Here\'s how it works</h4> '. dollie()->show_helper_video('rtc-video', '2kceadquTyE', 'Watch Video', 'The Real Time Customizer') . ' ', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(

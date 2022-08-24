@@ -679,4 +679,50 @@ class Helpers extends Singleton implements ConstInterface {
 
 		return $field_group;
 	}
+
+
+	/**
+	 * Add Video Helper that can be used globally
+	 *
+	 * @param $fields
+	 * @param $parent
+	 */
+	public function show_helper_video( $modal_id, $embed_id, $button_text, $title, $echo = false ) {
+
+		if ( ! $echo ) {
+			return '
+				<button type="button" data-modal-id="dol-modal-'.$modal_id.'" class="dol-global-modal dol-my-4">
+					<i class="fa fa-question-circle"></i>
+					<span>Watch the Video</span>
+				</button>' . dollie()->load_template(
+				'parts/video-helper',
+				[
+					'modal_id' => $modal_id,
+					'embed_id' => $embed_id,
+					'title' => $title,
+					'button_text' => $button_text,
+				],
+				false
+			);
+		} else {
+				echo
+				'<button type="button" data-modal-id="dol-modal-'.$modal_id.'" class="dol-global-modal dol-my-4">
+					<i class="fa fa-question-circle"></i>
+					<span>Watch the Video</span>
+				</button>';
+
+				dollie()->load_template(
+				'parts/video-helper',
+				[
+					'modal_id' => $modal_id,
+					'embed_id' => $embed_id,
+					'title' => $title,
+					'button_text' => $button_text,
+				],
+				true
+			);
+		}
+
+	}
+
 }

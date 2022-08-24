@@ -249,7 +249,7 @@ function dol_theme_body_start() {
 
 
 
-		<!-- <a href="#" class="dol-btn dol-btn-primary dol-text-white">Testing our buttons</a>
+		<a href="#" class="dol-btn dol-btn-primary dol-text-white">Testing our buttons</a>
 		<div class="dol-overflow-x-auto">
 			<div class="dol-whitespace-nowrap">
 				<table>
@@ -439,10 +439,10 @@ function dol_theme_body_start() {
 					</tbody>
 				</table>
 			</div>
-		</div> -->
+		</div>
 	<?php
 }
-//add_action( 'wp_body_open', 'dol_theme_body_start' );
+add_action( 'wp_footer', 'dol_theme_body_start' );
 
 function dol_theme_body_close() {
 	$container_meta = get_post_meta( get_queried_object_id() );
@@ -457,3 +457,31 @@ function dol_theme_body_close() {
 	echo '</div>';
 }
 // add_action( 'wp_footer', 'dol_theme_body_close' );
+
+function wp_myplugin_property_title()
+{
+  if( is_singular('container') ){
+
+    $seotitle = "TEST Title";
+    return $seotitle;
+  }
+}
+
+
+add_filter('wp_title', 'wp_myplugin_property_title', 100);
+
+add_filter('pre_get_document_title', 'change_the_title');
+function change_the_title() {
+
+	global $post;
+
+	$container = dollie()->get_container( $post->ID );
+
+	if ( ! is_wp_error( $container ) && $container->is_blueprint() ) {
+
+   		return $container->get_saved_title();
+
+	}
+
+
+}

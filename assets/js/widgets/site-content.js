@@ -18,8 +18,6 @@ var DollieSiteContent = DollieSiteContent || {};
             DollieSiteContent.fn.initStaging();
             DollieSiteContent.fn.initDns();
             DollieSiteContent.fn.initUpdates();
-            DollieSiteContent.fn.initModalGlobal();
-
         },
 
         checkDynamicFields: function () {
