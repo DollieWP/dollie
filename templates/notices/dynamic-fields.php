@@ -1,5 +1,5 @@
 <?php
-if (!isset($fields)) 
+if (!isset($fields))
 {
 	return;
 }
@@ -24,29 +24,32 @@ foreach ($fields as $field):
 
 		$user_meta = isset($field['usermeta_name']) ? $field['usermeta_name'] : '';
 
+		// When user meta get the value from the user meta
 		if ($user_meta && $prepropulate == 'user_meta') {
 			$get_meta = get_user_meta(get_current_user_id(), $user_meta, true);
 			$populate = sanitize_text_field('value="' . $get_meta . '"');
 		}
+		//If Query Parameter get the value via jQuery because of fields are retrieved with ajax.
 		else {
 			$query_parameter = isset($field['query_string_name']) ? $field['query_string_name'] : '';
 			$populate = '';
-?>
-    <script>
-    jQuery(document).ready(function() {
-        var urlParams = new URLSearchParams(window.location.search); //get all parameters
-        var foo = urlParams.get(
-            '<?php echo $query_parameter; ?>'
-        ); //extract the foo parameter - this will return NULL if foo isn't a parameter
+			?>
+			<script>
+			jQuery(document).ready(function() {
+				var urlParams = new URLSearchParams(window.location.search); //get parameter
+				var field_param = urlParams.get(
+					'<?php echo sanitize_text_field($query_parameter); ?>'
+				); //extract the foo parameter - this will return NULL if foo isn't a parameter
 
-        if (foo) { //check if foo parameter is set to anything
-            jQuery('input#<?php echo $id; ?>').val(foo);
-        }
+				if (field_param) { //check if foo parameter is set to anything
+					jQuery('input#<?php echo $id; ?>').val(field_param);
+				}
 
-    });
-    </script>
-    <?php
+			});
+			</script>
+			<?php
 		}
+
 	}
 	else {
 		$populate = '';
