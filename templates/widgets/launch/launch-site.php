@@ -25,7 +25,7 @@ if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
 
 
 
-if ( $subscription_vip && ! $global_vip && ! $_GET['payment-status'] )  {
+if ( $subscription_vip && ! $global_vip && ! isset($_GET['payment-status']) )  {
 	dollie()->load_template(
 		'notice',
 		[
