@@ -716,9 +716,9 @@ class Helpers extends Singleton implements ConstInterface {
 				echo
 				'<button type="button" data-toggle="tooltip"
 	data-placement="bottom"
-	data-tooltip="This button is only view-able for Site Admins. Click on the button to learn more about using & building your Hub with Dollie" data-modal-id="dol-modal-'.$modal_id.'" class="dol-global-modal dol-my-4">
+	data-tooltip="This button is only view-able for Site Admins. Click on the button to learn more about using & building your Hub with Dollie" data-modal-id="dol-modal-'.$modal_id.'" class="dol-global-modal dol-my-4 dol-text-sm dol-p-2 dol-bg-gray-400">
 					<i class="fas fa-user-shield"></i>
-					<span>'.$button_text.'</span>
+					<span class="dol-text-sm">'.$button_text.'</span>
 				</button>';
 
 				dollie()->load_template(
