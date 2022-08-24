@@ -300,7 +300,7 @@ if (function_exists('acf_add_local_field_group')):
 			),
 				array(
 				'key' => 'field_600451ceafac7',
-				'label' => __('Add My Own Domain', 'dollie'),
+				'label' => __('Add My Own Domain', 'dollie'). dollie()->show_helper_video('custom-backups', 'CIRe2D3DaFo', 'Watch Video', 'Custom Backups'),
 				'name' => 'wpd_show_custom_domain_options',
 				'type' => 'true_false',
 				'instructions' => __('Add your own domain for site deployments to fully white label the sites being launched on your platform. Adding your own custom domain will no longer use the Default Domain.', 'dollie'),
@@ -1461,7 +1461,7 @@ if (function_exists('acf_add_local_field_group')):
 				),
 				'hide_admin' => 0,
 				'message' => '',
-				'default_value' => 0,
+				'default_value' => 1,
 				'ui' => 1,
 				'ui_on_text' => '',
 				'ui_off_text' => '',
@@ -1529,7 +1529,8 @@ if (function_exists('acf_add_local_field_group')):
     <p>Please make sure that all of the above sites are indeed meant to be stopped due to cancelled subscriptions or manual removal.</p>
     <h4>The following containers are scheduled to be completely removed in the near future:</h4>
     <p>{dollie_sites_removal_list}</p>
-    <p>Once a site has been completely removed from our infrastructure it can only be restored in emergency situations.</p>',
+    <p>Once a site has been completely removed from our infrastructure it can only be restored in emergency situations.</p>
+	<p>To disable these notifications go Dollie > Settings > Notifications in your WordPress admin panel.</p>',
 				'tabs' => 'all',
 				'toolbar' => 'full',
 				'media_upload' => 1,
@@ -1537,7 +1538,7 @@ if (function_exists('acf_add_local_field_group')):
 			),
 				array(
 				'key' => 'field_610a65429a5b9',
-				'label' => __('Slack Notifications', 'dollie'),
+				'label' => __('Slack Notifications', 'dollie') . dollie()->show_helper_video('slack-notifications', 'W6adrFHEJn8', 'Watch Video', 'Slack Notification'),
 				'name' => 'wpd_slack_notifications',
 				'type' => 'true_false',
 				'instructions' => __('Enable Slack notifications on certain Dollie actions.', 'dollie'),
@@ -1649,11 +1650,11 @@ if (function_exists('acf_add_local_field_group')):
 
 				array(
 				'key' => 'field_6059e3cef19d1',
-				'label' => __('Custom Backup Location', 'dollie'),
+				'label' => __('Custom Backup Location', 'dollie') . dollie()->show_helper_video('custom-backups', 'CIRe2D3DaFo', 'Watch Video', 'Custom Backups'),
 				'name' => 'wpd_enable_custom_backup',
 				'type' => 'true_false',
 				'instructions' => __(
-				'<strong>This feature is part of our Enterprise solution. Please contact Dollie team to enable this feature on your account.</strong><br>
+				'<strong>This feature needs to be approved for your account first.. Please contact the Dollie team at support@getdollie.com to enable this feature on your account.</strong><br>
             Once this is enabled on your account, all deployed sites will be configured with the settings you set here.',
 				'dollie'
 			),
@@ -1790,10 +1791,10 @@ if (function_exists('acf_add_local_field_group')):
 			),
 				array(
 				'key' => 'field_60a7974f6956c',
-				'label' => __('Staging', 'dollie'),
+				'label' => __('Staging', 'dollie') . dollie()->show_helper_video('dollie-staging', 'pzOknENRFWc', 'Watch Video', 'Staging Add-on'),
 				'name' => 'wpd_enable_staging',
 				'type' => 'true_false',
-				'instructions' => __('Allow customers to use staging sites functionality. Each enabled staging site will add a cost to your monthly subscription. Please check with the Dollie Sales Team.', 'dollie'),
+				'instructions' => __('Allow customers to use staging sites functionality. Each enabled staging site will add a small cost to your monthly subscription.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(

@@ -3,7 +3,7 @@ global $pagenow;
 $user              = 'this customer';
 $user_instructions = '<br><br><strong> Set this to -1<strong/> to prevent this customer from launching more sites';
 
-if ( $pagenow === 'post.php' && isset( $_GET['post_type'] ) && $_GET['post_type'] === 'product' ) {
+if ( $pagenow === 'post-new.php' && isset( $_GET['post_type'] ) && $_GET['post_type'] === 'product' ) {
 	$user              = 'a subscriber';
 	$user_instructions = '';
 }
@@ -13,8 +13,26 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 	acf_add_local_field_group(
 		[
 			'key'                   => 'group_5afc7b8e22840',
-			'title'                 => 'Dollie Product Setup',
+			'title'                 => 'Dollie Access Settings',
 			'fields'                => [
+				[
+				'key' => 'field_612616dc483456f24rnjgnjk64',
+				'label' => dollie()->show_helper_video('product-setup', 'h3a5WqBTKQI', 'Watch Video', 'Custom Backups'),
+				'name' => 'dollie_show_video',
+				'type' => 'message',
+				'instructions' => '',
+				'required' => 0,
+				'conditional_logic' => 0,
+				'wrapper' => array(
+					'width' => '',
+					'class' => 'dollie-field-break',
+					'id' => '',
+				),
+				'hide_admin' => 0,
+				'message' => 'Below you can configure access & limits to all your Dollie Hub features. Watch the video to learn more.',
+				'new_lines' => '',
+				'esc_html' => 0,
+				],
 				[
 					'key'               => 'field_5e2c1a97c1541',
 					'label'             => __( 'Basic', 'dollie' ),
