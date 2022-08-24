@@ -89,6 +89,7 @@ module.exports = {
         preflight: false,
     },
     plugins: [
+        require('@tailwindcss/aspect-ratio'),
         require("@tailwindcss/forms"),
         require('@tailwindcss/line-clamp'),
         require("daisyui")

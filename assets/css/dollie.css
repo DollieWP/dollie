@@ -297,6 +297,20 @@ html {
     --tw-backdrop-opacity:  ;
     --tw-backdrop-saturate:  ;
     --tw-backdrop-sepia:  ; }
+.dol-aspect-w-16 {
+    position: relative;
+    padding-bottom: calc(var(--tw-aspect-h) / var(--tw-aspect-w) * 100%);
+    --tw-aspect-w: 16; }
+.dol-aspect-w-16 > * {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; }
+.dol-aspect-h-9 {
+    --tw-aspect-h: 9; }
 .dol-badge {
     display: inline-flex;
     align-items: center;
@@ -1769,8 +1783,6 @@ input[type="text"].dol-search-input:focus {
     display: grid; }
 .dol-hidden {
     display: none; }
-.dol-aspect-video {
-    aspect-ratio: 16 / 9; }
 .dol-h-full {
     height: 100%; }
 .dol-h-16 {
