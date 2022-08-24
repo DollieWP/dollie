@@ -458,30 +458,4 @@ function dol_theme_body_close() {
 }
 // add_action( 'wp_footer', 'dol_theme_body_close' );
 
-function wp_myplugin_property_title()
-{
-  if( is_singular('container') ){
 
-    $seotitle = "TEST Title";
-    return $seotitle;
-  }
-}
-
-
-add_filter('wp_title', 'wp_myplugin_property_title', 100);
-
-add_filter('pre_get_document_title', 'change_the_title');
-function change_the_title() {
-
-	global $post;
-
-	$container = dollie()->get_container( $post->ID );
-
-	if ( ! is_wp_error( $container ) && $container->is_blueprint() ) {
-
-   		return $container->get_saved_title();
-
-	}
-
-
-}

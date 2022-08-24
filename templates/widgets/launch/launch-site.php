@@ -81,6 +81,8 @@ if ( dollie()->subscription()->site_limit_reached() ) {
 	);
 }
 
+dollie()->show_helper_video('launching-sites', '593H4SuXlKs', 'Watch Video', 'Launching Your First Site', true);
+
 if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && ! is_admin() || isset( $_GET['payment-status'] ) ) {
 	//Custom Form Layout when launching a specific blueprint
 	dollie()->load_template( 'widgets/launch/blueprint-launch', [ 'settings' => $settings ], true );

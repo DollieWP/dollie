@@ -689,11 +689,19 @@ class Helpers extends Singleton implements ConstInterface {
 	 */
 	public function show_helper_video( $modal_id, $embed_id, $button_text, $title, $echo = false ) {
 
+		$user = dollie()->get_user();
+
+		if (! $user->can_manage_all_sites()) {
+			return;
+		}
+
 		if ( ! $echo ) {
 			return '
-				<button type="button" data-modal-id="dol-modal-'.$modal_id.'" class="dol-global-modal dol-my-4">
-					<i class="fa fa-question-circle"></i>
-					<span>Watch the Video</span>
+				<button data-toggle="tooltip"
+	data-placement="bottom"
+	data-tooltip="Only Site Admins see this helper button." type="button" data-modal-id="dol-modal-'.$modal_id.'" class="dol-global-modal dol-my-4">
+					<i class="fas fa-user-shield"></i>
+					<span>'.$button_text.'</span>
 				</button>' . dollie()->load_template(
 				'parts/video-helper',
 				[
@@ -706,9 +714,11 @@ class Helpers extends Singleton implements ConstInterface {
 			);
 		} else {
 				echo
-				'<button type="button" data-modal-id="dol-modal-'.$modal_id.'" class="dol-global-modal dol-my-4">
-					<i class="fa fa-question-circle"></i>
-					<span>Watch the Video</span>
+				'<button type="button" data-toggle="tooltip"
+	data-placement="bottom"
+	data-tooltip="This button is only view-able for Site Admins. Click on the button to learn more about using & building your Hub with Dollie" data-modal-id="dol-modal-'.$modal_id.'" class="dol-global-modal dol-my-4">
+					<i class="fas fa-user-shield"></i>
+					<span>'.$button_text.'</span>
 				</button>';
 
 				dollie()->load_template(

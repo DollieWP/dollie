@@ -1869,6 +1869,8 @@ input[type="text"].dol-search-input:focus {
     width: 0.5rem; }
 .dol-w-1\/12 {
     width: 8.333333%; }
+.dol-w-2\/3 {
+    width: 66.666667%; }
 .dol-min-w-0 {
     min-width: 0px; }
 .dol-max-w-7xl {
