@@ -53,6 +53,22 @@ final class BlueprintService extends Singleton {
 		return;
 	}
 
+	public function change_site_title_to_blueprint_title() {
+
+		global $post;
+
+		$container = dollie()->get_container( $post->ID );
+
+		if ( ! is_wp_error( $container ) && $container->is_blueprint() ) {
+
+			return $container->get_saved_title();
+
+		}
+
+
+	}
+
+
 	/**
 	 * Return dynamic fields AJAX
 	 *
