@@ -1,11 +1,11 @@
 <?php
 global $pagenow;
-if (( $pagenow == 'post.php' ) && ($_GET['post_type'] == 'product')) {
-	$user = 'a subscriber';
+$user              = 'this customer';
+$user_instructions = '<br><br><strong> Set this to -1<strong/> to prevent this customer from launching more sites';
+
+if ( $pagenow === 'post.php' && isset( $_GET['post_type'] ) && $_GET['post_type'] === 'product' ) {
+	$user              = 'a subscriber';
 	$user_instructions = '';
-} else {
-	$user = 'this customer';
-	$user_instructions = '<br><br><strong> Set this to -1<strong/> to prevent this customer from launching more sites';
 }
 
 if ( function_exists( 'acf_add_local_field_group' ) ) :

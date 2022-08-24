@@ -96,12 +96,12 @@ final class Services extends Singleton {
 	public function add_acf_fields( $field_group ) {
 
 		global $pagenow;
-		if (( $pagenow == 'post.php' ) && ($_GET['post_type'] == 'product')) {
-			$user = 'a subscriber';
+		$user              = 'this customer';
+		$user_instructions = '<br><br><strong> Set this to -1<strong/> to prevent this customer from launching more sites';
+
+		if ( $pagenow === 'post.php' && isset( $_GET['post_type'] ) && $_GET['post_type'] === 'product' ) {
+			$user              = 'a subscriber';
 			$user_instructions = '';
-		} else {
-			$user = 'this customer';
-			$user_instructions = '<br><br><strong> Set this to -1<strong/> to prevent this customer from launching more sites';
 		}
 
 		// general
@@ -182,7 +182,7 @@ final class Services extends Singleton {
 				'label'                    => __( 'Enable VIP Sites', 'dollie' ),
 				'name'                     => '_wpd_woo_launch_as_vip',
 				'type'                     => 'true_false',
-				'instructions'      => sprintf( esc_html__( 'When enabled for %s all of their sites will automatically be VIP sites. Please look at the VIP Sites documentation to learn more.',  'dollie'), $user),
+				'instructions'             => sprintf( esc_html__( 'When enabled for %s all of their sites will automatically be VIP sites. Please look at the VIP Sites documentation to learn more.', 'dollie' ), $user ),
 				'required'                 => 0,
 				'wrapper'                  => array(
 					'width' => '',
@@ -339,7 +339,7 @@ final class Services extends Singleton {
 	public function blueprints_skip_from_list( $skip, $container ) {
 		$subscription_vip = dollie()->subscription()->has_vip( get_current_user_id() );
 
-		if (! $subscription_vip && $container->is_vip() ) {
+		if ( ! $subscription_vip && $container->is_vip() ) {
 			$skip = true;
 		}
 
