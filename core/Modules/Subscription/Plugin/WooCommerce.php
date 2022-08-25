@@ -23,7 +23,6 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 * WooCommerce constructor
 	 */
 	public function __construct() {
-		add_action( 'acf/init', [ $this, 'load_acf' ] );
 		add_action( 'init', [ $this, 'enable_automatic_payments' ] );
 		add_action( 'woocommerce_thankyou', [ $this, 'redirect_to_blueprint' ] );
 		add_action( 'after_setup_theme', [ $this, 'add_theme_support' ] );
@@ -32,15 +31,6 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 		add_filter( 'dollie/blueprints', [ $this, 'filter_blueprints' ] );
 
-	}
-
-	/**
-	 * Load ACF
-	 *
-	 * @return void
-	 */
-	public function load_acf() {
-		require DOLLIE_CORE_PATH . 'Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php';
 	}
 
 	/**

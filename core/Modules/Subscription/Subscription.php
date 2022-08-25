@@ -43,6 +43,18 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			throw new \Exception( 'Invalid subscription plugin' );
 		}
 
+		add_action( 'acf/init', [ $this, 'load_acf' ] );
+
+
+	}
+
+	/**
+	 * Load ACF
+	 *
+	 * @return void
+	 */
+	public function load_acf() {
+		require DOLLIE_CORE_PATH . 'Modules/Subscription/Plugin/acf-fields/acf-fields.php';
 	}
 
 	public function redirect_to_blueprint( $id ) {
