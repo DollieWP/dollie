@@ -14,7 +14,7 @@ function ocdi_import_files_string()
 }
 add_filter('ocdi/import_files', 'ocdi_import_files_string');
 
-function ocdi_plugin_page_setup($default_settings)
+function dollie_hub_plugin_setup($default_settings)
 {
 	$default_settings['parent_slug'] = 'admin.php?page=dollie_setup';
 	$default_settings['page_title']  = esc_html__('Setup Wizard', 'one-click-demo-import');
@@ -24,6 +24,6 @@ function ocdi_plugin_page_setup($default_settings)
 
 	return $default_settings;
 }
-add_filter('ocdi/plugin_page_setup', 'ocdi_plugin_page_setup');
+add_filter('ocdi/plugin_page_setup', 'dollie_hub_plugin_setup');
 
 

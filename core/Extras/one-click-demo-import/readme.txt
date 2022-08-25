@@ -266,7 +266,7 @@ This will greatly improve the time needed to import the content (images), but on
 As a theme author you do not like the location of the "Import Demo Data" plugin page in *Appearance -> Import Demo Data*? You can change that with the filter below. Apart from the location, you can also change the title or the page/menu and some other parameters as well.
 
 `
-function ocdi_plugin_page_setup( $default_settings ) {
+function dollie_hub_plugin_setup( $default_settings ) {
 	$default_settings['parent_slug'] = 'themes.php';
 	$default_settings['page_title']  = esc_html__( 'One Click Demo Import' , 'one-click-demo-import' );
 	$default_settings['menu_title']  = esc_html__( 'Import Demo Data' , 'one-click-demo-import' );
@@ -275,7 +275,7 @@ function ocdi_plugin_page_setup( $default_settings ) {
 
 	return $default_settings;
 }
-add_filter( 'ocdi/plugin_page_setup', 'ocdi_plugin_page_setup' );
+add_filter( 'ocdi/plugin_page_setup', 'dollie_hub_plugin_setup' );
 `
 
 = How to do something before the content import executes? =
