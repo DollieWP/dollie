@@ -107,8 +107,48 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		return $this->module->has_staging( $user_id );
 	}
 
-	public function has_vip($user_id = null) {
-		return $this->module->has_vip($user_id);
+	/**
+	 * Check if user has vip status
+	 *
+	 * @param null|int $user_id
+	 *
+	 * @return boolean
+	 */
+	public function has_vip( $user_id = null ) {
+
+		if ( ! get_field( 'wpd_enable_vip_sites', 'options' ) ) {
+			return false;
+		}
+
+		if ( is_super_admin() ) {
+			return true;
+		}
+
+		if ( null === $user_id ) {
+			$user_id = get_current_user_id();
+		}
+
+		// Has VIP via User meta overwrite?
+		$usermeta_vip = get_field('_wpd_woo_launch_as_vip', 'user_'.$user_id);
+
+		if ( $usermeta_vip ) {
+			return true;
+		}
+
+		//Has subscription?
+		$subscriptions = $this->get_customer_subscriptions( null, $user_id );
+
+		// If no subscription is active or no subscription is found.
+		if ( empty( $subscriptions ) ) {
+			return false;
+		}
+
+		// Has subscription but is VIP enabled for this subcription?
+		if ( isset( $subscriptions['resources']['launch_as_vip'] ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public function staging_sites_limit_reached( $user_id = null ) {
