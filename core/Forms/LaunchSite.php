@@ -221,14 +221,8 @@ class LaunchSite extends Singleton implements ConstInterface {
 
 
 		// Do not render at all on Blueprint launch page
-		if ( $blueprint_page == $wp_query->post->ID ) {
+		if ( $wp_query->post === null  || $blueprint_page === $wp_query->post->ID ) {
 			return $field;
-		}
-
-
-		if ( ! is_user_logged_in() && ( is_page( $launch_id ) || is_page( $sites_id ) ) ) {
-			wp_redirect( get_permalink( $dash_id ) );
-			exit();
 		}
 
 		$default_option = [];
