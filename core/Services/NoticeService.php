@@ -150,11 +150,13 @@ final class NoticeService extends Singleton {
 			die();
 		}
 
-		if ( ! dollie()->subscription()->has_partner_subscription() && dollie()->auth()->is_connected() && dollie_setup_get_setup_step() !== 'no-package' ) {
+		if ( ! dollie()->subscription()->has_partner_subscription() && ! dollie()->subscription()->has_partner_hit_time_limit() && dollie_setup_get_setup_step() !== 'no-package' ) {
 			dollie()->load_template( 'admin/notices/subscription-missing', [], true );
+		} elseif ( ! dollie()->subscription()->has_partner_subscription() && dollie()->subscription()->has_partner_hit_time_limit() && dollie_setup_get_setup_step() !== 'no-package' ) {
+			dollie()->load_template( 'admin/notices/subscription-time-limit', [], true );
 		} elseif ( dollie()->subscription()->has_partner_subscription() &&
 			0 === dollie()->subscription()->get_partner_deploy_limit() ) {
-			dollie()->load_template( 'admin/notices/subscription-limit', [], true );
+			dollie()->load_template( 'admin/notices/subscription-sites-limit', [], true );
 		}
 	}
 

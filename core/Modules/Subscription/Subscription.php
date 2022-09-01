@@ -45,7 +45,6 @@ class Subscription extends Singleton implements SubscriptionInterface {
 
 		add_action( 'acf/init', [ $this, 'load_acf' ] );
 
-
 	}
 
 	/**
@@ -114,7 +113,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 *
 	 * @return boolean
 	 */
-	public function has_vip( $user_id = null ) {
+	public function has_vip($user_id = null) {
 
 		if ( ! get_field( 'wpd_enable_vip_sites', 'options' ) ) {
 			return false;
@@ -188,6 +187,29 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		}
 
 		return false === $subscription ? $subscription : $subscription['status'];
+	}
+
+	/**
+	 * Check if partner hast hit free trial limit
+	 *
+	 * @return boolean
+	 */
+	public function has_partner_hit_time_limit() {
+		$subscription = $this->get_partner_subscription();
+
+		if ( is_wp_error( $subscription ) || empty( $subscription ) ) {
+			return false;
+		}
+
+		if ( false === $subscription ) {
+			return $subscription;
+		}
+
+		if ( isset( $subscription['required'] ) ) {
+			return $subscription['required'];
+		}
+
+		return false;
 	}
 
 	/**
