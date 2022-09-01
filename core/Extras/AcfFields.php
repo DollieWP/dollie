@@ -38,15 +38,6 @@ if (function_exists('acf_add_local_field_group')):
 				'type' => 'text',
 				'instructions' => __('This is shown when using the shortcode [dollie-blueprints] on your pages.', 'dollie'),
 				'required' => 0,
-				'conditional_logic' => array(
-						array(
-							array(
-							'field' => 'field_5affdce12d99a',
-							'operator' => '==',
-							'value' => 'yes',
-						),
-					),
-				),
 				'wrapper' => array(
 					'width' => '',
 					'class' => '',
@@ -58,22 +49,13 @@ if (function_exists('acf_add_local_field_group')):
 				'append' => '',
 				'maxlength' => '',
 			),
-				array(
+			array(
 				'key' => 'field_5b057871639a5',
 				'label' => __('Blueprint Description', 'dollie'),
 				'name' => 'wpd_installation_blueprint_description',
 				'type' => 'textarea',
 				'instructions' => __('This is shown when using the shortcode [dollie-blueprints] on your pages.', 'dollie'),
 				'required' => 0,
-				'conditional_logic' => array(
-						array(
-							array(
-							'field' => 'field_5affdce12d99a',
-							'operator' => '==',
-							'value' => 'yes',
-						),
-					),
-				),
 				'wrapper' => array(
 					'width' => '',
 					'class' => '',
@@ -85,44 +67,7 @@ if (function_exists('acf_add_local_field_group')):
 				'rows' => 13,
 				'new_lines' => 'wpautop',
 			),
-				array(
-				'key' => 'field_5b0578b4639a6',
-				'label' => __('Link to Hosting Product', 'dollie'),
-				'name' => 'wpd_installation_blueprint_hosting_product',
-				'type' => 'relationship',
-				'instructions' => __('By linking this blueprint directly to a hosting product you can enable one-click checkout + deployment for your new customers.', 'dollie'),
-				'required' => 0,
-				'conditional_logic' => array(
-						array(
-							array(
-							'field' => 'field_5affdce12d99a',
-							'operator' => '==',
-							'value' => 'yes',
-						),
-					),
-				),
-				'wrapper' => array(
-					'width' => '',
-					'class' => '',
-					'id' => '',
-				),
-				'hide_admin' => 0,
-				'post_type' => array(
-					0 => 'product',
-				),
-				'taxonomy' => '',
-				'filters' => array(
-					0 => 'search',
-					1 => 'taxonomy',
-				),
-				'elements' => array(
-					0 => 'featured_image',
-				),
-				'min' => '',
-				'max' => 1,
-				'return_format' => 'id',
-			),
-				array(
+			array(
 				'key' => 'field_5b07d0d9dac66',
 				'label' => __('Blueprint Image', 'dollie'),
 				'name' => 'wpd_blueprint_image',

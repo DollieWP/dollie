@@ -31,6 +31,9 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 		add_filter( 'dollie/blueprints', [ $this, 'filter_blueprints' ] );
 
+		add_filter( 'acf/prepare_field_group_for_import', [ $this, 'add_acf_fields' ] );
+
+
 	}
 
 	/**
@@ -276,14 +279,14 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 *
 	 * @return int|mixed
 	 */
-	public function sites_available($customer_id = null ) {
+	public function sites_available( $customer_id = null ) {
 
 		if ( ! $customer_id ) {
 			$customer_id = get_current_user_id();
 		}
 
-		if ( get_field('_wpd_installs', 'user_'.$customer_id) ) {
-			return get_field('_wpd_installs', 'user_'.$customer_id) - dollie()->get_user()->count_containers();
+		if ( get_field( '_wpd_installs', 'user_' . $customer_id ) ) {
+			return get_field( '_wpd_installs', 'user_' . $customer_id ) - dollie()->get_user()->count_containers();
 		}
 
 		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
@@ -300,14 +303,14 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 *
 	 * @return int|mixed
 	 */
-	public function storage_available($customer_id = null) {
+	public function storage_available( $customer_id = null ) {
 
 		if ( ! $customer_id ) {
 			$customer_id = get_current_user_id();
 		}
 
-		if ( get_field('_wpd_max_size', 'user_'.$customer_id) ) {
-			return get_field('_wpd_max_size', 'user_'.$customer_id);
+		if ( get_field( '_wpd_max_size', 'user_' . $customer_id ) ) {
+			return get_field( '_wpd_max_size', 'user_' . $customer_id );
 		}
 
 		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
@@ -330,8 +333,8 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			$user_id = get_current_user_id();
 		}
 
-		if ( get_field('_wpd_woo_launch_as_vip', 'user_'.$user_id) ) {
-			return get_field('_wpd_woo_launch_as_vip', 'user_'.$user_id);
+		if ( get_field( '_wpd_woo_launch_as_vip', 'user_' . $user_id ) ) {
+			return get_field( '_wpd_woo_launch_as_vip', 'user_' . $user_id );
 		}
 
 		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
@@ -363,7 +366,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 *
 	 * @return bool
 	 */
-	public function site_limit_reached($customer_id = null) {
+	public function site_limit_reached( $customer_id = null ) {
 		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return false;
 		}
@@ -377,8 +380,9 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		}
 
 		//Check if user has custom limits
-		if ( get_field('_wpd_installs', 'user_'.$customer_id) ) {
-			$allowed_sites = (int)get_field('_wpd_installs', 'user_'.$customer_id);
+		if ( get_field( '_wpd_installs', 'user_' . $customer_id ) ) {
+			$allowed_sites = (int) get_field( '_wpd_installs', 'user_' . $customer_id );
+
 			return dollie()->get_user()->count_containers() >= $allowed_sites;
 		}
 
@@ -400,7 +404,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 *
 	 * @return bool
 	 */
-	public function size_limit_reached($customer_id = null) {
+	public function size_limit_reached( $customer_id = null ) {
 		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return false;
 		}
@@ -410,8 +414,8 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		}
 
 		//Check if user has custom limits
-		if ( get_field('_wpd_max_size', 'user_'.$customer_id) ) {
-			$allowed_size = get_field('_wpd_max_size', 'user_'.$customer_id);
+		if ( get_field( '_wpd_max_size', 'user_' . $customer_id ) ) {
+			$allowed_size = get_field( '_wpd_max_size', 'user_' . $customer_id );
 
 			$total_size   = dollie()->insights()->get_total_container_size();
 			$allowed_size = $allowed_size * 1024 * 1024 * 1024;
@@ -512,7 +516,6 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	}
 
 
-
 	/**
 	 * Check if site limit has been reached
 	 *
@@ -561,12 +564,12 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			$sub_included = $this->get_blueprints_exception( 'included' );
 
 			//Has Blueprint includes in User meta?
-			if ( get_field('_wpd_included_blueprints', 'user_'.$customer_id) ) {
-				$user_included_blueprints = get_field('_wpd_included_blueprints', 'user_'.$customer_id);
+			if ( get_field( '_wpd_included_blueprints', 'user_' . $customer_id ) ) {
+				$user_included_blueprints = get_field( '_wpd_included_blueprints', 'user_' . $customer_id );
 
 				//Check if arrays should be merged
 				if ( ! empty( $sub_included ) ) {
-					$included = array_merge($sub_included, $user_included_blueprints);
+					$included = array_merge( $sub_included, $user_included_blueprints );
 				} else {
 					$excluded = $user_included_blueprints;
 				}
@@ -582,13 +585,13 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			$sub_excluded = $this->get_blueprints_exception();
 
 			//Has Blueprint excludes in User meta?
-			if ( get_field('_wpd_excluded_blueprints', 'user_'.$customer_id) ) {
+			if ( get_field( '_wpd_excluded_blueprints', 'user_' . $customer_id ) ) {
 
-				$user_excluded_blueprints = get_field('_wpd_excluded_blueprints', 'user_'.$customer_id);
+				$user_excluded_blueprints = get_field( '_wpd_excluded_blueprints', 'user_' . $customer_id );
 
 				//Check if arrays should be merged
 				if ( ! empty( $sub_excluded ) ) {
-					$excluded = array_merge($sub_excluded, $user_excluded_blueprints);
+					$excluded = array_merge( $sub_excluded, $user_excluded_blueprints );
 				} else {
 					$excluded = $user_excluded_blueprints;
 				}
@@ -608,6 +611,42 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		}
 
 		return $blueprints;
+	}
+
+	public function add_acf_fields( $field_group ) {
+		$fields = [
+			array(
+				'key'           => 'field_5b0578b4639a6',
+				'label'         => __( 'Link to Hosting Product', 'dollie' ),
+				'name'          => 'wpd_installation_blueprint_hosting_product',
+				'type'          => 'relationship',
+				'instructions'  => __( 'By linking this blueprint directly to a hosting product you can enable one-click checkout + deployment for your new customers.', 'dollie' ),
+				'required'      => 0,
+				'wrapper'       => array(
+					'width' => '',
+					'class' => '',
+					'id'    => '',
+				),
+				'hide_admin'    => 0,
+				'post_type'     => array(
+					0 => 'product',
+				),
+				'taxonomy'      => '',
+				'filters'       => array(
+					0 => 'search',
+					1 => 'taxonomy',
+				),
+				'elements'      => array(
+					0 => 'featured_image',
+				),
+				'min'           => '',
+				'max'           => 1,
+				'return_format' => 'id',
+			),
+		];
+
+		return dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5affdcd76c8d1', 'wpd_installation_blueprint_description', 'after' );
+
 	}
 
 }
