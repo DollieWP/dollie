@@ -194,33 +194,6 @@ class Dollie_Setup_Plugins_Agency {
 				'network'                  => false,
 			)
 		);
-		// // BuddyPress External Group Blogs
-		// call_user_func( $instance, array(
-		// 'plugin_name'       => 'External Group Blogs',
-		// 'type'              => 'optional',
-		// 'dollie_setup_name'         => __( 'External RSS Feeds for Groups', 'dollie-setup' ),
-		// 'dollie_setup_description'  => __( 'Gives group creators and administrators the ability to attach external RSS feeds to groups.', 'dollie-setup' ),
-		// 'depends'           => 'BuddyPress (>=1.5)',
-		// 'version'           => '1.6.2',
-		// 'download_url'      => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/external-group-blogs-1.6.2.zip',
-		// 'documentation_url' => 'http://commonsinabox.org/documentation/plugins/buddypress-external-group-rss',
-		// 'network'           => false
-		// ) );
-
-		// // BuddyPress Reply By Email
-		// // @todo Still need to add it in the wp.org plugin repo! Using Github for now.
-		// call_user_func( $instance, array(
-		// 'plugin_name'       => 'BuddyPress Reply By Email',
-		// 'type'              => 'optional',
-		// 'dollie_setup_name'         => __( 'Reply By Email', 'dollie-setup' ),
-		// 'dollie_setup_description'  => __( "Reply to content from all over the community from the comfort of your email inbox", 'dollie-setup' ),
-		// 'version'           => '1.0-RC10',
-		// 'depends'           => 'BuddyPress (>=1.5)',
-		// 'download_url'      => DOLLIE_SETUP_PLUGIN_DIR . 'includes/zip/bp-reply-by-email-1.0-RC10.zip',
-		// 'documentation_url' => 'http://commonsinabox.org/documentation/plugins/buddypress-reply-by-email',
-		// 'admin_settings'    => is_multisite() ? 'options-general.php?page=bp-rbe' : 'admin.php?page=bp-rbe',
-		// 'network_settings'  => 'root-blog-only'
-		// ) );
 	}
 
 }

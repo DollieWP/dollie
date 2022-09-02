@@ -39,10 +39,6 @@ class Dollie_Setup_Plugins {
 					return;
 				}
 
-				// Add the Plugin Dependencies plugin
-				if ( ! class_exists( 'Plugin_Dependencies' ) ) {
-					require_once DOLLIE_SETUP_LIB_DIR . 'wp-plugin-dependencies/plugin-dependencies.php';
-				}
 
 				// Load up admin plugins code.
 				require_once DOLLIE_SETUP_PLUGIN_DIR . 'admin/plugins.php';

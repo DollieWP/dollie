@@ -112,25 +112,12 @@ class Dollie_Setup {
 	private function includes() {
 		// pertinent functions used everywhere
 		require $this->plugin_dir . 'includes/functions.php';
-		require $this->plugin_dir . 'includes/plugins.php';
 
 		// Admin.
 		if ( dollie_setup_is_admin() ) {
 			require $this->plugin_dir . 'admin/admin-loader.php';
 		}
 
-		// Upgrades API - runs in admin area and on AJAX.
-		if ( is_admin() || defined( 'WP_CLI' ) ) {
-			// @todo maybe use autoloader.
-			require $this->plugin_dir . 'includes/upgrades/upgrade-item.php';
-			require $this->plugin_dir . 'includes/upgrades/upgrade.php';
-			require $this->plugin_dir . 'includes/upgrades/upgrade-registry.php';
-		}
-
-		// WP-CLI integration
-		if ( defined( 'WP_CLI' ) ) {
-			$this->cli_autoloader();
-		}
 	}
 
 	/**
@@ -160,29 +147,13 @@ class Dollie_Setup {
 		// localization
 		add_action( 'init', array( $this, 'localization' ), 0 );
 
-		/*
-		 * CLI-specific actions.
-		 *
-		 * This could be improved...
-		 */
-		if ( defined( 'WP_CLI' ) ) {
-			add_filter( 'upgrader_source_selection', 'dollie_setup_rename_github_folder', 1, 4 );
-			add_action(
-				'dollie_setup_plugins_loaded',
-				function() {
-					require_once ABSPATH . 'wp-admin/includes/plugin.php';
-				},
-				91
-			);
-			add_action( 'dollie_setup_plugins_loaded', array( 'Plugin_Dependencies', 'init' ), 91 );
-		}
 
 		// Upgrader routine.
 		add_action(
 			'wp_loaded',
 			function() {
 				// Ensure we're in the admin area or WP CLI.
-				if ( is_admin() || defined( 'WP_CLI' ) ) {
+				if ( is_admin() ) {
 					// Ensure upgrader items are registered.
 					$packages = dollie_setup_get_packages();
 					$current  = dollie_setup_get_current_package_id();
@@ -210,15 +181,6 @@ class Dollie_Setup {
 		// admin area
 		if ( dollie_setup_is_admin() ) {
 			$this->admin   = new Dollie_Setup_Admin();
-			$this->plugins = new Dollie_Setup_Plugins();
-		}
-
-		// WP-CLI integration
-		if ( defined( 'WP_CLI' ) ) {
-			\WP_CLI::add_command( 'dollie_setup', '\Dollie_Setup\CLI\Core' );
-			\WP_CLI::add_command( 'dollie_setup package', '\Dollie_Setup\CLI\Package' );
-			\WP_CLI::add_command( 'dollie_setup update', '\Dollie_Setup\CLI\Update' );
-			\WP_CLI::add_command( 'dollie_setup upgrade', '\Dollie_Setup\CLI\Upgrade' );
 		}
 
 		/**

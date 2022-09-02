@@ -31,3 +31,29 @@ function dollie_hub_plugin_setup( $default_settings ) {
 	return $default_settings;
 }
 add_filter('ocdi/plugin_page_setup', 'dollie_hub_plugin_setup');
+
+function ocdi_register_plugins( $plugins ) {
+  $theme_plugins = [
+    [ // A WordPress.org plugin repository example.
+      'name'     => 'Advanced Custom Fields', // Name of the plugin.
+      'slug'     => 'advanced-custom-fields', // Plugin slug - the same as on WordPress.org plugin repository.
+      'required' => true,                     // If the plugin is required or not.
+    ],
+    [ // A locally theme bundled plugin example.
+      'name'     => 'Some Bundled Plugin',
+      'slug'     => 'bundled-plugin',         // The slug has to match the extracted folder from the zip.
+      'source'   => get_template_directory_uri() . '/bundled-plugins/bundled-plugin.zip',
+      'required' => false,
+    ],
+    [
+      'name'        => 'Self Hosted Plugin',
+      'description' => 'This is the plugin description',
+      'slug'        => 'self-hosted-plugin',  // The slug has to match the extracted folder from the zip.
+      'source'      => 'https://example.com/my-site/self-hosted-plugin.zip',
+      'preselected' => true,
+    ],
+  ];
+
+  return array_merge( $plugins, $theme_plugins );
+}
+add_filter( 'ocdi/register_plugins', 'ocdi_register_plugins' );

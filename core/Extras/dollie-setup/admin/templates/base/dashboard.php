@@ -4,7 +4,9 @@
 			<h1 class="dol-sr-only">Profile</h1>
 			<div class="dol-grid dol-items-start dol-grid-cols-1 dol-gap-4 lg:dol-grid-cols-3 lg:dol-gap-8">
 				<div class="dol-grid dol-grid-cols-1 dol-gap-4 lg:dol-col-span-2">
-					<?php // dollie_setup_get_template_part( 'onboarding-form' ); ?>
+
+						<!-- <li><a class="confirm" href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'admin.php?page=dollie_setup&amp;dollie_setup-package=0' ), 'dollie_setup_select_package' ) ); ?>"><?php esc_html_e( 'Change packages', 'dollie-setup' ); ?></a></li> -->
+					<?php //dollie_setup_get_template_part( 'onboarding-form' ); ?>
 					<?php dollie_setup_get_template_part( 'welcome-header' ); ?>
 					<?php dollie_setup_get_template_part( 'setup-complete' ); ?>
 					<?php dollie_setup_get_template_part( 'launch-actions' ); ?>
