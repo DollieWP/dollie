@@ -14,7 +14,7 @@ if ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'custom' ) {
 
 ?>
 
-<div class="dol-w-full dol-rounded">
+<div class="dol-w-full dol-rounded dol-relative">
 <img data-toggle="tooltip"
 	data-placement="bottom"
 	data-tooltip="<?php echo esc_attr( $container->get_saved_description() ); ?>"
@@ -27,5 +27,14 @@ if ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'custom' ) {
 			<?php echo dollie()->icon()->vip( 'dol-text-secondary dol-text-s' ); ?>
 		</span>
 <?php endif; ?>
+				<?php
+				$icon           = dollie()->icon()->preview( 'dol-pr-2 dol-t' );
+
+				$path = $container->get_url();
+				?>
+
+				<a href="<?php echo esc_url( $path ); ?>" target="_blank" class="dol-absolute dol-top-3 dol-right-3 dol-badge dol-badge-accent dol-text-white dol-text-xs dol-font-semibold dol-p-2 dol-uppercase">
+					<?php echo wp_kses_post( sprintf( __( '%s Preview', 'dollie' ), $icon ) ); ?>
+				</a>
 </div>
 
