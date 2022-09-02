@@ -2,6 +2,7 @@ const colors = require("tailwindcss/colors");
 
 module.exports = {
     prefix: "dol-",
+    important: true,
     theme: {
         colors: {
             transparent: "transparent",
