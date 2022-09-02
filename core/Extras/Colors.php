@@ -442,7 +442,7 @@ function dol_theme_body_start() {
 		</div>
 	<?php
 }
-add_action( 'wp_footer', 'dol_theme_body_start' );
+//add_action( 'wp_footer', 'dol_theme_body_start' );
 
 function dol_theme_body_close() {
 	$container_meta = get_post_meta( get_queried_object_id() );
