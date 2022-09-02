@@ -108,10 +108,12 @@ final class Services extends Singleton {
 		$fields = [
 			array(
 				'key'               => 'field_60a7974f69558',
-				'label'             => __( 'VIP Sites', 'dollie' ),
+				'label'             => __( 'VIP Sites (BETA)', 'dollie' ),
 				'name'              => 'wpd_enable_vip_sites',
 				'type'              => 'true_false',
-				'instructions'      => __( 'With VIP Sites you can enable additional resources, additional backups and priority support from our team for one or multiple sites with the click of a button.', 'dollie' ),
+				'instructions' => __( 'Notice - Please only user after having spoken to our team. With VIP Sites you can enable
+				additional resources, additional backups and priority support from our team for one or multiple sites with the click of
+				a button.', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -121,7 +123,7 @@ final class Services extends Singleton {
 				),
 				'hide_admin'        => 0,
 				'message'           => '',
-				'default_value'     => 1,
+				'default_value'     => 0,
 				'ui'                => 1,
 				'ui_on_text'        => 'Enable',
 				'ui_off_text'       => 'Disable',
