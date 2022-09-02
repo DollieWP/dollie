@@ -1,8 +1,12 @@
 <div class="notice dollie-notice dollie-notice-error">
 	<div class="dollie-inner-message">
 		<div class="dollie-message-center">
-			<h3><?php esc_html_e( 'Dollie Subscription Limit Reached', 'dollie' ); ?> </h3>
-			<p><?php esc_html_e( 'You have reached the maximum number of allowed sites to launch via your Hub. Please note that you and your clients won\'t be able to launch new sites until you have set up your subscription.', 'dollie' ); ?></p>
+					<h3>
+						<?php esc_html_e( 'Dollie Trial - Site Limit Reached', 'dollie' ); ?>
+					</h3>
+					<p>
+						<?php esc_html_e( 'You have reached the maximum number of allowed sites to launch via your Hub during your Trial. Start your subscription to launch more sites! Do not worry about any upfront costs, you only pay for the active sites on your platform.', 'dollie' ); ?>
+					</p>
 		</div>
 
 		<?php
