@@ -4,11 +4,11 @@
 
     .acf-switch {
         @apply dol-border-gray-300;
-        background: transparent
+        background: transparent;
     }
 
     .acf-switch .acf-switch-slider {
-        background: linear-gradient(#ffffff, #fdfdfd, #dddddd);
+        background: linear-gradient(#ffffff, #fdfdfd, #ddd);
         @apply dol-border-primary-600;
     }
 
@@ -25,9 +25,11 @@
         }
     }
 
+
     .acf-bl label {
         padding: 5px;
     }
+
 
     .acf-radio-list {
         label {
