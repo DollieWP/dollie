@@ -325,6 +325,11 @@ class Helpers extends Singleton implements ConstInterface {
 			return 'trial';
 		}
 
+		if ( ! dollie()->subscription()->has_partner_verified() ) {
+			return 'unverified';
+		}
+
+
 		if ( dollie()->workspace()->has_custom_deployment_domain() && ! get_option( 'wpd_deployment_domain_notice' ) ) {
 			return 'staging';
 		}

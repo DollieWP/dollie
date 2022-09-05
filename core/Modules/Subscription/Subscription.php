@@ -498,6 +498,24 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	}
 
 	/**
+	* Check if partner has verified account
+	*
+	* @return boolean
+	*/
+	public function has_partner_verified() {
+		$subscription = $this->get_partner_subscription();
+		if ( is_wp_error( $subscription ) || empty( $subscription ) ) {
+			return false;
+		}
+
+		if ( isset( $subscription['unverified'] ) ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
 	 * Check if partner hast hit free trial limit
 	 *
 	 * @return boolean
