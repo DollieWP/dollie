@@ -30,7 +30,8 @@ if ( ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_
 					true
 				);
 
-	} else {
+	}
+	else {
 
 		dollie()->load_template(
 		'notice',
