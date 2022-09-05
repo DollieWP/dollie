@@ -161,6 +161,30 @@ final class NoticeService extends Singleton {
 	}
 
 	/**
+	 * No credits
+	 *
+	 * @return void
+	 */
+	public function subscription_not_verified(): void {
+		if ( ! current_user_can( 'manage_options' ) ||
+			! dollie()->auth()->is_connected() ) {
+			return;
+		}
+
+		if ( isset( $_GET['wpd_check_subscription'] ) ) {
+			delete_transient( 'wpd_partner_subscription' );
+			wp_redirect( admin_url() );
+			die();
+		}
+
+		if ( dollie()->get_partner_status() == 'unverified' ) {
+			dollie()->load_template( 'admin/notices/subscription-not-verified', [], true );
+		}
+
+
+	}
+
+	/**
 	 * Container manager notice
 	 *
 	 * @return void
