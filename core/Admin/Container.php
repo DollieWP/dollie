@@ -281,6 +281,8 @@ final class Container extends Singleton implements ConstInterface {
 
 		if ( dollie()->get_partner_status() == 'trial' ) {
 			$menu_title = '(Trial)';
+		} elseif ( dollie()->get_partner_status() == 'unverified' ) {
+			$menu_title = '(Unverified)';
 		} elseif ( dollie()->get_partner_status() == 'staging' ) {
 			$menu_title = '(Staging)';
 		} else {
