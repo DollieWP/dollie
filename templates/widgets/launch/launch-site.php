@@ -108,3 +108,23 @@ if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && ! is_admin() && $wp_query-
 
 // Load form
 dollie()->load_template( 'widgets/launch/form', [ 'settings' => $settings ], true );
+
+if ( dollie()->get_partner_status() == 'unverified' ) {
+
+	dollie()->load_template(
+			'notice',
+			[
+				'type' => 'info',
+				'icon' => 'fas fa-exclamation-circle',
+				'title' => __( 'Unverified Account - Your sites will be launched with restricted functionality', 'dollie' ),
+				'message' => 'To prevent abuse of the Dollie platform we need to verify your account before you get unrestricted access to the platform. Verification is completely free, will take less than 5 minutes and will allow you to launch sites with unrestricted (developer) access!',
+				'links' => [
+					[
+						'title' => __( 'Verify Your Account', 'dollie' ),
+						'url' => 'https://cloud.getdollie.com',
+					],
+				],
+			],
+			true
+	);
+}
