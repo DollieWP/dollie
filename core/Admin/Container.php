@@ -682,6 +682,11 @@ final class Container extends Singleton implements ConstInterface {
 			add_action( 'admin_footer', [ $this, 'admin_footer_wrap' ], 999999 );
 		}
 
+		if ( 'edit-dollie-access-groups' === $screen->id ) {
+			add_action( 'all_admin_notices', [ $this, 'access_group_info_banner' ] );
+			add_action( 'admin_footer', [ $this, 'admin_footer_wrap' ], 999999 );
+		}
+
 		if ( 'edit-dollie-logs' === $screen->id ) {
 			add_action( 'all_admin_notices', [ $this, 'blueprint_info_banner' ] );
 			add_action( 'admin_footer', [ $this, 'admin_footer_wrap' ], 999999 );
@@ -739,6 +744,28 @@ final class Container extends Singleton implements ConstInterface {
 				</p>
 			</div>
 		<?php endif; ?>
+		<?php
+	}
+
+	/**
+	 * Site info banner
+	 *
+	 * @return void
+	 */
+	public function access_group_info_banner() {
+		?>
+		<?php
+			dollie_setup_get_template_part( 'wrapper-header' );
+			?>
+			<div class="dollie-page-intro">
+				<p>
+					<?php
+					printf(
+						esc_html__( 'With Access Groups you can easily control what your customers/clients can do inside your Hub.', 'dollie' ),
+					);
+					?>
+				</p>
+			</div>
 		<?php
 	}
 

@@ -103,8 +103,9 @@ class Plugin extends Singleton {
 			require_once DOLLIE_CORE_PATH . 'Extras/wds-log-post/wds-log-post.php';
 		}
 
-		// Load TGM Class
-		// if (!class_exists('TGM_Plugin_Activation')) {
+
+		// //Load TGM Class
+		// if (!class_exists('\TGM_Plugin_Activation')) {
 		// require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/class-tgm-plugin-activation.php';
 		// require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/requirements.php';
 		// }

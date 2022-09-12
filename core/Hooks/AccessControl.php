@@ -23,6 +23,8 @@ class AccessControl extends Singleton {
 
 		$access_service = AccessService::instance();
 
+		add_action( 'init', [ $access_service, 'register_access_groups_cpt' ]);
+
 		add_action( 'template_redirect', [ $access_service, 'logged_in_only' ] );
 		add_action( 'template_redirect', [ $access_service, 'protect_launch_site' ] );
 		add_action( 'template_redirect', [ $access_service, 'protect_container_access' ], 1 );
