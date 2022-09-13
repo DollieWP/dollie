@@ -29,7 +29,7 @@ final class BlueprintService extends Singleton {
 	 *
 	 * @return void
 	 */
-	public function notice(): void {
+	public function notice() {
 		if ( ! is_singular( 'container' ) ) {
 			return;
 		}
@@ -49,23 +49,28 @@ final class BlueprintService extends Singleton {
 		}
 
 		dollie()->load_template( 'notices/blueprint-live', [ 'container' => $container ], true );
-
-		return;
 	}
 
-	public function change_site_title_to_blueprint_title() {
-
+	/**
+	 * Change site title
+	 *
+	 * @param string $title
+	 * @return string
+	 */
+	public function change_site_title_to_blueprint_title( $title ) {
 		global $post;
+
+		if ( ! $post ) {
+			return $title;
+		}
 
 		$container = dollie()->get_container( $post->ID );
 
-		if ( ! is_wp_error( $container ) && $container->is_blueprint() ) {
-
-			return $container->get_saved_title();
-
+		if ( is_wp_error( $container ) || ! $container->is_blueprint() ) {
+			return $title;
 		}
 
-
+		return $container->get_saved_title();
 	}
 
 
@@ -190,7 +195,6 @@ final class BlueprintService extends Singleton {
 	 * @return array
 	 */
 	public function get( string $type = null ): array {
-
 		$data = [];
 
 		$posts = get_posts(
