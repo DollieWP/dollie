@@ -10,6 +10,7 @@ use Dollie\Core\Plugin;
 use Dollie\Core\Singleton;
 
 final class NoticeService extends Singleton {
+
 	/**
 	 * Elementor not installed notice
 	 */
@@ -177,11 +178,9 @@ final class NoticeService extends Singleton {
 			die();
 		}
 
-		if ( dollie()->get_partner_status() == 'unverified' ) {
+		if ( ! dollie()->subscription()->has_partner_verified() ) {
 			dollie()->load_template( 'admin/notices/subscription-not-verified', [], true );
 		}
-
-
 	}
 
 	/**

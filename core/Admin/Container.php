@@ -28,8 +28,8 @@ final class Container extends Singleton implements ConstInterface {
 			add_action( 'admin_menu', [ $this, 'add_blueprint_submenu' ], 1 );
 			add_action( 'admin_menu', [ $this, 'add_extra_menu_links' ], 100 );
 
-			add_action('auth_redirect', [$this, 'add_site_icon_filter' ]); // modify esc_attr on auth_redirect
-			add_action('admin_menu', [$this,'remove_site_icon_filter']); // restore on admin_menu (very soon)
+			add_action( 'auth_redirect', [ $this, 'add_site_icon_filter' ] ); // modify esc_attr on auth_redirect
+			add_action( 'admin_menu', [ $this, 'remove_site_icon_filter' ] ); // restore on admin_menu (very soon)
 
 		}
 
@@ -279,11 +279,11 @@ final class Container extends Singleton implements ConstInterface {
 
 		$iconurl = DOLLIE_URL . 'assets/img/active.png';
 
-		if ( dollie()->get_partner_status() == 'trial' ) {
+		if ( 'trial' === dollie()->get_partner_status() ) {
 			$menu_title = '(Trial)';
-		} elseif ( dollie()->get_partner_status() == 'unverified' ) {
+		} elseif ( 'unverified' === dollie()->get_partner_status() ) {
 			$menu_title = '(Unverified)';
-		} elseif ( dollie()->get_partner_status() == 'staging' ) {
+		} elseif ( 'staging' === dollie()->get_partner_status() ) {
 			$menu_title = '(Staging)';
 		} else {
 			$menu_title = '(Live)';
@@ -347,7 +347,7 @@ final class Container extends Singleton implements ConstInterface {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => dollie()->icon()->site(). esc_html__( 'Sites', 'dollie' ),
+				'title'  => dollie()->icon()->site() . esc_html__( 'Sites', 'dollie' ),
 				'id'     => 'dab-sites',
 				'href'   => '',
 				'meta'   => [ 'target' => '' ],
@@ -833,12 +833,12 @@ final class Container extends Singleton implements ConstInterface {
 	 * Add Site Icon to Menu
 	 */
 	public function add_site_icon( $safe_text = '', $text = '' ) {
-		if ( substr_count($text, '%%ICON%%') ) {
-			$text = trim( str_replace('%%ICON%%', '', $text) );
+		if ( substr_count( $text, '%%ICON%%' ) ) {
+			$text = trim( str_replace( '%%ICON%%', '', $text ) );
 			// run only once!
-			remove_filter('attribute_escape', 'add_site_icon', 20, 2);
-			$safe_text = esc_attr($text);
-			$text = dollie()->icon()->site() . esc_attr($text) ;
+			remove_filter( 'attribute_escape', 'add_site_icon', 20, 2 );
+			$safe_text = esc_attr( $text );
+			$text      = dollie()->icon()->site() . esc_attr( $text );
 			return $text;
 		}
 
@@ -937,8 +937,8 @@ final class Container extends Singleton implements ConstInterface {
 	 */
 	public function filter_by_author() {
 		$params = [
-			'name' => 'author',
-            'show_option_all' => 'All customers'
+			'name'            => 'author',
+			'show_option_all' => 'All customers',
 		];
 
 		if ( isset( $_GET['user'] ) ) {

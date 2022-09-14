@@ -47,7 +47,6 @@ class Subscription extends Singleton implements SubscriptionInterface {
 
 		add_filter( 'dollie/blueprints', [ $this, 'filter_blueprints' ] );
 
-
 	}
 
 	/**
@@ -196,7 +195,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
-		//Check if user has custom limits
+		// Check if user has custom limits
 		if ( get_field( '_wpd_installs', 'user_' . $customer_id ) ) {
 			$allowed_sites = (int) get_field( '_wpd_installs', 'user_' . $customer_id );
 
@@ -230,11 +229,11 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
-		//Check if user has custom limits
+		// Check if user has custom limits
 		if ( get_field( '_wpd_max_size', 'user_' . $customer_id ) ) {
 			$allowed_size = get_field( '_wpd_max_size', 'user_' . $customer_id );
 
-			$total_size   = dollie()->insights()->get_total_container_size();
+			$total_size    = dollie()->insights()->get_total_container_size();
 			$allowed_size *= 1024 * 1024 * 1024;
 
 			return $total_size >= $allowed_size && ! current_user_can( 'manage_options' );
@@ -259,7 +258,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 */
 	public function get_blueprints_exception( $type = 'excluded' ) {
 		$data          = [];
-		$type          .= '_blueprints';
+		$type         .= '_blueprints';
 		$subscriptions = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
 
 		if ( empty( $subscriptions ) ) {
@@ -335,14 +334,14 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		$customer_id = get_current_user_id();
 		if ( ! empty( $blueprints ) ) {
 
-			//Has Blueprint inclusions in sub?
+			// Has Blueprint inclusions in sub?
 			$sub_included = $this->get_blueprints_exception( 'included' );
 
-			//Has Blueprint includes in User meta?
+			// Has Blueprint includes in User meta?
 			if ( get_field( '_wpd_included_blueprints', 'user_' . $customer_id ) ) {
 				$user_included_blueprints = get_field( '_wpd_included_blueprints', 'user_' . $customer_id );
 
-				//Check if arrays should be merged
+				// Check if arrays should be merged
 				if ( ! empty( $sub_included ) ) {
 					$included = array_merge( $sub_included, $user_included_blueprints );
 				} else {
@@ -356,26 +355,25 @@ class Subscription extends Singleton implements SubscriptionInterface {
 				return array_intersect_key( $blueprints, $included );
 			}
 
-			//Has Blueprint exclusions in sub?
+			// Has Blueprint exclusions in sub?
 			$sub_excluded = $this->get_blueprints_exception();
 
-			//Has Blueprint excludes in User meta?
+			// Has Blueprint excludes in User meta?
 			if ( get_field( '_wpd_excluded_blueprints', 'user_' . $customer_id ) ) {
 
 				$user_excluded_blueprints = get_field( '_wpd_excluded_blueprints', 'user_' . $customer_id );
 
-				//Check if arrays should be merged
+				// Check if arrays should be merged
 				if ( ! empty( $sub_excluded ) ) {
 					$excluded = array_merge( $sub_excluded, $user_excluded_blueprints );
 				} else {
 					$excluded = $user_excluded_blueprints;
 				}
-
 			} else {
 				$excluded = $sub_excluded;
 			}
 
-			//Filter blueprints
+			// Filter blueprints
 			if ( ! empty( $excluded ) ) {
 				foreach ( $excluded as $bp_id ) {
 					if ( isset( $blueprints[ $bp_id ] ) ) {
@@ -445,7 +443,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			return true;
 		}
 
-		//Has subscription?
+		// Has subscription?
 		$subscriptions = $this->get_customer_subscriptions( null, $user_id );
 
 		// If no subscription is active or no subscription is found.
@@ -498,21 +496,22 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	}
 
 	/**
-	* Check if partner has verified account
-	*
-	* @return boolean
-	*/
+	 * Check if partner has verified account
+	 *
+	 * @return boolean
+	 */
 	public function has_partner_verified() {
 		$subscription = $this->get_partner_subscription();
+
 		if ( is_wp_error( $subscription ) || empty( $subscription ) ) {
 			return false;
 		}
 
-		if ( isset( $subscription['unverified'] ) ) {
+		if ( ! isset( $subscription['verified'] ) ) {
 			return false;
 		}
 
-		return true;
+		return $subscription['verified'];
 	}
 
 	/**
