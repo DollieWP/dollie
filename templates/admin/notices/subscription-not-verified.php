@@ -8,7 +8,7 @@
 
 		<?php
 		printf(
-			'<a href="https://cloud.getdollie.com/" class="button button-primary" target="_blank">%s</a>',
+			'<a href="https://cloud.getdollie.com/verify-my-account/" class="button button-primary" target="_blank">%s</a>',
 			esc_html__( 'Verify Your Account', 'dollie' )
 		);
 

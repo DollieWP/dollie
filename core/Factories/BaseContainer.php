@@ -906,8 +906,6 @@ abstract class BaseContainer implements ConstInterface {
 
 				return $this->find_value_recursively( $details[ $key ], $new_composite_key );
 			}
-
-			return new \WP_Error( 'Failed to find value' );
 		}
 
 		return new \WP_Error( 'Failed to find value' );

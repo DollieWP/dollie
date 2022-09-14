@@ -95,8 +95,9 @@ if ( array_key_exists( $page, $pages ) ) {
 				'message' => 'Unlock full access to all Dollie Hub features like the Developer Tools by verifying your Dollie Cloud account. These restrictions are in place to prevent abuse of the Dollie Cloud and will automatically be removed once you verify your account.',
 				'links'   => [
 					[
-						'title' => __( 'Verify Your Account', 'dollie' ),
-						'url'   => 'https://cloud.getdollie.com',
+						'title'   => __( 'Verify Your Account', 'dollie' ),
+						'url'     => 'https://cloud.getdollie.com/verify-my-account/',
+						'new_tab' => true,
 					],
 				],
 			],

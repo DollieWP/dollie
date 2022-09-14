@@ -1,10 +1,9 @@
 <?php
+
 dollie()->load_template( 'widgets/launch/before-message', [], true );
 $subscription = dollie()->subscription();
 
-
 if ( ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_deploy_limit() && dollie()->is_live() ) {
-
 	$message = esc_html__( 'Sorry, We are currently hard at work at our platform and temporary disabled launching new sites. Please come back to this page at a later time.', 'dollie' );
 
 	if ( current_user_can( 'manage_options' ) ) {
@@ -15,37 +14,28 @@ if ( ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_
 	}
 
 	if ( current_user_can( 'manage_options' && dollie()->get_partner_status() == 'trial' ) ) {
-
-			$message = dollie()->load_template( 'admin/notices/subscription-limit', []);
-
-
-				dollie()->load_template(
-					'notice',
-					[
-						'type'    => 'notice',
-						'icon'    => 'fas fa-exclamation-circle',
-						'title'   => 'Please Start Your Subscription to Launch More Sites',
-						'message' => $message,
-					],
-					true
-				);
-
-	}
-	else {
-
 		dollie()->load_template(
-		'notice',
-		[
-			'type'    => 'error',
-			'icon'    => 'fas fa-exclamation-circle',
-			'title'   => __( 'Sorry, Launching a new site is currently not possible.', 'dollie' ),
-			'message' => $message,
-		],
-		true
-	);
-
+			'notice',
+			[
+				'type'    => 'notice',
+				'icon'    => 'fas fa-exclamation-circle',
+				'title'   => 'Please Start Your Subscription to Launch More Sites',
+				'message' => dollie()->load_template( 'admin/notices/subscription-limit', [] ),
+			],
+			true
+		);
+	} else {
+		dollie()->load_template(
+			'notice',
+			[
+				'type'    => 'error',
+				'icon'    => 'fas fa-exclamation-circle',
+				'title'   => __( 'Sorry, Launching a new site is currently not possible.', 'dollie' ),
+				'message' => $message,
+			],
+			true
+		);
 	}
-
 
 	return;
 }
