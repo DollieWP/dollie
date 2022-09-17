@@ -530,8 +530,8 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			return $subscription;
 		}
 
-		if ( isset( $subscription['required'] ) ) {
-			return $subscription['required'];
+		if ( isset( $subscription['trial_ended'] ) ) {
+			return $subscription['trial_ended'];
 		}
 
 		return false;
