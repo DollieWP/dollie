@@ -13,14 +13,14 @@ if ( ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_
 		);
 	}
 
-	if ( current_user_can( 'manage_options' && dollie()->get_partner_status() == 'trial' ) ) {
+	if ( current_user_can( 'manage_options' && dollie()->get_partner_status() === 'trial' ) ) {
 		dollie()->load_template(
 			'notice',
 			[
 				'type'    => 'notice',
 				'icon'    => 'fas fa-exclamation-circle',
 				'title'   => 'Please Start Your Subscription to Launch More Sites',
-				'message' => dollie()->load_template( 'admin/notices/subscription-limit', [] ),
+				'message' => dollie()->load_template( 'admin/notices/subscription-sites-limit', [] ),
 			],
 			true
 		);
