@@ -3125,6 +3125,9 @@ input[type="text"].dol-search-input:focus {
 .hover\:dol-bg-red-600:hover {
     --tw-bg-opacity: 1 !important;
     background-color: rgb(220 38 38 / var(--tw-bg-opacity)) !important; }
+.hover\:dol-bg-gray-700:hover {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgb(64 64 64 / var(--tw-bg-opacity)) !important; }
 .hover\:dol-bg-primary:hover {
     background-color: var(--d-primary) !important; }
 .hover\:dol-bg-gray-50:hover {
