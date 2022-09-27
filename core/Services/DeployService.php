@@ -113,8 +113,6 @@ final class DeployService extends Singleton implements ConstInterface {
 
 		$container = dollie()->get_container( $post_id );
 
-		// Log::add_front( Log::WP_SITE_DEPLOY_STARTED, ['id' =>$post_id ] );
-
 		if ( is_wp_error( $container ) ) {
 			return new \WP_Error( 500, 'Post not created' );
 		}
@@ -205,12 +203,12 @@ final class DeployService extends Singleton implements ConstInterface {
 
 			$container->mark_not_updated();
 			$container->fetch_details();
+
+			update_post_meta( $container->get_id(), 'dollie_container_deployed', 1 );
+
+			// Update user role.
+			ChangeContainerRoleJob::instance()->run( $container );
 		}
-
-		// Update user role
-		ChangeContainerRoleJob::instance()->run( $container );
-
-		update_post_meta( $container->get_id(), 'dollie_container_deployed', 1 );
 
 		return true;
 	}

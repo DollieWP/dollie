@@ -57,5 +57,4 @@ class ChangeContainerRoleJob extends Singleton {
 
 		return false;
 	}
-
 }

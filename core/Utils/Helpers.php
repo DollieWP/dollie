@@ -70,7 +70,8 @@ class Helpers extends Singleton implements ConstInterface {
 				return new \WP_Error( 500, 'Invalid container type' );
 		}
 
-		if ( is_single( $object ) ) {
+		if ( is_single( $object ) &&
+			( $container->is_running() || $container->is_stopped() ) ) {
 			$container->fetch_details();
 		}
 
@@ -329,7 +330,6 @@ class Helpers extends Singleton implements ConstInterface {
 			return 'unverified';
 		}
 
-
 		if ( dollie()->workspace()->has_custom_deployment_domain() && ! get_option( 'wpd_deployment_domain_notice' ) ) {
 			return 'staging';
 		}
@@ -400,7 +400,7 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @param $needle
 	 * @param $haystack
-	 * @param bool $strict
+	 * @param bool     $strict
 	 *
 	 * @return bool
 	 */
@@ -436,9 +436,9 @@ class Helpers extends Singleton implements ConstInterface {
 	 */
 	public function is_elementor_editor(): bool {
 		return class_exists( '\Elementor\Plugin' ) &&
-		       ( \Elementor\Plugin::instance()->editor->is_edit_mode() ||
-		         \Elementor\Plugin::instance()->preview->is_preview() ||
-		         isset( $_GET['elementor_library'] ) );
+			   ( \Elementor\Plugin::instance()->editor->is_edit_mode() ||
+				 \Elementor\Plugin::instance()->preview->is_preview() ||
+				 isset( $_GET['elementor_library'] ) );
 	}
 
 	/**
@@ -485,7 +485,7 @@ class Helpers extends Singleton implements ConstInterface {
 
 		if ( $this->is_elementor_editor() ) {
 			$args = [
-				'post_type' => 'container',
+				'post_type'      => 'container',
 
 				'posts_per_page' => 1,
 			];
@@ -603,8 +603,8 @@ class Helpers extends Singleton implements ConstInterface {
 	/**
 	 * Load template
 	 *
-	 * @param string $template
-	 * @param array $args
+	 * @param string  $template
+	 * @param array   $args
 	 * @param boolean $echo
 	 *
 	 * @return void|string
@@ -650,9 +650,11 @@ class Helpers extends Singleton implements ConstInterface {
 		}
 		unset( $field );
 
-		acf_add_local_fields( [
-			$fields
-		] );
+		acf_add_local_fields(
+			[
+				$fields,
+			]
+		);
 	}
 
 	public function add_acf_fields_to_group( $field_group, $fields = [], $group = '', $field_name = '', $type = 'after' ) {
@@ -696,7 +698,7 @@ class Helpers extends Singleton implements ConstInterface {
 
 		$user = dollie()->get_user();
 
-		if (! $user->can_manage_all_sites()) {
+		if ( ! $user->can_manage_all_sites() ) {
 			return;
 		}
 
@@ -704,38 +706,37 @@ class Helpers extends Singleton implements ConstInterface {
 			return '
 				<button data-toggle="tooltip"
 	data-placement="bottom"
-	data-tooltip="Only Site Admins see this helper button." type="button" data-modal-id="dol-modal-'.$modal_id.'" class="dol-global-modal dol-my-4">
+	data-tooltip="Only Site Admins see this helper button." type="button" data-modal-id="dol-modal-' . $modal_id . '" class="dol-global-modal dol-my-4">
 					<i class="fas fa-user-shield"></i>
-					<span>'.$button_text.'</span>
+					<span>' . $button_text . '</span>
 				</button>' . dollie()->load_template(
-				'parts/video-helper',
-				[
-					'modal_id' => $modal_id,
-					'embed_id' => $embed_id,
-					'title' => $title,
-					'button_text' => $button_text,
-				],
-				false
-			);
+						'parts/video-helper',
+						[
+							'modal_id'    => $modal_id,
+							'embed_id'    => $embed_id,
+							'title'       => $title,
+							'button_text' => $button_text,
+						],
+						false
+					);
 		} else {
-				echo
-				'<button type="button" data-toggle="tooltip"
+				echo '<button type="button" data-toggle="tooltip"
 	data-placement="bottom"
-	data-tooltip="This button is only view-able for Site Admins. Click on the button to learn more about using & building your Hub with Dollie" data-modal-id="dol-modal-'.$modal_id.'" class="dol-global-modal dol-my-4 dol-text-sm dol-p-2 dol-bg-gray-400">
+	data-tooltip="This button is only view-able for Site Admins. Click on the button to learn more about using & building your Hub with Dollie" data-modal-id="dol-modal-' . $modal_id . '" class="dol-global-modal dol-my-4 dol-text-sm dol-p-2 dol-bg-gray-400">
 					<i class="fas fa-user-shield"></i>
-					<span class="dol-text-sm">'.$button_text.'</span>
+					<span class="dol-text-sm">' . $button_text . '</span>
 				</button>';
 
 				dollie()->load_template(
-				'parts/video-helper',
-				[
-					'modal_id' => $modal_id,
-					'embed_id' => $embed_id,
-					'title' => $title,
-					'button_text' => $button_text,
-				],
-				true
-			);
+					'parts/video-helper',
+					[
+						'modal_id'    => $modal_id,
+						'embed_id'    => $embed_id,
+						'title'       => $title,
+						'button_text' => $button_text,
+					],
+					true
+				);
 		}
 
 	}

@@ -71,7 +71,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return boolean
 	 */
 	public function is_failed(): bool {
-		return 'Deploy Failed' === $this->get_status();
+		return 'Deploy Failure' === $this->get_status();
 	}
 
 	/**
