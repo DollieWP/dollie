@@ -569,14 +569,14 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @param boolean $force
 	 *
-	 * @return \WP_Error|array
+	 * @return array
 	 */
 	public function get_plugins( bool $force = false ) {
 		if ( $force ) {
 			$plugins = $this->get_container_plugins( $this->get_hash() );
 
 			if ( is_wp_error( $plugins ) ) {
-				return $plugins;
+				return [];
 			}
 
 			$this->set_details(
@@ -616,12 +616,12 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return array
 	 */
-	public function get_themes( bool $force = false ): array {
+	public function get_themes( bool $force = false ) {
 		if ( $force ) {
 			$themes = $this->get_container_themes( $this->get_hash() );
 
 			if ( is_wp_error( $themes ) ) {
-				return $themes;
+				return [];
 			}
 
 			$this->set_details(
