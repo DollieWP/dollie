@@ -164,7 +164,7 @@ final class DeployService extends Singleton implements ConstInterface {
 
 		$deploy = $this->get_deploy( $deploy_type, $container->get_original_url() );
 
-		if ( is_wp_error( $deploy ) ) {
+		if ( is_wp_error( $deploy ) || empty( $deploy ) ) {
 			return new \WP_Error( 500, 'Cannot fetch deploy data' );
 		}
 

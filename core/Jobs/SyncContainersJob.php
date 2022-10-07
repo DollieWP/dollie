@@ -187,7 +187,7 @@ class SyncContainersJob extends Singleton {
 			foreach ( $stored_containers as $stored_container ) {
 				$old_container_hash = get_post_meta( $stored_container->ID, 'wpd_container_id', true );
 
-				// If container was stored during Dollie V1.0, switch to new version
+				// If container was stored during Dollie V1.0, switch to new version.
 				if ( $old_container_hash ) {
 					if ( $fetched_container['hash'] !== $old_container_hash ) {
 						continue;
@@ -240,8 +240,8 @@ class SyncContainersJob extends Singleton {
 						'post_author' => $author,
 						'meta_input'  => [
 							'dollie_container_type'     => $fetched_container['type'],
-							//TODO @GEORGE - Add this to API to be synced on Hub Sync
-							'dollie_vip_site'     => $fetched_container['vip_site'],
+							// TODO @GEORGE - Add this to API to be synced on Hub Sync
+							'dollie_vip_site'           => $fetched_container['vip_site'],
 							'dollie_container_deployed' => 1,
 						],
 					]
@@ -257,6 +257,7 @@ class SyncContainersJob extends Singleton {
 		// Trash posts if they have no corresponding container.
 		$stored_containers = get_posts(
 			[
+				'numberposts' => -1,
 				'post_type'   => 'container',
 				'post_status' => [ 'publish', 'draft' ],
 			]
