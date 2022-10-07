@@ -89,7 +89,7 @@ class DeleteSite extends Singleton {
 	 */
 	public function change_form_args( $args ) {
 		$args['submit_text'] = __( 'Delete', 'dollie' );
-		$args['redirect']    = get_site_url() . '/dashboard';
+		$args['redirect']    = dollie()->page()->get_dashboard_url();
 
 		return $args;
 	}

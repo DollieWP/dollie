@@ -85,13 +85,12 @@ class LaunchSite extends Singleton implements ConstInterface {
 	 * @return void
 	 */
 	public function submission_callback( $form, $fields, $args ) {
-
 		$owner_id = get_current_user_id();
-		$email = af_get_field( 'site_admin_email' );
+		$email    = af_get_field( 'site_admin_email' );
 
 		if ( af_get_field( 'assign_to_customer' ) ) {
 			$owner_id = af_get_field( 'assign_to_customer' );
-			$email = get_user_by( 'ID', $owner_id )->user_email;
+			$email    = get_user_by( 'ID', $owner_id )->user_email;
 		}
 
 		$blueprint_id   = null;
@@ -113,10 +112,10 @@ class LaunchSite extends Singleton implements ConstInterface {
 			if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) ) {
 				setcookie( DOLLIE_BLUEPRINTS_COOKIE, '', time() - 3600, '/' );
 			}
-
 		}
 
 		$redirect = '';
+
 		if ( isset( $_POST['dollie_redirect'] ) && ! empty( $_POST['dollie_redirect'] ) ) {
 			$redirect = sanitize_text_field( $_POST['dollie_redirect'] );
 		}
@@ -219,9 +218,8 @@ class LaunchSite extends Singleton implements ConstInterface {
 		global $wp_query;
 		$blueprint_page = dollie()->page()->get_launch_blueprint_id();
 
-
-		// Do not render at all on Blueprint launch page
-		if ( $wp_query->post === null  || $blueprint_page === $wp_query->post->ID ) {
+		// Do not render at all on Blueprint launch page.
+		if ( null === $wp_query->post || $blueprint_page === $wp_query->post->ID ) {
 			return $field;
 		}
 
@@ -242,7 +240,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 		} elseif ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && ! is_admin() ) {
 			$field['value'] = (int) sanitize_text_field( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
 
-			//Cookie is found, hide Blueprints selectio
+			// Cookie is found, hide Blueprints selectio
 			$field['wrapper']['class'] = 'acf-hidden';
 		}
 

@@ -223,9 +223,10 @@ final class BlueprintService extends Singleton {
 				$skip_this ||
 				is_wp_error( $container ) ||
 				! $container->is_blueprint() ||
-				$container->is_private() ||
 				! $container->is_updated() ||
-				! $container->get_saved_title()
+				! $container->get_saved_title() ||
+				$container->is_private() ||
+				$container->is_scheduled_for_deletion()
 			) {
 				continue;
 			}
