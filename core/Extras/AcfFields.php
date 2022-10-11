@@ -245,7 +245,7 @@ if (function_exists('acf_add_local_field_group')):
 			),
 				array(
 				'key' => 'field_600451ceafac7',
-				'label' => __('Add My Own Domain', 'dollie'). dollie()->show_helper_video('custom-backups', 'CIRe2D3DaFo', 'Watch Video', 'Custom Backups'),
+				'label' => __('Add My Own Domain', 'dollie'),
 				'name' => 'wpd_show_custom_domain_options',
 				'type' => 'true_false',
 				'instructions' => __('Add your own domain for site deployments to fully white label the sites being launched on your platform. Adding your own custom domain will no longer use the Default Domain.', 'dollie'),
