@@ -68,7 +68,7 @@ var DollieSiteContent = DollieSiteContent || {};
                         if (!DollieSiteContent.vars.reloaded) {
                             DollieSiteContent.fn.sendRequest();
                         }
-                    }, 6000);
+                    }, 3000);
                 }
             }
         },
