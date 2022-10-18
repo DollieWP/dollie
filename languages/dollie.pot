@@ -7,6 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: Dollie\n"
+"POT-Creation-Date: 2022-10-18 14:19+0000\n"
 "Report-Msgid-Bugs-To: Dollie\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -103,7 +104,7 @@ msgstr ""
 msgid "LetsEncrypt Failed"
 msgstr ""
 
-#: core/Log.php:341, templates/loop/sites-dashboard.php:109, templates/loop/sites.php:268
+#: core/Log.php:341, templates/loop/sites-dashboard.php:109, templates/loop/sites.php:269
 msgid "Blueprint Updated"
 msgstr ""
 
@@ -1446,7 +1447,7 @@ msgstr ""
 msgid "Site URL can only contain letters, numbers and dash."
 msgstr ""
 
-#: core/Forms/LaunchSite.php:149, core/Forms/QuickLaunch.php:128
+#: core/Forms/LaunchSite.php:148, core/Forms/QuickLaunch.php:128
 msgid "Something went wrong. Please try again or contact our support if the problem persists."
 msgstr ""
 
@@ -1520,6 +1521,10 @@ msgstr ""
 
 #: core/Modules/Preview.php:201
 msgid "Login to Site"
+msgstr ""
+
+#: core/Modules/Preview.php:258
+msgid "all"
 msgstr ""
 
 #: core/Modules/Preview.php:273
@@ -1832,27 +1837,27 @@ msgstr ""
 msgid "Launch Now"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:99, templates/loop/sites.php:258
+#: templates/loop/sites-dashboard.php:99, templates/loop/sites.php:259
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:102, templates/loop/sites.php:261, templates/widgets/site/pages/updates.php:55, templates/widgets/site/pages/updates.php:78
+#: templates/loop/sites-dashboard.php:102, templates/loop/sites.php:262, templates/widgets/site/pages/updates.php:55, templates/widgets/site/pages/updates.php:78
 msgid "Version %s"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:116, templates/loop/sites.php:275
+#: templates/loop/sites-dashboard.php:116, templates/loop/sites.php:276
 msgid "Never. Update now!"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:137, templates/loop/sites.php:296
+#: templates/loop/sites-dashboard.php:137, templates/loop/sites.php:297
 msgid "Manage"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:141, templates/loop/sites.php:301, templates/widgets/site/pages/blueprints.php:113
+#: templates/loop/sites-dashboard.php:141, templates/loop/sites.php:302, templates/widgets/site/pages/blueprints.php:113
 msgid "Update Blueprint"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:152, templates/loop/sites.php:312
+#: templates/loop/sites-dashboard.php:152, templates/loop/sites.php:313
 msgid "Visit Staging Area"
 msgstr ""
 
@@ -1860,55 +1865,55 @@ msgstr ""
 msgid "Login to %s as Admin"
 msgstr ""
 
-#: templates/loop/sites.php:42, templates/parts/recurring-action-selected-sites.php:53
+#: templates/loop/sites.php:43, templates/parts/recurring-action-selected-sites.php:53
 msgid "Select all"
 msgstr ""
 
-#: templates/loop/sites.php:47
+#: templates/loop/sites.php:48
 msgid "Run Actions"
 msgstr ""
 
-#: templates/loop/sites.php:60
+#: templates/loop/sites.php:61
 msgid "Search for a %s"
 msgstr ""
 
-#: templates/loop/sites.php:66
+#: templates/loop/sites.php:67
 msgid "Show Only Your VIP %s"
 msgstr ""
 
-#: templates/loop/sites.php:73
+#: templates/loop/sites.php:74
 msgid "Show your %s in the List View"
 msgstr ""
 
-#: templates/loop/sites.php:76
+#: templates/loop/sites.php:77
 msgid "Show your %s in the Grid View"
 msgstr ""
 
-#: templates/loop/sites.php:79
+#: templates/loop/sites.php:80
 msgid "Show Your %s using the Live Preview Bar"
 msgstr ""
 
-#: templates/loop/sites.php:356
+#: templates/loop/sites.php:357
 msgid "No %s Found"
 msgstr ""
 
-#: templates/loop/sites.php:377
+#: templates/loop/sites.php:378
 msgid "You have no Blueprints yet!"
 msgstr ""
 
-#: templates/loop/sites.php:124
+#: templates/loop/sites.php:125
 msgid "You are now viewing the blueprints made by you and your team."
 msgstr ""
 
-#: templates/loop/sites.php:130
+#: templates/loop/sites.php:131
 msgid "This sites listing shows all of the sites by you and your customers. Your customers will only see the sites that belong to them."
 msgstr ""
 
-#: templates/loop/sites.php:163
+#: templates/loop/sites.php:164
 msgid "Unnamed"
 msgstr ""
 
-#: templates/loop/sites.php:318
+#: templates/loop/sites.php:319
 msgid "Login to Site as Admin"
 msgstr ""
 
@@ -2929,50 +2934,40 @@ msgstr ""
 msgid "Unverified Account - Your sites will be launched with restricted functionality"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:206
+#: templates/widgets/site/site-content.php:169
 msgid "Launching Your New %s"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:210
+#: templates/widgets/site/site-content.php:173
 msgid "Your %s will be ready to go in just a moment."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:214
+#: templates/widgets/site/site-content.php:177
 msgid "Don't worry, we'll automatically reload this page once it's ready."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:217
+#: templates/widgets/site/site-content.php:180
 msgid "If you don't want to wait for a few seconds, you can navigate away. We got it covered!"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:198
+#: templates/widgets/site/site-content.php:161
 msgid "Launching New Blueprint"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:202
+#: templates/widgets/site/site-content.php:165
 msgid "Once your Blueprint has been launched you can go ahead and install your favorite plugins and themes, to make the perfect pre-made site for your customers."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:153
+#: templates/widgets/site/site-content.php:115
 msgid "Sorry, there was an error launching your %s"
 msgstr ""
 
-#: templates/widgets/site/site-content.php:162
-msgid "We were unable to launch your new %s on our platform at this time. Our team has been notified and will be looking into this issue immediately. We will reach out to you as soon as we can."
+#: templates/widgets/site/site-content.php:123
+msgid "We were unable to launch your new %s on our platform at this time. Our team has been notified and will be looking into this issue immediately."
 msgstr ""
 
-#: templates/widgets/site/site-content.php:120
-msgid "Admin Notice - This %s has failed to launch"
-msgstr ""
-
-#: templates/widgets/site/site-content.php:129
-msgid ""
-"When a %s fails to launch in your Hub it usually means there is a misconfiguration in your\n"
-"							Dollie Cloud settings. Usually re-connecting to Dollie Cloud solves these issues."
-msgstr ""
-
-#: templates/widgets/site/site-content.php:145
-msgid "Still having issues? Reach out to the Dollie Support team via your <a class=\"text-white\" href=\"https://cloud.getdollie.com\">Dollie Dashboard</a>"
+#: templates/widgets/site/site-content.php:130
+msgid "If this issue persists, please reach out to our team and we'll get back to you as soon as we can!"
 msgstr ""
 
 #: templates/widgets/site/site-content.php:56
@@ -3031,19 +3026,19 @@ msgstr ""
 msgid "Admin Settings"
 msgstr ""
 
-#: templates/widgets/site/site-screenshot.php:41
+#: templates/widgets/site/site-screenshot.php:43
 msgid "Launching Site"
 msgstr ""
 
-#: templates/widgets/site/site-screenshot.php:39
+#: templates/widgets/site/site-screenshot.php:41
 msgid "Launching Blueprint"
 msgstr ""
 
-#: templates/widgets/site/site-screenshot.php:21, templates/widgets/site/pages/plugins.php:70, templates/widgets/site/pages/themes.php:110
+#: templates/widgets/site/site-screenshot.php:22, templates/widgets/site/pages/plugins.php:70, templates/widgets/site/pages/themes.php:110
 msgid "Visit"
 msgstr ""
 
-#: templates/widgets/site/site-screenshot.php:27
+#: templates/widgets/site/site-screenshot.php:28
 msgid "Admin"
 msgstr ""
 
