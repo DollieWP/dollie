@@ -38,7 +38,7 @@ $containers = new WP_Query(
 		while ( $containers->have_posts() ) :
 			$containers->the_post();
 
-			$container = dollie()->get_container(get_the_ID());
+			$container = dollie()->get_container( get_the_ID() );
 
 			if ( is_wp_error( $container ) ) {
 				continue;
@@ -142,4 +142,3 @@ $containers = new WP_Query(
 <?php endif; ?>
 
 <?php wp_reset_postdata(); ?>
-

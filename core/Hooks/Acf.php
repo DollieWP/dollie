@@ -39,11 +39,10 @@ final class Acf extends Singleton implements ConstInterface {
 		);
 		add_filter( 'acf/load_field/type=message', [ $this, 'api_token_content' ], 10, 3 );
 		add_filter( 'acf/update_value/name=wpd_container_status', [ $this, 'change_container_status' ], 10, 3 );
-		add_filter('acf/fields/relationship/result/name=_wpd_included_blueprints', [ $this, 'filter_blueprint_relationship_results' ], 10, 4);
-		add_filter('acf/fields/relationship/result/name=_wpd_excluded_blueprints', [ $this, 'filter_blueprint_relationship_results' ], 10, 4);
+		add_filter( 'acf/fields/relationship/result/name=_wpd_included_blueprints', [ $this, 'filter_blueprint_relationship_results' ], 10, 4 );
+		add_filter( 'acf/fields/relationship/result/name=_wpd_excluded_blueprints', [ $this, 'filter_blueprint_relationship_results' ], 10, 4 );
 
-		add_filter( 'wp_kses_allowed_html', [ $this, 'acf_add_allowed_iframe_tag'], 10, 2 );
-
+		add_filter( 'wp_kses_allowed_html', [ $this, 'acf_add_allowed_iframe_tag' ], 10, 2 );
 
 	}
 
@@ -159,23 +158,23 @@ final class Acf extends Singleton implements ConstInterface {
 		$domain                = str_replace( [ 'https://', 'http://', 'www.' ], '', get_field( 'wpd_api_domain_custom', $post_id ) );
 		$saved_domain          = get_option( 'wpd_deployment_domain' );
 
-		$workspaceService = WorkspaceService::instance();
+		$workspace_service = WorkspaceService::instance();
 
 		if ( ! $domain && $saved_domain ||
 			! $custom_domain_enabled && $saved_domain ) {
-			$workspaceService->remove_deployment_domain();
+			$workspace_service->remove_deployment_domain();
 
 			return;
 		}
 
 		if ( $domain !== $saved_domain && $saved_domain ) {
-			$removed = $workspaceService->remove_deployment_domain();
+			$removed = $workspace_service->remove_deployment_domain();
 
 			if ( $removed ) {
-				$workspaceService->add_deployment_domain( $domain );
+				$workspace_service->add_deployment_domain( $domain );
 			}
 		} elseif ( $domain && ! $saved_domain ) {
-			$workspaceService->add_deployment_domain( $domain );
+			$workspace_service->add_deployment_domain( $domain );
 		}
 	}
 
@@ -281,7 +280,7 @@ final class Acf extends Singleton implements ConstInterface {
 	 * @return void
 	 */
 	public function filter_blueprint_relationship_results( $text, $post, $field, $post_id ) {
-		$blueprint_title = get_field( 'wpd_installation_blueprint_title', $post->ID );
+		$blueprint_title  = get_field( 'wpd_installation_blueprint_title', $post->ID );
 		$blueprint_status = get_field( 'wpd_blueprint_created', $post->ID );
 
 		if ( $blueprint_status ) {
@@ -290,7 +289,7 @@ final class Acf extends Singleton implements ConstInterface {
 			$status = ' (Staging)';
 		}
 
-		if( $blueprint_title ) {
+		if ( $blueprint_title ) {
 			$text = sprintf( '%s', $blueprint_title ) . $status;
 		} else {
 			$text = sprintf( '%s', $post->post_title ) . $status;

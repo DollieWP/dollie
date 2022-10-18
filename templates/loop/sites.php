@@ -1,7 +1,8 @@
 <?php
-$user = dollie()->get_user();
-$subscription_vip = dollie()->subscription()->has_vip(get_current_user_id());
-$global_vip = get_field( 'wpd_enable_global_vip_sites', 'options' );
+
+$user             = dollie()->get_user();
+$subscription_vip = dollie()->subscription()->has_vip( get_current_user_id() );
+$global_vip       = get_field( 'wpd_enable_global_vip_sites', 'options' );
 
 if ( ! isset( $view_type ) ) {
 	$view_type = 'list';
@@ -27,8 +28,8 @@ if ( is_wp_error( $bulk_actions ) ) {
 
 $allowed_bulk_commands = dollie()->bulk_actions()->get_allowed_commands_in_progress();
 
-dollie()->load_template( 'loop/parts/modal-actions', array(), true );
-dollie()->load_template( 'loop/parts/modal-filters', array(), true );
+dollie()->load_template( 'loop/parts/modal-actions', [], true );
+dollie()->load_template( 'loop/parts/modal-filters', [], true );
 
 ?>
 
@@ -62,7 +63,7 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 					<span data-modal-id="dol-modal-id-filters" class="dol-open-modal dol-p-3 dol-m-0 dol-bg-gray-200 hover:dol-bg-gray-300 dol-text-gray-700 dol-block dol-cursor-pointer">
 						<?php echo dollie()->icon()->filter(); ?>
 					</span>
-					<?php if ( $subscription_vip  ) : ?>
+					<?php if ( $subscription_vip ) : ?>
 					<a href="<?php echo esc_html( dollie()->page()->get_sites_url() ); ?>/?vip=yes" data-tooltip="<?php printf( esc_html__( 'Show Only Your VIP %s', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>" class="dol-layout-preview dol-preview-bar-layout">
 						<?php echo dollie()->icon()->vip(); ?>
 					</a>
@@ -141,14 +142,14 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 					continue;
 				}
 
-				$list_item_class      = array();
-				$lock_classes         = array();
-				$btn_controls_classes = array();
+				$list_item_class      = [];
+				$lock_classes         = [];
+				$btn_controls_classes = [];
 
-				$locking = array(
+				$locking = [
 					'status' => false,
 					'action' => '',
-				);
+				];
 
 				foreach ( $bulk_actions as $bulk_action ) {
 					if ( $bulk_action['container_hash'] === $container->get_hash() && ! $bulk_action['status'] ) {
@@ -157,12 +158,12 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 					}
 				}
 
-				$data = array(
+				$data = [
 					'slug'       => $container->get_slug(),
 					'domain'     => $container->get_url(),
 					'name'       => $container->get_title() ?: __( 'Unnamed', 'dollie' ),
 					'wp_version' => $container->get_wp_version(),
-				);
+				];
 
 				if ( $container->is_blueprint() ) {
 					$list_item_class[] = 'dol-blueprint-site';
@@ -234,13 +235,13 @@ dollie()->load_template( 'loop/parts/modal-filters', array(), true );
 							<div class="dol-px-4">
 								<div class="dol-font-bold dol-text-lg dol-cursor-default dol-truncate">
 									<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600" href="<?php echo $container->get_permalink(); ?>" title="<?php echo esc_attr( $data['name'] ); ?>">
-									<?php if ( $container->is_vip() ) : ?>
-												<span data-toggle="tooltip"
+										<?php if ( $container->is_vip() ) : ?>
+											<span data-toggle="tooltip"
 												data-placement="bottom"
 												data-tooltip="VIP Site">
 												<?php echo dollie()->icon()->vip( 'dol-text-secondary dol-text-s' ); ?>
-												</span>
-										<?php endif;?>
+											</span>
+										<?php endif; ?>
 										<?php echo esc_html( $data['name'] ); ?>
 									</a>
 								</div>
