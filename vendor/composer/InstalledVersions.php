@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '8de02adea2c63e5721b5c19eb7e738bed4acdbb2',
+    'reference' => 'd32f699b57826cab3c63278ff58ea21667112af5',
     'name' => '__root__',
   ),
   'versions' => 
@@ -31,16 +31,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '8de02adea2c63e5721b5c19eb7e738bed4acdbb2',
-    ),
-    'appsero/client' => 
-    array (
-      'pretty_version' => 'v1.2.1',
-      'version' => '1.2.1.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'd110c537f4ca92ac7f3398eee67cc6bdf506a4fb',
+      'reference' => 'd32f699b57826cab3c63278ff58ea21667112af5',
     ),
     'guzzlehttp/guzzle' => 
     array (
