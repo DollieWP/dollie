@@ -4,8 +4,8 @@ if ( ! isset( $post ) ) {
 	return;
 }
 
-$container = dollie()->get_container( $post );
-$subscription_vip = dollie()->subscription()->has_vip(get_current_user_id());
+$container        = dollie()->get_container( $post );
+$subscription_vip = dollie()->subscription()->has_vip( get_current_user_id() );
 
 
 if ( is_wp_error( $container ) || ! $container->is_blueprint() || $container->is_private() || $container->is_vip() && ! $subscription_vip ) {
@@ -34,7 +34,6 @@ if ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'custom' ) {
 } else {
 	$image = get_the_post_thumbnail_url( $container->get_id(), 'full' );
 }
-
 
 ?>
 <li class="dol-m-0 dol-col-span-1 dol-flex dol-flex-col <?php do_action( 'dol_add_widget_classes' ); ?> dol-divide-y dol-divide-gray-200 dol-p-0 dol-widget-blueprint">

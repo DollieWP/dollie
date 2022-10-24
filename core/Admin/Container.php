@@ -30,7 +30,6 @@ final class Container extends Singleton implements ConstInterface {
 
 			add_action( 'auth_redirect', [ $this, 'add_site_icon_filter' ] ); // modify esc_attr on auth_redirect
 			add_action( 'admin_menu', [ $this, 'remove_site_icon_filter' ] ); // restore on admin_menu (very soon)
-
 		}
 
 		add_filter( 'custom_menu_order', [ $this, 'custom_menu_order' ] );

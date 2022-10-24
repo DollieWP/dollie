@@ -156,7 +156,6 @@ class Preview extends Singleton {
 				$product_id = get_post_meta( $container->get_id(), 'wpd_installation_blueprint_hosting_product', true );
 
 				if ( $product_id ) {
-
 					if ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'custom' ) {
 						$image = get_field( 'wpd_blueprint_custom_image', $container->get_id() );
 					} elseif ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'theme' ) {
@@ -165,13 +164,12 @@ class Preview extends Singleton {
 						$image = get_the_post_thumbnail_url( $container->get_id(), 'full' );
 					}
 
-
 					$theme_array[] = [
 						'active'      => 1,
 						'id'          => $container->get_id(),
 						'title'       => $container->get_saved_title(),
 						'title_short' => $container->get_name(),
-						'url'         => $container->get_url(true),
+						'url'         => $container->get_url( true ),
 						'buy'         => dollie()->subscription()->get_checkout_link(
 							[
 								'product_id'   => $product_id[0],
@@ -194,7 +192,6 @@ class Preview extends Singleton {
 
 		wp_reset_postdata();
 
-		// Config
 		$products = [];
 
 		if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
