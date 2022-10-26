@@ -246,18 +246,13 @@ final class AccessService extends Singleton {
 			return;
 		}
 
-		$dash_id     = dollie()->page()->get_dashboard_id();
-		$woo_account = function_exists( 'is_account_page' ) &&
-		               ( is_account_page()
-		                 || is_wc_endpoint_url( 'lost-password' )
-		                 || is_wc_endpoint_url( 'customer-logout' )
-		               );
-
-		if ( $woo_account ) {
+		if ( is_user_logged_in() ) {
 			return;
 		}
 
-		if ( ! is_user_logged_in() && ( is_singular( 'container' ) || ( $dash_id && is_page( $dash_id ) ) ) ) {
+		$dash_id = dollie()->page()->get_dashboard_id();
+
+		if ( is_singular( 'container' ) || ( $dash_id && is_page( $dash_id ) ) ) {
 			wp_redirect( get_permalink( $login_id ) );
 			exit;
 		}
@@ -437,7 +432,7 @@ final class AccessService extends Singleton {
 			return;
 		}
 
-		if ( ! current_user_can( 'manage_options' ) && ! wp_doing_ajax() ) {
+		if ( is_admin() && ! current_user_can( 'manage_options' ) && ! wp_doing_ajax() ) {
 			$redirect = get_permalink( $dash_id );
 			wp_redirect( $redirect );
 			exit();
