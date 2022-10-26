@@ -222,7 +222,7 @@ final class AccessService extends Singleton {
 		if ( get_field( 'wpd_enable_blueprints_for', 'option' ) === 'all' && ! current_user_can( 'manage_options' ) ) {
 			$available_sections_array = array_filter(
 				$available_sections_array,
-				function( $v, $k ) {
+				function ( $v, $k ) {
 					return $v['value'] !== 'blueprints';
 				},
 				ARRAY_FILTER_USE_BOTH
@@ -246,9 +246,14 @@ final class AccessService extends Singleton {
 			return;
 		}
 
-		$dash_id = dollie()->page()->get_dashboard_id();
+		$dash_id     = dollie()->page()->get_dashboard_id();
+		$woo_account = function_exists( 'is_account_page' ) && is_account_page();
 
-		if ( ! is_user_logged_in() && ( is_singular( 'container' ) || $dash_id && is_page( $dash_id ) ) ) {
+		if ( $woo_account ) {
+			return;
+		}
+
+		if ( ! is_user_logged_in() && ( is_singular( 'container' ) || ( $dash_id && is_page( $dash_id ) ) ) ) {
 			wp_redirect( get_permalink( $login_id ) );
 			exit;
 		}
@@ -370,6 +375,7 @@ final class AccessService extends Singleton {
 				<style type="text/css">
 					.acf-field-' . substr( $field['key'], 6 ) . ' > .acf-label {display: none;}
 				</style>';
+
 			return false;
 		}
 
