@@ -247,7 +247,11 @@ final class AccessService extends Singleton {
 		}
 
 		$dash_id     = dollie()->page()->get_dashboard_id();
-		$woo_account = function_exists( 'is_account_page' ) && is_account_page();
+		$woo_account = function_exists( 'is_account_page' ) &&
+		               ( is_account_page()
+		                 || is_wc_endpoint_url( 'lost-password' )
+		                 || is_wc_endpoint_url( 'customer-logout' )
+		               );
 
 		if ( $woo_account ) {
 			return;
