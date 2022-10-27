@@ -43,13 +43,14 @@ final class Container extends Singleton implements ConstInterface {
 
 		add_action( 'add_meta_boxes', [ $this, 'rename_meta_box_title' ] );
 		add_action( 'restrict_manage_posts', [ $this, 'filter_by_author' ] );
-		add_action( 'bulk_actions-edit-container', [ $this, 'admin_remove_container_actions' ] );
 		add_action( 'admin_footer', [ $this, 'external_menu_scripts' ] );
 		add_action( 'wp_before_admin_bar_render', [ $this, 'set_admin_bar_menu' ], 2000 );
 		add_action( 'load-edit.php', [ $this, 'add_info_banners' ] );
 		add_action( 'admin_init', [ WorkspaceService::instance(), 'check_deployment_domain' ] );
 		add_action( 'admin_init', [ AuthService::instance(), 'process_token' ] );
 		add_action( 'admin_init', [ $this, 'disconnect_dollie' ] );
+		add_action( 'trashed_post', [ $this, 'delete_container' ] );
+		add_action( 'untrash_post', [ $this, 'restore_container' ], 10, 2 );
 
 		add_filter( 'manage_container_posts_columns', [ $this, 'set_table_columns' ] );
 		add_action( 'manage_container_posts_custom_column', [ $this, 'set_table_custom_columns' ], 10, 2 );
@@ -177,6 +178,32 @@ final class Container extends Singleton implements ConstInterface {
 			wp_redirect( admin_url() );
 			exit;
 		}
+	}
+
+	/**
+	 * Delete container
+	 *
+	 * @param $post_id
+	 * @return void
+	 */
+	public function delete_container( $post_id ) {
+		$container = dollie()->get_container( $post_id );
+
+		if ( is_wp_error( $container ) ) {
+			return;
+		}
+
+		$container->delete();
+	}
+
+	public function restore_container( $post_id, $previous_status ) {
+		$container = dollie()->get_container( $post_id );
+
+		if ( is_wp_error( $container ) ) {
+			return;
+		}
+
+		$container->restore();
 	}
 
 	/**
@@ -604,16 +631,6 @@ final class Container extends Singleton implements ConstInterface {
 		$actions['admin_link'] = '<a href="' . $container->get_customer_login_url() . '" target="_blank" class="button-link">' . __( 'Login to Admin', 'dollie' ) . '</a>';
 
 		return $actions;
-	}
-
-	/**
-	 * Remove container actions
-	 *
-	 * @param [type] $actions
-	 * @return array
-	 */
-	public function admin_remove_container_actions( $actions ) {
-		return [];
 	}
 
 	/**
