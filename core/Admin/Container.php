@@ -36,7 +36,9 @@ final class Container extends Singleton implements ConstInterface {
 		add_filter( 'menu_order', [ $this, 'custom_menu_order' ] );
 		add_filter( 'manage_users_columns', [ $this, 'new_modify_user_table' ] );
 		add_filter( 'manage_users_custom_column', [ $this, 'new_modify_user_table_row' ], 10, 3 );
-		add_filter( 'page_row_actions', [ $this, 'admin_alter_container_actions' ], 10, 2 );
+		add_filter( 'page_row_actions', [ $this, 'alter_container_row_actions' ], 10, 2 );
+		add_filter( 'bulk_actions-edit-container', [ $this, 'container_bulk_actions' ] );
+		add_filter( 'handle_bulk_actions-edit-container', [ $this, 'handle_container_bulk_actions' ], 10, 3 );
 		add_filter( 'current_screen', [ $this, 'container_counter' ] );
 		add_filter( 'views_edit-container', [ $this, 'container_filters' ] );
 		add_filter( 'parse_query', [ $this, 'filter_containers' ] );
@@ -609,7 +611,7 @@ final class Container extends Singleton implements ConstInterface {
 	 * @param [type] $page_object
 	 * @return array
 	 */
-	public function admin_alter_container_actions( $actions, $page_object ) {
+	public function alter_container_row_actions( $actions, $page_object ) {
 		if ( 'container' !== get_post_type() ) {
 			return $actions;
 		}
@@ -620,17 +622,89 @@ final class Container extends Singleton implements ConstInterface {
 			return $actions;
 		}
 
-		$actions = [];
+		$new_actions = [];
 
 		if ( ! $container->is_blueprint() ) {
-			$actions['manage_site'] = '<a href="' . $container->get_permalink() . '" target="_blank" class="button-link">' . __( 'Manage Site', 'dollie' ) . '</a>';
+			$new_actions['manage_site'] = '<a href="' . $container->get_permalink() . '" target="_blank" class="button-link">' . __( 'Manage Site', 'dollie' ) . '</a>';
 		} else {
-			$actions['manage_site'] = '<a href="' . $container->get_permalink() . '" target="_blank" class="button-link">' . __( 'Manage Blueprint', 'dollie' ) . '</a>';
+			$new_actions['manage_site'] = '<a href="' . $container->get_permalink() . '" target="_blank" class="button-link">' . __( 'Manage Blueprint', 'dollie' ) . '</a>';
 		}
 
-		$actions['admin_link'] = '<a href="' . $container->get_customer_login_url() . '" target="_blank" class="button-link">' . __( 'Login to Admin', 'dollie' ) . '</a>';
+		$new_actions['admin_link'] = '<a href="' . $container->get_customer_login_url() . '" target="_blank" class="button-link">' . __( 'Login to Admin', 'dollie' ) . '</a>';
 
-		return $actions;
+		if ( isset( $actions['trash'] ) ) {
+			$new_actions['trash'] = str_replace( 'Trash', 'Delete', $actions['trash'] );
+		}
+
+		if ( isset( $actions['untrash'] ) ) {
+			$new_actions['untrash'] = $actions['untrash'];
+		}
+
+		return $new_actions;
+	}
+
+	/**
+	 * Add custom bulk actions
+	 */
+	public function container_bulk_actions( $actions ) {
+		if ( isset( $_GET['post_status'] ) && 'trash' === sanitize_text_field( $_GET['post_status'] ) ) {
+			return $actions;
+		}
+
+		return [
+			'stop'    => __( 'Stop', 'dollie' ),
+			'start'   => __( 'Start', 'dollie' ),
+			'restart' => __( 'Restart', 'dollie' ),
+			'trash'   => __( 'Delete', 'dollie' ),
+		];
+	}
+
+	/**
+	 * Handle bulk actions
+	 */
+	public function handle_container_bulk_actions( $redirect_url, $action, $post_ids ) {
+		if ( in_array( $action, [ 'start', 'stop', 'restart' ], true ) ) {
+			foreach ( $post_ids as $post_id ) {
+				$container = dollie()->get_container( $post_id );
+
+				if ( is_wp_error( $container ) ) {
+					continue;
+				}
+
+				if ( 'start' === $action && $container->is_stopped() ) {
+					$container->perform_action( $action );
+					$container->set_details(
+						[
+							'status' => 'Running',
+						]
+					);
+
+					continue;
+				}
+
+				if ( 'stop' === $action && $container->is_running() ) {
+					$container->perform_action( $action );
+					$container->set_details(
+						[
+							'status' => 'Stopped',
+						]
+					);
+
+					continue;
+				}
+
+				$container->perform_action( $action );
+				$container->set_details(
+					[
+						'status' => 'Running',
+					]
+				);
+			}
+
+			$redirect_url = add_query_arg( "{$action}ed", count( $post_ids ), $redirect_url );
+		}
+
+		return $redirect_url;
 	}
 
 	/**
@@ -643,8 +717,8 @@ final class Container extends Singleton implements ConstInterface {
 		return array_merge(
 			$columns,
 			[
-				'type'   => __( 'Type', 'dollie' ),
 				'domain' => __( 'Domain', 'dollie' ),
+				'type'   => __( 'Type', 'dollie' ),
 				'status' => __( 'Status', 'dollie' ),
 			]
 		);
@@ -673,6 +747,8 @@ final class Container extends Singleton implements ConstInterface {
 				esc_html_e( 'Site', 'dollie' );
 			} elseif ( $container->is_blueprint() ) {
 				esc_html_e( 'Blueprint', 'dollie' );
+			} elseif ( $container->is_staging() ) {
+				esc_html_e( 'Staging', 'dollie' );
 			}
 		}
 
