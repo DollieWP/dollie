@@ -42,6 +42,7 @@ final class Container extends Singleton implements ConstInterface {
 		add_filter( 'current_screen', [ $this, 'container_counter' ] );
 		add_filter( 'views_edit-container', [ $this, 'container_filters' ] );
 		add_filter( 'parse_query', [ $this, 'filter_containers' ] );
+		add_filter( 'pre_get_posts', [ $this, 'remove_default_search' ] );
 
 		add_action( 'add_meta_boxes', [ $this, 'rename_meta_box_title' ] );
 		add_action( 'restrict_manage_posts', [ $this, 'filter_by_author' ] );
@@ -878,33 +879,61 @@ final class Container extends Singleton implements ConstInterface {
 			return $query;
 		}
 
-		if ( ! isset( $_GET['post_type'] ) || 'container' !== $_GET['post_type'] ) {
+		if ( 'container' !== $query->query['post_type'] ) {
 			return $query;
 		}
 
-		$query->query_vars['meta_query'] = [];
+		$term       = '';
+		$meta_query = [];
 
-		if ( isset( $_GET['blueprint'] ) ) {
-			$query->query_vars['meta_query'][] = [
-				'relation' => 'OR',
-				[
-					'key'   => 'dollie_container_type',
-					'value' => '1',
-				],
-			];
-		} else {
-			$query->query_vars['meta_query'][] = [
-				'relation' => 'OR',
-				[
-					'key'   => 'dollie_container_type',
-					'value' => '0',
-				],
+		if ( isset( $_GET['s'] ) ) {
+			$term = strtolower( sanitize_text_field( $_GET['s'] ) );
+		}
+
+		if ( $term ) {
+			$meta_query['relation'] = 'AND';
+			$meta_query[]           = [
+				'key'     => 'dollie_container_details',
+				'value'   => $term,
+				'compare' => 'LIKE',
 			];
 		}
+
+		if ( isset( $_GET['blueprint'] ) ) {
+			$meta_query[] = [
+				'key'   => 'dollie_container_type',
+				'value' => self::TYPE_BLUEPRINT,
+			];
+		} else {
+			$meta_query[] = [
+				'key'   => 'dollie_container_type',
+				'value' => self::TYPE_SITE,
+			];
+		}
+
+		$query->set( 'meta_query', $meta_query );
 
 		return $query;
 	}
 
+	/**
+	 * Remove default search
+	 *
+	 * @param [type] $query
+	 */
+	public function remove_default_search( $query ) {
+		if ( ! is_admin() || wp_doing_ajax() ) {
+			return $query;
+		}
+
+		if ( 'container' !== $query->query['post_type'] ) {
+			return $query;
+		}
+
+		unset( $query->query_vars['s'] );
+
+		return $query;
+	}
 
 	/**
 	 * Add Site Icon Menu hook
@@ -952,24 +981,24 @@ final class Container extends Singleton implements ConstInterface {
 		add_filter(
 			'wp_count_posts',
 			static function ( $counts ) {
+				$meta_query     = [];
 				$container_type = self::TYPE_SITE;
 
 				if ( isset( $_GET['blueprint'] ) && ! empty( $_GET['blueprint'] ) ) {
 					$container_type = self::TYPE_BLUEPRINT;
 				}
 
+				$meta_query[] = [
+					'key'     => 'dollie_container_type',
+					'value'   => $container_type,
+					'compare' => '=',
+				];
+
 				$args = [
 					'posts_per_page' => -1,
 					'post_type'      => 'container',
 					'post_status'    => 'publish',
-					'meta_query'     => [
-						'relation' => 'OR',
-						[
-							'key'     => 'dollie_container_type',
-							'value'   => $container_type,
-							'compare' => '=',
-						],
-					],
+					'meta_query'     => $meta_query,
 				];
 
 				$blueprints      = new \WP_Query( $args );

@@ -25,13 +25,11 @@ final class AccessService extends Singleton {
 	 * @return void
 	 */
 	public function sites_for_current_author( $query ) {
-		if ( ! is_admin() ) {
+		if ( ! is_admin() || wp_doing_ajax() ) {
 			return $query;
 		}
 
-		global $pagenow;
-
-		if ( 'edit.php' !== $pagenow || ! isset( $_GET['post_type'] ) || $_GET['post_type'] !== 'container' ) {
+		if ( 'container' !== $query->query['post_type'] ) {
 			return $query;
 		}
 
