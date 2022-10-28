@@ -269,7 +269,7 @@ final class Acf extends Singleton implements ConstInterface {
 		$container->update_changes();
 		$container->set_screenshot_data();
 
-		// Log::add_front( Log::WP_SITE_BLUEPRINT_DEPLOYED, $container, $container->get_slug() );
+		$container->add_log( Log::WP_SITE_BLUEPRINT_DEPLOYED );
 	}
 
 	/**
