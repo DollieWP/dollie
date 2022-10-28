@@ -717,10 +717,6 @@ var DollieSiteList = DollieSiteList || {};
                     }
 
                     let url = new URL(load);
-                    url.searchParams.set(
-                        "list_type",
-                        $(this).parent().attr("data-list-type")
-                    );
 
                     var elementor_library = url.searchParams.get("elementor_library");
                     if (elementor_library) {
@@ -785,7 +781,6 @@ var DollieSiteList = DollieSiteList || {};
                     var load = $(this).data("permalink");
 
                     let url = new URL(load);
-                    url.searchParams.set("list_type", $(this).attr("data-list-type"));
                     url.searchParams.set("search", $(this).val());
 
                     if ($(this).data("per-page")) {
@@ -836,27 +831,9 @@ var DollieSiteList = DollieSiteList || {};
                 var sitesContainer = $(".dol-sites-container");
                 var sitesContainerItem = $(".dol-sites-item");
 
-                if ($(this).data("list-type") === "list") {
-                    sitesContainer.removeClass("dol-sites-grid");
-                    sitesContainer.addClass("dol-sites-list");
-                    sitesContainerItem.removeClass("dol-sites-grid-item");
-                    sitesContainerItem.addClass("dol-sites-list-item");
-                } else {
-                    sitesContainer.removeClass("dol-sites-list");
-                    sitesContainer.addClass("dol-sites-grid");
-                    sitesContainerItem.removeClass("dol-sites-list-item");
-                    sitesContainerItem.addClass("dol-sites-grid-item");
-                }
-
-                $(this)
-                    .closest(".elementor-widget-dollie-sites-listing")
-                    .find(".dol-sites-pages")
-                    .attr("data-list-type", $(this).data("list-type"));
-
-                $(this)
-                    .closest(".elementor-widget-dollie-sites-listing")
-                    .find(".dol-search-site")
-                    .attr("data-list-type", $(this).data("list-type"));
+                sitesContainer.addClass("dol-sites-list");
+                sitesContainerItem.removeClass("dol-sites-grid-item");
+                sitesContainerItem.addClass("dol-sites-list-item");
             });
         },
     };

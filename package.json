@@ -16,9 +16,11 @@
   "author": "Dollie",
   "license": "ISC",
   "devDependencies": {
-    "@tailwindcss/aspect-ratio": "^0.4.0",
-    "@tailwindcss/forms": "^0.4.0",
-    "autoprefixer": "^10.4.1",
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/line-clamp": "^0.4.2",
+    "autoprefixer": "^10.4.13",
+    "daisyui": "^2.33.0",
     "del": "^5.1.0",
     "gulp": "^4.0.2",
     "gulp-csso": "^4.0.1",
@@ -33,14 +35,10 @@
     "node-sass": "^7.0.3",
     "postcss": "^8.4.5",
     "pump": "^3.0.0",
-    "tailwindcss": "^3.0.11"
+    "tailwindcss": "^3.2.1",
+    "esm": "^3.2.25"
   },
-  "dependencies": {
-    "@tailwindcss/line-clamp": "^0.3.1",
-    "daisyui": "^2.2.0",
-    "esm": "^3.2.25",
-    "kutty": "^0.6.0"
-  },
+  "dependencies": {},
   "browserslist": [
     "defaults",
     "not IE 11"

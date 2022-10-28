@@ -1,24 +1,18 @@
-const colors = require("tailwindcss/colors");
-
+/** @type {import('tailwindcss').Config} */
 module.exports = {
     prefix: "dol-",
-    important: true,
+    content: [
+        "./tailwind-whitelist.txt",
+        "./templates/**/*",
+        "./core/Admin/**/*",
+        "./core/Modules/**/*",
+        "./core/Shortcodes/**/*",
+        "./core/Widgets/**/*",
+        "./assets/js/**/*",
+        "./core/Extras/**/*",
+        "./core/Extras/dollie-setup/admin/templates/**/*"
+    ],
     theme: {
-        colors: {
-            transparent: "transparent",
-            current: "currentColor",
-            black: colors.black,
-            white: colors.white,
-            gray: colors.neutral,
-            red: colors.red,
-            green: colors.emerald,
-            yellow: colors.amber,
-            purple: colors.violet,
-            sky: colors.sky,
-            teal: colors.teal,
-            cyan: colors.cyan,
-            rose: colors.rose,
-        },
         extend: {
             transitionDuration: {
                 0: "0ms",
@@ -55,17 +49,6 @@ module.exports = {
             },
         },
     },
-    content: [
-        "./tailwind-whitelist.txt",
-        "./templates/**/*",
-        "./core/Admin/**/*",
-        "./core/Modules/**/*",
-        "./core/Shortcodes/**/*",
-        "./core/Widgets/**/*",
-        "./assets/js/**/*",
-        "./core/Extras/**/*",
-        "./core/Extras/dollie-setup/admin/templates/**/*"
-    ],
     daisyui: {
         themes: [
             {
@@ -95,4 +78,4 @@ module.exports = {
         require('@tailwindcss/line-clamp'),
         require("daisyui")
     ],
-};
+}

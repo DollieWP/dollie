@@ -30,11 +30,11 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 	<div class="dol-flex dol-flex-wrap md:dol-justify-between">
 
 		<div class="dol-relative dol-w-full md:dol-w-auto">
-			<input type="text" name="customer_search" class="dol-search-input dol-search-customer dol-w-full md:dol-w-64" data-list-type="<?php echo esc_attr( $view_type ); ?>" data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>" data-search-term="" placeholder="<?php printf( esc_html__( 'Search for a  %s', 'dollie' ), dollie()->string_variants()->get_user_type_string() ); ?>">
+			<input type="text" name="customer_search" class="dol-search-input dol-search-customer dol-w-full md:dol-w-64" data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>" data-search-term="" placeholder="<?php printf( esc_html__( 'Search for a  %s', 'dollie' ), dollie()->string_variants()->get_user_type_string() ); ?>">
 		</div>
 
 		<div class="dol-flex dol-items-center dol-rounded dol-overflow-hidden dol-mb-4 md:dol-mb-0 dol-h-10 md:dol-h-auto">
-					<a href="<?php echo get_admin_url() ?>user-new.php"
+					<a href="<?php echo get_admin_url(); ?>user-new.php"
 					class="dol-nav-btn dol-bg-secondary dol-text-white dol-radius-0 dol-ml-3 dol-mr-0 dol-p-3">
 						<span class="dol-inline-block dol-text-center">
 							<?php echo dollie()->icon()->customers(); ?>
@@ -116,7 +116,7 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 	<?php
 	if ( ! empty( $customers->results ) ) {
 		?>
-		<div class="dol-customers-pages" data-current-page="<?php echo esc_attr( $current_page ); ?>" data-list-type="<?php echo esc_attr( $view_type ); ?>">
+		<div class="dol-customers-pages" data-current-page="<?php echo esc_attr( $current_page ); ?>">
 			<?php
 			$current_page = get_query_var( 'paged' ) ? (int) get_query_var( 'paged' ) : 1; // Example
 			$num_pages    = $pages; // Example

@@ -949,7 +949,6 @@ final class Container extends Singleton implements ConstInterface {
 		remove_filter( 'attribute_escape', [ $this, 'add_site_icon' ], 20, 2 );
 	}
 
-
 	/**
 	 * Add Site Icon to Menu
 	 */
@@ -965,7 +964,6 @@ final class Container extends Singleton implements ConstInterface {
 
 		return $safe_text;
 	}
-
 
 	/**
 	 * Update posts counter for blueprints
