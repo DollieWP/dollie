@@ -31,12 +31,12 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 				<div class="dol-check-wrap dol-inline-block">
 					<label class="dol-flex dol-items-center">
 						<input type="checkbox" name="checkbox" class="dol-select-all-container dol-scale-125 checked:dol-bg-blue-500 dol-mr-2" />
-						<span class="dol-text-sm"><?php esc_html_e( 'Select all', 'dollie' ); ?></span>
 					</label>
 				</div>
 
-				<button type="button" data-modal-id="dol-modal-id-actions" class="dol-open-modal dol-p-3">
-					<?php echo dollie()->icon()->task( 'dol-mr-2' ); ?> <?php esc_html_e( 'Run Actions', 'dollie' ); ?>
+				<button type="button" data-modal-id="dol-modal-id-actions" class="dol-open-modal dol-p-3" disabled="disabled">
+					<?php echo dollie()->icon()->task( 'dol-mr-2' ); ?> 
+					<?php esc_html_e( 'Actions', 'dollie' ); ?>
 				</button>
 			</div>
 
@@ -56,13 +56,13 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 						<?php echo dollie()->icon()->filter(); ?>
 					</span>
 
-					<?php if ( $subscription_vip ) : ?>
+					<!-- <?php if ( $subscription_vip ) : ?>
 						<a href="<?php echo esc_html( dollie()->page()->get_sites_url() ); ?>/?vip=yes" 
 							class="dol-layout-preview dol-preview-bar-layout"
 							data-tooltip="<?php printf( esc_html__( 'Show Only Your VIP %s', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>">
 							<?php echo dollie()->icon()->vip(); ?>
 						</a>
-					<?php endif; ?>
+					<?php endif; ?> -->
 
 					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=my-sites" 
 						class="dol-p-3 dol-rounded dol-text-sm dol-leading-none dol-bg-gray-200 hover:dol-bg-gray-300 dol-text-gray-700 dol-inline-block"
@@ -181,7 +181,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 
 				?>
 				<div class="dol-sites-item <?php echo esc_attr( $list_item_class ); ?>" data-site-hash="<?php echo esc_attr( $container->get_hash() ); ?>">
-					<div class="dol-sites-item-inner dol-relative dol-divide-y dol-divide-gray-200 dol-shadow dol-rounded-md dol-widget-custom">
+					<div class="dol-sites-item-inner dol-relative dol-divide-y dol-divide-gray-200 dol-shadow dol-rounded-md dol-widget-custom relative">
 						<div class="<?php echo esc_attr( $lock_classes ); ?> dol-item-execution-placeholder dol-absolute dol-w-full dol-h-full dol-left-0 dol-top-0 dol-bg-white dol-bg-opacity-50 dol-z-10">
 							<div class="dol-flex dol-items-center dol-justify-end dol-w-full dol-h-full">
 								<div class="dol-flex dol-items-center dol-justify-center dol-text-sm dol-bg-gray-600 dol-text-white dol-font-medium dol-mx-6 dol-px-4 dol-py-2 dol-rounded-full">
@@ -194,52 +194,38 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 							</div>
 						</div>
 						<div class="dol-check-wrap">
-							<label class="dol-flex dol-items-center">
-								<input type="checkbox" name="checkbox" value="<?php echo esc_attr( $container->get_id() ); ?>" class="dol-scale-125 checked:dol-bg-blue-500 dol-mr-2" />
+							<label class="dol-flex dol-items-center dol-h-full dol-px-3">
+								<input type="checkbox" name="checkbox" 
+									value="<?php echo esc_attr( $container->get_id() ); ?>" 
+									class="dol-scale-125 checked:dol-bg-blue-500" />
 							</label>
 						</div>
-
-						<div class="dol-sites-image dol-relative">
+						<div class="dol-sites-image">
 							<div class="dol-sites-image-box">
-								<img width="700" class="dol-block dol-object-cover" alt="<?php echo $container->get_url(); ?>" src="<?php echo $container->get_screenshot(); ?>">
-							</div>
-
-							<div class="dol-sites-status">
-								<?php if ( $container->is_running() ) : ?>
-									<span class="dol-flex dol-h-4 dol-w-4 dol-relative">
-										<span class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w-full dol-rounded-full dol-bg-green-500 dol-opacity-75"></span>
-										<span class="dol-relative dol-inline-flex dol-rounded-full dol-h-4 dol-w-4 dol-bg-green-600"></span>
-									</span>
-								<?php elseif ( $container->is_deploying() ) : ?>
-									<span class="dol-flex dol-h-4 dol-w-4 dol-relative">
-										<span class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w-full dol-rounded-full dol-bg-yellow-600 dol-opacity-75"></span>
-										<span class="dol-relative dol-inline-flex dol-rounded-full dol-h-4 dol-w-4 dol-bg-yellow-600"></span>
-									</span>
-								<?php else : ?>
-									<span class="dol-flex dol-h-4 dol-w-4 dol-relative">
-										<span class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w-full dol-rounded-full dol-bg-red-500 dol-opacity-75"></span>
-										<span class="dol-relative dol-inline-flex dol-rounded-full dol-h-4 dol-w-4 dol-bg-red-600"></span>
-									</span>
-								<?php endif; ?>
+								<img 
+									class="dol-block dol-object-cover" 
+									alt="<?php echo esc_attr( $container->get_url() ); ?>" 
+									src="<?php echo esc_url( $container->get_screenshot() ); ?>">
 							</div>
 						</div>
 						<div class="dol-sites-name">
 							<div class="dol-px-4">
 								<div class="dol-font-bold dol-text-lg dol-cursor-default dol-truncate">
-									<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600" href="<?php echo $container->get_permalink(); ?>" title="<?php echo esc_attr( $data['name'] ); ?>">
+									<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600 dol-space-x-1" href="<?php echo $container->get_permalink(); ?>" title="<?php echo esc_attr( $data['name'] ); ?>">
 										<?php if ( $container->is_vip() ) : ?>
 											<span data-toggle="tooltip"
 												data-placement="bottom"
 												data-tooltip="VIP Site">
-												<?php echo dollie()->icon()->vip( 'dol-text-secondary dol-text-s' ); ?>
+												<?php echo dollie()->icon()->vip( 'dol-text-secondary dol-text-sm' ); ?>
 											</span>
 										<?php endif; ?>
-										<?php echo esc_html( $data['name'] ); ?>
+										<span><?php echo esc_html( $data['name'] ); ?></span>
 									</a>
 								</div>
 
-								<div class="dol-flex dol-items-center dol-truncate">
-									<a class="dol-item-url dol-text-brand-500 hover:dol-text-brand-600 dol-text-sm dol-leading-normal dol-truncate" href="<?php echo esc_url( $data['domain'] ); ?>" title="<?php echo esc_html( $data['domain'] ); ?>" target="_blank">
+								<div class="dol-flex dol-items-center dol-space-x-1 dol-truncate">
+									<?php echo dollie()->icon()->link( 'dol-text-xs dol-text-gray-400' ); ?>
+									<a class="dol-item-url dol-text-blue-800 hover:dol-text-blue-900 dol-text-xs dol-leading-normal dol-truncate" href="<?php echo esc_url( $data['domain'] ); ?>" title="<?php echo esc_html( $data['domain'] ); ?>" target="_blank">
 										<?php echo esc_html( $data['domain'] ); ?>
 									</a>
 								</div>

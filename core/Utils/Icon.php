@@ -133,6 +133,10 @@ final class Icon extends Singleton {
 		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_preview', '<i class="fas fa-external-link"></i>' ) . '</span>';
 	}
 
+	public function link( $classes = null ) {
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_link', '<i class="fas fa-link"></i>' ) . '</span>';
+	}
+
 	public function login( $classes = null ) {
 		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_login', '<i class="fas fa-tools"></i>' ) . '</span>';
 	}

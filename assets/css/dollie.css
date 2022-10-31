@@ -1004,7 +1004,6 @@ input[type="text"].dol-search-input:focus {
     display: block; }
 .dol-open-modal {
     margin-left: 1rem;
-    display: none;
     border-radius: 0.25rem;
     border-width: 0px;
     background-color: var(--d-primary-500);
@@ -1034,21 +1033,16 @@ input[type="text"].dol-search-input:focus {
     margin-right: -0.5rem;
     margin-top: -0.5rem;
     margin-bottom: -0.5rem; }
-.dol-sites-container.dol-sites-grid {
-    margin-left: -1rem;
-    margin-right: -1rem;
-    margin-top: -1rem;
-    margin-bottom: -1rem; }
 .dol-sites-container .dol-sites-item {
-      /* List styling */
-      /* Grid styling */ }
+      /* List styling */ }
 .dol-sites-container .dol-sites-item .dol-sites-item-inner {
     position: relative;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     overflow: hidden;
-    padding: 1rem; }
+    padding: 1rem;
+    padding-left: 2.5rem; }
 .dol-sites-container .dol-sites-item .dol-sites-item-inner:hover {
     --tw-border-opacity: 1;
     border-color: rgb(156 163 175 / var(--tw-border-opacity)); }
@@ -1097,72 +1091,28 @@ input[type="text"].dol-search-input:focus {
     border-color: rgb(229 231 235 / var(--tw-border-opacity));
     padding-top: 1rem;
     text-align: left; }
-.dol-sites-container .dol-sites-item.dol-sites-grid-item {
-    width: 100%;
-    padding: 1rem; }
-.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-item-inner {
-    padding: 0px; }
-.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-image,
-        .dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-name,
-        .dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-version,
-        .dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-client,
-        .dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-controls {
-    width: 100%; }
-.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-status {
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    margin-left: 1rem;
-    margin-bottom: 1rem; }
-.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-image-box {
-    position: relative;
-    height: 16rem;
-    overflow: hidden;
-    border-width: 0px;
-    border-bottom-width: 1px;
-    border-style: solid;
-    --tw-border-opacity: 1;
-    border-color: rgb(229 231 235 / var(--tw-border-opacity)); }
-.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-image-box:before {
-            content: " ";
-            position: absolute;
-            bottom: 0px;
-            left: 0px;
-            display: block;
-            height: 10rem;
-            width: 100%;
-            background: white;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0) 20%, rgba(0, 0, 0, 0.501838) 100%); }
-.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-name {
-    padding-top: 1rem;
-    padding-bottom: 1rem; }
-.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-version {
-    padding-left: 1rem;
-    padding-right: 1rem;
-    padding-bottom: 0.5rem; }
-.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-client {
-    padding-left: 1rem;
-    padding-right: 1rem; }
-.dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-controls {
-    padding: 1rem; }
 @media (min-width: 768px) {
-    .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-check-wrap {
-        width: 8.333333%; }
-    .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-image {
+    .dol-sites-container .dol-sites-item.dol-sites-list-item {
+        position: relative; }
+      .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-check-wrap {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        height: 100%;
+        width: 0.5rem; }
+      .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-image {
         margin-bottom: 0px;
         width: 16.666667%; }
-    .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-name {
+      .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-name {
         width: 33.333333%; }
-    .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-version {
+      .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-version {
         margin-top: 0px;
         width: 16.666667%; }
-    .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-client {
+      .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-client {
         margin-top: 0px;
         width: 8.333333%; }
-    .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-controls {
-        text-align: right; }
-    .dol-sites-container .dol-sites-item.dol-sites-grid-item {
-        width: 50%; } }
+      .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-controls {
+        text-align: right; } }
 @media (min-width: 1024px) {
     .dol-sites-container .dol-sites-item.dol-sites-list-item .dol-sites-image {
         width: 8.333333%; }
@@ -1172,24 +1122,7 @@ input[type="text"].dol-search-input:focus {
         margin-top: 0px;
         width: 25%;
         border-width: 0px;
-        padding: 0px; }
-    .dol-sites-container .dol-sites-item.dol-sites-grid-item {
-        width: 33.333333%; }
-      .dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-status {
-        margin-left: 2rem; }
-      .dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-name {
-        padding-left: 1rem;
-        padding-right: 1rem;
-        padding-top: 1.5rem;
-        padding-bottom: 1.5rem; }
-      .dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-version,
-      .dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-client,
-      .dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-controls {
-        padding-left: 2rem;
-        padding-right: 2rem; }
-      .dol-sites-container .dol-sites-item.dol-sites-grid-item .dol-sites-controls {
-        padding-top: 1.5rem;
-        padding-bottom: 1.5rem; } }
+        padding: 0px; } }
 /* Pagination */
 .dol-loader {
     position: absolute;
@@ -1922,6 +1855,10 @@ input[type="text"].dol-search-input:focus {
     --tw-space-y-reverse: 0;
     margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
     margin-bottom: calc(0.25rem * var(--tw-space-y-reverse)); }
+.dol-space-x-1 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(0.25rem * var(--tw-space-x-reverse));
+    margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse))); }
 .dol-divide-y > :not([hidden]) ~ :not([hidden]) {
     --tw-divide-y-reverse: 0;
     border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
@@ -2336,12 +2273,12 @@ input[type="text"].dol-search-input:focus {
 .dol-text-2xl {
     font-size: 1.5rem;
     line-height: 2rem; }
-.dol-text-base {
-    font-size: 1rem;
-    line-height: 1.5rem; }
 .dol-text-xs {
     font-size: 0.75rem;
     line-height: 1rem; }
+.dol-text-base {
+    font-size: 1rem;
+    line-height: 1.5rem; }
 .dol-font-semibold {
     font-weight: 600; }
 .dol-font-bold {
@@ -2440,6 +2377,9 @@ input[type="text"].dol-search-input:focus {
     color: var(--d-secondary); }
 .dol-text-primary {
     color: var(--d-primary); }
+.dol-text-blue-800 {
+    --tw-text-opacity: 1;
+    color: rgb(30 64 175 / var(--tw-text-opacity)); }
 .dol-text-red-600 {
     --tw-text-opacity: 1;
     color: rgb(220 38 38 / var(--tw-text-opacity)); }
@@ -2618,6 +2558,12 @@ input[type="text"].dol-search-input:focus {
 .hover\:dol-text-gray-500:hover {
     --tw-text-opacity: 1;
     color: rgb(107 114 128 / var(--tw-text-opacity)); }
+.hover\:\!dol-text-white:hover {
+    --tw-text-opacity: 1 !important;
+    color: rgb(255 255 255 / var(--tw-text-opacity)) !important; }
+.hover\:dol-text-blue-900:hover {
+    --tw-text-opacity: 1;
+    color: rgb(30 58 138 / var(--tw-text-opacity)); }
 .hover\:dol-text-red-600:hover {
     --tw-text-opacity: 1;
     color: rgb(220 38 38 / var(--tw-text-opacity)); }
@@ -2640,9 +2586,6 @@ input[type="text"].dol-search-input:focus {
     color: rgb(55 65 81 / var(--tw-text-opacity)); }
 .hover\:dol-text-primary-300:hover {
     color: var(--d-primary-300); }
-.hover\:\!dol-text-white:hover {
-    --tw-text-opacity: 1 !important;
-    color: rgb(255 255 255 / var(--tw-text-opacity)) !important; }
 .hover\:dol-shadow-lg:hover {
     --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
     --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);

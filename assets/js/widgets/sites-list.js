@@ -38,13 +38,18 @@ var DollieSiteList = DollieSiteList || {};
             });
 
             $(".dol-sites-item input[type=checkbox]").on("change", function () {
-                var checked = DollieSiteList.fn.updateSelectedSites();
+                var data = DollieSiteList.fn.updateSelectedSites();
 
-                if (checked) {
+                if (data.checked) {
                     $(".dol-open-modal").addClass("dol-open-modal-visible");
                 } else {
                     $(".dol-open-modal").removeClass("dol-open-modal-visible");
                 }
+
+                $(".dol-select-all-container").prop({
+                    checked: data.checked,
+                    indeterminate: data.indeterminate
+                });
             });
 
             $(".dol-open-modal").on("click", function (e) {
@@ -675,13 +680,14 @@ var DollieSiteList = DollieSiteList || {};
         },
 
         updateSelectedSites: function () {
-            var checked;
+            var checkboxes = $(".dol-sites-item input[type=checkbox]");
+            var counter = 0;
 
             DollieSiteList.vars.selectedSites = [];
 
-            $(".dol-sites-item input[type=checkbox]").each(function (index, item) {
+            checkboxes.each(function (index, item) {
                 if ($(item).is(":checked")) {
-                    checked = true;
+                    counter++;
                     DollieSiteList.vars.selectedSites.push({
                         id: $(item).val(),
                         url: $(item)
@@ -692,7 +698,24 @@ var DollieSiteList = DollieSiteList || {};
                 }
             });
 
-            return checked;
+            if (counter > 0 && counter < checkboxes.length) {
+                return {
+                    checked: true,
+                    indeterminate: true
+                };
+            }
+
+            if (counter === checkboxes.length) {
+                return {
+                    checked: true,
+                    indeterminate: false
+                }
+            }
+
+            return {
+                checked: false,
+                indeterminate: false
+            };
         },
 
         pagination: function () {
