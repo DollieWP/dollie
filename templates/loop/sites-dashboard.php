@@ -62,7 +62,6 @@
 							<div class="dol-sites-status">
 								<?php if ( $container->is_running() ) : ?>
 									<span class="dol-flex dol-h-4 dol-w-4 dol-relative">
-										<span class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w-full dol-rounded-full dol-bg-green-500 dol-opacity-75"></span>
 										<span class="dol-relative dol-inline-flex dol-rounded-full dol-h-4 dol-w-4 dol-bg-green-600"></span>
 									</span>
 								<?php elseif ( $container->is_deploying() ) : ?>

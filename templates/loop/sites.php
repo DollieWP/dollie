@@ -50,21 +50,21 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 							data-search-term=""
 							placeholder="<?php printf( esc_html__( 'Search for a %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() ); ?>">
 					</div>
-					
-					<span data-modal-id="dol-modal-id-filters" 
+
+					<span data-modal-id="dol-modal-id-filters"
 						class="dol-open-modal dol-p-3 dol-m-0 dol-bg-gray-200 hover:dol-bg-gray-300 dol-text-gray-700 dol-block dol-cursor-pointer">
 						<?php echo dollie()->icon()->filter(); ?>
 					</span>
 
 					<?php if ( $subscription_vip ) : ?>
-						<a href="<?php echo esc_html( dollie()->page()->get_sites_url() ); ?>/?vip=yes" 
+						<a href="<?php echo esc_html( dollie()->page()->get_sites_url() ); ?>/?vip=yes"
 							class="dol-layout-preview dol-preview-bar-layout"
 							data-tooltip="<?php printf( esc_html__( 'Show Only Your VIP %s', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>">
 							<?php echo dollie()->icon()->vip(); ?>
 						</a>
 					<?php endif; ?>
 
-					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=my-sites" 
+					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=my-sites"
 						class="dol-p-3 dol-rounded dol-text-sm dol-leading-none dol-bg-gray-200 hover:dol-bg-gray-300 dol-text-gray-700 dol-inline-block"
 						data-tooltip="<?php printf( esc_html__( 'Show Your %s using the Live Preview Bar', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>">
 						<?php echo dollie()->icon()->preview(); ?>
@@ -207,7 +207,6 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 							<div class="dol-sites-status">
 								<?php if ( $container->is_running() ) : ?>
 									<span class="dol-flex dol-h-4 dol-w-4 dol-relative">
-										<span class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w-full dol-rounded-full dol-bg-green-500 dol-opacity-75"></span>
 										<span class="dol-relative dol-inline-flex dol-rounded-full dol-h-4 dol-w-4 dol-bg-green-600"></span>
 									</span>
 								<?php elseif ( $container->is_deploying() ) : ?>
