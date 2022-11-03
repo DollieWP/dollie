@@ -129,7 +129,7 @@ final class User {
 	 *
 	 * @param null $user_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_container_user_role() {
 		$role = get_user_meta( $this->get_id(), 'wpd_client_site_permissions', true );

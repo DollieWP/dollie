@@ -127,7 +127,13 @@ final class DeployService extends Singleton implements ConstInterface {
 		);
 
 		// Add log.
-		$container->add_log( Log::WP_SITE_DEPLOY_STARTED );
+		if ( $type === self::TYPE_BLUEPRINT ) {
+			$container->add_log( Log::WP_BLUEPRINT_DEPLOY_STARTED );
+		} elseif ( $type === self::TYPE_STAGING ) {
+			$container->add_log( Log::WP_STAGING_DEPLOY_STARTED );
+		} else {
+			$container->add_log( Log::WP_SITE_DEPLOY_STARTED );
+		}
 
 		return $container;
 	}
@@ -218,7 +224,13 @@ final class DeployService extends Singleton implements ConstInterface {
 			ChangeContainerRoleJob::instance()->run( $container );
 
 			// Add log.
-			$container->add_log( Log::WP_SITE_DEPLOYED );
+			if ( $container->is_blueprint() ) {
+				$container->add_log( Log::WP_BLUEPRINT_DEPLOYED );
+			} elseif ( $container->is_staging() ) {
+				$container->add_log( Log::WP_STAGING_DEPLOYED );
+			} else {
+				$container->add_log( Log::WP_SITE_DEPLOYED );
+			}
 		}
 
 		return true;

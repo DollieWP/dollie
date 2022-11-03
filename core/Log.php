@@ -38,6 +38,9 @@ class Log {
 	const WP_SITE_CLOUDFLARE_ZONE_ADDED = 'wp-site-cloudflare-zone-added';
 	const WP_SITE_LETSENCRYPT_FAILED = 'wp-site-letsencrypt_failed';
 	const WP_SITE_BLUEPRINT_DEPLOYED = 'wp-site-blueprint-deployed';
+	const WP_SITE_ACCESS_CHANGED = 'wp-site-access-changed';
+	const WP_STAGING_DEPLOY_STARTED = 'wp-staging-deploy-started';
+	const WP_STAGING_DEPLOYED = 'wp-staging-deployed';
 
 	/**
 	 * Add logs using WDS_Log_Post
@@ -229,7 +232,24 @@ class Log {
 				'type'    => 'blueprint',
 				'link'    => true,
 			],
-
+			self::WP_SITE_ACCESS_CHANGED    => [
+				'title'   => __( 'Blueprint Updated', 'dollie' ),
+				'content' => __( sprintf( '%s client access was set to %s.', $values[0], $values[1] ), 'dollie' ),
+				'type'    => 'blueprint',
+				'link'    => true,
+			],
+			self::WP_STAGING_DEPLOY_STARTED   => [
+				'title'   => __( 'Staging Launch Started', 'dollie' ),
+				'content' => __( sprintf( 'Launching Your Staging site %s. You\'ll get another notification when it is ready! ', $values[0] ), 'dollie' ),
+				'type'    => 'deploy',
+				'link'    => true,
+			],
+			self::WP_STAGING_DEPLOYED              => [
+				'title'   => __( 'Staging Site Launched', 'dollie' ),
+				'content' => __( sprintf( 'Staging Site %s has been successfully launched.', $values[0] ), 'dollie' ),
+				'type'    => 'deploy',
+				'link'    => true,
+			],
 		];
 
 		$actions = apply_filters( 'dollie/log/actions', $actions, $values, $log_id );

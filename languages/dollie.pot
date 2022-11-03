@@ -7,7 +7,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: Dollie\n"
-"POT-Creation-Date: 2022-10-18 14:19+0000\n"
 "Report-Msgid-Bugs-To: Dollie\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -1523,10 +1522,6 @@ msgstr ""
 msgid "Login to Site"
 msgstr ""
 
-#: core/Modules/Preview.php:258
-msgid "all"
-msgstr ""
-
 #: core/Modules/Preview.php:273
 msgid "all times"
 msgstr ""
@@ -2754,7 +2749,7 @@ msgstr ""
 msgid "To prevent abuse of the Dollie platform we need to verify your account before you get unrestricted access to all platform features. Verification is completely free, will take less than 5 minutes and will even earn you free Cloud Credits!"
 msgstr ""
 
-#: templates/admin/notices/subscription-not-verified.php:12, templates/widgets/launch/launch-site.php:110, templates/widgets/site/pages/developer-tools.php:98
+#: templates/admin/notices/subscription-not-verified.php:12, templates/widgets/launch/launch-site.php:175, templates/widgets/site/pages/developer-tools.php:98
 msgid "Verify Your Account"
 msgstr ""
 
@@ -2886,51 +2881,51 @@ msgstr ""
 msgid "Please sign-up for a one of our subscriptions to launch a new website!"
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:29
+#: templates/widgets/launch/launch-site.php:94
 msgid "Not Connected to Dollie"
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:30
+#: templates/widgets/launch/launch-site.php:95
 msgid "Please connect your Hub to the Dollie Cloud so you can start launching sites on your platform."
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:33
+#: templates/widgets/launch/launch-site.php:98
 msgid "Connect to Dollie Cloud"
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:49
+#: templates/widgets/launch/launch-site.php:114
 msgid "You can launch VIP Sites!"
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:50
+#: templates/widgets/launch/launch-site.php:115
 msgid "If you would like to launch a site with additional resources, backups and priority support from our team, mark your site as VIP."
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:63
+#: templates/widgets/launch/launch-site.php:128
 msgid "Admin Info - VIP Sites Enabled for All Sites "
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:64
+#: templates/widgets/launch/launch-site.php:129
 msgid "You have configured VIP Sites to be enabled for each site that is being launched on your platform."
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:77
+#: templates/widgets/launch/launch-site.php:142
 msgid "You have reached your Disk Space limit"
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:78
+#: templates/widgets/launch/launch-site.php:143
 msgid "You have reached the maximum amount of disk space you can use. Please upgrade your plan to add more disk space."
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:92
+#: templates/widgets/launch/launch-site.php:157
 msgid "You have reached your site limit"
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:93
+#: templates/widgets/launch/launch-site.php:158
 msgid "You have reached the maximum amount of %s you can launch. Upgrade your plan or reach out to our team directly."
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:106
+#: templates/widgets/launch/launch-site.php:171
 msgid "Unverified Account - Your sites will be launched with restricted functionality"
 msgstr ""
 

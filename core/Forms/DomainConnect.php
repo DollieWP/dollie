@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Log;
 use Dollie\Core\Singleton;
 use Dollie\Core\Modules\Forms;
 use Dollie\Core\Services\DnsService;
@@ -39,7 +40,10 @@ class DomainConnect extends Singleton {
 		add_filter( 'af/form/attributes/key=' . $this->form_key, [ $this, 'change_form_attributes' ] );
 
 		// Form fields & attributes.
-		add_filter( 'af/form/field_attributes/key=' . $this->form_key, [ $this, 'field_attributes_visibility' ], 10, 4 );
+		add_filter( 'af/form/field_attributes/key=' . $this->form_key, [
+			$this,
+			'field_attributes_visibility'
+		], 10, 4 );
 		add_filter( 'af/field/before_render/name=allow_dns', [ $this, 'field_visibility' ], 10, 3 );
 
 		// Restrictions.
@@ -86,6 +90,9 @@ class DomainConnect extends Singleton {
 		}
 
 		if ( is_wp_error( $response ) ) {
+
+			$container->add_log( Log::WP_SITE_DOMAIN_LINK_ERROR, [ $domain, $container->get_name() ] );
+
 			af_add_submission_error(
 				wp_kses_post(
 					sprintf(
@@ -93,7 +100,11 @@ class DomainConnect extends Singleton {
 					)
 				)
 			);
+
+			return;
 		}
+
+		$container->add_log( Log::WP_SITE_DOMAIN_ADDED, $domain );
 
 		do_action( 'dollie/domain/connect/submission/after', $container, $domain );
 	}
@@ -171,6 +182,7 @@ class DomainConnect extends Singleton {
 	 * @param array $field
 	 * @param array $form
 	 * @param array $args
+	 *
 	 * @return array
 	 */
 	public function field_attributes_visibility( $attributes, $field, $form, $args ) {
@@ -189,6 +201,7 @@ class DomainConnect extends Singleton {
 	 * @param array $field
 	 * @param array $form
 	 * @param array $args
+	 *
 	 * @return array
 	 */
 	public function field_visibility( $field, $form, $args ) {
