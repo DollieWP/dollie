@@ -100,8 +100,14 @@ class SitesList extends \Elementor\Widget_Base {
 			$current_page = (int) sanitize_text_field( $_GET['load-page'] );
 		}
 
+		$per_page = $settings['posts_per_page'];
+
+		if ( isset( $_GET['per_page'] ) && (int) sanitize_text_field( $_GET['per_page'] ) > 0 ) {
+			$per_page = (int) sanitize_text_field( $_GET['per_page'] );
+		}
+
 		$args = [
-			'posts_per_page' => isset( $_GET['per_page'] ) && sanitize_text_field( $_GET['per_page'] ) ? sanitize_text_field( $_GET['per_page'] ) : $settings['posts_per_page'],
+			'posts_per_page' => $per_page,
 			'paged'          => $current_page,
 			'post_type'      => 'container',
 			'post_status'    => 'publish',
@@ -115,8 +121,32 @@ class SitesList extends \Elementor\Widget_Base {
 				'value'   => sanitize_text_field( $_GET['search'] ),
 				'compare' => 'LIKE',
 			];
+		}
 
-			$meta_query['search']['relation'] = 'OR';
+		if ( isset( $_GET['status'] ) && $_GET['status'] ) {
+			$status = sanitize_text_field( $_GET['status'] );
+
+			if ( in_array(
+				$status,
+				[
+					'Running',
+					'Stopped',
+					'Deploying',
+					'Undeployed',
+					'Deploy Failure',
+				],
+				true
+			) ) {
+				$meta_query['search'][] = [
+					'key'     => 'dollie_container_details',
+					'value'   => $status,
+					'compare' => 'LIKE',
+				];
+			}
+		}
+
+		if ( isset( $meta_query['search'] ) && count( $meta_query['search'] ) > 1 ) {
+			$meta_query['search']['relation'] = 'AND';
 		}
 
 		if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) {
@@ -125,15 +155,13 @@ class SitesList extends \Elementor\Widget_Base {
 				'value'   => '1',
 				'compare' => '=',
 			];
-		}
-		elseif ( isset( $_GET['vip'] ) && $_GET['vip'] ) {
+		} elseif ( isset( $_GET['vip'] ) && $_GET['vip'] ) {
 			$meta_query['container_type'][] = [
 				'key'     => 'dollie_vip_site',
 				'value'   => '1',
 				'compare' => '=',
 			];
-		}
-		else {
+		} else {
 			$meta_query['container_type'][] = [
 				'key'     => 'dollie_container_type',
 				'value'   => '0',
@@ -143,40 +171,27 @@ class SitesList extends \Elementor\Widget_Base {
 			$meta_query['container_type']['relation'] = 'OR';
 		}
 
-		if ( count( $meta_query ) ) {
-			if ( isset( $meta_query['search'] ) && isset( $meta_query['container_type'] ) ) {
-				$args['meta_query'][]           = $meta_query['search'];
-				$args['meta_query'][]           = $meta_query['container_type'];
-				$args['meta_query']['relation'] = 'AND';
-			} elseif ( isset( $meta_query['search'] ) ) {
-				$args['meta_query'] = $meta_query['search'];
-			} elseif ( isset( $meta_query['container_type'] ) ) {
-				$args['meta_query'] = $meta_query['container_type'];
-			}
+		if ( isset( $meta_query['search'] ) ) {
+			$args['meta_query'][]           = $meta_query['search'];
+			$args['meta_query'][]           = $meta_query['container_type'];
+			$args['meta_query']['relation'] = 'AND';
+		} else {
+			$args['meta_query'] = $meta_query['container_type'];
+		}
+
+		if ( isset( $_GET['customer'] ) && $_GET['customer'] ) {
+			$args['author'] = (int) sanitize_text_field( $_GET['customer'] );
 		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			$args['author'] = get_current_user_id();
 		}
 
-		if ( isset( $_GET['customer'] ) && $_GET['customer'] ) {
-			$args['author'] = (int) $_GET['customer'];
-		}
-
 		$sites = new WP_Query( $args );
-
-		$view_type = isset( $_GET['list_type'] ) && in_array(
-			$_GET['list_type'],
-			[
-				'list',
-				'grid',
-			]
-		) ? sanitize_text_field( $_GET['list_type'] ) : 'list';
 
 		$data = [
 			'sites'       => $sites->get_posts(),
 			'sites_pages' => $sites->max_num_pages,
-			'view_type'   => $view_type,
 			'settings'    => $settings,
 			'query_data'  => [
 				'permalink'    => get_the_permalink(),

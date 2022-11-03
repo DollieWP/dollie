@@ -132,9 +132,13 @@ var DollieSiteList = DollieSiteList || {};
       $(".dol-apply-filters").on("click", function (e) {
         e.preventDefault();
 
+        var searchParams = new URLSearchParams(window.location.search);
+        var customer = $("#customer").val();
+        var status = $("#status").val();
         var per_page = $("#per-page").val();
 
-        var searchParams = new URLSearchParams(window.location.search);
+        searchParams.set("customer", customer);
+        searchParams.set("status", status);
 
         if (per_page) {
           searchParams.set("per_page", per_page);
@@ -742,6 +746,7 @@ var DollieSiteList = DollieSiteList || {};
           $(".dol-sites-item input[type=checkbox]").prop("checked", false);
           $(".dol-select-containers").prop("checked", false);
           $(".dol-open-modal").prop("disabled", false);
+
           DollieSiteList.fn.updateSelectedSites();
 
           var elementId = $(this)
@@ -765,6 +770,7 @@ var DollieSiteList = DollieSiteList || {};
           var search = $(this)
             .closest(".elementor-widget-dollie-sites-listing")
             .find(".dol-search-site");
+
           if (search.length && search.attr("data-search-term")) {
             url.searchParams.set("search", search.attr("data-search-term"));
           }
@@ -816,10 +822,20 @@ var DollieSiteList = DollieSiteList || {};
           var elementId = $(this)
             .closest(".elementor-widget-dollie-sites-listing")
             .data("id");
-          var load = $(this).data("permalink");
 
+          var load = $(this).data("permalink");
           let url = new URL(load);
+
+          const urlSearchParams = new URLSearchParams(window.location.search);
+          const params = Object.fromEntries(urlSearchParams.entries());
+
+          if (params.blueprints) {
+            url.searchParams.set("blueprints", "yes");
+          }
+
           url.searchParams.set("search", $(this).val());
+          url.searchParams.set("customer", $("#customer").val());
+          url.searchParams.set("status", $("#status").val());
 
           if ($(this).data("per-page")) {
             url.searchParams.set("per_page", $(this).data("per-page"));

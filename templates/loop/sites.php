@@ -19,8 +19,22 @@ if ( is_wp_error( $bulk_actions ) ) {
 
 $allowed_bulk_commands = dollie()->bulk_actions()->get_allowed_commands_in_progress();
 
+$filters = [
+	'available' => [
+		'customers' => get_users(),
+		'statuses'  => [
+			'Running',
+			'Stopped',
+			'Deploying',
+			'Undeployed',
+			'Deploy Failure',
+		],
+		'pages'     => 30,
+	],
+];
+
 dollie()->load_template( 'loop/parts/modal-actions', [], true );
-dollie()->load_template( 'loop/parts/modal-filters', [], true );
+dollie()->load_template( 'loop/parts/modal-filters', [ 'filters' => $filters ], true );
 
 ?>
 
@@ -48,7 +62,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 							data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>"
 							data-per-page="<?php echo ( isset( $_GET['per_page'] ) ? esc_attr( $_GET['per_page'] ) : '' ); ?>"
 							data-search-term=""
-							placeholder="<?php printf( esc_html__( 'Search for a %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() ); ?>">
+							placeholder="<?php esc_html_e( 'Search by url, plugin, version, etc...', 'dollie' ); ?>">
 					</div>
 					
 					<span data-modal-id="dol-modal-id-filters" 

@@ -91,24 +91,19 @@ final class Sites extends Singleton implements Base {
 			];
 		}
 
+		if ( isset( $_GET['customer'] ) && $_GET['customer'] ) {
+			$args['author'] = (int) sanitize_text_field( $_GET['customer'] );
+		}
+
 		if ( ! current_user_can( 'manage_options' ) ) {
 			$args['author'] = get_current_user_id();
 		}
 
 		$sites = new WP_Query( $args );
 
-		$view_type = isset( $_GET['list_type'] ) && in_array(
-			$_GET['list_type'],
-			[
-				'list',
-				'grid',
-			]
-		) ? sanitize_text_field( $_GET['list_type'] ) : 'list';
-
 		$data = [
 			'sites'       => $sites->get_posts(),
 			'sites_pages' => $sites->max_num_pages,
-			'view_type'   => $view_type,
 			'settings'    => $a,
 			'query_data'  => [
 				'permalink'    => get_the_permalink(),

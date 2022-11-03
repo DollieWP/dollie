@@ -2,7 +2,7 @@
   /* Search input */
   input[type="text"] {
     &.dol-search-input {
-      @apply dol-pl-10 dol-pr-4 dol-py-2 dol-border dol-border-solid dol-border-gray-300 dol-text-base dol-text-gray-700 dol-bg-white dol-rounded;
+      @apply dol-w-[280px] dol-pl-10 dol-pr-4 dol-py-2 dol-border dol-border-solid dol-border-gray-300 dol-text-base dol-text-gray-700 dol-bg-white dol-rounded;
 
       &::placeholder {
         @apply dol-text-gray-300;

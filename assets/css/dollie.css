@@ -923,6 +923,7 @@ html {
     outline-offset: 2px; }
 /* Search input */
 input[type="text"].dol-search-input {
+    width: 280px;
     border-radius: 0.25rem;
     border-width: 1px;
     border-style: solid;
@@ -1754,10 +1755,14 @@ input[type="text"].dol-search-input:focus {
     list-style-position: inside; }
 .dol-list-none {
     list-style-type: none; }
+.dol-grid-cols-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr)); }
 .dol-grid-cols-1 {
     grid-template-columns: repeat(1, minmax(0, 1fr)); }
 .dol-grid-cols-4 {
     grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.dol-grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .dol-flex-row {
     flex-direction: row; }
 .dol-flex-col {
@@ -1780,10 +1785,10 @@ input[type="text"].dol-search-input:focus {
     justify-content: space-between; }
 .dol-justify-items-stretch {
     justify-items: stretch; }
-.dol-gap-5 {
-    gap: 1.25rem; }
 .dol-gap-4 {
     gap: 1rem; }
+.dol-gap-5 {
+    gap: 1.25rem; }
 .dol-gap-6 {
     gap: 1.5rem; }
 .dol-space-x-4 > :not([hidden]) ~ :not([hidden]) {
