@@ -88,13 +88,7 @@ class SitesList extends \Elementor\Widget_Base {
 
 		global $wp_query;
 
-		$current_page = 1;
-
-		if ( isset( $wp_query->query_vars['paged'] ) ) {
-			$current_page = get_query_var( 'paged', 1 );
-		} elseif ( isset( $wp_query->query_vars['page'] ) ) {
-			$current_page = get_query_var( 'page', 1 );
-		}
+		$current_page = isset( $_GET['dpg'] ) && (int) $_GET['dpg'] ? (int) sanitize_text_field( $_GET['dpg'] ) : 1;
 
 		if ( isset( $_GET['elementor_library'] ) && isset( $_GET['load-page'] ) && $_GET['load-page'] ) {
 			$current_page = (int) sanitize_text_field( $_GET['load-page'] );

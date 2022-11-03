@@ -336,6 +336,8 @@ dollie()->load_template( 'loop/parts/modal-filters', [ 'filters' => $filters ], 
 
 				echo paginate_links(
 					[
+						'format'       => '?dpg=%#%',
+						'current'      => $query_data['current_page'],
 						'total'        => $sites_pages,
 						'show_all'     => false,
 						'type'         => 'plain',
