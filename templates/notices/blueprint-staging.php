@@ -12,7 +12,7 @@ if ( ! isset( $container ) ) {
 		<?php
 			wp_kses_post(
 				printf(
-					__( 'This Blueprint has not been published yet. Visit <a class="dol-text-white hover:dol-text-white dol-underline" href="%s">Blueprint Settings</a> to publish and make it available for your customers.', 'dollie' ),
+					__( 'This Blueprint has not been published yet. Visit <a class="dol-text-white hover:dol-text-white dol-underline" href="%s">Blueprint Setup</a> to publish and make it available for your customers.', 'dollie' ),
 					$container->get_permalink( 'blueprints' )
 				)
 			)
