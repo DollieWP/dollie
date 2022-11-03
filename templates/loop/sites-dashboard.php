@@ -8,7 +8,7 @@
 		</div>
 	</div>
 	<?php if ( $containers->have_posts() ) : ?>
-		<div class="dol-sites-container list">
+		<div class="dol-sites-container">
 			<?php while ( $containers->have_posts() ) : ?>
 				<?php
 
@@ -45,14 +45,12 @@
 				$btn_controls_classes[] = 'dol-hidden';
 				$list_item_class[]      = 'dol-sites-item-locked';
 
-				$list_item_class[] = 'dol-sites-list-item';
-
 				$btn_controls_classes = implode( ' ', $btn_controls_classes );
 				$list_item_class      = implode( ' ', $list_item_class );
 
 				?>
 				<div class="dol-sites-item <?php echo esc_attr( $list_item_class ); ?>" data-site-name="<?php echo esc_attr( $domain ); ?>">
-					<div class="dol-sites-item-inner dol-relative dol-divide-y dol-divide-gray-200 dol-shadow dol-rounded-md dol-widget-custom">
+					<div class="dol-sites-item-inner">
 
 						<div class="dol-sites-image dol-relative">
 							<div class="dol-sites-image-box">
