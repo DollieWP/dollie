@@ -240,7 +240,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 							</span>
 						</div>
 						<div class="dol-sites-version dol-cursor-default dol-text-sm">
-							<?php if ( ! $container->is_failed() ) : ?>
+							<?php if ( ! $container->is_failed() && ! $container->is_deploying() ) : ?>
 								<div class="dol-font-semibold dol-text-gray-600">
 									<?php esc_html_e( 'WordPress', 'dollie' ); ?>
 								</div>
@@ -254,15 +254,18 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 								<?php if ( $container->is_running() ) : ?>
 									<?php if ( $container->get_changes_update_time() ) : ?>
 										<div class="dol-font-semibold dol-text-gray-600">
-											<?php esc_html_e( 'Blueprint updated', 'dollie' ); ?>
+											<?php esc_html_e( 'Blueprint published', 'dollie' ); ?>
 										</div>
 										<div class="dol-text-xs dol-mt-1">
 											<?php echo $container->get_changes_update_time(); ?>
 										</div>
 									<?php else : ?>
-										<span class="dol-font-medium">
-											<?php esc_html_e( 'Blueprint not published!', 'dollie' ); ?>
-										</span>
+										<div class="dol-font-semibold dol-text-gray-600">
+											<?php esc_html_e( 'Blueprint published', 'dollie' ); ?>
+										</div>
+										<div class="dol-text-xs dol-mt-1">
+											<?php esc_html_e( 'Never', 'dollie' ); ?>
+										</div>
 									<?php endif; ?>
 								<?php endif; ?>
 							</div>
@@ -283,16 +286,12 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 								</a>
 							<?php else : ?>
 								<?php if ( $container->is_blueprint() && $container->is_running() ) : ?>
-									<?php if ( $container->get_changes_update_time() ) : ?>
-										<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo $container->get_permalink( 'blueprints' ); ?>" data-tooltip="<?php echo esc_attr__( 'Update Blueprint', 'dollie' ); ?>">
-											<?php echo dollie()->icon()->refresh(); ?>
-										</a>
-									<?php else : ?>
-										<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary dol-relative dol-group" href="<?php echo $container->get_permalink( 'blueprints' ); ?>" data-tooltip="<?php echo esc_attr__( 'Publish Blueprint', 'dollie' ); ?>">
+									<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary dol-relative dol-group" href="<?php echo $container->get_permalink( 'blueprints' ); ?>" data-tooltip="<?php echo esc_attr__( 'Publish Blueprint', 'dollie' ); ?>">
+										<?php if ( ! $container->get_changes_update_time() ) : ?>
 											<span class="dol-absolute dol-top-0 dol-left-0 group-hover:dol-hidden dol--mt-1 dol--ml-1 dol-w-3 dol-h-3 dol-block dol-bg-orange-500 dol-rounded-full"></span>
-											<?php echo dollie()->icon()->launch(); ?>
-										</a>
-									<?php endif; ?>
+										<?php endif; ?>
+										<?php echo dollie()->icon()->launch(); ?>
+									</a>
 								<?php endif; ?>
 
 								<?php if ( $staging_url = get_post_meta( get_the_ID(), '_wpd_staging_url', true ) ) : ?>
