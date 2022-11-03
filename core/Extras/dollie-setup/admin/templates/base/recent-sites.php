@@ -5,16 +5,20 @@
 <section aria-labelledby="profile-overview-title">
 	<?php
 
-	$args = [
-		'posts_per_page' => 3,
-		'post_type'      => 'container',
-		'post_status'    => 'publish',
-	];
+	$query = new WP_Query(
+		[
+			'posts_per_page' => 3,
+			'post_type'      => 'container',
+			'post_status'    => 'publish',
+		]
+	);
+
+	$containers = $query->get_posts();
 
 	dollie()->load_template(
 		'loop/sites-dashboard',
 		[
-			'containers' => new WP_Query( $args ),
+			'sites'      => $containers,
 			'query_data' => [
 				'permalink' => get_the_permalink(),
 			],

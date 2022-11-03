@@ -163,12 +163,8 @@ dollie()->load_template( 'loop/parts/modal-filters', [], true );
 
 				$site_name = $container->get_title();
 
-				if ( $container->is_blueprint() ) {
-					$blueprint_title = $container->get_saved_title();
-
-					if ( $blueprint_title ) {
-						$site_name = $blueprint_title;
-					}
+				if ( $container->is_blueprint() && $blueprint_title = $container->get_saved_title() ) {
+					$site_name = $blueprint_title;
 				}
 
 				if ( ! $locking['status'] ) {
