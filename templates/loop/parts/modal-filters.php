@@ -63,14 +63,14 @@
 							<?php
 							$active_site_type = isset( $_GET['site_type'] ) ? sanitize_text_field( $_GET['site_type'] ) : '';
 
-							if ( ! in_array( $active_site_type, $filters['available']['site_types'], true ) ) {
+							if ( ! array_key_exists( $active_site_type, $filters['available']['site_types'] ) ) {
 								$active_site_type = '';
 							}
 							?>
 							<option value="" <?php selected( '', $active_site_type ); ?>><?php esc_html_e( 'All', 'dollie' ); ?></option>
 							
 							<?php foreach ( $filters['available']['site_types'] as $key => $value ) : ?>
-								<option value="<?php echo esc_attr( $status ); ?>" <?php selected( $active_site_type, $value ); ?>>
+								<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $active_site_type, $key ); ?>>
 									<?php echo esc_html( $value ); ?>
 								</option>
 							<?php endforeach; ?>

@@ -194,6 +194,7 @@ class SyncContainersJob extends Singleton {
 					}
 
 					update_post_meta( $stored_container->ID, 'dollie_container_type', $fetched_container['type'] );
+					update_post_meta( $stored_container->ID, 'dollie_vip_site', (int) $fetched_container['vip'] );
 					delete_post_meta( $stored_container->ID, 'wpd_container_id' );
 
 					$container = dollie()->get_container( $stored_container );
@@ -207,6 +208,8 @@ class SyncContainersJob extends Singleton {
 
 				$exists = true;
 				$container->set_details( $fetched_container );
+
+				update_post_meta( $stored_container->ID, 'dollie_vip_site', (int) $fetched_container['vip'] );
 
 				if ( $container->should_be_trashed() ) {
 					wp_trash_post( $container->get_id() );
@@ -240,8 +243,7 @@ class SyncContainersJob extends Singleton {
 						'post_author' => $author,
 						'meta_input'  => [
 							'dollie_container_type'     => $fetched_container['type'],
-							// TODO @GEORGE - Add this to API to be synced on Hub Sync
-							'dollie_vip_site'           => $fetched_container['vip_site'],
+							'dollie_vip_site'           => (int) $fetched_container['vip'],
 							'dollie_container_deployed' => 1,
 						],
 					]

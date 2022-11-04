@@ -926,7 +926,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return boolean
 	 */
 	public function is_vip(): bool {
-		return get_post_meta( $this->get_id(), 'dollie_vip_site', true );
+		return (bool) get_post_meta( $this->get_id(), 'dollie_vip_site', true );
 	}
 
 	/**

@@ -133,12 +133,11 @@ var DollieSiteList = DollieSiteList || {};
         e.preventDefault();
 
         var searchParams = new URLSearchParams(window.location.search);
-        var customer = $("#customer").val();
-        var status = $("#status").val();
         var per_page = $("#per-page").val();
 
-        searchParams.set("customer", customer);
-        searchParams.set("status", status);
+        searchParams.set("customer", $("#customer").val());
+        searchParams.set("status", $("#status").val());
+        searchParams.set("site_type", $("#site_type").val());
 
         if (per_page) {
           searchParams.set("per_page", per_page);
@@ -836,6 +835,7 @@ var DollieSiteList = DollieSiteList || {};
           url.searchParams.set("search", $(this).val());
           url.searchParams.set("customer", $("#customer").val());
           url.searchParams.set("status", $("#status").val());
+          url.searchParams.set("site_type", $("#site_type").val());
 
           if ($(this).data("per-page")) {
             url.searchParams.set("per_page", $(this).data("per-page"));

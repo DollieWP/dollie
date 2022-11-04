@@ -149,20 +149,33 @@ class SitesList extends \Elementor\Widget_Base {
 				'value'   => '1',
 				'compare' => '=',
 			];
-		} elseif ( isset( $_GET['vip'] ) && $_GET['vip'] ) {
-			$meta_query['container_type'][] = [
-				'key'     => 'dollie_vip_site',
-				'value'   => '1',
-				'compare' => '=',
-			];
 		} else {
 			$meta_query['container_type'][] = [
 				'key'     => 'dollie_container_type',
 				'value'   => '0',
 				'compare' => '=',
 			];
+		}
 
-			$meta_query['container_type']['relation'] = 'OR';
+		if ( ! isset( $_GET['blueprints'] ) && isset( $_GET['site_type'] ) ) {
+			$site_type = sanitize_text_field( $_GET['site_type'] );
+
+			if ( in_array(
+				$site_type,
+				[
+					'vip',
+					'normal',
+				],
+				true
+			) ) {
+				$meta_query['container_type'][] = [
+					'key'     => 'dollie_vip_site',
+					'value'   => '1',
+					'compare' => 'vip' === $site_type ? '=' : '!=',
+				];
+
+				$meta_query['container_type']['relation'] = 'AND';
+			}
 		}
 
 		if ( isset( $meta_query['search'] ) ) {
