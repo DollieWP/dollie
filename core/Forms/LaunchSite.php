@@ -308,6 +308,8 @@ class LaunchSite extends Singleton implements ConstInterface {
 								parent.append('<div class="dol-issues-<?php echo $id; ?> dol-hidden dol-absolute dol-top-0 dol-left-0 dol-w-full dol-h-full dol-text-white dol-bg-black dol-rounded dol-p-3 dol-space-y-2 dol-text-left dol-text-xs"></div>');
 							}
 
+							$('.dol-issues-<?php echo $id; ?>').append('<div class="dol-font-medium dol-text-sm dol-mb-3">Not available for customers:</div>');
+
 							var messages = <?php echo $messages; ?>;
 							messages.forEach(function(value, index) {
 								$('.dol-issues-<?php echo $id; ?>').append('<div>' + value +'</div>');
