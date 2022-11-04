@@ -2,7 +2,7 @@
   /* Search input */
   input[type="text"] {
     &.dol-search-input {
-      @apply dol-w-[280px] dol-pl-10 dol-pr-4 dol-py-2 dol-border dol-border-solid dol-border-gray-300 dol-text-base dol-text-gray-700 dol-bg-white dol-rounded;
+      @apply dol-pl-10 dol-pr-4 dol-py-2 dol-border dol-border-solid dol-border-gray-300 dol-text-base dol-text-gray-700 dol-bg-white dol-rounded;
 
       &::placeholder {
         @apply dol-text-gray-300;
@@ -62,7 +62,7 @@
       }
 
       .dol-sites-item-inner {
-        @apply dol-flex dol-items-center dol-relative dol-p-4 dol-pl-10;
+        @apply dol-flex dol-flex-wrap dol-items-center dol-relative dol-p-4 dol-pl-10;
       }
 
       &:nth-child(odd) {
@@ -77,8 +77,12 @@
         }
       }
 
+      .dol-check-wrap {
+        @apply dol-w-2 dol-absolute dol-left-0 dol-top-0 dol-h-full;
+      }
+
       .dol-sites-image {
-        @apply dol-w-2/12;
+        @apply dol-w-3/12 dol-mb-4;
 
         .dol-sites-image-box {
           @apply dol-shadow dol-rounded dol-overflow-hidden;
@@ -86,23 +90,23 @@
       }
 
       .dol-sites-name {
-        @apply dol-w-4/12;
+        @apply dol-w-9/12 dol-pl-2 dol-mb-4;
       }
 
       .dol-sites-status {
-        @apply dol-w-2/12;
+        @apply dol-w-3/12 dol-text-center;
       }
 
       .dol-sites-version {
-        @apply dol-w-1/12;
+        @apply dol-hidden;
       }
 
       .dol-sites-client {
-        @apply dol-w-1/12;
+        @apply dol-w-4/12 dol-pl-2;
       }
 
       .dol-sites-controls {
-        @apply dol-w-2/12 dol-text-left;
+        @apply dol-w-5/12 dol-text-right;
       }
     }
   }
@@ -112,28 +116,28 @@
       .dol-sites-item {
         @apply dol-relative;
 
-        .dol-check-wrap {
-          @apply dol-w-2 dol-absolute dol-left-0 dol-top-0 dol-h-full;
-        }
-
         .dol-sites-image {
-          @apply dol-w-2/12;
+          @apply dol-w-3/12;
         }
 
         .dol-sites-name {
-          @apply dol-w-4/12;
+          @apply dol-w-6/12 dol-pl-4;
+        }
+
+        .dol-sites-status {
+          @apply dol-w-3/12 dol-text-right;
         }
 
         .dol-sites-version {
-          @apply dol-w-2/12;
+          @apply dol-w-3/12 dol-block;
         }
 
         .dol-sites-client {
-          @apply dol-w-2/12;
+          @apply dol-w-4/12 dol-pl-4;
         }
 
         .dol-sites-controls {
-          @apply dol-text-right;
+          @apply dol-w-5/12 dol-text-right;
         }
       }
     }
@@ -142,12 +146,28 @@
   @screen lg {
     .dol-sites-container {
       .dol-sites-item {
+        .dol-sites-item-inner {
+          @apply dol-flex-nowrap;
+        }
+
         .dol-sites-image {
-          @apply dol-w-1/12;
+          @apply dol-w-1/12 dol-mb-0;
         }
 
         .dol-sites-name {
-          @apply dol-w-4/12;
+          @apply dol-w-3/12 dol-px-4 dol-mb-0;
+        }
+
+        .dol-sites-status {
+          @apply dol-w-2/12 dol-text-center;
+        }
+
+        .dol-sites-version {
+          @apply dol-w-1/12;
+        }
+
+        .dol-sites-client {
+          @apply dol-w-2/12 dol-p-0;
         }
 
         .dol-sites-controls {

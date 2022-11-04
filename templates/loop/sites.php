@@ -42,33 +42,36 @@ dollie()->load_template( 'loop/parts/modal-filters', [ 'filters' => $filters ], 
 
 ?>
 
+<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
+	<div class="dol-bg-info dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full dol-text-sm dol-mb-3">
+		<?php echo dollie()->icon()->notice(); ?> <?php esc_html_e( 'You are now viewing the blueprints made by you and your team.', 'dollie' ); ?>
+	</div>
+<?php endif; ?>
+
+<?php if ( ! isset( $_GET['blueprints'] ) && $user->can_view_all_sites() ) : ?>
+	<div class="dol-bg-info dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full dol-text-sm dol-mb-3">
+		<?php echo dollie()->icon()->notice(); ?> <?php esc_html_e( 'This sites listing shows all of the sites by you and your customers. Your customers will only see the sites that belong to them.', 'dollie' ); ?>
+	</div>
+<?php endif; ?>
+
 <div class="dol-mb-6 dol-widget-site-search">
 	<div class="dol-rounded dol-p-4 dol-bg-white dol-shadow-md">
-		<div class="dol-flex dol-flex-wrap dol-items-center md:dol-justify-between dol-space-y-4 md:dol-space-y-0">
-			<div class="dol-flex dol-items-center">
-				<div class="dol-check-wrap dol-inline-block">
-					<label class="dol-flex dol-items-center">
-						<input type="checkbox" name="checkbox" class="dol-select-containers dol-scale-125 checked:dol-bg-blue-500 dol-mr-2" />
-					</label>
+		<div class="dol-flex dol-flex-col-reverse lg:dol-flex-row dol-flex-wrap lg:dol-items-center md:dol-justify-between">
+			<div class="dol-flex dol-items-center dol-justify-between dol-mt-4 lg:dol-mt-0">
+				<div class="dol-flex dol-items-center">
+					<div class="dol-check-wrap dol-inline-block">
+						<label class="dol-flex dol-items-center">
+							<input type="checkbox" name="checkbox" class="dol-select-containers dol-scale-125 checked:dol-bg-blue-500 dol-mr-2" />
+						</label>
+					</div>
+
+					<button type="button" data-modal-id="dol-modal-id-actions" class="dol-open-modal dol-ml-3 dol-p-3 dol-bg-primary-500 hover:dol-bg-primary-600 focus:dol-outline-none focus:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm dol-leading-none disabled:dol-bg-gray-200 disabled:dol-text-gray-500 disabled:dol-cursor-not-allowed" disabled="disabled">
+						<?php echo dollie()->icon()->task( 'dol-mr-2' ); ?> 
+						<?php esc_html_e( 'Actions', 'dollie' ); ?>
+					</button>
 				</div>
 
-				<button type="button" data-modal-id="dol-modal-id-actions" class="dol-open-modal dol-ml-3 dol-p-3 dol-bg-primary-500 hover:dol-bg-primary-600 focus:dol-outline-none focus:dol-bg-primary-600 dol-border-0 dol-rounded dol-text-white dol-text-sm dol-leading-none disabled:dol-bg-gray-200 disabled:dol-text-gray-500 disabled:dol-cursor-not-allowed" disabled="disabled">
-					<?php echo dollie()->icon()->task( 'dol-mr-2' ); ?> 
-					<?php esc_html_e( 'Actions', 'dollie' ); ?>
-				</button>
-			</div>
-
-			<div class="dol-flex dol-flex-wrap dol-items-center dol-space-y-2 md:dol-space-y-0 md:dol-space-x-4">
-				<div class="dol-flex dol-items-center dol-space-x-2">
-					<div class="dol-relative">
-						<div class="dol-absolute dol-h-full dol-flex dol-items-center dol-px-3"><?php echo dollie()->icon()->search( 'dol-text-gray-500' ); ?></div>
-						<input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full md:dol-w-64"
-							data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>"
-							data-per-page="<?php echo ( isset( $_GET['per_page'] ) ? esc_attr( $_GET['per_page'] ) : '' ); ?>"
-							data-search-term=""
-							placeholder="<?php esc_html_e( 'Search by url, plugin, version, etc...', 'dollie' ); ?>">
-					</div>
-					
+				<div class="dol-flex lg:dol-hidden dol-flex-wrap dol-items-center dol-space-x-2">
 					<span data-modal-id="dol-modal-id-filters" 
 						class="dol-open-modal dol-block dol-p-3 dol-m-0 dol-bg-gray-200 hover:dol-bg-gray-300 dol-text-gray-700 dol-rounded dol-text-sm dol-leading-none dol-cursor-pointer">
 						<?php echo dollie()->icon()->filter(); ?>
@@ -79,26 +82,78 @@ dollie()->load_template( 'loop/parts/modal-filters', [ 'filters' => $filters ], 
 						data-tooltip="<?php printf( esc_html__( 'Show Your %s using the Live Preview Bar', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>">
 						<?php echo dollie()->icon()->preview(); ?>
 					</a>
-				</div>
 
-				<div class="dol-flex dol-items-center dol-rounded dol-overflow-hidden">
-					<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
-						<a href="<?php echo esc_html( dollie()->page()->get_launch_blueprint_url() ); ?>"
-							class="dol-nav-btn dol-bg-secondary dol-text-white hover:!dol-text-white dol-radius-0 dol-ml-3 dol-mr-0 dol-px-3 dol-py-2">
-							<span class="dol-inline-block dol-text-center dol-mr-1">
-								<?php echo dollie()->icon()->launch(); ?>
-							</span>
-							<?php echo esc_html( dollie()->page()->get_launch_blueprint_title() ); ?>
-						</a>
-					<?php else : ?>
-						<a href="<?php echo esc_html( dollie()->page()->get_launch_site_url() ); ?>"
-							class="dol-nav-btn dol-bg-secondary dol-text-white hover:!dol-text-white dol-radius-0 dol-ml-3 dol-mr-0 dol-px-3 dol-py-2">
-							<span class="dol-inline-block dol-text-center dol-mr-1">
-								<?php echo dollie()->icon()->launch(); ?>
-							</span>
-							<?php echo esc_html( dollie()->page()->get_launch_title() ); ?>
-						</a>
-					<?php endif; ?>
+					<div class="dol-flex dol-items-center dol-rounded dol-overflow-hidden">
+						<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
+							<a href="<?php echo esc_html( dollie()->page()->get_launch_blueprint_url() ); ?>"
+								class="dol-nav-btn dol-bg-secondary dol-text-white hover:!dol-text-white dol-radius-0 dol-px-3 dol-py-2 dol-space-x-1">
+								<span class="dol-inline-block dol-text-center">
+									<?php echo dollie()->icon()->launch(); ?>
+								</span>
+								<span class="dol-hidden lg:dol-inline-block">
+									<?php echo esc_html( dollie()->page()->get_launch_blueprint_title() ); ?>
+								</span>
+							</a>
+						<?php else : ?>
+							<a href="<?php echo esc_html( dollie()->page()->get_launch_site_url() ); ?>"
+								class="dol-nav-btn dol-bg-secondary dol-text-white hover:!dol-text-white dol-radius-0 dol-px-3 dol-py-2 dol-space-x-1">
+								<span class="dol-inline-block dol-text-center">
+									<?php echo dollie()->icon()->launch(); ?>
+								</span>
+								<span class="dol-hidden lg:dol-inline-block">
+									<?php echo esc_html( dollie()->page()->get_launch_title() ); ?>
+								</span>
+							</a>
+						<?php endif; ?>
+					</div>
+				</div>
+			</div>
+
+			<div class="dol-flex dol-flex-wrap dol-items-center dol-space-x-2">
+				<div class="dol-relative dol-w-full lg:dol-w-[280px]">
+					<div class="dol-absolute dol-h-full dol-flex dol-items-center dol-px-3"><?php echo dollie()->icon()->search( 'dol-text-gray-500' ); ?></div>
+					<input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full"
+						data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>"
+						data-per-page="<?php echo ( isset( $_GET['per_page'] ) ? esc_attr( $_GET['per_page'] ) : '' ); ?>"
+						data-search-term=""
+						placeholder="<?php esc_html_e( 'Search by url, plugin, version, etc...', 'dollie' ); ?>">
+				</div>
+				
+				<div class="dol-hidden lg:dol-flex dol-flex-wrap dol-items-center dol-space-x-2">
+					<span data-modal-id="dol-modal-id-filters" 
+						class="dol-open-modal dol-block dol-p-3 dol-m-0 dol-bg-gray-200 hover:dol-bg-gray-300 dol-text-gray-700 dol-rounded dol-text-sm dol-leading-none dol-cursor-pointer">
+						<?php echo dollie()->icon()->filter(); ?>
+					</span>
+
+					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=my-sites" 
+						class="dol-p-3 dol-rounded dol-text-sm dol-leading-none dol-bg-gray-200 hover:dol-bg-gray-300 dol-text-gray-700 dol-inline-block"
+						data-tooltip="<?php printf( esc_html__( 'Show Your %s using the Live Preview Bar', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>">
+						<?php echo dollie()->icon()->preview(); ?>
+					</a>
+
+					<div class="dol-flex dol-items-center dol-rounded dol-overflow-hidden">
+						<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
+							<a href="<?php echo esc_html( dollie()->page()->get_launch_blueprint_url() ); ?>"
+								class="dol-nav-btn dol-bg-secondary dol-text-white hover:!dol-text-white dol-radius-0 dol-px-3 dol-py-2 dol-space-x-1">
+								<span class="dol-inline-block dol-text-center">
+									<?php echo dollie()->icon()->launch(); ?>
+								</span>
+								<span class="dol-hidden lg:dol-inline-block">
+									<?php echo esc_html( dollie()->page()->get_launch_blueprint_title() ); ?>
+								</span>
+							</a>
+						<?php else : ?>
+							<a href="<?php echo esc_html( dollie()->page()->get_launch_site_url() ); ?>"
+								class="dol-nav-btn dol-bg-secondary dol-text-white hover:!dol-text-white dol-radius-0 dol-px-3 dol-py-2 dol-space-x-1">
+								<span class="dol-inline-block dol-text-center">
+									<?php echo dollie()->icon()->launch(); ?>
+								</span>
+								<span class="dol-hidden lg:dol-inline-block">
+									<?php echo esc_html( dollie()->page()->get_launch_title() ); ?>
+								</span>
+							</a>
+						<?php endif; ?>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -111,18 +166,6 @@ dollie()->load_template( 'loop/parts/modal-filters', [ 'filters' => $filters ], 
 <div id="dol-recurring-action"
 	data-ajax-url="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>"
 	data-nonce="<?php echo esc_attr( wp_create_nonce( 'dollie_get_recurring_action' ) ); ?>"></div>
-
-<?php if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) : ?>
-	<div class="dol-bg-info dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full dol-text-sm dol-mb-3">
-		<?php echo dollie()->icon()->notice(); ?> <?php esc_html_e( 'You are now viewing the blueprints made by you and your team.', 'dollie' ); ?>
-	</div>
-<?php endif; ?>
-
-<?php if ( ! isset( $_GET['blueprints'] ) && $user->can_view_all_sites() ) : ?>
-	<div class="dol-bg-info dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full dol-text-sm dol-mb-3">
-		<?php echo dollie()->icon()->notice(); ?> <?php esc_html_e( 'This sites listing shows all of the sites by you and your customers. Your customers will only see the sites that belong to them.', 'dollie' ); ?>
-	</div>
-<?php endif; ?>
 
 <div class="dol-sites dol-relative">
 	<div class="dol-loader" data-for="pagination">
@@ -220,26 +263,24 @@ dollie()->load_template( 'loop/parts/modal-filters', [ 'filters' => $filters ], 
 							</div>
 						</div>
 						<div class="dol-sites-name">
-							<div class="dol-px-4">
-								<div class="dol-font-bold dol-text-lg dol-cursor-default dol-truncate">
-									<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600 dol-space-x-1" href="<?php echo $container->get_permalink(); ?>" title="<?php echo esc_attr( $site_name ); ?>">
-										<?php if ( $container->is_vip() ) : ?>
-											<span data-toggle="tooltip"
-												data-placement="bottom"
-												data-tooltip="VIP Site">
-												<?php echo dollie()->icon()->vip( 'dol-text-secondary dol-text-sm' ); ?>
-											</span>
-										<?php endif; ?>
-										<span><?php echo esc_html( $site_name ); ?></span>
-									</a>
-								</div>
+							<div class="dol-font-bold dol-text-lg dol-cursor-default dol-truncate">
+								<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600 dol-space-x-1" href="<?php echo $container->get_permalink(); ?>" title="<?php echo esc_attr( $site_name ); ?>">
+									<?php if ( $container->is_vip() ) : ?>
+										<span data-toggle="tooltip"
+											data-placement="bottom"
+											data-tooltip="VIP Site">
+											<?php echo dollie()->icon()->vip( 'dol-text-secondary dol-text-sm' ); ?>
+										</span>
+									<?php endif; ?>
+									<span><?php echo esc_html( $site_name ); ?></span>
+								</a>
+							</div>
 
-								<div class="dol-flex dol-items-center dol-space-x-1 dol-truncate">
-									<?php echo dollie()->icon()->link( 'dol-text-xs dol-text-gray-400' ); ?>
-									<a class="dol-item-url dol-text-blue-800 hover:dol-text-blue-900 dol-text-xs dol-leading-normal dol-truncate" href="<?php echo esc_url( $container->get_url() ); ?>" title="<?php echo esc_html( $container->get_url() ); ?>" target="_blank">
-										<?php echo esc_html( $container->get_url() ); ?>
-									</a>
-								</div>
+							<div class="dol-flex dol-items-center dol-space-x-1 dol-truncate">
+								<?php echo dollie()->icon()->link( 'dol-text-xs dol-text-gray-400' ); ?>
+								<a class="dol-item-url dol-text-blue-800 hover:dol-text-blue-900 dol-text-xs dol-leading-normal dol-truncate" href="<?php echo esc_url( $container->get_url() ); ?>" title="<?php echo esc_html( $container->get_url() ); ?>" target="_blank">
+									<?php echo esc_html( $container->get_url() ); ?>
+								</a>
 							</div>
 						</div>
 						<div class="dol-sites-status dol-cursor-default dol-text-sm">

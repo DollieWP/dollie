@@ -1,4 +1,4 @@
-<div class="dol-sites dol-relative">
+<div class="dol-sites dol-sites-dashboard dol-relative">
 	<?php if ( ! empty( $sites ) ) : ?>
 		<div class="dol-sites-container">
 			<?php foreach ( $sites as $site ) : ?>
@@ -49,7 +49,18 @@
 
 				?>
 				<div class="<?php echo esc_attr( $list_item_classes ); ?>" data-site-hash="<?php echo esc_attr( $container->get_hash() ); ?>">
-					<div class="dol-sites-item-inner !dol-p-4">
+					<div class="dol-sites-item-inner">
+						<div class="<?php echo esc_attr( $lock_classes ); ?> dol-item-execution-placeholder dol-absolute dol-w-full dol-h-full dol-left-0 dol-top-0 dol-bg-white dol-bg-opacity-50 dol-z-10">
+							<div class="dol-flex dol-items-center dol-justify-end dol-w-full dol-h-full">
+								<div class="dol-flex dol-items-center dol-justify-center dol-text-sm dol-bg-gray-600 dol-text-white dol-font-medium dol-mx-6 dol-px-4 dol-py-2 dol-rounded-full">
+									<svg class="dol-animate-spin dol-h-4 dol-w-4 dol-text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+										<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+										<path class="dol-opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+									</svg>
+									<span class="dol-item-execution-text dol-inline-block dol-ml-2"><?php echo esc_html( $locking['action'] ); ?></span>
+								</div>
+							</div>
+						</div>
 						<div class="dol-sites-image">
 							<div class="dol-sites-image-box">
 								<img 
@@ -59,42 +70,30 @@
 							</div>
 						</div>
 						<div class="dol-sites-name">
-							<div class="dol-px-4">
-								<div class="dol-font-bold dol-text-lg dol-cursor-default dol-truncate">
-									<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600 dol-space-x-1" href="<?php echo $container->get_permalink(); ?>" title="<?php echo esc_attr( $site_name ); ?>">
-										<?php if ( $container->is_vip() ) : ?>
-											<span data-toggle="tooltip"
-												data-placement="bottom"
-												data-tooltip="VIP Site">
-												<?php echo dollie()->icon()->vip( 'dol-text-secondary dol-text-sm' ); ?>
-											</span>
-										<?php endif; ?>
-										<span><?php echo esc_html( $site_name ); ?></span>
-									</a>
-								</div>
+							<div class="dol-font-bold dol-text-lg dol-cursor-default dol-truncate">
+								<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600 dol-space-x-1" href="<?php echo $container->get_permalink(); ?>" title="<?php echo esc_attr( $site_name ); ?>">
+									<?php if ( $container->is_vip() ) : ?>
+										<span data-toggle="tooltip"
+											data-placement="bottom"
+											data-tooltip="VIP Site">
+											<?php echo dollie()->icon()->vip( 'dol-text-secondary dol-text-sm' ); ?>
+										</span>
+									<?php endif; ?>
+									<span><?php echo esc_html( $site_name ); ?></span>
+								</a>
+							</div>
 
-								<div class="dol-flex dol-items-center dol-space-x-1 dol-truncate">
-									<?php echo dollie()->icon()->link( 'dol-text-xs dol-text-gray-400' ); ?>
-									<a class="dol-item-url dol-text-blue-800 hover:dol-text-blue-900 dol-text-xs dol-leading-normal dol-truncate" href="<?php echo esc_url( $container->get_url() ); ?>" title="<?php echo esc_html( $container->get_url() ); ?>" target="_blank">
-										<?php echo esc_html( $container->get_url() ); ?>
-									</a>
-								</div>
+							<div class="dol-flex dol-items-center dol-space-x-1 dol-truncate">
+								<?php echo dollie()->icon()->link( 'dol-text-xs dol-text-gray-400' ); ?>
+								<a class="dol-item-url dol-text-blue-800 hover:dol-text-blue-900 dol-text-xs dol-leading-normal dol-truncate" href="<?php echo esc_url( $container->get_url() ); ?>" title="<?php echo esc_html( $container->get_url() ); ?>" target="_blank">
+									<?php echo esc_html( $container->get_url() ); ?>
+								</a>
 							</div>
 						</div>
 						<div class="dol-sites-status dol-cursor-default dol-text-sm">
 							<span class="dol-px-2.5 dol-py-1 dol-rounded-full dol-text-xs dol-font-semibold dol-leading-none <?php echo esc_attr( $status_classes ); ?>">
 								<?php echo esc_html( $container->get_status() ); ?>
 							</span>
-						</div>
-						<div class="dol-sites-version dol-cursor-default dol-text-sm">
-							<?php if ( ! $container->is_failed() && ! $container->is_deploying() ) : ?>
-								<div class="dol-font-semibold dol-text-gray-600">
-									<?php esc_html_e( 'WordPress', 'dollie' ); ?>
-								</div>
-								<div class="dol-text-xs dol-mt-1">
-									<?php printf( __( 'Version %s', 'dollie' ), $container->get_wp_version() ); ?>
-								</div>
-							<?php endif; ?>
 						</div>
 						<?php if ( $container->is_blueprint() ) : ?>
 							<div class="dol-sites-client dol-cursor-default dol-text-sm">
