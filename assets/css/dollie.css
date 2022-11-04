@@ -1075,10 +1075,11 @@ input[type="text"].dol-search-input:focus {
         padding-left: 1rem;
         padding-right: 1rem; }
     .dol-sites-container .dol-sites-item .dol-sites-status {
-        width: 16.666667%;
+        width: 8.333333%;
         text-align: center; }
     .dol-sites-container .dol-sites-item .dol-sites-version {
-        width: 8.333333%; }
+        width: 16.666667%;
+        padding-left: 1rem; }
     .dol-sites-container .dol-sites-item .dol-sites-client {
         width: 16.666667%;
         padding: 0px; }
