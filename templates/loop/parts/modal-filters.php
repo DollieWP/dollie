@@ -15,26 +15,28 @@
 			</div>
 
 			<div class="dol-grid dol-grid-cols-3 dol-gap-4">
-				<div>
-					<label for="customer" class="dol-font-bold dol-uppercase dol-mb-1 dol-text-xs dol-text-gray-600"><?php esc_html_e( 'Customer', 'dollie' ); ?></label>
-					<select id="customer" class="dol-w-full dol-bg-white dol-rounded dol-px-3 dol-py-1 dol-border-solid dol-border-gray-300 dol-text-sm dol-text-gray-700 focus:dol-border-gray-400 focus:dol-outline-none">						
-						<?php
-						$active_customer = isset( $_GET['customer_id'] ) ? sanitize_text_field( $_GET['customer_id'] ) : '';
+				<?php if ( current_user_can( 'manage_options' ) && ! isset( $_GET['blueprints'] ) ) : ?>
+					<div>
+						<label for="customer" class="dol-font-bold dol-uppercase dol-mb-1 dol-text-xs dol-text-gray-600"><?php esc_html_e( 'Customer', 'dollie' ); ?></label>
+						<select id="customer" class="dol-w-full dol-bg-white dol-rounded dol-px-3 dol-py-1 dol-border-solid dol-border-gray-300 dol-text-sm dol-text-gray-700 focus:dol-border-gray-400 focus:dol-outline-none">						
+							<?php
+							$active_customer = isset( $_GET['customer_id'] ) ? sanitize_text_field( $_GET['customer_id'] ) : '';
 
-						if ( ! $active_customer || ! is_numeric( $active_customer ) ) {
-							$active_customer = '';
-						}
-						?>
+							if ( ! $active_customer || ! is_numeric( $active_customer ) ) {
+								$active_customer = '';
+							}
+							?>
 
-						<option value="" <?php selected( '', $active_customer ); ?>><?php esc_html_e( 'None', 'dollie' ); ?></option>
+							<option value="" <?php selected( '', $active_customer ); ?>><?php esc_html_e( 'None', 'dollie' ); ?></option>
 
-						<?php foreach ( $filters['available']['customers'] as $customer ) : ?>
-							<option value="<?php echo esc_attr( $customer->ID ); ?>" <?php selected( $customer->ID, (int) $active_customer ); ?>>
-								<?php echo esc_html( $customer->display_name ); ?>
-							</option>
-						<?php endforeach; ?>
-					</select>
-				</div>
+							<?php foreach ( $filters['available']['customers'] as $customer ) : ?>
+								<option value="<?php echo esc_attr( $customer->ID ); ?>" <?php selected( $customer->ID, (int) $active_customer ); ?>>
+									<?php echo esc_html( $customer->display_name ); ?>
+								</option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+				<?php endif; ?>
 				<div>
 					<label for="status" class="dol-font-bold dol-uppercase dol-mb-1 dol-text-xs dol-text-gray-600"><?php esc_html_e( 'Status', 'dollie' ); ?></label>
 					<select id="status" class="dol-w-full dol-bg-white dol-rounded dol-px-3 dol-py-1 dol-border-solid dol-border-gray-300 dol-text-sm dol-text-gray-700 focus:dol-border-gray-400 focus:dol-outline-none">
@@ -54,6 +56,27 @@
 						<?php endforeach; ?>
 					</select>
 				</div>
+				<?php if ( ! isset( $_GET['blueprints'] ) ) : ?>
+					<div>
+						<label for="site_type" class="dol-font-bold dol-uppercase dol-mb-1 dol-text-xs dol-text-gray-600"><?php esc_html_e( 'Site Type', 'dollie' ); ?></label>
+						<select id="site_type" class="dol-w-full dol-bg-white dol-rounded dol-px-3 dol-py-1 dol-border-solid dol-border-gray-300 dol-text-sm dol-text-gray-700 focus:dol-border-gray-400 focus:dol-outline-none">
+							<?php
+							$active_site_type = isset( $_GET['site_type'] ) ? sanitize_text_field( $_GET['site_type'] ) : '';
+
+							if ( ! in_array( $active_site_type, $filters['available']['site_types'], true ) ) {
+								$active_site_type = '';
+							}
+							?>
+							<option value="" <?php selected( '', $active_site_type ); ?>><?php esc_html_e( 'All', 'dollie' ); ?></option>
+							
+							<?php foreach ( $filters['available']['site_types'] as $key => $value ) : ?>
+								<option value="<?php echo esc_attr( $status ); ?>" <?php selected( $active_site_type, $value ); ?>>
+									<?php echo esc_html( $value ); ?>
+								</option>
+							<?php endforeach; ?>
+						</select>
+					</div>
+				<?php endif; ?>
 				<div>
 					<label for="per-page" class="dol-font-bold dol-uppercase dol-mb-1 dol-text-xs dol-text-gray-600"><?php esc_html_e( 'Per page', 'dollie' ); ?></label>
 					<select id="per-page" class="dol-w-full dol-bg-white dol-rounded dol-px-3 dol-py-1 dol-border-solid dol-border-gray-300 dol-text-sm dol-text-gray-700 focus:dol-border-gray-400 focus:dol-outline-none">

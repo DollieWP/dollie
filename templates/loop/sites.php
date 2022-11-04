@@ -21,15 +21,19 @@ $allowed_bulk_commands = dollie()->bulk_actions()->get_allowed_commands_in_progr
 
 $filters = [
 	'available' => [
-		'customers' => get_users(),
-		'statuses'  => [
+		'customers'  => current_user_can( 'manage_options' ) ? get_users() : [],
+		'site_types' => [
+			'normal' => __( 'Normal', 'dollie' ),
+			'vip'    => __( 'VIP', 'dollie' ),
+		],
+		'statuses'   => [
 			'Running',
 			'Stopped',
 			'Deploying',
 			'Undeployed',
 			'Deploy Failure',
 		],
-		'pages'     => 30,
+		'pages'      => 30,
 	],
 ];
 
@@ -69,14 +73,6 @@ dollie()->load_template( 'loop/parts/modal-filters', [ 'filters' => $filters ], 
 						class="dol-open-modal dol-block dol-p-3 dol-m-0 dol-bg-gray-200 hover:dol-bg-gray-300 dol-text-gray-700 dol-rounded dol-text-sm dol-leading-none dol-cursor-pointer">
 						<?php echo dollie()->icon()->filter(); ?>
 					</span>
-
-					<!-- <?php if ( $subscription_vip ) : ?>
-						<a href="<?php echo esc_html( dollie()->page()->get_sites_url() ); ?>/?vip=yes" 
-							class="dol-layout-preview dol-preview-bar-layout"
-							data-tooltip="<?php printf( esc_html__( 'Show Only Your VIP %s', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?>">
-							<?php echo dollie()->icon()->vip(); ?>
-						</a>
-					<?php endif; ?> -->
 
 					<a href="<?php echo dollie()->get_preview_url(); ?>/?type=my-sites" 
 						class="dol-p-3 dol-rounded dol-text-sm dol-leading-none dol-bg-gray-200 hover:dol-bg-gray-300 dol-text-gray-700 dol-inline-block"
