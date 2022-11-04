@@ -202,13 +202,15 @@ dollie()->load_template( 'loop/parts/modal-filters', [ 'filters' => $filters ], 
 								</div>
 							</div>
 						</div>
-						<div class="dol-check-wrap">
-							<label class="dol-flex dol-items-center dol-h-full dol-px-3">
-								<input type="checkbox" name="checkbox" 
-									value="<?php echo esc_attr( $container->get_id() ); ?>" 
-									class="dol-scale-125 checked:dol-bg-blue-500" />
-							</label>
-						</div>
+						<?php if ( ! $container->is_failed() ) : ?>
+							<div class="dol-check-wrap">
+								<label class="dol-flex dol-items-center dol-h-full dol-px-3">
+									<input type="checkbox" name="checkbox" 
+										value="<?php echo esc_attr( $container->get_id() ); ?>" 
+										class="dol-scale-125 checked:dol-bg-blue-500" />
+								</label>
+							</div>
+						<?php endif; ?>
 						<div class="dol-sites-image">
 							<div class="dol-sites-image-box">
 								<img 
