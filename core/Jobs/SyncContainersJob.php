@@ -171,14 +171,15 @@ class SyncContainersJob extends Singleton {
 			$fetched_containers = array_merge( $fetched_containers, $stagings );
 		}
 
-		$stored_containers = get_posts(
+		$query = new \WP_Query(
 			[
-				'numberposts' => -1,
-				'post_type'   => 'container',
-				'post_status' => [ 'publish', 'draft', 'trash' ],
+				'posts_per_page' => -1,
+				'post_type'      => 'container',
+				'post_status'    => [ 'publish', 'draft', 'trash' ],
 			]
 		);
 
+		$stored_containers    = $query->get_posts();
 		$synced_container_ids = [];
 
 		foreach ( $fetched_containers as $key => $fetched_container ) {

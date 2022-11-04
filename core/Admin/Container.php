@@ -875,7 +875,7 @@ final class Container extends Singleton implements ConstInterface {
 	 * @param $query
 	 */
 	public function filter_containers( $query ) {
-		if ( ! is_admin() || wp_doing_ajax() ) {
+		if ( ! is_admin() || wp_doing_ajax() || isset( $_GET['dollie-sync-containers'] ) ) {
 			return $query;
 		}
 
