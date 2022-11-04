@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Log;
 use WP_Post;
 use Dollie\Core\Api\BlueprintApi;
 
@@ -148,6 +149,9 @@ final class Blueprint extends BaseContainer {
 
 		parent::delete();
 
+		// Add log.
+		$this->add_log( Log::WP_BLUEPRINT_DELETED );
+
 		return true;
 	}
 
@@ -166,6 +170,9 @@ final class Blueprint extends BaseContainer {
 		$this->set_details( $status );
 
 		parent::restore();
+
+		// Add log.
+		$this->add_log( Log::WP_BLUEPRINT_RESTORE_STARTED );
 
 		return true;
 	}

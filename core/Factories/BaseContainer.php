@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Utils\LogTrait;
 use WP_Post;
 use Dollie\Core\Utils\ConstInterface;
 use Dollie\Core\Api\BackupApi;
@@ -14,6 +15,7 @@ use Dollie\Core\Api\ResourceApi;
 abstract class BaseContainer implements ConstInterface {
 	use BackupApi;
 	use ResourceApi;
+	use LogTrait;
 
 	/**
 	 * @var WP_Post
@@ -100,11 +102,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return boolean
 	 */
 	public function is_demo(): bool {
-		if ( strpos( $this->get_original_url(), 'dollie-elementor-kits-sites' ) !== false ) {
-			return true;
-		}
-
-		return false;
+		return strpos( $this->get_original_url(), 'dollie-elementor-kits-sites' ) !== false;
 	}
 
 	/**

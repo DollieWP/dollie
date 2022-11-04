@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Api\DeployApi;
+use Dollie\Core\Log;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
 use Dollie\Core\Factories\BaseContainer;
@@ -125,13 +126,22 @@ final class DeployService extends Singleton implements ConstInterface {
 			]
 		);
 
+		// Add log.
+		if ( $type === self::TYPE_BLUEPRINT ) {
+			$container->add_log( Log::WP_BLUEPRINT_DEPLOY_STARTED );
+		} elseif ( $type === self::TYPE_STAGING ) {
+			$container->add_log( Log::WP_STAGING_DEPLOY_STARTED );
+		} else {
+			$container->add_log( Log::WP_SITE_DEPLOY_STARTED );
+		}
+
 		return $container;
 	}
 
 	/**
 	 * Check if container is deployed
 	 *
-	 * @param int|bool|\WP_Post $post_id
+	 * @param int|bool|\WP_Post $post
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -187,6 +197,10 @@ final class DeployService extends Singleton implements ConstInterface {
 						'status' => $deploy['status'],
 					]
 				);
+
+			// Add log.
+			$container->add_log( Log::WP_SITE_DEPLOY_FAILED );
+
 		} elseif ( 'Running' === $deploy['status'] ) {
 			$container
 				->update_post(
@@ -208,6 +222,15 @@ final class DeployService extends Singleton implements ConstInterface {
 
 			// Update user role.
 			ChangeContainerRoleJob::instance()->run( $container );
+
+			// Add log.
+			if ( $container->is_blueprint() ) {
+				$container->add_log( Log::WP_BLUEPRINT_DEPLOYED );
+			} elseif ( $container->is_staging() ) {
+				$container->add_log( Log::WP_STAGING_DEPLOYED );
+			} else {
+				$container->add_log( Log::WP_SITE_DEPLOYED );
+			}
 		}
 
 		return true;

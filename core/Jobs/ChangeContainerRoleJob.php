@@ -28,7 +28,7 @@ class ChangeContainerRoleJob extends Singleton {
 	/**
 	 * Change customer role task
 	 *
-	 * @param Site   $container
+	 * @param Site $container
 	 * @param string $role
 	 *
 	 * @return boolean
@@ -38,7 +38,7 @@ class ChangeContainerRoleJob extends Singleton {
 		$role = $role ?: $user->get_container_user_role();
 
 		if ( ! $role ) {
-			return;
+			return false;
 		}
 
 		$container->set_role(
@@ -53,7 +53,7 @@ class ChangeContainerRoleJob extends Singleton {
 			]
 		);
 
-		Log::add( $container->get_url( true ) . ' client access was set to ' . $role );
+		$container->add_log( Log::WP_SITE_ACCESS_CHANGED, [ $container->get_url( true ), $role ] );
 
 		return false;
 	}
