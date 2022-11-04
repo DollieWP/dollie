@@ -37,19 +37,18 @@ class LaunchSite extends Singleton implements ConstInterface {
 	 * Init ACF
 	 */
 	public function acf_init() {
-		// Placeholders/Change values
+		// Placeholders/Change values.
 		add_filter( 'acf/load_field/name=site_blueprint', [ $this, 'populate_blueprints' ] );
 		add_filter( 'acf/load_field/name=site_url', [ $this, 'set_default_site_url' ] );
 		add_filter( 'acf/prepare_field/name=site_url', [ $this, 'append_site_url' ] );
 
-		// Form args
+		// Form args.
 		add_filter( 'af/form/args/key=' . $this->form_key, [ $this, 'change_form_args' ] );
 
 		// Form submission action.
 		add_action( 'af/form/validate/key=' . $this->form_key, [ $this, 'validate_form' ], 10, 2 );
 		add_action( 'af/form/before_submission/key=' . $this->form_key, [ $this, 'submission_callback' ], 10, 3 );
 		add_action( 'af/form/hidden_fields/key=' . $this->form_key, [ $this, 'hidden_field' ], 10, 2 );
-
 	}
 
 	/**
@@ -223,25 +222,104 @@ class LaunchSite extends Singleton implements ConstInterface {
 			return $field;
 		}
 
-		$default_option = [];
-		$blueprints     = BlueprintService::instance()->get( 'html' );
+		$blueprints = BlueprintService::instance()->get();
 
 		if ( ! empty( $blueprints ) && get_field( 'wpd_show_default_blueprint', 'options' ) ) {
-			$default_option = [
-				0 => dollie()->load_template( 'parts/blueprint-default-image' ),
-			];
+			$field['choices'][0] = dollie()->load_template( 'parts/blueprint-default-image' );
 		}
 
-		$field['choices'] = $default_option + $blueprints;
+		$bp_issues = [];
+
+		foreach ( $blueprints as $id => $container ) {
+			$messages = [];
+
+			if ( $container->is_stopped() ) {
+				$messages[] = __( 'Blueprint is STOPPED.', 'dollie' );
+			}
+
+			if ( ! $container->is_updated() ) {
+				$messages[] = __( 'Blueprint is NOT published.', 'dollie' );
+			}
+
+			if ( ! $container->get_saved_title() ) {
+				$messages[] = __( 'Blueprint\'s "Title" is missing.', 'dollie' );
+			}
+
+			if ( $container->is_private() ) {
+				$messages[] = __( 'Blueprint is private.', 'dollie' );
+			}
+
+			if ( $container->is_scheduled_for_deletion() ) {
+				$messages[] = __( 'Blueprint pending deletion.', 'dollie' );
+			}
+
+			$product_id = get_field( 'wpd_installation_blueprint_hosting_product', $container->get_id() );
+
+			if ( ! $product_id ) {
+				$messages[] = __( 'No WooCommerce product attached.', 'dollie' );
+			}
+
+			if ( ! empty( $messages ) ) {
+				$bp_issues[ $id ] = json_encode( $messages );
+			}
+
+			$field['choices'][ $id ] = dollie()->load_template( 'parts/blueprint-image', [ 'container' => $container ] );
+		}
 
 		if ( empty( $blueprints ) ) {
 			$field['wrapper']['class'] = 'acf-hidden';
 			$field['disabled']         = 1;
-		} elseif ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && ! is_admin() ) {
-			$field['value'] = (int) sanitize_text_field( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
+		}
 
-			// Cookie is found, hide Blueprints selectio
+		if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && ! is_admin() ) {
+			$field['value']            = (int) sanitize_text_field( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
 			$field['wrapper']['class'] = 'acf-hidden';
+		}
+
+		foreach ( $bp_issues as $id => $messages ) {
+			$blueprint = $blueprints[ $id ];
+			?>
+				<script>
+					jQuery(document).ready(function($) {
+						var item = $('.dollie-blueprints-listing input[type="radio"][value="<?php echo $id; ?>"]');
+
+						item.on('click', function(e) {
+							e.preventDefault();
+							
+							return false;
+						});
+
+						var parent = item.parent();
+
+						parent.css({'position': 'relative'});
+
+						if(!parent.hasClass('dol-bp-inited')) {
+							parent.append('<div class="dol-absolute dol-w-4 dol-h-4 dol-top-0 dol-left-0 dol-mt-4 dol-ml-4 dol-bg-red-600 dol-rounded-full"></div>')
+							
+							parent.on('mouseenter', function(e) {
+								parent.find('.dol-issues-<?php echo $id; ?>').removeClass('dol-hidden');
+							});
+
+							parent.on('mouseleave', function(e) {
+								parent.find('.dol-issues-<?php echo $id; ?>').addClass('dol-hidden');
+							});
+
+							if(!$('.dol-issues-<?php echo $id; ?>').length) {
+								parent.append('<div class="dol-issues-<?php echo $id; ?> dol-hidden dol-absolute dol-top-0 dol-left-0 dol-w-full dol-h-full dol-text-white dol-bg-black dol-rounded dol-p-3 dol-space-y-2 dol-text-left dol-text-xs"></div>');
+							}
+
+							var messages = <?php echo $messages; ?>;
+							messages.forEach(function(value, index) {
+								$('.dol-issues-<?php echo $id; ?>').append('<div>' + value +'</div>');
+							});
+
+							$('.dol-issues-<?php echo $id; ?>').append('<div class="mt-3"><a href="<?php echo $blueprint->get_permalink( 'blueprints' ); ?>" class="dol-inline-block dol-bg-orange-600 hover:dol-bg-orange-700 dol-text-white hover:dol-text-white dol-rounded-md dol-px-3 dol-py-2 dol-text-xs">Manage</a></div>');
+
+							parent.addClass('dol-bp-inited');
+						}
+					});
+				</script>
+			<?php
 		}
 
 		return $field;
@@ -251,7 +329,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 	 * @param $form
 	 * @param $args
 	 */
-	function hidden_field( $form, $args ) {
+	public function hidden_field( $form, $args ) {
 		$redirect = isset( $_GET['redirect'] ) ? sanitize_text_field( $_GET['redirect'] ) : '';
 		$redirect = apply_filters( 'dollie/launch_site/redirect', $redirect );
 		echo sprintf( '<input type="hidden" name="dollie_redirect" value="%s">', $redirect );

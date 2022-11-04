@@ -190,11 +190,9 @@ final class BlueprintService extends Singleton {
 	/**
 	 * Get all available
 	 *
-	 * @param string $type html|null
-	 *
 	 * @return array
 	 */
-	public function get( string $type = null ): array {
+	public function get(): array {
 		$data = [];
 
 		$posts = get_posts(
@@ -217,23 +215,27 @@ final class BlueprintService extends Singleton {
 
 		foreach ( $posts as $post ) {
 			$container = dollie()->get_container( $post );
-			$skip_this = apply_filters( 'dollie/blueprints/skip_list', false, $container );
+			$skip_this = apply_filters( 'dollie/blueprints/skip_display_list', false, $container );
 
-			if (
-				$skip_this ||
-				is_wp_error( $container ) ||
+			if ( is_wp_error( $container ) ||
 				! $container->is_blueprint() ||
+				$container->is_failed() ||
+				$container->is_deploying() ) {
+				continue;
+			}
+
+			if ( ! current_user_can( 'manage_options' ) &&
+				( $skip_this ||
+				! $container->is_running() ||
 				! $container->is_updated() ||
 				! $container->get_saved_title() ||
 				$container->is_private() ||
-				$container->is_scheduled_for_deletion()
+				$container->is_scheduled_for_deletion() )
 			) {
 				continue;
 			}
 
-			$image = dollie()->load_template( 'parts/blueprint-image', [ 'container' => $container ] );
-
-			$data[ $container->get_id() ] = $image;
+			$data[ $container->get_id() ] = $container;
 		}
 
 		return apply_filters( 'dollie/blueprints', $data );

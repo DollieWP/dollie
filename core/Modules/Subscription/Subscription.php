@@ -44,9 +44,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		}
 
 		add_action( 'acf/init', [ $this, 'load_acf' ] );
-
 		add_filter( 'dollie/blueprints', [ $this, 'filter_blueprints' ] );
-
 	}
 
 	/**
@@ -331,54 +329,53 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			return $blueprints;
 		}
 
-		$customer_id = get_current_user_id();
-		if ( ! empty( $blueprints ) ) {
+		if ( empty( $blueprints ) ) {
+			return $blueprints;
+		}
 
-			// Has Blueprint inclusions in sub?
-			$sub_included = $this->get_blueprints_exception( 'included' );
+		$customer_id  = get_current_user_id();
+		$sub_included = $this->get_blueprints_exception( 'included' );
 
-			// Has Blueprint includes in User meta?
-			if ( get_field( '_wpd_included_blueprints', 'user_' . $customer_id ) ) {
-				$user_included_blueprints = get_field( '_wpd_included_blueprints', 'user_' . $customer_id );
+		// Has Blueprint includes in User meta?
+		if ( get_field( '_wpd_included_blueprints', 'user_' . $customer_id ) ) {
+			$user_included_blueprints = get_field( '_wpd_included_blueprints', 'user_' . $customer_id );
 
-				// Check if arrays should be merged
-				if ( ! empty( $sub_included ) ) {
-					$included = array_merge( $sub_included, $user_included_blueprints );
-				} else {
-					$excluded = $user_included_blueprints;
-				}
+			// Check if arrays should be merged.
+			if ( ! empty( $sub_included ) ) {
+				$included = array_merge( $sub_included, $user_included_blueprints );
 			} else {
-				$included = $sub_included;
+				$excluded = $user_included_blueprints;
 			}
+		} else {
+			$included = $sub_included;
+		}
 
-			if ( ! empty( $included ) ) {
-				return array_intersect_key( $blueprints, $included );
-			}
+		if ( ! empty( $included ) ) {
+			return array_intersect_key( $blueprints, $included );
+		}
 
-			// Has Blueprint exclusions in sub?
-			$sub_excluded = $this->get_blueprints_exception();
+		// Has Blueprint exclusions in sub?
+		$sub_excluded = $this->get_blueprints_exception();
 
-			// Has Blueprint excludes in User meta?
-			if ( get_field( '_wpd_excluded_blueprints', 'user_' . $customer_id ) ) {
+		// Has Blueprint excludes in User meta?
+		if ( get_field( '_wpd_excluded_blueprints', 'user_' . $customer_id ) ) {
+			$user_excluded_blueprints = get_field( '_wpd_excluded_blueprints', 'user_' . $customer_id );
 
-				$user_excluded_blueprints = get_field( '_wpd_excluded_blueprints', 'user_' . $customer_id );
-
-				// Check if arrays should be merged
-				if ( ! empty( $sub_excluded ) ) {
-					$excluded = array_merge( $sub_excluded, $user_excluded_blueprints );
-				} else {
-					$excluded = $user_excluded_blueprints;
-				}
+			// Check if arrays should be merged.
+			if ( ! empty( $sub_excluded ) ) {
+				$excluded = array_merge( $sub_excluded, $user_excluded_blueprints );
 			} else {
-				$excluded = $sub_excluded;
+				$excluded = $user_excluded_blueprints;
 			}
+		} else {
+			$excluded = $sub_excluded;
+		}
 
-			// Filter blueprints
-			if ( ! empty( $excluded ) ) {
-				foreach ( $excluded as $bp_id ) {
-					if ( isset( $blueprints[ $bp_id ] ) ) {
-						unset( $blueprints[ $bp_id ] );
-					}
+		// Filter blueprints.
+		if ( ! empty( $excluded ) ) {
+			foreach ( $excluded as $bp_id ) {
+				if ( isset( $blueprints[ $bp_id ] ) ) {
+					unset( $blueprints[ $bp_id ] );
 				}
 			}
 		}

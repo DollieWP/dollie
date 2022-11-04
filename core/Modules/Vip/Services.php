@@ -39,12 +39,12 @@ final class Services extends Singleton {
 		$subscription_vip = dollie()->subscription()->has_vip( $user_id );
 		$global_vip       = get_field( 'wpd_enable_global_vip_sites', 'options' );
 
-		// bail early if no 'admin_only' setting.
+		// Bail early if no 'admin_only' setting.
 		if ( empty( $field['dollie_vip_addon_enabled'] ) ) {
 			return $field;
 		}
 
-		// return false if VIP is not allowed for user or hide field if Global VIP exist
+		// Return false if VIP is not allowed for user or hide field if Global VIP exist.
 		if ( ! $subscription_vip || $global_vip ) {
 			echo '
 				<style>
@@ -54,7 +54,6 @@ final class Services extends Singleton {
 			return false;
 		}
 
-		// return.
 		return $field;
 	}
 
@@ -66,20 +65,14 @@ final class Services extends Singleton {
 	 * @return mixed
 	 */
 	public function add_vip_form_data( $deploy_data ) {
-
 		$owner_id         = $deploy_data['owner_id'];
 		$blueprint_id     = $deploy_data['blueprint_id'];
-		$vip              = 0;
 		$subscription_vip = dollie()->subscription()->has_vip( $owner_id );
+		$vip              = 0;
 
-		//Launch as VIP?
-		$vip_checked = af_get_field( 'launch_as_vip' );
-
-		//Is launch as VIP checked and does the user have a VIP subscription?
-		if ( $vip_checked && $subscription_vip ) {
+		if ( af_get_field( 'launch_as_vip' ) && $subscription_vip ) {
 			$vip = 1;
-		} // is global VIP enabled? If yes, launch as VIP even if user is no VIP
-		elseif ( get_field( 'wpd_enable_global_vip_sites', 'options' ) ) {
+		} elseif ( get_field( 'wpd_enable_global_vip_sites', 'options' ) ) {
 			$vip = 1;
 		}
 
@@ -94,26 +87,25 @@ final class Services extends Singleton {
 	}
 
 	public function add_acf_fields( $field_group ) {
-
 		global $pagenow;
-		$user              = 'this customer';
-		$user_instructions = '<br><br><strong> Set this to -1<strong/> to prevent this customer from launching more sites';
+		$user = 'this customer';
 
 		if ( $pagenow === 'post.php' && isset( $_GET['post_type'] ) && $_GET['post_type'] === 'product' ) {
-			$user              = 'a subscriber';
-			$user_instructions = '';
+			$user = 'a subscriber';
 		}
 
-		// general
 		$fields = [
 			array(
 				'key'               => 'field_60a7974f69558',
 				'label'             => __( 'VIP Sites (BETA)', 'dollie' ),
 				'name'              => 'wpd_enable_vip_sites',
 				'type'              => 'true_false',
-				'instructions' => __( 'Notice - Please only user after having spoken to our team. With VIP Sites you can enable
+				'instructions'      => __(
+					'Notice - Please only user after having spoken to our team. With VIP Sites you can enable
 				additional resources, additional backups and priority support from our team for one or multiple sites with the click of
-				a button.', 'dollie' ),
+				a button.',
+					'dollie'
+				),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
@@ -160,7 +152,6 @@ final class Services extends Singleton {
 
 		$field_group = dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5ada1549129fb', 'wpd_enable_custom_backup', 'before' );
 
-		// woo
 		$fields = [
 			array(
 				'key'                      => 'field_5e2c1ac7246a2',
@@ -199,14 +190,12 @@ final class Services extends Singleton {
 				'ui'                       => 1,
 				'ui_on_text'               => '',
 				'ui_off_text'              => '',
-			)
+			),
 		];
 
 		$field_group = dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5afc7b8e22840', '_wpd_excluded_blueprints', 'after' );
 
-
-		//forms
-		$fields      = [
+		$fields = [
 			array(
 				'key'                      => 'field_5fb3b53ff744632',
 				'label'                    => __( 'Launch as VIP Site', 'dollie' ),
@@ -235,8 +224,9 @@ final class Services extends Singleton {
 				'ui'                       => 1,
 				'ui_on_text'               => '',
 				'ui_off_text'              => '',
-			)
+			),
 		];
+
 		$field_group = dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5e6a176c384ee', 'advanced_settings', 'before' );
 
 		$fields      = [
@@ -283,7 +273,6 @@ final class Services extends Singleton {
 		];
 		$field_group = dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5affdcd76c8d1', 'wpd_blueprint_custom_image', 'after' );
 
-		// users
 		$fields = [
 			array(
 				'key'               => 'field_5fb3b53ff744467',
@@ -310,24 +299,21 @@ final class Services extends Singleton {
 		$field_group = dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5efc4bbc3849b', 'wpd_client_site_permissions', 'after' );
 
 		return $field_group;
-
 	}
 
 	public function add_woo_product_resource( $data, $customer_id, $product_id ) {
-
 		$vip = get_field( '_wpd_woo_launch_as_vip', $product_id );
 
 		if ( ! $vip ) {
 			$vip = 0;
 		}
 
-		//Update only to true. Don't override it with false values
+		// Update only to true. Don't override it with false values.
 		if ( ! isset( $data['resources']['launch_as_vip'] ) || ! $data['resources']['launch_as_vip'] ) {
 			$data['resources']['launch_as_vip'] = $vip;
 		}
 
 		return $data;
-
 	}
 
 	public function add_deploy_meta( $meta_input, $data ) {
@@ -346,7 +332,5 @@ final class Services extends Singleton {
 		}
 
 		return $skip;
-
 	}
-
 }
