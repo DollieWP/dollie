@@ -196,12 +196,15 @@ class SitesList extends \Elementor\Widget_Base {
 
 		$sites = new WP_Query( $args );
 
+		$pagenum_link = html_entity_decode( get_pagenum_link() );
+		$url_parts    = explode( '?', $pagenum_link );
+
 		$data = [
 			'sites'       => $sites->get_posts(),
 			'sites_pages' => $sites->max_num_pages,
 			'settings'    => $settings,
 			'query_data'  => [
-				'permalink'    => get_the_permalink(),
+				'permalink'    => $url_parts[0],
 				'current_page' => $current_page,
 			],
 		];
