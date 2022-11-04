@@ -7,6 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: Dollie\n"
+"POT-Creation-Date: 2022-11-04 15:01+0000\n"
 "Report-Msgid-Bugs-To: Dollie\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -15,439 +16,479 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: core/Admin.php:98, core/Admin.php:99, core/Admin/Container.php:190, core/Admin/Container.php:340, core/Modules/Forms.php:317
+#: core/Admin.php:98, core/Admin.php:99, core/Admin/Container.php:219, core/Admin/Container.php:369, core/Modules/Forms.php:317
 msgid "Settings"
 msgstr ""
 
-#: core/Log.php:216
+#: core/Log.php:87
 msgid "Site Launch Started"
 msgstr ""
 
-#: core/Log.php:222
+#: core/Log.php:93
 msgid "Site Launch Completed"
 msgstr ""
 
-#: core/Log.php:228
+#: core/Log.php:99
 msgid "Site Launch Failed"
 msgstr ""
 
-#: core/Log.php:234
+#: core/Log.php:105
 msgid "Site Setup Completed"
 msgstr ""
 
-#: core/Log.php:240
+#: core/Log.php:111
 msgid "Site Setup Failed"
 msgstr ""
 
-#: core/Log.php:246
+#: core/Log.php:117
 msgid "Blueprint Launch Started"
 msgstr ""
 
-#: core/Log.php:252
+#: core/Log.php:123
 msgid "Blueprint Launch Completed"
 msgstr ""
 
-#: core/Log.php:258
+#: core/Log.php:129
 msgid "Blueprint Launch Failed"
 msgstr ""
 
-#: core/Log.php:264
+#: core/Log.php:135
+msgid "Blueprint Restore started"
+msgstr ""
+
+#: core/Log.php:141
+msgid "Blueprint Restored"
+msgstr ""
+
+#: core/Log.php:147
+msgid "Blueprint Deleted"
+msgstr ""
+
+#: core/Log.php:153
 msgid "Backup Triggered"
 msgstr ""
 
-#: core/Log.php:270
+#: core/Log.php:159
 msgid "Site Removal Notice"
 msgstr ""
 
-#: core/Log.php:276
+#: core/Log.php:165
 msgid "Site Removed"
 msgstr ""
 
-#: core/Log.php:282
+#: core/Log.php:171
 msgid "Site Deleted"
 msgstr ""
 
-#: core/Log.php:288
+#: core/Log.php:177
 msgid "Site Reactivated"
 msgstr ""
 
-#: core/Log.php:294
+#: core/Log.php:183
 msgid "Site Restarted"
 msgstr ""
 
-#: core/Log.php:300
+#: core/Log.php:189
 msgid "Site Stopped"
 msgstr ""
 
-#: core/Log.php:306
+#: core/Log.php:195
 msgid "Domain Added"
 msgstr ""
 
-#: core/Log.php:312
+#: core/Log.php:201
 msgid "Domain is Connected"
 msgstr ""
 
-#: core/Log.php:318
+#: core/Log.php:207
 msgid "Domain Setup Error"
 msgstr ""
 
-#: core/Log.php:324
+#: core/Log.php:213
 msgid "Cloudflare Connected"
 msgstr ""
 
-#: core/Log.php:330
+#: core/Log.php:219
 msgid "Cloudflare Zone ID added"
 msgstr ""
 
-#: core/Log.php:336
+#: core/Log.php:225
 msgid "LetsEncrypt Failed"
 msgstr ""
 
-#: core/Log.php:341, templates/loop/sites-dashboard.php:109, templates/loop/sites.php:269
+#: core/Log.php:230, core/Log.php:236
 msgid "Blueprint Updated"
+msgstr ""
+
+#: core/Log.php:242
+msgid "Staging Launch Started"
+msgstr ""
+
+#: core/Log.php:248
+msgid "Staging Site Launched"
 msgstr ""
 
 #: core/Plugin.php:259
 msgid "Please fill in the Realtime Customizer fields."
 msgstr ""
 
-#: core/Admin/Container.php:66
+#: core/Admin/Container.php:69
 msgctxt "dollie"
 msgid "Sites"
 msgstr ""
 
-#: core/Admin/Container.php:67
+#: core/Admin/Container.php:70
 msgctxt "dollie"
 msgid "Site"
 msgstr ""
 
-#: core/Admin/Container.php:68
+#: core/Admin/Container.php:71
 msgid "%%ICON%% Sites"
 msgstr ""
 
-#: core/Admin/Container.php:69
+#: core/Admin/Container.php:72
 msgid "Post Type"
 msgstr ""
 
-#: core/Admin/Container.php:70
+#: core/Admin/Container.php:73
 msgid "Site Archives"
 msgstr ""
 
-#: core/Admin/Container.php:71
+#: core/Admin/Container.php:74
 msgid "Site Attributes"
 msgstr ""
 
-#: core/Admin/Container.php:72
+#: core/Admin/Container.php:75
 msgid "Parent Site:"
 msgstr ""
 
-#: core/Admin/Container.php:73, core/Admin/Container.php:80, core/Admin/Container.php:361
+#: core/Admin/Container.php:76, core/Admin/Container.php:83, core/Admin/Container.php:390
 msgid "View Sites"
 msgstr ""
 
-#: core/Admin/Container.php:74
+#: core/Admin/Container.php:77
 msgid "Add New Site"
 msgstr ""
 
-#: core/Admin/Container.php:75
+#: core/Admin/Container.php:78
 msgid "Add New"
 msgstr ""
 
-#: core/Admin/Container.php:76
+#: core/Admin/Container.php:79
 msgid "New Site"
 msgstr ""
 
-#: core/Admin/Container.php:77
+#: core/Admin/Container.php:80
 msgid "Edit Site"
 msgstr ""
 
-#: core/Admin/Container.php:78
+#: core/Admin/Container.php:81
 msgid "Update Site"
 msgstr ""
 
-#: core/Admin/Container.php:79
+#: core/Admin/Container.php:82
 msgid "View Site"
 msgstr ""
 
-#: core/Admin/Container.php:81
+#: core/Admin/Container.php:84
 msgid "Search Sites"
 msgstr ""
 
-#: core/Admin/Container.php:82
+#: core/Admin/Container.php:85
 msgid "Not found"
 msgstr ""
 
-#: core/Admin/Container.php:83
+#: core/Admin/Container.php:86
 msgid "Not found in Trash"
 msgstr ""
 
-#: core/Admin/Container.php:84
+#: core/Admin/Container.php:87
 msgid "Featured Image"
 msgstr ""
 
-#: core/Admin/Container.php:85
+#: core/Admin/Container.php:88
 msgid "Set featured image"
 msgstr ""
 
-#: core/Admin/Container.php:86
+#: core/Admin/Container.php:89
 msgid "Remove featured image"
 msgstr ""
 
-#: core/Admin/Container.php:87
+#: core/Admin/Container.php:90
 msgid "Use as featured image"
 msgstr ""
 
-#: core/Admin/Container.php:88
+#: core/Admin/Container.php:91
 msgid "Insert into item"
 msgstr ""
 
-#: core/Admin/Container.php:89
+#: core/Admin/Container.php:92
 msgid "Uploaded to this item"
 msgstr ""
 
-#: core/Admin/Container.php:90
+#: core/Admin/Container.php:93
 msgid "Sites list"
 msgstr ""
 
-#: core/Admin/Container.php:91
+#: core/Admin/Container.php:94
 msgid "Sites list navigation"
 msgstr ""
 
-#: core/Admin/Container.php:92
+#: core/Admin/Container.php:95
 msgid "Filter items list"
 msgstr ""
 
-#: core/Admin/Container.php:96, core/Admin/Container.php:657, core/Factories/BaseContainer.php:302, core/Utils/StringVariants.php:47
+#: core/Admin/Container.php:99, core/Admin/Container.php:748, core/Factories/BaseContainer.php:300, core/Utils/StringVariants.php:47
 msgid "Site"
 msgstr ""
 
-#: core/Admin/Container.php:97
+#: core/Admin/Container.php:100
 msgid "Platform Sites"
 msgstr ""
 
-#: core/Admin/Container.php:131
+#: core/Admin/Container.php:134
 msgctxt "Taxonomy General Name"
 msgid "Blueprint Categories"
 msgstr ""
 
-#: core/Admin/Container.php:132
+#: core/Admin/Container.php:135
 msgctxt "Taxonomy Singular Name"
 msgid "Blueprint Category"
 msgstr ""
 
-#: core/Admin/Container.php:133
+#: core/Admin/Container.php:136
 msgid "Taxonomy"
 msgstr ""
 
-#: core/Admin/Container.php:134
+#: core/Admin/Container.php:137
 msgid "All Items"
 msgstr ""
 
-#: core/Admin/Container.php:135
+#: core/Admin/Container.php:138
 msgid "Parent Item"
 msgstr ""
 
-#: core/Admin/Container.php:136
+#: core/Admin/Container.php:139
 msgid "Parent Item:"
 msgstr ""
 
-#: core/Admin/Container.php:137
+#: core/Admin/Container.php:140
 msgid "New Item Name"
 msgstr ""
 
-#: core/Admin/Container.php:138
+#: core/Admin/Container.php:141
 msgid "Add New Item"
 msgstr ""
 
-#: core/Admin/Container.php:139
+#: core/Admin/Container.php:142
 msgid "Edit Item"
 msgstr ""
 
-#: core/Admin/Container.php:140
+#: core/Admin/Container.php:143
 msgid "Update Item"
 msgstr ""
 
-#: core/Admin/Container.php:141
+#: core/Admin/Container.php:144
 msgid "View Item"
 msgstr ""
 
-#: core/Admin/Container.php:142
+#: core/Admin/Container.php:145
 msgid "Separate items with commas"
 msgstr ""
 
-#: core/Admin/Container.php:143
+#: core/Admin/Container.php:146
 msgid "Add or remove items"
 msgstr ""
 
-#: core/Admin/Container.php:144
+#: core/Admin/Container.php:147
 msgid "Choose from the most used"
 msgstr ""
 
-#: core/Admin/Container.php:145
+#: core/Admin/Container.php:148
 msgid "Popular Items"
 msgstr ""
 
-#: core/Admin/Container.php:146
+#: core/Admin/Container.php:149
 msgid "Search Items"
 msgstr ""
 
-#: core/Admin/Container.php:147
+#: core/Admin/Container.php:150
 msgid "Not Found"
 msgstr ""
 
-#: core/Admin/Container.php:148
+#: core/Admin/Container.php:151
 msgid "No items"
 msgstr ""
 
-#: core/Admin/Container.php:149
+#: core/Admin/Container.php:152
 msgid "Items list"
 msgstr ""
 
-#: core/Admin/Container.php:150
+#: core/Admin/Container.php:153
 msgid "Items list navigation"
 msgstr ""
 
-#: core/Admin/Container.php:188
+#: core/Admin/Container.php:217
 msgid "Dollie <span class=\"dol-status dol-staging\">Staging<span>"
 msgstr ""
 
-#: core/Admin/Container.php:191
+#: core/Admin/Container.php:220
 msgid "Dollie Hub Setup"
 msgstr ""
 
-#: core/Admin/Container.php:320, core/Services/AuthService.php:27
+#: core/Admin/Container.php:349, core/Services/AuthService.php:27
 msgid "Connect with Dollie Cloud"
 msgstr ""
 
-#: core/Admin/Container.php:330
+#: core/Admin/Container.php:359
 msgid "Overview"
 msgstr ""
 
-#: core/Admin/Container.php:350, core/Admin/Container.php:526, core/Utils/StringVariants.php:52, core/Utils/StringVariants.php:61, core/Widgets/Sites/SitesList.php:40
+#: core/Admin/Container.php:379, core/Admin/Container.php:555, core/Utils/StringVariants.php:60, core/Utils/StringVariants.php:69, core/Widgets/Sites/SitesList.php:40
 msgid "Sites"
 msgstr ""
 
-#: core/Admin/Container.php:373
+#: core/Admin/Container.php:402
 msgid "Launch New %s"
 msgstr ""
 
-#: core/Admin/Container.php:395
+#: core/Admin/Container.php:424
 msgid "Manage Your Site"
 msgstr ""
 
-#: core/Admin/Container.php:405
+#: core/Admin/Container.php:434
 msgid "View Documentation"
 msgstr ""
 
-#: core/Admin/Container.php:415
+#: core/Admin/Container.php:444
 msgid "This site is hosted for free on the Dollie Cloud. Visit the Partner Dashboard to manage this site and access our developer tools."
 msgstr ""
 
-#: core/Admin/Container.php:426, core/Admin/Container.php:532, core/Extras/AcfFields.php:1139, templates/widgets/general/main-navigation.php:85, core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:122
+#: core/Admin/Container.php:455, core/Admin/Container.php:561, core/Extras/AcfFields.php:1139, core/Utils/StringVariants.php:74, core/Utils/StringVariants.php:83, templates/widgets/general/main-navigation.php:85, core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:122
 msgid "Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:437
+#: core/Admin/Container.php:466
 msgid "View Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:449, core/Extras/dollie-setup/admin/templates/base/launch-actions.php:23
+#: core/Admin/Container.php:478, core/Extras/dollie-setup/admin/templates/base/launch-actions.php:23
 msgid "Launch New Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:460, core/Admin/Container.php:538
+#: core/Admin/Container.php:489, core/Admin/Container.php:567
 msgid "Support"
 msgstr ""
 
-#: core/Admin/Container.php:470, core/Admin/Container.php:546
+#: core/Admin/Container.php:499, core/Admin/Container.php:575
 msgid "Dollie Cloud"
 msgstr ""
 
-#: core/Admin/Container.php:479, core/Admin/Container.php:564, templates/parts/recurring-action-schedule-history.php:47
+#: core/Admin/Container.php:508, core/Admin/Container.php:593, templates/parts/recurring-action-schedule-history.php:47
 msgid "Logs"
 msgstr ""
 
-#: core/Admin/Container.php:506
+#: core/Admin/Container.php:535
 msgid "Your Hub"
 msgstr ""
 
-#: core/Admin/Container.php:514, templates/widgets/general/sites-navigation.php:53, templates/widgets/site/site-navigation.php:17
+#: core/Admin/Container.php:543, templates/widgets/general/sites-navigation.php:53, templates/widgets/site/site-navigation.php:17
 msgid "Dashboard"
 msgstr ""
 
-#: core/Admin/Container.php:520, core/Utils/StringVariants.php:28, core/Utils/StringVariants.php:39, core/Widgets/Customers/CustomersList.php:40
+#: core/Admin/Container.php:549, core/Utils/StringVariants.php:28, core/Utils/StringVariants.php:39, core/Widgets/Customers/CustomersList.php:40
 msgid "Customers"
 msgstr ""
 
-#: core/Admin/Container.php:552, templates/admin/notices/subscription-sites-limit.php:22
+#: core/Admin/Container.php:581, templates/admin/notices/subscription-sites-limit.php:22
 msgid "Contact Support"
 msgstr ""
 
-#: core/Admin/Container.php:558
+#: core/Admin/Container.php:587
 msgid "Documentation"
 msgstr ""
 
-#: core/Admin/Container.php:602
+#: core/Admin/Container.php:631
 msgid "Manage Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:600
+#: core/Admin/Container.php:629
 msgid "Manage Site"
 msgstr ""
 
-#: core/Admin/Container.php:605
+#: core/Admin/Container.php:634
 msgid "Login to Admin"
 msgstr ""
 
-#: core/Admin/Container.php:630, templates/widgets/site/pages/updates.php:35, templates/widgets/site/pages/domain/manager/records.php:3
-msgid "Type"
+#: core/Admin/Container.php:656, core/Services/BulkActionService.php:95, core/Services/RecurringActionService.php:28
+msgid "Stop"
 msgstr ""
 
-#: core/Admin/Container.php:631
+#: core/Admin/Container.php:657
+msgid "Start"
+msgstr ""
+
+#: core/Admin/Container.php:658, core/Services/BulkActionService.php:94, core/Services/RecurringActionService.php:27
+msgid "Restart"
+msgstr ""
+
+#: core/Admin/Container.php:659, core/Forms/DeleteSite.php:91, templates/widgets/general/sites-navigation.php:67, templates/widgets/site/site-navigation.php:46
+msgid "Delete"
+msgstr ""
+
+#: core/Admin/Container.php:721
 msgid "Domain"
 msgstr ""
 
-#: core/Admin/Container.php:632, templates/widgets/site/pages/plugins.php:19, templates/widgets/site/pages/themes.php:58
+#: core/Admin/Container.php:722, templates/widgets/site/pages/updates.php:35, templates/widgets/site/pages/domain/manager/records.php:3
+msgid "Type"
+msgstr ""
+
+#: core/Admin/Container.php:723, templates/loop/parts/modal-filters.php:41, templates/widgets/site/pages/plugins.php:19, templates/widgets/site/pages/themes.php:58
 msgid "Status"
 msgstr ""
 
-#: core/Admin/Container.php:659, core/Factories/BaseContainer.php:306
+#: core/Admin/Container.php:752, core/Extras/AcfFields.php:1758, core/Factories/BaseContainer.php:308, templates/widgets/general/sites-navigation.php:64, templates/widgets/site/site-navigation.php:42, templates/widgets/site/site-navigation.php:36
+msgid "Staging"
+msgstr ""
+
+#: core/Admin/Container.php:750, core/Factories/BaseContainer.php:304, core/Utils/StringVariants.php:55
 msgid "Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:728
+#: core/Admin/Container.php:821
 msgid "Your Site Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:734
+#: core/Admin/Container.php:827
 msgid "Below you will find all the Blueprints you have created in your Hub. Click on the Blueprint to manage or update them."
 msgstr ""
 
-#: core/Admin/Container.php:736
+#: core/Admin/Container.php:829
 msgid "Launch a New Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:709
+#: core/Admin/Container.php:802
 msgid "Sites Overview - All Sites in your Hub"
 msgstr ""
 
-#: core/Admin/Container.php:715
+#: core/Admin/Container.php:808
 msgid "Below are all the sites that have been launched through your Hub. Each site is hosted under your own brand and domain inside your Dollie Cloud. Below uou can see their status, to which customer they are linked and whether they have a domain connected to them."
 msgstr ""
 
-#: core/Admin/Container.php:717
+#: core/Admin/Container.php:810
 msgid "View Sites on the front-end of my Hub"
 msgstr ""
 
-#: core/Admin/Container.php:755
+#: core/Admin/Container.php:848
 msgid "The Hub Log"
 msgstr ""
 
-#: core/Admin/Container.php:758
+#: core/Admin/Container.php:851
 msgid "The Hub log keeps track of activity inside your Hub, For example action taken by your customers and recurring crons/maintenance jobs that run behind the scenes."
 msgstr ""
 
-#: core/Admin/Container.php:771
+#: core/Admin/Container.php:864
 msgid "Assigned Customer"
 msgstr ""
 
@@ -977,10 +1018,6 @@ msgstr ""
 msgid "You can fill in just your bucket name like \"my_bucket_name\" or you can point to a folder in your bucket like \"my_bucket_name/example_folder\". Every site will be backed up in its own folder."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1758, core/Factories/BaseContainer.php:310, templates/notices/blueprint-staging.php:12, templates/widgets/general/sites-navigation.php:64, templates/widgets/site/site-navigation.php:42, templates/widgets/site/site-navigation.php:36
-msgid "Staging"
-msgstr ""
-
 #: core/Extras/AcfFields.php:1761
 msgid "Allow customers to use staging sites functionality. Each enabled staging site will add a small cost to your monthly subscription."
 msgstr ""
@@ -1150,7 +1187,7 @@ msgstr ""
 msgid "Please choose a temporary URL for your site. This will be the place where you can work on your site used until you are ready to go live and connect your own domain."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:312
+#: core/Extras/AcfFormFields.php:312, templates/loop/parts/modal-filters.php:61
 msgid "Site Type"
 msgstr ""
 
@@ -1178,11 +1215,11 @@ msgstr ""
 msgid "This is the email address you use to login to your WordPress admin."
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:416, core/Modules/Vip/Services.php:212
+#: core/Extras/AcfFormFields.php:416, core/Modules/Vip/Services.php:201
 msgid "Launch as VIP Site"
 msgstr ""
 
-#: core/Extras/AcfFormFields.php:419, core/Modules/Vip/Services.php:215
+#: core/Extras/AcfFormFields.php:419, core/Modules/Vip/Services.php:204
 msgid "Launch this site as a VIP site"
 msgstr ""
 
@@ -1422,32 +1459,52 @@ msgstr ""
 msgid "Please type the unique name of your site. Your site name is shown in the sidebar and in your URL address bar."
 msgstr ""
 
-#: core/Forms/DeleteSite.php:91, templates/widgets/general/sites-navigation.php:67, templates/widgets/site/site-navigation.php:46
-msgid "Delete"
-msgstr ""
-
-#: core/Forms/DomainConnect.php:92
+#: core/Forms/DomainConnect.php:99
 msgid "Sorry, we could not link this domain to your site. This could be because the domain is already being used by another site in our network."
 msgstr ""
 
-#: core/Forms/DomainConnect.php:111
+#: core/Forms/DomainConnect.php:122
 msgid "We are sorry but an error occurred. Please try again or contact support!"
 msgstr ""
 
-#: core/Forms/DomainConnect.php:147
+#: core/Forms/DomainConnect.php:158
 msgid "Connect Domain"
 msgstr ""
 
-#: core/Forms/LaunchSite.php:68
+#: core/Forms/LaunchSite.php:67
 msgid "Site URL is too long. The name should not exceed %d characters. Don't worry, this is just your temporary URL. You can add a custom domain after launching."
 msgstr ""
 
-#: core/Forms/LaunchSite.php:72
+#: core/Forms/LaunchSite.php:71
 msgid "Site URL can only contain letters, numbers and dash."
 msgstr ""
 
-#: core/Forms/LaunchSite.php:148, core/Forms/QuickLaunch.php:128
+#: core/Forms/LaunchSite.php:147, core/Forms/QuickLaunch.php:128
 msgid "Something went wrong. Please try again or contact our support if the problem persists."
+msgstr ""
+
+#: core/Forms/LaunchSite.php:237
+msgid "Blueprint is STOPPED."
+msgstr ""
+
+#: core/Forms/LaunchSite.php:241
+msgid "Blueprint is NOT published."
+msgstr ""
+
+#: core/Forms/LaunchSite.php:245
+msgid "Blueprint's \"Title\" is missing."
+msgstr ""
+
+#: core/Forms/LaunchSite.php:249
+msgid "Blueprint is private."
+msgstr ""
+
+#: core/Forms/LaunchSite.php:253
+msgid "Blueprint pending deletion."
+msgstr ""
+
+#: core/Forms/LaunchSite.php:259
+msgid "No WooCommerce product attached."
 msgstr ""
 
 #: core/Forms/ListBackups.php:71
@@ -1514,43 +1571,47 @@ msgstr ""
 msgid "Redirect to site page after form submit. Success Message will be ignored"
 msgstr ""
 
-#: core/Modules/Preview.php:203, core/Widgets/Dashboard/LaunchSite.php:27, core/Widgets/Launch/LaunchSite.php:31, core/Extras/dollie-setup/admin/templates/base/launch-actions.php:7
+#: core/Modules/Preview.php:200, core/Widgets/Dashboard/LaunchSite.php:27, core/Widgets/Launch/LaunchSite.php:31, core/Extras/dollie-setup/admin/templates/base/launch-actions.php:7
 msgid "Launch Site"
 msgstr ""
 
-#: core/Modules/Preview.php:201
+#: core/Modules/Preview.php:198
 msgid "Login to Site"
 msgstr ""
 
-#: core/Modules/Preview.php:273
+#: core/Modules/Preview.php:255
+msgid "all"
+msgstr ""
+
+#: core/Modules/Preview.php:270
 msgid "all times"
 msgstr ""
 
-#: core/Modules/Preview.php:336
+#: core/Modules/Preview.php:333
 msgid "close iframe"
 msgstr ""
 
-#: core/Modules/Preview.php:351
+#: core/Modules/Preview.php:348
 msgid "Tablet Landscape (1024x768)"
 msgstr ""
 
-#: core/Modules/Preview.php:353
+#: core/Modules/Preview.php:350
 msgid "Tablet Portrait (768x1024)"
 msgstr ""
 
-#: core/Modules/Preview.php:355
+#: core/Modules/Preview.php:352
 msgid "Mobile Landscape (480x320)"
 msgstr ""
 
-#: core/Modules/Preview.php:357
+#: core/Modules/Preview.php:354
 msgid "Mobile Portrait (320x480)"
 msgstr ""
 
-#: core/Modules/Preview.php:386
+#: core/Modules/Preview.php:383
 msgid "More +"
 msgstr ""
 
-#: core/Modules/Preview.php:405
+#: core/Modules/Preview.php:402
 msgid "Search"
 msgstr ""
 
@@ -1584,14 +1645,6 @@ msgstr ""
 
 #: core/Services/BulkActionService.php:93, core/Services/RecurringActionService.php:25
 msgid "Create Backup"
-msgstr ""
-
-#: core/Services/BulkActionService.php:94, core/Services/RecurringActionService.php:27
-msgid "Restart"
-msgstr ""
-
-#: core/Services/BulkActionService.php:95, core/Services/RecurringActionService.php:28
-msgid "Stop"
 msgstr ""
 
 #: core/Services/BulkActionService.php:106
@@ -1638,11 +1691,11 @@ msgstr ""
 msgid "No matching sites were found for your selection."
 msgstr ""
 
-#: core/Services/DeployService.php:42
+#: core/Services/DeployService.php:43
 msgid "My New Site"
 msgstr ""
 
-#: core/Services/DeployService.php:46
+#: core/Services/DeployService.php:47
 msgid "The best website in the world"
 msgstr ""
 
@@ -1760,7 +1813,7 @@ msgstr ""
 msgid "Dollie Hub - Dashboard"
 msgstr ""
 
-#: core/Utils/StringVariants.php:14, core/Utils/StringVariants.php:23
+#: core/Utils/StringVariants.php:14, core/Utils/StringVariants.php:23, templates/loop/parts/modal-filters.php:20
 msgid "Customer"
 msgstr ""
 
@@ -1780,11 +1833,11 @@ msgstr ""
 msgid "If you disconnect your Hub from Dollie, you won't be able to launch sites via this Hub."
 msgstr ""
 
-#: templates/loop/blueprints.php:65
+#: templates/loop/blueprints.php:64
 msgid "%s View Demo"
 msgstr ""
 
-#: templates/loop/blueprints.php:85
+#: templates/loop/blueprints.php:84
 msgid "%1$s Launch %2$s"
 msgstr ""
 
@@ -1820,96 +1873,68 @@ msgstr ""
 msgid "Read article"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:178
-msgid "Ready to Launch your first %s?"
-msgstr ""
-
-#: templates/loop/sites-dashboard.php:179
-msgid "Launching your first %s via your own Platform is something special. What are you waiting for, lets launch your first site!"
-msgstr ""
-
-#: templates/loop/sites-dashboard.php:180
-msgid "Launch Now"
-msgstr ""
-
-#: templates/loop/sites-dashboard.php:99, templates/loop/sites.php:259
-msgid "WordPress"
-msgstr ""
-
-#: templates/loop/sites-dashboard.php:102, templates/loop/sites.php:262, templates/widgets/site/pages/updates.php:55, templates/widgets/site/pages/updates.php:78
-msgid "Version %s"
-msgstr ""
-
-#: templates/loop/sites-dashboard.php:116, templates/loop/sites.php:276
-msgid "Never. Update now!"
-msgstr ""
-
-#: templates/loop/sites-dashboard.php:137, templates/loop/sites.php:297
-msgid "Manage"
-msgstr ""
-
-#: templates/loop/sites-dashboard.php:141, templates/loop/sites.php:302, templates/widgets/site/pages/blueprints.php:113
-msgid "Update Blueprint"
-msgstr ""
-
-#: templates/loop/sites-dashboard.php:152, templates/loop/sites.php:313
-msgid "Visit Staging Area"
-msgstr ""
-
-#: templates/loop/sites-dashboard.php:158
-msgid "Login to %s as Admin"
-msgstr ""
-
-#: templates/loop/sites.php:43, templates/parts/recurring-action-selected-sites.php:53
-msgid "Select all"
-msgstr ""
-
-#: templates/loop/sites.php:48
-msgid "Run Actions"
-msgstr ""
-
-#: templates/loop/sites.php:61
-msgid "Search for a %s"
-msgstr ""
-
-#: templates/loop/sites.php:67
-msgid "Show Only Your VIP %s"
-msgstr ""
-
-#: templates/loop/sites.php:74
-msgid "Show your %s in the List View"
-msgstr ""
-
-#: templates/loop/sites.php:77
-msgid "Show your %s in the Grid View"
-msgstr ""
-
-#: templates/loop/sites.php:80
-msgid "Show Your %s using the Live Preview Bar"
-msgstr ""
-
-#: templates/loop/sites.php:357
+#: templates/loop/sites-dashboard.php:173, templates/loop/sites.php:399
 msgid "No %s Found"
 msgstr ""
 
-#: templates/loop/sites.php:378
-msgid "You have no Blueprints yet!"
+#: templates/loop/sites-dashboard.php:110, templates/loop/sites-dashboard.php:103, templates/loop/sites.php:313, templates/loop/sites.php:306
+msgid "Blueprint published"
 msgstr ""
 
-#: templates/loop/sites.php:125
+#: templates/loop/sites-dashboard.php:113, templates/loop/sites.php:316
+msgid "Never"
+msgstr ""
+
+#: templates/loop/sites-dashboard.php:135, templates/loop/sites.php:338, templates/widgets/site/pages/blueprints.php:116, templates/widgets/site/pages/blueprints.php:50
+msgid "Publish Blueprint"
+msgstr ""
+
+#: templates/loop/sites-dashboard.php:144, templates/loop/sites.php:347
+msgid "Visit Staging Area"
+msgstr ""
+
+#: templates/loop/sites-dashboard.php:150, templates/loop/sites.php:353
+msgid "Login as Admin"
+msgstr ""
+
+#: templates/loop/sites-dashboard.php:155, templates/loop/sites.php:358
+msgid "Manage"
+msgstr ""
+
+#: templates/loop/sites.php:26, core/Widgets/Dashboard/LaunchSite.php:293, core/Widgets/General/Login.php:522
+msgid "Normal"
+msgstr ""
+
+#: templates/loop/sites.php:27
+msgid "VIP"
+msgstr ""
+
+#: templates/loop/sites.php:47
 msgid "You are now viewing the blueprints made by you and your team."
 msgstr ""
 
-#: templates/loop/sites.php:131
+#: templates/loop/sites.php:53
 msgid "This sites listing shows all of the sites by you and your customers. Your customers will only see the sites that belong to them."
 msgstr ""
 
-#: templates/loop/sites.php:164
-msgid "Unnamed"
+#: templates/loop/sites.php:70
+msgid "Actions"
 msgstr ""
 
-#: templates/loop/sites.php:319
-msgid "Login to Site as Admin"
+#: templates/loop/sites.php:82, templates/loop/sites.php:130
+msgid "Show Your %s using the Live Preview Bar"
+msgstr ""
+
+#: templates/loop/sites.php:119
+msgid "Search by url, plugin, version, etc..."
+msgstr ""
+
+#: templates/loop/sites.php:294
+msgid "WordPress"
+msgstr ""
+
+#: templates/loop/sites.php:297, templates/widgets/site/pages/updates.php:55, templates/widgets/site/pages/updates.php:78
+msgid "Version %s"
 msgstr ""
 
 #: templates/notices/blueprint-live.php:11
@@ -1917,11 +1942,11 @@ msgid "Live"
 msgstr ""
 
 #: templates/notices/blueprint-live.php:12
-msgid "This Blueprint was last updated at %1$s. Made changes since then? Don’t forget to update this blueprint."
+msgid "This Blueprint was last published at %1$s. Make sure to publish it again if you've done any changes."
 msgstr ""
 
-#: templates/notices/blueprint-staging.php:13
-msgid "This Blueprint is still in staging mode. Click here to make it available for your customers."
+#: templates/notices/blueprint-staging.php:15
+msgid "This Blueprint has not been published yet. Visit <a class=\"dol-text-white hover:dol-text-white dol-underline\" href=\"%s\">Blueprint Setup</a> to publish and make it available for your customers."
 msgstr ""
 
 #: templates/notices/dynamic-fields-incomplete.php:2
@@ -2014,6 +2039,10 @@ msgstr ""
 
 #: templates/parts/recurring-action-selected-sites.php:40
 msgid "Select Interval"
+msgstr ""
+
+#: templates/parts/recurring-action-selected-sites.php:53
+msgid "Select all"
 msgstr ""
 
 #: templates/parts/recurring-action-selected-sites.php:78
@@ -2142,62 +2171,62 @@ msgstr ""
 msgid "Please contact the administrator of this site for help."
 msgstr ""
 
-#: core/Modules/Subscription/Subscription.php:174
+#: core/Modules/Subscription/Subscription.php:172, templates/loop/parts/modal-filters.php:30
 msgid "None"
 msgstr ""
 
-#: core/Modules/Vip/Services.php:111
+#: core/Modules/Vip/Services.php:100
 msgid "VIP Sites (BETA)"
 msgstr ""
 
-#: core/Modules/Vip/Services.php:114
+#: core/Modules/Vip/Services.php:103
 msgid ""
 "Notice - Please only user after having spoken to our team. With VIP Sites you can enable\n"
 "				additional resources, additional backups and priority support from our team for one or multiple sites with the click of\n"
 "				a button."
 msgstr ""
 
-#: core/Modules/Vip/Services.php:133
+#: core/Modules/Vip/Services.php:125
 msgid "Launch All Sites as VIP"
 msgstr ""
 
-#: core/Modules/Vip/Services.php:136
+#: core/Modules/Vip/Services.php:128
 msgid "If you would like to launch each site on your platform automatically as a VIP site, check this box."
 msgstr ""
 
-#: core/Modules/Vip/Services.php:167
+#: core/Modules/Vip/Services.php:158
 msgid "VIP Sites"
 msgstr ""
 
-#: core/Modules/Vip/Services.php:184
+#: core/Modules/Vip/Services.php:175
 msgid "Enable VIP Sites"
 msgstr ""
 
-#: core/Modules/Vip/Services.php:187
+#: core/Modules/Vip/Services.php:178
 msgid "When enabled for %s all of their sites will automatically be VIP sites. Please look at the VIP Sites documentation to learn more."
 msgstr ""
 
-#: core/Modules/Vip/Services.php:245
+#: core/Modules/Vip/Services.php:235
 msgid "Always Launch as VIP Site"
 msgstr ""
 
-#: core/Modules/Vip/Services.php:248
+#: core/Modules/Vip/Services.php:238
 msgid "When someone launches a site based on this Blueprint it will be automatically marked as VIP"
 msgstr ""
 
-#: core/Modules/Vip/Services.php:265
+#: core/Modules/Vip/Services.php:255
 msgid "Only show to VIP Users"
 msgstr ""
 
-#: core/Modules/Vip/Services.php:268
+#: core/Modules/Vip/Services.php:258
 msgid "Only show this Blueprint to users who have VIP access. Note - The Blueprint will still be shown in your Blueprint Listings"
 msgstr ""
 
-#: core/Modules/Vip/Services.php:290
+#: core/Modules/Vip/Services.php:279
 msgid "Launch Sites as VIP"
 msgstr ""
 
-#: core/Modules/Vip/Services.php:293
+#: core/Modules/Vip/Services.php:282
 msgid "Check this box if you want to launch each (new) site of this customer automatically as a VIP site"
 msgstr ""
 
@@ -2283,10 +2312,6 @@ msgstr ""
 
 #: core/Widgets/Dashboard/LaunchSite.php:237
 msgid "Sub Title"
-msgstr ""
-
-#: core/Widgets/Dashboard/LaunchSite.php:293, core/Widgets/General/Login.php:522
-msgid "Normal"
 msgstr ""
 
 #: core/Widgets/Dashboard/LaunchSite.php:300, core/Widgets/Dashboard/LaunchSite.php:340, core/Widgets/General/Login.php:397, core/Widgets/General/Login.php:431, core/Widgets/General/Login.php:529, core/Widgets/General/Login.php:607, core/Widgets/General/Login.php:665
@@ -2749,7 +2774,7 @@ msgstr ""
 msgid "To prevent abuse of the Dollie platform we need to verify your account before you get unrestricted access to all platform features. Verification is completely free, will take less than 5 minutes and will even earn you free Cloud Credits!"
 msgstr ""
 
-#: templates/admin/notices/subscription-not-verified.php:12, templates/widgets/launch/launch-site.php:175, templates/widgets/site/pages/developer-tools.php:98
+#: templates/admin/notices/subscription-not-verified.php:12, templates/widgets/launch/launch-site.php:110, templates/widgets/site/pages/developer-tools.php:98
 msgid "Verify Your Account"
 msgstr ""
 
@@ -2793,15 +2818,15 @@ msgstr ""
 msgid "Filters"
 msgstr ""
 
-#: templates/loop/parts/modal-filters.php:19
+#: templates/loop/parts/modal-filters.php:50, templates/loop/parts/modal-filters.php:70
+msgid "All"
+msgstr ""
+
+#: templates/loop/parts/modal-filters.php:81
 msgid "Per page"
 msgstr ""
 
-#: templates/loop/parts/modal-filters.php:21
-msgid "View"
-msgstr ""
-
-#: templates/loop/parts/modal-filters.php:40
+#: templates/loop/parts/modal-filters.php:103
 msgid "Apply"
 msgstr ""
 
@@ -2813,11 +2838,11 @@ msgstr ""
 msgid "Blueprint Setup"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:54, templates/widgets/site/site-navigation.php:18, templates/widgets/site/pages/blueprints.php:206, templates/widgets/site/pages/plugins.php:10
+#: templates/widgets/general/sites-navigation.php:54, templates/widgets/site/site-navigation.php:18, templates/widgets/site/pages/blueprints.php:209, templates/widgets/site/pages/plugins.php:10
 msgid "Plugins"
 msgstr ""
 
-#: templates/widgets/general/sites-navigation.php:55, templates/widgets/site/site-navigation.php:19, templates/widgets/site/pages/blueprints.php:207
+#: templates/widgets/general/sites-navigation.php:55, templates/widgets/site/site-navigation.php:19, templates/widgets/site/pages/blueprints.php:210
 msgid "Themes"
 msgstr ""
 
@@ -2881,51 +2906,51 @@ msgstr ""
 msgid "Please sign-up for a one of our subscriptions to launch a new website!"
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:94
+#: templates/widgets/launch/launch-site.php:29
 msgid "Not Connected to Dollie"
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:95
+#: templates/widgets/launch/launch-site.php:30
 msgid "Please connect your Hub to the Dollie Cloud so you can start launching sites on your platform."
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:98
+#: templates/widgets/launch/launch-site.php:33
 msgid "Connect to Dollie Cloud"
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:114
+#: templates/widgets/launch/launch-site.php:49
 msgid "You can launch VIP Sites!"
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:115
+#: templates/widgets/launch/launch-site.php:50
 msgid "If you would like to launch a site with additional resources, backups and priority support from our team, mark your site as VIP."
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:128
+#: templates/widgets/launch/launch-site.php:63
 msgid "Admin Info - VIP Sites Enabled for All Sites "
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:129
+#: templates/widgets/launch/launch-site.php:64
 msgid "You have configured VIP Sites to be enabled for each site that is being launched on your platform."
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:142
+#: templates/widgets/launch/launch-site.php:77
 msgid "You have reached your Disk Space limit"
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:143
+#: templates/widgets/launch/launch-site.php:78
 msgid "You have reached the maximum amount of disk space you can use. Please upgrade your plan to add more disk space."
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:157
+#: templates/widgets/launch/launch-site.php:92
 msgid "You have reached your site limit"
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:158
+#: templates/widgets/launch/launch-site.php:93
 msgid "You have reached the maximum amount of %s you can launch. Upgrade your plan or reach out to our team directly."
 msgstr ""
 
-#: templates/widgets/launch/launch-site.php:171
+#: templates/widgets/launch/launch-site.php:106
 msgid "Unverified Account - Your sites will be launched with restricted functionality"
 msgstr ""
 
@@ -3163,87 +3188,87 @@ msgstr[1] ""
 msgid "Manage This Blueprint"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:72
-msgid "Before you update this blueprint make sure <strong>%s</strong> is ready for an update. Once you have deployed a new version of this blueprint it will be used next time a customer launches a site based on this blueprint. Make sure you’ve removed all sensitive data like testing user accounts and emails."
+#: templates/widgets/site/pages/blueprints.php:75
+msgid "Before you publish a new version of your blueprint make sure <strong>%s</strong> has everything set up. Once you have published a new version of this blueprint it will be used next time a customer launches a site based on this blueprint. Make sure you’ve removed all sensitive data like testing user accounts and emails."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:77
-msgid "Your Blueprint was last updated at %s"
+#: templates/widgets/site/pages/blueprints.php:80
+msgid "Your Blueprint was last published at %s"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:99
+#: templates/widgets/site/pages/blueprints.php:102
 msgid "Checking field integrity..."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:126
-msgid "Update your blueprint"
+#: templates/widgets/site/pages/blueprints.php:129
+msgid "Publish your blueprint"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:140
+#: templates/widgets/site/pages/blueprints.php:143
 msgid "Blueprint Settings"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:146
+#: templates/widgets/site/pages/blueprints.php:149
 msgid "Now that you've created your Blueprint you can use the options below to change how it is listed on the \"Launch %s\" page. These settings are also used wherever you use the [dollie-blueprints] shortcode."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:173
+#: templates/widgets/site/pages/blueprints.php:176
 msgid "Blueprint history"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:189
+#: templates/widgets/site/pages/blueprints.php:192
 msgid "No Blueprints created yet."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:183
+#: templates/widgets/site/pages/blueprints.php:186
 msgid "Created on %1$s at %2$s."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:184
+#: templates/widgets/site/pages/blueprints.php:187
 msgid "Size %s."
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:198
+#: templates/widgets/site/pages/blueprints.php:201
 msgid "What is included?"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:203
+#: templates/widgets/site/pages/blueprints.php:206
 msgid "We copy over:"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:208
+#: templates/widgets/site/pages/blueprints.php:211
 msgid "Media Upload"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:209
+#: templates/widgets/site/pages/blueprints.php:212
 msgid "The Database*"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:218
+#: templates/widgets/site/pages/blueprints.php:221
 msgid "What is excluded?"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:223
+#: templates/widgets/site/pages/blueprints.php:226
 msgid "We DO NOT copy:"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:226
+#: templates/widgets/site/pages/blueprints.php:229
 msgid "mu-plugins folder"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:227
+#: templates/widgets/site/pages/blueprints.php:230
 msgid "All WordPress Core Files"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:228
+#: templates/widgets/site/pages/blueprints.php:231
 msgid "WP-Config.php"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:229
+#: templates/widgets/site/pages/blueprints.php:232
 msgid "wp_users & wp_usermeta tables"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:230
+#: templates/widgets/site/pages/blueprints.php:233
 msgid "All non-core folders and files outside of wp-content"
 msgstr ""
 
@@ -3255,11 +3280,11 @@ msgstr ""
 msgid "Important - Make sure that the installation is working properly before you take your Blueprint Live. Meaning all your plugins are configured, your theme is set up, and you have double-checked that no accidental sensitive data is included (like test user accounts, private API keys etc.)"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:47
-msgid "Publish Blueprint"
+#: templates/widgets/site/pages/blueprints.php:34
+msgid "After you publish your Blueprint, you will need to setup a title and a description for it and also add it to a WooCommerce product in order for it to be available to your customers!"
 msgstr ""
 
-#: templates/widgets/site/pages/blueprints.php:60
+#: templates/widgets/site/pages/blueprints.php:63
 msgid "Publish this blueprint"
 msgstr ""
 

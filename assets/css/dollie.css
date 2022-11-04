@@ -1458,10 +1458,10 @@ input[type="text"].dol-search-input:focus {
 .dol-inset-x-0 {
     left: 0px;
     right: 0px; }
-.dol-top-0 {
-    top: 0px; }
 .dol-left-0 {
     left: 0px; }
+.dol-top-0 {
+    top: 0px; }
 .dol-bottom-0 {
     bottom: 0px; }
 .dol-top-3 {
@@ -1622,10 +1622,10 @@ input[type="text"].dol-search-input:focus {
     height: 16rem; }
 .dol-h-10 {
     height: 2.5rem; }
-.dol-h-3 {
-    height: 0.75rem; }
 .dol-h-4 {
     height: 1rem; }
+.dol-h-3 {
+    height: 0.75rem; }
 .dol-h-5 {
     height: 1.25rem; }
 .dol-h-24 {
@@ -1654,10 +1654,10 @@ input[type="text"].dol-search-input:focus {
     width: 100%; }
 .dol-w-10 {
     width: 2.5rem; }
-.dol-w-3 {
-    width: 0.75rem; }
 .dol-w-4 {
     width: 1rem; }
+.dol-w-3 {
+    width: 0.75rem; }
 .dol-w-4\/12 {
     width: 33.333333%; }
 .dol-w-8\/12 {
@@ -2116,8 +2116,6 @@ input[type="text"].dol-search-input:focus {
     padding: 1.5rem; }
 .dol-p-3 {
     padding: 0.75rem; }
-.\!dol-p-4 {
-    padding: 1rem !important; }
 .dol-p-2 {
     padding: 0.5rem; }
 .dol-p-8 {
