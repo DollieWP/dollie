@@ -2882,17 +2882,15 @@ input[type="text"].dol-search-input:focus {
 
 .elementor-widget-dollie-launch-site .acf-input-append {
     border-radius: 0.25rem;
-    border-width: 2px;
+    border-width: 0px;
+    border-right-width: 2px;
     border-style: solid;
     --tw-border-opacity: 1;
     border-color: rgb(156 163 175 / var(--tw-border-opacity));
-    padding-left: 0.75rem !important;
-    padding-right: 0.75rem !important;
-    padding-top: 0.5rem !important;
-    padding-bottom: 0.5rem !important;
-  border-left-width: 0;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0; }
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem; }
 
 #form_dollie_list_backups .af-field-site-backup li {
     border-radius: 0.25rem;
