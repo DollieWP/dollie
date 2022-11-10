@@ -761,8 +761,8 @@ html {
     border-style: solid;
     --tw-border-opacity: 1;
     border-color: rgb(229 231 235 / var(--tw-border-opacity));
-    padding-top: 0.5rem !important;
-    padding-bottom: 0.5rem !important; }
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem; }
 .acf-form .acf-field .acf-label label {
     display: inline-flex; }
 .acf-form .acf-field .acf-notice,
