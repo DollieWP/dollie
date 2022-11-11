@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: Dollie\n"
-"POT-Creation-Date: 2022-11-10 11:52+0000\n"
+"POT-Creation-Date: 2022-11-11 17:21+0000\n"
 "Report-Msgid-Bugs-To: Dollie\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -1873,67 +1873,67 @@ msgstr ""
 msgid "Read article"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:173, templates/loop/sites.php:399
+#: templates/loop/sites-dashboard.php:173, templates/loop/sites.php:397
 msgid "No %s Found"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:110, templates/loop/sites-dashboard.php:103, templates/loop/sites.php:313, templates/loop/sites.php:306
+#: templates/loop/sites-dashboard.php:110, templates/loop/sites-dashboard.php:103, templates/loop/sites.php:311, templates/loop/sites.php:304
 msgid "Blueprint published"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:113, templates/loop/sites.php:316
+#: templates/loop/sites-dashboard.php:113, templates/loop/sites.php:314
 msgid "Never"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:135, templates/loop/sites.php:338, templates/widgets/site/pages/blueprints.php:116, templates/widgets/site/pages/blueprints.php:50
+#: templates/loop/sites-dashboard.php:135, templates/loop/sites.php:336, templates/widgets/site/pages/blueprints.php:116, templates/widgets/site/pages/blueprints.php:50
 msgid "Publish Blueprint"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:144, templates/loop/sites.php:347
+#: templates/loop/sites-dashboard.php:144, templates/loop/sites.php:345
 msgid "Visit Staging Area"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:150, templates/loop/sites.php:353
+#: templates/loop/sites-dashboard.php:150, templates/loop/sites.php:351
 msgid "Login as Admin"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:155, templates/loop/sites.php:358
+#: templates/loop/sites-dashboard.php:155, templates/loop/sites.php:356
 msgid "Manage"
 msgstr ""
 
-#: templates/loop/sites.php:26, core/Widgets/Dashboard/LaunchSite.php:293, core/Widgets/General/Login.php:522
+#: templates/loop/sites.php:24, core/Widgets/Dashboard/LaunchSite.php:293, core/Widgets/General/Login.php:522
 msgid "Normal"
 msgstr ""
 
-#: templates/loop/sites.php:27
+#: templates/loop/sites.php:25
 msgid "VIP"
 msgstr ""
 
-#: templates/loop/sites.php:47
+#: templates/loop/sites.php:45
 msgid "You are now viewing the blueprints made by you and your team."
 msgstr ""
 
-#: templates/loop/sites.php:53
+#: templates/loop/sites.php:51
 msgid "This sites listing shows all of the sites by you and your customers. Your customers will only see the sites that belong to them."
 msgstr ""
 
-#: templates/loop/sites.php:70
+#: templates/loop/sites.php:68
 msgid "Actions"
 msgstr ""
 
-#: templates/loop/sites.php:82, templates/loop/sites.php:130
+#: templates/loop/sites.php:80, templates/loop/sites.php:128
 msgid "Show Your %s using the Live Preview Bar"
 msgstr ""
 
-#: templates/loop/sites.php:119
+#: templates/loop/sites.php:117
 msgid "Search by url, plugin, version, etc..."
 msgstr ""
 
-#: templates/loop/sites.php:294
+#: templates/loop/sites.php:292
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites.php:297, templates/widgets/site/pages/updates.php:55, templates/widgets/site/pages/updates.php:78
+#: templates/loop/sites.php:295, templates/widgets/site/pages/updates.php:55, templates/widgets/site/pages/updates.php:78
 msgid "Version %s"
 msgstr ""
 
@@ -3066,11 +3066,11 @@ msgstr ""
 msgid "Please use ACF Pro version greater than 5.9.0 or disable ACF Pro plugin"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/WooCommerce.php:278
+#: core/Modules/Subscription/Plugin/WooCommerce.php:276
 msgid "Link to Hosting Product"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/WooCommerce.php:281
+#: core/Modules/Subscription/Plugin/WooCommerce.php:279
 msgid "By linking this blueprint directly to a hosting product you can enable one-click checkout + deployment for your new customers."
 msgstr ""
 
