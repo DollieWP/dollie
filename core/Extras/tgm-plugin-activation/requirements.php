@@ -70,7 +70,7 @@ function dollie_register_required_plugins() {
 			// E.g. 1.0.0. If set, the active plugin must be this version or higher. If the plugin version is higher than the plugin version installed, the user will be notified to update the plugin.
 			'force_activation' => false,
 			// If true, plugin is activated upon theme activation and cannot be deactivated until theme switch.
-			'source'           => 'https://api.getdollie.com/releases/?action=download&slug=advanced-custom-fields-pro',
+			'source'           => 'https://manager.getdollie.com/releases/?action=download&slug=advanced-custom-fields-pro',
 		],
 
 		// This is an example of how to include a plugin from the WordPress Plugin Repository.

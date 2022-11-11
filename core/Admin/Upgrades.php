@@ -17,7 +17,7 @@ use Dollie\Core\Singleton;
  */
 class Upgrades extends Singleton {
 
-	const API_URL = 'https://api.getdollie.com/releases/packages/';
+	const API_URL = 'https://manager.getdollie.com/releases/packages/';
 
 	/**
 	 * Option name that gets saved in the options database table

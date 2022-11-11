@@ -1,8 +1,6 @@
 <?php
 
-$user             = dollie()->get_user();
-$subscription_vip = dollie()->subscription()->has_vip( get_current_user_id() );
-$global_vip       = get_field( 'wpd_enable_global_vip_sites', 'options' );
+$user = dollie()->get_user();
 
 $action_hashes = [];
 foreach ( dollie()->bulk_actions()->get_saved_bulk_actions() as $action ) {

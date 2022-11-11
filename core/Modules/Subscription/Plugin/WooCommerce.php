@@ -16,7 +16,7 @@ use Dollie\Core\Singleton;
 class WooCommerce extends Singleton implements SubscriptionInterface {
 
 	const
-		SUB_STATUS_ANY = 'any',
+		SUB_STATUS_ANY    = 'any',
 		SUB_STATUS_ACTIVE = 'active';
 
 	/**
@@ -30,9 +30,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 		add_filter( 'dollie/required_plugins', [ $this, 'required_woocommerce' ] );
 
-
 		add_filter( 'acf/prepare_field_group_for_import', [ $this, 'add_acf_fields' ] );
-
 
 	}
 
@@ -58,7 +56,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			'required'         => true,
 			'version'          => '3.0.10',
 			'force_activation' => false,
-			'source'           => 'https://api.getdollie.com/releases/?action=download&slug=woocommerce-subscriptions',
+			'source'           => 'https://manager.getdollie.com/releases/?action=download&slug=woocommerce-subscriptions',
 		];
 
 		return $plugins;
@@ -130,7 +128,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	/**
 	 * Get subscriptions for customer
 	 *
-	 * @param string $status
+	 * @param string   $status
 	 * @param null|int $customer_id
 	 *
 	 * @return array|bool
@@ -221,7 +219,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 				$data['resources']['max_allowed_installs'] += $installs * $quantity;
 				$data['resources']['max_allowed_size']     += $max_size * $quantity;
-				$data['resources']['name']                 = $item_data['name'];
+				$data['resources']['name']                  = $item_data['name'];
 				$data['resources']['staging_max_allowed']  += $staging * $quantity;
 
 				$data = apply_filters( 'dollie/woo/subscription_product_data', $data, $customer_id, $id );
