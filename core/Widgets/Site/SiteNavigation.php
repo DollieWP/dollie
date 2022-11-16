@@ -29,7 +29,7 @@ class SiteNavigation extends \Elementor\Widget_Base {
 		return [ 'dollie-category' ];
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		$this->start_controls_section(
 			'Design',
@@ -81,21 +81,15 @@ class SiteNavigation extends \Elementor\Widget_Base {
 		);
 
 		$this->end_controls_section();
-
 	}
 
 	protected function render() {
 		$data = [
-			'settings'   => $this->get_settings_for_display(),
-			'current_id' => get_the_ID(),
+			'settings'  => $this->get_settings_for_display(),
+			'container' => dollie()->get_container(),
 		];
 
-		$elementor_builder = \Elementor\Plugin::instance()->editor->is_edit_mode()
-			|| \Elementor\Plugin::instance()->preview->is_preview()
-			|| isset( $_GET['elementor_library'] );
-
-		if ( $elementor_builder ) {
-
+		if ( dollie()->is_elementor_editor() ) {
 			$my_sites = get_posts(
 				[
 					'post_type'      => 'container',
@@ -105,11 +99,11 @@ class SiteNavigation extends \Elementor\Widget_Base {
 			);
 
 			if ( ! empty( $my_sites ) ) {
-				$data['current_id'] = $my_sites[0]->ID;
+				$data['container'] = dollie()->get_container( $my_sites[0]->ID );
 			}
 		}
 
-		if ( get_post_type() !== 'container' && ! $elementor_builder ) {
+		if ( get_post_type() !== 'container' && ! dollie()->is_elementor_editor() ) {
 			esc_html_e( 'This widget will only show content when you visit a Single Dollie Site.', 'dollie' );
 		} else {
 			dollie()->load_template( 'widgets/site/site-navigation', $data, true );

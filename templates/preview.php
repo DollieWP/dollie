@@ -11,7 +11,7 @@ if ( is_rtl() ) {
 	$body_classes[] = 'rtl';
 }
 
-new \Dollie\Core\Modules\Preview();
+\Dollie\Core\Modules\Preview::instance();
 
 ?>
 <!DOCTYPE html>

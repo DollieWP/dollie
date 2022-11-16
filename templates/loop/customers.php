@@ -1,4 +1,23 @@
 <?php
+$user = dollie()->get_user();
+
+if ( ! $user->can_view_all_sites() ) {
+
+		dollie()->load_template(
+			'notice',
+			[
+				'type'         => 'error',
+				'icon'         => 'fas fa-exclamation-circle',
+				'title'        => __( 'No Permission', 'dollie' ),
+				'message'      => __( 'You do not have permission to view this content.', 'dollie' ),
+				'bottom_space' => true,
+			],
+			true
+		);
+
+	return;
+}
+
 if ( ! isset( $view_type ) ) {
 	$view_type = 'list';
 }
@@ -9,30 +28,31 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 ?>
 <div class="dol-mb-6 dol-widget-customer-search">
 	<div class="dol-flex dol-flex-wrap md:dol-justify-between">
-		<div class="dol-flex dol-items-center dol-rounded dol-overflow-hidden dol-mb-4 md:dol-mb-0 dol-h-10 md:dol-h-auto">
 
-		</div>
 		<div class="dol-relative dol-w-full md:dol-w-auto">
-			<div class="dol-absolute dol-left-0 dol-top-0 dol-ml-4 dol-flex dol-items-center dol-h-full">
-				<i class="fas fa-search dol-text-ash-500"></i>
-			</div>
-			<input type="text" name="customer_search"
-				   class="dol-search-input dol-search-customer dol-w-full md:dol-w-64"
-				   data-list-type="<?php echo esc_attr( $view_type ); ?>"
-				   data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>" data-search-term=""
-				   placeholder="<?php esc_html_e( 'Search for a Customer...', 'dollie' ); ?>">
+			<input type="text" name="customer_search" class="dol-search-input dol-search-customer dol-w-full md:dol-w-64" data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>" data-search-term="" placeholder="<?php printf( esc_html__( 'Search for a  %s', 'dollie' ), dollie()->string_variants()->get_user_type_string() ); ?>">
 		</div>
+
+		<div class="dol-flex dol-items-center dol-rounded dol-overflow-hidden dol-mb-4 md:dol-mb-0 dol-h-10 md:dol-h-auto">
+					<a href="<?php echo get_admin_url(); ?>user-new.php"
+					class="dol-nav-btn dol-bg-secondary dol-text-white dol-radius-0 dol-ml-3 dol-mr-0 dol-p-3">
+						<span class="dol-inline-block dol-text-center">
+							<?php echo dollie()->icon()->customers(); ?>
+						</span>
+						<?php printf( esc_html__( 'Add New  %s', 'dollie' ), dollie()->string_variants()->get_user_type_string() ); ?>
+					</a>
+		</div>
+
+
 	</div>
 </div>
 
 <div class="dol-customers dol-relative">
-	<div class="dol-loader"  data-for="pagination">
+	<div class="dol-loader" data-for="pagination">
 		<div class="dol-flex dol-items-center dol-justify-center dol-h-full">
-			<svg class="dol-animate-spin dol-h-10 dol-w-10 dol-text-white" xmlns="http://www.w3.org/2000/svg"
-				 fill="none" viewBox="0 0 24 24">
+			<svg class="dol-animate-spin dol-h-10 dol-w-10 dol-text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
 				<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-				<path class="dol-opacity-75" fill="currentColor"
-					  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+				<path class="dol-opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
 			</svg>
 		</div>
 	</div>
@@ -43,6 +63,7 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 				$data = [
 					'name' => $customer->display_name,
 				];
+				$user = dollie()->get_user( $customer->ID );
 				?>
 				<div class="dol-customers-item <?php echo esc_attr( $list_item_type ); ?>">
 					<div class="dol-customers-item-inner <?php do_action( 'dol_add_widget_classes' ); ?> dol-divide-y dol-divide-gray-200">
@@ -54,8 +75,7 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 						<div class="dol-customers-name">
 							<div class="dol-px-4">
 								<div class="dol-font-bold dol-text-lg dol-cursor-default">
-									<a class="dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600"
-									   href="<?php echo get_author_posts_url( $customer->ID ); ?>" target="_blank">
+									<a class="dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600" href="<?php echo get_author_posts_url( $customer->ID ); ?>" target="_blank">
 										<?php echo $customer->display_name; ?>
 									</a>
 								</div>
@@ -63,24 +83,22 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 						</div>
 						<div class="dol-customers-version dol-cursor-default dol-text-sm">
 							<div class="dol-font-semibold dol-text-gray-500">
-								<?php esc_html_e( 'Sites', 'dollie' ); ?>
+								<?php echo dollie()->string_variants()->get_site_type_plural_string(); ?>
 							</div>
 							<div class="dol-font-bold ">
-								<?php echo dollie()->count_customer_containers( $customer->ID ); ?>
+								<?php echo $user->count_containers(); ?>
 							</div>
 						</div>
 						<div class="dol-customers-controls">
-							<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600"
-							   href="<?php echo get_edit_user_link( $customer->ID ); ?>">
-								<i class="fas fa-cog"></i>
-								<span class="dol-ml-1"><?php esc_html_e( 'Manage Customer', 'dollie' ); ?></span>
+							<a class="dol-inline-block dol-text-sm dol-text-white dol-bg-primary dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-primary-600" href="<?php echo get_edit_user_link( $customer->ID ); ?>">
+								<?php echo dollie()->icon()->manage(); ?>
+								<span class="dol-ml-1"><?php printf( esc_html__( 'Manage %s', 'dollie' ), dollie()->string_variants()->get_user_type_string() ); ?></span>
 							</a>
 
 
-							<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary"
-							   href="<?php echo dollie()->get_sites_page_url(); ?>?customer=<?php echo $customer->ID; ?>">
-								<i class="fas fa-wrench"></i>
-								<span class="dol-ml-1"><?php esc_html_e( 'View Sites', 'dollie' ); ?></span>
+							<a class="dol-inline-block dol-text-sm dol-text-gray-500 dol-bg-gray-200 dol-rounded dol-px-3 dol-py-2 hover:dol-text-white hover:dol-bg-secondary" href="<?php echo dollie()->page()->get_sites_url(); ?>?customer=<?php echo $customer->ID; ?>">
+								<?php echo dollie()->icon()->site_view(); ?>
+								<span class="dol-ml-1"><?php printf( esc_html__( 'View %s', 'dollie' ), dollie()->string_variants()->get_site_type_plural_string() ); ?></span>
 							</a>
 						</div>
 					</div>
@@ -98,47 +116,46 @@ $list_item_type = 'dol-customers-' . $view_type . '-item';
 	<?php
 	if ( ! empty( $customers->results ) ) {
 		?>
-	<div class="dol-customers-pages" data-current-page="<?php echo esc_attr( $current_page ); ?>"
-		 data-list-type="<?php echo esc_attr( $view_type ); ?>">
-		<?php
-		$current_page = get_query_var( 'paged' ) ? (int) get_query_var( 'paged' ) : 1; // Example
-		$num_pages    = $pages; // Example
+		<div class="dol-customers-pages" data-current-page="<?php echo esc_attr( $current_page ); ?>">
+			<?php
+			$current_page = get_query_var( 'paged' ) ? (int) get_query_var( 'paged' ) : 1; // Example
+			$num_pages    = $pages; // Example
 
-		$edge_number_count = 2; // Change this, optional
+			$edge_number_count = 2; // Change this, optional
 
-		$start_number = $current_page - $edge_number_count;
-		$end_number   = $current_page + $edge_number_count;
+			$start_number = $current_page - $edge_number_count;
+			$end_number   = $current_page + $edge_number_count;
 
-		// Minus one so that we don't split the start number unnecessarily, eg: "1 ... 2 3" should start as "1 2 3"
-		if ( ( $start_number - 1 ) < 1 ) {
-			$start_number = 1;
-			$end_number   = min( $num_pages, $start_number + ( $edge_number_count * 2 ) );
-		}
-
-		// Add one so that we don't split the end number unnecessarily, eg: "8 9 ... 10" should stay as "8 9 10"
-		if ( ( $end_number + 1 ) > $num_pages ) {
-			$end_number   = $num_pages;
-			$start_number = max( 1, $num_pages - ( $edge_number_count * 2 ) );
-		}
-
-		if ( $start_number > 1 ) {
-			echo ' 1 ... ';
-		}
-
-		for ( $i = $start_number; $i <= $end_number; $i ++ ) {
-			if ( $i === $current_page ) {
-				echo '<a class="page-numbers current dol-bg-primary" href=' . get_permalink() . 'page/' . $i . '>' . $i . '</a>';
-			} else {
-				echo '<a class="page-numbers" href=' . get_permalink() . 'page/' . $i . '> ' . $i . '</a>';
+			// Minus one so that we don't split the start number unnecessarily, eg: "1 ... 2 3" should start as "1 2 3"
+			if ( ( $start_number - 1 ) < 1 ) {
+				$start_number = 1;
+				$end_number   = min( $num_pages, $start_number + ( $edge_number_count * 2 ) );
 			}
-		}
 
-		if ( $end_number < $num_pages ) {
-			echo " ... {$num_pages} ";
-		}
-		?>
-		<div>
+			// Add one so that we don't split the end number unnecessarily, eg: "8 9 ... 10" should stay as "8 9 10"
+			if ( ( $end_number + 1 ) > $num_pages ) {
+				$end_number   = $num_pages;
+				$start_number = max( 1, $num_pages - ( $edge_number_count * 2 ) );
+			}
+
+			if ( $start_number > 1 ) {
+				echo ' 1 ... ';
+			}
+
+			for ( $i = $start_number; $i <= $end_number; $i++ ) {
+				if ( $i === $current_page ) {
+					echo '<a class="page-numbers current dol-bg-primary" href=' . get_permalink() . 'page/' . $i . '>' . $i . '</a>';
+				} else {
+					echo '<a class="page-numbers" href=' . get_permalink() . 'page/' . $i . '> ' . $i . '</a>';
+				}
+			}
+
+			if ( $end_number < $num_pages ) {
+				echo " ... {$num_pages} ";
+			}
+			?>
+			<div>
 			<?php
 	}
 	?>
-		</div>
+			</div>

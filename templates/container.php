@@ -1,4 +1,4 @@
-<?php if ( dollie()->has_dollie_layout_widget() ) : ?>
+<?php if ( dollie()->has_layout_widget() ) : ?>
 <!DOCTYPE html>
 	<html <?php language_attributes(); ?>>
 
@@ -40,16 +40,18 @@
 		}
 
 		$template_id = dollie()->get_site_template_id();
+
 		if ( $template_id ) {
 			echo do_shortcode( '[elementor-template id="' . $template_id . '"]' );
 		}
-		?>
-		<div id="dol-deploying-site" class="dol-hidden" data-container="<?php echo esc_attr( get_the_ID() ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce( 'check_deploy_nonce' ) ); ?>" data-ajax-url="<?php echo esc_attr( admin_url( 'admin-ajax.php' ) ); ?>"></div>
-		<?php
+
+		if ( dollie()->has_deploying_template() ) {
+			dollie()->load_template( 'parts/site-deploying-checker', [], true );
+		}
 	}
 	?>
 
-<?php if ( dollie()->has_dollie_layout_widget() ) : ?>
+<?php if ( dollie()->has_layout_widget() ) : ?>
 		<?php wp_footer(); ?>
 	</body>
 

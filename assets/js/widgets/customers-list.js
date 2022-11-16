@@ -8,7 +8,6 @@ var DollieCustomersList = DollieCustomersList || {};
     init: function () {
       // DollieCustomersList.fn.pagination();
       DollieCustomersList.fn.search();
-      DollieCustomersList.fn.toggleView();
     },
 
     pagination: function () {
@@ -28,10 +27,6 @@ var DollieCustomersList = DollieCustomersList || {};
           }
 
           let url = new URL(load);
-          url.searchParams.set(
-            "list_type",
-            $(this).parent().attr("data-list-type")
-          );
 
           var search = $(this)
             .closest(".elementor-widget-dollie-customers-listing")
@@ -85,7 +80,6 @@ var DollieCustomersList = DollieCustomersList || {};
           var load = $(this).data("permalink");
 
           let url = new URL(load);
-          url.searchParams.set("list_type", $(this).attr("data-list-type"));
           url.searchParams.set("search", $(this).val());
 
           load = url.href;
@@ -113,40 +107,6 @@ var DollieCustomersList = DollieCustomersList || {};
         }
 
         $(this).attr("data-search-term", $(this).val());
-      });
-    },
-
-    toggleView: function () {
-      $(".dol-list-switch").on("click", function (e) {
-        e.preventDefault();
-
-        $(".dol-list-switch").removeClass("dol-switch-active");
-        $(this).addClass("dol-switch-active");
-
-        var sitesContainer = $(".dol-customers-container");
-        var sitesContainerItem = $(".dol-customers-item");
-
-        if ($(this).data("list-type") === "list") {
-          sitesContainer.removeClass("dol-customers-grid");
-          sitesContainer.addClass("dol-customers-list");
-          sitesContainerItem.removeClass("dol-customers-grid-item");
-          sitesContainerItem.addClass("dol-customers-list-item");
-        } else {
-          sitesContainer.removeClass("dol-customers-list");
-          sitesContainer.addClass("dol-customers-grid");
-          sitesContainerItem.removeClass("dol-customers-list-item");
-          sitesContainerItem.addClass("dol-customers-grid-item");
-        }
-
-        $(this)
-          .closest(".elementor-widget-dollie-customers-listing")
-          .find(".dol-customers-pages")
-          .attr("data-list-type", $(this).data("list-type"));
-
-        $(this)
-          .closest(".elementor-widget-dollie-customers-listing")
-          .find(".dol-search-site")
-          .attr("data-list-type", $(this).data("list-type"));
       });
     },
   };

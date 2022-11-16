@@ -1,8 +1,24 @@
-.dollie_is_staging {
+
+.toplevel_page_dollie_setup,
+.post-type-container,
+.post-type-dollie-logs {
   .notice,
   div.error,
-  div.updated {
-    //display: none !important;
+  div.updated,
+  #acf-group_60361f89bf0cf,
+  #acf-group_6087e8876a1d5,
+  .acf-field-5af9444e7c114,
+  #postimagediv {
+    display: none !important;
+  }
+}
+
+
+
+.toplevel_page_dollie_setup,
+.toplevel_page_wpd_platform_setup {
+  .notice.dollie-setup {
+    display: block !important;
   }
 }
 
@@ -10,12 +26,24 @@
   z-index: initial;
 }
 
-body.toplevel_page_wpd_platform_setup {
+body.toplevel_page_wpd_platform_setup,
+body.toplevel_page_dollie_setup {
+  &.dollie_not_connected_to_api {
+    #acf-group_5ada1549129fb,
+    h1,
+    #side-sortables {
+      display: none !important;
+    }
+  }
+
+  background: #fff !important;
+
   #wpfooter {
     display: none;
   }
 
-  #acf-group_5ada1549129fb .acf-field.dollie-field-break {
+  #acf-group_5ada1549129fb .acf-field.dollie-field-break,
+  .af-form .acf-field.dollie-field-break {
     margin-bottom: -2px;
     border: 0 !important;
     padding: 0 !important;
@@ -27,6 +55,13 @@ body.toplevel_page_wpd_platform_setup {
 
     .acf-input {
       display: none;
+    }
+
+    &.show-description {
+      .acf-input {
+        display: block;
+        font-size: 15px;
+      }
     }
   }
 
@@ -99,7 +134,7 @@ body.toplevel_page_wpd_platform_setup {
       // Custom Fixed Header on Desktops
       .acf-settings-wrap h1 {
         position: fixed;
-        z-index: 100;
+        z-index: 1;
         top: 42px;
         width: 100%;
         margin-top: -10px;
@@ -146,7 +181,7 @@ body.toplevel_page_wpd_platform_setup {
       #major-publishing-actions {
         clear: both;
         position: fixed;
-        z-index: 100000000;
+        z-index: 2;
         top: 32px;
         width: 17%;
         margin-right: 0px;
@@ -206,16 +241,16 @@ body.toplevel_page_wpd_platform_setup {
   }
 }
 
-.post-type-container {
+body.post-type-container {
   .widefat td {
     vertical-align: middle !important;
   }
-  .site-title {
+  .container-title {
     min-width: 300px;
     font-size: 15px;
     font-weight: 700;
 
-    span a {
+    a .url-box {
       font-size: 12px;
       color: #666;
       font-weight: 500;
@@ -405,31 +440,95 @@ body.toplevel_page_wpd_platform_setup {
   margin-left: -20px;
   padding: 20px;
   color: #545454;
-  background-image: url(../img/active.png),
-    -o-linear-gradient(290deg, #ffffff 71%, #36b3cd 0%);
-  background: url(../img/active.png),
-    linear-gradient(160deg, #ffffff 71%, #36b3cd 0%);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: right;
 
+  background-image: -o-linear-gradient(290deg, #ffffff 71%, #efefef 0%);
+  background: -o-linear-gradient(290deg, #ffffff 71%, #efefef 0%);
+  background: linear-gradient(140deg, #fff 84%, #36b3cc 0%);
+
+  &.dollie-setup {
+    font-size: 16px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 20px;
+    background-image: -o-linear-gradient(290deg, #ffffff 71%, #efefef 0%);
+    background: -o-linear-gradient(290deg, #ffffff 71%, #efefef 0%);
+    background: linear-gradient(140deg, #fff 84%, #33d399 0%);
+    border-left: 10px solid #33d399;
+
+    h3 {
+      font-size: 24px;
+      color: #343434;
+    }
+    .dollie-msg-button-right a {
+      font-size: 16px;
+      background: #efa041;
+      border: 1px solid #efa041;
+      color: #fff;
+      padding: 12px 24px;
+    }
+  }
+
+  &.dollie-error {
+    font-size: 16px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    padding-left: 20px;
+    background-image: -o-linear-gradient(290deg, #ffffff 71%, #efefef 0%);
+    background: -o-linear-gradient(290deg, #ffffff 71%, #efefef 0%);
+    background: linear-gradient(140deg, #fff 84%, #ef4d41 0%);
+    border-left: 10px solid #ef4d41;
+
+    h3 {
+      font-size: 24px;
+      color: #343434;
+    }
+    .dollie-msg-button-right a {
+      font-size: 16px;
+      background: #ef4d41;
+      border: 1px solid #ef4d41;
+      color: #fff;
+      padding: 12px 24px;
+    }
+  }
+
+  .dollie-msg-button-right a {
+    margin-top: 20px;
+    display: inline-block;
+    background: #36b3cc;
+    border: 1px solid #36b3cc;
+    color: #fff;
+    padding: 8px 16px;
+  }
+
+  span {
+    opacity: 0.3;
+  }
+
   svg {
-    position: absolute; /* z-index: -1000; */
-    right: 20px;
+    position: absolute;
+    right: 12px;
     bottom: 12px;
-    height: 70%; /* width: 100%; */
-    opacity: 0.9; /* top: 0; */
+    height: 40%;
+    opacity: 1;
   }
 
   img {
     float: right;
     width: 100px;
+    float: right;
+    width: 100px;
+    position: absolute;
+    right: 0;
+    bottom: 15px;
   }
 
   p {
     padding-right: 20%;
     font-size: 120%;
-    color: #545454;
+    color: #787878;
     max-width: 60%;
   }
 
@@ -454,13 +553,32 @@ body.toplevel_page_wpd_platform_setup {
 }
 
 .dollie-notice.dollie-notice-error {
-  background-image: url("../img/active.png"),
-    linear-gradient(160deg, #ffffff 71%, #cd3636 0%);
+  // background-image: url("../img/active.png"),
+  //   linear-gradient(160deg, #ffffff 71%, #cd3636 0%);
 
   .button.button-primary {
     background-color: #cd3636;
     border: 1px solid #cd3636;
   }
+}
+
+.dollie-notice.dollie-notice-trial {
+    // background-image: url("../img/active.png"),
+    //   linear-gradient(160deg, #ffffff 71%, #cd3636 0%);
+
+    .button.button-primary {
+        background-color: #efa041;
+        border: 1px solid #efa041;
+    }
+}
+
+.dollie-notice.dollie-notice-trial {
+   background: linear-gradient(140deg, #fff 84%, #efa041 0%) !important;
+
+    .button.button-primary {
+        background-color: #efa041;
+        border: 1px solid #efa041;
+    }
 }
 
 .api-active-span {
@@ -482,4 +600,12 @@ body.toplevel_page_wpd_platform_setup {
     padding-bottom: 10px;
     font-size: 94%;
   }
+}
+
+body.toplevel_page_dollie_setup {
+
+    #wpwrap #wpcontent {
+        background: #EFEFEF;
+    }
+
 }

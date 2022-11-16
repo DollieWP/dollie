@@ -6,352 +6,196 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Modules\AccessControl;
 use Dollie\Core\Singleton;
 use WP_Query;
 
-use Dollie\Core\Modules\Sites\WP;
 use Dollie\Core\Modules\Subscription\Subscription;
-use Dollie\Core\Modules\Backups;
-use Dollie\Core\Modules\Blueprints;
-use Dollie\Core\Modules\Container;
-use Dollie\Core\Modules\SiteInsights;
-use Dollie\Core\Modules\ContainerBulkActions;
-use Dollie\Core\Modules\Domain;
+
+use Dollie\Core\Factories\Site;
+use Dollie\Core\Factories\Blueprint;
+use Dollie\Core\Factories\Staging;
+use Dollie\Core\Factories\User;
+
+use Dollie\Core\Services\AccessService;
+use Dollie\Core\Services\AuthService;
+use Dollie\Core\Services\BulkActionService;
+use Dollie\Core\Services\InsightsService;
+use Dollie\Core\Services\RecurringActionService;
+use Dollie\Core\Services\WorkspaceService;
 
 /**
  * Class Helpers
  *
  * @package Dollie\Core
  */
-class Helpers extends Singleton {
-
+class Helpers extends Singleton implements ConstInterface {
 	/**
-	 * Get current queried object data
+	 * Get container
 	 *
-	 * @param int $id
+	 * @param \WP_Post|int $id
 	 *
-	 * @return \stdClass
+	 * @return Site|Blueprint|Staging|\WP_Error
 	 */
-	public function get_current_object( $id = null ) {
-		if ( isset( $id ) && $id > 0 ) {
+	public function get_container( $id = null ) {
+		if ( $id instanceof \WP_Post ) {
+			$object = $id;
+		} elseif ( is_numeric( $id ) ) {
 			$object = get_post( $id );
 		} else {
 			$object = get_queried_object();
 		}
 
-		$response = [
-			'id'     => 0,
-			'slug'   => '',
-			'author' => 0,
-		];
-
 		if ( ! $object instanceof \WP_Post ) {
-			return (object) $response;
+			return new \WP_Error( 500, 'Object is not a post' );
 		}
 
 		if ( get_post_type( $object->ID ) !== 'container' ) {
-			return (object) $response;
+			return new \WP_Error( 500, 'Object is not a container' );
 		}
 
-		if ( isset( $object->ID ) ) {
-			$response['id']     = $object->ID;
-			$response['slug']   = $object->post_name;
-			$response['author'] = $object->post_author;
+		$container      = null;
+		$container_type = get_post_meta( $object->ID, 'dollie_container_type', true );
+
+		switch ( $container_type ) {
+			case self::TYPE_SITE:
+				$container = new Site( $object );
+				break;
+			case self::TYPE_BLUEPRINT:
+				$container = new Blueprint( $object );
+				break;
+			case self::TYPE_STAGING:
+				$container = new Staging( $object );
+				break;
+			default:
+				return new \WP_Error( 500, 'Invalid container type' );
 		}
 
-		return (object) $response;
+		if ( is_single( $object ) &&
+			( $container->is_running() || $container->is_stopped() ) ) {
+			$container->fetch_details();
+		}
+
+		return $container;
 	}
 
 	/**
-	 * An array of Supported Plugins
+	 * Get user
 	 *
-	 * @return array
-	 */
-	public function supported_plugins() {
-		$supported_plugins = [
-			'Cloudflare'       => [
-				'reason' => esc_html__( 'We strongly recommend to keep this plugin active and installed at all times.', 'dollie' ),
-				'info'   => 'foo',
-			],
-			'WP Fastest Cache' => [
-				'reason' => esc_html__( 'Our SiteCache solution is powered partly by the WP Fastest Cache plugin. We recommend to keep this plugin activated.', 'dollie' ),
-				'info'   => 'foo',
-			],
-		];
-
-		return $supported_plugins;
-	}
-
-	/**
-	 * An array of Unsupported Plugins
+	 * @param \WP_User|integer|null $id
 	 *
-	 * @return array
+	 * @return User
 	 */
-	public function unsupported_plugins() {
-		return [];
+	public function get_user( $id = null ): User {
+		return new User( $id );
 	}
 
 	/**
-	 * Get container URL
+	 * Icon instance
 	 *
-	 * @param null $container_id
-	 * @param bool $temp_url
+	 * @return Icon
+	 */
+	public function icon(): Icon {
+		return Icon::instance();
+	}
+
+	/**
+	 * PageManager instance
 	 *
-	 * @return string
+	 * @return PageManager
 	 */
-	public function get_container_url( $container_id = null, $temp_url = false ) {
-		if ( null === $container_id ) {
-			$container_id = $this->get_current_object()->id;
-		}
-
-		$domain              = get_post_meta( $container_id, 'wpd_domains', true );
-		$domain_url_migrated = get_post_meta( $container_id, 'wpd_domain_migration_complete', true );
-
-		if ( '' !== $domain && 'yes' === $domain_url_migrated && ! $temp_url ) {
-			$install = 'https://' . get_post_meta( $container_id, 'wpd_domains', true );
-		} else {
-			$install = dollie()->get_wp_site_data( 'uri', $container_id );
-		}
-
-		return strtolower( $install );
+	public function page(): PageManager {
+		return PageManager::instance();
 	}
 
 	/**
-	 * Get container staging url
+	 * StringVariants instance
 	 *
-	 * @param null $container_id
-	 * @param boolean $temp_url
+	 * @return StringVariants
+	 */
+	public function string_variants(): StringVariants {
+		return StringVariants::instance();
+	}
+
+	/**
+	 * Subscription instance
 	 *
-	 * @return string
+	 * @return Subscription
 	 */
-	public function get_container_staging_url( $container_id = null, $temp_url = false ) {
-		if ( null === $container_id ) {
-			$container_id = $this->get_current_object()->id;
-		}
-
-		$staging_url = get_post_meta( $container_id, '_wpd_staging_url', true );
-
-		if ( $staging_url ) {
-			$staging_url = 'https://' . $staging_url;
-		}
-
-		return strtolower( $staging_url );
+	public function subscription(): Subscription {
+		return Subscription::instance();
 	}
 
 	/**
-	 * Get container status
+	 * BulkActionService instance
 	 *
-	 * @param $container_id
+	 * @return BulkActionService
+	 */
+	public function bulk_actions(): BulkActionService {
+		return BulkActionService::instance();
+	}
+
+	/**
+	 * RecurringActionService instance
 	 *
-	 * @return mixed
+	 * @return RecurringActionService
 	 */
-	public function get_container_status( $container_id ) {
-		return Container::instance()->get_status( $container_id );
+	public function recurring_actions(): RecurringActionService {
+		return RecurringActionService::instance();
 	}
 
 	/**
-	 * Get login url for container
+	 * InsightsService instance
 	 *
-	 * @param null $container_id
-	 * @param null $container_location
-	 * @param boolean $staging
+	 * @return InsightsService
+	 */
+	public function insights(): InsightsService {
+		return InsightsService::instance();
+	}
+
+	/**
+	 * AccessService instance
 	 *
-	 * @return string
+	 * @return AccessService
 	 */
-	public function get_customer_login_url( $container_id = null, $container_location = null, $staging = false ) {
-		$container  = dollie()->get_current_object( $container_id );
-		$url_params = 'site_login_redirect?site=' . $container->id;
-
-		if ( $staging ) {
-			$url_params .= '&staging=1';
-		}
-
-		$url = home_url( $url_params );
-
-		$container_location = apply_filters( 'dollie/site/login_url/location', $container_location, $container );
-
-		if ( ! empty( $container_location ) ) {
-			$url = add_query_arg( 'location', $container_location, $url );
-		}
-
-		return wp_nonce_url( $url, 'get_site_login', '_nonce' );
+	public function access(): AccessService {
+		return AccessService::instance();
 	}
 
 	/**
-	 * Customer login
+	 * WorkspaceService instance
 	 *
-	 * @param null $container_id
-	 * @param null $container_location
-	 * @param boolean $staging
+	 * @return WorkspaceService
+	 */
+	public function workspace(): WorkspaceService {
+		return WorkspaceService::instance();
+	}
+
+	/**
+	 * AuthService instance
 	 *
-	 * @return string
+	 * @return AuthService
 	 */
-	public function final_customer_login_url( $container_id = null, $container_location = null, $staging = false ) {
-		$container = $this->get_current_object( $container_id );
-
-		if ( $staging ) {
-			$container_url = $this->get_container_staging_url( $container->id );
-		} else {
-			$container_url = $this->get_container_url( $container->id );
-		}
-
-		if ( empty( $container_url ) ) {
-			return '';
-		}
-
-		$url                 = $container_url . '/wp-login.php';
-		$pending_role_action = get_post_meta( $container->id, '_wpd_user_role_change_pending', true );
-
-		// User role change is not yet complete.
-		if ( $pending_role_action ) {
-			return '';
-		}
-
-
-		if ( null !== $container_location ) {
-			$location = '&location=' . $container_location;
-		} else {
-			$location = '';
-		}
-
-		// Generate different login links based on user access control.
-		$client_user_id = get_post_field( 'post_author', $container->id );
-		$user_role      = dollie()->get_customer_user_role( $client_user_id );
-
-		// If we are admin and visiting client site.
-		if ( 'administrator' !== $user_role && current_user_can( 'manage_options' ) ) {
-			$username = get_option( 'options_wpd_admin_user_name' );
-		} else {
-			$username = Container::instance()->get_customer_username( $container->id );
-		}
-
-		$token_details = Container::instance()->get_login_token( $container_url, $container->id, $username, $staging );
-
-		if ( empty( $token_details ) ) {
-			return $url;
-		}
-
-		if ( is_object( $token_details ) && isset( $token_details->Token ) && $token_details->Token ) {
-			$url .= '?s5token=' . $token_details->Token . $location;
-		} else {
-			$details = Container::instance()->get_info( $container->id );
-			$url     .= '?s5token=' . $details->Token . $location;
-		}
-
-		return $url;
+	public function auth(): AuthService {
+		return AuthService::instance();
 	}
 
 	/**
-	 * @return string
-	 */
-	public function get_customer_admin_url() {
-		return $this->get_container_url() . '/wp-admin/';
-	}
-
-	/**
-	 * @return string
-	 */
-	public function get_customer_secret_url() {
-		$secret = get_post_meta( $this->get_current_object()->id, 'wpd_container_secret', true );
-
-		return $this->get_container_url() . '/' . $secret;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function get_container_id_by_string() {
-		return get_page_by_path( $_GET['site'], OBJECT, 'container' )->ID;
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function get_container_slug_by_string() {
-		return $_GET['site'];
-	}
-
-	/**
-	 * @param null $container_id
+	 * Get latest container URL
 	 *
-	 * @return string
-	 */
-	public function get_site_screenshot( $container_id = null, $html = true ) {
-		$post_id = $this->get_current_object( $container_id )->id;
-
-		$deploying = 'pending' === \Dollie\Core\Modules\Container::instance()->get_status( $post_id );
-
-		$site  = $this->get_container_url( $post_id );
-		$image = DOLLIE_ASSETS_URL . 'img/generating-preview.png';
-
-		if ( ! empty( get_field( 'default_screenshot', 'option' ) ) ) {
-			$image = get_field( 'default_screenshot', 'option' );
-		}
-
-		if ( ! $deploying && ! empty( $site ) ) {
-			$screenshot = get_transient( 'wpd_container_ss_' . $post_id );
-
-			if ( ! is_array( $screenshot ) || empty( $screenshot ) || ! isset( $screenshot['desktop'] ) || ! $screenshot['desktop'] ) {
-				$screenshot = $this->container_screenshot( $site );
-			}
-
-			if ( is_array( $screenshot ) && ! empty( $screenshot ) && isset( $screenshot['desktop'] ) && $screenshot['desktop'] ) {
-				$image = $screenshot['desktop'] . '?ver=' . current_time( 'timestamp' );
-
-				set_transient( 'wpd_container_ss_' . $post_id, $screenshot, MINUTE_IN_SECONDS * 60 );
-			}
-		}
-
-		if ( ! $html ) {
-			return $image;
-		}
-
-		//Resize image and store locally
-		$local_image = wpthumb( $image, 'width=700&height=99999&crop=0' );
-
-		$image_tag = '<img width="700" class="dol-block dol-object-cover" alt="' . esc_attr( $site ) . '" src="' . $local_image . '" />';
-
-		if ( $deploying ) {
-			return $image_tag;
-		}
-
-		$screenshot = '<a class="dol-block dol-leading-none" target ="_blank" href="' . esc_url( $site ) . '">' . $image_tag . '</a>';
-		update_post_meta( $post_id, 'wpd_site_screenshot', $image );
-
-		return $screenshot;
-	}
-
-	/**
-	 * @param null $container_id
-	 */
-	public function flush_container_details( $container_id = null ) {
-		$container = $this->get_current_object( $container_id );
-
-		delete_transient( 'dollie_container_api_request_' . $container->slug . '_get_container_wp_info' );
-		delete_transient( 'dollie_container_api_request_' . $container->slug . '_get_container_site_info' );
-		delete_transient( 'dollie_site_users_' . $container->slug );
-		delete_transient( 'dollie_site_news_' . $container->slug );
-		delete_transient( 'dollie_site_new_screenshot_' . $this->get_container_url( $container_id ) );
-
-		$this->regenerate_containers_screenshot( [ $this->get_container_url( $container_id ) ] );
-	}
-
-	/**
-	 * @return bool
+	 * @return string|boolean
 	 */
 	public function get_latest_container_url() {
-		$query = new WP_Query(
-			[
-				'post_status'    => [ 'publish', 'draft' ],
-				'post_type'      => 'container',
-				'posts_per_page' => 1,
-			]
-		);
+		$args = [
+			'post_status'    => [ 'publish', 'draft' ],
+			'post_type'      => 'container',
+			'posts_per_page' => 1,
+		];
 
-		if ( ! dollie()->can_manage_all_sites() ) {
+		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
 			$args['author'] = get_current_user_id();
 		}
+
+		$query = new WP_Query( $args );
 
 		$output = '';
 
@@ -366,109 +210,68 @@ class Helpers extends Singleton {
 	}
 
 	/**
-	 * @param $length
-	 * @param string $keyspace
+	 * Check if there are products
 	 *
-	 * @return string
-	 * @throws \Exception
+	 * @return boolean
 	 */
-	public function random_string( $length, $keyspace = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ' ) {
-		$str = '';
-		$max = mb_strlen( $keyspace, '8bit' ) - 1;
-		for ( $i = 0; $i < $length; ++ $i ) {
-			$str .= $keyspace[ random_int( 0, $max ) ];
-		}
+	public function has_products(): bool {
+		$args = [
+			'post_type'  => 'product',
+			'status'     => 'publish',
+			'meta_query' => [
+				[
+					'key'         => 'wpd_',
+					'compare_key' => 'LIKE',
+				],
+			],
+		];
 
-		return $str;
+		$args = apply_filters( 'dollie_product_query', $args );
+
+		return ( new \WP_Query( $args ) )->have_posts();
 	}
 
 	/**
-	 * @return string
-	 */
-	public function secret_admin_key() {
-		return '?' . dollie()->random_string( 12 );
-	}
-
-	/**
-	 * @param $size
+	 * Get total containers counter
 	 *
-	 * @return string
+	 * @return integer
 	 */
-	public function convert_to_readable_size( $size ) {
-		if ( ! $size ) {
-			return $size;
-		}
-
-		$base   = log( $size ) / log( 1024 );
-		$suffix = [ '', 'KB', 'MB', 'GB', 'TB' ];
-		$f_base = floor( $base );
-
-		return round( 1024 ** ( $base - floor( $base ) ), 1 ) . $suffix[ $f_base ];
-	}
-
-	/**
-	 * @param $size
-	 *
-	 * @return string
-	 * @deprecated use convert_to_readable_size()
-	 * @uses convert_to_readable_size()
-	 */
-	public function convertToReadableSize( $size ) {
-		return $this->convert_to_readable_size( $size );
-	}
-
-	/**
-	 * @return int
-	 */
-	public function count_customer_containers( $user_id = null ) {
-		if ( ! $user_id ) {
-			$user_id = get_current_user_id();
-		}
-
-		$query = new WP_Query(
-			[
-				'author'        => $user_id,
-				'post_type'     => 'container',
-				'post_per_page' => 1000,
-				'post_status'   => 'publish',
-			]
-		);
-
-		$total = $query->found_posts;
-
-		wp_reset_postdata();
-
-		return $total;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function count_total_containers() {
+	public function count_total_sites(): int {
 		$query = new WP_Query(
 			[
 				'post_type'     => 'container',
-				'post_per_page' => 1000,
-			]
-		);
-
-		$total = $query->found_posts;
-
-		wp_reset_postdata();
-
-		return $total;
-	}
-
-	/**
-	 * @return int
-	 */
-	public function count_total_blueprints() {
-		$query = new WP_Query(
-			[
-				'post_type'     => 'container',
-				'post_per_page' => 1000,
+				'post_per_page' => - 1,
 				'meta_query'    => [
 					'relation' => 'AND',
+					[
+						'key'   => 'dollie_container_type',
+						'value' => '0',
+					],
+				],
+			]
+		);
+
+		wp_reset_postdata();
+
+		return $query->found_posts;
+	}
+
+	/**
+	 * Get total Active blueprints counter
+	 *
+	 * @return integer
+	 */
+	public function count_total_blueprints(): int {
+		$query = new WP_Query(
+			[
+				'post_type'     => 'container',
+				'post_per_page' => - 1,
+				'meta_query'    => [
+					'relation' => 'AND',
+					[
+						'key'   => 'dollie_container_type',
+						'value' => '1',
+					],
 					[
 						'key'   => 'wpd_blueprint_created',
 						'value' => 'yes',
@@ -481,537 +284,91 @@ class Helpers extends Singleton {
 			]
 		);
 
-		$total = $query->found_posts;
-
 		wp_reset_postdata();
 
-		return $total;
+		return $query->found_posts;
 	}
 
 	/**
-	 * @return int
+	 * Get total blueprints counter, regardless of status staging/active
+	 *
+	 * @return integer
 	 */
-	public function count_customer_staging_sites( $user_id = null ) {
-		if ( ! $user_id ) {
-			$user_id = get_current_user_id();
-		}
-
+	public function count_total_created_blueprints(): int {
 		$query = new WP_Query(
 			[
-				'author'        => $user_id,
 				'post_type'     => 'container',
 				'post_per_page' => - 1,
-				'post_status'   => 'publish',
 				'meta_query'    => [
+					'relation' => 'AND',
 					[
-						'key'   => 'wpd_has_staging',
+						'key'   => 'dollie_container_type',
+						'value' => '1',
+					],
+					[
+						'key'   => 'wpd_blueprint_created',
 						'value' => 'yes',
 					],
 				],
 			]
 		);
 
-		$total = $query->found_posts;
-
 		wp_reset_postdata();
 
-		return $total;
+		return $query->found_posts;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function get_partner_status() {
+		if ( ! dollie()->subscription()->has_partner_subscription() ) {
+			return 'trial';
+		}
+
+		if ( ! dollie()->subscription()->has_partner_verified() ) {
+			return 'unverified';
+		}
+
+		if ( dollie()->workspace()->has_custom_deployment_domain() && ! get_option( 'wpd_deployment_domain_notice' ) ) {
+			return 'staging';
+		}
+
+		return 'live';
 	}
 
 	/**
 	 * @return bool
 	 */
 	public function is_live() {
-		return (bool) get_option( 'options_wpd_api_domain' ) && (bool) \Dollie\Core\Utils\Api::get_auth_token();
+		return (bool) get_option( 'options_wpd_api_domain' ) && $this->auth()->is_connected();
 	}
 
 	/**
-	 * @return mixed|void
+	 * Is using a custom deploy pending template.
+	 *
+	 * @return bool
 	 */
-	public function get_launch_page_id() {
-		if ( function_exists( 'pll_get_post' ) ) {
-			return (int) pll_get_post( get_option( 'options_wpd_launch_page_id' ) );
-		} else {
-			return (int) get_option( 'options_wpd_launch_page_id' );
+	public function has_deploying_template() {
+		$container = dollie()->get_container( get_the_ID() );
+
+		if ( is_wp_error( $container ) ) {
+			return false;
 		}
-	}
 
-	/**
-	 * @return false|string
-	 */
-	public function get_launch_page_url() {
-		return get_permalink( $this->get_launch_page_id() );
-	}
-
-	/**
-	 * @return false|string
-	 */
-	public function get_launch_page_title() {
-		return get_the_title( $this->get_launch_page_id() );
-	}
-
-	/**
-	 * @return mixed|void
-	 */
-	public function get_launch_blueprint_page_id() {
-		if ( function_exists( 'pll_get_post' ) ) {
-			return (int) pll_get_post( get_option( 'options_wpd_launch_blueprint_page_id' ) );
-		} else {
-			return (int) get_option( 'options_wpd_launch_blueprint_page_id' );
-		}
-	}
-
-	/**
-	 * @return false|string
-	 */
-	public function get_launch_blueprint_page_url() {
-		return get_permalink( $this->get_launch_blueprint_page_id() );
-	}
-
-	/**
-	 * @return false|string
-	 */
-	public function get_launch_blueprint_page_title() {
-		return get_the_title( $this->get_launch_blueprint_page_id() );
-	}
-
-	/**
-	 * @return mixed|void
-	 */
-	public function get_dashboard_page_id() {
-		if ( function_exists( 'pll_get_post' ) ) {
-			return (int) pll_get_post( get_option( 'options_wpd_dashboard_page_id' ) );
-		} else {
-			return (int) get_option( 'options_wpd_dashboard_page_id' );
-		}
-	}
-
-	/**
-	 * @return false|string
-	 */
-	public function get_dashboard_page_url() {
-		return get_permalink( $this->get_dashboard_page_id() );
-	}
-
-	/**
-	 * @return false|string
-	 */
-	public function get_dashboard_page_title() {
-		return get_the_title( $this->get_dashboard_page_id() );
-	}
-
-	/**
-	 * @return mixed|void
-	 */
-	public function get_login_page_id() {
-		if ( function_exists( 'pll_get_post' ) ) {
-			return (int) pll_get_post( get_option( 'options_wpd_login_page_id' ) );
-		} else {
-			return (int) get_option( 'options_wpd_login_page_id' );
-		}
-	}
-
-	public function get_login_page_url() {
-		return get_permalink( $this->get_login_page_id() );
-	}
-
-	/**
-	 * @return false|string
-	 */
-	public function get_login_page_title() {
-		return get_the_title( $this->get_login_page_id() );
-	}
-
-	/**
-	 * @return mixed|void
-	 */
-	public function get_sites_page_id() {
-		if ( function_exists( 'pll_get_post' ) ) {
-			return (int) pll_get_post( get_option( 'options_wpd_sites_page_id' ) );
-		} else {
-			return (int) get_option( 'options_wpd_sites_page_id' );
-		}
-	}
-
-	/**
-	 * @return false|string
-	 */
-	public function get_sites_page_url() {
-		return get_permalink( $this->get_sites_page_id() );
-	}
-
-	/**
-	 * @return false|string
-	 */
-	public function get_sites_page_title() {
-		return get_the_title( $this->get_sites_page_id() );
+		return $container->is_deploying() && get_option( 'options_wpd_site_launching_template_id' );
 	}
 
 	/**
 	 * @return mixed|void
 	 */
 	public function get_site_template_id() {
-
-		$status = \Dollie\Core\Modules\Container::instance()->get_status( get_the_ID() );
-	
 		// If we have a launching template then show that instead.
-		if ( 'pending' === $status && get_option( 'options_wpd_site_launching_template_id' ) ) {
+		if ( $this->has_deploying_template() ) {
 			return (int) get_option( 'options_wpd_site_launching_template_id' );
 		}
 
 		return (int) get_option( 'options_wpd_site_template_id' );
-	}
-
-	/**
-	 * @param $site_id
-	 * @param string $page
-	 *
-	 * @return string
-	 */
-	public function get_site_url( $site_id, $page = '' ) {
-		$site = get_post( $site_id );
-
-		if ( ! $site ) {
-			return '';
-		}
-
-		return $page ? get_the_permalink( $site_id ) . trailingslashit( $page ) : get_the_permalink( $site_id );
-	}
-
-	/**
-	 *
-	 */
-	public function could_not_connect_message() {
-		?>
-        <div class="dol-border dol-border-solid dol-border-primary-100 dol-rounded dol-overflow-hidden">
-            <div class="dol-flex dol-items-center dol-bg-red-600">
-                <div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-red-700 dol-flex dol-items-center dol-justify-center">
-                    <i class="fas fa-exclamation-circle dol-text-white dol-text-2xl"></i>
-                </div>
-                <h4 class="dol-px-4 lg:dol-px-8 lg:dol-py-4 dol-m-0 dol-p-0 dol-text-white dol-text-base md:dol-text-xl">
-					<?php esc_html_e( 'Sorry, we could not retrieve your site details', 'dollie' ); ?>
-                </h4>
-            </div>
-            <div class="dol-px-4 dol-py-2 lg:dol-px-8 lg:dol-py-6 dol-bg-gray-100">
-                <div class="dol-mb-4">
-					<?php esc_html_e( 'We could not connect to your site to retrieve its details. This is usually caused by your WordPress site being unavailable or having a site-breaking error.', 'dollie' ); ?>
-                </div>
-
-                <div>
-                    <a href="<?php echo esc_url( get_permalink() . '?get-details' ); ?>"
-                       class="dol-text-sm dol-text-white hover:dol-text-white dol-inline-block dol-px-4 dol-py-2 dol-bg-gray-800 hover:dol-bg-gray-900 dol-rounded">
-						<?php esc_html_e( 'Retry', 'dollie' ); ?>
-                    </a>
-
-                    <a href="<?php echo esc_url( get_site_url() . '/support' ); ?>"
-                       class="dol-text-sm dol-text-white hover:dol-text-white dol-inline-block dol-px-4 dol-py-2 dol-bg-gray-500 hover:dol-bg-gray-600 dol-rounded">
-						<?php esc_html_e( 'Create a support ticket', 'dollie' ); ?>
-                    </a>
-                </div>
-            </div>
-        </div>
-		<?php
-	}
-
-	/**
-	 * Get all registered settings groups by name and key
-	 *
-	 * @return array
-	 */
-	public function acf_get_database_field_group_keys() {
-		$keys   = [];
-		$groups = acf_get_field_groups();
-
-		foreach ( $groups as $group ) {
-			$keys[ $group['title'] ] = $group['key'];
-		}
-
-		return $keys;
-	}
-
-	/**
-	 * Get customer total backups
-	 *
-	 * @return mixed
-	 * @deprecated
-	 *
-	 * @use get_site_total_backups
-	 */
-	public function get_customer_total_backups() {
-		return Backups::instance()->count();
-	}
-
-	/**
-	 * Get site total backups
-	 *
-	 * @param null $container_id
-	 *
-	 * @return mixed
-	 */
-	public function get_site_total_backups( $container_id = null ) {
-		return Backups::instance()->count( $container_id );
-	}
-
-	public function has_site_backup_notice( $container_id = null ) {
-		$notice = get_post_meta( $container_id, 'wpd_installation_backups_outdated', true );
-
-		return $notice === 'yes';
-	}
-
-	/**
-	 * Get restored sites
-	 *
-	 * @return mixed
-	 */
-	public function get_site_restores() {
-		return Backups::instance()->get_site_restores();
-	}
-
-	/**
-	 * Get available blueprints
-	 *
-	 * @param null $container_id
-	 *
-	 * @return mixed
-	 */
-	public function get_available_blueprints( $container_id = null ) {
-		return Blueprints::instance()->get_available( $container_id );
-	}
-
-	/**
-	 * Return subscription name
-	 *
-	 * @return string
-	 */
-	public function subscription_name() {
-		return Subscription::instance()->subscription_name();
-	}
-
-	/**
-	 * Return sites available to install
-	 *
-	 * @return integer
-	 */
-	public function sites_available() {
-		return Subscription::instance()->sites_available();
-	}
-
-	/**
-	 * Return storage available based on the subscription
-	 *
-	 * @return string
-	 */
-	public function storage_available() {
-		return Subscription::instance()->storage_available();
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function size_limit_reached() {
-		return Subscription::instance()->size_limit_reached();
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function site_limit_reached() {
-		return Subscription::instance()->site_limit_reached();
-	}
-
-	/**
-	 * @return bool
-	 */
-	public function staging_limit_reached() {
-		return $this->count_total_containers() >= 3 && ! $this->is_live();
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function has_subscription() {
-		return Subscription::instance()->has_subscription();
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function has_staging() {
-		return Subscription::instance()->has_staging();
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function staging_sites_limit_reached() {
-		return Subscription::instance()->staging_sites_limit_reached();
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function has_partner_subscription() {
-		return Subscription::instance()->has_partner_subscription();
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function has_partner_credits() {
-		return Subscription::instance()->has_partner_credits();
-	}
-
-	/**
-	 * @return boolean
-	 */
-	public function is_partner_subscription_trial() {
-		return Subscription::instance()->is_partner_subscription_trial();
-	}
-
-	/**
-	 * @return int
-	 */
-	public function get_partner_subscription_credits() {
-		return Subscription::instance()->get_partner_subscription_credits();
-	}
-
-	/**
-	 * @param int $user_id
-	 *
-	 * @return mixed
-	 */
-	public function has_bought_product( $user_id = 0 ) {
-		return Subscription::instance()->has_bought_product( $user_id );
-	}
-
-	/**
-	 * @param null $container_id
-	 *
-	 * @return mixed
-	 */
-	public function get_customer_container_details( $container_id = null, $force = false ) {
-		return Container::instance()->get_customer_details( $container_id, $force );
-	}
-
-	/**
-	 * @param $url
-	 * @param $transient_id
-	 * @param $user_auth
-	 * @param null $user_pass
-	 * @param bool $force
-	 *
-	 * @return mixed
-	 */
-	public function container_api_request( $url, $transient_id, $user_auth, $user_pass = null, $force = false ) {
-		return Container::instance()->do_api_request( $url, $transient_id, $user_auth, $user_pass, $force );
-	}
-
-	/**
-	 * Get container screenshot
-	 *
-	 * @param $container_uri
-	 * @param bool $regenerate
-	 *
-	 * @return mixed
-	 */
-	public function container_screenshot( $container_uri, $regenerate = false ) {
-		return Container::instance()->get_screenshot( $container_uri, $regenerate );
-	}
-
-	/**
-	 * Regenerate screenshot
-	 *
-	 * @param array $containers
-	 *
-	 * @return array
-	 */
-	public function regenerate_containers_screenshot( $containers = [] ) {
-		return Container::instance()->regenerate_screenshots( $containers );
-	}
-
-	/**
-	 * Get plugins
-	 *
-	 * @param string $container_uri
-	 *
-	 * @return bool|array
-	 */
-	public function get_container_plugins( $container_uri = null ) {
-		return Container::instance()->get_plugins( $container_uri );
-	}
-
-	/**
-	 * Get plugins bulk
-	 *
-	 * @param string $containers
-	 *
-	 * @return bool|array
-	 */
-	public function get_containers_plugins( $containers ) {
-		return Container::instance()->get_plugins_bulk( $containers );
-	}
-
-	/**
-	 * Get themes
-	 *
-	 * @param string $container_uri
-	 *
-	 * @return bool|array
-	 */
-	public function get_container_themes( $container_uri = null ) {
-		return Container::instance()->get_themes( $container_uri );
-	}
-
-	/**
-	 * Get themes bulk
-	 *
-	 * @param string $containers
-	 *
-	 * @return bool|array
-	 */
-	public function get_containers_themes( $containers ) {
-		return Container::instance()->get_themes_bulk( $containers );
-	}
-
-	/**
-	 * Get allowed bulk commands
-	 *
-	 * @return array
-	 */
-	public function get_allowed_bulk_commands() {
-		return ContainerBulkActions::instance()->get_allowed_commands();
-	}
-
-	/**
-	 * Get allowed bulk commands in progress
-	 *
-	 * @return array
-	 */
-	public function get_allowed_commands_in_progress() {
-		return ContainerBulkActions::instance()->get_allowed_commands_in_progress();
-	}
-
-	/**
-	 * Get total container size
-	 *
-	 * @return int
-	 */
-	public function get_total_container_size() {
-		return SiteInsights::instance()->get_total_container_size();
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function get_site_posts() {
-		return SiteInsights::instance()->get_posts();
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function get_latest_container_posts() {
-		return SiteInsights::instance()->get_latest_container_posts();
 	}
 
 	/**
@@ -1039,52 +396,11 @@ class Helpers extends Singleton {
 	}
 
 	/**
-	 * Get the link for quick checkout
+	 * Check if is in array recursively
 	 *
-	 * @param $product_id
-	 * @param $blueprint_id
-	 *
-	 * @return mixed
-	 */
-	public function get_woo_checkout_link( $product_id, $blueprint_id ) {
-		return Subscription::instance()->get_checkout_link(
-			[
-				'product_id'   => $product_id,
-				'blueprint_id' => $blueprint_id,
-			]
-		);
-	}
-
-	/**
-	 * Get customer user role
-	 *
-	 * @param null $user_id
-	 *
-	 * @return mixed|void
-	 */
-	public function get_customer_user_role( $user_id = null ) {
-		$user_id = $user_id ?: get_current_user_id();
-		$role    = get_user_meta( $user_id, 'wpd_client_site_permissions', true );
-
-		if ( empty( $role ) ) {
-			$role = 'default';
-		}
-
-		if ( 'default' === $role ) {
-			if ( user_can( $user_id, 'manage_options' ) ) {
-				$role = 'administrator';
-			} else {
-				$role = get_field( 'wpd_client_site_permission', 'options' );
-			}
-		}
-
-		return $role ?: 'administrator';
-	}
-
-	/**
 	 * @param $needle
 	 * @param $haystack
-	 * @param bool $strict
+	 * @param bool     $strict
 	 *
 	 * @return bool
 	 */
@@ -1103,70 +419,26 @@ class Helpers extends Singleton {
 	}
 
 	/**
-	 * @param $array
-	 * @param $key
-	 * @param $value
-	 *
-	 * @return mixed
-	 */
-	public function remove_element_with_value( $array, $key, $value ) {
-		foreach ( $array as $subKey => $subArray ) {
-			if ( $subArray[ $key ] === $value ) {
-				unset( $array[ $subKey ] );
-			}
-		}
-
-		return $array;
-	}
-
-	/**
-	 * @param $bytes
-	 *
-	 * @return int|string
-	 */
-	public function format_size_units( $bytes ) {
-		if ( $bytes >= 1073741824 ) {
-			$bytes = number_format( $bytes / 1073741824, 2 );
-		} elseif ( $bytes >= 1048576 ) {
-			$bytes = '0.' . number_format( $bytes / 1048576 );
-		} elseif ( $bytes >= 1024 ) {
-			$bytes = number_format( $bytes / 1024, 2 );
-		} elseif ( $bytes > 1 || 1 === $bytes ) {
-			return $bytes;
-		} else {
-			$bytes = '0 bytes';
-		}
-
-		return $bytes;
-	}
-
-	/**
 	 * Get Elementor template types
 	 *
 	 * @return array
 	 */
-	public function get_elementor_template_types() {
+	public function get_elementor_template_types(): array {
 		return [
 			'container' => __( 'Site View', 'dollie' ),
-			'container_launching' => __( 'Site Launching View', 'dollie' ),
 		];
 	}
 
 	/**
-	 * @param $plugin_slug
+	 * Check if it is elementor editor panel
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
-	public function is_plugin_active( $plugin_slug ) {
-		$active_plugins = apply_filters( 'active_plugins', get_option( 'active_plugins' ) );
-
-		foreach ( $active_plugins as $plugin ) {
-			if ( $plugin === $plugin_slug ) {
-				return true;
-			}
-		}
-
-		return false;
+	public function is_elementor_editor(): bool {
+		return class_exists( '\Elementor\Plugin' ) &&
+			   ( \Elementor\Plugin::instance()->editor->is_edit_mode() ||
+				 \Elementor\Plugin::instance()->preview->is_preview() ||
+				 isset( $_GET['elementor_library'] ) );
 	}
 
 	/**
@@ -1186,7 +458,7 @@ class Helpers extends Singleton {
 	 *
 	 * @return bool
 	 */
-	public function has_dollie_layout_widget() {
+	public function has_layout_widget() {
 		$template_id = dollie()->get_site_template_id();
 		$meta        = get_post_meta( $template_id, '_elementor_data' );
 
@@ -1200,120 +472,29 @@ class Helpers extends Singleton {
 	}
 
 	/**
-	 * @param $id
-	 *
-	 * @return bool
-	 */
-	public function is_blueprint( $id = null ) {
-
-		if ( $id === null ) {
-			$id = get_the_ID();
-		}
-
-		return get_post_meta( $id, 'wpd_is_blueprint', true ) === 'yes';
-	}
-
-	/**
-	 * @param $id
-	 *
-	 * @return bool
-	 */
-	public function is_blueprint_staging( $id ) {
-
-		$blueprint = dollie()->is_blueprint( $id );
-		$updated   = get_post_meta( $id, 'wpd_blueprint_time', true );
-
-		if ( $blueprint && $updated == '' ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Check valid json.
-	 *
-	 * on check failure if $return_data is false, false is returned instead of the passed data
-	 *
-	 * @param $data
-	 * @param bool $assoc
-	 * @param bool $return_data
-	 *
-	 * @return array|bool
-	 */
-	public function maybe_decode_json( $data, $assoc = false, $return_data = true ) {
-
-		$return = $return_data ? $data : false;
-
-		if ( is_array( $data ) ) {
-			return $data;
-		}
-
-		if ( ! is_string( $data ) ) {
-			return $return;
-		}
-
-		$data = json_decode( $data, $assoc );
-
-		if ( is_array( $data ) && ( json_last_error() === JSON_ERROR_NONE ) ) {
-			return $data;
-		}
-
-		return $return;
-	}
-
-	/**
-	 * @param $data
-	 * @param null $container_id
-	 *
-	 * @return mixed
-	 */
-	public function get_wp_site_data( $data, $container_id = null ) {
-		return WP::instance()->get_container_data( $data, $container_id );
-	}
-
-	/**
-	 * @param $domain
-	 *
-	 * @return false|int
-	 */
-	public function is_valid_domain( $domain ) {
-		return preg_match( '/^[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.[a-zA-Z]{2,}$/i', $domain );
-	}
-
-	/**
-	 * Check if is preview
-	 *
-	 * @return boolean
-	 */
-	public function is_preview() {
-		return get_query_var( 'dollie_route_name' ) === 'dollie_preview';
-	}
-
-	/**
-	 * Get current site id
+	 * Get current post ID
 	 *
 	 * @return int
 	 */
-	public function get_current_site_id() {
+	public function get_current_post_id() {
 		$current_id = get_the_ID();
+
 		if ( ! class_exists( '\Elementor\Plugin' ) ) {
 			return $current_id;
 		}
 
-		$elementor_builder = \Elementor\Plugin::instance()->editor->is_edit_mode()
-		                     || \Elementor\Plugin::instance()->preview->is_preview()
-		                     || isset( $_GET['elementor_library'] );
+		if ( $this->is_elementor_editor() ) {
+			$args = [
+				'post_type'      => 'container',
 
-		if ( $elementor_builder ) {
+				'posts_per_page' => 1,
+			];
 
-			$my_sites = get_posts(
-				[
-					'post_type'      => 'container',
-					'author'         => get_current_user_id(),
-					'posts_per_page' => 1,
-				]
-			);
+			if ( dollie()->get_user()->can_manage_all_sites() ) {
+				$args['author'] = get_current_user_id();
+			}
+
+			$my_sites = get_posts( $args );
 
 			if ( ! empty( $my_sites ) ) {
 				$current_id = $my_sites[0]->ID;
@@ -1324,43 +505,33 @@ class Helpers extends Singleton {
 	}
 
 	/**
-	 * Get containers data
+	 * Get containers by hashes
 	 *
-	 * @param array $data
-	 * @param string $with
+	 * @param array $hashes
 	 *
 	 * @return array
 	 */
-	public function get_containers_data( $data, $with = 'post_id' ) {
+	public function get_containers_by_hashes( $hashes = [] ) {
+		if ( empty( $hashes ) ) {
+			return [];
+		}
+
+		$meta_conditions = [ 'relation' => 'OR' ];
+
+		foreach ( $hashes as $hash ) {
+			$meta_conditions[] = [
+				'key'     => 'dollie_container_details',
+				'value'   => $hash,
+				'compare' => 'LIKE',
+			];
+		}
+
 		$args = [
 			'post_type'      => 'container',
 			'posts_per_page' => - 1,
 			'post_status'    => 'publish',
+			'meta_query'     => $meta_conditions,
 		];
-
-		if ( 'post_id' === $with ) {
-			$ids = [];
-
-			foreach ( $data as $container ) {
-				$ids[] = (int) $container['id'];
-			}
-
-			$args['post__in'] = $ids;
-		} elseif ( 'container_id' === $with ) {
-			$containers_ids = [];
-
-			foreach ( $data as $container ) {
-				$containers_ids[] = $container['container_id'];
-			}
-
-			$args['meta_query'] = [
-				[
-					'key'     => 'wpd_container_id',
-					'value'   => $containers_ids,
-					'compare' => 'IN',
-				],
-			];
-		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 			$args['author'] = get_current_user_id();
@@ -1375,90 +546,70 @@ class Helpers extends Singleton {
 	}
 
 	/**
-	 * Get api instance
+	 * Get containers by ids
 	 *
-	 * @return Api
-	 */
-	public function get_api() {
-		return Api::instance();
-	}
-
-	/**
-	 * Save execution
-	 *
-	 * @param int $container_id
-	 * @param array $execution
-	 *
-	 * @return void
-	 */
-	public static function save_execution( $container_id, $execution ) {
-		Api::save_execution( $container_id, $execution );
-	}
-
-	/**
-	 * Get execution status
-	 *
-	 * @param string $execution_id
-	 * @param string $execution_type
-	 *
-	 * @return int|\WP_Error
-	 */
-	public function get_execution_status( $execution_id, $execution_type = '' ) {
-		return Api::get_execution_status( $execution_id, $execution_type );
-	}
-
-	/**
-	 * Get execution
-	 *
-	 * @param int $container_id
-	 * @param string $execution_type
-	 *
-	 * @return null|string
-	 */
-	public function get_execution( $container_id, $execution_type ) {
-		return Api::get_execution( $container_id, $execution_type );
-	}
-
-	/**
-	 * Remove execution
-	 *
-	 * @param int $container_id
-	 * @param string $execution_type
-	 *
-	 * @return void
-	 */
-	public function remove_execution( $container_id, $execution_type ) {
-		Api::remove_execution( $container_id, $execution_type );
-	}
-
-	/**
-	 * Get bulk actions
+	 * @param array $ids
 	 *
 	 * @return array
 	 */
-	public function get_bulk_actions() {
-		return ContainerBulkActions::instance()->get_bulk_actions();
+	public function get_containers_by_ids( $ids = [] ) {
+		if ( empty( $ids ) ) {
+			return [];
+		}
+
+		$args = [
+			'post_type'      => 'container',
+			'posts_per_page' => - 1,
+			'post_status'    => 'publish',
+			'post__in'       => $ids,
+		];
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			$args['author'] = get_current_user_id();
+		}
+
+		$posts = new \WP_Query( $args );
+		$posts = $posts->get_posts();
+
+		wp_reset_postdata();
+
+		return $posts;
 	}
 
 	/**
-	 * Check bulk actions
-	 *
-	 * @return array
+	 * @return int
 	 */
-	public function check_bulk_actions() {
-		return ContainerBulkActions::instance()->check_bulk_actions();
+	public function count_customer_containers( $user_id = null ) {
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+
+		$query = new WP_Query(
+			[
+				'author'        => $user_id,
+				'post_type'     => 'container',
+				'post_per_page' => 1000,
+				'post_status'   => 'publish',
+			]
+		);
+
+		$total = $query->found_posts;
+
+		wp_reset_postdata();
+
+		return $total;
 	}
 
 	/**
 	 * Load template
 	 *
-	 * @param string $template
-	 * @param array $args
+	 * @param string  $template
+	 * @param array   $args
 	 * @param boolean $echo
 	 *
 	 * @return void|string
 	 */
-	public function load_template( $template, $args, $echo = false ) {
+	public function load_template( string $template, array $args = [], $echo = false ) {
 		if ( $echo ) {
 			Tpl::load( $template, $args, $echo );
 		} else {
@@ -1467,45 +618,127 @@ class Helpers extends Singleton {
 	}
 
 	/**
-	 * Get domain allowed caa tags
+	 * @param $size
 	 *
-	 * @return array
+	 * @return string
 	 */
-	public function get_domain_allowed_caa_tags() {
-		return Domain::instance()->allowed_caa_tags();
+	public function convert_to_readable_size( $size ) {
+		if ( ! $size ) {
+			return $size;
+		}
+
+		$base   = log( $size ) / log( 1024 );
+		$suffix = [ '', 'KB', 'MB', 'GB', 'TB' ];
+		$f_base = floor( $base );
+
+		return round( 1024 ** ( $base - floor( $base ) ), 1 ) . $suffix[ $f_base ];
 	}
 
 	/**
-	 * Get domain records
+	 * Register new fields for existing ACF field groups.
 	 *
-	 * @param string $container_uri
-	 *
-	 * @return array|bool
+	 * @param $fields
+	 * @param $parent
 	 */
-	public function get_domain_records( $container_uri ) {
-		return Domain::instance()->get_records( $container_uri );
+	public function append_acf_fields( $fields, $parent ) {
+		if ( ! function_exists( 'acf_add_local_field_group' ) ) {
+			return;
+		}
+
+		foreach ( $fields as &$field ) {
+			$field['parent'] = $parent;
+		}
+		unset( $field );
+
+		acf_add_local_fields(
+			[
+				$fields,
+			]
+		);
 	}
+
+	public function add_acf_fields_to_group( $field_group, $fields = [], $group = '', $field_name = '', $type = 'after' ) {
+
+		if ( $field_group['key'] !== $group ) {
+			return $field_group;
+		}
+
+		foreach ( $field_group['fields'] as $k => $field ) {
+			if ( $field['name'] === $field_name ) {
+				$offset = $k;
+				break;
+			}
+		}
+
+		if ( ! isset( $offset ) ) {
+			return $field_group;
+		}
+
+		if ( $type === 'after' ) {
+			$offset ++;
+		}
+
+		$fields = array_reverse( $fields );
+		foreach ( $fields as $f ) {
+			$f['parent'] = $group;
+			array_splice( $field_group['fields'], $offset, 0, [ $f ] );
+		}
+
+		return $field_group;
+	}
+
 
 	/**
-	 * Get domain existing records
+	 * Add Video Helper that can be used globally
 	 *
-	 * @param string $domain
-	 *
-	 * @return array|bool
+	 * @param $fields
+	 * @param $parent
 	 */
-	public function get_domain_existing_records( $domain ) {
-		return Domain::instance()->get_existing_records( $domain );
+	public function show_helper_video( $modal_id, $embed_id, $button_text, $title, $echo = false ) {
+
+		$user = dollie()->get_user();
+
+		if ( ! $user->can_manage_all_sites() ) {
+			return;
+		}
+
+		if ( ! $echo ) {
+			return '
+				<button data-toggle="tooltip"
+	data-placement="bottom"
+	data-tooltip="Only Site Admins see this helper button." type="button" data-modal-id="dol-modal-' . $modal_id . '" class="dol-global-modal dol-my-4">
+					<i class="fas fa-user-shield"></i>
+					<span>' . $button_text . '</span>
+				</button>' . dollie()->load_template(
+						'parts/video-helper',
+						[
+							'modal_id'    => $modal_id,
+							'embed_id'    => $embed_id,
+							'title'       => $title,
+							'button_text' => $button_text,
+						],
+						false
+					);
+		} else {
+				echo '<button type="button" data-toggle="tooltip"
+	data-placement="bottom"
+	data-tooltip="This button is only view-able for Site Admins. Click on the button to learn more about using & building your Hub with Dollie" data-modal-id="dol-modal-' . $modal_id . '" class="dol-global-modal dol-my-4 dol-text-sm dol-p-2 dol-bg-gray-400">
+					<i class="fas fa-user-shield"></i>
+					<span class="dol-text-sm">' . $button_text . '</span>
+				</button>';
+
+				dollie()->load_template(
+					'parts/video-helper',
+					[
+						'modal_id'    => $modal_id,
+						'embed_id'    => $embed_id,
+						'title'       => $title,
+						'button_text' => $button_text,
+					],
+					true
+				);
+		}
+
 	}
 
-	public function can_view_all_sites( $user_id = null ) {
-		return AccessControl::instance()->can_view_all_sites( $user_id );
-	}
-
-	public function can_manage_all_sites( $user_id = null ) {
-		return AccessControl::instance()->can_manage_all_sites( $user_id );
-	}
-
-	public function can_delete_all_sites( $user_id = null ) {
-		return AccessControl::instance()->can_delete_all_sites( $user_id );
-	}
 }

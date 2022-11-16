@@ -10,7 +10,10 @@
     "ext-libxml": "*",
     "nubs/random-name-generator": "^2.1",
     "mexitek/phpcolors": "^1.0.2",
-    "appsero/client": "^1.2",
     "maknz/slack": "^1.7"
+  }
+  ,
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
   }
 }

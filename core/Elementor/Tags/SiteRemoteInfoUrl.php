@@ -2,10 +2,8 @@
 
 namespace Dollie\Core\Elementor\Tags;
 
-use Dollie\Core\Modules\Container;
 use Elementor\Controls_Manager;
 use Elementor\Core\DynamicTags\Tag;
-
 
 class SiteRemoteInfoUrl extends Tag {
 
@@ -14,10 +12,21 @@ class SiteRemoteInfoUrl extends Tag {
 	public function __construct( array $data = [] ) {
 		parent::__construct( $data );
 
-		$current_id = dollie()->get_current_site_id();
+		$current_id = dollie()->get_current_post_id();
+		$container  = dollie()->get_container( $current_id );
 
-		// Get Items from Feed
-		$this->wpd_data                                  = Container::instance()->get_container_details( $current_id );
+		if ( is_wp_error( $container ) ) {
+			return;
+		}
+		$details = $container->get_details();
+
+		return;
+
+		if ( is_wp_error( $details ) ) {
+			return;
+		}
+
+		$this->wpd_data                                  = $details;
 		$this->wpd_data['customer_data']['Support Link'] = dollie()->get_support_link();
 		$this->wpd_data['site_data']['URL']              = dollie()->get_container_url( $current_id );
 
@@ -41,29 +50,33 @@ class SiteRemoteInfoUrl extends Tag {
 		return [ \Elementor\Modules\DynamicTags\Module::URL_CATEGORY ];
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		$keys = [];
-		foreach ( $this->wpd_data['site_data'] as $k => $data ) {
+		if ( isset( $this->wpd_data['site_data'] ) ) {
+			foreach ( $this->wpd_data['site_data'] as $k => $data ) {
 
-			if ( is_array( $data ) || false === $data ) {
-				continue;
+				if ( is_array( $data ) || false === $data ) {
+					continue;
+				}
+
+				if ( ! filter_var( $data, FILTER_VALIDATE_URL ) ) {
+					continue;
+				}
+
+				$keys[ $k ] = 'Site - ' . $k;
 			}
-
-			if ( ! filter_var( $data, FILTER_VALIDATE_URL ) ) {
-				continue;
-			}
-
-			$keys[ $k ] = 'Site - ' . $k;
 		}
 
-		foreach ( $this->wpd_data['customer_data'] as $k => $data ) {
+		if ( isset( $this->wpd_data['customer_data'] ) ) {
+			foreach ( $this->wpd_data['customer_data'] as $k => $data ) {
 
-			if ( is_array( $data ) || false === $data ) {
-				continue;
+				if ( is_array( $data ) || false === $data ) {
+					continue;
+				}
+
+				$keys[ $k ] = $k;
 			}
-
-			$keys[ $k ] = $k;
 		}
 
 		$this->add_control(

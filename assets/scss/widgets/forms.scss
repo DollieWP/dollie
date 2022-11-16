@@ -14,11 +14,14 @@
   .acf-field input[type="week"],
   .acf-field textarea,
   .acf-field select {
-    @apply dol-border-2 dol-border-solid dol-border-gray-400 dol-rounded;
-    @apply dol-px-3 dol-py-2 #{!important};
+    @apply dol-border dol-border-solid dol-border-gray-200 dol-rounded;
+    @apply dol-py-2;
   }
 
   .acf-form {
+    .acf-field .acf-label label {
+      display: inline-flex;
+    }
     .acf-field .acf-notice,
     .acf-notice {
       @apply dol-mt-0 dol-mx-4 dol-mb-6 dol-px-4 dol-py-2 dol-rounded;
@@ -49,7 +52,7 @@
 
     .acf-fields {
       > .acf-field {
-        @apply dol-py-0 dol-px-4 dol-border-0 dol-mb-4;
+        @apply dol-py-0 dol-px-0 dol-border-0 dol-mb-4;
 
         .acf-label {
           label {
@@ -147,7 +150,7 @@
     }
 
     .acf-form-submit {
-      @apply dol-py-0 dol-px-4 dol-mt-4;
+      @apply dol-py-0 dol-px-0 dol-mt-4;
 
       input,
       button {
@@ -166,11 +169,8 @@
 }
 
 .elementor-widget-dollie-launch-site .acf-input-append {
-  @apply dol-border-2 dol-border-solid dol-border-gray-400 dol-rounded;
-  @apply dol-px-3 dol-py-2 #{!important};
-  border-left-width: 0;
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
+  @apply dol-border-0 dol-border-r-2 dol-border-solid dol-border-gray-400 dol-rounded;
+  @apply dol-px-3 dol-py-2;
 }
 
 #form_dollie_list_backups {
