@@ -47,11 +47,11 @@ class WooCommerce extends Singleton {
 		$args['meta_query'][] = [
 			'relation' => 'AND',
 			[
-				'key'   => 'wpd_blueprint_created',
-				'value' => 'yes',
+				'key'   => 'dollie_container_type',
+				'value' => '1',
 			],
 			[
-				'key'   => 'wpd_is_blueprint',
+				'key'   => 'wpd_blueprint_created',
 				'value' => 'yes',
 			],
 			[

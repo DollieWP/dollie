@@ -35,7 +35,7 @@ class SiteContent extends \Elementor\Widget_Base {
 		return [ 'dollie-category' ];
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 	}
 
@@ -44,18 +44,12 @@ class SiteContent extends \Elementor\Widget_Base {
 			return false;
 		}
 
-		$current_id = dollie()->get_current_site_id();
-
 		$data = [
 			'settings'   => $this->get_settings_for_display(),
-			'current_id' => $current_id,
+			'current_id' => dollie()->get_current_post_id(),
 		];
 
-		$elementor_builder = \Elementor\Plugin::instance()->editor->is_edit_mode()
-							 || \Elementor\Plugin::instance()->preview->is_preview()
-							 || isset( $_GET['elementor_library'] );
-
-		if ( get_post_type() !== 'container' && ! $elementor_builder ) {
+		if ( get_post_type() !== 'container' && ! dollie()->is_elementor_editor() ) {
 			esc_html_e( 'This widget will only show content when you visit a Single Dollie Site.', 'dollie' );
 		} else {
 			dollie()->load_template( 'widgets/site/site-content', $data, true );

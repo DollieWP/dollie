@@ -2,9 +2,12 @@
 
 namespace Dollie\Core\Modules;
 
-class Preview {
+use Dollie\Core\Singleton;
 
-
+class Preview extends Singleton {
+	/**
+	 * Preview constructor
+	 */
 	public function __construct() {
 		add_filter( 'show_admin_bar', '__return_false' );
 
@@ -39,7 +42,6 @@ class Preview {
 		);
 
 		add_action( 'wp_body_open', [ $this, 'content' ] );
-
 	}
 
 	public function enqueue_scripts() {
@@ -70,35 +72,49 @@ class Preview {
 				} else {
 					$author = '58687848382305067080201305060';
 				}
-				$gp_args = [
+
+				$args = [
 					'author'         => $author,
 					'post_type'      => 'container',
 					'posts_per_page' => 20,
-					'meta_key'       => 'wpd_setup_complete',
-					'meta_value'     => 'yes',
 				];
 			} elseif ( 'my-blueprints' === $_GET['type'] ) {
-				$gp_args = [
+				$args = [
 					'author'         => get_current_user_id(),
 					'post_type'      => 'container',
-					'posts_per_page' => 50,
-					'meta_key'       => 'wpd_blueprint_created',
-					'meta_value'     => 'yes',
+					'posts_per_page' => -1,
+					'post_status'    => 'publish',
+					'meta_query'     => [
+						'relation' => 'AND',
+						[
+							'key'   => 'dollie_container_type',
+							'value' => '1',
+						],
+						[
+							'key'   => 'wpd_blueprint_created',
+							'value' => 'yes',
+						],
+						[
+							'key'     => 'wpd_installation_blueprint_title',
+							'compare' => 'EXISTS',
+						],
+					],
+
 				];
 			}
 		} else {
-			$gp_args = [
+			$args = [
 				'post_type'      => 'container',
-				'posts_per_page' => 1000,
+				'posts_per_page' => -1,
 				'post_status'    => 'publish',
 				'meta_query'     => [
 					'relation' => 'AND',
 					[
-						'key'   => 'wpd_blueprint_created',
-						'value' => 'yes',
+						'key'   => 'dollie_container_type',
+						'value' => '1',
 					],
 					[
-						'key'   => 'wpd_is_blueprint',
+						'key'   => 'wpd_blueprint_created',
 						'value' => 'yes',
 					],
 					[
@@ -110,70 +126,72 @@ class Preview {
 			];
 		}
 
-		$posts = query_posts( $gp_args );
-
+		$query       = new \WP_Query( $args );
+		$posts       = $query->get_posts();
 		$theme_array = [];
 
-		if ( have_posts() ) :
-			while ( have_posts() ) :
-				the_post();
+		foreach ( $posts as $post ) {
+			$container = dollie()->get_container( $post );
 
+			if ( is_wp_error( $container ) ) {
+				continue;
+			}
 
-				if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
+			if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
+				$theme_array[] = [
+					'active'      => 1,
+					'id'          => $container->get_id(),
+					'title'       => $container->get_title(),
+					'title_short' => $container->get_title(),
+					'url'         => $container->get_url( true ),
+					'buy'         => html_entity_decode( $container->get_customer_login_url() ),
+					'login_url'   => html_entity_decode( $container->get_customer_login_url() ),
+					'thumb'       => [
+						'url' => $container->get_screenshot(),
+					],
+					'info'        => $container->is_blueprint() ? $container->get_saved_description() : '',
+					'preload'     => '0',
+				];
+			} else {
+				$product_id = get_post_meta( $container->get_id(), 'wpd_installation_blueprint_hosting_product', true );
 
-					$screenshot = dollie()->get_site_screenshot( get_the_ID(), false );
+				if ( $product_id ) {
+					if ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'custom' ) {
+						$image = get_field( 'wpd_blueprint_custom_image', $container->get_id() );
+					} elseif ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'theme' ) {
+						$image = get_post_meta( $container->get_id(), 'wpd_blueprint_active_theme_screenshot_url', true );
+					} else {
+						$image = get_the_post_thumbnail_url( $container->get_id(), 'full' );
+					}
 
 					$theme_array[] = [
 						'active'      => 1,
-						'id'          => get_the_ID(),
-						'title'       => get_the_title( get_the_ID() ),
-						'title_short' => get_the_title( get_the_ID() ),
-						'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
-						'buy'         => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
-						'login_url'   => html_entity_decode( dollie()->get_customer_login_url( get_the_ID() ) ),
+						'id'          => $container->get_id(),
+						'title'       => $container->get_saved_title(),
+						'title_short' => $container->get_name(),
+						'url'         => $container->get_url( true ),
+						'buy'         => dollie()->subscription()->get_checkout_link(
+							[
+								'product_id'   => $product_id[0],
+								'blueprint_id' => $container->get_id(),
+							]
+						),
+						'login_url'   => $container->get_customer_login_url(),
 						'thumb'       => [
-							'url' => $screenshot,
+							'url' => $image,
 						],
-						'info'        => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ),
+						'info'        => $container->is_blueprint() ? $container->get_saved_description() : '',
+						'tag'         => 'tag',
+						'year'        => '2022',
 						'preload'     => '0',
+						'badge'       => 'Pro',
 					];
-				} else {
-					$product_id    = get_post_meta( get_the_ID(), 'wpd_installation_blueprint_hosting_product', true );
-					$checkout_link = dollie()->get_woo_checkout_link( $product_id[0], get_the_ID() );
-
-					if ( $product_id ) {
-						if ( get_field( 'wpd_blueprint_image' ) === 'custom' ) {
-							$image = get_field( 'wpd_blueprint_custom_image' );
-						} else {
-							$image = get_post_meta( get_the_ID(), 'wpd_site_screenshot', true );
-						}
-
-						$theme_array[] = [
-							'active'      => 1,
-							'id'          => get_the_ID(),
-							'title'       => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_title', true ),
-							'title_short' => get_post_field( 'post_name', get_the_ID() ),
-							'url'         => dollie()->get_wp_site_data( 'uri', get_the_ID() ),
-							'buy'         => $checkout_link,
-							'login_url'   => dollie()->get_customer_login_url( get_the_ID() ),
-							'thumb'       => [
-								'url' => $image,
-							],
-							'info'        => get_post_meta( get_the_ID(), 'wpd_installation_blueprint_description', true ),
-							'tag'         => 'tag',
-							'year'        => '2019',
-							'preload'     => '0',
-							'badge'       => 'Pro',
-						];
-					}
 				}
-			endwhile;
-		else :
-			$no_sites = true;
-		endif;
+			}
+		}
+
 		wp_reset_postdata();
 
-		// Config
 		$products = [];
 
 		if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
@@ -251,7 +269,6 @@ class Preview {
 		}
 		array_unshift( $product_years, esc_html__( 'all times', 'dollie' ) );
 
-
 		// Setup Active Product
 		$product_id = null;
 		if ( isset( $_GET['product_id'] ) ) {
@@ -269,86 +286,86 @@ class Preview {
 		}
 
 		if ( $config && $config->preload ) { ?>
-            <div class="page-loader">
-                <div class="loader-wrap">
-                    <div class="loader">
+			<div class="page-loader">
+				<div class="loader-wrap">
+					<div class="loader">
 
-                    </div>
-                </div>
-            </div>
+					</div>
+				</div>
+			</div>
 		<?php } ?>
 
-        <div class="livepreview-wrap">
-            <div class="page">
+		<div class="livepreview-wrap">
+			<div class="page">
 				<?php if ( $config && count( $products ) > 0 ) { ?>
-                    <div id="header" class="header">
-                        <div class="container">
-                            <div class="row">
-                                <div class="hidden-xs col-sm-2 col-md-2">
+					<div id="header" class="header">
+						<div class="container">
+							<div class="row">
+								<div class="hidden-xs col-sm-2 col-md-2">
 									<?php if ( $config && $config->logo ) { ?>
 										<?php if ( $config->logo->href ) { ?>
-                                            <a class="logo" href="<?php echo esc_url( $config->logo->href ); ?>"
-                                               target="<?php echo( $config->logo->blank ? '_blank' : '_self' ); ?>">
-                                                <img src="<?php echo esc_url( $config->logo->url ); ?>">
-                                            </a>
+											<a class="logo" href="<?php echo esc_url( $config->logo->href ); ?>"
+											   target="<?php echo( $config->logo->blank ? '_blank' : '_self' ); ?>">
+												<img src="<?php echo esc_url( $config->logo->url ); ?>">
+											</a>
 										<?php } else { ?>
-                                            <div class="logo">
-                                                <img src="<?php echo esc_url( $config->logo->url ); ?>">
-                                            </div>
+											<div class="logo">
+												<img src="<?php echo esc_url( $config->logo->url ); ?>">
+											</div>
 										<?php } ?>
 									<?php } ?>
-                                </div>
-                                <div class="col-xs-5 col-sm-6 col-md-4">
+								</div>
+								<div class="col-xs-5 col-sm-6 col-md-4">
 									<?php if ( $config->productList ) { ?>
-                                        <div id="product-toggle" class="product-toggle">
-                                            <span id="product-name" class="product-name">&nbsp;</span>
-                                            <span class="product-btn">
+										<div id="product-toggle" class="product-toggle">
+											<span id="product-name" class="product-name">&nbsp;</span>
+											<span class="product-btn">
 											<i class="product-show fa fa-angle-down"></i>
 											<i class="product-hide fa fa-angle-up"></i>
 										</span>
-                                        </div>
+										</div>
 									<?php } ?>
-                                </div>
-                                <div class="col-xs-7 col-sm-4 col-md-6">
-                                    <div class="product-toolbar clearfix">
+								</div>
+								<div class="col-xs-7 col-sm-4 col-md-6">
+									<div class="clearfix product-toolbar">
 										<?php if ( $config->closeIframe ) { ?>
-                                            <a id="product-frame-close" class="product-frame-close" href="#"
-                                               title="<?php esc_html_e( 'close iframe', 'dollie' ); ?>">
-                                                <span class="dashicons dashicons-no-alt"></span>
-                                            </a>
+											<a id="product-frame-close" class="product-frame-close" href="#"
+											   title="<?php esc_html_e( 'close iframe', 'dollie' ); ?>">
+												<span class="dashicons dashicons-no-alt"></span>
+											</a>
 										<?php } ?>
 										<?php if ( $config->buyButton ) { ?>
-                                            <div class="product-buttons">
-                                                <a id="buy" class="btn btn-success" href="#" style="display:none">
+											<div class="product-buttons">
+												<a id="buy" class="btn btn-success" href="#" style="display:none">
 													<?php echo esc_html( $config->buyButtonText ); ?>
-                                                </a>
-                                            </div>
+												</a>
+											</div>
 										<?php } ?>
 										<?php if ( $config->responsiveDevices ) { ?>
-                                            <div id="product-devices" class="product-devices hidden-sm hidden-xs">
-                                                <a href="#" class="desktop" data-device="desktop" title="Desktop"></a>
-                                                <a href="#" class="tabletlandscape" data-device="tabletlandscape"
-                                                   title="<?php esc_html_e( 'Tablet Landscape (1024x768)', 'dollie' ); ?>"></a>
-                                                <a href="#" class="tabletportrait" data-device="tabletportrait"
-                                                   title="<?php esc_html_e( 'Tablet Portrait (768x1024)', 'dollie' ); ?>"></a>
-                                                <a href="#" class="mobilelandscape" data-device="mobilelandscape"
-                                                   title="<?php esc_html_e( 'Mobile Landscape (480x320)', 'dollie' ); ?>"></a>
-                                                <a href="#" class="mobileportrait" data-device="mobileportrait"
-                                                   title="<?php esc_html_e( 'Mobile Portrait (320x480)', 'dollie' ); ?>"></a>
-                                            </div>
+											<div id="product-devices" class="product-devices hidden-sm hidden-xs">
+												<a href="#" class="desktop" data-device="desktop" title="Desktop"></a>
+												<a href="#" class="tabletlandscape" data-device="tabletlandscape"
+												   title="<?php esc_html_e( 'Tablet Landscape (1024x768)', 'dollie' ); ?>"></a>
+												<a href="#" class="tabletportrait" data-device="tabletportrait"
+												   title="<?php esc_html_e( 'Tablet Portrait (768x1024)', 'dollie' ); ?>"></a>
+												<a href="#" class="mobilelandscape" data-device="mobilelandscape"
+												   title="<?php esc_html_e( 'Mobile Landscape (480x320)', 'dollie' ); ?>"></a>
+												<a href="#" class="mobileportrait" data-device="mobileportrait"
+												   title="<?php esc_html_e( 'Mobile Portrait (320x480)', 'dollie' ); ?>"></a>
+											</div>
 										<?php } ?>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="products" class="products-wrap">
-                        <div class="container">
-                            <div class="products">
-                                <div id="filters" class="filters hidden-xs">
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <div id="filter-tags" class="filter filter-tags">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="products" class="products-wrap">
+						<div class="container">
+							<div class="products">
+								<div id="filters" class="filters hidden-xs">
+									<div class="row">
+										<div class="col-sm-8">
+											<div id="filter-tags" class="filter filter-tags">
 												<?php
 												$len  = sizeof( $product_tags );
 												$data = '';
@@ -358,13 +375,13 @@ class Preview {
 
 													$data .= '<ul>' . PHP_EOL;
 													foreach ( $product_tags as $tag => $count ) {
-														$tag  = strtolower( $tag );
+														$tag   = strtolower( $tag );
 														$data .= '<li><a href="#" data-tag="' . ( $index == 0 ? '*' : $tag ) . '">' . $tag . ' <span>(' . $count . ')</span></a></li>' . PHP_EOL;
 														$index ++;
 														if ( $index == 3 && $len > 3 ) {
-															$data   .= '<li class="has-child">' . PHP_EOL;
-															$data   .= '<a href="#">' . esc_html__( 'More +', 'dollie' ) . '</a>' . PHP_EOL;
-															$data   .= '<ul>' . PHP_EOL;
+															$data  .= '<li class="has-child">' . PHP_EOL;
+															$data  .= '<a href="#">' . esc_html__( 'More +', 'dollie' ) . '</a>' . PHP_EOL;
+															$data  .= '<ul>' . PHP_EOL;
 															$isMode = true;
 														}
 													}
@@ -377,17 +394,17 @@ class Preview {
 													echo wp_kses_post( $data );
 												}
 												?>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div id="filter-search" class="filter filter-search">
-                                                <input type="text"
-                                                       placeholder="<?php esc_html_e( 'Search', 'dollie' ); ?>">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div id="product-list" class="product-list">
+											</div>
+										</div>
+										<div class="col-sm-4">
+											<div id="filter-search" class="filter filter-search">
+												<input type="text"
+													   placeholder="<?php esc_html_e( 'Search', 'dollie' ); ?>">
+											</div>
+										</div>
+									</div>
+								</div>
+								<div id="product-list" class="product-list">
 									<?php
 									$index = 0;
 									$data  = '';
@@ -432,25 +449,25 @@ class Preview {
 									}
 									echo wp_kses_post( $data );
 									?>
-                                </div>
-                                <div id="pagination" class="pagination">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="iframe-wrap">
-                        <div class="iframe-loader">
-                            <div class="loader-wrap">
-                                <div class="loader">
-                                    <div class="loader-inner"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <iframe id="iframe" class="iframe border" src="" frameborder="0"></iframe>
-                    </div>
+								</div>
+								<div id="pagination" class="pagination">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="iframe-wrap">
+						<div class="iframe-loader">
+							<div class="loader-wrap">
+								<div class="loader">
+									<div class="loader-inner"></div>
+								</div>
+							</div>
+						</div>
+						<iframe id="iframe" class="border iframe" src="" frameborder="0"></iframe>
+					</div>
 				<?php } ?>
-            </div>
-        </div>
+			</div>
+		</div>
 		<?php
 	}
 }

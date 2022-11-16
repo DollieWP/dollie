@@ -22,7 +22,7 @@ class DollieSource extends Source_Base {
 	 */
 	const CPT = 'page';
 
-	private static $api_url = 'https://api.getdollie.com/releases/packages/elementor/%s.json';
+	private static $api_url = 'https://manager.getdollie.com/releases/packages/elementor/%s.json';
 
 
 	public function get_id() {

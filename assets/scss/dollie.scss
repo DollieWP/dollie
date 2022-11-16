@@ -17,6 +17,14 @@
 @import "dns-manager";
 @import "fontawesome5/fontawesome.scss";
 @import "custom-icons.scss";
+@import "wizard";
+
+.dol-btn.dol-btn-primary,
+.dol-btn.dol-btn-secondary,
+.dol-btn.dol-btn-accent {
+    color: #FFF;
+    //@extend .base-200;
+}
 
 .dol-bg-gradient-primary {
   background: linear-gradient(var(--d-primary-700), var(--d-primary));
@@ -41,4 +49,7 @@
 
 .dol-bg-gradient-secondary {
   background: linear-gradient(var(--secondary-700), var(--secondary));
+}
+.dol-sites-name .dol-item-name img.emoji {
+  width: 20px;
 }

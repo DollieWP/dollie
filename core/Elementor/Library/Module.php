@@ -124,7 +124,7 @@ class Module extends BaseModule {
 						name="<?php echo Dollie::REMOTE_CATEGORY_META_KEY; ?>">
 					<option value=""><?php echo __( 'Select', 'elementor' ); ?>...</option>
 					<?php
-					foreach ( Helpers::instance()->get_elementor_template_types() as $type => $title ) {
+					foreach ( dollie()->get_elementor_template_types() as $type => $title ) {
 						$selected = ( 'container' === $type ) ? ' selected="selected"' : '';
 						printf( '<option%1$s value="%2$s">%3$s</option>', $selected, $type, $title );
 					}

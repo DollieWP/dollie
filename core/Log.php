@@ -13,28 +13,34 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Log {
 
-	const WP_SITE_DEPLOY_STARTED        = 'wp-site-deploy-start';
-	const WP_SITE_DEPLOYED              = 'wp-site-deployed';
-	const WP_SITE_DEPLOY_FAILED         = 'wp-site-deploy-failed';
-	const WP_SITE_SETUP_COMPLETED       = 'wp-site-setup-completed';
-	const WP_SITE_SETUP_FAILED          = 'wp-site-setup-failed';
-	const WP_SITE_BACKUP_STARTED        = 'wp-site-backup-started';
-	const WP_BLUEPRINT_DEPLOY_STARTED   = 'wp-blueprint-deploy-start';
-	const WP_BLUEPRINT_DEPLOYED         = 'wp-blueprint-deployed';
-	const WP_BLUEPRINT_DEPLOY_FAILED    = 'wp-blueprint-deploy-failed';
-	const WP_SITE_REMOVAL_SCHEDULED     = 'wp-site-removal-scheduled';
-	const WP_SITE_STARTED               = 'wp-site-started';
-	const WP_SITE_RESTARTED             = 'wp-site-restarted';
-	const WP_SITE_STOPPED               = 'wp-site-stopped';
-	const WP_SITE_UNDEPLOYED            = 'wp-site-undeployed';
-	const WP_SITE_DELETED               = 'wp-site-deleted';
-	const WP_SITE_DOMAIN_LINKED         = 'wp-site-domain-linked';
-	const WP_SITE_DOMAIN_ADDED          = 'wp-site-domain-added';
-	const WP_SITE_DOMAIN_LINK_ERROR     = 'wp-site-domain-link-error';
-	const WP_SITE_CLOUDFLARE_LINKED     = 'wp-site-cloudflare-linked';
+	const WP_SITE_DEPLOY_STARTED = 'wp-site-deploy-start';
+	const WP_SITE_DEPLOYED = 'wp-site-deployed';
+	const WP_SITE_DEPLOY_FAILED = 'wp-site-deploy-failed';
+	const WP_SITE_SETUP_COMPLETED = 'wp-site-setup-completed';
+	const WP_SITE_SETUP_FAILED = 'wp-site-setup-failed';
+	const WP_SITE_BACKUP_STARTED = 'wp-site-backup-started';
+	const WP_BLUEPRINT_DEPLOY_STARTED = 'wp-blueprint-deploy-start';
+	const WP_BLUEPRINT_DEPLOYED = 'wp-blueprint-deployed';
+	const WP_BLUEPRINT_DEPLOY_FAILED = 'wp-blueprint-deploy-failed';
+	const WP_BLUEPRINT_RESTORE_STARTED = 'wp-blueprint-restore-started';
+	const WP_BLUEPRINT_RESTORED = 'wp-blueprint-restored';
+	const WP_BLUEPRINT_DELETED = 'wp-blueprint-deleted';
+	const WP_SITE_REMOVAL_SCHEDULED = 'wp-site-removal-scheduled';
+	const WP_SITE_STARTED = 'wp-site-started';
+	const WP_SITE_RESTARTED = 'wp-site-restarted';
+	const WP_SITE_STOPPED = 'wp-site-stopped';
+	const WP_SITE_UNDEPLOYED = 'wp-site-undeployed';
+	const WP_SITE_DELETED = 'wp-site-deleted';
+	const WP_SITE_DOMAIN_LINKED = 'wp-site-domain-linked';
+	const WP_SITE_DOMAIN_ADDED = 'wp-site-domain-added';
+	const WP_SITE_DOMAIN_LINK_ERROR = 'wp-site-domain-link-error';
+	const WP_SITE_CLOUDFLARE_LINKED = 'wp-site-cloudflare-linked';
 	const WP_SITE_CLOUDFLARE_ZONE_ADDED = 'wp-site-cloudflare-zone-added';
-	const WP_SITE_LETSENCRYPT_FAILED    = 'wp-site-letsencrypt_failed';
-	const WP_SITE_BLUEPRINT_DEPLOYED    = 'wp-site-blueprint-deployed';
+	const WP_SITE_LETSENCRYPT_FAILED = 'wp-site-letsencrypt_failed';
+	const WP_SITE_BLUEPRINT_DEPLOYED = 'wp-site-blueprint-deployed';
+	const WP_SITE_ACCESS_CHANGED = 'wp-site-access-changed';
+	const WP_STAGING_DEPLOY_STARTED = 'wp-staging-deploy-started';
+	const WP_STAGING_DEPLOYED = 'wp-staging-deployed';
 
 	/**
 	 * Add logs using WDS_Log_Post
@@ -42,8 +48,8 @@ class Log {
 	 * @param $title
 	 * @param string $message
 	 * @param string $type
-	 * @param null   $log_post_id
-	 * @param false  $completed
+	 * @param null $log_post_id
+	 * @param false $completed
 	 *
 	 * @return false|int|\WP_Error The ID of the log post, or WP_Error upon failure.
 	 */
@@ -63,149 +69,14 @@ class Log {
 		return \WDS_Log_Post::update_message( $log_post_id, $full_message, $title );
 	}
 
-	/**
-	 * Add user notification
-	 *
-	 * @param string       $action Log action for content retrieval
-	 * @param object|array $object Object with Site ID, Slug, Author
-	 * @param array|string $values Values for content replacement
-	 * @param string       $extra_content
-	 *
-	 * @return false|int|\WP_Error
-	 */
-	public static function add_front( $action, $object = null, $values = [], $extra_content = '' ) {
-
-		if ( ! is_array( $values ) ) {
-			$values = [ $values ];
-		}
-
-		$content = self::get_content( $action, $values );
-		if ( '' !== $extra_content ) {
-			$content['content'] .= '<br class="extra-content">' . $extra_content;
-		}
-
-		// create the log entry.
-		$log_id = self::add( $content['title'], $content['content'], $content['type'] );
-
-		if ( is_array( $object ) && ! empty( $object ) ) {
-			$object = (object) $object;
-		}
-
-		// continue to add the user front-end log data.
-		if ( ! $log_id || empty( $object ) || ! is_object( $object ) || ! isset( $object->id ) ) {
-			return false;
-		}
-
-		// Set status to unread and save site ID
-		update_post_meta( $log_id, '_wpd_read', 0 );
-		update_post_meta( $log_id, '_wpd_site_id', $object->id );
-		update_post_meta(
-			$log_id,
-			'_wpd_log_data',
-			[
-				'action' => $action,
-				'values' => $values,
-			]
-		);
-
-		// Set log for site owner
-		$args = [
-			'ID'          => $log_id,
-			'post_author' => $object->author,
-		];
-
-		wp_update_post( $args );
-
-		// Add email notification for some based on type.
-		if ( $action === self::WP_SITE_DEPLOYED ) {
-
-			if ( get_field( 'wpd_deployed_site_notification', 'options' ) ) {
-
-				$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
-
-				// client email
-				$client      = get_user_by( 'id', $object->author );
-				$client_site = get_post( $object->id );
-				$site_data   = get_post_meta( $object->id, '_wpd_setup_data', true );
-
-				$to      = $client->user_email;
-				$subject = get_field( 'wpd_deployed_site_client_notification_subject', 'options' );
-				$message = get_field( 'wpd_deployed_site_client_notification_body', 'options' );
-				$message = str_replace(
-					[
-						'{dollie_site_url}',
-						'{dollie_site_name}',
-						'{dollie_user}',
-						'{dollie_site_email}',
-						'{dollie_site_username}',
-						'{dollie_site_password}',
-					],
-					[
-						get_permalink( $object->id ),
-						$client_site->post_name,
-						$client->user_login,
-						$site_data['email'],
-						$site_data['username'],
-						$site_data['password'],
-					],
-					$message
-				);
-
-				wp_mail( $to, $subject, $message, $headers );
-
-				// admin email
-				$to      = get_option( 'admin_email' );
-				$subject = get_field( 'wpd_deployed_site_admin_notification_subject', 'options' );
-				$message = get_field( 'wpd_deployed_site_admin_notification_body', 'options' );
-				$message = str_replace(
-					[
-						'{dollie_site_url}',
-						'{dollie_site_name}',
-						'{dollie_user}',
-						'{dollie_site_email}',
-						'{dollie_site_username}',
-						'{dollie_site_password}',
-					],
-					[
-						get_permalink( $object->id ),
-						$client_site->post_name,
-						$client->user_login,
-						$site_data['email'],
-						$site_data['username'],
-						$site_data['password'],
-					],
-					$message
-				);
-
-				wp_mail( $to, $subject, $message, $headers );
-			}
-		}
-
-		if ( get_field( 'wpd_slack_notifications', 'options' ) && get_field( 'wpd_slack_webhook_url', 'options' ) ) {
-			$slack_actions = get_field( 'wpd_slack_actions', 'options' );
-
-			if ( in_array( $action, $slack_actions ) && class_exists( '\Maknz\Slack\Client' ) ) {
-				$slack_client  = new \Maknz\Slack\Client( get_field( 'wpd_slack_webhook_url', 'options' ) );
-				$slack_content = $content['title'] . '. ' . $content['content'];
-
-				if ( $content['link'] === true ) {
-					$slack_content .= ' <' . get_permalink( $object->id ) . '|View site>';
-				}
-
-				$slack_client->send( $slack_content );
-			}
-		}
-
-		return $log_id;
-	}
 
 	/**
 	 * @param string $action
-	 * @param array  $values
+	 * @param array $values
 	 *
 	 * @return array
 	 */
-	public static function get_content( $action, $values = [], $log_id = null ) {
+	public static function get_content( string $action, array $values = [], $log_id = null ): array {
 
 		if ( ! isset( $values[1] ) ) {
 			$values[1] = '';
@@ -257,6 +128,24 @@ class Log {
 			self::WP_BLUEPRINT_DEPLOY_FAILED    => [
 				'title'   => __( 'Blueprint Launch Failed', 'dollie' ),
 				'content' => __( sprintf( 'Blueprint %s has failed to launch. Please contact our support if the issue persists.', $values[0] ), 'dollie' ),
+				'type'    => 'deploy',
+				'link'    => false,
+			],
+			self::WP_BLUEPRINT_RESTORE_STARTED    => [
+				'title'   => __( 'Blueprint Restore started', 'dollie' ),
+				'content' => __( sprintf( 'Blueprint %s started restore.', $values[0] ), 'dollie' ),
+				'type'    => 'deploy',
+				'link'    => false,
+			],
+			self::WP_BLUEPRINT_RESTORED    => [
+				'title'   => __( 'Blueprint Restored', 'dollie' ),
+				'content' => __( sprintf( 'Blueprint %s has been successfully restored.', $values[0] ), 'dollie' ),
+				'type'    => 'deploy',
+				'link'    => false,
+			],
+			self::WP_BLUEPRINT_DELETED    => [
+				'title'   => __( 'Blueprint Deleted', 'dollie' ),
+				'content' => __( sprintf( 'Blueprint %s has been deleted.', $values[0] ), 'dollie' ),
 				'type'    => 'deploy',
 				'link'    => false,
 			],
@@ -343,7 +232,24 @@ class Log {
 				'type'    => 'blueprint',
 				'link'    => true,
 			],
-
+			self::WP_SITE_ACCESS_CHANGED    => [
+				'title'   => __( 'Blueprint Updated', 'dollie' ),
+				'content' => __( sprintf( '%s client access was set to %s.', $values[0], $values[1] ), 'dollie' ),
+				'type'    => 'blueprint',
+				'link'    => true,
+			],
+			self::WP_STAGING_DEPLOY_STARTED   => [
+				'title'   => __( 'Staging Launch Started', 'dollie' ),
+				'content' => __( sprintf( 'Launching Your Staging site %s. You\'ll get another notification when it is ready! ', $values[0] ), 'dollie' ),
+				'type'    => 'deploy',
+				'link'    => true,
+			],
+			self::WP_STAGING_DEPLOYED              => [
+				'title'   => __( 'Staging Site Launched', 'dollie' ),
+				'content' => __( sprintf( 'Staging Site %s has been successfully launched.', $values[0] ), 'dollie' ),
+				'type'    => 'deploy',
+				'link'    => true,
+			],
 		];
 
 		$actions = apply_filters( 'dollie/log/actions', $actions, $values, $log_id );
@@ -359,7 +265,7 @@ class Log {
 
 				if ( count( $log_content ) > 1 ) {
 					unset( $log_content[0] );
-					$log_content                    = implode( '------------------------------------------------', $log_content );
+					$log_content                   = implode( '------------------------------------------------', $log_content );
 					$actions[ $action ]['content'] .= $log_content;
 				}
 			}
