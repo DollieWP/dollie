@@ -1,4 +1,4 @@
-/* eslint-env es6 */
+ /* eslint-env es6 */
 "use strict";
 
 import tailwindcss from "tailwindcss";

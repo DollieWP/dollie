@@ -296,8 +296,8 @@ html {
     flex-shrink: 0;
     cursor: pointer;
     -webkit-user-select: none;
-    -moz-user-select: none;
-         user-select: none;
+       -moz-user-select: none;
+            user-select: none;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
@@ -525,7 +525,8 @@ html {
 .dol-btn-outline.dol-btn-primary {
     --tw-text-opacity: 1;
     color: hsl(var(--p) / var(--tw-text-opacity)); }
-.dol-btn-outline.dol-btn-primary:hover {
+.dol-btn-outline.dol-btn-primary:hover,
+      .dol-btn-outline.dol-btn-primary.dol-btn-active {
     --tw-border-opacity: 1;
     border-color: hsl(var(--pf, var(--p)) / var(--tw-border-opacity));
     --tw-bg-opacity: 1;
@@ -535,7 +536,8 @@ html {
 .dol-btn-outline.dol-btn-secondary {
     --tw-text-opacity: 1;
     color: hsl(var(--s) / var(--tw-text-opacity)); }
-.dol-btn-outline.dol-btn-secondary:hover {
+.dol-btn-outline.dol-btn-secondary:hover,
+      .dol-btn-outline.dol-btn-secondary.dol-btn-active {
     --tw-border-opacity: 1;
     border-color: hsl(var(--sf, var(--s)) / var(--tw-border-opacity));
     --tw-bg-opacity: 1;
@@ -562,7 +564,7 @@ html {
     .dol-btn.dol-loading.dol-btn-xs:before {
     height: 0.75rem;
     width: 0.75rem; }
-.dol-btn-group > input[type="radio"].dol-btn:checked,
+.dol-btn-group > input[type="radio"]:checked.dol-btn,
   .dol-btn-group > .dol-btn-active {
     --tw-border-opacity: 1;
     border-color: hsl(var(--p) / var(--tw-border-opacity));
@@ -10088,8 +10090,8 @@ body.post-type-dollie-logs {
     flex-shrink: 0;
     cursor: pointer;
     -webkit-user-select: none;
-    -moz-user-select: none;
-         user-select: none;
+       -moz-user-select: none;
+            user-select: none;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
@@ -10219,9 +10221,9 @@ body.post-type-dollie-logs {
   body.post-type-dollie-logs .button-primary.dol-loading.dol-btn-xs:before {
     height: 0.75rem;
     width: 0.75rem; }
-  .dol-btn-group > input[type="radio"]body[class*="dollie_setup"] .button-primary:checked,.dol-btn-group > input[type="radio"]
-  body.post-type-container .button-primary:checked,.dol-btn-group > input[type="radio"]
-  body.post-type-dollie-logs .button-primary:checked {
+  .dol-btn-group > input[type="radio"]:checkedbody[class*="dollie_setup"] .button-primary,.dol-btn-group > input[type="radio"]:checked
+  body.post-type-container .button-primary,.dol-btn-group > input[type="radio"]:checked
+  body.post-type-dollie-logs .button-primary {
     --tw-border-opacity: 1;
     border-color: hsl(var(--p) / var(--tw-border-opacity));
     --tw-bg-opacity: 1;
@@ -10347,9 +10349,14 @@ body.post-type-dollie-logs {
   body.dol-btn-outline.post-type-dollie-logs .button-primary {
     --tw-text-opacity: 1;
     color: hsl(var(--a) / var(--tw-text-opacity)); }
-  body.dol-btn-outline[class*="dollie_setup"] .button-primary:hover,
+  body.dol-btn-outline[class*="dollie_setup"] .button-primary:hover,body
+      .dol-btn-outline[class*="dollie_setup"] .button-primary.dol-btn-active,
   body.dol-btn-outline.post-type-container .button-primary:hover,
-  body.dol-btn-outline.post-type-dollie-logs .button-primary:hover {
+  body
+      .dol-btn-outline.post-type-container .button-primary.dol-btn-active,
+  body.dol-btn-outline.post-type-dollie-logs .button-primary:hover,
+  body
+      .dol-btn-outline.post-type-dollie-logs .button-primary.dol-btn-active {
     --tw-border-opacity: 1;
     border-color: hsl(var(--af, var(--a)) / var(--tw-border-opacity));
     --tw-bg-opacity: 1;
