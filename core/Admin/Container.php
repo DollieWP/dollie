@@ -883,6 +883,12 @@ final class Container extends Singleton implements ConstInterface {
 			return $query;
 		}
 
+		$screen = get_current_screen();
+
+		if ( 'edit-container' !== $screen->id ) {
+			return $query;
+		}
+
 		$term       = '';
 		$meta_query = [];
 
@@ -1001,6 +1007,8 @@ final class Container extends Singleton implements ConstInterface {
 
 				$blueprints      = new \WP_Query( $args );
 				$counts->publish = $blueprints->found_posts;
+
+				wp_reset_postdata();
 
 				return $counts;
 			}
