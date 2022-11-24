@@ -64,11 +64,11 @@ class Hooks extends Singleton {
 				);
 
 				// Finally register the tag
-				$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteRemoteInfo' );
-				$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteRemoteInfoUrl' );
-				$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteImageRemoteInfo' );
-				$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteScreenshot' );
-				$module->register_tag( '\Dollie\Core\\Elementor\\Tags\\SiteBackups' );
+				$module->register( new \Dollie\Core\Elementor\Tags\SiteRemoteInfo );
+				$module->register( new \Dollie\Core\Elementor\Tags\SiteRemoteInfoUrl );
+				$module->register( new \Dollie\Core\Elementor\Tags\SiteImageRemoteInfo );
+				$module->register( new \Dollie\Core\Elementor\Tags\SiteScreenshot );
+				$module->register( new \Dollie\Core\Elementor\Tags\SiteBackups );
 			}
 		);
 	}
