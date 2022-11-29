@@ -400,7 +400,9 @@ class NavMenu extends Singleton {
 			],
 		];
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		$user = dollie()->get_user();
+
+		if ( ! $user->can_manage_all_sites() ) {
 			$args['author'] = get_current_user_id();
 		}
 
@@ -469,7 +471,9 @@ class NavMenu extends Singleton {
 
 		$args = wp_parse_args( $args, $defaults );
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		$user = dollie()->get_user();
+
+		if ( ! $user->can_manage_all_sites() ) {
 			$args['author'] = get_current_user_id();
 		}
 

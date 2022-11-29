@@ -185,7 +185,9 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			return false;
 		}
 
-		if ( current_user_can( 'manage_options' ) ) {
+		$user = dollie()->get_user();
+
+		if ( $user->can_manage_all_sites() ) {
 			return false;
 		}
 
@@ -227,6 +229,8 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
+		$user = dollie()->get_user();
+
 		// Check if user has custom limits
 		if ( get_field( '_wpd_max_size', 'user_' . $customer_id ) ) {
 			$allowed_size = get_field( '_wpd_max_size', 'user_' . $customer_id );
@@ -234,7 +238,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$total_size    = dollie()->insights()->get_total_container_size();
 			$allowed_size *= 1024 * 1024 * 1024;
 
-			return $total_size >= $allowed_size && ! current_user_can( 'manage_options' );
+			return $total_size >= $allowed_size && ! $user->can_manage_all_sites();
 		}
 
 		$subscription = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
@@ -246,7 +250,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		$total_size   = dollie()->insights()->get_total_container_size();
 		$allowed_size = $subscription['resources']['max_allowed_size'] * 1024 * 1024 * 1024;
 
-		return $this->has_subscription() && $total_size >= $allowed_size && ! current_user_can( 'manage_options' );
+		return $this->has_subscription() && $total_size >= $allowed_size && ! $user->can_manage_all_sites();
 	}
 
 	/**
@@ -325,7 +329,10 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return array
 	 */
 	public function filter_blueprints( $blueprints ) {
-		if ( current_user_can( 'manage_options' ) ) {
+
+		$user = dollie()->get_user();
+
+		if ( $user->can_manage_all_sites() ) {
 			return $blueprints;
 		}
 
@@ -389,7 +396,10 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return bool
 	 */
 	public function staging_sites_limit_reached( $user_id = null ) {
-		if ( current_user_can( 'manage_options' ) ) {
+
+		$user = dollie()->get_user();
+
+		if ( $user->can_manage_all_sites() ) {
 			return false;
 		}
 

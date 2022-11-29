@@ -171,7 +171,10 @@ final class Container extends Singleton implements ConstInterface {
 	 * Disconnect from API
 	 */
 	public function disconnect_dollie() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+
+		$user = dollie()->get_user();
+
+		if ( ! $user->can_manage_all_sites() ) {
 			return;
 		}
 
@@ -302,7 +305,9 @@ final class Container extends Singleton implements ConstInterface {
 	public function set_admin_bar_menu() {
 		global $wp_admin_bar;
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		$user = dollie()->get_user();
+
+		if ( ! $user->can_manage_all_sites() ) {
 			return;
 		}
 

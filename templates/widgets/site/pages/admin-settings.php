@@ -1,6 +1,6 @@
 <?php
 
-if ( ! current_user_can( 'manage_options' ) ) {
+if ( ! dollie()->get_user()->can_manage_all_sites() ) {
 	return;
 }
 

@@ -86,8 +86,6 @@ class SitesList extends \Elementor\Widget_Base {
 
 		$settings = $this->get_settings_for_display();
 
-		global $wp_query;
-
 		$current_page = isset( $_GET['dpg'] ) && (int) $_GET['dpg'] ? (int) sanitize_text_field( $_GET['dpg'] ) : 1;
 
 		if ( isset( $_GET['elementor_library'] ) && isset( $_GET['load-page'] ) && $_GET['load-page'] ) {
@@ -190,7 +188,8 @@ class SitesList extends \Elementor\Widget_Base {
 			$args[' author'] = (int) sanitize_text_field( $_GET['customer'] );
 		}
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		$user = dollie()->get_user();
+		if ( ! $user->can_manage_all_sites() ) {
 			$args['author'] = get_current_user_id();
 		}
 

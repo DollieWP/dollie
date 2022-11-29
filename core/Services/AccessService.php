@@ -215,9 +215,11 @@ final class AccessService extends Singleton {
 	 * @return mixed
 	 */
 	public function get_available_sections() {
+
+		$user = dollie()->get_user();
 		$available_sections_array = get_field( 'available_sections', 'option' );
 
-		if ( get_field( 'wpd_enable_blueprints_for', 'option' ) === 'all' && ! current_user_can( 'manage_options' ) ) {
+		if ( get_field( 'wpd_enable_blueprints_for', 'option' ) === 'all' && ! $user->can_manage_all_sites() ) {
 			$available_sections_array = array_filter(
 				$available_sections_array,
 				function ( $v, $k ) {
@@ -430,7 +432,9 @@ final class AccessService extends Singleton {
 			return;
 		}
 
-		if ( is_admin() && ! current_user_can( 'manage_options' ) && ! wp_doing_ajax() ) {
+		$user = dollie()->get_user();
+
+		if ( is_admin() && ! $user->can_manage_all_sites() && ! wp_doing_ajax() ) {
 			$redirect = get_permalink( $dash_id );
 			wp_redirect( $redirect );
 			exit();

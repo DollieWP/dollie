@@ -193,6 +193,8 @@ final class BlueprintService extends Singleton {
 	 * @return array
 	 */
 	public function get(): array {
+
+		$user = dollie()->get_user();
 		$data = [];
 
 		$posts = get_posts(
@@ -224,7 +226,7 @@ final class BlueprintService extends Singleton {
 				continue;
 			}
 
-			if ( ! current_user_can( 'manage_options' ) &&
+			if ( ! $user->can_manage_all_sites() &&
 				( $skip_this ||
 				! $container->is_running() ||
 				! $container->is_updated() ||

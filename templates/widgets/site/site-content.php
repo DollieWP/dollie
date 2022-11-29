@@ -79,7 +79,7 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 		</div>
 	</div>
 
-	<?php if ( current_user_can( 'manage_options' ) ) : ?>
+	<?php if ( dollie()->get_user()->can_manage_all_sites() ) : ?>
 		<form method="POST" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
 			class="dol-p-6 dol-bg-white dol-shadow dol-overflow-hidden sm:dol-rounded-md">
 			<h3 class="dol-text-gray-700 dol-uppercase dol-mt-0 dol-mb-2 dol-text-lg">

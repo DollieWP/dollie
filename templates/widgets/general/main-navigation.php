@@ -26,7 +26,7 @@ do_action( 'dollie/before/main-menu' );
 		</li>
 	<?php endif; ?>
 
-	<?php if ( $user->can_manage_options() ) : ?>
+	<?php if ( dollie()->get_user()->can_manage_all_sites() ) : ?>
 		<li class="dol-mb-0">
 			<a href="<?php echo dollie()->page()->get_launch_blueprint_url(); ?>"
 				class="dol-nav-btn <?php echo esc_attr( $active_class['launch-blueprint'] ); ?>">
@@ -75,7 +75,7 @@ do_action( 'dollie/before/main-menu' );
 		</li>
 	<?php endif; ?>
 
-	<?php if ( current_user_can( 'manage_options' ) ) : ?>
+	<?php if ( dollie()->get_user()->can_manage_all_sites() ) : ?>
 		<li class="dol-m-0">
 			<a href="<?php echo dollie()->page()->get_sites_url( '', [ 'blueprints' => 'yes' ] ); ?>"
 				class="dol-nav-btn <?php echo esc_attr( $active_class['view-blueprint'] ); ?>">

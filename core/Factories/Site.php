@@ -62,7 +62,7 @@ final class Site extends BaseContainer {
 
 		$user = $this->user();
 
-		if ( 'administrator' !== $user->get_container_user_role() && ! current_user_can( 'manage_options' ) ) {
+		if ( 'administrator' !== $user->get_container_user_role() && ! $user->can_manage_all_sites() ) {
 			$username = $this->get_details( 'site.editor.username' );
 
 			if ( is_wp_error( $username ) ) {

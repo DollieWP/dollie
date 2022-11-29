@@ -87,9 +87,11 @@ final class NoticeService extends Singleton {
 	 * @return void
 	 */
 	public function not_connected(): void {
+		$user = dollie()->get_user();
+
 		$auth_service = AuthService::instance();
 
-		if ( $auth_service->is_connected() || ! current_user_can( 'manage_options' ) || ! defined( 'ELEMENTOR_VERSION' ) ) {
+		if ( $auth_service->is_connected() || ! $user->can_manage_all_sites() || ! defined( 'ELEMENTOR_VERSION' ) ) {
 			return;
 		}
 
@@ -102,7 +104,10 @@ final class NoticeService extends Singleton {
 	 * @return void
 	 */
 	public function display_custom_deploy_domain_notice(): void {
-		if ( ! current_user_can( 'manage_options' ) ) {
+
+		$user = dollie()->get_user();
+
+		if ( ! $user->can_manage_all_sites() ) {
 			return;
 		}
 
@@ -140,7 +145,10 @@ final class NoticeService extends Singleton {
 	 * @return void
 	 */
 	public function subscription_no_credits(): void {
-		if ( ! current_user_can( 'manage_options' ) ||
+
+		$user = dollie()->get_user();
+
+		if ( ! $user->can_manage_all_sites() ||
 			! dollie()->auth()->is_connected() ) {
 			return;
 		}

@@ -19,7 +19,7 @@ $allowed_bulk_commands = dollie()->bulk_actions()->get_allowed_commands_in_progr
 
 $filters = [
 	'available' => [
-		'customers'  => current_user_can( 'manage_options' ) ? get_users() : [],
+		'customers'  => dollie()->get_user()->can_manage_all_sites() ? get_users() : [],
 		'site_types' => [
 			'normal' => __( 'Normal', 'dollie' ),
 			'vip'    => __( 'VIP', 'dollie' ),

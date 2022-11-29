@@ -139,7 +139,7 @@ final class User {
 		}
 
 		if ( 'default' === $role ) {
-			if ( user_can( $this->get_id(), 'manage_options' ) ) {
+			if ( $this->can_manage_all_sites() ) {
 				$role = 'administrator';
 			} else {
 				$role = get_field( 'wpd_client_site_permission', 'options' );

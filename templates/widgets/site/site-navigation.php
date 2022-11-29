@@ -45,7 +45,7 @@ top: 7px"; class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w
 
 $menu['delete'] = dollie()->icon()->delete() . esc_html__( 'Delete', 'dollie' );
 
-if ( current_user_can( 'manage_options' ) ) {
+if ( dollie()->get_user()->can_manage_all_sites() ) {
 	$menu['admin-settings'] = dollie()->icon()->manage() . esc_html__( 'Admin Settings', 'dollie' );
 }
 
@@ -64,7 +64,7 @@ $sub_page = get_query_var( 'sub_page' );
 							$page = 'dashboard';
 						}
 
-						if ( ! current_user_can( 'manage_options' ) && ! dollie()->in_array_r( $page, dollie()->access()->get_available_sections() ) ) {
+						if ( ! dollie()->get_user()->can_manage_all_sites() && ! dollie()->in_array_r( $page, dollie()->access()->get_available_sections() ) ) {
 							continue;
 						}
 

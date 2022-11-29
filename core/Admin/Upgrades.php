@@ -64,7 +64,10 @@ class Upgrades extends Singleton {
 	 * Show admin notice to update Dollie Database
 	 */
 	public function admin_notice() {
-		if ( ! current_user_can( 'manage_options' ) ) {
+
+		$user = dollie()->get_user();
+
+		if ( ! $user->can_manage_all_sites() ) {
 			return;
 		}
 

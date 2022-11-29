@@ -20,7 +20,7 @@ if ( ! is_user_logged_in() && ( is_page( $launch_id ) || is_page( $sites_id ) ) 
 	exit();
 }
 
-if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
+if ( dollie()->get_user()->can_manage_all_sites() && ! dollie()->is_live() ) {
 	dollie()->load_template(
 		'notice',
 		[
@@ -97,7 +97,7 @@ if ( dollie()->subscription()->site_limit_reached() ) {
 	);
 }
 
-if ( current_user_can( 'manage_options' ) && ! dollie()->subscription()->has_partner_verified() ) {
+if ( dollie()->get_user()->can_manage_all_sites() && ! dollie()->subscription()->has_partner_verified() ) {
 	dollie()->load_template(
 		'notice',
 		[

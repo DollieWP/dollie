@@ -194,8 +194,9 @@ final class ContainerService extends Singleton {
 	 */
 	public function start() {
 		$data = $_POST;
+		$user = dollie()->get_user();
 
-		if ( ! current_user_can( 'manage_options' ) || ! isset( $data['container'] ) || $data['action'] !== 'dollie_action_start_container' || ! wp_verify_nonce( $data['nonce'], 'dollie_action_start_container' ) ) {
+		if ( ! $user->can_manage_all_sites() || ! isset( $data['container'] ) || $data['action'] !== 'dollie_action_start_container' || ! wp_verify_nonce( $data['nonce'], 'dollie_action_start_container' ) ) {
 			return;
 		}
 
@@ -223,8 +224,9 @@ final class ContainerService extends Singleton {
 	 */
 	public function stop() {
 		$data = $_POST;
+		$user = dollie()->get_user();
 
-		if ( ! current_user_can( 'manage_options' ) || ! isset( $data['container'] ) || $data['action'] !== 'dollie_action_stop_container' || ! wp_verify_nonce( $data['nonce'], 'dollie_action_stop_container' ) ) {
+		if ( ! $user->can_manage_all_sites() || ! isset( $data['container'] ) || $data['action'] !== 'dollie_action_stop_container' || ! wp_verify_nonce( $data['nonce'], 'dollie_action_stop_container' ) ) {
 			return;
 		}
 
@@ -252,8 +254,9 @@ final class ContainerService extends Singleton {
 	 */
 	public function update_owner() {
 		$data = $_POST;
+		$user = dollie()->get_user();
 
-		if ( ! current_user_can( 'manage_options' ) || ! isset( $data['container'] ) || $data['action'] !== 'dollie_set_container_owner' || ! wp_verify_nonce( $data['nonce'], 'dollie_set_container_owner' ) ) {
+		if ( ! $user->can_manage_all_sites() || ! isset( $data['container'] ) || $data['action'] !== 'dollie_set_container_owner' || ! wp_verify_nonce( $data['nonce'], 'dollie_set_container_owner' ) ) {
 			return;
 		}
 
