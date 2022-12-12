@@ -150,7 +150,8 @@ class LaunchSite extends Singleton implements ConstInterface {
 			return;
 		}
 
-		wp_redirect( $container->get_permalink() );
+		$redirect_to = apply_filters( 'dollie/launch_site/immediate_redirect', $container->get_permalink() );
+		wp_redirect( $redirect_to );
 		exit();
 	}
 
