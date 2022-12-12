@@ -412,7 +412,7 @@ if (function_exists('acf_add_local_field_group')):
 				'label' => sprintf(esc_html__('Launch New %s Page', 'dollie-setup'), dollie()->string_variants()->get_site_type_string()),
 				'name' => 'wpd_launch_page_id',
 				'type' => 'post_object',
-				'instructions' => sprintf(esc_html__('This page contains the (Elementor) template for launching a new %s', 'dollie-setup'), dollie()->string_variants()->get_site_type_string()),
+				'instructions' => sprintf(esc_html__('This page contains the template for launching a new %s', 'dollie-setup'), dollie()->string_variants()->get_site_type_string()),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -434,7 +434,7 @@ if (function_exists('acf_add_local_field_group')):
 				'label' => __('Launch Blueprint Page', 'dollie'),
 				'name' => 'wpd_launch_blueprint_page_id',
 				'type' => 'post_object',
-				'instructions' => __('This page contains the (Elementor) template for launching a new Blueprint', 'dollie'),
+				'instructions' => __('This page contains the template for launching a new Blueprint', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -456,7 +456,7 @@ if (function_exists('acf_add_local_field_group')):
 				'label' => __('Customer Dashboard Page', 'dollie'),
 				'name' => 'wpd_dashboard_page_id',
 				'type' => 'post_object',
-				'instructions' => __('This page contains the (Elementor) template for the Customer Dashboard', 'dollie'),
+				'instructions' => __('This page contains the template for the Customer Dashboard', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -478,7 +478,7 @@ if (function_exists('acf_add_local_field_group')):
 				'label' => __('Customers Directory', 'dollie'),
 				'name' => 'wpd_customers_page_id',
 				'type' => 'post_object',
-				'instructions' => __('This page contains the (Elementor) template for the Customer Directory', 'dollie'),
+				'instructions' => __('This page contains the template for the Customer Directory', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -500,7 +500,7 @@ if (function_exists('acf_add_local_field_group')):
 				'label' => __('Customer Login Page', 'dollie'),
 				'name' => 'wpd_login_page_id',
 				'type' => 'post_object',
-				'instructions' => __('This page contains the (Elementor) template for the customer login.', 'dollie'),
+				'instructions' => __('This page contains the template for the customer login.', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -522,7 +522,7 @@ if (function_exists('acf_add_local_field_group')):
 				'label' => __('Sites Page', 'dollie'),
 				'name' => 'wpd_sites_page_id',
 				'type' => 'post_object',
-				'instructions' => __('This page contains the (Elementor) template for the global site overview', 'dollie'),
+				'instructions' => __('This page contains the template for the global site overview', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -545,7 +545,7 @@ if (function_exists('acf_add_local_field_group')):
 				'label' => __('Site Template', 'dollie'),
 				'name' => 'wpd_site_template_id',
 				'type' => 'post_object',
-				'instructions' => __('Choose the Elementor template that is being used for the Single Site design', 'dollie'),
+				'instructions' => __('Choose the template that is being used for the Single Site design', 'dollie'),
 				'required' => 0,
 				'conditional_logic' => 0,
 				'wrapper' => array(
@@ -556,6 +556,7 @@ if (function_exists('acf_add_local_field_group')):
 				'hide_admin' => 0,
 				'post_type' => array(
 					0 => 'elementor_library',
+					1 => 'page',
 				),
 				'allow_null' => 0,
 				'multiple' => 0,

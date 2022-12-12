@@ -721,7 +721,7 @@ msgid "Launch Blueprint Page"
 msgstr ""
 
 #: core/Extras/AcfFields.php:437
-msgid "This page contains the (Elementor) template for launching a new Blueprint"
+msgid "This page contains the template for launching a new Blueprint"
 msgstr ""
 
 #: core/Extras/AcfFields.php:456
@@ -729,7 +729,7 @@ msgid "Customer Dashboard Page"
 msgstr ""
 
 #: core/Extras/AcfFields.php:459
-msgid "This page contains the (Elementor) template for the Customer Dashboard"
+msgid "This page contains the template for the Customer Dashboard"
 msgstr ""
 
 #: core/Extras/AcfFields.php:478
@@ -737,7 +737,7 @@ msgid "Customers Directory"
 msgstr ""
 
 #: core/Extras/AcfFields.php:481
-msgid "This page contains the (Elementor) template for the Customer Directory"
+msgid "This page contains the template for the Customer Directory"
 msgstr ""
 
 #: core/Extras/AcfFields.php:500
@@ -745,7 +745,7 @@ msgid "Customer Login Page"
 msgstr ""
 
 #: core/Extras/AcfFields.php:503
-msgid "This page contains the (Elementor) template for the customer login."
+msgid "This page contains the template for the customer login."
 msgstr ""
 
 #: core/Extras/AcfFields.php:522
@@ -753,7 +753,7 @@ msgid "Sites Page"
 msgstr ""
 
 #: core/Extras/AcfFields.php:525
-msgid "This page contains the (Elementor) template for the global site overview"
+msgid "This page contains the template for the global site overview"
 msgstr ""
 
 #: core/Extras/AcfFields.php:545

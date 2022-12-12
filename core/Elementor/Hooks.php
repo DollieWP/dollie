@@ -123,7 +123,7 @@ class Hooks extends Singleton {
 			foreach ( Widgets::instance()->get() as $widget ) {
 				if ( $template_file = $this->get_element_path( $widget['path'] ) ) {
 					require_once $template_file;
-					$elementor->widgets_manager->register_widget_type( new $widget['class']() );
+					$elementor->widgets_manager->register( new $widget['class']() );
 				}
 			}
 		}

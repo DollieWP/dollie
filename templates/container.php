@@ -10,7 +10,7 @@
 			<title><?php echo wp_get_document_title(); ?></title>
 		<?php endif; ?>
 		<?php wp_head(); ?>
-		<style type="text/css">
+		<style>
 			.hidden {
 				display: none;
 			}
@@ -41,8 +41,15 @@
 
 		$template_id = dollie()->get_site_template_id();
 
+        // if post type is elementor template
+        if ( get_post_type( $template_id ) === 'elementor_library' ) {
+            $shortcode = '[elementor-template id="' . $template_id . '"]';
+        } else {
+            $shortcode = '[dollie-post-data id="' . $template_id . '"]';
+        }
+
 		if ( $template_id ) {
-			echo do_shortcode( '[elementor-template id="' . $template_id . '"]' );
+			echo do_shortcode( $shortcode );
 		}
 
 		if ( dollie()->has_deploying_template() ) {

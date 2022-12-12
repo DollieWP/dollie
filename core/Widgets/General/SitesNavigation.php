@@ -1146,7 +1146,7 @@ class SitesNavigation extends \Elementor\Widget_Base {
 
 	protected function render() {
 		if ( ! is_user_logged_in() ) {
-			return false;
+			return;
 		}
 
 		$data = [

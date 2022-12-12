@@ -15,11 +15,6 @@ if ( $wp_query->post->ID == $blueprint_launch ) {
 	dollie()->show_helper_video( 'launching-blueprints', 'VemKlUaqB2Q', 'Hub Tour - Launching Blueprints', 'Launching Your First Blueprint', true );
 }
 
-if ( ! is_user_logged_in() && ( is_page( $launch_id ) || is_page( $sites_id ) ) ) {
-	wp_redirect( get_permalink( $dash_id ) );
-	exit();
-}
-
 if ( current_user_can( 'manage_options' ) && ! dollie()->is_live() ) {
 	dollie()->load_template(
 		'notice',
@@ -118,9 +113,11 @@ if ( current_user_can( 'manage_options' ) && ! dollie()->subscription()->has_par
 	);
 }
 
-if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && ! is_admin() && $wp_query->post->ID == $site_launch || isset( $_GET['payment-status'] ) ) {
+if ( isset( $_GET['payment-status'] )
+     || ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && ! is_admin() && $wp_query->post->ID == $site_launch ) ) {
 	// Custom Form Layout when launching a specific blueprint.
 	dollie()->load_template( 'widgets/launch/blueprint-launch', [ 'settings' => $settings ], true );
+
 	return;
 }
 

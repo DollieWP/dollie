@@ -165,8 +165,21 @@ class Plugin extends Singleton {
 		// Shortcodes.
 		Shortcodes\Blockquote::instance();
 		Shortcodes\Blueprints::instance();
+		Shortcodes\CustomersList::instance();
+		Shortcodes\GeneralAvatar::instance();
+		Shortcodes\GeneralNavigation::instance();
+		Shortcodes\LatestNews::instance();
+		Shortcodes\LaunchSite::instance();
+		Shortcodes\LaunchSiteUrl::instance();
 		Shortcodes\Orders::instance();
+		Shortcodes\PostData::instance();
+		Shortcodes\SiteContent::instance();
+		Shortcodes\SiteNavigation::instance();
 		Shortcodes\Sites::instance();
+		Shortcodes\SiteScreenshot::instance();
+		Shortcodes\SitesNavigation::instance();
+
+		Shortcodes\WooNavigation::instance();
 
 		$this->load_routes();
 
