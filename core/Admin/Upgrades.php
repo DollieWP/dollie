@@ -80,16 +80,18 @@ class Upgrades extends Singleton {
 				$url = wp_nonce_url( add_query_arg( 'dollie_db_update', '' ), 'action' );
 				?>
 
-				<div class="notice dollie-notice">
+                <div class="notice dollie-notice">
 
-					<div class="dollie-inner-message">
+                    <div class="dollie-inner-message">
 
-						<div class="dollie-message-center">
-							<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-							</svg>
-							<h3><?php _e( 'Dollie needs to run some updates', 'dollie' ); ?></h3>
-							<p>
+                        <div class="dollie-message-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                            </svg>
+                            <h3><?php _e( 'Dollie needs to run some updates', 'dollie' ); ?></h3>
+                            <p>
 								<?php
 								echo wp_kses_post(
 									sprintf(
@@ -102,14 +104,14 @@ class Upgrades extends Singleton {
 									)
 								);
 								?>
-							</p>
-						</div>
-						<div class="dollie-msg-button-right">
+                            </p>
+                        </div>
+                        <div class="dollie-msg-button-right">
 							<?php echo wp_kses_post( sprintf( __( '<a href="%s">Run Update now</a>', 'dollie' ), esc_url( $url ) ) ); ?>
-						</div>
+                        </div>
 
-					</div>
-				</div>
+                    </div>
+                </div>
 				<?php
 			}
 		}
@@ -143,7 +145,7 @@ class Upgrades extends Singleton {
 	 * Handle all the versions upgrades
 	 */
 	public function run() {
-		 $old_upgrades   = get_option( $this->option_name, [] );
+		$old_upgrades    = get_option( $this->option_name, [] );
 		$errors          = false;
 		$current_version = $this->version;
 
@@ -158,7 +160,7 @@ class Upgrades extends Singleton {
 				}
 
 				// Early exit the loop if an error occurs.
-				if ( $upgrade_result === true ) {
+				if ( $upgrade_result === true || is_array( $upgrade_result ) ) {
 					$old_upgrades[ $version ] = true;
 				} else {
 					$errors = true;
@@ -216,7 +218,7 @@ class Upgrades extends Singleton {
 			'customers'      => [
 				'title'    => 'Customers',
 				'template' => 'page-templates/dollie-customers.php',
-				'option'   => 'wpd_customers_page_id',
+				'option'   => 'options_wpd_customers_page_id',
 			],
 			'customer-login' => [
 				'title'    => 'Customer Login',
@@ -275,7 +277,7 @@ class Upgrades extends Singleton {
 	}
 
 	/**
-	 * @return bool
+	 * @return bool|array
 	 */
 	private function _upgrade_400() {
 		$pages_data = [
@@ -317,13 +319,12 @@ class Upgrades extends Singleton {
 			],
 		];
 
-		$this->import_pages( $pages_data );
+		return $this->import_pages( $pages_data );
 
-		return true;
 	}
 
 	/**
-	 * @return bool|\WP_Error
+	 * @return bool|\WP_Error|array
 	 */
 	private function _upgrade_421() {
 		$pages_data = [
@@ -335,12 +336,13 @@ class Upgrades extends Singleton {
 			],
 		];
 
-		$this->import_pages( $pages_data );
+		return $this->import_pages( $pages_data );
 
-		return true;
 	}
 
 	private function import_pages( $pages_data ) {
+
+		$options = [];
 
 		foreach ( $pages_data as $slug => $page_data ) {
 
@@ -353,7 +355,7 @@ class Upgrades extends Singleton {
 				$the_page    = get_page_by_path( $slug, OBJECT, $page_data['post_type'] );
 				$existing_id = null;
 
-				if ( $the_page ) {
+				if ( $the_page && get_post_status( $the_page->ID ) !== 'trash' ) {
 					$existing_id = $the_page->ID;
 				} else {
 					$post_data = [
@@ -369,6 +371,7 @@ class Upgrades extends Singleton {
 
 				if ( $existing_id ) {
 					update_option( $page_data['option'], $existing_id );
+					$options[ str_replace( 'options_', '', $page_data['option'] ) ] = $existing_id;
 				}
 			}
 
@@ -376,7 +379,7 @@ class Upgrades extends Singleton {
 				continue;
 			}
 
-			// Add Elementor content
+			// Add Elementor content.
 			$source = Plugin::instance()->templates_manager->get_source( 'dollie' );
 			$args   = [
 				'template_id' => $page_data['post_type'] . '-' . $slug,
@@ -397,5 +400,16 @@ class Upgrades extends Singleton {
 				$source->update_item( $el_data );
 			}
 		}
+
+		return $options;
+	}
+
+	public function import_elementor_template() {
+
+		return array_merge( $this->_upgrade_400(), $this->_upgrade_421() );
+	}
+
+	public function import_gutenberg_template() {
+		return [];
 	}
 }
