@@ -742,7 +742,8 @@ html {
     padding-bottom: 0.75rem;
     font-weight: 600;
     --tw-text-opacity: 1;
-    color: rgb(107 114 128 / var(--tw-text-opacity)); }
+    color: rgb(107 114 128 / var(--tw-text-opacity));
+    text-decoration-line: none; }
 .dol-nav-btn:hover, .dol-nav-btn.dol-nav-active {
     color: var(--d-primary); }
 .dol-duration-300 {
@@ -1675,8 +1676,6 @@ input[type="text"].dol-search-input:focus {
     width: 2rem; }
 .dol-w-64 {
     width: 16rem; }
-.dol-w-60 {
-    width: 15rem; }
 .dol-w-\[100px\] {
     width: 100px; }
 .dol-w-full {
@@ -2856,8 +2855,8 @@ input[type="text"].dol-search-input:focus {
         display: grid; }
     .lg\:dol-hidden {
         display: none; }
-    .lg\:dol-w-\[280px\] {
-        width: 280px; }
+    .lg\:dol-w-\[220px\] {
+        width: 220px; }
     .lg\:dol-w-1\/6 {
         width: 16.666667%; }
     .lg\:dol-w-5\/6 {
@@ -2972,6 +2971,9 @@ input[type="text"].dol-search-input:focus {
     padding-bottom: 5px;
     line-height: 170%;
     margin-right: 10px !important; }
+
+.dol-tpl-page img {
+  width: 100%; }
 
 .acf-hide-title .acf-label {
   display: none; }

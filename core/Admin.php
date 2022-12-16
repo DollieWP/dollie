@@ -6,6 +6,7 @@ namespace Dollie\Core;
 use Dollie\Core\Admin\Container;
 use Dollie\Core\Admin\NavMenu;
 use Dollie\Core\Admin\Upgrades;
+use Dollie\Core\Services\ImportService;
 use Dollie\Core\Services\NoticeService;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
@@ -43,11 +44,12 @@ final class Admin extends Singleton implements ConstInterface {
 			NoticeService::instance(),
 			'remove_custom_deploy_domain_notice'
 		) );
+		add_action( 'admin_init', [ ImportService::instance(), 'set_old_templates_as_imported' ], 9 );
 
 		add_action( 'admin_init', [ $this, 'import_template' ] );
-		add_action( 'admin_init', [ $this, 'set_old_templates_as_imported' ], 9 );
-		add_action( 'admin_notices', [ $this, 'admin_notice' ], 20 );
-
+		add_action( 'admin_notices', [ $this, 'template_admin_notice' ], 20 );
+		add_filter( 'theme_page_templates', array( $this, 'add_new_page_template' ) );
+		add_filter( 'template_include', array( $this, 'load_page_template' ) );
 	}
 
 	/**
@@ -91,7 +93,6 @@ final class Admin extends Singleton implements ConstInterface {
 			DOLLIE_VERSION,
 			true
 		);
-
 	}
 
 	public function add_templates_options_page() {
@@ -106,14 +107,13 @@ final class Admin extends Singleton implements ConstInterface {
 		add_action( 'admin_enqueue_scripts', function ( $handle ) use ( $hook ) {
 			if ( $handle === $hook ) {
 				wp_enqueue_style(
-					'dollie-custom',
+					'dollie-custom-admin',
 					DOLLIE_ASSETS_URL . 'css/dollie.css',
 					array(),
 					DOLLIE_VERSION
 				);
 			}
 		} );
-
 	}
 
 	public function templates_options_page_callback() {
@@ -123,20 +123,25 @@ final class Admin extends Singleton implements ConstInterface {
 		if ( isset( $_GET['message'] ) ) {
 			$message = sanitize_text_field( $_GET['message'] );
 		}
-		$templates = [
-			[
-				'name'        => 'Elementor Template',
-				'image'       => DOLLIE_ASSETS_URL . 'img/template-elementor.jpg',
-				'url'         => admin_url( 'admin.php?page=dollie_templates&dol-import=elementor' ),
-				'is_imported' => isset( $imported_templates['elementor'] ),
-			],
-			[
-				'name'        => 'Guntenberg Template',
-				'image'       => DOLLIE_ASSETS_URL . 'img/template-gutenberg.jpg',
-				'url'         => admin_url( 'admin.php?page=dollie_templates&dol-import=gutenberg' ),
-				'is_imported' => isset( $imported_templates['gutenberg'] ),
-			],
+		$templates = [];
+
+		$templates[] = [
+			'name'        => 'Elementor Template',
+			'image'       => DOLLIE_ASSETS_URL . 'img/template-elementor.jpg',
+			'url'         => admin_url( 'admin.php?page=dollie_templates&dol-import=elementor' ),
+			'is_imported' => isset( $imported_templates['elementor'] ),
+			'active'      => class_exists( '\Elementor\Plugin' )
 		];
+
+		$templates[] = [
+			'name'        => 'Gutenberg Template',
+			'image'       => DOLLIE_ASSETS_URL . 'img/template-gutenberg.jpg',
+			'url'         => admin_url( 'admin.php?page=dollie_templates&dol-import=gutenberg' ),
+			'is_imported' => isset( $imported_templates['gutenberg'] ),
+			'active'      => true
+		];
+
+		$templates = apply_filters( 'dollie/templates', $templates );
 
 		dollie()->load_template( 'admin/templates',
 			[
@@ -162,28 +167,25 @@ final class Admin extends Singleton implements ConstInterface {
 		}
 
 		// process import request.
-		$imported_ids    = [];
-		$import_template = sanitize_text_field( $_GET['dol-import'] );
-
-		// check if template is already imported.
+		$imported_ids       = [];
+		$import_template    = sanitize_text_field( $_GET['dol-import'] );
 		$imported_templates = get_option( 'dollie_imported_templates', [] );
+
+		// trash the old templates.
 		if ( isset( $imported_templates[ $import_template ] ) && ! empty( $imported_templates[ $import_template ] ) ) {
 
-			// delete the old templates.
 			foreach ( $imported_templates[ $import_template ] as $existing_template ) {
-				if ( get_post( $existing_template ) ) {
-					wp_delete_post( $existing_template->ID, false );
+				if ( get_post( (int) $existing_template ) && get_post_status( (int) $existing_template ) !== 'trash' ) {
+					wp_delete_post( (int) $existing_template, false );
 				}
 			}
-			//wp_redirect( admin_url( 'admin.php?page=dollie_templates&message=Template already imported' ) );
-			//exit;
 		}
 
 		// Import it.
 		if ( $import_template === 'elementor' ) {
-			$imported_ids = Upgrades::instance()->import_elementor_template();
+			$imported_ids = ImportService::instance()->import_elementor_template();
 		} elseif ( $import_template === 'gutenberg' ) {
-			$imported_ids = Upgrades::instance()->import_gutenberg_template();
+			$imported_ids = ImportService::instance()->import_gutenberg_template();
 		}
 
 		// save the imported template to db.
@@ -196,41 +198,10 @@ final class Admin extends Singleton implements ConstInterface {
 		exit;
 	}
 
-	public function set_old_templates_as_imported() {
-		$imported_templates = get_option( 'dollie_imported_templates', [] );
-
-		if ( isset( $imported_templates['elementor'] ) ) {
-			return;
-		}
-
-		$imported_ids   = [];
-		$template_pages = [
-			'wpd_launch_page_id',
-			'wpd_launch_blueprint_page_id',
-			'wpd_dashboard_page_id',
-			'wpd_customers_page_id',
-			'wpd_login_page_id',
-			'wpd_sites_page_id',
-			'wpd_site_template_id',
-			'wpd_site_launching_template_id'
-		];
-		foreach ( $template_pages as $template_page ) {
-			$page_id = get_option( 'options_' . $template_page );
-			if ( $page_id ) {
-				$imported_ids[ $template_page ] = $page_id;
-			}
-		}
-
-		if ( ! empty( $imported_ids ) ) {
-			$imported_templates['elementor'] = $imported_ids;
-			update_option( 'dollie_imported_templates', $imported_templates );
-		}
-	}
-
 	/**
 	 * Show admin notice to import templates
 	 */
-	public function admin_notice() {
+	public function template_admin_notice(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
@@ -344,5 +315,37 @@ final class Admin extends Singleton implements ConstInterface {
 		}
 
 		return $classes;
+	}
+
+	/**
+	 * Register new page template.
+	 *
+	 * @param $templates
+	 *
+	 * @return mixed
+	 */
+	public function add_new_page_template( $templates ) {
+		$templates['wpd-builder'] = 'Dollie Builder';
+
+		return $templates;
+	}
+
+	/**
+	 * Load the template if the template is assigned to the page
+	 */
+	public function load_page_template( $template ) {
+
+		if ( is_singular() ) {
+
+			$meta = get_post_meta( get_the_ID() );
+
+			if ( ! empty( $meta['_wp_page_template'][0] )
+			     && $meta['_wp_page_template'][0] !== $template
+			     && $meta['_wp_page_template'][0] === 'wpd-builder' ) {
+				$template = DOLLIE_MODULE_TPL_PATH . 'tpl-builder.php';
+			}
+		}
+
+		return $template;
 	}
 }

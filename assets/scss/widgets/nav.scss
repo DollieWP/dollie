@@ -1,6 +1,6 @@
 @layer components {
   .dol-nav-btn {
-    @apply dol-block dol-py-3 dol-rounded dol-text-gray-500 dol-font-semibold;
+    @apply dol-block dol-py-3 dol-rounded dol-text-gray-500 dol-font-semibold dol-no-underline;
     &:hover,
     &.dol-nav-active {
       @apply dol-text-primary;

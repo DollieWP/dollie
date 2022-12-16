@@ -14,7 +14,7 @@ use WP_Query;
  *
  * @package Dollie\Core\Shortcodes
  */
-final class LatestNews extends Singleton implements Base {
+final class LaunchSiteBanner extends Singleton implements Base {
 	/**
 	 * Sites constructor.
 	 */
@@ -29,33 +29,30 @@ final class LatestNews extends Singleton implements Base {
 	 * @return mixed|void
 	 */
 	public function register() {
-		add_shortcode( 'dollie-latest-news', [ $this, 'shortcode' ] );
+		add_shortcode( 'dollie-launch-site-banner', [ $this, 'shortcode' ] );
 	}
 
 	/**
 	 * Shortcode logic
 	 *
-	 * @param array $atts
+	 * @param $atts
 	 *
 	 * @return bool|false|mixed|string
 	 */
-	public function shortcode( $atts = [] ) {
+	public function shortcode( $atts ) {
 
-		$a = shortcode_atts(
+		$settings = shortcode_atts(
 			[
-				'amount' => '15',
+				'icon_enabled'      => 'yes',
+				'icon' => 'fas fa-rocket',
+				'title'       => __( 'LAUNCH YOUR SITE', 'dollie' ),
+				'subtitle' => __( 'Get started and launch your site within minutes.', 'dollie' ),
+				'button' => __( 'Launch', 'dollie' ),
+
 			],
 			$atts
 		);
-		$posts = dollie()->insights()->get_posts();
-
-		return dollie()->load_template(
-			'loop/news',
-			[
-				'title' => __( 'Latest News', 'dollie' ),
-				'posts' => $posts,
-			]
-		);
+		return dollie()->load_template( 'widgets/dashboard/launch-site', $settings );
 
 	}
 

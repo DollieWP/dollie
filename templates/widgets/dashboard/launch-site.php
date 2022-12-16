@@ -28,7 +28,7 @@
 		</div>
 	</div>
 	<div class="dol-widget-button dol-w-full md:dol-w-2/6 dol-flex dol-items-center dol-justify-end dol-mt-8 md:dol-mt-0">
-		<a href="<?php echo dollie()->page()->get_launch_site_url(); ?>" class="dol-border dol-border-solid dol-border-primary-700 dol-block dol-w-full md:dol-inline-block md:dol-w-auto dol-text-center dol-text-white dol-text-lg dol-px-8 dol-py-4 dol-bg-primary-600 dol-rounded dol-tracking-wider hover:dol-text-white hover:dol-shadow-lg">
+		<a href="<?php echo dollie()->page()->get_launch_site_url(); ?>" class="dol-border dol-border-solid dol-border-primary-700 dol-block dol-w-full md:dol-inline-block md:dol-w-auto dol-text-center dol-text-white dol-text-lg dol-no-underline dol-px-8 dol-py-4 dol-bg-primary-600 dol-rounded dol-tracking-wider hover:dol-text-white hover:dol-shadow-lg">
 			<?php echo esc_html( $button ); ?>
 		</a>
 	</div>

@@ -47,6 +47,9 @@ final class Sites extends Singleton implements Base {
 		if ( isset( $_GET['dollie_db_update'] ) ) {
 			return false;
 		}
+
+		wp_enqueue_script('dollie-site-list' );
+
 		$settings = shortcode_atts(
 			[
 				'posts_per_page' => 15

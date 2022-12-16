@@ -75,15 +75,15 @@ class Plugin extends Singleton {
 	 * Load dependencies
 	 */
 	public function load_dependencies() {
-		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
-			add_action( 'admin_notices', [ NoticeService::instance(), 'missing_elementor' ] );
-			return;
-		}
-
-		if ( ! version_compare( ELEMENTOR_VERSION, self::$minimum_elementor_version, '>=' ) ) {
-			add_action( 'admin_notices', [ NoticeService::instance(), 'minimum_elementor_version' ] );
-			return;
-		}
+//		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
+//			add_action( 'admin_notices', [ NoticeService::instance(), 'missing_elementor' ] );
+//			return;
+//		}
+//
+//		if ( ! version_compare( ELEMENTOR_VERSION, self::$minimum_elementor_version, '>=' ) ) {
+//			add_action( 'admin_notices', [ NoticeService::instance(), 'minimum_elementor_version' ] );
+//			return;
+//		}
 
 		// load ACF as fallback.
 		if ( ! class_exists( 'ACF' ) ) {
@@ -170,6 +170,7 @@ class Plugin extends Singleton {
 		Shortcodes\GeneralNavigation::instance();
 		Shortcodes\LatestNews::instance();
 		Shortcodes\LaunchSite::instance();
+		Shortcodes\LaunchSiteBanner::instance();
 		Shortcodes\LaunchSiteUrl::instance();
 		Shortcodes\Orders::instance();
 		Shortcodes\PostData::instance();
@@ -260,6 +261,14 @@ class Plugin extends Singleton {
 			'dollie-launch-dynamic-data',
 			DOLLIE_ASSETS_URL . 'js/launch-dynamic-data.js',
 			[ 'jquery' ],
+			DOLLIE_VERSION,
+			true
+		);
+
+		wp_register_script(
+			'dollie-site-list',
+			DOLLIE_ASSETS_URL . 'js/widgets/sites-list.js',
+			[],
 			DOLLIE_VERSION,
 			true
 		);

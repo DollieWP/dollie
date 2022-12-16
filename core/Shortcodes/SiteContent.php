@@ -35,11 +35,11 @@ final class SiteContent extends Singleton implements Base {
 	/**
 	 * Shortcode logic
 	 *
-	 * @param $atts
+	 * @param array $atts
 	 *
 	 * @return bool|false|mixed|string
 	 */
-	public function shortcode( $atts ) {
+	public function shortcode( $atts= [] ) {
 
 		if ( isset( $_GET['dollie_db_update'] ) ) {
 			return '';

@@ -30,12 +30,13 @@
 <?php else : ?>
 	<?php get_header(); ?>
 <?php endif; ?>
+    <div class="dol-container dol-mx-auto">
 
 	<?php
 	while ( have_posts() ) {
 		the_post();
 
-		if ( ! \Elementor\Plugin::instance()->editor->is_edit_mode() ) {
+		if ( ! isset( $_GET['elementor-preview'] ) && ! is_admin()  ) {
 			wp_enqueue_script( 'dollie-site-content' );
 		}
 
@@ -57,12 +58,13 @@
 		}
 	}
 	?>
-
+    </div>
 <?php if ( dollie()->has_layout_widget() ) : ?>
 		<?php wp_footer(); ?>
 	</body>
 
 	</html>
 <?php else : ?>
+
 	<?php get_footer(); ?>
 <?php endif; ?>

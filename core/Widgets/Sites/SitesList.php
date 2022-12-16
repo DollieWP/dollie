@@ -18,14 +18,6 @@ class SitesList extends \Elementor\Widget_Base {
 
 	public function __construct( $data = [], $args = null ) {
 		parent::__construct( $data, $args );
-
-		wp_register_script(
-			'dollie-site-list',
-			DOLLIE_ASSETS_URL . 'js/widgets/sites-list.js',
-			[],
-			DOLLIE_VERSION,
-			true
-		);
 	}
 
 	public function get_script_depends() {
