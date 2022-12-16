@@ -2146,8 +2146,14 @@ input[type="text"].dol-search-input:focus {
     --tw-gradient-from: #22c55e;
     --tw-gradient-to: rgb(34 197 94 / 0);
     --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+.dol-from-gray-900 {
+    --tw-gradient-from: #111827;
+    --tw-gradient-to: rgb(17 24 39 / 0);
+    --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
 .dol-to-green-400 {
     --tw-gradient-to: #4ade80; }
+.dol-to-gray-700 {
+    --tw-gradient-to: #374151; }
 .dol-object-cover {
     -o-object-fit: cover;
        object-fit: cover; }

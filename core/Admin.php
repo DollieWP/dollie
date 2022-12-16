@@ -130,7 +130,8 @@ final class Admin extends Singleton implements ConstInterface {
 			'image'       => DOLLIE_ASSETS_URL . 'img/template-elementor.jpg',
 			'url'         => admin_url( 'admin.php?page=dollie_templates&dol-import=elementor' ),
 			'is_imported' => isset( $imported_templates['elementor'] ),
-			'active'      => class_exists( '\Elementor\Plugin' )
+			'active'      => class_exists( '\Elementor\Plugin' ),
+            'text_inactive' => __('Elementor plugin not installed', 'dollie')
 		];
 
 		$templates[] = [

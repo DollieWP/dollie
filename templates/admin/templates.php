@@ -51,21 +51,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
                         <div class="dol-text-center">
 							<?php
-							if ( $template['is_imported'] ) {
+                            if ( $template['is_imported'] ) {
 								$text = esc_html__( 'Re-Import', 'dollie' );
 							} else {
 								$text = esc_html__( 'Import', 'dollie' );
 							}
 							?>
-
                             <div class="">
-                                <a href="<?php echo esc_url( $template['url'] ); ?>"
-                                   <?php if ( ! $template['active'] ) { echo 'disabled'; } ?>
-                                   onclick="return confirm('Are you sure you want to import the template?')"
-                                   class="dol-flex dol-items-center dol-justify-center dol-no-underline dol-bg-gradient-to-r dol-from-green-500 dol-to-green-400 dol-text-md dol-text-white dol-text-xs hover:dol-text-white dol-font-bold dol-py-3 dol-px-4 dol-rounded">
-                                    <i class="eicon-download-bold dol-mr-2"></i>
-									<?php echo $text; ?>
-                                </a>
+	                            <?php if (  $template['active'] ) : ?>
+                                    <a href="<?php echo esc_url( $template['url'] ); ?>"
+                                       onclick="return confirm('Are you sure you want to import the template?')"
+                                       class="dol-flex dol-items-center dol-justify-center dol-no-underline dol-bg-gradient-to-r dol-from-green-500 dol-to-green-400 dol-text-md dol-text-white dol-text-xs hover:dol-text-white dol-font-bold dol-py-3 dol-px-4 dol-rounded">
+                                        <i class="eicon-download-bold dol-mr-2"></i>
+                                        <?php echo $text; ?>
+                                    </a>
+	                            <?php else:  ?>
+                                    <div
+                                       class="dol-flex dol-items-center dol-justify-center dol-no-underline dol-bg-gradient-to-r dol-from-gray-900 dol-to-gray-700 dol-text-md dol-text-white dol-text-xs hover:dol-text-white dol-font-bold dol-py-3 dol-px-4 dol-rounded">
+			                            <?php echo $template['text_inactive']; ?>
+                                    </div>
+                                <?php endif; ?>
 
                             </div>
                         </div>
