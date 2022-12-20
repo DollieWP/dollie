@@ -15,7 +15,23 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: core/Admin.php:98, core/Admin.php:99, core/Admin/Container.php:219, core/Admin/Container.php:369, core/Modules/Forms.php:317
+#: core/Admin.php:101, core/Admin.php:102
+msgid "Dollie Templates"
+msgstr ""
+
+#: core/Admin.php:134
+msgid "Elementor plugin not installed"
+msgstr ""
+
+#: core/Admin.php:226
+msgid "Dollie Templates Missing"
+msgstr ""
+
+#: core/Admin.php:231
+msgid "<strong>Dollie</strong> needs to have a set of pages for its components. Please <a href=\"%s\">import a template</a>"
+msgstr ""
+
+#: core/Admin.php:259, core/Admin.php:260, core/Admin/Container.php:222, core/Admin/Container.php:374, core/Modules/Forms.php:317
 msgid "Settings"
 msgstr ""
 
@@ -127,7 +143,7 @@ msgstr ""
 msgid "Staging Site Launched"
 msgstr ""
 
-#: core/Plugin.php:259
+#: core/Plugin.php:281
 msgid "Please fill in the Realtime Customizer fields."
 msgstr ""
 
@@ -161,7 +177,7 @@ msgstr ""
 msgid "Parent Site:"
 msgstr ""
 
-#: core/Admin/Container.php:76, core/Admin/Container.php:83, core/Admin/Container.php:390
+#: core/Admin/Container.php:76, core/Admin/Container.php:83, core/Admin/Container.php:395
 msgid "View Sites"
 msgstr ""
 
@@ -237,7 +253,7 @@ msgstr ""
 msgid "Filter items list"
 msgstr ""
 
-#: core/Admin/Container.php:99, core/Admin/Container.php:748, core/Factories/BaseContainer.php:300, core/Utils/StringVariants.php:47
+#: core/Admin/Container.php:99, core/Admin/Container.php:759, core/Factories/BaseContainer.php:302, core/Utils/StringVariants.php:47
 msgid "Site"
 msgstr ""
 
@@ -327,167 +343,171 @@ msgstr ""
 msgid "Items list navigation"
 msgstr ""
 
-#: core/Admin/Container.php:217
+#: core/Admin/Container.php:220
 msgid "Dollie <span class=\"dol-status dol-staging\">Staging<span>"
 msgstr ""
 
-#: core/Admin/Container.php:220
+#: core/Admin/Container.php:223
 msgid "Dollie Hub Setup"
 msgstr ""
 
-#: core/Admin/Container.php:349, core/Services/AuthService.php:27
+#: core/Admin/Container.php:354, core/Services/AuthService.php:27
 msgid "Connect with Dollie Cloud"
 msgstr ""
 
-#: core/Admin/Container.php:359
+#: core/Admin/Container.php:364
 msgid "Overview"
 msgstr ""
 
-#: core/Admin/Container.php:379, core/Admin/Container.php:555, core/Utils/StringVariants.php:60, core/Utils/StringVariants.php:69, core/Widgets/Sites/SitesList.php:40
+#: core/Admin/Container.php:384, core/Admin/Container.php:566, core/Utils/StringVariants.php:60, core/Utils/StringVariants.php:69, core/Widgets/Sites/SitesList.php:32
 msgid "Sites"
 msgstr ""
 
-#: core/Admin/Container.php:402
+#: core/Admin/Container.php:407
 msgid "Launch New %s"
 msgstr ""
 
-#: core/Admin/Container.php:424
+#: core/Admin/Container.php:429
 msgid "Manage Your Site"
 msgstr ""
 
-#: core/Admin/Container.php:434
+#: core/Admin/Container.php:439
 msgid "View Documentation"
 msgstr ""
 
-#: core/Admin/Container.php:444
+#: core/Admin/Container.php:449
 msgid "This site is hosted for free on the Dollie Cloud. Visit the Partner Dashboard to manage this site and access our developer tools."
 msgstr ""
 
-#: core/Admin/Container.php:455, core/Admin/Container.php:561, core/Extras/AcfFields.php:1139, core/Utils/StringVariants.php:74, core/Utils/StringVariants.php:83, templates/widgets/general/main-navigation.php:85, core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:122
+#: core/Admin/Container.php:460, core/Admin/Container.php:572, core/Extras/AcfFields.php:1140, core/Utils/StringVariants.php:74, core/Utils/StringVariants.php:83, templates/widgets/general/main-navigation.php:85, core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:122
 msgid "Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:466
+#: core/Admin/Container.php:471
 msgid "View Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:478, core/Extras/dollie-setup/admin/templates/base/launch-actions.php:23
+#: core/Admin/Container.php:483, core/Extras/dollie-setup/admin/templates/base/launch-actions.php:23
 msgid "Launch New Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:489, core/Admin/Container.php:567
+#: core/Admin/Container.php:494, core/Admin/Container.php:578
 msgid "Support"
 msgstr ""
 
-#: core/Admin/Container.php:499, core/Admin/Container.php:575
+#: core/Admin/Container.php:504, core/Admin/Container.php:586
 msgid "Dollie Cloud"
 msgstr ""
 
-#: core/Admin/Container.php:508, core/Admin/Container.php:593, templates/parts/recurring-action-schedule-history.php:47
+#: core/Admin/Container.php:513, core/Admin/Container.php:604, templates/parts/recurring-action-schedule-history.php:47
 msgid "Logs"
 msgstr ""
 
-#: core/Admin/Container.php:535
+#: core/Admin/Container.php:540
+msgid "Import Templates"
+msgstr ""
+
+#: core/Admin/Container.php:546
 msgid "Your Hub"
 msgstr ""
 
-#: core/Admin/Container.php:543, templates/widgets/general/sites-navigation.php:53, templates/widgets/site/site-navigation.php:17
+#: core/Admin/Container.php:554, templates/widgets/general/sites-navigation.php:53, templates/widgets/site/site-navigation.php:17
 msgid "Dashboard"
 msgstr ""
 
-#: core/Admin/Container.php:549, core/Utils/StringVariants.php:28, core/Utils/StringVariants.php:39, core/Widgets/Customers/CustomersList.php:40
+#: core/Admin/Container.php:560, core/Utils/StringVariants.php:28, core/Utils/StringVariants.php:39, core/Widgets/Customers/CustomersList.php:40
 msgid "Customers"
 msgstr ""
 
-#: core/Admin/Container.php:581, templates/admin/notices/subscription-sites-limit.php:22
+#: core/Admin/Container.php:592, templates/admin/notices/subscription-sites-limit.php:22
 msgid "Contact Support"
 msgstr ""
 
-#: core/Admin/Container.php:587
+#: core/Admin/Container.php:598
 msgid "Documentation"
 msgstr ""
 
-#: core/Admin/Container.php:631
+#: core/Admin/Container.php:642
 msgid "Manage Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:629
+#: core/Admin/Container.php:640
 msgid "Manage Site"
 msgstr ""
 
-#: core/Admin/Container.php:634
+#: core/Admin/Container.php:645
 msgid "Login to Admin"
 msgstr ""
 
-#: core/Admin/Container.php:656, core/Services/BulkActionService.php:95, core/Services/RecurringActionService.php:28
+#: core/Admin/Container.php:667, core/Services/BulkActionService.php:95, core/Services/RecurringActionService.php:28
 msgid "Stop"
 msgstr ""
 
-#: core/Admin/Container.php:657
+#: core/Admin/Container.php:668
 msgid "Start"
 msgstr ""
 
-#: core/Admin/Container.php:658, core/Services/BulkActionService.php:94, core/Services/RecurringActionService.php:27
+#: core/Admin/Container.php:669, core/Services/BulkActionService.php:94, core/Services/RecurringActionService.php:27
 msgid "Restart"
 msgstr ""
 
-#: core/Admin/Container.php:659, core/Forms/DeleteSite.php:91, templates/widgets/general/sites-navigation.php:67, templates/widgets/site/site-navigation.php:46
+#: core/Admin/Container.php:670, core/Forms/DeleteSite.php:91, templates/widgets/general/sites-navigation.php:67, templates/widgets/site/site-navigation.php:46
 msgid "Delete"
 msgstr ""
 
-#: core/Admin/Container.php:721
+#: core/Admin/Container.php:732
 msgid "Domain"
 msgstr ""
 
-#: core/Admin/Container.php:722, templates/widgets/site/pages/updates.php:35, templates/widgets/site/pages/domain/manager/records.php:3
+#: core/Admin/Container.php:733, templates/widgets/site/pages/updates.php:35, templates/widgets/site/pages/domain/manager/records.php:3
 msgid "Type"
 msgstr ""
 
-#: core/Admin/Container.php:723, templates/loop/parts/modal-filters.php:41, templates/widgets/site/pages/plugins.php:19, templates/widgets/site/pages/themes.php:58
+#: core/Admin/Container.php:734, templates/loop/parts/modal-filters.php:41, templates/widgets/site/pages/plugins.php:19, templates/widgets/site/pages/themes.php:58
 msgid "Status"
 msgstr ""
 
-#: core/Admin/Container.php:752, core/Extras/AcfFields.php:1758, core/Factories/BaseContainer.php:308, templates/widgets/general/sites-navigation.php:64, templates/widgets/site/site-navigation.php:42, templates/widgets/site/site-navigation.php:36
+#: core/Admin/Container.php:763, core/Extras/AcfFields.php:1759, core/Factories/BaseContainer.php:310, templates/widgets/general/sites-navigation.php:64, templates/widgets/site/site-navigation.php:42, templates/widgets/site/site-navigation.php:36
 msgid "Staging"
 msgstr ""
 
-#: core/Admin/Container.php:750, core/Factories/BaseContainer.php:304, core/Utils/StringVariants.php:55
+#: core/Admin/Container.php:761, core/Factories/BaseContainer.php:306, core/Utils/StringVariants.php:55
 msgid "Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:821
+#: core/Admin/Container.php:832
 msgid "Your Site Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:827
+#: core/Admin/Container.php:838
 msgid "Below you will find all the Blueprints you have created in your Hub. Click on the Blueprint to manage or update them."
 msgstr ""
 
-#: core/Admin/Container.php:829
+#: core/Admin/Container.php:840
 msgid "Launch a New Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:802
+#: core/Admin/Container.php:813
 msgid "Sites Overview - All Sites in your Hub"
 msgstr ""
 
-#: core/Admin/Container.php:808
+#: core/Admin/Container.php:819
 msgid "Below are all the sites that have been launched through your Hub. Each site is hosted under your own brand and domain inside your Dollie Cloud. Below uou can see their status, to which customer they are linked and whether they have a domain connected to them."
 msgstr ""
 
-#: core/Admin/Container.php:810
+#: core/Admin/Container.php:821
 msgid "View Sites on the front-end of my Hub"
 msgstr ""
 
-#: core/Admin/Container.php:848
+#: core/Admin/Container.php:859
 msgid "The Hub Log"
 msgstr ""
 
-#: core/Admin/Container.php:851
+#: core/Admin/Container.php:862
 msgid "The Hub log keeps track of activity inside your Hub, For example action taken by your customers and recurring crons/maintenance jobs that run behind the scenes."
 msgstr ""
 
-#: core/Admin/Container.php:864
+#: core/Admin/Container.php:875
 msgid "Assigned Customer"
 msgstr ""
 
@@ -539,49 +559,49 @@ msgstr ""
 msgid "Add to Menu"
 msgstr ""
 
-#: core/Admin/NavMenu.php:386, core/Admin/NavMenu.php:426
+#: core/Admin/NavMenu.php:386, core/Admin/NavMenu.php:428
 msgid "You need to be logged in"
 msgstr ""
 
-#: core/Admin/NavMenu.php:508
+#: core/Admin/NavMenu.php:512
 msgid "Go to site"
 msgstr ""
 
-#: core/Admin/NavMenu.php:512
+#: core/Admin/NavMenu.php:516
 msgid "Go to blueprint"
 msgstr ""
 
-#: core/Admin/NavMenu.php:561, core/Extras/AcfFields.php:1256
+#: core/Admin/NavMenu.php:565, core/Extras/AcfFields.php:1257
 msgid "Notifications"
 msgstr ""
 
-#: core/Admin/NavMenu.php:565
+#: core/Admin/NavMenu.php:569
 msgid "Mark all as read"
 msgstr ""
 
-#: core/Admin/NavMenu.php:568
+#: core/Admin/NavMenu.php:572
 msgid "Close"
 msgstr ""
 
-#: core/Admin/Upgrades.php:91
+#: core/Admin/Upgrades.php:97
 msgid "Dollie needs to run some updates"
 msgstr ""
 
-#: core/Admin/Upgrades.php:96
+#: core/Admin/Upgrades.php:102
 msgid ""
 "<strong>Dollie</strong> needs to update some of it's settings that are used behind the scenes. It\n"
 "									'll only take a second to complete. "
 msgstr ""
 
-#: core/Admin/Upgrades.php:108
+#: core/Admin/Upgrades.php:114
 msgid "<a href=\"%s\">Run Update now</a>"
 msgstr ""
 
-#: core/Admin/Upgrades.php:194
+#: core/Admin/Upgrades.php:200
 msgid "Something went wrong. Could you please email us at support@getdollie.com so we can help you resolve this?"
 msgstr ""
 
-#: core/Admin/Upgrades.php:190
+#: core/Admin/Upgrades.php:196
 msgid "Awesome, database is now at the latest version!"
 msgstr ""
 
@@ -760,354 +780,354 @@ msgid "Site Template"
 msgstr ""
 
 #: core/Extras/AcfFields.php:548
-msgid "Choose the Elementor template that is being used for the Single Site design"
+msgid "Choose the template that is being used for the Single Site design"
 msgstr ""
 
-#: core/Extras/AcfFields.php:568
+#: core/Extras/AcfFields.php:569
 msgid "Site Launching Template"
 msgstr ""
 
-#: core/Extras/AcfFields.php:571
+#: core/Extras/AcfFields.php:572
 msgid "Choose the Elementor template that is being used when a site is deploying."
 msgstr ""
 
-#: core/Extras/AcfFields.php:592
+#: core/Extras/AcfFields.php:593
 msgid "Support Link"
 msgstr ""
 
-#: core/Extras/AcfFields.php:595
+#: core/Extras/AcfFields.php:596
 msgid "This is the URL we use when directing users to submit a ticket for support."
 msgstr ""
 
-#: core/Extras/AcfFields.php:609
+#: core/Extras/AcfFields.php:610
 msgid "Branding"
 msgstr ""
 
-#: core/Extras/AcfFields.php:625
+#: core/Extras/AcfFields.php:626
 msgid "Newsfeed URL"
 msgstr ""
 
-#: core/Extras/AcfFields.php:628
+#: core/Extras/AcfFields.php:629
 msgid "The link to the WordPress installation you want to show news from. Use the \"Latest News\" Dollie widget to show them."
 msgstr ""
 
-#: core/Extras/AcfFields.php:642
+#: core/Extras/AcfFields.php:643
 msgid "Amount of Posts to show in the \"Latest News\" dashboard widget"
 msgstr ""
 
-#: core/Extras/AcfFields.php:664
+#: core/Extras/AcfFields.php:665
 msgid "Default Site Screenshot Placeholder"
 msgstr ""
 
-#: core/Extras/AcfFields.php:667
+#: core/Extras/AcfFields.php:668
 msgid ""
 "<strong>Recommended size: 700x460px</strong><br>\n"
 "            This is the default screenshot image shown until a live screenshot is generated."
 msgstr ""
 
-#: core/Extras/AcfFields.php:693
+#: core/Extras/AcfFields.php:694
 msgid "Custom Launch Messages"
 msgstr ""
 
-#: core/Extras/AcfFields.php:696
+#: core/Extras/AcfFields.php:697
 msgid "Enable this if you would like to show custom messages whilst a new site is being launched."
 msgstr ""
 
-#: core/Extras/AcfFields.php:732
+#: core/Extras/AcfFields.php:733
 msgid "Fill in the fields below with your custom messages. <br><br><a target=\"_blank\" class=\"btn button button-secondary\" href=\"http://dollie-wp.lcl/site/2022-test-2/?launch-splash-preview\">Click here for a preview</a><br><br>Make sure to save your options first."
 msgstr ""
 
-#: core/Extras/AcfFields.php:738
+#: core/Extras/AcfFields.php:739
 msgid "Step 1"
 msgstr ""
 
-#: core/Extras/AcfFields.php:741
+#: core/Extras/AcfFields.php:742
 msgid "This is the first screen shown during launch."
 msgstr ""
 
-#: core/Extras/AcfFields.php:765
+#: core/Extras/AcfFields.php:766
 msgid "Step 2"
 msgstr ""
 
-#: core/Extras/AcfFields.php:768
+#: core/Extras/AcfFields.php:769
 msgid "This is the 2nd screen shown during launch."
 msgstr ""
 
-#: core/Extras/AcfFields.php:792
+#: core/Extras/AcfFields.php:793
 msgid "Step 3"
 msgstr ""
 
-#: core/Extras/AcfFields.php:795
+#: core/Extras/AcfFields.php:796
 msgid "This is the 3rd screen shown during launch."
 msgstr ""
 
-#: core/Extras/AcfFields.php:819
+#: core/Extras/AcfFields.php:820
 msgid "Step 4"
 msgstr ""
 
-#: core/Extras/AcfFields.php:822
+#: core/Extras/AcfFields.php:823
 msgid "This is the final screen shown during launch. Usually only shown when a launch takes longer than usual."
 msgstr ""
 
-#: core/Extras/AcfFields.php:846
+#: core/Extras/AcfFields.php:847
 msgid "Access Control"
 msgstr ""
 
-#: core/Extras/AcfFields.php:951
+#: core/Extras/AcfFields.php:952
 msgid "Available Developer Features"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1015
+#: core/Extras/AcfFields.php:1016
 msgid "Administrator User Name"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1018
+#: core/Extras/AcfFields.php:1019
 msgid "Choose the username that is created for your own administration access. This won't be shared with the client."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1043
+#: core/Extras/AcfFields.php:1044
 msgid "Dollie Administration Settings"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1155
+#: core/Extras/AcfFields.php:1156
 msgid "Enable Blueprint Preview"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1158
+#: core/Extras/AcfFields.php:1159
 msgid "Previews allows you to quickly showcase the available Blueprints you've created. Ideal if you are building a WaaS / SaaS platform."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1175
+#: core/Extras/AcfFields.php:1176
 msgid "Preview Link"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1178
+#: core/Extras/AcfFields.php:1179
 msgid "The link to where your Preview will shown. By default you can visit it by going to your-site.com/preview after you have created your first Blueprint"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1203
+#: core/Extras/AcfFields.php:1204
 msgid "Preview Logo"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1206
+#: core/Extras/AcfFields.php:1207
 msgid "The logo that is shown in the Preview."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1236
+#: core/Extras/AcfFields.php:1237
 msgid "Show Default Blueprint"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1239
+#: core/Extras/AcfFields.php:1240
 msgid "When launching a new site, show or hide the default Blueprint."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1273
+#: core/Extras/AcfFields.php:1274
 msgid "Email Notifications"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1276
+#: core/Extras/AcfFields.php:1277
 msgid "An email will be automatically sent when a site has been deployed."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1293
+#: core/Extras/AcfFields.php:1294
 msgid "Client Notification Subject"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1321
+#: core/Extras/AcfFields.php:1322
 msgid "Client Notification"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1324, core/Extras/AcfFields.php:1385
+#: core/Extras/AcfFields.php:1325, core/Extras/AcfFields.php:1386
 msgid ""
 "Placeholders:\n"
 "            {dollie_site_url}, {dollie_site_name}, {dollie_user}, {dollie_site_email}, {dollie_site_username}, {dollie_site_password}"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1354
+#: core/Extras/AcfFields.php:1355
 msgid "Admin Notification Subject"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1382
+#: core/Extras/AcfFields.php:1383
 msgid "Admin Notification"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1415
+#: core/Extras/AcfFields.php:1416
 msgid "Daily Site Status Digest"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1418
+#: core/Extras/AcfFields.php:1419
 msgid "Daily email digest with everything scheduled to be stopped or removed."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1435
+#: core/Extras/AcfFields.php:1436
 msgid "Email Digest Subject"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1438
+#: core/Extras/AcfFields.php:1439
 msgid ""
 "Placeholders:\n"
 "    {dollie_sites_stopped_count}, {dollie_sites_removal_count}"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1467
+#: core/Extras/AcfFields.php:1468
 msgid "Email Digest Content"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1470
+#: core/Extras/AcfFields.php:1471
 msgid ""
 "Placeholders:\n"
 "    {dollie_sites_stopped_list}, {dollie_sites_removal_list}"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1505
+#: core/Extras/AcfFields.php:1506
 msgid "Slack Notifications"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1508
+#: core/Extras/AcfFields.php:1509
 msgid "Enable Slack notifications on certain Dollie actions."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1525
+#: core/Extras/AcfFields.php:1526
 msgid "Slack Webhook URL"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1528
+#: core/Extras/AcfFields.php:1529
 msgid "<a href=\"https://api.slack.com/apps\">Create an App</a> on your Slack account, add Incoming Webhooks functionality and then paste the webhook URL here."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1553
+#: core/Extras/AcfFields.php:1554
 msgid "Slack Actions"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1556
+#: core/Extras/AcfFields.php:1557
 msgid "Check the action you want to trigger a Slack notification for."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1599
+#: core/Extras/AcfFields.php:1600
 msgid "Add-ons"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1617
+#: core/Extras/AcfFields.php:1618
 msgid "Custom Backup Location"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1620
+#: core/Extras/AcfFields.php:1621
 msgid ""
 "<strong>This feature needs to be approved for your account first.. Please contact the Dollie team at support@getdollie.com to enable this feature on your account.</strong><br>\n"
 "            Once this is enabled on your account, all deployed sites will be configured with the settings you set here."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1641
+#: core/Extras/AcfFields.php:1642
 msgid "Provider"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1674
+#: core/Extras/AcfFields.php:1675
 msgid "Access Key"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1702
+#: core/Extras/AcfFields.php:1703
 msgid "Secret Key"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1730
+#: core/Extras/AcfFields.php:1731
 msgid "Bucket Name"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1733
+#: core/Extras/AcfFields.php:1734
 msgid "You can fill in just your bucket name like \"my_bucket_name\" or you can point to a folder in your bucket like \"my_bucket_name/example_folder\". Every site will be backed up in its own folder."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1761
+#: core/Extras/AcfFields.php:1762
 msgid "Allow customers to use staging sites functionality. Each enabled staging site will add a small cost to your monthly subscription."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1778
+#: core/Extras/AcfFields.php:1779
 msgid "DNS Manager"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1781
+#: core/Extras/AcfFields.php:1782
 msgid "Simple yet powerful DNS manager for customer's website domain. Customers can choose if they want to connect the domain the easy way (just by pointing A records to the website's IP) or if they want us to manage their DNS by adding our nameservers to their domain registrar."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1824
+#: core/Extras/AcfFields.php:1825
 msgid "Confirmation"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1837
+#: core/Extras/AcfFields.php:1838
 msgid "Yes, deploy new blueprint version!"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1872
+#: core/Extras/AcfFields.php:1873
 msgid "Realtime Customizer"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1894, templates/widgets/site/pages/updates.php:33
+#: core/Extras/AcfFields.php:1895, templates/widgets/site/pages/updates.php:33
 msgid "Name"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1916
+#: core/Extras/AcfFields.php:1917
 msgid "Placeholder"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1938
+#: core/Extras/AcfFields.php:1939
 msgid "Suggested Value"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1960
+#: core/Extras/AcfFields.php:1961
 msgid "Description"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1963
+#: core/Extras/AcfFields.php:1964
 msgid "Instructions for the customer when they fill in the field (optional)."
 msgstr ""
 
-#: core/Extras/AcfFields.php:1982
+#: core/Extras/AcfFields.php:1983
 msgid "Field Width"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1985
+#: core/Extras/AcfFields.php:1986
 msgid "The width of the field when it's shown on the Launch Site Form."
 msgstr ""
 
-#: core/Extras/AcfFields.php:2010
+#: core/Extras/AcfFields.php:2011
 msgid "CSS Class"
 msgstr ""
 
-#: core/Extras/AcfFields.php:2013
+#: core/Extras/AcfFields.php:2014
 msgid "Assign a custom CSS class to this field for styling."
 msgstr ""
 
-#: core/Extras/AcfFields.php:2032
+#: core/Extras/AcfFields.php:2033
 msgid "Prepopulate field"
 msgstr ""
 
-#: core/Extras/AcfFields.php:2035
+#: core/Extras/AcfFields.php:2036
 msgid "Would you like to prepopulate this field with data?"
 msgstr ""
 
-#: core/Extras/AcfFields.php:2061
+#: core/Extras/AcfFields.php:2062
 msgid "User Meta Field Name"
 msgstr ""
 
-#: core/Extras/AcfFields.php:2064
+#: core/Extras/AcfFields.php:2065
 msgid "For example: display_name"
 msgstr ""
 
-#: core/Extras/AcfFields.php:2091
+#: core/Extras/AcfFields.php:2092
 msgid "Query String Name"
 msgstr ""
 
-#: core/Extras/AcfFields.php:2094
+#: core/Extras/AcfFields.php:2095
 msgid ""
 "For example \"name\".\n"
 "Populated with yoursite.com/launch-site/?name=John"
 msgstr ""
 
-#: core/Extras/AcfFields.php:2122
+#: core/Extras/AcfFields.php:2123
 msgid "Add Section header"
 msgstr ""
 
-#: core/Extras/AcfFields.php:2143
+#: core/Extras/AcfFields.php:2144
 msgid "Section Title"
 msgstr ""
 
@@ -1482,27 +1502,27 @@ msgstr ""
 msgid "Something went wrong. Please try again or contact our support if the problem persists."
 msgstr ""
 
-#: core/Forms/LaunchSite.php:237
+#: core/Forms/LaunchSite.php:238
 msgid "Blueprint is STOPPED."
 msgstr ""
 
-#: core/Forms/LaunchSite.php:241
+#: core/Forms/LaunchSite.php:242
 msgid "Blueprint is NOT published."
 msgstr ""
 
-#: core/Forms/LaunchSite.php:245
+#: core/Forms/LaunchSite.php:246
 msgid "Blueprint's \"Title\" is missing."
 msgstr ""
 
-#: core/Forms/LaunchSite.php:249
+#: core/Forms/LaunchSite.php:250
 msgid "Blueprint is private."
 msgstr ""
 
-#: core/Forms/LaunchSite.php:253
+#: core/Forms/LaunchSite.php:254
 msgid "Blueprint pending deletion."
 msgstr ""
 
-#: core/Forms/LaunchSite.php:259
+#: core/Forms/LaunchSite.php:260
 msgid "No WooCommerce product attached."
 msgstr ""
 
@@ -1780,31 +1800,55 @@ msgstr ""
 msgid "Staging Site Has Been Removed"
 msgstr ""
 
+#: core/Shortcodes/LatestNews.php:55, core/Widgets/Dashboard/LatestNews.php:21, templates/widgets/dashboard/dollie-kb.php:6, templates/widgets/dashboard/dollie-news.php:6
+msgid "Latest News"
+msgstr ""
+
+#: core/Shortcodes/LaunchSiteBanner.php:48, core/Widgets/Dashboard/LaunchSite.php:79
+msgid "LAUNCH YOUR SITE"
+msgstr ""
+
+#: core/Shortcodes/LaunchSiteBanner.php:49, core/Widgets/Dashboard/LaunchSite.php:89
+msgid "Get started and launch your site within minutes."
+msgstr ""
+
+#: core/Shortcodes/LaunchSiteBanner.php:50, core/Widgets/Dashboard/LaunchSite.php:99
+msgid "Launch"
+msgstr ""
+
+#: core/Shortcodes/SiteContent.php:53, core/Shortcodes/SiteNavigation.php:72, core/Shortcodes/SiteScreenshot.php:69
+msgid "This widget will only show content when you visit a Single Dollie Site."
+msgstr ""
+
 #: core/Utils/Helpers.php:428
 msgid "Site View"
 msgstr ""
 
-#: core/Utils/PageManager.php:289
+#: core/Utils/PageManager.php:302
 msgid "Dollie Hub - Launch Site"
 msgstr ""
 
-#: core/Utils/PageManager.php:293
+#: core/Utils/PageManager.php:306
 msgid "Dollie Hub - Launch Blueprint"
 msgstr ""
 
-#: core/Utils/PageManager.php:297
+#: core/Utils/PageManager.php:310
 msgid "Dollie Hub - Sites"
 msgstr ""
 
-#: core/Utils/PageManager.php:301
+#: core/Utils/PageManager.php:314
+msgid "Dollie Hub - Site Tpl"
+msgstr ""
+
+#: core/Utils/PageManager.php:318
 msgid "Dollie Hub - Customer Login"
 msgstr ""
 
-#: core/Utils/PageManager.php:305
+#: core/Utils/PageManager.php:322
 msgid "Dollie Hub - Customers"
 msgstr ""
 
-#: core/Utils/PageManager.php:309
+#: core/Utils/PageManager.php:326
 msgid "Dollie Hub - Dashboard"
 msgstr ""
 
@@ -1826,6 +1870,18 @@ msgstr ""
 
 #: templates/admin/api-status.php:20
 msgid "If you disconnect your Hub from Dollie, you won't be able to launch sites via this Hub."
+msgstr ""
+
+#: templates/admin/templates.php:33
+msgid "Here you can import ready to use page templates for your preferred builder."
+msgstr ""
+
+#: templates/admin/templates.php:57
+msgid "Import"
+msgstr ""
+
+#: templates/admin/templates.php:55
+msgid "Re-Import"
 msgstr ""
 
 #: templates/loop/blueprints.php:64
@@ -2225,16 +2281,12 @@ msgstr ""
 msgid "Check this box if you want to launch each (new) site of this customer automatically as a VIP site"
 msgstr ""
 
-#: core/Widgets/Customers/CustomersList.php:55, core/Widgets/Dashboard/LaunchSite.php:42, core/Widgets/Dashboard/SubscriptionDetails.php:41, core/Widgets/Launch/LaunchSite.php:46, core/Widgets/Sites/SitesList.php:55
+#: core/Widgets/Customers/CustomersList.php:55, core/Widgets/Dashboard/LaunchSite.php:42, core/Widgets/Dashboard/SubscriptionDetails.php:41, core/Widgets/Launch/LaunchSite.php:46, core/Widgets/Sites/SitesList.php:47
 msgid "Content"
 msgstr ""
 
 #: core/Widgets/Customers/CustomersList.php:63
 msgid "Customers Per Page"
-msgstr ""
-
-#: core/Widgets/Dashboard/LatestNews.php:21, templates/widgets/dashboard/dollie-kb.php:6, templates/widgets/dashboard/dollie-news.php:6
-msgid "Latest News"
 msgstr ""
 
 #: core/Widgets/Dashboard/LaunchSite.php:50
@@ -2257,24 +2309,12 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: core/Widgets/Dashboard/LaunchSite.php:79
-msgid "LAUNCH YOUR SITE"
-msgstr ""
-
 #: core/Widgets/Dashboard/LaunchSite.php:87
 msgid "Subtitle"
 msgstr ""
 
-#: core/Widgets/Dashboard/LaunchSite.php:89
-msgid "Get started and launch your site within minutes."
-msgstr ""
-
 #: core/Widgets/Dashboard/LaunchSite.php:97, core/Widgets/Dashboard/LaunchSite.php:267, core/Widgets/General/Login.php:77, core/Widgets/General/Login.php:512
 msgid "Button"
-msgstr ""
-
-#: core/Widgets/Dashboard/LaunchSite.php:99
-msgid "Launch"
 msgstr ""
 
 #: core/Widgets/Dashboard/LaunchSite.php:109, core/Widgets/Dashboard/SubscriptionDetails.php:124
@@ -2645,39 +2685,35 @@ msgstr ""
 msgid "Site Content"
 msgstr ""
 
-#: core/Widgets/Site/SiteContent.php:53, core/Widgets/Site/SiteNavigation.php:107, core/Widgets/Site/SiteScreenshot.php:53
-msgid "This widget will only show content when you visit a Single Dollie Site."
-msgstr ""
-
-#: core/Widgets/Site/SiteNavigation.php:21
+#: core/Widgets/Site/SiteNavigation.php:23
 msgid "Site Navigation"
 msgstr ""
 
-#: core/Widgets/Site/SiteNavigation.php:37
+#: core/Widgets/Site/SiteNavigation.php:39
 msgid "Design"
 msgstr ""
 
-#: core/Widgets/Site/SiteNavigation.php:45
+#: core/Widgets/Site/SiteNavigation.php:47
 msgid "Layout"
 msgstr ""
 
-#: core/Widgets/Site/SiteNavigation.php:49
+#: core/Widgets/Site/SiteNavigation.php:51
 msgid "Vertical"
 msgstr ""
 
-#: core/Widgets/Site/SiteNavigation.php:50
+#: core/Widgets/Site/SiteNavigation.php:52
 msgid "Horizontal"
 msgstr ""
 
-#: core/Widgets/Site/SiteNavigation.php:58
+#: core/Widgets/Site/SiteNavigation.php:60
 msgid "Color Scheme"
 msgstr ""
 
-#: core/Widgets/Site/SiteNavigation.php:62
+#: core/Widgets/Site/SiteNavigation.php:64
 msgid "Light"
 msgstr ""
 
-#: core/Widgets/Site/SiteNavigation.php:63
+#: core/Widgets/Site/SiteNavigation.php:65
 msgid "Dark"
 msgstr ""
 
@@ -2685,7 +2721,7 @@ msgstr ""
 msgid "Site Screenshot"
 msgstr ""
 
-#: core/Widgets/Sites/SitesList.php:63
+#: core/Widgets/Sites/SitesList.php:55
 msgid "Posts per page"
 msgstr ""
 
