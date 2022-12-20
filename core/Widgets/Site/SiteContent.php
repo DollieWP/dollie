@@ -39,21 +39,8 @@ class SiteContent extends \Elementor\Widget_Base {
 
 	}
 
-	protected function render() {
-		if ( isset( $_GET['dollie_db_update'] ) ) {
-			return false;
-		}
-
-		$data = [
-			'settings'   => $this->get_settings_for_display(),
-			'current_id' => dollie()->get_current_post_id(),
-		];
-
-		if ( get_post_type() !== 'container' && ! dollie()->is_elementor_editor() ) {
-			esc_html_e( 'This widget will only show content when you visit a Single Dollie Site.', 'dollie' );
-		} else {
-			dollie()->load_template( 'widgets/site/site-content', $data, true );
-		}
+	public function render() {
+		echo \Dollie\Core\Shortcodes\SiteContent::instance()->shortcode();
 	}
 
 }

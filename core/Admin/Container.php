@@ -537,6 +537,12 @@ final class Container extends Singleton implements ConstInterface {
 		global $submenu;
 
 		$submenu['dollie_setup'][] = [
+			esc_html__( 'Import Templates', 'dollie' ),
+			'manage_options',
+			get_admin_url() .'admin.php?page=dollie_templates',
+		];
+
+		$submenu['dollie_setup'][] = [
 			__( 'Your Hub', 'dollie' ),
 			'manage_options',
 			'',

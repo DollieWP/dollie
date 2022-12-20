@@ -95,6 +95,19 @@ final class PageManager extends Singleton {
 	}
 
 	/**
+	 * Get site tpl ID
+	 *
+	 * @return integer
+	 */
+	public function get_site_tpl_id(): int {
+		if ( function_exists( 'pll_get_post' ) ) {
+			return (int) pll_get_post( get_option( 'options_wpd_site_template_id' ) );
+		}
+
+		return (int) get_option( 'options_wpd_site_template_id' );
+	}
+
+	/**
 	 * Get launch site URL
 	 *
 	 * @param string $append
@@ -295,6 +308,10 @@ final class PageManager extends Singleton {
 
 		if ( $this->get_sites_id() === $post->ID ) {
 			$post_states['dollie_hub_sites'] = __( 'Dollie Hub - Sites', 'dollie' );
+		}
+
+		if ( $this->get_site_tpl_id() === $post->ID ) {
+			$post_states['dollie_hub_site'] = __( 'Dollie Hub - Site Tpl', 'dollie' );
 		}
 
 		if ( $this->get_login_id() === $post->ID ) {

@@ -13,6 +13,12 @@ module.exports = {
         "./core/Extras/dollie-setup/admin/templates/**/*"
     ],
     theme: {
+        // screens: {
+        //     'sm': '640px',
+        //     'md': '768px',
+        //     'lg': '1024px',
+        //     'xl': '1280px',
+        // },
         extend: {
             transitionDuration: {
                 0: "0ms",

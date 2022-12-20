@@ -118,9 +118,11 @@ if ( dollie()->get_user()->can_manage_all_sites() && ! dollie()->subscription()-
 	);
 }
 
-if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && ! is_admin() && $wp_query->post->ID == $site_launch || isset( $_GET['payment-status'] ) ) {
+if ( isset( $_GET['payment-status'] )
+     || ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && ! is_admin() && $wp_query->post->ID == $site_launch ) ) {
 	// Custom Form Layout when launching a specific blueprint.
 	dollie()->load_template( 'widgets/launch/blueprint-launch', [ 'settings' => $settings ], true );
+
 	return;
 }
 

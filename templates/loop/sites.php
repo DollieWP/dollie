@@ -108,7 +108,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [ 'filters' => $filters ], 
 			</div>
 
 			<div class="dol-flex dol-flex-wrap dol-items-center dol-space-x-2">
-				<div class="dol-relative dol-w-full lg:dol-w-[280px]">
+				<div class="dol-relative dol-w-full lg:dol-w-[220px]">
 					<div class="dol-absolute dol-h-full dol-flex dol-items-center dol-px-3"><?php echo dollie()->icon()->search( 'dol-text-gray-500' ); ?></div>
 					<input type="text" name="site_search" class="dol-search-input dol-search-site dol-w-full"
 						data-permalink="<?php echo esc_attr( $query_data['permalink'] ); ?>"
@@ -262,7 +262,7 @@ dollie()->load_template( 'loop/parts/modal-filters', [ 'filters' => $filters ], 
 						</div>
 						<div class="dol-sites-name">
 							<div class="dol-font-bold dol-text-lg dol-cursor-default dol-truncate">
-								<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-text-gray-600 dol-space-x-1" href="<?php echo $container->get_permalink(); ?>" title="<?php echo esc_attr( $site_name ); ?>">
+								<a class="dol-item-name dol-text-normal dol-leading-normal dol-truncate dol-no-underline dol-text-gray-600 dol-space-x-1" href="<?php echo $container->get_permalink(); ?>" title="<?php echo esc_attr( $site_name ); ?>">
 									<?php if ( $container->is_vip() ) : ?>
 										<span data-toggle="tooltip"
 											data-placement="bottom"
