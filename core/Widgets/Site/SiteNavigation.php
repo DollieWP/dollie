@@ -87,7 +87,7 @@ class SiteNavigation extends \Elementor\Widget_Base {
 
 	protected function render() {
 
-		echo \Dollie\Core\Shortcodes\SiteContent::instance()->shortcode( $this->get_settings_for_display() );
+		echo \Dollie\Core\Shortcodes\SiteNavigation::instance()->shortcode( $this->get_settings_for_display() );
 	}
 
 }
