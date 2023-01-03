@@ -176,6 +176,7 @@ class Plugin extends Singleton {
 		Shortcodes\PostData::instance();
 		Shortcodes\SiteContent::instance();
 		Shortcodes\SiteNavigation::instance();
+		Shortcodes\SiteStats::instance();
 		Shortcodes\Sites::instance();
 		Shortcodes\SiteScreenshot::instance();
 		Shortcodes\SitesNavigation::instance();
