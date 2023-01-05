@@ -15,7 +15,7 @@ final class ContainerService extends Singleton {
 	 */
 	public function rewrite_rules_sub_pages() {
 		$post_type = 'site';
-		$sub_pages = '(dashboard|plugins|themes|emails|domains|backups|updates|developer-tools|blueprints|delete|migrate|staging|admin-settings|error)';
+		$sub_pages = '(dashboard|plugins|themes|emails|domains|backups|updates|developer-tools|blueprints|delete|migrate|staging|admin-settings|stats|error)';
 
 		add_rewrite_rule(
 			$post_type . '\/([^\/]+)(?:\/' . $sub_pages . ')\/?$',
