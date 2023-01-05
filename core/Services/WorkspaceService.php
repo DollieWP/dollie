@@ -32,12 +32,11 @@ final class WorkspaceService extends Singleton {
 	 */
 	public function get_deployment_domain() {
 		$default_domain = get_option( 'options_wpd_api_domain' );
+		$domain         = get_option( 'wpd_deployment_domain', $default_domain );
 
-		if ( ! get_option( 'wpd_deployment_domain_status' ) ) {
+		if ( ! $domain || ! get_option( 'wpd_deployment_domain_status' ) ) {
 			return $default_domain;
 		}
-
-		$domain = get_option( 'wpd_deployment_domain', $default_domain );
 
 		return str_replace( [ 'http://', 'https://', 'www.' ], '', rtrim( $domain, '/' ) );
 	}
@@ -48,34 +47,20 @@ final class WorkspaceService extends Singleton {
 	 * @param string $domain
 	 * @return boolean
 	 */
-	public function add_deployment_domain( string $domain ) {
+	public function add_deployment_domain( string $domain = '' ) {
 		$response = $this->add_custom_domain( $domain );
 
 		if ( is_wp_error( $response ) ) {
 			return false;
 		}
 
-		update_option( 'wpd_deployment_domain', $domain );
-		delete_option( 'wpd_deployment_domain_notice' );
-
-		return true;
-	}
-
-	/**
-	 * Remove custom deployment domain
-	 *
-	 * @return boolean
-	 */
-	public function remove_deployment_domain() {
-		$response = $this->remove_custom_domain();
-
-		if ( is_wp_error( $response ) || ! $response ) {
-			return false;
+		if ( $domain ) {
+			delete_option( 'wpd_deployment_domain_notice' );
+		} else {
+			delete_option( 'wpd_deployment_domain' );
+			delete_option( 'wpd_deployment_domain_status' );
+			delete_option( 'wpd_deployment_domain_notice' );
 		}
-
-		delete_option( 'wpd_deployment_domain' );
-		delete_option( 'wpd_deployment_domain_status' );
-		delete_option( 'wpd_deployment_domain_notice' );
 
 		return true;
 	}
@@ -87,12 +72,6 @@ final class WorkspaceService extends Singleton {
 	 */
 	public function check_deployment_domain() {
 		if ( ! dollie()->auth()->is_connected() ) {
-			return;
-		}
-
-		$domain = get_option( 'wpd_deployment_domain' );
-
-		if ( ! $domain ) {
 			return;
 		}
 
@@ -108,8 +87,10 @@ final class WorkspaceService extends Singleton {
 			return;
 		}
 
-		if ( $response['domain'] === $domain && $response['status'] ) {
-			update_option( 'wpd_deployment_domain_status', true );
+		if ( $response['domain'] ) {
+			update_option( 'wpd_deployment_domain', $response['domain'] );
 		}
+
+		update_option( 'wpd_deployment_domain_status', $response['status'] );
 	}
 }

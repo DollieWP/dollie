@@ -156,26 +156,16 @@ final class Acf extends Singleton implements ConstInterface {
 
 		$custom_domain_enabled = get_field( 'wpd_show_custom_domain_options', $post_id );
 		$domain                = str_replace( [ 'https://', 'http://', 'www.' ], '', get_field( 'wpd_api_domain_custom', $post_id ) );
-		$saved_domain          = get_option( 'wpd_deployment_domain' );
 
-		$workspace_service = WorkspaceService::instance();
-
-		if ( ! $domain && $saved_domain ||
-			! $custom_domain_enabled && $saved_domain ) {
-			$workspace_service->remove_deployment_domain();
-
+		if ( ! $custom_domain_enabled ) {
 			return;
 		}
 
-		if ( $domain !== $saved_domain && $saved_domain ) {
-			$removed = $workspace_service->remove_deployment_domain();
-
-			if ( $removed ) {
-				$workspace_service->add_deployment_domain( $domain );
-			}
-		} elseif ( $domain && ! $saved_domain ) {
-			$workspace_service->add_deployment_domain( $domain );
+		if ( $domain && $domain === get_option( 'wpd_deployment_domain' ) ) {
+			return;
 		}
+
+		WorkspaceService::instance()->add_deployment_domain( $domain );
 	}
 
 	/**
