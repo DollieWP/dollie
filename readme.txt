@@ -4,7 +4,7 @@ Tags: hosting, waas, wordpress hosting, sell hosting
 Requires at least: 5.0
 Tested up to: 6.1
 Requires PHP: 7.2
-Stable tag: 5.2.1
+Stable tag: 5.2.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -179,6 +179,8 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 
 == Changelog ==
 
+= 5.2.2 =
+* Fix the migration path on Sites - Migration screen
 
 = 5.2.1 =
 * Fix for Dollie Site Navigation Elementor Widget
