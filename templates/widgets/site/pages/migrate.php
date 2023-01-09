@@ -168,7 +168,7 @@ $credentials = $container->get_credentials();
 					class="title-font dol-font-medium dol-p-2">
 				<?php _e( 'Directory Path:', 'dollie' ); ?>
 				<br><strong>
-					/app
+					/usr/src/app
 				</strong><br></span>
 		</div>
 	</div>
