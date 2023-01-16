@@ -928,6 +928,7 @@ if (function_exists('acf_add_local_field_group')):
 					'updates' => 'Updates',
 					'developer-tools' => 'Developer Tools',
 					'delete' => 'Site Deletion',
+					'stats' => 'Site Statistics',
 				),
 				'allow_custom' => 0,
 				'default_value' => array(
@@ -941,6 +942,7 @@ if (function_exists('acf_add_local_field_group')):
 					7 => 'developer-tools',
 					8 => 'domain',
 					9 => 'delete',
+					10 => 'stats',
 				),
 				'layout' => 'vertical',
 				'toggle' => 0,

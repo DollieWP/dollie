@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Api\StatsApi;
 use Dollie\Core\Utils\LogTrait;
 use WP_Post;
 use Dollie\Core\Utils\ConstInterface;
@@ -14,8 +15,9 @@ use Dollie\Core\Api\ResourceApi;
 
 abstract class BaseContainer implements ConstInterface {
 	use BackupApi;
-	use ResourceApi;
 	use LogTrait;
+	use ResourceApi;
+	use StatsApi;
 
 	/**
 	 * @var WP_Post
@@ -83,8 +85,8 @@ abstract class BaseContainer implements ConstInterface {
 	 */
 	public function should_be_trashed(): bool {
 		return 'Undeployed' === $this->get_status() ||
-			'Not Deployed' === $this->get_status() ||
-			'Undeploying' === $this->get_status();
+		       'Not Deployed' === $this->get_status() ||
+		       'Undeploying' === $this->get_status();
 	}
 
 	/**
@@ -216,7 +218,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * Get post permalink
 	 *
 	 * @param string $append
-	 * @param array  $query
+	 * @param array $query
 	 *
 	 * @return string
 	 */
@@ -565,6 +567,20 @@ abstract class BaseContainer implements ConstInterface {
 	}
 
 	/**
+	 * Get resource usage
+	 * @return array
+	 */
+	public function get_resource_usage(): array {
+		$stats = $this->get_container_resource_usage( $this->get_hash() );
+
+		if ( is_wp_error( $stats ) ) {
+			return [];
+		}
+
+		return $stats;
+	}
+
+	/**
 	 * Get plugins
 	 *
 	 * @param boolean $force
@@ -587,7 +603,7 @@ abstract class BaseContainer implements ConstInterface {
 							'plugins' => count(
 								array_filter(
 									$plugins,
-									function( $v ) {
+									function ( $v ) {
 										return true === $v['update'];
 									}
 								)
@@ -632,7 +648,7 @@ abstract class BaseContainer implements ConstInterface {
 							'themes' => count(
 								array_filter(
 									$themes,
-									function( $v ) {
+									function ( $v ) {
 										return true === $v['update'];
 									}
 								)
@@ -866,7 +882,7 @@ abstract class BaseContainer implements ConstInterface {
 			$composite_key = explode( '.', $key );
 			$composite_key = array_filter(
 				$composite_key,
-				function( $v ) {
+				function ( $v ) {
 					return ! empty( $v );
 				}
 			);

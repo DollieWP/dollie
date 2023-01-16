@@ -15,6 +15,7 @@ $colors = $settings['colors'];
 $menu = [
 	'blueprints'      => dollie()->icon()->blueprint() . __( 'Blueprint Setup', 'dollie' ),
 	''                => dollie()->icon()->site_dashboard() . __( 'Dashboard', 'dollie' ),
+	'stats'           => dollie()->icon()->stats() . __( 'Resource Usage', 'dollie' ),
 	'plugins'         => dollie()->icon()->plugins() . __( 'Plugins', 'dollie' ),
 	'themes'          => dollie()->icon()->themes() . __( 'Themes', 'dollie' ),
 	'updates'         => dollie()->icon()->updates() . __( 'Updates', 'dollie' ),
@@ -53,10 +54,10 @@ $sub_page = get_query_var( 'sub_page' );
 ?>
 
 <nav class="dol-w-full dol-flex-grow lg:dol-flex lg:dol-items-center lg:dol-w-auto">
-	<div class="dol-overflow-hidden dol-widget-site-sidebar dol-widget-<?php echo $layout; ?>">
+    <div class="dol-overflow-hidden dol-widget-site-sidebar dol-widget-<?php echo $layout; ?>">
 		<?php if ( $container->is_running() ) : ?>
-			<div class="dol-w-full dol-flex-grow lg:dol-flex lg:dol-items-center lg:dol-w-auto">
-				<ul class="dol-list-none dol-p-0 dol-m-0">
+            <div class="dol-w-full dol-flex-grow lg:dol-flex lg:dol-items-center lg:dol-w-auto">
+                <ul class="dol-list-none dol-p-0 dol-m-0">
 					<?php foreach ( $menu as $page => $title ) : ?>
 						<?php
 
@@ -71,15 +72,15 @@ $sub_page = get_query_var( 'sub_page' );
 						$active_class = ! $sub_page || $sub_page === $page ? 'dol-text-primary' : 'dol-text-gray-400';
 
 						?>
-						<li class="dol-my-2">
-							<a class="dol-flex dol-items-center dol-nav-btn-secondary <?php echo esc_attr( $active_class ); ?>"
-								href="<?php echo $container->get_permalink( $page ); ?>">
+                        <li class="dol-my-2">
+                            <a class="dol-flex dol-items-center dol-nav-btn-secondary <?php echo esc_attr( $active_class ); ?>"
+                               href="<?php echo $container->get_permalink( $page ); ?>">
 								<?php echo $title; ?>
-							</a>
-						</li>
+                            </a>
+                        </li>
 					<?php endforeach; ?>
-				</ul>
-			</div>
+                </ul>
+            </div>
 		<?php endif; ?>
-	</div>
+    </div>
 </nav>

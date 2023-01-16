@@ -199,6 +199,7 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 		'delete',
 		'staging',
 		'admin-settings',
+        'stats',
 	];
 
 	$sub_page = get_query_var( 'sub_page' );

@@ -22,7 +22,12 @@ final class NotificationService extends Singleton {
 					$slack_content .= ' <' . get_permalink( $object->ID ) . '|View site>';
 				}
 
-				$slack_client->send( $slack_content );
+				try {
+					$slack_client->send( $slack_content );
+				}
+				catch ( \Exception $exception ) {
+
+				}
 			}
 		}
 	}

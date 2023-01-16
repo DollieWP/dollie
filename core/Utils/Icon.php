@@ -57,6 +57,10 @@ final class Icon extends Singleton {
 		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_dev_cli', '<i class="fal fa-shell"></i>' ) . '</span>';
 	}
 
+	public function stats( $classes = null ) {
+		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_stats', '<i class="fas fa-chart-line"></i>' ) . '</span>';
+	}
+
 	public function plugins( $classes = null ) {
 		return '<span class="dol-icon ' . $classes . '">' . apply_filters( 'dollie_icon_plugins', '<i class="fas fa-plug"></i>' ) . '</span>';
 	}

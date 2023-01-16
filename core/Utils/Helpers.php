@@ -461,7 +461,7 @@ class Helpers extends Singleton implements ConstInterface {
 	public function has_layout_widget() {
 		$template_id = dollie()->get_site_template_id();
 
-		if ( class_exists( '\Elementor\Plugin' ) && \Elementor\Plugin::instance()->documents->get( $template_id )->is_built_with_elementor() ) {
+		if ( class_exists( '\Elementor\Plugin' ) && ! is_bool( \Elementor\Plugin::instance()->documents->get( $template_id ) ) && \Elementor\Plugin::instance()->documents->get( $template_id )->is_built_with_elementor() ) {
 			$meta = get_post_meta( $template_id, '_elementor_data' );
 
 			foreach ( $meta as $index => $string ) {
