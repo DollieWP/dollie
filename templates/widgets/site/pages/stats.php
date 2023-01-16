@@ -22,28 +22,43 @@ if ( ! isset( $container ) ) {
 
 	?>
 </div>
+<?php
+$shortcodes = [
+	'cpu'        => [
+		'name'      => __( 'CPU %', 'dollie' ),
+		'shortcode' => '[dollie-site-stats type=cpu]',
+	],
+	'block'      => [
+		'name'      => __( 'Disk I/O Data', 'dollie' ),
+		'shortcode' => '[dollie-site-stats type=block]',
+	],
+	'disk_usage' => [
+		'name'      => __( 'Disk Usage', 'dollie' ),
+		'shortcode' => '[dollie-site-stats type=disk_usage]',
+	],
+	'memory'     => [
+		'name'      => __( 'Memory Usage', 'dollie' ),
+		'shortcode' => '[dollie-site-stats type=memory]',
+	],
+	'network'    => [
+		'name'      => __( 'Network Usage', 'dollie' ),
+		'shortcode' => '[dollie-site-stats type=network]',
+	],
+];
+?>
 
-<div class="dol-mt-6">
-    <h4 class="dol-text-center"><?php esc_html_e( 'CPU %', 'dollie' ); ?></h4>
-	<?php echo do_shortcode( '[dollie-site-stats type=cpu]' ); ?>
-</div>
+<?php foreach ( $shortcodes as $shortcode ) :
 
-<div class="dol-mt-6">
-    <h4 class="dol-text-center"><?php esc_html_e( 'Disk I/O Data', 'dollie' ); ?></h4>
-	<?php echo do_shortcode( '[dollie-site-stats type=block]' ); ?>
-</div>
+	$shortcode_data = do_shortcode( $shortcode['shortcode'] );
+	if ( empty( $shortcode_data ) ) {
+		continue;
+	}
 
-<div class="dol-mt-6">
-    <h4 class="dol-text-center"><?php esc_html_e( 'Disk Usage', 'dollie' ); ?></h4>
-	<?php echo do_shortcode( '[dollie-site-stats type=disk_usage]' ); ?>
-</div>
-
-<div class="dol-mt-6">
-    <h4 class="dol-text-center"><?php esc_html_e( 'Memory Usage', 'dollie' ); ?></h4>
-	<?php echo do_shortcode( '[dollie-site-stats type=memory]' ); ?>
-</div>
-
-<div class="dol-mt-6">
-    <h4 class="dol-text-center"><?php esc_html_e( 'Network Usage', 'dollie' ); ?></h4>
-	<?php echo do_shortcode( '[dollie-site-stats type=network]' ); ?>
-</div>
+	?>
+    <div class="dol-mt-6">
+        <h4 class="dol-text-center">
+			<?php echo esc_html( $shortcode['name'] ); ?>
+        </h4>
+		<?php echo $shortcode_data; ?>
+    </div>
+<?php endforeach; ?>
