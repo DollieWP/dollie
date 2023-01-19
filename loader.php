@@ -4,7 +4,7 @@
  * Plugin Name: Dollie Hub
  * Description: Build Your Own Cloud Platform - If You Can Imagine It, You Can Build it with Dollie
  * Plugin URI:  https://getdollie.com
- * Version:     5.2.2
+ * Version:     5.3.0
  * Author:      GetDollie
  *
  * Text Domain: dollie
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'DOLLIE_VERSION', '5.2.2' );
+define( 'DOLLIE_VERSION', '5.3.0' );
 define( 'DOLLIE_SLUG', 'dollie' );
 
 define( 'DOLLIE_FILE', __FILE__ );
