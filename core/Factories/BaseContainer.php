@@ -811,7 +811,7 @@ abstract class BaseContainer implements ConstInterface {
 			wp_update_post(
 				[
 					'ID'         => $this->get_id(),
-					'post_title' => is_wp_error( $site_name ) ? __( 'Unnamed site', 'dolie' ) : $site_name,
+					'post_title' => is_wp_error( $site_name ) ? __( 'Unnamed site', 'dollie' ) : $site_name,
 				]
 			);
 		}

@@ -22,7 +22,7 @@ final class DeployService extends Singleton implements ConstInterface {
 	 *
 	 * @param string $type
 	 * @param string $route
-	 * @param array  $data
+	 * @param array $data
 	 *
 	 * @return \WP_Error|BaseContainer
 	 */
@@ -118,11 +118,17 @@ final class DeployService extends Singleton implements ConstInterface {
 			return new \WP_Error( 500, 'Post not created' );
 		}
 
+		$user_role = $container->user()->get_container_user_role() === 'administrator' ? 'admin' : 'editor';
 		$container->set_details(
 			[
 				'url'    => $deploy['route'],
 				'status' => $deploy['status'],
 				'type'   => $deploy['type'],
+				'site'   => [
+					$user_role => [
+						'username' => $data['username']
+					]
+				]
 			]
 		);
 
@@ -247,7 +253,7 @@ final class DeployService extends Singleton implements ConstInterface {
 				's'              => '🚀 Launching',
 				'post_status'    => [ 'publish', 'draft' ],
 				'post_type'      => 'container',
-				'posts_per_page' => -1,
+				'posts_per_page' => - 1,
 			]
 		);
 
