@@ -46,12 +46,16 @@ final class SiteStats extends Singleton implements Base {
 		];
 
 		add_action( 'init', [ $this, 'register' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue' ]
-		);
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue' ] );
+		add_action( 'wp_ajax_wpd_site_stats', [ $this, 'ajax_get_stats_data' ] );
 	}
 
 	public function enqueue() {
 		wp_register_script( 'chartjs', DOLLIE_ASSETS_URL . 'js/chart.min.js', [], '4.1.1', true );
+		wp_register_script( 'dollie-chartjs', DOLLIE_ASSETS_URL . 'js/dollie-chart.js', [], DOLLIE_VERSION, true );
+		wp_localize_script( 'dollie-chartjs', 'wpdChart', [
+			'ajaxUrl' => admin_url( 'admin-ajax.php' )
+		] );
 	}
 
 	/**
@@ -64,11 +68,47 @@ final class SiteStats extends Singleton implements Base {
 	}
 
 	/**
+	 * @return void
+	 */
+	public function ajax_get_stats_data(): void {
+
+		if ( ! is_user_logged_in() ) {
+			wp_send_json_error( [ 'message' => 'Unauthorized' ] );
+			exit;
+		}
+
+
+		if ( ! isset( $_GET['id'] ) || (int) $_GET['id'] === 0 ) {
+			wp_send_json_error( [ 'message' => 'Missing data' ] );
+			exit;
+		}
+
+		$id = (int) $_GET['id'];
+
+		if ( ! dollie()->get_user()->can_view_site( $id ) ) {
+			wp_send_json_error( [ 'message' => 'Unauthorized' ] );
+			exit;
+		}
+
+		$type  = sanitize_text_field( $_GET['type'] );
+		$stats = $this->get_data( $id );
+
+		if ( empty( $stats ) ) {
+			wp_send_json_error( [ 'message' => 'Something went wrong' ] );
+			exit;
+		}
+
+		wp_send_json_success( $this->prepare_stats( $stats, $type ) );
+		exit;
+	}
+
+	/**
 	 * Shortcode logic
 	 *
 	 * @param array $atts
 	 *
 	 * @return string|null
+	 * @throws \Exception
 	 */
 	public function shortcode( $atts = [] ): ?string {
 
@@ -83,19 +123,12 @@ final class SiteStats extends Singleton implements Base {
 			$this->name
 		);
 
-		$stats = $this->get_data( $settings['id'] );
-		if ( empty( $stats ) ) {
-			return '';
-		}
-
-		[ $labels, $datasets ] = $this->prepare_stats( $stats, $settings['type'] );
-
 		return dollie()->load_template(
 			'widgets/site/site-stats',
 			[
-				'labels'   => json_encode( $labels ),
-				'datasets' => json_encode( $datasets ),
-				'chart_id' => 'stats-chart-' . random_int(100, 9999)
+				'type'     => $settings['type'],
+				'site_id'  => $settings['id'],
+				'chart_id' => 'stats-chart-' . random_int( 100, 9999 )
 			]
 		);
 
@@ -112,6 +145,9 @@ final class SiteStats extends Singleton implements Base {
 	private function prepare_stats( $stats, $type ) {
 		$labels   = [];
 		$datasets = [];
+		if ( empty( $type ) ) {
+			$type = 'cpu';
+		}
 
 		foreach ( $this->containers as $container ) {
 			if ( ! isset( $stats[ $container ] ) ) {
@@ -125,12 +161,12 @@ final class SiteStats extends Singleton implements Base {
 					continue;
 				}
 
-				if ( empty( $stats[ $container ]['stats'][ $type ][ $key ])) {
+				if ( empty( $stats[ $container ]['stats'][ $type ][ $key ] ) ) {
 					continue;
 				}
 
 				foreach ( $stats[ $container ]['stats'][ $type ][ $key ] as $time => $val ) {
-					$labels[ md5(date( 'Y-m-d H:i', $time )) ] = date( 'j M H:i', $time );
+					$labels[ md5( date( 'Y-m-d H:i', $time ) ) ] = date( 'j M H:i', $time );
 					if ( $stats[ $container ]['stats'][ $type ]['units'] === 'bytes' ) {
 						$val = round( $val / 1024 / 1024 );
 					}
@@ -148,7 +184,7 @@ final class SiteStats extends Singleton implements Base {
 
 		}
 
-		return [ array_values( $labels ), $datasets ];
+		return [ 'labels' => array_values( $labels ), 'datasets' => $datasets ];
 
 	}
 

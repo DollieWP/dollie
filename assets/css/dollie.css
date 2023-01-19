@@ -1491,6 +1491,10 @@ input[type="text"].dol-search-input:focus {
     right: 0.75rem; }
 .dol-right-0 {
     right: 0px; }
+.dol-top-\[35\%\] {
+    top: 35%; }
+.dol-left-\[45\%\] {
+    left: 45%; }
 .dol-top-4 {
     top: 1rem; }
 .dol-left-1\/2 {
@@ -2154,6 +2158,8 @@ input[type="text"].dol-search-input:focus {
     --tw-gradient-to: #4ade80; }
 .dol-to-gray-700 {
     --tw-gradient-to: #374151; }
+.dol-fill-blue-600 {
+    fill: #2563eb; }
 .dol-object-cover {
     -o-object-fit: cover;
        object-fit: cover; }
