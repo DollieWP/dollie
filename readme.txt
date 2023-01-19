@@ -179,6 +179,9 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 
 == Changelog ==
 
+= 5.3.0 =
+* New feature: Resource usage area was added to the site manager. Enable it for clients from Dollie - Settings - Access control. You can view CPU Usage, Disk I/O, Disk Usage, Memory Usage and Network Usage.
+
 = 5.2.2 =
 * Fix the migration path on Sites - Migration screen
 
