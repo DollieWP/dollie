@@ -817,45 +817,54 @@ abstract class BaseContainer implements ConstInterface {
 		}
 
 		if ( isset( $details['screenshot'] ) && $details['screenshot'] ) {
-			if ( has_post_thumbnail( $this->get_id() ) ) {
-				wp_delete_attachment( get_post_thumbnail_id( $this->get_id() ), true );
-			}
-
-			$screenshot_img = $details['screenshot'];
-
-			$upload_dir = wp_upload_dir();
-			$image_data = file_get_contents( $screenshot_img );
-			$filename   = basename( $screenshot_img );
-
-			if ( wp_mkdir_p( $upload_dir['path'] ) ) {
-				$file = $upload_dir['path'] . '/' . $filename;
-			} else {
-				$file = $upload_dir['basedir'] . '/' . $filename;
-			}
-
-			file_put_contents( $file, $image_data );
-
-			$wp_filetype = wp_check_filetype( $filename, null );
-
-			$attach_id = wp_insert_attachment(
-				[
-					'post_mime_type' => $wp_filetype['type'],
-					'post_title'     => sanitize_file_name( $filename ),
-					'post_content'   => '',
-					'post_status'    => 'inherit',
-				],
-				$file,
-				$this->get_id()
-			);
-
-			require_once ABSPATH . 'wp-admin/includes/image.php';
-
-			$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
-			wp_update_attachment_metadata( $attach_id, $attach_data );
-			set_post_thumbnail( $this->get_id(), $attach_id );
+			$this->set_screenshot_image( $details['screenshot'] );
 		}
 
 		return $this;
+	}
+
+	/**
+	 * @param $screenshot
+	 *
+	 * @return void
+	 */
+	private function set_screenshot_image( $screenshot ): void {
+		if ( has_post_thumbnail( $this->get_id() ) ) {
+			wp_delete_attachment( get_post_thumbnail_id( $this->get_id() ), true );
+		}
+
+		$screenshot_img = $screenshot;
+
+		$upload_dir = wp_upload_dir();
+		$image_data = file_get_contents( $screenshot_img );
+		$filename   = basename( $screenshot_img );
+
+		if ( wp_mkdir_p( $upload_dir['path'] ) ) {
+			$file = $upload_dir['path'] . '/' . $filename;
+		} else {
+			$file = $upload_dir['basedir'] . '/' . $filename;
+		}
+
+		file_put_contents( $file, $image_data );
+
+		$wp_filetype = wp_check_filetype( $filename, null );
+
+		$attach_id = wp_insert_attachment(
+			[
+				'post_mime_type' => $wp_filetype['type'],
+				'post_title'     => sanitize_file_name( $filename ),
+				'post_content'   => '',
+				'post_status'    => 'inherit',
+			],
+			$file,
+			$this->get_id()
+		);
+
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
+		wp_update_attachment_metadata( $attach_id, $attach_data );
+		set_post_thumbnail( $this->get_id(), $attach_id );
 	}
 
 	/**

@@ -461,6 +461,10 @@ class Helpers extends Singleton implements ConstInterface {
 	public function has_layout_widget() {
 		$template_id = dollie()->get_site_template_id();
 
+		if ( empty( $template_id ) ) {
+			return false;
+		}
+
 		if ( class_exists( '\Elementor\Plugin' ) && ! is_bool( \Elementor\Plugin::instance()->documents->get( $template_id ) ) && \Elementor\Plugin::instance()->documents->get( $template_id )->is_built_with_elementor() ) {
 			$meta = get_post_meta( $template_id, '_elementor_data' );
 
@@ -470,6 +474,10 @@ class Helpers extends Singleton implements ConstInterface {
 				}
 			}
 		} else {
+			$post = get_post( $template_id );
+			if ( empty( $post ) ) {
+				return false;
+			}
 			$content = get_post( $template_id )->post_content;
 
 			if ( strpos( $content, 'dollie-layout-' ) !== false ) {

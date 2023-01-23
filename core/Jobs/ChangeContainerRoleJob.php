@@ -41,16 +41,18 @@ class ChangeContainerRoleJob extends Singleton {
 			return false;
 		}
 
+		$data = [
+			'email'          => $user->get_email(),
+			'username'       => $container->get_details( 'site.admin.username' ),
+			'password'       => wp_generate_password(),
+			'super_email'    => get_option( 'admin_email' ),
+			'super_username' => get_option( 'options_wpd_admin_user_name', 'sadmin' ),
+			'super_password' => wp_generate_password(),
+			'switch_to'      => $role,
+		];
+
 		$container->set_role(
-			[
-				'email'          => $user->get_email(),
-				'username'       => $container->get_details( 'site.admin.username' ),
-				'password'       => wp_generate_password(),
-				'super_email'    => get_option( 'admin_email' ),
-				'super_username' => get_option( 'options_wpd_admin_user_name' ),
-				'super_password' => wp_generate_password(),
-				'switch_to'      => $role,
-			]
+			$data
 		);
 
 		$container->add_log( Log::WP_SITE_ACCESS_CHANGED, [ $container->get_url( true ), $role ] );

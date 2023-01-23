@@ -119,16 +119,29 @@ final class DeployService extends Singleton implements ConstInterface {
 		}
 
 		$user_role = $container->user()->get_container_user_role() === 'administrator' ? 'admin' : 'editor';
+		if ( $user_role === 'editor' ) {
+			$site_data = [
+				'editor' => [
+					'username' => $data['username']
+				],
+				'admin'  => [
+					'username' => get_option( 'options_wpd_admin_user_name', 'sadmin' )
+				]
+			];
+		} else {
+			$site_data = [
+				'admin' => [
+					'username' => $data['username']
+				],
+			];
+		}
+
 		$container->set_details(
 			[
 				'url'    => $deploy['route'],
 				'status' => $deploy['status'],
 				'type'   => $deploy['type'],
-				'site'   => [
-					$user_role => [
-						'username' => $data['username']
-					]
-				]
+				'site'   => $site_data
 			]
 		);
 
