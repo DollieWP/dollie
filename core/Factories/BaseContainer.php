@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Api\StatsApi;
+use Dollie\Core\Log;
 use Dollie\Core\Utils\LogTrait;
 use WP_Post;
 use Dollie\Core\Utils\ConstInterface;

@@ -119,7 +119,6 @@ final class DeployService extends Singleton implements ConstInterface {
 		}
 
 		$user_role = $container->user()->get_container_user_role() === 'administrator' ? 'admin' : 'editor';
-
 		if ( 'editor' === $user_role ) {
 			$site_data = [
 				'editor' => [
@@ -136,6 +135,9 @@ final class DeployService extends Singleton implements ConstInterface {
 				],
 			];
 		}
+
+		//TODO Find a way not to overwrite with empty data from API on site details update
+		set_transient( "wpd_site_deploy_data_{$container->get_id()}", $site_data, 60*60 );
 
 		$container->set_details(
 			[
