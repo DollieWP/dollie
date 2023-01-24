@@ -22,7 +22,7 @@ final class DeployService extends Singleton implements ConstInterface {
 	 *
 	 * @param string $type
 	 * @param string $route
-	 * @param array $data
+	 * @param array  $data
 	 *
 	 * @return \WP_Error|BaseContainer
 	 */
@@ -119,19 +119,20 @@ final class DeployService extends Singleton implements ConstInterface {
 		}
 
 		$user_role = $container->user()->get_container_user_role() === 'administrator' ? 'admin' : 'editor';
-		if ( $user_role === 'editor' ) {
+
+		if ( 'editor' === $user_role ) {
 			$site_data = [
 				'editor' => [
-					'username' => $data['username']
+					'username' => $data['username'],
 				],
 				'admin'  => [
-					'username' => get_option( 'options_wpd_admin_user_name', 'sadmin' )
-				]
+					'username' => get_option( 'options_wpd_admin_user_name', 'sadmin' ),
+				],
 			];
 		} else {
 			$site_data = [
 				'admin' => [
-					'username' => $data['username']
+					'username' => $data['username'],
 				],
 			];
 		}
@@ -141,7 +142,7 @@ final class DeployService extends Singleton implements ConstInterface {
 				'url'    => $deploy['route'],
 				'status' => $deploy['status'],
 				'type'   => $deploy['type'],
-				'site'   => $site_data
+				'site'   => $site_data,
 			]
 		);
 

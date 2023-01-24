@@ -85,8 +85,8 @@ abstract class BaseContainer implements ConstInterface {
 	 */
 	public function should_be_trashed(): bool {
 		return 'Undeployed' === $this->get_status() ||
-		       'Not Deployed' === $this->get_status() ||
-		       'Undeploying' === $this->get_status();
+			   'Not Deployed' === $this->get_status() ||
+			   'Undeploying' === $this->get_status();
 	}
 
 	/**
@@ -218,7 +218,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * Get post permalink
 	 *
 	 * @param string $append
-	 * @param array $query
+	 * @param array  $query
 	 *
 	 * @return string
 	 */
@@ -568,6 +568,7 @@ abstract class BaseContainer implements ConstInterface {
 
 	/**
 	 * Get resource usage
+	 *
 	 * @return array
 	 */
 	public function get_resource_usage(): array {
@@ -988,7 +989,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return void
 	 */
 	protected function mark_updated() {
-		set_transient( "container.updated.{$this->get_id()}", '1', 1800 );
+		set_transient( "container.updated.{$this->get_id()}", '1', 300 );
 	}
 
 	/**
