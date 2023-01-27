@@ -16,7 +16,7 @@ use WP_Query;
  */
 final class SiteStats extends Singleton implements Base {
 
-	private string $name = 'dollie-site-stats';
+	private $name = 'dollie-site-stats';
 
 	private $labels;
 	private $containers = [
