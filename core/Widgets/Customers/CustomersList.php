@@ -48,7 +48,7 @@ class CustomersList extends \Elementor\Widget_Base {
 		return [ 'dollie-category' ];
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 		$this->start_controls_section(
 			'content_section',
 			[
@@ -76,86 +76,8 @@ class CustomersList extends \Elementor\Widget_Base {
 	}
 
 	protected function render() {
-		if ( ! is_user_logged_in() ) {
-			return false;
-		}
-
-		if ( isset( $_GET['dollie_db_update'] ) ) {
-			return false;
-		}
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return false;
-		}
-
 		$settings = $this->get_settings_for_display();
-
-		$current_page       = get_query_var( 'paged' ) ? (int) get_query_var( 'paged' ) : 1;
-		$customers_per_page = $settings['customers_per_page'];
-
-		$args = [
-			[ 'role__in' => [ 'author', 'subscriber', 'customer' ] ],
-			'number' => $customers_per_page, // How many per page
-			'paged'  => $current_page, // What page to get, starting from 1.
-		];
-
-		if ( isset( $_GET['search'] ) && $_GET['search'] ) {
-			$searchword = sanitize_text_field( $_GET['search'] );
-			$parts      = explode( ' ', $searchword );
-
-			$args['search_columns'] = [ 'display_name' ];
-			$args['search']         = "*{$searchword}*";
-			$args['orderby']        = 'display_name';
-			$args['order']          = 'ASC';
-
-			if ( ! empty( $parts ) ) {
-
-				$args['meta_query']             = [];
-				$args['meta_query']['relation'] = 'OR';
-
-				foreach ( $parts as $part ) {
-					$args['meta_query'][] = [
-						'key'     => 'first_name',
-						'value'   => $part,
-						'compare' => 'LIKE',
-					];
-					$args['meta_query'][] = [
-						'key'     => 'last_name',
-						'value'   => $part,
-						'compare' => 'LIKE',
-					];
-				}
-			}
-		}
-
-		$customers = new WP_User_Query( $args );
-
-		$total_customers = $customers->get_total(); // How many users we have in total (beyond the current page)
-		$num_pages       = ceil( $total_customers / $customers_per_page ); // How many pages of users we will need
-
-		$view_type = isset( $_GET['list_type'] ) && in_array(
-			$_GET['list_type'],
-			[
-				'list',
-				'grid',
-			]
-		) ? sanitize_text_field( $_GET['list_type'] ) : 'list';
-
-		$data = [
-			'customers'       => $customers,
-			'total_customers' => $total_customers,
-			'per_page'        => $total_customers,
-			'pages'           => $num_pages,
-			'view_type'       => $view_type,
-			'settings'        => $settings,
-			'current_page'    => $current_page,
-			'query_data'      => [
-				'permalink'    => get_the_permalink(),
-				'current_page' => get_query_var( 'paged', 1 ),
-			],
-		];
-
-		dollie()->load_template( 'loop/customers', $data, true );
+		echo \Dollie\Core\Shortcodes\CustomersList::instance()->shortcode( $settings );
 	}
 
 }

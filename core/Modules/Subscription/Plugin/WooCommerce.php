@@ -16,30 +16,22 @@ use Dollie\Core\Singleton;
 class WooCommerce extends Singleton implements SubscriptionInterface {
 
 	const
-		SUB_STATUS_ANY = 'any',
+		SUB_STATUS_ANY    = 'any',
 		SUB_STATUS_ACTIVE = 'active';
 
 	/**
 	 * WooCommerce constructor
 	 */
 	public function __construct() {
-		add_action( 'acf/init', [ $this, 'load_acf' ] );
+
+		add_action( 'init', [ $this, 'enable_automatic_payments' ] );
 		add_action( 'woocommerce_thankyou', [ $this, 'redirect_to_blueprint' ] );
 		add_action( 'after_setup_theme', [ $this, 'add_theme_support' ] );
 
 		add_filter( 'dollie/required_plugins', [ $this, 'required_woocommerce' ] );
 
-		add_filter( 'dollie/blueprints', [ $this, 'filter_blueprints' ] );
+		add_filter( 'acf/prepare_field_group_for_import', [ $this, 'add_acf_fields' ] );
 
-	}
-
-	/**
-	 * Load ACF
-	 *
-	 * @return void
-	 */
-	public function load_acf() {
-		require DOLLIE_CORE_PATH . 'Modules/Subscription/Plugin/acf-fields/woo-acf-fields.php';
 	}
 
 	/**
@@ -64,7 +56,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			'required'         => true,
 			'version'          => '3.0.10',
 			'force_activation' => false,
-			'source'           => 'https://api.getdollie.com/releases/?action=download&slug=woocommerce-subscriptions',
+			'source'           => 'https://manager.getdollie.com/releases/?action=download&slug=woocommerce-subscriptions',
 		];
 
 		return $plugins;
@@ -79,7 +71,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) {
 			$order = new \WC_Order( $order_id );
 			if ( 'failed' !== $order->status ) {
-				wp_redirect( dollie()->get_launch_page_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
+				wp_redirect( dollie()->page()->get_launch_site_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
 				exit;
 			}
 		}
@@ -106,6 +98,9 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		}
 
 		$product_obj = wc_get_product( $args['product_id'] );
+		if ( ! $product_obj ) {
+			return '#';
+		}
 
 		$link_args = [
 			'add-to-cart'  => $args['product_id'],
@@ -133,7 +128,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	/**
 	 * Get subscriptions for customer
 	 *
-	 * @param string $status
+	 * @param string   $status
 	 * @param null|int $customer_id
 	 *
 	 * @return array|bool
@@ -224,9 +219,10 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 				$data['resources']['max_allowed_installs'] += $installs * $quantity;
 				$data['resources']['max_allowed_size']     += $max_size * $quantity;
-				$data['resources']['name']                 = $item_data['name'];
-				$data['resources']['staging_max_allowed'] += $staging * $quantity;
+				$data['resources']['name']                  = $item_data['name'];
+				$data['resources']['staging_max_allowed']  += $staging * $quantity;
 
+				$data = apply_filters( 'dollie/woo/subscription_product_data', $data, $customer_id, $id );
 			}
 		}
 
@@ -234,7 +230,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			set_transient( $transient, $data, 30 );
 		}
 
-		return $data;
+		return apply_filters( 'dollie/woo/subscription_data', $data, $customer_id );
 	}
 
 	/**
@@ -262,248 +258,51 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	}
 
 	/**
-	 * Check if customer has subscription
-	 *
-	 * @return bool
-	 */
-	public function has_subscription() {
-		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
-			return true;
-		}
-
-		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
-
-		return $subscription ? (bool) $subscription['plans'] : $subscription;
-	}
-
-	/**
-	 * Get how many sites are left available for customer
-	 *
-	 * @return int|mixed
-	 */
-	public function sites_available() {
-		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
-
-		if ( ! $subscription ) {
-			return 0;
-		}
-
-		$total_site = dollie()->count_customer_containers( get_current_user_id() );
-
-		return $subscription['resources']['max_allowed_installs'] - $total_site;
-	}
-
-	/**
-	 * Get storage available for customer
-	 *
-	 * @return int|mixed
-	 */
-	public function storage_available() {
-		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
-
-		if ( ! $subscription ) {
-			return 0;
-		}
-
-		return $subscription['resources']['max_allowed_size'];
-	}
-
-	/**
-	 * Get subscription name
-	 *
-	 * @return mixed|string
-	 */
-	public function subscription_name() {
-		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
-
-		if ( ! $subscription || ! isset( $subscription['resources']['name'] ) ) {
-			return __( 'None', 'dollie' );
-		}
-
-		return $subscription['resources']['name'];
-	}
-
-	/**
-	 * Check if site limit has been reached
-	 *
-	 * @return bool
-	 */
-	public function site_limit_reached() {
-		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
-			return false;
-		}
-
-		if ( current_user_can( 'manage_options' ) ) {
-			return false;
-		}
-
-		if ( ! $this->has_subscription() ) {
-			return true;
-		}
-
-		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
-
-		if ( ! is_array( $subscription ) || empty( $subscription ) ) {
-			return true;
-		}
-
-		$total_sites = (int) dollie()->count_customer_containers( get_current_user_id() );
-
-		return $total_sites >= $subscription['resources']['max_allowed_installs'];
-	}
-
-	/**
 	 * Check if the size limit has been reached
 	 *
 	 * @return bool
 	 */
-	public function size_limit_reached() {
-		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
-			return false;
+	public function enable_automatic_payments() {
+		if ( get_option( 'dollie_hosted_initial_setup' ) !== '1' ) {
+			update_option( 'wc_subscription_duplicate_site', 'update' );
+			update_option( 'wcs_ignore_duplicate_siteurl_notice', 1 );
 		}
-
-		$subscription = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
-
-		if ( ! $subscription ) {
-			return false;
-		}
-
-		$total_size   = dollie()->get_total_container_size();
-		$allowed_size = $subscription['resources']['max_allowed_size'] * 1024 * 1024 * 1024;
-
-		return $this->has_subscription() && $total_size >= $allowed_size && ! current_user_can( 'manage_options' );
 	}
 
-	/**
-	 * Get excluded blueprints
-	 *
-	 * @return array|boolean
-	 */
-	public function get_blueprints_exception( $type = 'excluded' ) {
+	public function add_acf_fields( $field_group ) {
+		$fields = [
+			array(
+				'key'           => 'field_5b0578b4639a6',
+				'label'         => __( 'Link to Hosting Product', 'dollie' ),
+				'name'          => 'wpd_installation_blueprint_hosting_product',
+				'type'          => 'relationship',
+				'instructions'  => __( 'By linking this blueprint directly to a hosting product you can enable one-click checkout + deployment for your new customers.', 'dollie' ),
+				'required'      => 0,
+				'wrapper'       => array(
+					'width' => '',
+					'class' => '',
+					'id'    => '',
+				),
+				'hide_admin'    => 0,
+				'post_type'     => array(
+					0 => 'product',
+				),
+				'taxonomy'      => '',
+				'filters'       => array(
+					0 => 'search',
+					1 => 'taxonomy',
+				),
+				'elements'      => array(
+					0 => 'featured_image',
+				),
+				'min'           => '',
+				'max'           => 1,
+				'return_format' => 'id',
+			),
+		];
 
-		$data          = [];
-		$type          .= '_blueprints';
-		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE );
+		return dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5affdcd76c8d1', 'wpd_installation_blueprint_description', 'after' );
 
-		if ( empty( $subscriptions ) ) {
-			return false;
-		}
-
-		foreach ( $subscriptions['plans']['products'] as $product ) {
-			if ( isset( $product[ $type ] ) && ! empty( $product[ $type ] ) ) {
-				foreach ( $product[ $type ] as $bp ) {
-					$data[ $bp ] = $bp;
-				}
-			}
-		}
-
-		if ( empty( $data ) ) {
-			return false;
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Check if user has staing
-	 *
-	 * @param null|int $user_id
-	 *
-	 * @return boolean
-	 */
-	public function has_staging( $user_id = null ) {
-		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
-			return true;
-		}
-
-		if ( ! get_field( 'wpd_enable_staging', 'options' ) ) {
-			return false;
-		}
-
-		if ( is_super_admin() ) {
-			return true;
-		}
-
-		if ( null === $user_id ) {
-			$user_id = get_current_user_id();
-		}
-
-		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user_id );
-
-		// If no subscription is active.
-		if ( empty( $subscriptions ) ) {
-			return false;
-		}
-
-		// Apply overrides at product level.
-		if ( isset( $subscriptions['resources']['staging_max_allowed'] ) ) {
-			return $subscriptions['resources']['staging_max_allowed'] > 0;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Check if site limit has been reached
-	 *
-	 * @return bool
-	 */
-	public function staging_sites_limit_reached( $user_id = null ) {
-
-		if ( current_user_can( 'manage_options' ) ) {
-			return false;
-		}
-
-		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
-			return false;
-		}
-
-		if ( null === $user_id ) {
-			$user_id = get_current_user_id();
-		}
-
-		$subscriptions = $this->get_customer_subscriptions( self::SUB_STATUS_ACTIVE, $user_id );
-
-		if ( ! is_array( $subscriptions ) || empty( $subscriptions ) ) {
-			return false;
-		}
-
-		$total_site = (int) dollie()->count_customer_staging_sites( $user_id );
-
-		return ( $subscriptions['resources']['staging_max_allowed'] - $total_site ) <= 0;
-	}
-
-	/**
-	 * Filter blueprints
-	 *
-	 * @param array $blueprints
-	 *
-	 * @return array
-	 */
-	public function filter_blueprints( $blueprints ) {
-
-		if ( current_user_can( 'manage_options' ) ) {
-			return $blueprints;
-		}
-
-		if ( ! empty( $blueprints ) ) {
-
-			$included = $this->get_blueprints_exception( 'included' );
-			if ( ! empty( $included ) ) {
-				return array_intersect_key( $blueprints, $included );
-			}
-
-			$excluded = $this->get_blueprints_exception();
-			if ( ! empty( $excluded ) ) {
-				foreach ( $excluded as $bp_id ) {
-					if ( isset( $blueprints[ $bp_id ] ) ) {
-						unset( $blueprints[ $bp_id ] );
-					}
-				}
-			}
-		}
-
-		return $blueprints;
 	}
 
 }

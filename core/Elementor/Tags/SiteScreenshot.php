@@ -2,13 +2,12 @@
 
 namespace Dollie\Core\Elementor\Tags;
 
-use Elementor\Controls_Manager;
 use Elementor\Core\DynamicTags\Data_Tag;
+use Elementor\Modules\DynamicTags\Module;
 
 class SiteScreenshot extends Data_Tag {
 
 	public function get_name() {
-
 		return 'dollie-site-screenshot';
 	}
 
@@ -21,18 +20,17 @@ class SiteScreenshot extends Data_Tag {
 	}
 
 	public function get_categories() {
-		return [ \Elementor\Modules\DynamicTags\Module::IMAGE_CATEGORY ];
+		return [ Module::IMAGE_CATEGORY ];
 	}
 
 	public function get_value( array $options = [] ) {
 
-		$current_id = dollie()->get_current_site_id();
+		$current_id = dollie()->get_current_post_id();
+		$container  = dollie()->get_container( $current_id );
 
 		return [
 			'id'  => '',
-			'url' => dollie()->get_site_screenshot( $current_id, false )
+			'url' => $container->get_screenshot(),
 		];
-
 	}
-
 }

@@ -13,7 +13,6 @@ var DollieSiteList = DollieSiteList || {};
     init: function () {
       DollieSiteList.fn.pagination();
       DollieSiteList.fn.search();
-      DollieSiteList.fn.toggleView();
       DollieSiteList.fn.actionsAndFilters();
       DollieSiteList.fn.applyFilters();
       DollieSiteList.fn.sendBulkAction();
@@ -23,28 +22,25 @@ var DollieSiteList = DollieSiteList || {};
     },
 
     actionsAndFilters: function () {
-      $(".dol-select-all-container").on("change", function () {
+      $(".dol-select-containers").on("change", function () {
         $(
           ".dol-sites-item:not(.dol-sites-item-locked) input[type=checkbox]"
         ).prop("checked", $(this).prop("checked"));
 
-        if ($(this).is(":checked")) {
-          $(".dol-open-modal").addClass("dol-open-modal-visible");
-        } else {
-          $(".dol-open-modal").removeClass("dol-open-modal-visible");
-        }
+        $(".dol-open-modal").prop("disabled", !$(this).is(":checked"));
 
         DollieSiteList.fn.updateSelectedSites();
       });
 
       $(".dol-sites-item input[type=checkbox]").on("change", function () {
-        var checked = DollieSiteList.fn.updateSelectedSites();
+        var data = DollieSiteList.fn.updateSelectedSites();
 
-        if (checked) {
-          $(".dol-open-modal").addClass("dol-open-modal-visible");
-        } else {
-          $(".dol-open-modal").removeClass("dol-open-modal-visible");
-        }
+        $(".dol-open-modal").prop("disabled", !data.checked);
+
+        $(".dol-select-containers").prop({
+          checked: data.checked,
+          indeterminate: data.indeterminate,
+        });
       });
 
       $(".dol-open-modal").on("click", function (e) {
@@ -73,7 +69,7 @@ var DollieSiteList = DollieSiteList || {};
       $(".dol-modal-close").on("click", function (e) {
         e.preventDefault();
 
-        var modal = $(this).closest(".dol-modal");
+        var modal = $(this).closest(".dol-custom-modal");
 
         if (!modal) {
           return false;
@@ -136,15 +132,18 @@ var DollieSiteList = DollieSiteList || {};
       $(".dol-apply-filters").on("click", function (e) {
         e.preventDefault();
 
+        var searchParams = new URLSearchParams(window.location.search);
         var per_page = $("#per-page").val();
 
-        var searchParams = new URLSearchParams(window.location.search);
+        searchParams.set("customer", $("#customer").val());
+        searchParams.set("status", $("#status").val());
+        searchParams.set("site_type", $("#site_type").val());
 
         if (per_page) {
           searchParams.set("per_page", per_page);
         }
 
-        $(this).closest(".dol-modal").removeClass("dol-modal-visible");
+        $(this).closest(".dol-custom-modal").removeClass("dol-modal-visible");
         window.location.search = searchParams.toString();
       });
     },
@@ -158,8 +157,11 @@ var DollieSiteList = DollieSiteList || {};
         }
 
         if (!DollieSiteList.vars.selectedSites.length) {
-          $(this).closest(".dol-modal").find(".dol-modal-success").hide();
-          $(this).closest(".dol-modal").find(".dol-modal-error").show();
+          $(this)
+            .closest(".dol-custom-modal")
+            .find(".dol-modal-success")
+            .hide();
+          $(this).closest(".dol-custom-modal").find(".dol-modal-error").show();
           return;
         }
 
@@ -193,13 +195,19 @@ var DollieSiteList = DollieSiteList || {};
           },
           success: function (response) {
             if (response.success) {
-              $(this).closest(".dol-modal").find(".dol-modal-error").hide();
-              $(this).closest(".dol-modal").find(".dol-modal-success").show();
+              $(this)
+                .closest(".dol-custom-modal")
+                .find(".dol-modal-error")
+                .hide();
+              $(this)
+                .closest(".dol-custom-modal")
+                .find(".dol-modal-success")
+                .show();
 
               if (response.data) {
                 $.each(response.data, function (index, item) {
                   var element = $(
-                    "[data-site-name='" + item.container_uri + "']"
+                    "[data-site-hash='" + item.container_hash + "']"
                   );
 
                   if (element.length) {
@@ -221,9 +229,11 @@ var DollieSiteList = DollieSiteList || {};
 
               var btn = $(this);
               setTimeout(function () {
-                btn.closest(".dol-modal").removeClass("dol-modal-visible");
-                $(".dol-open-modal").removeClass("dol-open-modal-visible");
-                $(".dol-select-all-container")
+                btn
+                  .closest(".dol-custom-modal")
+                  .removeClass("dol-modal-visible");
+                $(".dol-open-modal").prop("disabled", false);
+                $(".dol-select-containers")
                   .prop("checked", false)
                   .trigger("change");
               }, 2000);
@@ -233,8 +243,14 @@ var DollieSiteList = DollieSiteList || {};
 
               $("#dol-resources-list").find(".dol-resources-list").remove();
             } else {
-              $(this).closest(".dol-modal").find(".dol-modal-success").hide();
-              $(this).closest(".dol-modal").find(".dol-modal-error").show();
+              $(this)
+                .closest(".dol-custom-modal")
+                .find(".dol-modal-success")
+                .hide();
+              $(this)
+                .closest(".dol-custom-modal")
+                .find(".dol-modal-error")
+                .show();
 
               $(this).prop("disabled", false);
             }
@@ -369,23 +385,25 @@ var DollieSiteList = DollieSiteList || {};
             },
             success: function (response) {
               if (response.success) {
-                if (response.data.length) {
-                  $.each(response.data, function (index, item) {
-                    var element = $(
-                      "[data-site-name='" + item.container_uri + "']"
-                    );
+                $.each($(".dol-sites-item"), function (i, element) {
+                  var hash = $(element).data("site-hash");
 
-                    if (element.length) {
-                      element.removeClass("dol-sites-item-locked");
-                      element
-                        .find(".dol-item-execution-placeholder")
-                        .addClass("dol-hidden");
-                      element
-                        .find(".dol-sites-controls")
-                        .removeClass("dol-hidden");
-                    }
-                  });
-                }
+                  const action = response.data.filter(
+                    (item) => item.container_hash === hash
+                  );
+
+                  if (action.length) {
+                    return true;
+                  }
+
+                  $(element).removeClass("dol-sites-item-locked");
+                  $(element)
+                    .find(".dol-item-execution-placeholder")
+                    .addClass("dol-hidden");
+                  $(element)
+                    .find(".dol-sites-controls")
+                    .removeClass("dol-hidden");
+                });
               }
             },
           });
@@ -615,7 +633,7 @@ var DollieSiteList = DollieSiteList || {};
           url: $(this).data("ajax-url"),
           data: {
             uuid: $(this).data("uuid"),
-            container_id: $(this).data("container-id"),
+            container_hash: $(this).data("container-hash"),
             action: "dollie_delete_recurring_container",
             nonce: $(this).data("nonce"),
           },
@@ -679,13 +697,14 @@ var DollieSiteList = DollieSiteList || {};
     },
 
     updateSelectedSites: function () {
-      var checked;
+      var checkboxes = $(".dol-sites-item input[type=checkbox]");
+      var counter = 0;
 
       DollieSiteList.vars.selectedSites = [];
 
-      $(".dol-sites-item input[type=checkbox]").each(function (index, item) {
+      checkboxes.each(function (index, item) {
         if ($(item).is(":checked")) {
-          checked = true;
+          counter++;
           DollieSiteList.vars.selectedSites.push({
             id: $(item).val(),
             url: $(item)
@@ -696,7 +715,24 @@ var DollieSiteList = DollieSiteList || {};
         }
       });
 
-      return checked;
+      if (counter > 0 && counter < checkboxes.length) {
+        return {
+          checked: true,
+          indeterminate: true,
+        };
+      }
+
+      if (counter === checkboxes.length) {
+        return {
+          checked: true,
+          indeterminate: false,
+        };
+      }
+
+      return {
+        checked: false,
+        indeterminate: false,
+      };
     },
 
     pagination: function () {
@@ -707,8 +743,9 @@ var DollieSiteList = DollieSiteList || {};
           e.preventDefault();
 
           $(".dol-sites-item input[type=checkbox]").prop("checked", false);
-          $(".dol-select-all-container").prop("checked", false);
-          $(".dol-open-modal").removeClass("dol-open-modal-visible");
+          $(".dol-select-containers").prop("checked", false);
+          $(".dol-open-modal").prop("disabled", false);
+
           DollieSiteList.fn.updateSelectedSites();
 
           var elementId = $(this)
@@ -721,10 +758,6 @@ var DollieSiteList = DollieSiteList || {};
           }
 
           let url = new URL(load);
-          url.searchParams.set(
-            "list_type",
-            $(this).parent().attr("data-list-type")
-          );
 
           var elementor_library = url.searchParams.get("elementor_library");
           if (elementor_library) {
@@ -736,6 +769,7 @@ var DollieSiteList = DollieSiteList || {};
           var search = $(this)
             .closest(".elementor-widget-dollie-sites-listing")
             .find(".dol-search-site");
+
           if (search.length && search.attr("data-search-term")) {
             url.searchParams.set("search", search.attr("data-search-term"));
           }
@@ -779,18 +813,29 @@ var DollieSiteList = DollieSiteList || {};
           }
 
           $(".dol-sites-item input[type=checkbox]").prop("checked", false);
-          $(".dol-select-all-container").prop("checked", false);
-          $(".dol-open-modal").removeClass("dol-open-modal-visible");
+          $(".dol-select-containers").prop("checked", false);
+          $(".dol-open-modal").prop("disabled", false);
+
           DollieSiteList.fn.updateSelectedSites();
 
           var elementId = $(this)
             .closest(".elementor-widget-dollie-sites-listing")
             .data("id");
-          var load = $(this).data("permalink");
 
+          var load = $(this).data("permalink");
           let url = new URL(load);
-          url.searchParams.set("list_type", $(this).attr("data-list-type"));
+
+          const urlSearchParams = new URLSearchParams(window.location.search);
+          const params = Object.fromEntries(urlSearchParams.entries());
+
+          if (params.blueprints) {
+            url.searchParams.set("blueprints", "yes");
+          }
+
           url.searchParams.set("search", $(this).val());
+          url.searchParams.set("customer", $("#customer").val());
+          url.searchParams.set("status", $("#status").val());
+          url.searchParams.set("site_type", $("#site_type").val());
 
           if ($(this).data("per-page")) {
             url.searchParams.set("per_page", $(this).data("per-page"));
@@ -827,40 +872,6 @@ var DollieSiteList = DollieSiteList || {};
         }
 
         $(this).attr("data-search-term", $(this).val());
-      });
-    },
-
-    toggleView: function () {
-      $(".dol-list-switch").on("click", function (e) {
-        e.preventDefault();
-
-        $(".dol-list-switch").removeClass("dol-switch-active");
-        $(this).addClass("dol-switch-active");
-
-        var sitesContainer = $(".dol-sites-container");
-        var sitesContainerItem = $(".dol-sites-item");
-
-        if ($(this).data("list-type") === "list") {
-          sitesContainer.removeClass("dol-sites-grid");
-          sitesContainer.addClass("dol-sites-list");
-          sitesContainerItem.removeClass("dol-sites-grid-item");
-          sitesContainerItem.addClass("dol-sites-list-item");
-        } else {
-          sitesContainer.removeClass("dol-sites-list");
-          sitesContainer.addClass("dol-sites-grid");
-          sitesContainerItem.removeClass("dol-sites-list-item");
-          sitesContainerItem.addClass("dol-sites-grid-item");
-        }
-
-        $(this)
-          .closest(".elementor-widget-dollie-sites-listing")
-          .find(".dol-sites-pages")
-          .attr("data-list-type", $(this).data("list-type"));
-
-        $(this)
-          .closest(".elementor-widget-dollie-sites-listing")
-          .find(".dol-search-site")
-          .attr("data-list-type", $(this).data("list-type"));
       });
     },
   };

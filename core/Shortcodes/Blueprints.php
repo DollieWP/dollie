@@ -15,7 +15,6 @@ use WP_Query;
  * @package Dollie\Core\Shortcodes
  */
 final class Blueprints extends Singleton implements Base {
-
 	/**
 	 * Blueprints constructor.
 	 */
@@ -41,7 +40,6 @@ final class Blueprints extends Singleton implements Base {
 	 * @return false|mixed|string
 	 */
 	public function shortcode( $atts ) {
-
 		$a = shortcode_atts(
 			[
 				'amount'             => - 1,
@@ -49,7 +47,6 @@ final class Blueprints extends Singleton implements Base {
 				'orderby'            => 'post_date',
 				'order'              => 'DESC',
 				'category'           => '',
-				// 'template'           => 'loop/blueprints',
 				'id'                 => '',
 				'checkout-url'       => '',
 				'launch-button-text' => '',
@@ -91,23 +88,20 @@ final class Blueprints extends Singleton implements Base {
 		}
 
 		$query = new WP_Query( $args );
+		$posts = $query->get_posts();
 
 		ob_start();
 
 		if ( $query->have_posts() ) {
-			$rows         = $a['columns'];
-			$custom_class = $a['custom-class'];
+			$rows = $a['columns'];
 
 			echo '<ul class="dol-grid dol-grid-cols-1 dol-gap-6 sm:dol-grid-cols-2 md:dol-grid-cols-' . $rows . ' lg:dol-grid-cols-' . $rows . ' dol-m-0 dol-p-0">';
 
-			while ( $query->have_posts() ) {
-				$query->the_post();
-
-				// Include template
+			foreach ( $posts as $post ) {
 				dollie()->load_template(
 					'loop/blueprints',
 					[
-						'query'              => $query,
+						'post'               => $post,
 						'launch_button_text' => $a['launch-button-text'],
 						'view_demo_text'     => $a['view-demo-text'],
 						'checkout_url'       => $a['checkout-url'],
@@ -124,5 +118,4 @@ final class Blueprints extends Singleton implements Base {
 
 		return ob_get_clean();
 	}
-
 }

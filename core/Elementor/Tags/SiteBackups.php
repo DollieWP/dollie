@@ -4,12 +4,12 @@ namespace Dollie\Core\Elementor\Tags;
 
 use Elementor\Controls_Manager;
 use Elementor\Core\DynamicTags\Tag;
+use Elementor\Modules\DynamicTags\Module;
 
 
 class SiteBackups extends Tag {
 
 	public function get_name() {
-
 		return 'dollie-site-backups';
 	}
 
@@ -22,17 +22,30 @@ class SiteBackups extends Tag {
 	}
 
 	public function get_categories() {
-		return [ \Elementor\Modules\DynamicTags\Module::TEXT_CATEGORY ];
+		return [ Module::TEXT_CATEGORY ];
 	}
 
 	public function render() {
+		$current_id = dollie()->get_current_post_id();
+		$container  = dollie()->get_container( $current_id );
 
-		$available_backups = dollie()->get_site_total_backups( dollie()->get_current_site_id() );
-		if ( ! $available_backups ) {
-			$available_backups = 0;
+		if ( is_wp_error( $container ) ) {
+			echo 0;
 		}
-		echo wp_kses_post( $available_backups );
 
+		$details = $container->get_details();
+
+		if ( is_wp_error( $details ) ) {
+			echo 0;
+		}
+
+		if ( empty( $details['backups'] ) ) {
+			$available_backups = 0;
+		} else {
+			$available_backups = $details['backups'];
+		}
+
+		echo wp_kses_post( $available_backups );
 	}
 
 }

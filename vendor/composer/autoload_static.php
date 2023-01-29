@@ -45,10 +45,6 @@ class ComposerStaticInitd74c51878e5e803470637e5220cd7216
         array (
             'Dollie\\Core\\' => 12,
         ),
-        'A' => 
-        array (
-            'Appsero\\' => 8,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -92,13 +88,10 @@ class ComposerStaticInitd74c51878e5e803470637e5220cd7216
         array (
             0 => __DIR__ . '/../..' . '/core',
         ),
-        'Appsero\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/appsero/client/src',
-        ),
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Mexitek\\PHPColors\\Color' => __DIR__ . '/..' . '/mexitek/phpcolors/src/Mexitek/PHPColors/Color.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
     );

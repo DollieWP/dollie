@@ -29,17 +29,12 @@ class LatestNews extends \Elementor\Widget_Base {
 		return [ 'dollie-category' ];
 	}
 
-	protected function _register_controls() {
+	protected function register_controls() {
 
 	}
 
 	protected function render() {
-		$data = [
-			'posts'    => dollie()->get_site_posts(),
-			'settings' => $this->get_settings_for_display(),
-		];
-
-		dollie()->load_template( 'widgets/dashboard/latest-news', $data, true );
+		echo \Dollie\Core\Shortcodes\LatestNews::instance()->shortcode();
 	}
 
 }

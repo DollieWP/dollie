@@ -4,17 +4,35 @@ namespace Dollie\Core\Elementor\Tags;
 
 use Elementor\Controls_Manager;
 use Elementor\Core\DynamicTags\Data_Tag;
+use Elementor\Modules\DynamicTags\Module;
 
 class SiteImageRemoteInfo extends Data_Tag {
 
+	private $container;
 	private $wpd_data = [];
 
 	public function __construct( array $data = [] ) {
 		parent::__construct( $data );
 
-		$current_id = dollie()->get_current_site_id();
+		$this->wpd_data['site_data'] = [];
 
-		$this->wpd_data = \Dollie\Core\Modules\Container::instance()->get_container_details( $current_id );
+		$current_id = dollie()->get_current_post_id();
+
+		$this->container = dollie()->get_container( $current_id );
+
+		if ( is_wp_error( $this->container ) ) {
+			return;
+		}
+
+		$details = $this->container->get_details();
+
+		if ( is_wp_error( $details ) ) {
+			return;
+		}
+
+		if ( isset( $details['site'] ) ) {
+			$this->wpd_data['site_data'] = $details['site'];
+		}
 
 	}
 
@@ -27,30 +45,31 @@ class SiteImageRemoteInfo extends Data_Tag {
 		return __( 'Dollie Site Remote Info', 'dynamic-tags' );
 	}
 
-
 	public function get_group() {
 		return 'dollie-tags';
 	}
 
 	public function get_categories() {
-		return [ \Elementor\Modules\DynamicTags\Module::IMAGE_CATEGORY ];
+		return [ Module::IMAGE_CATEGORY ];
 	}
 
-	protected function _register_controls() {
-
+	protected function register_controls() {
 		$keys = [];
-		foreach ( $this->wpd_data['site_data'] as $k => $data ) {
 
-			if ( is_array( $data ) || false === $data ) {
-				continue;
-			}
+		if ( ! is_wp_error( $this->container ) && ! empty( $this->wpd_data['site_data'] ) ) {
+			foreach ( $this->wpd_data['site_data'] as $k => $data ) {
 
-			if ( strpos( $data, '.png' ) ||
-				 strpos( $data, '.jpg' ) ||
-				 strpos( $data, '.jpeg' ) ||
-				 strpos( $data, '.gif' ) ) {
+				if ( is_array( $data ) || false === $data ) {
+					continue;
+				}
 
-				$keys[ $k ] = $k;
+				if ( strpos( $data, '.png' ) ||
+					 strpos( $data, '.jpg' ) ||
+					 strpos( $data, '.jpeg' ) ||
+					 strpos( $data, '.gif' ) ) {
+
+					$keys[ $k ] = $k;
+				}
 			}
 		}
 
@@ -65,26 +84,23 @@ class SiteImageRemoteInfo extends Data_Tag {
 	}
 
 	public function get_value( array $options = [] ) {
+		// $param_name = $this->get_settings( 'param_name' );
 
-		$param_name = $this->get_settings( 'param_name' );
+		// if ( ! $param_name ) {
+		// return '';
+		// }
 
-		if ( ! $param_name ) {
-			return '';
-		}
+		// $data = $this->wpd_data['site_data'];
 
-		$data = $this->wpd_data['site_data'];
+		// if ( ! isset( $data[ $param_name ] ) ) {
+		// return '';
+		// }
 
-		if ( ! isset( $data[ $param_name ] ) ) {
-			return '';
-		}
-
-		$value = $data[ $param_name ];
+		// $value = $data[ $param_name ];
 
 		return [
 			'id'  => '',
-			'url' => $value,
+			'url' => '',
 		];
-
 	}
-
 }
