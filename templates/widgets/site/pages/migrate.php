@@ -77,7 +77,7 @@ $credentials = $container->get_credentials();
 				<path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
 				<path d="M22 4L12 14.01l-3-3"></path>
 			</svg>
-			<span class="title-font font-s dol-text-sm"><?php _e( 'Activate the plugin', 'dollie' ); ?></span></div>
+			<span class="title-font font-s dol-text-sm"><?php _e( '<strong>Activate</strong> the plugin', 'dollie' ); ?></span></div>
 	</div>
 	<div class="dol-p-0 dol-w-full">
 		<div class="dol-bg-gray-50 dol-flex dol-p-2 dol-h-full dol-items-center">
@@ -109,9 +109,18 @@ $credentials = $container->get_credentials();
 				<path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
 				<path d="M22 4L12 14.01l-3-3"></path>
 			</svg>
-			<span class="title-font font-s dol-text-sm"> <?php echo wp_kses_post( __( 'Now choose <strong>FTP</strong> as your migration method, at the bottom right of the screen.', 'dollie' ) ); ?></span>
+			<span class="title-font font-s dol-text-sm"> <?php echo wp_kses_post( __( 'Now choose <strong>Other host</strong> as your migration method, at the bottom right of the screen.', 'dollie' ) ); ?></span>
 		</div>
 	</div>
+	<div class="w-full p-0">
+                    <div class="flex items-center h-full p-2 bg-gray-50">
+                        <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="flex-shrink-0 w-5 h-5 mr-4 text-indigo-500" viewBox="0 0 24 24">
+                            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
+                            <path d="M22 4L12 14.01l-3-3"></path>
+                        </svg>
+                        <span class="text-sm title-font font-s"> Now click <strong>Manually Input Host Details</strong></span>
+                    </div>
+                </div>
 	<div class="dol-p-0 dol-w-full">
 		<div class="dol-bg-gray-50 dol-flex dol-p-2 dol-h-full dol-items-center">
 			<svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"
