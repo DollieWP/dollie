@@ -231,6 +231,26 @@ class Helpers extends Singleton implements ConstInterface {
 		return ( new \WP_Query( $args ) )->have_posts();
 	}
 
+	public function get_products(): array {
+		$args = [
+			'post_type'  => 'product',
+			'status'     => 'publish',
+			'meta_query' => [
+				[
+					'key'         => 'wpd_',
+					'compare_key' => 'LIKE',
+				],
+			],
+		];
+
+		$args = apply_filters( 'dollie_product_query', $args );
+
+		return ( new \WP_Query( $args ) )->posts;
+	}
+
+
+
+
 	/**
 	 * Get total containers counter
 	 *
@@ -287,6 +307,49 @@ class Helpers extends Singleton implements ConstInterface {
 		wp_reset_postdata();
 
 		return $query->found_posts;
+	}
+
+	/**
+	 * Get total Active blueprints counter
+	 *
+	 * @return integer
+	 */
+	public function get_blueprints(): array {
+
+		$args = array(
+		'post_type'     => 'container',
+				'post_per_page' => - 1,
+				'meta_query'    => [
+					'relation' => 'AND',
+					[
+						'key'   => 'dollie_container_type',
+						'value' => '1',
+					],
+					[
+						'key'   => 'wpd_blueprint_created',
+						'value' => 'yes',
+					],
+					[
+						'key'     => 'wpd_installation_blueprint_title',
+						'compare' => 'EXISTS',
+					],
+				],
+		);
+
+		$posts = get_posts($args);
+			foreach ($posts as $post) {
+				$blueprint_data = get_fields($post->ID);
+				$post_meta = get_post_meta($post->ID);
+				$rtc_data = get_field( 'wpd_dynamic_blueprint_data', 'create_update_blueprint_' . $post->ID );
+
+				$post->blueprint_details = $blueprint_data;
+				$post->blueprint_real_time_customzizer = $rtc_data;
+				$post->post_meta = $post_meta;
+
+			}
+
+		return $posts;
+
 	}
 
 	/**
