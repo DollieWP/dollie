@@ -234,7 +234,15 @@ class Helpers extends Singleton implements ConstInterface {
 		return ( new \WP_Query( $args ) )->have_posts();
 	}
 
+	/**
+	 * @return array
+	 */
 	public function get_products(): array {
+
+		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
+			return [];
+		}
+
 		$args = [
 			'post_type'  => 'product',
 			'status'     => 'publish',
@@ -246,16 +254,12 @@ class Helpers extends Singleton implements ConstInterface {
 			],
 		];
 
-		$args = apply_filters( 'dollie_product_query', $args );
+		$args = apply_filters( 'dollie/get_products/query', $args );
 
 		$posts = get_posts( $args );
 		foreach ( $posts as $post ) {
-			$product_data = get_fields( $post->ID );
-			$post_meta    = get_post_meta( $post->ID );
-			$rtc_data     = get_field( 'wpd_dynamic_blueprint_data', 'create_update_blueprint_' . $post->ID );
-
-			$post->product_details = $product_data;
-			$post->post_meta       = $post_meta;
+			$post->product_details = get_fields( $post->ID );
+			$post->post_meta       = get_post_meta( $post->ID );
 		}
 
 		return $posts;
@@ -267,6 +271,11 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return integer
 	 */
 	public function count_total_sites(): int {
+
+		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
+			return '';
+		}
+
 		$query = new WP_Query( [
 			'post_type'     => 'container',
 			'post_per_page' => - 1,
@@ -290,6 +299,11 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return integer
 	 */
 	public function count_total_blueprints(): int {
+
+		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
+			return '';
+		}
+
 		$query = new WP_Query( [
 			'post_type'     => 'container',
 			'post_per_page' => - 1,
@@ -321,6 +335,11 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_blueprints(): array {
+
+		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
+			return false;
+		}
+
 		$args = [
 			'post_type'     => 'container',
 			'post_per_page' => - 1,
@@ -363,6 +382,10 @@ class Helpers extends Singleton implements ConstInterface {
 	 */
 	public function get_sites(): array {
 
+		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
+			return false;
+		}
+
 		$args = array(
 			'post_type'     => 'container',
 			'post_per_page' => - 1,
@@ -376,8 +399,7 @@ class Helpers extends Singleton implements ConstInterface {
 
 		$posts = get_posts( $args );
 		foreach ( $posts as $post ) {
-			$post_meta       = get_post_meta( $post->ID );
-			$post->post_meta = $post_meta;
+			$post->post_meta = get_post_meta( $post->ID );
 		}
 
 		return $posts;
