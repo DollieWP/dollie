@@ -238,11 +238,6 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return array
 	 */
 	public function get_products(): array {
-
-		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
-			return [];
-		}
-
 		$args = [
 			'post_type'  => 'product',
 			'status'     => 'publish',
@@ -272,10 +267,6 @@ class Helpers extends Singleton implements ConstInterface {
 	 */
 	public function count_total_sites(): int {
 
-		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
-			return '';
-		}
-
 		$query = new WP_Query( [
 			'post_type'     => 'container',
 			'post_per_page' => - 1,
@@ -290,7 +281,7 @@ class Helpers extends Singleton implements ConstInterface {
 
 		wp_reset_postdata();
 
-		return $query->found_posts;
+		return (int) $query->found_posts;
 	}
 
 	/**
@@ -299,10 +290,6 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return integer
 	 */
 	public function count_total_blueprints(): int {
-
-		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
-			return '';
-		}
 
 		$query = new WP_Query( [
 			'post_type'     => 'container',
@@ -335,10 +322,6 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_blueprints(): array {
-
-		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
-			return false;
-		}
 
 		$args = [
 			'post_type'     => 'container',
@@ -381,10 +364,6 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return integer
 	 */
 	public function get_sites(): array {
-
-		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
-			return false;
-		}
 
 		$args = array(
 			'post_type'     => 'container',
