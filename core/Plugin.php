@@ -53,7 +53,7 @@ class Plugin extends Singleton {
 
 		Admin::instance();
 
-		add_action( 'plugins_loaded', [ $this, 'load_early_dependencies' ], -10 );
+		add_action( 'plugins_loaded', [ $this, 'load_early_dependencies' ], - 10 );
 		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 0 );
 
 		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
@@ -62,6 +62,7 @@ class Plugin extends Singleton {
 		add_action( 'route_login_redirect', [ $this, 'load_login_route' ] );
 		add_action( 'route_preview', [ $this, 'load_preview_route' ] );
 		add_action( 'route_wizard', [ $this, 'load_wizard_route' ] );
+		add_action( 'route_remote_data', [ $this, 'load_remote_data_route' ] );
 	}
 
 	/**
@@ -293,6 +294,7 @@ class Plugin extends Singleton {
 		$routes = [
 			'dollie_login_redirect' => new Route( '/site_login_redirect', 'route_login_redirect' ),
 			'dollie_wizard'         => new Route( '/wizard', 'route_wizard' ),
+			'dollie_remote'         => new Route( '/dollie_remote', 'route_remote_data' ),
 		];
 
 		if ( get_option( 'options_wpd_enable_site_preview', 1 ) ) {
@@ -349,6 +351,23 @@ class Plugin extends Singleton {
 	 */
 	public function load_wizard_route() {
 		dollie()->load_template( 'wizard', [], true );
+		exit;
+	}
+
+	/**
+	 * Load wizard route
+	 *
+	 * @return void
+	 */
+	public function load_remote_data_route() {
+
+		//check authorization
+		\Dollie\Core\Services\HubDataService::instance()->check_incoming_auth();
+
+		if ( isset( $_GET['get'] ) ) {
+			header( 'Content-Type: application/json; charset=utf-8' );
+			echo json_encode( \Dollie\Core\Services\HubDataService::instance()->get() );
+		}
 		exit;
 	}
 }
