@@ -65,6 +65,9 @@ final class HubDataService extends Singleton implements ConstInterface {
 				SyncContainersJob::instance()->run_single_site( $data );
 			}
 		}
+
+		// TODO get the status too
+		return [ 'success' => true ];
 	}
 
 	/**
