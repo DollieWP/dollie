@@ -34,6 +34,38 @@ final class HubDataService extends Singleton implements ConstInterface {
 
 	private function get() {
 
+		/* Filters */
+		$users_filters = [
+			'orderby  '       => 'display_name',
+			'exclude_admin  ' => false,
+			//'search  ' => '',
+			//'role__in' => array( 'author', 'subscriber' )
+
+		];
+
+		if ( isset( $_GET['filters'] ) ) {
+			if ( isset( $_GET['filters']['users'] ) ) {
+				$users_filters = $_GET['filters']['users']; // https://developer.wordpress.org/reference/classes/wp_user_query/
+			}
+		}
+
+		/* Return single type data */
+		if ( isset( $_GET['type'] ) ) {
+			$type = sanitize_text_field( $_GET['type'] );
+
+			if ( $type === 'sites' ) {
+				return dollie()->get_sites();
+			}
+
+			if ( $type === 'users' ) {
+				return get_users( $users_filters );
+			}
+
+			if ( $type === 'sales' ) {
+				return $this->woo_sales();
+			}
+		}
+
 		return [
 			//'token'                => AuthService::instance()->get_token() ?: 'inactive',
 			'hub_version'          => DOLLIE_VERSION,
@@ -46,12 +78,15 @@ final class HubDataService extends Singleton implements ConstInterface {
 			'subscriptions_plugin' => get_option( 'options_wpd_subscription_plugin' ),
 			'deployment_domain'    => get_option( 'options_wpd_api_domain' ),
 			'preview_path'         => get_option( 'options_wpd_site_preview_path' ),
-			'customers'            => count_users()['total_users'],
+			'customers_total'      => count_users()['total_users'],
 			'sales'                => $this->woo_sales(),
+			'users'                => get_users( $users_filters )
 		];
 	}
 
 	private function set() {
+
+		$response = '';
 
 		if ( ! isset( $_POST['type'], $_POST['operation'] ) ) {
 			return [ 'success' => false, 'message' => 'No type or operation defined' ];
@@ -64,10 +99,20 @@ final class HubDataService extends Singleton implements ConstInterface {
 				$data = sanitize_text_field( $_POST['data'] );
 				SyncContainersJob::instance()->run_single_site( $data );
 			}
+		} elseif ( $type === 'blueprint' ) {
+			if ( $operation === 'add' && isset( $_POST['data'] ) ) {
+				$data = sanitize_text_field( $_POST['data'] );
+				SyncContainersJob::instance()->run_single_blueprint( $data );
+			}
+		} elseif ( $type === 'client' ) {
+			if ( $operation === 'add' && isset( $_POST['data'] ) ) {
+				$data     = $_POST['data'];
+				$response = wp_create_user( $data['username'], $data['password'], $data['email'] );
+			}
 		}
 
 		// TODO get the status too
-		return [ 'success' => true ];
+		return [ 'success' => true, 'message' => $response ];
 	}
 
 	/**
