@@ -104,7 +104,7 @@ class DomainConnect extends Singleton {
 			return;
 		}
 
-		$container->add_log( Log::WP_SITE_DOMAIN_ADDED, $domain );
+		$container->add_log( Log::WP_SITE_DOMAIN_ADDED, [ $domain ] );
 
 		do_action( 'dollie/domain/connect/submission/after', $container, $domain );
 	}

@@ -202,15 +202,15 @@ class CustomerSubscriptionCheckJob extends Singleton {
 
 			$slug      = get_post_field( 'post_name', get_the_ID() );
 			$undeploy  = get_post_meta( get_the_ID(), 'wpd_stop_container_at', true );
-			$url       = dollie()->get_wp_site_data( 'uri', get_the_ID() );
-			$domain    = get_post_meta( get_the_ID(), 'wpd_domains', true );
+			$url       = $container->get_url();
+			$domain    = $container->get_custom_domain();
 			$author_id = get_the_author_meta( 'ID' );
 			?>
-			<a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
-					href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be stopped at
-			<strong><?php echo date( 'F j, Y', $undeploy ); ?></strong> <a
-					href="<?php echo get_edit_post_link( get_the_ID() ); ?>">View Container</a>
-			<br>
+            <a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
+                    href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be stopped at
+            <strong><?php echo date( 'F j, Y', $undeploy ); ?></strong> <a
+                    href="<?php echo get_edit_post_link( get_the_ID() ); ?>">View Container</a>
+            <br>
 			<?php
 		}
 
@@ -250,14 +250,14 @@ class CustomerSubscriptionCheckJob extends Singleton {
 
 			$slug      = get_post_field( 'post_name', get_the_ID() );
 			$undeploy  = get_post_meta( get_the_ID(), 'wpd_undeploy_container_at', true );
-			$url       = dollie()->get_wp_site_data( 'uri', get_the_ID() );
-			$domain    = get_post_meta( get_the_ID(), 'wpd_domains', true );
+			$url       = $container->get_url();
+			$domain    = $container->get_custom_domain();
 			$author_id = get_the_author_meta( 'ID' );
 			?>
-			<a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
-					href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be undeployed on
-			<strong><?php echo date( 'F j, Y', $undeploy ); ?></strong>
-			<br>
+            <a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
+                    href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be undeployed on
+            <strong><?php echo date( 'F j, Y', $undeploy ); ?></strong>
+            <br>
 			<?php
 		}
 

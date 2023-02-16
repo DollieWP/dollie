@@ -44,7 +44,7 @@ $containers = new WP_Query(
 				continue;
 			}
 
-			$domain         = get_post_meta( get_the_ID(), 'wpd_domains', true );
+			$domain         = $container->get_custom_domain();
 			$setup_complete = get_post_meta( get_the_ID(), 'wpd_setup_complete', true );
 			$blueprint      = get_post_meta( get_the_ID(), 'wpd_blueprint_created', true );
 

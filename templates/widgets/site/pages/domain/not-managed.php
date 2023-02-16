@@ -19,7 +19,7 @@ $routes_active = count(
 			<?php if ( $routes_active ) : ?>
 				<?php esc_html_e( 'Live domain linked', 'dollie' ); ?>
 			<?php else : ?>
-				<?php esc_html_e( 'Your domain setup is not complete', 'dollie' ); ?>
+				<?php esc_html_e( 'We are verifying your domain records', 'dollie' ); ?>
 			<?php endif; ?>
 		</h4>
 	</div>
@@ -27,7 +27,7 @@ $routes_active = count(
 		<?php if ( $routes_active ) : ?>
 			<div class="dol-mb-4"><?php esc_html_e( 'Congrats! You have linked your domain. You can always change your domain name by removing the current one and adding a new one.', 'dollie' ); ?></div>
 		<?php else : ?>
-			<div class="dol-mb-4"><?php esc_html_e( 'You\'re almost done. Your domain is missing the "A" record. Once you set that up correctly, your old domain will be replace with the new one!', 'dollie' ); ?></div>
+			<div class="dol-mb-4"><?php esc_html_e( 'You\'re almost done. Your domain is missing the "A" record. We are running checks under the hood and once you set that up correctly, your old domain will be replace with the new one!', 'dollie' ); ?></div>
 		<?php endif; ?>
 		
 		<div class="dol-font-bold"><?php esc_html_e( 'Your linked domain:', 'dollie' ); ?></div>

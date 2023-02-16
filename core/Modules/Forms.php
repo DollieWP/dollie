@@ -445,7 +445,7 @@ class Forms extends Singleton {
 		$field = af_get_field_object( $field_name, $fields );
 
 		if ( is_array( $field['value'] ) && 'array' === $field['return_format']
-			 && ( 'radio' === $field['type'] || 'select' === $field['type'] ) ) {
+		     && ( 'radio' === $field['type'] || 'select' === $field['type'] ) ) {
 
 			$value = $field['value']['label'];
 			if ( strtotime( $value ) ) {
@@ -472,8 +472,6 @@ class Forms extends Singleton {
 			if ( is_wp_error( $container ) ) {
 				return $field;
 			}
-
-			$user = wp_get_current_user();
 
 			$url    = $container->get_url();
 			$domain = $container->get_custom_domain();
