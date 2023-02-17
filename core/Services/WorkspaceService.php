@@ -75,6 +75,18 @@ final class WorkspaceService extends Singleton {
 			return;
 		}
 
+		$custom_domain_enabled = get_option( 'options_wpd_show_custom_domain_options' );
+		$domain                = str_replace( [ 'https://', 'http://', 'www.' ], '', get_option( 'options_wpd_api_domain_custom' ) );
+
+		if ( ! $custom_domain_enabled ) {
+			return;
+		}
+
+		// if the domain has been already set then it was already checked. we can stop here.
+		if ( $domain && $domain === get_option( 'wpd_deployment_domain' ) ) {
+			return;
+		}
+
 		$response = get_transient( 'wpd_workspace_domain_check' );
 
 		if ( ! $response || is_wp_error( $response ) ) {

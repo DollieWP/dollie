@@ -88,27 +88,33 @@ final class HubDataService extends Singleton implements ConstInterface {
 
 		$response = '';
 
-		if ( ! isset( $_POST['type'], $_POST['operation'] ) ) {
-			return [ 'success' => false, 'message' => 'No type or operation defined' ];
+		if ( ! isset( $_POST['type'], $_POST['data'] ) ) {
+			return [ 'success' => false, 'message' => 'No type or data defined' ];
 		}
-		$type      = sanitize_text_field( $_POST['type'] );
-		$operation = sanitize_text_field( $_POST['operation'] );
+		$type = sanitize_text_field( $_POST['type'] );
 
 		if ( $type === 'site' ) {
-			if ( $operation === 'add' && isset( $_POST['data'] ) ) {
-				$data = sanitize_text_field( $_POST['data'] );
-				SyncContainersJob::instance()->run_single_site( $data );
-			}
+			$data = sanitize_text_field( $_POST['data'] );
+			SyncContainersJob::instance()->run_single_site( $data );
 		} elseif ( $type === 'blueprint' ) {
-			if ( $operation === 'add' && isset( $_POST['data'] ) ) {
-				$data = sanitize_text_field( $_POST['data'] );
-				SyncContainersJob::instance()->run_single_blueprint( $data );
-			}
+			$data = sanitize_text_field( $_POST['data'] );
+			SyncContainersJob::instance()->run_single_blueprint( $data );
 		} elseif ( $type === 'client' ) {
-			if ( $operation === 'add' && isset( $_POST['data'] ) ) {
-				$data     = $_POST['data'];
-				$response = wp_create_user( $data['username'], $data['password'], $data['email'] );
-			}
+			$data     = $_POST['data'];
+			$response = wp_create_user( $data['username'], $data['password'], $data['email'] );
+		} elseif ( $type === 'domain' ) {
+			$domain = sanitize_text_field( $_POST['data'] );
+
+			// set custom domain option.
+			update_option( 'options_wpd_show_custom_domain_options', 1 );
+			update_option( 'options_wpd_api_domain_custom', $domain );
+			update_option( 'wpd_deployment_domain', $domain );
+			update_option( 'wpd_deployment_domain_status', 1 );
+
+			// also show the notice that the domain has been activated.
+			delete_option( 'wpd_deployment_domain_notice' );
+
+			$response = "Domain has ben synced to hub!";
 		}
 
 		// TODO get the status too
