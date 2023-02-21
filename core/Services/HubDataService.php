@@ -96,12 +96,31 @@ final class HubDataService extends Singleton implements ConstInterface {
 		if ( $type === 'site' ) {
 			$data = sanitize_text_field( $_POST['data'] );
 			SyncContainersJob::instance()->run_single_site( $data );
+
 		} elseif ( $type === 'blueprint' ) {
 			$data = sanitize_text_field( $_POST['data'] );
 			SyncContainersJob::instance()->run_single_blueprint( $data );
+
+		} elseif ( $type === 'blueprint_status' ) {
+			$data = (array) $_POST['data']; //id, title, description
+
+			if ( ! isset( $data['id'] ) ) {
+				return [ 'success' => false, 'message' => 'Missing blueprint hash id' ];
+			}
+
+			$blueprint = BlueprintService::instance()->get_by_hash( $data['id'] );
+			if ( ! $blueprint ) {
+				return [ 'success' => false, 'message' => 'No blueprint found by the hash id' ];
+			}
+			update_post_meta( $blueprint->ID, 'wpd_private_blueprint', $data['private'] );
+			update_post_meta( $blueprint->ID, 'wpd_installation_blueprint_title', $data['title'] );
+			update_post_meta( $blueprint->ID, 'wpd_installation_blueprint_description', $data['description'] );
+			$response = 'Blueprint status updated!';
+
 		} elseif ( $type === 'client' ) {
 			$data     = $_POST['data'];
 			$response = wp_create_user( $data['username'], $data['password'], $data['email'] );
+
 		} elseif ( $type === 'domain' ) {
 			$domain = sanitize_text_field( $_POST['data'] );
 
@@ -114,7 +133,7 @@ final class HubDataService extends Singleton implements ConstInterface {
 			// also show the notice that the domain has been activated.
 			delete_option( 'wpd_deployment_domain_notice' );
 
-			$response = "Domain has ben synced to hub!";
+			$response = 'Domain has ben synced to hub!';
 		}
 
 		// TODO get the status too
