@@ -99,8 +99,11 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
-		if ( get_field( '_wpd_installs', 'user_' . $customer_id ) ) {
-			return get_field( '_wpd_installs', 'user_' . $customer_id ) - dollie()->get_user()->count_containers();
+		$is_custom = get_field('_wpd_installs', 'user_' . $customer_id);
+
+		if (!empty($is_custom) && is_numeric($is_custom) && $is_custom > 0) {
+			return $is_custom - dollie()->get_user()->count_containers();
+
 		}
 
 		$subscription = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
@@ -123,8 +126,10 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
-		if ( get_field( '_wpd_max_size', 'user_' . $customer_id ) ) {
-			return get_field( '_wpd_max_size', 'user_' . $customer_id );
+		$is_custom = get_field('_wpd_max_size', 'user_' . $customer_id);
+
+		if (!empty($is_custom) && is_numeric($is_custom) && $is_custom > 0) {
+			return $is_custom;
 		}
 
 		$subscription = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
@@ -195,11 +200,10 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
-		// Check if user has custom limits
-		if ( get_field( '_wpd_installs', 'user_' . $customer_id ) ) {
-			$allowed_sites = (int) get_field( '_wpd_installs', 'user_' . $customer_id );
+		$is_custom = get_field('_wpd_installs', 'user_' . $customer_id);
 
-			return dollie()->get_user()->count_containers() >= $allowed_sites;
+		if (!empty($is_custom) && is_numeric($is_custom) && $is_custom > 0) {
+			return dollie()->get_user()->count_containers() >= $is_custom;
 		}
 
 		if ( ! $this->has_subscription() ) {
@@ -231,14 +235,16 @@ class Subscription extends Singleton implements SubscriptionInterface {
 
 		$user = dollie()->get_user();
 
-		// Check if user has custom limits
-		if ( get_field( '_wpd_max_size', 'user_' . $customer_id ) ) {
-			$allowed_size = get_field( '_wpd_max_size', 'user_' . $customer_id );
+		$is_custom = get_field('_wpd_max_size', 'user_' . $customer_id);
 
+
+		if (!empty($is_custom) && is_numeric($is_custom) && $is_custom > 0) {
+			$allowed_size = $is_custom;
 			$total_size    = dollie()->insights()->get_total_container_size();
 			$allowed_size *= 1024 * 1024 * 1024;
 
 			return $total_size >= $allowed_size && ! $user->can_manage_all_sites();
+
 		}
 
 		$subscription = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
