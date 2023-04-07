@@ -351,7 +351,7 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return string
 	 */
-	public function get_screenshot(): string {
+	public function get_screenshot( $force = true): string {
 		$default_screenshot = get_field( 'default_screenshot', 'option' );
 
 		if ( ! $default_screenshot ) {
@@ -366,6 +366,10 @@ abstract class BaseContainer implements ConstInterface {
 
 		if ( is_wp_error( $screenshot ) || ! $screenshot ) {
 			return $default_screenshot;
+		}
+
+		if ( $force ) {
+			return add_query_arg( 'v', time(), $screenshot );
 		}
 
 		return $screenshot;
