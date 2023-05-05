@@ -52,8 +52,9 @@ final class Container extends Singleton implements ConstInterface {
 		add_action( 'admin_init', [ WorkspaceService::instance(), 'check_deployment_domain' ] );
 		add_action( 'admin_init', [ AuthService::instance(), 'process_token' ] );
 		add_action( 'admin_init', [ $this, 'disconnect_dollie' ] );
-		add_action( 'trashed_post', [ $this, 'delete_container' ] );
-		add_action( 'untrash_post', [ $this, 'restore_container' ], 10, 2 );
+		// Commented out to prevent deletion of containers when trashing a post.
+		// add_action( 'trashed_post', [ $this, 'delete_container' ] );
+		// add_action( 'untrash_post', [ $this, 'restore_container' ], 10, 2 );
 
 		add_filter( 'manage_container_posts_columns', [ $this, 'set_table_columns' ] );
 		add_action( 'manage_container_posts_custom_column', [ $this, 'set_table_custom_columns' ], 10, 2 );
@@ -351,7 +352,7 @@ final class Container extends Singleton implements ConstInterface {
 			$wp_admin_bar->add_menu(
 				array(
 					'parent' => $menu_id,
-					'title'  => __( 'Connect with Dollie Cloud', 'dollie' ),
+					'title'  => __( 'Connect with Dollie Private Cloud', 'dollie' ),
 					'id'     => 'dwb-go-live',
 					'href'   => \Dollie\Core\Services\AuthService::instance()->get_auth_url(),
 				)
@@ -417,7 +418,7 @@ final class Container extends Singleton implements ConstInterface {
 					'parent' => 'top-secondary',
 					'title'  => '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
   <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-</svg> Dollie Cloud - Hosted for Free',
+</svg> Dollie Private Cloud - Hosted for Free',
 					'id'     => 'dwb-hosted',
 					'href'   => 'https://cloud.getdollie.com/?redirect=dollie-site-redirect',
 				]
@@ -446,7 +447,7 @@ final class Container extends Singleton implements ConstInterface {
 			$wp_admin_bar->add_menu(
 				[
 					'parent' => 'dwb-hosted',
-					'title'  => esc_html__( 'This site is hosted for free on the Dollie Cloud. Visit the Partner Dashboard to manage this site and access our developer tools.', 'dollie' ),
+					'title'  => esc_html__( 'This site is hosted for free on the Dollie Private Cloud. Visit the Partner Dashboard to manage this site and access our developer tools.', 'dollie' ),
 					'id'     => 'dab-hosted-message',
 					'href'   => 'https://cloud.getdollie.com/?redirect=dollie-site-redirect',
 					'meta'   => [ 'target' => '_blank' ],
@@ -501,7 +502,7 @@ final class Container extends Singleton implements ConstInterface {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => esc_html__( 'Dollie Cloud', 'dollie' ),
+				'title'  => esc_html__( 'Dollie Private Cloud', 'dollie' ),
 				'id'     => 'dwb-partner',
 				'href'   => 'https://cloud.getdollie.com',
 			]
@@ -583,7 +584,7 @@ final class Container extends Singleton implements ConstInterface {
 		];
 
 		$submenu['dollie_setup'][] = [
-			'<div class="dol-cloud-url">' . esc_html__( 'Dollie Cloud', 'dollie' ) . '</div>',
+			'<div class="dol-cloud-url">' . esc_html__( 'Dollie Private Cloud', 'dollie' ) . '</div>',
 			'manage_options',
 			'https://cloud.getdollie.com/',
 		];
@@ -637,15 +638,16 @@ final class Container extends Singleton implements ConstInterface {
 		$new_actions = [];
 
 		if ( ! $container->is_blueprint() ) {
-			$new_actions['manage_site'] = '<a href="' . $container->get_permalink() . '" target="_blank" class="button-link">' . __( 'Manage Site', 'dollie' ) . '</a>';
+			$new_actions['manage_site'] = '<a href="' . $container->get_permalink() . '" target="_blank" class="button-link">' . __( 'View Site', 'dollie' ) . '</a>';
+			$new_actions['view_in_control'] = '<a href="' . $container->get_permalink() . '" target="_blank" class="button-link">' . __( 'Manage via Control HQ', 'dollie' ) . '</a>';
 		} else {
 			$new_actions['manage_site'] = '<a href="' . $container->get_permalink() . '" target="_blank" class="button-link">' . __( 'Manage Blueprint', 'dollie' ) . '</a>';
 		}
 
-		$new_actions['admin_link'] = '<a href="' . $container->get_customer_login_url() . '" target="_blank" class="button-link">' . __( 'Login to Admin', 'dollie' ) . '</a>';
+		$new_actions['admin_link'] = '<a href="' . $container->get_customer_login_url() . '" target="_blank" class="button-link">' . __( 'Login to Site', 'dollie' ) . '</a>';
 
 		if ( isset( $actions['trash'] ) ) {
-			$new_actions['trash'] = str_replace( 'Trash', 'Delete', $actions['trash'] );
+			$new_actions['trash'] = str_replace( 'Trash', 'Delete via Control HQ', $actions['trash'] );
 		}
 
 		if ( isset( $actions['untrash'] ) ) {
@@ -816,7 +818,7 @@ final class Container extends Singleton implements ConstInterface {
 					<?php
 					printf(
 						'%s <a href="%s">%s</a>.',
-						esc_html__( 'Below are all the sites that have been launched through your Hub. Each site is hosted under your own brand and domain inside your Dollie Cloud. Below uou can see their status, to which customer they are linked and whether they have a domain connected to them.', 'dollie' ),
+						esc_html__( 'Below are all the sites that have been launched through your Hub. Each site is hosted under your own brand and domain inside your Dollie Private Cloud. Below uou can see their status, to which customer they are linked and whether they have a domain connected to them.', 'dollie' ),
 						esc_url( dollie()->page()->get_sites_url() ),
 						esc_html__( 'View Sites on the front-end of my Hub', 'dollie' )
 					);
@@ -835,7 +837,7 @@ final class Container extends Singleton implements ConstInterface {
 					<?php
 					printf(
 						'%s <a href="%s">%s</a>.',
-						esc_html__( 'Below you will find all the Blueprints you have created in your Hub. Click on the Blueprint to manage or update them.', 'dollie' ),
+						esc_html__( 'Below you will find all the Blueprints you have created. Please visit Control HQ (https://control.getdollie.com) to manage and create new Blueprints.', 'dollie' ),
 						esc_url( dollie()->page()->get_launch_blueprint_url() ),
 						esc_html__( 'Launch a New Blueprint', 'dollie' )
 					);
