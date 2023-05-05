@@ -91,8 +91,8 @@ if ( array_key_exists( $page, $pages ) ) {
 			[
 				'type'    => 'error',
 				'icon'    => 'fas fa-exclamation-circle',
-				'title'   => __( 'Verify your Dollie Cloud account to use the Developer Tools', 'dollie' ),
-				'message' => 'Unlock full access to all Dollie Hub features like the Developer Tools by verifying your Dollie Cloud account. These restrictions are in place to prevent abuse of the Dollie Cloud and will automatically be removed once you verify your account.',
+				'title'   => __( 'Verify your Dollie Private Cloud account to use the Developer Tools', 'dollie' ),
+				'message' => 'Unlock full access to all Dollie Hub features like the Developer Tools by verifying your Dollie Private Cloud account. These restrictions are in place to prevent abuse of the Dollie Private Cloud and will automatically be removed once you verify your account.',
 				'links'   => [
 					[
 						'title'   => __( 'Verify Your Account', 'dollie' ),

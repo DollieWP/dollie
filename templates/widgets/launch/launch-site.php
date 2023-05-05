@@ -27,10 +27,10 @@ if ( dollie()->get_user()->can_manage_all_sites() && ! dollie()->is_live() ) {
 			'type'         => 'error',
 			'icon'         => 'fas fa-exclamation-circle',
 			'title'        => __( 'Not Connected to Dollie', 'dollie' ),
-			'message'      => __( 'Please connect your Hub to the Dollie Cloud so you can start launching sites on your platform.', 'dollie' ),
+			'message'      => __( 'Please connect your Hub to the Dollie Private Cloud so you can start launching sites on your platform.', 'dollie' ),
 			'links'        => [
 				[
-					'title' => __( 'Connect to Dollie Cloud', 'dollie' ),
+					'title' => __( 'Connect to Dollie Private Cloud', 'dollie' ),
 					'url'   => \Dollie\Core\Services\AuthService::instance()->get_auth_link(),
 				],
 			],

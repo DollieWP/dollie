@@ -482,7 +482,7 @@ class Dollie_Setup_Admin {
 				$notice_header = __( '<span></span>Dollie Hub - Let\'s Get Started', 'dollie-setup' );
 
 				if ( defined( 'S5_APP_TOKEN' ) ) {
-					$notice_text = __( 'Your brand new WordPress site is now set up hosted on the Dollie Cloud. But before you can start building your platform we need to install some required plugins. ', 'dollie-setup' );
+					$notice_text = __( 'Your brand new WordPress site is now set up hosted on the Dollie Private Cloud. But before you can start building your platform we need to install some required plugins. ', 'dollie-setup' );
 				} else {
 					$notice_text = __( 'Your Hub is almost ready! But before you can start building your platform we need to install some required plugins. ', 'dollie-setup' );
 				}
