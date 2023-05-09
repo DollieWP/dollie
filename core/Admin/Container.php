@@ -217,17 +217,17 @@ final class Container extends Singleton implements ConstInterface {
 	 * Test menu page
 	 */
 	public function add_staging_menu_page() {
-		add_menu_page(
-			__( 'Dollie <span class="dol-status dol-staging">Staging<span>', 'dollie' ),
-			dollie()->is_live() ?
-			__( 'Settings', 'dollie' ) :
-			__( 'Dollie Hub Setup', 'dollie' ),
-			'manage_options',
-			self::PANEL_SLUG,
-			'',
-			'',
-			'4.1'
-		);
+		// add_menu_page(
+		// 	__( 'Dollie <span class="dol-status dol-staging">Staging<span>', 'dollie' ),
+		// 	dollie()->is_live() ?
+		// 	__( 'Settings', 'dollie' ) :
+		// 	__( 'Dollie Hub Setup', 'dollie' ),
+		// 	'manage_options',
+		// 	self::PANEL_SLUG,
+		// 	'',
+		// 	'',
+		// 	'4.1'
+		// );
 	}
 
 	/**
@@ -362,7 +362,7 @@ final class Container extends Singleton implements ConstInterface {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => esc_html__( 'Overview', 'dollie' ),
+				'title'  => esc_html__( 'Dashboard', 'dollie' ),
 				'id'     => 'dab-dashboard',
 				'href'   => get_admin_url() . 'admin.php?page=dollie_setup',
 				'meta'   => [ 'target' => '' ],
@@ -544,7 +544,7 @@ final class Container extends Singleton implements ConstInterface {
 		];
 
 		$submenu['dollie_setup'][] = [
-			__( 'Your Hub', 'dollie' ),
+			__( 'Hub Pages', 'dollie' ),
 			'manage_options',
 			'',
 			'',
@@ -584,25 +584,14 @@ final class Container extends Singleton implements ConstInterface {
 		];
 
 		$submenu['dollie_setup'][] = [
-			'<div class="dol-cloud-url">' . esc_html__( 'Dollie Private Cloud', 'dollie' ) . '</div>',
+			'<div class="dol-cloud-url">' . esc_html__( 'Visit Control HQ', 'dollie' ) . '</div>',
 			'manage_options',
-			'https://cloud.getdollie.com/',
+			'https://control.getdollie.com/',
 		];
 
-		$submenu['dollie_setup'][] = [
-			'<div class="dol-cloud-url">' . esc_html__( 'Contact Support', 'dollie' ) . '</div>',
-			'manage_options',
-			'https://cloud.getdollie.com/?redirect=support',
-		];
 
 		$submenu['dollie_setup'][] = [
-			'<div class="dol-cloud-url">' . esc_html__( 'Documentation', 'dollie' ) . '</div>',
-			'manage_options',
-			'https://cloud.getdollie.com/knowledge-base',
-		];
-
-		$submenu['dollie_setup'][] = [
-			'<div id="dol-logs">' . esc_html__( 'Logs', 'dollie' ) . '</div>',
+			'<div id="dol-logs">' . esc_html__( 'Debug Logs', 'dollie' ) . '</div>',
 			'manage_options',
 			get_admin_url() . 'edit.php?post_type=dollie-logs',
 		];

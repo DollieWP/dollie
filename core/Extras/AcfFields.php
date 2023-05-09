@@ -1609,7 +1609,7 @@ if (function_exists('acf_add_local_field_group')):
                 [
                     'param' => 'options_page',
                     'operator' => '==',
-                    'value' => 'wpd_platform_setup',
+                    'value' => 'dollie_setup',
                 ],
             ],
         ],

@@ -267,7 +267,7 @@ final class Admin extends Singleton implements ConstInterface {
 			'autoload'    => true,
 		);
 
-		acf_add_options_page( $args );
+		//acf_add_options_page( $args );
 	}
 
 	/**
