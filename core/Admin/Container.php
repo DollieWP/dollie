@@ -363,16 +363,6 @@ final class Container extends Singleton implements ConstInterface {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => esc_html__( 'Dashboard', 'dollie' ),
-				'id'     => 'dab-dashboard',
-				'href'   => get_admin_url() . 'admin.php?page=dollie_setup',
-				'meta'   => [ 'target' => '' ],
-			]
-		);
-
-		$wp_admin_bar->add_menu(
-			[
-				'parent' => $menu_id,
 				'title'  => esc_html__( 'Settings', 'dollie' ),
 				'id'     => 'dab-settings',
 				'href'   => get_admin_url() . 'admin.php?page=' . self::PANEL_SLUG,
@@ -383,26 +373,14 @@ final class Container extends Singleton implements ConstInterface {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => dollie()->icon()->site() . esc_html__( 'Sites', 'dollie' ),
+				'title'  => esc_html__( 'Hub Pages', 'dollie' ),
 				'id'     => 'dab-sites',
 				'href'   => '',
 				'meta'   => [ 'target' => '' ],
 			]
 		);
 
-		if ( $sites_url = dollie()->page()->get_sites_url() ) {
-			$wp_admin_bar->add_menu(
-				[
-					'parent' => $menu_id,
-					'title'  => esc_html__( 'View Sites', 'dollie' ),
-					'id'     => 'dab-site',
-					'href'   => $sites_url,
-					'meta'   => [ 'target' => '' ],
-				]
-			);
-		}
-
-		if ( $launch_site_url = dollie()->page()->get_launch_site_url() ) {
+			if ( $launch_site_url = dollie()->page()->get_launch_site_url() ) {
 			$wp_admin_bar->add_menu(
 				[
 					'parent' => $menu_id,
@@ -412,6 +390,32 @@ final class Container extends Singleton implements ConstInterface {
 				]
 			);
 		}
+
+		if ( $sites_url = dollie()->page()->get_sites_url() ) {
+			$wp_admin_bar->add_menu(
+				[
+					'parent' => $menu_id,
+					'title'  => esc_html__( 'Sites', 'dollie' ),
+					'id'     => 'dab-site',
+					'href'   => $sites_url,
+					'meta'   => [ 'target' => '' ],
+				]
+			);
+		}
+
+		if ( $dashboard_url = dollie()->page()->get_dashboard_url() ) {
+			$wp_admin_bar->add_menu(
+				[
+					'parent' => $menu_id,
+					'title'  => esc_html__( 'Dashboard', 'dollie' ),
+					'id'     => 'dab-dashboard',
+					'href'   => $dashboard_url,
+					'meta'   => [ 'target' => '' ],
+				]
+			);
+		}
+
+
 
 		if ( defined( 'S5_APP_TOKEN' ) ) {
 			$wp_admin_bar->add_menu(
