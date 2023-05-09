@@ -27,6 +27,7 @@ final class Container extends Singleton implements ConstInterface {
 			add_action( 'admin_menu', [ $this, 'submenus' ], 99 );
 			add_action( 'admin_menu', [ $this, 'add_blueprint_submenu' ], 1 );
 			add_action( 'admin_menu', [ $this, 'add_extra_menu_links' ], 100 );
+			add_action( 'admin_footer', [ $this, 'crisp_support_js' ], 999999 );
 
 			add_action( 'auth_redirect', [ $this, 'add_site_icon_filter' ] ); // modify esc_attr on auth_redirect
 			add_action( 'admin_menu', [ $this, 'remove_site_icon_filter' ] ); // restore on admin_menu (very soon)
@@ -605,6 +606,18 @@ final class Container extends Singleton implements ConstInterface {
 	public function admin_footer_wrap() {
 		dollie_setup_get_template_part( 'wrapper-footer' );
 	}
+
+	public function crisp_support_js() {
+		$current_screen = get_current_screen();
+		$target_screens = array( 'toplevel_page_dollie_setup', 'admin_page_dollie_templates', 'upload' ); // Add screen IDs of the pages you want to target
+		if ( $current_screen && in_array( $current_screen->id, $target_screens ) ) {
+			?>
+			<script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="613aba5f-fa3b-4e8a-9689-a92f3b9af84b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+			<?php
+		}
+	}
+
+
 
 	/**
 	 * Alter container actions
