@@ -44,7 +44,7 @@ class Dollie_Setup_Plugins_Hosting {
 				'dollie_setup_name'        => __( 'Advanced Custom Fields', 'dollie-setup' ),
 				'dollie_setup_description' => __( 'ACF Pro is needed across the Dollie suite to build the user interface and forms across your platform.', 'dollie-setup' ),
 				'version'                  => '5.11.4',
-				'documentation_url'        => 'https://cloud.getdollie.com/?s=WooCommerce&ht-kb-search=1&lang=',
+				'documentation_url'        => 'https://control.getdollie.com/?s=WooCommerce&ht-kb-search=1&lang=',
 				'admin_settings'           => 'admin.php?page=wc-settings',
 				'network_settings'         => 'admin.php?page=wc-settings',
 			)
@@ -58,7 +58,7 @@ class Dollie_Setup_Plugins_Hosting {
 				'dollie_setup_name'        => __( 'WooCommerce', 'dollie-setup' ),
 				'dollie_setup_description' => __( 'WooCommerce provides the core functionality for selling your platform services with Dollie.', 'dollie-setup' ),
 				'version'                  => '6.2.0',
-				'documentation_url'        => 'https://cloud.getdollie.com/?s=WooCommerce&ht-kb-search=1&lang=',
+				'documentation_url'        => 'https://control.getdollie.com/?s=WooCommerce&ht-kb-search=1&lang=',
 				'admin_settings'           => 'admin.php?page=wc-settings',
 				'network_settings'         => 'admin.php?page=wc-settings',
 			)
@@ -71,7 +71,7 @@ class Dollie_Setup_Plugins_Hosting {
 				'dollie_setup_name'        => __( 'WooCommerce Subscription', 'dollie-setup' ),
 				'dollie_setup_description' => __( 'WooCommerce subscriptions gives you the ability to set up recurring subscriptions for your customers directly tied to your services.', 'dollie-setup' ),
 				'version'                  => '3.1.6',
-				'documentation_url'        => 'https://cloud.getdollie.com/?s=WooCommerce&ht-kb-search=1&lang=',
+				'documentation_url'        => 'https://control.getdollie.com/?s=WooCommerce&ht-kb-search=1&lang=',
 				'admin_settings'           => 'admin.php?page=wc-settings',
 				'network_settings'         => 'admin.php?page=wc-settings',
 			)
@@ -84,7 +84,7 @@ class Dollie_Setup_Plugins_Hosting {
 				'dollie_setup_name'        => __( 'Elementor', 'dollie-setup' ),
 				'dollie_setup_description' => __( 'The Elementor Page Builder allows you to fully customize your Customer/Client Dashboard quickly and easily.', 'dollie-setup' ),
 				'version'                  => '3.5.5',
-				'documentation_url'        => 'https://cloud.getdollie.com/?s=Elementor&ht-kb-search=1&lang=',
+				'documentation_url'        => 'https://control.getdollie.com/?s=Elementor&ht-kb-search=1&lang=',
 				'admin_settings'           => 'admin.php?page=elementor',
 				'network_settings'         => 'admin.php?page=elementor',
 			)

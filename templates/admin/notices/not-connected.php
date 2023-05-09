@@ -4,7 +4,7 @@
 	<div class="dollie-inner-message">
 		<div class="dollie-message-center">
 			<h3><span>Setup -</span> <?php esc_html_e( 'Welcome to your Dollie Hub. Powered by WordPress!', 'dollie' ); ?> </h3>
-			<p><?php esc_html_e( 'This lightning-fast WordPress site is hosted on the Dollie Private Cloud. We host your Hub completely for free, for as long as you are with us. Let\'s continue setting it up your HUB together, so you can start selling your services in no time!', 'dollie' ); ?></p>
+			<p><?php esc_html_e( 'This lightning-fast WordPress site is hosted on Dollie Control HQ. We host your Hub completely for free, for as long as you are with us. Let\'s continue setting it up your HUB together, so you can start selling your services in no time!', 'dollie' ); ?></p>
 		</div>
 
 		<div class="dollie-msg-button-right">
@@ -21,7 +21,7 @@
 	<div class="dollie-inner-message">
 		<div class="dollie-message-center">
 			<h3><span>Setup -</span> <?php esc_html_e( 'Welcome to your Dollie Hub, let\'s get you started!', 'dollie' ); ?> </h3>
-			<p><?php esc_html_e( 'To start building your platform we first need to securely authenticate this site with the Dollie Private Cloud. Simply click on the button below to continue.', 'dollie' ); ?></p>
+			<p><?php esc_html_e( 'To start building your platform we first need to securely authenticate this site to Dollie Control HQ. Simply click on the button below to continue.', 'dollie' ); ?></p>
 		</div>
 
 		<div class="dollie-msg-button-right">

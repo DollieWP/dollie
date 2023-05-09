@@ -59,8 +59,8 @@ There are also no starting costs and hidden  surprises. Grow at your own pace kn
 
 = Why Our Community Loves the Dollie Platform =
 
-**World-Class Performance & Security for all your customer sites thanks to Dollie Private Cloud**
-Our engineers used many decades of combined experience to build a highly scalable container-based infrastructure which ensures that all the sites hosted on your platform will blow your customers away. Our Dollie Private Cloud is exclusively dedicated to white-label, enterprise grade hosting for our partners. Rest assured that the customers who sign up for your platform will be blown away by the performance of their sites.
+**World-Class Performance & Security for all your customer sites thanks to Dollie Control HQ**
+Our engineers used many decades of combined experience to build a highly scalable container-based infrastructure which ensures that all the sites hosted on your platform will blow your customers away. Our Dollie Control HQ is exclusively dedicated to white-label, enterprise grade hosting for our partners. Rest assured that the customers who sign up for your platform will be blown away by the performance of their sites.
 
 [Learn More About Our Technology](https://getdollie.com/dollie-infrastructure-cloud-orchestration-for-wordpress/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
 

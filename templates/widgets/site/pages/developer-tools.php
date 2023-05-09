@@ -91,12 +91,12 @@ if ( array_key_exists( $page, $pages ) ) {
 			[
 				'type'    => 'error',
 				'icon'    => 'fas fa-exclamation-circle',
-				'title'   => __( 'Verify your Dollie Private Cloud account to use the Developer Tools', 'dollie' ),
-				'message' => 'Unlock full access to all Dollie Hub features like the Developer Tools by verifying your Dollie Private Cloud account. These restrictions are in place to prevent abuse of the Dollie Private Cloud and will automatically be removed once you verify your account.',
+				'title'   => __( 'Verify your Dollie Control HQ account to use the Developer Tools', 'dollie' ),
+				'message' => 'Unlock full access to all Dollie Hub features like the Developer Tools by verifying your Dollie Control HQ account. These restrictions are in place to prevent abuse of Dollie Control HQ and will automatically be removed once you verify your account.',
 				'links'   => [
 					[
 						'title'   => __( 'Verify Your Account', 'dollie' ),
-						'url'     => 'https://cloud.getdollie.com/verify-my-account/',
+						'url'     => 'https://control.getdollie.com/verify-my-account/',
 						'new_tab' => true,
 					],
 				],

@@ -26,7 +26,7 @@
 							</div>
 							<div class="dol-min-w-0 dol-flex-1 dol-px-4 md:dol-grid md:dol-grid-cols-2 md:dol-gap-4">
 								<div>
-									<p class="dol-text-sm dol-font-medium dol-text-green-600 dol-truncate"><?php esc_html_e( 'Successfully connected to Dollie Private Cloud API', 'dollie' ); ?></p>
+									<p class="dol-text-sm dol-font-medium dol-text-green-600 dol-truncate"><?php esc_html_e( 'Successfully connected to Dollie Control HQ', 'dollie' ); ?></p>
 									<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
 										<span class="dol-truncate"><?php esc_html_e( 'Sites can be launched via this Hub', 'dollie' ); ?></span>
 									</p>

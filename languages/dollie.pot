@@ -352,7 +352,7 @@ msgid "Dollie Hub Setup"
 msgstr ""
 
 #: core/Admin/Container.php:354, core/Services/AuthService.php:27
-msgid "Connect with Dollie Private Cloud"
+msgid "Connect to Dollie Control HQ"
 msgstr ""
 
 #: core/Admin/Container.php:364
@@ -376,7 +376,7 @@ msgid "View Documentation"
 msgstr ""
 
 #: core/Admin/Container.php:449
-msgid "This site is hosted for free on the Dollie Private Cloud. Visit the Partner Dashboard to manage this site and access our developer tools."
+msgid "This site is hosted for free on Dollie Control HQ. Visit the Partner Dashboard to manage this site and access our developer tools."
 msgstr ""
 
 #: core/Admin/Container.php:460, core/Admin/Container.php:572, core/Extras/AcfFields.php:1140, core/Utils/StringVariants.php:74, core/Utils/StringVariants.php:83, templates/widgets/general/main-navigation.php:85, core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:122
@@ -396,7 +396,7 @@ msgid "Support"
 msgstr ""
 
 #: core/Admin/Container.php:504, core/Admin/Container.php:586
-msgid "Dollie Private Cloud"
+msgid "Dollie Control HQ"
 msgstr ""
 
 #: core/Admin/Container.php:513, core/Admin/Container.php:604, templates/parts/recurring-action-schedule-history.php:47
@@ -492,7 +492,7 @@ msgid "Sites Overview - All Sites in your Hub"
 msgstr ""
 
 #: core/Admin/Container.php:819
-msgid "Below are all the sites that have been launched through your Hub. Each site is hosted under your own brand and domain inside your Dollie Private Cloud. Below uou can see their status, to which customer they are linked and whether they have a domain connected to them."
+msgid "Below are all the sites that have been launched through your Hub. Each site is hosted under your own brand and domain inside your Dollie Control HQ. Below uou can see their status, to which customer they are linked and whether they have a domain connected to them."
 msgstr ""
 
 #: core/Admin/Container.php:821
@@ -708,7 +708,7 @@ msgstr ""
 #: core/Extras/AcfFields.php:292
 msgid ""
 "<h3>Please read the guide before you continue.</h3><br>\n"
-"            Follow along with the <a target=\"_blank\" href=\"https://cloud.getdollie.com/?redirect=knowledge-base/domain-setup/\">Domain Setup Guide</a> in the partner dashboard to have your domain added in no time, without any hassle."
+"            Follow along with the <a target=\"_blank\" href=\"https://control.getdollie.com/?redirect=knowledge-base/domain-setup/\">Domain Setup Guide</a> in the partner dashboard to have your domain added in no time, without any hassle."
 msgstr ""
 
 #: core/Extras/AcfFields.php:302
@@ -1857,15 +1857,15 @@ msgid "Customer"
 msgstr ""
 
 #: templates/admin/api-status.php:23
-msgid "This Hub is not connected to the Dollie Private Cloud. Please follow the instructions at the top of the page to securely connect to Dollie Private Cloud."
+msgid "This Hub is not connected to Dollie Control HQ. Please follow the instructions at the top of the page to securely connect to Dollie Control HQ."
 msgstr ""
 
 #: templates/admin/api-status.php:10
-msgid "This is the token that links this site and your account to the Dollie Private Cloud."
+msgid "This is the token that links this site and your account to Dollie Control HQ."
 msgstr ""
 
 #: templates/admin/api-status.php:17
-msgid "Disconnect from Dollie Private Cloud"
+msgid "Disconnect from Dollie Control HQ"
 msgstr ""
 
 #: templates/admin/api-status.php:20
@@ -2766,7 +2766,7 @@ msgid "Welcome to your Dollie Hub, let's get you started!"
 msgstr ""
 
 #: templates/admin/notices/not-connected.php:24
-msgid "To start building your platform we first need to securely authenticate this site with the Dollie Private Cloud. Simply click on the button below to continue."
+msgid "To start building your platform we first need to securely authenticate this site to Dollie Control HQ. Simply click on the button below to continue."
 msgstr ""
 
 #: templates/admin/notices/not-connected.php:6
@@ -2774,7 +2774,7 @@ msgid "Welcome to your Dollie Hub. Powered by WordPress!"
 msgstr ""
 
 #: templates/admin/notices/not-connected.php:7
-msgid "This lightning-fast WordPress site is hosted on the Dollie Private Cloud. We host your Hub completely for free, for as long as you are with us. Let's continue setting it up your HUB together, so you can start selling your services in no time!"
+msgid "This lightning-fast WordPress site is hosted on Dollie Control HQ. We host your Hub completely for free, for as long as you are with us. Let's continue setting it up your HUB together, so you can start selling your services in no time!"
 msgstr ""
 
 #: templates/admin/notices/subscription-missing.php:4
@@ -2798,7 +2798,7 @@ msgid "Questions? Talk to Us!"
 msgstr ""
 
 #: templates/admin/notices/subscription-not-verified.php:4
-msgid "You have not verified your Dollie Private Cloud account yet."
+msgid "You have not verified your Dollie Control HQ account yet."
 msgstr ""
 
 #: templates/admin/notices/subscription-not-verified.php:5
@@ -2918,7 +2918,7 @@ msgid "Sorry, We are currently hard at work at our platform and temporary disabl
 msgstr ""
 
 #: templates/widgets/launch/form.php:11
-msgid "Your Dollie Hub has an issue which prevents the launching of new sites. Please check if you connected this Hub to Dollie Private Cloud and verify your subscription in  your <a href=\"%s\">Dollie Control HQ</a>."
+msgid "Your Dollie Hub has an issue which prevents the launching of new sites. Please check if you connected this Hub to Dollie Control HQ and verify your subscription in  your <a href=\"%s\">Dollie Control HQ</a>."
 msgstr ""
 
 #: templates/widgets/launch/form.php:33
@@ -2942,11 +2942,11 @@ msgid "Not Connected to Dollie"
 msgstr ""
 
 #: templates/widgets/launch/launch-site.php:30
-msgid "Please connect your Hub to the Dollie Private Cloud so you can start launching sites on your platform."
+msgid "Please connect your Hub to Dollie Control HQ so you can start launching sites on your platform."
 msgstr ""
 
 #: templates/widgets/launch/launch-site.php:33
-msgid "Connect to Dollie Private Cloud"
+msgid "Connect to Dollie Control HQ"
 msgstr ""
 
 #: templates/widgets/launch/launch-site.php:49
@@ -3422,7 +3422,7 @@ msgid "WP CLI"
 msgstr ""
 
 #: templates/widgets/site/pages/developer-tools.php:94
-msgid "Verify your Dollie Private Cloud account to use the Developer Tools"
+msgid "Verify your Dollie Control HQ account to use the Developer Tools"
 msgstr ""
 
 #: templates/widgets/site/pages/error.php:40
@@ -3994,7 +3994,7 @@ msgid "Not Completed"
 msgstr ""
 
 #: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:107
-msgid "Successfully connected to Dollie Private Cloud API"
+msgid "Successfully connected to Dollie Control HQ"
 msgstr ""
 
 #: core/Extras/dollie-setup/admin/templates/base/setup-complete.php:109

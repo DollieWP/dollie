@@ -18,7 +18,7 @@
 
 		printf(
 			'<a href="%s" class="button" target="_blank" style="margin-left: 10px;">%s</a>',
-			esc_url( 'https://cloud.getdollie.com/?redirect=support' ),
+			esc_url( 'https://control.getdollie.com/?redirect=support' ),
 			esc_html__( 'Contact Support', 'dollie' )
 		);
 		?>

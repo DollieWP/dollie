@@ -8,8 +8,8 @@ if ( ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_
 
 	if ( dollie()->get_user()->can_manage_all_sites() ) {
 		$message = sprintf(
-			__( 'Your Dollie Hub has an issue which prevents the launching of new sites. Please check if you connected this Hub to Dollie Private Cloud and verify your subscription in  your <a href="%s">Dollie Control HQ</a>.', 'dollie' ),
-			'https://cloud.getdollie.com'
+			__( 'Your Dollie Hub has an issue which prevents the launching of new sites. Please check if you connected this Hub to Dollie Control HQ and verify your subscription in  your <a href="%s">Dollie Control HQ</a>.', 'dollie' ),
+			'https://control.getdollie.com'
 		);
 	}
 

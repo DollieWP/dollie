@@ -19,7 +19,7 @@ $first_name = $user->first_name;
 							 Your Hub is the place where you build your white-labeled platform using WordPress. Everything happens inside your Hub, so you have complete freedom to build something amazing for your customers. Also you have full control over pricing, customer data and branding.
 					</p>
 					<div class="dol-flex dol-mt-3 sm:dol-mt-0">
-					<a target="_blank" href="https://cloud.getdollie.com" class="">Visit Dollie Control HQ</a>
+					<a target="_blank" href="https://control.getdollie.com" class="">Visit Dollie Control HQ</a>
 				</div>
 					</div>
 				</div>
