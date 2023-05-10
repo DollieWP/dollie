@@ -34,8 +34,8 @@
 
 
                     <h4 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-1 dol-text-md">
-                        Get Support</h4>
-                    <?php dollie_setup_get_template_part('recent-sites'); ?>
+                        Watch our Onboarding Videos</h4>
+                    <iframe width="100%" height="320px" src="https://www.youtube.com/embed/videoseries?list=PL7IwOO3Ymw_kafLSDaOka790RMeMcr2QC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
                 </div>
             </div>
         </div>
