@@ -15,7 +15,7 @@ $first_name = $user->first_name;
 					<div class="dol-mt-4 dol-text-center sm:dol-mt-0 sm:dol-pt-1 sm:dol-text-left">
 						<p class="dol-text-sm dol-font-medium dol-text-gray-600"></p>
 						<p class="dol-text-xxl dol-font-bold dol-text-gray-900 sm:dol-text-2xl">Hi <?php echo $first_name; ?>, Welcome to Your Hub</p>
-						<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
+						<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500 dol-max-w-3xl">
 							 Your Hub is the place where you build your white-labeled platform using WordPress. Everything happens inside your Hub, so you have complete freedom to build something amazing for your customers. Also you have full control over pricing, customer data and branding.
 					</p>
 					<div class="dol-flex dol-mt-3 sm:dol-mt-0">

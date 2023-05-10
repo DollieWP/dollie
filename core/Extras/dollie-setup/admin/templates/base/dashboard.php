@@ -1,15 +1,20 @@
 <?php acf_form_head(); ?>
+
+
 <div class="dol-min-h-full dol-mt-8 dol-pt-[100px]">
-    <main class="dol-pb-8 dol--mt-24">
-        <div class="dol-px-4 dol-mx-auto">
+
+    <main class="dol-pb-8 dol--mt-24 dol-mx-auto sm:dol-px-6 lg:dol-max-w-7xl">
+        <div class="dol-top dol-mb-8">
+        <?php dollie_setup_get_template_part('welcome-header'); ?>
+        </div>
+        <div class="dol-content">
             <h1 class="dol-sr-only">Profile</h1>
             <div class="dol-grid dol-items-start dol-grid-cols-1 dol-gap-4 lg:dol-grid-cols-3 lg:dol-gap-8">
                 <div class="dol-grid dol-grid-cols-1 dol-gap-4 lg:dol-col-span-2">
-                    <?php dollie_setup_get_template_part('setup-complete'); ?>
 
-					 <h4 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-1 dol-text-md">
-                        Configure Your Hub </h4>
-                    <div class="dol-bg-white dol-p-5">
+
+                    <div class="dol-bg-white dol-p-5" style="margin-top: 50px;">
+
                         <?php
                         $args = [
                             'post_id' => 'options',
@@ -17,12 +22,16 @@
                         ];
                         acf_form($args);
                         ?>
+
                     </div>
                 </div>
 
                 <div class="dol-grid dol-grid-cols-1 dol-gap-4">
+                    <h4 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-1 dol-text-md">
+                        Setup Status</h4>
+                    <?php dollie_setup_get_template_part('setup-complete'); ?>
 
-                    <?php dollie_setup_get_template_part('welcome-header'); ?>
+
 
                     <h4 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-1 dol-text-md">
                         Get Support</h4>
