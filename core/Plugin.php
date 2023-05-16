@@ -26,13 +26,11 @@ use Dollie\Core\Hooks\Acf;
 use Dollie\Core\Jobs\SyncContainersJob;
 use Dollie\Core\Jobs\RemoveOldLogsJob;
 use Dollie\Core\Jobs\ChangeContainerRoleJob;
-use Dollie\Core\Jobs\CustomerSubscriptionCheckJob;
-
-use Dollie\Core\Services\NoticeService;
 
 use Dollie\Core\Routing\Processor;
 use Dollie\Core\Routing\Route;
 use Dollie\Core\Routing\Router;
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 /**
  * Class Plugin
@@ -125,6 +123,15 @@ class Plugin extends Singleton {
 		if ( ! class_exists( '\AF' ) && ! ( is_admin() && isset( $_GET['action'] ) && 'activate' === $_GET['action'] ) ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/advanced-forms/advanced-forms.php';
 			require_once DOLLIE_CORE_PATH . 'Extras/acf-tooltip/acf-tooltip.php';
+		}
+
+		if ( file_exists( DOLLIE_CORE_PATH . 'Extras/plugin-update-checker/plugin-update-checker.php' ) ) {
+			require DOLLIE_CORE_PATH . 'Extras/plugin-update-checker/plugin-update-checker.php';
+			PucFactory::buildUpdateChecker(
+				'https://control.getdollie.com/releases/?action=get_metadata&slug=dollie',
+				DOLLIE_FILE, //Full path to the main plugin file or functions.php.
+				'dollie'
+			);
 		}
 
 		require_once DOLLIE_CORE_PATH . 'Extras/menu-walker/bootstrap-wp-navwalker.php';
