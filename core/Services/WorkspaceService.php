@@ -45,6 +45,7 @@ final class WorkspaceService extends Singleton {
 	 * Add custom deployment domain
 	 *
 	 * @param string $domain
+	 *
 	 * @return boolean
 	 */
 	public function add_deployment_domain( string $domain = '' ) {
@@ -76,7 +77,11 @@ final class WorkspaceService extends Singleton {
 		}
 
 		$custom_domain_enabled = get_option( 'options_wpd_show_custom_domain_options' );
-		$domain                = str_replace( [ 'https://', 'http://', 'www.' ], '', get_option( 'options_wpd_api_domain_custom' ) );
+		$domain                = str_replace( [
+			'https://',
+			'http://',
+			'www.'
+		], '', get_option( 'options_wpd_api_domain_custom' ) );
 
 		if ( ! $custom_domain_enabled ) {
 			return;
@@ -104,5 +109,25 @@ final class WorkspaceService extends Singleton {
 		}
 
 		update_option( 'wpd_deployment_domain_status', $response['status'] );
+	}
+
+	public function acf_populate_active_domains( $field ) {
+
+		$domains = get_transient( 'wpd_custom_domains' ) !== false ? get_transient( 'wpd_custom_domains' ) : [];
+
+		if ( ! $domains ) {
+			$response = $this->get_custom_domain();
+			if ( ! is_wp_error( $response ) ) {
+
+				foreach ( $response['all'] as $domain ) {
+					$domains[ $domain['name'] ] = $domain['name'];
+				}
+				set_transient( 'wpd_custom_domains', $domains, MINUTE_IN_SECONDS * 10 );
+			}
+		}
+
+		$field['choices'] = $domains;
+
+		return $field;
 	}
 }

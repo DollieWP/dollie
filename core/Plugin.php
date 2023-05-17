@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Admin;
-
 use Dollie\Core\Modules\Subscription\Subscription;
 use Dollie\Core\Modules\Vip\Hooks as VipHooks;
 use Dollie\Core\Modules\WooCommerce;

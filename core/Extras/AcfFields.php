@@ -185,12 +185,7 @@ if (function_exists('acf_add_local_field_group')):
                 'label' => __('Active Domain', 'dollie'),
                 'name' => 'wpd_api_domain',
                 'type' => 'select',
-                //GABRIEL - Populate with domains from Dollie API
-                'choices' => [
-                    'default' => 'temporary.dollie.io',
-                    'route_ID' => 'my-domain.com',
-                    'route_ID_2' => 'my-second-domain.com',
-                ],
+                'choices' => [],
                 'instructions' => __('<strong>Please select the domain you like to use for your Hub.</strong> You can add your own domain(s) easily via Control HQ.', 'dollie'),
                 'required' => 1,
                 'conditional_logic' => 0,

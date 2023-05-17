@@ -38,6 +38,8 @@ final class Acf extends Singleton implements ConstInterface {
 			}
 		);
 		add_filter( 'acf/load_field/type=message', [ $this, 'api_token_content' ], 10, 3 );
+		add_filter('acf/load_field/name=wpd_api_domain', [ WorkspaceService::instance(), 'acf_populate_active_domains']);
+
 		add_filter( 'acf/update_value/name=wpd_container_status', [ $this, 'change_container_status' ], 10, 3 );
 		add_filter( 'acf/fields/relationship/result/name=_wpd_included_blueprints', [ $this, 'filter_blueprint_relationship_results' ], 10, 4 );
 		add_filter( 'acf/fields/relationship/result/name=_wpd_excluded_blueprints', [ $this, 'filter_blueprint_relationship_results' ], 10, 4 );
