@@ -76,7 +76,7 @@ final class HubDataService extends Singleton implements ConstInterface {
 			'products'             => dollie()->get_products(),
 			'blueprints'           => dollie()->get_blueprints(),
 			'subscriptions_plugin' => get_option( 'options_wpd_subscription_plugin' ),
-			'deployment_domain'    => get_option( 'options_wpd_api_domain' ),
+			'deployment_domain'    => WorkspaceService::instance()->get_deployment_domain(),
 			'preview_path'         => get_option( 'options_wpd_site_preview_path' ),
 			'customers_total'      => count_users()['total_users'],
 			'sales'                => $this->woo_sales(),

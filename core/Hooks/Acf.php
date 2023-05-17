@@ -23,20 +23,12 @@ final class Acf extends Singleton implements ConstInterface {
 	public function __construct() {
 		add_action( 'acf/save_post', [ $this, 'update_customer_role' ] );
 		add_action( 'acf/save_post', [ $this, 'update_all_customers_roles' ] );
-		add_action( 'acf/save_post', [ $this, 'update_deployment_domain' ] );
 		add_action( 'acf/save_post', [ $this, 'update_backup_module' ], 1 );
 		add_action( 'acf/save_post', [ $this, 'update_staging_status' ], 1 );
 		add_action( 'acf/save_post', [ $this, 'update_create_blueprint' ] );
 
 		add_action( 'acf/input/admin_footer', [ NoticeService::instance(), 'change_user_role' ] );
-		add_filter(
-			'acf/load_field/name=wpd_api_domain',
-			static function( $field ) {
-				$field['readonly'] = 1;
 
-				return $field;
-			}
-		);
 		add_filter( 'acf/load_field/type=message', [ $this, 'api_token_content' ], 10, 3 );
 		add_filter('acf/load_field/name=wpd_api_domain', [ WorkspaceService::instance(), 'acf_populate_active_domains']);
 
@@ -144,30 +136,6 @@ final class Acf extends Singleton implements ConstInterface {
 		}
 
 		Log::add( 'Started to update all customers access role' );
-	}
-
-	/**
-	 * Update deployment domain
-	 *
-	 * @param $post_id
-	 */
-	public function update_deployment_domain( $post_id ) {
-		if ( 'options' !== $post_id ) {
-			return;
-		}
-
-		$custom_domain_enabled = get_field( 'wpd_show_custom_domain_options', $post_id );
-		$domain                = str_replace( [ 'https://', 'http://', 'www.' ], '', get_field( 'wpd_api_domain_custom', $post_id ) );
-
-		if ( ! $custom_domain_enabled ) {
-			return;
-		}
-
-		if ( $domain && $domain === get_option( 'wpd_deployment_domain' ) ) {
-			return;
-		}
-
-		WorkspaceService::instance()->add_deployment_domain( $domain );
 	}
 
 	/**

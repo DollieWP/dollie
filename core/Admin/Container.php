@@ -50,7 +50,6 @@ final class Container extends Singleton implements ConstInterface {
 		add_action( 'admin_footer', [ $this, 'external_menu_scripts' ] );
 		add_action( 'wp_before_admin_bar_render', [ $this, 'set_admin_bar_menu' ], 2000 );
 		add_action( 'load-edit.php', [ $this, 'add_info_banners' ] );
-		add_action( 'admin_init', [ WorkspaceService::instance(), 'check_deployment_domain' ] );
 		add_action( 'admin_init', [ AuthService::instance(), 'process_token' ] );
 		add_action( 'admin_init', [ $this, 'disconnect_dollie' ] );
 		// Commented out to prevent deletion of containers when trashing a post.

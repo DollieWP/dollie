@@ -22,7 +22,7 @@ final class DeployService extends Singleton implements ConstInterface {
 	 *
 	 * @param string $type
 	 * @param string $route
-	 * @param array  $data
+	 * @param array $data
 	 *
 	 * @return \WP_Error|BaseContainer
 	 */
@@ -47,6 +47,8 @@ final class DeployService extends Singleton implements ConstInterface {
 			$data['description'] = esc_html__( 'The best website in the world', 'dollie' );
 		}
 
+		$deployment_domain = self::TYPE_BLUEPRINT === $type ? '.wp-site.xyz' : WorkspaceService::instance()->get_deployment_domain();
+
 		$extra_vars = apply_filters( 'dollie/deploy/vars', [], $type );
 		$vars       = array_merge(
 			$extra_vars,
@@ -54,6 +56,7 @@ final class DeployService extends Singleton implements ConstInterface {
 				'S5_DEPLOYMENT_URL' => get_site_url(),
 				'owner_email'       => $data['email'],
 				'origin'            => get_site_url(),
+				'domain'            => $deployment_domain,
 				'wp_setup'          => [
 					'email'       => $data['email'],
 					'username'    => $data['username'],
@@ -137,7 +140,7 @@ final class DeployService extends Singleton implements ConstInterface {
 		}
 
 		//TODO Find a way not to overwrite with empty data from API on site details update
-		set_transient( "wpd_site_deploy_data_{$container->get_id()}", $site_data, 60*60 );
+		set_transient( "wpd_site_deploy_data_{$container->get_id()}", $site_data, 60 * 60 );
 
 		$container->set_details(
 			[
