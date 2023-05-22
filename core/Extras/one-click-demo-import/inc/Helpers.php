@@ -423,8 +423,19 @@ class Helpers {
 		// Upload settings to disable form and type testing for AJAX uploads.
 		$upload_overrides = array(
 			'test_form' => false,
-			'test_type' => false,
 		);
+
+		// Register the import file types and their mime types.
+		add_filter( 'upload_mimes', function ( $defaults ) {
+			$custom = [
+				'xml'  => 'text/xml',
+				'json' => 'application/json',
+				'wie'  => 'application/json',
+				'dat'  => 'text/plain',
+			];
+
+			return array_merge( $custom, $defaults );
+		} );
 
 		// Error data if the demo file was not provided.
 		$file_not_provided_error = array(
@@ -444,7 +455,7 @@ class Helpers {
 			wp_handle_upload( $_FILES['customizer_file'], $upload_overrides ) :
 			$file_not_provided_error;
 
-		$redux_file_info = isset( $_FILES['customizer_file'] ) ?
+		$redux_file_info = isset( $_FILES['redux_file'] ) ?
 			wp_handle_upload( $_FILES['redux_file'], $upload_overrides ) :
 			$file_not_provided_error;
 
@@ -513,7 +524,7 @@ class Helpers {
 			// Set uploaded Redux file.
 			$selected_import_files['redux'] = array(
 				array(
-					'option_name' => $_POST['redux_option_name'],
+					'option_name' => sanitize_text_field( $_POST['redux_option_name'] ),
 					'file_path'   => $redux_file_info['file'],
 				),
 			);
