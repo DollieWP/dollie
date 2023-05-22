@@ -83,7 +83,6 @@ function my_text_strings($translated_text, $text, $domain)
     return $translated_text;
 }
 add_filter('gettext', 'my_text_strings', 20, 3);
-add_filter('the_content', 'replace_text');
 
 function ocdi_register_plugins($plugins)
 {
