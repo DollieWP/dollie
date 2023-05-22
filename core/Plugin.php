@@ -72,22 +72,14 @@ class Plugin extends Singleton {
 	 * Load dependencies
 	 */
 	public function load_dependencies() {
-//		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
-//			add_action( 'admin_notices', [ NoticeService::instance(), 'missing_elementor' ] );
-//			return;
-//		}
-//
-//		if ( ! version_compare( ELEMENTOR_VERSION, self::$minimum_elementor_version, '>=' ) ) {
-//			add_action( 'admin_notices', [ NoticeService::instance(), 'minimum_elementor_version' ] );
-//			return;
-//		}
 
 		// load ACF as fallback.
 		if ( ! class_exists( 'ACF' ) ) {
-			require_once DOLLIE_CORE_PATH . 'Extras/advanced-custom-fields/acf.php';
+			require_once DOLLIE_CORE_PATH . 'Extras/advanced-custom-fields-pro/acf.php';
 		}
 
-		require_once DOLLIE_CORE_PATH . 'Extras/options-page-for-acf/loader.php';
+		// no longer needed. ACF PRO is being loaded.
+		// require_once DOLLIE_CORE_PATH . 'Extras/options-page-for-acf/loader.php';
 
 		// Load Color Customizer
 		require_once DOLLIE_CORE_PATH . 'Extras/Colors.php';
@@ -100,13 +92,7 @@ class Plugin extends Singleton {
 			require_once DOLLIE_CORE_PATH . 'Extras/wds-log-post/wds-log-post.php';
 		}
 
-		// Load TGM Class
-		// if (!class_exists('TGM_Plugin_Activation')) {
-		// require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/class-tgm-plugin-activation.php';
-		// require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/requirements.php';
-		// }
-
-		// Load TGM Class
+		// Load Dollie Setup Class
 		if ( ! class_exists( 'Dollie_Setup' ) ) {
 			update_option( '_dollie_setup_current_package', 'agency', true );
 			require_once DOLLIE_CORE_PATH . 'Extras/dollie-setup/loader.php';
@@ -122,6 +108,14 @@ class Plugin extends Singleton {
 			require_once DOLLIE_CORE_PATH . 'Extras/advanced-forms/advanced-forms.php';
 			require_once DOLLIE_CORE_PATH . 'Extras/acf-tooltip/acf-tooltip.php';
 		}
+
+		// Woocommerce subscriptions.
+		if ( ! is_admin() || ! isset( $_GET['action'] ) || $_GET['action'] !== 'activate' ) {
+			if ( ! class_exists( '\WC_Subscriptions' ) && Subscription::instance()->get_subscription_plugin() === 'WooCommerce' ) {
+				require_once DOLLIE_CORE_PATH . 'Extras/woocommerce-subscriptions/woocommerce-subscriptions.php';
+			}
+		}
+
 
 		if ( file_exists( DOLLIE_CORE_PATH . 'Extras/plugin-update-checker/plugin-update-checker.php' ) ) {
 			require DOLLIE_CORE_PATH . 'Extras/plugin-update-checker/plugin-update-checker.php';

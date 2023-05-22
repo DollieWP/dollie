@@ -26,13 +26,11 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	public function __construct() {
 		parent::__construct();
 
-		$subscription_plugin = get_option( 'options_wpd_subscription_plugin' );
+		$subscription_plugin = $this->get_subscription_plugin();
 
-		if ( ! $subscription_plugin ) {
-			$subscription_plugin = 'WooCommerce';
-
-			require_once DOLLIE_CORE_PATH . 'Modules/Subscription/Plugin/' . $subscription_plugin . '.php';
-			$class_name = '\Dollie\Core\Modules\Subscription\Plugin\\' . $subscription_plugin;
+		if ( $subscription_plugin === 'Woocommerce' ) {
+			require_once DOLLIE_CORE_PATH . 'Modules/Subscription/Plugin/Woocommerce.php';
+			$class_name = '\Dollie\Core\Modules\Subscription\Plugin\\Woocommerce';
 		} else {
 			$class_name = apply_filters( 'dollie/subscription/plugin_class', '\Dollie\Core\Modules\Subscription\Plugin\\' . $subscription_plugin, $subscription_plugin );
 		}
@@ -45,6 +43,20 @@ class Subscription extends Singleton implements SubscriptionInterface {
 
 		add_action( 'acf/init', [ $this, 'load_acf' ] );
 		add_filter( 'dollie/blueprints', [ $this, 'filter_blueprints' ] );
+	}
+
+	/**
+	 * Get the plugin used for subscriptions.
+	 *
+	 * @return false|mixed|string|null
+	 */
+	public function get_subscription_plugin() {
+		$subscription_plugin = get_option( 'options_wpd_subscription_plugin' );
+		if ( ! $subscription_plugin ) {
+			$subscription_plugin = 'WooCommerce';
+		}
+
+		return $subscription_plugin;
 	}
 
 	/**
@@ -99,9 +111,9 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
-		$is_custom = get_field('_wpd_installs', 'user_' . $customer_id);
+		$is_custom = get_field( '_wpd_installs', 'user_' . $customer_id );
 
-		if (!empty($is_custom) && is_numeric($is_custom) && $is_custom > 0) {
+		if ( ! empty( $is_custom ) && is_numeric( $is_custom ) && $is_custom > 0 ) {
 			return $is_custom - dollie()->get_user()->count_containers();
 
 		}
@@ -126,9 +138,9 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
-		$is_custom = get_field('_wpd_max_size', 'user_' . $customer_id);
+		$is_custom = get_field( '_wpd_max_size', 'user_' . $customer_id );
 
-		if (!empty($is_custom) && is_numeric($is_custom) && $is_custom > 0) {
+		if ( ! empty( $is_custom ) && is_numeric( $is_custom ) && $is_custom > 0 ) {
 			return $is_custom;
 		}
 
@@ -200,9 +212,9 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
-		$is_custom = get_field('_wpd_installs', 'user_' . $customer_id);
+		$is_custom = get_field( '_wpd_installs', 'user_' . $customer_id );
 
-		if (!empty($is_custom) && is_numeric($is_custom) && $is_custom > 0) {
+		if ( ! empty( $is_custom ) && is_numeric( $is_custom ) && $is_custom > 0 ) {
 			return dollie()->get_user()->count_containers() >= $is_custom;
 		}
 
@@ -235,12 +247,12 @@ class Subscription extends Singleton implements SubscriptionInterface {
 
 		$user = dollie()->get_user();
 
-		$is_custom = get_field('_wpd_max_size', 'user_' . $customer_id);
+		$is_custom = get_field( '_wpd_max_size', 'user_' . $customer_id );
 
 
-		if (!empty($is_custom) && is_numeric($is_custom) && $is_custom > 0) {
+		if ( ! empty( $is_custom ) && is_numeric( $is_custom ) && $is_custom > 0 ) {
 			$allowed_size = $is_custom;
-			$total_size    = dollie()->insights()->get_total_container_size();
+			$total_size   = dollie()->insights()->get_total_container_size();
 			$allowed_size *= 1024 * 1024 * 1024;
 
 			return $total_size >= $allowed_size && ! $user->can_manage_all_sites();
@@ -266,7 +278,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 */
 	public function get_blueprints_exception( $type = 'excluded' ) {
 		$data          = [];
-		$type         .= '_blueprints';
+		$type          .= '_blueprints';
 		$subscriptions = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
 
 		if ( empty( $subscriptions ) ) {
