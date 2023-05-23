@@ -21,7 +21,10 @@ final class AuthService extends Singleton implements ConstInterface {
 		return sprintf(
 			'<a href="%s" class="button">%s</a>',
 			add_query_arg(
-				[ 'origin' => admin_url() ],
+				[
+					'origin' => admin_url(),
+					'wp_id'  => get_current_user_id()
+				],
 				DOLLIE_CONTROL_URL . 'auth'
 			),
 			__( 'Connect to Dollie Control HQ', 'dollie' )
@@ -37,7 +40,10 @@ final class AuthService extends Singleton implements ConstInterface {
 		return sprintf(
 			'%s',
 			add_query_arg(
-				[ 'origin' => admin_url() ],
+				[
+					'origin' => admin_url(),
+					'wp_id'  => get_current_user_id()
+				],
 				DOLLIE_CONTROL_URL . 'auth'
 			)
 		);
@@ -54,6 +60,7 @@ final class AuthService extends Singleton implements ConstInterface {
 		}
 
 		$data = @base64_decode( $_GET['dollie_data'] );
+
 		$data = @json_decode( $data, true );
 
 		if ( ! is_array( $data ) || ! isset( $data['token'], $data['domain'] ) || ! $data['token'] || ! $data['domain'] ) {

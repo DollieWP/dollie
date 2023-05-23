@@ -30,11 +30,20 @@ final class Acf extends Singleton implements ConstInterface {
 		add_action( 'acf/input/admin_footer', [ NoticeService::instance(), 'change_user_role' ] );
 
 		add_filter( 'acf/load_field/type=message', [ $this, 'api_token_content' ], 10, 3 );
-		add_filter('acf/load_field/name=wpd_api_domain', [ WorkspaceService::instance(), 'acf_populate_active_domains']);
+		add_filter( 'acf/load_field/name=wpd_api_domain', [
+			WorkspaceService::instance(),
+			'acf_populate_active_domains'
+		] );
 
 		add_filter( 'acf/update_value/name=wpd_container_status', [ $this, 'change_container_status' ], 10, 3 );
-		add_filter( 'acf/fields/relationship/result/name=_wpd_included_blueprints', [ $this, 'filter_blueprint_relationship_results' ], 10, 4 );
-		add_filter( 'acf/fields/relationship/result/name=_wpd_excluded_blueprints', [ $this, 'filter_blueprint_relationship_results' ], 10, 4 );
+		add_filter( 'acf/fields/relationship/result/name=_wpd_included_blueprints', [
+			$this,
+			'filter_blueprint_relationship_results'
+		], 10, 4 );
+		add_filter( 'acf/fields/relationship/result/name=_wpd_excluded_blueprints', [
+			$this,
+			'filter_blueprint_relationship_results'
+		], 10, 4 );
 
 		add_filter( 'wp_kses_allowed_html', [ $this, 'acf_add_allowed_iframe_tag' ], 10, 2 );
 
@@ -81,7 +90,7 @@ final class Acf extends Singleton implements ConstInterface {
 			[
 				'author'         => $user->get_id(),
 				'post_type'      => 'container',
-				'posts_per_page' => -1,
+				'posts_per_page' => - 1,
 				'post_status'    => 'publish',
 			]
 		);
@@ -237,7 +246,7 @@ final class Acf extends Singleton implements ConstInterface {
 	 *
 	 * @param string $post_id
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public function filter_blueprint_relationship_results( $text, $post, $field, $post_id ) {
 		$blueprint_title  = get_field( 'wpd_installation_blueprint_title', $post->ID );
@@ -254,27 +263,29 @@ final class Acf extends Singleton implements ConstInterface {
 		} else {
 			$text = sprintf( '%s', $post->post_title ) . $status;
 		}
+
 		return $text;
 	}
 
 	/**
 	 * Api token display
 	 *
-	 * @param [type] $field
-	 * @return void
+	 * @param string $field
+	 *
+	 * @return string
 	 */
 	public function api_token_content( $field ) {
-			ob_start();
-			dollie()->load_template( 'admin/api-status', [], true );
-			$details = ob_get_clean();
+		ob_start();
+		dollie()->load_template( 'admin/api-status', [], true );
+		$details = ob_get_clean();
 
-			$field['message'] = str_replace(
-				[ '%api_settings%' ],
-				[ $details ],
-				$field['message']
-			);
+		$field['message'] = str_replace(
+			[ '%api_settings%' ],
+			[ $details ],
+			$field['message']
+		);
 
-			return $field;
+		return $field;
 	}
 
 	/**
