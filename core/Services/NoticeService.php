@@ -99,47 +99,6 @@ final class NoticeService extends Singleton {
 	}
 
 	/**
-	 * Custom deploy domain
-	 *
-	 * @return void
-	 */
-	public function display_custom_deploy_domain_notice(): void {
-
-		$user = dollie()->get_user();
-
-		if ( ! $user->can_manage_all_sites() ) {
-			return;
-		}
-
-		if ( ! dollie()->auth()->is_connected() ) {
-			return;
-		}
-
-		$deployment_domain        = get_option( 'wpd_deployment_domain' );
-		$deployment_domain_status = get_option( 'wpd_deployment_domain_status' );
-
-		if ( $deployment_domain && ! $deployment_domain_status ) {
-			dollie()->load_template( 'admin/notices/custom-deploy-domain-pending', [], true );
-		} elseif ( $deployment_domain && $deployment_domain_status && ! get_option( 'wpd_deployment_domain_notice' ) ) {
-			dollie()->load_template( 'admin/notices/custom-deploy-domain-active', [], true );
-		}
-	}
-
-	/**
-	 * Remove deployment domain
-	 *
-	 * @return void
-	 */
-	public function remove_custom_deploy_domain_notice(): void {
-		if ( ! check_ajax_referer( 'dollie_notice', '_dollie_nonce' ) ) {
-			wp_send_json_error();
-		}
-
-		update_option( 'wpd_deployment_domain_notice', true );
-		wp_send_json_success();
-	}
-
-	/**
 	 * No credits
 	 *
 	 * @return void

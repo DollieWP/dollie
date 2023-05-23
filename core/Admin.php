@@ -37,13 +37,8 @@ final class Admin extends Singleton implements ConstInterface {
 		}
 
 		add_action( 'admin_notices', array( NoticeService::instance(), 'not_connected' ) );
-		add_action( 'admin_notices', array( NoticeService::instance(), 'display_custom_deploy_domain_notice' ) );
 		add_action( 'admin_notices', array( NoticeService::instance(), 'subscription_no_credits' ) );
 		add_action( 'admin_notices', array( NoticeService::instance(), 'subscription_not_verified' ) );
-		add_action( 'wp_ajax_dollie_hide_domain_notice', array(
-			NoticeService::instance(),
-			'remove_custom_deploy_domain_notice'
-		) );
 		add_action( 'admin_init', [ ImportService::instance(), 'set_old_templates_as_imported' ], 9 );
 
 		add_action( 'admin_init', [ $this, 'import_template' ] );
