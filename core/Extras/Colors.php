@@ -458,4 +458,140 @@ function dol_theme_body_close() {
 }
 // add_action( 'wp_footer', 'dol_theme_body_close' );
 
+///////////
+function create_dynamic_field_group() {
+  $post_id = 37;
 
+  $data = get_post_meta($post_id, 'dollie_container_details', true);
+
+  if (empty($data) || !is_array($data)) {
+    return;
+  }
+
+  $site_field_group_array = array(
+    'key' => 'site_info_hub',
+    'title' => 'Site Info',
+    'fields' => array(),
+    'location' => array(
+      array(
+        array(
+          'param' => 'post',
+          'operator' => '==',
+          'value' => $post_id,
+        ),
+      ),
+    ),
+  );
+
+  foreach ($data['site'] as $key => $value) {
+    if (is_array($value) && ($key == 'stats' || $key == 'admin' || $key == 'theme' )) {
+      foreach ($value as $sub_key => $sub_value) {
+        if (empty($sub_value)) {
+          continue;
+        }
+
+			$field_key = 'dynamic_field_' . $key . '_' . $sub_key;
+			$field_label = ucfirst($key) . ' - ' . ucfirst(str_replace('_', ' ', $sub_key));
+			$field_type = (preg_match("/\.(jpg|png)$/", $sub_value)) ? 'image' : 'text';
+
+			if (filter_var($sub_value, FILTER_VALIDATE_URL)) {
+				$field_type = 'url';
+			}
+
+
+			if ($field_type == 'image') {
+				$field['return_format'] = 'url';
+			}
+
+			$field = array(
+				'key' => $field_key,
+				'label' => $field_label,
+				'name' => $field_key,
+				'type' => $field_type,
+				'value' => $sub_value,
+			);
+
+
+        $site_field_group_array['fields'][] = $field;
+        update_field($field['key'], $field['value'], $post_id);
+      }
+    } elseif (is_array($value)) {
+    $repeater_key = 'field_' . md5($key);
+$repeater_field = array(
+    'key' => $repeater_key,
+    'label' => ucfirst($key),
+    'name' => $key,
+    'type' => 'repeater',
+    'sub_fields' => array(),
+    'value' => array(),
+);
+
+foreach ($value as $sub_key => $sub_value) {
+    if (is_array($sub_value)) {
+        foreach ($sub_value as $sub_sub_key => $sub_sub_value) {
+            if (empty($sub_sub_value)) {
+                continue;
+            }
+            $sub_field_type = (preg_match("/\.(jpg|png)$/", $sub_sub_value)) ? 'image' : 'text';
+
+            if (filter_var($sub_sub_value, FILTER_VALIDATE_URL)) {
+                $sub_field_type = 'url';
+            }
+
+            $sub_field = array(
+                'key' => 'dynamic_sub_field_' . $sub_sub_key,
+                'label' => ucfirst($sub_sub_key),
+                'name' => $sub_sub_key,
+                'type' => $sub_field_type,
+            );
+            $repeater_field['sub_fields'][] = $sub_field;
+        }
+        $repeater_item = array();
+        foreach ($repeater_field['sub_fields'] as $sub_field) {
+            $repeater_item[$sub_field['key']] = $sub_value[$sub_field['name']];
+        }
+        $repeater_field['value'][] = $repeater_item;
+    }
+}
+
+
+      $site_field_group_array['fields'][] = $repeater_field;
+      update_field($repeater_key, $repeater_field['value'], $post_id);
+    } else {
+      if (empty($value)) {
+        continue;
+      }
+    	$field_type = 'text'; // default field type
+
+		if (preg_match("/\.(jpg|png)$/", $value)) {
+			$field_type = 'image';
+		} elseif (filter_var($value, FILTER_VALIDATE_URL)) {
+			$field_type = 'url';
+		}
+
+		$field = array(
+			'key' => 'dynamic_field_' . $key,
+			'label' => ucfirst($key),
+			'name' => $key,
+			'type' => $field_type,
+			'value' => $value,
+		);
+
+		// If the field is an image, set the return format to URL.
+		if ($field_type == 'image') {
+			$field['return_format'] = 'url';
+		}
+
+      $site_field_group_array['fields'][] = $field;
+      update_field($field['key'], $field['value'], $post_id);
+    }
+  }
+
+  create_acf_field_group_from_array($site_field_group_array);
+}
+
+function create_acf_field_group_from_array($field_group_array) {
+  acf_add_local_field_group($field_group_array);
+}
+
+add_action('acf/init', 'create_dynamic_field_group', 9999);
