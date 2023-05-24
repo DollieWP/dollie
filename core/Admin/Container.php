@@ -19,9 +19,9 @@ final class Container extends Singleton implements ConstInterface {
 	 */
 	public function __construct() {
 		parent::__construct();
+		add_action( 'init', [ $this, 'register_post_type' ], 0 );
 
 		if ( dollie()->auth()->is_connected() ) {
-			add_action( 'init', [ $this, 'register_post_type' ], 0 );
 
 			add_action( 'admin_menu', [ $this, 'add_staging_menu_page' ], 1 );
 			add_action( 'admin_menu', [ $this, 'submenus' ], 99 );

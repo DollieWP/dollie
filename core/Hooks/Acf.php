@@ -2,6 +2,7 @@
 
 namespace Dollie\Core\Hooks;
 
+use Dollie\Core\Factories\BaseContainer;
 use Dollie\Core\Log;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
@@ -47,6 +48,7 @@ final class Acf extends Singleton implements ConstInterface {
 
 		add_filter( 'wp_kses_allowed_html', [ $this, 'acf_add_allowed_iframe_tag' ], 10, 2 );
 
+		add_action( 'dollie/site/set_details/after', [ $this, 'update_site_data' ], 10, 2 );
 	}
 
 	/**
@@ -327,4 +329,113 @@ final class Acf extends Singleton implements ConstInterface {
 		return $tags;
 	}
 
+	/**
+	 * @param array $data
+	 * @param BaseContainer $container
+	 *
+	 * @return void
+	 */
+	public function update_site_data( $data, $container ) {
+		if ( empty( $data ) ) {
+			return;
+		}
+
+		foreach ( $data['site'] as $key => $value ) {
+			if ( is_array( $value ) && ( $key === 'stats' || $key === 'admin' || $key === 'theme' ) ) {
+				foreach ( $value as $sub_key => $sub_value ) {
+					if ( empty( $sub_value ) ) {
+						continue;
+					}
+
+					$field_key   = 'wpd_site_stats_' . $key . '_' . $sub_key;
+					$field_label = ucfirst( $key ) . ' - ' . ucfirst( str_replace( '_', ' ', $sub_key ) );
+					$field_type  = ( preg_match( "/\.(jpg|png)$/", $sub_value ) ) ? 'image' : 'text';
+
+					if ( filter_var( $sub_value, FILTER_VALIDATE_URL ) ) {
+						$field_type = 'url';
+					}
+
+					if ( $field_type === 'image' ) {
+						$field['return_format'] = 'url';
+					}
+
+					$field = array(
+						'key'   => 'field_' . md5( $field_key ),
+						'label' => $field_label,
+						'name'  => $field_key,
+						'type'  => $field_type,
+						'value' => $sub_value,
+					);
+
+					update_field( $field['key'], $field['value'], $container->get_id() );
+				}
+			} elseif ( is_array( $value ) ) {
+				$repeater_key   = 'field_' . md5( $key );
+				$repeater_field = array(
+					'key'        => $repeater_key,
+					'label'      => ucfirst( $key ),
+					'name'       => 'wpd_site_stats_' . $key,
+					'type'       => 'repeater',
+					'sub_fields' => array(),
+					'value'      => array(),
+				);
+
+				foreach ( $value as $sub_key => $sub_value ) {
+					if ( is_array( $sub_value ) ) {
+						foreach ( $sub_value as $sub_sub_key => $sub_sub_value ) {
+							if ( empty( $sub_sub_value ) ) {
+								continue;
+							}
+							$sub_field_type = ( preg_match( "/\.(jpg|png)$/", $sub_sub_value ) ) ? 'image' : 'text';
+
+							if ( filter_var( $sub_sub_value, FILTER_VALIDATE_URL ) ) {
+								$sub_field_type = 'url';
+							}
+
+							$sub_field                      = array(
+								'key'   => 'field_' . md5( $sub_sub_key ),
+								'label' => ucfirst( $sub_sub_key ),
+								'name'  => $sub_sub_key,
+								'type'  => $sub_field_type,
+							);
+							$repeater_field['sub_fields'][] = $sub_field;
+						}
+						$repeater_item = array();
+						foreach ( $repeater_field['sub_fields'] as $sub_field ) {
+							$repeater_item[ $sub_field['key'] ] = $sub_value[ $sub_field['name'] ];
+						}
+						$repeater_field['value'][] = $repeater_item;
+					}
+				}
+
+				update_field( $repeater_key, $repeater_field['value'], $container->get_id() );
+			} else {
+				if ( empty( $value ) ) {
+					continue;
+				}
+				$field_type = 'text'; // default field type
+
+				if ( preg_match( "/\.(jpg|png)$/", $value ) ) {
+					$field_type = 'image';
+				} elseif ( filter_var( $value, FILTER_VALIDATE_URL ) ) {
+					$field_type = 'url';
+				}
+
+				$field = array(
+					'key'   => 'field_' . md5( $key ),
+					'label' => ucfirst( $key ),
+					'name'  => 'wpd_stats_' . $key,
+					'type'  => $field_type,
+					'value' => $value,
+				);
+
+				// If the field is an image, set the return format to URL.
+				if ( $field_type === 'image' ) {
+					$field['return_format'] = 'url';
+				}
+
+				update_field( $field['key'], $field['value'], $container->get_id() );
+			}
+		}
+	}
 }

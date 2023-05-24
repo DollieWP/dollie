@@ -28,6 +28,7 @@ use Dollie\Core\Jobs\ChangeContainerRoleJob;
 use Dollie\Core\Routing\Processor;
 use Dollie\Core\Routing\Route;
 use Dollie\Core\Routing\Router;
+use Dollie\Core\Services\HubDataService;
 use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 /**
@@ -58,7 +59,7 @@ class Plugin extends Singleton {
 		add_action( 'route_login_redirect', [ $this, 'load_login_route' ] );
 		add_action( 'route_preview', [ $this, 'load_preview_route' ] );
 		add_action( 'route_wizard', [ $this, 'load_wizard_route' ] );
-		add_action( 'route_remote_data', [ \Dollie\Core\Services\HubDataService::instance(), 'load_route' ] );
+		add_action( 'route_remote_data', [ HubDataService::instance(), 'load_route' ] );
 	}
 
 	/**
@@ -82,9 +83,6 @@ class Plugin extends Singleton {
 		if ( ! class_exists( 'ACF' ) ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/advanced-custom-fields-pro/acf.php';
 		}
-
-		// no longer needed. ACF PRO is being loaded.
-		// require_once DOLLIE_CORE_PATH . 'Extras/options-page-for-acf/loader.php';
 
 		// Load Color Customizer
 		require_once DOLLIE_CORE_PATH . 'Extras/Colors.php';

@@ -1,4 +1,5 @@
 <?php
+
 use Mexitek\PHPColors\Color;
 
 function dol_sanitize_hex_color( $hex_color, $setting ) {
@@ -26,7 +27,7 @@ function dol_colors_init( $wp_customize ) {
 	 * @link $wp_customize->add_section() https://codex.wordpress.org/Class_Reference/WP_Customize_Manager/add_section
 	 */
 	$wp_customize->add_section(
-		// $id
+	// $id
 		'dollie_colors_section',
 		// $args
 		array(
@@ -49,7 +50,7 @@ function dol_colors_init( $wp_customize ) {
 	 * @link $wp_customize->add_setting() https://codex.wordpress.org/Class_Reference/WP_Customize_Manager/add_setting
 	 */
 	$wp_customize->add_setting(
-		// $id
+	// $id
 		'dollie_color_primary',
 		// $args
 		array(
@@ -60,7 +61,7 @@ function dol_colors_init( $wp_customize ) {
 	);
 
 	$wp_customize->add_setting(
-		// $id
+	// $id
 		'dollie_color_secondary',
 		// $args
 		array(
@@ -87,7 +88,7 @@ function dol_colors_init( $wp_customize ) {
 	 */
 	$wp_customize->add_control(
 		new WP_Customize_Color_Control(
-			// $wp_customize object
+		// $wp_customize object
 			$wp_customize,
 			// $id
 			'dollie_color_primary_control',
@@ -103,7 +104,7 @@ function dol_colors_init( $wp_customize ) {
 
 	$wp_customize->add_control(
 		new WP_Customize_Color_Control(
-			// $wp_customize object
+		// $wp_customize object
 			$wp_customize,
 			// $id
 			'dollie_color_secondary_control',
@@ -199,7 +200,7 @@ add_action( 'admin_head', 'dol_customizer_css' );
  * @since 1.0.0
  */
 function dol_widgets_layout() {
-	 echo apply_filters( 'dol_update_widget_classes', 'dol-bg-white dol-shadow dol-rounded-md dol-widget-custom' );
+	echo apply_filters( 'dol_update_widget_classes', 'dol-bg-white dol-shadow dol-rounded-md dol-widget-custom' );
 }
 
 add_action( 'dol_add_widget_classes', 'dol_widgets_layout' );
@@ -234,7 +235,6 @@ function custom_customize_enqueue() {
 add_action( 'customize_controls_enqueue_scripts', 'custom_customize_enqueue' );
 
 
-
 function dol_theme_body_start() {
 	global $post;
 	$container = dollie()->get_container( $post->ID );
@@ -248,200 +248,356 @@ function dol_theme_body_start() {
 	<div class="dol-theme-wrap" data-theme="dol_theme_base">
 
 
-
 		<a href="#" class="dol-btn dol-btn-primary dol-text-white">Testing our buttons</a>
 		<div class="dol-overflow-x-auto">
 			<div class="dol-whitespace-nowrap">
 				<table>
 					<thead>
-						<tr>
-							<th></th>
-							<th>Color name + description</th>
-							<th>Required or optional for themes</th>
-							<th>Example use</th>
-						</tr>
+					<tr>
+						<th></th>
+						<th>Color name + description</th>
+						<th>Required or optional for themes</th>
+						<th>Example use</th>
+					</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-primary"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">primary</span> <br> <span class="dol-text-xs dol-opacity-60">Primary color</span></td>
-							<td><span class="dol-badge dol-badge-sm">required</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-primary</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--p)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-primary-focus"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">primary-focus</span> <br> <span class="dol-text-xs dol-opacity-60">Primary color when focused</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a darker tone of primary if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-primary-focus</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--pf)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-primary-content"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">primary-content</span> <br> <span class="dol-text-xs dol-opacity-60">Foreground content color to use on primary color</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a readable tone of primary if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-primary-content</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--pc)</code></span></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-secondary"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">secondary</span> <br> <span class="dol-text-xs dol-opacity-60">Secondary color</span></td>
-							<td><span class="dol-badge dol-badge-sm">required</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-secondary</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--s)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-secondary-focus"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">secondary-focus</span> <br> <span class="dol-text-xs dol-opacity-60">Secondary color when focused</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a darker tone of secondary if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-secondary-focus</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--sf)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-secondary-content"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">secondary-content</span> <br> <span class="dol-text-xs dol-opacity-60">Foreground content color to use on secondary color</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a readable tone of secondary if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-secondary-content</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--sc)</code></span></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-accent"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">accent</span> <br> <span class="dol-text-xs dol-opacity-60">Accent color</span></td>
-							<td><span class="dol-badge dol-badge-sm">required</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-accent</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--a)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-accent-focus"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">accent-focus</span> <br> <span class="dol-text-xs dol-opacity-60">Accent color when focused</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a darker tone of accent if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-accent-focus</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--af)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-accent-content"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">accent-content</span> <br> <span class="dol-text-xs dol-opacity-60">Foreground content color to use on accent color</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a readable tone of accent if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-accent-content</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--ac)</code></span></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-neutral"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">neutral</span> <br> <span class="dol-text-xs dol-opacity-60">Neutral color</span></td>
-							<td><span class="dol-badge dol-badge-sm">required</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-neutral</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--n)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-neutral-focus"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">neutral-focus</span> <br> <span class="dol-text-xs dol-opacity-60">Neutral color when focused</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a darker tone of neutral if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-neutral-focus</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--nf)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-neutral-content"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">neutral-content</span> <br> <span class="dol-text-xs dol-opacity-60">Foreground content color to use on neutral color</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a readable tone of neutral if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-neutral-content</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--nc)</code></span></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-base-100"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">base-100</span> <br> <span class="dol-text-xs dol-opacity-60">Base color of page, used for blank backgrounds</span></td>
-							<td><span class="dol-badge dol-badge-sm">required</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-base-100</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--b1)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-base-200"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">base-200</span> <br> <span class="dol-text-xs dol-opacity-60">Base color, a little darker</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a darker tone of base-100 if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-base-200</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--b2)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-base-300"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">base-300</span> <br> <span class="dol-text-xs dol-opacity-60">Base color, even more darker</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a darker tone of base-200 if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-base-300</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--b3)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-base-content"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">base-content</span> <br> <span class="dol-text-xs dol-opacity-60">Foreground content color to use on base color</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a readable tone of base-100 if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-base-content</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--bc)</code></span></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-info"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">info</span> <br> <span class="dol-text-xs dol-opacity-60">Info color</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a default blue color if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-info</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--in)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-info-content"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">info-content</span> <br> <span class="dol-text-xs dol-opacity-60">Foreground content color to use on info color</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a readable tone of info if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-info-content</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--inc)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-success"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">success</span> <br> <span class="dol-text-xs dol-opacity-60">Success color</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a default green color if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-success</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--su)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-success-content"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">success-content</span> <br> <span class="dol-text-xs dol-opacity-60">Foreground content color to use on success color</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a readable tone of success if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-success-content</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--suc)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-warning"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">warning</span> <br> <span class="dol-text-xs dol-opacity-60">Warning color</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a default orange color if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-warning</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--wa)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-warning-content"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">warning-content</span> <br> <span class="dol-text-xs dol-opacity-60">Foreground content color to use on warning color</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a readable tone of warning if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-warning-content</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--wac)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-error"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">error</span> <br> <span class="dol-text-xs dol-opacity-60">Error color</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a default red color if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-error</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--er)</code></span></td>
-						</tr>
-						<tr>
-							<td><span class="dol-badge dol-relative dol-top-4 dol-bg-error-content"></span></td>
-							<td><span class="dol-font-mono dol-font-bold">error-content</span> <br> <span class="dol-text-xs dol-opacity-60">Foreground content color to use on error color</span></td>
-							<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span class="dol-text-xs dol-opacity-60">Will be a readable tone of error if not specified</span></td>
-							<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-error-content</code></span> <br> <span class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--erc)</code></span></td>
-						</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-primary"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">primary</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Primary color</span></td>
+						<td><span class="dol-badge dol-badge-sm">required</span></td>
+						<td><span
+								class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-primary</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--p)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-primary-focus"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">primary-focus</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Primary color when focused</span></td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a darker tone of primary if not specified</span>
+						</td>
+						<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-primary-focus</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--pf)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-primary-content"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">primary-content</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Foreground content color to use on primary color</span>
+						</td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a readable tone of primary if not specified</span>
+						</td>
+						<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-primary-content</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--pc)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-secondary"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">secondary</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Secondary color</span></td>
+						<td><span class="dol-badge dol-badge-sm">required</span></td>
+						<td><span
+								class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-secondary</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--s)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-secondary-focus"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">secondary-focus</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Secondary color when focused</span></td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a darker tone of secondary if not specified</span>
+						</td>
+						<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-secondary-focus</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--sf)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-secondary-content"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">secondary-content</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Foreground content color to use on secondary color</span>
+						</td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a readable tone of secondary if not specified</span>
+						</td>
+						<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-secondary-content</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--sc)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-accent"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">accent</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Accent color</span></td>
+						<td><span class="dol-badge dol-badge-sm">required</span></td>
+						<td><span
+								class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-accent</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--a)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-accent-focus"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">accent-focus</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Accent color when focused</span></td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a darker tone of accent if not specified</span>
+						</td>
+						<td><span
+								class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-accent-focus</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--af)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-accent-content"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">accent-content</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Foreground content color to use on accent color</span>
+						</td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a readable tone of accent if not specified</span>
+						</td>
+						<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-accent-content</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--ac)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-neutral"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">neutral</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Neutral color</span></td>
+						<td><span class="dol-badge dol-badge-sm">required</span></td>
+						<td><span
+								class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-neutral</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--n)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-neutral-focus"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">neutral-focus</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Neutral color when focused</span></td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a darker tone of neutral if not specified</span>
+						</td>
+						<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-neutral-focus</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--nf)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-neutral-content"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">neutral-content</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Foreground content color to use on neutral color</span>
+						</td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a readable tone of neutral if not specified</span>
+						</td>
+						<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-neutral-content</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--nc)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-base-100"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">base-100</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Base color of page, used for blank backgrounds</span>
+						</td>
+						<td><span class="dol-badge dol-badge-sm">required</span></td>
+						<td><span
+								class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-base-100</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--b1)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-base-200"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">base-200</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Base color, a little darker</span></td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a darker tone of base-100 if not specified</span>
+						</td>
+						<td><span
+								class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-base-200</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--b2)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-base-300"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">base-300</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Base color, even more darker</span></td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a darker tone of base-200 if not specified</span>
+						</td>
+						<td><span
+								class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-base-300</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--b3)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-base-content"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">base-content</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Foreground content color to use on base color</span>
+						</td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a readable tone of base-100 if not specified</span>
+						</td>
+						<td><span
+								class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-base-content</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--bc)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-info"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">info</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Info color</span></td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a default blue color if not specified</span>
+						</td>
+						<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-info</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--in)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-info-content"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">info-content</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Foreground content color to use on info color</span>
+						</td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a readable tone of info if not specified</span>
+						</td>
+						<td><span
+								class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-info-content</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--inc)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-success"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">success</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Success color</span></td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a default green color if not specified</span>
+						</td>
+						<td><span
+								class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-success</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--su)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-success-content"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">success-content</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Foreground content color to use on success color</span>
+						</td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a readable tone of success if not specified</span>
+						</td>
+						<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-success-content</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--suc)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-warning"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">warning</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Warning color</span></td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a default orange color if not specified</span>
+						</td>
+						<td><span
+								class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-warning</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--wa)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-warning-content"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">warning-content</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Foreground content color to use on warning color</span>
+						</td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a readable tone of warning if not specified</span>
+						</td>
+						<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-warning-content</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--wac)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-error"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">error</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Error color</span></td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a default red color if not specified</span>
+						</td>
+						<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-error</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--er)</code></span>
+						</td>
+					</tr>
+					<tr>
+						<td><span class="dol-badge dol-relative dol-top-4 dol-bg-error-content"></span></td>
+						<td><span class="dol-font-mono dol-font-bold">error-content</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Foreground content color to use on error color</span>
+						</td>
+						<td><span class="dol-badge dol-badge-sm dol-badge-ghost">optional</span> <br> <span
+								class="dol-text-xs dol-opacity-60">Will be a readable tone of error if not specified</span>
+						</td>
+						<td><span class="dol-font-mono dol-text-xs dol-opacity-60">Class name: <code>dol-bg-error-content</code></span>
+							<br> <span
+								class="dol-text-xs dol-opacity-60 dol-font-mono">CSS variable: <code>hsl(--erc)</code></span>
+						</td>
+					</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
 	<?php
 }
+
 //add_action( 'wp_footer', 'dol_theme_body_start' );
 
 function dol_theme_body_close() {
@@ -456,142 +612,5 @@ function dol_theme_body_close() {
 	print( '<pre>' . print_r( $site_meta, true ) . '</pre>' );
 	echo '</div>';
 }
+
 // add_action( 'wp_footer', 'dol_theme_body_close' );
-
-///////////
-function create_dynamic_field_group() {
-  $post_id = 37;
-
-  $data = get_post_meta($post_id, 'dollie_container_details', true);
-
-  if (empty($data) || !is_array($data)) {
-    return;
-  }
-
-  $site_field_group_array = array(
-    'key' => 'site_info_hub',
-    'title' => 'Site Info',
-    'fields' => array(),
-    'location' => array(
-      array(
-        array(
-          'param' => 'post',
-          'operator' => '==',
-          'value' => $post_id,
-        ),
-      ),
-    ),
-  );
-
-  foreach ($data['site'] as $key => $value) {
-    if (is_array($value) && ($key == 'stats' || $key == 'admin' || $key == 'theme' )) {
-      foreach ($value as $sub_key => $sub_value) {
-        if (empty($sub_value)) {
-          continue;
-        }
-
-			$field_key = 'dynamic_field_' . $key . '_' . $sub_key;
-			$field_label = ucfirst($key) . ' - ' . ucfirst(str_replace('_', ' ', $sub_key));
-			$field_type = (preg_match("/\.(jpg|png)$/", $sub_value)) ? 'image' : 'text';
-
-			if (filter_var($sub_value, FILTER_VALIDATE_URL)) {
-				$field_type = 'url';
-			}
-
-
-			if ($field_type == 'image') {
-				$field['return_format'] = 'url';
-			}
-
-			$field = array(
-				'key' => $field_key,
-				'label' => $field_label,
-				'name' => $field_key,
-				'type' => $field_type,
-				'value' => $sub_value,
-			);
-
-
-        $site_field_group_array['fields'][] = $field;
-        update_field($field['key'], $field['value'], $post_id);
-      }
-    } elseif (is_array($value)) {
-    $repeater_key = 'field_' . md5($key);
-$repeater_field = array(
-    'key' => $repeater_key,
-    'label' => ucfirst($key),
-    'name' => $key,
-    'type' => 'repeater',
-    'sub_fields' => array(),
-    'value' => array(),
-);
-
-foreach ($value as $sub_key => $sub_value) {
-    if (is_array($sub_value)) {
-        foreach ($sub_value as $sub_sub_key => $sub_sub_value) {
-            if (empty($sub_sub_value)) {
-                continue;
-            }
-            $sub_field_type = (preg_match("/\.(jpg|png)$/", $sub_sub_value)) ? 'image' : 'text';
-
-            if (filter_var($sub_sub_value, FILTER_VALIDATE_URL)) {
-                $sub_field_type = 'url';
-            }
-
-            $sub_field = array(
-                'key' => 'dynamic_sub_field_' . $sub_sub_key,
-                'label' => ucfirst($sub_sub_key),
-                'name' => $sub_sub_key,
-                'type' => $sub_field_type,
-            );
-            $repeater_field['sub_fields'][] = $sub_field;
-        }
-        $repeater_item = array();
-        foreach ($repeater_field['sub_fields'] as $sub_field) {
-            $repeater_item[$sub_field['key']] = $sub_value[$sub_field['name']];
-        }
-        $repeater_field['value'][] = $repeater_item;
-    }
-}
-
-
-      $site_field_group_array['fields'][] = $repeater_field;
-      update_field($repeater_key, $repeater_field['value'], $post_id);
-    } else {
-      if (empty($value)) {
-        continue;
-      }
-    	$field_type = 'text'; // default field type
-
-		if (preg_match("/\.(jpg|png)$/", $value)) {
-			$field_type = 'image';
-		} elseif (filter_var($value, FILTER_VALIDATE_URL)) {
-			$field_type = 'url';
-		}
-
-		$field = array(
-			'key' => 'dynamic_field_' . $key,
-			'label' => ucfirst($key),
-			'name' => $key,
-			'type' => $field_type,
-			'value' => $value,
-		);
-
-		// If the field is an image, set the return format to URL.
-		if ($field_type == 'image') {
-			$field['return_format'] = 'url';
-		}
-
-      $site_field_group_array['fields'][] = $field;
-      update_field($field['key'], $field['value'], $post_id);
-    }
-  }
-
-  create_acf_field_group_from_array($site_field_group_array);
-}
-
-function create_acf_field_group_from_array($field_group_array) {
-  acf_add_local_field_group($field_group_array);
-}
-
-add_action('acf/init', 'create_dynamic_field_group', 9999);

@@ -826,6 +826,8 @@ abstract class BaseContainer implements ConstInterface {
 			$this->set_screenshot_image( $details['screenshot'] );
 		}
 
+		do_action( 'dollie/site/set_details/after', $data, $this );
+
 		return $this;
 	}
 
