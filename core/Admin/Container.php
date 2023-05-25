@@ -21,7 +21,7 @@ final class Container extends Singleton implements ConstInterface {
 		parent::__construct();
 		add_action( 'init', [ $this, 'register_post_type' ], 0 );
 
-		if ( dollie()->auth()->is_connected() ) {
+		//if ( dollie()->auth()->is_connected() ) {
 
 			add_action( 'admin_menu', [ $this, 'add_staging_menu_page' ], 1 );
 			add_action( 'admin_menu', [ $this, 'submenus' ], 99 );
@@ -29,9 +29,11 @@ final class Container extends Singleton implements ConstInterface {
 			add_action( 'admin_menu', [ $this, 'add_extra_menu_links' ], 100 );
 			add_action( 'admin_footer', [ $this, 'crisp_support_js' ], 999999 );
 
-			add_action( 'auth_redirect', [ $this, 'add_site_icon_filter' ] ); // modify esc_attr on auth_redirect
-			add_action( 'admin_menu', [ $this, 'remove_site_icon_filter' ] ); // restore on admin_menu (very soon)
-		}
+
+		//}
+
+		add_action( 'auth_redirect', [ $this, 'add_site_icon_filter' ] ); // modify esc_attr on auth_redirect
+		add_action( 'admin_menu', [ $this, 'remove_site_icon_filter' ] ); // restore on admin_menu (very soon)
 
 		add_filter( 'custom_menu_order', [ $this, 'custom_menu_order' ] );
 		add_filter( 'menu_order', [ $this, 'custom_menu_order' ] );
@@ -352,7 +354,7 @@ final class Container extends Singleton implements ConstInterface {
 			$wp_admin_bar->add_menu(
 				array(
 					'parent' => $menu_id,
-					'title'  => __( 'Connect to Dollie Control HQ', 'dollie' ),
+					'title'  => __( 'Connect Hub to Control HQ', 'dollie' ),
 					'id'     => 'dwb-go-live',
 					'href'   => \Dollie\Core\Services\AuthService::instance()->get_auth_url(),
 				)
@@ -362,7 +364,7 @@ final class Container extends Singleton implements ConstInterface {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => esc_html__( 'Settings', 'dollie' ),
+				'title'  => esc_html__( 'Hub Settings', 'dollie' ),
 				'id'     => 'dab-settings',
 				'href'   => get_admin_url() . 'admin.php?page=' . self::PANEL_SLUG,
 				'meta'   => [ 'target' => '' ],
@@ -372,79 +374,56 @@ final class Container extends Singleton implements ConstInterface {
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
-				'title'  => esc_html__( 'Hub Pages', 'dollie' ),
-				'id'     => 'dab-sites',
+				'title'  => esc_html__( 'View Hub in Control HQ', 'dollie' ),
+				'id'     => 'dab-hosted-manage',
+				'href'   => 'https://control.getdollie.com/?redirect=dollie-site-redirect',
+				'meta'   => [ 'target' => '_blank' ],
+			]
+		);
+
+
+		$wp_admin_bar->add_menu(
+			[
+				'parent' => $menu_id,
+				'title'  => esc_html__( 'Useful Links', 'dollie' ),
+				'id'     => 'dab-support',
 				'href'   => '',
 				'meta'   => [ 'target' => '' ],
 			]
 		);
 
-			if ( $launch_site_url = dollie()->page()->get_launch_site_url() ) {
-			$wp_admin_bar->add_menu(
-				[
-					'parent' => $menu_id,
-					'title'  => sprintf( esc_html__( 'Launch New %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() ),
-					'id'     => 'dwb-launch',
-					'href'   => $launch_site_url,
-				]
-			);
-		}
-
-		if ( $sites_url = dollie()->page()->get_sites_url() ) {
-			$wp_admin_bar->add_menu(
-				[
-					'parent' => $menu_id,
-					'title'  => esc_html__( 'Sites', 'dollie' ),
-					'id'     => 'dab-site',
-					'href'   => $sites_url,
-					'meta'   => [ 'target' => '' ],
-				]
-			);
-		}
-
-		if ( $dashboard_url = dollie()->page()->get_dashboard_url() ) {
-			$wp_admin_bar->add_menu(
-				[
-					'parent' => $menu_id,
-					'title'  => esc_html__( 'Dashboard', 'dollie' ),
-					'id'     => 'dab-dashboard',
-					'href'   => $dashboard_url,
-					'meta'   => [ 'target' => '' ],
-				]
-			);
-		}
 
 
+		$wp_admin_bar->add_menu(
+			[
+				'parent' => $menu_id,
+				'title'  => esc_html__( 'View Docs', 'dollie' ),
+				'id'     => 'dab-hosted-docs',
+				'href'   => 'https://support.getdollie.com',
+				'meta'   => [ 'target' => '_blank' ],
+			]
+		);
+
+		$wp_admin_bar->add_menu(
+			[
+				'parent' => $menu_id,
+				'title'  => esc_html__( 'View Usage', 'dollie' ),
+				'id'     => 'dab-hosted-usage',
+				'href'   => 'https://control.getdollie.com/user/usage',
+				'meta'   => [ 'target' => '_blank' ],
+			]
+		);
 
 		if ( defined( 'S5_APP_TOKEN' ) ) {
+
 			$wp_admin_bar->add_menu(
 				[
 					'parent' => 'top-secondary',
 					'title'  => '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-</svg> Hosted in Your Private Cloud',
+	<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+	</svg> Hosted in Your Private Cloud',
 					'id'     => 'dwb-hosted',
 					'href'   => 'https://control.getdollie.com/?redirect=dollie-site-redirect',
-				]
-			);
-
-			$wp_admin_bar->add_menu(
-				[
-					'parent' => 'dwb-hosted',
-					'title'  => esc_html__( 'Manage Your Site', 'dollie' ),
-					'id'     => 'dab-hosted-manage',
-					'href'   => 'https://control.getdollie.com/?redirect=dollie-site-redirect',
-					'meta'   => [ 'target' => '_blank' ],
-				]
-			);
-
-			$wp_admin_bar->add_menu(
-				[
-					'parent' => 'dwb-hosted',
-					'title'  => esc_html__( 'View Documentation', 'dollie' ),
-					'id'     => 'dab-hosted-docs',
-					'href'   => 'https://support.getdollie.com',
-					'meta'   => [ 'target' => '_blank' ],
 				]
 			);
 
@@ -459,80 +438,6 @@ final class Container extends Singleton implements ConstInterface {
 			);
 		}
 
-		$wp_admin_bar->add_menu(
-			[
-				'parent' => $menu_id,
-				'title'  => esc_html__( 'Blueprints', 'dollie' ),
-				'id'     => 'dab-blueprints',
-				'href'   => '',
-				'meta'   => [ 'target' => '' ],
-			]
-		);
-
-		if ( $blueprints_url = dollie()->page()->get_sites_url( '', [ 'blueprints' => 'yes' ] ) ) {
-			$wp_admin_bar->add_menu(
-				[
-					'parent' => $menu_id,
-					'title'  => esc_html__( 'View Blueprints', 'dollie' ),
-					'id'     => 'dab-view-blueprints',
-					'href'   => $blueprints_url,
-					'meta'   => [ 'target' => '' ],
-				]
-			);
-		}
-
-		if ( $launch_blueprint_url = dollie()->page()->get_launch_blueprint_url() ) {
-			$wp_admin_bar->add_menu(
-				[
-					'parent' => $menu_id,
-					'title'  => esc_html__( 'Launch New Blueprint', 'dollie' ),
-					'id'     => 'dab-launch-blueprint',
-					'href'   => $launch_blueprint_url,
-					'meta'   => [ 'target' => '' ],
-				]
-			);
-		}
-
-		$wp_admin_bar->add_menu(
-			[
-				'parent' => $menu_id,
-				'title'  => esc_html__( 'Support', 'dollie' ),
-				'id'     => 'dab-support',
-				'href'   => '',
-				'meta'   => [ 'target' => '' ],
-			]
-		);
-
-		$wp_admin_bar->add_menu(
-			[
-				'parent' => $menu_id,
-				'title'  => esc_html__( 'Dollie Control HQ', 'dollie' ),
-				'id'     => 'dwb-partner',
-				'href'   => 'https://control.getdollie.com',
-			]
-		);
-
-		$wp_admin_bar->add_menu(
-			[
-				'parent' => $menu_id,
-				'title'  => esc_html__( 'Logs', 'dollie' ),
-				'id'     => 'dab-logs',
-				'href'   => get_admin_url() . 'edit.php?post_type=dollie-logs',
-				'meta'   => [ 'target' => '' ],
-			]
-		);
-
-		if ( defined( 'DOLLIE_DEV' ) && DOLLIE_DEV ) {
-			$wp_admin_bar->add_menu(
-				[
-					'parent' => $menu_id,
-					'title'  => esc_html__( 'Forms' ),
-					'id'     => 'dab-forms',
-					'href'   => get_admin_url() . 'edit.php?post_type=af_form',
-					'meta'   => [ 'target' => '' ],
-				]
-			);
-		}
 	}
 
 	/**
