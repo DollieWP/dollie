@@ -143,7 +143,7 @@
 									<path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
 								</svg>
 							</div>
-							<div class="dol-min-w-0 dol-flex-1 dol-px-4 md:dol-grid md:dol-grid-cols-3 md:dol-gap-4">
+							<div class="dol-min-w-0 dol-flex-1 dol-px-4">
 								<div>
 									<p class="dol-text-sm dol-font-medium dol-text-red-600 dol-truncate"><?php esc_html_e( 'Custom Domain Setup', 'dollie' ); ?></p>
 									<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">

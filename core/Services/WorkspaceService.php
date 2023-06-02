@@ -18,6 +18,11 @@ final class WorkspaceService extends Singleton {
 	 * @return boolean
 	 */
 	public function has_custom_deployment_domain() {
+		$domain = $this->get_deployment_domain();
+		if ( empty( $domain ) ) {
+			return false;
+		}
+
 		return strpos( $this->get_deployment_domain(), 'dollie.io' ) === false;
 	}
 
