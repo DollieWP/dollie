@@ -22,8 +22,7 @@ final class AuthService extends Singleton implements ConstInterface {
 			'<a href="%s" class="button">%s</a>',
 			add_query_arg(
 				[
-					'origin' => admin_url(),
-					'wp_id'  => get_current_user_id()
+					'origin' => admin_url()
 				],
 				DOLLIE_CONTROL_URL . 'auth'
 			),
@@ -41,8 +40,7 @@ final class AuthService extends Singleton implements ConstInterface {
 			'%s',
 			add_query_arg(
 				[
-					'origin' => admin_url(),
-					'wp_id'  => get_current_user_id()
+					'origin' => admin_url()
 				],
 				DOLLIE_CONTROL_URL . 'auth'
 			)
