@@ -76,12 +76,22 @@ final class AuthService extends Singleton implements ConstInterface {
 	}
 
 	/**
-	 * Check
+	 * Check if token is saved.
 	 *
 	 * @return boolean
 	 */
 	public function is_connected(): bool {
 		return (bool) $this->get_token();
+	}
+
+
+	/**
+	 * If token is saved and subscription check went fine.
+	 *
+	 * @return false|mixed|null
+	 */
+	public function is_connected_and_token_valid() {
+		return get_option( 'wpd_connected' );
 	}
 
 	/**
