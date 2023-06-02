@@ -91,7 +91,7 @@ final class NoticeService extends Singleton {
 
 		$auth_service = AuthService::instance();
 
-		if ( $auth_service->is_connected() || ! $user->can_manage_all_sites() || ! defined( 'ELEMENTOR_VERSION' ) ) {
+		if ( $auth_service->is_connected() || ! $user->can_manage_all_sites() ) {
 			return;
 		}
 

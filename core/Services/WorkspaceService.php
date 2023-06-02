@@ -18,6 +18,11 @@ final class WorkspaceService extends Singleton {
 	 * @return boolean
 	 */
 	public function has_custom_deployment_domain() {
+		$domain = $this->get_deployment_domain();
+		if ( empty( $domain ) ) {
+			return false;
+		}
+
 		return strpos( $this->get_deployment_domain(), 'dollie.io' ) === false;
 	}
 
@@ -43,6 +48,10 @@ final class WorkspaceService extends Singleton {
 			$domains[ $domain['name'] ] = $domain['name'];
 		}
 
+		if ( empty( $domains ) ) {
+			$domains[] = $this->get_deployment_domain();
+		}
+
 		$field['choices'] = $domains;
 
 		return $field;
@@ -53,7 +62,7 @@ final class WorkspaceService extends Singleton {
 
 		if ( ! $domains ) {
 			$response = $this->get_custom_domain();
-			if ( ! is_wp_error( $response ) && isset( $response['all'] ) && ! empty($response['all']) ) {
+			if ( ! is_wp_error( $response ) && isset( $response['all'] ) && ! empty( $response['all'] ) ) {
 				$domains = $response['all'];
 				set_transient( 'wpd_custom_domains', $domains, MINUTE_IN_SECONDS * 10 );
 			}

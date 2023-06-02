@@ -22,12 +22,12 @@ function ocdi_import_files()
                     'option_name' => 'redux_option_name',
                 ],
             ],
-            'import_preview_image_url' => 'https://control-hq.s3.bhs.io.cloud.ovh.net/media/22506/conversions/media-libraryB2AHhl-full.jpg',
+            'import_preview_image_url' => DOLLIE_ASSETS_URL . 'img/template-elementor.jpg',
             'import_notice' => __('Please make sure you have an Elementor Pro license key to ensure updates and support.', 'your-textdomain'),
             'preview_url' => 'https://hub-elementor.wp-site.xyz/',
         ],
         [
-            'import_file_name' => 'Bricks Builder Hub Starter',
+            'import_file_name' => 'Gutenberg Hub Starter',
             'categories' => ['Agencies', 'WaaS'],
             'import_file_url' => 'http://www.your_domain.com/ocdi/demo-content2.xml',
             'import_widget_file_url' => 'http://www.your_domain.com/ocdi/widgets2.json',
@@ -42,9 +42,9 @@ function ocdi_import_files()
                     'option_name' => 'redux_option_name_2',
                 ],
             ],
-            'import_preview_image_url' => 'https://control-hq.s3.bhs.io.cloud.ovh.net/media/22506/conversions/media-libraryB2AHhl-full.jpg',
+            'import_preview_image_url' => DOLLIE_ASSETS_URL . 'img/template-gutenberg.jpg',
             'import_notice' => __('Please make sure you have an Bricks Builder license key to ensure updates and support.', 'your-textdomain'),
-            'preview_url' => 'https://hub-bricks.wp-site.xyz/',
+            'preview_url' => 'https://hub-gutenberg.wp-site.xyz/',
         ],
     ];
 }
@@ -97,17 +97,11 @@ function ocdi_register_plugins($plugins)
                     'slug' => 'elementor',
                     'required' => true,
                 ],
-                [
-                    'name' => 'Elementor Pro',
-                    'slug' => 'elementor-pro',
-                    'required' => true,
-                    'source' => 'https://control.getdollie.com/releases/?action=get_metadata&slug=elementor-pro',
-                ],
             ];
         }
 
         //Bricks Builder Blueprint
-        if ($_GET['import'] === '1') {
+        if ($_GET['import'] === '2') {
             $theme_plugins = [
                 [
                     'name' => 'Bricks Builder',

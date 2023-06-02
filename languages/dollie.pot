@@ -346,6 +346,7 @@ msgstr ""
 
 #: core/Admin/Container.php:357
 msgid "Connect Hub to Control HQ"
+<<<<<<< HEAD
 msgstr ""
 
 #: core/Admin/Container.php:367
@@ -372,6 +373,34 @@ msgstr ""
 msgid "This site is hosted in your own Private Cloud. Visit Control HQ to manage backups,use the developer tools and more."
 msgstr ""
 
+=======
+msgstr ""
+
+#: core/Admin/Container.php:367
+msgid "Hub Settings"
+msgstr ""
+
+#: core/Admin/Container.php:377
+msgid "View Hub in Control HQ"
+msgstr ""
+
+#: core/Admin/Container.php:388
+msgid "Useful Links"
+msgstr ""
+
+#: core/Admin/Container.php:400
+msgid "View Docs"
+msgstr ""
+
+#: core/Admin/Container.php:410
+msgid "View Usage"
+msgstr ""
+
+#: core/Admin/Container.php:433
+msgid "This site is hosted in your own Private Cloud. Visit Control HQ to manage backups,use the developer tools and more."
+msgstr ""
+
+>>>>>>> 0fbda4a836186c927658bc740da716c96f04a8cd
 #: core/Admin/Container.php:450
 msgid "Import Templates"
 msgstr ""
@@ -668,6 +697,7 @@ msgstr ""
 
 #: core/Extras/AcfFields.php:207
 msgid "Subscription Settings"
+<<<<<<< HEAD
 msgstr ""
 
 #: core/Extras/AcfFields.php:252
@@ -678,6 +708,18 @@ msgstr ""
 msgid "Choose which plugin should be used to handle the payment and subscription features. Out of the box your hub integrates with WooCommerce, but you can download other integrations from Control HQ."
 msgstr ""
 
+=======
+msgstr ""
+
+#: core/Extras/AcfFields.php:252
+msgid "Choose Your Payment Solution"
+msgstr ""
+
+#: core/Extras/AcfFields.php:255
+msgid "Choose which plugin should be used to handle the payment and subscription features. Out of the box your hub integrates with WooCommerce, but you can download other integrations from Control HQ."
+msgstr ""
+
+>>>>>>> 0fbda4a836186c927658bc740da716c96f04a8cd
 #: core/Extras/AcfFields.php:277
 msgid "API Details"
 msgstr ""
@@ -1447,10 +1489,13 @@ msgstr ""
 msgid "Launch Site"
 msgstr ""
 
+<<<<<<< HEAD
 #: core/Modules/Preview.php:255
 msgid "all"
 msgstr ""
 
+=======
+>>>>>>> 0fbda4a836186c927658bc740da716c96f04a8cd
 #: core/Modules/Preview.php:270
 msgid "all times"
 msgstr ""
@@ -1483,7 +1528,11 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
+<<<<<<< HEAD
 #: core/Services/AuthService.php:30, templates/widgets/launch/launch-site.php:33
+=======
+#: core/Services/AuthService.php:29, templates/widgets/launch/launch-site.php:33
+>>>>>>> 0fbda4a836186c927658bc740da716c96f04a8cd
 msgid "Connect to Dollie Control HQ"
 msgstr ""
 
