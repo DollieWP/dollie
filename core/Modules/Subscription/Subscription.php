@@ -491,15 +491,24 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return array|bool
 	 */
 	public function get_partner_subscription() {
-		if ( ! dollie()->auth()->is_connected() ) {
-			return false;
-		}
 
 		$subscription = get_transient( 'wpd_partner_subscription' );
 
 		if ( ! $subscription ) {
 			$subscription = $this->get_subscription();
-			set_transient( 'wpd_partner_subscription', $subscription, MINUTE_IN_SECONDS * 10 );
+			if ( ! is_wp_error( $subscription ) ) {
+
+				// mark as connected successfully.
+				update_option( 'wpd_connected', 1 );
+
+				set_transient( 'wpd_partner_subscription', $subscription, MINUTE_IN_SECONDS * 10 );
+			} else {
+
+				// mark as not connected.
+				delete_option( 'wpd_connected' );
+
+				return false;
+			}
 		}
 
 		return $subscription;
@@ -537,29 +546,6 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		}
 
 		return $subscription['verified'];
-	}
-
-	/**
-	 * Check if partner hast hit free trial limit
-	 *
-	 * @return boolean
-	 */
-	public function has_partner_hit_time_limit() {
-		$subscription = $this->get_partner_subscription();
-
-		if ( is_wp_error( $subscription ) || empty( $subscription ) ) {
-			return false;
-		}
-
-		if ( false === $subscription ) {
-			return $subscription;
-		}
-
-		if ( isset( $subscription['trial_ended'] ) ) {
-			return $subscription['trial_ended'];
-		}
-
-		return false;
 	}
 
 	/**

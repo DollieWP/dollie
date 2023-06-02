@@ -2749,8 +2749,6 @@ input[type="text"].dol-search-input:focus {
         display: inline-block; }
     .md\:dol-flex {
         display: flex; }
-    .md\:dol-grid {
-        display: grid; }
     .md\:dol-hidden {
         display: none; }
     .md\:dol-h-auto {
@@ -2781,12 +2779,8 @@ input[type="text"].dol-search-input:focus {
         flex-shrink: 0; }
     .md\:dol-grid-cols-2 {
         grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .md\:dol-grid-cols-3 {
-        grid-template-columns: repeat(3, minmax(0, 1fr)); }
     .md\:dol-justify-between {
         justify-content: space-between; }
-    .md\:dol-gap-4 {
-        gap: 1rem; }
     .md\:dol-bg-secondary {
         background-color: var(--d-secondary); }
     .md\:dol-px-8 {

@@ -13,7 +13,7 @@ if ( ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_
 		);
 	}
 
-	if ( dollie()->get_partner_status() === 'trial'&& dollie()->get_user()->can_manage_all_sites() ) {
+	if ( dollie()->get_partner_status() === 'trial' && dollie()->get_user()->can_manage_all_sites() ) {
 		dollie()->load_template(
 			'notice',
 			[
