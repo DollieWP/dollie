@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Plugin Name: Dollie Hub
- * Description: Build Your Own Cloud Platform - If You Can Imagine It, You Can Build it with Dollie
+ * Plugin Name: Dollie Hub Builder
+ * Description: Sell all your (cloud) services directly from your WordPress site, with full control over design, branding, pricing and your customer/client data.
  * Plugin URI:  https://getdollie.com
- * Version:     5.3.2
+ * Version:     5.3.3
  * Author:      GetDollie
  *
  * Text Domain: dollie
