@@ -56,9 +56,9 @@ final class Admin extends Singleton implements ConstInterface {
 		NavMenu::instance();
 		Container::instance();
 
-		//if ( class_exists( '\Elementor\Plugin' ) ) {
-			Upgrades::instance();
-		//}
+		//Run upgrades
+		Upgrades::instance();
+
 	}
 
 	/**
