@@ -52,9 +52,20 @@ final class PostData extends Singleton implements Base {
 
 		// get post content for a specific post by post ID
 		$post = get_post( $atts['id'] );
+
 		if ( $post ) {
-			$data = apply_filters( 'the_content', $post->post_content );
-		}
+			if (current_user_can('manage_options')) {
+				$admin_edit_link = '
+					<div class="dol-font-bold dol-rounded-md dol-w-full dol-bg-primary-500 dol-p-2 dol-text-white dol-bottom-0 dol-left-0 dol-z-50 dol-text-center">
+						<a class="dol-text-white hover:dol-text-white dol-text-sm" href="' . get_edit_post_link($post->ID) . '">
+							Dollie Hub Admin Notice - You can customize the Site Dashboard layout here <span class="dol-icon dol-ml-1"><i class="fas fa-long-arrow-right"></i></span>
+						</a>
+					</div>';
+			} else {
+				$admin_edit_link = '';
+			}
+				$data = $admin_edit_link . apply_filters( 'the_content', $post->post_content );
+			}
 
 		return $data;
 
