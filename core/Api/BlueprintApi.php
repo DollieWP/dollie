@@ -39,14 +39,26 @@ trait BlueprintApi {
 	}
 
 	/**
-	 * Update data
+	 * Update fields, snapshot or settings
 	 *
 	 * @param string $container_hash
-	 * @param array  $data
+	 * @param array $data
 	 *
 	 * @return \WP_Error|array
 	 */
-	public function update_blueprint( string $container_hash ) {
+	public function update_blueprint( string $container_hash, array $data ) {
+		return $this->post_request( "blueprints/{$container_hash}/update_changes", $data );
+	}
+
+
+	/**
+	 * Publish snaphsot only
+	 *
+	 * @param string $container_hash
+	 *
+	 * @return \WP_Error|array
+	 */
+	public function update_snapshot( string $container_hash ) {
 		return $this->get_request( "blueprints/{$container_hash}/update" );
 	}
 
@@ -66,12 +78,16 @@ trait BlueprintApi {
 	 * Check dynamic fields
 	 *
 	 * @param string $container_hash
-	 * @param array  $fields
+	 * @param array $fields
 	 *
 	 * @return \WP_Error|array
 	 */
 	public function check_blueprint_dynamic_fields( string $container_hash, array $fields ) {
 		return $this->post_request( "blueprints/{$container_hash}/fields", [ 'fields' => $fields ] );
+	}
+
+	public function set_blueprint_dynamic_fields( string $container_hash, array $fields ) {
+		return $this->post_request( "blueprints/{$container_hash}/set_fields", [ 'fields' => $fields ] );
 	}
 
 	/**

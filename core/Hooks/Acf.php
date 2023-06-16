@@ -27,6 +27,7 @@ final class Acf extends Singleton implements ConstInterface {
 		add_action( 'acf/save_post', [ $this, 'update_backup_module' ], 1 );
 		add_action( 'acf/save_post', [ $this, 'update_staging_status' ], 1 );
 		add_action( 'acf/save_post', [ $this, 'update_create_blueprint' ] );
+		add_action( 'acf/save_post', [ $this, 'update_blueprint_settings' ] );
 
 		add_action( 'acf/input/admin_footer', [ NoticeService::instance(), 'change_user_role' ] );
 
@@ -241,6 +242,30 @@ final class Acf extends Singleton implements ConstInterface {
 		$container->set_screenshot_data();
 
 		$container->add_log( Log::WP_SITE_BLUEPRINT_DEPLOYED );
+	}
+
+	/**
+	 * Update or create blueprint
+	 *
+	 * @param string $post_id
+	 *
+	 * @return void
+	 */
+	public function update_blueprint_settings( $acf_id ) {
+
+		// is the bp update settingsf form.
+		if ( ! isset( $_POST['acf']['field_5b05801b71f85'] ) ) {
+			return;
+		}
+
+		$container = dollie()->get_container( (int) $acf_id );
+
+		if ( is_wp_error( $container ) || ! $container->is_blueprint() ) {
+			return;
+		}
+
+		$container->update_remote_settings();
+
 	}
 
 	/**
