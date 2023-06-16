@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Factories\BaseContainer;
 use Dollie\Core\Singleton;
 use Dollie\Core\Api\SiteApi;
 use Dollie\Core\Api\BlueprintApi;
@@ -289,7 +290,7 @@ class SyncContainersJob extends Singleton {
 	private function update_blueprint_data( $fetched_container, $container_id ) {
 
 		// update customizer and settings.
-		if ( $fetched_container['type'] === 'blueprint' && ! empty( $fetched_container['blueprintSetting'] ) ) {
+		if ( $fetched_container['type'] === BaseContainer::TYPE_BLUEPRINT && ! empty( $fetched_container['blueprintSetting'] ) ) {
 
 			if ( ! empty( $fetched_container['blueprintSetting']['customizer'] ) ) {
 				update_field( 'wpd_dynamic_blueprint_data', $fetched_container['blueprintSetting']['customizer'], 'create_update_blueprint_' . $container_id );
