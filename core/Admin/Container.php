@@ -25,7 +25,7 @@ final class Container extends Singleton implements ConstInterface {
 
 			add_action( 'admin_menu', [ $this, 'add_staging_menu_page' ], 1 );
 			add_action( 'admin_menu', [ $this, 'submenus' ], 99 );
-			add_action( 'admin_menu', [ $this, 'add_blueprint_submenu' ], 1 );
+			//add_action( 'admin_menu', [ $this, 'add_blueprint_submenu' ], 1 );
 			add_action( 'admin_menu', [ $this, 'add_extra_menu_links' ], 100 );
 			add_action( 'admin_footer', [ $this, 'crisp_support_js' ], 999999 );
 
@@ -298,7 +298,7 @@ final class Container extends Singleton implements ConstInterface {
 			'separator1',
 			'dollie_setup',
 			'edit.php?post_type=container',
-			'edit.php?post_type=container&blueprint=yes',
+			//'edit.php?post_type=container&blueprint=yes',
 		];
 	}
 

@@ -28,7 +28,7 @@ final class ImportService extends Singleton implements ConstInterface {
 		$imported_ids   = [];
 		$template_pages = [
 			'wpd_launch_page_id',
-			'wpd_launch_blueprint_page_id',
+			//'wpd_launch_blueprint_page_id',
 			'wpd_dashboard_page_id',
 			'wpd_customers_page_id',
 			'wpd_login_page_id',
@@ -58,12 +58,12 @@ final class ImportService extends Singleton implements ConstInterface {
 				'tpl'       => 'elementor_header_footer',
 				'post_type' => 'page',
 			],
-			'launch-blueprint' => [
-				'title'     => 'Launch New Blueprint',
-				'option'    => 'options_wpd_launch_blueprint_page_id',
-				'tpl'       => 'elementor_header_footer',
-				'post_type' => 'page',
-			],
+//			'launch-blueprint' => [
+//				'title'     => 'Launch New Blueprint',
+//				'option'    => 'options_wpd_launch_blueprint_page_id',
+//				'tpl'       => 'elementor_header_footer',
+//				'post_type' => 'page',
+//			],
 			'dashboard'        => [
 				'title'     => 'Dashboard',
 				'option'    => 'options_wpd_dashboard_page_id',
@@ -108,12 +108,12 @@ final class ImportService extends Singleton implements ConstInterface {
 				'tpl'       => 'wpd-builder',
 				'post_type' => 'page',
 			],
-			'launch-blueprint' => [
-				'title'     => esc_html__( 'Launch New Blueprint', 'dollie-setup' ),
-				'option'    => 'options_wpd_launch_blueprint_page_id',
-				'tpl'       => 'wpd-builder',
-				'post_type' => 'page',
-			],
+//			'launch-blueprint' => [
+//				'title'     => esc_html__( 'Launch New Blueprint', 'dollie-setup' ),
+//				'option'    => 'options_wpd_launch_blueprint_page_id',
+//				'tpl'       => 'wpd-builder',
+//				'post_type' => 'page',
+//			],
 			'dashboard'        => [
 				'title'     => 'Dashboard',
 				'option'    => 'options_wpd_dashboard_page_id',

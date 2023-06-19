@@ -302,9 +302,9 @@ final class PageManager extends Singleton {
 			$post_states['dollie_hub_launch_site'] = __( 'Dollie Hub - Launch Site', 'dollie' );
 		}
 
-		if ( $this->get_launch_blueprint_id() === $post->ID ) {
-			$post_states['dollie_hub_launch_blueprint'] = __( 'Dollie Hub - Launch Blueprint', 'dollie' );
-		}
+//		if ( $this->get_launch_blueprint_id() === $post->ID ) {
+//			$post_states['dollie_hub_launch_blueprint'] = __( 'Dollie Hub - Launch Blueprint', 'dollie' );
+//		}
 
 		if ( $this->get_sites_id() === $post->ID ) {
 			$post_states['dollie_hub_sites'] = __( 'Dollie Hub - Sites', 'dollie' );
