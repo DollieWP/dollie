@@ -100,16 +100,21 @@ final class Blueprint extends BaseContainer {
 	 * @return boolean|array
 	 */
 	public function update_remote_changes() {
-		update_post_meta( $this->get_id(), 'wpd_blueprint_created', 'yes' );
-		update_post_meta( $this->get_id(), 'wpd_blueprint_time', current_time( 'mysql' ) );
+
+		$this->update_snapshot_time();
 
 		return $this->update_blueprint(
 			$this->get_hash(),
 			[
 				'snapshot' => true,
-				'fields' => $this->get_dynamic_fields()
+				'fields'   => $this->get_dynamic_fields()
 			]
 		);
+	}
+
+	public function update_snapshot_time( $time = null ) {
+		update_post_meta( $this->get_id(), 'wpd_blueprint_created', 'yes' );
+		update_post_meta( $this->get_id(), 'wpd_blueprint_time', $time ?? current_time( 'mysql' ) );
 	}
 
 	public function update_remote_settings() {
@@ -118,12 +123,71 @@ final class Blueprint extends BaseContainer {
 			[
 				'snapshot' => false,
 				'settings' => [
-					'title' => $this->get_saved_title(),
+					'title'       => $this->get_saved_title(),
 					'description' => $this->get_saved_description(),
-					'private' => $this->is_private(),
+					'private'     => $this->is_private(),
 				]
 			]
 		);
+	}
+
+	/**
+	 * If remote setting is available then update locally, else get local data and return for remote update.
+	 *
+	 * @param $fetched_container
+	 *
+	 * @return array
+	 */
+	public function sync_settings( $fetched_container ) {
+
+		$container_id = $this->get_id();
+
+		$data = [
+			'fields'   => [],
+			'settings' => [],
+		];
+
+		if ( empty( $fetched_container['blueprintSetting'] ) ) {
+			return [
+				'fields'   => $this->get_dynamic_fields(),
+				'settings' => [
+					'title'       => $this->get_saved_title(),
+					'description' => $this->get_saved_description(),
+					'private'     => $this->is_private(),
+				]
+			];
+		}
+
+		if ( ! empty( $fetched_container['blueprintSetting']['customizer'] ) ) {
+			update_field( 'wpd_dynamic_blueprint_data', $fetched_container['blueprintSetting']['customizer'], 'create_update_blueprint_' . $container_id );
+		} else {
+			$data['fields'] = $this->get_dynamic_fields();
+		}
+
+		if ( ! empty( $fetched_container['blueprintSetting']['title'] ) ) {
+			update_post_meta( $container_id, 'wpd_installation_blueprint_title', $fetched_container['blueprintSetting']['title'] );
+		} else {
+			$data['settings']['title'] = $this->get_saved_title();
+		}
+
+		if ( ! empty( $fetched_container['blueprintSetting']['description'] ) ) {
+			update_post_meta( $container_id, 'wpd_installation_blueprint_description', $fetched_container['blueprintSetting']['description'] );
+		} else {
+			$data['settings']['description'] = $this->get_saved_description();
+		}
+
+		if ( ! empty( $fetched_container['blueprintSetting']['private'] ) ) {
+			update_post_meta( $container_id, 'wpd_private_blueprint', $fetched_container['blueprintSetting']['private'] ? 'yes' : '' );
+		} else {
+			$data['settings']['private'] = $this->is_private();
+		}
+
+		if ( ! empty( $fetched_container['blueprintSetting']['history'] ) ) {
+			$this->update_snapshot_time( end( $fetched_container['blueprintSetting']['history'] ) );
+		}
+
+		return $data;
+
 	}
 
 	/**

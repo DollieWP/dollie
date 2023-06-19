@@ -93,18 +93,13 @@ final class HubDataService extends Singleton implements ConstInterface {
 		}
 		$type = sanitize_text_field( $_POST['type'] );
 
-		if ( $type === 'site' ) {
-			$hash = sanitize_text_field( $_POST['container_hash'] );
-			SyncContainersJob::instance()->run_single_site( $hash );
-
-		} elseif ( $type === 'blueprint' ) {
-			$hash = sanitize_text_field( $_POST['container_hash'] );
-			SyncContainersJob::instance()->run_single_blueprint( $hash );
-			$response = 'Blueprint sync complete';
-
-		} elseif ( $type === 'sync_sites' ) {
-			SyncContainersJob::instance()->run();
-			$response = 'Sync complete';
+		if ( $type === 'sync_sites' ) {
+			if ( ! empty( $_POST['site_data'] ) && is_array( $_POST['site_data'] ) ) {
+				SyncContainersJob::instance()->run_single_with_data( $_POST['site_data'] );
+				$response = 'Container sync complete';
+			} else {
+				$response = SyncContainersJob::instance()->run();
+			}
 
 		} elseif ( $type === 'client' ) {
 			$data     = $_POST['data'];

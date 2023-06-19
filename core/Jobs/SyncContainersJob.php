@@ -6,11 +6,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Factories\BaseContainer;
 use Dollie\Core\Singleton;
 use Dollie\Core\Api\SiteApi;
 use Dollie\Core\Api\BlueprintApi;
 use Dollie\Core\Api\StagingApi;
+use Dollie\Core\Utils\ConstInterface;
 
 /**
  * Class SyncContainersJob
@@ -68,6 +68,10 @@ class SyncContainersJob extends Singleton {
 		$this->run_single( $data[0] );
 	}
 
+	public function run_single_with_data( $data ) {
+		$this->run_single( $data );
+	}
+
 	private function run_single( $site ) {
 		$stored_containers = get_posts(
 			[
@@ -78,7 +82,7 @@ class SyncContainersJob extends Singleton {
 		);
 
 		$container_id = 0;
-		$exists = false;
+		$exists       = false;
 
 		foreach ( $stored_containers as $stored_container ) {
 			$old_container_hash = get_post_meta( $stored_container->ID, 'wpd_container_id', true );
@@ -101,7 +105,7 @@ class SyncContainersJob extends Singleton {
 				}
 			}
 
-			$exists = true;
+			$exists       = true;
 			$container_id = $container->get_id();
 			$container->set_details( $site );
 
@@ -146,7 +150,10 @@ class SyncContainersJob extends Singleton {
 			$new_container_type->set_details( $site );
 		}
 
-		$this->update_blueprint_data( $site, $container_id );
+		if ( $site['type'] === ConstInterface::TYPE_BLUEPRINT ) {
+			$bp = dollie()->get_container( $container_id );
+			$bp->sync_settings( $site );
+		}
 
 		flush_rewrite_rules();
 	}
@@ -264,7 +271,10 @@ class SyncContainersJob extends Singleton {
 				$synced_container_ids[] = $container_id;
 			}
 
-			$this->update_blueprint_data( $fetched_container, $container_id );
+			if ( $fetched_container['type'] === ConstInterface::TYPE_BLUEPRINT ) {
+				$bp                                 = dollie()->get_container( $container_id );
+				$fetched_containers[ $key ]['sync'] = $bp->sync_settings( $fetched_container );
+			}
 		}
 
 		// Trash posts if they have no corresponding container.
@@ -285,26 +295,6 @@ class SyncContainersJob extends Singleton {
 		flush_rewrite_rules();
 
 		return $fetched_containers;
-	}
-
-	private function update_blueprint_data( $fetched_container, $container_id ) {
-
-		// update customizer and settings.
-		if ( $fetched_container['type'] === BaseContainer::TYPE_BLUEPRINT && ! empty( $fetched_container['blueprintSetting'] ) ) {
-
-			if ( ! empty( $fetched_container['blueprintSetting']['customizer'] ) ) {
-				update_field( 'wpd_dynamic_blueprint_data', $fetched_container['blueprintSetting']['customizer'], 'create_update_blueprint_' . $container_id );
-			}
-			if ( ! empty( $fetched_container['blueprintSetting']['title'] ) ) {
-				update_post_meta( $container_id, 'wpd_installation_blueprint_title', $fetched_container['blueprintSetting']['title'] );
-			}
-			if ( ! empty( $fetched_container['blueprintSetting']['description'] ) ) {
-				update_post_meta( $container_id, 'wpd_installation_blueprint_description', $fetched_container['blueprintSetting']['description'] );
-			}
-			if ( ! empty( $fetched_container['blueprintSetting']['private'] ) ) {
-				update_post_meta( $container_id, 'wpd_private_blueprint', $fetched_container['blueprintSetting']['private'] ? 'yes' : '' );
-			}
-		}
 	}
 
 }

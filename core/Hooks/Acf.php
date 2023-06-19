@@ -238,7 +238,7 @@ final class Acf extends Singleton implements ConstInterface {
 			return;
 		}
 
-		$container->update_changes();
+		$container->update_remote_changes();
 		$container->set_screenshot_data();
 
 		$container->add_log( Log::WP_SITE_BLUEPRINT_DEPLOYED );
@@ -253,7 +253,7 @@ final class Acf extends Singleton implements ConstInterface {
 	 */
 	public function update_blueprint_settings( $acf_id ) {
 
-		// is the bp update settingsf form.
+		// is the bp update settings form.
 		if ( ! isset( $_POST['acf']['field_5b05801b71f85'] ) ) {
 			return;
 		}
