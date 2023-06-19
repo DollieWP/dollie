@@ -311,7 +311,7 @@ final class PageManager extends Singleton {
 		}
 
 		if ( $this->get_site_tpl_id() === $post->ID ) {
-			$post_states['dollie_hub_site'] = __( 'Dollie Hub - Site Tpl', 'dollie' );
+			$post_states['dollie_hub_site'] = __( 'Dollie Hub - Site Dashboard Template', 'dollie' );
 		}
 
 		if ( $this->get_login_id() === $post->ID ) {

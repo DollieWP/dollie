@@ -114,7 +114,7 @@ class Plugin extends Singleton {
 
 		// Woocommerce subscriptions.
 		if ( ! is_admin() || ! isset( $_GET['action'] ) || $_GET['action'] !== 'activate' ) {
-			if ( ! class_exists( '\WC_Subscriptions' ) && Subscription::instance()->get_subscription_plugin() === 'WooCommerce' ) {
+			if ( ! class_exists( '\WC_Subscriptions_Core_Plugin' ) && Subscription::instance()->get_subscription_plugin() === 'WooCommerce' ) {
 				require_once DOLLIE_CORE_PATH . 'Extras/woocommerce-subscriptions/woocommerce-subscriptions.php';
 			}
 		}
