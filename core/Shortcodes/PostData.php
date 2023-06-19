@@ -64,7 +64,27 @@ final class PostData extends Singleton implements Base {
 			} else {
 				$admin_edit_link = '';
 			}
-				$data = $admin_edit_link . apply_filters( 'the_content', $post->post_content );
+
+			$post = get_post($atts['id']);
+				// Check for Elementor Page Builder
+				if (defined('ELEMENTOR_VERSION') && class_exists('\Elementor\Plugin')) {
+					// Elementor is available
+					// Perform actions specific to Elementor
+				}
+				// Check for Breakdance Page Builder
+				elseif (class_exists('\Breakdance\Render')) {
+					// Bricks is available
+					echo \Breakdance\Render\render($atts['id']);
+				}
+				// Check for Oxygen Page Builder
+				elseif (defined('CT_VERSION') && class_exists('CT_Framework')) {
+					// Bricks is available
+					echo do_oxygen_elements( json_decode( get_post_meta( $atts['id'], 'ct_builder_json', true ), true ) );
+				}
+				else {
+					// Fall back and filter he_content() if no page builder is active
+					$data = apply_filters('the_content', $post->post_content);
+				}
 			}
 
 		return $data;
