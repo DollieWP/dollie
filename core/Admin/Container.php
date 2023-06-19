@@ -404,6 +404,16 @@ final class Container extends Singleton implements ConstInterface {
 			]
 		);
 
+		/*$wp_admin_bar->add_menu(
+			[
+				'parent' => $menu_id,
+				'title'  => esc_html__( 'Sync Sites', 'dollie' ),
+				'id'     => 'dab-sync-sites',
+				'href'   => get_admin_url() . '?dollie-sync-containers',
+				'meta'   => [ 'target' => '_blank' ],
+			]
+		);*/
+
 		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,

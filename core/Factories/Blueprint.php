@@ -99,11 +99,31 @@ final class Blueprint extends BaseContainer {
 	 *
 	 * @return boolean|array
 	 */
-	public function update_changes() {
+	public function update_remote_changes() {
 		update_post_meta( $this->get_id(), 'wpd_blueprint_created', 'yes' );
 		update_post_meta( $this->get_id(), 'wpd_blueprint_time', current_time( 'mysql' ) );
 
-		return $this->update_blueprint( $this->get_hash() );
+		return $this->update_blueprint(
+			$this->get_hash(),
+			[
+				'snapshot' => true,
+				'fields' => $this->get_dynamic_fields()
+			]
+		);
+	}
+
+	public function update_remote_settings() {
+		return $this->update_blueprint(
+			$this->get_hash(),
+			[
+				'snapshot' => false,
+				'settings' => [
+					'title' => $this->get_saved_title(),
+					'description' => $this->get_saved_description(),
+					'private' => $this->is_private(),
+				]
+			]
+		);
 	}
 
 	/**

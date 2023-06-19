@@ -435,8 +435,7 @@ class Helpers extends Singleton implements ConstInterface {
 		if (
 			dollie()
 				->workspace()
-				->has_custom_deployment_domain() &&
-			! get_option( 'wpd_deployment_domain_notice' )
+				->has_custom_deployment_domain()
 		) {
 			return 'staging';
 		}

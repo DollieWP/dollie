@@ -94,29 +94,15 @@ final class HubDataService extends Singleton implements ConstInterface {
 		$type = sanitize_text_field( $_POST['type'] );
 
 		if ( $type === 'site' ) {
-			$data = sanitize_text_field( $_POST['data'] );
-			SyncContainersJob::instance()->run_single_site( $data );
-
+			$hash = sanitize_text_field( $_POST['container_hash'] );
+			SyncContainersJob::instance()->run_single_site( $hash );
 		} elseif ( $type === 'blueprint' ) {
-			$data = sanitize_text_field( $_POST['data'] );
-			SyncContainersJob::instance()->run_single_blueprint( $data );
-
-		} elseif ( $type === 'blueprint_status' ) {
-			$data = (array) $_POST['data']; //id, title, description
-
-			if ( ! isset( $data['id'] ) ) {
-				return [ 'success' => false, 'message' => 'Missing blueprint hash id' ];
-			}
-
-			$blueprint = BlueprintService::instance()->get_by_hash( $data['id'] );
-			if ( ! $blueprint ) {
-				return [ 'success' => false, 'message' => 'No blueprint found by the hash id' ];
-			}
-			update_post_meta( $blueprint->ID, 'wpd_private_blueprint', $data['private'] );
-			update_post_meta( $blueprint->ID, 'wpd_installation_blueprint_title', $data['title'] );
-			update_post_meta( $blueprint->ID, 'wpd_installation_blueprint_description', $data['description'] );
-			$response = 'Blueprint status updated!';
-
+			$hash = sanitize_text_field( $_POST['container_hash'] );
+			SyncContainersJob::instance()->run_single_blueprint( $hash );
+			$response = 'Blueprint sync complete';
+		} elseif ($type= 'sync_sites') {
+			SyncContainersJob::instance()->run();
+			$response = 'Sync complete';
 		} elseif ( $type === 'client' ) {
 			$data     = $_POST['data'];
 			$response = wp_create_user( $data['username'], $data['password'], $data['email'] );
@@ -125,13 +111,7 @@ final class HubDataService extends Singleton implements ConstInterface {
 			$domain = sanitize_text_field( $_POST['data'] );
 
 			// set custom domain option.
-			update_option( 'options_wpd_show_custom_domain_options', 1 );
-			update_option( 'options_wpd_api_domain_custom', $domain );
 			update_option( 'wpd_deployment_domain', $domain );
-			update_option( 'wpd_deployment_domain_status', 1 );
-
-			// also show the notice that the domain has been activated.
-			delete_option( 'wpd_deployment_domain_notice' );
 
 			$response = 'Domain has ben synced to hub!';
 		}
