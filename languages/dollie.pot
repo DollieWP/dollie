@@ -7,7 +7,6 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: Dollie\n"
-"POT-Creation-Date: 2023-06-01 15:33+0000\n"
 "Report-Msgid-Bugs-To: Dollie\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -202,7 +201,7 @@ msgstr ""
 msgid "Update Site"
 msgstr ""
 
-#: core/Admin/Container.php:85, core/Admin/Container.php:551
+#: core/Admin/Container.php:85, core/Admin/Container.php:561
 msgid "View Site"
 msgstr ""
 
@@ -254,7 +253,7 @@ msgstr ""
 msgid "Filter items list"
 msgstr ""
 
-#: core/Admin/Container.php:102, core/Admin/Container.php:671, core/Factories/BaseContainer.php:305, core/Utils/StringVariants.php:47
+#: core/Admin/Container.php:102, core/Admin/Container.php:681, core/Factories/BaseContainer.php:305, core/Utils/StringVariants.php:47
 msgid "Site"
 msgstr ""
 
@@ -346,7 +345,6 @@ msgstr ""
 
 #: core/Admin/Container.php:357
 msgid "Connect Hub to Control HQ"
-<<<<<<< HEAD
 msgstr ""
 
 #: core/Admin/Container.php:367
@@ -365,159 +363,131 @@ msgstr ""
 msgid "View Docs"
 msgstr ""
 
-#: core/Admin/Container.php:410
+#: core/Admin/Container.php:420
 msgid "View Usage"
 msgstr ""
 
-#: core/Admin/Container.php:433
+#: core/Admin/Container.php:443
 msgid "This site is hosted in your own Private Cloud. Visit Control HQ to manage backups,use the developer tools and more."
 msgstr ""
 
-=======
-msgstr ""
-
-#: core/Admin/Container.php:367
-msgid "Hub Settings"
-msgstr ""
-
-#: core/Admin/Container.php:377
-msgid "View Hub in Control HQ"
-msgstr ""
-
-#: core/Admin/Container.php:388
-msgid "Useful Links"
-msgstr ""
-
-#: core/Admin/Container.php:400
-msgid "View Docs"
-msgstr ""
-
-#: core/Admin/Container.php:410
-msgid "View Usage"
-msgstr ""
-
-#: core/Admin/Container.php:433
-msgid "This site is hosted in your own Private Cloud. Visit Control HQ to manage backups,use the developer tools and more."
-msgstr ""
-
->>>>>>> 0fbda4a836186c927658bc740da716c96f04a8cd
-#: core/Admin/Container.php:450
+#: core/Admin/Container.php:460
 msgid "Import Templates"
 msgstr ""
 
-#: core/Admin/Container.php:456, core/Extras/AcfFields.php:313
+#: core/Admin/Container.php:466, core/Extras/AcfFields.php:313
 msgid "Hub Pages"
 msgstr ""
 
-#: core/Admin/Container.php:464, templates/widgets/general/sites-navigation.php:53, templates/widgets/site/site-navigation.php:17
+#: core/Admin/Container.php:474, templates/widgets/general/sites-navigation.php:53, templates/widgets/site/site-navigation.php:17
 msgid "Dashboard"
 msgstr ""
 
-#: core/Admin/Container.php:470, core/Utils/StringVariants.php:28, core/Utils/StringVariants.php:39, core/Widgets/Customers/CustomersList.php:40
+#: core/Admin/Container.php:480, core/Utils/StringVariants.php:28, core/Utils/StringVariants.php:39, core/Widgets/Customers/CustomersList.php:40
 msgid "Customers"
 msgstr ""
 
-#: core/Admin/Container.php:476, core/Utils/StringVariants.php:60, core/Utils/StringVariants.php:69, core/Widgets/Sites/SitesList.php:32
+#: core/Admin/Container.php:486, core/Utils/StringVariants.php:60, core/Utils/StringVariants.php:69, core/Widgets/Sites/SitesList.php:32
 msgid "Sites"
 msgstr ""
 
-#: core/Admin/Container.php:482, core/Extras/AcfFields.php:1036, core/Utils/StringVariants.php:74, core/Utils/StringVariants.php:83, templates/widgets/general/main-navigation.php:85, core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:122
+#: core/Admin/Container.php:492, core/Extras/AcfFields.php:1036, core/Utils/StringVariants.php:74, core/Utils/StringVariants.php:83, templates/widgets/general/main-navigation.php:85, core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:122
 msgid "Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:488
+#: core/Admin/Container.php:498
 msgid "Support"
 msgstr ""
 
-#: core/Admin/Container.php:496
+#: core/Admin/Container.php:506
 msgid "Visit Control HQ"
 msgstr ""
 
-#: core/Admin/Container.php:503
+#: core/Admin/Container.php:513
 msgid "Debug Logs"
 msgstr ""
 
-#: core/Admin/Container.php:554
+#: core/Admin/Container.php:564
 msgid "Manage Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:552
+#: core/Admin/Container.php:562
 msgid "Manage via Control HQ"
 msgstr ""
 
-#: core/Admin/Container.php:557, core/Modules/Preview.php:198
+#: core/Admin/Container.php:567, core/Modules/Preview.php:198
 msgid "Login to Site"
 msgstr ""
 
-#: core/Admin/Container.php:579, core/Services/BulkActionService.php:95, core/Services/RecurringActionService.php:28
+#: core/Admin/Container.php:589, core/Services/BulkActionService.php:95, core/Services/RecurringActionService.php:28
 msgid "Stop"
 msgstr ""
 
-#: core/Admin/Container.php:580
+#: core/Admin/Container.php:590
 msgid "Start"
 msgstr ""
 
-#: core/Admin/Container.php:581, core/Services/BulkActionService.php:94, core/Services/RecurringActionService.php:27
+#: core/Admin/Container.php:591, core/Services/BulkActionService.php:94, core/Services/RecurringActionService.php:27
 msgid "Restart"
 msgstr ""
 
-#: core/Admin/Container.php:582, core/Forms/DeleteSite.php:91, templates/widgets/general/sites-navigation.php:67, templates/widgets/site/site-navigation.php:47
+#: core/Admin/Container.php:592, core/Forms/DeleteSite.php:91, templates/widgets/general/sites-navigation.php:67, templates/widgets/site/site-navigation.php:47
 msgid "Delete"
 msgstr ""
 
-#: core/Admin/Container.php:644
+#: core/Admin/Container.php:654
 msgid "Domain"
 msgstr ""
 
-#: core/Admin/Container.php:645, templates/widgets/site/pages/updates.php:35, templates/widgets/site/pages/domain/manager/records.php:3
+#: core/Admin/Container.php:655, templates/widgets/site/pages/updates.php:35, templates/widgets/site/pages/domain/manager/records.php:3
 msgid "Type"
 msgstr ""
 
-#: core/Admin/Container.php:646, templates/loop/parts/modal-filters.php:41, templates/widgets/site/pages/plugins.php:19, templates/widgets/site/pages/themes.php:58
+#: core/Admin/Container.php:656, templates/loop/parts/modal-filters.php:41, templates/widgets/site/pages/plugins.php:19, templates/widgets/site/pages/themes.php:58
 msgid "Status"
 msgstr ""
 
-#: core/Admin/Container.php:675, core/Factories/BaseContainer.php:313, templates/widgets/general/sites-navigation.php:64, templates/widgets/site/site-navigation.php:43, templates/widgets/site/site-navigation.php:37
+#: core/Admin/Container.php:685, core/Factories/BaseContainer.php:313, templates/widgets/general/sites-navigation.php:64, templates/widgets/site/site-navigation.php:43, templates/widgets/site/site-navigation.php:37
 msgid "Staging"
 msgstr ""
 
-#: core/Admin/Container.php:673, core/Factories/BaseContainer.php:309, core/Utils/StringVariants.php:55
+#: core/Admin/Container.php:683, core/Factories/BaseContainer.php:309, core/Utils/StringVariants.php:55
 msgid "Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:744
+#: core/Admin/Container.php:754
 msgid "Your Site Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:750
+#: core/Admin/Container.php:760
 msgid "Below you will find all the Blueprints you have created. Please visit Control HQ (https://control.getdollie.com) to manage and create new Blueprints."
 msgstr ""
 
-#: core/Admin/Container.php:752
+#: core/Admin/Container.php:762
 msgid "Launch a New Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:725
+#: core/Admin/Container.php:735
 msgid "Sites Overview - All Sites in your Hub"
 msgstr ""
 
-#: core/Admin/Container.php:731
+#: core/Admin/Container.php:741
 msgid "Below are all the sites that have been launched through your Hub. Each site is hosted under your own brand and domain inside your Dollie Control HQ. Below uou can see their status, to which customer they are linked and whether they have a domain connected to them."
 msgstr ""
 
-#: core/Admin/Container.php:733
+#: core/Admin/Container.php:743
 msgid "View Sites on the front-end of my Hub"
 msgstr ""
 
-#: core/Admin/Container.php:771
+#: core/Admin/Container.php:781
 msgid "The Hub Log"
 msgstr ""
 
-#: core/Admin/Container.php:774
+#: core/Admin/Container.php:784
 msgid "The Hub log keeps track of activity inside your Hub, For example action taken by your customers and recurring crons/maintenance jobs that run behind the scenes."
 msgstr ""
 
-#: core/Admin/Container.php:787
+#: core/Admin/Container.php:797
 msgid "Assigned Customer"
 msgstr ""
 
@@ -607,11 +577,11 @@ msgstr ""
 msgid "<a href=\"%s\">Run Update now</a>"
 msgstr ""
 
-#: core/Admin/Upgrades.php:200
+#: core/Admin/Upgrades.php:201
 msgid "Something went wrong. Could you please email us at support@getdollie.com so we can help you resolve this?"
 msgstr ""
 
-#: core/Admin/Upgrades.php:196
+#: core/Admin/Upgrades.php:197
 msgid "Awesome, database is now at the latest version!"
 msgstr ""
 
@@ -697,7 +667,6 @@ msgstr ""
 
 #: core/Extras/AcfFields.php:207
 msgid "Subscription Settings"
-<<<<<<< HEAD
 msgstr ""
 
 #: core/Extras/AcfFields.php:252
@@ -708,18 +677,6 @@ msgstr ""
 msgid "Choose which plugin should be used to handle the payment and subscription features. Out of the box your hub integrates with WooCommerce, but you can download other integrations from Control HQ."
 msgstr ""
 
-=======
-msgstr ""
-
-#: core/Extras/AcfFields.php:252
-msgid "Choose Your Payment Solution"
-msgstr ""
-
-#: core/Extras/AcfFields.php:255
-msgid "Choose which plugin should be used to handle the payment and subscription features. Out of the box your hub integrates with WooCommerce, but you can download other integrations from Control HQ."
-msgstr ""
-
->>>>>>> 0fbda4a836186c927658bc740da716c96f04a8cd
 #: core/Extras/AcfFields.php:277
 msgid "API Details"
 msgstr ""
@@ -1489,13 +1446,6 @@ msgstr ""
 msgid "Launch Site"
 msgstr ""
 
-<<<<<<< HEAD
-#: core/Modules/Preview.php:255
-msgid "all"
-msgstr ""
-
-=======
->>>>>>> 0fbda4a836186c927658bc740da716c96f04a8cd
 #: core/Modules/Preview.php:270
 msgid "all times"
 msgstr ""
@@ -1528,11 +1478,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-<<<<<<< HEAD
-#: core/Services/AuthService.php:30, templates/widgets/launch/launch-site.php:33
-=======
 #: core/Services/AuthService.php:29, templates/widgets/launch/launch-site.php:33
->>>>>>> 0fbda4a836186c927658bc740da716c96f04a8cd
 msgid "Connect to Dollie Control HQ"
 msgstr ""
 
@@ -1746,7 +1692,7 @@ msgstr ""
 msgid "Network"
 msgstr ""
 
-#: core/Utils/Helpers.php:535
+#: core/Utils/Helpers.php:534
 msgid "Site View"
 msgstr ""
 

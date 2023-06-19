@@ -127,6 +127,7 @@ class Upgrades extends Singleton {
 	 * @return bool
 	 */
 	private function is_new_update() {
+
 		// Check for database version.
 		$old_upgrades    = get_option( $this->option_name ) ?: [];
 		$current_version = $this->version;
