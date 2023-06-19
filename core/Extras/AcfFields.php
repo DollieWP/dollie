@@ -469,10 +469,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ):
 			],
 			[
 				'key'               => 'field_5f67107253906',
-				'label'             => __( 'Site Template', 'dollie' ),
+				'label'             => __( 'Site Dashboard Template', 'dollie' ),
 				'name'              => 'wpd_site_template_id',
 				'type'              => 'post_object',
-				'instructions'      => __( 'Choose the template that is being used for the Single Site design', 'dollie' ),
+				'instructions'      => __( 'Select the page that has your Site Dashboard design. <strong>Important</strong>: Please read our <a href="https://support.getdollie.com/en/article/building-the-site-dashboard-compatibility-with-page-builders-and-tips-tricks-1cyf3oh">support article</a> to learn more about Pagebuilder support and troubleshooting', 'dollie' ),
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => [
