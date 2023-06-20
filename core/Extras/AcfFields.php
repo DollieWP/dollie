@@ -1980,7 +1980,7 @@ Populated with yoursite.com/launch-site/?name=John',
 				[
 					'param'    => 'post_type',
 					'operator' => '==',
-					'value'    => 'post',
+					'value'    => 'do_not_show_anywhere',
 				],
 			],
 		],
