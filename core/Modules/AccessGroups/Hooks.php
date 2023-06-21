@@ -92,6 +92,19 @@ class Hooks extends Singleton {
 	    return is_array($current_users) ? count($current_users) : 0;
 	}
 
+
+	public function get_user_groups($user_id) {
+    $group_ids = get_field('wpd_group_users', 'user_' . $user_id);
+
+		// If the field is empty or not an array, return an empty array
+		if (!is_array($group_ids)) {
+			return array();
+		}
+
+    	return $group_ids;
+	}
+
+
 		public function custom_level_fields() {
 		// Query for 'dollie-access-groups' posts
 		$args = array(
@@ -148,5 +161,100 @@ class Hooks extends Singleton {
 			die(var_dump($group_id, $user_id));
 		}
 	}
+
+
+	/**
+	 * Get groups for customer
+	 *
+	 * @param string $status
+	 * @param null|int $customer_id
+	 *
+	 * @return array|bool
+	 */
+	public function get_customer_access_details( $status = null, $customer_id = null ) {
+
+		if ( ! $customer_id ) {
+			$customer_id = get_current_user_id();
+		}
+
+		if ( ! $status ) {
+			$status = self::SUB_STATUS_ANY;
+		}
+
+		// $transient = 'wpd_woo_subscription_' . $customer_id . '_' . $status;
+		// if ( $data = get_transient( $transient ) ) {
+		//  return $data;
+		// }
+
+		$groups = $this->get_user_groups($customer_id);
+
+		if ( ! is_array( $groups ) || empty( $groups ) ) {
+			return false;
+		}
+
+		$data = [
+			'plans'     => [],
+			'resources' => [
+				'max_allowed_installs' => 0,
+				'max_allowed_size'     => 0,
+				'staging_max_allowed'  => 0,
+			],
+		];
+
+		foreach ( $groups as $group_id ) {
+			// Use the $group_id to get the WP_Post object
+			$group_post = get_post($group_id);
+			if ( ! $group_post ) {
+				continue;
+			}
+
+			// Getting the subscription Order ID.
+			// $the_subscription = wcs_get_subscription( $group_id );
+
+			// Get the right number of items, count also any upgraded/downgraded orders.
+			// $order_items = $the_subscription->get_items();
+
+			// if ( ! is_array( $order_items ) || empty( $order_items ) ) {
+			//     continue;
+			// }
+
+			$installs = (int) get_field( '_wpd_installs', $group_id );
+			$max_size = get_field( '_wpd_max_size', $group_id );
+			$staging  = get_field( '_wpd_staging_installs', $group_id );
+
+			if ( ! $staging ) {
+				$staging = 0;
+			}
+
+			if ( ! $max_size ) {
+				$max_size = 0;
+			}
+
+			$data['plans']['products'][ $group_id ] = [
+				'name'                => $group_post->post_title,
+				'installs'            => $installs,
+				'max_size'            => $max_size,
+				'included_blueprints' => get_field( '_wpd_included_blueprints', $group_id ),
+				'excluded_blueprints' => get_field( '_wpd_excluded_blueprints', $group_id ),
+			];
+
+			// $quantity = $item_data['quantity'] ? (int) $item_data['quantity'] : 1; // Assuming each group counts as 1 subscription
+
+			$data['resources']['max_allowed_installs'] += $installs;
+			$data['resources']['max_allowed_size']     += $max_size;
+			$data['resources']['name']                 = $group_post->post_title;
+			$data['resources']['staging_max_allowed']  += $staging;
+
+			$data = apply_filters( 'dollie/woo/subscription_product_data', $data, $customer_id, $group_id );
+		}
+
+		if ( ! empty( $data['plans'] ) ) {
+			// set_transient( $transient, $data, 30 );
+		}
+
+		return apply_filters( 'dollie/woo/subscription_data', $data, $customer_id );
+	}
+
+
 
 }
