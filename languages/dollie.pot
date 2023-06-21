@@ -7,6 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: Dollie\n"
+"POT-Creation-Date: 2023-06-20 10:34+0000\n"
 "Report-Msgid-Bugs-To: Dollie\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -391,7 +392,7 @@ msgstr ""
 msgid "Sites"
 msgstr ""
 
-#: core/Admin/Container.php:492, core/Extras/AcfFields.php:1036, core/Utils/StringVariants.php:74, core/Utils/StringVariants.php:83, templates/widgets/general/main-navigation.php:85, core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:122
+#: core/Admin/Container.php:492, core/Extras/AcfFields.php:1036, core/Utils/StringVariants.php:74, core/Utils/StringVariants.php:83, core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:122
 msgid "Blueprints"
 msgstr ""
 
@@ -685,14 +686,6 @@ msgstr ""
 msgid "Connection Details"
 msgstr ""
 
-#: core/Extras/AcfFields.php:361
-msgid "Launch Blueprint Page"
-msgstr ""
-
-#: core/Extras/AcfFields.php:364
-msgid "This page contains the template for launching a new Blueprint"
-msgstr ""
-
 #: core/Extras/AcfFields.php:383
 msgid "Customer Dashboard Page"
 msgstr ""
@@ -726,11 +719,11 @@ msgid "This page contains the template for the global site overview"
 msgstr ""
 
 #: core/Extras/AcfFields.php:472
-msgid "Site Template"
+msgid "Site Dashboard Template"
 msgstr ""
 
 #: core/Extras/AcfFields.php:475
-msgid "Choose the template that is being used for the Single Site design"
+msgid "Select the page that has your Site Dashboard design. <strong>Important</strong>: Please read our <a href=\"https://support.getdollie.com/en/article/building-the-site-dashboard-compatibility-with-page-builders-and-tips-tricks-1cyf3oh\">support article</a> to learn more about Pagebuilder support and troubleshooting"
 msgstr ""
 
 #: core/Extras/AcfFields.php:496
@@ -1446,6 +1439,10 @@ msgstr ""
 msgid "Launch Site"
 msgstr ""
 
+#: core/Modules/Preview.php:255
+msgid "all"
+msgstr ""
+
 #: core/Modules/Preview.php:270
 msgid "all times"
 msgstr ""
@@ -1700,16 +1697,12 @@ msgstr ""
 msgid "Dollie Hub - Launch Site"
 msgstr ""
 
-#: core/Utils/PageManager.php:306
-msgid "Dollie Hub - Launch Blueprint"
-msgstr ""
-
 #: core/Utils/PageManager.php:310
 msgid "Dollie Hub - Sites"
 msgstr ""
 
 #: core/Utils/PageManager.php:314
-msgid "Dollie Hub - Site Tpl"
+msgid "Dollie Hub - Site Dashboard Template"
 msgstr ""
 
 #: core/Utils/PageManager.php:318
@@ -3721,18 +3714,6 @@ msgstr ""
 
 #: core/Extras/dollie-setup/admin/templates/base/launch-actions.php:13
 msgid "Launch New Site"
-msgstr ""
-
-#: core/Extras/dollie-setup/admin/templates/base/launch-actions.php:17
-msgid "Launch Blueprint"
-msgstr ""
-
-#: core/Extras/dollie-setup/admin/templates/base/launch-actions.php:19
-msgid "Create beautiful blueprints for your clients. Launch your blueprint, set it up and make it available for your clients."
-msgstr ""
-
-#: core/Extras/dollie-setup/admin/templates/base/launch-actions.php:23
-msgid "Launch New Blueprint"
 msgstr ""
 
 #: core/Extras/dollie-setup/admin/templates/base/recent-kb.php:2
