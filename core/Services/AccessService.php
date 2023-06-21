@@ -285,6 +285,7 @@ final class AccessService extends Singleton {
 		return $roles;
 	}
 
+
 	/**
 	 * Get available sections
 	 *
@@ -293,19 +294,32 @@ final class AccessService extends Singleton {
 	public function get_available_sections() {
 
 		$user = dollie()->get_user();
-		$available_sections_array = get_field( 'available_sections', 'option' );
+
+		// Get default access settings
+		$default_access_settings = get_field( 'available_sections', 'option' );
+
+		// Get customer developer features
+		$hooks = \Dollie\Core\Modules\AccessGroups\Hooks::instance();
+		$customer_developer_features = $hooks->get_customer_site_features();
+
+		// Merge default and customer settings
+		$available_sections_array = array_merge($default_access_settings, $customer_developer_features);
+
+		// Remove duplicates
+		$available_sections_array = array_unique($available_sections_array);
 
 		if ( get_field( 'wpd_enable_blueprints_for', 'option' ) === 'all' && ! $user->can_manage_all_sites() ) {
 			$available_sections_array = array_filter(
 				$available_sections_array,
 				function ( $v, $k ) {
-					return $v['value'] !== 'blueprints';
-				},
-				ARRAY_FILTER_USE_BOTH
+					return $v !== 'blueprints';
+				}
 			);
 		}
 
-		$available_sections_array[] = 'staging';
+		if (!in_array('staging', $available_sections_array)) {
+			$available_sections_array[] = 'staging';
+		}
 
 		return $available_sections_array;
 	}

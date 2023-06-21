@@ -120,27 +120,27 @@ class Hooks extends Singleton {
 		// Get the currently selected group ID for this level
 		$selected_group_id = get_option( 'my_pmpro_group_' . $level->id );
 		?>
-		<hr>
-		<h3>My Custom Settings</h3>
-		<p>These are my extra settings.</p>
-		<table>
-			<tbody class="form-table">
-			<tr>
-				<th scope="row" valign="top"><label for="extra_setting">Extra Setting</label></th>
-				<td>
-					<select id="extra_setting" name="extra_setting">
-						<?php
+<hr>
+<h3>My Custom Settings</h3>
+<p>These are my extra settings.</p>
+<table>
+    <tbody class="form-table">
+        <tr>
+            <th scope="row" valign="top"><label for="extra_setting">Extra Setting</label></th>
+            <td>
+                <select id="extra_setting" name="extra_setting">
+                    <?php
 						foreach ( $posts as $post ) {
 							$selected = ( $post->ID == $selected_group_id ) ? 'selected="selected"' : '';
 							echo '<option value="' . $post->ID . '" ' . $selected . '>' . $post->post_title . '</option>';
 						}
 						?>
-					</select>
-				</td>
-			</tr>
-			</tbody>
-		</table>
-		<?php
+                </select>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<?php
 	}
 
 	public function save_custom_level_fields( $level_id ) {
@@ -178,13 +178,8 @@ class Hooks extends Singleton {
 		}
 
 		if ( ! $status ) {
-			$status = self::SUB_STATUS_ANY;
+			$status = 'active';
 		}
-
-		// $transient = 'wpd_woo_subscription_' . $customer_id . '_' . $status;
-		// if ( $data = get_transient( $transient ) ) {
-		//  return $data;
-		// }
 
 		$groups = $this->get_user_groups($customer_id);
 
@@ -202,21 +197,13 @@ class Hooks extends Singleton {
 		];
 
 		foreach ( $groups as $group_id ) {
+
 			// Use the $group_id to get the WP_Post object
 			$group_post = get_post($group_id);
 			if ( ! $group_post ) {
 				continue;
 			}
 
-			// Getting the subscription Order ID.
-			// $the_subscription = wcs_get_subscription( $group_id );
-
-			// Get the right number of items, count also any upgraded/downgraded orders.
-			// $order_items = $the_subscription->get_items();
-
-			// if ( ! is_array( $order_items ) || empty( $order_items ) ) {
-			//     continue;
-			// }
 
 			$installs = (int) get_field( '_wpd_installs', $group_id );
 			$max_size = get_field( '_wpd_max_size', $group_id );
@@ -230,6 +217,10 @@ class Hooks extends Singleton {
 				$max_size = 0;
 			}
 
+			// Get the additional fields
+			$available_sections = get_field( 'available_sections', $group_id );
+			$available_features_developers = get_field( 'available_features_developers', $group_id );
+
 			$data['plans']['products'][ $group_id ] = [
 				'name'                => $group_post->post_title,
 				'installs'            => $installs,
@@ -238,23 +229,39 @@ class Hooks extends Singleton {
 				'excluded_blueprints' => get_field( '_wpd_excluded_blueprints', $group_id ),
 			];
 
-			// $quantity = $item_data['quantity'] ? (int) $item_data['quantity'] : 1; // Assuming each group counts as 1 subscription
-
 			$data['resources']['max_allowed_installs'] += $installs;
 			$data['resources']['max_allowed_size']     += $max_size;
 			$data['resources']['name']                 = $group_post->post_title;
 			$data['resources']['staging_max_allowed']  += $staging;
+			$data['resources']['available_sections']   = $available_sections;
+			$data['resources']['available_features_developers'] = $available_features_developers;
 
 			$data = apply_filters( 'dollie/woo/subscription_product_data', $data, $customer_id, $group_id );
-		}
-
-		if ( ! empty( $data['plans'] ) ) {
-			// set_transient( $transient, $data, 30 );
 		}
 
 		return apply_filters( 'dollie/woo/subscription_data', $data, $customer_id );
 	}
 
+
+	public function get_customer_developer_features($customer_id = null) {
+		// Get the customer specific details
+		$customer_access_details = $this->get_customer_access_details(null, $customer_id);
+		$customer_features = $customer_access_details['resources']['available_features_developers'] ?? [];
+
+		// Get the global developer features
+		$global_features = get_field( 'available_features_developers', 'option' );
+
+		// Merge the arrays and remove duplicates
+		$developer_features = array_unique(array_merge($customer_features, $global_features));
+
+		return $developer_features;
+	}
+
+
+	public function get_customer_site_features($customer_id = null) {
+		$customer_access_details = $this->get_customer_access_details(null, $customer_id);
+		return $customer_access_details['resources']['available_sections'] ?? [];
+	}
 
 
 }
