@@ -16,7 +16,7 @@ use Dollie\Core\Singleton;
 class WooCommerce extends Singleton implements SubscriptionInterface {
 
 	const
-		SUB_STATUS_ANY    = 'any',
+		SUB_STATUS_ANY = 'any',
 		SUB_STATUS_ACTIVE = 'active';
 
 	/**
@@ -68,12 +68,20 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 * @param $order_id
 	 */
 	public function redirect_to_blueprint( $order_id ) {
-		if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) {
-			$order = new \WC_Order( $order_id );
-			if ( 'failed' !== $order->status ) {
-				wp_redirect( dollie()->page()->get_launch_site_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
-				exit;
-			}
+
+		// general setting.
+		if ( ! get_field( 'wpd_override_thank_you_page', 'options' ) ) {
+			return;
+		}
+
+		if ( ! isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) || ! $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) {
+			return;
+		}
+
+		$order = new \WC_Order( $order_id );
+		if ( 'failed' !== $order->status ) {
+			wp_redirect( dollie()->page()->get_launch_site_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
+			exit;
 		}
 	}
 
@@ -128,7 +136,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	/**
 	 * Get subscriptions for customer
 	 *
-	 * @param string   $status
+	 * @param string $status
 	 * @param null|int $customer_id
 	 *
 	 * @return array|bool
@@ -219,7 +227,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 				$data['resources']['max_allowed_installs'] += $installs * $quantity;
 				$data['resources']['max_allowed_size']     += $max_size * $quantity;
-				$data['resources']['name']                  = $item_data['name'];
+				$data['resources']['name']                 = $item_data['name'];
 				$data['resources']['staging_max_allowed']  += $staging * $quantity;
 
 				$data = apply_filters( 'dollie/woo/subscription_product_data', $data, $customer_id, $id );
@@ -258,7 +266,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	}
 
 	/**
-	 * Check if the size limit has been reached
+	 * Woocommerce subscriptions update payments staging
 	 *
 	 * @return bool
 	 */

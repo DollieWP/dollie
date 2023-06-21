@@ -75,7 +75,7 @@ class Plugin extends Singleton {
 	public function load_dependencies() {
 
 		//Hide Menu when ACF is not installed and using the bundled version
-		if ( ! defined( 'DOLLIE_DEV' && ! class_exists( 'ACF' ) ) ) {
+		if ( ! defined( 'DOLLIE_DEV') && ! class_exists( 'ACF' ) ) {
 			add_filter('acf/settings/show_admin', '__return_false');
 		}
 
