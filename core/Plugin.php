@@ -6,8 +6,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Admin;
-
 use Dollie\Core\Modules\Subscription\Subscription;
 use Dollie\Core\Modules\Vip\Hooks as VipHooks;
 use Dollie\Core\Modules\WooCommerce;
@@ -26,13 +24,12 @@ use Dollie\Core\Hooks\Acf;
 use Dollie\Core\Jobs\SyncContainersJob;
 use Dollie\Core\Jobs\RemoveOldLogsJob;
 use Dollie\Core\Jobs\ChangeContainerRoleJob;
-use Dollie\Core\Jobs\CustomerSubscriptionCheckJob;
-
-use Dollie\Core\Services\NoticeService;
 
 use Dollie\Core\Routing\Processor;
 use Dollie\Core\Routing\Route;
 use Dollie\Core\Routing\Router;
+use Dollie\Core\Services\HubDataService;
+use YahnisElsts\PluginUpdateChecker\v5\PucFactory;
 
 /**
  * Class Plugin
@@ -53,7 +50,7 @@ class Plugin extends Singleton {
 
 		Admin::instance();
 
-		add_action( 'plugins_loaded', [ $this, 'load_early_dependencies' ], -10 );
+		add_action( 'plugins_loaded', [ $this, 'load_early_dependencies' ], - 10 );
 		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 0 );
 
 		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
@@ -62,6 +59,7 @@ class Plugin extends Singleton {
 		add_action( 'route_login_redirect', [ $this, 'load_login_route' ] );
 		add_action( 'route_preview', [ $this, 'load_preview_route' ] );
 		add_action( 'route_wizard', [ $this, 'load_wizard_route' ] );
+		add_action( 'route_remote_data', [ HubDataService::instance(), 'load_route' ] );
 	}
 
 	/**
@@ -75,22 +73,16 @@ class Plugin extends Singleton {
 	 * Load dependencies
 	 */
 	public function load_dependencies() {
-		if ( ! defined( 'ELEMENTOR_VERSION' ) ) {
-			add_action( 'admin_notices', [ NoticeService::instance(), 'missing_elementor' ] );
-			return;
-		}
 
-		if ( ! version_compare( ELEMENTOR_VERSION, self::$minimum_elementor_version, '>=' ) ) {
-			add_action( 'admin_notices', [ NoticeService::instance(), 'minimum_elementor_version' ] );
-			return;
+		//Hide Menu when ACF is not installed and using the bundled version
+		if ( ! defined( 'DOLLIE_DEV') && ! class_exists( 'ACF' ) ) {
+			add_filter('acf/settings/show_admin', '__return_false');
 		}
 
 		// load ACF as fallback.
 		if ( ! class_exists( 'ACF' ) ) {
-			require_once DOLLIE_CORE_PATH . 'Extras/advanced-custom-fields/acf.php';
+			require_once DOLLIE_CORE_PATH . 'Extras/advanced-custom-fields-pro/acf.php';
 		}
-
-		require_once DOLLIE_CORE_PATH . 'Extras/options-page-for-acf/loader.php';
 
 		// Load Color Customizer
 		require_once DOLLIE_CORE_PATH . 'Extras/Colors.php';
@@ -103,20 +95,13 @@ class Plugin extends Singleton {
 			require_once DOLLIE_CORE_PATH . 'Extras/wds-log-post/wds-log-post.php';
 		}
 
-
-		// //Load TGM Class
-		// if (!class_exists('\TGM_Plugin_Activation')) {
-		// require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/class-tgm-plugin-activation.php';
-		// require_once DOLLIE_CORE_PATH . 'Extras/tgm-plugin-activation/requirements.php';
-		// }
-
-		// Load TGM Class
+		// Load Dollie Setup Class,
 		if ( ! class_exists( 'Dollie_Setup' ) ) {
 			update_option( '_dollie_setup_current_package', 'agency', true );
 			require_once DOLLIE_CORE_PATH . 'Extras/dollie-setup/loader.php';
 		}
 
-		// Load TGM Class
+		// Load TGM Class,
 		if ( ! class_exists( 'OCDI_Plugin' ) && dollie()->auth()->is_connected() ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/one-click-demo-import/one-click-demo-import.php';
 		}
@@ -125,6 +110,23 @@ class Plugin extends Singleton {
 		if ( ! class_exists( '\AF' ) && ! ( is_admin() && isset( $_GET['action'] ) && 'activate' === $_GET['action'] ) ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/advanced-forms/advanced-forms.php';
 			require_once DOLLIE_CORE_PATH . 'Extras/acf-tooltip/acf-tooltip.php';
+		}
+
+		// Woocommerce subscriptions.
+		if ( ! is_admin() || ! isset( $_GET['action'] ) || $_GET['action'] !== 'activate' ) {
+			if ( ! class_exists( '\WC_Subscriptions_Core_Plugin' ) && Subscription::instance()->get_subscription_plugin() === 'WooCommerce' ) {
+				require_once DOLLIE_CORE_PATH . 'Extras/woocommerce-subscriptions/woocommerce-subscriptions.php';
+			}
+		}
+
+		//Custom plugin updates.
+		if ( file_exists( DOLLIE_CORE_PATH . 'Extras/plugin-update-checker/plugin-update-checker.php' ) ) {
+			require DOLLIE_CORE_PATH . 'Extras/plugin-update-checker/plugin-update-checker.php';
+			PucFactory::buildUpdateChecker(
+				'https://control.getdollie.com/releases/?action=get_metadata&slug=dollie',
+				DOLLIE_FILE, //Full path to the main plugin file or functions.php.
+				'dollie'
+			);
 		}
 
 		require_once DOLLIE_CORE_PATH . 'Extras/menu-walker/bootstrap-wp-navwalker.php';
@@ -166,8 +168,23 @@ class Plugin extends Singleton {
 		// Shortcodes.
 		Shortcodes\Blockquote::instance();
 		Shortcodes\Blueprints::instance();
+		Shortcodes\CustomersList::instance();
+		Shortcodes\GeneralAvatar::instance();
+		Shortcodes\GeneralNavigation::instance();
+		Shortcodes\LatestNews::instance();
+		Shortcodes\LaunchSite::instance();
+		Shortcodes\LaunchSiteBanner::instance();
+		Shortcodes\LaunchSiteUrl::instance();
 		Shortcodes\Orders::instance();
+		Shortcodes\PostData::instance();
+		Shortcodes\SiteContent::instance();
+		Shortcodes\SiteNavigation::instance();
+		Shortcodes\SiteStats::instance();
 		Shortcodes\Sites::instance();
+		Shortcodes\SiteScreenshot::instance();
+		Shortcodes\SitesNavigation::instance();
+
+		Shortcodes\WooNavigation::instance();
 
 		$this->load_routes();
 
@@ -252,6 +269,14 @@ class Plugin extends Singleton {
 			true
 		);
 
+		wp_register_script(
+			'dollie-site-list',
+			DOLLIE_ASSETS_URL . 'js/widgets/sites-list.js',
+			[],
+			DOLLIE_VERSION,
+			true
+		);
+
 		wp_localize_script(
 			'dollie-launch-dynamic-data',
 			'wpdDynamicData',
@@ -271,6 +296,7 @@ class Plugin extends Singleton {
 		$routes = [
 			'dollie_login_redirect' => new Route( '/site_login_redirect', 'route_login_redirect' ),
 			'dollie_wizard'         => new Route( '/wizard', 'route_wizard' ),
+			'dollie_remote'         => new Route( '/dollie_remote', 'route_remote_data' ),
 		];
 
 		if ( get_option( 'options_wpd_enable_site_preview', 1 ) ) {

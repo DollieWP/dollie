@@ -17,7 +17,7 @@ interface ConstInterface {
 		ACTION_STOP    = 'stop',
 		ACTION_RESTART = 'restart';
 
-	const PANEL_SLUG = 'wpd_platform_setup';
+	const PANEL_SLUG = 'dollie_setup';
 
 	const
 		EXECUTION_STAGING_SYNC            = 'staging.sync.to.live',

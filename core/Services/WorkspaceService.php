@@ -18,11 +18,12 @@ final class WorkspaceService extends Singleton {
 	 * @return boolean
 	 */
 	public function has_custom_deployment_domain() {
-		if ( ! get_option( 'wpd_deployment_domain_status' ) ) {
+		$domain = $this->get_deployment_domain();
+		if ( empty( $domain ) ) {
 			return false;
 		}
 
-		return (bool) get_option( 'wpd_deployment_domain', '' );
+		return strpos( $this->get_deployment_domain(), 'dollie.io' ) === false;
 	}
 
 	/**
@@ -31,85 +32,58 @@ final class WorkspaceService extends Singleton {
 	 * @return string
 	 */
 	public function get_deployment_domain() {
-		$default_domain = get_option( 'options_wpd_api_domain' );
-
-		if ( ! get_option( 'wpd_deployment_domain_status' ) ) {
-			return $default_domain;
+		$domain = get_option( 'options_wpd_api_domain', '' );
+		if ( empty( $domain ) ) {
+			return $this->get_primary_domain();
 		}
 
-		$domain = get_option( 'wpd_deployment_domain', $default_domain );
-
-		return str_replace( [ 'http://', 'https://', 'www.' ], '', rtrim( $domain, '/' ) );
+		return $domain;
 	}
 
-	/**
-	 * Add custom deployment domain
-	 *
-	 * @param string $domain
-	 * @return boolean
-	 */
-	public function add_deployment_domain( string $domain ) {
-		$response = $this->add_custom_domain( $domain );
+	public function acf_populate_active_domains( $field ) {
 
-		if ( is_wp_error( $response ) ) {
-			return false;
+		$domains = [];
+
+		foreach ( $this->get_active_domains() as $domain ) {
+			$domains[ $domain['name'] ] = $domain['name'];
 		}
 
-		update_option( 'wpd_deployment_domain', $domain );
-		delete_option( 'wpd_deployment_domain_notice' );
+		if ( empty( $domains ) ) {
+			$domains[] = $this->get_deployment_domain();
+		}
 
-		return true;
+		$field['choices'] = $domains;
+
+		return $field;
 	}
 
-	/**
-	 * Remove custom deployment domain
-	 *
-	 * @return boolean
-	 */
-	public function remove_deployment_domain() {
-		$response = $this->remove_custom_domain();
+	private function get_active_domains() {
+		$domains = get_transient( 'wpd_custom_domains' ) !== false ? get_transient( 'wpd_custom_domains' ) : [];
 
-		if ( is_wp_error( $response ) || ! $response ) {
-			return false;
-		}
-
-		delete_option( 'wpd_deployment_domain' );
-		delete_option( 'wpd_deployment_domain_status' );
-		delete_option( 'wpd_deployment_domain_notice' );
-
-		return true;
-	}
-
-	/**
-	 * Check deployment domain
-	 *
-	 * @return void
-	 */
-	public function check_deployment_domain() {
-		if ( ! dollie()->auth()->is_connected() ) {
-			return;
-		}
-
-		$domain = get_option( 'wpd_deployment_domain' );
-
-		if ( ! $domain ) {
-			return;
-		}
-
-		$response = get_transient( 'wpd_workspace_domain_check' );
-
-		if ( ! $response || is_wp_error( $response ) ) {
+		if ( ! $domains ) {
 			$response = $this->get_custom_domain();
-
-			set_transient( 'wpd_workspace_domain_check', $response, MINUTE_IN_SECONDS * 10 );
+			if ( ! is_wp_error( $response ) && isset( $response['all'] ) && ! empty( $response['all'] ) ) {
+				$domains = $response['all'];
+				set_transient( 'wpd_custom_domains', $domains, MINUTE_IN_SECONDS * 10 );
+			}
 		}
 
-		if ( is_wp_error( $response ) ) {
-			return;
-		}
+		return $domains;
 
-		if ( $response['domain'] === $domain && $response['status'] ) {
-			update_option( 'wpd_deployment_domain_status', true );
-		}
 	}
+
+	/**
+	 * Get primary HQ domain
+	 * @return false|mixed
+	 */
+	private function get_primary_domain() {
+		foreach ( $this->get_active_domains() as $active_domain ) {
+			if ( $active_domain['primary'] ) {
+				return $active_domain['name'];
+			}
+		}
+
+		return false;
+	}
+
 }

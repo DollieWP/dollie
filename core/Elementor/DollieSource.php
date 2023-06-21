@@ -22,7 +22,7 @@ class DollieSource extends Source_Base {
 	 */
 	const CPT = 'page';
 
-	private static $api_url = 'https://api.getdollie.com/releases/packages/elementor/%s.json';
+	private static $api_url = 'https://manager.getdollie.com/releases/packages/elementor/%s.json';
 
 
 	public function get_id() {
@@ -134,7 +134,9 @@ class DollieSource extends Source_Base {
 	 */
 	public function update_item( $new_data ) {
 
-		if ( ! current_user_can( 'manage_options' ) ) {
+		$user = dollie()->get_user();
+
+		if ( ! $user->can_manage_all_sites() ) {
 			return new \WP_Error( 'save_error', __( 'Access denied.', 'elementor' ) );
 		}
 

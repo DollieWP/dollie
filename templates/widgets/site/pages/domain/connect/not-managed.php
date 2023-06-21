@@ -41,7 +41,7 @@ $ip = $container->get_details( 'credentials.ip' );
 	</div>
 
 	<div class="dol-bg-gray-100 dol-p-4 dol-text-sm">
-		<div class="dol-font-bold"><?php _e( 'Important Note: You only need to change the @ and WWW records', 'dollie' ); ?></div>
+		<div class="dol-font-bold"><?php esc_html_e( 'Important Note: You only need to change the @ and WWW records', 'dollie' ); ?></div>
 		<div>
 			<?php esc_html_e( 'Your domain might have multiple DNS records set up. Make sure to change only the "@" and "www" records.', 'dollie' ); ?>
 			<?php esc_html_e( 'If you don\'t have the records you can create them.', 'dollie' ); ?>

@@ -9,7 +9,9 @@
  */
 
 // Exit if accessed directly
-if ( !defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Are we looking at the WordPress admin?
@@ -30,7 +32,6 @@ function dollie_setup_is_admin() {
 	} else {
 		$is_admin = is_admin();
 	}
-
 
 	return $is_admin;
 }
@@ -132,10 +133,10 @@ function dollie_setup_get_packages() {
 	 * @todo Might remove this restriction later.
 	 */
 	$default = array(
-		'agency' => 'Dollie_Setup_Package_Agency',
-		'vendor' => 'Dollie_Setup_Package_Vendor',
+		'agency'  => 'Dollie_Setup_Package_Agency',
+		'vendor'  => 'Dollie_Setup_Package_Vendor',
 		'hosting' => 'Dollie_Setup_Package_Hosting',
-		'waas' => 'Dollie_Setup_Package_Waas',
+		'waas'    => 'Dollie_Setup_Package_Waas',
 	);
 
 	/**
@@ -161,15 +162,15 @@ function dollie_setup_get_current_package_id() {
 
 	// // We've never saved a package into the DB before.
 	// if ( dollie_setup_get_installed_revision_date() && empty( $current ) ) {
-	// 	/*
-	// 	 * If installed date is before 2018/09/01, save as 'agency' for backpat.
-	// 	 *
-	// 	 * @todo Change date to whenever we launch v1.1.0
-	// 	 */
-	// 	if ( dollie_setup_get_installed_revision_date() < strtotime( '2018/09/01 UTC' ) ) {
-	// 		$current = 'agency';
-	// 		update_site_option( '_dollie_setup_current_package', $current );
-	// 	}
+	// *
+	// * If installed date is before 2018/09/01, save as 'agency' for backpat.
+	// *
+	// * @todo Change date to whenever we launch v1.1.0
+	// */
+	// if ( dollie_setup_get_installed_revision_date() < strtotime( '2018/09/01 UTC' ) ) {
+	// $current = 'agency';
+	// update_site_option( '_dollie_setup_current_package', $current );
+	// }
 	// }
 
 	return $current;
@@ -194,40 +195,40 @@ function dollie_setup_get_package_prop( $prop = '', $package_id = '' ) {
 	}
 
 	$packages = dollie_setup_get_packages();
-	if ( isset( $packages[$package_id] ) && class_exists( $packages[$package_id] ) ) {
+	if ( isset( $packages[ $package_id ] ) && class_exists( $packages[ $package_id ] ) ) {
 		// Name is set early.
 		if ( 'name' === $prop ) {
-			return $packages[$package_id]::$$prop;
+			return $packages[ $package_id ]::$$prop;
 		}
 
 		// Ensure props are set.
-		$packages[$package_id]::set_props();
+		$packages[ $package_id ]::set_props();
 
 		// Try to fetch props.
 		switch ( $prop ) {
-			case 'theme' :
-			case 'strings' :
-				$props = $packages[$package_id]::$$prop;
+			case 'theme':
+			case 'strings':
+				$props = $packages[ $package_id ]::$$prop;
 				break;
 
-			default :
-				$props = $packages[$package_id]::get_props();
+			default:
+				$props = $packages[ $package_id ]::get_props();
 				break;
 		}
 
 		// See if our prop exists and return.
 		switch ( $prop ) {
-			case 'theme' :
-			case 'strings' :
-				if ( isset( $packages[$package_id]::$$prop ) ) {
-					return $packages[$package_id]::$$prop;
+			case 'theme':
+			case 'strings':
+				if ( isset( $packages[ $package_id ]::$$prop ) ) {
+					return $packages[ $package_id ]::$$prop;
 				}
 				break;
 
-			default :
-				$props = $packages[$package_id]::get_props();
-				if ( isset( $props[$prop] ) ) {
-					return $props[$prop];
+			default:
+				$props = $packages[ $package_id ]::get_props();
+				if ( isset( $props[ $prop ] ) ) {
+					return $props[ $prop ];
 				}
 
 				break;
@@ -260,8 +261,8 @@ function dollie_setup_get_theme_prop( $prop = '', $package_id = '' ) {
 		return false;
 	}
 
-	if ( isset( $theme[$prop] ) ) {
-		return $theme[$prop];
+	if ( isset( $theme[ $prop ] ) ) {
+		return $theme[ $prop ];
 	}
 
 	return false;
@@ -290,8 +291,8 @@ function dollie_setup_get_string( $string = '', $package_id = '' ) {
 		return '';
 	}
 
-	if ( isset( $strings[$string] ) ) {
-		return $strings[$string];
+	if ( isset( $strings[ $string ] ) ) {
+		return $strings[ $string ];
 	}
 
 	return '';

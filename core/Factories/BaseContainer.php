@@ -6,6 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Api\StatsApi;
+use Dollie\Core\Log;
+use Dollie\Core\Utils\LogTrait;
 use WP_Post;
 use Dollie\Core\Utils\ConstInterface;
 use Dollie\Core\Api\BackupApi;
@@ -13,7 +16,9 @@ use Dollie\Core\Api\ResourceApi;
 
 abstract class BaseContainer implements ConstInterface {
 	use BackupApi;
+	use LogTrait;
 	use ResourceApi;
+	use StatsApi;
 
 	/**
 	 * @var WP_Post
@@ -71,7 +76,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return boolean
 	 */
 	public function is_failed(): bool {
-		return 'Deploy Failed' === $this->get_status();
+		return 'Deploy Failure' === $this->get_status();
 	}
 
 	/**
@@ -81,8 +86,8 @@ abstract class BaseContainer implements ConstInterface {
 	 */
 	public function should_be_trashed(): bool {
 		return 'Undeployed' === $this->get_status() ||
-			'Not Deployed' === $this->get_status() ||
-			'Undeploying' === $this->get_status();
+			   'Not Deployed' === $this->get_status() ||
+			   'Undeploying' === $this->get_status();
 	}
 
 	/**
@@ -100,11 +105,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return boolean
 	 */
 	public function is_demo(): bool {
-		if ( strpos( $this->get_original_url(), 'dollie-elementor-kits-sites' ) !== false ) {
-			return true;
-		}
-
-		return false;
+		return strpos( $this->get_original_url(), 'dollie-elementor-kits-sites' ) !== false;
 	}
 
 	/**
@@ -113,7 +114,9 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return boolean
 	 */
 	public function is_owned_by_current_user(): bool {
-		return get_current_user_id() === $this->get_author_id() || user_can( get_current_user_id(), 'manage_options' );
+		$user = dollie()->get_user();
+
+		return get_current_user_id() === $this->get_author_id() || $user->can_manage_all_sites();
 	}
 
 	/**
@@ -348,7 +351,7 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return string
 	 */
-	public function get_screenshot(): string {
+	public function get_screenshot( $force = true): string {
 		$default_screenshot = get_field( 'default_screenshot', 'option' );
 
 		if ( ! $default_screenshot ) {
@@ -363,6 +366,10 @@ abstract class BaseContainer implements ConstInterface {
 
 		if ( is_wp_error( $screenshot ) || ! $screenshot ) {
 			return $default_screenshot;
+		}
+
+		if ( $force ) {
+			return add_query_arg( 'v', time(), $screenshot );
 		}
 
 		return $screenshot;
@@ -565,18 +572,33 @@ abstract class BaseContainer implements ConstInterface {
 	}
 
 	/**
+	 * Get resource usage
+	 *
+	 * @return array
+	 */
+	public function get_resource_usage(): array {
+		$stats = $this->get_container_resource_usage( $this->get_hash() );
+
+		if ( is_wp_error( $stats ) ) {
+			return [];
+		}
+
+		return $stats;
+	}
+
+	/**
 	 * Get plugins
 	 *
 	 * @param boolean $force
 	 *
-	 * @return \WP_Error|array
+	 * @return array
 	 */
 	public function get_plugins( bool $force = false ) {
 		if ( $force ) {
 			$plugins = $this->get_container_plugins( $this->get_hash() );
 
 			if ( is_wp_error( $plugins ) ) {
-				return $plugins;
+				return [];
 			}
 
 			$this->set_details(
@@ -587,7 +609,7 @@ abstract class BaseContainer implements ConstInterface {
 							'plugins' => count(
 								array_filter(
 									$plugins,
-									function( $v ) {
+									function ( $v ) {
 										return true === $v['update'];
 									}
 								)
@@ -616,12 +638,12 @@ abstract class BaseContainer implements ConstInterface {
 	 *
 	 * @return array
 	 */
-	public function get_themes( bool $force = false ): array {
+	public function get_themes( bool $force = false ) {
 		if ( $force ) {
 			$themes = $this->get_container_themes( $this->get_hash() );
 
 			if ( is_wp_error( $themes ) ) {
-				return $themes;
+				return [];
 			}
 
 			$this->set_details(
@@ -632,7 +654,7 @@ abstract class BaseContainer implements ConstInterface {
 							'themes' => count(
 								array_filter(
 									$themes,
-									function( $v ) {
+									function ( $v ) {
 										return true === $v['update'];
 									}
 								)
@@ -795,51 +817,62 @@ abstract class BaseContainer implements ConstInterface {
 			wp_update_post(
 				[
 					'ID'         => $this->get_id(),
-					'post_title' => is_wp_error( $site_name ) ? __( 'Unnamed site', 'dolie' ) : $site_name,
+					'post_title' => is_wp_error( $site_name ) ? __( 'Unnamed site', 'dollie' ) : $site_name,
 				]
 			);
 		}
 
 		if ( isset( $details['screenshot'] ) && $details['screenshot'] ) {
-			if ( has_post_thumbnail( $this->get_id() ) ) {
-				wp_delete_attachment( get_post_thumbnail_id( $this->get_id() ), true );
-			}
-
-			$screenshot_img = $details['screenshot'];
-
-			$upload_dir = wp_upload_dir();
-			$image_data = file_get_contents( $screenshot_img );
-			$filename   = basename( $screenshot_img );
-
-			if ( wp_mkdir_p( $upload_dir['path'] ) ) {
-				$file = $upload_dir['path'] . '/' . $filename;
-			} else {
-				$file = $upload_dir['basedir'] . '/' . $filename;
-			}
-
-			file_put_contents( $file, $image_data );
-
-			$wp_filetype = wp_check_filetype( $filename, null );
-
-			$attach_id = wp_insert_attachment(
-				[
-					'post_mime_type' => $wp_filetype['type'],
-					'post_title'     => sanitize_file_name( $filename ),
-					'post_content'   => '',
-					'post_status'    => 'inherit',
-				],
-				$file,
-				$this->get_id()
-			);
-
-			require_once ABSPATH . 'wp-admin/includes/image.php';
-
-			$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
-			wp_update_attachment_metadata( $attach_id, $attach_data );
-			set_post_thumbnail( $this->get_id(), $attach_id );
+			$this->set_screenshot_image( $details['screenshot'] );
 		}
 
+		do_action( 'dollie/site/set_details/after', $data, $this );
+
 		return $this;
+	}
+
+	/**
+	 * @param $screenshot
+	 *
+	 * @return void
+	 */
+	private function set_screenshot_image( $screenshot ): void {
+		if ( has_post_thumbnail( $this->get_id() ) ) {
+			wp_delete_attachment( get_post_thumbnail_id( $this->get_id() ), true );
+		}
+
+		$screenshot_img = $screenshot;
+
+		$upload_dir = wp_upload_dir();
+		$image_data = file_get_contents( $screenshot_img );
+		$filename   = basename( $screenshot_img );
+
+		if ( wp_mkdir_p( $upload_dir['path'] ) ) {
+			$file = $upload_dir['path'] . '/' . $filename;
+		} else {
+			$file = $upload_dir['basedir'] . '/' . $filename;
+		}
+
+		file_put_contents( $file, $image_data );
+
+		$wp_filetype = wp_check_filetype( $filename, null );
+
+		$attach_id = wp_insert_attachment(
+			[
+				'post_mime_type' => $wp_filetype['type'],
+				'post_title'     => sanitize_file_name( $filename ),
+				'post_content'   => '',
+				'post_status'    => 'inherit',
+			],
+			$file,
+			$this->get_id()
+		);
+
+		require_once ABSPATH . 'wp-admin/includes/image.php';
+
+		$attach_data = wp_generate_attachment_metadata( $attach_id, $file );
+		wp_update_attachment_metadata( $attach_id, $attach_data );
+		set_post_thumbnail( $this->get_id(), $attach_id );
 	}
 
 	/**
@@ -866,7 +899,7 @@ abstract class BaseContainer implements ConstInterface {
 			$composite_key = explode( '.', $key );
 			$composite_key = array_filter(
 				$composite_key,
-				function( $v ) {
+				function ( $v ) {
 					return ! empty( $v );
 				}
 			);
@@ -906,8 +939,6 @@ abstract class BaseContainer implements ConstInterface {
 
 				return $this->find_value_recursively( $details[ $key ], $new_composite_key );
 			}
-
-			return new \WP_Error( 'Failed to find value' );
 		}
 
 		return new \WP_Error( 'Failed to find value' );
@@ -928,7 +959,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return boolean
 	 */
 	public function is_vip(): bool {
-		return get_post_meta( $this->get_id(), 'dollie_vip_site', true );
+		return (bool) get_post_meta( $this->get_id(), 'dollie_vip_site', true );
 	}
 
 	/**
@@ -965,7 +996,7 @@ abstract class BaseContainer implements ConstInterface {
 	 * @return void
 	 */
 	protected function mark_updated() {
-		set_transient( "container.updated.{$this->get_id()}", '1', 1800 );
+		set_transient( "container.updated.{$this->get_id()}", '1', 300 );
 	}
 
 	/**

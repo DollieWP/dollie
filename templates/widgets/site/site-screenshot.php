@@ -14,20 +14,22 @@ if ( is_wp_error( $container ) ) {
 				<a class="dol-block dol-leading-none" target="_blank" href="<?php echo $container->get_url( true ); ?>"><img width="700" class="dol-block dol-object-cover" alt="<?php echo $container->get_url(); ?>" src="<?php echo $container->get_screenshot(); ?>"></a>
 			</div>
 
-			<div class="dol-flex dol-flex-wrap dol-rounded dol-overflow-hidden dol-mt-4">
-				<div class="dol-w-full md:dol-w-1/2">
-					<a class="dol-block dol-text-gray-600 dol-text-center dol-text-sm dol-bg-gray-200 hover:dol-bg-primary-100 dol-px-4 dol-py-2" href="<?php echo $container->get_url( true ); ?>" target="_blank">
-						<?php echo dollie()->icon()->site_view(); ?>
-						<?php esc_html_e( 'Visit', 'dollie' ); ?>
-					</a>
+			<?php if ( $container->is_running() ) : ?>
+				<div class="dol-flex dol-flex-wrap dol-rounded dol-overflow-hidden dol-mt-4">
+					<div class="dol-w-full md:dol-w-1/2">
+						<a class="dol-block dol-text-gray-600 dol-text-center dol-text-sm dol-bg-gray-200 hover:dol-bg-primary-100 dol-px-4 dol-py-2" href="<?php echo $container->get_url( true ); ?>" target="_blank">
+							<?php echo dollie()->icon()->site_view(); ?>
+							<?php esc_html_e( 'Visit', 'dollie' ); ?>
+						</a>
+					</div>
+					<div class="dol-w-full md:dol-w-1/2">
+						<a class="dol-block dol-text-center dol-text-sm dol-bg-secondary-200 hover: hover:dol-bg-primary-300 dol-text-secondary-600 dol-px-4 dol-py-2" href="<?php echo $container->get_customer_login_url(); ?>" target="_blank">
+							<?php echo dollie()->icon()->site_login( 'dol-mr-1' ); ?>
+							<?php esc_html_e( 'Admin', 'dollie' ); ?>
+						</a>
+					</div>
 				</div>
-				<div class="dol-w-full md:dol-w-1/2">
-					<a class="dol-block dol-text-center dol-text-sm dol-bg-secondary-200 hover: hover:dol-bg-primary-300 dol-text-secondary-600 dol-px-4 dol-py-2" href="<?php echo $container->get_customer_login_url(); ?>" target="_blank">
-						<?php echo dollie()->icon()->site_login( 'dol-mr-1' ); ?>
-						<?php esc_html_e( 'Admin', 'dollie' ); ?>
-					</a>
-				</div>
-			</div>
+			<?php endif; ?>
 		<?php else : ?>
 			<div class="dol-mt-2 dol-mb-4">
 				<div class="dol-flex dol-items-center dol-justify-center dol-uppercase dol-font-medium dol-text-sm dol-text-flame-100 dol-bg-flame-600 dol-rounded dol-tracking-wide dol-px-3 dol-py-2 dol-cursor-default dol-leading-none">

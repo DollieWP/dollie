@@ -216,7 +216,7 @@ dollie()->load_template(
 	'loop/posts',
 	[
 		'title' => __( 'From your blog', 'dollie' ),
-		'posts' => dollie()->insights()->get_latest_container_posts(),
+		'posts' => dollie()->insights()->get_latest_container_posts( $container ),
 	],
 	true
 );

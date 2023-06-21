@@ -16,11 +16,6 @@
 #adminmenuwrap li.toplevel_page_dollie_blueprints {
     border-bottom: 3px solid #51AABE;
     margin-bottom: 10px;
-
-    a[href="admin.php?page=dollie_setup"] {
-        display: none;
-        ;
-    }
 }
 
 a[href="edit-tags.php?taxonomy=container_category&post_type=container"] {
@@ -30,11 +25,13 @@ a[href="edit-tags.php?taxonomy=container_category&post_type=container"] {
 
 
 
-.dol-dev-mode #adminmenuwrap li.toplevel_page_wpd_platform_setup {
+.dol-dev-mode #adminmenuwrap li.toplevel_page_dollie_setup {
     display: block !important;
 }
 
-.toplevel_page_wpd_platform_setup {
+
+
+.toplevel_page_dollie_setup {
     .dollie-notice {
         display: none !important;
     }
@@ -97,7 +94,7 @@ a[href="edit-tags.php?taxonomy=container_category&post_type=container"] {
 
 
 
-#adminmenuwrap .toplevel_page_wpd_platform_setup a:hover .wp-menu-image {
+#adminmenuwrap .toplevel_page_dollie_setup a:hover .wp-menu-image {
     opacity: 1;
 }
 
@@ -116,11 +113,8 @@ a[href="edit-tags.php?taxonomy=container_category&post_type=container"] {
         margin-right: -16px;
     }
 
-    .toplevel_page_wpd_platform_setup {
-        display: none !important;
-    }
 
-    .toplevel_page_wpd_platform_setup,
+    .toplevel_page_dollie_setup,
     .toplevel_page_dollie_setup,
     .toplevel_page_dollie_blueprints,
     .menu-icon-container {
@@ -151,7 +145,7 @@ a[href="edit-tags.php?taxonomy=container_category&post_type=container"] {
     }
 }
 
-.toplevel_page_wpd_platform_setup {
+.toplevel_page_dollie_setup {
 
     .alert,
     .notice,

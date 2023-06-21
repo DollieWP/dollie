@@ -18,14 +18,6 @@ class SitesList extends \Elementor\Widget_Base {
 
 	public function __construct( $data = [], $args = null ) {
 		parent::__construct( $data, $args );
-
-		wp_register_script(
-			'dollie-site-list',
-			DOLLIE_ASSETS_URL . 'js/widgets/sites-list.js',
-			[],
-			DOLLIE_VERSION,
-			true
-		);
 	}
 
 	public function get_script_depends() {
@@ -76,115 +68,8 @@ class SitesList extends \Elementor\Widget_Base {
 	}
 
 	protected function render() {
-		if ( ! is_user_logged_in() ) {
-			return false;
-		}
-
-		if ( isset( $_GET['dollie_db_update'] ) ) {
-			return false;
-		}
-
 		$settings = $this->get_settings_for_display();
-
-		global $wp_query;
-
-		$current_page = 1;
-
-		if ( isset( $wp_query->query_vars['paged'] ) ) {
-			$current_page = get_query_var( 'paged', 1 );
-		} elseif ( isset( $wp_query->query_vars['page'] ) ) {
-			$current_page = get_query_var( 'page', 1 );
-		}
-
-		if ( isset( $_GET['elementor_library'] ) && isset( $_GET['load-page'] ) && $_GET['load-page'] ) {
-			$current_page = (int) sanitize_text_field( $_GET['load-page'] );
-		}
-
-		$args = [
-			'posts_per_page' => isset( $_GET['per_page'] ) && sanitize_text_field( $_GET['per_page'] ) ? sanitize_text_field( $_GET['per_page'] ) : $settings['posts_per_page'],
-			'paged'          => $current_page,
-			'post_type'      => 'container',
-			'post_status'    => 'publish',
-		];
-
-		$meta_query = [];
-
-		if ( isset( $_GET['search'] ) && $_GET['search'] ) {
-			$meta_query['search'][] = [
-				'key'     => 'dollie_container_details',
-				'value'   => sanitize_text_field( $_GET['search'] ),
-				'compare' => 'LIKE',
-			];
-
-			$meta_query['search']['relation'] = 'OR';
-		}
-
-		if ( isset( $_GET['blueprints'] ) && $_GET['blueprints'] ) {
-			$meta_query['container_type'][] = [
-				'key'     => 'dollie_container_type',
-				'value'   => '1',
-				'compare' => '=',
-			];
-		}
-		elseif ( isset( $_GET['vip'] ) && $_GET['vip'] ) {
-			$meta_query['container_type'][] = [
-				'key'     => 'dollie_vip_site',
-				'value'   => '1',
-				'compare' => '=',
-			];
-		}
-		else {
-			$meta_query['container_type'][] = [
-				'key'     => 'dollie_container_type',
-				'value'   => '0',
-				'compare' => '=',
-			];
-
-			$meta_query['container_type']['relation'] = 'OR';
-		}
-
-		if ( count( $meta_query ) ) {
-			if ( isset( $meta_query['search'] ) && isset( $meta_query['container_type'] ) ) {
-				$args['meta_query'][]           = $meta_query['search'];
-				$args['meta_query'][]           = $meta_query['container_type'];
-				$args['meta_query']['relation'] = 'AND';
-			} elseif ( isset( $meta_query['search'] ) ) {
-				$args['meta_query'] = $meta_query['search'];
-			} elseif ( isset( $meta_query['container_type'] ) ) {
-				$args['meta_query'] = $meta_query['container_type'];
-			}
-		}
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			$args['author'] = get_current_user_id();
-		}
-
-		if ( isset( $_GET['customer'] ) && $_GET['customer'] ) {
-			$args['author'] = (int) $_GET['customer'];
-		}
-
-		$sites = new WP_Query( $args );
-
-		$view_type = isset( $_GET['list_type'] ) && in_array(
-			$_GET['list_type'],
-			[
-				'list',
-				'grid',
-			]
-		) ? sanitize_text_field( $_GET['list_type'] ) : 'list';
-
-		$data = [
-			'sites'       => $sites->get_posts(),
-			'sites_pages' => $sites->max_num_pages,
-			'view_type'   => $view_type,
-			'settings'    => $settings,
-			'query_data'  => [
-				'permalink'    => get_the_permalink(),
-				'current_page' => $current_page,
-			],
-		];
-
-		dollie()->load_template( 'loop/sites', $data, true );
+		echo \Dollie\Core\Shortcodes\Sites::instance()->shortcode( $settings );
 	}
 
 }

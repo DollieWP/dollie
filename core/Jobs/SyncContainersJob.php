@@ -10,6 +10,7 @@ use Dollie\Core\Singleton;
 use Dollie\Core\Api\SiteApi;
 use Dollie\Core\Api\BlueprintApi;
 use Dollie\Core\Api\StagingApi;
+use Dollie\Core\Utils\ConstInterface;
 
 /**
  * Class SyncContainersJob
@@ -67,16 +68,21 @@ class SyncContainersJob extends Singleton {
 		$this->run_single( $data[0] );
 	}
 
+	public function run_single_with_data( $data ) {
+		$this->run_single( $data );
+	}
+
 	private function run_single( $site ) {
 		$stored_containers = get_posts(
 			[
-				'numberposts' => -1,
+				'numberposts' => - 1,
 				'post_type'   => 'container',
 				'post_status' => [ 'publish', 'draft', 'trash' ],
 			]
 		);
 
-		$exists = false;
+		$container_id = 0;
+		$exists       = false;
 
 		foreach ( $stored_containers as $stored_container ) {
 			$old_container_hash = get_post_meta( $stored_container->ID, 'wpd_container_id', true );
@@ -99,7 +105,8 @@ class SyncContainersJob extends Singleton {
 				}
 			}
 
-			$exists = true;
+			$exists       = true;
+			$container_id = $container->get_id();
 			$container->set_details( $site );
 
 			if ( $container->should_be_trashed() ) {
@@ -110,7 +117,7 @@ class SyncContainersJob extends Singleton {
 			}
 		}
 
-			// If no such container found, create one with details from server's container.
+		// If no such container found, create one with details from server's container.
 		if ( ! $exists ) {
 			$author = get_current_user_id();
 
@@ -125,7 +132,7 @@ class SyncContainersJob extends Singleton {
 			$post_name = explode( '.', $site['url'] );
 			$post_name = $post_name[0];
 
-			$new_container_id = wp_insert_post(
+			$container_id = wp_insert_post(
 				[
 					'post_type'   => 'container',
 					'post_status' => 'publish',
@@ -139,8 +146,13 @@ class SyncContainersJob extends Singleton {
 				]
 			);
 
-			$new_container_type = dollie()->get_container( $new_container_id );
+			$new_container_type = dollie()->get_container( $container_id );
 			$new_container_type->set_details( $site );
+		}
+
+		if ( $site['type'] === ConstInterface::TYPE_BLUEPRINT ) {
+			$bp = dollie()->get_container( $container_id );
+			$bp->sync_settings( $site );
 		}
 
 		flush_rewrite_rules();
@@ -171,29 +183,33 @@ class SyncContainersJob extends Singleton {
 			$fetched_containers = array_merge( $fetched_containers, $stagings );
 		}
 
-		$stored_containers = get_posts(
+		$query = new \WP_Query(
 			[
-				'numberposts' => -1,
-				'post_type'   => 'container',
-				'post_status' => [ 'publish', 'draft', 'trash' ],
+				'posts_per_page' => - 1,
+				'post_type'      => 'container',
+				'post_status'    => [ 'publish', 'draft', 'trash' ],
 			]
 		);
 
+		$stored_containers    = $query->get_posts();
 		$synced_container_ids = [];
 
 		foreach ( $fetched_containers as $key => $fetched_container ) {
 			$exists = false;
 
+			$container_id = 0;
+
 			foreach ( $stored_containers as $stored_container ) {
 				$old_container_hash = get_post_meta( $stored_container->ID, 'wpd_container_id', true );
 
-				// If container was stored during Dollie V1.0, switch to new version
+				// If container was stored during Dollie V1.0, switch to new version.
 				if ( $old_container_hash ) {
 					if ( $fetched_container['hash'] !== $old_container_hash ) {
 						continue;
 					}
 
 					update_post_meta( $stored_container->ID, 'dollie_container_type', $fetched_container['type'] );
+					update_post_meta( $stored_container->ID, 'dollie_vip_site', isset( $fetched_container['vip'] ) ? (int) $fetched_container['vip'] : 0 );
 					delete_post_meta( $stored_container->ID, 'wpd_container_id' );
 
 					$container = dollie()->get_container( $stored_container );
@@ -205,8 +221,11 @@ class SyncContainersJob extends Singleton {
 					}
 				}
 
-				$exists = true;
+				$exists       = true;
+				$container_id = $stored_container->ID;
 				$container->set_details( $fetched_container );
+
+				update_post_meta( $stored_container->ID, 'dollie_vip_site', isset( $fetched_container['vip'] ) ? (int) $fetched_container['vip'] : 0 );
 
 				if ( $container->should_be_trashed() ) {
 					wp_trash_post( $container->get_id() );
@@ -231,7 +250,7 @@ class SyncContainersJob extends Singleton {
 				$post_name = explode( '.', $fetched_container['url'] );
 				$post_name = $post_name[0];
 
-				$new_container_id = wp_insert_post(
+				$container_id = wp_insert_post(
 					[
 						'post_type'   => 'container',
 						'post_status' => 'publish',
@@ -240,23 +259,28 @@ class SyncContainersJob extends Singleton {
 						'post_author' => $author,
 						'meta_input'  => [
 							'dollie_container_type'     => $fetched_container['type'],
-							//TODO @GEORGE - Add this to API to be synced on Hub Sync
-							'dollie_vip_site'     => $fetched_container['vip_site'],
+							'dollie_vip_site'           => isset( $fetched_container['vip'] ) ? (int) $fetched_container['vip'] : 0,
 							'dollie_container_deployed' => 1,
 						],
 					]
 				);
 
-				$new_container_type = dollie()->get_container( $new_container_id );
+				$new_container_type = dollie()->get_container( $container_id );
 				$new_container_type->set_details( $fetched_container );
 
-				$synced_container_ids[] = $new_container_id;
+				$synced_container_ids[] = $container_id;
+			}
+
+			if ( $fetched_container['type'] === ConstInterface::TYPE_BLUEPRINT ) {
+				$bp                                 = dollie()->get_container( $container_id );
+				$fetched_containers[ $key ]['sync'] = $bp->sync_settings( $fetched_container );
 			}
 		}
 
 		// Trash posts if they have no corresponding container.
 		$stored_containers = get_posts(
 			[
+				'numberposts' => - 1,
 				'post_type'   => 'container',
 				'post_status' => [ 'publish', 'draft' ],
 			]

@@ -79,7 +79,7 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 		</div>
 	</div>
 
-	<?php if ( current_user_can( 'manage_options' ) ) : ?>
+	<?php if ( dollie()->get_user()->can_manage_all_sites() ) : ?>
 		<form method="POST" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>"
 			class="dol-p-6 dol-bg-white dol-shadow dol-overflow-hidden sm:dol-rounded-md">
 			<h3 class="dol-text-gray-700 dol-uppercase dol-mt-0 dol-mb-2 dol-text-lg">
@@ -108,64 +108,27 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 		</form>
 	<?php endif; ?>
 <?php elseif ( $container->is_failed() ) : ?>
-	<div class="hero-section">
-	<div class="hero-inner">
-	<div class="content content-blank">
-		<div class="text-center py-30">
-			<?php if ( current_user_can( 'manage_options' ) ) : ?>
-				<div class="mb-20">
-					<h2 class="text-white">
-						<?php
-						echo dollie()->icon()->close();
-						printf( esc_html__( 'Admin Notice - This %s has failed to launch', 'dollie' ), dollie()->string_variants()->get_site_type_string() );
+	<div class="dol-rounded dol-overflow-hidden dol-shadow dol-mb-6">
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-gray-200">
+			<h4 class="dol-p-0 dol-m-0 dol-text-base md:dol-text-xl">
+				<?php echo dollie()->icon()->close( 'dol-mr-1' ); ?>
+				<?php printf( esc_html__( 'Sorry, there was an error launching your %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() ); ?>
+			</h4>
+		</div>
 
-						?>
-					</h2>
-				</div>
-				<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
-					<?php
+		<div class="dol-p-4 lg:dol-px-8 lg:dol-py-6">
+			<p>
+			<?php
+				printf(
+					esc_html__( 'We were unable to launch your new %s on our platform at this time. Our team has been notified and will be looking into this issue immediately.', 'dollie' ),
+					dollie()->string_variants()->get_site_type_string()
+				);
+			?>
+			</p>
 
-					printf(
-						esc_html__(
-							'When a %s fails to launch in your Hub it usually means there is a misconfiguration in your
-							Dollie Cloud settings. Usually re-connecting to Dollie Cloud solves these issues.',
-							'dollie'
-						),
-						dollie()->string_variants()->get_site_type_string()
-					);
-
-					?>
-					<br>
-					<br>
-					<a class="text-white dol-btn dol-btn-primary"
-					   href="<?php echo admin_url( 'admin.php?page=wpd_platform_setup' ); ?>" data-clear="text-white">Reset
-						Dollie Cloud Connection</a>
-					<br><br>
-
-					<?php _e( 'Still having issues? Reach out to the Dollie Support team via your <a class="text-white" href="https://cloud.getdollie.com">Dollie Dashboard</a>', 'dollie' ); ?>
-				</p>
-			<?php else : ?>
-				<div class="mb-20">
-					<h2 class="text-white">
-						<?php
-
-						echo dollie()->icon()->close();
-						printf( esc_html__( 'Sorry, there was an error launching your %s', 'dollie' ), dollie()->string_variants()->get_site_type_string() );
-
-						?>
-					</h2>
-				</div>
-				<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
-					<?php
-
-					printf(
-						esc_html__( 'We were unable to launch your new %s on our platform at this time. Our team has been notified and will be looking into this issue immediately. We will reach out to you as soon as we can.', 'dollie' ),
-						dollie()->string_variants()->get_site_type_string()
-					);
-
-					?>
-				</p>
-			<?php endif; ?>
+			<p>
+				<?php esc_html_e( 'If this issue persists, please reach out to our team and we\'ll get back to you as soon as we can!', 'dollie' ); ?>
+			</p>
 		</div>
 	</div>
 <?php elseif ( $container->is_deploying() || isset( $_GET['launch-splash-preview'] ) ) : ?>
@@ -236,6 +199,7 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 		'delete',
 		'staging',
 		'admin-settings',
+        'stats',
 	];
 
 	$sub_page = get_query_var( 'sub_page' );

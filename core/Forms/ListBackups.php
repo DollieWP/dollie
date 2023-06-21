@@ -94,7 +94,7 @@ class ListBackups extends Singleton {
 
 		if ( ! empty( $backups ) ) {
 			foreach ( $backups as $backup ) {
-				$choices[ $backup['id'] ] = dollie()->icon()->clock( 'dol-mr-2' ) . "{$backup['date']} at {$backup['hour']}" . '<span class="dol-inline-block dol-ml-4">' . dollie()->icon()->backups( 'dol-mr-2' ) . $backup['size'] . '</span>';
+				$choices[ $backup['id'] ] = dollie()->icon()->clock( 'dol-mr-2' ) . "{$backup['date']} at {$backup['hour']}";
 			}
 		}
 

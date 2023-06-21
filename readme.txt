@@ -2,9 +2,9 @@
 Contributors: GetDollie
 Tags: hosting, waas, wordpress hosting, sell hosting
 Requires at least: 5.0
-Tested up to: 5.9
-Requires PHP: 7.0
-Stable tag: 4.9.2
+Tested up to: 6.1
+Requires PHP: 7.2
+Stable tag: 5.3.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -59,8 +59,8 @@ There are also no starting costs and hidden  surprises. Grow at your own pace kn
 
 = Why Our Community Loves the Dollie Platform =
 
-**World-Class Performance & Security for all your customer sites thanks to Dollie Cloud**
-Our engineers used many decades of combined experience to build a highly scalable container-based infrastructure which ensures that all the sites hosted on your platform will blow your customers away. Our Dollie Cloud is exclusively dedicated to white-label, enterprise grade hosting for our partners. Rest assured that the customers who sign up for your platform will be blown away by the performance of their sites.
+**World-Class Performance & Security for all your customer sites thanks to Dollie Control HQ**
+Our engineers used many decades of combined experience to build a highly scalable container-based infrastructure which ensures that all the sites hosted on your platform will blow your customers away. Our Dollie Control HQ is exclusively dedicated to white-label, enterprise grade hosting for our partners. Rest assured that the customers who sign up for your platform will be blown away by the performance of their sites.
 
 [Learn More About Our Technology](https://getdollie.com/dollie-infrastructure-cloud-orchestration-for-wordpress/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
 
@@ -178,6 +178,47 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 6. **Developer Tools.** The Developer Tools allow you to quickly manage sites on your platform, or allow your customers to do that themselves.
 
 == Changelog ==
+
+= 5.3.2 =
+* Custom domain improvements
+* Prevent caching the site thumbnail
+* Adjust the backups size UI
+
+= 5.3.1.3 =
+* Developer tools fix for custom domains
+
+= 5.3.1.2 =
+* PHP 7.4 compatibility
+
+= 5.3.1.1 =
+* Fix for one click login to client site for editors
+
+= 5.3.1 =
+* Improvements and fixes related to site one click login
+
+= 5.3.0 =
+* New feature: Resource usage area was added to the site manager. Enable it for clients from Dollie - Settings - Access control. You can view CPU Usage, Disk I/O, Disk Usage, Memory Usage and Network Usage.
+
+= 5.2.2 =
+* Fix the migration path on Sites - Migration screen
+
+= 5.2.1 =
+* Fix for Dollie Site Navigation Elementor Widget
+
+= 5.2.0 =
+* New feature: Dollie templates allows you to build your hub pages using your preferred page builder.
+
+= 4.9.4 =
+* New feature: Assign site to Customer at Launch
+* Change get_field with get_option for extra compatibility
+* Add new filter for the site location redirect -> dollie/site/login_url/location
+* Don't run updates when Elementor now active
+
+= 4.9.3 =
+* Search sites by URL (most useful), IP, Port and other site data.
+* Improve site listing long names
+* Add SFTP to staging & fix real domain in API request
+* Cache site thumbnails locally
 
 = 4.9.2 =
 * Fix staging job to send correct domain

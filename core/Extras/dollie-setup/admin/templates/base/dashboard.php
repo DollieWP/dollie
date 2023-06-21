@@ -1,24 +1,43 @@
+<?php acf_form_head(); ?>
+
+
 <div class="dol-min-h-full dol-mt-8 dol-pt-[100px]">
-	<main class="dol-pb-8 dol--mt-24">
-		<div class="dol-max-w-3xl dol-px-4 dol-mx-auto sm:dol-px-6 lg:dol-max-w-7xl lg:dol-px-8">
-			<h1 class="dol-sr-only">Profile</h1>
-			<div class="dol-grid dol-items-start dol-grid-cols-1 dol-gap-4 lg:dol-grid-cols-3 lg:dol-gap-8">
-				<div class="dol-grid dol-grid-cols-1 dol-gap-4 lg:dol-col-span-2">
 
-						<!-- <li><a class="confirm" href="<?php echo esc_url( wp_nonce_url( self_admin_url( 'admin.php?page=dollie_setup&amp;dollie_setup-package=0' ), 'dollie_setup_select_package' ) ); ?>"><?php esc_html_e( 'Change packages', 'dollie-setup' ); ?></a></li> -->
-					<?php //dollie_setup_get_template_part( 'onboarding-form' ); ?>
-					<?php dollie_setup_get_template_part( 'welcome-header' ); ?>
-					<?php dollie_setup_get_template_part( 'setup-complete' ); ?>
-					<?php dollie_setup_get_template_part( 'launch-actions' ); ?>
-					<?php dollie_setup_get_template_part( 'recent-sites' ); ?>
-					<?php dollie_setup_get_template_part( 'dollie-news' ); ?>
-				</div>
+    <main class="dol-pb-8 dol--mt-24 dol-mx-auto sm:dol-px-6 lg:dol-max-w-7xl">
+        <div class="dol-top dol-mb-8">
+        <?php dollie_setup_get_template_part('welcome-header'); ?>
+        </div>
+        <div class="dol-content">
+            <h1 class="dol-sr-only">Profile</h1>
+            <div class="dol-grid dol-items-start dol-grid-cols-1 dol-gap-4 lg:dol-grid-cols-3 lg:dol-gap-8">
+                <div class="dol-grid dol-grid-cols-1 dol-gap-4 lg:dol-col-span-2">
 
-				<div class="dol-grid dol-grid-cols-1 dol-gap-4">
-					<?php dollie_setup_get_template_part( 'recent-customers' ); ?>
-					<?php dollie_setup_get_template_part( 'dollie-plugins' ); ?>
-				</div>
-			</div>
-		</div>
-	</main>
+
+                    <div class="dol-bg-white dol-p-5" style="margin-top: 50px;">
+
+                        <?php
+                        $args = [
+                            'post_id' => 'options',
+                            'field_groups' => ['group_5ada1549129fb'], // this is the ID of the field group
+                        ];
+                        acf_form($args);
+                        ?>
+
+                    </div>
+                </div>
+
+                <div class="dol-grid dol-grid-cols-1 dol-gap-4">
+                    <h4 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-1 dol-text-md">
+                        Setup Status</h4>
+                    <?php dollie_setup_get_template_part('setup-complete'); ?>
+
+
+
+                    <h4 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-1 dol-text-md">
+                        Watch our Onboarding Videos</h4>
+                    <iframe width="100%" height="320px" src="https://www.youtube.com/embed/videoseries?list=PL7IwOO3Ymw_kafLSDaOka790RMeMcr2QC" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </main>
 </div>

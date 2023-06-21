@@ -15,6 +15,7 @@ $colors = $settings['colors'];
 $menu = [
 	'blueprints'      => dollie()->icon()->blueprint() . __( 'Blueprint Setup', 'dollie' ),
 	''                => dollie()->icon()->site_dashboard() . __( 'Dashboard', 'dollie' ),
+	'stats'           => dollie()->icon()->stats() . __( 'Resource Usage', 'dollie' ),
 	'plugins'         => dollie()->icon()->plugins() . __( 'Plugins', 'dollie' ),
 	'themes'          => dollie()->icon()->themes() . __( 'Themes', 'dollie' ),
 	'updates'         => dollie()->icon()->updates() . __( 'Updates', 'dollie' ),
@@ -45,7 +46,7 @@ top: 7px"; class="dol-animate-ping dol-absolute dol-inline-flex dol-h-full dol-w
 
 $menu['delete'] = dollie()->icon()->delete() . esc_html__( 'Delete', 'dollie' );
 
-if ( current_user_can( 'manage_options' ) ) {
+if ( dollie()->get_user()->can_manage_all_sites() ) {
 	$menu['admin-settings'] = dollie()->icon()->manage() . esc_html__( 'Admin Settings', 'dollie' );
 }
 
@@ -53,10 +54,10 @@ $sub_page = get_query_var( 'sub_page' );
 ?>
 
 <nav class="dol-w-full dol-flex-grow lg:dol-flex lg:dol-items-center lg:dol-w-auto">
-	<div class="dol-overflow-hidden dol-widget-site-sidebar dol-widget-<?php echo $layout; ?>">
+    <div class="dol-overflow-hidden dol-widget-site-sidebar dol-widget-<?php echo $layout; ?>">
 		<?php if ( $container->is_running() ) : ?>
-			<div class="dol-w-full dol-flex-grow lg:dol-flex lg:dol-items-center lg:dol-w-auto">
-				<ul class="dol-list-none dol-p-0 dol-m-0">
+            <div class="dol-w-full dol-flex-grow lg:dol-flex lg:dol-items-center lg:dol-w-auto">
+                <ul class="dol-list-none dol-p-0 dol-m-0">
 					<?php foreach ( $menu as $page => $title ) : ?>
 						<?php
 
@@ -64,22 +65,22 @@ $sub_page = get_query_var( 'sub_page' );
 							$page = 'dashboard';
 						}
 
-						if ( ! current_user_can( 'manage_options' ) && ! dollie()->in_array_r( $page, dollie()->access()->get_available_sections() ) ) {
+						if ( ! dollie()->get_user()->can_manage_all_sites() && ! dollie()->in_array_r( $page, dollie()->access()->get_available_sections() ) ) {
 							continue;
 						}
 
 						$active_class = ! $sub_page || $sub_page === $page ? 'dol-text-primary' : 'dol-text-gray-400';
 
 						?>
-						<li class="dol-my-2">
-							<a class="dol-flex dol-items-center dol-nav-btn-secondary <?php echo esc_attr( $active_class ); ?>"
-								href="<?php echo $container->get_permalink( $page ); ?>">
+                        <li class="dol-my-2">
+                            <a class="dol-flex dol-items-center dol-nav-btn-secondary <?php echo esc_attr( $active_class ); ?>"
+                               href="<?php echo $container->get_permalink( $page ); ?>">
 								<?php echo $title; ?>
-							</a>
-						</li>
+                            </a>
+                        </li>
 					<?php endforeach; ?>
-				</ul>
-			</div>
+                </ul>
+            </div>
 		<?php endif; ?>
-	</div>
+    </div>
 </nav>

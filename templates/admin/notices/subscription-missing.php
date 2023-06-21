@@ -8,19 +8,19 @@
 
 		<?php
 		printf(
-			'<a href="https://cloud.getdollie.com/?redirect=start-your-subscription" class="button button-primary" target="_blank">%s</a>',
+			'<a href="https://control.getdollie.com/?redirect=start-your-subscription" class="dol-text-sm dol-text-white hover:dol-text-white dol-inline-block dol-px-4 dol-py-2 dol-bg-secondary-500 hover:dol-bg-secondary-700 dol-rounded" target="_blank">%s</a>',
 			esc_html__( 'Start Your Subscription', 'dollie' )
 		);
 
 		printf(
-			'<a href="%s" class="button" style="margin-left: 10px;">%s</a>',
+			'<a href="%s" class="dol-text-sm dol-text-white hover:dol-text-white dol-inline-block dol-px-4 dol-py-2 dol-bg-gray-500 hover:dol-bg-gray-700 dol-rounded" style="margin-left: 10px;">%s</a>',
 			esc_url( admin_url() . '?wpd_check_subscription' ),
 			esc_html__( 'Check Again', 'dollie' )
 		);
 
 		printf(
-			'<a href="%s" class="button" target="_blank" style="margin-left: 10px;">%s</a>',
-			esc_url( 'https://cloud.getdollie.com/?redirect=support' ),
+			'<a href="%s" class="dol-text-sm dol-text-white hover:dol-text-white dol-inline-block dol-px-4 dol-py-2 dol-bg-gray-500 hover:dol-bg-gray-700 dol-rounded" target="_blank" style="margin-left: 10px;">%s</a>',
+			esc_url( 'https://control.getdollie.com/?redirect=support' ),
 			esc_html__( 'Questions? Talk to Us!', 'dollie' )
 		);
 		?>

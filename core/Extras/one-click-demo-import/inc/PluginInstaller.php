@@ -81,45 +81,45 @@ class PluginInstaller {
 	 */
 	public function get_partner_plugins() {
 		return array(
-			// array(
-			// 	'name'        => esc_html__( 'WPForms', 'one-click-demo-import' ),
-			// 	'description' => esc_html__( 'Join 4,000,000+ professionals who build smarter forms and surveys with WPForms.', 'one-click-demo-import' ),
-			// 	'slug'        => 'wpforms-lite',
-			// 	'required'    => false,
-			// 	'preselected' => true,
-			// ),
-			// array(
-			// 	'name'        => esc_html__( 'All in One SEO', 'one-click-demo-import' ),
-			// 	'description' => esc_html__( 'Use All in One SEO Pack to optimize your WordPress site for SEO.', 'one-click-demo-import' ),
-			// 	'slug'        => 'all-in-one-seo-pack',
-			// 	'required'    => false,
-			// 	'preselected' => true,
-			// ),
-			// array(
-			// 	'name'        => esc_html__( 'MonsterInsights', 'one-click-demo-import' ),
-			// 	'description' => esc_html__( 'The #1 Google Analytics Plugin for WordPress that’s easy and powerful.', 'one-click-demo-import' ),
-			// 	'slug'        => 'google-analytics-for-wordpress',
-			// 	'required'    => false,
-			// 	'preselected' => true,
-			// ),
-			// array(
-			// 	'name'        => esc_html__( 'Custom Landing Pages by SeedProd', 'one-click-demo-import' ),
-			// 	'description' => esc_html__( 'Work on your site in private while visitors see a "Coming Soon" or "Maintenance Mode" page.', 'one-click-demo-import' ),
-			// 	'slug'        => 'coming-soon',
-			// 	'required'    => false,
-			// ),
-			// array(
-			// 	'name'        => esc_html__( 'Smash Balloon Social Photo Feed', 'one-click-demo-import' ),
-			// 	'description' => esc_html__( 'Display beautifully clean, customizable, and responsive Instagram feeds.', 'one-click-demo-import' ),
-			// 	'slug'        => 'instagram-feed',
-			// 	'required'    => false,
-			// ),
-			// array(
-			// 	'name'        => esc_html__( 'WP Mail SMTP', 'one-click-demo-import' ),
-			// 	'description' => esc_html__( 'Make email delivery easy for WordPress. Connect with SMTP, Gmail, Outlook, Mailgun, and more.', 'one-click-demo-import' ),
-			// 	'slug'        => 'wp-mail-smtp',
-			// 	'required'    => false,
-			// ),
+			array(
+				'name'        => esc_html__( 'WPForms', 'one-click-demo-import' ),
+				'description' => esc_html__( 'Join 4,000,000+ professionals who build smarter forms and surveys with WPForms.', 'one-click-demo-import' ),
+				'slug'        => 'wpforms-lite',
+				'required'    => false,
+				'preselected' => true,
+			),
+			array(
+				'name'        => esc_html__( 'All in One SEO', 'one-click-demo-import' ),
+				'description' => esc_html__( 'Use All in One SEO Pack to optimize your WordPress site for SEO.', 'one-click-demo-import' ),
+				'slug'        => 'all-in-one-seo-pack',
+				'required'    => false,
+				'preselected' => true,
+			),
+			array(
+				'name'        => esc_html__( 'MonsterInsights', 'one-click-demo-import' ),
+				'description' => esc_html__( 'The #1 Google Analytics Plugin for WordPress that’s easy and powerful.', 'one-click-demo-import' ),
+				'slug'        => 'google-analytics-for-wordpress',
+				'required'    => false,
+				'preselected' => true,
+			),
+			array(
+				'name'        => esc_html__( 'Custom Landing Pages by SeedProd', 'one-click-demo-import' ),
+				'description' => esc_html__( 'Work on your site in private while visitors see a "Coming Soon" or "Maintenance Mode" page.', 'one-click-demo-import' ),
+				'slug'        => 'coming-soon',
+				'required'    => false,
+			),
+			array(
+				'name'        => esc_html__( 'Smash Balloon Social Photo Feed', 'one-click-demo-import' ),
+				'description' => esc_html__( 'Display beautifully clean, customizable, and responsive Instagram feeds.', 'one-click-demo-import' ),
+				'slug'        => 'instagram-feed',
+				'required'    => false,
+			),
+			array(
+				'name'        => esc_html__( 'WP Mail SMTP', 'one-click-demo-import' ),
+				'description' => esc_html__( 'Make email delivery easy for WordPress. Connect with SMTP, Gmail, Outlook, Mailgun, and more.', 'one-click-demo-import' ),
+				'slug'        => 'wp-mail-smtp',
+				'required'    => false,
+			),
 		);
 	}
 

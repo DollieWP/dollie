@@ -12,8 +12,7 @@ use Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Box_Shadow;
 use Elementor\Group_Control_Typography;
-use ElementorPro\Base\Base_Widget;
-use ElementorPro\Plugin;
+use Elementor\Plugin;
 use Elementor\Icons_Manager;
 
 
@@ -269,7 +268,7 @@ class SitesNavigation extends \Elementor\Widget_Base {
 		);
 
 		// TODO: For Pro 3.6.0, convert this to the breakpoints utility method introduced in core 3.5.0.
-		$breakpoints = Plugin::elementor()->breakpoints->get_active_breakpoints();
+		$breakpoints = Plugin::instance()->breakpoints->get_active_breakpoints();
 		$dropdown_options = [];
 		$excluded_breakpoints = [
 			'laptop',
@@ -1146,7 +1145,7 @@ class SitesNavigation extends \Elementor\Widget_Base {
 
 	protected function render() {
 		if ( ! is_user_logged_in() ) {
-			return false;
+			return;
 		}
 
 		$data = [

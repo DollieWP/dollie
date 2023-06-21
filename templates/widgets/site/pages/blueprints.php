@@ -30,6 +30,9 @@ foreach ( $groups as $group ) {
 			<p>
 				<?php esc_html_e( 'Important - Make sure that the installation is working properly before you take your Blueprint Live. Meaning all your plugins are configured, your theme is set up, and you have double-checked that no accidental sensitive data is included (like test user accounts, private API keys etc.)', 'dollie' ); ?>
 			</p>
+			<p>
+				<?php esc_html_e( 'After you publish your Blueprint, you will need to setup a title and a description for it and also add it to a WooCommerce product in order for it to be available to your customers!', 'dollie' ); ?>
+			</p>
 		</div>
 
 		<div>
@@ -69,12 +72,12 @@ foreach ( $groups as $group ) {
 		<?php ob_start(); ?>
 
 		<div class="dol-mb-4">
-			<?php printf( __( 'Before you update this blueprint make sure <strong>%s</strong> is ready for an update. Once you have deployed a new version of this blueprint it will be used next time a customer launches a site based on this blueprint. Make sure you’ve removed all sensitive data like testing user accounts and emails.', 'dollie' ), $container->get_url() ); ?>
+			<?php printf( __( 'Before you publish a new version of your blueprint make sure <strong>%s</strong> has everything set up. Once you have published a new version of this blueprint it will be used next time a customer launches a site based on this blueprint. Make sure you’ve removed all sensitive data like testing user accounts and emails.', 'dollie' ), $container->get_url() ); ?>
 		</div>
 
 		<?php if ( '' !== $blueprint_time ) : ?>
 			<div class="dol-my-4">
-				<?php printf( __( 'Your Blueprint was last updated at %s', 'dollie' ), $blueprint_time ); ?>
+				<?php printf( __( 'Your Blueprint was last published at %s', 'dollie' ), $blueprint_time ); ?>
 			</div>
 		<?php endif; ?>
 
@@ -110,7 +113,7 @@ foreach ( $groups as $group ) {
 						$acf_fields['Create or Update Blueprint'],
 					],
 					'return'       => $container->get_permalink( 'blueprints' ),
-					'submit_value' => __( 'Update Blueprint', 'dollie' ),
+					'submit_value' => __( 'Publish Blueprint', 'dollie' ),
 				]
 			);
 			?>
@@ -123,7 +126,7 @@ foreach ( $groups as $group ) {
 			[
 				'type'    => 'info',
 				'icon'    => 'fal fa-edit',
-				'title'   => __( 'Update your blueprint', 'dollie' ),
+				'title'   => __( 'Publish your blueprint', 'dollie' ),
 				'message' => $message,
 			],
 			true

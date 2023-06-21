@@ -3,7 +3,7 @@
 namespace Dollie\Core\Utils;
 
 if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
+	exit(); // Exit if accessed directly.
 }
 
 use Dollie\Core\Singleton;
@@ -70,7 +70,7 @@ class Helpers extends Singleton implements ConstInterface {
 				return new \WP_Error( 500, 'Invalid container type' );
 		}
 
-		if ( is_single( $object ) ) {
+		if ( is_single( $object ) && ( $container->is_running() || $container->is_stopped() ) ) {
 			$container->fetch_details();
 		}
 
@@ -190,7 +190,11 @@ class Helpers extends Singleton implements ConstInterface {
 			'posts_per_page' => 1,
 		];
 
-		if ( ! dollie()->get_user()->can_manage_all_sites() ) {
+		if (
+			! dollie()
+				->get_user()
+				->can_manage_all_sites()
+		) {
 			$args['author'] = get_current_user_id();
 		}
 
@@ -231,24 +235,81 @@ class Helpers extends Singleton implements ConstInterface {
 	}
 
 	/**
+	 * @return array
+	 */
+	public function get_products(): array {
+		$args = [
+			'post_type'  => 'product',
+			'status'     => 'publish',
+			'meta_query' => [
+				[
+					'key'         => 'wpd_',
+					'compare_key' => 'LIKE',
+				],
+			],
+		];
+
+		$args = apply_filters( 'dollie/get_products/query', $args );
+
+		$posts = get_posts( $args );
+		foreach ( $posts as $post ) {
+			$post->product_details = get_fields( $post->ID );
+			$post->post_meta       = get_post_meta( $post->ID );
+		}
+
+		return $posts;
+	}
+
+	/**
 	 * Get total containers counter
 	 *
 	 * @return integer
 	 */
 	public function count_total_sites(): int {
-		$query = new WP_Query(
-			[
-				'post_type'     => 'container',
-				'post_per_page' => - 1,
-				'meta_query'    => [
-					'relation' => 'AND',
-					[
-						'key'   => 'dollie_container_type',
-						'value' => '0',
-					],
+
+		$query = new WP_Query( [
+			'post_type'     => 'container',
+			'post_per_page' => - 1,
+			'meta_query'    => [
+				'relation' => 'AND',
+				[
+					'key'   => 'dollie_container_type',
+					'value' => '0',
 				],
-			]
-		);
+			],
+		] );
+
+		wp_reset_postdata();
+
+		return (int) $query->found_posts;
+	}
+
+	/**
+	 * Get total Active blueprints counter
+	 *
+	 * @return integer
+	 */
+	public function count_total_blueprints(): int {
+
+		$query = new WP_Query( [
+			'post_type'     => 'container',
+			'post_per_page' => - 1,
+			'meta_query'    => [
+				'relation' => 'AND',
+				[
+					'key'   => 'dollie_container_type',
+					'value' => '1',
+				],
+				[
+					'key'   => 'wpd_blueprint_created',
+					'value' => 'yes',
+				],
+				[
+					'key'     => 'wpd_installation_blueprint_title',
+					'compare' => 'EXISTS',
+				],
+			],
+		] );
 
 		wp_reset_postdata();
 
@@ -260,32 +321,68 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @return integer
 	 */
-	public function count_total_blueprints(): int {
-		$query = new WP_Query(
-			[
-				'post_type'     => 'container',
-				'post_per_page' => - 1,
-				'meta_query'    => [
-					'relation' => 'AND',
-					[
-						'key'   => 'dollie_container_type',
-						'value' => '1',
-					],
-					[
-						'key'   => 'wpd_blueprint_created',
-						'value' => 'yes',
-					],
-					[
-						'key'     => 'wpd_installation_blueprint_title',
-						'compare' => 'EXISTS',
-					],
+	public function get_blueprints(): array {
+
+		$args = [
+			'post_type'     => 'container',
+			'post_per_page' => - 1,
+			'meta_query'    => [
+				'relation' => 'AND',
+				[
+					'key'   => 'dollie_container_type',
+					'value' => '1',
 				],
-			]
+				[
+					'key'   => 'wpd_blueprint_created',
+					'value' => 'yes',
+				],
+				[
+					'key'     => 'wpd_installation_blueprint_title',
+					'compare' => 'EXISTS',
+				],
+			],
+		];
+
+		$posts = get_posts( $args );
+		foreach ( $posts as $post ) {
+			$blueprint_data = get_fields( $post->ID );
+			$post_meta      = get_post_meta( $post->ID );
+			$rtc_data       = get_field( 'wpd_dynamic_blueprint_data', 'create_update_blueprint_' . $post->ID );
+
+			$post->blueprint_details               = $blueprint_data;
+			$post->blueprint_real_time_customzizer = $rtc_data;
+			$post->post_meta                       = $post_meta;
+		}
+
+		return $posts;
+	}
+
+
+	/**
+	 * Get total Active blueprints counter
+	 *
+	 * @return integer
+	 */
+	public function get_sites(): array {
+
+		$args = array(
+			'post_type'     => 'container',
+			'post_per_page' => - 1,
+			'meta_query'    => [
+				[
+					'key'   => 'dollie_container_type',
+					'value' => '0',
+				]
+			],
 		);
 
-		wp_reset_postdata();
+		$posts = get_posts( $args );
+		foreach ( $posts as $post ) {
+			$post->post_meta = get_post_meta( $post->ID );
+		}
 
-		return $query->found_posts;
+		return $posts;
+
 	}
 
 	/**
@@ -294,23 +391,21 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return integer
 	 */
 	public function count_total_created_blueprints(): int {
-		$query = new WP_Query(
-			[
-				'post_type'     => 'container',
-				'post_per_page' => - 1,
-				'meta_query'    => [
-					'relation' => 'AND',
-					[
-						'key'   => 'dollie_container_type',
-						'value' => '1',
-					],
-					[
-						'key'   => 'wpd_blueprint_created',
-						'value' => 'yes',
-					],
+		$query = new WP_Query( [
+			'post_type'     => 'container',
+			'post_per_page' => - 1,
+			'meta_query'    => [
+				'relation' => 'AND',
+				[
+					'key'   => 'dollie_container_type',
+					'value' => '1',
 				],
-			]
-		);
+				[
+					'key'   => 'wpd_blueprint_created',
+					'value' => 'yes',
+				],
+			],
+		] );
 
 		wp_reset_postdata();
 
@@ -321,16 +416,27 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return mixed
 	 */
 	public function get_partner_status() {
-		if ( ! dollie()->subscription()->has_partner_subscription() ) {
+		if (
+			! dollie()
+				->subscription()
+				->has_partner_subscription()
+		) {
 			return 'trial';
 		}
 
-		if ( ! dollie()->subscription()->has_partner_verified() ) {
+		if (
+			! dollie()
+				->subscription()
+				->has_partner_verified()
+		) {
 			return 'unverified';
 		}
 
-
-		if ( dollie()->workspace()->has_custom_deployment_domain() && ! get_option( 'wpd_deployment_domain_notice' ) ) {
+		if (
+			dollie()
+				->workspace()
+				->has_custom_deployment_domain()
+		) {
 			return 'staging';
 		}
 
@@ -435,10 +541,7 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return boolean
 	 */
 	public function is_elementor_editor(): bool {
-		return class_exists( '\Elementor\Plugin' ) &&
-		       ( \Elementor\Plugin::instance()->editor->is_edit_mode() ||
-		         \Elementor\Plugin::instance()->preview->is_preview() ||
-		         isset( $_GET['elementor_library'] ) );
+		return class_exists( '\Elementor\Plugin' ) && ( \Elementor\Plugin::instance()->editor->is_edit_mode() || \Elementor\Plugin::instance()->preview->is_preview() || isset( $_GET['elementor_library'] ) );
 	}
 
 	/**
@@ -452,7 +555,6 @@ class Helpers extends Singleton implements ConstInterface {
 		return isset( $plugins[ $plugin_path ] );
 	}
 
-
 	/**
 	 * @param $plugin_path
 	 *
@@ -460,10 +562,33 @@ class Helpers extends Singleton implements ConstInterface {
 	 */
 	public function has_layout_widget() {
 		$template_id = dollie()->get_site_template_id();
-		$meta        = get_post_meta( $template_id, '_elementor_data' );
 
-		foreach ( $meta as $index => $string ) {
-			if ( strpos( $string, 'dollie-layout-' ) !== false ) {
+		if ( empty( $template_id ) ) {
+			return false;
+		}
+
+		if (
+			class_exists( '\Elementor\Plugin' ) &&
+			! is_bool( \Elementor\Plugin::instance()->documents->get( $template_id ) ) &&
+			\Elementor\Plugin::instance()
+				->documents->get( $template_id )
+			               ->is_built_with_elementor()
+		) {
+			$meta = get_post_meta( $template_id, '_elementor_data' );
+
+			foreach ( $meta as $index => $string ) {
+				if ( strpos( $string, 'dollie-layout-' ) !== false ) {
+					return true;
+				}
+			}
+		} else {
+			$post = get_post( $template_id );
+			if ( empty( $post ) ) {
+				return false;
+			}
+			$content = get_post( $template_id )->post_content;
+
+			if ( strpos( $content, 'dollie-layout-' ) !== false ) {
 				return true;
 			}
 		}
@@ -490,7 +615,11 @@ class Helpers extends Singleton implements ConstInterface {
 				'posts_per_page' => 1,
 			];
 
-			if ( dollie()->get_user()->can_manage_all_sites() ) {
+			if (
+				dollie()
+					->get_user()
+					->can_manage_all_sites()
+			) {
 				$args['author'] = get_current_user_id();
 			}
 
@@ -584,14 +713,12 @@ class Helpers extends Singleton implements ConstInterface {
 			$user_id = get_current_user_id();
 		}
 
-		$query = new WP_Query(
-			[
-				'author'        => $user_id,
-				'post_type'     => 'container',
-				'post_per_page' => 1000,
-				'post_status'   => 'publish',
-			]
-		);
+		$query = new WP_Query( [
+			'author'        => $user_id,
+			'post_type'     => 'container',
+			'post_per_page' => 1000,
+			'post_status'   => 'publish',
+		] );
 
 		$total = $query->found_posts;
 
@@ -650,13 +777,10 @@ class Helpers extends Singleton implements ConstInterface {
 		}
 		unset( $field );
 
-		acf_add_local_fields( [
-			$fields
-		] );
+		acf_add_local_fields( [ $fields ] );
 	}
 
 	public function add_acf_fields_to_group( $field_group, $fields = [], $group = '', $field_name = '', $type = 'after' ) {
-
 		if ( $field_group['key'] !== $group ) {
 			return $field_group;
 		}
@@ -685,7 +809,6 @@ class Helpers extends Singleton implements ConstInterface {
 		return $field_group;
 	}
 
-
 	/**
 	 * Add Video Helper that can be used globally
 	 *
@@ -693,51 +816,56 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @param $parent
 	 */
 	public function show_helper_video( $modal_id, $embed_id, $button_text, $title, $echo = false ) {
-
 		$user = dollie()->get_user();
 
-		if (! $user->can_manage_all_sites()) {
+		if ( ! $user->can_manage_all_sites() ) {
 			return;
 		}
 
 		if ( ! $echo ) {
 			return '
-				<button data-toggle="tooltip"
-	data-placement="bottom"
-	data-tooltip="Only Site Admins see this helper button." type="button" data-modal-id="dol-modal-'.$modal_id.'" class="dol-global-modal dol-my-4">
-					<i class="fas fa-user-shield"></i>
-					<span>'.$button_text.'</span>
-				</button>' . dollie()->load_template(
-				'parts/video-helper',
-				[
-					'modal_id' => $modal_id,
-					'embed_id' => $embed_id,
-					'title' => $title,
-					'button_text' => $button_text,
-				],
-				false
-			);
+    <button data-toggle="tooltip"
+ data-placement="bottom"
+ data-tooltip="Only Site Admins see this helper button." type="button" data-modal-id="dol-modal-' .
+			       $modal_id .
+			       '" class="dol-global-modal dol-my-4">
+     <i class="fas fa-user-shield"></i>
+     <span>' .
+			       $button_text .
+			       '</span>
+    </button>' .
+			       dollie()->load_template(
+				       'parts/video-helper',
+				       [
+					       'modal_id'    => $modal_id,
+					       'embed_id'    => $embed_id,
+					       'title'       => $title,
+					       'button_text' => $button_text,
+				       ],
+				       false,
+			       );
 		} else {
-				echo
-				'<button type="button" data-toggle="tooltip"
-	data-placement="bottom"
-	data-tooltip="This button is only view-able for Site Admins. Click on the button to learn more about using & building your Hub with Dollie" data-modal-id="dol-modal-'.$modal_id.'" class="dol-global-modal dol-my-4 dol-text-sm dol-p-2 dol-bg-gray-400">
-					<i class="fas fa-user-shield"></i>
-					<span class="dol-text-sm">'.$button_text.'</span>
-				</button>';
+			echo '<button type="button" data-toggle="tooltip"
+ data-placement="bottom"
+ data-tooltip="This button is only view-able for Site Admins. Click on the button to learn more about using & building your Hub with Dollie" data-modal-id="dol-modal-' .
+			     $modal_id .
+			     '" class="dol-global-modal dol-my-4 dol-text-sm dol-p-2 dol-bg-gray-400">
+     <i class="fas fa-user-shield"></i>
+     <span class="dol-text-sm">' .
+			     $button_text .
+			     '</span>
+    </button>';
 
-				dollie()->load_template(
+			dollie()->load_template(
 				'parts/video-helper',
 				[
-					'modal_id' => $modal_id,
-					'embed_id' => $embed_id,
-					'title' => $title,
+					'modal_id'    => $modal_id,
+					'embed_id'    => $embed_id,
+					'title'       => $title,
 					'button_text' => $button_text,
 				],
-				true
+				true,
 			);
 		}
-
 	}
-
 }

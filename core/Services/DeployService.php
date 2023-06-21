@@ -7,6 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 use Dollie\Core\Api\DeployApi;
+use Dollie\Core\Log;
 use Dollie\Core\Singleton;
 use Dollie\Core\Utils\ConstInterface;
 use Dollie\Core\Factories\BaseContainer;
@@ -21,7 +22,7 @@ final class DeployService extends Singleton implements ConstInterface {
 	 *
 	 * @param string $type
 	 * @param string $route
-	 * @param array  $data
+	 * @param array $data
 	 *
 	 * @return \WP_Error|BaseContainer
 	 */
@@ -46,6 +47,8 @@ final class DeployService extends Singleton implements ConstInterface {
 			$data['description'] = esc_html__( 'The best website in the world', 'dollie' );
 		}
 
+		$deployment_domain = self::TYPE_BLUEPRINT === $type ? '.wp-site.xyz' : WorkspaceService::instance()->get_deployment_domain();
+
 		$extra_vars = apply_filters( 'dollie/deploy/vars', [], $type );
 		$vars       = array_merge(
 			$extra_vars,
@@ -53,6 +56,7 @@ final class DeployService extends Singleton implements ConstInterface {
 				'S5_DEPLOYMENT_URL' => get_site_url(),
 				'owner_email'       => $data['email'],
 				'origin'            => get_site_url(),
+				'domain'            => $deployment_domain,
 				'wp_setup'          => [
 					'email'       => $data['email'],
 					'username'    => $data['username'],
@@ -113,19 +117,48 @@ final class DeployService extends Singleton implements ConstInterface {
 
 		$container = dollie()->get_container( $post_id );
 
-		// Log::add_front( Log::WP_SITE_DEPLOY_STARTED, ['id' =>$post_id ] );
-
 		if ( is_wp_error( $container ) ) {
 			return new \WP_Error( 500, 'Post not created' );
 		}
+
+		$user_role = $container->user()->get_container_user_role() === 'administrator' ? 'admin' : 'editor';
+		if ( 'editor' === $user_role ) {
+			$site_data = [
+				'editor' => [
+					'username' => $data['username'],
+				],
+				'admin'  => [
+					'username' => get_option( 'options_wpd_admin_user_name', 'sadmin' ),
+				],
+			];
+		} else {
+			$site_data = [
+				'admin' => [
+					'username' => $data['username'],
+				],
+			];
+		}
+
+		//TODO Find a way not to overwrite with empty data from API on site details update
+		set_transient( "wpd_site_deploy_data_{$container->get_id()}", $site_data, 60 * 60 );
 
 		$container->set_details(
 			[
 				'url'    => $deploy['route'],
 				'status' => $deploy['status'],
 				'type'   => $deploy['type'],
+				'site'   => $site_data,
 			]
 		);
+
+		// Add log.
+		if ( $type === self::TYPE_BLUEPRINT ) {
+			$container->add_log( Log::WP_BLUEPRINT_DEPLOY_STARTED );
+		} elseif ( $type === self::TYPE_STAGING ) {
+			$container->add_log( Log::WP_STAGING_DEPLOY_STARTED );
+		} else {
+			$container->add_log( Log::WP_SITE_DEPLOY_STARTED );
+		}
 
 		return $container;
 	}
@@ -133,7 +166,7 @@ final class DeployService extends Singleton implements ConstInterface {
 	/**
 	 * Check if container is deployed
 	 *
-	 * @param int|bool|\WP_Post $post_id
+	 * @param int|bool|\WP_Post $post
 	 *
 	 * @return bool|\WP_Error
 	 */
@@ -166,7 +199,7 @@ final class DeployService extends Singleton implements ConstInterface {
 
 		$deploy = $this->get_deploy( $deploy_type, $container->get_original_url() );
 
-		if ( is_wp_error( $deploy ) ) {
+		if ( is_wp_error( $deploy ) || empty( $deploy ) ) {
 			return new \WP_Error( 500, 'Cannot fetch deploy data' );
 		}
 
@@ -189,6 +222,10 @@ final class DeployService extends Singleton implements ConstInterface {
 						'status' => $deploy['status'],
 					]
 				);
+
+			// Add log.
+			$container->add_log( Log::WP_SITE_DEPLOY_FAILED );
+
 		} elseif ( 'Running' === $deploy['status'] ) {
 			$container
 				->update_post(
@@ -205,12 +242,21 @@ final class DeployService extends Singleton implements ConstInterface {
 
 			$container->mark_not_updated();
 			$container->fetch_details();
+
+			update_post_meta( $container->get_id(), 'dollie_container_deployed', 1 );
+
+			// Update user role.
+			ChangeContainerRoleJob::instance()->run( $container );
+
+			// Add log.
+			if ( $container->is_blueprint() ) {
+				$container->add_log( Log::WP_BLUEPRINT_DEPLOYED );
+			} elseif ( $container->is_staging() ) {
+				$container->add_log( Log::WP_STAGING_DEPLOYED );
+			} else {
+				$container->add_log( Log::WP_SITE_DEPLOYED );
+			}
 		}
-
-		// Update user role
-		ChangeContainerRoleJob::instance()->run( $container );
-
-		update_post_meta( $container->get_id(), 'dollie_container_deployed', 1 );
 
 		return true;
 	}
@@ -226,7 +272,7 @@ final class DeployService extends Singleton implements ConstInterface {
 				's'              => '🚀 Launching',
 				'post_status'    => [ 'publish', 'draft' ],
 				'post_type'      => 'container',
-				'posts_per_page' => -1,
+				'posts_per_page' => - 1,
 			]
 		);
 

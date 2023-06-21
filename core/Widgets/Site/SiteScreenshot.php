@@ -30,30 +30,7 @@ class SiteScreenshot extends \Elementor\Widget_Base {
 	}
 
 	protected function render() {
-		$data = [
-			'settings'   => $this->get_settings_for_display(),
-			'current_id' => get_the_ID(),
-		];
-
-		if ( dollie()->is_elementor_editor() ) {
-			$my_sites = get_posts(
-				[
-					'post_type'      => 'container',
-					'author'         => get_current_user_id(),
-					'posts_per_page' => 1,
-				]
-			);
-
-			if ( ! empty( $my_sites ) ) {
-				$data['current_id'] = $my_sites[0]->ID;
-			}
-		}
-
-		if ( get_post_type() !== 'container' && ! dollie()->is_elementor_editor() ) {
-			esc_html_e( 'This widget will only show content when you visit a Single Dollie Site.', 'dollie' );
-		} else {
-			dollie()->load_template( 'widgets/site/site-screenshot', $data, true );
-		}
+		echo \Dollie\Core\Shortcodes\SiteScreenshot::instance()->shortcode( $this->get_settings_for_display() );
 	}
 
 }

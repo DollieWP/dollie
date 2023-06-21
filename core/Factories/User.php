@@ -89,6 +89,26 @@ final class User {
 	}
 
 	/**
+	 * Check if user can view a specific site data
+	 *
+	 * @param $id
+	 *
+	 * @return bool
+	 */
+	public function can_view_site( $id ) {
+		if ( $this->can_view_all_sites() ) {
+			return true;
+		}
+
+		$post = get_post( $id );
+		if ( $id == $post->post_author ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Check if can manage options
 	 *
 	 * @return boolean
@@ -129,7 +149,7 @@ final class User {
 	 *
 	 * @param null $user_id
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_container_user_role() {
 		$role = get_user_meta( $this->get_id(), 'wpd_client_site_permissions', true );
@@ -139,7 +159,7 @@ final class User {
 		}
 
 		if ( 'default' === $role ) {
-			if ( user_can( $this->get_id(), 'manage_options' ) ) {
+			if ( $this->can_manage_all_sites() ) {
 				$role = 'administrator';
 			} else {
 				$role = get_field( 'wpd_client_site_permission', 'options' );
@@ -159,7 +179,7 @@ final class User {
 			[
 				'author'        => $this->get_id(),
 				'post_type'     => 'container',
-				'post_per_page' => -1,
+				'post_per_page' => - 1,
 				'post_status'   => 'publish',
 			]
 		);
@@ -174,12 +194,12 @@ final class User {
 	 *
 	 * @return integer
 	 */
-	public function count_stagings():int {
+	public function count_stagings(): int {
 		$query = new \WP_Query(
 			[
 				'author'        => $this->get_id(),
 				'post_type'     => 'container',
-				'post_per_page' => -1,
+				'post_per_page' => - 1,
 				'post_status'   => 'publish',
 				'meta_query'    => [
 					[
@@ -212,6 +232,7 @@ final class User {
 	 * Delete or restore containers
 	 *
 	 * @param [type] $has_subscription
+	 *
 	 * @return void
 	 */
 	public function delete_or_restore_containers( $has_subscription ) {

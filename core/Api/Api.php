@@ -18,7 +18,7 @@ trait Api {
 	/**
 	 * @var string
 	 */
-	protected $partners_url = DOLLIE_PARTNERS_URL;
+	protected $partners_url = DOLLIE_CONTROL_URL;
 
 	/**
 	 * @var string|null

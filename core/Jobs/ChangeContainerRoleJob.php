@@ -38,7 +38,7 @@ class ChangeContainerRoleJob extends Singleton {
 		$role = $role ?: $user->get_container_user_role();
 
 		if ( ! $role ) {
-			return;
+			return false;
 		}
 
 		$container->set_role(
@@ -47,15 +47,17 @@ class ChangeContainerRoleJob extends Singleton {
 				'username'       => $container->get_details( 'site.admin.username' ),
 				'password'       => wp_generate_password(),
 				'super_email'    => get_option( 'admin_email' ),
-				'super_username' => get_option( 'options_wpd_admin_user_name' ),
+				'super_username' => get_option( 'options_wpd_admin_user_name', 'sadmin' ),
 				'super_password' => wp_generate_password(),
 				'switch_to'      => $role,
 			]
 		);
 
-		Log::add( $container->get_url( true ) . ' client access was set to ' . $role );
+		$container->mark_not_updated();
+		$container->fetch_details();
+
+		$container->add_log( Log::WP_SITE_ACCESS_CHANGED, [ $container->get_url( true ), $role ] );
 
 		return false;
 	}
-
 }

@@ -29,7 +29,7 @@ final class BlueprintService extends Singleton {
 	 *
 	 * @return void
 	 */
-	public function notice(): void {
+	public function notice() {
 		if ( ! is_singular( 'container' ) ) {
 			return;
 		}
@@ -49,23 +49,29 @@ final class BlueprintService extends Singleton {
 		}
 
 		dollie()->load_template( 'notices/blueprint-live', [ 'container' => $container ], true );
-
-		return;
 	}
 
-	public function change_site_title_to_blueprint_title() {
-
+	/**
+	 * Change site title
+	 *
+	 * @param string $title
+	 *
+	 * @return string
+	 */
+	public function change_site_title_to_blueprint_title( $title ) {
 		global $post;
+
+		if ( ! $post ) {
+			return $title;
+		}
 
 		$container = dollie()->get_container( $post->ID );
 
-		if ( ! is_wp_error( $container ) && $container->is_blueprint() ) {
-
-			return $container->get_saved_title();
-
+		if ( is_wp_error( $container ) || ! $container->is_blueprint() ) {
+			return $title;
 		}
 
-
+		return $container->get_saved_title();
 	}
 
 
@@ -185,12 +191,11 @@ final class BlueprintService extends Singleton {
 	/**
 	 * Get all available
 	 *
-	 * @param string $type html|null
-	 *
 	 * @return array
 	 */
-	public function get( string $type = null ): array {
+	public function get(): array {
 
+		$user = dollie()->get_user();
 		$data = [];
 
 		$posts = get_posts(
@@ -213,24 +218,68 @@ final class BlueprintService extends Singleton {
 
 		foreach ( $posts as $post ) {
 			$container = dollie()->get_container( $post );
-			$skip_this = apply_filters( 'dollie/blueprints/skip_list', false, $container );
+			$skip_this = apply_filters( 'dollie/blueprints/skip_display_list', false, $container );
 
-			if (
-				$skip_this ||
-				is_wp_error( $container ) ||
-				! $container->is_blueprint() ||
-				$container->is_private() ||
-				! $container->is_updated() ||
-				! $container->get_saved_title()
+			if ( is_wp_error( $container ) ||
+			     ! $container->is_blueprint() ||
+			     $container->is_failed() ||
+			     $container->is_deploying() ) {
+				continue;
+			}
+
+			if ( ! $user->can_manage_all_sites() &&
+			     ( $skip_this ||
+			       ! $container->is_running() ||
+			       ! $container->is_updated() ||
+			       ! $container->get_saved_title() ||
+			       $container->is_private() ||
+			       $container->is_scheduled_for_deletion() )
 			) {
 				continue;
 			}
 
-			$image = dollie()->load_template( 'parts/blueprint-image', [ 'container' => $container ] );
-
-			$data[ $container->get_id() ] = $image;
+			$data[ $container->get_id() ] = $container;
 		}
 
 		return apply_filters( 'dollie/blueprints', $data );
+	}
+
+
+	/**
+	 * Return blueprint by hash.
+	 *
+	 * @param $hash
+	 *
+	 * @return false|int|\WP_Post
+	 */
+	public function get_by_hash( $hash ) {
+
+		$query = new \WP_Query(
+			[
+				'posts_per_page' => - 1,
+				'post_type'      => 'container',
+				'post_status'    => [ 'publish', 'draft', 'trash' ],
+			]
+		);
+
+		$stored_containers = $query->get_posts();
+		foreach ( $stored_containers as $stored_container ) {
+			$old_container_hash = get_post_meta( $stored_container->ID, 'wpd_container_id', true );
+
+			// If container was stored during Dollie V1.0, switch to new version.
+			if ( $old_container_hash ) {
+				if ( $hash === $old_container_hash ) {
+					return $stored_container;
+				}
+			} else {
+				$container = dollie()->get_container( $stored_container );
+				if ( ! is_wp_error( $container ) && $hash === $container->get_hash() ) {
+					return $stored_container;
+				}
+			}
+		}
+
+		return false;
+
 	}
 }

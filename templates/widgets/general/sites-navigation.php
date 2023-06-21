@@ -3,7 +3,7 @@ if ( ! dollie()->is_elementor_editor() ) {
 	wp_enqueue_script( 'dollie-layout-alpine' );
 }
 
-if ( get_field( 'wpd_allow_site_dashboard_access', 'options' ) === 0 && ! current_user_can( 'manage_options' ) ) {
+if ( get_field( 'wpd_allow_site_dashboard_access', 'options' ) === 0 && ! dollie()->get_user()->can_manage_all_sites() ) {
 	return false;
 }
 
@@ -38,13 +38,13 @@ $containers = new WP_Query(
 		while ( $containers->have_posts() ) :
 			$containers->the_post();
 
-			$container = dollie()->get_container(get_the_ID());
+			$container = dollie()->get_container( get_the_ID() );
 
 			if ( is_wp_error( $container ) ) {
 				continue;
 			}
 
-			$domain         = get_post_meta( get_the_ID(), 'wpd_domains', true );
+			$domain         = $container->get_custom_domain();
 			$setup_complete = get_post_meta( get_the_ID(), 'wpd_setup_complete', true );
 			$blueprint      = get_post_meta( get_the_ID(), 'wpd_blueprint_created', true );
 
@@ -142,4 +142,3 @@ $containers = new WP_Query(
 <?php endif; ?>
 
 <?php wp_reset_postdata(); ?>
-

@@ -10,6 +10,7 @@ use Dollie\Core\Plugin;
 use Dollie\Core\Singleton;
 
 final class NoticeService extends Singleton {
+
 	/**
 	 * Elementor not installed notice
 	 */
@@ -86,51 +87,15 @@ final class NoticeService extends Singleton {
 	 * @return void
 	 */
 	public function not_connected(): void {
+		$user = dollie()->get_user();
+
 		$auth_service = AuthService::instance();
 
-		if ( $auth_service->is_connected() || ! current_user_can( 'manage_options' ) || ! defined( 'ELEMENTOR_VERSION' ) ) {
+		if ( $auth_service->is_connected() || ! $user->can_manage_all_sites() ) {
 			return;
 		}
 
 		dollie()->load_template( 'admin/notices/not-connected', [ 'auth_url' => $auth_service->get_auth_url() ], true );
-	}
-
-	/**
-	 * Custom deploy domain
-	 *
-	 * @return void
-	 */
-	public function display_custom_deploy_domain_notice(): void {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		if ( ! dollie()->auth()->is_connected() ) {
-			return;
-		}
-
-		$deployment_domain        = get_option( 'wpd_deployment_domain' );
-		$deployment_domain_status = get_option( 'wpd_deployment_domain_status' );
-
-		if ( $deployment_domain && ! $deployment_domain_status ) {
-			dollie()->load_template( 'admin/notices/custom-deploy-domain-pending', [], true );
-		} elseif ( $deployment_domain && $deployment_domain_status && ! get_option( 'wpd_deployment_domain_notice' ) ) {
-			dollie()->load_template( 'admin/notices/custom-deploy-domain-active', [], true );
-		}
-	}
-
-	/**
-	 * Remove deployment domain
-	 *
-	 * @return void
-	 */
-	public function remove_custom_deploy_domain_notice(): void {
-		if ( ! check_ajax_referer( 'dollie_notice', '_dollie_nonce' ) ) {
-			wp_send_json_error();
-		}
-
-		update_option( 'wpd_deployment_domain_notice', true );
-		wp_send_json_success();
 	}
 
 	/**
@@ -139,7 +104,10 @@ final class NoticeService extends Singleton {
 	 * @return void
 	 */
 	public function subscription_no_credits(): void {
-		if ( ! current_user_can( 'manage_options' ) ||
+
+		$user = dollie()->get_user();
+
+		if ( ! $user->can_manage_all_sites() ||
 			! dollie()->auth()->is_connected() ) {
 			return;
 		}
@@ -150,10 +118,8 @@ final class NoticeService extends Singleton {
 			die();
 		}
 
-		if ( ! dollie()->subscription()->has_partner_subscription() && ! dollie()->subscription()->has_partner_hit_time_limit() && dollie_setup_get_setup_step() !== 'no-package' ) {
+		if ( ! dollie()->subscription()->has_partner_subscription() ) {
 			dollie()->load_template( 'admin/notices/subscription-missing', [], true );
-		} elseif ( ! dollie()->subscription()->has_partner_subscription() && dollie()->subscription()->has_partner_hit_time_limit() && dollie_setup_get_setup_step() !== 'no-package' ) {
-			dollie()->load_template( 'admin/notices/subscription-time-limit', [], true );
 		} elseif ( dollie()->subscription()->has_partner_subscription() &&
 			0 === dollie()->subscription()->get_partner_deploy_limit() ) {
 			dollie()->load_template( 'admin/notices/subscription-sites-limit', [], true );
@@ -167,7 +133,7 @@ final class NoticeService extends Singleton {
 	 */
 	public function subscription_not_verified(): void {
 		if ( ! current_user_can( 'manage_options' ) ||
-			! dollie()->auth()->is_connected() ) {
+			! dollie()->auth()->is_connected_and_token_valid() ) {
 			return;
 		}
 
@@ -177,11 +143,9 @@ final class NoticeService extends Singleton {
 			die();
 		}
 
-		if ( dollie()->get_partner_status() == 'unverified' ) {
+		if ( ! dollie()->subscription()->has_partner_verified() ) {
 			dollie()->load_template( 'admin/notices/subscription-not-verified', [], true );
 		}
-
-
 	}
 
 	/**

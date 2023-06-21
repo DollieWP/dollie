@@ -26,13 +26,11 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	public function __construct() {
 		parent::__construct();
 
-		$subscription_plugin = get_option( 'options_wpd_subscription_plugin' );
+		$subscription_plugin = $this->get_subscription_plugin();
 
-		if ( ! $subscription_plugin ) {
-			$subscription_plugin = 'WooCommerce';
-
-			require_once DOLLIE_CORE_PATH . 'Modules/Subscription/Plugin/' . $subscription_plugin . '.php';
-			$class_name = '\Dollie\Core\Modules\Subscription\Plugin\\' . $subscription_plugin;
+		if ( $subscription_plugin === 'Woocommerce' ) {
+			require_once DOLLIE_CORE_PATH . 'Modules/Subscription/Plugin/Woocommerce.php';
+			$class_name = '\Dollie\Core\Modules\Subscription\Plugin\\Woocommerce';
 		} else {
 			$class_name = apply_filters( 'dollie/subscription/plugin_class', '\Dollie\Core\Modules\Subscription\Plugin\\' . $subscription_plugin, $subscription_plugin );
 		}
@@ -44,10 +42,21 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		}
 
 		add_action( 'acf/init', [ $this, 'load_acf' ] );
-
 		add_filter( 'dollie/blueprints', [ $this, 'filter_blueprints' ] );
+	}
 
+	/**
+	 * Get the plugin used for subscriptions.
+	 *
+	 * @return false|mixed|string|null
+	 */
+	public function get_subscription_plugin() {
+		$subscription_plugin = get_option( 'options_wpd_subscription_plugin' );
+		if ( ! $subscription_plugin ) {
+			$subscription_plugin = 'WooCommerce';
+		}
 
+		return $subscription_plugin;
 	}
 
 	/**
@@ -102,8 +111,11 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
-		if ( get_field( '_wpd_installs', 'user_' . $customer_id ) ) {
-			return get_field( '_wpd_installs', 'user_' . $customer_id ) - dollie()->get_user()->count_containers();
+		$is_custom = get_field( '_wpd_installs', 'user_' . $customer_id );
+
+		if ( ! empty( $is_custom ) && is_numeric( $is_custom ) && $is_custom > 0 ) {
+			return $is_custom - dollie()->get_user()->count_containers();
+
 		}
 
 		$subscription = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
@@ -126,8 +138,10 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
-		if ( get_field( '_wpd_max_size', 'user_' . $customer_id ) ) {
-			return get_field( '_wpd_max_size', 'user_' . $customer_id );
+		$is_custom = get_field( '_wpd_max_size', 'user_' . $customer_id );
+
+		if ( ! empty( $is_custom ) && is_numeric( $is_custom ) && $is_custom > 0 ) {
+			return $is_custom;
 		}
 
 		$subscription = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
@@ -188,7 +202,9 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			return false;
 		}
 
-		if ( current_user_can( 'manage_options' ) ) {
+		$user = dollie()->get_user();
+
+		if ( $user->can_manage_all_sites() ) {
 			return false;
 		}
 
@@ -196,11 +212,10 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
-		//Check if user has custom limits
-		if ( get_field( '_wpd_installs', 'user_' . $customer_id ) ) {
-			$allowed_sites = (int) get_field( '_wpd_installs', 'user_' . $customer_id );
+		$is_custom = get_field( '_wpd_installs', 'user_' . $customer_id );
 
-			return dollie()->get_user()->count_containers() >= $allowed_sites;
+		if ( ! empty( $is_custom ) && is_numeric( $is_custom ) && $is_custom > 0 ) {
+			return dollie()->get_user()->count_containers() >= $is_custom;
 		}
 
 		if ( ! $this->has_subscription() ) {
@@ -230,14 +245,18 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
-		//Check if user has custom limits
-		if ( get_field( '_wpd_max_size', 'user_' . $customer_id ) ) {
-			$allowed_size = get_field( '_wpd_max_size', 'user_' . $customer_id );
+		$user = dollie()->get_user();
 
+		$is_custom = get_field( '_wpd_max_size', 'user_' . $customer_id );
+
+
+		if ( ! empty( $is_custom ) && is_numeric( $is_custom ) && $is_custom > 0 ) {
+			$allowed_size = $is_custom;
 			$total_size   = dollie()->insights()->get_total_container_size();
 			$allowed_size *= 1024 * 1024 * 1024;
 
-			return $total_size >= $allowed_size && ! current_user_can( 'manage_options' );
+			return $total_size >= $allowed_size && ! $user->can_manage_all_sites();
+
 		}
 
 		$subscription = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
@@ -249,7 +268,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		$total_size   = dollie()->insights()->get_total_container_size();
 		$allowed_size = $subscription['resources']['max_allowed_size'] * 1024 * 1024 * 1024;
 
-		return $this->has_subscription() && $total_size >= $allowed_size && ! current_user_can( 'manage_options' );
+		return $this->has_subscription() && $total_size >= $allowed_size && ! $user->can_manage_all_sites();
 	}
 
 	/**
@@ -328,59 +347,60 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return array
 	 */
 	public function filter_blueprints( $blueprints ) {
-		if ( current_user_can( 'manage_options' ) ) {
+
+		$user = dollie()->get_user();
+
+		if ( $user->can_manage_all_sites() ) {
 			return $blueprints;
 		}
 
-		$customer_id = get_current_user_id();
-		if ( ! empty( $blueprints ) ) {
+		if ( empty( $blueprints ) ) {
+			return $blueprints;
+		}
 
-			//Has Blueprint inclusions in sub?
-			$sub_included = $this->get_blueprints_exception( 'included' );
+		$customer_id  = get_current_user_id();
+		$sub_included = $this->get_blueprints_exception( 'included' );
 
-			//Has Blueprint includes in User meta?
-			if ( get_field( '_wpd_included_blueprints', 'user_' . $customer_id ) ) {
-				$user_included_blueprints = get_field( '_wpd_included_blueprints', 'user_' . $customer_id );
+		// Has Blueprint includes in User meta?
+		if ( get_field( '_wpd_included_blueprints', 'user_' . $customer_id ) ) {
+			$user_included_blueprints = get_field( '_wpd_included_blueprints', 'user_' . $customer_id );
 
-				//Check if arrays should be merged
-				if ( ! empty( $sub_included ) ) {
-					$included = array_merge( $sub_included, $user_included_blueprints );
-				} else {
-					$excluded = $user_included_blueprints;
-				}
+			// Check if arrays should be merged.
+			if ( ! empty( $sub_included ) ) {
+				$included = array_merge( $sub_included, $user_included_blueprints );
 			} else {
-				$included = $sub_included;
+				$excluded = $user_included_blueprints;
 			}
+		} else {
+			$included = $sub_included;
+		}
 
-			if ( ! empty( $included ) ) {
-				return array_intersect_key( $blueprints, $included );
-			}
+		if ( ! empty( $included ) ) {
+			return array_intersect_key( $blueprints, $included );
+		}
 
-			//Has Blueprint exclusions in sub?
-			$sub_excluded = $this->get_blueprints_exception();
+		// Has Blueprint exclusions in sub?
+		$sub_excluded = $this->get_blueprints_exception();
 
-			//Has Blueprint excludes in User meta?
-			if ( get_field( '_wpd_excluded_blueprints', 'user_' . $customer_id ) ) {
+		// Has Blueprint excludes in User meta?
+		if ( get_field( '_wpd_excluded_blueprints', 'user_' . $customer_id ) ) {
+			$user_excluded_blueprints = get_field( '_wpd_excluded_blueprints', 'user_' . $customer_id );
 
-				$user_excluded_blueprints = get_field( '_wpd_excluded_blueprints', 'user_' . $customer_id );
-
-				//Check if arrays should be merged
-				if ( ! empty( $sub_excluded ) ) {
-					$excluded = array_merge( $sub_excluded, $user_excluded_blueprints );
-				} else {
-					$excluded = $user_excluded_blueprints;
-				}
-
+			// Check if arrays should be merged.
+			if ( ! empty( $sub_excluded ) ) {
+				$excluded = array_merge( $sub_excluded, $user_excluded_blueprints );
 			} else {
-				$excluded = $sub_excluded;
+				$excluded = $user_excluded_blueprints;
 			}
+		} else {
+			$excluded = $sub_excluded;
+		}
 
-			//Filter blueprints
-			if ( ! empty( $excluded ) ) {
-				foreach ( $excluded as $bp_id ) {
-					if ( isset( $blueprints[ $bp_id ] ) ) {
-						unset( $blueprints[ $bp_id ] );
-					}
+		// Filter blueprints.
+		if ( ! empty( $excluded ) ) {
+			foreach ( $excluded as $bp_id ) {
+				if ( isset( $blueprints[ $bp_id ] ) ) {
+					unset( $blueprints[ $bp_id ] );
 				}
 			}
 		}
@@ -394,7 +414,10 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return bool
 	 */
 	public function staging_sites_limit_reached( $user_id = null ) {
-		if ( current_user_can( 'manage_options' ) ) {
+
+		$user = dollie()->get_user();
+
+		if ( $user->can_manage_all_sites() ) {
 			return false;
 		}
 
@@ -445,7 +468,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			return true;
 		}
 
-		//Has subscription?
+		// Has subscription?
 		$subscriptions = $this->get_customer_subscriptions( null, $user_id );
 
 		// If no subscription is active or no subscription is found.
@@ -468,15 +491,24 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return array|bool
 	 */
 	public function get_partner_subscription() {
-		if ( ! dollie()->auth()->is_connected() ) {
-			return false;
-		}
 
 		$subscription = get_transient( 'wpd_partner_subscription' );
 
 		if ( ! $subscription ) {
 			$subscription = $this->get_subscription();
-			set_transient( 'wpd_partner_subscription', $subscription, MINUTE_IN_SECONDS * 10 );
+			if ( ! is_wp_error( $subscription ) ) {
+
+				// mark as connected successfully.
+				update_option( 'wpd_connected', 1 );
+
+				set_transient( 'wpd_partner_subscription', $subscription, MINUTE_IN_SECONDS * 10 );
+			} else {
+
+				// mark as not connected.
+				delete_option( 'wpd_connected' );
+
+				return false;
+			}
 		}
 
 		return $subscription;
@@ -498,44 +530,22 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	}
 
 	/**
-	* Check if partner has verified account
-	*
-	* @return boolean
-	*/
-	public function has_partner_verified() {
-		$subscription = $this->get_partner_subscription();
-		if ( is_wp_error( $subscription ) || empty( $subscription ) ) {
-			return false;
-		}
-
-		if ( isset( $subscription['unverified'] ) ) {
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Check if partner hast hit free trial limit
+	 * Check if partner has verified account
 	 *
 	 * @return boolean
 	 */
-	public function has_partner_hit_time_limit() {
+	public function has_partner_verified() {
 		$subscription = $this->get_partner_subscription();
 
 		if ( is_wp_error( $subscription ) || empty( $subscription ) ) {
 			return false;
 		}
 
-		if ( false === $subscription ) {
-			return $subscription;
+		if ( ! isset( $subscription['verified'] ) ) {
+			return false;
 		}
 
-		if ( isset( $subscription['required'] ) ) {
-			return $subscription['required'];
-		}
-
-		return false;
+		return $subscription['verified'];
 	}
 
 	/**

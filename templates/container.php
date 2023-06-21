@@ -10,7 +10,7 @@
 			<title><?php echo wp_get_document_title(); ?></title>
 		<?php endif; ?>
 		<?php wp_head(); ?>
-		<style type="text/css">
+		<style>
 			.hidden {
 				display: none;
 			}
@@ -30,19 +30,27 @@
 <?php else : ?>
 	<?php get_header(); ?>
 <?php endif; ?>
+    <div class="dol-container dol-mx-auto">
 
 	<?php
 	while ( have_posts() ) {
 		the_post();
 
-		if ( ! \Elementor\Plugin::instance()->editor->is_edit_mode() ) {
+		if ( ! isset( $_GET['elementor-preview'] ) && ! is_admin()  ) {
 			wp_enqueue_script( 'dollie-site-content' );
 		}
 
 		$template_id = dollie()->get_site_template_id();
 
+        // if post type is elementor template
+        if ( get_post_type( $template_id ) === 'elementor_library' ) {
+            $shortcode = '[elementor-template id="' . $template_id . '"]';
+        } else {
+            $shortcode = '[dollie-post-data id="' . $template_id . '"]';
+        }
+
 		if ( $template_id ) {
-			echo do_shortcode( '[elementor-template id="' . $template_id . '"]' );
+			echo do_shortcode( $shortcode );
 		}
 
 		if ( dollie()->has_deploying_template() ) {
@@ -50,12 +58,13 @@
 		}
 	}
 	?>
-
+    </div>
 <?php if ( dollie()->has_layout_widget() ) : ?>
 		<?php wp_footer(); ?>
 	</body>
 
 	</html>
 <?php else : ?>
+
 	<?php get_footer(); ?>
 <?php endif; ?>

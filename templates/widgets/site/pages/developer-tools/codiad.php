@@ -13,7 +13,7 @@ if ( empty( $credentials ) ) {
 wp_enqueue_script( 'iframe-resizer' );
 
 $sftp_url   = "sftp://{$credentials['username']}:{$credentials['password']}@{$credentials['ip']}:{$credentials['port']}";
-$codiad_url = "{$container->get_original_url()}/{$credentials['secret']}/codiad}";
+$codiad_url = "{$container->get_url()}/{$credentials['secret']}/codiad}";
 
 ?>
 

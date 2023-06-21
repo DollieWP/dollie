@@ -35,7 +35,7 @@ abstract class Dollie_Setup_Package {
 	 *
 	 * @since 1.1.0
 	 */
-	// protected static $config = array();
+	protected static $config = array();
 
 	/**
 	 * Theme properties.

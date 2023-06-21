@@ -30,6 +30,6 @@ class Hooks extends Singleton {
 
 		add_filter( 'dollie/woo/subscription_product_data', [ $services, 'add_woo_product_resource' ], 10, 3 );
 		add_filter( 'dollie/deploy/meta_input', [ $services, 'add_deploy_meta' ], 10, 2 );
-		add_filter( 'dollie/blueprints/skip_list', [ $services, 'blueprints_skip_from_list' ], 10, 2 );
+		add_filter( 'dollie/blueprints/skip_display_list', [ $services, 'blueprints_skip_from_list' ], 10, 2 );
 	}
 }

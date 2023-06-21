@@ -30,9 +30,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 		add_filter( 'dollie/required_plugins', [ $this, 'required_woocommerce' ] );
 
-
 		add_filter( 'acf/prepare_field_group_for_import', [ $this, 'add_acf_fields' ] );
-
 
 	}
 
@@ -58,7 +56,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			'required'         => true,
 			'version'          => '3.0.10',
 			'force_activation' => false,
-			'source'           => 'https://api.getdollie.com/releases/?action=download&slug=woocommerce-subscriptions',
+			'source'           => 'https://manager.getdollie.com/releases/?action=download&slug=woocommerce-subscriptions',
 		];
 
 		return $plugins;
@@ -70,12 +68,20 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 * @param $order_id
 	 */
 	public function redirect_to_blueprint( $order_id ) {
-		if ( isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) {
-			$order = new \WC_Order( $order_id );
-			if ( 'failed' !== $order->status ) {
-				wp_redirect( dollie()->page()->get_launch_site_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
-				exit;
-			}
+
+		// general setting.
+		if ( ! get_field( 'wpd_override_thank_you_page', 'options' ) ) {
+			return;
+		}
+
+		if ( ! isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) || ! $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) {
+			return;
+		}
+
+		$order = new \WC_Order( $order_id );
+		if ( 'failed' !== $order->status ) {
+			wp_redirect( dollie()->page()->get_launch_site_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
+			exit;
 		}
 	}
 
@@ -260,7 +266,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	}
 
 	/**
-	 * Check if the size limit has been reached
+	 * Woocommerce subscriptions update payments staging
 	 *
 	 * @return bool
 	 */

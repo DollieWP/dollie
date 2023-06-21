@@ -45,10 +45,6 @@ class ComposerStaticInitd74c51878e5e803470637e5220cd7216
         array (
             'Dollie\\Core\\' => 12,
         ),
-        'A' => 
-        array (
-            'Appsero\\' => 8,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -91,10 +87,6 @@ class ComposerStaticInitd74c51878e5e803470637e5220cd7216
         'Dollie\\Core\\' => 
         array (
             0 => __DIR__ . '/../..' . '/core',
-        ),
-        'Appsero\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/appsero/client/src',
         ),
     );
 

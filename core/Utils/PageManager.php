@@ -95,6 +95,19 @@ final class PageManager extends Singleton {
 	}
 
 	/**
+	 * Get site tpl ID
+	 *
+	 * @return integer
+	 */
+	public function get_site_tpl_id(): int {
+		if ( function_exists( 'pll_get_post' ) ) {
+			return (int) pll_get_post( get_option( 'options_wpd_site_template_id' ) );
+		}
+
+		return (int) get_option( 'options_wpd_site_template_id' );
+	}
+
+	/**
 	 * Get launch site URL
 	 *
 	 * @param string $append
@@ -289,12 +302,16 @@ final class PageManager extends Singleton {
 			$post_states['dollie_hub_launch_site'] = __( 'Dollie Hub - Launch Site', 'dollie' );
 		}
 
-		if ( $this->get_launch_blueprint_id() === $post->ID ) {
-			$post_states['dollie_hub_launch_blueprint'] = __( 'Dollie Hub - Launch Blueprint', 'dollie' );
-		}
+//		if ( $this->get_launch_blueprint_id() === $post->ID ) {
+//			$post_states['dollie_hub_launch_blueprint'] = __( 'Dollie Hub - Launch Blueprint', 'dollie' );
+//		}
 
 		if ( $this->get_sites_id() === $post->ID ) {
 			$post_states['dollie_hub_sites'] = __( 'Dollie Hub - Sites', 'dollie' );
+		}
+
+		if ( $this->get_site_tpl_id() === $post->ID ) {
+			$post_states['dollie_hub_site'] = __( 'Dollie Hub - Site Dashboard Template', 'dollie' );
 		}
 
 		if ( $this->get_login_id() === $post->ID ) {

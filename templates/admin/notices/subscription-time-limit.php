@@ -7,7 +7,7 @@
 
 		<?php
 		printf(
-			'<a href="https://cloud.getdollie.com/?redirect=start-your-subscription" class="button button-primary" target="_blank">%s</a>',
+			'<a href="https://control.getdollie.com/?redirect=start-your-subscription" class="button button-primary" target="_blank">%s</a>',
 			esc_html__( 'Start Your Subscription', 'dollie' )
 		);
 
@@ -19,7 +19,7 @@
 
 		printf(
 			'<a href="%s" class="button" target="_blank" style="margin-left: 10px;">%s</a>',
-			esc_url( 'https://cloud.getdollie.com/?redirect=support' ),
+			esc_url( 'https://control.getdollie.com/?redirect=support' ),
 			esc_html__( 'Questions? Talk to Us!', 'dollie' )
 		);
 		?>
