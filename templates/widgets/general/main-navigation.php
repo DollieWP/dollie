@@ -5,6 +5,8 @@ $active_class = [
 	'customers'        => dollie()->page()->is_customers() ? 'dol-nav-active' : '',
 	'dashboard'        => dollie()->page()->is_dashboard() ? 'dol-nav-active' : '',
 	'sites'            => ! isset( $_GET['blueprints'] ) && dollie()->page()->is_sites() ? 'dol-nav-active' : '',
+	'launch-blueprint' => dollie()->page()->is_launch_blueprint() ? 'dol-nav-active' : '',
+	'view-blueprint'   => isset( $_GET['blueprints'] ) && dollie()->page()->is_sites() ? 'dol-nav-active' : '',
 ];
 
 do_action( 'dollie/before/main-menu' );
@@ -23,7 +25,19 @@ do_action( 'dollie/before/main-menu' );
 			</a>
 		</li>
 	<?php endif; ?>
-	
+
+	<?php if ( dollie()->get_user()->can_manage_all_sites() ) : ?>
+		<li class="dol-mb-0">
+			<a href="<?php echo dollie()->page()->get_launch_blueprint_url(); ?>"
+				class="dol-nav-btn <?php echo esc_attr( $active_class['launch-blueprint'] ); ?>">
+				<span class="dol-inline-block dol-text-center dol-w-8">
+					<?php echo dollie()->icon()->blueprint(); ?>
+				</span>
+				<?php echo dollie()->page()->get_launch_blueprint_title(); ?>
+			</a>
+		</li>
+	<?php endif; ?>
+
 	<?php if ( dollie()->page()->get_dashboard_url() ) : ?>
 		<li class="dol-mt-5">
 			<a href="<?php echo dollie()->page()->get_dashboard_url(); ?>"
@@ -56,6 +70,17 @@ do_action( 'dollie/before/main-menu' );
 					<?php echo dollie()->icon()->live_site(); ?>
 				</span>
 				<?php echo dollie()->page()->get_sites_title(); ?>
+			</a>
+		</li>
+	<?php endif; ?>
+		<?php if ( dollie()->get_user()->can_manage_all_sites() ) : ?>
+		<li class="dol-m-0">
+			<a href="<?php echo dollie()->page()->get_sites_url( '', [ 'blueprints' => 'yes' ] ); ?>"
+				class="dol-nav-btn <?php echo esc_attr( $active_class['view-blueprint'] ); ?>">
+				<span class="dol-inline-block dol-text-center dol-w-8">
+					<?php echo dollie()->icon()->blueprint(); ?>
+				</span>
+				<?php esc_html_e( 'Blueprints', 'dollie' ); ?>
 			</a>
 		</li>
 	<?php endif; ?>

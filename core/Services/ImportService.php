@@ -28,7 +28,7 @@ final class ImportService extends Singleton implements ConstInterface {
 		$imported_ids   = [];
 		$template_pages = [
 			'wpd_launch_page_id',
-			//'wpd_launch_blueprint_page_id',
+			'wpd_launch_blueprint_page_id',
 			'wpd_dashboard_page_id',
 			'wpd_customers_page_id',
 			'wpd_login_page_id',
