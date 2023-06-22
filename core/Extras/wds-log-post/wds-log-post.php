@@ -117,7 +117,7 @@ class WDS_Log_Post {
 	 * @since 0.2.1
 	 */
 	protected static $config = array(
-		'show_timestamps' => false,
+		'show_timestamps' => true,
 		'append_logs'     => true,
 	);
 
@@ -466,20 +466,9 @@ class WDS_Log_Post {
 			 *
 			 * @param bool $require_terms Whether terms are required to be pre-defined.
 			 */
-			if ( apply_filters( 'wds_log_' . str_replace( '-' , '_', $posttype ) . '_require_defined_terms', true ) ) {
-				$terms = array();
-				foreach ( $term_slug as $term_lookup ) {
-					$term = get_term_by( 'slug', $term_lookup, $self->custom_taxonomy->taxonomy );
 
-					if ( false === $term ) {
-						error_log( sprintf( __( __CLASS__ . ': Could not find term %s for post_type %s' ), $term_lookup, $posttype ) );
-					}
+			$terms = $term_slug;
 
-					$terms[] = $term->term_id;
-				}
-			} else {
-				$terms = $term_slug;
-			}
 
 			if ( count( $terms ) ) {
 				wp_set_object_terms( $log_post_id, $terms, $self->custom_taxonomy->taxonomy );

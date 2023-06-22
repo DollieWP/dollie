@@ -43,10 +43,10 @@ class WDSLP_Custom_Taxonomy {
 		$args = array(
 			'label'             => __( 'Log Type' ),
 			'public'            => false,
-			'show_ui'           => false,
-			'show_in_menu'      => false,
+			'show_ui'           => true,
+			'show_in_menu'      => true,
 			'show_in_nav_menu'  => false,
-			'show_admin_column' => false,
+			'show_admin_column' => true,
 		);
 
 		/**
