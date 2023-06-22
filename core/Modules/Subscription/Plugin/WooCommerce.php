@@ -16,7 +16,7 @@ use Dollie\Core\Singleton;
 class WooCommerce extends Singleton implements SubscriptionInterface {
 
 	const
-		SUB_STATUS_ANY = 'any',
+		SUB_STATUS_ANY    = 'any',
 		SUB_STATUS_ACTIVE = 'active';
 
 	/**
@@ -24,14 +24,14 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 */
 	public function __construct() {
 
-		add_action( 'init', [ $this, 'enable_automatic_payments' ] );
-		add_action( 'woocommerce_thankyou', [ $this, 'redirect_to_blueprint' ] );
-		add_action( 'after_setup_theme', [ $this, 'add_theme_support' ] );
+		add_action( 'init', array( $this, 'enable_automatic_payments' ) );
+		add_action( 'woocommerce_thankyou', array( $this, 'redirect_to_blueprint' ) );
+		add_action( 'woocommerce_order_status_completed', array( $this, 'add_user_to_group_on_purchase' ), 10, 1 );
+		add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );
 
-		add_filter( 'dollie/required_plugins', [ $this, 'required_woocommerce' ] );
+		add_filter( 'dollie/required_plugins', array( $this, 'required_woocommerce' ) );
 
-		add_filter( 'acf/prepare_field_group_for_import', [ $this, 'add_acf_fields' ] );
-
+		add_filter( 'acf/prepare_field_group_for_import', array( $this, 'add_acf_fields' ) );
 	}
 
 	/**
@@ -42,22 +42,22 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	 * @return array
 	 */
 	public function required_woocommerce( $plugins ) {
-		$plugins[] = [
+		$plugins[] = array(
 			'name'             => 'WooCommerce',
 			'slug'             => 'woocommerce',
 			'required'         => true,
 			'version'          => '',
 			'force_activation' => false,
-		];
+		);
 
-		$plugins[] = [
+		$plugins[] = array(
 			'name'             => 'WooCommerce Subscriptions',
 			'slug'             => 'woocommerce-subscriptions',
 			'required'         => true,
 			'version'          => '3.0.10',
 			'force_activation' => false,
 			'source'           => 'https://manager.getdollie.com/releases/?action=download&slug=woocommerce-subscriptions',
-		];
+		);
 
 		return $plugins;
 	}
@@ -110,17 +110,17 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			return '#';
 		}
 
-		$link_args = [
+		$link_args = array(
 			'add-to-cart'  => $args['product_id'],
 			'blueprint_id' => $args['blueprint_id'],
-		];
+		);
 
 		if ( method_exists( $product_obj, 'get_type' ) && $product_obj->get_type() === 'variable-subscription' ) {
 			$default_atts = $product_obj->get_default_attributes();
 
 			if ( isset( $default_atts['pa_subscription'] ) ) {
 				$data_store                = \WC_Data_Store::load( 'product' );
-				$default_variation         = $data_store->find_matching_product_variation( $product_obj, [ 'attribute_pa_subscription' => $default_atts['pa_subscription'] ] );
+				$default_variation         = $data_store->find_matching_product_variation( $product_obj, array( 'attribute_pa_subscription' => $default_atts['pa_subscription'] ) );
 				$link_args['variation_id'] = $default_variation;
 			}
 		}
@@ -136,7 +136,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	/**
 	 * Get subscriptions for customer
 	 *
-	 * @param string $status
+	 * @param string   $status
 	 * @param null|int $customer_id
 	 *
 	 * @return array|bool
@@ -160,24 +160,24 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		}
 
 		$subscriptions = wcs_get_subscriptions(
-			[
+			array(
 				'customer_id'         => $customer_id,
 				'subscription_status' => $status,
-			]
+			)
 		);
 
 		if ( ! is_array( $subscriptions ) || empty( $subscriptions ) ) {
 			return false;
 		}
 
-		$data = [
-			'plans'     => [],
-			'resources' => [
+		$data = array(
+			'plans'     => array(),
+			'resources' => array(
 				'max_allowed_installs' => 0,
 				'max_allowed_size'     => 0,
 				'staging_max_allowed'  => 0,
-			],
-		];
+			),
+		);
 
 		foreach ( $subscriptions as $subscription_id => $subscription ) {
 			// Getting the subscription Order ID.
@@ -215,19 +215,19 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 					$max_size = 0;
 				}
 
-				$data['plans']['products'][ $id ] = [
+				$data['plans']['products'][ $id ] = array(
 					'name'                => $item_data['name'],
 					'installs'            => $installs,
 					'max_size'            => $max_size,
 					'included_blueprints' => get_field( '_wpd_included_blueprints', $id ),
 					'excluded_blueprints' => get_field( '_wpd_excluded_blueprints', $id ),
-				];
+				);
 
 				$quantity = $item_data['quantity'] ? (int) $item_data['quantity'] : 1;
 
 				$data['resources']['max_allowed_installs'] += $installs * $quantity;
 				$data['resources']['max_allowed_size']     += $max_size * $quantity;
-				$data['resources']['name']                 = $item_data['name'];
+				$data['resources']['name']                  = $item_data['name'];
 				$data['resources']['staging_max_allowed']  += $staging * $quantity;
 
 				$data = apply_filters( 'dollie/woo/subscription_product_data', $data, $customer_id, $id );
@@ -277,8 +277,45 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		}
 	}
 
+	public function add_user_to_group_on_purchase( $order_id ) {
+		// Get the order object
+		$order = wc_get_order( $order_id );
+
+		// Get the user ID from the order
+		$user_id = $order->get_user_id();
+
+		// Loop through order items
+		foreach ( $order->get_items() as $item_id => $item ) {
+			// Get the product ID
+			$product_id = $item->get_product_id();
+
+			// Get the group ID from the ACF field on the product
+			$group_id_array = get_field( 'wpd_group_users', $product_id );
+
+			// Check if group ID was found
+			if ( $group_id_array ) {
+				// Get the first group ID
+				$group_id = $group_id_array[0];
+
+				// Get instance of Hooks class
+				$hooks = \Dollie\Core\Modules\AccessGroups\Hooks::instance();
+
+				// Add user to the access group
+				$hooks->add_to_access_group(
+					$group_id,                // Group ID
+					$user_id,        // User IDs
+					'WooCommerce',            // Source
+					'WooCommerce', // Log type
+					'User added to group on purchase of product ' . get_the_title( $product_id ) . '.'
+				);
+			}
+		}
+	}
+
+
+
 	public function add_acf_fields( $field_group ) {
-		$fields = [
+		$fields = array(
 			array(
 				'key'           => 'field_5b0578b4639a6',
 				'label'         => __( 'Link to Hosting Product', 'dollie' ),
@@ -307,10 +344,8 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 				'max'           => 1,
 				'return_format' => 'id',
 			),
-		];
+		);
 
 		return dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5affdcd76c8d1', 'wpd_installation_blueprint_description', 'after' );
-
 	}
-
 }
