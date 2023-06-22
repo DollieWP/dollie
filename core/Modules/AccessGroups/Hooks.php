@@ -47,14 +47,17 @@ class Hooks extends Singleton {
 			$current_users = array();
 		}
 
-		$updated_users = array_unique(array_merge($current_users, $user_ids));
+		// New users are those in the input that aren't already in the group
+		$new_users = array_diff($user_ids, $current_users);
+
+		$updated_users = array_unique(array_merge($current_users, $new_users));
 		update_field('wpd_group_users', $updated_users, $group_id);
 
 		// Get group (post) title
 		$group_title = get_the_title($group_id);
 
-		// Iterate over the added users to get their details
-		foreach ($updated_users as $userid) {
+		// Iterate over the new users to get their details
+		foreach ($new_users as $userid) {
 			$user_info = get_userdata($userid);
 			$username = $user_info->user_login;
 			$useremail = $user_info->user_email;
@@ -76,12 +79,9 @@ class Hooks extends Singleton {
 				);
 			}
 
-			//Log::add($log_message, $log_message, strval($group_id));
 			\WDS_Log_Post::log_message( 'dollie-logs', $log_message, '', strval($group_id) );
 		}
 	}
-
-
 
 	public function remove_from_access_group($group_id, $user_ids, $source = null) {
 		if(!is_array($user_ids)) {
@@ -95,14 +95,17 @@ class Hooks extends Singleton {
 			return;
 		}
 
-		$updated_users = array_diff($current_users, $user_ids);
+		// Users to remove are those in both the input and the group
+		$users_to_remove = array_intersect($user_ids, $current_users);
+
+		$updated_users = array_diff($current_users, $users_to_remove);
 		update_field('wpd_group_users', $updated_users, $group_id);
 
 		// Get group (post) title
 		$group_title = get_the_title($group_id);
 
-		// Iterate over the removed users to get their details
-		foreach ($user_ids as $userid) {
+		// Iterate over the users to remove to get their details
+		foreach ($users_to_remove as $userid) {
 			$user_info = get_userdata($userid);
 			$username = $user_info->user_login;
 			$useremail = $user_info->user_email;
