@@ -27,6 +27,10 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		add_action( 'init', array( $this, 'enable_automatic_payments' ) );
 		add_action( 'woocommerce_thankyou', array( $this, 'redirect_to_blueprint' ) );
 		add_action( 'woocommerce_order_status_completed', array( $this, 'add_user_to_group_on_purchase' ), 10, 1 );
+		add_action( 'woocommerce_subscription_status_active', array( $this, 'add_user_to_group_on_purchase' ), 10, 1 );
+		add_action( 'woocommerce_subscription_status_cancelled', array( $this, 'remove_user_from_group_on_subscription_cancel' ), 10, 1 );
+		add_action( 'woocommerce_subscription_status_pending-cancel', array( $this, 'remove_user_from_group_on_subscription_cancel' ), 10, 1 );
+
 		add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );
 
 		add_filter( 'dollie/required_plugins', array( $this, 'required_woocommerce' ) );
@@ -311,6 +315,39 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 			}
 		}
 	}
+
+
+
+	public function remove_user_from_group_on_subscription_cancel( $subscription ) {
+
+		$user_id = $subscription->get_user_id();
+		foreach ( $subscription->get_items() as $item_id => $item ) {
+			// Get the product ID
+			$product_id = $item->get_product_id();
+
+			// Get the group ID from the ACF field on the product
+			$group_id_array = get_field( 'wpd_group_users', $product_id );
+
+			// Check if group ID was found
+			if ( $group_id_array ) {
+				// Get the first group ID
+				$group_id = $group_id_array[0];
+
+				// Get instance of Hooks class
+				$hooks = \Dollie\Core\Modules\AccessGroups\Hooks::instance();
+
+				// Add user to the access group
+				$hooks->remove_from_access_group(
+					$group_id,                // Group ID
+					$user_id,        // User IDs
+					'WooCommerce',            // Source
+					'WooCommerce', // Log type
+					'User removed from group on subscription cancel for ' . get_the_title( $product_id ) . '.'
+				);
+			}
+		}
+	}
+
 
 
 
