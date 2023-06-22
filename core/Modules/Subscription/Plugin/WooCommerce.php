@@ -206,10 +206,10 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 				$group_id = $group_id_array[0];
 
 				// Get instance of Hooks class
-				$hooks = \Dollie\Core\Modules\AccessGroups\Hooks::instance();
+				$access = \Dollie\Core\Modules\AccessGroups\AccessGroups::instance();
 
 				// Add user to the access group
-				$hooks->add_to_access_group(
+				$access->add_to_access_group(
 					$group_id,                // Group ID
 					$user_id,        // User IDs
 					'WooCommerce',            // Source
@@ -238,7 +238,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 				$group_id = $group_id_array[0];
 
 				// Get instance of Hooks class
-				$hooks = \Dollie\Core\Modules\AccessGroups\Hooks::instance();
+				$hooks = \Dollie\Core\Modules\AccessGroups\AccessGroups::instance();
 
 				// Add user to the access group
 				$hooks->remove_from_access_group(

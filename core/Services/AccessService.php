@@ -11,87 +11,90 @@ use Dollie\Core\Singleton;
 final class AccessService extends Singleton {
 
 	/**
-	* Allow only logged in users
-	*
-	* @return void
-	*/
+	 * Allow only logged in users
+	 *
+	 * @return void
+	 */
 	public function register_access_groups_cpt() {
 			/**
 			* Post Type: Hub Access Groups.
 			*/
-			$labels = [
-				"name" => __( "Hub Access Groups", "hello-dollie" ),
-				"singular_name" => __( "Hub Access Group", "hello-dollie" ),
-				"menu_name" => __( "Hub Access", "hello-dollie" ),
-				"all_items" => __( "Access Groups", "hello-dollie" ),
-				"add_new" => __( "Add Access Group", "hello-dollie" ),
-				"add_new_item" => __( "New Hub Access Group", "hello-dollie" ),
-				"edit_item" => __( "Edit Hub Access Group", "hello-dollie" ),
-				"new_item" => __( "New Hub Access Group", "hello-dollie" ),
-				"view_item" => __( "View Hub Access Group", "hello-dollie" ),
-				"view_items" => __( "View Hub Access Groups", "hello-dollie" ),
-				"search_items" => __( "Search Hub Access Groups", "hello-dollie" ),
-				"not_found" => __( "No Hub Access Groups found", "hello-dollie" ),
-				"not_found_in_trash" => __( "No Hub Access Groups found in trash", "hello-dollie" ),
-				"parent" => __( "Parent Hub Access Group:", "hello-dollie" ),
-				"featured_image" => __( "Featured image for this Hub Access Group", "hello-dollie" ),
-				"set_featured_image" => __( "Set featured image for this Hub Access Group", "hello-dollie" ),
-				"remove_featured_image" => __( "Remove featured image for this Hub Access Group", "hello-dollie" ),
-				"use_featured_image" => __( "Use as featured image for this Hub Access Group", "hello-dollie" ),
-				"archives" => __( "Hub Access Group archives", "hello-dollie" ),
-				"insert_into_item" => __( "Insert into Hub Access Group", "hello-dollie" ),
-				"uploaded_to_this_item" => __( "Upload to this Hub Access Group", "hello-dollie" ),
-				"filter_items_list" => __( "Filter Hub Access Groups list", "hello-dollie" ),
-				"items_list_navigation" => __( "Hub Access Groups list navigation", "hello-dollie" ),
-				"items_list" => __( "Hub Access Groups list", "hello-dollie" ),
-				"attributes" => __( "Hub Access Groups attributes", "hello-dollie" ),
-				"name_admin_bar" => __( "Hub Access Group", "hello-dollie" ),
-				"item_published" => __( "Hub Access Group published", "hello-dollie" ),
-				"item_published_privately" => __( "Hub Access Group published privately.", "hello-dollie" ),
-				"item_reverted_to_draft" => __( "Hub Access Group reverted to draft.", "hello-dollie" ),
-				"item_scheduled" => __( "Hub Access Group scheduled", "hello-dollie" ),
-				"item_updated" => __( "Hub Access Group updated.", "hello-dollie" ),
-				"parent_item_colon" => __( "Parent Hub Access Group:", "hello-dollie" ),
-			];
+			$labels = array(
+				'name'                     => __( 'Hub Access Groups', 'hello-dollie' ),
+				'singular_name'            => __( 'Hub Access Group', 'hello-dollie' ),
+				'menu_name'                => __( 'Hub Access', 'hello-dollie' ),
+				'all_items'                => __( 'Access Groups', 'hello-dollie' ),
+				'add_new'                  => __( 'Add Access Group', 'hello-dollie' ),
+				'add_new_item'             => __( 'New Hub Access Group', 'hello-dollie' ),
+				'edit_item'                => __( 'Edit Hub Access Group', 'hello-dollie' ),
+				'new_item'                 => __( 'New Hub Access Group', 'hello-dollie' ),
+				'view_item'                => __( 'View Hub Access Group', 'hello-dollie' ),
+				'view_items'               => __( 'View Hub Access Groups', 'hello-dollie' ),
+				'search_items'             => __( 'Search Hub Access Groups', 'hello-dollie' ),
+				'not_found'                => __( 'No Hub Access Groups found', 'hello-dollie' ),
+				'not_found_in_trash'       => __( 'No Hub Access Groups found in trash', 'hello-dollie' ),
+				'parent'                   => __( 'Parent Hub Access Group:', 'hello-dollie' ),
+				'featured_image'           => __( 'Featured image for this Hub Access Group', 'hello-dollie' ),
+				'set_featured_image'       => __( 'Set featured image for this Hub Access Group', 'hello-dollie' ),
+				'remove_featured_image'    => __( 'Remove featured image for this Hub Access Group', 'hello-dollie' ),
+				'use_featured_image'       => __( 'Use as featured image for this Hub Access Group', 'hello-dollie' ),
+				'archives'                 => __( 'Hub Access Group archives', 'hello-dollie' ),
+				'insert_into_item'         => __( 'Insert into Hub Access Group', 'hello-dollie' ),
+				'uploaded_to_this_item'    => __( 'Upload to this Hub Access Group', 'hello-dollie' ),
+				'filter_items_list'        => __( 'Filter Hub Access Groups list', 'hello-dollie' ),
+				'items_list_navigation'    => __( 'Hub Access Groups list navigation', 'hello-dollie' ),
+				'items_list'               => __( 'Hub Access Groups list', 'hello-dollie' ),
+				'attributes'               => __( 'Hub Access Groups attributes', 'hello-dollie' ),
+				'name_admin_bar'           => __( 'Hub Access Group', 'hello-dollie' ),
+				'item_published'           => __( 'Hub Access Group published', 'hello-dollie' ),
+				'item_published_privately' => __( 'Hub Access Group published privately.', 'hello-dollie' ),
+				'item_reverted_to_draft'   => __( 'Hub Access Group reverted to draft.', 'hello-dollie' ),
+				'item_scheduled'           => __( 'Hub Access Group scheduled', 'hello-dollie' ),
+				'item_updated'             => __( 'Hub Access Group updated.', 'hello-dollie' ),
+				'parent_item_colon'        => __( 'Parent Hub Access Group:', 'hello-dollie' ),
+			);
 
-			$args = [
-				"label" => __( "Hub Access Groups", "hello-dollie" ),
-				"labels" => $labels,
-				"description" => "",
-				"public" => true,
-				"publicly_queryable" => false,
-				"show_ui" => true,
-				"show_in_rest" => true,
-				"menu_position" => 1,
-				"rest_base" => "dollie_access_group",
-				"rest_controller_class" => "WP_REST_Posts_Controller",
-				"rest_namespace" => "dollie",
-				"has_archive" => false,
-				"show_in_menu" => true,
-				"show_in_nav_menus" => true,
-				"delete_with_user" => false,
-				"exclude_from_search" => true,
-				"capability_type" => "post",
-				"map_meta_cap" => true,
-				"hierarchical" => false,
-				"can_export" => true,
-				"rewrite" => [ "slug" => "dollie-access-groups", "with_front" => true ],
-				"query_var" => true,
-				"menu_icon" => "dashicons-groups",
-				"supports" => [ "title", "thumbnail", "revisions" ],
-				"show_in_graphql" => false,
-			];
+			$args = array(
+				'label'                 => __( 'Hub Access Groups', 'hello-dollie' ),
+				'labels'                => $labels,
+				'description'           => '',
+				'public'                => true,
+				'publicly_queryable'    => false,
+				'show_ui'               => true,
+				'show_in_rest'          => true,
+				'menu_position'         => 1,
+				'rest_base'             => 'dollie_access_group',
+				'rest_controller_class' => 'WP_REST_Posts_Controller',
+				'rest_namespace'        => 'dollie',
+				'has_archive'           => false,
+				'show_in_menu'          => true,
+				'show_in_nav_menus'     => true,
+				'delete_with_user'      => false,
+				'exclude_from_search'   => true,
+				'capability_type'       => 'post',
+				'map_meta_cap'          => true,
+				'hierarchical'          => false,
+				'can_export'            => true,
+				'rewrite'               => array(
+					'slug'       => 'dollie-access-groups',
+					'with_front' => true,
+				),
+				'query_var'             => true,
+				'menu_icon'             => 'dashicons-groups',
+				'supports'              => array( 'title', 'thumbnail', 'revisions' ),
+				'show_in_graphql'       => false,
+			);
 
-			register_post_type( "dollie-access-groups", $args );
+			register_post_type( 'dollie-access-groups', $args );
 	}
 
 	/**
 	 * Custom capabilities of custom post type
 	 */
-	private static $custom_caps = [
+	private static $custom_caps = array(
 		'singular' => 'wpd_site',
 		'plural'   => 'wpd_sites',
-	];
+	);
 
 	/**
 	 * Filter sites for current author
@@ -157,44 +160,44 @@ final class AccessService extends Singleton {
 		$singular = self::$custom_caps['singular'];
 		$plural   = self::$custom_caps['plural'];
 
-		$view        = [
+		$view        = array(
 			"read_{$singular}",
-		];
-		$view_others = [
+		);
+		$view_others = array(
 			"read_private_{$plural}",
-		];
+		);
 
-		$update        = [
+		$update        = array(
 			"edit_{$singular}",
 			"edit_{$plural}",
 			"publish_{$plural}",
 			"edit_published_{$plural}",
-		];
-		$update_others = [
+		);
+		$update_others = array(
 			"edit_others_{$plural}",
 			"edit_private_{$plural}",
-		];
+		);
 
-		$delete = [
+		$delete = array(
 			"delete_{$singular}",
 			"delete_{$plural}",
 			"delete_published_{$plural}",
-		];
+		);
 
-		$delete_others = [
+		$delete_others = array(
 			"delete_private_{$plural}",
 			"delete_others_{$plural}",
-		];
+		);
 
 		$all = array_merge( $view, $view_others, $update, $update_others, $delete, $delete_others );
 
-		$default_mappings = [
+		$default_mappings = array(
 			'subscriber'    => $view,
 			'author'        => array_merge( $view, $update, $delete ),
 			'editor'        => array_merge( $view, $update, $delete ),
 			'customer'      => array_merge( $view, $update, $delete ),
 			'administrator' => $all,
-		];
+		);
 
 		// Get role settings.
 		$settings_view   = get_option( 'options_wpd_view_sites_permission' );
@@ -202,13 +205,13 @@ final class AccessService extends Singleton {
 		$settings_delete = get_option( 'options_delete_sites_permission' );
 
 		if ( empty( $settings_view ) ) {
-			$settings_view = [];
+			$settings_view = array();
 		}
 		if ( empty( $settings_update ) ) {
-			$settings_update = [];
+			$settings_update = array();
 		}
 		if ( empty( $settings_delete ) ) {
-			$settings_delete = [];
+			$settings_delete = array();
 		}
 
 		$roles = $this->get_roles();
@@ -217,7 +220,7 @@ final class AccessService extends Singleton {
 		foreach ( $roles as $wp_role => $wp_role_name ) {
 			// init role
 			if ( ! isset( $default_mappings[ $wp_role ] ) ) {
-				$default_mappings[ $wp_role ] = [];
+				$default_mappings[ $wp_role ] = array();
 			}
 
 			// View
@@ -268,7 +271,6 @@ final class AccessService extends Singleton {
 		}
 
 		update_option( $option_name, 1 );
-
 	}
 
 	/**
@@ -299,14 +301,14 @@ final class AccessService extends Singleton {
 		$default_access_settings = get_field( 'available_sections', 'option' );
 
 		// Get customer developer features
-		$hooks = \Dollie\Core\Modules\AccessGroups\Hooks::instance();
+		$hooks                       = \Dollie\Core\Modules\AccessGroups\AccessGroups::instance();
 		$customer_developer_features = $hooks->get_customer_site_features();
 
 		// Merge default and customer settings
-		$available_sections_array = array_merge($default_access_settings, $customer_developer_features);
+		$available_sections_array = array_merge( $default_access_settings, $customer_developer_features );
 
 		// Remove duplicates
-		$available_sections_array = array_unique($available_sections_array);
+		$available_sections_array = array_unique( $available_sections_array );
 
 		if ( get_field( 'wpd_enable_blueprints_for', 'option' ) === 'all' && ! $user->can_manage_all_sites() ) {
 			$available_sections_array = array_filter(
@@ -317,7 +319,7 @@ final class AccessService extends Singleton {
 			);
 		}
 
-		if (!in_array('staging', $available_sections_array)) {
+		if ( ! in_array( 'staging', $available_sections_array ) ) {
 			$available_sections_array[] = 'staging';
 		}
 

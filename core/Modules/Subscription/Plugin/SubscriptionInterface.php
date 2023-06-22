@@ -17,5 +17,4 @@ interface SubscriptionInterface {
 	public function get_checkout_link( $args );
 	public function get_customer_subscriptions( $status = null, $customer_id = null );
 	public function has_bought_product( $user_id = 0 );
-
 }

@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Modules\Subscription\Subscription;
 use Dollie\Core\Modules\Vip\Hooks as VipHooks;
-use Dollie\Core\Modules\AccessGroups\Hooks as AccessHooks;
+use Dollie\Core\Modules\AccessGroups\AccessGroups as AccessGroups;
 use Dollie\Core\Modules\WooCommerce;
 use Dollie\Core\Modules\Logging;
 use Dollie\Core\Modules\Forms;
@@ -51,16 +51,16 @@ class Plugin extends Singleton {
 
 		Admin::instance();
 
-		add_action( 'plugins_loaded', [ $this, 'load_early_dependencies' ], - 10 );
-		add_action( 'plugins_loaded', [ $this, 'load_dependencies' ], 0 );
+		add_action( 'plugins_loaded', array( $this, 'load_early_dependencies' ), - 10 );
+		add_action( 'plugins_loaded', array( $this, 'load_dependencies' ), 0 );
 
-		add_action( 'plugins_loaded', [ $this, 'initialize' ] );
-		add_action( 'acf/init', [ $this, 'acf_add_local_field_groups' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'load_resources' ], 12 );
-		add_action( 'route_login_redirect', [ $this, 'load_login_route' ] );
-		add_action( 'route_preview', [ $this, 'load_preview_route' ] );
-		add_action( 'route_wizard', [ $this, 'load_wizard_route' ] );
-		add_action( 'route_remote_data', [ HubDataService::instance(), 'load_route' ] );
+		add_action( 'plugins_loaded', array( $this, 'initialize' ) );
+		add_action( 'acf/init', array( $this, 'acf_add_local_field_groups' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'load_resources' ), 12 );
+		add_action( 'route_login_redirect', array( $this, 'load_login_route' ) );
+		add_action( 'route_preview', array( $this, 'load_preview_route' ) );
+		add_action( 'route_wizard', array( $this, 'load_wizard_route' ) );
+		add_action( 'route_remote_data', array( HubDataService::instance(), 'load_route' ) );
 	}
 
 	/**
@@ -75,9 +75,9 @@ class Plugin extends Singleton {
 	 */
 	public function load_dependencies() {
 
-		//Hide Menu when ACF is not installed and using the bundled version
-		if ( ! defined( 'DOLLIE_DEV') && ! class_exists( 'ACF' ) ) {
-			add_filter('acf/settings/show_admin', '__return_false');
+		// Hide Menu when ACF is not installed and using the bundled version
+		if ( ! defined( 'DOLLIE_DEV' ) && ! class_exists( 'ACF' ) ) {
+			add_filter( 'acf/settings/show_admin', '__return_false' );
 		}
 
 		// load ACF as fallback.
@@ -122,12 +122,12 @@ class Plugin extends Singleton {
 			}
 		}
 
-		//Custom plugin updates.
+		// Custom plugin updates.
 		if ( file_exists( DOLLIE_CORE_PATH . 'Extras/plugin-update-checker/plugin-update-checker.php' ) ) {
 			require DOLLIE_CORE_PATH . 'Extras/plugin-update-checker/plugin-update-checker.php';
 			PucFactory::buildUpdateChecker(
 				'https://control.getdollie.com/releases/?action=get_metadata&slug=dollie',
-				DOLLIE_FILE, //Full path to the main plugin file or functions.php.
+				DOLLIE_FILE, // Full path to the main plugin file or functions.php.
 				'dollie'
 			);
 		}
@@ -157,7 +157,7 @@ class Plugin extends Singleton {
 		WooCommerce::instance();
 		Subscription::instance();
 		VipHooks::instance();
-		AccessHooks::instance();
+		AccessGroups::instance();
 
 		// Hooks.
 		AccessControl::instance();
@@ -222,21 +222,21 @@ class Plugin extends Singleton {
 		wp_enqueue_style(
 			'dollie-base',
 			DOLLIE_ASSETS_URL . 'css/dollie' . $min . '.css',
-			[],
+			array(),
 			DOLLIE_VERSION
 		);
 
 		wp_enqueue_style(
 			'dollie-tooltips',
 			DOLLIE_ASSETS_URL . 'css/dollie-tooltips.css',
-			[],
+			array(),
 			DOLLIE_VERSION
 		);
 
 		wp_register_script(
 			'dollie-layout-alpine',
 			DOLLIE_ASSETS_URL . 'js/alpine.min.js',
-			[],
+			array(),
 			DOLLIE_VERSION,
 			true
 		);
@@ -244,7 +244,7 @@ class Plugin extends Singleton {
 		wp_enqueue_script(
 			'dollie-tooltips',
 			DOLLIE_ASSETS_URL . 'js/dollie-tooltips.js',
-			[],
+			array(),
 			DOLLIE_VERSION,
 			true
 		);
@@ -252,7 +252,7 @@ class Plugin extends Singleton {
 		wp_enqueue_script(
 			'dollie-global',
 			DOLLIE_ASSETS_URL . 'js/dollie-global.js',
-			[],
+			array(),
 			DOLLIE_VERSION,
 			true
 		);
@@ -260,7 +260,7 @@ class Plugin extends Singleton {
 		wp_register_script(
 			'dollie-site-content',
 			DOLLIE_ASSETS_URL . 'js/widgets/site-content.js',
-			[],
+			array(),
 			DOLLIE_VERSION,
 			true
 		);
@@ -268,7 +268,7 @@ class Plugin extends Singleton {
 		wp_register_script(
 			'dollie-launch-dynamic-data',
 			DOLLIE_ASSETS_URL . 'js/launch-dynamic-data.js',
-			[ 'jquery' ],
+			array( 'jquery' ),
 			DOLLIE_VERSION,
 			true
 		);
@@ -276,7 +276,7 @@ class Plugin extends Singleton {
 		wp_register_script(
 			'dollie-site-list',
 			DOLLIE_ASSETS_URL . 'js/widgets/sites-list.js',
-			[],
+			array(),
 			DOLLIE_VERSION,
 			true
 		);
@@ -284,10 +284,10 @@ class Plugin extends Singleton {
 		wp_localize_script(
 			'dollie-launch-dynamic-data',
 			'wpdDynamicData',
-			[
+			array(
 				'ajaxurl'                => admin_url( '/admin-ajax.php' ),
 				'validationErrorMessage' => __( 'Please fill in the Realtime Customizer fields.', 'dollie' ),
-			]
+			)
 		);
 	}
 
@@ -297,11 +297,11 @@ class Plugin extends Singleton {
 	private function load_routes() {
 		$router = new Router( 'dollie_route_name' );
 
-		$routes = [
+		$routes = array(
 			'dollie_login_redirect' => new Route( '/site_login_redirect', 'route_login_redirect' ),
 			'dollie_wizard'         => new Route( '/wizard', 'route_wizard' ),
 			'dollie_remote'         => new Route( '/dollie_remote', 'route_remote_data' ),
-		];
+		);
 
 		if ( get_option( 'options_wpd_enable_site_preview', 1 ) ) {
 			$routes['dollie_preview'] = new Route( '/' . dollie()->get_preview_url( 'path' ), 'route_preview' );
@@ -346,7 +346,7 @@ class Plugin extends Singleton {
 	 * @return void
 	 */
 	public function load_preview_route() {
-		dollie()->load_template( 'preview', [], true );
+		dollie()->load_template( 'preview', array(), true );
 		exit;
 	}
 
@@ -356,7 +356,7 @@ class Plugin extends Singleton {
 	 * @return void
 	 */
 	public function load_wizard_route() {
-		dollie()->load_template( 'wizard', [], true );
+		dollie()->load_template( 'wizard', array(), true );
 		exit;
 	}
 }

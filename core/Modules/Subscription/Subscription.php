@@ -41,7 +41,6 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			throw new \Exception( 'Invalid subscription plugin' );
 		}
 
-		add_action( 'acf/init', array( $this, 'load_acf' ) );
 		add_filter( 'dollie/blueprints', array( $this, 'filter_blueprints' ) );
 	}
 
@@ -59,14 +58,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		return $subscription_plugin;
 	}
 
-	/**
-	 * Load ACF
-	 *
-	 * @return void
-	 */
-	public function load_acf() {
-		require DOLLIE_CORE_PATH . 'Modules/Subscription/Plugin/acf-fields/acf-fields.php';
-	}
+
 
 	public function redirect_to_blueprint( $id ) {
 		$this->module->redirect_to_blueprint( $id );
@@ -82,7 +74,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		_deprecated_function( __METHOD__, '1.0', 'Dollie\Core\Modules\AccessGroups::get_customer_access_details()' );
 
 		// Create a new instance of the AccessGroups class
-		$access_groups = \Dollie\Core\Modules\AccessGroups\Hooks::instance();
+		$access_groups = \Dollie\Core\Modules\AccessGroups\AccessGroups::instance();
 
 		// Call the new function
 		return $access_groups->get_customer_access_details( $status, $customer_id );
@@ -119,6 +111,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
+		// Overwritten by Custom User Value
 		$is_custom = get_field( '_wpd_installs', 'user_' . $customer_id );
 
 		if ( ! empty( $is_custom ) && is_numeric( $is_custom ) && $is_custom > 0 ) {
@@ -308,7 +301,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	}
 
 	/**
-	 * Check if user has staing
+	 * Check if user has staging
 	 *
 	 * @param null|int $user_id
 	 *
