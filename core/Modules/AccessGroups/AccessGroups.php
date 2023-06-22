@@ -26,6 +26,7 @@ class AccessGroups extends Singleton {
 
 		$this->pmp_name = 'Paid Memberships Pro';
 
+		add_action( 'init', array( $this, 'register_access_groups_cpt' ) );
 		// add the membership level change hook.
 		add_action( 'pmpro_after_change_membership_level', array( $this, 'after_change_membership_level' ), 10, 2 );
 		add_action( 'init', array( $this, 'create_access_group_terms' ) );
@@ -39,6 +40,85 @@ class AccessGroups extends Singleton {
 			add_action( 'pmpro_after_change_membership_level', array( $this, 'after_change_membership_level' ), 10, 2 );
 		}
 	}
+
+	/**
+	 * Allow only logged in users
+	 *
+	 * @return void
+	 */
+	public function register_access_groups_cpt() {
+			/**
+			* Post Type: Hub Access Groups.
+			*/
+			$labels = array(
+				'name'                     => __( 'Hub Access Groups', 'hello-dollie' ),
+				'singular_name'            => __( 'Hub Access Group', 'hello-dollie' ),
+				'menu_name'                => __( 'Hub Access', 'hello-dollie' ),
+				'all_items'                => __( 'Access Groups', 'hello-dollie' ),
+				'add_new'                  => __( 'Add Access Group', 'hello-dollie' ),
+				'add_new_item'             => __( 'New Hub Access Group', 'hello-dollie' ),
+				'edit_item'                => __( 'Edit Hub Access Group', 'hello-dollie' ),
+				'new_item'                 => __( 'New Hub Access Group', 'hello-dollie' ),
+				'view_item'                => __( 'View Hub Access Group', 'hello-dollie' ),
+				'view_items'               => __( 'View Hub Access Groups', 'hello-dollie' ),
+				'search_items'             => __( 'Search Hub Access Groups', 'hello-dollie' ),
+				'not_found'                => __( 'No Hub Access Groups found', 'hello-dollie' ),
+				'not_found_in_trash'       => __( 'No Hub Access Groups found in trash', 'hello-dollie' ),
+				'parent'                   => __( 'Parent Hub Access Group:', 'hello-dollie' ),
+				'featured_image'           => __( 'Featured image for this Hub Access Group', 'hello-dollie' ),
+				'set_featured_image'       => __( 'Set featured image for this Hub Access Group', 'hello-dollie' ),
+				'remove_featured_image'    => __( 'Remove featured image for this Hub Access Group', 'hello-dollie' ),
+				'use_featured_image'       => __( 'Use as featured image for this Hub Access Group', 'hello-dollie' ),
+				'archives'                 => __( 'Hub Access Group archives', 'hello-dollie' ),
+				'insert_into_item'         => __( 'Insert into Hub Access Group', 'hello-dollie' ),
+				'uploaded_to_this_item'    => __( 'Upload to this Hub Access Group', 'hello-dollie' ),
+				'filter_items_list'        => __( 'Filter Hub Access Groups list', 'hello-dollie' ),
+				'items_list_navigation'    => __( 'Hub Access Groups list navigation', 'hello-dollie' ),
+				'items_list'               => __( 'Hub Access Groups list', 'hello-dollie' ),
+				'attributes'               => __( 'Hub Access Groups attributes', 'hello-dollie' ),
+				'name_admin_bar'           => __( 'Hub Access Group', 'hello-dollie' ),
+				'item_published'           => __( 'Hub Access Group published', 'hello-dollie' ),
+				'item_published_privately' => __( 'Hub Access Group published privately.', 'hello-dollie' ),
+				'item_reverted_to_draft'   => __( 'Hub Access Group reverted to draft.', 'hello-dollie' ),
+				'item_scheduled'           => __( 'Hub Access Group scheduled', 'hello-dollie' ),
+				'item_updated'             => __( 'Hub Access Group updated.', 'hello-dollie' ),
+				'parent_item_colon'        => __( 'Parent Hub Access Group:', 'hello-dollie' ),
+			);
+
+			$args = array(
+				'label'                 => __( 'Hub Access Groups', 'hello-dollie' ),
+				'labels'                => $labels,
+				'description'           => '',
+				'public'                => true,
+				'publicly_queryable'    => false,
+				'show_ui'               => true,
+				'show_in_rest'          => true,
+				'menu_position'         => 1,
+				'rest_base'             => 'dollie_access_group',
+				'rest_controller_class' => 'WP_REST_Posts_Controller',
+				'rest_namespace'        => 'dollie',
+				'has_archive'           => false,
+				'show_in_menu'          => true,
+				'show_in_nav_menus'     => true,
+				'delete_with_user'      => false,
+				'exclude_from_search'   => true,
+				'capability_type'       => 'post',
+				'map_meta_cap'          => true,
+				'hierarchical'          => false,
+				'can_export'            => true,
+				'rewrite'               => array(
+					'slug'       => 'dollie-access-groups',
+					'with_front' => true,
+				),
+				'query_var'             => true,
+				'menu_icon'             => 'dashicons-groups',
+				'supports'              => array( 'title', 'thumbnail', 'revisions' ),
+				'show_in_graphql'       => false,
+			);
+
+			register_post_type( 'dollie-access-groups', $args );
+	}
+
 
 	/**
 	 * Load ACF
