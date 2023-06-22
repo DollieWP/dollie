@@ -298,8 +298,7 @@ class Hooks extends Singleton {
 
 		// If a group is associated, add the user to it
 		if ( ! empty( $group_id ) ) {
-			$this->add_to_access_group( $group_id, array( $user_id ) );
-
+			$this->add_to_access_group( $group_id, array( $user_id ), 'PMP Membership Level: ' . pmpro_getLevel($level_id)->name );
 		}
 	}
 
