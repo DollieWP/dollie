@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package Dollie\Core\Modules\AccessGroups
  */
-class Hooks extends Singleton {
+class AccessGroups extends Singleton {
 
 	protected $pmp_name = 'pmpro_membership_level';
 	/**
@@ -31,12 +31,22 @@ class Hooks extends Singleton {
 		add_action( 'init', array( $this, 'create_access_group_terms' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_logs_meta_box' ) );
 		add_action( 'admin_footer', array( $this, 'acf_readonly_fields' ) );
+		add_action( 'acf/init', array( $this, 'load_acf' ) );
 
 		if ( defined( 'PMPRO_VERSION' ) ) {
 			add_action( 'pmpro_membership_level_after_general_information', array( $this, 'custom_level_fields' ) );
 			add_action( 'pmpro_save_membership_level', array( $this, 'save_custom_level_fields' ) );
 			add_action( 'pmpro_after_change_membership_level', array( $this, 'after_change_membership_level' ), 10, 2 );
 		}
+	}
+
+	/**
+	 * Load ACF
+	 *
+	 * @return void
+	 */
+	public function load_acf() {
+		require DOLLIE_CORE_PATH . 'Modules/AccessGroups/acf-fields/acf-fields.php';
 	}
 
 	/**
