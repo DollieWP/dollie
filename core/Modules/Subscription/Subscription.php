@@ -41,8 +41,8 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			throw new \Exception( 'Invalid subscription plugin' );
 		}
 
-		add_action( 'acf/init', [ $this, 'load_acf' ] );
-		add_filter( 'dollie/blueprints', [ $this, 'filter_blueprints' ] );
+		add_action( 'acf/init', array( $this, 'load_acf' ) );
+		add_filter( 'dollie/blueprints', array( $this, 'filter_blueprints' ) );
 	}
 
 	/**
@@ -77,7 +77,15 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	}
 
 	public function get_customer_subscriptions( $status = null, $customer_id = null ) {
-		return $this->module->get_customer_subscriptions( $status, $customer_id );
+
+		// Use the new function
+		_deprecated_function( __METHOD__, '1.0', 'Dollie\Core\Modules\AccessGroups::get_customer_access_details()' );
+
+		// Create a new instance of the AccessGroups class
+		$access_groups = \Dollie\Core\Modules\AccessGroups\Hooks::instance();
+
+		// Call the new function
+		return $access_groups->get_customer_access_details( $status, $customer_id );
 	}
 
 	public function has_bought_product( $user_id = null ) {
@@ -249,10 +257,9 @@ class Subscription extends Singleton implements SubscriptionInterface {
 
 		$is_custom = get_field( '_wpd_max_size', 'user_' . $customer_id );
 
-
 		if ( ! empty( $is_custom ) && is_numeric( $is_custom ) && $is_custom > 0 ) {
-			$allowed_size = $is_custom;
-			$total_size   = dollie()->insights()->get_total_container_size();
+			$allowed_size  = $is_custom;
+			$total_size    = dollie()->insights()->get_total_container_size();
 			$allowed_size *= 1024 * 1024 * 1024;
 
 			return $total_size >= $allowed_size && ! $user->can_manage_all_sites();
@@ -277,8 +284,8 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return array|boolean
 	 */
 	public function get_blueprints_exception( $type = 'excluded' ) {
-		$data          = [];
-		$type          .= '_blueprints';
+		$data          = array();
+		$type         .= '_blueprints';
 		$subscriptions = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
 
 		if ( empty( $subscriptions ) ) {
@@ -571,5 +578,4 @@ class Subscription extends Singleton implements SubscriptionInterface {
 
 		return $subscription['limit'];
 	}
-
 }
