@@ -146,7 +146,7 @@ class Hooks extends Singleton {
 	 * @param array  $user_ids Array of user IDs
 	 * @param string $source Source from which the users are removed
 	 */
-	public function remove_from_access_group( $group_id, $user_ids, $source = null ) {
+	public function remove_from_access_group( $group_id, $user_ids, $source = null, $integration = '', $action = '' ) {
 		if ( ! is_array( $user_ids ) ) {
 			$user_ids = array( $user_ids );
 		}
@@ -190,9 +190,39 @@ class Hooks extends Singleton {
 				);
 			}
 
-			\WDS_Log_Post::log_message( 'dollie-logs', $log_message, $group_id );
+			\WDS_Log_Post::log_message( 'dollie-logs', $log_message, '', strval( $group_id ) );
+		}
+
+		// Update the wpd_registered_integrations ACF repeater field with new integration and action
+		if ( $integration && $action ) {
+			$integration_exists = false;
+			if ( have_rows( 'wpd_registered_integrations', $group_id ) ) {
+				while ( have_rows( 'wpd_registered_integrations', $group_id ) ) {
+					the_row();
+					if ( get_sub_field( 'name' ) == $integration ) {
+						$integration_exists    = true;
+						$current_actions       = get_sub_field( 'actions' );
+						$current_actions_array = explode( ', ', $current_actions ); // Convert string back to array
+						if ( ! in_array( $action, $current_actions_array ) ) { // Check if the action doesn't exist
+							$current_actions_array[] = $action;
+							$current_actions         = implode( ', ', $current_actions_array ); // Convert array back to string
+							update_sub_field( 'actions', $current_actions );
+						}
+						break;
+					}
+				}
+			}
+
+			if ( ! $integration_exists ) {
+				$new_integration = array(
+					'name'    => $integration,
+					'actions' => $action, // Directly inserting the action as it's a string now
+				);
+				add_row( 'wpd_registered_integrations', $new_integration, $group_id );
+			}
 		}
 	}
+
 
 
 	/**
@@ -420,7 +450,7 @@ class Hooks extends Singleton {
 		if ( ! empty( $group_id ) ) {
 			$this->add_to_access_group(
 				$group_id, // Group ID
-				array( $user_id ),      // User IDs
+				$user_id,      // User IDs
 				$this->pmp_name,
 				$this->pmp_name, // Log type
 				'When user is added to membership level ' . pmpro_getLevel( $level_id )->name . '.',
