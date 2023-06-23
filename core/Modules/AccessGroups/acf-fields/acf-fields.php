@@ -3,11 +3,17 @@ global $pagenow;
 
 
 if ( $pagenow === 'user-edit.php' ) {
-		$user              = 'this customer';
-		$user_instructions = '<br><br><strong> Set this to -1<strong/> to prevent this customer from launching more sites';
+		$user                     = 'this customer';
+		$user_instructions        = '<br><br><strong> Set this to -1 to prevent this customer from launching more sites.</strong>';
+		$dol_title                = 'Hub Access Settings for this User';
+		$description              = 'These settings allow you to modify the default access settings for this customer based on their Access Group(s). Watch the video below to learn more about Access Groups.';
+		$add_to_group_description = 'Add this customer to an Access Group. This will override the default Access Group(s) for this customer.';
 } else {
-		$user              = 'a subscriber';
-		$user_instructions = '';
+		$user                     = 'a user in this group';
+		$user_instructions        = '';
+		$dol_title                = 'Hub Access Settings for this Group';
+		$description              = 'Control which Hub features are available to the users in this group. Watch the video below to learn more about Access Groups.';
+		$add_to_group_description = 'Choose the Access Groups you would like to connect. Once connected users will be added/removed based on specific triggers inside your integration.';
 }
 
 if ( function_exists( 'acf_add_local_field_group' ) ) :
@@ -162,11 +168,11 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 	acf_add_local_field_group(
 		array(
 			'key'                   => 'group_631b463ce5739',
-			'title'                 => 'Access Groups',
+			'title'                 => $dol_title,
 			'fields'                => array(
 				array(
 					'key'                      => 'field_64934006e7e54',
-					'label'                    => __( 'Hub Access Groups', 'dollie' ),
+					'label'                    => 'How it works',
 					'name'                     => '',
 					'aria-label'               => '',
 					'type'                     => 'message',
@@ -182,17 +188,17 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'dollie_admin_only'        => 0,
 					'acfe_save_meta'           => 0,
 					'hide_admin'               => 0,
-					'message'                  => __( 'With Hub Access Groups you can easily control what your customers/client can do inside your Hub. For example you can control the amount of sites they can launch, the blueprints they can have access too, or which areas of their Site Dashboard are available.', 'dollie' ),
+					'message'                  => __( 'With Hub Access Groups you can easily control what your customers/client can do inside your Hub. For example you can control the amount of sites they can launch, the blueprints they can have access too, or which areas of their Site Dashboard are available.<br><br>' . dollie()->show_helper_video( 'product-setup', 'h3a5WqBTKQI', 'Watch Video', 'Hub Access Groups' ), 'dollie' ),
 					'new_lines'                => 'wpautop',
 					'esc_html'                 => 0,
 				),
 				array(
 					'key'                      => 'field_631b46736f8dc',
-					'label'                    => __( 'Add to Hub Access Groups', 'dollie' ),
+					'label'                    => __( 'Connect to Hub Access Groups', 'dollie' ),
 					'name'                     => 'wpd_group_users',
 					'aria-label'               => '',
 					'type'                     => 'relationship',
-					'instructions'             => __( 'Add this user to Access Groups', 'dollie' ),
+					'instructions'             => $add_to_group_description,
 					'required'                 => 0,
 					'conditional_logic'        => 0,
 					'wrapper'                  => array(
@@ -241,6 +247,13 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 						'value'    => 'product',
 					),
 				),
+				array(
+					array(
+						'param'    => 'post_type',
+						'operator' => '==',
+						'value'    => 'product_variation',
+					),
+				),
 			),
 			'menu_order'            => 0,
 			'position'              => 'normal',
@@ -267,7 +280,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 			'fields'                => array(
 				array(
 					'key'               => 'field_612616dc483456f24rnjgnjk64',
-					'label'             => dollie()->show_helper_video( 'product-setup', 'h3a5WqBTKQI', 'Watch Video', 'Custom Backups' ),
+					'label'             => dollie()->show_helper_video( 'product-setup', 'h3a5WqBTKQI', 'Watch Video', 'Hub Access Groups' ),
 					'name'              => 'dollie_show_video',
 					'type'              => 'message',
 					'instructions'      => '',
@@ -279,13 +292,13 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 						'id'    => '',
 					),
 					'hide_admin'        => 0,
-					'message'           => 'Below you can configure access & limits to all your Dollie Hub features. Watch the video to learn more.',
+					'message'           => $description,
 					'new_lines'         => '',
 					'esc_html'          => 0,
 				),
 				array(
 					'key'               => 'field_5e2c1a97c1541',
-					'label'             => __( 'Basic', 'dollie' ),
+					'label'             => __( 'Sites', 'dollie' ),
 					'name'              => '',
 					'type'              => 'tab',
 					'instructions'      => '',
@@ -429,7 +442,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'               => 'field_5e2c1a97c154dkfky1',
-					'label'             => __( 'Site Management', 'dollie' ),
+					'label'             => __( 'Available Hub Features', 'dollie' ),
 					'name'              => '',
 					'type'              => 'tab',
 					'instructions'      => '',
@@ -560,27 +573,6 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 						'param'    => 'post_type',
 						'operator' => '==',
 						'value'    => 'dollie-access-groups',
-					),
-				),
-				array(
-					array(
-						'param'    => 'post_type',
-						'operator' => '==',
-						'value'    => 'product',
-					),
-				),
-				array(
-					array(
-						'param'    => 'post_type',
-						'operator' => '==',
-						'value'    => 'download',
-					),
-				),
-				array(
-					array(
-						'param'    => 'post_type',
-						'operator' => '==',
-						'value'    => 'memberpressproduct',
 					),
 				),
 				array(
