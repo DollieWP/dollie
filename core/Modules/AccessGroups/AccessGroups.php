@@ -624,6 +624,21 @@ class AccessGroups extends Singleton {
 			$data = apply_filters( 'dollie/woo/subscription_product_data', $data, $customer_id, $group_id );
 		}
 
+		// Save each value from the $data array as an individual user meta field
+		foreach ( $data as $key => $value ) {
+			if ( is_array( $value ) ) {
+				foreach ( $value as $innerKey => $innerValue ) {
+					if ( is_array( $innerValue ) ) {
+							continue; // Skip nested arrays
+					} else {
+						update_user_meta( $customer_id, 'dollie_hub_' . $key . '_' . $innerKey, $innerValue );
+					}
+				}
+			} else {
+				update_user_meta( $customer_id, 'dollie_hub_' . $key, $value );
+			}
+		}
+
 		return apply_filters( 'dollie/woo/subscription_data', $data, $customer_id );
 	}
 
