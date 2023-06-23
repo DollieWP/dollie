@@ -68,7 +68,11 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		return $this->module->get_checkout_link( $args );
 	}
 
-	public function get_customer_subscriptions( $status = null, $customer_id = null ) {
+	public function get_customer_subscriptions( $customer_id = null ) {
+
+		if ( ! $customer_id ) {
+			$customer_id = get_current_user_id();
+		}
 
 		// Use the new function
 		_deprecated_function( __METHOD__, '1.0', 'Dollie\Core\Modules\AccessGroups::get_customer_access_details()' );
@@ -77,7 +81,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		$access_groups = \Dollie\Core\Modules\AccessGroups\AccessGroups::instance();
 
 		// Call the new function
-		return $access_groups->get_customer_access_details( $status, $customer_id );
+		return $access_groups->get_customer_access_details( $customer_id );
 	}
 
 	public function has_bought_product( $user_id = null ) {
@@ -91,11 +95,12 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return bool
 	 */
 	public function has_subscription() {
+
 		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return true;
 		}
 
-		$subscription = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
+		$subscription = $this->get_customer_subscriptions();
 
 		return $subscription ? (bool) $subscription['plans'] : $subscription;
 	}
@@ -169,7 +174,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			return get_field( '_wpd_woo_launch_as_vip', 'user_' . $user_id );
 		}
 
-		$subscription = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
+		$subscription = $this->get_customer_subscriptions();
 
 		if ( ! $subscription ) {
 			return 0;
@@ -184,7 +189,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return mixed|string
 	 */
 	public function subscription_name() {
-		$subscription = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
+		$subscription = $this->get_customer_subscriptions();
 
 		if ( ! $subscription || ! isset( $subscription['resources']['name'] ) ) {
 			return __( 'None', 'dollie' );
@@ -199,7 +204,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return bool
 	 */
 	public function site_limit_reached( $customer_id = null ) {
-		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
+		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return false;
 		}
 
@@ -213,20 +218,10 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$customer_id = get_current_user_id();
 		}
 
-		$is_custom = get_field( '_wpd_installs', 'user_' . $customer_id );
+		$is_custom = get_user_meta( $customer_id, 'dollie_hub_resources_max_allowed_installs', true );
 
 		if ( ! empty( $is_custom ) && is_numeric( $is_custom ) && $is_custom > 0 ) {
 			return dollie()->get_user()->count_containers() >= $is_custom;
-		}
-
-		if ( ! $this->has_subscription() ) {
-			return true;
-		}
-
-		$subscription = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
-
-		if ( ! is_array( $subscription ) || empty( $subscription ) ) {
-			return true;
 		}
 
 		return dollie()->get_user()->count_containers() >= $subscription['resources']['max_allowed_installs'];
@@ -238,7 +233,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return bool
 	 */
 	public function size_limit_reached( $customer_id = null ) {
-		if ( ! class_exists( \WooCommerce::class ) || get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
+		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return false;
 		}
 
@@ -259,7 +254,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 
 		}
 
-		$subscription = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
+		$subscription = $this->get_customer_subscriptions();
 
 		if ( ! $subscription ) {
 			return false;
@@ -324,7 +319,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$user_id = get_current_user_id();
 		}
 
-		$subscriptions = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE, $user_id );
+		$subscriptions = $this->get_customer_subscriptions( $user_id );
 
 		// If no subscription is active.
 		if ( empty( $subscriptions ) ) {
@@ -431,7 +426,7 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			return false;
 		}
 
-		$subscriptions = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE, $user->get_id() );
+		$subscriptions = $this->get_customer_subscriptions( $user->get_id() );
 
 		if ( ! is_array( $subscriptions ) || empty( $subscriptions ) ) {
 			return false;

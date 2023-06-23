@@ -25,6 +25,7 @@ use Dollie\Core\Hooks\Acf;
 use Dollie\Core\Jobs\SyncContainersJob;
 use Dollie\Core\Jobs\RemoveOldLogsJob;
 use Dollie\Core\Jobs\ChangeContainerRoleJob;
+use Dollie\Core\Jobs\CustomerSubscriptionCheckJob;
 
 use Dollie\Core\Routing\Processor;
 use Dollie\Core\Routing\Route;
@@ -149,7 +150,7 @@ class Plugin extends Singleton {
 		SyncContainersJob::instance();
 		ChangeContainerRoleJob::instance();
 		RemoveOldLogsJob::instance();
-		// CustomerSubscriptionCheckJob::instance();
+		CustomerSubscriptionCheckJob::instance();
 
 		// Modules.
 		Forms::instance();
