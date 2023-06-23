@@ -31,6 +31,13 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		add_action( 'woocommerce_subscription_status_cancelled', array( $this, 'remove_user_from_group_on_subscription_cancel' ), 10, 1 );
 		add_action( 'woocommerce_subscription_status_pending-cancel', array( $this, 'remove_user_from_group_on_subscription_cancel' ), 10, 1 );
 
+		// ACF hooks for variable products
+		add_action( 'woocommerce_product_after_variable_attributes', array( $this, 'render_acf_fields_for_variations' ), 10, 3 );
+		add_action( 'woocommerce_save_product_variation', array( $this, 'save_acf_fields_for_variations' ), 10, 2 );
+		add_filter( 'acf/location/rule_values/post_type', array( $this, 'my_acf_location_rule_values_post_type' ) );
+		add_filter( 'acf/location/rule_match/post_type', array( $this, 'my_acf_location_rule_match_post_type' ), 10, 4 );
+		add_action( 'acf/input/admin_footer', array( $this, 'my_acf_input_admin_footer' ) );
+
 		add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );
 
 		add_filter( 'dollie/required_plugins', array( $this, 'required_woocommerce' ) );
@@ -288,5 +295,93 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		);
 
 		return dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5affdcd76c8d1', 'wpd_installation_blueprint_description', 'after' );
+	}
+
+	public function render_acf_fields_for_variations( $loop, $variation_data, $variation ) {
+		global $acf_variation;
+		$acf_variation = $loop;
+		add_filter( 'acf/prepare_field', array( $this, 'acf_prepare_field_update_field_name' ) );
+
+		$acf_field_groups = acf_get_field_groups();
+		foreach ( $acf_field_groups as $acf_field_group ) {
+			foreach ( $acf_field_group['location'] as $group_locations ) {
+				foreach ( $group_locations as $rule ) {
+					if ( $rule['param'] == 'post_type' && $rule['operator'] == '==' && $rule['value'] == 'product_variation' ) {
+						acf_render_fields( $variation->ID, acf_get_fields( $acf_field_group ) );
+						break 2;
+					}
+				}
+			}
+		}
+
+		remove_filter( 'acf/prepare_field', array( $this, 'acf_prepare_field_update_field_name' ) );
+	}
+
+	public function acf_prepare_field_update_field_name( $field ) {
+		global $acf_variation;
+		$field['name'] = preg_replace( '/^acf\[/', "acf[$acf_variation][", $field['name'] );
+		return $field;
+	}
+
+	public function save_acf_fields_for_variations( $variation_id, $i = -1 ) {
+		if ( ! empty( $_POST['acf'] ) && is_array( $_POST['acf'] ) && array_key_exists( $i, $_POST['acf'] ) && is_array( ( $fields = $_POST['acf'][ $i ] ) ) ) {
+			$unique_updates = array();
+			foreach ( $fields as $key => $val ) {
+				if ( strpos( $key, 'field_' ) === false ) {
+					foreach ( $val as $repeater_key => $repeater_val ) {
+						if ( ! array_key_exists( $repeater_key, $unique_updates ) || ! empty( $repeater_val ) ) {
+							$unique_updates[ $repeater_key ] = $repeater_val;
+						}
+					}
+				} elseif ( ! array_key_exists( $key, $unique_updates ) || ! empty( $val ) ) {
+						$unique_updates[ $key ] = $val;
+				}
+			}
+
+			foreach ( $unique_updates as $key => $val ) {
+				update_field( $key, $val, $variation_id );
+			}
+		}
+	}
+
+	public function my_acf_location_rule_values_post_type( $choices ) {
+		$keys  = array_keys( $choices );
+		$index = array_search( 'product', $keys );
+
+		$position = $index === false ? count( $choices ) : $index + 1;
+
+		$choices = array_merge(
+			array_slice( $choices, 0, $position ),
+			array( 'product_variation' => __( 'Product Variation', 'auf' ) ),
+			array_slice( $choices, $position )
+		);
+
+		return $choices;
+	}
+
+	public function my_acf_location_rule_match_post_type( $match, $rule, $options, $field_group ) {
+		if ( $rule['value'] == 'product_variation' && isset( $options['post_type'] ) ) {
+			$post_type = $options['post_type'];
+
+			if ( $rule['operator'] == '==' ) {
+				$match = $post_type == $rule['value'];
+			} elseif ( $rule['operator'] == '!=' ) {
+				$match = $post_type != $rule['value'];
+			}
+		}
+
+		return $match;
+	}
+
+	public function my_acf_input_admin_footer() {
+		?>
+<script type="text/javascript">
+	(function($) {
+	$(document).on('woocommerce_variations_loaded', function () {
+		acf.do_action('append', $('#post'));
+	})
+	})(jQuery);
+</script>
+		<?php
 	}
 }
