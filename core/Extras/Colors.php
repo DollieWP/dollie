@@ -598,6 +598,4 @@ function dol_theme_body_start() {
 	<?php
 }
 
-//add_action( 'wp_footer', 'dol_theme_body_start' );
-
-
+// add_action( 'wp_footer', 'dol_theme_body_start' );

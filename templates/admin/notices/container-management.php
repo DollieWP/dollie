@@ -24,12 +24,21 @@ if ( ! isset( $container ) ) {
 			</div>
 		<?php else : ?>
 			<div class="dollie-message-center">
-				<h3><?php esc_html_e( 'Notice - How To Manage This Site', 'dollie' ); ?> </h3>
+				<h3>
+				<?php
+					echo wp_kses_post(
+						sprintf(
+							__( 'Important - Please use <a href="%s">Control HQ</a> to delete or stop this site', 'dollie' ),
+							esc_url( 'https://control.getdollie.com/container/' . $container->get_original_url() . '/dashboard' )
+						)
+					);
+				?>
+					</h3>
 				<p>
 					<?php
 					echo wp_kses_post(
 						sprintf(
-						__( 'Manage this site on the front-end of your Hub using the <a href="%s">Site Dashboard</a>. You can only use this page to take advanced actions, like stopping or restarting this site or assigning it to another customer in your HUB.', 'dollie' ),
+							__( 'You can also manage this site the front-end of your Hub using the <a href="%s">Site Dashboard</a>. <br><br><strong>Pro Tip: </strong><br>If you are building a custom Hub design you can use the fields displayed below in your Pagebuilder templates using Dynamic Fields.', 'dollie' ),
 							esc_url( $container->get_permalink() )
 						)
 					);

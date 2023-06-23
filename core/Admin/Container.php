@@ -19,56 +19,55 @@ final class Container extends Singleton implements ConstInterface {
 	 */
 	public function __construct() {
 		parent::__construct();
-		add_action( 'init', [ $this, 'register_post_type' ], 0 );
+		add_action( 'init', array( $this, 'register_post_type' ), 0 );
 
-		//if ( dollie()->auth()->is_connected() ) {
+		// if ( dollie()->auth()->is_connected() ) {
 
-			add_action( 'admin_menu', [ $this, 'add_staging_menu_page' ], 1 );
-			add_action( 'admin_menu', [ $this, 'submenus' ], 99 );
-			add_action( 'admin_menu', [ $this, 'add_blueprint_submenu' ], 1 );
-			add_action( 'admin_menu', [ $this, 'add_extra_menu_links' ], 100 );
-			add_action( 'admin_footer', [ $this, 'crisp_support_js' ], 999999 );
+			add_action( 'admin_menu', array( $this, 'add_staging_menu_page' ), 1 );
+			add_action( 'admin_menu', array( $this, 'submenus' ), 99 );
+			add_action( 'admin_menu', array( $this, 'add_blueprint_submenu' ), 1 );
+			add_action( 'admin_menu', array( $this, 'add_extra_menu_links' ), 100 );
+			add_action( 'admin_footer', array( $this, 'crisp_support_js' ), 999999 );
 
+		// }
 
-		//}
+		add_action( 'auth_redirect', array( $this, 'add_site_icon_filter' ) ); // modify esc_attr on auth_redirect
+		add_action( 'admin_menu', array( $this, 'remove_site_icon_filter' ) ); // restore on admin_menu (very soon)
 
-		add_action( 'auth_redirect', [ $this, 'add_site_icon_filter' ] ); // modify esc_attr on auth_redirect
-		add_action( 'admin_menu', [ $this, 'remove_site_icon_filter' ] ); // restore on admin_menu (very soon)
+		add_filter( 'custom_menu_order', array( $this, 'custom_menu_order' ) );
+		add_filter( 'menu_order', array( $this, 'custom_menu_order' ) );
+		add_filter( 'manage_users_columns', array( $this, 'new_modify_user_table' ) );
+		add_filter( 'manage_users_custom_column', array( $this, 'new_modify_user_table_row' ), 10, 3 );
+		add_filter( 'page_row_actions', array( $this, 'alter_container_row_actions' ), 10, 2 );
+		add_filter( 'bulk_actions-edit-container', array( $this, 'container_bulk_actions' ) );
+		add_filter( 'handle_bulk_actions-edit-container', array( $this, 'handle_container_bulk_actions' ), 10, 3 );
+		add_filter( 'current_screen', array( $this, 'container_counter' ) );
+		add_filter( 'views_edit-container', array( $this, 'container_filters' ) );
+		add_filter( 'parse_query', array( $this, 'filter_containers' ) );
+		add_filter( 'pre_get_posts', array( $this, 'remove_default_search' ) );
 
-		add_filter( 'custom_menu_order', [ $this, 'custom_menu_order' ] );
-		add_filter( 'menu_order', [ $this, 'custom_menu_order' ] );
-		add_filter( 'manage_users_columns', [ $this, 'new_modify_user_table' ] );
-		add_filter( 'manage_users_custom_column', [ $this, 'new_modify_user_table_row' ], 10, 3 );
-		add_filter( 'page_row_actions', [ $this, 'alter_container_row_actions' ], 10, 2 );
-		add_filter( 'bulk_actions-edit-container', [ $this, 'container_bulk_actions' ] );
-		add_filter( 'handle_bulk_actions-edit-container', [ $this, 'handle_container_bulk_actions' ], 10, 3 );
-		add_filter( 'current_screen', [ $this, 'container_counter' ] );
-		add_filter( 'views_edit-container', [ $this, 'container_filters' ] );
-		add_filter( 'parse_query', [ $this, 'filter_containers' ] );
-		add_filter( 'pre_get_posts', [ $this, 'remove_default_search' ] );
-
-		add_action( 'add_meta_boxes', [ $this, 'rename_meta_box_title' ] );
-		add_action( 'restrict_manage_posts', [ $this, 'filter_by_author' ] );
-		add_action( 'admin_footer', [ $this, 'external_menu_scripts' ] );
-		add_action( 'wp_before_admin_bar_render', [ $this, 'set_admin_bar_menu' ], 2000 );
-		add_action( 'load-edit.php', [ $this, 'add_info_banners' ] );
-		add_action( 'admin_init', [ AuthService::instance(), 'process_token' ] );
-		add_action( 'admin_init', [ $this, 'disconnect_dollie' ] );
+		add_action( 'add_meta_boxes', array( $this, 'rename_meta_box_title' ) );
+		add_action( 'restrict_manage_posts', array( $this, 'filter_by_author' ) );
+		add_action( 'admin_footer', array( $this, 'external_menu_scripts' ) );
+		add_action( 'wp_before_admin_bar_render', array( $this, 'set_admin_bar_menu' ), 2000 );
+		add_action( 'load-edit.php', array( $this, 'add_info_banners' ) );
+		add_action( 'admin_init', array( AuthService::instance(), 'process_token' ) );
+		add_action( 'admin_init', array( $this, 'disconnect_dollie' ) );
 		// Commented out to prevent deletion of containers when trashing a post.
 		// add_action( 'trashed_post', [ $this, 'delete_container' ] );
 		// add_action( 'untrash_post', [ $this, 'restore_container' ], 10, 2 );
 
-		add_filter( 'manage_container_posts_columns', [ $this, 'set_table_columns' ] );
-		add_action( 'manage_container_posts_custom_column', [ $this, 'set_table_custom_columns' ], 10, 2 );
+		add_filter( 'manage_container_posts_columns', array( $this, 'set_table_columns' ) );
+		add_action( 'manage_container_posts_custom_column', array( $this, 'set_table_custom_columns' ), 10, 2 );
 
-		add_action( 'edit_form_after_title', [ NoticeService::instance(), 'container_manager' ] );
+		add_action( 'edit_form_after_title', array( NoticeService::instance(), 'container_manager' ) );
 	}
 
 	/**
 	 * Register container post type & taxonomy
 	 */
 	public function register_post_type() {
-		$post_type_labels = [
+		$post_type_labels = array(
 			'name'                  => _x( 'Sites', 'dollie', 'dollie' ),
 			'singular_name'         => _x( 'Site', 'dollie', 'dollie' ),
 			'menu_name'             => __( '%%ICON%% Sites', 'dollie' ),
@@ -96,14 +95,14 @@ final class Container extends Singleton implements ConstInterface {
 			'items_list'            => __( 'Sites list', 'dollie' ),
 			'items_list_navigation' => __( 'Sites list navigation', 'dollie' ),
 			'filter_items_list'     => __( 'Filter items list', 'dollie' ),
-		];
+		);
 
-		$post_type_args = [
+		$post_type_args = array(
 			'label'               => __( 'Site', 'dollie' ),
 			'description'         => __( 'Platform Sites', 'dollie' ),
 			'labels'              => $post_type_labels,
-			'supports'            => [ 'title', 'content', 'author', 'custom-fields', 'thumbnail', 'page-attributes' ],
-			'taxonomies'          => [ 'container_category', 'container_tag' ],
+			'supports'            => array( 'title', 'content', 'author', 'custom-fields', 'thumbnail', 'page-attributes' ),
+			'taxonomies'          => array( 'container_category', 'container_tag' ),
 			'hierarchical'        => true,
 			'public'              => true,
 			'show_ui'             => true,
@@ -117,23 +116,23 @@ final class Container extends Singleton implements ConstInterface {
 			'publicly_queryable'  => true,
 			'menu_icon'           => 'dashicons-cloud',
 			'query_var'           => 'site',
-			'rewrite'             => [
+			'rewrite'             => array(
 				'slug'       => 'site',
 				'with_front' => true,
 				'pages'      => true,
 				'feeds'      => false,
-			],
+			),
 			'show_in_rest'        => false,
 			'capability_type'     => 'wpd_site',
 			'map_meta_cap'        => true,
 			'capabilities'        => array(
 				'create_posts' => 'do_not_allow',
 			),
-		];
+		);
 
 		$post_type_args = apply_filters( 'dollie/cpt/container/args', $post_type_args );
 
-		$taxonomy_labels = [
+		$taxonomy_labels = array(
 			'name'                       => _x( 'Blueprint Categories', 'Taxonomy General Name', 'dollie' ),
 			'singular_name'              => _x( 'Blueprint Category', 'Taxonomy Singular Name', 'dollie' ),
 			'menu_name'                  => __( 'Taxonomy', 'dollie' ),
@@ -154,9 +153,9 @@ final class Container extends Singleton implements ConstInterface {
 			'no_terms'                   => __( 'No items', 'dollie' ),
 			'items_list'                 => __( 'Items list', 'dollie' ),
 			'items_list_navigation'      => __( 'Items list navigation', 'dollie' ),
-		];
+		);
 
-		$taxonomy_args = [
+		$taxonomy_args = array(
 			'labels'            => $taxonomy_labels,
 			'hierarchical'      => false,
 			'public'            => true,
@@ -164,10 +163,10 @@ final class Container extends Singleton implements ConstInterface {
 			'show_admin_column' => false,
 			'show_in_nav_menus' => true,
 			'show_tagcloud'     => true,
-		];
+		);
 
 		register_post_type( 'container', $post_type_args );
-		register_taxonomy( 'container_category', [ 'container' ], $taxonomy_args );
+		register_taxonomy( 'container_category', array( 'container' ), $taxonomy_args );
 	}
 
 	/**
@@ -220,15 +219,15 @@ final class Container extends Singleton implements ConstInterface {
 	 */
 	public function add_staging_menu_page() {
 		// add_menu_page(
-		// 	__( 'Dollie <span class="dol-status dol-staging">Staging<span>', 'dollie' ),
-		// 	dollie()->is_live() ?
-		// 	__( 'Settings', 'dollie' ) :
-		// 	__( 'Dollie Hub Setup', 'dollie' ),
-		// 	'manage_options',
-		// 	self::PANEL_SLUG,
-		// 	'',
-		// 	'',
-		// 	'4.1'
+		// __( 'Dollie <span class="dol-status dol-staging">Staging<span>', 'dollie' ),
+		// dollie()->is_live() ?
+		// __( 'Settings', 'dollie' ) :
+		// __( 'Dollie Hub Setup', 'dollie' ),
+		// 'manage_options',
+		// self::PANEL_SLUG,
+		// '',
+		// '',
+		// '4.1'
 		// );
 	}
 
@@ -293,13 +292,13 @@ final class Container extends Singleton implements ConstInterface {
 			return true;
 		}
 
-		return [
+		return array(
 			'index.php',
 			'separator1',
 			'dollie_setup',
 			'edit.php?post_type=container',
-			//'edit.php?post_type=container&blueprint=yes',
-		];
+			// 'edit.php?post_type=container&blueprint=yes',
+		);
 	}
 
 	/**
@@ -343,11 +342,11 @@ final class Container extends Singleton implements ConstInterface {
 		$menu_id = 'dab-' . dollie()->get_partner_status();
 
 		$wp_admin_bar->add_menu(
-			[
+			array(
 				'id'    => $menu_id,
 				'title' => $iconspan . $title,
 				'href'  => '/',
-			]
+			)
 		);
 
 		if ( ! dollie()->is_live() ) {
@@ -362,49 +361,47 @@ final class Container extends Singleton implements ConstInterface {
 		}
 
 		$wp_admin_bar->add_menu(
-			[
+			array(
 				'parent' => $menu_id,
 				'title'  => esc_html__( 'Hub Settings', 'dollie' ),
 				'id'     => 'dab-settings',
 				'href'   => get_admin_url() . 'admin.php?page=' . self::PANEL_SLUG,
-				'meta'   => [ 'target' => '' ],
-			]
+				'meta'   => array( 'target' => '' ),
+			)
 		);
 
 		$wp_admin_bar->add_menu(
-			[
+			array(
 				'parent' => $menu_id,
 				'title'  => esc_html__( 'View Hub in Control HQ', 'dollie' ),
 				'id'     => 'dab-hosted-manage',
 				'href'   => 'https://control.getdollie.com/?redirect=dollie-site-redirect',
-				'meta'   => [ 'target' => '_blank' ],
-			]
+				'meta'   => array( 'target' => '_blank' ),
+			)
 		);
 
-
 		$wp_admin_bar->add_menu(
-			[
+			array(
 				'parent' => $menu_id,
 				'title'  => esc_html__( 'Useful Links', 'dollie' ),
 				'id'     => 'dab-support',
 				'href'   => '',
-				'meta'   => [ 'target' => '' ],
-			]
+				'meta'   => array( 'target' => '' ),
+			)
 		);
 
-
-
 		$wp_admin_bar->add_menu(
-			[
+			array(
 				'parent' => $menu_id,
 				'title'  => esc_html__( 'View Docs', 'dollie' ),
 				'id'     => 'dab-hosted-docs',
 				'href'   => 'https://support.getdollie.com',
-				'meta'   => [ 'target' => '_blank' ],
-			]
+				'meta'   => array( 'target' => '_blank' ),
+			)
 		);
 
-		/*$wp_admin_bar->add_menu(
+		/*
+		$wp_admin_bar->add_menu(
 			[
 				'parent' => $menu_id,
 				'title'  => esc_html__( 'Sync Sites', 'dollie' ),
@@ -415,39 +412,38 @@ final class Container extends Singleton implements ConstInterface {
 		);*/
 
 		$wp_admin_bar->add_menu(
-			[
+			array(
 				'parent' => $menu_id,
 				'title'  => esc_html__( 'View Usage', 'dollie' ),
 				'id'     => 'dab-hosted-usage',
 				'href'   => 'https://control.getdollie.com/user/usage',
-				'meta'   => [ 'target' => '_blank' ],
-			]
+				'meta'   => array( 'target' => '_blank' ),
+			)
 		);
 
 		if ( defined( 'S5_APP_TOKEN' ) ) {
 
 			$wp_admin_bar->add_menu(
-				[
+				array(
 					'parent' => 'top-secondary',
 					'title'  => '<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
 	<path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
 	</svg> Hosted in Your Private Cloud',
 					'id'     => 'dwb-hosted',
 					'href'   => 'https://control.getdollie.com/?redirect=dollie-site-redirect',
-				]
+				)
 			);
 
 			$wp_admin_bar->add_menu(
-				[
+				array(
 					'parent' => 'dwb-hosted',
 					'title'  => esc_html__( 'This site is hosted in your own Private Cloud. Visit Control HQ to manage backups,use the developer tools and more.', 'dollie' ),
 					'id'     => 'dab-hosted-message',
 					'href'   => 'https://control.getdollie.com/?redirect=dollie-site-redirect',
-					'meta'   => [ 'target' => '_blank' ],
-				]
+					'meta'   => array( 'target' => '_blank' ),
+				)
 			);
 		}
-
 	}
 
 	/**
@@ -456,64 +452,63 @@ final class Container extends Singleton implements ConstInterface {
 	public function add_extra_menu_links() {
 		global $submenu;
 
-		$submenu['dollie_setup'][] = [
+		$submenu['dollie_setup'][] = array(
 			esc_html__( 'Import Templates', 'dollie' ),
 			'manage_options',
-			get_admin_url() .'admin.php?page=dollie_templates',
-		];
+			get_admin_url() . 'admin.php?page=dollie_templates',
+		);
 
-		$submenu['dollie_setup'][] = [
+		$submenu['dollie_setup'][] = array(
 			__( 'Hub Pages', 'dollie' ),
 			'manage_options',
 			'',
 			'',
 			'dol-divider-menu',
-		];
+		);
 
-		$submenu['dollie_setup'][] = [
+		$submenu['dollie_setup'][] = array(
 			esc_html__( 'Dashboard', 'dollie' ),
 			'manage_options',
 			dollie()->page()->get_dashboard_url(),
-		];
+		);
 
-		$submenu['dollie_setup'][] = [
+		$submenu['dollie_setup'][] = array(
 			esc_html__( 'Customers', 'dollie' ),
 			'manage_options',
 			dollie()->page()->get_customers_url(),
-		];
+		);
 
-		$submenu['dollie_setup'][] = [
+		$submenu['dollie_setup'][] = array(
 			esc_html__( 'Sites', 'dollie' ),
 			'manage_options',
 			dollie()->page()->get_sites_url(),
-		];
+		);
 
-		$submenu['dollie_setup'][] = [
+		$submenu['dollie_setup'][] = array(
 			esc_html__( 'Blueprints', 'dollie' ),
 			'manage_options',
 			dollie()->page()->get_blueprints_url(),
-		];
+		);
 
-		$submenu['dollie_setup'][] = [
+		$submenu['dollie_setup'][] = array(
 			__( 'Support', 'dollie' ),
 			'manage_options',
 			'',
 			'',
 			'dol-divider-menu',
-		];
+		);
 
-		$submenu['dollie_setup'][] = [
+		$submenu['dollie_setup'][] = array(
 			'<div class="dol-cloud-url">' . esc_html__( 'Visit Control HQ', 'dollie' ) . '</div>',
 			'manage_options',
 			'https://control.getdollie.com/',
-		];
+		);
 
-
-		$submenu['dollie_setup'][] = [
+		$submenu['dollie_setup'][] = array(
 			'<div id="dol-logs">' . esc_html__( 'Debug Logs', 'dollie' ) . '</div>',
 			'manage_options',
 			get_admin_url() . 'edit.php?post_type=dollie-logs',
-		];
+		);
 	}
 
 	/**
@@ -555,11 +550,11 @@ final class Container extends Singleton implements ConstInterface {
 			return $actions;
 		}
 
-		$new_actions = [];
+		$new_actions = array();
 
 		if ( ! $container->is_blueprint() ) {
-			$new_actions['manage_site'] = '<a href="' . $container->get_permalink() . '" target="_blank" class="button-link">' . __( 'View Site', 'dollie' ) . '</a>';
-			$new_actions['view_in_control'] = '<a href="' . $container->get_permalink() . '" target="_blank" class="button-link">' . __( 'Manage via Control HQ', 'dollie' ) . '</a>';
+			$new_actions['manage_site']     = '<a href="' . $container->get_permalink() . '" target="_blank" class="button-link">' . __( 'View Site Dashboard', 'dollie' ) . '</a>';
+			$new_actions['view_in_control'] = '<a href="https://control.getdollie.com/container/' . $container->get_original_url() . '/dashboard" target="_blank" class="button-link">' . __( 'Manage in Control HQ', 'dollie' ) . '</a>';
 		} else {
 			$new_actions['manage_site'] = '<a href="' . $container->get_permalink() . '" target="_blank" class="button-link">' . __( 'Manage Blueprint', 'dollie' ) . '</a>';
 		}
@@ -567,7 +562,7 @@ final class Container extends Singleton implements ConstInterface {
 		$new_actions['admin_link'] = '<a href="' . $container->get_customer_login_url() . '" target="_blank" class="button-link">' . __( 'Login to Site', 'dollie' ) . '</a>';
 
 		if ( isset( $actions['trash'] ) ) {
-			$new_actions['trash'] = str_replace( 'Trash', 'Delete via Control HQ', $actions['trash'] );
+			$new_actions['trash'] = str_replace( 'Trash', '', $actions['trash'] );
 		}
 
 		if ( isset( $actions['untrash'] ) ) {
@@ -585,19 +580,19 @@ final class Container extends Singleton implements ConstInterface {
 			return $actions;
 		}
 
-		return [
+		return array(
 			'stop'    => __( 'Stop', 'dollie' ),
 			'start'   => __( 'Start', 'dollie' ),
 			'restart' => __( 'Restart', 'dollie' ),
 			'trash'   => __( 'Delete', 'dollie' ),
-		];
+		);
 	}
 
 	/**
 	 * Handle bulk actions
 	 */
 	public function handle_container_bulk_actions( $redirect_url, $action, $post_ids ) {
-		if ( in_array( $action, [ 'start', 'stop', 'restart' ], true ) ) {
+		if ( in_array( $action, array( 'start', 'stop', 'restart' ), true ) ) {
 			foreach ( $post_ids as $post_id ) {
 				$container = dollie()->get_container( $post_id );
 
@@ -608,9 +603,9 @@ final class Container extends Singleton implements ConstInterface {
 				if ( 'start' === $action && $container->is_stopped() ) {
 					$container->perform_action( $action );
 					$container->set_details(
-						[
+						array(
 							'status' => 'Running',
-						]
+						)
 					);
 
 					continue;
@@ -619,9 +614,9 @@ final class Container extends Singleton implements ConstInterface {
 				if ( 'stop' === $action && $container->is_running() ) {
 					$container->perform_action( $action );
 					$container->set_details(
-						[
+						array(
 							'status' => 'Stopped',
-						]
+						)
 					);
 
 					continue;
@@ -629,9 +624,9 @@ final class Container extends Singleton implements ConstInterface {
 
 				$container->perform_action( $action );
 				$container->set_details(
-					[
+					array(
 						'status' => 'Running',
-					]
+					)
 				);
 			}
 
@@ -650,11 +645,11 @@ final class Container extends Singleton implements ConstInterface {
 	public function set_table_columns( array $columns ) {
 		return array_merge(
 			$columns,
-			[
+			array(
 				'domain' => __( 'Domain', 'dollie' ),
 				'type'   => __( 'Type', 'dollie' ),
 				'status' => __( 'Status', 'dollie' ),
-			]
+			)
 		);
 	}
 
@@ -704,23 +699,23 @@ final class Container extends Singleton implements ConstInterface {
 		$screen = get_current_screen();
 
 		if ( 'edit-container' === $screen->id ) {
-			add_action( 'all_admin_notices', [ $this, 'site_info_banner' ] );
-			add_action( 'admin_footer', [ $this, 'admin_footer_wrap' ], 999999 );
+			add_action( 'all_admin_notices', array( $this, 'site_info_banner' ) );
+			add_action( 'admin_footer', array( $this, 'admin_footer_wrap' ), 999999 );
 		}
 
 		if ( 'edit-dollie-access-groups' === $screen->id ) {
-			add_action( 'all_admin_notices', [ $this, 'access_group_info_banner' ] );
-			add_action( 'admin_footer', [ $this, 'admin_footer_wrap' ], 999999 );
+			add_action( 'all_admin_notices', array( $this, 'access_group_info_banner' ) );
+			add_action( 'admin_footer', array( $this, 'admin_footer_wrap' ), 999999 );
 		}
 
 		if ( 'edit-dollie-logs' === $screen->id ) {
-			add_action( 'all_admin_notices', [ $this, 'blueprint_info_banner' ] );
-			add_action( 'admin_footer', [ $this, 'admin_footer_wrap' ], 999999 );
+			add_action( 'all_admin_notices', array( $this, 'blueprint_info_banner' ) );
+			add_action( 'admin_footer', array( $this, 'admin_footer_wrap' ), 999999 );
 		}
 
 		if ( 'edit-af_form' === $screen->id ) {
-			add_action( 'admin_header', [ $this, 'dollie_footer_wrap' ] );
-			add_action( 'admin_footer', [ $this, 'admin_footer_wrap' ], 999999 );
+			add_action( 'admin_header', array( $this, 'dollie_footer_wrap' ) );
+			add_action( 'admin_footer', array( $this, 'admin_footer_wrap' ), 999999 );
 		}
 	}
 
@@ -743,7 +738,7 @@ final class Container extends Singleton implements ConstInterface {
 					<?php
 					printf(
 						'%s <a href="%s">%s</a>.',
-						esc_html__( 'Below are all the sites that have been launched through your Hub. Each site is hosted under your own brand and domain inside your Dollie Control HQ. Below uou can see their status, to which customer they are linked and whether they have a domain connected to them.', 'dollie' ),
+						__( 'Below are all the sites that have been launched through your Hub. Below you can see their status, to which customer they are linked and whether they have a domain connected to them. <br><br><strong>Important - If you want to stop or delete sites, please use <a href="https://control.getdollie.com/">Control HQ</a></strong><br><br>', 'dollie' ),
 						esc_url( dollie()->page()->get_sites_url() ),
 						esc_html__( 'View Sites on the front-end of my Hub', 'dollie' )
 					);
@@ -782,7 +777,7 @@ final class Container extends Singleton implements ConstInterface {
 		?>
 		<?php
 			dollie_setup_get_template_part( 'wrapper-header' );
-			?>
+		?>
 			<div class="dollie-page-intro">
 				<p>
 					<?php
@@ -850,7 +845,7 @@ final class Container extends Singleton implements ConstInterface {
 		}
 
 		$term       = '';
-		$meta_query = [];
+		$meta_query = array();
 
 		if ( isset( $_GET['s'] ) ) {
 			$term = strtolower( sanitize_text_field( $_GET['s'] ) );
@@ -858,23 +853,23 @@ final class Container extends Singleton implements ConstInterface {
 
 		if ( $term ) {
 			$meta_query['relation'] = 'AND';
-			$meta_query[]           = [
+			$meta_query[]           = array(
 				'key'     => 'dollie_container_details',
 				'value'   => $term,
 				'compare' => 'LIKE',
-			];
+			);
 		}
 
 		if ( isset( $_GET['blueprint'] ) ) {
-			$meta_query[] = [
+			$meta_query[] = array(
 				'key'   => 'dollie_container_type',
 				'value' => self::TYPE_BLUEPRINT,
-			];
+			);
 		} else {
-			$meta_query[] = [
+			$meta_query[] = array(
 				'key'   => 'dollie_container_type',
 				'value' => self::TYPE_SITE,
-			];
+			);
 		}
 
 		$query->set( 'meta_query', $meta_query );
@@ -905,14 +900,14 @@ final class Container extends Singleton implements ConstInterface {
 	 * Add Site Icon Menu hook
 	 */
 	public function add_site_icon_filter() {
-		add_filter( 'attribute_escape', [ $this, 'add_site_icon' ], 20, 2 );
+		add_filter( 'attribute_escape', array( $this, 'add_site_icon' ), 20, 2 );
 	}
 
 	/**
 	 * Remove Site Icon Menu hook
 	 */
 	public function remove_site_icon_filter() {
-		remove_filter( 'attribute_escape', [ $this, 'add_site_icon' ], 20, 2 );
+		remove_filter( 'attribute_escape', array( $this, 'add_site_icon' ), 20, 2 );
 	}
 
 	/**
@@ -945,25 +940,25 @@ final class Container extends Singleton implements ConstInterface {
 		add_filter(
 			'wp_count_posts',
 			static function ( $counts ) {
-				$meta_query     = [];
+				$meta_query     = array();
 				$container_type = self::TYPE_SITE;
 
 				if ( isset( $_GET['blueprint'] ) && ! empty( $_GET['blueprint'] ) ) {
 					$container_type = self::TYPE_BLUEPRINT;
 				}
 
-				$meta_query[] = [
+				$meta_query[] = array(
 					'key'     => 'dollie_container_type',
 					'value'   => $container_type,
 					'compare' => '=',
-				];
+				);
 
-				$args = [
+				$args = array(
 					'posts_per_page' => -1,
 					'post_type'      => 'container',
 					'post_status'    => 'publish',
 					'meta_query'     => $meta_query,
-				];
+				);
 
 				$blueprints      = new \WP_Query( $args );
 				$counts->publish = $blueprints->found_posts;
@@ -1023,10 +1018,10 @@ final class Container extends Singleton implements ConstInterface {
 	 * @return void
 	 */
 	public function filter_by_author() {
-		$params = [
+		$params = array(
 			'name'            => 'author',
 			'show_option_all' => 'All customers',
-		];
+		);
 
 		if ( isset( $_GET['user'] ) ) {
 			$params['selected'] = $_GET['user'];
