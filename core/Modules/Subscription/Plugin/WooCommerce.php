@@ -201,8 +201,14 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 		// Loop through order items
 		foreach ( $order->get_items() as $item_id => $item ) {
-			// Get the product ID
-			$product_id = $item->get_product_id();
+			// Check if it's a variation
+			if ( $item->get_variation_id() ) {
+				$product_id   = $item->get_variation_id();
+				$product_type = 'variation';
+			} else {
+				$product_id   = $item->get_product_id();
+				$product_type = 'product';
+			}
 
 			// Get the group ID from the ACF field on the product
 			$group_id_array = get_field( 'wpd_group_users', $product_id );
@@ -221,7 +227,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 					$user_id,        // User IDs
 					'WooCommerce',            // Source
 					'WooCommerce', // Log type
-					'User added to group on purchase of product ' . get_the_title( $product_id ) . '.'
+					'User added to group on purchase of ' . $product_type . ' ' . get_the_title( $product_id ) . '.'
 				);
 			}
 		}
@@ -233,8 +239,14 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 
 		$user_id = $subscription->get_user_id();
 		foreach ( $subscription->get_items() as $item_id => $item ) {
-			// Get the product ID
-			$product_id = $item->get_product_id();
+			// Check if it's a variation
+			if ( $item->get_variation_id() ) {
+				$product_id   = $item->get_variation_id();
+				$product_type = 'product variation';
+			} else {
+				$product_id   = $item->get_product_id();
+				$product_type = 'product';
+			}
 
 			// Get the group ID from the ACF field on the product
 			$group_id_array = get_field( 'wpd_group_users', $product_id );
@@ -247,20 +259,17 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 				// Get instance of Hooks class
 				$hooks = \Dollie\Core\Modules\AccessGroups\AccessGroups::instance();
 
-				// Add user to the access group
+				// Remove user from the access group
 				$hooks->remove_from_access_group(
 					$group_id,                // Group ID
 					$user_id,        // User IDs
 					'WooCommerce',            // Source
 					'WooCommerce', // Log type
-					'User removed from group on subscription cancel for ' . get_the_title( $product_id ) . '.'
+					'User removed from group on subscription cancel for ' . $product_type . ' ' . get_the_title( $product_id ) . '.'
 				);
 			}
 		}
 	}
-
-
-
 
 	public function add_acf_fields( $field_group ) {
 		$fields = array(
