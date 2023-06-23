@@ -147,12 +147,11 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 	/**
 	 * Get subscriptions for customer
 	 *
-	 * @param string   $status
 	 * @param null|int $customer_id
 	 *
 	 * @return array|bool
 	 */
-	public function get_customer_subscriptions( $status = null, $customer_id = null ) {
+	public function get_customer_subscriptions( $customer_id = null ) {
 			return true;
 	}
 
