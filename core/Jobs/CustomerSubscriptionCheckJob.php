@@ -24,25 +24,30 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'init', [ $this, 'init_recurring_tasks' ] );
+		add_action( 'init', array( $this, 'init_recurring_tasks' ) );
 
-		add_action( 'dollie/jobs/recurring/subscription_check', [ $this, 'run_subscription_check' ], 10 );
-		add_action( 'dollie/jobs/recurring/remove_container_posts', [ $this, 'remove_deleted_container_posts' ], 10 );
-		add_action( 'dollie/jobs/recurring/email_digest', [ $this, 'run_email_digest' ], 10 );
+		if ( isset( $_GET['test-subs'] ) == 'yes' ) {
+			add_action( 'admin_init', array( $this, 'run_subscription_check' ) );
+		}
 
-		add_action( 'trashed_post', [ $this, 'do_not_schedule_post_types' ] );
+		add_action( 'dollie/jobs/recurring/subscription_check', array( $this, 'run_subscription_check' ), 10 );
+		add_action( 'dollie/jobs/recurring/remove_container_posts', array( $this, 'remove_deleted_container_posts' ), 10 );
+		add_action( 'dollie/jobs/recurring/email_digest', array( $this, 'run_email_digest' ), 10 );
+
+		add_action( 'trashed_post', array( $this, 'do_not_schedule_post_types' ) );
 	}
 
 	/**
 	 * Init recurring tasks
 	 */
 	public function init_recurring_tasks() {
+
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/subscription_check' ) ) {
 			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/subscription_check' );
 		}
 
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/remove_container_posts' ) ) {
-			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/undeploy_sites' );
+			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/schedule_for_deletion' );
 		}
 
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/email_digest' ) ) {
@@ -54,37 +59,39 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	 * Check customer's subscriptions
 	 */
 	public function run_subscription_check() {
-		if ( get_option( 'wpd_charge_for_deployments' ) !== '1' ) {
+		// Do not run cron if Hub does not have subscription features enabled.
+		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return;
 		}
 
 		// The User Query.
 		$query = new \WP_User_Query(
-			[
+			array(
 				'role__not_in' => 'Administrator',
-			]
+			)
 		);
 
 		// The User Loop.
 		if ( ! empty( $query->results ) ) {
 			foreach ( $query->results as $customer ) {
-				$has_subscription = Subscription::instance()->get_customer_subscriptions( 'active', $customer->ID );
 
-				if ( ! $has_subscription ) {
-					Log::add( $customer->ID . ' has no active Dollie subscription.' );
+				$access     = \Dollie\Core\Modules\AccessGroups\AccessGroups::instance();
+				$has_access = $access->get_customer_access_details( $customer->ID );
+				$user       = dollie()->get_user( $customer->ID );
+
+				if ( ! $has_access ) {
+					// Check for containers and mark for deletion.
+					$user->delete_or_restore_containers( $has_access );
+					Log::add( $customer->ID . ' has no Hub Access settings.' );
 				}
-
-				$user = dollie()->get_user( $customer->ID );
 
 				if ( is_wp_error( $user ) ) {
 					continue;
 				}
-
-				$user->delete_or_restore_containers( $has_subscription );
 			}
 		}
 
-		Log::add( esc_html__( 'Customer subscription cron completed', 'dollie' ) );
+		Log::add( esc_html__( 'Customer Access Check cron completed', 'dollie' ) );
 	}
 
 	/**
@@ -92,11 +99,11 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	 */
 	public function remove_deleted_container_posts() {
 		$query = new WP_Query(
-			[
+			array(
 				'post_type'      => 'container',
-				'post_status'    => [ 'draft', 'trash', 'publish' ],
+				'post_status'    => array( 'draft', 'trash', 'publish' ),
 				'posts_per_page' => - 1,
-			]
+			)
 		);
 
 		$posts = $query->get_posts();
@@ -139,39 +146,37 @@ class CustomerSubscriptionCheckJob extends Singleton {
 
 		$subject = get_field( 'wpd_email_digest_subject', 'options' );
 		$subject = str_replace(
-			[
+			array(
 				'{dollie_sites_stopped_count}',
 				'{dollie_sites_removal_count}',
-			],
-			[
+			),
+			array(
 				$this->count_stopped_containers(),
 				$this->count_undeployed_containers(),
 
-			],
+			),
 			$subject
 		);
 
 		$message = get_field( 'wpd_email_digest_body', 'options' );
 		$message = str_replace(
-			[
+			array(
 				'{dollie_sites_stopped_list}',
 				'{dollie_sites_removal_list}',
-			],
-			[
+			),
+			array(
 				$this->get_stopped_container_list(),
 				$this->get_undeployed_container_list(),
 
-			],
+			),
 			$message
 		);
 
 		$to      = get_option( 'admin_email' );
-		$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
+		$headers = array( 'Content-Type: text/html; charset=UTF-8' );
 
 		wp_mail( $to, $subject, $message, $headers );
-
 	}
-
 
 	/**
 	 * Get stopped containers list
@@ -180,13 +185,13 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	 */
 	public function get_stopped_container_list() {
 		$query = new WP_Query(
-			[
+			array(
 				'post_type'      => 'container',
-				'post_status'    => [ 'draft', 'trash', 'publish' ],
+				'post_status'    => array( 'draft', 'trash', 'publish' ),
 				'posts_per_page' => - 1,
 				'meta_key'       => 'wpd_scheduled_for_removal',
 				'meta_value'     => 'yes',
-			]
+			)
 		);
 
 		$posts = $query->get_posts();
@@ -206,11 +211,11 @@ class CustomerSubscriptionCheckJob extends Singleton {
 			$domain    = $container->get_custom_domain();
 			$author_id = get_the_author_meta( 'ID' );
 			?>
-            <a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
-                    href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be stopped at
-            <strong><?php echo date( 'F j, Y', $undeploy ); ?></strong> <a
-                    href="<?php echo get_edit_post_link( get_the_ID() ); ?>">View Container</a>
-            <br>
+			<a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
+					href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be stopped at
+			<strong><?php echo date( 'F j, Y', $undeploy ); ?></strong> <a
+					href="<?php echo get_edit_post_link( get_the_ID() ); ?>">View Container</a>
+			<br>
 			<?php
 		}
 
@@ -228,13 +233,13 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	public function get_undeployed_container_list() {
 		// Instantiate custom query.
 		$query = new WP_Query(
-			[
+			array(
 				'post_type'      => 'container',
-				'post_status'    => [ 'draft', 'trash', 'publish' ],
+				'post_status'    => array( 'draft', 'trash', 'publish' ),
 				'posts_per_page' => - 1,
 				'meta_key'       => 'wpd_scheduled_for_undeployment',
 				'meta_value'     => 'yes',
-			]
+			)
 		);
 
 		$posts = $query->get_posts();
@@ -254,10 +259,10 @@ class CustomerSubscriptionCheckJob extends Singleton {
 			$domain    = $container->get_custom_domain();
 			$author_id = get_the_author_meta( 'ID' );
 			?>
-            <a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
-                    href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be undeployed on
-            <strong><?php echo date( 'F j, Y', $undeploy ); ?></strong>
-            <br>
+			<a href="<?php echo $url; ?>"> <?php echo $slug; ?> - <?php echo $domain; ?></a> by customer <a
+					href="<?php echo get_edit_user_link( $author_id ); ?>"><?php echo get_the_author(); ?></a> will be undeployed on
+			<strong><?php echo date( 'F j, Y', $undeploy ); ?></strong>
+			<br>
 			<?php
 		}
 
@@ -274,11 +279,11 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	 */
 	public function count_undeployed_containers() {
 		$posts = get_posts(
-			[
+			array(
 				'post_type'      => 'container',
 				'post_status'    => 'trash',
 				'posts_per_page' => - 1,
-			]
+			)
 		);
 
 		return count( $posts );
@@ -291,11 +296,11 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	 */
 	public function count_stopped_containers() {
 		$posts = get_posts(
-			[
+			array(
 				'post_type'      => 'container',
-				'post_status'    => [ 'draft', 'trash', 'publish' ],
+				'post_status'    => array( 'draft', 'trash', 'publish' ),
 				'posts_per_page' => - 1,
-			]
+			)
 		);
 
 		return count( $posts );
@@ -307,11 +312,10 @@ class CustomerSubscriptionCheckJob extends Singleton {
 	 * @param $post_id
 	 */
 	public function do_not_schedule_post_types( $post_id ) {
-		$unscheduled_post_types = [ 'container' ];
+		$unscheduled_post_types = array( 'container' );
 
 		if ( in_array( get_post_type( $post_id ), $unscheduled_post_types, true ) ) {
 			delete_post_meta( $post_id, '_wp_trash_meta_time' );
 		}
 	}
-
 }
