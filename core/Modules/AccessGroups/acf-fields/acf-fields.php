@@ -26,12 +26,12 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				'label'             => 'Overwrite Access Settings for this User',
 				'name'              => 'enable_feature',
 				'type'              => 'true_false',
-				'instructions'      => '',
+				'instructions'      => 'Enable this to overwrite the default Access Group(s) for ' . $user . '. This will overwrite all access settings for this user and only allow access to the features you select below.',
 				'required'          => 0,
 				'conditional_logic' => 0,
 				'wrapper'           => array(
 					'width' => '',
-					'class' => '',
+					'class' => 'dol-always-show',
 					'id'    => '',
 				),
 				'message'           => '',
@@ -40,7 +40,6 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				'ui_on_text'        => 'Enabled',
 				'ui_off_text'       => 'Disabled',
 			),
-			// Add more fields here as required when condition is met
 		);
 
 	}

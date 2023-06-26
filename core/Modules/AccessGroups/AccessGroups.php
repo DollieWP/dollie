@@ -33,6 +33,7 @@ class AccessGroups extends Singleton {
 		add_action( 'add_meta_boxes', array( $this, 'add_logs_meta_box' ) );
 		add_action( 'admin_footer', array( $this, 'acf_readonly_fields' ) );
 		add_action( 'acf/init', array( $this, 'load_acf' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_script' ) );
 
 		if ( defined( 'PMPRO_VERSION' ) ) {
 			add_action( 'pmpro_membership_level_after_general_information', array( $this, 'custom_level_fields' ) );
@@ -636,6 +637,12 @@ class AccessGroups extends Singleton {
 		}
 
 		return apply_filters( 'dollie/woo/subscription_data', $data, $customer_id );
+	}
+
+	public function enqueue_admin_script( $hook ) {
+		if ( 'user-edit.php' == $hook ) {
+			wp_enqueue_script( 'dollie-groups-js', DOLLIE_ASSETS_URL . 'js/admin-access-groups.js', array(), DOLLIE_VERSION );
+		}
 	}
 
 
