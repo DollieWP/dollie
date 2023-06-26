@@ -24,7 +24,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 			array(
 				'key'               => 'field_612616dc483456frerf24rnjgnjk64',
 				'label'             => 'Overwrite Access Settings for this User',
-				'name'              => 'enable_feature',
+				'name'              => 'wpd_enable_user_access_overwrite',
 				'type'              => 'true_false',
 				'instructions'      => 'Enable this to overwrite the default Access Group(s) for ' . $user . '. This will overwrite all access settings for this user and only allow access to the features you select below.',
 				'required'          => 0,

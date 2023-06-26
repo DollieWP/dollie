@@ -558,16 +558,30 @@ class AccessGroups extends Singleton {
 	 *
 	 * @return array|bool
 	 */
+	/**
+	 * Get groups for customer
+	 *
+	 * @param null|int $customer_id
+	 *
+	 * @return array|bool
+	 */
 	public function get_customer_access_details( $customer_id = null ) {
 
 		if ( ! $customer_id ) {
 			$customer_id = get_current_user_id();
 		}
 
-		$groups = $this->get_user_groups( $customer_id );
+		// First check for user specific settings.
+		$user_specific_settings = get_field( 'wpd_enable_user_access_overwrite', 'user_' . $customer_id );
 
-		if ( ! is_array( $groups ) || empty( $groups ) ) {
-			return false;
+		if ( $user_specific_settings ) {
+			$settings_ids = array( 'user_' . $customer_id ); // Use user-specific settings
+		} else {
+			$settings_ids = $this->get_user_groups( $customer_id );
+
+			if ( ! is_array( $settings_ids ) || empty( $settings_ids ) ) {
+				return false;
+			}
 		}
 
 		$data = array(
@@ -579,17 +593,23 @@ class AccessGroups extends Singleton {
 			),
 		);
 
-		foreach ( $groups as $group_id ) {
+		foreach ( $settings_ids as $id ) {
+
+			// Adjust the $group_id based on the source of settings
+			$group_id = $user_specific_settings ? 'user_' . $customer_id : $id;
 
 			// Use the $group_id to get the WP_Post object
 			$group_post = get_post( $group_id );
-			if ( ! $group_post ) {
+			if ( ! $group_post && ! $user_specific_settings ) {
 				continue;
 			}
 
-			$installs = (int) get_field( '_wpd_installs', $group_id );
-			$max_size = get_field( '_wpd_max_size', $group_id );
-			$staging  = get_field( '_wpd_staging_installs', $group_id );
+			$name                          = $user_specific_settings ? 'Custom Settings on User Profile' : $group_post->post_title;
+			$installs                      = (int) get_field( '_wpd_installs', $group_id );
+			$max_size                      = get_field( '_wpd_max_size', $group_id );
+			$staging                       = get_field( '_wpd_staging_installs', $group_id );
+			$available_sections            = get_field( 'available_sections', $group_id );
+			$available_features_developers = get_field( 'available_features_developers', $group_id );
 
 			if ( ! $staging ) {
 				$staging = 0;
@@ -599,12 +619,8 @@ class AccessGroups extends Singleton {
 				$max_size = 0;
 			}
 
-			// Get the additional fields
-			$available_sections            = get_field( 'available_sections', $group_id );
-			$available_features_developers = get_field( 'available_features_developers', $group_id );
-
-			$data['plans']['products'][ $group_id ] = array(
-				'name'                => $group_post->post_title,
+			$data['plans']['products'][ $id ] = array(
+				'name'                => $name,
 				'installs'            => $installs,
 				'max_size'            => $max_size,
 				'included_blueprints' => get_field( '_wpd_included_blueprints', $group_id ),
@@ -613,7 +629,7 @@ class AccessGroups extends Singleton {
 
 			$data['resources']['max_allowed_installs']         += $installs;
 			$data['resources']['max_allowed_size']             += $max_size;
-			$data['resources']['name']                          = $group_post->post_title;
+			$data['resources']['name']                          = $name;
 			$data['resources']['staging_max_allowed']          += $staging;
 			$data['resources']['available_sections']            = $available_sections;
 			$data['resources']['available_features_developers'] = $available_features_developers;
@@ -626,7 +642,7 @@ class AccessGroups extends Singleton {
 			if ( is_array( $value ) ) {
 				foreach ( $value as $innerKey => $innerValue ) {
 					if ( is_array( $innerValue ) ) {
-							continue; // Skip nested arrays
+						continue; // Skip nested arrays
 					} else {
 						update_user_meta( $customer_id, 'dollie_hub_' . $key . '_' . $innerKey, $innerValue );
 					}
@@ -638,6 +654,7 @@ class AccessGroups extends Singleton {
 
 		return apply_filters( 'dollie/woo/subscription_data', $data, $customer_id );
 	}
+
 
 	public function enqueue_admin_script( $hook ) {
 		if ( 'user-edit.php' == $hook ) {
