@@ -74,17 +74,16 @@ class CustomerSubscriptionCheckJob extends Singleton {
 		// The User Loop.
 		if ( ! empty( $query->results ) ) {
 			foreach ( $query->results as $customer ) {
+				$user = dollie()->get_user( $customer->ID );
 
-				$access     = \Dollie\Core\Modules\AccessGroups\AccessGroups::instance();
-				$has_access = $access->get_customer_access_details( $customer->ID );
-				$user       = dollie()->get_user( $customer->ID );
+				// Check if user has any access settings related to allowed Sites
+				$has_access = get_user_meta( $customer->ID, 'dollie_hub_resources_max_allowed_installs', true );
 
-				if ( ! $has_access ) {
-					// Check for containers and mark for deletion.
+				// If the value exist or is set to 0, we can continue to check the user.
+				if ( $has_access || $has_access === '0' ) {
+					// Move on to container check if user has access settings
 					$user->delete_or_restore_containers( $has_access );
-					Log::add( $customer->ID . ' has no Hub Access settings.' );
 				}
-
 				if ( is_wp_error( $user ) ) {
 					continue;
 				}

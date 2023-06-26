@@ -2,6 +2,8 @@
 
 namespace Dollie\Core\Factories;
 
+use Dollie\Core\Log;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
@@ -176,12 +178,12 @@ final class User {
 	 */
 	public function count_containers(): int {
 		$query = new \WP_Query(
-			[
+			array(
 				'author'        => $this->get_id(),
 				'post_type'     => 'container',
 				'post_per_page' => - 1,
 				'post_status'   => 'publish',
-			]
+			)
 		);
 
 		wp_reset_postdata();
@@ -196,18 +198,18 @@ final class User {
 	 */
 	public function count_stagings(): int {
 		$query = new \WP_Query(
-			[
+			array(
 				'author'        => $this->get_id(),
 				'post_type'     => 'container',
 				'post_per_page' => - 1,
 				'post_status'   => 'publish',
-				'meta_query'    => [
-					[
+				'meta_query'    => array(
+					array(
 						'key'   => 'wpd_has_staging',
 						'value' => 'yes',
-					],
-				],
-			]
+					),
+				),
+			)
 		);
 
 		wp_reset_postdata();
@@ -235,23 +237,27 @@ final class User {
 	 *
 	 * @return void
 	 */
-	public function delete_or_restore_containers( $has_subscription ) {
-		$this->set_meta( 'wpd_active_subscription', $has_subscription ? 'yes' : 'no' );
+	public function delete_or_restore_containers( $has_access ) {
+		$allowed_sites = get_user_meta( $this->get_id(), 'dollie_hub_resources_max_allowed_installs', true );
+		$remove_sites  = dollie()->get_user( $this->get_id() )->count_containers() > $allowed_sites;
 
-		if ( ! $has_subscription ) {
+		// More sites than allowed
+		if ( $remove_sites ) {
 			if ( ! $this->get_meta( 'wpd_stop_container_at' ) ) {
 				$this->set_meta( 'wpd_stop_container_at', current_time( 'timestamp' ) + 3 * 86400 );
+				Log::add( $this->get_id() . ' has too many sites. Setting flag to remove them.' );
 			}
 		} else {
-			$this->delete_meta( 'wpd_stop_container_at' );
+				$this->delete_meta( 'wpd_stop_container_at' );
+				Log::add( $this->get_id() . ' has permission to launch sites again.' );
 		}
 
 		$query = new \WP_Query(
-			[
+			array(
 				'author'         => $this->user->ID,
 				'post_type'      => 'container',
 				'posts_per_page' => - 1,
-			]
+			)
 		);
 
 		$posts = $query->get_posts();
@@ -263,9 +269,9 @@ final class User {
 				continue;
 			}
 
-			if ( ! $container->is_scheduled_for_deletion() && $this->should_have_containers_deleted() && ! $has_subscription ) {
+			if ( ! $container->is_scheduled_for_deletion() && $this->should_have_containers_deleted() && $remove_sites ) {
 				$container->delete();
-			} elseif ( $container->is_scheduled_for_deletion() && ! $this->should_have_containers_deleted() && $has_subscription ) {
+			} elseif ( $container->is_scheduled_for_deletion() && ! $this->should_have_containers_deleted() && ! $remove_sites ) {
 				$container->restore();
 			}
 		}

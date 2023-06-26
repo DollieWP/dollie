@@ -571,7 +571,7 @@ class AccessGroups extends Singleton {
 			$customer_id = get_current_user_id();
 		}
 
-		// First check for user specific settings.
+		// First check for user specific settings. These will overwire any group settings.
 		$user_specific_settings = get_field( 'wpd_enable_user_access_overwrite', 'user_' . $customer_id );
 
 		if ( $user_specific_settings ) {
