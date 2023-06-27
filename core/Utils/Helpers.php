@@ -217,16 +217,10 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @return boolean
 	 */
-	public function has_products(): bool {
+	public function has_access_groups(): bool {
 		$args = [
-			'post_type'  => 'product',
+			'post_type'  => 'dollie-access-groups',
 			'status'     => 'publish',
-			'meta_query' => [
-				[
-					'key'         => 'wpd_',
-					'compare_key' => 'LIKE',
-				],
-			],
 		];
 
 		$args = apply_filters( 'dollie_product_query', $args );
