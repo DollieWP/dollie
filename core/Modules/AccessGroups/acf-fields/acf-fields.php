@@ -51,7 +51,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 		array(
 			array(
 				'key'               => 'field_612616dc483456f24rnjgnjk64',
-				'label'             => dollie()->show_helper_video( 'product-setup', 'h3a5WqBTKQI', 'Watch Video', 'Hub Access Groups' ),
+				'label'             => dollie()->show_helper_video( 'access-groups', 'TIf53hl-O9U', 'Watch Video', 'Hub Access Groups' ),
 				'name'              => 'dollie_show_video',
 				'type'              => 'message',
 				'instructions'      => '',
@@ -532,7 +532,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 						'dollie_admin_only'        => 0,
 						'acfe_save_meta'           => 0,
 						'hide_admin'               => 0,
-						'message'                  => __( 'With Hub Access Groups you can easily control what your customers / client can do inside your Hub . for example you can control the amount of sites they can launch, the blueprints they can have access too, or which areas of their Site Dashboard are available . < br > < br > ' . dollie()->show_helper_video( 'product-setup', 'h3a5WqBTKQI', 'Watch Video', 'Hub Access Groups' ), 'dollie' ),
+						'message'                  => __( 'With Hub Access Groups you can easily control what your customers / client can do inside your Hub . for example you can control the amount of sites they can launch, the blueprints they can have access too, or which areas of their Site Dashboard are available . < br > < br > ' . dollie()->show_helper_video( 'access-groups', 'TIf53hl-O9U', 'Watch Video', 'Hub Access Groups' ), 'dollie' ),
 						'new_lines'                => 'wpautop',
 						'esc_html'                 => 0,
 					),

@@ -59,7 +59,7 @@
 			</li>
 		<?php endif; ?>
 
-		<?php if ( $charge && dollie()->has_products() ) : ?>
+		<?php if ( $charge && dollie()->has_access_groups() ) : ?>
 			<li>
 				<a href="#" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
@@ -71,9 +71,9 @@
 							</div>
 							<div class="dol-min-w-0 dol-flex-1 dol-px-4">
 								<div>
-									<p class="dol-text-sm dol-font-medium dol-text-green-600 dol-truncate"><?php esc_html_e( ' Products Configured', 'dollie' ); ?></p>
+									<p class="dol-text-sm dol-font-medium dol-text-green-600 dol-truncate"><?php esc_html_e( 'Access Configured', 'dollie' ); ?></p>
 									<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
-										<span class="dol-truncate"><?php esc_html_e( 'You have set up one or more products', 'dollie' ); ?></span>
+										<span class="dol-truncate"><?php esc_html_e( 'You set up your Access Groups', 'dollie' ); ?></span>
 									</p>
 								</div>
 
@@ -85,7 +85,7 @@
 			</li>
 		<?php elseif ( $charge ) : ?>
 			<li>
-				<a href="<?php echo get_admin_url(); ?>post-new.php?post_type=product" class="dol-block hover:dol-bg-gray-50">
+				<a href="<?php echo get_admin_url(); ?>post-new.php?post_type=dollie-access-groups" class="dol-block hover:dol-bg-gray-50">
 					<div class="dol-flex dol-items-center dol-px-4 dol-py-4 sm:dol-px-6">
 						<div class="dol-min-w-0 dol-flex-1 dol-flex dol-items-center">
 							<div class="dol-flex-shrink-0">
@@ -95,9 +95,9 @@
 							</div>
 							<div class="dol-min-w-0 dol-flex-1 dol-px-4">
 								<div>
-									<p class="dol-text-sm dol-font-medium dol-text-red-600 dol-truncate"><?php esc_html_e( 'WooCommerce Setup', 'dollie' ); ?></p>
+									<p class="dol-text-sm dol-font-medium dol-text-red-600 dol-truncate"><?php esc_html_e( 'Create Access Group', 'dollie' ); ?></p>
 									<p class="dol-mt-2 dol-flex dol-items-center dol-text-sm dol-text-gray-500">
-										<span class="dol-truncate"><?php esc_html_e( 'No Products with Dollie Settings Found', 'dollie' ); ?></span>
+										<span class="dol-truncate"><?php esc_html_e( 'No Access Groups found.', 'dollie' ); ?></span>
 									</p>
 								</div>
 
