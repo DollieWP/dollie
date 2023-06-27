@@ -120,6 +120,17 @@ class AccessGroups extends Singleton {
 		require DOLLIE_CORE_PATH . 'Modules/AccessGroups/acf-fields/acf-fields.php';
 	}
 
+	public static function get_access_groups() {
+		$args   = array(
+			'post_type'      => 'dollie-access-groups',
+			'post_status'    => 'publish',
+			'posts_per_page' => -1, // Get all posts
+		);
+		$groups = get_posts( $args );
+
+		return $groups;
+	}
+
 	/**
 	 * Adds a list of users to an access group.
 	 *

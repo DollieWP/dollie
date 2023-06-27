@@ -38,14 +38,9 @@ class PaidMembershipsPro extends Singleton {
 	 * Customizes membership level fields for Paid Memberships Pro.
 	 */
 	public function custom_level_fields() {
-		// Query for 'dollie-access-groups' posts
-		$args  = array(
-			'post_type'      => 'dollie-access-groups',
-			'post_status'    => 'publish',
-			'posts_per_page' => -1, // Get all posts
-		);
-		$posts = get_posts( $args );
 
+		$access = new AccessGroups();
+		$groups = $access->get_access_groups();
 		// Get the current level
 		$level = pmpro_getLevel( $_REQUEST['edit'] );
 
@@ -62,9 +57,9 @@ class PaidMembershipsPro extends Singleton {
 					<td>
 						<select id="extra_setting" name="extra_setting">
 							<?php
-							foreach ( $posts as $post ) {
-								$selected = ( $post->ID == $selected_group_id ) ? 'selected="selected"' : '';
-								echo '<option value="' . $post->ID . '" ' . $selected . '>' . $post->post_title . '</option>';
+							foreach ( $groups as $group ) {
+								$selected = ( $group->ID == $selected_group_id ) ? 'selected="selected"' : '';
+								echo '<option value="' . $group->ID . '" ' . $selected . '>' . $group->post_title . '</option>';
 							}
 							?>
 						</select>
