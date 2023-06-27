@@ -25,7 +25,6 @@ class AccessGroups extends Singleton {
 		parent::__construct();
 
 		add_action( 'init', array( $this, 'register_access_groups_cpt' ) );
-		// add the membership level change hook.
 		add_action( 'init', array( $this, 'create_access_group_terms' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_logs_meta_box' ) );
 		add_action( 'admin_footer', array( $this, 'acf_readonly_fields' ) );
@@ -468,76 +467,6 @@ class AccessGroups extends Singleton {
 		}
 
 		return $group_ids;
-	}
-
-	/**
-	 * Customizes membership level fields.
-	 */
-	public function custom_level_fields() {
-		// Query for 'dollie-access-groups' posts
-		$args  = array(
-			'post_type'      => 'dollie-access-groups',
-			'post_status'    => 'publish',
-			'posts_per_page' => -1, // Get all posts
-		);
-		$posts = get_posts( $args );
-
-		// Get the current level
-		$level = pmpro_getLevel( $_REQUEST['edit'] );
-
-		// Get the currently selected group ID for this level
-		$selected_group_id = get_option( 'my_pmpro_group_' . $level->id );
-		?>
-			<hr>
-			<h3>Dollie Hub - Access Group Settings</h3>
-			<p>Easily add customers who subscribe to this membership plan to your Hub Access Groups.</p>
-				<table>
-					<tbody class="form-table">
-						<tr>
-							<th scope="row" valign="top"><label for="extra_setting">Add to Access Group:</label></th>
-							<td>
-								<select id="extra_setting" name="extra_setting">
-							<?php
-							foreach ( $posts as $post ) {
-								$selected = ( $post->ID == $selected_group_id ) ? 'selected="selected"' : '';
-								echo '<option value="' . $post->ID . '" ' . $selected . '>' . $post->post_title . '</option>';
-							}
-							?>
-								</select>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-
-			<?php
-	}
-
-	/**
-	 * Saves custom level fields.
-	 *
-	 * @param int $level_id ID of the membership level
-	 */
-	public function save_custom_level_fields( $level_id ) {
-		if ( isset( $_REQUEST['extra_setting'] ) ) {
-			update_option( 'my_pmpro_group_' . $level_id, sanitize_text_field( $_REQUEST['extra_setting'] ) );
-		}
-	}
-
-
-	public function after_change_membership_level( $level_id, $user_id ) {
-		// Retrieve the group ID associated with the membership level
-		$group_id = get_option( 'my_pmpro_group_' . $level_id );
-
-		// If a group is associated, add the user to it
-		if ( ! empty( $group_id ) ) {
-			$this->add_to_access_group(
-				$group_id, // Group ID
-				$user_id,      // User IDs
-				$this->pmp_name,
-				$this->pmp_name, // Log type
-				'When user is added to membership level ' . pmpro_getLevel( $level_id )->name . '.',
-			);
-		}
 	}
 
 
