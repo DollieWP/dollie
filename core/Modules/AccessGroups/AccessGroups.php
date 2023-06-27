@@ -215,23 +215,6 @@ class AccessGroups extends Singleton {
 	}
 
 	/**
-	 * Makes Advanced Custom Fields readonly.
-	 */
-	public function acf_readonly_fields() {
-		?>
-		<script type="text/javascript">
-		jQuery(document).ready(function($) {
-			// replace 'field_12345678' with the field key of the field you want to disable
-			$('div[data-key="field_649420e3e3fb7"] input, div[data-key="field_649420e3e3fb7"] textarea').attr(
-				'readonly', 'true');
-			$('div[data-key="field_649420e3e3fb7"] .acf-button, div[data-key="field_649420e3e3fb7"] .acf-row-handle')
-				.addClass('hidden');
-		});
-		</script>
-		<?php
-	}
-
-	/**
 	 * Removes a list of users from an access group.
 	 *
 	 * @param int    $group_id ID of the group
@@ -591,6 +574,23 @@ class AccessGroups extends Singleton {
 		if ( 'user-edit.php' == $hook ) {
 			wp_enqueue_script( 'dollie-groups-js', DOLLIE_ASSETS_URL . 'js/admin-access-groups.js', array(), DOLLIE_VERSION );
 		}
+	}
+
+	/**
+	 * Makes Advanced Custom Fields readonly.
+	 */
+	public function acf_readonly_fields() {
+		?>
+		<script type="text/javascript">
+		jQuery(document).ready(function($) {
+			// replace 'field_12345678' with the field key of the field you want to disable
+			$('div[data-key="field_649420e3e3fb7"] input, div[data-key="field_649420e3e3fb7"] textarea').attr(
+				'readonly', 'true');
+			$('div[data-key="field_649420e3e3fb7"] .acf-button, div[data-key="field_649420e3e3fb7"] .acf-row-handle')
+				.addClass('hidden');
+		});
+		</script>
+		<?php
 	}
 
 
