@@ -10,6 +10,7 @@ use Dollie\Core\Modules\Subscription\Subscription;
 use Dollie\Core\Modules\Vip\Hooks as VipHooks;
 use Dollie\Core\Modules\AccessGroups\AccessGroups as AccessGroups;
 use Dollie\Core\Modules\WooCommerce;
+use Dollie\Core\Modules\Subscription\Plugin\PaidMembershipsPro;
 use Dollie\Core\Modules\Logging;
 use Dollie\Core\Modules\Forms;
 
@@ -156,6 +157,7 @@ class Plugin extends Singleton {
 		Forms::instance();
 		Logging::instance();
 		WooCommerce::instance();
+		PaidMembershipsPro::instance();
 		Subscription::instance();
 		VipHooks::instance();
 		AccessGroups::instance();

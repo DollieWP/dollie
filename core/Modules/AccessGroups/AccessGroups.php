@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class AccessGroups extends Singleton {
 
-	protected $pmp_name = 'pmpro_membership_level';
+
 	/**
 	 * Hooks constructor.
 	 * Sets up the hooks needed for the access group system.
@@ -24,22 +24,13 @@ class AccessGroups extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		$this->pmp_name = 'Paid Memberships Pro';
-
 		add_action( 'init', array( $this, 'register_access_groups_cpt' ) );
 		// add the membership level change hook.
-		add_action( 'pmpro_after_change_membership_level', array( $this, 'after_change_membership_level' ), 10, 2 );
 		add_action( 'init', array( $this, 'create_access_group_terms' ) );
 		add_action( 'add_meta_boxes', array( $this, 'add_logs_meta_box' ) );
 		add_action( 'admin_footer', array( $this, 'acf_readonly_fields' ) );
 		add_action( 'acf/init', array( $this, 'load_acf' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_script' ) );
-
-		if ( defined( 'PMPRO_VERSION' ) ) {
-			add_action( 'pmpro_membership_level_after_general_information', array( $this, 'custom_level_fields' ) );
-			add_action( 'pmpro_save_membership_level', array( $this, 'save_custom_level_fields' ) );
-			add_action( 'pmpro_after_change_membership_level', array( $this, 'after_change_membership_level' ), 10, 2 );
-		}
 	}
 
 	/**
