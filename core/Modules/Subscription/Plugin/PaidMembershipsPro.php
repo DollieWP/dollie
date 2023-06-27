@@ -3,6 +3,7 @@
 namespace Dollie\Core\Modules\Subscription\Plugin;
 
 use Dollie\Core\Singleton;
+use Dollie\Core\Modules\AccessGroups\AccessGroups;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -29,7 +30,7 @@ class PaidMembershipsPro extends Singleton {
 
 			add_action( 'pmpro_membership_level_after_general_information', array( $this, 'custom_level_fields' ) );
 			add_action( 'pmpro_save_membership_level', array( $this, 'save_custom_level_fields' ) );
-			add_action( 'pmpro_after_change_membership_level', array( $this, 'after_change_membership_level' ), 10, 2 );
+			add_action( 'pmpro_after_all_membership_level_changes', array( $this, 'add_users_to_groups' ), 10, 1 );
 		}
 	}
 
@@ -49,7 +50,7 @@ class PaidMembershipsPro extends Singleton {
 		$level = pmpro_getLevel( $_REQUEST['edit'] );
 
 		// Get the currently selected group ID for this level
-		$selected_group_id = get_option( 'my_pmpro_group_' . $level->id );
+		$selected_group_id = get_option( 'dollie_pmpro_group_' . $level->id );
 		?>
 		<hr>
 		<h3>Dollie Hub - Access Group Settings</h3>
@@ -82,30 +83,58 @@ class PaidMembershipsPro extends Singleton {
 	 */
 	public function save_custom_level_fields( $level_id ) {
 		if ( isset( $_REQUEST['extra_setting'] ) ) {
-			update_option( 'my_pmpro_group_' . $level_id, sanitize_text_field( $_REQUEST['extra_setting'] ) );
+			update_option( 'dollie_pmpro_group_' . $level_id, sanitize_text_field( $_REQUEST['extra_setting'] ) );
 		}
 	}
 
-	/**
-	 * Handles actions after the membership level is changed in Paid Memberships Pro.
-	 *
-	 * @param int $level_id ID of the membership level
-	 * @param int $user_id ID of the user
-	 */
-	public function after_change_membership_level( $level_id, $user_id ) {
-		// Retrieve the group ID associated with the membership level
-		$group_id = get_option( 'my_pmpro_group_' . $level_id );
+	function add_users_to_groups( $old_user_levels ) {
+		$access = new AccessGroups();
 
-		// If a group is associated, add the user to it
-		if ( ! empty( $group_id ) ) {
-			$access = new AccessGroups();
-			$access->add_to_access_group(
-				$group_id, // Group ID
-				$user_id, // User IDs
-				$this->pmp_name,
-				$this->pmp_name, // Log type
-				'When user is added to membership level ' . pmpro_getLevel( $level_id )->name . '.'
-			);
+		foreach ( $old_user_levels as $user_id => $old_levels ) {
+			$new_levels = pmpro_getMembershipLevelsForUser( $user_id );
+
+			$old_group_ids = array();
+			$new_group_ids = array();
+
+			// Get the group IDs associated with old levels.
+			foreach ( $old_levels as $old_level ) {
+				$old_group_id = get_option( 'dollie_pmpro_group_' . $old_level->id );
+				if ( ! empty( $old_group_id ) ) {
+					$old_group_ids[] = $old_group_id;
+				}
+			}
+
+			// Get the group IDs associated with new levels.
+			foreach ( $new_levels as $new_level ) {
+				$new_group_id = get_option( 'dollie_pmpro_group_' . $new_level->id );
+				if ( ! empty( $new_group_id ) ) {
+					$new_group_ids[] = $new_group_id;
+				}
+			}
+
+			// Add the user to new groups.
+			$groups_to_add = array_diff( $new_group_ids, $old_group_ids );
+			foreach ( $groups_to_add as $group_id ) {
+				$access->add_to_access_group(
+					$group_id,
+					$user_id,
+					$this->pmp_name,
+					$this->pmp_name,
+					'User is added to membership level ' . pmpro_getLevel( $new_level )->name . '.'
+				);
+			}
+
+			// Remove the user from old groups.
+			$groups_to_remove = array_diff( $old_group_ids, $new_group_ids );
+			foreach ( $groups_to_remove as $group_id ) {
+				$access->remove_from_access_group(
+					$group_id,
+					$user_id,
+					$this->pmp_name,
+					$this->pmp_name,
+					'User is removed from membership level ' . pmpro_getLevel( $new_level )->name . '.'
+				);
+			}
 		}
 	}
 }
