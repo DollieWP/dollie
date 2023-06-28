@@ -27,7 +27,7 @@ class WooCommerce extends Singleton implements AccessInterface {
 
 		add_action( 'init', array( $this, 'enable_automatic_payments' ) );
 		add_action( 'woocommerce_thankyou', array( $this, 'redirect_to_blueprint' ) );
-		add_action( 'woocommerce_order_status_completed', array( $this, 'add_user_to_group_on_purchase' ), 10, 1 );
+
 		add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );
 		add_filter( 'acf/fields/relationship/query/key=field_5e2c1adcc1543', array( $this, 'modify_query' ), 10, 3 );
 		add_filter( 'acf/fields/relationship/query/key=field_5e2c1b94c1544', array( $this, 'modify_query' ), 10, 3 );
@@ -39,12 +39,15 @@ class WooCommerce extends Singleton implements AccessInterface {
 		add_filter( 'acf/location/rule_match/post_type', array( $this, 'my_acf_location_rule_match_post_type' ), 10, 4 );
 		add_action( 'acf/input/admin_footer', array( $this, 'my_acf_input_admin_footer' ) );
 
-		// WooCommerce Subscriptions specific
+		// Add/Removed user to group when subscription
 		if ( class_exists( 'WC_Subscriptions' ) ) {
-			add_action( 'woocommerce_subscription_status_active', array( $this, 'add_user_to_group_on_purchase' ), 10, 1 );
-			add_action( 'woocommerce_subscription_status_cancelled', array( $this, 'remove_user_from_group_on_subscription_cancel' ), 10, 1 );
-			add_action( 'woocommerce_subscription_status_pending-cancel', array( $this, 'remove_user_from_group_on_subscription_cancel' ), 10, 1 );
+			add_action( 'woocommerce_subscription_status_active', array( $this, 'add_user_to_group' ), 10, 1 );
+			add_action( 'woocommerce_subscription_status_cancelled', array( $this, 'remove_user_from_group' ), 10, 1 );
+			add_action( 'woocommerce_subscription_status_pending-cancel', array( $this, 'remove_user_from_group' ), 10, 1 );
 		}
+		// This is for regular WooCommerce orders
+		add_action( 'woocommerce_order_status_completed', array( $this, 'add_user_to_group' ), 10, 1 );
+		add_action( 'woocommerce_order_status_refunded', array( $this, 'remove_user_from_group' ), 10, 1 );
 
 		// Add UI for WooCommerce
 		add_filter( 'dollie/required_plugins', array( $this, 'required_woocommerce' ) );
@@ -197,7 +200,7 @@ class WooCommerce extends Singleton implements AccessInterface {
 		}
 	}
 
-	public function add_user_to_group_on_purchase( $order_id ) {
+	public function add_user_to_group( $order_id ) {
 		// Get the order object
 		$order = wc_get_order( $order_id );
 
@@ -238,7 +241,7 @@ class WooCommerce extends Singleton implements AccessInterface {
 		}
 	}
 
-	public function remove_user_from_group_on_subscription_cancel( $subscription ) {
+	public function remove_user_from_group( $subscription ) {
 
 		$user_id = $subscription->get_user_id();
 		foreach ( $subscription->get_items() as $item_id => $item ) {
