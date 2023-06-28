@@ -481,7 +481,7 @@ class AccessGroups extends Singleton {
 	 *
 	 * @return array|bool
 	 */
-	public function get_customer_access_details( $customer_id = null ) {
+	public function get_customer_access( $customer_id = null ) {
 
 		if ( ! $customer_id ) {
 			$customer_id = get_current_user_id();
@@ -628,7 +628,7 @@ class AccessGroups extends Singleton {
 
 	public function get_customer_developer_features( $customer_id = null ) {
 		// Get the customer specific details
-		$customer_access_details = $this->get_customer_access_details( $customer_id );
+		$customer_access_details = $this->get_customer_access( $customer_id );
 		$customer_features       = $customer_access_details['resources']['available_features_developers'] ?? array();
 
 		// Get the global developer features
@@ -642,7 +642,7 @@ class AccessGroups extends Singleton {
 
 
 	public function get_customer_site_features( $customer_id = null ) {
-		$customer_access_details = $this->get_customer_access_details( $customer_id );
+		$customer_access_details = $this->get_customer_access( $customer_id );
 		return $customer_access_details['resources']['available_sections'] ?? array();
 	}
 }

@@ -68,20 +68,20 @@ class Integrations extends Singleton implements IntegrationsInterface {
 		return $this->module->get_checkout_link( $args );
 	}
 
-	public function get_customer_subscriptions( $customer_id = null ) {
+	public function get_customer_access( $customer_id = null ) {
 
 		if ( ! $customer_id ) {
 			$customer_id = get_current_user_id();
 		}
 
 		// Use the new function
-		_deprecated_function( __METHOD__, '1.0', 'Dollie\Core\Modules\AccessGroups::get_customer_access_details()' );
+		_deprecated_function( __METHOD__, '1.0', 'Dollie\Core\Modules\AccessGroups::get_customer_access()' );
 
 		// Create a new instance of the AccessGroups class
 		$access_groups = \Dollie\Core\Modules\AccessGroups\AccessGroups::instance();
 
 		// Call the new function
-		return $access_groups->get_customer_access_details( $customer_id );
+		return $access_groups->get_customer_access( $customer_id );
 	}
 
 	public function has_bought_product( $user_id = null ) {
@@ -100,7 +100,7 @@ class Integrations extends Singleton implements IntegrationsInterface {
 			return true;
 		}
 
-		$subscription = $this->get_customer_subscriptions();
+		$subscription = $this->get_customer_access();
 
 		return $subscription ? (bool) $subscription['plans'] : $subscription;
 	}
@@ -124,7 +124,7 @@ class Integrations extends Singleton implements IntegrationsInterface {
 
 		}
 
-		$subscription = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
+		$subscription = $this->get_customer_access( $this->module::SUB_STATUS_ACTIVE );
 
 		if ( ! $subscription ) {
 			return 0;
@@ -150,7 +150,7 @@ class Integrations extends Singleton implements IntegrationsInterface {
 			return $is_custom;
 		}
 
-		$subscription = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
+		$subscription = $this->get_customer_access( $this->module::SUB_STATUS_ACTIVE );
 
 		if ( ! $subscription ) {
 			return 0;
@@ -174,7 +174,7 @@ class Integrations extends Singleton implements IntegrationsInterface {
 			return get_field( '_wpd_woo_launch_as_vip', 'user_' . $user_id );
 		}
 
-		$subscription = $this->get_customer_subscriptions();
+		$subscription = $this->get_customer_access();
 
 		if ( ! $subscription ) {
 			return 0;
@@ -189,7 +189,7 @@ class Integrations extends Singleton implements IntegrationsInterface {
 	 * @return mixed|string
 	 */
 	public function subscription_name() {
-		$subscription = $this->get_customer_subscriptions();
+		$subscription = $this->get_customer_access();
 
 		if ( ! $subscription || ! isset( $subscription['resources']['name'] ) ) {
 			return __( 'None', 'dollie' );
@@ -254,7 +254,7 @@ class Integrations extends Singleton implements IntegrationsInterface {
 
 		}
 
-		$subscription = $this->get_customer_subscriptions();
+		$subscription = $this->get_customer_access();
 
 		if ( ! $subscription ) {
 			return false;
@@ -274,7 +274,7 @@ class Integrations extends Singleton implements IntegrationsInterface {
 	public function get_blueprints_exception( $type = 'excluded' ) {
 		$data   = array();
 		$type  .= '_blueprints';
-		$access = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
+		$access = $this->get_customer_access( $this->module::SUB_STATUS_ACTIVE );
 
 		if ( empty( $access ) ) {
 			return false;
@@ -319,7 +319,7 @@ class Integrations extends Singleton implements IntegrationsInterface {
 			$user_id = get_current_user_id();
 		}
 
-		$access = $this->get_customer_subscriptions( $user_id );
+		$access = $this->get_customer_access( $user_id );
 
 		// If no subscription is active.
 		if ( empty( $access ) ) {
@@ -426,7 +426,7 @@ class Integrations extends Singleton implements IntegrationsInterface {
 			return false;
 		}
 
-		$access = $this->get_customer_subscriptions( $user->get_id() );
+		$access = $this->get_customer_access( $user->get_id() );
 
 		if ( ! is_array( $access ) || empty( $access ) ) {
 			return false;
@@ -464,7 +464,7 @@ class Integrations extends Singleton implements IntegrationsInterface {
 		}
 
 		// Has subscription?
-		$access = $this->get_customer_subscriptions( null, $user_id );
+		$access = $this->get_customer_access( null, $user_id );
 
 		// If no subscription is active or no subscription is found.
 		if ( empty( $access ) ) {

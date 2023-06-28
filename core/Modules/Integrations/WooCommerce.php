@@ -160,7 +160,7 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 	 *
 	 * @return array|bool
 	 */
-	public function get_customer_subscriptions( $customer_id = null ) {
+	public function get_customer_access( $customer_id = null ) {
 			return true;
 	}
 
