@@ -2,6 +2,8 @@
 
 namespace Dollie\Core\Utils;
 
+use Dollie\Core\Modules\AccessGroups\AccessGroups;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit(); // Exit if accessed directly.
 }
@@ -133,8 +135,8 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @return Integrations
 	 */
-	public function subscription(): Integrations {
-		return Integrations::instance();
+	public function access(): AccessGroups {
+		return AccessGroups::instance();
 	}
 
 
@@ -171,7 +173,7 @@ class Helpers extends Singleton implements ConstInterface {
 	 *
 	 * @return PermissionService
 	 */
-	public function access(): PermissionService {
+	public function permission(): PermissionService {
 		return PermissionService::instance();
 	}
 

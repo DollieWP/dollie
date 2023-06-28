@@ -5,7 +5,7 @@ if ( ! isset( $post ) ) {
 }
 
 $container        = dollie()->get_container( $post );
-$subscription_vip = dollie()->subscription()->has_vip( get_current_user_id() );
+$subscription_vip = dollie()->access()->has_vip( get_current_user_id() );
 
 
 if ( is_wp_error( $container ) || ! $container->is_blueprint() || $container->is_private() || $container->is_vip() && ! $subscription_vip ) {
@@ -19,11 +19,11 @@ $checkout_link = '';
 if ( ! empty( $checkout_url ) ) {
 	$checkout_link = $checkout_url;
 } elseif ( $product_id ) {
-	$checkout_link = dollie()->subscription()->get_checkout_link(
-		[
+	$checkout_link = dollie()->access()->get_checkout_link(
+		array(
 			'product_id'   => $product_id[0],
 			'blueprint_id' => $container->get_id(),
-		]
+		)
 	);
 }
 

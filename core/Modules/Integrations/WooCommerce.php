@@ -243,8 +243,8 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 
 	public function remove_user_from_group( $subscription ) {
 
-		$user_id = $subscription->get_user_id();
-		foreach ( $subscription->get_items() as $item_id => $item ) {
+		$user_id = $access->get_user_id();
+		foreach ( $access->get_items() as $item_id => $item ) {
 			// Check if it's a variation
 			if ( $item->get_variation_id() ) {
 				$product_id   = $item->get_variation_id();

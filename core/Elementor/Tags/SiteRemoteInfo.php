@@ -34,13 +34,13 @@ class SiteRemoteInfo extends Tag {
 			$this->wpd_data['site_data'] = $details['site'];
 		}
 
-		$subscription = dollie()->subscription();
-		$user         = dollie()->get_user();
+		$access = dollie()->access();
+		$user   = dollie()->get_user();
 
 		// Add custom items
 		$this->wpd_data['customer_data']['Customer - Total Sites Launched']     = $user->count_containers();
-		$this->wpd_data['customer_data']['Customer Access - Sites Available']   = $subscription->sites_available();
-		$this->wpd_data['customer_data']['Customer Access - Storage Available'] = $subscription->storage_available();
+		$this->wpd_data['customer_data']['Customer Access - Sites Available']   = $access->sites_available();
+		$this->wpd_data['customer_data']['Customer Access - Storage Available'] = $access->storage_available();
 	}
 
 	public function get_name() {

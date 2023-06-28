@@ -28,8 +28,8 @@ class Preview extends Singleton {
 		// Also remove all scripts hooked into after_wp_tiny_mce.
 		remove_all_actions( 'after_wp_tiny_mce' );
 
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_scripts' ], 99999 );
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_styles' ], 999999 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ), 99999 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ), 999999 );
 
 		// Setup default heartbeat options
 		add_filter(
@@ -41,26 +41,26 @@ class Preview extends Singleton {
 			}
 		);
 
-		add_action( 'wp_body_open', [ $this, 'content' ] );
+		add_action( 'wp_body_open', array( $this, 'content' ) );
 	}
 
 	public function enqueue_scripts() {
-		wp_enqueue_script( 'jquery-lazyload', DOLLIE_ASSETS_URL . 'js/preview/lib/lazyload.min.js', [ 'jquery' ], false, true );
-		wp_enqueue_script( 'jquery-ellipsis', DOLLIE_ASSETS_URL . 'js/preview/lib/jquery.ellipsis.min.js', [ 'jquery' ], false, true );
-		wp_enqueue_script( 'wpd-preview', DOLLIE_ASSETS_URL . 'js/preview/preview.min.js', [ 'jquery' ], false, true );
+		wp_enqueue_script( 'jquery-lazyload', DOLLIE_ASSETS_URL . 'js/preview/lib/lazyload.min.js', array( 'jquery' ), false, true );
+		wp_enqueue_script( 'jquery-ellipsis', DOLLIE_ASSETS_URL . 'js/preview/lib/jquery.ellipsis.min.js', array( 'jquery' ), false, true );
+		wp_enqueue_script( 'wpd-preview', DOLLIE_ASSETS_URL . 'js/preview/preview.min.js', array( 'jquery' ), false, true );
 
 		wp_localize_script(
 			'wpd-preview',
 			'livepreviewpro_globals',
-			[
+			array(
 				'plan'             => 'pro',
 				'responsiveDevice' => null,
-			]
+			)
 		);
 	}
 
 	public function enqueue_styles() {
-		wp_enqueue_style( 'bootstrap', DOLLIE_ASSETS_URL . 'css/preview/bootstrap.min.css', [], '4.3.1' );
+		wp_enqueue_style( 'bootstrap', DOLLIE_ASSETS_URL . 'css/preview/bootstrap.min.css', array(), '4.3.1' );
 		wp_enqueue_style( 'wpd-preview', DOLLIE_ASSETS_URL . 'css/preview/main-top.min.css', DOLLIE_VERSION );
 	}
 
@@ -73,62 +73,62 @@ class Preview extends Singleton {
 					$author = '58687848382305067080201305060';
 				}
 
-				$args = [
+				$args = array(
 					'author'         => $author,
 					'post_type'      => 'container',
 					'posts_per_page' => 20,
-				];
+				);
 			} elseif ( 'my-blueprints' === $_GET['type'] ) {
-				$args = [
+				$args = array(
 					'author'         => get_current_user_id(),
 					'post_type'      => 'container',
 					'posts_per_page' => -1,
 					'post_status'    => 'publish',
-					'meta_query'     => [
+					'meta_query'     => array(
 						'relation' => 'AND',
-						[
+						array(
 							'key'   => 'dollie_container_type',
 							'value' => '1',
-						],
-						[
+						),
+						array(
 							'key'   => 'wpd_blueprint_created',
 							'value' => 'yes',
-						],
-						[
+						),
+						array(
 							'key'     => 'wpd_installation_blueprint_title',
 							'compare' => 'EXISTS',
-						],
-					],
+						),
+					),
 
-				];
+				);
 			}
 		} else {
-			$args = [
+			$args = array(
 				'post_type'      => 'container',
 				'posts_per_page' => -1,
 				'post_status'    => 'publish',
-				'meta_query'     => [
+				'meta_query'     => array(
 					'relation' => 'AND',
-					[
+					array(
 						'key'   => 'dollie_container_type',
 						'value' => '1',
-					],
-					[
+					),
+					array(
 						'key'   => 'wpd_blueprint_created',
 						'value' => 'yes',
-					],
-					[
+					),
+					array(
 						'key'     => 'wpd_installation_blueprint_title',
 						'compare' => 'EXISTS',
-					],
-				],
+					),
+				),
 
-			];
+			);
 		}
 
 		$query       = new \WP_Query( $args );
 		$posts       = $query->get_posts();
-		$theme_array = [];
+		$theme_array = array();
 
 		foreach ( $posts as $post ) {
 			$container = dollie()->get_container( $post );
@@ -138,7 +138,7 @@ class Preview extends Singleton {
 			}
 
 			if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
-				$theme_array[] = [
+				$theme_array[] = array(
 					'active'      => 1,
 					'id'          => $container->get_id(),
 					'title'       => $container->get_title(),
@@ -146,12 +146,12 @@ class Preview extends Singleton {
 					'url'         => $container->get_url( true ),
 					'buy'         => html_entity_decode( $container->get_customer_login_url() ),
 					'login_url'   => html_entity_decode( $container->get_customer_login_url() ),
-					'thumb'       => [
+					'thumb'       => array(
 						'url' => $container->get_screenshot(),
-					],
+					),
 					'info'        => $container->is_blueprint() ? $container->get_saved_description() : '',
 					'preload'     => '0',
-				];
+				);
 			} else {
 				$product_id = get_post_meta( $container->get_id(), 'wpd_installation_blueprint_hosting_product', true );
 
@@ -164,35 +164,35 @@ class Preview extends Singleton {
 						$image = get_the_post_thumbnail_url( $container->get_id(), 'full' );
 					}
 
-					$theme_array[] = [
+					$theme_array[] = array(
 						'active'      => 1,
 						'id'          => $container->get_id(),
 						'title'       => $container->get_saved_title(),
 						'title_short' => $container->get_name(),
 						'url'         => $container->get_url( true ),
-						'buy'         => dollie()->subscription()->get_checkout_link(
-							[
+						'buy'         => dollie()->access()->get_checkout_link(
+							array(
 								'product_id'   => $product_id[0],
 								'blueprint_id' => $container->get_id(),
-							]
+							)
 						),
 						'login_url'   => $container->get_customer_login_url(),
-						'thumb'       => [
+						'thumb'       => array(
 							'url' => $image,
-						],
+						),
 						'info'        => $container->is_blueprint() ? $container->get_saved_description() : '',
 						'tag'         => 'tag',
 						'year'        => '2022',
 						'preload'     => '0',
 						'badge'       => 'Pro',
-					];
+					);
 				}
 			}
 		}
 
 		wp_reset_postdata();
 
-		$products = [];
+		$products = array();
 
 		if ( isset( $_GET['type'] ) && 'my-sites' === $_GET['type'] ) {
 			$button_text = esc_html__( 'Login to Site', 'dollie' );
@@ -202,13 +202,13 @@ class Preview extends Singleton {
 
 		$logo = get_field( 'wpd_dashboard_preview_logo', 'option' ) ?: '';
 
-		$config = [
+		$config = array(
 			'title'             => get_bloginfo( 'name' ),
-			'logo'              => [
+			'logo'              => array(
 				'url'   => $logo,
 				'href'  => get_site_url(),
 				'blank' => 1,
-			],
+			),
 			'theme'             => 'main-top',
 			'page'              => null,
 			'productList'       => true,
@@ -219,7 +219,7 @@ class Preview extends Singleton {
 			'closeIframe'       => true,
 			'preload'           => false,
 			'items'             => $theme_array,
-		];
+		);
 
 		$config = json_decode( json_encode( $config ) );
 
@@ -232,7 +232,7 @@ class Preview extends Singleton {
 		}
 
 		// Init Tags
-		$product_tags = [];
+		$product_tags = array();
 		foreach ( $products as $product_key => $product ) {
 
 			if ( isset( $product->tag ) ) {
@@ -252,10 +252,10 @@ class Preview extends Singleton {
 			}
 		}
 		arsort( $product_tags );
-		$product_tags = [ esc_html__( 'all', 'dollie' ) => count( $products ) ] + $product_tags;
+		$product_tags = array( esc_html__( 'all', 'dollie' ) => count( $products ) ) + $product_tags;
 
 		// Init Years
-		$product_years = [];
+		$product_years = array();
 		foreach ( $products as $product ) {
 			if ( isset( $product->year ) ) {
 				$year = $product->year;
@@ -305,7 +305,7 @@ class Preview extends Singleton {
 									<?php if ( $config && $config->logo ) { ?>
 										<?php if ( $config->logo->href ) { ?>
 											<a class="logo" href="<?php echo esc_url( $config->logo->href ); ?>"
-											   target="<?php echo( $config->logo->blank ? '_blank' : '_self' ); ?>">
+												target="<?php echo( $config->logo->blank ? '_blank' : '_self' ); ?>">
 												<img src="<?php echo esc_url( $config->logo->url ); ?>">
 											</a>
 										<?php } else { ?>
@@ -330,7 +330,7 @@ class Preview extends Singleton {
 									<div class="clearfix product-toolbar">
 										<?php if ( $config->closeIframe ) { ?>
 											<a id="product-frame-close" class="product-frame-close" href="#"
-											   title="<?php esc_html_e( 'close iframe', 'dollie' ); ?>">
+												title="<?php esc_html_e( 'close iframe', 'dollie' ); ?>">
 												<span class="dashicons dashicons-no-alt"></span>
 											</a>
 										<?php } ?>
@@ -345,13 +345,13 @@ class Preview extends Singleton {
 											<div id="product-devices" class="product-devices hidden-sm hidden-xs">
 												<a href="#" class="desktop" data-device="desktop" title="Desktop"></a>
 												<a href="#" class="tabletlandscape" data-device="tabletlandscape"
-												   title="<?php esc_html_e( 'Tablet Landscape (1024x768)', 'dollie' ); ?>"></a>
+													title="<?php esc_html_e( 'Tablet Landscape (1024x768)', 'dollie' ); ?>"></a>
 												<a href="#" class="tabletportrait" data-device="tabletportrait"
-												   title="<?php esc_html_e( 'Tablet Portrait (768x1024)', 'dollie' ); ?>"></a>
+													title="<?php esc_html_e( 'Tablet Portrait (768x1024)', 'dollie' ); ?>"></a>
 												<a href="#" class="mobilelandscape" data-device="mobilelandscape"
-												   title="<?php esc_html_e( 'Mobile Landscape (480x320)', 'dollie' ); ?>"></a>
+													title="<?php esc_html_e( 'Mobile Landscape (480x320)', 'dollie' ); ?>"></a>
 												<a href="#" class="mobileportrait" data-device="mobileportrait"
-												   title="<?php esc_html_e( 'Mobile Portrait (320x480)', 'dollie' ); ?>"></a>
+													title="<?php esc_html_e( 'Mobile Portrait (320x480)', 'dollie' ); ?>"></a>
 											</div>
 										<?php } ?>
 									</div>
@@ -377,7 +377,7 @@ class Preview extends Singleton {
 													foreach ( $product_tags as $tag => $count ) {
 														$tag   = strtolower( $tag );
 														$data .= '<li><a href="#" data-tag="' . ( $index == 0 ? '*' : $tag ) . '">' . $tag . ' <span>(' . $count . ')</span></a></li>' . PHP_EOL;
-														$index ++;
+														++$index;
 														if ( $index == 3 && $len > 3 ) {
 															$data  .= '<li class="has-child">' . PHP_EOL;
 															$data  .= '<a href="#">' . esc_html__( 'More +', 'dollie' ) . '</a>' . PHP_EOL;
@@ -399,7 +399,7 @@ class Preview extends Singleton {
 										<div class="col-sm-4">
 											<div id="filter-search" class="filter filter-search">
 												<input type="text"
-													   placeholder="<?php esc_html_e( 'Search', 'dollie' ); ?>">
+														placeholder="<?php esc_html_e( 'Search', 'dollie' ); ?>">
 											</div>
 										</div>
 									</div>
@@ -419,10 +419,8 @@ class Preview extends Singleton {
 										$active = false;
 										if ( $product_id == null && $index == 0 ) {
 											$active = true;
-										} else {
-											if ( $product->id != null && $product->id == $product_id ) {
+										} elseif ( $product->id != null && $product->id == $product_id ) {
 												$active = true;
-											}
 										}
 
 										$data .= '<div class="col-xs-6 col-sm-3">' . PHP_EOL;
@@ -442,7 +440,7 @@ class Preview extends Singleton {
 										$data .= '</div>' . PHP_EOL;
 										$data .= '</div>' . PHP_EOL;
 
-										$index ++;
+										++$index;
 									}
 									if ( $index > 0 ) {
 										$data .= '</div>' . PHP_EOL;

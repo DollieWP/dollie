@@ -408,8 +408,8 @@ class AccessDetails extends \Elementor\Widget_Base {
 	}
 
 	protected function render() {
-		$settings     = $this->get_settings_for_display();
-		$subscription = dollie()->subscription();
+		$settings = $this->get_settings_for_display();
+		$access   = dollie()->access();
 
 		$data = array(
 			'title'       => $settings['title'],
@@ -422,13 +422,13 @@ class AccessDetails extends \Elementor\Widget_Base {
 
 			switch ( $item['item_type'] ) {
 				case 'subscription-plan':
-					$value = $subscription->subscription_name();
+					$value = $access->subscription_name();
 					break;
 				case 'sites-available':
-					$value = $subscription->sites_available();
+					$value = $access->sites_available();
 					break;
 				case 'storage-available':
-					$available_storage = $subscription->storage_available();
+					$available_storage = $access->storage_available();
 
 					if ( $available_storage ) {
 						$value = esc_html( $available_storage ) . ' GB';

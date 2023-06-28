@@ -36,7 +36,7 @@ final class Services extends Singleton {
 	 */
 	public function acf_field_vip_prepare_access( $field ) {
 		$user_id          = get_current_user_id();
-		$subscription_vip = dollie()->subscription()->has_vip( $user_id );
+		$subscription_vip = dollie()->access()->has_vip( $user_id );
 		$global_vip       = get_field( 'wpd_enable_global_vip_sites', 'options' );
 
 		// Bail early if no 'admin_only' setting.
@@ -67,7 +67,7 @@ final class Services extends Singleton {
 	public function add_vip_form_data( $deploy_data ) {
 		$owner_id         = $deploy_data['owner_id'];
 		$blueprint_id     = $deploy_data['blueprint_id'];
-		$subscription_vip = dollie()->subscription()->has_vip( $owner_id );
+		$subscription_vip = dollie()->access()->has_vip( $owner_id );
 		$vip              = 0;
 
 		if ( af_get_field( 'launch_as_vip' ) && $subscription_vip ) {
@@ -83,7 +83,6 @@ final class Services extends Singleton {
 		$deploy_data['vip'] = $vip;
 
 		return $deploy_data;
-
 	}
 
 	public function add_acf_fields( $field_group ) {
@@ -94,7 +93,7 @@ final class Services extends Singleton {
 			$user = 'a subscriber';
 		}
 
-		$fields = [
+		$fields = array(
 			array(
 				'key'               => 'field_60a7974f69558',
 				'label'             => __( 'VIP Sites (BETA)', 'dollie' ),
@@ -148,11 +147,11 @@ final class Services extends Singleton {
 				'ui_on_text'        => 'Enable',
 				'ui_off_text'       => 'Disable',
 			),
-		];
+		);
 
 		$field_group = dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5ada1549129fb', 'wpd_enable_custom_backup', 'before' );
 
-		$fields = [
+		$fields = array(
 			array(
 				'key'                      => 'field_5e2c1ac7246a2',
 				'label'                    => __( 'VIP Sites', 'dollie' ),
@@ -162,11 +161,11 @@ final class Services extends Singleton {
 				'required'                 => 0,
 				'dollie_vip_addon_enabled' => 1,
 				'conditional_logic'        => 0,
-				'wrapper'                  => [
+				'wrapper'                  => array(
 					'width' => '',
 					'class' => '',
 					'id'    => '',
-				],
+				),
 				'placement'                => 'top',
 				'endpoint'                 => 0,
 			),
@@ -191,11 +190,11 @@ final class Services extends Singleton {
 				'ui_on_text'               => '',
 				'ui_off_text'              => '',
 			),
-		];
+		);
 
 		$field_group = dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5afc7b8e22840', '_wpd_excluded_blueprints', 'after' );
 
-		$fields = [
+		$fields = array(
 			array(
 				'key'                      => 'field_5fb3b53ff744632',
 				'label'                    => __( 'Launch as VIP Site', 'dollie' ),
@@ -225,11 +224,11 @@ final class Services extends Singleton {
 				'ui_on_text'               => '',
 				'ui_off_text'              => '',
 			),
-		];
+		);
 
 		$field_group = dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5e6a176c384ee', 'advanced_settings', 'before' );
 
-		$fields      = [
+		$fields      = array(
 			array(
 				'key'                      => 'field_5fb3b53ff7gty4463djgj2',
 				'label'                    => __( 'Always Launch as VIP Site', 'dollie' ),
@@ -270,10 +269,10 @@ final class Services extends Singleton {
 				'ui_on_text'               => '',
 				'ui_off_text'              => '',
 			),
-		];
+		);
 		$field_group = dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5affdcd76c8d1', 'wpd_blueprint_custom_image', 'after' );
 
-		$fields = [
+		$fields = array(
 			array(
 				'key'               => 'field_5fb3b53ff744467',
 				'label'             => __( 'Launch Sites as VIP', 'dollie' ),
@@ -294,7 +293,7 @@ final class Services extends Singleton {
 				'ui_on_text'        => '',
 				'ui_off_text'       => '',
 			),
-		];
+		);
 
 		$field_group = dollie()->add_acf_fields_to_group( $field_group, $fields, 'group_5efc4bbc3849b', 'wpd_client_site_permissions', 'after' );
 
@@ -325,7 +324,7 @@ final class Services extends Singleton {
 	}
 
 	public function blueprints_skip_from_list( $skip, $container ) {
-		$subscription_vip = dollie()->subscription()->has_vip( get_current_user_id() );
+		$subscription_vip = dollie()->access()->has_vip( get_current_user_id() );
 
 		if ( ! $subscription_vip && $container->is_vip() ) {
 			$skip = true;

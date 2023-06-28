@@ -25,33 +25,33 @@ final class StagingService extends Singleton {
 	 * @return array
 	 */
 	public function log_action_filter( $actions, $values ) {
-		$actions[ self::LOG_DEPLOY_STARTED ] = [
+		$actions[ self::LOG_DEPLOY_STARTED ] = array(
 			'title'   => __( 'Staging Site Launch Started', 'dollie' ),
 			'content' => __( sprintf( 'Launching Your Staging Site %s. You\'ll get another notification when it is ready! ', $values[0] ), 'dollie' ),
 			'type'    => 'deploy',
 			'link'    => true,
-		];
+		);
 
-		$actions[ self::LOG_DEPLOYED ] = [
+		$actions[ self::LOG_DEPLOYED ] = array(
 			'title'   => __( 'Staging Site Launch Completed', 'dollie' ),
 			'content' => __( sprintf( 'Staging Site %s has been successfully launched.', $values[0] ), 'dollie' ),
 			'type'    => 'deploy',
 			'link'    => true,
-		];
+		);
 
-		$actions[ self::LOG_DEPLOY_FAILED ] = [
+		$actions[ self::LOG_DEPLOY_FAILED ] = array(
 			'title'   => __( 'Staging Site Launch Failed', 'dollie' ),
 			'content' => __( sprintf( 'Staging Site %s has failed to launch. Please contact our support if the issue persists.', $values[0] ), 'dollie' ),
 			'type'    => 'deploy',
 			'link'    => false,
-		];
+		);
 
-		$actions[ self::LOG_UNDEPLOY ] = [
+		$actions[ self::LOG_UNDEPLOY ] = array(
 			'title'   => __( 'Staging Site Has Been Removed', 'dollie' ),
 			'content' => __( sprintf( 'Staging Site %s has been successfully removed.', $values[0] ), 'dollie' ),
 			'type'    => 'deploy',
 			'link'    => false,
-		];
+		);
 
 		return $actions;
 	}
@@ -72,7 +72,7 @@ final class StagingService extends Singleton {
 			return;
 		}
 
-		if ( dollie()->subscription()->staging_sites_limit_reached() ) {
+		if ( dollie()->access()->staging_sites_limit_reached() ) {
 			return;
 		}
 
