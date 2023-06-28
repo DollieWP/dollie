@@ -56,7 +56,6 @@ final class Admin extends Singleton implements ConstInterface {
 	public function initialize() {
 		NavMenu::instance();
 		Container::instance();
-		Partner::instance();
 
 		// Run upgrades
 		Upgrades::instance();
