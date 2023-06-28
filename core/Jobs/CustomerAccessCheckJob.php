@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Log;
-use Dollie\Core\Modules\Access\Access;
+use Dollie\Core\Modules\Integrations\Integrations;
 use WP_Query;
 
 /**
@@ -27,10 +27,10 @@ class CustomerAccessCheckJob extends Singleton {
 		add_action( 'init', array( $this, 'init_recurring_tasks' ) );
 
 		if ( isset( $_GET['test-subs'] ) == 'yes' ) {
-			add_action( 'admin_init', array( $this, 'run_subscription_check' ) );
+			add_action( 'admin_init', array( $this, 'run_access_check' ) );
 		}
 
-		add_action( 'dollie/jobs/recurring/subscription_check', array( $this, 'run_subscription_check' ), 10 );
+		add_action( 'dollie/jobs/recurring/access_check', array( $this, 'run_access_check' ), 10 );
 		add_action( 'dollie/jobs/recurring/remove_container_posts', array( $this, 'remove_deleted_container_posts' ), 10 );
 		add_action( 'dollie/jobs/recurring/email_digest', array( $this, 'run_email_digest' ), 10 );
 
@@ -42,8 +42,8 @@ class CustomerAccessCheckJob extends Singleton {
 	 */
 	public function init_recurring_tasks() {
 
-		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/subscription_check' ) ) {
-			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/subscription_check' );
+		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/access_check' ) ) {
+			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/access_check' );
 		}
 
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/remove_container_posts' ) ) {
@@ -58,7 +58,7 @@ class CustomerAccessCheckJob extends Singleton {
 	/**
 	 * Check customer's subscriptions
 	 */
-	public function run_subscription_check() {
+	public function run_access_check() {
 		// Do not run cron if Hub does not have subscription features enabled.
 		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return;

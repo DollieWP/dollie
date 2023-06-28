@@ -1,9 +1,9 @@
 <?php
-namespace Dollie\Core\Modules\Access\Plugin;
+namespace Dollie\Core\Modules\Integrations;
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Modules\AccessGroups\AccessGroups;
-use Dollie\Core\Modules\Access\Plugin\AccessInterface; // Ensure this path is correct.
+use Dollie\Core\Modules\Integrations\IntegrationsInterface; // Ensure this path is correct.
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -14,9 +14,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package Dollie\Core\Modules\AccessGroups
  */
-class PaidMembershipsPro extends Singleton implements AccessInterface {
+class PaidMembershipsPro extends Singleton implements IntegrationsInterface {
 
 	protected $name = 'Paid Memberships Pro';
+
 
 	/**
 	 * PaidMembershipsPro constructor.
@@ -34,7 +35,7 @@ class PaidMembershipsPro extends Singleton implements AccessInterface {
 		}
 	}
 
-	// Placeholder methods for AccessInterface. Replace these with actual methods defined in AccessInterface.
+	// Placeholder methods for IntegrationsInterface. Replace these with actual methods defined in IntegrationsInterface.
 	public function subscribe( $userId, $subscriptionId ) {
 		// Your implementation here.
 	}

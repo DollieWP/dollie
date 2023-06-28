@@ -1,6 +1,6 @@
 <?php
 
-namespace Dollie\Core\Modules\Access\Plugin;
+namespace Dollie\Core\Modules\Integrations;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -9,9 +9,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class WooCommerce
  *
- * @package Dollie\Core\Modules\Access\Plugin
+ * @package Dollie\Core\Modules\Integrations
  */
-interface AccessInterface {
+interface IntegrationsInterface {
 
 	// public function redirect_to_blueprint( $id );
 	// public function get_checkout_link( $args );

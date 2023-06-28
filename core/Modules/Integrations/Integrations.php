@@ -1,13 +1,13 @@
 <?php
 
-namespace Dollie\Core\Modules\Access;
+namespace Dollie\Core\Modules\Integrations;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 use Dollie\Core\Api\PartnerApi;
-use Dollie\Core\Modules\Access\Plugin\AccessInterface;
+use Dollie\Core\Modules\Integrations\IntegrationsInterface;
 use Dollie\Core\Singleton;
 
 /**
@@ -15,7 +15,7 @@ use Dollie\Core\Singleton;
  *
  * @package Dollie\Core\Modules\Access
  */
-class Access extends Singleton implements AccessInterface {
+class Integrations extends Singleton implements IntegrationsInterface {
 	use PartnerApi;
 
 	private $module;
@@ -26,18 +26,18 @@ class Access extends Singleton implements AccessInterface {
 	public function __construct() {
 		parent::__construct();
 
-		$subscription_plugin = $this->get_subscription_plugin();
+		$integration = $this->get_integration();
 
-		if ( $subscription_plugin === 'Woocommerce' ) {
+		if ( $integration === 'Woocommerce' ) {
 			require_once DOLLIE_CORE_PATH . 'Modules/Access/Plugin/Woocommerce.php';
-			$class_name = '\Dollie\Core\Modules\Access\Plugin\\Woocommerce';
+			$class_name = '\Dollie\Core\Modules\Integrations\\Woocommerce';
 		} else {
-			$class_name = apply_filters( 'dollie/subscription/plugin_class', '\Dollie\Core\Modules\Access\Plugin\\' . $subscription_plugin, $subscription_plugin );
+			$class_name = apply_filters( 'dollie/subscription/plugin_class', '\Dollie\Core\Modules\Integrations\\' . $integration, $integration );
 		}
 
 		$this->module = $class_name::instance();
 
-		if ( ! $this->module instanceof AccessInterface ) {
+		if ( ! $this->module instanceof IntegrationsInterface ) {
 			throw new \Exception( 'Invalid subscription plugin' );
 		}
 
@@ -49,13 +49,13 @@ class Access extends Singleton implements AccessInterface {
 	 *
 	 * @return false|mixed|string|null
 	 */
-	public function get_subscription_plugin() {
-		$subscription_plugin = get_option( 'options_wpd_subscription_plugin' );
-		if ( ! $subscription_plugin ) {
-			$subscription_plugin = 'WooCommerce';
+	public function get_integration() {
+		$integration = get_option( 'options_wpd_subscription_plugin' );
+		if ( ! $integration ) {
+			$integration = 'WooCommerce';
 		}
 
-		return $subscription_plugin;
+		return $integration;
 	}
 
 

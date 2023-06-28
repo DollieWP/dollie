@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dollie\Core\Singleton;
 use WP_Query;
 
-use Dollie\Core\Modules\Access\Access;
+use Dollie\Core\Modules\Integrations\Integrations;
 
 use Dollie\Core\Factories\Site;
 use Dollie\Core\Factories\Blueprint;
@@ -118,10 +118,10 @@ class Helpers extends Singleton implements ConstInterface {
 	/**
 	 * Access instance
 	 *
-	 * @return Access
+	 * @return Integrations
 	 */
-	public function subscription(): Access {
-		return Access::instance();
+	public function subscription(): Integrations {
+		return Integrations::instance();
 	}
 
 	/**

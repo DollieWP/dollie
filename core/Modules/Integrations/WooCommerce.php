@@ -1,20 +1,20 @@
 <?php
 
-namespace Dollie\Core\Modules\Access\Plugin;
+namespace Dollie\Core\Modules\Integrations;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 use Dollie\Core\Singleton;
-use Dollie\Core\Modules\Access\Plugin\AccessInterface; // Ensure this path is correct.
+use Dollie\Core\Modules\Integrations\IntegrationsInterface; // Ensure this path is correct.
 
 /**
  * Class WooCommerce
  *
- * @package Dollie\Core\Modules\Access\Plugin
+ * @package Dollie\Core\Modules\Integrations
  */
-class WooCommerce extends Singleton implements AccessInterface {
+class WooCommerce extends Singleton implements IntegrationsInterface {
 
 	protected $name = 'WooCommerce';
 
