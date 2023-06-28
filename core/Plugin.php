@@ -77,11 +77,6 @@ class Plugin extends Singleton {
 	 */
 	public function load_dependencies() {
 
-		// Hide Menu when ACF is not installed and using the bundled version
-		if ( ! defined( 'DOLLIE_DEV' ) && ! class_exists( 'ACF' ) ) {
-			add_filter( 'acf/settings/show_admin', '__return_false' );
-		}
-
 		// load ACF as fallback.
 		if ( ! class_exists( 'ACF' ) ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/advanced-custom-fields-pro/acf.php';
@@ -98,6 +93,15 @@ class Plugin extends Singleton {
 		// Load logger.
 		if ( ! class_exists( '\WDS_Log_Post' ) ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/wds-log-post/wds-log-post.php';
+		}
+
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+		$acf_plugin_path     = WP_PLUGIN_DIR . '/advanced-custom-fields/acf.php';
+		$acf_plugin_pro_path = WP_PLUGIN_DIR . '/advanced-custom-fields-pro/acf.php';
+
+		if ( ! file_exists( $acf_plugin_path ) && ! file_exists( $acf_plugin_pro_path ) && ! defined( 'DOLLIE_DEV' ) ) {
+			add_filter( 'acf/settings/show_admin', '__return_false' );
 		}
 
 		// Load Dollie Setup Class,
