@@ -16,14 +16,14 @@ use Dollie\Core\Modules\Access\Plugin\AccessInterface; // Ensure this path is co
  */
 class WooCommerce extends Singleton implements AccessInterface {
 
-	const
-		SUB_STATUS_ANY    = 'any',
-		SUB_STATUS_ACTIVE = 'active';
+	protected $name = 'WooCommerce';
 
 	/**
 	 * WooCommerce constructor
 	 */
 	public function __construct() {
+
+		$this->name = 'WooCommerce';
 
 		add_action( 'init', array( $this, 'enable_automatic_payments' ) );
 		add_action( 'woocommerce_thankyou', array( $this, 'redirect_to_blueprint' ) );
@@ -233,9 +233,9 @@ class WooCommerce extends Singleton implements AccessInterface {
 				$access->add_to_access_group(
 					$group_id,                // Group ID
 					$user_id,        // User IDs
-					'WooCommerce',            // Source
-					'WooCommerce', // Log type
-					'User added to group on purchase of ' . $product_type . ' ' . get_the_title( $product_id ) . '.'
+					$this->name,            // Source
+					$this->name, // Log type
+					'Added on purchase of ' . $product_type . ' ' . get_the_title( $product_id ) . '.'
 				);
 			}
 		}
@@ -269,9 +269,9 @@ class WooCommerce extends Singleton implements AccessInterface {
 				$hooks->remove_from_access_group(
 					$group_id,                // Group ID
 					$user_id,        // User IDs
-					'WooCommerce',            // Source
-					'WooCommerce', // Log type
-					'User removed from group on subscription cancel for ' . $product_type . ' ' . get_the_title( $product_id ) . '.'
+					$this->name,            // Source
+					$this->name, // Log type
+					'Removed on subscription cancel for ' . $product_type . ' ' . get_the_title( $product_id ) . '.'
 				);
 			}
 		}

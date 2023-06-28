@@ -30,6 +30,8 @@ class AccessGroups extends Singleton {
 		add_action( 'admin_footer', array( $this, 'acf_readonly_fields' ) );
 		add_action( 'acf/init', array( $this, 'load_acf' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_admin_script' ) );
+		add_filter( 'manage_users_custom_column', array( $this, 'output_user_custom_column_value' ), 10, 3 );
+		add_filter( 'manage_users_columns', array( $this, 'add_user_custom_column' ) );
 	}
 
 	/**
@@ -591,6 +593,36 @@ class AccessGroups extends Singleton {
 		});
 		</script>
 		<?php
+	}
+
+
+	public function add_user_custom_column( $columns ) {
+		$columns['access_groups'] = 'Access Groups';
+		return $columns;
+	}
+
+	// Output custom field value in new column
+
+	public function output_user_custom_column_value( $value, $column_name, $user_id ) {
+		if ( $column_name == 'access_groups' ) {
+			$access_group_ids = get_field( 'wpd_group_users', 'user_' . $user_id );
+
+			// If there are any access group IDs, get the title of each post and return them
+			if ( is_array( $access_group_ids ) && ! empty( $access_group_ids ) ) {
+				$access_group_titles = array_map(
+					function( $post_id ) {
+						return '<a href="' . get_edit_post_link( $post_id ) . '">' . get_the_title( $post_id ) . '</a>';
+					},
+					$access_group_ids
+				);
+				return implode( ', ', $access_group_titles );
+			}
+
+			// If there are no access groups, return a default message
+			return '-';
+		}
+
+		return $value;
 	}
 
 

@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class PaidMembershipsPro extends Singleton implements AccessInterface {
 
-	protected $pmp_name = 'Paid Memberships Pro';
+	protected $name = 'Paid Memberships Pro';
 
 	/**
 	 * PaidMembershipsPro constructor.
@@ -26,7 +26,7 @@ class PaidMembershipsPro extends Singleton implements AccessInterface {
 		parent::__construct();
 
 		if ( defined( 'PMPRO_VERSION' ) ) {
-			$this->pmp_name = 'Paid Memberships Pro';
+			$this->name = 'Paid Memberships Pro';
 
 			add_action( 'pmpro_membership_level_after_general_information', array( $this, 'custom_level_fields' ) );
 			add_action( 'pmpro_save_membership_level', array( $this, 'save_custom_level_fields' ) );
@@ -124,8 +124,8 @@ class PaidMembershipsPro extends Singleton implements AccessInterface {
 				$access->add_to_access_group(
 					$group_id,
 					$user_id,
-					$this->pmp_name,
-					$this->pmp_name,
+					$this->name,
+					$this->name,
 					'User is added to membership level ' . pmpro_getLevel( $new_level )->name . '.'
 				);
 			}
@@ -136,8 +136,8 @@ class PaidMembershipsPro extends Singleton implements AccessInterface {
 				$access->remove_from_access_group(
 					$group_id,
 					$user_id,
-					$this->pmp_name,
-					$this->pmp_name,
+					$this->name,
+					$this->name,
 					'User is removed from membership level ' . pmpro_getLevel( $new_level )->name . '.'
 				);
 			}
