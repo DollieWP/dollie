@@ -38,7 +38,7 @@ why the promise cannot be fulfilled.
 
 ### Callbacks
 
-Callbacks are registered with the `then` method by providing an optional 
+Callbacks are registered with the `then` method by providing an optional
 `$onFulfilled` followed by an optional `$onRejected` function.
 
 
@@ -309,17 +309,17 @@ assert('waited' === $promise->wait());
 A promise has the following methods:
 
 - `then(callable $onFulfilled, callable $onRejected) : PromiseInterface`
-  
+
   Appends fulfillment and rejection handlers to the promise, and returns a new promise resolving to the return value of the called handler.
 
 - `otherwise(callable $onRejected) : PromiseInterface`
-  
+
   Appends a rejection handler callback to the promise, and returns a new promise resolving to the return value of the callback if it is called, or to its original fulfillment value if the promise is instead fulfilled.
 
 - `wait($unwrap = true) : mixed`
 
   Synchronously waits on the promise to complete.
-  
+
   `$unwrap` controls whether or not the value of the promise is returned for a
   fulfilled promise or if an exception is thrown if the promise is rejected.
   This is set to `true` by default.
@@ -541,6 +541,6 @@ Guzzle is made available under the MIT License (MIT). Please see [License File](
 
 ## For Enterprise
 
-Available as part of the Tidelift Subscription
+Available as part of the Tidelift Access
 
 The maintainers of Guzzle and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. [Learn more.](https://tidelift.com/subscription/pkg/packagist-guzzlehttp-promises?utm_source=packagist-guzzlehttp-promises&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)

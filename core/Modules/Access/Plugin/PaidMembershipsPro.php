@@ -1,9 +1,9 @@
 <?php
-
-namespace Dollie\Core\Modules\Subscription\Plugin;
+namespace Dollie\Core\Modules\Access\Plugin;
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Modules\AccessGroups\AccessGroups;
+use Dollie\Core\Modules\Access\Plugin\AccessInterface; // Ensure this path is correct.
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @package Dollie\Core\Modules\AccessGroups
  */
-class PaidMembershipsPro extends Singleton {
+class PaidMembershipsPro extends Singleton implements AccessInterface {
 
 	protected $pmp_name = 'Paid Memberships Pro';
 
@@ -34,11 +34,23 @@ class PaidMembershipsPro extends Singleton {
 		}
 	}
 
+	// Placeholder methods for AccessInterface. Replace these with actual methods defined in AccessInterface.
+	public function subscribe( $userId, $subscriptionId ) {
+		// Your implementation here.
+	}
+
+	public function unsubscribe( $userId, $subscriptionId ) {
+		// Your implementation here.
+	}
+
+	public function getAccessStatus( $userId, $subscriptionId ) {
+		// Your implementation here.
+	}
+
 	/**
 	 * Customizes membership level fields for Paid Memberships Pro.
 	 */
 	public function custom_level_fields() {
-
 		$access = new AccessGroups();
 		$groups = $access->get_access_groups();
 		// Get the current level
@@ -67,7 +79,6 @@ class PaidMembershipsPro extends Singleton {
 				</tr>
 			</tbody>
 		</table>
-
 		<?php
 	}
 

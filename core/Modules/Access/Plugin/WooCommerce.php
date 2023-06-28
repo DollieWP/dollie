@@ -1,19 +1,20 @@
 <?php
 
-namespace Dollie\Core\Modules\Subscription\Plugin;
+namespace Dollie\Core\Modules\Access\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 use Dollie\Core\Singleton;
+use Dollie\Core\Modules\Access\Plugin\AccessInterface; // Ensure this path is correct.
 
 /**
  * Class WooCommerce
  *
- * @package Dollie\Core\Modules\Subscription\Plugin
+ * @package Dollie\Core\Modules\Access\Plugin
  */
-class WooCommerce extends Singleton implements SubscriptionInterface {
+class WooCommerce extends Singleton implements AccessInterface {
 
 	const
 		SUB_STATUS_ANY    = 'any',
@@ -27,9 +28,9 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		add_action( 'init', array( $this, 'enable_automatic_payments' ) );
 		add_action( 'woocommerce_thankyou', array( $this, 'redirect_to_blueprint' ) );
 		add_action( 'woocommerce_order_status_completed', array( $this, 'add_user_to_group_on_purchase' ), 10, 1 );
-		add_action( 'woocommerce_subscription_status_active', array( $this, 'add_user_to_group_on_purchase' ), 10, 1 );
-		add_action( 'woocommerce_subscription_status_cancelled', array( $this, 'remove_user_from_group_on_subscription_cancel' ), 10, 1 );
-		add_action( 'woocommerce_subscription_status_pending-cancel', array( $this, 'remove_user_from_group_on_subscription_cancel' ), 10, 1 );
+		add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );
+		add_filter( 'acf/fields/relationship/query/key=field_5e2c1adcc1543', array( $this, 'modify_query' ), 10, 3 );
+		add_filter( 'acf/fields/relationship/query/key=field_5e2c1b94c1544', array( $this, 'modify_query' ), 10, 3 );
 
 		// ACF hooks for variable products
 		add_action( 'woocommerce_product_after_variable_attributes', array( $this, 'render_acf_fields_for_variations' ), 10, 3 );
@@ -38,10 +39,15 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		add_filter( 'acf/location/rule_match/post_type', array( $this, 'my_acf_location_rule_match_post_type' ), 10, 4 );
 		add_action( 'acf/input/admin_footer', array( $this, 'my_acf_input_admin_footer' ) );
 
-		add_action( 'after_setup_theme', array( $this, 'add_theme_support' ) );
+		// WooCommerce Subscriptions specific
+		if ( class_exists( 'WooCommerce_Subscriptions' ) ) {
+			add_action( 'woocommerce_subscription_status_active', array( $this, 'add_user_to_group_on_purchase' ), 10, 1 );
+			add_action( 'woocommerce_subscription_status_cancelled', array( $this, 'remove_user_from_group_on_subscription_cancel' ), 10, 1 );
+			add_action( 'woocommerce_subscription_status_pending-cancel', array( $this, 'remove_user_from_group_on_subscription_cancel' ), 10, 1 );
+		}
 
+		// Add UI for WooCommerce
 		add_filter( 'dollie/required_plugins', array( $this, 'required_woocommerce' ) );
-
 		add_filter( 'acf/prepare_field_group_for_import', array( $this, 'add_acf_fields' ) );
 	}
 
@@ -62,7 +68,7 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		);
 
 		$plugins[] = array(
-			'name'             => 'WooCommerce Subscriptions',
+			'name'             => 'WooCommerce Accesss',
 			'slug'             => 'woocommerce-subscriptions',
 			'required'         => true,
 			'version'          => '3.0.10',
@@ -232,8 +238,6 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		}
 	}
 
-
-
 	public function remove_user_from_group_on_subscription_cancel( $subscription ) {
 
 		$user_id = $subscription->get_user_id();
@@ -379,6 +383,35 @@ class WooCommerce extends Singleton implements SubscriptionInterface {
 		}
 
 		return $match;
+	}
+
+	/**
+	 * Modify query to include/exclude blueprints
+	 *
+	 * @param $args
+	 * @param $field
+	 * @param $post_id
+	 *
+	 * @return mixed
+	 */
+	public function modify_query( $args, $field, $post_id ) {
+		$args['meta_query'][] = array(
+			'relation' => 'AND',
+			array(
+				'key'   => 'dollie_container_type',
+				'value' => '1',
+			),
+			array(
+				'key'   => 'wpd_blueprint_created',
+				'value' => 'yes',
+			),
+			array(
+				'key'     => 'wpd_installation_blueprint_title',
+				'compare' => 'EXISTS',
+			),
+		);
+
+		return $args;
 	}
 
 	public function my_acf_input_admin_footer() {

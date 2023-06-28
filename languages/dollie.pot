@@ -392,7 +392,7 @@ msgstr ""
 msgid "Sites"
 msgstr ""
 
-#: core/Admin/Container.php:492, core/Extras/AcfFields.php:1036, core/Utils/StringVariants.php:74, core/Utils/StringVariants.php:83, core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:122
+#: core/Admin/Container.php:492, core/Extras/AcfFields.php:1036, core/Utils/StringVariants.php:74, core/Utils/StringVariants.php:83, core/Modules/Access/Plugin/acf-fields/acf-fields.php:122
 msgid "Blueprints"
 msgstr ""
 
@@ -667,7 +667,7 @@ msgid "<strong>Please select the domain you like to use for your Hub.</strong> Y
 msgstr ""
 
 #: core/Extras/AcfFields.php:207
-msgid "Subscription Settings"
+msgid "Access Settings"
 msgstr ""
 
 #: core/Extras/AcfFields.php:252
@@ -1268,7 +1268,7 @@ msgid "Some example Elementor landing pages to promote your Agency services"
 msgstr ""
 
 #: core/Extras/AcfUserFields.php:10
-msgid "Active Dollie Subscription"
+msgid "Active Dollie Access"
 msgstr ""
 
 #: core/Extras/AcfUserFields.php:30
@@ -1395,7 +1395,7 @@ msgstr ""
 msgid "Email already exists. Please login first"
 msgstr ""
 
-#: core/Jobs/CustomerSubscriptionCheckJob.php:87
+#: core/Jobs/CustomerAccessCheckJob.php:87
 msgid "Customer subscription cron completed"
 msgstr ""
 
@@ -1981,7 +1981,7 @@ msgstr ""
 msgid "Dollie Site Remote Info URL"
 msgstr ""
 
-#: core/Modules/Subscription/Subscription.php:189, templates/loop/parts/modal-filters.php:30
+#: core/Modules/Access/Access.php:189, templates/loop/parts/modal-filters.php:30
 msgid "None"
 msgstr ""
 
@@ -2040,7 +2040,7 @@ msgstr ""
 msgid "Check this box if you want to launch each (new) site of this customer automatically as a VIP site"
 msgstr ""
 
-#: core/Widgets/Customers/CustomersList.php:55, core/Widgets/Dashboard/LaunchSite.php:42, core/Widgets/Dashboard/SubscriptionDetails.php:41, core/Widgets/Launch/LaunchSite.php:46, core/Widgets/Sites/SitesList.php:47
+#: core/Widgets/Customers/CustomersList.php:55, core/Widgets/Dashboard/LaunchSite.php:42, core/Widgets/Dashboard/AccessDetails.php:41, core/Widgets/Launch/LaunchSite.php:46, core/Widgets/Sites/SitesList.php:47
 msgid "Content"
 msgstr ""
 
@@ -2064,7 +2064,7 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
-#: core/Widgets/Dashboard/LaunchSite.php:77, core/Widgets/Dashboard/LaunchSite.php:207, core/Widgets/Dashboard/SubscriptionDetails.php:49, core/Widgets/Dashboard/SubscriptionDetails.php:165
+#: core/Widgets/Dashboard/LaunchSite.php:77, core/Widgets/Dashboard/LaunchSite.php:207, core/Widgets/Dashboard/AccessDetails.php:49, core/Widgets/Dashboard/AccessDetails.php:165
 msgid "Title"
 msgstr ""
 
@@ -2076,23 +2076,23 @@ msgstr ""
 msgid "Button"
 msgstr ""
 
-#: core/Widgets/Dashboard/LaunchSite.php:109, core/Widgets/Dashboard/SubscriptionDetails.php:124
+#: core/Widgets/Dashboard/LaunchSite.php:109, core/Widgets/Dashboard/AccessDetails.php:124
 msgid "Container"
 msgstr ""
 
-#: core/Widgets/Dashboard/LaunchSite.php:117, core/Widgets/Dashboard/SubscriptionDetails.php:132, core/Widgets/Dashboard/SubscriptionDetails.php:181
+#: core/Widgets/Dashboard/LaunchSite.php:117, core/Widgets/Dashboard/AccessDetails.php:132, core/Widgets/Dashboard/AccessDetails.php:181
 msgid "Background"
 msgstr ""
 
-#: core/Widgets/Dashboard/LaunchSite.php:136, core/Widgets/Dashboard/LaunchSite.php:397, core/Widgets/Dashboard/SubscriptionDetails.php:151, core/Widgets/Dashboard/SubscriptionDetails.php:238, core/Widgets/General/Login.php:497, core/Widgets/General/Login.php:574
+#: core/Widgets/Dashboard/LaunchSite.php:136, core/Widgets/Dashboard/LaunchSite.php:397, core/Widgets/Dashboard/AccessDetails.php:151, core/Widgets/Dashboard/AccessDetails.php:238, core/Widgets/General/Login.php:497, core/Widgets/General/Login.php:574
 msgid "Border Radius"
 msgstr ""
 
-#: core/Widgets/Dashboard/LaunchSite.php:148, core/Widgets/Dashboard/LaunchSite.php:409, core/Widgets/Dashboard/SubscriptionDetails.php:250
+#: core/Widgets/Dashboard/LaunchSite.php:148, core/Widgets/Dashboard/LaunchSite.php:409, core/Widgets/Dashboard/AccessDetails.php:250
 msgid "Padding"
 msgstr ""
 
-#: core/Widgets/Dashboard/LaunchSite.php:170, core/Widgets/Dashboard/LaunchSite.php:223, core/Widgets/Dashboard/LaunchSite.php:253, core/Widgets/Dashboard/SubscriptionDetails.php:192, core/Widgets/Dashboard/SubscriptionDetails.php:326, core/Widgets/Dashboard/SubscriptionDetails.php:368, core/Widgets/Dashboard/SubscriptionDetails.php:398
+#: core/Widgets/Dashboard/LaunchSite.php:170, core/Widgets/Dashboard/LaunchSite.php:223, core/Widgets/Dashboard/LaunchSite.php:253, core/Widgets/Dashboard/AccessDetails.php:192, core/Widgets/Dashboard/AccessDetails.php:326, core/Widgets/Dashboard/AccessDetails.php:368, core/Widgets/Dashboard/AccessDetails.php:398
 msgid "Color"
 msgstr ""
 
@@ -2128,99 +2128,99 @@ msgstr ""
 msgid "Recent Orders"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:26
-msgid "Subscription Details"
+#: core/Widgets/Dashboard/AccessDetails.php:26
+msgid "Access Details"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:51
+#: core/Widgets/Dashboard/AccessDetails.php:51
 msgid "Plan detalis"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:59
+#: core/Widgets/Dashboard/AccessDetails.php:59
 msgid "No subscription text"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:61
+#: core/Widgets/Dashboard/AccessDetails.php:61
 msgid "You have no active subscriptions. Please sign-up for one of our plans to launch your site(s)!"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:71, core/Widgets/General/Login.php:84
+#: core/Widgets/Dashboard/AccessDetails.php:71, core/Widgets/General/Login.php:84
 msgid "Text"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:79
+#: core/Widgets/Dashboard/AccessDetails.php:79
 msgid "Data source"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:82
-msgid "Subscription plan"
+#: core/Widgets/Dashboard/AccessDetails.php:82
+msgid "Access plan"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:83
+#: core/Widgets/Dashboard/AccessDetails.php:83
 msgid "Sites available"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:84, core/Widgets/Dashboard/SubscriptionDetails.php:107
+#: core/Widgets/Dashboard/AccessDetails.php:84, core/Widgets/Dashboard/AccessDetails.php:107
 msgid "Available storage"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:85, core/Widgets/Dashboard/SubscriptionDetails.php:111
+#: core/Widgets/Dashboard/AccessDetails.php:85, core/Widgets/Dashboard/AccessDetails.php:111
 msgid "Used storage"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:94
+#: core/Widgets/Dashboard/AccessDetails.php:94
 msgid "Items"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:99
+#: core/Widgets/Dashboard/AccessDetails.php:99
 msgid "Current plan"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:103
+#: core/Widgets/Dashboard/AccessDetails.php:103
 msgid "Available sites"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:204, core/Widgets/General/Login.php:109
+#: core/Widgets/Dashboard/AccessDetails.php:204, core/Widgets/General/Login.php:109
 msgid "Alignment"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:208, core/Widgets/General/Login.php:113
+#: core/Widgets/Dashboard/AccessDetails.php:208, core/Widgets/General/Login.php:113
 msgid "Left"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:212, core/Widgets/General/Login.php:117
+#: core/Widgets/Dashboard/AccessDetails.php:212, core/Widgets/General/Login.php:117
 msgid "Center"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:216, core/Widgets/General/Login.php:121
+#: core/Widgets/Dashboard/AccessDetails.php:216, core/Widgets/General/Login.php:121
 msgid "Right"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:264
+#: core/Widgets/Dashboard/AccessDetails.php:264
 msgid "Items Container"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:272
+#: core/Widgets/Dashboard/AccessDetails.php:272
 msgid "Items Padding"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:284
+#: core/Widgets/Dashboard/AccessDetails.php:284
 msgid "Section Padding"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:298
+#: core/Widgets/Dashboard/AccessDetails.php:298
 msgid "Item Title"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:306, core/Widgets/Dashboard/SubscriptionDetails.php:348
+#: core/Widgets/Dashboard/AccessDetails.php:306, core/Widgets/Dashboard/AccessDetails.php:348
 msgid "Width"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:340
+#: core/Widgets/Dashboard/AccessDetails.php:340
 msgid "Item Data Source"
 msgstr ""
 
-#: core/Widgets/Dashboard/SubscriptionDetails.php:382
+#: core/Widgets/Dashboard/AccessDetails.php:382
 msgid "No subscription"
 msgstr ""
 
@@ -2545,7 +2545,7 @@ msgid "Like to launch more sites or are you ready to start selling your services
 msgstr ""
 
 #: templates/admin/notices/subscription-missing.php:12, templates/admin/notices/subscription-time-limit.php:11
-msgid "Start Your Subscription"
+msgid "Start Your Access"
 msgstr ""
 
 #: templates/admin/notices/subscription-missing.php:18, templates/admin/notices/subscription-time-limit.php:17
@@ -2581,7 +2581,7 @@ msgid "You have reached the maximum number of allowed sites to launch via your H
 msgstr ""
 
 #: templates/admin/notices/subscription-sites-limit.php:16
-msgid "Check Subscription Status"
+msgid "Check Access Status"
 msgstr ""
 
 #: templates/admin/notices/subscription-sites-limit.php:22
@@ -2860,11 +2860,11 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/WooCommerce.php:276
+#: core/Modules/Access/Plugin/WooCommerce.php:276
 msgid "Link to Hosting Product"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/WooCommerce.php:279
+#: core/Modules/Access/Plugin/WooCommerce.php:279
 msgid "By linking this blueprint directly to a hosting product you can enable one-click checkout + deployment for your new customers."
 msgstr ""
 
@@ -3480,39 +3480,39 @@ msgstr ""
 msgid "Landing Pages"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:40
+#: core/Modules/Access/Plugin/acf-fields/acf-fields.php:40
 msgid "Basic"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:56
+#: core/Modules/Access/Plugin/acf-fields/acf-fields.php:56
 msgid "Number of Sites"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:59
+#: core/Modules/Access/Plugin/acf-fields/acf-fields.php:59
 msgid "How many sites can %s launch?"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:78
+#: core/Modules/Access/Plugin/acf-fields/acf-fields.php:78
 msgid "Disk Space"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:81
+#: core/Modules/Access/Plugin/acf-fields/acf-fields.php:81
 msgid "How much space can %s use for all their sites combined?"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:100
+#: core/Modules/Access/Plugin/acf-fields/acf-fields.php:100
 msgid "Staging Sites"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:103
+#: core/Modules/Access/Plugin/acf-fields/acf-fields.php:103
 msgid "How many staging sites can %s launch?"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:138
+#: core/Modules/Access/Plugin/acf-fields/acf-fields.php:138
 msgid "Allowed Blueprints"
 msgstr ""
 
-#: core/Modules/Subscription/Plugin/acf-fields/acf-fields.php:161
+#: core/Modules/Access/Plugin/acf-fields/acf-fields.php:161
 msgid "Disallowed Blueprints"
 msgstr ""
 

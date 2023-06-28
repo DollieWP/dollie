@@ -13,7 +13,7 @@
 		printf(
 			'<a href="%s" class="button button-primary">%s</a>',
 			esc_url( admin_url() . '?wpd_check_subscription' ),
-			esc_html__( 'Check Subscription Status', 'dollie' )
+			esc_html__( 'Check Access Status', 'dollie' )
 		);
 
 		printf(

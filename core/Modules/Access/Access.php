@@ -1,27 +1,27 @@
 <?php
 
-namespace Dollie\Core\Modules\Subscription;
+namespace Dollie\Core\Modules\Access;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
 use Dollie\Core\Api\PartnerApi;
-use Dollie\Core\Modules\Subscription\Plugin\SubscriptionInterface;
+use Dollie\Core\Modules\Access\Plugin\AccessInterface;
 use Dollie\Core\Singleton;
 
 /**
- * Class Subscription
+ * Class Access
  *
- * @package Dollie\Core\Modules\Subscription
+ * @package Dollie\Core\Modules\Access
  */
-class Subscription extends Singleton implements SubscriptionInterface {
+class Access extends Singleton implements AccessInterface {
 	use PartnerApi;
 
 	private $module;
 
 	/**
-	 * Subscription contructor
+	 * Access contructor
 	 */
 	public function __construct() {
 		parent::__construct();
@@ -29,15 +29,15 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		$subscription_plugin = $this->get_subscription_plugin();
 
 		if ( $subscription_plugin === 'Woocommerce' ) {
-			require_once DOLLIE_CORE_PATH . 'Modules/Subscription/Plugin/Woocommerce.php';
-			$class_name = '\Dollie\Core\Modules\Subscription\Plugin\\Woocommerce';
+			require_once DOLLIE_CORE_PATH . 'Modules/Access/Plugin/Woocommerce.php';
+			$class_name = '\Dollie\Core\Modules\Access\Plugin\\Woocommerce';
 		} else {
-			$class_name = apply_filters( 'dollie/subscription/plugin_class', '\Dollie\Core\Modules\Subscription\Plugin\\' . $subscription_plugin, $subscription_plugin );
+			$class_name = apply_filters( 'dollie/subscription/plugin_class', '\Dollie\Core\Modules\Access\Plugin\\' . $subscription_plugin, $subscription_plugin );
 		}
 
 		$this->module = $class_name::instance();
 
-		if ( ! $this->module instanceof SubscriptionInterface ) {
+		if ( ! $this->module instanceof AccessInterface ) {
 			throw new \Exception( 'Invalid subscription plugin' );
 		}
 
@@ -272,15 +272,15 @@ class Subscription extends Singleton implements SubscriptionInterface {
 	 * @return array|boolean
 	 */
 	public function get_blueprints_exception( $type = 'excluded' ) {
-		$data          = array();
-		$type         .= '_blueprints';
-		$subscriptions = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
+		$data   = array();
+		$type  .= '_blueprints';
+		$access = $this->get_customer_subscriptions( $this->module::SUB_STATUS_ACTIVE );
 
-		if ( empty( $subscriptions ) ) {
+		if ( empty( $access ) ) {
 			return false;
 		}
 
-		foreach ( $subscriptions['plans']['products'] as $product ) {
+		foreach ( $access['plans']['products'] as $product ) {
 			if ( isset( $product[ $type ] ) && ! empty( $product[ $type ] ) ) {
 				foreach ( $product[ $type ] as $bp ) {
 					$data[ $bp ] = $bp;
@@ -319,16 +319,16 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			$user_id = get_current_user_id();
 		}
 
-		$subscriptions = $this->get_customer_subscriptions( $user_id );
+		$access = $this->get_customer_subscriptions( $user_id );
 
 		// If no subscription is active.
-		if ( empty( $subscriptions ) ) {
+		if ( empty( $access ) ) {
 			return false;
 		}
 
 		// Apply overrides at product level.
-		if ( isset( $subscriptions['resources']['staging_max_allowed'] ) ) {
-			return $subscriptions['resources']['staging_max_allowed'] > 0;
+		if ( isset( $access['resources']['staging_max_allowed'] ) ) {
+			return $access['resources']['staging_max_allowed'] > 0;
 		}
 
 		return false;
@@ -426,13 +426,13 @@ class Subscription extends Singleton implements SubscriptionInterface {
 			return false;
 		}
 
-		$subscriptions = $this->get_customer_subscriptions( $user->get_id() );
+		$access = $this->get_customer_subscriptions( $user->get_id() );
 
-		if ( ! is_array( $subscriptions ) || empty( $subscriptions ) ) {
+		if ( ! is_array( $access ) || empty( $access ) ) {
 			return false;
 		}
 
-		return ( $subscriptions['resources']['staging_max_allowed'] - (int) $user->count_stagings() ) <= 0;
+		return ( $access['resources']['staging_max_allowed'] - (int) $user->count_stagings() ) <= 0;
 	}
 
 	/**
@@ -464,15 +464,15 @@ class Subscription extends Singleton implements SubscriptionInterface {
 		}
 
 		// Has subscription?
-		$subscriptions = $this->get_customer_subscriptions( null, $user_id );
+		$access = $this->get_customer_subscriptions( null, $user_id );
 
 		// If no subscription is active or no subscription is found.
-		if ( empty( $subscriptions ) ) {
+		if ( empty( $access ) ) {
 			return false;
 		}
 
 		// Has subscription but is VIP enabled for this subcription?
-		if ( isset( $subscriptions['resources']['launch_as_vip'] ) ) {
+		if ( isset( $access['resources']['launch_as_vip'] ) ) {
 			return true;
 		}
 

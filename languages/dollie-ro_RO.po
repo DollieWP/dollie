@@ -704,7 +704,7 @@ msgid "The password belonging to your SendGrid API account."
 msgstr ""
 
 #: core/Extras/AcfFields.php:1567
-msgid "Active Dollie Subscription"
+msgid "Active Dollie Access"
 msgstr ""
 
 #: core/Extras/AcfFields.php:1587
@@ -1255,7 +1255,7 @@ msgstr ""
 msgid "%s Created on %s"
 msgstr ""
 
-#: core/Modules/Subscription.php:677
+#: core/Modules/Access.php:677
 msgid "None"
 msgstr ""
 

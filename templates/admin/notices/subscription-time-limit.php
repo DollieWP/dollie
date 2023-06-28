@@ -8,7 +8,7 @@
 		<?php
 		printf(
 			'<a href="https://control.getdollie.com/?redirect=start-your-subscription" class="button button-primary" target="_blank">%s</a>',
-			esc_html__( 'Start Your Subscription', 'dollie' )
+			esc_html__( 'Start Your Access', 'dollie' )
 		);
 
 		printf(

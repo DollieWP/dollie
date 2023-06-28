@@ -9,7 +9,7 @@
 		<?php
 		printf(
 			'<a href="https://control.getdollie.com/?redirect=start-your-subscription" class="dol-text-sm dol-text-white hover:dol-text-white dol-inline-block dol-px-4 dol-py-2 dol-bg-secondary-500 hover:dol-bg-secondary-700 dol-rounded" target="_blank">%s</a>',
-			esc_html__( 'Start Your Subscription', 'dollie' )
+			esc_html__( 'Start Your Access', 'dollie' )
 		);
 
 		printf(

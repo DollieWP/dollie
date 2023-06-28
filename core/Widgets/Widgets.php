@@ -18,7 +18,7 @@ class Widgets extends Singleton {
 	/**
 	 * @var array
 	 */
-	private $widgets = [];
+	private $widgets = array();
 
 	/**
 	 * Widgets constructor.
@@ -27,127 +27,126 @@ class Widgets extends Singleton {
 		parent::__construct();
 
 		// Layout Widgets
-		$this->widgets[] = [
+		$this->widgets[] = array(
 			'path'  => 'Layout/LayoutSidebarContent',
 			'class' => 'Layout\LayoutSidebarContent',
 			'name'  => 'dollie-layout-sidebar-content',
-		];
+		);
 
 		// Dashboard Widgets
 
-		$this->widgets[] = [
+		$this->widgets[] = array(
 			'path'  => 'Dashboard/LatestNews',
 			'class' => 'Dashboard\LatestNews',
 			'name'  => 'dollie-dashboard-latest-news',
-		];
+		);
 
-		$this->widgets[] = [
+		$this->widgets[] = array(
 			'path'  => 'Dashboard/LaunchSite',
 			'class' => 'Dashboard\LaunchSite',
 			'name'  => 'dollie-dashboard-launch-site',
-		];
+		);
 
-		//WooCommerce Specific
-		if ( class_exists('WooCommerce')) {
+		// WooCommerce Specific
+		if ( class_exists( 'WooCommerce' ) ) {
 
-			$this->widgets[] = [
+			$this->widgets[] = array(
 				'path'  => 'Dashboard/RecentOrders',
 				'class' => 'Dashboard\RecentOrders',
 				'name'  => 'dollie-dashboard-recent-orders',
-			];
+			);
 
-			$this->widgets[] = [
-				'path'  => 'Dashboard/SubscriptionDetails',
-				'class' => 'Dashboard\SubscriptionDetails',
+			$this->widgets[] = array(
+				'path'  => 'Dashboard/AccessDetails',
+				'class' => 'Dashboard\AccessDetails',
 				'name'  => 'dollie-dashboard-subscription-details',
-			];
+			);
 
 		}
 
 		// Sites Widgets
 
-		$this->widgets[] = [
+		$this->widgets[] = array(
 			'path'  => 'Sites/SitesList',
 			'class' => 'Sites\SitesList',
 			'name'  => 'dollie-sites-list',
-		];
+		);
 
-
-		$this->widgets[] = [
+		$this->widgets[] = array(
 			'path'  => 'Customers/CustomersList',
 			'class' => 'Customers\CustomersList',
 			'name'  => 'dollie-customers-list',
-		];
+		);
 
 		// General & Nav Widgets
 
-		$this->widgets[] = [
+		$this->widgets[] = array(
 			'path'  => 'General/Avatar',
 			'class' => 'General\Avatar',
 			'name'  => 'dollie-avatar',
-		];
+		);
 
-		$this->widgets[] = [
+		$this->widgets[] = array(
 			'path'  => 'General/TopNavigation',
 			'class' => 'General\TopNavigation',
 			'name'  => 'dollie-top-navigation',
-		];
+		);
 
-		$this->widgets[] = [
+		$this->widgets[] = array(
 			'path'  => 'General/MainNavigation',
 			'class' => 'General\MainNavigation',
 			'name'  => 'dollie-main-navigation',
-		];
+		);
 
-		$this->widgets[] = [
+		$this->widgets[] = array(
 			'path'  => 'General/SitesNavigation',
 			'class' => 'General\SitesNavigation',
 			'name'  => 'dollie-sites-navigation',
-		];
+		);
 
-		if (class_exists('WooCommerce')) {
+		if ( class_exists( 'WooCommerce' ) ) {
 
-			$this->widgets[] = [
+			$this->widgets[] = array(
 				'path'  => 'General/WooNavigation',
 				'class' => 'General\WooNavigation',
 				'name'  => 'dollie-woo-navigation',
-			];
+			);
 
 		}
 
-		$this->widgets[] = [
+		$this->widgets[] = array(
 			'path'  => 'General/Login',
 			'class' => 'General\Login',
 			'name'  => 'dollie-login',
-		];
+		);
 
 		// Site Widgets
 
-		$this->widgets[] = [
+		$this->widgets[] = array(
 			'path'  => 'Site/SiteContent',
 			'class' => 'Site\SiteContent',
 			'name'  => 'dollie-site-content',
-		];
+		);
 
-		$this->widgets[] = [
+		$this->widgets[] = array(
 			'path'  => 'Site/SiteNavigation',
 			'class' => 'Site\SiteNavigation',
 			'name'  => 'dollie-site-navigation',
-		];
+		);
 
-		$this->widgets[] = [
+		$this->widgets[] = array(
 			'path'  => 'Site/SiteScreenshot',
 			'class' => 'Site\SiteScreenshot',
 			'name'  => 'dollie-site-screenshot',
-		];
+		);
 
 		// Launch Widgets
 
-		$this->widgets[] = [
+		$this->widgets[] = array(
 			'path'  => 'Launch/LaunchSite',
 			'class' => 'Launch\LaunchSite',
 			'name'  => 'dollie-launch-site',
-		];
+		);
 
 		foreach ( $this->widgets as &$widget ) {
 			$widget['path']  = DOLLIE_WIDGETS_PATH . $widget['path'];
@@ -163,5 +162,4 @@ class Widgets extends Singleton {
 	public function get() {
 		return $this->widgets;
 	}
-
 }

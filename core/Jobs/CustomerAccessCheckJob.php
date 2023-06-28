@@ -8,18 +8,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Log;
-use Dollie\Core\Modules\Subscription\Subscription;
+use Dollie\Core\Modules\Access\Access;
 use WP_Query;
 
 /**
- * Class CustomerSubscriptionCheckJob
+ * Class CustomerAccessCheckJob
  *
  * @package Dollie\Core\Modules
  */
-class CustomerSubscriptionCheckJob extends Singleton {
+class CustomerAccessCheckJob extends Singleton {
 
 	/**
-	 * CustomerSubscriptionCheckJob constructor.
+	 * CustomerAccessCheckJob constructor.
 	 */
 	public function __construct() {
 		parent::__construct();

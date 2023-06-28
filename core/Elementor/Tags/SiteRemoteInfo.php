@@ -8,13 +8,13 @@ use Elementor\Core\DynamicTags\Tag;
 class SiteRemoteInfo extends Tag {
 
 	private $container;
-	private $wpd_data = [];
+	private $wpd_data = array();
 
-	public function __construct( array $data = [] ) {
+	public function __construct( array $data = array() ) {
 		parent::__construct( $data );
 
-		$this->wpd_data['site_data']     = [];
-		$this->wpd_data['customer_data'] = [];
+		$this->wpd_data['site_data']     = array();
+		$this->wpd_data['customer_data'] = array();
 
 		$current_id = dollie()->get_current_post_id();
 
@@ -38,10 +38,9 @@ class SiteRemoteInfo extends Tag {
 		$user         = dollie()->get_user();
 
 		// Add custom items
-		$this->wpd_data['customer_data']['Customer - Total Sites Launched']           = $user->count_containers();
-		$this->wpd_data['customer_data']['Customer Subscription - Sites Available']   = $subscription->sites_available();
-		$this->wpd_data['customer_data']['Customer Subscription - Storage Available'] = $subscription->storage_available();
-
+		$this->wpd_data['customer_data']['Customer - Total Sites Launched']     = $user->count_containers();
+		$this->wpd_data['customer_data']['Customer Access - Sites Available']   = $subscription->sites_available();
+		$this->wpd_data['customer_data']['Customer Access - Storage Available'] = $subscription->storage_available();
 	}
 
 	public function get_name() {
@@ -57,11 +56,11 @@ class SiteRemoteInfo extends Tag {
 	}
 
 	public function get_categories() {
-		return [ \Elementor\Modules\DynamicTags\Module::TEXT_CATEGORY ];
+		return array( \Elementor\Modules\DynamicTags\Module::TEXT_CATEGORY );
 	}
 
 	protected function register_controls() {
-		$keys = [];
+		$keys = array();
 
 		foreach ( $this->wpd_data['site_data'] as $k => $data ) {
 
@@ -70,10 +69,10 @@ class SiteRemoteInfo extends Tag {
 			}
 
 			if ( strpos( $data, '.png' ) ||
-				 strpos( $data, '.jpg' ) ||
-				 strpos( $data, '.jpeg' ) ||
-				 filter_var( $data, FILTER_VALIDATE_URL ) ||
-				 strpos( $data, '.gif' ) ) {
+				strpos( $data, '.jpg' ) ||
+				strpos( $data, '.jpeg' ) ||
+				filter_var( $data, FILTER_VALIDATE_URL ) ||
+				strpos( $data, '.gif' ) ) {
 
 				continue;
 			}
@@ -92,11 +91,11 @@ class SiteRemoteInfo extends Tag {
 
 		$this->add_control(
 			'param_name',
-			[
+			array(
 				'label'   => __( 'Choose Data', 'dollie' ),
 				'type'    => Controls_Manager::SELECT,
 				'options' => $keys,
-			]
+			)
 		);
 	}
 

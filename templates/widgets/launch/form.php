@@ -1,6 +1,6 @@
 <?php
 
-dollie()->load_template( 'widgets/launch/before-message', [], true );
+dollie()->load_template( 'widgets/launch/before-message', array(), true );
 $subscription = dollie()->subscription();
 
 if ( ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_deploy_limit() && dollie()->is_live() ) {
@@ -16,23 +16,23 @@ if ( ! $subscription->has_partner_credits() || 0 === $subscription->get_partner_
 	if ( dollie()->get_partner_status() === 'trial' && dollie()->get_user()->can_manage_all_sites() ) {
 		dollie()->load_template(
 			'notice',
-			[
+			array(
 				'type'    => 'notice',
 				'icon'    => 'fas fa-exclamation-circle',
-				'title'   => 'Please Start Your Subscription to Launch More Sites',
-				'message' => dollie()->load_template( 'admin/notices/subscription-missing', [] ),
-			],
+				'title'   => 'Please Start Your Access to Launch More Sites',
+				'message' => dollie()->load_template( 'admin/notices/subscription-missing', array() ),
+			),
 			true
 		);
 	} else {
 		dollie()->load_template(
 			'notice',
-			[
+			array(
 				'type'    => 'error',
 				'icon'    => 'fas fa-exclamation-circle',
 				'title'   => __( 'Sorry, Launching a new site is currently not possible.', 'dollie' ),
 				'message' => $message,
-			],
+			),
 			true
 		);
 	}
@@ -58,11 +58,11 @@ if ( dollie()->get_user()->can_manage_all_sites() || $subscription->has_subscrip
 
 dollie()->load_template(
 	'notice',
-	[
+	array(
 		'type'    => 'error',
 		'icon'    => 'fas fa-exclamation-circle',
 		'title'   => __( 'Sorry, You have no active subscription', 'dollie' ),
 		'message' => __( 'Please sign-up for a one of our subscriptions to launch a new website!', 'dollie' ),
-	],
+	),
 	true
 );

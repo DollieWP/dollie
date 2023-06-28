@@ -6,11 +6,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Modules\Subscription\Subscription;
+use Dollie\Core\Modules\Access\Access;
 use Dollie\Core\Modules\Vip\Hooks as VipHooks;
 use Dollie\Core\Modules\AccessGroups\AccessGroups as AccessGroups;
-use Dollie\Core\Modules\WooCommerce;
-use Dollie\Core\Modules\Subscription\Plugin\PaidMembershipsPro;
+use Dollie\Core\Modules\Access\Plugin\WooCommerce;
+use Dollie\Core\Modules\Access\Plugin\PaidMembershipsPro;
 use Dollie\Core\Modules\Logging;
 use Dollie\Core\Modules\Forms;
 
@@ -26,7 +26,7 @@ use Dollie\Core\Hooks\Acf;
 use Dollie\Core\Jobs\SyncContainersJob;
 use Dollie\Core\Jobs\RemoveOldLogsJob;
 use Dollie\Core\Jobs\ChangeContainerRoleJob;
-use Dollie\Core\Jobs\CustomerSubscriptionCheckJob;
+use Dollie\Core\Jobs\CustomerAccessCheckJob;
 
 use Dollie\Core\Routing\Processor;
 use Dollie\Core\Routing\Route;
@@ -119,7 +119,7 @@ class Plugin extends Singleton {
 
 		// Woocommerce subscriptions.
 		if ( ! is_admin() || ! isset( $_GET['action'] ) || $_GET['action'] !== 'activate' ) {
-			if ( ! class_exists( '\WC_Subscriptions_Core_Plugin' ) && Subscription::instance()->get_subscription_plugin() === 'WooCommerce' ) {
+			if ( ! class_exists( '\WC_Accesss_Core_Plugin' ) && Access::instance()->get_subscription_plugin() === 'WooCommerce' ) {
 				require_once DOLLIE_CORE_PATH . 'Extras/woocommerce-subscriptions/woocommerce-subscriptions.php';
 			}
 		}
@@ -151,16 +151,24 @@ class Plugin extends Singleton {
 		SyncContainersJob::instance();
 		ChangeContainerRoleJob::instance();
 		RemoveOldLogsJob::instance();
-		CustomerSubscriptionCheckJob::instance();
+		CustomerAccessCheckJob::instance();
 
 		// Modules.
 		Forms::instance();
 		Logging::instance();
-		WooCommerce::instance();
-		PaidMembershipsPro::instance();
-		Subscription::instance();
+
+		Access::instance();
 		VipHooks::instance();
 		AccessGroups::instance();
+
+		// Integrations
+		if ( class_exists( 'WooCommerce' ) ) {
+			WooCommerce::instance();
+		}
+
+		if ( defined( 'PMPRO_VERSION' ) ) {
+			PaidMembershipsPro::instance();
+		}
 
 		// Hooks.
 		AccessControl::instance();
