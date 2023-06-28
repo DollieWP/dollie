@@ -15,6 +15,7 @@ use Dollie\Core\Factories\Site;
 use Dollie\Core\Factories\Blueprint;
 use Dollie\Core\Factories\Staging;
 use Dollie\Core\Factories\User;
+use Dollie\Core\Factories\Partner;
 
 use Dollie\Core\Services\AccessService;
 use Dollie\Core\Services\AuthService;
@@ -89,6 +90,18 @@ class Helpers extends Singleton implements ConstInterface {
 	}
 
 	/**
+	 * Get partner
+	 *
+	 * @param \WP_User|integer|null $id
+	 *
+	 * @return Partner
+	 */
+	public function get_partner(): Partner {
+		return new Partner();
+	}
+
+
+	/**
 	 * Icon instance
 	 *
 	 * @return Icon
@@ -123,6 +136,8 @@ class Helpers extends Singleton implements ConstInterface {
 	public function subscription(): Integrations {
 		return Integrations::instance();
 	}
+
+
 
 	/**
 	 * BulkActionService instance
@@ -417,7 +432,7 @@ class Helpers extends Singleton implements ConstInterface {
 	public function get_partner_status() {
 		if (
 			! dollie()
-				->subscription()
+				->get_partner()
 				->has_partner_subscription()
 		) {
 			return 'trial';
@@ -425,7 +440,7 @@ class Helpers extends Singleton implements ConstInterface {
 
 		if (
 			! dollie()
-				->subscription()
+				->get_partner()
 				->has_partner_verified()
 		) {
 			return 'unverified';

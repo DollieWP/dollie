@@ -95,7 +95,7 @@ final class NoticeService extends Singleton {
 			return;
 		}
 
-		dollie()->load_template( 'admin/notices/not-connected', [ 'auth_url' => $auth_service->get_auth_url() ], true );
+		dollie()->load_template( 'admin/notices/not-connected', array( 'auth_url' => $auth_service->get_auth_url() ), true );
 	}
 
 	/**
@@ -118,11 +118,11 @@ final class NoticeService extends Singleton {
 			die();
 		}
 
-		if ( ! dollie()->subscription()->has_partner_subscription() ) {
-			dollie()->load_template( 'admin/notices/subscription-missing', [], true );
-		} elseif ( dollie()->subscription()->has_partner_subscription() &&
-			0 === dollie()->subscription()->get_partner_deploy_limit() ) {
-			dollie()->load_template( 'admin/notices/subscription-sites-limit', [], true );
+		if ( ! dollie()->get_partner()->has_partner_subscription() ) {
+			dollie()->load_template( 'admin/notices/subscription-missing', array(), true );
+		} elseif ( dollie()->get_partner()->has_partner_subscription() &&
+			0 === dollie()->get_partner()->get_partner_deploy_limit() ) {
+			dollie()->load_template( 'admin/notices/subscription-sites-limit', array(), true );
 		}
 	}
 
@@ -143,8 +143,8 @@ final class NoticeService extends Singleton {
 			die();
 		}
 
-		if ( ! dollie()->subscription()->has_partner_verified() ) {
-			dollie()->load_template( 'admin/notices/subscription-not-verified', [], true );
+		if ( ! dollie()->get_partner()->has_partner_verified() ) {
+			dollie()->load_template( 'admin/notices/subscription-not-verified', array(), true );
 		}
 	}
 
@@ -164,7 +164,7 @@ final class NoticeService extends Singleton {
 			return;
 		}
 
-		dollie()->load_template( 'admin/notices/container-management', [ 'container' => $container ], true );
+		dollie()->load_template( 'admin/notices/container-management', array( 'container' => $container ), true );
 	}
 
 	/**
@@ -173,7 +173,6 @@ final class NoticeService extends Singleton {
 	 * @return void
 	 */
 	public function change_user_role(): void {
-		dollie()->load_template( 'admin/notices/change-user-role', [], true );
+		dollie()->load_template( 'admin/notices/change-user-role', array(), true );
 	}
-
 }

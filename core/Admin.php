@@ -6,6 +6,7 @@ namespace Dollie\Core;
 use Dollie\Core\Admin\Container;
 use Dollie\Core\Admin\NavMenu;
 use Dollie\Core\Admin\Upgrades;
+use Dollie\Core\Admin\Partner;
 use Dollie\Core\Services\ImportService;
 use Dollie\Core\Services\NoticeService;
 use Dollie\Core\Singleton;
@@ -39,10 +40,10 @@ final class Admin extends Singleton implements ConstInterface {
 		add_action( 'admin_notices', array( NoticeService::instance(), 'not_connected' ) );
 		add_action( 'admin_notices', array( NoticeService::instance(), 'subscription_no_credits' ) );
 		add_action( 'admin_notices', array( NoticeService::instance(), 'subscription_not_verified' ) );
-		add_action( 'admin_init', [ ImportService::instance(), 'set_old_templates_as_imported' ], 9 );
+		add_action( 'admin_init', array( ImportService::instance(), 'set_old_templates_as_imported' ), 9 );
 
-		add_action( 'admin_init', [ $this, 'import_template' ] );
-		add_action( 'admin_notices', [ $this, 'template_admin_notice' ], 20 );
+		add_action( 'admin_init', array( $this, 'import_template' ) );
+		add_action( 'admin_notices', array( $this, 'template_admin_notice' ), 20 );
 		add_filter( 'theme_page_templates', array( $this, 'add_new_page_template' ) );
 		add_filter( 'template_include', array( $this, 'load_page_template' ) );
 	}
@@ -55,10 +56,10 @@ final class Admin extends Singleton implements ConstInterface {
 	public function initialize() {
 		NavMenu::instance();
 		Container::instance();
+		Partner::instance();
 
-		//Run upgrades
+		// Run upgrades
 		Upgrades::instance();
-
 	}
 
 	/**
@@ -84,7 +85,7 @@ final class Admin extends Singleton implements ConstInterface {
 		wp_enqueue_script(
 			'dollie-global',
 			DOLLIE_ASSETS_URL . 'js/dollie-global.js',
-			[],
+			array(),
 			DOLLIE_VERSION,
 			true
 		);
@@ -99,52 +100,57 @@ final class Admin extends Singleton implements ConstInterface {
 			'dollie_templates',
 			array( $this, 'templates_options_page_callback' )
 		);
-		add_action( 'admin_enqueue_scripts', function ( $handle ) use ( $hook ) {
-			if ( $handle === $hook ) {
-				wp_enqueue_style(
-					'dollie-custom-admin',
-					DOLLIE_ASSETS_URL . 'css/dollie.css',
-					array(),
-					DOLLIE_VERSION
-				);
+		add_action(
+			'admin_enqueue_scripts',
+			function ( $handle ) use ( $hook ) {
+				if ( $handle === $hook ) {
+					wp_enqueue_style(
+						'dollie-custom-admin',
+						DOLLIE_ASSETS_URL . 'css/dollie.css',
+						array(),
+						DOLLIE_VERSION
+					);
+				}
 			}
-		} );
+		);
 	}
 
 	public function templates_options_page_callback() {
 
-		$imported_templates = get_option( 'dollie_imported_templates', [] );
+		$imported_templates = get_option( 'dollie_imported_templates', array() );
 		$message            = '';
 		if ( isset( $_GET['message'] ) ) {
 			$message = sanitize_text_field( $_GET['message'] );
 		}
-		$templates = [];
+		$templates = array();
 
-		$templates[] = [
-			'name'        => 'Elementor Template',
-			'image'       => DOLLIE_ASSETS_URL . 'img/template-elementor.jpg',
-			'url'         => admin_url( 'admin.php?page=dollie_templates&dol-import=elementor' ),
-			'is_imported' => isset( $imported_templates['elementor'] ),
-			'active'      => class_exists( '\Elementor\Plugin' ),
-            'text_inactive' => __('Elementor plugin not installed', 'dollie')
-		];
+		$templates[] = array(
+			'name'          => 'Elementor Template',
+			'image'         => DOLLIE_ASSETS_URL . 'img/template-elementor.jpg',
+			'url'           => admin_url( 'admin.php?page=dollie_templates&dol-import=elementor' ),
+			'is_imported'   => isset( $imported_templates['elementor'] ),
+			'active'        => class_exists( '\Elementor\Plugin' ),
+			'text_inactive' => __( 'Elementor plugin not installed', 'dollie' ),
+		);
 
-		$templates[] = [
+		$templates[] = array(
 			'name'        => 'Gutenberg Template',
 			'image'       => DOLLIE_ASSETS_URL . 'img/template-gutenberg.jpg',
 			'url'         => admin_url( 'admin.php?page=dollie_templates&dol-import=gutenberg' ),
 			'is_imported' => isset( $imported_templates['gutenberg'] ),
-			'active'      => true
-		];
+			'active'      => true,
+		);
 
 		$templates = apply_filters( 'dollie/templates', $templates );
 
-		dollie()->load_template( 'admin/templates',
-			[
+		dollie()->load_template(
+			'admin/templates',
+			array(
 				'templates' => $templates,
-				'message'   => $message
-			]
-			, true );
+				'message'   => $message,
+			),
+			true
+		);
 	}
 
 	/**
@@ -163,9 +169,9 @@ final class Admin extends Singleton implements ConstInterface {
 		}
 
 		// process import request.
-		$imported_ids       = [];
+		$imported_ids       = array();
 		$import_template    = sanitize_text_field( $_GET['dol-import'] );
-		$imported_templates = get_option( 'dollie_imported_templates', [] );
+		$imported_templates = get_option( 'dollie_imported_templates', array() );
 
 		// trash the old templates.
 		if ( isset( $imported_templates[ $import_template ] ) && ! empty( $imported_templates[ $import_template ] ) ) {
@@ -202,24 +208,24 @@ final class Admin extends Singleton implements ConstInterface {
 			return;
 		}
 
-		$imported_templates = get_option( 'dollie_imported_templates', [] );
+		$imported_templates = get_option( 'dollie_imported_templates', array() );
 		if ( ! empty( $imported_templates ) ) {
 			return;
 		}
 		?>
 
-        <div class="notice dollie-notice">
+		<div class="notice dollie-notice">
 
-            <div class="dollie-inner-message">
+			<div class="dollie-inner-message">
 
-                <div class="dollie-message-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-                    </svg>
-                    <h3><?php _e( 'Dollie Templates Missing', 'dollie' ); ?></h3>
-                    <p>
+				<div class="dollie-message-center">
+					<svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+					</svg>
+					<h3><?php _e( 'Dollie Templates Missing', 'dollie' ); ?></h3>
+					<p>
 						<?php
 						echo wp_kses_post(
 							sprintf(
@@ -231,13 +237,12 @@ final class Admin extends Singleton implements ConstInterface {
 							)
 						);
 						?>
-                    </p>
-                </div>
+					</p>
+				</div>
 
-            </div>
-        </div>
+			</div>
+		</div>
 		<?php
-
 	}
 
 	/**
@@ -262,7 +267,7 @@ final class Admin extends Singleton implements ConstInterface {
 			'autoload'    => true,
 		);
 
-		//acf_add_options_page( $args );
+		// acf_add_options_page( $args );
 	}
 
 	/**
@@ -336,8 +341,8 @@ final class Admin extends Singleton implements ConstInterface {
 			$meta = get_post_meta( get_the_ID() );
 
 			if ( ! empty( $meta['_wp_page_template'][0] )
-			     && $meta['_wp_page_template'][0] !== $template
-			     && $meta['_wp_page_template'][0] === 'wpd-builder' ) {
+				&& $meta['_wp_page_template'][0] !== $template
+				&& $meta['_wp_page_template'][0] === 'wpd-builder' ) {
 				$template = DOLLIE_MODULE_TPL_PATH . 'tpl-builder.php';
 			}
 		}
