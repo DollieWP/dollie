@@ -4,7 +4,6 @@ namespace Dollie\Core\Factories;
 
 use Dollie\Core\Api\PartnerApi;
 
-use Dollie\Core\Log;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
