@@ -117,13 +117,6 @@ class Plugin extends Singleton {
 			require_once DOLLIE_CORE_PATH . 'Extras/acf-tooltip/acf-tooltip.php';
 		}
 
-		// Woocommerce subscriptions.
-		if ( ! is_admin() || ! isset( $_GET['action'] ) || $_GET['action'] !== 'activate' ) {
-			if ( ! class_exists( '\WC_Accesss_Core_Plugin' ) && Access::instance()->get_subscription_plugin() === 'WooCommerce' ) {
-				require_once DOLLIE_CORE_PATH . 'Extras/woocommerce-subscriptions/woocommerce-subscriptions.php';
-			}
-		}
-
 		// Custom plugin updates.
 		if ( file_exists( DOLLIE_CORE_PATH . 'Extras/plugin-update-checker/plugin-update-checker.php' ) ) {
 			require DOLLIE_CORE_PATH . 'Extras/plugin-update-checker/plugin-update-checker.php';
@@ -163,6 +156,7 @@ class Plugin extends Singleton {
 
 		// Integrations
 		if ( class_exists( 'WooCommerce' ) ) {
+
 			WooCommerce::instance();
 		}
 

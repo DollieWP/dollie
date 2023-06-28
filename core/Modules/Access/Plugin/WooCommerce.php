@@ -40,7 +40,7 @@ class WooCommerce extends Singleton implements AccessInterface {
 		add_action( 'acf/input/admin_footer', array( $this, 'my_acf_input_admin_footer' ) );
 
 		// WooCommerce Subscriptions specific
-		if ( class_exists( 'WooCommerce_Subscriptions' ) ) {
+		if ( class_exists( 'WC_Subscriptions' ) ) {
 			add_action( 'woocommerce_subscription_status_active', array( $this, 'add_user_to_group_on_purchase' ), 10, 1 );
 			add_action( 'woocommerce_subscription_status_cancelled', array( $this, 'remove_user_from_group_on_subscription_cancel' ), 10, 1 );
 			add_action( 'woocommerce_subscription_status_pending-cancel', array( $this, 'remove_user_from_group_on_subscription_cancel' ), 10, 1 );
