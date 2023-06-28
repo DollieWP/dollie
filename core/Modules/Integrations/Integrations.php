@@ -40,8 +40,6 @@ class Integrations extends Singleton implements IntegrationsInterface {
 		if ( ! $this->module instanceof IntegrationsInterface ) {
 			throw new \Exception( 'Invalid subscription plugin' );
 		}
-
-		add_filter( 'dollie/blueprints', array( $this, 'filter_blueprints' ) );
 	}
 
 	/**

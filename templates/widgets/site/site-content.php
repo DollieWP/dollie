@@ -7,11 +7,11 @@ $container = dollie()->get_container( dollie()->get_current_post_id() );
 if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 	dollie()->load_template(
 		'widgets/site/pages/error',
-		[
+		array(
 			'container'         => $container,
 			'invalid_container' => is_wp_error( $container ),
 			'missing_details'   => ! is_wp_error( $container ) && is_wp_error( $container->get_details() ),
-		],
+		),
 		true
 	);
 
@@ -38,8 +38,8 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 			<p class="mt-20 mb-20 pl-100 pr-100 h5 font-size-large text-gray">
 				<?php printf( esc_html__( 'This instance has been removed and is no longer accessible. There is a %s grace period when you\'ll be able restore it. When the time runs out, it will be completely gone.' ), human_time_diff( current_time( 'timestamp' ), $container->get_details( 'deleted_at' ) + ( 5 * 86400 ) ) ); ?>
 			</p>
-			<form action="<?php echo $container->get_permalink( '', [ 'restore_container' => 'yes' ] ); ?>"
-				  method="post">
+			<form action="<?php echo $container->get_permalink( '', array( 'restore_container' => 'yes' ) ); ?>"
+					method="post">
 				<button name="restore_container" type="submit"
 						class="dol-px-4 dol-py-2 dol-bg-primary-600 dol-text-white dol-rounded">
 					<?php echo dollie()->icon()->refresh( 'dol-mr-1' ); ?>
@@ -97,7 +97,7 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 			<div class="dol-mb-4 dol-text-sm">
 				<?php esc_html_e( 'This instance is stopped. You can start it using the button bellow. Please note that stopped instances are still being billed.', 'dollie' ); ?>
 			</div>
-			
+
 			<input type="hidden" name="container" value="<?php echo esc_attr( $container->get_id() ); ?>">
 			<input type="hidden" name="action" value="dollie_action_start_container">
 			<input type="hidden" name="nonce" value="<?php echo wp_create_nonce( 'dollie_action_start_container' ); ?>">
@@ -142,17 +142,17 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 		wp_enqueue_script( 'dollie-custom-launch' );
 	}
 
-	dollie()->load_template( 'parts/site-deploying-checker', [], true );
+	dollie()->load_template( 'parts/site-deploying-checker', array(), true );
 
 	?>
 
 	<div class="dol-mt-1 dol-text-md div-loader-wrap dol-text-l dol-text-center dol-p-6">
 		<div class="dol-py-8 dol-flex dol-flex-col dol-items-center dol-justify-center">
 			<svg class="dol-animate-spin dol-h-16 dol-w-16 dol-text-flame-600" xmlns="http://www.w3.org/2000/svg"
-				 fill="none" viewBox="0 0 24 24">
+				fill="none" viewBox="0 0 24 24">
 				<circle class="dol-opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
 				<path class="dol-opacity-75" fill="currentColor"
-					  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+						d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
 			</svg>
 		</div>
 
@@ -187,7 +187,7 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 
 	<?php
 
-	$pages = [
+	$pages = array(
 		'plugins',
 		'themes',
 		'domains',
@@ -199,33 +199,33 @@ if ( is_wp_error( $container ) || is_wp_error( $container->get_details() ) ) {
 		'delete',
 		'staging',
 		'admin-settings',
-        'stats',
-	];
+		'stats',
+	);
 
 	$sub_page = get_query_var( 'sub_page' );
 
 	if ( $sub_page && in_array( $sub_page, $pages, true ) ) {
-		if ( in_array( $sub_page, [ 'blueprints', 'domains' ] ) && ! dollie()->is_elementor_editor() ) {
+		if ( in_array( $sub_page, array( 'blueprints', 'domains' ) ) && ! dollie()->is_elementor_editor() ) {
 			wp_enqueue_script( 'dollie-site-content' );
 		}
 
-		if ( in_array( $sub_page, [ 'blueprints' ] ) ) {
+		if ( in_array( $sub_page, array( 'blueprints' ) ) ) {
 			acf_form_head();
 		}
 
 		dollie()->load_template(
 			"widgets/site/pages/{$sub_page}",
-			[
+			array(
 				'container' => $container,
-			],
+			),
 			true
 		);
 	} else {
 		dollie()->load_template(
 			'widgets/site/pages/dashboard',
-			[
+			array(
 				'container' => $container,
-			],
+			),
 			true
 		);
 	}

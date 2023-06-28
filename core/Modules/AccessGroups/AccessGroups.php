@@ -708,7 +708,7 @@ class AccessGroups extends Singleton {
 			return $is_custom;
 		}
 
-		$subscription = $this->get_customer_access( $this->module::SUB_STATUS_ACTIVE );
+		$subscription = $this->get_customer_access();
 
 		if ( ! $subscription ) {
 			return 0;
@@ -1037,11 +1037,11 @@ class AccessGroups extends Singleton {
 		return false;
 	}
 
-		/**
-		 * Get available sections
-		 *
-		 * @return mixed
-		 */
+	/**
+	 * Get available sections
+	 *
+	 * @return mixed
+	 */
 	public function get_available_sections() {
 
 		$user = dollie()->get_user();
