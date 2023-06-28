@@ -17,7 +17,7 @@ use Dollie\Core\Factories\Staging;
 use Dollie\Core\Factories\User;
 use Dollie\Core\Factories\Partner;
 
-use Dollie\Core\Services\AccessService;
+use Dollie\Core\Services\PermissionService;
 use Dollie\Core\Services\AuthService;
 use Dollie\Core\Services\BulkActionService;
 use Dollie\Core\Services\InsightsService;
@@ -167,12 +167,12 @@ class Helpers extends Singleton implements ConstInterface {
 	}
 
 	/**
-	 * AccessService instance
+	 * PermissionService instance
 	 *
-	 * @return AccessService
+	 * @return PermissionService
 	 */
-	public function access(): AccessService {
-		return AccessService::instance();
+	public function access(): PermissionService {
+		return PermissionService::instance();
 	}
 
 	/**

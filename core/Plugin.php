@@ -14,7 +14,7 @@ use Dollie\Core\Modules\Integrations\PaidMembershipsPro;
 use Dollie\Core\Modules\Logging;
 use Dollie\Core\Modules\Forms;
 
-use Dollie\Core\Hooks\AccessControl;
+use Dollie\Core\Hooks\PermissionControl;
 use Dollie\Core\Hooks\Container;
 use Dollie\Core\Hooks\Blueprints;
 use Dollie\Core\Hooks\BulkActions;
@@ -169,7 +169,7 @@ class Plugin extends Singleton {
 		}
 
 		// Hooks.
-		AccessControl::instance();
+		PermissionControl::instance();
 		Container::instance();
 		Blueprints::instance();
 		BulkActions::instance();

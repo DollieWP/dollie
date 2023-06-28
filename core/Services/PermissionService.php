@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 
-final class AccessService extends Singleton {
+final class PermissionService extends Singleton {
 
 	/**
 	 * Custom capabilities of custom post type
