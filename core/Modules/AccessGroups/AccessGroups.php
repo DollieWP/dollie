@@ -597,7 +597,7 @@ class AccessGroups extends Singleton {
 
 
 	public function add_user_custom_column( $columns ) {
-		$columns['access_groups'] = 'Access Groups';
+		$columns['access_groups'] = 'Hub Access Groups';
 		return $columns;
 	}
 
