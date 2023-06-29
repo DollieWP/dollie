@@ -16,7 +16,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class AccessGroups extends Singleton {
 
-
 	/**
 	 * Hooks constructor.
 	 * Sets up the hooks needed for the access group system.
@@ -41,76 +40,76 @@ class AccessGroups extends Singleton {
 	 * @return void
 	 */
 	public function register_access_groups_cpt() {
-			/**
-			* Post Type: Hub Access Groups.
-			*/
-			$labels = array(
-				'name'                     => __( 'Hub Access Groups', 'hello-dollie' ),
-				'singular_name'            => __( 'Hub Access Group', 'hello-dollie' ),
-				'menu_name'                => __( 'Hub Access', 'hello-dollie' ),
-				'all_items'                => __( 'Access Groups', 'hello-dollie' ),
-				'add_new'                  => __( 'Add Access Group', 'hello-dollie' ),
-				'add_new_item'             => __( 'New Hub Access Group', 'hello-dollie' ),
-				'edit_item'                => __( 'Edit Hub Access Group', 'hello-dollie' ),
-				'new_item'                 => __( 'New Hub Access Group', 'hello-dollie' ),
-				'view_item'                => __( 'View Hub Access Group', 'hello-dollie' ),
-				'view_items'               => __( 'View Hub Access Groups', 'hello-dollie' ),
-				'search_items'             => __( 'Search Hub Access Groups', 'hello-dollie' ),
-				'not_found'                => __( 'No Hub Access Groups found', 'hello-dollie' ),
-				'not_found_in_trash'       => __( 'No Hub Access Groups found in trash', 'hello-dollie' ),
-				'parent'                   => __( 'Parent Hub Access Group:', 'hello-dollie' ),
-				'featured_image'           => __( 'Featured image for this Hub Access Group', 'hello-dollie' ),
-				'set_featured_image'       => __( 'Set featured image for this Hub Access Group', 'hello-dollie' ),
-				'remove_featured_image'    => __( 'Remove featured image for this Hub Access Group', 'hello-dollie' ),
-				'use_featured_image'       => __( 'Use as featured image for this Hub Access Group', 'hello-dollie' ),
-				'archives'                 => __( 'Hub Access Group archives', 'hello-dollie' ),
-				'insert_into_item'         => __( 'Insert into Hub Access Group', 'hello-dollie' ),
-				'uploaded_to_this_item'    => __( 'Upload to this Hub Access Group', 'hello-dollie' ),
-				'filter_items_list'        => __( 'Filter Hub Access Groups list', 'hello-dollie' ),
-				'items_list_navigation'    => __( 'Hub Access Groups list navigation', 'hello-dollie' ),
-				'items_list'               => __( 'Hub Access Groups list', 'hello-dollie' ),
-				'attributes'               => __( 'Hub Access Groups attributes', 'hello-dollie' ),
-				'name_admin_bar'           => __( 'Hub Access Group', 'hello-dollie' ),
-				'item_published'           => __( 'Hub Access Group published', 'hello-dollie' ),
-				'item_published_privately' => __( 'Hub Access Group published privately.', 'hello-dollie' ),
-				'item_reverted_to_draft'   => __( 'Hub Access Group reverted to draft.', 'hello-dollie' ),
-				'item_scheduled'           => __( 'Hub Access Group scheduled', 'hello-dollie' ),
-				'item_updated'             => __( 'Hub Access Group updated.', 'hello-dollie' ),
-				'parent_item_colon'        => __( 'Parent Hub Access Group:', 'hello-dollie' ),
-			);
+		/**
+		 * Post Type: Hub Access Groups.
+		 */
+		$labels = array(
+			'name'                     => __( 'Hub Access Groups', 'hello-dollie' ),
+			'singular_name'            => __( 'Hub Access Group', 'hello-dollie' ),
+			'menu_name'                => __( 'Hub Access', 'hello-dollie' ),
+			'all_items'                => __( 'Access Groups', 'hello-dollie' ),
+			'add_new'                  => __( 'Add Access Group', 'hello-dollie' ),
+			'add_new_item'             => __( 'New Hub Access Group', 'hello-dollie' ),
+			'edit_item'                => __( 'Edit Hub Access Group', 'hello-dollie' ),
+			'new_item'                 => __( 'New Hub Access Group', 'hello-dollie' ),
+			'view_item'                => __( 'View Hub Access Group', 'hello-dollie' ),
+			'view_items'               => __( 'View Hub Access Groups', 'hello-dollie' ),
+			'search_items'             => __( 'Search Hub Access Groups', 'hello-dollie' ),
+			'not_found'                => __( 'No Hub Access Groups found', 'hello-dollie' ),
+			'not_found_in_trash'       => __( 'No Hub Access Groups found in trash', 'hello-dollie' ),
+			'parent'                   => __( 'Parent Hub Access Group:', 'hello-dollie' ),
+			'featured_image'           => __( 'Featured image for this Hub Access Group', 'hello-dollie' ),
+			'set_featured_image'       => __( 'Set featured image for this Hub Access Group', 'hello-dollie' ),
+			'remove_featured_image'    => __( 'Remove featured image for this Hub Access Group', 'hello-dollie' ),
+			'use_featured_image'       => __( 'Use as featured image for this Hub Access Group', 'hello-dollie' ),
+			'archives'                 => __( 'Hub Access Group archives', 'hello-dollie' ),
+			'insert_into_item'         => __( 'Insert into Hub Access Group', 'hello-dollie' ),
+			'uploaded_to_this_item'    => __( 'Upload to this Hub Access Group', 'hello-dollie' ),
+			'filter_items_list'        => __( 'Filter Hub Access Groups list', 'hello-dollie' ),
+			'items_list_navigation'    => __( 'Hub Access Groups list navigation', 'hello-dollie' ),
+			'items_list'               => __( 'Hub Access Groups list', 'hello-dollie' ),
+			'attributes'               => __( 'Hub Access Groups attributes', 'hello-dollie' ),
+			'name_admin_bar'           => __( 'Hub Access Group', 'hello-dollie' ),
+			'item_published'           => __( 'Hub Access Group published', 'hello-dollie' ),
+			'item_published_privately' => __( 'Hub Access Group published privately.', 'hello-dollie' ),
+			'item_reverted_to_draft'   => __( 'Hub Access Group reverted to draft.', 'hello-dollie' ),
+			'item_scheduled'           => __( 'Hub Access Group scheduled', 'hello-dollie' ),
+			'item_updated'             => __( 'Hub Access Group updated.', 'hello-dollie' ),
+			'parent_item_colon'        => __( 'Parent Hub Access Group:', 'hello-dollie' ),
+		);
 
-			$args = array(
-				'label'                 => __( 'Hub Access Groups', 'hello-dollie' ),
-				'labels'                => $labels,
-				'description'           => '',
-				'public'                => true,
-				'publicly_queryable'    => false,
-				'show_ui'               => true,
-				'show_in_rest'          => true,
-				'menu_position'         => 1,
-				'rest_base'             => 'dollie_access_group',
-				'rest_controller_class' => 'WP_REST_Posts_Controller',
-				'rest_namespace'        => 'dollie',
-				'has_archive'           => false,
-				'show_in_menu'          => true,
-				'show_in_nav_menus'     => true,
-				'delete_with_user'      => false,
-				'exclude_from_search'   => true,
-				'capability_type'       => 'post',
-				'map_meta_cap'          => true,
-				'hierarchical'          => false,
-				'can_export'            => true,
-				'rewrite'               => array(
-					'slug'       => 'dollie-access-groups',
-					'with_front' => true,
-				),
-				'query_var'             => true,
-				'menu_icon'             => 'dashicons-groups',
-				'supports'              => array( 'title', 'thumbnail', 'revisions' ),
-				'show_in_graphql'       => false,
-			);
+		$args = array(
+			'label'                 => __( 'Hub Access Groups', 'hello-dollie' ),
+			'labels'                => $labels,
+			'description'           => '',
+			'public'                => true,
+			'publicly_queryable'    => false,
+			'show_ui'               => true,
+			'show_in_rest'          => true,
+			'menu_position'         => 1,
+			'rest_base'             => 'dollie_access_group',
+			'rest_controller_class' => 'WP_REST_Posts_Controller',
+			'rest_namespace'        => 'dollie',
+			'has_archive'           => false,
+			'show_in_menu'          => true,
+			'show_in_nav_menus'     => true,
+			'delete_with_user'      => false,
+			'exclude_from_search'   => true,
+			'capability_type'       => 'post',
+			'map_meta_cap'          => true,
+			'hierarchical'          => false,
+			'can_export'            => true,
+			'rewrite'               => array(
+				'slug'       => 'dollie-access-groups',
+				'with_front' => true,
+			),
+			'query_var'             => true,
+			'menu_icon'             => 'dashicons-groups',
+			'supports'              => array( 'title', 'thumbnail', 'revisions' ),
+			'show_in_graphql'       => false,
+		);
 
-			register_post_type( 'dollie-access-groups', $args );
+		register_post_type( 'dollie-access-groups', $args );
 	}
 
 
@@ -127,7 +126,7 @@ class AccessGroups extends Singleton {
 		$args   = array(
 			'post_type'      => 'dollie-access-groups',
 			'post_status'    => 'publish',
-			'posts_per_page' => -1, // Get all posts
+			'posts_per_page' => - 1, // Get all posts
 		);
 		$groups = get_posts( $args );
 
@@ -137,8 +136,8 @@ class AccessGroups extends Singleton {
 	/**
 	 * Adds a list of users to an access group.
 	 *
-	 * @param int    $group_id ID of the group
-	 * @param array  $user_ids Array of user IDs
+	 * @param int $group_id ID of the group
+	 * @param array $user_ids Array of user IDs
 	 * @param string $source Source from which the users are added
 	 * @param string $integration Name of the integration
 	 * @param string $action Name of the action
@@ -220,8 +219,8 @@ class AccessGroups extends Singleton {
 	/**
 	 * Removes a list of users from an access group.
 	 *
-	 * @param int    $group_id ID of the group
-	 * @param array  $user_ids Array of user IDs
+	 * @param int $group_id ID of the group
+	 * @param array $user_ids Array of user IDs
 	 * @param string $source Source from which the users are removed
 	 */
 	public function remove_from_access_group( $group_id, $user_ids, $source = null, $integration = '', $action = '' ) {
@@ -302,12 +301,12 @@ class AccessGroups extends Singleton {
 	}
 
 
-
 	/**
 	 * Checks if a user has access to a group.
 	 *
 	 * @param int $group_id ID of the group
 	 * @param int $user_id ID of the user
+	 *
 	 * @return bool
 	 */
 	public function user_has_access_to_group( $group_id, $user_id ) {
@@ -327,10 +326,12 @@ class AccessGroups extends Singleton {
 	 * Retrieves users in a group.
 	 *
 	 * @param int $group_id ID of the group
+	 *
 	 * @return array
 	 */
 	public function get_users_in_group( $group_id ) {
 		$current_users = get_field( 'wpd_group_users', $group_id );
+
 		return is_array( $current_users ) ? $current_users : array();
 	}
 
@@ -338,10 +339,12 @@ class AccessGroups extends Singleton {
 	 * Checks if a group is empty.
 	 *
 	 * @param int $group_id ID of the group
+	 *
 	 * @return bool
 	 */
 	public function is_group_empty( $group_id ) {
 		$current_users = get_field( 'wpd_group_users', $group_id );
+
 		return empty( $current_users );
 	}
 
@@ -349,10 +352,12 @@ class AccessGroups extends Singleton {
 	 * Counts users in a group.
 	 *
 	 * @param int $group_id ID of the group
+	 *
 	 * @return int
 	 */
 	public function count_users_in_group( $group_id ) {
 		$current_users = get_field( 'wpd_group_users', $group_id );
+
 		return is_array( $current_users ) ? count( $current_users ) : 0;
 	}
 
@@ -360,6 +365,7 @@ class AccessGroups extends Singleton {
 	 * Retrieves logs by group ID.
 	 *
 	 * @param int $group_id ID of the group
+	 *
 	 * @return array
 	 */
 	public function get_logs_by_group_id( $group_id ) {
@@ -374,6 +380,7 @@ class AccessGroups extends Singleton {
 			),
 		);
 		$query = new \WP_Query( $args );
+
 		return $query->posts;
 	}
 
@@ -383,15 +390,16 @@ class AccessGroups extends Singleton {
 	 * @param WP_Post $post The object for the current post/page
 	 */
 	public function display_logs_meta_box( $post ) {
-			$group_id = $post->ID;
-			$logs     = $this->get_logs_by_group_id( $group_id );
+		$group_id = $post->ID;
+		$logs     = $this->get_logs_by_group_id( $group_id );
 
 		if ( empty( $logs ) ) {
 			echo 'No logs for this group.';
+
 			return;
 		}
 
-		$logs = array_slice( $logs, -50 );
+		$logs = array_slice( $logs, - 50 );
 
 		foreach ( $logs as $log ) {
 			echo '<p>';
@@ -424,7 +432,7 @@ class AccessGroups extends Singleton {
 		$args  = array(
 			'post_type'      => 'dollie-access-groups',
 			'post_status'    => 'publish',
-			'posts_per_page' => -1, // Get all posts
+			'posts_per_page' => - 1, // Get all posts
 		);
 		$posts = get_posts( $args );
 
@@ -453,6 +461,7 @@ class AccessGroups extends Singleton {
 	 * Retrieves user groups.
 	 *
 	 * @param int $user_id ID of the user
+	 *
 	 * @return array
 	 */
 	public function get_user_groups( $user_id ) {
@@ -460,7 +469,7 @@ class AccessGroups extends Singleton {
 
 		// If the field is empty or not an array, return an empty array
 		if ( ! is_array( $group_ids ) ) {
-			return array();
+			return [];
 		}
 
 		return $group_ids;
@@ -470,7 +479,7 @@ class AccessGroups extends Singleton {
 	/**
 	 * Get groups for customer
 	 *
-	 * @param string   $status
+	 * @param string $status
 	 * @param null|int $customer_id
 	 *
 	 * @return array|bool
@@ -544,10 +553,10 @@ class AccessGroups extends Singleton {
 				'excluded_blueprints' => get_field( '_wpd_excluded_blueprints', $group_id ),
 			);
 
-			$data['resources']['max_allowed_installs']         += $installs;
-			$data['resources']['max_allowed_size']             += $max_size;
+			$data['resources']['max_allowed_installs']          += $installs;
+			$data['resources']['max_allowed_size']              += $max_size;
 			$data['resources']['name']                          = $name;
-			$data['resources']['staging_max_allowed']          += $staging;
+			$data['resources']['staging_max_allowed']           += $staging;
 			$data['resources']['available_sections']            = $available_sections;
 			$data['resources']['available_features_developers'] = $available_features_developers;
 
@@ -560,9 +569,9 @@ class AccessGroups extends Singleton {
 				foreach ( $value as $innerKey => $innerValue ) {
 					if ( is_array( $innerValue ) ) {
 						continue; // Skip nested arrays
-					} else {
-						update_user_meta( $customer_id, 'dollie_hub_' . $key . '_' . $innerKey, $innerValue );
 					}
+
+					update_user_meta( $customer_id, 'dollie_hub_' . $key . '_' . $innerKey, $innerValue );
 				}
 			} else {
 				update_user_meta( $customer_id, 'dollie_hub_' . $key, $value );
@@ -574,7 +583,7 @@ class AccessGroups extends Singleton {
 
 
 	public function enqueue_admin_script( $hook ) {
-		if ( 'user-edit.php' == $hook ) {
+		if ( 'user-edit.php' === $hook ) {
 			wp_enqueue_script( 'dollie-groups-js', DOLLIE_ASSETS_URL . 'js/admin-access-groups.js', array(), DOLLIE_VERSION );
 		}
 	}
@@ -585,13 +594,13 @@ class AccessGroups extends Singleton {
 	public function acf_readonly_fields() {
 		?>
 		<script type="text/javascript">
-		jQuery(document).ready(function($) {
-			// replace 'field_12345678' with the field key of the field you want to disable
-			$('div[data-key="field_649420e3e3fb7"] input, div[data-key="field_649420e3e3fb7"] textarea').attr(
-				'readonly', 'true');
-			$('div[data-key="field_649420e3e3fb7"] .acf-button, div[data-key="field_649420e3e3fb7"] .acf-row-handle')
-				.addClass('hidden');
-		});
+          jQuery(document).ready(function ($) {
+            // replace 'field_12345678' with the field key of the field you want to disable
+            $('div[data-key="field_649420e3e3fb7"] input, div[data-key="field_649420e3e3fb7"] textarea').attr(
+              'readonly', 'true');
+            $('div[data-key="field_649420e3e3fb7"] .acf-button, div[data-key="field_649420e3e3fb7"] .acf-row-handle')
+              .addClass('hidden');
+          });
 		</script>
 		<?php
 	}
@@ -599,23 +608,25 @@ class AccessGroups extends Singleton {
 
 	public function add_user_custom_column( $columns ) {
 		$columns['access_groups'] = 'Hub Access Groups';
+
 		return $columns;
 	}
 
 	// Output custom field value in new column
 
 	public function output_user_custom_column_value( $value, $column_name, $user_id ) {
-		if ( $column_name == 'access_groups' ) {
+		if ( $column_name === 'access_groups' ) {
 			$access_group_ids = get_field( 'wpd_group_users', 'user_' . $user_id );
 
 			// If there are any access group IDs, get the title of each post and return them
 			if ( is_array( $access_group_ids ) && ! empty( $access_group_ids ) ) {
 				$access_group_titles = array_map(
-					function( $post_id ) {
+					function ( $post_id ) {
 						return '<a href="' . get_edit_post_link( $post_id ) . '">' . get_the_title( $post_id ) . '</a>';
 					},
 					$access_group_ids
 				);
+
 				return implode( ', ', $access_group_titles );
 			}
 
@@ -644,14 +655,15 @@ class AccessGroups extends Singleton {
 
 	public function get_customer_site_features( $customer_id = null ) {
 		$customer_access_details = $this->get_customer_access( $customer_id );
+
 		return $customer_access_details['resources']['available_sections'] ?? array();
 	}
 
-		/**
-		 * Check if customer has subscription
-		 *
-		 * @return bool
-		 */
+	/**
+	 * Check if customer has subscription
+	 *
+	 * @return bool
+	 */
 	public function has_subscription() {
 
 		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
@@ -804,8 +816,8 @@ class AccessGroups extends Singleton {
 		$is_custom = get_field( '_wpd_max_size', 'user_' . $customer_id );
 
 		if ( ! empty( $is_custom ) && is_numeric( $is_custom ) && $is_custom > 0 ) {
-			$allowed_size  = $is_custom;
-			$total_size    = dollie()->insights()->get_total_container_size();
+			$allowed_size = $is_custom;
+			$total_size   = dollie()->insights()->get_total_container_size();
 			$allowed_size *= 1024 * 1024 * 1024;
 
 			return $total_size >= $allowed_size && ! $user->can_manage_all_sites();
@@ -831,7 +843,7 @@ class AccessGroups extends Singleton {
 	 */
 	public function get_blueprints_exception( $type = 'excluded' ) {
 		$data   = array();
-		$type  .= '_blueprints';
+		$type   .= '_blueprints';
 		$access = $this->get_customer_access( $this->module::SUB_STATUS_ACTIVE );
 
 		if ( empty( $access ) ) {
@@ -1073,5 +1085,18 @@ class AccessGroups extends Singleton {
 		}
 
 		return $available_sections_array;
+	}
+
+	public function has_bought_product( $user_id = null ) {
+		$user_id = $user_id ?? get_current_user_id();
+
+		return ! empty( $this->get_user_groups( $user_id ) );
+	}
+
+	public function migrate_woo_to_acces_groups() {
+
+
+
+		return true;
 	}
 }

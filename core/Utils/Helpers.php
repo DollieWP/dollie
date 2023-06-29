@@ -133,7 +133,7 @@ class Helpers extends Singleton implements ConstInterface {
 	/**
 	 * Access instance
 	 *
-	 * @return Integrations
+	 * @return AccessGroups
 	 */
 	public function access(): AccessGroups {
 		return AccessGroups::instance();

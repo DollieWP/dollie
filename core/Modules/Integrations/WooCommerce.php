@@ -71,7 +71,7 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 		);
 
 		$plugins[] = array(
-			'name'             => 'WooCommerce Accesss',
+			'name'             => 'WooCommerce Access',
 			'slug'             => 'woocommerce-subscriptions',
 			'required'         => true,
 			'version'          => '3.0.10',

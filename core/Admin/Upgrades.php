@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Modules\AccessGroups\AccessGroups;
 use Dollie\Core\Services\ImportService;
 use Elementor\Plugin;
 use Dollie\Core\Log;
@@ -50,6 +51,7 @@ class Upgrades extends Singleton {
 		// '2.0.0' => '_upgrade_200',
 		//'4.1.4' => '_upgrade_400',
 		//'4.2.3' => '_upgrade_421',
+		'6.0.0' => '_upgrade_600',
 	];
 
 	/**
@@ -286,6 +288,13 @@ class Upgrades extends Singleton {
 	 */
 	private function _upgrade_421() {
 		return ImportService::instance()->import_elementor_template();
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function _upgrade_600() {
+		return AccessGroups::instance()->migrate_woo_to_acces_groups();
 	}
 
 }

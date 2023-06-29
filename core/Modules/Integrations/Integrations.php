@@ -27,12 +27,10 @@ class Integrations extends Singleton implements IntegrationsInterface {
 		parent::__construct();
 
 		$integration = $this->get_integration();
+		$class_name  = apply_filters( 'dollie/subscription/plugin_class', '\Dollie\Core\Modules\Integrations\\' . $integration, $integration );
 
-		if ( $integration === 'Woocommerce' ) {
-			require_once DOLLIE_CORE_PATH . 'Modules/Access/Plugin/Woocommerce.php';
-			$class_name = '\Dollie\Core\Modules\Integrations\\Woocommerce';
-		} else {
-			$class_name = apply_filters( 'dollie/subscription/plugin_class', '\Dollie\Core\Modules\Integrations\\' . $integration, $integration );
+		if ( ! class_exists( $class_name ) ) {
+			$class_name = '\Dollie\Core\Modules\Integrations\WooCommerce';
 		}
 
 		$this->module = $class_name::instance();
@@ -55,7 +53,6 @@ class Integrations extends Singleton implements IntegrationsInterface {
 
 		return $integration;
 	}
-
 
 
 	public function redirect_to_blueprint( $id ) {
