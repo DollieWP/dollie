@@ -2,6 +2,8 @@
 if ( function_exists( 'acf_add_local_field_group' ) ) :
 
 
+
+
 	acf_add_local_field_group(
 		array(
 			'key'                   => 'group_649b0ff9945a3deferjk',
@@ -1864,6 +1866,202 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 			'description'           => '',
 		)
 	);
+
+
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_649c7340318cd',
+			'title'                 => 'Onboarding Form',
+			'fields'                => array(
+				array(
+					'key'                      => 'field_649c748ba0919',
+					'label'                    => __( 'Billing', 'dollie' ),
+					'name'                     => '',
+					'aria-label'               => '',
+					'type'                     => 'page',
+					'instructions'             => '',
+					'required'                 => 0,
+					'conditional_logic'        => 0,
+					'wrapper'                  => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'dollie_vip_addon_enabled' => 0,
+					'dollie_admin_only'        => 0,
+					'acfe_save_meta'           => 0,
+					'hide_admin'               => true,
+				),
+				array(
+					'key'                      => 'field_649c7342a0918',
+					'label'                    => __( 'Enable the Hub Billing & Access Features?', 'dollie' ),
+					'name'                     => 'wpd_charge_for_deployments',
+					'aria-label'               => '',
+					'type'                     => 'true_false',
+					'instructions'             => __( 'If you are building a WaaS/SaaS platform or are an Agency that wants to bill your clients through your Hub, keep this feature enabled.', 'dollie' ),
+					'required'                 => 0,
+					'conditional_logic'        => 0,
+					'wrapper'                  => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'dollie_vip_addon_enabled' => 0,
+					'dollie_admin_only'        => 0,
+					'acfe_save_meta'           => 0,
+					'hide_admin'               => 0,
+					'message'                  => '',
+					'default_value'            => 1,
+					'ui_on_text'               => 'Yes',
+					'ui_off_text'              => 'No',
+					'ui'                       => 1,
+				),
+				array(
+					'key'                      => 'field_649c74a2a091a',
+					'label'                    => __( 'Integrations', 'dollie' ),
+					'name'                     => '',
+					'aria-label'               => '',
+					'type'                     => 'page',
+					'instructions'             => '',
+					'required'                 => 0,
+					'conditional_logic'        => array(
+						array(
+							array(
+								'field'    => 'field_649c7342a0918',
+								'operator' => '==',
+								'value'    => '1',
+							),
+						),
+					),
+					'wrapper'                  => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'dollie_vip_addon_enabled' => 0,
+					'dollie_admin_only'        => 0,
+					'acfe_save_meta'           => 0,
+					'hide_admin'               => true,
+					'show_numbering'           => 1,
+					'previous_text'            => '',
+					'next_text'                => '',
+				),
+				array(
+					'key'                      => 'field_649c74e9a091b',
+					'label'                    => __( 'How would you like to charge for access', 'dollie' ),
+					'name'                     => 'choose_integation',
+					'aria-label'               => '',
+					'type'                     => 'radio',
+					'instructions'             => __( 'When you enable the billing features you will be able to easily charge your customers/clients for launching sites, access to specific Hub Areas and much more.', 'dollie' ),
+					'required'                 => 0,
+					'conditional_logic'        => array(
+						array(
+							array(
+								'field'    => 'field_649c7342a0918',
+								'operator' => '==',
+								'value'    => '1',
+							),
+						),
+					),
+					'wrapper'                  => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'dollie_vip_addon_enabled' => 0,
+					'dollie_admin_only'        => 0,
+					'acfe_save_meta'           => 0,
+					'hide_admin'               => 0,
+					'choices'                  => array(
+						'woocommerce'          => '<span>WooCommerce</span><img src="https://logos-download.com/wp-content/uploads/2016/09/WooCommerce_logo_Woo_Commerce-700x142.png">',
+						'paid-memberships-pro' => '<span>Paid Memberships Pro</span><img src="https://www.paidmembershipspro.com/wp-content/themes/memberlite-pmpro/images/Paid-Memberships-Pro_2022.png">',
+						'memberpress'          => '<span>MemberPress</span><img src="https://memberpress.com/wp-content/uploads/2017/12/mp-logo-horiz-RGB-660x105.jpg">',
+					),
+					'default_value'            => 'woocommerce',
+					'return_format'            => 'value',
+					'allow_null'               => 0,
+					'other_choice'             => 0,
+					'layout'                   => 'vertical',
+					'save_other_choice'        => 0,
+				),
+				array(
+					'key'                      => 'field_649c7af0bb958',
+					'label'                    => __( 'Domains', 'dollie' ),
+					'name'                     => '',
+					'aria-label'               => '',
+					'type'                     => 'page',
+					'instructions'             => '',
+					'required'                 => 0,
+					'conditional_logic'        => 0,
+					'wrapper'                  => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'dollie_vip_addon_enabled' => 0,
+					'dollie_admin_only'        => 0,
+					'acfe_save_meta'           => 0,
+					'hide_admin'               => true,
+					'show_numbering'           => 1,
+					'previous_text'            => '',
+					'next_text'                => '',
+				),
+				array(
+					'key'                      => 'field_649c7b13bb959',
+					'label'                    => __( 'Select Your Domain', 'dollie' ),
+					'name'                     => 'wpd_api_domain',
+					'aria-label'               => '',
+					'type'                     => 'radio',
+					'instructions'             => __( 'When you enable the billing features you will be able to easily charge your customers/clients for launching sites, access to specific Hub Areas and much more.', 'dollie' ),
+					'required'                 => 0,
+					'conditional_logic'        => 0,
+					'wrapper'                  => array(
+						'width' => '',
+						'class' => '',
+						'id'    => '',
+					),
+					'dollie_vip_addon_enabled' => 0,
+					'dollie_admin_only'        => 0,
+					'acfe_save_meta'           => 0,
+					'hide_admin'               => 0,
+					'choices'                  => array(
+						'woocommerce'          => '<img src="https://getdollie.com/wp-content/uploads/2020/12/dollie-logo.png">',
+						'paid-memberships-pro' => '<img src="https://getdollie.com/wp-content/uploads/2020/12/dollie-logo.png">',
+					),
+					'default_value'            => 'woocommerce',
+					'return_format'            => 'value',
+					'allow_null'               => 0,
+					'other_choice'             => 0,
+					'layout'                   => 'vertical',
+					'save_other_choice'        => 0,
+				),
+			),
+			'location'              => array(
+				array(
+					array(
+						'param'    => 'af_form',
+						'operator' => '==',
+						'value'    => 'form_649c73282122d',
+					),
+				),
+			),
+			'menu_order'            => 0,
+			'position'              => 'normal',
+			'style'                 => 'default',
+			'label_placement'       => 'left',
+			'instruction_placement' => 'label',
+			'hide_on_screen'        => '',
+			'active'                => true,
+			'description'           => '',
+			'show_in_rest'          => 0,
+			'acfe_display_title'    => '',
+			'acfe_autosync'         => '',
+			'acfe_form'             => 0,
+			'acfe_meta'             => '',
+			'acfe_note'             => '',
+		)
+	);
+
 	acf_add_local_field_group(
 		array(
 			'key'                   => 'group_60361f89bf0cf',

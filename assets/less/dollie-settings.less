@@ -1,4 +1,51 @@
 .toplevel_page_dollie_setup {
+	.dol-onboarding {
+
+		.acf-hl:before, .acf-hl:after, .acf-bl:before, .acf-bl:after, .acf-cf:before, .acf-cf:after {
+			display: none !important;
+		}
+
+	.acf-radio-list.acf-bl {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 20px;
+			list-style: none;
+			padding: 0;
+			margin: 0;
+
+			::before {
+				display: none !important;
+			}
+		}
+
+		.acf-radio-list li {
+			padding: 10px;
+			overflow: hidden;
+		}
+
+		.acf-radio-list li img {
+			width: 100%;
+			height: auto;
+			display: block;
+			margin-top: 10px;
+			filter: grayscale(100%);
+			opacity: 0.4;
+			transition: filter 0.3s ease, opacity 0.3s ease;
+		}
+
+		.acf-radio-list li input[type="radio"] {
+			display: none;
+		}
+
+		.acf-radio-list li input[type="radio"]:checked+span+img,
+		.acf-radio-list li img:hover {
+			filter: grayscale(0%);
+			opacity: 1;
+			border: 1px solid #ccc;
+		}
+	}
+
+
     .add-on-wrapper {
             background-color: #e8fbff;
             padding: 30px !important;

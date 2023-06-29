@@ -1,3 +1,52 @@
+.toplevel_page_dollie_setup .dol-onboarding .acf-hl:before,
+.toplevel_page_dollie_setup .dol-onboarding .acf-hl:after,
+.toplevel_page_dollie_setup .dol-onboarding .acf-bl:before,
+.toplevel_page_dollie_setup .dol-onboarding .acf-bl:after,
+.toplevel_page_dollie_setup .dol-onboarding .acf-cf:before,
+.toplevel_page_dollie_setup .dol-onboarding .acf-cf:after {
+  display: none !important;
+}
+.toplevel_page_dollie_setup .dol-onboarding .acf-radio-list.acf-bl {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 20px 1fr 20px 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.toplevel_page_dollie_setup .dol-onboarding .acf-radio-list.acf-bl ::before {
+  display: none !important;
+}
+.toplevel_page_dollie_setup .dol-onboarding .acf-radio-list li {
+  padding: 10px;
+  overflow: hidden;
+}
+.toplevel_page_dollie_setup .dol-onboarding .acf-radio-list li img {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-top: 10px;
+  -webkit-filter: grayscale(100%);
+          filter: grayscale(100%);
+  opacity: 0.4;
+  -webkit-transition: opacity 0.3s ease, -webkit-filter 0.3s ease;
+  transition: opacity 0.3s ease, -webkit-filter 0.3s ease;
+  -o-transition: filter 0.3s ease, opacity 0.3s ease;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+  transition: filter 0.3s ease, opacity 0.3s ease, -webkit-filter 0.3s ease;
+}
+.toplevel_page_dollie_setup .dol-onboarding .acf-radio-list li input[type="radio"] {
+  display: none;
+}
+.toplevel_page_dollie_setup .dol-onboarding .acf-radio-list li input[type="radio"]:checked + span + img,
+.toplevel_page_dollie_setup .dol-onboarding .acf-radio-list li img:hover {
+  -webkit-filter: grayscale(0%);
+          filter: grayscale(0%);
+  opacity: 1;
+  border: 1px solid #ccc;
+}
 .toplevel_page_dollie_setup .add-on-wrapper {
   background-color: #e8fbff;
   padding: 30px !important;

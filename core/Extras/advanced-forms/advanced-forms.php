@@ -232,7 +232,7 @@ if ( ! class_exists( 'AF' ) ) :
 				'supports'          => array( 'title' ),
 				'hierarchical'      => false,
 				'public'            => false,
-				'show_ui'           => false,
+				'show_ui'           => true,
 				'show_in_menu'      => false,
 				'menu_icon'         => 'dashicons-list-view',
 				'menu_position'     => 80,

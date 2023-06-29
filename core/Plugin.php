@@ -101,7 +101,7 @@ class Plugin extends Singleton {
 		$acf_plugin_pro_path = WP_PLUGIN_DIR . '/advanced-custom-fields-pro/acf.php';
 
 		if ( ! file_exists( $acf_plugin_path ) && ! file_exists( $acf_plugin_pro_path ) && ! defined( 'DOLLIE_DEV' ) ) {
-			add_filter( 'acf/settings/show_admin', '__return_false' );
+			// add_filter( 'acf/settings/show_admin', '__return_false' );
 		}
 
 		// Load Dollie Setup Class,
