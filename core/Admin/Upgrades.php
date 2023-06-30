@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Modules\AccessGroups\AccessGroups;
 use Dollie\Core\Services\ImportService;
-use Elementor\Plugin;
 use Dollie\Core\Log;
 use Dollie\Core\Singleton;
 

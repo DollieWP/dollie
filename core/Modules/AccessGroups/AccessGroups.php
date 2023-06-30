@@ -123,21 +123,20 @@ class AccessGroups extends Singleton {
 	}
 
 	public static function get_access_groups() {
-		$args   = array(
+		$args = array(
 			'post_type'      => 'dollie-access-groups',
 			'post_status'    => 'publish',
 			'posts_per_page' => - 1, // Get all posts
 		);
-		$groups = get_posts( $args );
 
-		return $groups;
+		return get_posts( $args );
 	}
 
 	/**
 	 * Adds a list of users to an access group.
 	 *
 	 * @param int $group_id ID of the group
-	 * @param array $user_ids Array of user IDs
+	 * @param array|int $user_ids Array of user IDs
 	 * @param string $source Source from which the users are added
 	 * @param string $integration Name of the integration
 	 * @param string $action Name of the action
@@ -183,7 +182,7 @@ class AccessGroups extends Singleton {
 				);
 			}
 
-			\WDS_Log_Post::log_message( 'dollie-logs', $log_message, '', strval( $group_id ) );
+			\WDS_Log_Post::log_message( 'dollie-logs', $log_message, '', (string) $group_id );
 		}
 
 		// Update the wpd_registered_integrations ACF repeater field with new integration and action
@@ -664,13 +663,13 @@ class AccessGroups extends Singleton {
 	 *
 	 * @return bool
 	 */
-	public function has_subscription() {
+	public function has_subscription( $customer_id = null ) {
 
 		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return true;
 		}
 
-		$subscription = $this->get_customer_access();
+		$subscription = $this->get_customer_access( $customer_id );
 
 		return $subscription ? (bool) $subscription['plans'] : $subscription;
 	}
@@ -1088,15 +1087,116 @@ class AccessGroups extends Singleton {
 	}
 
 	public function has_bought_product( $user_id = null ) {
-		$user_id = $user_id ?? get_current_user_id();
 
-		return ! empty( $this->get_user_groups( $user_id ) );
+		return $this->has_subscription( $user_id );
 	}
 
 	public function migrate_woo_to_acces_groups() {
 
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}
 
+		if ( ! function_exists( 'wcs_get_subscriptions' ) ) {
+			return true;
+		}
+
+		$subscriptions = wcs_get_subscriptions(
+			[
+				'subscription_status' => 'active',
+			]
+		);
+
+		if ( ! is_array( $subscriptions ) || empty( $subscriptions ) ) {
+			return false;
+		}
+
+		foreach ( $subscriptions as $subscription_id => $subscription ) {
+
+			// Getting the subscription Order ID.
+			$the_subscription = wcs_get_subscription( $subscription_id );
+			$user_id          = $the_subscription->get_user_id();
+
+			// Get the right number of items, count also any upgraded/downgraded orders.
+			$order_items = $the_subscription->get_items();
+
+			if ( ! is_array( $order_items ) || empty( $order_items ) ) {
+				continue;
+			}
+
+			// Iterating through each item in the order.
+			foreach ( $order_items as $item_data ) {
+
+				// Check if it's a variation
+				if ( $item_data->get_variation_id() ) {
+					$product_id   = $item_data->get_variation_id();
+					$product_type = 'variation';
+				} else {
+					$product_id   = $item_data->get_product_id();
+					$product_type = 'product';
+				}
+
+				if ( 0 === $product_id ) {
+					continue;
+				}
+
+				// Filter out non Dollie subscriptions by checking custom meta field.
+				if ( ! get_field( '_wpd_installs', $product_id ) ) {
+					continue;
+				}
+
+				// Add user to the access group.
+				$group_id = $this->get_or_create_by_name_from_product( get_the_title( $product_id ), $product_id );
+
+				$this->add_to_access_group(
+					$group_id,       // Group ID
+					$user_id,        // User IDs
+					'WooCommerce',  // Source
+					'WooCommerce', // Log type
+					'Migrated to access groups the purchase of ' . $product_type . ' ' . get_the_title( $product_id ) . '.'
+				);
+
+			}
+		}
 
 		return true;
+	}
+
+	private function get_or_create_by_name_from_product( $name, $product_id ) {
+
+		$existing_group = get_page_by_title( $name, OBJECT, 'dollie-access-groups' );
+		if ( $existing_group ) {
+			return $existing_group->ID;
+		}
+
+		// Create the access group
+		$group_id = wp_insert_post(
+			[
+				'post_title' => $name,
+				'post_type' => 'dollie-access-groups',
+				'post_status' => 'publish'
+			]
+		);
+
+		$installs     = (int) get_field( '_wpd_installs', $product_id );
+		$max_size     = get_field( '_wpd_max_size', $product_id );
+		$staging      = get_field( '_wpd_staging_installs', $product_id );
+		$included_bps = get_field( '_wpd_included_blueprints', $product_id );
+		$excluded_bps = get_field( '_wpd_excluded_blueprints', $product_id );
+
+		if ( ! $staging ) {
+			$staging = 0;
+		}
+		if ( ! $max_size ) {
+			$max_size = 0;
+		}
+
+		update_field( '_wpd_installs', $installs, $group_id );
+		update_field( '_wpd_max_size', $max_size, $group_id );
+		update_field( '_wpd_staging_installs', $staging, $group_id );
+		update_field( '_wpd_included_blueprints', $included_bps, $group_id );
+		update_field( '_wpd_excluded_blueprints', $excluded_bps, $group_id );
+
+		return $group_id;
 	}
 }
