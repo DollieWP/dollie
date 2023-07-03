@@ -5,7 +5,10 @@
 
 	<main class="dol-pb-8 dol--mt-24 dol-mx-auto sm:dol-px-6">
 
-		<?php if ( ! get_option( 'options_wpd_wizard_completed' ) == '1' || $_GET['onboarding'] == true ) { ?>
+		<?php
+		// Disable onboarding for now
+		if ( get_option( 'options_wpd_welcome_wizard' ) == '1' ) {
+			?>
 
 		<div class="dol-overflow-hidden dol-bg-white dol-rounded-lg dol-shadow dol-max-w-4xl dol-mx-auto dol-onboarding">
 			<div class="dol-p-6 dol-bg-white">
