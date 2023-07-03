@@ -463,7 +463,7 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return bool
 	 */
 	public function is_live() {
-		return (bool) get_option( 'options_wpd_api_domain' ) && $this->auth()->is_connected();
+		return (bool) $this->auth()->is_connected();
 	}
 
 	/**
@@ -743,6 +743,30 @@ class Helpers extends Singleton implements ConstInterface {
 		wp_reset_postdata();
 
 		return $total;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_customer_containers( $user_id = null ) {
+		if ( ! $user_id ) {
+			$user_id = get_current_user_id();
+		}
+
+		$query = new WP_Query(
+			array(
+				'author'        => $user_id,
+				'post_type'     => 'container',
+				'post_per_page' => 1000,
+				'post_status'   => 'publish',
+			)
+		);
+
+		$results = $query->posts;
+
+		wp_reset_postdata();
+
+		return $results;
 	}
 
 	/**

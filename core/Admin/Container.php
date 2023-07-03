@@ -322,7 +322,7 @@ final class Container extends Singleton implements ConstInterface {
 		} elseif ( 'staging' === dollie()->get_partner_status() ) {
 			$menu_title = '(Staging)';
 		} else {
-			$menu_title = '(Live)';
+			$menu_title = '(Connected)';
 		}
 
 		$iconspan = '<span class="custom-icon" style="
@@ -363,7 +363,7 @@ final class Container extends Singleton implements ConstInterface {
 		$wp_admin_bar->add_menu(
 			array(
 				'parent' => $menu_id,
-				'title'  => esc_html__( 'Hub Settings', 'dollie' ),
+				'title'  => esc_html__( 'Hub Dashboard', 'dollie' ),
 				'id'     => 'dab-settings',
 				'href'   => get_admin_url() . 'admin.php?page=' . self::PANEL_SLUG,
 				'meta'   => array( 'target' => '' ),
@@ -375,10 +375,58 @@ final class Container extends Singleton implements ConstInterface {
 				'parent' => $menu_id,
 				'title'  => esc_html__( 'View Hub in Control HQ', 'dollie' ),
 				'id'     => 'dab-hosted-manage',
-				'href'   => 'https://control.getdollie.com/?redirect=dollie-site-redirect',
+				'href'   => 'https://control.getdollie.com/hubs',
 				'meta'   => array( 'target' => '_blank' ),
 			)
 		);
+
+			$wp_admin_bar->add_menu(
+				array(
+					'parent' => $menu_id,
+					'title'  => esc_html__( 'Hub Pages', 'dollie' ),
+					'id'     => 'dab-hub',
+					'href'   => '',
+					'meta'   => array( 'target' => '' ),
+				)
+			);
+
+		// Define menu items settings
+		$menu_items = array(
+			'get_dashboard_id',
+			'get_sites_id',
+			'get_launch_site_id',
+			'get_launch_blueprint_id',
+			'get_customers_id',
+		);
+
+		// Loop over menu items
+		foreach ( $menu_items as $id_func ) {
+			// Get the post ID
+			$post_id = dollie()->page()->$id_func();
+
+			// Skip if we couldn't find a corresponding post
+			if ( ! $post_id ) {
+				continue;
+			}
+
+			// Get the post title and permalink
+			$title = get_the_title( $post_id );
+			$link  = get_permalink( $post_id );
+
+			// Generate a unique ID for this menu item
+			$slug = sanitize_title( $title );
+
+			// Add the menu item to the admin bar
+			$wp_admin_bar->add_menu(
+				array(
+					'parent' => $menu_id,
+					'title'  => $title,
+					'id'     => $slug . '-settings',
+					'href'   => $link,
+					'meta'   => array( 'target' => '' ),
+				)
+			);
+		}
 
 		$wp_admin_bar->add_menu(
 			array(
@@ -456,38 +504,6 @@ final class Container extends Singleton implements ConstInterface {
 			esc_html__( 'Import Templates', 'dollie' ),
 			'manage_options',
 			get_admin_url() . 'admin.php?page=dollie_templates',
-		);
-
-		$submenu['dollie_setup'][] = array(
-			__( 'Hub Pages', 'dollie' ),
-			'manage_options',
-			'',
-			'',
-			'dol-divider-menu',
-		);
-
-		$submenu['dollie_setup'][] = array(
-			esc_html__( 'Dashboard', 'dollie' ),
-			'manage_options',
-			dollie()->page()->get_dashboard_url(),
-		);
-
-		$submenu['dollie_setup'][] = array(
-			esc_html__( 'Customers', 'dollie' ),
-			'manage_options',
-			dollie()->page()->get_customers_url(),
-		);
-
-		$submenu['dollie_setup'][] = array(
-			esc_html__( 'Sites', 'dollie' ),
-			'manage_options',
-			dollie()->page()->get_sites_url(),
-		);
-
-		$submenu['dollie_setup'][] = array(
-			esc_html__( 'Blueprints', 'dollie' ),
-			'manage_options',
-			dollie()->page()->get_blueprints_url(),
 		);
 
 		$submenu['dollie_setup'][] = array(
@@ -925,6 +941,7 @@ final class Container extends Singleton implements ConstInterface {
 
 		return $safe_text;
 	}
+
 
 	/**
 	 * Update posts counter for blueprints
