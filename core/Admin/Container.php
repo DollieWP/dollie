@@ -322,7 +322,7 @@ final class Container extends Singleton implements ConstInterface {
 		} elseif ( 'staging' === dollie()->get_partner_status() ) {
 			$menu_title = '(Staging)';
 		} else {
-			$menu_title = '(Live)';
+			$menu_title = '(Connected)';
 		}
 
 		$iconspan = '<span class="custom-icon" style="
@@ -363,7 +363,7 @@ final class Container extends Singleton implements ConstInterface {
 		$wp_admin_bar->add_menu(
 			array(
 				'parent' => $menu_id,
-				'title'  => esc_html__( 'Hub Settings', 'dollie' ),
+				'title'  => esc_html__( 'Hub Dashboard', 'dollie' ),
 				'id'     => 'dab-settings',
 				'href'   => get_admin_url() . 'admin.php?page=' . self::PANEL_SLUG,
 				'meta'   => array( 'target' => '' ),
@@ -375,7 +375,7 @@ final class Container extends Singleton implements ConstInterface {
 				'parent' => $menu_id,
 				'title'  => esc_html__( 'View Hub in Control HQ', 'dollie' ),
 				'id'     => 'dab-hosted-manage',
-				'href'   => 'https://control.getdollie.com/?redirect=dollie-site-redirect',
+				'href'   => 'https://control.getdollie.com/hubs',
 				'meta'   => array( 'target' => '_blank' ),
 			)
 		);
