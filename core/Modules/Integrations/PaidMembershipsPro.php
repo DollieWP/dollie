@@ -1,9 +1,11 @@
 <?php
+
 namespace Dollie\Core\Modules\Integrations;
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Modules\AccessGroups\AccessGroups;
-use Dollie\Core\Modules\Integrations\IntegrationsInterface; // Ensure this path is correct.
+
+// Ensure this path is correct.
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
@@ -52,34 +54,34 @@ class PaidMembershipsPro extends Singleton implements IntegrationsInterface {
 	 * Customizes membership level fields for Paid Memberships Pro.
 	 */
 	public function custom_level_fields() {
-		$access = new AccessGroups();
-		$groups = $access->get_access_groups();
-		// Get the current level
+		$groups = AccessGroups::get_access_groups();
+
+		// Get the current level.
 		$level = pmpro_getLevel( $_REQUEST['edit'] );
 
-		// Get the currently selected group ID for this level
+		// Get the currently selected group ID for this level.
 		$selected_group_id = get_option( 'dollie_pmpro_group_' . $level->id );
 		?>
-		<hr>
-		<h3>Dollie Hub - Access Group Settings</h3>
-		<p>Easily add customers who subscribe to this membership plan to your Hub Access Groups.</p>
-		<table>
-			<tbody class="form-table">
-				<tr>
-					<th scope="row" valign="top"><label for="extra_setting">Add to Access Group:</label></th>
-					<td>
-						<select id="extra_setting" name="extra_setting">
-							<?php
-							foreach ( $groups as $group ) {
-								$selected = ( $group->ID == $selected_group_id ) ? 'selected="selected"' : '';
-								echo '<option value="' . $group->ID . '" ' . $selected . '>' . $group->post_title . '</option>';
-							}
-							?>
-						</select>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+        <hr>
+        <h3>Dollie Hub - Access Group Settings</h3>
+        <p>Easily add customers who subscribe to this membership plan to your Hub Access Groups.</p>
+        <table>
+            <tbody class="form-table">
+            <tr>
+                <th scope="row" valign="top"><label for="extra_setting">Add to Access Group:</label></th>
+                <td>
+                    <select id="extra_setting" name="extra_setting">
+						<?php
+						foreach ( $groups as $group ) {
+							$selected = ( $group->ID == $selected_group_id ) ? 'selected="selected"' : '';
+							echo '<option value="' . $group->ID . '" ' . $selected . '>' . $group->post_title . '</option>';
+						}
+						?>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
 		<?php
 	}
 

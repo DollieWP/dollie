@@ -219,7 +219,7 @@ class AccessGroups extends Singleton {
 	 * Removes a list of users from an access group.
 	 *
 	 * @param int $group_id ID of the group
-	 * @param array $user_ids Array of user IDs
+	 * @param array|int $user_ids Array of user IDs
 	 * @param string $source Source from which the users are removed
 	 */
 	public function remove_from_access_group( $group_id, $user_ids, $source = null, $integration = '', $action = '' ) {

@@ -6,17 +6,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-use Dollie\Core\Api\PartnerApi;
-use Dollie\Core\Modules\Integrations\IntegrationsInterface;
+use Dollie\Core\Modules\AccessGroups\AccessGroups;
 use Dollie\Core\Singleton;
 
 /**
- * Class Access
+ * Class Integrations
  *
  * @package Dollie\Core\Modules\Access
  */
 class Integrations extends Singleton implements IntegrationsInterface {
-
 
 	private $module;
 
@@ -25,6 +23,17 @@ class Integrations extends Singleton implements IntegrationsInterface {
 	 */
 	public function __construct() {
 		parent::__construct();
+
+		// Integrations
+		if ( class_exists( 'WooCommerce' ) ) {
+			WooCommerce::instance();
+		}
+		if ( defined( 'PMPRO_VERSION' ) ) {
+			PaidMembershipsPro::instance();
+		}
+		if ( defined( 'MEPR_VERSION' ) ) {
+			MemberPress::instance();
+		}
 
 		$integration = $this->get_integration();
 		$class_name  = apply_filters( 'dollie/subscription/plugin_class', '\Dollie\Core\Modules\Integrations\\' . $integration, $integration );
@@ -54,7 +63,6 @@ class Integrations extends Singleton implements IntegrationsInterface {
 		return $integration;
 	}
 
-
 	public function redirect_to_blueprint( $id ) {
 		$this->module->redirect_to_blueprint( $id );
 	}
@@ -72,11 +80,7 @@ class Integrations extends Singleton implements IntegrationsInterface {
 		// Use the new function
 		_deprecated_function( __METHOD__, '1.0', 'Dollie\Core\Modules\AccessGroups::get_customer_access()' );
 
-		// Create a new instance of the AccessGroups class
-		$access_groups = \Dollie\Core\Modules\AccessGroups\AccessGroups::instance();
-
-		// Call the new function
-		return $access_groups->get_customer_access( $customer_id );
+		return AccessGroups::instance()->get_customer_access( $customer_id );
 	}
 
 	public function has_bought_product( $user_id = null ) {
