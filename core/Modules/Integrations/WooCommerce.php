@@ -6,8 +6,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+use Dollie\Core\Modules\AccessGroups\AccessGroups;
 use Dollie\Core\Singleton;
-use Dollie\Core\Modules\Integrations\IntegrationsInterface; // Ensure this path is correct.
+
+// Ensure this path is correct.
 
 /**
  * Class WooCommerce
@@ -33,17 +35,26 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 		add_filter( 'acf/fields/relationship/query/key=field_5e2c1b94c1544', array( $this, 'modify_query' ), 10, 3 );
 
 		// ACF hooks for variable products
-		add_action( 'woocommerce_product_after_variable_attributes', array( $this, 'render_acf_fields_for_variations' ), 10, 3 );
+		add_action( 'woocommerce_product_after_variable_attributes', array(
+			$this,
+			'render_acf_fields_for_variations'
+		), 10, 3 );
 		add_action( 'woocommerce_save_product_variation', array( $this, 'save_acf_fields_for_variations' ), 10, 2 );
 		add_filter( 'acf/location/rule_values/post_type', array( $this, 'my_acf_location_rule_values_post_type' ) );
-		add_filter( 'acf/location/rule_match/post_type', array( $this, 'my_acf_location_rule_match_post_type' ), 10, 4 );
+		add_filter( 'acf/location/rule_match/post_type', array(
+			$this,
+			'my_acf_location_rule_match_post_type'
+		), 10, 4 );
 		add_action( 'acf/input/admin_footer', array( $this, 'my_acf_input_admin_footer' ) );
 
 		// Add/Removed user to group when subscription
 		if ( class_exists( 'WC_Subscriptions' ) ) {
 			add_action( 'woocommerce_subscription_status_active', array( $this, 'add_user_to_group' ), 10, 1 );
 			add_action( 'woocommerce_subscription_status_cancelled', array( $this, 'remove_user_from_group' ), 10, 1 );
-			add_action( 'woocommerce_subscription_status_pending-cancel', array( $this, 'remove_user_from_group' ), 10, 1 );
+			add_action( 'woocommerce_subscription_status_pending-cancel', array(
+				$this,
+				'remove_user_from_group'
+			), 10, 1 );
 		}
 		// This is for regular WooCommerce orders
 		add_action( 'woocommerce_order_status_completed', array( $this, 'add_user_to_group' ), 10, 1 );
@@ -71,7 +82,7 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 		);
 
 		$plugins[] = array(
-			'name'             => 'WooCommerce Access',
+			'name'             => 'WooCommerce Subscriptions',
 			'slug'             => 'woocommerce-subscriptions',
 			'required'         => true,
 			'version'          => '3.0.10',
@@ -161,7 +172,7 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 	 * @return array|bool
 	 */
 	public function get_customer_access( $customer_id = null ) {
-			return true;
+		return true;
 	}
 
 	/**
@@ -221,13 +232,13 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 			// Get the group ID from the ACF field on the product
 			$group_id_array = get_field( 'wpd_group_users', $product_id );
 
-			// Check if group ID was found
+			// Check if group ID was found.
 			if ( $group_id_array ) {
-				// Get the first group ID
+				// Get the first group ID.
 				$group_id = $group_id_array[0];
 
 				// Get instance of Hooks class
-				$access = \Dollie\Core\Modules\AccessGroups\AccessGroups::instance();
+				$access = AccessGroups::instance();
 
 				// Add user to the access group
 				$access->add_to_access_group(
@@ -262,11 +273,8 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 				// Get the first group ID
 				$group_id = $group_id_array[0];
 
-				// Get instance of Hooks class
-				$hooks = \Dollie\Core\Modules\AccessGroups\AccessGroups::instance();
-
 				// Remove user from the access group
-				$hooks->remove_from_access_group(
+				AccessGroups::instance()->remove_from_access_group(
 					$group_id,                // Group ID
 					$user_id,        // User IDs
 					$this->name,            // Source
@@ -335,10 +343,11 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 	public function acf_prepare_field_update_field_name( $field ) {
 		global $acf_variation;
 		$field['name'] = preg_replace( '/^acf\[/', "acf[$acf_variation][", $field['name'] );
+
 		return $field;
 	}
 
-	public function save_acf_fields_for_variations( $variation_id, $i = -1 ) {
+	public function save_acf_fields_for_variations( $variation_id, $i = - 1 ) {
 		if ( ! empty( $_POST['acf'] ) && is_array( $_POST['acf'] ) && array_key_exists( $i, $_POST['acf'] ) && is_array( ( $fields = $_POST['acf'][ $i ] ) ) ) {
 			$unique_updates = array();
 			foreach ( $fields as $key => $val ) {
@@ -349,7 +358,7 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 						}
 					}
 				} elseif ( ! array_key_exists( $key, $unique_updates ) || ! empty( $val ) ) {
-						$unique_updates[ $key ] = $val;
+					$unique_updates[ $key ] = $val;
 				}
 			}
 
@@ -419,13 +428,13 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 
 	public function my_acf_input_admin_footer() {
 		?>
-<script type="text/javascript">
-	(function($) {
-	$(document).on('woocommerce_variations_loaded', function () {
-		acf.do_action('append', $('#post'));
-	})
-	})(jQuery);
-</script>
+        <script type="text/javascript">
+          (function ($) {
+            $(document).on('woocommerce_variations_loaded', function () {
+              acf.do_action('append', $('#post'));
+            })
+          })(jQuery);
+        </script>
 		<?php
 	}
 }

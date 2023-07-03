@@ -9,8 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 use Dollie\Core\Modules\Integrations\Integrations;
 use Dollie\Core\Modules\Vip\Hooks as VipHooks;
 use Dollie\Core\Modules\AccessGroups\AccessGroups as AccessGroups;
-use Dollie\Core\Modules\Integrations\WooCommerce;
-use Dollie\Core\Modules\Integrations\PaidMembershipsPro;
 use Dollie\Core\Modules\Logging;
 use Dollie\Core\Modules\Forms;
 
@@ -157,16 +155,6 @@ class Plugin extends Singleton {
 		Integrations::instance();
 		VipHooks::instance();
 		AccessGroups::instance();
-
-		// Integrations
-		if ( class_exists( 'WooCommerce' ) ) {
-
-			WooCommerce::instance();
-		}
-
-		if ( defined( 'PMPRO_VERSION' ) ) {
-			PaidMembershipsPro::instance();
-		}
 
 		// Hooks.
 		PermissionControl::instance();

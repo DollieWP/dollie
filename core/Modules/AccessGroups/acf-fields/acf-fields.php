@@ -1,19 +1,18 @@
 <?php
 global $pagenow;
 
-
 if ( $pagenow === 'user-edit.php' ) {
-		$user                     = 'this customer';
-		$user_instructions        = '<br><br><strong> Set this to -1 to prevent this customer from launching more sites.</strong>';
-		$dol_title                = 'Hub Access Settings for this User';
-		$description              = 'These settings allow you to modify the default access settings for this customer based on their Access Group(s). Watch the video below to learn more about Access Groups.';
-		$add_to_group_description = 'Add this customer to an Access Group. This will override the default Access Group(s) for this customer.';
+	$user                     = 'this customer';
+	$user_instructions        = '<br><br><strong> Set this to -1 to prevent this customer from launching more sites.</strong>';
+	$dol_title                = 'Hub Access Settings for this User';
+	$description              = 'These settings allow you to modify the default access settings for this customer based on their Access Group(s). Watch the video below to learn more about Access Groups.';
+	$add_to_group_description = 'Add this customer to an Access Group. This will override the default Access Group(s) for this customer.';
 } else {
-		$user                     = 'a user in this group';
-		$user_instructions        = '';
-		$dol_title                = 'Hub Access Settings for this Group';
-		$description              = 'Control which Hub features are available to the users in this group. Watch the video below to learn more about Access Groups.';
-		$add_to_group_description = 'Choose the Access Groups you would like to connect. Once connected users will be added/removed based on specific triggers inside your integration.';
+	$user                     = 'a user in this group';
+	$user_instructions        = '';
+	$dol_title                = 'Hub Access Settings for this Group';
+	$description              = 'Control which Hub features are available to the users in this group. Watch the video below to learn more about Access Groups.';
+	$add_to_group_description = 'Choose the Access Groups you would like to connect. Once connected users will be added/removed based on specific triggers inside your integration.';
 }
 
 if ( function_exists( 'acf_add_local_field_group' ) ) :
@@ -44,7 +43,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 
 	}
 
-		$fields = isset( $user_fields ) ? $user_fields : array();
+	$fields = $user_fields ?? [];
 
 	$fields = array_merge(
 		$fields,
@@ -323,41 +322,38 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 		)
 	);
 
-
-
-				// Add more fields here as required
-				acf_add_local_field_group(
+	// Add more fields here as required
+	acf_add_local_field_group(
+		array(
+			'key'                   => 'group_5afc7b8e22840',
+			'title'                 => 'Dollie Access Settings',
+			'fields'                => $fields,
+			'location'              => array(
+				array(
 					array(
-						'key'                   => 'group_5afc7b8e22840',
-						'title'                 => 'Dollie Access Settings',
-						'fields'                => $fields,
-						'location'              => array(
-							array(
-								array(
-									'param'    => 'post_type',
-									'operator' => '==',
-									'value'    => 'dollie-access-groups',
-								),
-							),
-							array(
-								array(
-									'param'    => 'user_form',
-									'operator' => '==',
-									'value'    => 'edit',
-								),
-							),
-						),
-						'menu_order'            => 0,
-						'position'              => 'normal',
-						'style'                 => 'default',
-						'label_placement'       => 'top',
-						'instruction_placement' => 'label',
-						'hide_on_screen'        => '',
-						'active'                => true,
-						'description'           => '',
-					)
-				);
-
+						'param'    => 'post_type',
+						'operator' => '==',
+						'value'    => 'dollie-access-groups',
+					),
+				),
+				array(
+					array(
+						'param'    => 'user_form',
+						'operator' => '==',
+						'value'    => 'edit',
+					),
+				),
+			),
+			'menu_order'            => 0,
+			'position'              => 'normal',
+			'style'                 => 'default',
+			'label_placement'       => 'top',
+			'instruction_placement' => 'label',
+			'hide_on_screen'        => '',
+			'active'                => true,
+			'description'           => '',
+		)
+	);
 
 
 	if ( function_exists( 'acf_add_local_field_group' ) ) :
@@ -591,6 +587,20 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 							'value'    => 'product_variation',
 						),
 					),
+					array(
+						array(
+							'param'    => 'post_type',
+							'operator' => ' == ',
+							'value'    => 'memberpressproduct',
+						),
+					),
+					array(
+						array(
+							'param'    => 'post_type',
+							'operator' => ' == ',
+							'value'    => 'download',
+						),
+					),
 				),
 				'menu_order'            => 0,
 				'position'              => 'normal',
@@ -610,6 +620,6 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 		);
 
 
-endif;
+	endif;
 
 endif;
