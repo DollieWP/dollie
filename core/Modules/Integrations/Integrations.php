@@ -34,6 +34,9 @@ class Integrations extends Singleton implements IntegrationsInterface {
 		if ( defined( 'MEPR_VERSION' ) ) {
 			MemberPress::instance();
 		}
+		if (function_exists( 'EDD' )) {
+			EasyDigitalDownloads::instance();
+		}
 
 		$integration = $this->get_integration();
 		$class_name  = apply_filters( 'dollie/subscription/plugin_class', '\Dollie\Core\Modules\Integrations\\' . $integration, $integration );
