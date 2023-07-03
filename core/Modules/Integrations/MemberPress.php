@@ -26,16 +26,23 @@ class MemberPress extends Singleton implements IntegrationsInterface {
 		add_action( 'template_redirect', [ $this, 'redirect_to_blueprint' ] );
 
 		// Add user to group events.
-		add_action( 'mepr-event-transaction-completed', [ $this, 'add_user_to_group_on_transaction' ] );
-		add_action( 'mepr-event-subscription-resumed', [ $this, 'add_user_to_group_on_subscription' ] );
-		add_action( 'mepr-event-subscription-created', [ $this, 'add_user_to_group_on_subscription' ] );
+		//add_action( 'mepr-event-transaction-completed', [ $this, 'add_user_to_group_on_transaction' ] );
+		//add_action( 'mepr-event-subscription-resumed', [ $this, 'add_user_to_group_on_subscription' ] );
 
 		// Remove user from group events.
-		add_action( 'mepr-event-subscription-stopped', [ $this, 'remove_user_from_group_on_subscription' ] );
-		add_action( 'mepr-event-subscription-expired', [ $this, 'remove_user_from_group_on_subscription' ] );
-		add_action( 'mepr-event-subscription-paused', [ $this, 'remove_user_from_group_on_subscription' ] );
+		//add_action( 'mepr-event-subscription-stopped', [ $this, 'remove_user_from_group_on_subscription' ] );
+		//add_action( 'mepr-event-subscription-expired', [ $this, 'remove_user_from_group_on_subscription' ] );
+		//add_action( 'mepr-event-subscription-paused', [ $this, 'remove_user_from_group_on_subscription' ] );
 
-		add_action('mepr_subscription_transition_status', [$this, 'change_role_on_subscription_transition_status' ], 10, 3);
+		add_action( 'mepr_subscription_transition_status', [
+			$this,
+			'change_role_on_subscription_transition_status'
+		], 10, 3 );
+
+		add_action( 'mepr-txn-transition-status', [
+			$this,
+			'change_role_on_transition_status'
+		], 10, 3 );
 
 		add_filter( 'acf/fields/relationship/query/key=field_5e2c1adcc1543', array( $this, 'modify_query' ), 10, 3 );
 		add_filter( 'acf/fields/relationship/query/key=field_5e2c1b94c1544', array( $this, 'modify_query' ), 10, 3 );
@@ -57,7 +64,11 @@ class MemberPress extends Singleton implements IntegrationsInterface {
 		 */
 		$subscription = $transaction->subscription();
 
-		$this->add_user_to_group( $subscription );
+		if ( $subscription ) {
+			$this->add_user_to_group_by_sub( $subscription );
+		} else {
+			$this->add_user_to_group_by_txn( $transaction );
+		}
 	}
 
 	public function add_user_to_group_on_subscription( $event ) {
@@ -67,23 +78,47 @@ class MemberPress extends Singleton implements IntegrationsInterface {
 		 */
 		$subscription = $event->get_data();
 
-		$this->add_user_to_group( $subscription );
+		$this->add_user_to_group_by_sub( $subscription );
 
 	}
 
 	/**
-	 * @param \MeprSubscription  $subscription
+	 * @param \MeprSubscription $subscription
 	 *
 	 * @return void
 	 */
-	private function add_user_to_group( $subscription ) {
+	private function add_user_to_group_by_sub( $subscription ) {
 
-		if ( ! $subscription->status || (is_string($subscription->status) && $subscription->status !== \MeprSubscription::$active_str) ) {
+		if ( ! $subscription->status && ( is_string( $subscription->status ) && $subscription->status !== \MeprSubscription::$active_str ) ) {
 			return;
 		}
 
 		$user_id    = $subscription->user_id;
 		$product_id = $subscription->product_id;
+
+		$this->add_user_to_group( $user_id, $product_id );
+
+	}
+
+	/**
+	 * @param \MeprTransaction $txn
+	 *
+	 * @return void
+	 */
+	private function add_user_to_group_by_txn( $txn ) {
+
+		if ( ! $txn->status && ( is_string( $txn->status ) && $txn->status !== \MeprTransaction::$complete_str ) ) {
+			return;
+		}
+
+		$user_id    = $txn->user_id;
+		$product_id = $txn->product_id;
+
+		$this->add_user_to_group( $user_id, $product_id );
+
+	}
+
+	private function add_user_to_group( $user_id, $product_id ) {
 
 		// Get the group ID from the ACF field on the product.
 		$group_id_array = get_field( 'wpd_group_users', $product_id );
@@ -110,10 +145,28 @@ class MemberPress extends Singleton implements IntegrationsInterface {
 	 *
 	 * @return void
 	 */
-	public function remove_user_from_group( $subscription ) {
+	public function remove_user_from_group_by_sub( $subscription ) {
 
 		$user_id    = $subscription->user_id;
 		$product_id = $subscription->product_id;
+
+		$this->remove_user_from_group( $user_id, $product_id );
+	}
+
+	/**
+	 * @param \MeprTransaction $txn
+	 *
+	 * @return void
+	 */
+	public function remove_user_from_group_by_txn( $txn ) {
+
+		$user_id    = $txn->user_id;
+		$product_id = $txn->product_id;
+
+		$this->remove_user_from_group( $user_id, $product_id );
+	}
+
+	private function remove_user_from_group( $user_id, $product_id ) {
 
 		// Get the group ID from the ACF field on the product.
 		$group_id_array = get_field( 'wpd_group_users', $product_id );
@@ -138,7 +191,7 @@ class MemberPress extends Singleton implements IntegrationsInterface {
 	public function remove_user_from_group_on_subscription( $event ) {
 
 		$subscription = $event->get_data();
-		$this->remove_user_from_group( $subscription );
+		$this->remove_user_from_group_by_sub( $subscription );
 	}
 
 	/**
@@ -149,10 +202,35 @@ class MemberPress extends Singleton implements IntegrationsInterface {
 	 * @return void
 	 */
 	public function change_role_on_subscription_transition_status( $old_status, $new_status, $sub ) {
-		if ($new_status === \MeprSubscription::$active_str ) {
-			$this->add_user_to_group( $sub );
+
+		if ( $old_status === $new_status ) {
+			return;
+		}
+
+		if ( $new_status === \MeprSubscription::$active_str ) {
+			$this->add_user_to_group_by_sub( $sub );
 		} else {
-			$this->remove_user_from_group( $sub );
+			$this->remove_user_from_group_by_sub( $sub );
+		}
+	}
+
+	/**
+	 * @param $old_status
+	 * @param $new_status
+	 * @param \MeprTransaction $txn
+	 *
+	 * @return void
+	 */
+	public function change_role_on_transition_status( $old_status, $new_status, $txn ) {
+
+		if ( $old_status === $new_status ) {
+			return;
+		}
+
+		if ( $new_status === \MeprTransaction::$complete_str ) {
+			$this->add_user_to_group_by_txn( $txn );
+		} else {
+			$this->remove_user_from_group_by_txn( $txn );
 		}
 	}
 
