@@ -43,7 +43,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 
 	}
 
-	$fields = $user_fields ?? [];
+	$fields = $user_fields ?? array();
 
 	$fields = array_merge(
 		$fields,
@@ -361,15 +361,15 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 		acf_add_local_field_group(
 			array(
 				'key'                   => 'group_631b44d92d7fd',
-				'title'                 => 'Access Management',
+				'title'                 => 'Users in this Access Group',
 				'fields'                => array(
 					array(
 						'key'                      => 'field_631b450b42c59',
-						'label'                    => __( 'Group Users', 'dollie' ),
+						'label'                    => __( 'Users', 'dollie' ),
 						'name'                     => 'wpd_group_users',
 						'aria-label'               => '',
 						'type'                     => 'user',
-						'instructions'             => __( 'The users in this group . ', 'dollie' ),
+						'instructions'             => __( 'The users that are in this Access Group', 'dollie' ),
 						'required'                 => 0,
 						'conditional_logic'        => 0,
 						'wrapper'                  => array(
@@ -398,7 +398,7 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 						'name'                          => 'wpd_registered_integrations',
 						'aria-label'                    => '',
 						'type'                          => 'repeater',
-						'instructions'                  => '',
+						'instructions'                  => 'The integrations that have added or removed users to this group.',
 						'required'                      => 0,
 						'conditional_logic'             => 0,
 						'wrapper'                       => array(
