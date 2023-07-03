@@ -19,7 +19,7 @@ final class HubDataService extends Singleton implements ConstInterface {
 	 */
 	public function load_route() {
 
-		//check authorization
+		// check authorization
 		$this->check_incoming_auth();
 
 		if ( $_SERVER['REQUEST_METHOD'] === 'GET' ) {
@@ -35,13 +35,13 @@ final class HubDataService extends Singleton implements ConstInterface {
 	private function get() {
 
 		/* Filters */
-		$users_filters = [
+		$users_filters = array(
 			'orderby  '       => 'display_name',
 			'exclude_admin  ' => false,
-			//'search  ' => '',
-			//'role__in' => array( 'author', 'subscriber' )
+			// 'search  ' => '',
+			// 'role__in' => array( 'author', 'subscriber' )
 
-		];
+		);
 
 		if ( isset( $_GET['filters'] ) ) {
 			if ( isset( $_GET['filters']['users'] ) ) {
@@ -57,6 +57,10 @@ final class HubDataService extends Singleton implements ConstInterface {
 				return dollie()->get_sites();
 			}
 
+			if ( $type === 'access_groups' ) {
+				return dollie()->access()->get_access_groups();
+			}
+
 			if ( $type === 'users' ) {
 				return get_users( $users_filters );
 			}
@@ -66,22 +70,23 @@ final class HubDataService extends Singleton implements ConstInterface {
 			}
 		}
 
-		return [
-			//'token'                => AuthService::instance()->get_token() ?: 'inactive',
+		return array(
+			// 'token'                => AuthService::instance()->get_token() ?: 'inactive',
 			'hub_version'          => DOLLIE_VERSION,
 			'total_products'       => count( dollie()->get_products() ),
 			'total_sites'          => dollie()->count_total_sites(),
 			'total_blueprints'     => dollie()->count_total_created_blueprints(),
 			'sites'                => dollie()->get_sites(),
 			'products'             => dollie()->get_products(),
+			'access_groups'        => dollie()->access()->get_access_groups(),
 			'blueprints'           => dollie()->get_blueprints(),
 			'subscriptions_plugin' => get_option( 'options_wpd_subscription_plugin' ),
 			'deployment_domain'    => WorkspaceService::instance()->get_deployment_domain(),
 			'preview_path'         => get_option( 'options_wpd_site_preview_path' ),
 			'customers_total'      => count_users()['total_users'],
 			'sales'                => $this->woo_sales(),
-			'users'                => get_users( $users_filters )
-		];
+			'users'                => get_users( $users_filters ),
+		);
 	}
 
 	private function set() {
@@ -89,7 +94,10 @@ final class HubDataService extends Singleton implements ConstInterface {
 		$response = '';
 
 		if ( ! isset( $_POST['type'], $_POST['data'] ) ) {
-			return [ 'success' => false, 'message' => 'No type or data defined' ];
+			return array(
+				'success' => false,
+				'message' => 'No type or data defined',
+			);
 		}
 		$type = sanitize_text_field( $_POST['type'] );
 
@@ -100,7 +108,6 @@ final class HubDataService extends Singleton implements ConstInterface {
 			} else {
 				$response = SyncContainersJob::instance()->run();
 			}
-
 		} elseif ( $type === 'client' ) {
 			$data     = $_POST['data'];
 			$response = wp_create_user( $data['username'], $data['password'], $data['email'] );
@@ -115,7 +122,10 @@ final class HubDataService extends Singleton implements ConstInterface {
 		}
 
 		// TODO get the status too
-		return [ 'success' => true, 'message' => $response ];
+		return array(
+			'success' => true,
+			'message' => $response,
+		);
 	}
 
 	/**
@@ -133,8 +143,8 @@ final class HubDataService extends Singleton implements ConstInterface {
 	}
 
 	private function woo_get_sales_report_data() {
-		include_once( WC()->plugin_path() . '/includes/admin/reports/class-wc-admin-report.php' );
-		include_once( WC()->plugin_path() . '/includes/admin/reports/class-wc-report-sales-by-date.php' );
+		include_once WC()->plugin_path() . '/includes/admin/reports/class-wc-admin-report.php';
+		include_once WC()->plugin_path() . '/includes/admin/reports/class-wc-report-sales-by-date.php';
 
 		$sales_by_date                 = new \WC_Report_Sales_By_Date();
 		$sales_by_date->start_date     = strtotime( date( 'Y-m-01', current_time( 'timestamp' ) ) );
@@ -150,7 +160,7 @@ final class HubDataService extends Singleton implements ConstInterface {
 		// TODO Add Asymmetric encryption for the communication between hub and HQ
 		$headers = getallheaders();
 		if ( ! isset( $headers['Authorization'] ) || AuthService::instance()->get_token() !== $headers['Authorization'] ) {
-			header( "HTTP/1.1 401 Unauthorized" );
+			header( 'HTTP/1.1 401 Unauthorized' );
 			exit;
 		}
 	}
