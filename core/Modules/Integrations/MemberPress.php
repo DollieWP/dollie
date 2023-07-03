@@ -78,7 +78,7 @@ class MemberPress extends Singleton implements IntegrationsInterface {
 	 */
 	private function add_user_to_group( $subscription ) {
 
-		if ( $subscription->status !== \MeprSubscription::$active_str ) {
+		if ( ! $subscription->status || (is_string($subscription->status) && $subscription->status !== \MeprSubscription::$active_str) ) {
 			return;
 		}
 
