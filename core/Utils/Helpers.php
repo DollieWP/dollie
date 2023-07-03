@@ -463,7 +463,7 @@ class Helpers extends Singleton implements ConstInterface {
 	 * @return bool
 	 */
 	public function is_live() {
-		return (bool) get_option( 'options_wpd_api_domain' ) && $this->auth()->is_connected();
+		return (bool) $this->auth()->is_connected();
 	}
 
 	/**
