@@ -47,24 +47,25 @@ $containers = new WP_Query(
 			$domain         = $container->get_custom_domain();
 			$setup_complete = get_post_meta( get_the_ID(), 'wpd_setup_complete', true );
 			$blueprint      = get_post_meta( get_the_ID(), 'wpd_blueprint_created', true );
+			$icon_class     = 'dol-mr-2';
 
 			$menu = array(
-				'blueprints'      => dollie()->icon()->blueprint() . __( 'Blueprint Setup', 'dollie' ),
-				''                => dollie()->icon()->site_dashboard() . __( 'Dashboard', 'dollie' ),
-				'plugins'         => dollie()->icon()->plugins() . __( 'Plugins', 'dollie' ),
-				'themes'          => dollie()->icon()->themes() . __( 'Themes', 'dollie' ),
-				'updates'         => dollie()->icon()->updates() . __( 'Updates', 'dollie' ),
-				'domains'         => dollie()->icon()->domains() . __( 'Domains', 'dollie' ),
-				'backups'         => dollie()->icon()->backups() . __( 'Backups', 'dollie' ),
-				'developer-tools' => dollie()->icon()->dev_tools() . __( 'Developer Tools', 'dollie' ),
-				'migrate'         => dollie()->icon()->migration() . __( 'Migrate', 'dollie' ),
+				'blueprints'      => dollie()->icon()->blueprint( $icon_class ) . __( 'Blueprint Setup', 'dollie' ),
+				''                => dollie()->icon()->site_dashboard( $icon_class ) . __( 'Dashboard', 'dollie' ),
+				'plugins'         => dollie()->icon()->plugins( $icon_class ) . __( 'Plugins', 'dollie' ),
+				'themes'          => dollie()->icon()->themes( $icon_class ) . __( 'Themes', 'dollie' ),
+				'updates'         => dollie()->icon()->updates( $icon_class ) . __( 'Updates', 'dollie' ),
+				'domains'         => dollie()->icon()->domains( $icon_class ) . __( 'Domains', 'dollie' ),
+				'backups'         => dollie()->icon()->backups( $icon_class ) . __( 'Backups', 'dollie' ),
+				'developer-tools' => dollie()->icon()->dev_tools( $icon_class ) . __( 'Developer Tools', 'dollie' ),
+				'migrate'         => dollie()->icon()->migration( $icon_class ) . __( 'Migrate', 'dollie' ),
 			);
 
 			if ( $container->has_staging() ) {
-				$menu['staging'] = dollie()->icon()->staging() . esc_html__( 'Staging', 'dollie' );
+				$menu['staging'] = dollie()->icon()->staging( $icon_class ) . esc_html__( 'Staging', 'dollie' );
 			}
 
-			$menu['delete'] = dollie()->icon()->delete() . esc_html__( 'Delete', 'dollie' );
+			$menu['delete'] = dollie()->icon()->delete( $icon_class ) . esc_html__( 'Delete', 'dollie' );
 
 			if ( $container->is_blueprint() ) {
 				unset( $menu['domains'] );
@@ -90,11 +91,11 @@ $containers = new WP_Query(
 							<?php
 
 							if ( ! empty( $domain ) ) {
-								echo dollie()->icon()->live_site();
+								echo dollie()->icon()->live_site( $icon_class );
 							} elseif ( ! empty( $blueprint ) ) {
-								echo dollie()->icon()->blueprint();
+								echo dollie()->icon()->blueprint( $icon_class );
 							} else {
-								echo dollie()->icon()->dev_site();
+								echo dollie()->icon()->dev_site( $icon_class );
 							}
 
 							if ( ! empty( $domain ) ) {
