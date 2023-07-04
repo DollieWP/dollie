@@ -19,11 +19,11 @@ use Elementor\Group_Control_Border;
 class AccessDetails extends \Elementor\Widget_Base {
 
 	public function get_name() {
-		return 'dollie-dashboard-subscription-details';
+		return 'dollie-dashboard-access-details';
 	}
 
 	public function get_title() {
-		return esc_html__( 'Access Details', 'dollie' );
+		return esc_html__( 'User Access Details', 'dollie' );
 	}
 
 	public function get_icon() {
@@ -73,6 +73,15 @@ class AccessDetails extends \Elementor\Widget_Base {
 			)
 		);
 
+		// Add control to select an icon
+		$repeater->add_control(
+			'item_icon',
+			array(
+				'label' => __( 'Icon', 'dollie' ),
+				'type'  => Controls_Manager::ICONS,
+			)
+		);
+
 		$repeater->add_control(
 			'item_type',
 			array(
@@ -81,8 +90,7 @@ class AccessDetails extends \Elementor\Widget_Base {
 				'options' => array(
 					'subscription-plan' => __( 'Access plan', 'dollie' ),
 					'sites-available'   => __( 'Sites available', 'dollie' ),
-					'storage-available' => __( 'Available storage', 'dollie' ),
-					'storage-used'      => __( 'Used storage', 'dollie' ),
+					'storage-summary'   => __( 'Available storage', 'dollie' ),
 				),
 				'default' => 'subscription-plan',
 			)
@@ -104,12 +112,8 @@ class AccessDetails extends \Elementor\Widget_Base {
 						'item_type'  => 'sites-available',
 					),
 					array(
-						'item_title' => __( 'Available storage', 'dollie' ),
-						'item_type'  => 'storage-available',
-					),
-					array(
-						'item_title' => __( 'Used storage', 'dollie' ),
-						'item_type'  => 'storage-used',
+						'item_title' => __( 'Available Storage', 'dollie' ),
+						'item_type'  => 'storage-summary',
 					),
 				),
 				'title_field' => '{{{ item_title }}}',
@@ -418,26 +422,29 @@ class AccessDetails extends \Elementor\Widget_Base {
 		);
 
 		foreach ( $settings['items'] as $item ) {
+
 			$value = '';
 
 			switch ( $item['item_type'] ) {
 				case 'subscription-plan':
 					$value = $access->subscription_name();
+							// fetch and render icon
+					$icon = $item['item_icon']['value'];
 					break;
 				case 'sites-available':
 					$value = $access->sites_available();
+					$icon  = $item['item_icon']['value'];
 					break;
-				case 'storage-available':
+				case 'storage-summary':
 					$available_storage = $access->storage_available();
+					$used_storage      = dollie()->convert_to_readable_size( dollie()->insights()->get_total_container_size() );
+					$icon              = $item['item_icon']['value'];
 
-					if ( $available_storage ) {
-						$value = esc_html( $available_storage ) . ' GB';
+					if ( $available_storage && $used_storage ) {
+						$value = 'Used: ' . esc_html( $used_storage ) . ' / Available: ' . esc_html( $available_storage ) . ' GB';
 					} else {
-						$value = esc_html( $available_storage );
+						$value = esc_html( $available_storage ) . ' GB';
 					}
-					break;
-				case 'storage-used':
-					$value = dollie()->convert_to_readable_size( dollie()->insights()->get_total_container_size() );
 					break;
 				default:
 			}
@@ -445,6 +452,7 @@ class AccessDetails extends \Elementor\Widget_Base {
 			$data['items'][] = array(
 				'title' => $item['item_title'],
 				'value' => $value,
+				'icon'  => $icon,
 			);
 		}
 

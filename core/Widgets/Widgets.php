@@ -59,7 +59,7 @@ class Widgets extends Singleton {
 			$this->widgets[] = array(
 				'path'  => 'Dashboard/AccessDetails',
 				'class' => 'Dashboard\AccessDetails',
-				'name'  => 'dollie-dashboard-subscription-details',
+				'name'  => 'dollie-dashboard-access-details',
 			);
 
 		}

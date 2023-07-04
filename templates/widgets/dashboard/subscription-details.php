@@ -1,35 +1,47 @@
-<?php if ( class_exists( 'WooCommerce' ) && get_option( 'options_wpd_charge_for_deployments' ) == '1' ) : ?>
-	<div class="dol-widget-subscription dol-border <?php do_action( 'dol_add_widget_classes' ); ?> dol-overflow-hidden">
-		<div class="dol-widget-title-section dol-p-4 lg:dol-px-8 lg:dol-py-4 dol-bg-primary">
-			<h4 class="dol-text-white dol-text-lg dol-m-0">
-				<?php echo esc_html( $title ); ?>
-			</h4>
-		</div>
-		<div class="dol-widget-content-section dol-px-4 dol-py-2 lg:dol-px-8 lg:dol-py-6 dol-bg-ash-100">
-			<?php if ( wcs_user_has_subscription( '', '', 'active' ) ) : ?>
-				<ul class="dol-list-none dol-p-0 dol-m-0">
-					<?php do_action( 'dollie/before/subscription/list' ); ?>
+<?php if ( dollie()->access()->get_user_groups( get_current_user_id() ) ) : ?>
+	<?php
+	// Count the number of items
+	$num_items = count( $items );
 
-					<?php foreach ( $items as $item ) : ?>
-						<li>
-							<div class="dol-flex dol-flex-wrap">
-								<div class="dol-widget-item-title dol-w-1/2 md:dol-w-2/6 lg:dol-w-1/6 dol-text-ash-800">
-									<?php echo esc_html( $item['title'] ); ?>
+	// Determine the number of grid columns
+	$grid_columns = '3'; // default to 3
+	if ( $num_items < 3 ) {
+		$grid_columns = strval( $num_items ); // if less than 3 items, set columns to the number of items
+	}
+	?>
+	<div class="dol-grid dol-grid-cols-<?php echo $grid_columns; ?> dol-gap-4">
+		<?php do_action( 'dollie/before/subscription/list' ); ?>
+
+		<?php foreach ( $items as $item ) : ?>
+
+			<div class="dol-widget-custom dol-overflow-hidden dol-bg-white dol-shadow dol-rounded-md dol-px-5 dol-py-3">
+							<div class="dol-flex dol-items-center dol-py-4">
+								<div class="dol-flex-shrink-0">
+									<span class="dol-icon dol-mr-2 dol-text-secondary dol-text-xl">
+									<?php
+										echo '<i class="' . esc_attr( $item['icon'] ) . '"></i>';
+									?>
+									</span>
 								</div>
-								<div class="dol-widget-item-source dol-w-1/2 md:dol-w-4/6 lg:dol-w-5/6 dol-text-ash-800">
-									<?php echo esc_html( $item['value'] ); ?>
+								<div class="dol-ml-5 dol-w-0 dol-flex-1">
+									<dl>
+										<dt class="dol-text-sm dol-leading-5 dol-font-medium dol-text-cool-gray-500 dol-truncate">
+											<?php echo esc_html( $item['title'] ); ?>
+										</dt>
+										<dd class="dol-m-0">
+											<div class="dol-text-lg dol-leading-7 dol-font-medium dol-text-cool-gray-900">
+												<?php echo esc_html( $item['value'] ); ?>
+											</div>
+										</dd>
+									</dl>
 								</div>
 							</div>
-						</li>
-					<?php endforeach; ?>
+						</div>
 
-					<?php do_action( 'dollie/after/subscription/list' ); ?>
-				</ul>
-			<?php else : ?>
-				<div class="dol-widget-no-subscription">
-					<?php echo esc_html( $no_sub_text ); ?>
-				</div>
-			<?php endif; ?>
-		</div>
+		<?php endforeach; ?>
+
+		<?php do_action( 'dollie/after/subscription/list' ); ?>
 	</div>
+<?php else : ?>
+
 <?php endif; ?>
