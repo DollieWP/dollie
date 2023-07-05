@@ -13,15 +13,23 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+function dollie_is_wizard_complete() {
+	if ( isset( $_GET['dollie-show-wizard'] ) ) {
+		return false;
+	}
+
+	return ! empty( get_option( 'dollie_imported_templates', [] ) ) || get_option( 'options_wpd_welcome_wizard' );
+}
+
 /**
  * Check to see if DOLLIE_SETUP is correctly setup.
  *
- * @since 0.3
- *
+ * @return bool
  * @uses dollie_setup_get_installed_revision_date() Get the DOLLIE_SETUP revision date from the DB
  * @uses dollie_setup_is_upgraded() Check to see if DOLLIE_SETUP just upgraded
  * @uses dollie_setup_is_bp_maintenance_mode() Check to see if BuddyPress is in maintenance mode
- * @return bool
+ * @since 0.3
+ *
  */
 function dollie_setup_is_setup() {
 	// we haven't saved the revision date into the DB yet
@@ -45,11 +53,11 @@ function dollie_setup_is_setup() {
 /**
  * Check to see if DOLLIE_SETUP has just upgraded.
  *
- * @since 0.3
- *
+ * @return bool
  * @uses dollie_setup_get_installed_revision_date() Gets the DOLLIE_SETUP revision date from the DB
  * @uses dollie_setup_get_current_revision_date() Gets the current DOLLIE_SETUP revision date from Dollie_Setup::setup_globals()
- * @return bool
+ * @since 0.3
+ *
  */
 function dollie_setup_is_upgraded() {
 	if ( dollie_setup_get_installed_revision_date() && ( dollie_setup_get_current_revision_date() > dollie_setup_get_installed_revision_date() ) ) {
@@ -58,7 +66,6 @@ function dollie_setup_is_upgraded() {
 
 	return false;
 }
-
 
 
 /**
@@ -71,13 +78,14 @@ function dollie_setup_is_upgraded() {
 function dollie_setup_version() {
 	echo dollie_setup_get_version();
 }
-	/**
-	 * Return the DOLLIE_SETUP version
-	 *
-	 * @since 0.3
-	 *
-	 * @return string The DOLLIE_SETUP version
-	 */
+
+/**
+ * Return the DOLLIE_SETUP version
+ *
+ * @return string The DOLLIE_SETUP version
+ * @since 0.3
+ *
+ */
 function dollie_setup_get_version() {
 	return dollie_setup()->version;
 }
@@ -85,9 +93,9 @@ function dollie_setup_get_version() {
 /**
  * Bumps the DOLLIE_SETUP revision date in the DB
  *
+ * @return mixed String of date on success. Boolean false on failure
  * @since 0.3
  *
- * @return mixed String of date on success. Boolean false on failure
  */
 function dollie_setup_bump_revision_date() {
 	update_site_option( '_dollie_setup_revision_date', dollie_setup()->revision_date );
@@ -98,10 +106,10 @@ function dollie_setup_bump_revision_date() {
  *
  * This should only be used if {@link dollie_setup_is_setup()} returns false.
  *
+ * @return string The current DOLLIE_SETUP setup step.
+ * @uses dollie_setup_is_bp_maintenance_mode() Check to see if BuddyPress is in maintenance mode
  * @since 0.3
  *
- * @uses dollie_setup_is_bp_maintenance_mode() Check to see if BuddyPress is in maintenance mode
- * @return string The current DOLLIE_SETUP setup step.
  */
 function dollie_setup_get_setup_step() {
 	$step = '';
@@ -118,11 +126,12 @@ function dollie_setup_get_setup_step() {
 /**
  * Get a specific admin property for use with DOLLIE_SETUP.
  *
+ * @param string $prop Prop to fetch. Either 'menu' or 'url'.
+ * @param mixed $arg Function argument passed for use.
+ *
+ * @return string
  * @since 1.1.0
  *
- * @param  string $prop Prop to fetch. Either 'menu' or 'url'.
- * @param  mixed  $arg  Function argument passed for use.
- * @return string
  */
 function dollie_setup_admin_prop( $prop = '', $arg = '' ) {
 	$retval = '';
@@ -142,9 +151,10 @@ function dollie_setup_admin_prop( $prop = '', $arg = '' ) {
 /**
  * Wrapper for wp_get_theme() to account for main site ID.
  *
+ * @param string|null $stylesheet Directory name for the theme. Optional. Defaults to current theme.
+ *
  * @since 1.1.0
  *
- * @param string|null $stylesheet Directory name for the theme. Optional. Defaults to current theme.
  */
 function dollie_setup_get_theme( $stylesheet = '' ) {
 	if ( ! dollie_setup_is_main_site() ) {
@@ -162,7 +172,6 @@ function dollie_setup_get_theme( $stylesheet = '' ) {
 }
 
 
-
 /** TEMPLATE *************************************************************/
 
 /**
@@ -171,13 +180,14 @@ function dollie_setup_get_theme( $stylesheet = '' ) {
  * Tries to see if a registered DOLLIE_SETUP package has a template file.  If not,
  * fall back to the 'base' template.  Similar to {@link locate_template()}.
  *
+ * @param string|array $template_names Template file(s) to search for, in order.
+ * @param string $package_id The DOLLIE_SETUP package to grab the template for.
+ * @param bool $load If true the template file will be loaded if it is found.
+ * @param bool $require_once Whether to require_once or require. Default true. Has no effect if $load is false.
+ *
+ * @return string The template filename if one is located.
  * @since 1.1.0
  *
- * @param  string|array $template_names Template file(s) to search for, in order.
- * @param  string       $package_id     The DOLLIE_SETUP package to grab the template for.
- * @param  bool         $load           If true the template file will be loaded if it is found.
- * @param  bool         $require_once   Whether to require_once or require. Default true. Has no effect if $load is false.
- * @return string The template filename if one is located.
  */
 function dollie_setup_locate_template( $template_names, $package_id = '', $load = false, $require_once = true ) {
 	$located = '';
@@ -209,11 +219,12 @@ function dollie_setup_locate_template( $template_names, $package_id = '', $load 
  *
  * Basically, almost the same as {@link get_template_part()}.
  *
- * @since 1.1.0
- *
- * @param string $slug       The slug name for the generic template.
+ * @param string $slug The slug name for the generic template.
  * @param string $package_id Optional. The DOLLIE_SETUP package to grab the template for. Defaults to current
  *                           package if available.
+ *
+ * @since 1.1.0
+ *
  */
 function dollie_setup_get_template_part( $slug, $package_id = '' ) {
 	$templates   = array();
@@ -225,10 +236,11 @@ function dollie_setup_get_template_part( $slug, $package_id = '' ) {
 	 * The dynamic portion of the hook name, `$slug`, refers to the slug name
 	 * for the generic template part.
 	 *
+	 * @param string $slug The slug name for the generic template.
+	 * @param string $package_id The DOLLIE_SETUP package to grab the template for.
+	 *
 	 * @since 1.1.0
 	 *
-	 * @param string $slug       The slug name for the generic template.
-	 * @param string $package_id The DOLLIE_SETUP package to grab the template for.
 	 */
 	do_action( 'dollie_setup_get_template_part', $slug, $package_id );
 
@@ -240,10 +252,11 @@ function dollie_setup_get_template_part( $slug, $package_id = '' ) {
 	 * The dynamic portion of the hook name, `$slug`, refers to the slug name
 	 * for the generic template part.
 	 *
+	 * @param string $slug The slug name for the generic template.
+	 * @param string $package_id The DOLLIE_SETUP package to grab the template for.
+	 *
 	 * @since 1.1.0
 	 *
-	 * @param string $slug       The slug name for the generic template.
-	 * @param string $package_id The DOLLIE_SETUP package to grab the template for.
 	 */
 	do_action( 'dollie_setup_after_get_template_part', $slug, $package_id );
 }

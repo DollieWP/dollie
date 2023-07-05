@@ -40,7 +40,7 @@ final class Admin extends Singleton implements ConstInterface {
 		add_action( 'admin_notices', array( NoticeService::instance(), 'not_connected' ) );
 		add_action( 'admin_notices', array( NoticeService::instance(), 'subscription_no_credits' ) );
 		add_action( 'admin_notices', array( NoticeService::instance(), 'subscription_not_verified' ) );
-		add_action( 'admin_init', array( ImportService::instance(), 'set_old_templates_as_imported' ), 9 );
+		//add_action( 'admin_init', array( ImportService::instance(), 'set_old_templates_as_imported' ), 9 );
 
 		add_action( 'admin_init', array( $this, 'import_template' ) );
 		add_action( 'admin_notices', array( $this, 'template_admin_notice' ), 20 );

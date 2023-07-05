@@ -59,7 +59,29 @@ class Upgrades extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'admin_notices', [ $this, 'admin_notice' ], 20 );
+		// just run it. don't show the admin notice.
+		if ( $this->should_run_updates() ) {
+			$this->run();
+		}
+
+		// add_action( 'admin_notices', [ $this, 'admin_notice' ], 20 );
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function should_run_updates() {
+		$user = dollie()->get_user();
+
+		if ( ! $user->can_manage_all_sites() ) {
+			return false;
+		}
+
+		if ( $this->is_new_update() && dollie()->auth()->is_connected() ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -67,13 +89,7 @@ class Upgrades extends Singleton {
 	 */
 	public function admin_notice() {
 
-		$user = dollie()->get_user();
-
-		if ( ! $user->can_manage_all_sites() ) {
-			return;
-		}
-
-		if ( $this->is_new_update() && dollie()->auth()->is_connected() ) {
+		if ( $this->should_run_updates() ) {
 
 			// Automatically update forms.
 			ImportForms::instance()->import_forms();
