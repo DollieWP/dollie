@@ -3,7 +3,7 @@ if ( ! dollie()->is_elementor_editor() ) {
 	wp_enqueue_script( 'dollie-layout-alpine' );
 }
 
-if ( get_field( 'wpd_allow_site_dashboard_access', 'options' ) === 0 && ! dollie()->get_user()->can_manage_all_sites() ) {
+if ( get_field( 'wpd_allow_site_dashboard_access', 'options' ) === 0 && ! dollie()->get_user()->can_manage_all_sites() || is_user_logged_in()  ) {
 	return false;
 }
 
