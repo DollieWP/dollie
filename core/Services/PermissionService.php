@@ -289,7 +289,7 @@ final class PermissionService extends Singleton {
 			}
 
 			// Has access to the specific section?
-			if ( $sub_page && ! dollie()->in_array_r( $sub_page, $this->get_available_sections() ) ) {
+			if ( $sub_page && ! dollie()->in_array_r( $sub_page, dollie()->access()->get_available_sections() ) ) {
 				wp_redirect( get_permalink() );
 				exit();
 			}
