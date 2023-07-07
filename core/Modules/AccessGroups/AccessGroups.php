@@ -844,7 +844,7 @@ class AccessGroups extends Singleton {
 	public function get_blueprints_exception( $type = 'excluded' ) {
 		$data   = array();
 		$type   .= '_blueprints';
-		$access = $this->get_customer_access( $this->module::SUB_STATUS_ACTIVE );
+		$access = $this->get_customer_access();
 
 		if ( empty( $access ) ) {
 			return false;
