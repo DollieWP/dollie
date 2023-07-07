@@ -685,6 +685,7 @@ class AccessGroups extends Singleton {
 			$customer_id = get_current_user_id();
 		}
 
+
 		// Overwritten by Custom User Value
 		$is_custom = get_field( '_wpd_installs', 'user_' . $customer_id );
 
@@ -693,7 +694,7 @@ class AccessGroups extends Singleton {
 
 		}
 
-		$subscription = $this->get_customer_access( $this->module::SUB_STATUS_ACTIVE );
+		$subscription = $this->get_customer_access();
 
 		if ( ! $subscription ) {
 			return 0;
