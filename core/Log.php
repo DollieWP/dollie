@@ -232,12 +232,12 @@ class Log {
 				'type'    => 'blueprint',
 				'link'    => true,
 			],
-			self::WP_SITE_ACCESS_CHANGED    => [
-				'title'   => __( 'Blueprint Updated', 'dollie' ),
-				'content' => __( sprintf( '%s client access was set to %s.', $values[0], $values[1] ), 'dollie' ),
-				'type'    => 'blueprint',
-				'link'    => true,
-			],
+			// self::WP_SITE_ACCESS_CHANGED    => [
+			// 	'title'   => __( 'Blueprint Updated', 'dollie' ),
+			// 	'content' => __( sprintf( '%s client access was set to %s.', $values[0], $values[1] ), 'dollie' ),
+			// 	'type'    => 'blueprint',
+			// 	'link'    => true,
+			// ],
 			self::WP_STAGING_DEPLOY_STARTED   => [
 				'title'   => __( 'Staging Launch Started', 'dollie' ),
 				'content' => __( sprintf( 'Launching Your Staging site %s. You\'ll get another notification when it is ready! ', $values[0] ), 'dollie' ),

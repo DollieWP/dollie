@@ -56,7 +56,6 @@ class ChangeContainerRoleJob extends Singleton {
 		$container->mark_not_updated();
 		$container->fetch_details();
 
-		$container->add_log( Log::WP_SITE_ACCESS_CHANGED, [ $container->get_url( true ), $role ] );
 
 		return false;
 	}
