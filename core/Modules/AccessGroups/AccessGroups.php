@@ -973,6 +973,39 @@ class AccessGroups extends Singleton {
 		return $blueprints;
 	}
 
+	public function get_checkout_link( $args ) {
+		if ( ! function_exists( 'wc_get_product' ) ) {
+			return '#';
+		}
+
+		$product_obj = wc_get_product( $args['product_id'] );
+		if ( ! $product_obj ) {
+			return '#';
+		}
+
+		$link_args = array(
+			'add-to-cart'  => $args['product_id'],
+			'blueprint_id' => $args['blueprint_id'],
+		);
+
+		if ( method_exists( $product_obj, 'get_type' ) && $product_obj->get_type() === 'variable-subscription' ) {
+			$default_atts = $product_obj->get_default_attributes();
+
+			if ( isset( $default_atts['pa_subscription'] ) ) {
+				$data_store                = \WC_Data_Store::load( 'product' );
+				$default_variation         = $data_store->find_matching_product_variation( $product_obj, array( 'attribute_pa_subscription' => $default_atts['pa_subscription'] ) );
+				$link_args['variation_id'] = $default_variation;
+			}
+		}
+
+		$link = add_query_arg(
+			$link_args,
+			wc_get_checkout_url()
+		);
+
+		return apply_filters( 'dollie/woo/checkout_link', $link, $args );
+	}
+
 	/**
 	 * Check if site limit has been reached
 	 *
