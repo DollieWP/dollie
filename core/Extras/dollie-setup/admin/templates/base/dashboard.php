@@ -51,6 +51,7 @@
             <div class="dol-top dol-mb-8">
 				<?php dollie_setup_get_template_part( 'welcome-header' ); ?>
 
+
             </div>
             <div class="dol-content">
                 <h1 class="dol-sr-only">Profile</h1>
@@ -70,6 +71,9 @@
                     </div>
 
                     <div class="dol-grid dol-grid-cols-1 dol-gap-4">
+                        <h4 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-1 dol-text-md">
+                            Latest Sites</h4>
+                        <?php dollie_setup_get_template_part( 'recent-sites' ); ?>
                         <h4 class="dol-text-gray-500 dol-uppercase dol-tracking-wide dol-mb-1 dol-text-md">
                             Watch our Onboarding Videos</h4>
 						<?php dollie_setup_get_template_part( 'setup-complete' ); ?>
