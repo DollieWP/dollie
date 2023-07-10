@@ -2005,12 +2005,13 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'                      => 'field_649c74e9a091b',
-					'label'                    => __( 'How would you like to charge for access', 'dollie' ),
+					'label'                    => __( 'Available integrations', 'dollie' ),
 					'name'                     => 'wpd_billing_integration',
 					'aria-label'               => '',
 					'type'                     => 'radio',
 					'instructions'             => __( 'When you enable the billing features you will be able to easily charge your customers/clients for launching sites, access to specific Hub Areas and much more.', 'dollie' ),
 					'required'                 => 0,
+					'disabled'                 => 1,
 					'conditional_logic'        => array(
 						array(
 							array(
@@ -2031,8 +2032,9 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'hide_admin'               => 0,
 					'choices'                  => array(
 						'woocommerce'          => '<span>WooCommerce</span><img src="https://logos-download.com/wp-content/uploads/2016/09/WooCommerce_logo_Woo_Commerce-700x142.png">',
-						'pmpro' => '<span>Paid Memberships Pro</span><img src="https://www.paidmembershipspro.com/wp-content/themes/memberlite-pmpro/images/Paid-Memberships-Pro_2022.png">',
+						'pmpro'                => '<span>Paid Memberships Pro</span><img src="https://www.paidmembershipspro.com/wp-content/themes/memberlite-pmpro/images/Paid-Memberships-Pro_2022.png">',
 						'memberpress'          => '<span>MemberPress</span><img src="https://memberpress.com/wp-content/uploads/2017/12/mp-logo-horiz-RGB-660x105.jpg">',
+						'edd'                  => '<span>Easy Digital Downloads</span><img src="https://easydigitaldownloads.com/wp-content/themes/edd-v2/includes/assets/brand-assets/logos/horizontal/logo-edd-dark.png">',
 					),
 					'default_value'            => 'woocommerce',
 					'return_format'            => 'value',

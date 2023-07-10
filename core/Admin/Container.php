@@ -23,11 +23,11 @@ final class Container extends Singleton implements ConstInterface {
 
 		// if ( dollie()->auth()->is_connected() ) {
 
-			add_action( 'admin_menu', array( $this, 'add_staging_menu_page' ), 1 );
-			add_action( 'admin_menu', array( $this, 'submenus' ), 99 );
-			add_action( 'admin_menu', array( $this, 'add_blueprint_submenu' ), 1 );
-			add_action( 'admin_menu', array( $this, 'add_extra_menu_links' ), 100 );
-			add_action( 'admin_footer', array( $this, 'crisp_support_js' ), 999999 );
+		add_action( 'admin_menu', array( $this, 'add_staging_menu_page' ), 1 );
+		add_action( 'admin_menu', array( $this, 'submenus' ), 99 );
+		add_action( 'admin_menu', array( $this, 'add_blueprint_submenu' ), 1 );
+		add_action( 'admin_menu', array( $this, 'add_extra_menu_links' ), 100 );
+		add_action( 'admin_footer', array( $this, 'crisp_support_js' ), 999999 );
 
 		// }
 
@@ -101,7 +101,14 @@ final class Container extends Singleton implements ConstInterface {
 			'label'               => __( 'Site', 'dollie' ),
 			'description'         => __( 'Platform Sites', 'dollie' ),
 			'labels'              => $post_type_labels,
-			'supports'            => array( 'title', 'content', 'author', 'custom-fields', 'thumbnail', 'page-attributes' ),
+			'supports'            => array(
+				'title',
+				'content',
+				'author',
+				'custom-fields',
+				'thumbnail',
+				'page-attributes'
+			),
 			'taxonomies'          => array( 'container_category', 'container_tag' ),
 			'hierarchical'        => true,
 			'public'              => true,
@@ -192,6 +199,7 @@ final class Container extends Singleton implements ConstInterface {
 	 * Delete container
 	 *
 	 * @param $post_id
+	 *
 	 * @return void
 	 */
 	public function delete_container( $post_id ) {
@@ -270,14 +278,14 @@ final class Container extends Singleton implements ConstInterface {
 	 *
 	 * @return void
 	 */
-	public function external_menu_scripts() {       ?>
-		<script type="text/javascript">
-			jQuery(document).ready(function($) {
-				$('.dol-cloud-url').each(function(i, item) {
-					$(item).parent().attr('target', '_blank');
-				});
-			});
-		</script>
+	public function external_menu_scripts() { ?>
+        <script type="text/javascript">
+          jQuery(document).ready(function ($) {
+            $('.dol-cloud-url').each(function (i, item) {
+              $(item).parent().attr('target', '_blank');
+            });
+          });
+        </script>
 		<?php
 	}
 
@@ -285,6 +293,7 @@ final class Container extends Singleton implements ConstInterface {
 	 * Custom menu order
 	 *
 	 * @param [type] $menu_ord
+	 *
 	 * @return array
 	 */
 	public function custom_menu_order( $menu_ord ) {
@@ -380,15 +389,15 @@ final class Container extends Singleton implements ConstInterface {
 			)
 		);
 
-			$wp_admin_bar->add_menu(
-				array(
-					'parent' => $menu_id,
-					'title'  => esc_html__( 'Hub Pages', 'dollie' ),
-					'id'     => 'dab-hub',
-					'href'   => '',
-					'meta'   => array( 'target' => '' ),
-				)
-			);
+		$wp_admin_bar->add_menu(
+			array(
+				'parent' => $menu_id,
+				'title'  => esc_html__( 'Hub Pages', 'dollie' ),
+				'id'     => 'dab-hub',
+				'href'   => '',
+				'meta'   => array( 'target' => '' ),
+			)
+		);
 
 		// Define menu items settings
 		$menu_items = array(
@@ -538,14 +547,25 @@ final class Container extends Singleton implements ConstInterface {
 
 	public function crisp_support_js() {
 		$current_screen = get_current_screen();
-		$target_screens = array( 'toplevel_page_dollie_setup', 'admin_page_dollie_templates', 'upload' ); // Add screen IDs of the pages you want to target
+		$target_screens = array(
+			'toplevel_page_dollie_setup',
+			'admin_page_dollie_templates',
+			'upload'
+		); // Add screen IDs of the pages you want to target
 		if ( $current_screen && in_array( $current_screen->id, $target_screens ) ) {
 			?>
-			<script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="613aba5f-fa3b-4e8a-9689-a92f3b9af84b";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+            <script type="text/javascript">window.$crisp = [];
+              window.CRISP_WEBSITE_ID = "613aba5f-fa3b-4e8a-9689-a92f3b9af84b";
+              (function () {
+                d = document;
+                s = d.createElement("script");
+                s.src = "https://client.crisp.chat/l.js";
+                s.async = 1;
+                d.getElementsByTagName("head")[0].appendChild(s);
+              })();</script>
 			<?php
 		}
 	}
-
 
 
 	/**
@@ -553,6 +573,7 @@ final class Container extends Singleton implements ConstInterface {
 	 *
 	 * @param [type] $actions
 	 * @param [type] $page_object
+	 *
 	 * @return array
 	 */
 	public function alter_container_row_actions( $actions, $page_object ) {
@@ -656,6 +677,7 @@ final class Container extends Singleton implements ConstInterface {
 	 * Set table columns
 	 *
 	 * @param array $columns
+	 *
 	 * @return array
 	 */
 	public function set_table_columns( array $columns ) {
@@ -672,8 +694,9 @@ final class Container extends Singleton implements ConstInterface {
 	/**
 	 * Set table custom columns values
 	 *
-	 * @param string  $column_name
+	 * @param string $column_name
 	 * @param integer $post_id
+	 *
 	 * @return void
 	 */
 	public function set_table_custom_columns( string $column_name, int $post_id ) {
@@ -746,11 +769,11 @@ final class Container extends Singleton implements ConstInterface {
 		if ( empty( $_GET['blueprint'] ) ) :
 			dollie_setup_get_template_part( 'wrapper-header' );
 			?>
-			<div class="dollie-page-intro">
-				<h3>
+            <div class="dollie-page-intro">
+                <h3>
 					<?php esc_html_e( 'Sites Overview - All Sites in your Hub', 'dollie' ); ?>
-				</h3>
-				<p>
+                </h3>
+                <p>
 					<?php
 					printf(
 						'%s <a href="%s">%s</a>.',
@@ -759,17 +782,17 @@ final class Container extends Singleton implements ConstInterface {
 						esc_html__( 'View Sites on the front-end of my Hub', 'dollie' )
 					);
 					?>
-				</p>
-			</div>
-			<?php
+                </p>
+            </div>
+		<?php
 		else :
 			dollie_setup_get_template_part( 'wrapper-header' );
 			?>
-			<div class="dollie-page-intro">
-				<h3>
+            <div class="dollie-page-intro">
+                <h3>
 					<?php esc_html_e( 'Your Site Blueprints', 'dollie' ); ?>
-				</h3>
-				<p>
+                </h3>
+                <p>
 					<?php
 					printf(
 						'%s <a href="%s">%s</a>.',
@@ -778,8 +801,8 @@ final class Container extends Singleton implements ConstInterface {
 						esc_html__( 'Launch a New Blueprint', 'dollie' )
 					);
 					?>
-				</p>
-			</div>
+                </p>
+            </div>
 		<?php endif; ?>
 		<?php
 	}
@@ -792,17 +815,17 @@ final class Container extends Singleton implements ConstInterface {
 	public function access_group_info_banner() {
 		?>
 		<?php
-			dollie_setup_get_template_part( 'wrapper-header' );
+		dollie_setup_get_template_part( 'wrapper-header' );
 		?>
-			<div class="dollie-page-intro">
-				<p>
-					<?php
-					printf(
-						esc_html__( 'With Access Groups you can easily control what your customers/clients can do inside your Hub.', 'dollie' ),
-					);
-					?>
-				</p>
-			</div>
+        <div class="dollie-page-intro">
+            <p>
+				<?php
+				printf(
+					esc_html__( 'With Access Groups you can easily control what your customers/clients can do inside your Hub.', 'dollie' ),
+				);
+				?>
+            </p>
+        </div>
 		<?php
 	}
 
@@ -814,14 +837,14 @@ final class Container extends Singleton implements ConstInterface {
 	public function blueprint_info_banner() {
 		dollie_setup_get_template_part( 'wrapper-header' );
 		?>
-		<div class="dollie-page-intro">
-			<h3>
+        <div class="dollie-page-intro">
+            <h3>
 				<?php esc_html_e( 'The Hub Log', 'dollie' ); ?>
-			</h3>
-			<p>
+            </h3>
+            <p>
 				<?php esc_html_e( 'The Hub log keeps track of activity inside your Hub, For example action taken by your customers and recurring crons/maintenance jobs that run behind the scenes.', 'dollie' ); ?>
-			</p>
-		</div>
+            </p>
+        </div>
 		<?php
 	}
 
@@ -854,11 +877,14 @@ final class Container extends Singleton implements ConstInterface {
 			return $query;
 		}
 
-		$screen = get_current_screen();
+		if ( function_exists( 'get_current_screen' ) ) {
+			$screen = get_current_screen();
 
-		if ( 'edit-container' !== $screen->id ) {
-			return $query;
+			if ( 'edit-container' !== $screen->id ) {
+				return $query;
+			}
 		}
+
 
 		$term       = '';
 		$meta_query = array();
@@ -936,6 +962,7 @@ final class Container extends Singleton implements ConstInterface {
 			remove_filter( 'attribute_escape', 'add_site_icon', 20, 2 );
 			$safe_text = esc_attr( $text );
 			$text      = dollie()->icon()->site() . esc_attr( $text );
+
 			return $text;
 		}
 
@@ -947,6 +974,7 @@ final class Container extends Singleton implements ConstInterface {
 	 * Update posts counter for blueprints
 	 *
 	 * @param obj $screen
+	 *
 	 * @return void
 	 */
 	public function container_counter( $screen ) {
@@ -971,7 +999,7 @@ final class Container extends Singleton implements ConstInterface {
 				);
 
 				$args = array(
-					'posts_per_page' => -1,
+					'posts_per_page' => - 1,
 					'post_type'      => 'container',
 					'post_status'    => 'publish',
 					'meta_query'     => $meta_query,
@@ -991,6 +1019,7 @@ final class Container extends Singleton implements ConstInterface {
 	 * Update filters for blueprints
 	 *
 	 * @param array $views
+	 *
 	 * @return array
 	 */
 	public function container_filters( $views ) {
@@ -1003,6 +1032,7 @@ final class Container extends Singleton implements ConstInterface {
 	 * Modify user table
 	 *
 	 * @param array $column
+	 *
 	 * @return array
 	 */
 	public function new_modify_user_table( $column ) {
@@ -1017,6 +1047,7 @@ final class Container extends Singleton implements ConstInterface {
 	 * @param [type] $val
 	 * @param [type] $column_name
 	 * @param [type] $user_id
+	 *
 	 * @return int
 	 */
 	public function new_modify_user_table_row( $val, $column_name, $user_id ) {

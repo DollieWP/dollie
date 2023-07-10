@@ -1,8 +1,12 @@
 <?php
+
+use Dollie\Core\Services\ImportService;
+
 add_filter( 'woocommerce_enable_setup_wizard', 'mywoo_disable_wizard' );
 function mywoo_disable_wizard() {
 	return false;
 }
+
 // Set Elementor Tracker Notice
 update_option( 'elementor_tracker_notice', 1 );
 
@@ -27,7 +31,53 @@ function register_forms() {
 		)
 	);
 }
+
 add_action( 'af/register_forms', 'register_forms' );
+
+/*
+ * Onboarding after form submission
+ */
+add_action( 'af/form/before_submission/key=form_649c73282122d', function ( $form, $fields, $args ) {
+
+	$builder        = af_get_field( 'wpd_choose_builder' );
+	$enable_billing = af_get_field( 'wpd_charge_for_deployments' );
+	$domain         = af_get_field( 'wpd_api_domain' );
+
+	// Import page builder data
+	if ( $builder === 'elementor' ) {
+		ImportService::instance()->import_elementor_template();
+	} elseif ( $builder === 'gutenberg' ) {
+		ImportService::instance()->import_gutenberg_template();
+	}
+
+	// Set domain
+	if ( $domain ) {
+		update_option( 'options_wpd_api_domain', sanitize_text_field( $domain ) );
+	}
+
+	// Set billing status
+	update_option( 'options_wpd_charge_for_deployments', $enable_billing );
+
+	//set wizard as complete
+	update_option( 'options_wpd_welcome_wizard', 1 );
+
+	wp_redirect( admin_url( '/admin.php?page=dollie_setup' ) );
+	exit();
+}, 10, 3 );
+
+
+add_filter( 'acf/load_field', function ( $field ) {
+	if ( 'wpd_billing_integration' === $field['name'] ) {
+		$field['disabled'] = array(
+			'edd',
+			'memberpress',
+			'pmpro',
+			'woocommerce',
+		);
+	}
+
+	return $field;
+} );
 
 function ocdi_import_files() {
 	return array(
@@ -69,6 +119,7 @@ function ocdi_import_files() {
 		),
 	);
 }
+
 add_filter( 'ocdi/import_files', 'ocdi_import_files' );
 
 function dollie_hub_plugin_setup( $default_settings ) {
@@ -80,6 +131,7 @@ function dollie_hub_plugin_setup( $default_settings ) {
 
 	return $default_settings;
 }
+
 add_filter( 'ocdi/plugin_page_setup', 'dollie_hub_plugin_setup' );
 
 function ocdi_plugin_intro_text( $default_text ) {
@@ -87,6 +139,7 @@ function ocdi_plugin_intro_text( $default_text ) {
 
 	return $default_text;
 }
+
 add_filter( 'ocdi/plugin_intro_text', 'ocdi_plugin_intro_text' );
 
 function my_text_strings( $translated_text, $text, $domain ) {
@@ -98,8 +151,10 @@ function my_text_strings( $translated_text, $text, $domain ) {
 			$translated_text = __( 'Before we import your starter Hub Design', 'woocommerce' );
 			break;
 	}
+
 	return $translated_text;
 }
+
 add_filter( 'gettext', 'my_text_strings', 20, 3 );
 
 function ocdi_register_plugins( $plugins ) {
@@ -132,4 +187,5 @@ function ocdi_register_plugins( $plugins ) {
 
 	return array_merge( $plugins, $theme_plugins );
 }
+
 add_filter( 'ocdi/register_plugins', 'ocdi_register_plugins' );
