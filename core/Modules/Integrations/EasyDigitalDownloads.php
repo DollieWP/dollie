@@ -34,8 +34,6 @@ class EasyDigitalDownloads extends Singleton implements IntegrationsInterface {
 		add_filter( 'dollie/required_plugins', array( $this, 'required_plugins' ) );
 		add_filter( 'acf/prepare_field_group_for_import', array( $this, 'add_acf_fields' ) );
 	}
-
-
 	public function on_payment_status_change( $payment_id, $new_status, $old_status ) {
 		if ( $new_status === $old_status ) {
 			return;

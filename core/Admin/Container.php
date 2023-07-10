@@ -885,7 +885,6 @@ final class Container extends Singleton implements ConstInterface {
 			}
 		}
 
-
 		$term       = '';
 		$meta_query = array();
 
