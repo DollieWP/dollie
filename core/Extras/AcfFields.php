@@ -354,10 +354,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 				),
 				array(
 					'key'               => 'field_607ed4584fecc',
-					'label'             => __( 'Choose Your Payment Solution', 'dollie' ),
+					'label'             => __( 'Choose Your Default Payment Solution', 'dollie' ),
 					'name'              => 'wpd_subscription_plugin',
 					'type'              => 'select',
-					'instructions'      => __( 'Choose which plugin should be used to handle the payment and subscription features. Out of the box your hub integrates with WooCommerce, but you can download other integrations from Control HQ.', 'dollie' ),
+					'instructions'      => __( 'Choose which plugin should be used to handle the payment and subscription features if you use multiple plugins we support.', 'dollie' ),
 					'required'          => 1,
 					'conditional_logic' => array(
 						array(
@@ -376,6 +376,9 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'hide_admin'        => 0,
 					'choices'           => array(
 						'WooCommerce' => 'WooCommerce',
+						'EasyDigitalDownloads' => 'Easy Digital Downloads',
+						'PaidMembershipsPro' => 'Paid Memberships Pro',
+						'MemberPress' => 'MemberPress',
 					),
 					'default_value'     => 'WooCommerce',
 					'allow_null'        => 0,
@@ -1911,23 +1914,24 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 			'fields'                => array(
 				array(
 					'key' => 'field_64a566bb7d2c3',
-					'label' => __('Page builder', 'dollie'),
+					'label'                    => __( 'Page Builder', 'dollie' ),
 					'name'                     => '',
 					'aria-label'               => '',
 					'type'                     => 'page',
 					'instructions'             => '',
 					'required'                 => 0,
-					'wrapper' => array(
+					'wrapper'                  => array(
 						'width' => '',
 						'class' => '',
-						'id' => '',
+						'id'    => '',
 					),
 					'dollie_vip_addon_enabled' => 0,
-					'dollie_admin_only' => 0,
-					'acfe_save_meta' => 0,
-					'hide_admin' => 0,
-					'placement' => 'top',
-					'endpoint' => 0,
+					'dollie_admin_only'        => 0,
+					'acfe_save_meta'           => 0,
+					'hide_admin'               => true,
+					'show_numbering'           => 1,
+					'previous_text'            => '',
+					'next_text'                => '',
 				),
 				array(
 					'key'                      => 'field_64a563a2e8b96',
@@ -2031,10 +2035,10 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'acfe_save_meta'           => 0,
 					'hide_admin'               => 0,
 					'choices'                  => array(
-						'woocommerce'          => '<span>WooCommerce</span><img src="https://logos-download.com/wp-content/uploads/2016/09/WooCommerce_logo_Woo_Commerce-700x142.png">',
-						'pmpro'                => '<span>Paid Memberships Pro</span><img src="https://www.paidmembershipspro.com/wp-content/themes/memberlite-pmpro/images/Paid-Memberships-Pro_2022.png">',
-						'memberpress'          => '<span>MemberPress</span><img src="https://memberpress.com/wp-content/uploads/2017/12/mp-logo-horiz-RGB-660x105.jpg">',
-						'edd'                  => '<span>Easy Digital Downloads</span><img src="https://easydigitaldownloads.com/wp-content/themes/edd-v2/includes/assets/brand-assets/logos/horizontal/logo-edd-dark.png">',
+						'WooCommerce'          => '<span>WooCommerce</span><img src="https://logos-download.com/wp-content/uploads/2016/09/WooCommerce_logo_Woo_Commerce-700x142.png">',
+						'PaidMembershipsPro'                => '<span>Paid Memberships Pro</span><img src="https://www.paidmembershipspro.com/wp-content/themes/memberlite-pmpro/images/Paid-Memberships-Pro_2022.png">',
+						'MemberPress'          => '<span>MemberPress</span><img src="https://memberpress.com/wp-content/uploads/2017/12/mp-logo-horiz-RGB-660x105.jpg">',
+						'EasyDigitalDownloads'                  => '<span>Easy Digital Downloads</span><img src="https://easydigitaldownloads.com/wp-content/themes/edd-v2/includes/assets/brand-assets/logos/horizontal/logo-edd-dark.png">',
 					),
 					'default_value'            => 'woocommerce',
 					'return_format'            => 'value',

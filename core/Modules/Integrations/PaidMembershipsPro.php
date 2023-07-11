@@ -31,24 +31,14 @@ class PaidMembershipsPro extends Singleton implements IntegrationsInterface {
 		if ( defined( 'PMPRO_VERSION' ) ) {
 			$this->name = 'Paid Memberships Pro';
 
+			add_action( 'template_redirect', [ $this, 'redirect_to_blueprint' ] );
+
 			add_action( 'pmpro_membership_level_after_general_information', array( $this, 'custom_level_fields' ) );
 			add_action( 'pmpro_save_membership_level', array( $this, 'save_custom_level_fields' ) );
 			add_action( 'pmpro_after_all_membership_level_changes', array( $this, 'add_users_to_groups' ), 10, 1 );
 		}
 	}
 
-	// Placeholder methods for IntegrationsInterface. Replace these with actual methods defined in IntegrationsInterface.
-	public function subscribe( $userId, $subscriptionId ) {
-		// Your implementation here.
-	}
-
-	public function unsubscribe( $userId, $subscriptionId ) {
-		// Your implementation here.
-	}
-
-	public function getAccessStatus( $userId, $subscriptionId ) {
-		// Your implementation here.
-	}
 
 	/**
 	 * Customizes membership level fields for Paid Memberships Pro.
@@ -145,5 +135,53 @@ class PaidMembershipsPro extends Singleton implements IntegrationsInterface {
 				);
 			}
 		}
+	}
+
+	public function redirect_to_blueprint( $id ) {
+
+		if ( ! get_field( 'wpd_override_thank_you_page', 'options' ) ) {
+			return;
+		}
+
+		if ( ! isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) || ! $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) {
+			return;
+		}
+
+		$thank_you_id = get_option( 'pmpro_confirmation_page_id' );
+		if ( ! $thank_you_id ) {
+			return;
+		}
+
+		$current_query = get_queried_object();
+		if ( $current_query === null || ! get_queried_object()->ID ) {
+			return;
+		}
+
+		if ( $current_query->ID === $thank_you_id ) {
+			wp_redirect( dollie()->page()->get_launch_site_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
+			exit;
+		}
+
+	}
+
+	public function get_checkout_link( $args ) {
+
+
+		if ( ! $args['product_id'] ) {
+			return '';
+		}
+
+        if ( ! get_option( 'pmpro_checkout_page_id' ) ) {
+			return '';
+		}
+
+		$link = pmpro_url( 'checkout', '?level=' . $args['product_id'], 'https' );
+		if ( isset( $args['blueprint_id'] ) ) {
+			$link = add_query_arg( [
+				DOLLIE_BLUEPRINTS_COOKIE_PARAM => $args['blueprint_id']
+			], $link );
+		}
+
+		return apply_filters( 'dollie/pmpro/checkout_link', $link, $args );
 	}
 }

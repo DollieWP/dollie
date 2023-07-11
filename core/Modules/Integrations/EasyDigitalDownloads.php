@@ -34,6 +34,7 @@ class EasyDigitalDownloads extends Singleton implements IntegrationsInterface {
 		add_filter( 'dollie/required_plugins', array( $this, 'required_plugins' ) );
 		add_filter( 'acf/prepare_field_group_for_import', array( $this, 'add_acf_fields' ) );
 	}
+
 	public function on_payment_status_change( $payment_id, $new_status, $old_status ) {
 		if ( $new_status === $old_status ) {
 			return;
@@ -44,7 +45,7 @@ class EasyDigitalDownloads extends Singleton implements IntegrationsInterface {
 
 		// Cart details
 		$cart_items = edd_get_payment_meta_cart_details( $payment_id );
-		$user_id = $payment_meta['user_info']['id'];
+		$user_id    = $payment_meta['user_info']['id'];
 
 		foreach ( $cart_items as $item ) {
 
@@ -108,8 +109,11 @@ class EasyDigitalDownloads extends Singleton implements IntegrationsInterface {
 	}
 
 	public function redirect_to_blueprint( $id ) {
-		if ( edd_is_success_page() && isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) && $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) {
-			wp_redirect( dollie()->page()->get_launch_site_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
+		if ( edd_is_success_page() && isset( $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] )
+		     && $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] ) {
+			wp_redirect( dollie()->page()->get_launch_site_url()
+			             . '?payment-status=success&blueprint_id='
+			             . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
 			exit;
 		}
 	}
@@ -145,8 +149,7 @@ class EasyDigitalDownloads extends Singleton implements IntegrationsInterface {
 	 */
 	public function required_plugins( $plugins ) {
 		$plugins[] = array(
-			'name'             => 'Easy Digital Downloads
-',
+			'name'             => 'Easy Digital Downloads',
 			'slug'             => 'easy-digital-downloads',
 			'required'         => true,
 			'version'          => '',
