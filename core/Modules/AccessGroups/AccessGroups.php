@@ -2,6 +2,7 @@
 
 namespace Dollie\Core\Modules\AccessGroups;
 
+use Dollie\Core\Modules\Integrations\Integrations;
 use Dollie\Core\Singleton;
 
 
@@ -592,7 +593,7 @@ class AccessGroups extends Singleton {
 	 */
 	public function acf_readonly_fields() {
 		?>
-		<script type="text/javascript">
+        <script type="text/javascript">
           jQuery(document).ready(function ($) {
             // replace 'field_12345678' with the field key of the field you want to disable
             $('div[data-key="field_649420e3e3fb7"] input, div[data-key="field_649420e3e3fb7"] textarea').attr(
@@ -600,7 +601,7 @@ class AccessGroups extends Singleton {
             $('div[data-key="field_649420e3e3fb7"] .acf-button, div[data-key="field_649420e3e3fb7"] .acf-row-handle')
               .addClass('hidden');
           });
-		</script>
+        </script>
 		<?php
 	}
 
@@ -974,36 +975,7 @@ class AccessGroups extends Singleton {
 	}
 
 	public function get_checkout_link( $args ) {
-		if ( ! function_exists( 'wc_get_product' ) ) {
-			return '#';
-		}
-
-		$product_obj = wc_get_product( $args['product_id'] );
-		if ( ! $product_obj ) {
-			return '#';
-		}
-
-		$link_args = array(
-			'add-to-cart'  => $args['product_id'],
-			'blueprint_id' => $args['blueprint_id'],
-		);
-
-		if ( method_exists( $product_obj, 'get_type' ) && $product_obj->get_type() === 'variable-subscription' ) {
-			$default_atts = $product_obj->get_default_attributes();
-
-			if ( isset( $default_atts['pa_subscription'] ) ) {
-				$data_store                = \WC_Data_Store::load( 'product' );
-				$default_variation         = $data_store->find_matching_product_variation( $product_obj, array( 'attribute_pa_subscription' => $default_atts['pa_subscription'] ) );
-				$link_args['variation_id'] = $default_variation;
-			}
-		}
-
-		$link = add_query_arg(
-			$link_args,
-			wc_get_checkout_url()
-		);
-
-		return apply_filters( 'dollie/woo/checkout_link', $link, $args );
+        return Integrations::instance()->get_checkout_link( $args );
 	}
 
 	/**
@@ -1074,7 +1046,7 @@ class AccessGroups extends Singleton {
 			return false;
 		}
 
-		// Has subscription but is VIP enabled for this subcription?
+		// Has subscription but is VIP enabled for this subscription?
 		if ( isset( $access['resources']['launch_as_vip'] ) ) {
 			return true;
 		}
@@ -1198,16 +1170,20 @@ class AccessGroups extends Singleton {
 
 	private function get_or_create_by_name_from_product( $name, $product_id ) {
 
-		$existing_group = get_page_by_title( $name, OBJECT, 'dollie-access-groups' );
-		if ( $existing_group ) {
-			return $existing_group->ID;
+		$existing_groups = get_posts( [
+			'title'     => $name,
+			'post_type' => 'dollie-access-groups',
+		] );
+
+		if ( ! empty( $existing_groups ) ) {
+			return $existing_groups[0]->ID;
 		}
 
 		// Create the access group
 		$group_id = wp_insert_post(
 			[
-				'post_title' => $name,
-				'post_type' => 'dollie-access-groups',
+				'post_title'  => $name,
+				'post_type'   => 'dollie-access-groups',
 				'post_status' => 'publish'
 			]
 		);
