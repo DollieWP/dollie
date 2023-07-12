@@ -110,20 +110,20 @@ class Plugin extends Singleton {
 
 		// Load TGM Class.
 		if ( ! class_exists( 'OCDI_Plugin' ) && dollie()->auth()->is_connected()
-		     && ! ( is_admin() && isset( $_GET['action'] ) && 'activate' === $_GET['action'] ) )
-		{
+		     && ! ( is_admin() && isset( $_GET['action'] ) && 'activate' === $_GET['action'] ) ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/one-click-demo-import/one-click-demo-import.php';
 		}
 
 		// Load logger.
-		if ( ! class_exists( '\AF' ) && ! ( is_admin() && isset( $_GET['action'] ) && 'activate' === $_GET['action'] ) ) {
+		if ( ! class_exists( '\AF' )
+		     && ! ( is_admin() && isset( $_GET['action'] ) && 'activate' === $_GET['action'] ) ) {
 			require_once DOLLIE_CORE_PATH . 'Extras/advanced-forms/advanced-forms.php';
 			require_once DOLLIE_CORE_PATH . 'Extras/acf-tooltip/acf-tooltip.php';
 		}
 
 		// Custom plugin updates.
 		if ( file_exists( DOLLIE_CORE_PATH . 'Extras/plugin-update-checker/plugin-update-checker.php' ) ) {
-			require DOLLIE_CORE_PATH . 'Extras/plugin-update-checker/plugin-update-checker.php';
+			require_once DOLLIE_CORE_PATH . 'Extras/plugin-update-checker/plugin-update-checker.php';
 			PucFactory::buildUpdateChecker(
 				'https://control.getdollie.com/releases/?action=get_metadata&slug=dollie',
 				DOLLIE_FILE, // Full path to the main plugin file or functions.php.
@@ -201,9 +201,9 @@ class Plugin extends Singleton {
 	 * Register ACF fields
 	 */
 	public function acf_add_local_field_groups() {
-		require DOLLIE_CORE_PATH . 'Extras/AcfFields.php';
-		require DOLLIE_CORE_PATH . 'Extras/AcfFormFields.php';
-		require DOLLIE_CORE_PATH . 'Extras/AcfUserFields.php';
+		require_once DOLLIE_CORE_PATH . 'Extras/AcfFields.php';
+		require_once DOLLIE_CORE_PATH . 'Extras/AcfFormFields.php';
+		require_once DOLLIE_CORE_PATH . 'Extras/AcfUserFields.php';
 	}
 
 	/**
@@ -322,7 +322,9 @@ class Plugin extends Singleton {
 
 		$container = dollie()->get_container( (int) $_GET['site_id'] );
 
-		if ( is_wp_error( $container ) || ! $container->is_owned_by_current_user() || ! wp_verify_nonce( $_GET['_nonce'], 'get_site_login' ) ) {
+		if ( is_wp_error( $container )
+		     || ! $container->is_owned_by_current_user()
+		     || ! wp_verify_nonce( $_GET['_nonce'], 'get_site_login' ) ) {
 			wp_redirect( home_url() );
 			exit;
 		}

@@ -18,6 +18,13 @@ class Integrations extends Singleton implements IntegrationsInterface {
 
 	private $module;
 
+	private $modules = [
+		'woo'         => 'WooCommerce',
+		'pmpro'       => 'PaidMembershipsPro',
+		'memberpress' => 'MemberPress',
+		'edd'         => 'EasyDigitalDownloads',
+	];
+
 	/**
 	 * Access contructor
 	 */
@@ -34,7 +41,7 @@ class Integrations extends Singleton implements IntegrationsInterface {
 		if ( defined( 'MEPR_VERSION' ) ) {
 			MemberPress::instance();
 		}
-		if (function_exists( 'EDD' )) {
+		if ( function_exists( 'EDD' ) ) {
 			EasyDigitalDownloads::instance();
 		}
 
@@ -71,6 +78,14 @@ class Integrations extends Singleton implements IntegrationsInterface {
 	}
 
 	public function get_checkout_link( $args ) {
+		if ( ! empty( $args['integration'] ) ) {
+			if ( isset( $this->modules[ $args['integration'] ] ) ) {
+				$module = '\Dollie\Core\Modules\Integrations\\' . $args['integration'];
+
+				return $module::instance()->get_checkout_link( $args );
+			}
+		}
+
 		return $this->module->get_checkout_link( $args );
 	}
 
