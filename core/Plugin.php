@@ -102,14 +102,16 @@ class Plugin extends Singleton {
 			// add_filter( 'acf/settings/show_admin', '__return_false' );
 		}
 
-		// Load Dollie Setup Class,
+		// Load Dollie Setup Class.
 		if ( ! class_exists( 'Dollie_Setup' ) ) {
 			update_option( '_dollie_setup_current_package', 'agency', true );
 			require_once DOLLIE_CORE_PATH . 'Extras/dollie-setup/loader.php';
 		}
 
-		// Load TGM Class,
-		if ( ! class_exists( 'OCDI_Plugin' ) && dollie()->auth()->is_connected() ) {
+		// Load TGM Class.
+		if ( ! class_exists( 'OCDI_Plugin' ) && dollie()->auth()->is_connected()
+		     && ! ( is_admin() && isset( $_GET['action'] ) && 'activate' === $_GET['action'] ) )
+		{
 			require_once DOLLIE_CORE_PATH . 'Extras/one-click-demo-import/one-click-demo-import.php';
 		}
 
