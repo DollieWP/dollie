@@ -1852,11 +1852,11 @@ msgstr ""
 msgid "Re-Import"
 msgstr ""
 
-#: templates/loop/blueprints.php:64, templates/loop/single-blueprint.php:64
+#: templates/loop/blueprints.php:64, templates/loop/single-blueprint.php:71
 msgid "%s View Demo"
 msgstr ""
 
-#: templates/loop/blueprints.php:84, templates/loop/single-blueprint.php:84
+#: templates/loop/blueprints.php:84, templates/loop/single-blueprint.php:94
 msgid "%1$s Launch %2$s"
 msgstr ""
 
