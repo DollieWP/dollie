@@ -975,7 +975,7 @@ class AccessGroups extends Singleton {
 	}
 
 	public function get_checkout_link( $args ) {
-        return Integrations::instance()->get_checkout_link( $args );
+		return Integrations::instance()->get_checkout_link( $args );
 	}
 
 	/**
@@ -1118,6 +1118,10 @@ class AccessGroups extends Singleton {
 		}
 
 		foreach ( $subscriptions as $subscription_id => $subscription ) {
+
+			if ( empty( $subscription_id ) ) {
+				continue;
+			}
 
 			// Getting the subscription Order ID.
 			$the_subscription = wcs_get_subscription( $subscription_id );
