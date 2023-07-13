@@ -60,9 +60,11 @@ class Upgrades extends Singleton {
 		parent::__construct();
 
 		// just run it. don't show the admin notice.
-		if ( $this->should_run_updates() ) {
-			$this->run();
-		}
+		add_action( 'admin_init', function () {
+			if ( $this->should_run_updates() ) {
+				$this->run();
+			}
+		} );
 
 		// add_action( 'admin_notices', [ $this, 'admin_notice' ], 20 );
 	}
