@@ -642,28 +642,28 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					array(
 						array(
 							'param'    => 'post_type',
-							'operator' => ' == ',
+							'operator' => '==',
 							'value'    => 'product',
 						),
 					),
 					array(
 						array(
 							'param'    => 'post_type',
-							'operator' => ' == ',
+							'operator' => '==',
 							'value'    => 'product_variation',
 						),
 					),
 					array(
 						array(
 							'param'    => 'post_type',
-							'operator' => ' == ',
+							'operator' => '==',
 							'value'    => 'memberpressproduct',
 						),
 					),
 					array(
 						array(
 							'param'    => 'post_type',
-							'operator' => ' == ',
+							'operator' => '==',
 							'value'    => 'download',
 						),
 					),
