@@ -184,7 +184,32 @@ class AccessGroups extends Singleton {
 			}
 
 			\WDS_Log_Post::log_message( 'dollie-logs', $log_message, '', (string) $group_id );
+
+			$remove_from_groups = get_field( 'wpd_remove_from_access_groups', $group_id );
+
+			if ( ! is_array( $remove_from_groups ) ) {
+				$remove_from_groups = array();
+			}
+
+			// Remove users from other groups
+			foreach ( $remove_from_groups as $remove_group ) {
+				$user_info = get_userdata( $userid );
+
+				// Remove user from the access group
+				$this->remove_from_access_group(
+					$remove_group->ID,                // Group ID
+					$userid,        // User IDs
+					'Group Interaction',            // Source
+					'group-interaction', // Log type
+					'Removed on subscription stopped for product ' . get_the_title( $remove_group ) . '.'
+				);
+
+			}
+
 		}
+
+
+
 
 		// Update the wpd_registered_integrations ACF repeater field with new integration and action
 		if ( $integration && $action ) {

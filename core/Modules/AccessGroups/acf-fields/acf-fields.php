@@ -505,6 +505,72 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 			)
 		);
 
+		acf_add_local_field_group( array(
+			'key' => 'group_64b7a138060b6',
+			'title' => 'Interaction with other Access Groups',
+			'fields' => array(
+				array(
+					'key' => 'field_64b7a13967df4',
+					'label' => __('Remove from Access Groups', 'dollie'),
+					'name' => 'wpd_remove_from_access_groups',
+					'aria-label' => '',
+					'type' => 'relationship',
+					'instructions' => __('Remove the user from the following Access Groups once they are added to this Access Group. This allows you to create upgrade paths between groups. For example moving someone from a "Base Plan Group" to a "Pro Plan Group".', 'dollie'),
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'dollie_vip_addon_enabled' => 0,
+					'dollie_admin_only' => 0,
+					'acfe_save_meta' => 0,
+					'hide_admin' => 0,
+					'post_type' => array(
+						0 => 'dollie-access-groups',
+					),
+					'post_status' => '',
+					'taxonomy' => '',
+					'filters' => array(
+						0 => 'search',
+						1 => 'post_type',
+						2 => 'taxonomy',
+					),
+					'return_format' => 'object',
+					'acfe_bidirectional' => array(
+						'acfe_bidirectional_enabled' => '0',
+					),
+					'min' => '',
+					'max' => '',
+					'elements' => '',
+				),
+			),
+			'location' => array(
+				array(
+					array(
+						'param' => 'post_type',
+						'operator' => '==',
+						'value' => 'dollie-access-groups',
+					),
+				),
+			),
+			'menu_order' => 0,
+			'position' => 'normal',
+			'style' => 'default',
+			'label_placement' => 'left',
+			'instruction_placement' => 'label',
+			'hide_on_screen' => '',
+			'active' => true,
+			'description' => '',
+			'show_in_rest' => 0,
+			'acfe_display_title' => '',
+			'acfe_autosync' => '',
+			'acfe_form' => 0,
+			'acfe_meta' => '',
+			'acfe_note' => '',
+		) );
+
 		acf_add_local_field_group(
 			array(
 				'key'                   => 'group_631b463ce5739',
