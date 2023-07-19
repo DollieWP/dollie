@@ -209,7 +209,9 @@ class SyncContainersJob extends Singleton {
 					}
 
 					update_post_meta( $stored_container->ID, 'dollie_container_type', $fetched_container['type'] );
-					update_post_meta( $stored_container->ID, 'dollie_vip_site', isset( $fetched_container['vip'] ) ? (int) $fetched_container['vip'] : 0 );
+					update_post_meta( $stored_container->ID, 'dollie_vip_site',
+						isset( $fetched_container['vip'] ) ? (int) $fetched_container['vip'] : 0
+					);
 					delete_post_meta( $stored_container->ID, 'wpd_container_id' );
 
 					$container = dollie()->get_container( $stored_container );
@@ -225,7 +227,9 @@ class SyncContainersJob extends Singleton {
 				$container_id = $stored_container->ID;
 				$container->set_details( $fetched_container );
 
-				update_post_meta( $stored_container->ID, 'dollie_vip_site', isset( $fetched_container['vip'] ) ? (int) $fetched_container['vip'] : 0 );
+				update_post_meta( $stored_container->ID, 'dollie_vip_site',
+					isset( $fetched_container['vip'] ) ? (int) $fetched_container['vip'] : 0
+				);
 
 				if ( $container->should_be_trashed() ) {
 					wp_trash_post( $container->get_id() );

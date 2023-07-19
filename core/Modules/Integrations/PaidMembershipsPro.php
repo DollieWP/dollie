@@ -55,10 +55,12 @@ class PaidMembershipsPro extends Singleton implements IntegrationsInterface {
         <hr>
         <h3>Dollie Hub - Access Group Settings</h3>
         <p>Easily add customers who subscribe to this membership plan to your Hub Access Groups.</p>
-        <table>
+        <table aria-label="Customers in access group">
             <tbody class="form-table">
             <tr>
-                <th scope="row" valign="top"><label for="extra_setting">Add to Access Group:</label></th>
+                <th scope="row" style="vertical-align: top;">
+                    <label for="extra_setting">Add to Access Group:</label>
+                </th>
                 <td>
                     <select id="extra_setting" name="extra_setting">
 						<?php
@@ -86,7 +88,7 @@ class PaidMembershipsPro extends Singleton implements IntegrationsInterface {
 		}
 	}
 
-	function add_users_to_groups( $old_user_levels ) {
+	public function add_users_to_groups( $old_user_levels ) {
 		$access = new AccessGroups();
 
 		foreach ( $old_user_levels as $user_id => $old_levels ) {
@@ -147,18 +149,17 @@ class PaidMembershipsPro extends Singleton implements IntegrationsInterface {
 			return;
 		}
 
-		$thank_you_id = get_option( 'pmpro_confirmation_page_id' );
-		if ( ! $thank_you_id ) {
-			return;
-		}
-
+		$thank_you_id  = get_option( 'pmpro_confirmation_page_id' );
 		$current_query = get_queried_object();
-		if ( $current_query === null || ! get_queried_object()->ID ) {
+
+		if ( ! $thank_you_id || $current_query === null || ! get_queried_object()->ID ) {
 			return;
 		}
 
 		if ( $current_query->ID === $thank_you_id ) {
-			wp_redirect( dollie()->page()->get_launch_site_url() . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ] );
+			wp_redirect( dollie()->page()->get_launch_site_url()
+			             . '?payment-status=success&blueprint_id=' . $_COOKIE[ DOLLIE_BLUEPRINTS_COOKIE ]
+			);
 			exit;
 		}
 
@@ -166,12 +167,11 @@ class PaidMembershipsPro extends Singleton implements IntegrationsInterface {
 
 	public function get_checkout_link( $args ) {
 
-
 		if ( ! $args['product_id'] ) {
 			return '';
 		}
 
-        if ( ! get_option( 'pmpro_checkout_page_id' ) ) {
+		if ( ! get_option( 'pmpro_checkout_page_id' ) ) {
 			return '';
 		}
 

@@ -49,7 +49,7 @@ final class WorkspaceService extends Singleton {
 		}
 
 		if ( empty( $domains ) ) {
-			$domains[] = $this->get_deployment_domain();
+			$domains[ $this->get_deployment_domain() ] = $this->get_deployment_domain();
 		}
 
 		$field['choices'] = $domains;
@@ -62,9 +62,16 @@ final class WorkspaceService extends Singleton {
 
 		if ( ! $domains ) {
 			$response = $this->get_custom_domain();
-			if ( ! is_wp_error( $response ) && isset( $response['all'] ) && ! empty( $response['all'] ) ) {
-				$domains = $response['all'];
-				set_transient( 'wpd_custom_domains', $domains, MINUTE_IN_SECONDS * 10 );
+			if ( ! is_wp_error( $response ) ) {
+				if ( ! empty( $response['all'] ) ) {
+					$domains = $response['all'];
+					set_transient( 'wpd_custom_domains', $domains, MINUTE_IN_SECONDS * 10 );
+				}
+
+				// save primary domain.
+				if ( ! empty( $response['domain'] ) ) {
+					set_transient( 'wpd_api_primary_domain', $response['domain'], MINUTE_IN_SECONDS * 10 );
+				}
 			}
 		}
 
@@ -77,13 +84,7 @@ final class WorkspaceService extends Singleton {
 	 * @return false|mixed
 	 */
 	private function get_primary_domain() {
-		foreach ( $this->get_active_domains() as $active_domain ) {
-			if ( $active_domain['primary'] ) {
-				return $active_domain['name'];
-			}
-		}
-
-		return false;
+		return get_transient( 'wpd_api_primary_domain' );
 	}
 
 }

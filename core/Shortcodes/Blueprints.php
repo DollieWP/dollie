@@ -33,106 +33,111 @@ final class Blueprints extends Singleton implements Base {
 	}
 
 	/**
- * Shortcode logic
- *
- * @param $atts
- *
- * @return false|mixed|string
- */
-public function shortcode( $atts ) {
-	$a = shortcode_atts(
-		[
-			'amount'             => - 1,
-			'columns'            => 3,
-			'orderby'            => 'post_date',
-			'order'              => 'DESC',
-			'category'           => '',
-			'id'                 => '',
-			'checkout-url'       => '',
-			'launch-button-text' => '',
-			'view-demo-text'     => '',
-			'custom-class'       => 'blueprint-item',
-		],
-		$atts
-	);
-
-	$args = [
-		'post_type'      => 'container',
-		'posts_per_page' => $a['amount'],
-		'meta_query'     => [
-			'relation' => 'AND',
+	 * Shortcode logic
+	 *
+	 * @param $atts
+	 *
+	 * @return false|mixed|string
+	 */
+	public function shortcode( $atts ) {
+		$a = shortcode_atts(
 			[
-				'key'   => 'wpd_blueprint_created',
-				'value' => 'yes',
+				'amount'               => - 1,
+				'columns'              => 3,
+				'orderby'              => 'post_date',
+				'order'                => 'DESC',
+				'category'             => '',
+				'id'                   => '',
+				'checkout-url'         => '',
+				'checkout-integration' => '',
+				'launch-button-text'   => '',
+				'view-demo-text'       => '',
+				'custom-class'         => 'blueprint-item',
 			],
-			[
-				'key'     => 'wpd_installation_blueprint_title',
-				'compare' => 'EXISTS',
-			],
-		],
-		'orderby'        => $a['orderby'],
-		'order'          => $a['order'],
-	];
+			$atts
+		);
 
-	if ( ! empty( $a['id'] ) ) {
-		$posts            = explode( ',', $a['id'] );
-		$args['post__in'] = $posts;
-
-		// Check if only one ID is provided
-		if ( count( $posts ) === 1 ) {
-			// Load a different template for single ID
-			dollie()->load_template(
-				'loop/single-blueprint',
+		$args = [
+			'post_type'      => 'container',
+			'posts_per_page' => $a['amount'],
+			'meta_query'     => [
+				'relation' => 'AND',
 				[
-					'post'               => get_post( $posts[0] ),
-					'launch_button_text' => $a['launch-button-text'],
-					'view_demo_text'     => $a['view-demo-text'],
-					'checkout_url'       => $a['checkout-url'],
+					'key'   => 'wpd_blueprint_created',
+					'value' => 'yes',
 				],
-				true
-			);
-
-			return ob_get_clean();
-		}
-	} elseif ( ! empty( $a['category'] ) ) {
-		$args['tax_query'] = [
-			[
-				'taxonomy' => 'container_category',
-				'field'    => 'slug',
-				'terms'    => $a['category'],
+				[
+					'key'     => 'wpd_installation_blueprint_title',
+					'compare' => 'EXISTS',
+				],
 			],
+			'orderby'        => $a['orderby'],
+			'order'          => $a['order'],
 		];
-	}
 
-	$query = new WP_Query( $args );
-	$posts = $query->get_posts();
+		if ( ! empty( $a['id'] ) ) {
+			$posts            = explode( ',', $a['id'] );
+			$args['post__in'] = $posts;
 
-	ob_start();
+			// Check if only one ID is provided
+			if ( count( $posts ) === 1 ) {
+				// Load a different template for single ID
+				dollie()->load_template(
+					'loop/single-blueprint',
+					[
+						'post'                 => get_post( $posts[0] ),
+						'launch_button_text'   => $a['launch-button-text'],
+						'view_demo_text'       => $a['view-demo-text'],
+						'checkout_url'         => $a['checkout-url'],
+						'checkout_integration' => $a['checkout-integration'],
+					],
+					true
+				);
 
-	if ( $query->have_posts() ) {
-		$rows = $a['columns'];
-
-		echo '<ul class="dol-grid dol-grid-cols-1 dol-gap-6 sm:dol-grid-cols-2 md:dol-grid-cols-' . $rows . ' lg:dol-grid-cols-' . $rows . ' dol-m-0 dol-p-0">';
-
-		foreach ( $posts as $post ) {
-			dollie()->load_template(
-				'loop/blueprints',
+				return ob_get_clean();
+			}
+		} elseif ( ! empty( $a['category'] ) ) {
+			$args['tax_query'] = [
 				[
-					'post'               => $post,
-					'launch_button_text' => $a['launch-button-text'],
-					'view_demo_text'     => $a['view-demo-text'],
-					'checkout_url'       => $a['checkout-url'],
+					'taxonomy' => 'container_category',
+					'field'    => 'slug',
+					'terms'    => $a['category'],
 				],
-				true
-			);
+			];
 		}
 
-		echo '</ul>';
+		$query = new WP_Query( $args );
+		$posts = $query->get_posts();
+
+		ob_start();
+
+		if ( $query->have_posts() ) {
+			$rows = $a['columns'];
+
+			echo '<ul class="dol-grid dol-grid-cols-1 dol-gap-6 sm:dol-grid-cols-2' .
+			     ' md:dol-grid-cols-' . $rows . ' lg:dol-grid-cols-' . $rows
+			     . ' dol-m-0 dol-p-0">';
+
+			foreach ( $posts as $post ) {
+				dollie()->load_template(
+					'loop/blueprints',
+					[
+						'post'                 => $post,
+						'launch_button_text'   => $a['launch-button-text'],
+						'view_demo_text'       => $a['view-demo-text'],
+						'checkout_url'         => $a['checkout-url'],
+						'checkout_integration' => $a['checkout-integration'],
+					],
+					true
+				);
+			}
+
+			echo '</ul>';
+		}
+
+		wp_reset_query();
+
+		return ob_get_clean();
 	}
-
-	wp_reset_query();
-
-	return ob_get_clean();
-}
 
 }
