@@ -171,6 +171,13 @@ function dollie_setup_get_theme( $stylesheet = '' ) {
 	return $theme;
 }
 
+function dollie_admin_get_title() {
+	if (isset($_GET['post_type']) && $_GET['post_type'] === 'container' && isset($_GET['blueprint'] ) ) {
+		return __('Blueprints', 'dollie');
+	}
+	return get_admin_page_title();
+}
+
 
 /** TEMPLATE *************************************************************/
 

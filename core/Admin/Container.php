@@ -262,14 +262,13 @@ final class Container extends Singleton implements ConstInterface {
 	 * @return void
 	 */
 	public function add_blueprint_submenu() {
-		add_menu_page(
-			'admin_menu_add_blueprints',
-			dollie()->icon()->blueprint() . 'Blueprints',
-			'read',
-			admin_url( 'edit.php?post_type=container&blueprint=yes' ),
-			'',
-			'',
-			1
+		add_submenu_page(
+			'edit.php?post_type=container',
+			'Blueprints',
+			'Blueprints',
+			'manage_options',
+			'dollie-blueprints',
+			'__return_null'
 		);
 	}
 
@@ -286,6 +285,18 @@ final class Container extends Singleton implements ConstInterface {
             });
           });
         </script>
+		<script>
+			jQuery(document).ready( function($) {
+				var admin_url = '<?php echo admin_url('edit.php'); ?>';
+				$('#menu-posts-container').find('a[href*="dollie-blueprints"]').attr('href',admin_url+'?post_type=container&blueprint=yes').addClass('dollie-blueprints');
+				
+				if (window.location.search.indexOf("blueprint=yes") > -1) {
+					$('#menu-posts-container .current').removeClass('current');
+					$('.dollie-blueprints').closest('li').addClass('current');
+				}
+			});
+
+		</script>
 		<?php
 	}
 

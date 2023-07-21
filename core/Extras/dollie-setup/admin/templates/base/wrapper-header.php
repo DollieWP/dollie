@@ -18,7 +18,7 @@
 				<div class="dol-flex-shrink-0 dol-inline-block dol-leading-none">
 					<img class="dol-inline-block dol-h-10 dol-w-auto" src="<?php echo DOLLIE_ASSETS_URL; ?>img/active.png" alt="Workflow">
 				</div>
-				<h1 class="dol-text-3xl dol-font-bold dol-text-white dol-inline-block dol-page-header dol-mb-0"><?php echo get_admin_page_title(); ?></h1>
+				<h1 class="dol-text-3xl dol-font-bold dol-text-white dol-inline-block dol-page-header dol-mb-0"><?php echo dollie_admin_get_title(); ?></h1>
 			</div>
 		</header>
 	</div>
