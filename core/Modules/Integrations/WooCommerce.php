@@ -325,17 +325,9 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 		$acf_variation = $loop;
 		add_filter( 'acf/prepare_field', array( $this, 'acf_prepare_field_update_field_name' ) );
 
-		$acf_field_groups = acf_get_field_groups();
-		foreach ( $acf_field_groups as $acf_field_group ) {
-			foreach ( $acf_field_group['location'] as $group_locations ) {
-				foreach ( $group_locations as $rule ) {
-					if ( $rule['param'] == 'post_type' && $rule['operator'] == '==' && $rule['value'] == 'product_variation' ) {
-						acf_render_fields( $variation->ID, acf_get_fields( $acf_field_group ) );
-						break 2;
-					}
-				}
-			}
-		}
+		acf_render_fields( $variation->ID, acf_get_fields( 'group_631b463ce5739' ) );
+
+
 
 		remove_filter( 'acf/prepare_field', array( $this, 'acf_prepare_field_update_field_name' ) );
 	}
@@ -429,8 +421,10 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 	public function my_acf_input_admin_footer() {
 		?>
         <script type="text/javascript">
+
           (function ($) {
             $(document).on('woocommerce_variations_loaded', function () {
+
               acf.do_action('append', $('#post'));
             })
           })(jQuery);
