@@ -161,8 +161,10 @@ final class Sites extends Singleton implements Base {
 			$args['author'] = (int) sanitize_text_field( $_GET['customer'] );
 		}
 
-		if ( ! current_user_can( 'manage_options' ) ) {
-			$args['author'] = get_current_user_id();
+		$user = dollie()->get_user();
+
+		if ( ! $user->can_view_all_sites() ) {
+			$args['author'] = $user->get_id();
 		}
 
 		$sites = new WP_Query( $args );
