@@ -120,6 +120,7 @@ final class AuthService extends Singleton implements ConstInterface {
 	 */
 	public function update_token( string $token ): void {
 		update_option( 'dollie_auth_token', $token );
+		update_option( 'wpd_token', $token );
 	}
 
 	/**
