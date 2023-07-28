@@ -93,27 +93,36 @@ final class HubDataService extends Singleton implements ConstInterface {
 
 		$response = '';
 
-		if ( ! isset( $_POST['type'], $_POST['data'] ) ) {
+		$request = $_POST;
+		if (empty($request)) {
+			$request = file_get_contents("php://input");
+			//convert the string of data to an array
+			$request = json_decode($request, true);
+		}
+
+
+		if ( ! isset( $request['type'] ) ) {
 			return array(
 				'success' => false,
 				'message' => 'No type or data defined',
 			);
 		}
-		$type = sanitize_text_field( $_POST['type'] );
+		
+		$type = sanitize_text_field( $request['type'] );
 
 		if ( $type === 'sync_sites' ) {
-			if ( ! empty( $_POST['site_data'] ) && is_array( $_POST['site_data'] ) ) {
-				SyncContainersJob::instance()->run_single_with_data( $_POST['site_data'] );
+			if ( ! empty( $request['site_data'] ) && is_array( $request['site_data'] ) ) {
+				SyncContainersJob::instance()->run_single_with_data( $request['site_data'] );
 				$response = 'Container sync complete';
 			} else {
 				$response = SyncContainersJob::instance()->run();
 			}
 		} elseif ( $type === 'client' ) {
-			$data     = $_POST['data'];
+			$data     = $request['data'];
 			$response = wp_create_user( $data['username'], $data['password'], $data['email'] );
 
 		} elseif ( $type === 'domain' ) {
-			$domain = sanitize_text_field( $_POST['data'] );
+			$domain = sanitize_text_field( $request['data'] );
 
 			// set custom domain option.
 			update_option( 'wpd_deployment_domain', $domain );

@@ -53,6 +53,8 @@ class Plugin extends Singleton {
 
 		add_action( 'plugins_loaded', array( $this, 'load_early_dependencies' ), - 10 );
 		add_action( 'plugins_loaded', array( $this, 'load_dependencies' ), 0 );
+		add_action( 'plugins_loaded', array( $this, 'load_late_dependencies' ), 99 );
+
 
 		add_action( 'plugins_loaded', array( $this, 'initialize' ) );
 		add_action( 'acf/init', array( $this, 'acf_add_local_field_groups' ) );
@@ -68,6 +70,13 @@ class Plugin extends Singleton {
 	 */
 	public function load_early_dependencies() {
 		require_once DOLLIE_PATH . 'core/Extras/action-scheduler/action-scheduler.php';
+	}
+
+	public function load_late_dependencies() {
+		if ( file_exists( DOLLIE_PATH . 'core/Extras/platform/platform/platform.php' )
+		&& ! defined('PLATFORM_VERSION') ) {
+			require_once DOLLIE_PATH . 'core/Extras/platform/platform/platform.php';
+		}
 	}
 
 	/**

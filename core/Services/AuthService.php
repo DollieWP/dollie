@@ -22,7 +22,15 @@ final class AuthService extends Singleton implements ConstInterface {
 			'<a href="%s" class="button">%s</a>',
 			add_query_arg(
 				[
-					'origin' => admin_url()
+					'origin' => admin_url(),
+					'site_data' => base64_encode(
+						json_encode(
+							[
+								'username' => wp_get_current_user()->user_login,
+								'email' => wp_get_current_user()->user_email,
+							]
+						)
+					),
 				],
 				DOLLIE_CONTROL_URL . 'auth'
 			),
@@ -112,6 +120,7 @@ final class AuthService extends Singleton implements ConstInterface {
 	 */
 	public function update_token( string $token ): void {
 		update_option( 'dollie_auth_token', $token );
+		update_option( 'wpd_token', $token );
 	}
 
 	/**
