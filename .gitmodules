@@ -1,0 +1,3 @@
+[submodule "core/Extras/platform"]
+	path = core/Extras/platform
+	url = git@code.stratus5.com:wordpress/dollie-platform-worker.git
