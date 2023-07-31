@@ -37,6 +37,11 @@ class SyncContainersJob extends Singleton {
 	public function sync_containers() {
 		if ( isset( $_GET['dollie-sync-containers'] ) ) {
 			$this->run();
+			if ( ! empty( $_GET['redirect_to'] ) ) {
+				wp_safe_redirect( $_GET['redirect_to'] );
+				exit;
+			}
+			
 		}
 
 		if ( isset( $_GET['dollie-sync-site'] ) && isset( $_GET['container-id'] ) && $_GET['container-id'] ) {

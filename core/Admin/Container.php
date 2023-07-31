@@ -30,7 +30,6 @@ final class Container extends Singleton implements ConstInterface {
 		add_action( 'admin_footer', array( $this, 'crisp_support_js' ), 999999 );
 
 		// }
-
 		add_action( 'auth_redirect', array( $this, 'add_site_icon_filter' ) ); // modify esc_attr on auth_redirect
 		add_action( 'admin_menu', array( $this, 'remove_site_icon_filter' ) ); // restore on admin_menu (very soon)
 
@@ -59,6 +58,8 @@ final class Container extends Singleton implements ConstInterface {
 
 		add_filter( 'manage_container_posts_columns', array( $this, 'set_table_columns' ) );
 		add_action( 'manage_container_posts_custom_column', array( $this, 'set_table_custom_columns' ), 10, 2 );
+		add_action( 'admin_footer', [ $this,'add_sync_admin_button' ] );
+
 
 		add_action( 'edit_form_after_title', array( NoticeService::instance(), 'container_manager' ) );
 	}
@@ -737,6 +738,26 @@ final class Container extends Singleton implements ConstInterface {
 
 		if ( 'status' === $column_name ) {
 			echo $container->get_status();
+		}
+	}
+
+	public function add_sync_admin_button() {
+
+		global $post_type;
+		$screen = get_current_screen();
+		$bp = isset($_GET['blueprint']) ? '&blueprint=yes' : '';
+		$current_url = admin_url('edit.php?post_type=container') . $bp;
+		$href = admin_url('') . '?dollie-sync-containers&redirect_to=' . urlencode( $current_url );
+
+		if ( $post_type == 'container' && $screen->parent_base == 'edit' ) {
+			?>
+			<script>
+				jQuery(document).ready(function($) {
+					var button = '<a href="<?php echo esc_attr($href); ?>" style="float: left; margin-right: 5px; background:#eee;" class="button dollie-sync-btn">Sync sites</a>';
+					$("#post-search-input").before(button);
+				});
+			</script>
+			<?php
 		}
 	}
 
