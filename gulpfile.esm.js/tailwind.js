@@ -8,7 +8,7 @@ import gulpSourcemaps from "gulp-sourcemaps";
 import rename from "gulp-rename";
 import csso from "gulp-csso";
 import postCSS from "gulp-postcss";
-const sass = require('gulp-sass')(require('node-sass'));
+const sass = require('gulp-sass')(require('sass'));
 
 const tailwindBuild = function (done) {
     return gulp

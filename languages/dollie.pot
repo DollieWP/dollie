@@ -7,6 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: Dollie\n"
+"POT-Creation-Date: 2023-08-02 08:51+0000\n"
 "Report-Msgid-Bugs-To: Dollie\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -143,343 +144,343 @@ msgstr ""
 msgid "Staging Site Launched"
 msgstr ""
 
-#: core/Plugin.php:288
+#: core/Plugin.php:297
 msgid "Please fill in the Realtime Customizer fields."
-msgstr ""
-
-#: core/Admin/Container.php:71
-msgctxt "dollie"
-msgid "Sites"
 msgstr ""
 
 #: core/Admin/Container.php:72
 msgctxt "dollie"
-msgid "Site"
+msgid "Sites"
 msgstr ""
 
 #: core/Admin/Container.php:73
-msgid "%%ICON%% Sites"
-msgstr ""
-
-#: core/Admin/Container.php:74
-msgid "Post Type"
-msgstr ""
-
-#: core/Admin/Container.php:75
-msgid "Site Archives"
-msgstr ""
-
-#: core/Admin/Container.php:76
-msgid "Site Attributes"
-msgstr ""
-
-#: core/Admin/Container.php:77
-msgid "Parent Site:"
-msgstr ""
-
-#: core/Admin/Container.php:78, core/Admin/Container.php:85
-msgid "View Sites"
-msgstr ""
-
-#: core/Admin/Container.php:79
-msgid "Add New Site"
-msgstr ""
-
-#: core/Admin/Container.php:80
-msgid "Add New"
-msgstr ""
-
-#: core/Admin/Container.php:81
-msgid "New Site"
-msgstr ""
-
-#: core/Admin/Container.php:82
-msgid "Edit Site"
-msgstr ""
-
-#: core/Admin/Container.php:83
-msgid "Update Site"
-msgstr ""
-
-#: core/Admin/Container.php:84
-msgid "View Site"
-msgstr ""
-
-#: core/Admin/Container.php:86
-msgid "Search Sites"
-msgstr ""
-
-#: core/Admin/Container.php:87
-msgid "Not found"
-msgstr ""
-
-#: core/Admin/Container.php:88
-msgid "Not found in Trash"
-msgstr ""
-
-#: core/Admin/Container.php:89
-msgid "Featured Image"
-msgstr ""
-
-#: core/Admin/Container.php:90
-msgid "Set featured image"
-msgstr ""
-
-#: core/Admin/Container.php:91
-msgid "Remove featured image"
-msgstr ""
-
-#: core/Admin/Container.php:92
-msgid "Use as featured image"
-msgstr ""
-
-#: core/Admin/Container.php:93
-msgid "Insert into item"
-msgstr ""
-
-#: core/Admin/Container.php:94
-msgid "Uploaded to this item"
-msgstr ""
-
-#: core/Admin/Container.php:95
-msgid "Sites list"
-msgstr ""
-
-#: core/Admin/Container.php:96
-msgid "Sites list navigation"
-msgstr ""
-
-#: core/Admin/Container.php:97
-msgid "Filter items list"
-msgstr ""
-
-#: core/Admin/Container.php:101, core/Admin/Container.php:715, core/Factories/BaseContainer.php:305, core/Utils/StringVariants.php:47
+msgctxt "dollie"
 msgid "Site"
 msgstr ""
 
-#: core/Admin/Container.php:102
+#: core/Admin/Container.php:74
+msgid "%%ICON%% Sites"
+msgstr ""
+
+#: core/Admin/Container.php:75
+msgid "Post Type"
+msgstr ""
+
+#: core/Admin/Container.php:76
+msgid "Site Archives"
+msgstr ""
+
+#: core/Admin/Container.php:77
+msgid "Site Attributes"
+msgstr ""
+
+#: core/Admin/Container.php:78
+msgid "Parent Site:"
+msgstr ""
+
+#: core/Admin/Container.php:79, core/Admin/Container.php:86
+msgid "View Sites"
+msgstr ""
+
+#: core/Admin/Container.php:80
+msgid "Add New Site"
+msgstr ""
+
+#: core/Admin/Container.php:81
+msgid "Add New"
+msgstr ""
+
+#: core/Admin/Container.php:82
+msgid "New Site"
+msgstr ""
+
+#: core/Admin/Container.php:83
+msgid "Edit Site"
+msgstr ""
+
+#: core/Admin/Container.php:84
+msgid "Update Site"
+msgstr ""
+
+#: core/Admin/Container.php:85
+msgid "View Site"
+msgstr ""
+
+#: core/Admin/Container.php:87
+msgid "Search Sites"
+msgstr ""
+
+#: core/Admin/Container.php:88
+msgid "Not found"
+msgstr ""
+
+#: core/Admin/Container.php:89
+msgid "Not found in Trash"
+msgstr ""
+
+#: core/Admin/Container.php:90
+msgid "Featured Image"
+msgstr ""
+
+#: core/Admin/Container.php:91
+msgid "Set featured image"
+msgstr ""
+
+#: core/Admin/Container.php:92
+msgid "Remove featured image"
+msgstr ""
+
+#: core/Admin/Container.php:93
+msgid "Use as featured image"
+msgstr ""
+
+#: core/Admin/Container.php:94
+msgid "Insert into item"
+msgstr ""
+
+#: core/Admin/Container.php:95
+msgid "Uploaded to this item"
+msgstr ""
+
+#: core/Admin/Container.php:96
+msgid "Sites list"
+msgstr ""
+
+#: core/Admin/Container.php:97
+msgid "Sites list navigation"
+msgstr ""
+
+#: core/Admin/Container.php:98
+msgid "Filter items list"
+msgstr ""
+
+#: core/Admin/Container.php:102, core/Admin/Container.php:727, core/Factories/BaseContainer.php:305, core/Utils/StringVariants.php:47
+msgid "Site"
+msgstr ""
+
+#: core/Admin/Container.php:103
 msgid "Platform Sites"
 msgstr ""
 
-#: core/Admin/Container.php:143
+#: core/Admin/Container.php:144
 msgctxt "Taxonomy General Name"
 msgid "Blueprint Categories"
 msgstr ""
 
-#: core/Admin/Container.php:144
+#: core/Admin/Container.php:145
 msgctxt "Taxonomy Singular Name"
 msgid "Blueprint Category"
 msgstr ""
 
-#: core/Admin/Container.php:145
+#: core/Admin/Container.php:146
 msgid "Taxonomy"
 msgstr ""
 
-#: core/Admin/Container.php:146
+#: core/Admin/Container.php:147
 msgid "All Items"
 msgstr ""
 
-#: core/Admin/Container.php:147
+#: core/Admin/Container.php:148
 msgid "Parent Item"
 msgstr ""
 
-#: core/Admin/Container.php:148
+#: core/Admin/Container.php:149
 msgid "Parent Item:"
 msgstr ""
 
-#: core/Admin/Container.php:149
+#: core/Admin/Container.php:150
 msgid "New Item Name"
 msgstr ""
 
-#: core/Admin/Container.php:150
+#: core/Admin/Container.php:151
 msgid "Add New Item"
 msgstr ""
 
-#: core/Admin/Container.php:151
+#: core/Admin/Container.php:152
 msgid "Edit Item"
 msgstr ""
 
-#: core/Admin/Container.php:152
+#: core/Admin/Container.php:153
 msgid "Update Item"
 msgstr ""
 
-#: core/Admin/Container.php:153
+#: core/Admin/Container.php:154
 msgid "View Item"
 msgstr ""
 
-#: core/Admin/Container.php:154
+#: core/Admin/Container.php:155
 msgid "Separate items with commas"
 msgstr ""
 
-#: core/Admin/Container.php:155
+#: core/Admin/Container.php:156
 msgid "Add or remove items"
 msgstr ""
 
-#: core/Admin/Container.php:156
+#: core/Admin/Container.php:157
 msgid "Choose from the most used"
 msgstr ""
 
-#: core/Admin/Container.php:157
+#: core/Admin/Container.php:158
 msgid "Popular Items"
 msgstr ""
 
-#: core/Admin/Container.php:158
+#: core/Admin/Container.php:159
 msgid "Search Items"
 msgstr ""
 
-#: core/Admin/Container.php:159
+#: core/Admin/Container.php:160
 msgid "Not Found"
 msgstr ""
 
-#: core/Admin/Container.php:160
+#: core/Admin/Container.php:161
 msgid "No items"
 msgstr ""
 
-#: core/Admin/Container.php:161
+#: core/Admin/Container.php:162
 msgid "Items list"
 msgstr ""
 
-#: core/Admin/Container.php:162
+#: core/Admin/Container.php:163
 msgid "Items list navigation"
 msgstr ""
 
-#: core/Admin/Container.php:365
+#: core/Admin/Container.php:377
 msgid "Connect Hub to Control HQ"
 msgstr ""
 
-#: core/Admin/Container.php:375
+#: core/Admin/Container.php:387
 msgid "Hub Dashboard"
 msgstr ""
 
-#: core/Admin/Container.php:385
+#: core/Admin/Container.php:397
 msgid "View Hub in Control HQ"
 msgstr ""
 
-#: core/Admin/Container.php:395, core/Extras/AcfFields.php:460
+#: core/Admin/Container.php:407, core/Extras/AcfFields.php:460
 msgid "Hub Pages"
 msgstr ""
 
-#: core/Admin/Container.php:443
+#: core/Admin/Container.php:455
 msgid "Useful Links"
 msgstr ""
 
-#: core/Admin/Container.php:453
+#: core/Admin/Container.php:465
 msgid "View Docs"
 msgstr ""
 
-#: core/Admin/Container.php:474
+#: core/Admin/Container.php:486
 msgid "View Usage"
 msgstr ""
 
-#: core/Admin/Container.php:497
+#: core/Admin/Container.php:509
 msgid "This site is hosted in your own Private Cloud. Visit Control HQ to manage backups,use the developer tools and more."
 msgstr ""
 
-#: core/Admin/Container.php:513
+#: core/Admin/Container.php:525
 msgid "Import Templates"
 msgstr ""
 
-#: core/Admin/Container.php:519
+#: core/Admin/Container.php:531
 msgid "Support"
 msgstr ""
 
-#: core/Admin/Container.php:527
+#: core/Admin/Container.php:539
 msgid "Visit Control HQ"
 msgstr ""
 
-#: core/Admin/Container.php:533
+#: core/Admin/Container.php:545
 msgid "Debug Logs"
 msgstr ""
 
-#: core/Admin/Container.php:596
+#: core/Admin/Container.php:608
 msgid "Manage Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:593
+#: core/Admin/Container.php:605
 msgid "View Site Dashboard"
 msgstr ""
 
-#: core/Admin/Container.php:594
+#: core/Admin/Container.php:606
 msgid "Manage in Control HQ"
 msgstr ""
 
-#: core/Admin/Container.php:599, core/Modules/Preview.php:198
+#: core/Admin/Container.php:611, core/Modules/Preview.php:198
 msgid "Login to Site"
 msgstr ""
 
-#: core/Admin/Container.php:621, core/Services/BulkActionService.php:95, core/Services/RecurringActionService.php:28
+#: core/Admin/Container.php:633, core/Services/BulkActionService.php:95, core/Services/RecurringActionService.php:28
 msgid "Stop"
 msgstr ""
 
-#: core/Admin/Container.php:622
+#: core/Admin/Container.php:634
 msgid "Start"
 msgstr ""
 
-#: core/Admin/Container.php:623, core/Services/BulkActionService.php:94, core/Services/RecurringActionService.php:27
+#: core/Admin/Container.php:635, core/Services/BulkActionService.php:94, core/Services/RecurringActionService.php:27
 msgid "Restart"
 msgstr ""
 
-#: core/Admin/Container.php:624, core/Forms/DeleteSite.php:91, templates/widgets/general/sites-navigation.php:68, templates/widgets/site/site-navigation.php:47
+#: core/Admin/Container.php:636, core/Forms/DeleteSite.php:91, templates/widgets/general/sites-navigation.php:68, templates/widgets/site/site-navigation.php:47
 msgid "Delete"
 msgstr ""
 
-#: core/Admin/Container.php:687
+#: core/Admin/Container.php:699
 msgid "Domain"
 msgstr ""
 
-#: core/Admin/Container.php:688, templates/widgets/site/pages/updates.php:35, templates/widgets/site/pages/domain/manager/records.php:3
+#: core/Admin/Container.php:700, templates/widgets/site/pages/updates.php:35, templates/widgets/site/pages/domain/manager/records.php:3
 msgid "Type"
 msgstr ""
 
-#: core/Admin/Container.php:689, templates/loop/parts/modal-filters.php:41, templates/widgets/site/pages/plugins.php:19, templates/widgets/site/pages/themes.php:58
+#: core/Admin/Container.php:701, templates/loop/parts/modal-filters.php:41, templates/widgets/site/pages/plugins.php:19, templates/widgets/site/pages/themes.php:58
 msgid "Status"
 msgstr ""
 
-#: core/Admin/Container.php:719, core/Factories/BaseContainer.php:313, templates/widgets/general/sites-navigation.php:65, templates/widgets/site/site-navigation.php:43, templates/widgets/site/site-navigation.php:37
+#: core/Admin/Container.php:731, core/Factories/BaseContainer.php:313, templates/widgets/general/sites-navigation.php:65, templates/widgets/site/site-navigation.php:43, templates/widgets/site/site-navigation.php:37
 msgid "Staging"
 msgstr ""
 
-#: core/Admin/Container.php:717, core/Factories/BaseContainer.php:309, core/Utils/StringVariants.php:55
+#: core/Admin/Container.php:729, core/Factories/BaseContainer.php:309, core/Utils/StringVariants.php:55
 msgid "Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:793
+#: core/Admin/Container.php:825
 msgid "Your Site Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:799
+#: core/Admin/Container.php:831
 msgid "Below you will find all the Blueprints you have created. Please visit Control HQ (https://control.getdollie.com) to manage and create new Blueprints."
 msgstr ""
 
-#: core/Admin/Container.php:801
+#: core/Admin/Container.php:833
 msgid "Launch a New Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:774
+#: core/Admin/Container.php:806
 msgid "Sites Overview - All Sites in your Hub"
 msgstr ""
 
-#: core/Admin/Container.php:780
+#: core/Admin/Container.php:812
 msgid "Below are all the sites that have been launched through your Hub. Below you can see their status, to which customer they are linked and whether they have a domain connected to them. <br><br><strong>Important - If you want to stop or delete sites, please use <a href=\"https://control.getdollie.com/\">Control HQ</a></strong><br><br>"
 msgstr ""
 
-#: core/Admin/Container.php:782
+#: core/Admin/Container.php:814
 msgid "View Sites on the front-end of my Hub"
 msgstr ""
 
-#: core/Admin/Container.php:824
+#: core/Admin/Container.php:856
 msgid "With Access Groups you can easily control what your customers/clients can do inside your Hub."
 msgstr ""
 
-#: core/Admin/Container.php:842
+#: core/Admin/Container.php:874
 msgid "The Hub Log"
 msgstr ""
 
-#: core/Admin/Container.php:845
+#: core/Admin/Container.php:877
 msgid "The Hub log keeps track of activity inside your Hub, For example action taken by your customers and recurring crons/maintenance jobs that run behind the scenes."
 msgstr ""
 
-#: core/Admin/Container.php:858
+#: core/Admin/Container.php:890
 msgid "Assigned Customer"
 msgstr ""
 
@@ -555,25 +556,25 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: core/Admin/Upgrades.php:114
+#: core/Admin/Upgrades.php:116
 msgid "Dollie needs to run some updates"
 msgstr ""
 
-#: core/Admin/Upgrades.php:119
+#: core/Admin/Upgrades.php:121
 msgid ""
 "<strong>Dollie</strong> needs to update some of it's settings that are used behind the scenes. It\n"
 "									'll only take a second to complete. "
 msgstr ""
 
-#: core/Admin/Upgrades.php:131
+#: core/Admin/Upgrades.php:133
 msgid "<a href=\"%s\">Run Update now</a>"
 msgstr ""
 
-#: core/Admin/Upgrades.php:218
+#: core/Admin/Upgrades.php:220
 msgid "Something went wrong. Could you please email us at support@getdollie.com so we can help you resolve this?"
 msgstr ""
 
-#: core/Admin/Upgrades.php:214
+#: core/Admin/Upgrades.php:216
 msgid "Awesome, database is now at the latest version!"
 msgstr ""
 
@@ -847,7 +848,7 @@ msgstr ""
 msgid "Hub Admin Settings"
 msgstr ""
 
-#: core/Extras/AcfFields.php:1273, core/Utils/StringVariants.php:74, core/Utils/StringVariants.php:83, templates/widgets/general/main-navigation.php:83, core/Modules/AccessGroups/acf-fields/acf-fields.php:153
+#: core/Extras/AcfFields.php:1273, core/Utils/StringVariants.php:74, core/Utils/StringVariants.php:83, templates/widgets/general/main-navigation.php:83, core/Extras/dollie-setup/admin/functions.php:176, core/Modules/AccessGroups/acf-fields/acf-fields.php:153
 msgid "Blueprints"
 msgstr ""
 
@@ -1534,6 +1535,10 @@ msgstr ""
 msgid "Launch Site"
 msgstr ""
 
+#: core/Modules/Preview.php:255
+msgid "all"
+msgstr ""
+
 #: core/Modules/Preview.php:270
 msgid "all times"
 msgstr ""
@@ -1566,7 +1571,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: core/Services/AuthService.php:29, templates/widgets/launch/launch-site.php:33
+#: core/Services/AuthService.php:37, templates/widgets/launch/launch-site.php:33
 msgid "Connect to Dollie Control HQ"
 msgstr ""
 
@@ -1892,31 +1897,31 @@ msgstr ""
 msgid "Read article"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:173, templates/loop/sites.php:344
+#: templates/loop/sites-dashboard.php:173, templates/loop/sites.php:349
 msgid "No %s Found"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:110, templates/loop/sites-dashboard.php:103, templates/loop/sites.php:258, templates/loop/sites.php:251
+#: templates/loop/sites-dashboard.php:110, templates/loop/sites-dashboard.php:103, templates/loop/sites.php:263, templates/loop/sites.php:256
 msgid "Blueprint published"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:113, templates/loop/sites.php:261
+#: templates/loop/sites-dashboard.php:113, templates/loop/sites.php:266
 msgid "Never"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:135, templates/loop/sites.php:283, templates/widgets/site/pages/blueprints.php:116, templates/widgets/site/pages/blueprints.php:50
+#: templates/loop/sites-dashboard.php:135, templates/loop/sites.php:288, templates/widgets/site/pages/blueprints.php:116, templates/widgets/site/pages/blueprints.php:50
 msgid "Publish Blueprint"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:144, templates/loop/sites.php:292
+#: templates/loop/sites-dashboard.php:144, templates/loop/sites.php:297
 msgid "Visit Staging Area"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:150, templates/loop/sites.php:298
+#: templates/loop/sites-dashboard.php:150, templates/loop/sites.php:303
 msgid "Login as Admin"
 msgstr ""
 
-#: templates/loop/sites-dashboard.php:155, templates/loop/sites.php:303
+#: templates/loop/sites-dashboard.php:155, templates/loop/sites.php:308
 msgid "Manage"
 msgstr ""
 
@@ -1940,15 +1945,15 @@ msgstr ""
 msgid "Search by url, plugin, version, etc..."
 msgstr ""
 
-#: templates/loop/sites.php:78
+#: templates/loop/sites.php:81
 msgid "Show Your %s using the Live Preview Bar"
 msgstr ""
 
-#: templates/loop/sites.php:239
+#: templates/loop/sites.php:244
 msgid "WordPress"
 msgstr ""
 
-#: templates/loop/sites.php:242, templates/widgets/site/pages/updates.php:55, templates/widgets/site/pages/updates.php:78
+#: templates/loop/sites.php:247, templates/widgets/site/pages/updates.php:55, templates/widgets/site/pages/updates.php:78
 msgid "Version %s"
 msgstr ""
 
@@ -2084,15 +2089,15 @@ msgstr ""
 msgid "Customer %1$s (email: %2$s, ID: %3$s) was added to group %4$s (ID: %5$s)"
 msgstr ""
 
-#: core/Modules/AccessGroups/AccessGroups.php:181, core/Modules/AccessGroups/AccessGroups.php:265
+#: core/Modules/AccessGroups/AccessGroups.php:181, core/Modules/AccessGroups/AccessGroups.php:290
 msgid " Source: %s."
 msgstr ""
 
-#: core/Modules/AccessGroups/AccessGroups.php:254
+#: core/Modules/AccessGroups/AccessGroups.php:279
 msgid "Customer %1$s (email: %2$s, ID: %3$s) was removed from group %4$s (ID: %5$s)"
 msgstr ""
 
-#: core/Modules/AccessGroups/AccessGroups.php:766, templates/loop/parts/modal-filters.php:30
+#: core/Modules/AccessGroups/AccessGroups.php:791, templates/loop/parts/modal-filters.php:30
 msgid "None"
 msgstr ""
 
@@ -2787,14 +2792,6 @@ msgstr ""
 msgid "Congratulations, your platform is about to take off."
 msgstr ""
 
-#: templates/widgets/launch/blueprint-launch.php:20
-msgid "Your purchase was successful!"
-msgstr ""
-
-#: templates/widgets/launch/blueprint-launch.php:47
-msgid "Choose another template.."
-msgstr ""
-
 #: templates/widgets/launch/form.php:7
 msgid "Sorry, We are currently hard at work at our platform and temporary disabled launching new sites. Please come back to this page at a later time."
 msgstr ""
@@ -3031,7 +3028,15 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: core/Modules/AccessGroups/acf-fields/acf-fields.php:537
+#: core/Modules/AccessGroups/acf-fields/acf-fields.php:514
+msgid "Remove from Access Groups"
+msgstr ""
+
+#: core/Modules/AccessGroups/acf-fields/acf-fields.php:518
+msgid "Remove the user from the following Access Groups once they are added to this Access Group. This allows you to create upgrade paths between groups. For example moving someone from a \"Base Plan Group\" to a \"Pro Plan Group\"."
+msgstr ""
+
+#: core/Modules/AccessGroups/acf-fields/acf-fields.php:603
 msgid "Connect to Hub Access Groups"
 msgstr ""
 

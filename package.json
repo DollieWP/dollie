@@ -22,6 +22,7 @@
     "autoprefixer": "^10.4.13",
     "daisyui": "^2.41.0",
     "del": "^5.1.0",
+    "esm": "^3.2.25",
     "gulp": "^4.0.2",
     "gulp-csso": "^4.0.1",
     "gulp-postcss": "^9.0.1",
@@ -32,13 +33,13 @@
     "gulp-sourcemaps": "^2.6.5",
     "gulp-wp-pot": "^2.4.3",
     "gulp-zip": "^5.0.2",
-    "node-sass": "^7.0.3",
     "postcss": "^8.4.5",
     "pump": "^3.0.0",
-    "tailwindcss": "^3.2.1",
-    "esm": "^3.2.25"
+    "tailwindcss": "^3.2.1"
   },
-  "dependencies": {},
+  "dependencies": {
+    "sass": "^1.64.2"
+  },
   "browserslist": [
     "defaults",
     "not IE 11"
