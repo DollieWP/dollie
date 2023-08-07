@@ -51,6 +51,7 @@ class Upgrades extends Singleton {
 		//'4.1.4' => '_upgrade_400',
 		//'4.2.3' => '_upgrade_421',
 		'6.0.0' => '_upgrade_600',
+		'6.0.4' => '_upgrade_604',
 	];
 
 	/**
@@ -312,6 +313,21 @@ class Upgrades extends Singleton {
 	 */
 	private function _upgrade_600() {
 		return AccessGroups::instance()->migrate_woo_to_acces_groups();
+	}
+
+	/**
+	 * @return bool
+	 */
+	private function _upgrade_604() {
+		global $wpdb;
+
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM ". $wpdb->prefix ."actionscheduler_actions WHERE status = 'pending' AND hook LIKE 'dollie/jobs/recurring/%'"
+				)
+			);
+
+		return true;
 	}
 
 }

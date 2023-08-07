@@ -47,7 +47,7 @@ class CustomerAccessCheckJob extends Singleton {
 		}
 
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/remove_container_posts' ) ) {
-			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/schedule_for_deletion' );
+			// as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/schedule_for_deletion' );
 		}
 
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/email_digest' ) ) {
