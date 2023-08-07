@@ -180,7 +180,8 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 == Changelog ==
 
 = 6.0.3 =
-* 
+* External hubs now show up in Control HQ
+* Add sync buttont to admin area
 
 = 6.0.2 =
 * Fix variable subscriptions ACF box
