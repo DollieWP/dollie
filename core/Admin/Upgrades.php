@@ -80,7 +80,7 @@ class Upgrades extends Singleton {
 			return false;
 		}
 
-		if ( $this->is_new_update() && dollie()->auth()->is_connected() ) {
+		if ( $this->is_new_update() ) {
 			return true;
 		}
 
