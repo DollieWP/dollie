@@ -95,8 +95,10 @@ class ImportForms extends Singleton
 
         $success = true;
 
-        $import_class = DOLLIE_CORE_PATH . 'Extras/advanced-forms/api/api-import-export.php';
-        require_once $import_class;
+        if ( ! function_exists('af_import_form') ) {
+            $import_class = DOLLIE_CORE_PATH . 'Extras/advanced-forms/api/api-import-export.php';
+            require_once $import_class;
+        }
 
         foreach ($this->forms as $form_slug) {
             $path = DOLLIE_CORE_PATH . 'Extras/forms/' . $form_slug . '.json';
