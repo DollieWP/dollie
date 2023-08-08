@@ -278,6 +278,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 		}
 
 		foreach ( $bp_issues as $id => $messages ) {
+			continue;
 			$blueprint = $blueprints[ $id ];
 			?>
 				<script>
@@ -286,7 +287,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 
 						item.on('click', function(e) {
 							e.preventDefault();
-							
+
 							return false;
 						});
 
@@ -296,7 +297,7 @@ class LaunchSite extends Singleton implements ConstInterface {
 
 						if(!parent.hasClass('dol-bp-inited')) {
 							parent.append('<div class="dol-absolute dol-w-4 dol-h-4 dol-top-0 dol-left-0 dol-mt-4 dol-ml-4 dol-bg-red-600 dol-rounded-full"></div>')
-							
+
 							parent.on('mouseenter', function(e) {
 								parent.find('.dol-issues-<?php echo $id; ?>').removeClass('dol-hidden');
 							});
