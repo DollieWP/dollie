@@ -227,6 +227,8 @@ class Plugin extends Singleton {
 			$min = '';
 		}
 
+		wp_enqueue_script('jquery');
+
 		wp_enqueue_style(
 			'dollie-base',
 			DOLLIE_ASSETS_URL . 'css/dollie' . $min . '.css',
