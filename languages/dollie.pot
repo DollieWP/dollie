@@ -7,7 +7,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Last-Translator: Dollie\n"
-"POT-Creation-Date: 2023-08-09 09:23+0000\n"
+"POT-Creation-Date: 2023-08-09 15:41+0000\n"
 "Report-Msgid-Bugs-To: Dollie\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
@@ -144,7 +144,7 @@ msgstr ""
 msgid "Staging Site Launched"
 msgstr ""
 
-#: core/Plugin.php:299
+#: core/Plugin.php:305
 msgid "Please fill in the Realtime Customizer fields."
 msgstr ""
 
@@ -444,43 +444,43 @@ msgstr ""
 msgid "Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:825
+#: core/Admin/Container.php:836
 msgid "Your Site Blueprints"
 msgstr ""
 
-#: core/Admin/Container.php:831
+#: core/Admin/Container.php:842
 msgid "Below you will find all the Blueprints you have created. Please visit Control HQ (https://control.getdollie.com) to manage and create new Blueprints."
 msgstr ""
 
-#: core/Admin/Container.php:833
+#: core/Admin/Container.php:844
 msgid "Launch a New Blueprint"
 msgstr ""
 
-#: core/Admin/Container.php:806
+#: core/Admin/Container.php:817
 msgid "Sites Overview - All Sites in your Hub"
 msgstr ""
 
-#: core/Admin/Container.php:812
+#: core/Admin/Container.php:823
 msgid "Below are all the sites that have been launched through your Hub. Below you can see their status, to which customer they are linked and whether they have a domain connected to them. <br><br><strong>Important - If you want to stop or delete sites, please use <a href=\"https://control.getdollie.com/\">Control HQ</a></strong><br><br>"
 msgstr ""
 
-#: core/Admin/Container.php:814
+#: core/Admin/Container.php:825
 msgid "View Sites on the front-end of my Hub"
 msgstr ""
 
-#: core/Admin/Container.php:856
+#: core/Admin/Container.php:867
 msgid "With Access Groups you can easily control what your customers/clients can do inside your Hub."
 msgstr ""
 
-#: core/Admin/Container.php:874
+#: core/Admin/Container.php:885
 msgid "The Hub Log"
 msgstr ""
 
-#: core/Admin/Container.php:877
+#: core/Admin/Container.php:888
 msgid "The Hub log keeps track of activity inside your Hub, For example action taken by your customers and recurring crons/maintenance jobs that run behind the scenes."
 msgstr ""
 
-#: core/Admin/Container.php:890
+#: core/Admin/Container.php:901
 msgid "Assigned Customer"
 msgstr ""
 
