@@ -290,7 +290,7 @@ final class Container extends Singleton implements ConstInterface {
 			jQuery(document).ready( function($) {
 				var admin_url = '<?php echo admin_url('edit.php'); ?>';
 				$('#menu-posts-container').find('a[href*="dollie-blueprints"]').attr('href',admin_url+'?post_type=container&blueprint=yes').addClass('dollie-blueprints');
-				
+
 				if (window.location.search.indexOf("blueprint=yes") > -1) {
 					$('#menu-posts-container .current').removeClass('current');
 					$('.dollie-blueprints').closest('li').addClass('current');
@@ -752,10 +752,21 @@ final class Container extends Singleton implements ConstInterface {
 		if ( $post_type == 'container' && $screen->parent_base == 'edit' ) {
 			?>
 			<script>
-				jQuery(document).ready(function($) {
-					var button = '<a href="<?php echo esc_attr($href); ?>" style="float: left; margin-right: 5px; background:#eee;" class="button dollie-sync-btn">Sync sites</a>';
-					$("#post-search-input").before(button);
-				});
+			jQuery(document).ready(function($) {
+			var button = '<a href="<?php echo esc_attr($href); ?>" style="margin-left: 5px; background:#eee;" class="button dollie-sync-btn">Sync sites from Control HQ</a>';
+			$(".dollie-page-intro h3").after(button);
+
+			$(".dollie-sync-btn").on("click", function(e) {
+				e.preventDefault(); // Prevent the default behavior of the link
+
+				var confirmationMessage = "Are you sure? This will sync all sites that are currently listed in Control HQ with this Hub. This may take a while. Do you want to continue?";
+
+				if (window.confirm(confirmationMessage)) {
+					window.location.href = $(this).attr("href"); // Navigate to the link's URL if confirmed
+				}
+			});
+		});
+
 			</script>
 			<?php
 		}
@@ -802,10 +813,10 @@ final class Container extends Singleton implements ConstInterface {
 			dollie_setup_get_template_part( 'wrapper-header' );
 			?>
             <div class="dollie-page-intro">
-                <h3>
+                <h3 style="display: contents;">
 					<?php esc_html_e( 'Sites Overview - All Sites in your Hub', 'dollie' ); ?>
                 </h3>
-                <p>
+                <p style="margin-top: 20px;">
 					<?php
 					printf(
 						'%s <a href="%s">%s</a>.',
