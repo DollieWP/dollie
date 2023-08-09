@@ -30,9 +30,9 @@ class CustomerAccessCheckJob extends Singleton {
 			add_action( 'admin_init', array( $this, 'run_access_check' ) );
 		}
 
-		add_action( 'dollie/jobs/recurring/access_check', array( $this, 'run_access_check' ), 10 );
+		//add_action( 'dollie/jobs/recurring/access_check', array( $this, 'run_access_check' ), 10 );
 		//add_action( 'dollie/jobs/recurring/remove_container_posts', array( $this, 'remove_deleted_container_posts' ), 10 );
-		add_action( 'dollie/jobs/recurring/email_digest', array( $this, 'run_email_digest' ), 10 );
+		//add_action( 'dollie/jobs/recurring/email_digest', array( $this, 'run_email_digest' ), 10 );
 
 		add_action( 'trashed_post', array( $this, 'do_not_schedule_post_types' ) );
 	}
@@ -43,7 +43,7 @@ class CustomerAccessCheckJob extends Singleton {
 	public function init_recurring_tasks() {
 
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/access_check' ) ) {
-			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/access_check' );
+			//as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/access_check' );
 		}
 
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/remove_container_posts' ) ) {
@@ -51,7 +51,7 @@ class CustomerAccessCheckJob extends Singleton {
 		}
 
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/email_digest' ) ) {
-			as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/email_digest' );
+			//as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/email_digest' );
 		}
 	}
 
