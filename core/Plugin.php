@@ -198,6 +198,12 @@ class Plugin extends Singleton {
 
 		Shortcodes\WooNavigation::instance();
 
+		// Load custom WP-CLI command if WP_CLI is defined.
+        if ( defined( 'WP_CLI' ) && WP_CLI ) {
+            require_once DOLLIE_CORE_PATH . 'Commands/SyncContainersCommand.php';
+            \WP_CLI::add_command( 'dollie sync-containers', 'Dollie\Core\Commands\SyncContainersCommand' );
+        }
+
 		$this->load_routes();
 
 		/**
