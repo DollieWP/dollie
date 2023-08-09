@@ -61,7 +61,7 @@ class Upgrades extends Singleton {
 		parent::__construct();
 
 		// just run it. don't show the admin notice.
-		add_action( 'admin_notices', function () {
+		add_action( 'admin_init', function () {
 
 			 // Automatically update forms if post type 'af_form' has no posts.
 			if (0 === wp_count_posts('af_form')->publish) {
@@ -73,7 +73,7 @@ class Upgrades extends Singleton {
 			}
 		} );
 
-		add_action( 'admin_notices', [ $this, 'admin_notice' ], 20 );
+		//add_action( 'admin_notices', [ $this, 'admin_notice' ], 20 );
 	}
 
 	/**
