@@ -51,7 +51,7 @@ class Upgrades extends Singleton {
 		//'4.1.4' => '_upgrade_400',
 		//'4.2.3' => '_upgrade_421',
 		'6.0.0' => '_upgrade_600',
-		'6.0.4.1' => '_upgrade_604',
+		'6.0.5' => '_upgrade_604',
 	];
 
 	/**
