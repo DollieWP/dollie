@@ -30,7 +30,7 @@ class RemoveOldLogsJob extends Singleton {
 	 */
 	public function init_recurring_tasks() {
 		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/remove_old_logs' ) ) {
-			as_schedule_recurring_action( strtotime( 'today' ), HOUR_IN_SECONDS * 24, 'dollie/jobs/recurring/remove_old_logs' );
+			as_schedule_recurring_action( strtotime( 'tomorrow' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/remove_old_logs' );
 		}
 	}
 
