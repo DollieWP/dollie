@@ -63,6 +63,10 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 		// Add UI for WooCommerce
 		add_filter( 'dollie/required_plugins', array( $this, 'required_woocommerce' ) );
 		add_filter( 'acf/prepare_field_group_for_import', array( $this, 'add_acf_fields' ) );
+
+
+		add_action('dollie/blueprints/after_loop', [$this, 'blueprints_variations_js_loop']);
+		add_action('dollie/blueprints/before_checkout_button', [ $this, 'blueprints_variations_dropdown' ], 10, 2);
 	}
 
 	/**
@@ -153,6 +157,12 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 				$data_store                = \WC_Data_Store::load( 'product' );
 				$default_variation         = $data_store->find_matching_product_variation( $product_obj, array( 'attribute_pa_subscription' => $default_atts['pa_subscription'] ) );
 				$link_args['variation_id'] = $default_variation;
+			}
+		} else {
+			// defaults to the first variation checkout url
+			$variations = $product_obj->get_available_variations();
+			if ( ! empty( $variations ) ) {
+				$link_args['add-to-cart'] = $variations[0]['variation_id'];
 			}
 		}
 
@@ -430,5 +440,44 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
           })(jQuery);
         </script>
 		<?php
+	}
+
+
+	public function blueprints_variations_js_loop() {
+		?>
+		<script>
+		document.querySelectorAll('.woo-bp-variations').forEach(e => e.addEventListener('change', function() {
+			var parentWidget = this.closest('.dol-widget-blueprint');
+			var link = parentWidget.querySelector('a.wpd-checkout-bp');
+			
+			var url = new URL(link.href);
+			var search_params = url.searchParams;
+			search_params.set('add-to-cart', this.options[this.selectedIndex].value);
+			url.search = search_params.toString();
+			link.href = url.toString();
+		}));
+		</script>
+		<?php
+	}
+
+	function blueprints_variations_dropdown( $product_id, $checkout_url ) {
+
+		// exit if there is a custom checkout url.
+		if (! empty($checkout_url)) {
+			return;
+		}
+
+		$product = wc_get_product( $product_id[0] );
+		$variations = $product->get_available_variations();
+
+		if ( ! empty( $variations ) ) {
+			?>
+			<select class="woo-bp-variations">
+				<?php foreach( $variations as $variation ) { ?>
+					<option value="<?php echo $variation['variation_id']; ?>"><?php echo $variation['attributes']['attribute_period']; ?></option>
+				<?php } ?>
+			</select>
+			<?php
+		}
 	}
 }
