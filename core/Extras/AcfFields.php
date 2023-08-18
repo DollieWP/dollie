@@ -836,6 +836,33 @@ if ( function_exists( 'acf_add_local_field_group' ) ) :
 					'mime_types'        => '',
 				),
 				array(
+					'key' => 'field_64df34c3cecc3',
+					'label' => __('Register Domain Message', 'dollie'),
+					'name' => 'wpd_register_domain_message',
+					'aria-label' => '',
+					'type' => 'wysiwyg',
+					'instructions' => '',
+					'required' => 0,
+					'conditional_logic' => 0,
+					'wrapper' => array(
+						'width' => '',
+						'class' => '',
+						'id' => '',
+					),
+					'dollie_vip_addon_enabled' => 0,
+					'dollie_admin_only' => 0,
+					'acfe_save_meta' => 0,
+					'hide_admin' => 0,
+					'default_value' => '<h5>Register your domain name</h5>
+						<p>We are not selling domains directly.</p>
+						<p>If you have not registered your own domain yet, this is the time to do so! We recommend <a href="https://namecheap.com" target="_blank">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar.
+						<strong>Go ahead, register your domain and come back to this form to continue the domain setup!</strong></p>',
+					//'tabs' => 'text',
+					'media_upload' => 0,
+					'toolbar' => 'full',
+					'delay' => 0,
+				),
+				array(
 					'key'               => 'field_5b06a979537b3',
 					'label'             => __( 'Hub Features', 'dollie' ),
 					'name'              => '',

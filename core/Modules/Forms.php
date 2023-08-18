@@ -483,6 +483,9 @@ class Forms extends Singleton {
 				]
 			);
 
+			$domain_register_message = get_field( 'wpd_register_domain_message', 'option' );
+			$field['message'] = str_replace( '{dollie_domain_name_register}', $domain_register_message, $field['message'] );
+
 			$field['message'] = str_replace( '{dollie_tpl_domain_not_managed}', $tpl_domain_not_managed, $field['message'] );
 
 			$tpl_domain_managed = dollie()->load_template( 'widgets/site/pages/domain/connect/managed' );

@@ -53,3 +53,8 @@
 .dol-sites-name .dol-item-name img.emoji {
   width: 20px;
 }
+
+/* hide domain register acf message label*/
+.acf-field-5e82fd0de3035 .acf-label {
+  display: none;
+}
