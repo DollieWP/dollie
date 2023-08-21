@@ -115,7 +115,7 @@ class SyncContainersJob extends Singleton {
 			$container->set_details( $site );
 
 			if ( $container->should_be_trashed() ) {
-				wp_trash_post( $container->get_id() );
+				wp_delete_post( $container->get_id(), true );
 			} else {
 				wp_publish_post( $container->get_id() );
 				$synced_container_ids[] = $container->get_id();
@@ -199,6 +199,7 @@ class SyncContainersJob extends Singleton {
 		$stored_containers    = $query->get_posts();
 		$synced_container_ids = [];
 
+		// Update local existing containers or add new.
 		foreach ( $fetched_containers as $key => $fetched_container ) {
 			$exists = false;
 
@@ -208,10 +209,7 @@ class SyncContainersJob extends Singleton {
 				$old_container_hash = get_post_meta( $stored_container->ID, 'wpd_container_id', true );
 
 				// If container was stored during Dollie V1.0, switch to new version.
-				if ( $old_container_hash ) {
-					if ( $fetched_container['hash'] !== $old_container_hash ) {
-						continue;
-					}
+				if ( $old_container_hash && $fetched_container['hash'] === $old_container_hash) {
 
 					update_post_meta( $stored_container->ID, 'dollie_container_type', $fetched_container['type'] );
 					update_post_meta( $stored_container->ID, 'dollie_vip_site',
@@ -232,16 +230,15 @@ class SyncContainersJob extends Singleton {
 				$container_id = $stored_container->ID;
 				$container->set_details( $fetched_container );
 
-				update_post_meta( $stored_container->ID, 'dollie_vip_site',
-					isset( $fetched_container['vip'] ) ? (int) $fetched_container['vip'] : 0
-				);
-
-				if ( $container->should_be_trashed() ) {
-					wp_trash_post( $container->get_id() );
-				} else {
+				// publish it if is active. q3
+				if ( ! $container->should_be_trashed() ) {
 					wp_publish_post( $container->get_id() );
 					$synced_container_ids[] = $container->get_id();
 				}
+
+				//VIP status.
+				update_post_meta( $stored_container->ID, 'dollie_vip_site',
+				isset( $fetched_container['vip'] ) ? (int) $fetched_container['vip'] : 0 );
 			}
 
 			// If no such container found, create one with details from server's container.
@@ -286,7 +283,7 @@ class SyncContainersJob extends Singleton {
 			}
 		}
 
-		// Trash posts if they have no corresponding container.
+		// Trash posts if they have no corresponding container from HQ.
 		$stored_containers = get_posts(
 			[
 				'numberposts' => - 1,
@@ -295,9 +292,10 @@ class SyncContainersJob extends Singleton {
 			]
 		);
 
+		// remove any extra containers that are not in HQ.
 		foreach ( $stored_containers as $stored_container ) {
 			if ( ! in_array( $stored_container->ID, $synced_container_ids, false ) ) {
-				wp_trash_post( $stored_container->ID );
+				wp_delete_post( $stored_container->ID, true );
 			}
 		}
 
