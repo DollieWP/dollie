@@ -27,7 +27,7 @@
     "gulp-csso": "^4.0.1",
     "gulp-postcss": "^9.0.1",
     "gulp-rename": "^2.0.0",
-    "gulp-rsync": "0.0.9",
+    "gulp-rsync": "^0.0.9",
     "gulp-sass": "^5.1.0",
     "gulp-sort": "^2.0.0",
     "gulp-sourcemaps": "^2.6.5",
@@ -38,7 +38,6 @@
     "tailwindcss": "^3.2.1"
   },
   "dependencies": {
-    "sass": "^1.64.2"
   },
   "browserslist": [
     "defaults",

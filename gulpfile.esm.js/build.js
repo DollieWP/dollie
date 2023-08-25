@@ -6,6 +6,24 @@ const gulp = require("gulp");
 const del = require("del");
 const zip = require("gulp-zip");
 const rename = require("gulp-rename");
+const rsync = require("gulp-rsync");
+const { exec } = require("child_process");
+
+gulp.task('triggerRundeck', triggerRundeckJob);
+
+export function uploadFiles() {
+    return gulp.src('dst/dollie.zip')
+        .pipe(rsync({
+            root: 'dst/',
+            hostname: '209.250.255.161',
+            username: 'root',
+            destination: '/var/www/manager/storage/app/packages/staging',
+            archive: true,
+            silent: false,
+            compress: true
+        }));
+}
+
 
 export function cleanFiles(cb) {
     return del("./dst/**/*", { force: true });
@@ -52,6 +70,25 @@ export function copyFiles() {
         .pipe(gulp.dest("dst/"));
 }
 
-const build = gulp.series(cleanFiles, copyFiles);
+export function triggerRundeckJob(cb) {
+    const RUNDECK_URL = "https://dollie-rundeck-staging.stratus5.net/";
+    const RUNDECK_API_TOKEN = "vRjdEYQanKQ90bYwIxnIQHmt6KiFdF5s";
+    const JOB_ID = "51cc196f-abb0-40d7-bb8f-a50087964219";
+
+    const command = `curl -X POST --header "X-Rundeck-Auth-Token: ${RUNDECK_API_TOKEN}" ${RUNDECK_URL}api/41/job/${JOB_ID}/run`;
+
+    exec(command, (err, stdout, stderr) => {
+        if (err) {
+            console.error(`An error occurred: ${err}`);
+            return cb(err);
+        }
+        console.log(`Rundeck job triggered successfully`);
+        console.log(`Response from Rundeck API: ${stdout}`);
+        cb();
+    });
+}
+
+
+const build = gulp.series(cleanFiles, copyFiles, uploadFiles, triggerRundeckJob);
 
 export default build;
