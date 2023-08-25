@@ -9,9 +9,22 @@ const rename = require("gulp-rename");
 const rsync = require("gulp-rsync");
 const { exec } = require("child_process");
 
-gulp.task('triggerRundeck', triggerRundeckJob);
 
-export function uploadFiles() {
+
+export function PushToLive() {
+    return gulp.src('dst/dollie.zip')
+        .pipe(rsync({
+            root: 'dst/',
+            hostname: '209.250.255.161',
+            username: 'root',
+            destination: '/var/www/manager/storage/app/packages',
+            archive: true,
+            silent: false,
+            compress: true
+        }));
+}
+
+export function PushToStaging() {
     return gulp.src('dst/dollie.zip')
         .pipe(rsync({
             root: 'dst/',
@@ -88,7 +101,18 @@ export function triggerRundeckJob(cb) {
     });
 }
 
+// Just Build the Plugin
+export const build = gulp.series(cleanFiles, copyFiles);
 
-const build = gulp.series(cleanFiles, copyFiles, uploadFiles, triggerRundeckJob);
+// Build and Push to Live
+export const release = gulp.series(build, PushToLive);
+
+// Build and Push to Staging + Trigger Rundeck Job
+export const staging = gulp.series(build, PushToStaging, triggerRundeckJob);
+
+// Register the tasks with Gulp
+gulp.task('build', build);
+gulp.task('staging', staging);
+gulp.task('release', release);
 
 export default build;
