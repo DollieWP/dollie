@@ -8,7 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 use Dollie\Core\Singleton;
 use Dollie\Core\Log;
-use Dollie\Core\Modules\Integrations\Integrations;
 use WP_Query;
 
 /**
@@ -31,8 +30,7 @@ class CustomerAccessCheckJob extends Singleton {
 		}
 
 		//add_action( 'dollie/jobs/recurring/access_check', array( $this, 'run_access_check' ), 10 );
-		//add_action( 'dollie/jobs/recurring/remove_container_posts', array( $this, 'remove_deleted_container_posts' ), 10 );
-		//add_action( 'dollie/jobs/recurring/email_digest', array( $this, 'run_email_digest' ), 10 );
+		add_action( 'dollie/jobs/recurring/email_digest', array( $this, 'run_email_digest' ), 10 );
 
 		add_action( 'trashed_post', array( $this, 'do_not_schedule_post_types' ) );
 	}
@@ -42,16 +40,15 @@ class CustomerAccessCheckJob extends Singleton {
 	 */
 	public function init_recurring_tasks() {
 
-		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/access_check' ) ) {
-			//as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/access_check' );
-		}
 
-		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/remove_container_posts' ) ) {
-			// as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/schedule_for_deletion' );
+		/* TODO dollie_hub_resources_max_allowed_installs is never written to the db
+		if ( false === as_has_scheduled_action( 'dollie/jobs/recurring/access_check' ) ) {
+			as_schedule_recurring_action( strtotime( 'tomorrow' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/access_check' );
 		}
+		 */
 
-		if ( false === as_next_scheduled_action( 'dollie/jobs/recurring/email_digest' ) ) {
-			//as_schedule_recurring_action( strtotime( 'today' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/email_digest' );
+		if ( false === as_has_scheduled_action( 'dollie/jobs/recurring/email_digest' ) ) {
+			as_schedule_recurring_action( strtotime( 'tomorrow' ), DAY_IN_SECONDS, 'dollie/jobs/recurring/email_digest' );
 		}
 	}
 

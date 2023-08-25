@@ -51,7 +51,7 @@ class Upgrades extends Singleton {
 		//'4.1.4' => '_upgrade_400',
 		//'4.2.3' => '_upgrade_421',
 		'6.0.0' => '_upgrade_600',
-		'6.0.5' => '_upgrade_604',
+		'6.0.7' => '_upgrade_604',
 	];
 
 	/**
@@ -329,7 +329,7 @@ class Upgrades extends Singleton {
 
 		$wpdb->query(
 			$wpdb->prepare(
-				"DELETE FROM ". $wpdb->prefix ."actionscheduler_actions WHERE status IN ('pending', 'complete') AND hook LIKE 'dollie/jobs/recurring/%'"
+				"DELETE FROM ". $wpdb->prefix ."actionscheduler_actions WHERE status IN ('pending', 'complete', 'failed') AND hook LIKE 'dollie/jobs/recurring/%'"
 				)
 			);
 

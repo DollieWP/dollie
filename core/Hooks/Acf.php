@@ -181,10 +181,13 @@ final class Acf extends Singleton implements ConstInterface {
 
 		// Check if any child has changed.
 		foreach ( $settings as $k => $setting ) {
-			$new_data[ $k ] = $_POST['acf'][ acf_get_field( $setting )['key'] ];
 
-			if ( isset( $new_data[ $k ] ) && get_field( $setting, 'options' ) != $new_data[ $k ] ) {
-				$changed = true;
+			if (is_array(acf_get_field( $setting )) && isset( acf_get_field( $setting )['key'] )) {
+				$new_data[ $k ] = $_POST['acf'][ acf_get_field( $setting )['key'] ];
+
+				if ( isset( $new_data[ $k ] ) && get_field( $setting, 'options' ) != $new_data[ $k ] ) {
+					$changed = true;
+				}
 			}
 		}
 
@@ -212,6 +215,11 @@ final class Acf extends Singleton implements ConstInterface {
 		}
 
 		$changed   = false;
+		
+		if ( ! is_array(acf_get_field( 'wpd_enable_staging' )) || ! isset( acf_get_field( 'wpd_enable_staging' )['key'] )) {
+			return;
+		}
+
 		$new_value = $_POST['acf'][ acf_get_field( 'wpd_enable_staging' )['key'] ];
 
 		if ( get_field( 'wpd_enable_staging', 'options' ) !== $new_value ) {

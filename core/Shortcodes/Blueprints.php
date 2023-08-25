@@ -112,6 +112,9 @@ final class Blueprints extends Singleton implements Base {
 			}
 
 			echo '</ul>';
+			
+			do_action('dollie/blueprints/after_loop');
+
 		} elseif( current_user_can( 'manage_options' ) ) {
 			echo '<div class="dol-bg-info dol-p-3 dol-text-white dol-rounded dol-shadow dol-w-full dol-text-sm dol-mb-3">
 			<span class="dol-icon "><i class="fas fa-info-circle"></i></span> No Blueprints Yet! They will show up once you set up your first Blueprint.</div>';

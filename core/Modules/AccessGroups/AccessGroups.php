@@ -799,28 +799,30 @@ class AccessGroups extends Singleton {
 	 *
 	 * @return bool
 	 */
-	public function site_limit_reached( $customer_id = null ) {
+	public function site_limit_reached( $user_id = null ) {
 		if ( get_option( 'options_wpd_charge_for_deployments' ) !== '1' ) {
 			return false;
 		}
 
-		$user = dollie()->get_user();
+		$user = dollie()->get_user( $user_id );
 
 		if ( $user->can_manage_all_sites() ) {
 			return false;
 		}
 
-		if ( ! $customer_id ) {
-			$customer_id = get_current_user_id();
-		}
-
-		$is_custom = get_user_meta( $customer_id, 'dollie_hub_resources_max_allowed_installs', true );
+		$is_custom = get_user_meta( $user->get_id(), 'dollie_hub_resources_max_allowed_installs', true );
 
 		if ( ! empty( $is_custom ) && is_numeric( $is_custom ) && $is_custom > 0 ) {
-			return dollie()->get_user()->count_containers() >= $is_custom;
+			return $user->count_containers() >= $is_custom;
 		}
 
-		return dollie()->get_user()->count_containers() >= $subscription['resources']['max_allowed_installs'];
+		$subscription = $this->get_customer_access();
+
+		if ( ! $subscription ) {
+			return true;
+		}
+
+		return $user->count_containers() >= $subscription['resources']['max_allowed_installs'];
 	}
 
 	/**

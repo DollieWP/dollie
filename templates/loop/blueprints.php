@@ -76,8 +76,11 @@ if ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'custom' ) {
 
 			</div>
 			<?php if ( $checkout_link ) : ?>
+
+				<?php do_action('dollie/blueprints/before_checkout_button', $product_id, $checkout_url); ?>
+				
 				<div class="dol--ml-px dol-w-0 dol-flex-1 dol-flex">
-					<a href="<?php echo esc_url( $checkout_link ); ?>" data-id="<?php echo esc_attr( $container->get_id() ); ?>" class="dol-relative dol-w-0 dol-flex-1 dol-inline-flex dol-items-center dol-justify-center dol-py-4 dol-text-sm dol-text-gray-700 dol-font-medium dol-border dol-border-transparent dol-rounded-br-lg hover:dol-text-gray-500 dol-bg-primary-200 dol-text-primary-600">
+					<a href="<?php echo esc_url( $checkout_link ); ?>" data-id="<?php echo esc_attr( $container->get_id() ); ?>" class="wpd-checkout-bp dol-relative dol-w-0 dol-flex-1 dol-inline-flex dol-items-center dol-justify-center dol-py-4 dol-text-sm dol-text-gray-700 dol-font-medium dol-border dol-border-transparent dol-rounded-br-lg hover:dol-text-gray-500 dol-bg-primary-200 dol-text-primary-600">
 						<?php if ( ! empty( $launch_button_text ) ) : ?>
 							<?php echo $launch_button_text; ?> <?php echo dollie()->icon()->launch( 'dol-pr-2' ); ?>
 						<?php else : ?>

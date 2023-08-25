@@ -2,15 +2,19 @@
 Contributors: GetDollie
 Tags: hosting, waas, wordpress hosting, sell hosting
 Requires at least: 5.0
-Tested up to: 6.2
+Tested up to: 6.3
 Requires PHP: 7.2
-Stable tag: 6.0.6
+Stable tag: 6.0.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 If You Can Imagine It, You Can Build It with Dollie
 
 == Description ==
+
+## This won't plugin won't receive updates on WordPress.org
+
+You will be able to get it from [getdollie.com](https://getdollie.com/)
 
 Dollie is the game changing platform that lets you sell any (cloud) service directly to your customers under your own brand and domain. Join hundreds of WordPress businesses and entrepreneurs building their dream cloud platform using Dollie, simply by installing this plugin!
 
@@ -178,6 +182,9 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 6. **Developer Tools.** The Developer Tools allow you to quickly manage sites on your platform, or allow your customers to do that themselves.
 
 == Changelog ==
+
+= 6.0.7 =
+* Dollie Hub plugin is now updating from our private server. This won't plugin won't receive updated on WordPress.org
 
 = 6.0.5 =
 * Update action scheduler library. Cleanup database
