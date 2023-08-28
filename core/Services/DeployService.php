@@ -47,6 +47,8 @@ final class DeployService extends Singleton implements ConstInterface {
 			$data['description'] = esc_html__( 'The best website in the world', 'dollie' );
 		}
 
+		// enforce custom user role.
+
 		$deployment_domain = self::TYPE_BLUEPRINT === $type ? '.wp-site.xyz' : WorkspaceService::instance()->get_deployment_domain();
 
 		$extra_vars = apply_filters( 'dollie/deploy/vars', [], $type );

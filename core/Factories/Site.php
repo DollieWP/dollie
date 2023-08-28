@@ -53,27 +53,34 @@ final class Site extends BaseContainer {
 	 * @return string
 	 */
 	public function get_login_url( string $location = '' ): string {
-		$location = $location ? "&location={$location}" : '';
-		$username = $this->get_details( 'site.admin.username' );
 
-		if ( is_wp_error( $username ) ) {
-			return '';
-		}
+		if ( $this->get_user_role() !== 'administrator' ) {
 
-		$user = $this->user();
+			$username = $this->get_username_by_role( $this->get_user_role() );
 
-		// If we need to get an editor login url.
-		if ( 'administrator' !== $user->get_container_user_role() && ! $user->can_manage_all_sites() ) {
-			$username = $this->get_details( 'site.editor.username' );
+		} else {
+			$username = $this->get_details( 'site.admin.username' );
+			if ( is_wp_error( $username ) ) {
+				return '';
+			}
 
-			if ( empty( $username ) || is_wp_error( $username ) ) {
-				$temp_data = get_transient( "wpd_site_deploy_data_{$this->get_id()}" );
-				if ( ! empty( $temp_data ) && isset( $temp_data['editor'], $temp_data['editor']['username'] ) ) {
-					$username = $temp_data['editor']['username'];
+			$user = $this->user();
+
+			// If we need to get an editor login url.
+			if ( 'administrator' !== $user->get_container_user_role() && ! $user->can_manage_all_sites() ) {
+				$username = $this->get_details( 'site.editor.username' );
+
+				if ( empty( $username ) || is_wp_error( $username ) ) {
+					$temp_data = get_transient( "wpd_site_deploy_data_{$this->get_id()}" );
+					if ( ! empty( $temp_data ) && isset( $temp_data['editor'], $temp_data['editor']['username'] ) ) {
+						$username = $temp_data['editor']['username'];
+					}
 				}
 			}
 		}
 
+		$location = $location ? "&location={$location}" : '';
+		
 		if ( empty( $username ) ) {
 			return '';
 		}

@@ -28,7 +28,7 @@ class SyncContainersJob extends Singleton {
 	public function __construct() {
 		parent::__construct();
 
-		add_action( 'admin_init', [ $this, 'sync_containers' ] );
+		add_action( 'init', [ $this, 'sync_containers' ] );
 	}
 
 	/**
@@ -155,11 +155,6 @@ class SyncContainersJob extends Singleton {
 			$new_container_type->set_details( $site );
 		}
 
-		if ( $site['type'] === ConstInterface::TYPE_BLUEPRINT ) {
-			$bp = dollie()->get_container( $container_id );
-			$bp->sync_settings( $site );
-		}
-
 		flush_rewrite_rules();
 	}
 
@@ -279,7 +274,7 @@ class SyncContainersJob extends Singleton {
 
 			if ( $fetched_container['type'] === ConstInterface::TYPE_BLUEPRINT ) {
 				$bp                                 = dollie()->get_container( $container_id );
-				$fetched_containers[ $key ]['sync'] = $bp->sync_settings( $fetched_container );
+				//$fetched_containers[ $key ]['sync'] = $bp->sync_settings( $fetched_container );
 			}
 		}
 

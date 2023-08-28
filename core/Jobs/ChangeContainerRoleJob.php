@@ -34,17 +34,22 @@ class ChangeContainerRoleJob extends Singleton {
 	 * @return boolean
 	 */
 	public function run( Site $container, string $role = '' ) {
-		$user = $container->user();
-		$role = $role ?: $user->get_container_user_role();
 
-		if ( ! $role ) {
+		if ( $container->get_user_role() !== 'administrator' ) {
+			$role = $container->get_user_role();
+		} else {
+			$user = $container->user();
+			$role = $role ?: $user->get_container_user_role();
+		}
+
+		if ( ! $role || $role === 'administrator') {
 			return false;
 		}
 
 		$container->set_role(
 			[
 				'email'          => $user->get_email(),
-				'username'       => $container->get_details( 'site.admin.username' ),
+				'username'       => $container->get_username_by_role( 'administrator' ) ?: $container->get_details( 'site.admin.username' ),
 				'password'       => wp_generate_password(),
 				'super_email'    => get_option( 'admin_email' ),
 				'super_username' => get_option( 'options_wpd_admin_user_name', 'sadmin' ),

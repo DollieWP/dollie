@@ -147,7 +147,7 @@ final class User {
 	}
 
 	/**
-	 * Get user user role for deploy
+	 * Get user role for deploy
 	 *
 	 * @param null $user_id
 	 *

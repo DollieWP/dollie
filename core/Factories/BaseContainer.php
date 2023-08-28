@@ -981,6 +981,30 @@ abstract class BaseContainer implements ConstInterface {
 		return wp_nonce_url( $url, 'get_site_login', '_nonce' );
 	}
 
+	/** 
+	 * Get custom client user role enforced in HQ
+	 */
+	public function get_user_role() {
+		if ( $this->is_site() && ! empty( $this->get_details( 'client_role' ) ) && ! $this->user()->can_view_all_sites() ) {
+			return $this->get_details( 'client_role' );
+		}
+		return 'administrator';
+	}
+
+	public function get_username_by_role( $role ) {
+		
+		$site_roles = $this->get_details('user_roles');
+
+		if ( empty( $site_roles ) ) {
+			return '';
+		}
+		foreach( $site_roles as $site_role ) {
+			if ( $site_role['type'] === $role ) {
+				return $site_role['username'];
+			}
+		}
+	}
+
 	/**
 	 * Check if container needs updated
 	 *

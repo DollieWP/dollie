@@ -36,6 +36,7 @@ final class Blueprint extends BaseContainer {
 
 		if ( is_array( $data ) && isset( $data[0] ) ) {
 			$this->set_details( $data[0] );
+			$this->sync_settings( $data[0] );
 			$this->mark_updated();
 		}
 
@@ -184,6 +185,13 @@ final class Blueprint extends BaseContainer {
 
 		if ( ! empty( $fetched_container['blueprintSetting']['history'] ) ) {
 			$this->update_snapshot_time( end( $fetched_container['blueprintSetting']['history'] ) );
+		}
+
+		if ( ! empty( $fetched_container['blueprintSetting']['roles'] ) ) {
+			update_post_meta( $container_id, 'wpd_blueprint_roles', $fetched_container['blueprintSetting']['roles'] );
+		}
+		if ( ! empty( $fetched_container['blueprintSetting']['client_role'] ) ) {
+			update_post_meta( $container_id, 'wpd_blueprint_client_role', $fetched_container['blueprintSetting']['client_role'] );
 		}
 
 		return $data;
