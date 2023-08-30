@@ -4,7 +4,7 @@
  * Plugin Name: Dollie Hub Builder
  * Description: Sell all your (cloud) services directly from your WordPress site, with full control over design, branding, pricing and your customer/client data.
  * Plugin URI:  https://getdollie.com
- * Version:     6.0.7
+ * Version:     6.1.0
  * Author:      GetDollie
  *
  * Text Domain: dollie
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'DOLLIE_VERSION', '6.0.7' );
+define( 'DOLLIE_VERSION', '6.1.0' );
 define( 'DOLLIE_SLUG', 'dollie' );
 
 define( 'DOLLIE_FILE', __FILE__ );

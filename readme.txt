@@ -4,7 +4,7 @@ Tags: hosting, waas, wordpress hosting, sell hosting
 Requires at least: 5.0
 Tested up to: 6.3
 Requires PHP: 7.2
-Stable tag: 6.0.7
+Stable tag: 6.1.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -183,7 +183,7 @@ Our code is available on [Github](https://github.com/DollieWP/dollie)
 
 == Changelog ==
 
-= 6.0.7 =
+= 6.1.0 =
 * Dollie Hub plugin is now updating from our private server. This won't plugin won't receive updated on WordPress.org
 
 = 6.0.5 =
