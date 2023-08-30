@@ -22,19 +22,22 @@ final class Acf extends Singleton implements ConstInterface {
 	 * Acf constructor
 	 */
 	public function __construct() {
-		add_action( 'acf/save_post', [ $this, 'update_customer_role' ] );
-		add_action( 'acf/save_post', [ $this, 'update_all_customers_roles' ] );
+		
+		// add_action( 'acf/save_post', [ $this, 'update_customer_role' ] );
+		// add_action( 'acf/save_post', [ $this, 'update_all_customers_roles' ] );
+
 		add_action( 'acf/save_post', [ $this, 'update_backup_module' ], 1 );
 		add_action( 'acf/save_post', [ $this, 'update_staging_status' ], 1 );
 		add_action( 'acf/save_post', [ $this, 'update_create_blueprint' ] );
 		add_action( 'acf/save_post', [ $this, 'update_blueprint_settings' ] );
 
-		//Register Dynamic ACF Fields for Single Site
-		if( !is_admin() ){
+		// Register Dynamic ACF Fields for Single Site.
+		if( ! is_admin() ) {
 			add_action( 'wp', [ $this, 'create_wpd_group' ] );
 		} else {
 			add_action( 'acf/init', [ $this, 'create_wpd_group' ] );
 		}
+
 		add_action( 'dollie/site/set_details/after', [ $this, 'create_wpd_group' ], 10, 2 );
 
 		add_action( 'acf/input/admin_footer', [ NoticeService::instance(), 'change_user_role' ] );
@@ -376,13 +379,15 @@ final class Acf extends Singleton implements ConstInterface {
 	}
 
 	/**
-	 * Create Dynamic Data or Update it after a container is synced
+	 * Create Dynamic Data or Update it after a container is synced.
+	 *
 	 * @param array $data
 	 * @param BaseContainer $container
 	 */
-	public function create_wpd_group($data = null, $container = null) {
-		//Check if values are passed.
-		if (empty($data) || !isset($container)) {
+	public function create_wpd_group( $data = [], $container = null) {
+		
+		// Check if values are passed.
+		if ( empty( $data ) || ! isset( $container ) ) {
 			if (!is_admin() && is_singular('container')) {
 				global $post;
 				$post_id = $post->ID;
@@ -568,6 +573,10 @@ final class Acf extends Singleton implements ConstInterface {
 								foreach ( $sub_value as $sub_key => $sub_sub_value ) {
 									if ( empty( $sub_sub_value ) ) {
 										$sub_sub_value = 'no';
+									}
+									
+									if ( is_array( $sub_sub_value ) ) {
+										continue;
 									}
 
 									$sub_field_type   = ( preg_match( "/\.(jpg|png)$/", $sub_sub_value ) ) ? 'image' : 'text';

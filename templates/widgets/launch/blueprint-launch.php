@@ -1,12 +1,17 @@
 <?php
-$container = dollie()->get_container($_COOKIE[DOLLIE_BLUEPRINTS_COOKIE]);
-if (get_field('wpd_blueprint_image', $container->get_id()) === 'custom') {
+$container = dollie()->get_container( $_COOKIE[DOLLIE_BLUEPRINTS_COOKIE] );
+if ( is_wp_error( $container ) ) {
+return;
+}
+
+if ( get_field( 'wpd_blueprint_image', $container->get_id() ) === 'custom' ) {
     $image = get_field('wpd_blueprint_custom_image', $container->get_id());
 } elseif (get_field('wpd_blueprint_image', $container->get_id()) === 'theme') {
     $image = get_post_meta($container->get_id(), 'wpd_blueprint_active_theme_screenshot_url', true);
 } else {
     $image = get_the_post_thumbnail_url($container->get_id(), 'full');
 }
+
 ?>
 
 <div class="dol-blueprint-launch-form dol-mt-12">
