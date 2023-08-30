@@ -158,7 +158,7 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 				$default_variation         = $data_store->find_matching_product_variation( $product_obj, array( 'attribute_pa_subscription' => $default_atts['pa_subscription'] ) );
 				$link_args['variation_id'] = $default_variation;
 			}
-		} else {
+		} elseif ($product_obj->is_type( 'variable' )) {
 			// defaults to the first variation checkout url
 			$variations = $product_obj->get_available_variations();
 			if ( ! empty( $variations ) ) {
@@ -468,7 +468,9 @@ class WooCommerce extends Singleton implements IntegrationsInterface {
 		}
 
 		$product = wc_get_product( $product_id[0] );
-		$variations = $product->get_available_variations();
+		if ($product->is_type( 'variable' )) {
+			$variations = $product->get_available_variations();
+		}
 
 		if ( ! empty( $variations ) ) {
 			?>
