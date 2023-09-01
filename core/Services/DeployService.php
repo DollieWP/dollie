@@ -83,8 +83,11 @@ final class DeployService extends Singleton implements ConstInterface {
 
 		// custom role data just for sites.
 		if ( $type === self::TYPE_SITE ) {
+			var_dump($vars);exit;
 			$vars['custom_user_role'] = $this->get_custom_role_data( $data );
 		}
+
+	
 
 		$deploy = $this->start_deploy(
 			$deploy_type,
@@ -282,13 +285,13 @@ final class DeployService extends Singleton implements ConstInterface {
 		if ( ! empty( $data['blueprint_id'] ) ) {
 			$source_bp = dollie()->get_container( $data['blueprint_id'] );
 	
-			if ( ! empty( $source_bp->get_details( 'client_role' ) ) && ! dollie()->get_user()->can_view_all_sites() ) {
-				$role = $source_bp->get_details( 'client_role' );
+			if ( ! empty( $source_bp->get_details( 'blueprintSetting.client_role' ) ) && ! dollie()->get_user()->can_view_all_sites() ) {
+				$role = $source_bp->get_details( 'blueprintSetting.client_role' );
 			}
 		}
 
 		// fallback to hub setting.
-		if ( $role === 'administrator' ) {
+		if ( empty( $role ) || $role === 'administrator' ) {
 			$role = dollie()->get_user()->get_container_user_role();
 		}
 
