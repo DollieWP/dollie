@@ -83,11 +83,8 @@ final class DeployService extends Singleton implements ConstInterface {
 
 		// custom role data just for sites.
 		if ( $type === self::TYPE_SITE ) {
-			var_dump($vars);exit;
 			$vars['custom_user_role'] = $this->get_custom_role_data( $data );
 		}
-
-	
 
 		$deploy = $this->start_deploy(
 			$deploy_type,
