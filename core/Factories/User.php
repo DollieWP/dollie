@@ -244,7 +244,8 @@ final class User {
 		// More sites than allowed
 		if ( $remove_sites ) {
 			if ( ! $this->get_meta( 'wpd_stop_container_at' ) ) {
-				$this->set_meta( 'wpd_stop_container_at', current_time( 'timestamp' ) + 3 * 86400 );
+				//Schedule for removal one minute from now due to how we now handle this in Control HQ
+				$this->set_meta( 'wpd_stop_container_at', current_time( 'timestamp' ) + 60 );
 				Log::add( $this->get_id() . ' has too many sites. Setting flag to remove them.' );
 			}
 		} else {
