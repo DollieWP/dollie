@@ -100,7 +100,6 @@ final class HubDataService extends Singleton implements ConstInterface {
 			$request = json_decode($request, true);
 		}
 
-
 		if ( ! isset( $request['type'] ) ) {
 			return array(
 				'success' => false,
@@ -112,7 +111,7 @@ final class HubDataService extends Singleton implements ConstInterface {
 
 		if ( $type === 'sync_sites' ) {
 			if ( ! empty( $request['site_data'] ) && is_array( $request['site_data'] ) ) {
-				SyncContainersJob::instance()->run_single_with_data( $request['site_data'] );
+				SyncContainersJob::instance()->run_single_with_data( $request['site_data'][0] );
 				$response = 'Container sync complete';
 			} else {
 				$response = SyncContainersJob::instance()->run();
