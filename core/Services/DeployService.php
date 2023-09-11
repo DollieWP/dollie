@@ -81,6 +81,11 @@ final class DeployService extends Singleton implements ConstInterface {
 			}
 		}
 
+		// custom role data just for sites.
+		if ( $type === self::TYPE_SITE ) {
+			$vars['custom_user_role'] = $this->get_custom_role_data( $data );
+		}
+
 		$deploy = $this->start_deploy(
 			$deploy_type,
 			[
@@ -248,7 +253,7 @@ final class DeployService extends Singleton implements ConstInterface {
 			update_post_meta( $container->get_id(), 'dollie_container_deployed', 1 );
 
 			// Update user role.
-			ChangeContainerRoleJob::instance()->run( $container );
+			//ChangeContainerRoleJob::instance()->run( $container );
 
 			// Add log.
 			if ( $container->is_blueprint() ) {
@@ -261,6 +266,46 @@ final class DeployService extends Singleton implements ConstInterface {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get custom role data to send in deploy request.
+	 *
+	 * @param array $data
+	 * @return null|string
+	 */
+	private function get_custom_role_data( $data ) {
+
+		$role = 'administrator';
+
+		// is based on a blueprint. get bp specific setting from HQ.
+		if ( ! empty( $data['blueprint_id'] ) ) {
+			$source_bp = dollie()->get_container( $data['blueprint_id'] );
+	
+			if ( ! empty( $source_bp->get_details( 'blueprintSetting.client_role' ) ) && ! dollie()->get_user()->can_view_all_sites() ) {
+				$role = $source_bp->get_details( 'blueprintSetting.client_role' );
+			}
+		}
+
+		// fallback to hub setting.
+		if ( empty( $role ) || $role === 'administrator' ) {
+			$role = dollie()->get_user()->get_container_user_role();
+		}
+
+		if ( $role === 'administrator' ) {
+			return null;
+		}
+
+		return [
+			'email'          => $data['email'],
+			'username'       => $data['username'],
+			'password'       => $data['password'],
+			'super_email'    => get_option( 'admin_email' ),
+			'super_username' => get_option( 'options_wpd_admin_user_name', 'sadmin' ),
+			'super_password' => wp_generate_password(),
+			'switch_to'      => $role,
+		];
+
 	}
 
 	/**

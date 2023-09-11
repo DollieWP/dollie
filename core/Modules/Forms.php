@@ -484,6 +484,13 @@ class Forms extends Singleton {
 			);
 
 			$domain_register_message = get_field( 'wpd_register_domain_message', 'option' );
+			if ( empty( $domain_register_message ) ) {
+				$domain_register_message = '<h5>Register your domain name</h5>
+				<p>We are not selling domains directly.</p>
+				<p>If you have not registered your own domain yet, this is the time to do so! We recommend <a href="https://namecheap.com" target="_blank">NameCheap</a> because of their easy to use domain manager and very low prices, but you are free to choose any other domain registrar.
+				<strong>Go ahead, register your domain and come back to this form to continue the domain setup!</strong></p>';
+			}
+			
 			$field['message'] = str_replace( '{dollie_domain_name_register}', $domain_register_message, $field['message'] );
 
 			$field['message'] = str_replace( '{dollie_tpl_domain_not_managed}', $tpl_domain_not_managed, $field['message'] );

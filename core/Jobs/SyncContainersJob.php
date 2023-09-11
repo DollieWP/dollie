@@ -150,9 +150,13 @@ class SyncContainersJob extends Singleton {
 					],
 				]
 			);
+			if ( ! is_wp_error( $container_id ) ) {
+				$new_container_type = dollie()->get_container( $container_id );
 
-			$new_container_type = dollie()->get_container( $container_id );
-			$new_container_type->set_details( $site );
+				if (! is_wp_error( $new_container_type ) ) {
+					$new_container_type->set_details( $site );
+				}
+			}
 		}
 
 		flush_rewrite_rules();
@@ -164,23 +168,26 @@ class SyncContainersJob extends Singleton {
 	 *
 	 * @return array|mixed
 	 */
-	public function run() {
-		$sites      = $this->get_sites();
-		$blueprints = $this->get_blueprints();
-		$stagings   = $this->get_stagings();
+	public function run( $fetched_containers = [] ) {
 
-		$fetched_containers = [];
-
-		if ( ! is_wp_error( $sites ) ) {
-			$fetched_containers = array_merge( $fetched_containers, $sites );
-		}
-
-		if ( ! is_wp_error( $blueprints ) ) {
-			$fetched_containers = array_merge( $fetched_containers, $blueprints );
-		}
-
-		if ( ! is_wp_error( $stagings ) ) {
-			$fetched_containers = array_merge( $fetched_containers, $stagings );
+		if ( empty( $fetched_containers ) ) {
+			$sites      = $this->get_sites();
+			$blueprints = $this->get_blueprints();
+			$stagings   = $this->get_stagings();
+	
+			$fetched_containers = [];
+	
+			if ( ! is_wp_error( $sites ) ) {
+				$fetched_containers = array_merge( $fetched_containers, $sites );
+			}
+	
+			if ( ! is_wp_error( $blueprints ) ) {
+				$fetched_containers = array_merge( $fetched_containers, $blueprints );
+			}
+	
+			if ( ! is_wp_error( $stagings ) ) {
+				$fetched_containers = array_merge( $fetched_containers, $stagings );
+			}
 		}
 
 		$query = new \WP_Query(
